@@ -1,0 +1,12 @@
+{
+  "icon_id": "laptop-skull-malware",
+  "subject": "A laptop with a skull malware mark on its screen.",
+  "keyshape": "HRECT_L",
+  "keyshape_reason": "Wide laptop silhouette with a projecting keyboard base.",
+  "plan": "Symmetric laptop about x=24; screen y=8..32, base y=40, extrema x=4..44. Skull dome, paired eyes and three downward jaw strokes retain the source mark.",
+  "references": "Source reference establishes skull screen and trapezoidal base; Lucide laptop original and atomic-debug inform rounded screen corners and connected hinge; Lucide skull informs a coherent dome and paired eyes. Human-reference.md read; this is a skull mark, not a detached figure.",
+  "omissions": [
+    "No side modifier included: it is context only."
+  ],
+  "code": "axis = 24\nself.add_line(\"screen-top\", (12,8), (36,8))\nself.add_arc(\"screen-tr\", (36,8), (40,12), radius_x=4)\nself.add_line(\"screen-right\", (40,12), (40,32))\nself.add_line(\"screen-bottom\", (40,32), (8,32))\nself.add_line(\"screen-left\", (8,32), (8,12))\nself.add_arc(\"screen-tl\", (8,12), (12,8), radius_x=4)\nself.add_contour(\"screen\", \"screen-top\", \"screen-tr\", \"screen-right\", \"screen-bottom\", \"screen-left\", \"screen-tl\", closed=True)\nself.add_polyline(\"base\", (8,32), (4,40), (44,40), (40,32))\nself.relate(\"connect\", \"screen\", \"base\")\nself.add_arc(\"skull-dome\", (16,24), (32,24), radius_x=8)\nself.add_polyline(\"jaw-left\", (16,24), (20,28), (20,30))\nself.add_polyline(\"jaw-right\", (32,24), (28,28), (28,30))\nself.relate(\"connect\", \"skull-dome\", \"jaw-left\")\nself.relate(\"connect\", \"skull-dome\", \"jaw-right\")\nfor i,x in enumerate((axis-4,axis+4)):\n    self.add_dot(f\"eye-{i}\", (x,23))\nself.add_line(\"jaw-center\", (axis,27), (axis,30))"
+}

@@ -39,3 +39,20 @@ class Drawing(Sub32):
         self.relate("connect", 'p1-r1-2', 'p3-r1-3')
         self.relate("connect", 'p1-r1-3', 'p3-r1-2')
         self.relate("connect", 'p1-r1-3', 'p3-r1-3')
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'rupee-sub32': {'status': 'fixed',
+                 'date': '2026-09-23',
+                 'author': 'gpt-6',
+                 'source_icon_id': 'de51d7c7-9816-483e-a837-47c58e3e6f91',
+                 'failures_at_review': ['canvas/keyshape bounds: visible ink (3, 0, 29, 32) does '
+                                        'not match the VRECT_XL envelope (2, 0, 30, 32) (deltas '
+                                        '[1.0, 0.0, 1.0, 0.0], tolerance 0.0)',
+                                        'mic [path-2-1]: parallel straight edges p2-r1-1 and '
+                                        'p1-r1-3 are 7 apart on centerlines (ink gap 3); requires '
+                                        'at least 8 centerline / 4 ink (midpoint-normal)',
+                                        'mic [path-2-1]: parallel straight edges p2-r1-1 and '
+                                        'p3-r1-3 are 7 apart on centerlines (ink gap 3); requires '
+                                        'at least 8 centerline / 4 ink (midpoint-normal)'],
+                 'variant': 'rupee-sub32-v2',
+                 'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

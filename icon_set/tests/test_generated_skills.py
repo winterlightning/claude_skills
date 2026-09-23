@@ -108,6 +108,13 @@ class GeneratedSkillTests(unittest.TestCase):
                 radius = int(Keyshape.CIRCLE.visible_radius_for(profile))
                 self.assertIn(f"radius{radius}about{spec.center}".replace(" ", ""), text)
 
+    def test_sub_skill_requires_the_strict_32_gate(self) -> None:
+        text = self._path("sub").read_text(encoding="utf-8")
+        self.assertIn('`viewBox="0 0 32 32"`', text)
+        self.assertIn("4px strokes throughout", text)
+        self.assertIn("fix_icon_sub.py check --icon <icon-id>", text)
+        self.assertNotIn("authorizes larger canvases", text)
+
     def test_every_shared_doc_the_skills_point_at_exists(self) -> None:
         pattern = re.compile(r"`(icon_set/[A-Za-z0-9_./-]+\.md)`")
         for family in contracts.families():

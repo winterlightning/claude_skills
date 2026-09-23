@@ -152,13 +152,14 @@ class SpacingTests(unittest.TestCase):
         return icon
 
     def test_locked_minimum_spacing_passes(self) -> None:
-        """Parallel shafts use the new rule; endcaps retain profile spacing."""
+        """Parallel shafts use SUB32's MIC or the other-family parallel rule."""
         from icon_set.validation.parallel_straight import RULES
         for profile in Profile:
             gap = profile.spec.equal_stroke_centerline_min
             for name, build in (("shafts", self._shafts), ("endcaps", self._caps)):
                 with self.subTest(profile=profile.name, geometry=name):
-                    required = max(gap, RULES["required_centerline_distance"]) if name == "shafts" else gap
+                    required = (gap if profile is Profile.SUB32 else
+                                max(gap, RULES["required_centerline_distance"])) if name == "shafts" else gap
                     self.assertEqual(errors_for(build(required, profile), "mic"), [])
 
     def test_one_unit_below_the_minimum_fails(self) -> None:

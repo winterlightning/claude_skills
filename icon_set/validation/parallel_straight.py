@@ -4,11 +4,18 @@ Midpoint rays measure nearest neighbors on both sides. Positive-overlap pairs
 also remain blocking, including staggered pairs missed by midpoint probes.
 An intentional join does not exempt other facing edges of the connected shape.
 """
+from ..model.profiles import Profile, STROKE_WIDTH
 from .parallel_midpoints import analyze
 from .report import Finding
 
-RULES = {"version": 2, "profiles": "all", "blocking": True,
+_SUB_CENTERLINE = Profile.SUB32.spec.equal_stroke_centerline_min
+
+RULES = {"version": 3, "profiles": "all", "blocking": True,
          "required_centerline_distance": 8, "required_ink_clearance": 4,
+         "profile_overrides": {
+             "SUB32": {"required_centerline_distance": _SUB_CENTERLINE,
+                       "required_ink_clearance": _SUB_CENTERLINE - STROKE_WIDTH},
+         },
          "parallelism": "exact", "scope": "whole drawing",
          "measurement": "midpoint normals, nearest each side, with overlap fallback",
          "merge": "touching collinear pieces in same path",
@@ -16,7 +23,10 @@ RULES = {"version": 2, "profiles": "all", "blocking": True,
 
 
 def check_parallel_straight(icon, drawing):
-    required = RULES["required_centerline_distance"]
+    override = RULES["profile_overrides"].get(icon.profile.name, {})
+    required = override.get("required_centerline_distance",
+                            RULES["required_centerline_distance"])
+    required_ink = required - STROKE_WIDTH
     try:
         result = analyze(drawing, required)
     except (ValueError, TypeError, ZeroDivisionError) as error:
@@ -37,10 +47,12 @@ def check_parallel_straight(icon, drawing):
         detail = dict(measurement, rule="parallel_straight",
                       elements=a["members"] + b["members"],
                       source_members=a["members"], target_members=b["members"],
-                      required_centerline_distance=required, required_ink_clearance=4)
+                      required_centerline_distance=required,
+                      required_ink_clearance=required_ink)
         findings.append(Finding(
             "mic", f"parallel straight edges {', '.join(a['members'])} and {', '.join(b['members'])} "
             f"are {distance:g} apart on centerlines (ink gap {measurement['ink_gap']:g}); "
-            f"requires at least {required} centerline / 4 ink ({measurement['method']})",
+            f"requires at least {required:g} centerline / {required_ink:g} ink "
+            f"({measurement['method']})",
             a["path"], detail))
     return findings

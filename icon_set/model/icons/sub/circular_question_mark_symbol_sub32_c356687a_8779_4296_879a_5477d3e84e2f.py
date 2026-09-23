@@ -26,3 +26,18 @@ class Drawing(Sub32):
         self.add_contour('outline', 'outline-top', 'outline-bottom', closed=True)
         self.add_contour('question', 'hook', 'turn', closed=False)
         self.add_anchor('center',(16, 16))
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'circular-question-mark-symbol-sub32': {'status': 'fixed',
+                                         'date': '2026-09-23',
+                                         'author': 'gpt-6',
+                                         'source_icon_id': 'c356687a-8779-4296-879a-5477d3e84e2f',
+                                         'failures_at_review': ['symmetry [turn]: ink is 98.19% '
+                                                                'mirrored about vertical axis 16, '
+                                                                'but centerline differs by 1.93719 '
+                                                                'units near [14.10431008785963, '
+                                                                '15.591600082814693]',
+                                                                'holes/pinches: 1 undersized '
+                                                                'holes; 0 pinches'],
+                                         'variant': 'circular-question-mark-symbol-sub32-v2',
+                                         'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

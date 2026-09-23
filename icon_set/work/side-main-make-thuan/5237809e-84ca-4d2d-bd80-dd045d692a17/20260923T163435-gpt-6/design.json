@@ -1,0 +1,10 @@
+{
+  "icon_id": "circled-philippine-peso",
+  "subject": "A circular coin enclosing the source single-bar peso P.",
+  "keyshape": "CIRCLE",
+  "keyshape_reason": "The coin is a circle centered at24,24 with centerline radius20.",
+  "plan": "Circle root; P owns stem x20, bowl y14..24 with elliptical round right end, and the source bar extending left at y24. Stem and bar split at their common node.",
+  "references": "Source preserves its distinctive single lower crossbar. Lucide circle-dollar-sign original and atoms inform a circular enclosure with an independent currency mark. Peso glyph follows the supplied drawing.",
+  "omissions": [],
+  "code": "cx, cy, radius = 24, 24, 20\nself.add_arc(\"coin-top\", (cx-radius,cy), (cx+radius,cy), radius_x=radius)\nself.add_arc(\"coin-bottom\", (cx+radius,cy), (cx-radius,cy), radius_x=radius)\nself.add_contour(\"coin\", \"coin-top\", \"coin-bottom\", closed=True)\nnode = (20,24)\nself.add_line(\"stem-upper\", node, (20,14))\nself.add_line(\"bowl-top\", (20,14), (26,14))\nself.add_arc(\"bowl-round\", (26,14), (26,24), radius_x=6, radius_y=5)\nself.add_line(\"bowl-bottom\", (26,24), node)\nself.add_contour(\"bowl\", \"stem-upper\", \"bowl-top\", \"bowl-round\", \"bowl-bottom\", closed=True)\nself.add_line(\"stem-lower\", node, (20,34))\nself.add_line(\"bar-extension\", (16,24), node)\nself.relate(\"connect\", \"bowl\", \"stem-lower\")\nself.relate(\"connect\", \"bowl\", \"bar-extension\")\nself.relate(\"connect\", \"stem-lower\", \"bar-extension\")"
+}

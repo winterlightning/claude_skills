@@ -1,4 +1,4 @@
-"""SOLO48 parallel straight clearance is blocking, including inside one path."""
+"""Parallel straight clearance follows SUB32 and other-family rules."""
 import unittest
 
 from icon_set.model.icons.base import Icon
@@ -8,9 +8,9 @@ from icon_set.validation.parallel_straight import check_parallel_straight
 from icon_set.validation.library_qa import inspect_icon
 
 
-def fixture(gap):
-    icon = Icon("parallel-test", Profile.SOLO48, semantic_role="MAIN", keyshape=Keyshape.SQUARE)
-    icon.family = "solo"
+def fixture(gap, profile=Profile.SOLO48):
+    icon = Icon("parallel-test", profile, semantic_role="MAIN", keyshape=Keyshape.SQUARE)
+    icon.family = profile.spec.family
     icon.semantic_kind = "noun"
     icon.add_polyline("u", (10, 30), (10, 10), (10 + gap, 10), (10 + gap, 30))
     return icon
@@ -20,6 +20,19 @@ class ParallelStraightTests(unittest.TestCase):
     def test_contract_is_four_ink_eight_centerline(self):
         self.assertEqual(Profile.SOLO48.spec.mic, 4)
         self.assertEqual(Profile.SOLO48.spec.equal_stroke_centerline_min, 8)
+
+    def test_sub32_uses_two_ink_six_centerline(self):
+        self.assertEqual(Profile.SUB32.spec.mic, 2)
+        self.assertEqual(Profile.SUB32.spec.equal_stroke_centerline_min, 6)
+        for gap, expected in ((5, 1), (6, 0), (7, 0)):
+            with self.subTest(gap=gap):
+                icon = fixture(gap, Profile.SUB32)
+                findings = check_parallel_straight(icon, icon.draw())
+                self.assertEqual(len(findings), expected)
+                if findings:
+                    self.assertEqual(findings[0].detail['required_centerline_distance'], 6)
+                    self.assertEqual(findings[0].detail['required_ink_clearance'], 2)
+                    self.assertIn('6 centerline / 2 ink', findings[0].message)
 
     def test_exact_threshold_same_contour(self):
         for gap, expected in ((7, 1), (8, 0), (9, 0)):
@@ -54,10 +67,7 @@ class ParallelStraightTests(unittest.TestCase):
         icon.add_polyline("step", (2, 2), (12, 2), (14, 6), (24, 6))
         self.assertEqual(check_parallel_straight(icon, icon.draw()), [])
 
-    def test_near_parallel_excluded_and_all_profiles_use_eight(self):
-        icon = fixture(7)
-        icon.profile = Profile.SUB32
-        self.assertEqual(len(check_parallel_straight(icon, icon.draw())), 1)
+    def test_near_parallel_excluded(self):
         icon = fixture(7)
         icon.primitives.clear(); icon.contours.clear()
         icon.add_polyline("taper", (10, 30), (10, 10), (17, 10), (18, 30))

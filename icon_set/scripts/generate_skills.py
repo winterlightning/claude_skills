@@ -371,18 +371,15 @@ def render(family: str) -> str:
 ## Reference fidelity comes first
 
 **Library-wide user policy:** Read `icon_set/skills/icon-design/sub-reference-policy.md`.
-For this workspace, the user authorizes larger canvases whenever necessary to
-preserve the complete original drawing and proportions. This applies to every
-sub icon and takes precedence over the default 32px restrictions and reduction
-steps below. Do not force even one dimension to 32 when doing so distorts the
-source. Retain the 4px stroke and record explicit dimensions.
+Every authored sub output must use the plain SUB32 profile: a 32×32 canvas,
+`viewBox="0 0 32 32"`, and 4px strokes throughout. These are hard limits,
+including for reference recreations. Preserve the source's defining parts and
+relationships by redrawing at this size. If they cannot fit, mark the source
+SKIP with review evidence; do not publish a larger or thinner-stroked sub icon.
 
 **Exact resize mode:** If the user explicitly requests the original unchanged,
-only resized, preserve the complete source SVG and change only its root display
-width and height to 32px. Keep its viewBox, geometry, style, and proportional
-stroke unchanged. This explicit request overrides the redraw, typeface reuse,
-fixed-4px stroke, and family-scaling restrictions below. Label the deliverable
-an exact resized original, not a newly authored or validated SUB32 model.
+only resized, preserve it as a reference artifact, separate from the authored
+sub library. Label it an exact resized original, not a validated SUB32 model.
 Check every source/output pair for unchanged SVG content apart from display
 dimensions and identical renders at 32px and an enlarged size. Show the complete
 result as the primary gallery image; retain extracted or simplified earlier
@@ -414,6 +411,11 @@ parts in the reference and mark that original SKIP with a specific reason and
 saved review evidence. Keep the requested 32px canvas and 4px stroke; do not
 remove parts, enlarge the canvas or thin strokes to force completion. Continue
 with the next drawable original. Never count a skipped source as generated.
+For every authored result, run
+`python3 icon_set/scripts/fix_icon_sub.py check --icon <icon-id>` and require a
+strict-32 pass before reporting it done. This checks the emitted SVG root,
+every stroke width, keyshape, and the full no-warning QA gate. A regular
+`validate_icon()` pass on an expanded canvas is insufficient.
 Record skips by source UUID in the batch audit and primitive status, and flag
 any earlier incomplete generated variants for review without deleting them.
 Do not weaken a validator or label an incomplete output SUB32-compliant.
@@ -426,6 +428,13 @@ for the chosen output and a source-part coverage check; a numeric pass alone
 cannot approve an incomplete recreation.
 
 """ if family == "sub" else ""
+
+    parallel_note = (
+        "For SUB32 parallel straight strokes, the same 2px visible ink gap means "
+        "at least 6px between their centerlines. The 4px stroke width is included "
+        "in that distance.\n\n"
+        if family == "sub" else ""
+    )
 
     return f"""---
 name: {skill_name(family)}
@@ -457,7 +466,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Interior guide | ({guide_l},{guide_t})-({guide_r},{guide_b}) — constrains inner detail only |
 | Existing icons to imitate | {("`user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar`" if family == "avatar" else _examples("solo" if family == "combination_main" else family))} |
 
-{text['job'].format(**fmt)}
+{parallel_note}{text['job'].format(**fmt)}
 
 **Wrong family? Stop.** {text['not_this']} {"An" if family == "avatar" else "A"} {family} icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a

@@ -1,0 +1,12 @@
+{
+  "icon_id": "smartphone-security-key",
+  "subject": "A mobile phone displaying a diagonal round-bow security key.",
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "Upright phone with room for the diagonal key and bottom panel.",
+  "plan": "Phone bounds x8..40,y4..44 radius4 with panel y36. Key circle center22,22 radius5 uses exact 3-4-5 attachment25,18; shaft points upper-right. One terminal tooth retained.",
+  "references": "Source reference supplies complete phone and key arrangement. Lucide smartphone original/atoms inform the rounded enclosure; key-round original/atoms inform coherent ring/shaft topology. Existing SYMBOL32 module inspected for context only; geometry authored anew.",
+  "omissions": [
+    "Removed the secondary key tooth because two short teeth cannot maintain 8-unit centerline spacing in the phone interior."
+  ],
+  "code": "left, right, top, bottom, radius = 8, 40, 4, 44, 4\nself.add_line(\"top\", (12,top), (36,top))\nself.add_arc(\"tr\", (36,top), (right,8), radius_x=radius)\nself.add_line(\"right-upper\", (right,8), (right,36))\nself.add_line(\"right-lower\", (right,36), (right,40))\nself.add_arc(\"br\", (right,40), (36,bottom), radius_x=radius)\nself.add_line(\"bottom\", (36,bottom), (12,bottom))\nself.add_arc(\"bl\", (12,bottom), (left,40), radius_x=radius)\nself.add_line(\"left-lower\", (left,40), (left,36))\nself.add_line(\"left-upper\", (left,36), (left,8))\nself.add_arc(\"tl\", (left,8), (12,top), radius_x=radius)\nself.add_contour(\"phone\", \"top\", \"tr\", \"right-upper\", \"right-lower\", \"br\", \"bottom\", \"bl\", \"left-lower\", \"left-upper\", \"tl\", closed=True)\nself.add_line(\"panel\", (left,36), (right,36))\nself.relate(\"connect\", \"phone\", \"panel\")\ncx, cy, radius = 22, 22, 5\njoin = (25,18)\nopposite = (19,26)\nself.add_arc(\"bow-a\", join, opposite, radius_x=radius)\nself.add_arc(\"bow-b\", opposite, join, radius_x=radius)\nself.add_contour(\"bow\", \"bow-a\", \"bow-b\", closed=True)\nself.add_polyline(\"shaft\", join, (31,13), (27,13))\nself.relate(\"connect\", \"bow\", \"shaft\")"
+}

@@ -18,6 +18,7 @@ window.loadApprovedPreviewIcons = async function() {
   try{
     const combo=await fetch('preview-combination-icons.json',{cache:'no-store'});
     if(combo.ok){const data=await combo.json();if(Array.isArray(data?.icons))return approved.concat(data.icons);}
-  }catch{}
+    console.warn('preview-combination-icons.json is missing ('+combo.status+'); examples fall back to solo icons.');
+  }catch(error){console.warn('preview-combination-icons.json could not be loaded; examples fall back to solo icons.',error);}
   return approved;
 };

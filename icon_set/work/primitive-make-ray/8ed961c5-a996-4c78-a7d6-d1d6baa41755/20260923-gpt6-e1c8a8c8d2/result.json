@@ -1,0 +1,62 @@
+{
+  "concept": "book person",
+  "source_uuid": "8ed961c5-a996-4c78-a7d6-d1d6baa41755",
+  "reference_path": "icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg",
+  "icon_id": "book-person",
+  "author": "gpt-6",
+  "out": "icon_set/work/primitive-make-ray/8ed961c5-a996-4c78-a7d6-d1d6baa41755/20260923-gpt6-e1c8a8c8d2",
+  "keyshape": "VRECT_L",
+  "subject": "A book with a person emblem on its cover.",
+  "plan": "Upright book envelope; circular human head with symmetric bowl arms and central torso.",
+  "references": [
+    "book-open",
+    "human_ref/user.svg"
+  ],
+  "omissions": [],
+  "module": "book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py",
+  "validation_status": "invalid",
+  "visual_review": {
+    "native_light": true,
+    "native_dark": true,
+    "enlarged_light": true,
+    "enlarged_dark": true,
+    "findings": "Book and person remain recognizable, but the person-to-page spacing is crowded. Head/body construction is not fully visually approved: small head relative to the shared human bust. Exact detached head-to-torso ink gap is 26-(15+3)-4=4; page/torso and page/arms MIC fail.",
+    "approved": false
+  },
+  "validation_findings": "status: invalid\n  ERROR  mic [pages]: pages and arms are 6 apart on centerlines nearest (24, 36)<->(24, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [pages]: pages and torso are 4 apart on centerlines nearest (24, 36)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [book]: book and head are 8 apart on centerlines nearest (24, 4)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "reference_principles": {
+    "book-open": "joined book contours",
+    "human_ref/user.svg": "circular head and symmetric shoulder vocabulary; exact detached gap",
+    "bookmark": "notched ribbon silhouette",
+    "box": "shared perspective face junctions",
+    "briefcase": "rounded case and top handle",
+    "dollar-sign": "two tangent currency lobes",
+    "euro": "open circular currency contour with crossbar",
+    "panels-top-left": "rounded browser frame and header divider"
+  },
+  "human_reference": "icon_set/references/human_ref/user.svg",
+  "human_gap_evidence": "Head circle center (24,15), radius 3; torso start (24,26), so centerline gap 8 and visible ink gap 4. Arms lie farther from head. Torso remains vertical through head axis.",
+  "artifacts": [
+    "batch-inputs.json",
+    "book-open-construction.png",
+    "book-person.metadata.json",
+    "book-person.svg",
+    "book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py",
+    "bookmark-construction.png",
+    "box-construction.png",
+    "briefcase-construction.png",
+    "construction.png",
+    "dark-192.png",
+    "dark-48.png",
+    "dollar-sign-construction.png",
+    "euro-construction.png",
+    "human-construction.png",
+    "light-192.png",
+    "light-48.png",
+    "panels-top-left-construction.png",
+    "reference.png",
+    "references.png",
+    "review.png",
+    "validation.txt"
+  ]
+}

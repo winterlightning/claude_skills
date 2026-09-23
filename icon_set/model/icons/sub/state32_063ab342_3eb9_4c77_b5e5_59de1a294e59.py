@@ -36,3 +36,18 @@ class Drawing(Sub32):
         self.add_line('p2-r1-3', (30, 24), (22, 20))
         self.add_line('p2-r1-4', (22, 20), (22, 12))
         self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'state32-063ab342-3eb9-4c77-b5e5-59de1a294e59': {'status': 'fixed',
+                                                  'date': '2026-09-23',
+                                                  'author': 'gpt-6',
+                                                  'source_icon_id': '063ab342-3eb9-4c77-b5e5-59de1a294e59',
+                                                  'failures_at_review': ['canvas/keyshape bounds: '
+                                                                         'visible ink (0, 5, 32, '
+                                                                         '27) does not match the '
+                                                                         'HRECT_L envelope (0, 4, '
+                                                                         '32, 28) (deltas [0.0, '
+                                                                         '1.0, 0.0, 1.0], '
+                                                                         'tolerance 0.0)'],
+                                                  'variant': 'state32-063ab342-3eb9-4c77-b5e5-59de1a294e59-v2',
+                                                  'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

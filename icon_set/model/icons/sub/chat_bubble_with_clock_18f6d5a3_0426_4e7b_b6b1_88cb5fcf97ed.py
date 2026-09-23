@@ -33,3 +33,22 @@ class Drawing(Sub32):
         circle(self, "clock", 16, 14, 7)
         self.add_polyline("hands", (16, 9), (16, 14), (21, 14))
         self.relate("connect", "clock", "hands")
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'chat-bubble-with-clock': {'status': 'cannot-fix',
+                            'date': '2026-09-23',
+                            'author': 'gpt-6',
+                            'source_icon_id': '18f6d5a3-0426-4e7b-b6b1-88cb5fcf97ed',
+                            'failures_at_review': ['mic [bubble]: bubble and clock are 5 apart on '
+                                                   'centerlines nearest (16, 2)<->(16, 7); SUB32 '
+                                                   'requires at least 6 (ink clearance 2) unless '
+                                                   'the contact is declared with a scoped '
+                                                   '`connect` relationship',
+                                                   'holes/pinches: 1 undersized holes; 0 pinches'],
+                            'blocker': 'The full clock circle plus two hands creates undersized '
+                                       'openings when enclosed in a 32px speech bubble',
+                            'attempts': ['Original 32px clock: bubble-to-clock MIC 5 (<6) and an '
+                                         'undersized hole',
+                                         'Smaller connected clock: two undersized holes and '
+                                         'internal-spacing 0.33 (<2)'],
+                            'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

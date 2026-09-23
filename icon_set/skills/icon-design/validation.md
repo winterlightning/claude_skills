@@ -110,8 +110,10 @@ re-running it produces a byte-identical tree.
 
 The main MIC pipeline now checks exact parallel straight runs across the whole
 resolved drawing, including different contours within one connected shape.
-This specific rule requires **8 centerline units / 4 ink-clearance units** in
-all families. Other spacing checks retain their profile thresholds.
+For SUB32 it requires **6 centerline units / 2 ink-clearance units**, matching
+the profile's MIC. Other families retain **8 centerline units / 4 ink-clearance
+units** for this specific rule. Other spacing checks retain their profile
+thresholds.
 
 Contiguous collinear pieces in one path are merged, then midpoint normals seek
 the nearest finite parallel line on both sides. Positive-overlap analysis also

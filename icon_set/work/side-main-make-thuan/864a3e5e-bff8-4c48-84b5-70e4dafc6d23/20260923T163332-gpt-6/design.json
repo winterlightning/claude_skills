@@ -1,0 +1,10 @@
+{
+  "icon_id": "oval-speech-bubble",
+  "subject": "An empty oval speech bubble with a lower-left pointed tail.",
+  "keyshape": "HRECT_L",
+  "keyshape_reason": "Preserves the wide oval with its downward tail; extrema (4,8)-(44,40) on centerlines.",
+  "plan": "One closed ellipse-derived contour, center24,23 rx20 ry15. Exact 3-4-5 ellipse points bound the lower-left tail interruption. Oval symmetric apart from the source tail.",
+  "references": "Source oval and lower-left tail; Lucide message-circle original and atomic-debug informed single connected outline with deliberate tail corners.",
+  "omissions": [],
+  "code": "cx, cy, rx, ry = 24, 23, 20, 15\nself.add_arc(\"upper\", (cx-rx,cy), (cx+rx,cy), radius_x=rx, radius_y=ry)\nself.add_arc(\"lower-right\", (cx+rx,cy), (cx,cy+ry), radius_x=rx, radius_y=ry)\nself.add_arc(\"lower\", (cx,cy+ry), (12,35), radius_x=rx, radius_y=ry)\nself.add_line(\"tail-bottom\", (12,35), (6,40))\nself.add_line(\"tail-left\", (6,40), (8,32))\nself.add_arc(\"lower-left\", (8,32), (cx-rx,cy), radius_x=rx, radius_y=ry)\nself.add_contour(\"bubble\", \"upper\", \"lower-right\", \"lower\", \"tail-bottom\", \"tail-left\", \"lower-left\", closed=True)"
+}

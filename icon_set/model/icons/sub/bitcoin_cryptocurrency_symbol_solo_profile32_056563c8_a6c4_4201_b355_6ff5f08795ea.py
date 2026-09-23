@@ -51,3 +51,33 @@ class Drawing(Sub32):
         self.relate("connect", 'p2-r1-4', 'p7-r1-1')
         self.relate("connect", 'p2-r1-5', 'p4-r1-1')
         self.relate("connect", 'p2-r1-5', 'p5-r1-1')
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'bitcoin-cryptocurrency-symbol-solo-profile32': {'status': 'cannot-fix',
+                                                  'date': '2026-09-23',
+                                                  'author': 'gpt-6',
+                                                  'source_icon_id': '056563c8-a6c4-4201-b355-6ff5f08795ea',
+                                                  'failures_at_review': ['mic [path-2-1]: parallel '
+                                                                         'straight edges p2-r1-1 '
+                                                                         'and p3-r1-1 are 6 apart '
+                                                                         'on centerlines (ink gap '
+                                                                         '2); requires at least 8 '
+                                                                         'centerline / 4 ink '
+                                                                         '(midpoint-normal)',
+                                                                         'mic [path-3-1]: parallel '
+                                                                         'straight edges p3-r1-1 '
+                                                                         'and p2-r1-4 are 6 apart '
+                                                                         'on centerlines (ink gap '
+                                                                         '2); requires at least 8 '
+                                                                         'centerline / 4 ink '
+                                                                         '(midpoint-normal)'],
+                                                  'blocker': 'The circle, two B bowls, middle bar, '
+                                                             'and paired stem tips cannot maintain '
+                                                             '8px parallel stroke spacing and 6px '
+                                                             'frame clearance together',
+                                                  'attempts': ['Original 32px B: frame-to-terminal '
+                                                               'MIC 3.18',
+                                                               'Compact 32px B: parallel stem and '
+                                                               'bowl gaps 6 (<8), frame-to-tip gap '
+                                                               '5.94 (<6)'],
+                                                  'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

@@ -1,0 +1,12 @@
+{
+  "icon_id": "user-profile-document",
+  "subject": "An upright document with a clipped upper-right corner and a user bust.",
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "Preserves upright sheet proportions, centerline box (8,4)-(40,44).",
+  "plan": "One rounded document contour, clipped corner from30,4 to40,14. Centered human head24,17 radius4, shoulder apex29 exactly8 beyond head bottom21. Broad shoulder half-ellipse rx7,ry6; detached user follows human reference.",
+  "references": "Source document and clipped corner; human_ref/user.svg owns circular head and open shoulders. Lucide file-user original and atoms inform the clipped sheet contour; no fold line added because source has none.",
+  "omissions": [
+    "Source pointed chin replaced by circular head per shared human guidance."
+  ],
+  "code": "axis, left, right, top, bottom, r = 24, 8, 40, 4, 44, 4\nself.add_line(\"top\", (12,top), (30,top))\nself.add_line(\"clipped-corner\", (30,top), (right,14))\nself.add_line(\"right\", (right,14), (right,40))\nself.add_arc(\"br\", (right,40), (36,bottom), radius_x=r)\nself.add_line(\"bottom\", (36,bottom), (12,bottom))\nself.add_arc(\"bl\", (12,bottom), (left,40), radius_x=r)\nself.add_line(\"left\", (left,40), (left,8))\nself.add_arc(\"tl\", (left,8), (12,top), radius_x=r)\nself.add_contour(\"document\", \"top\", \"clipped-corner\", \"right\", \"br\", \"bottom\", \"bl\", \"left\", \"tl\", closed=True)\nhead_y, head_r = 17, 4\nself.add_arc(\"head-top\", (axis-head_r,head_y), (axis+head_r,head_y), radius_x=head_r)\nself.add_arc(\"head-bottom\", (axis+head_r,head_y), (axis-head_r,head_y), radius_x=head_r)\nself.add_contour(\"head\", \"head-top\", \"head-bottom\", closed=True)\nshoulder_top = head_y + head_r + 8\nself.add_arc(\"shoulders\", (axis-7,shoulder_top+6), (axis+7,shoulder_top+6), radius_x=7, radius_y=6)"
+}

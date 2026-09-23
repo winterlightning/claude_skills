@@ -38,3 +38,15 @@ class Drawing(Sub32):
         self.relate("connect", 'p2-r1-1', 'p3-r1-2')
         self.relate("connect", 'p2-r1-2', 'p3-r1-1')
         self.relate("connect", 'p2-r1-2', 'p3-r1-2')
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'prescription-px-sub32': {'status': 'fixed',
+                           'date': '2026-09-23',
+                           'author': 'gpt-6',
+                           'source_icon_id': '75d310c2-6d65-443d-b092-89dae29f9457',
+                           'failures_at_review': ['canvas/keyshape bounds: visible ink (3, 0, 29, '
+                                                  '32) does not match the VRECT_XL envelope (2, 0, '
+                                                  '30, 32) (deltas [1.0, 0.0, 1.0, 0.0], tolerance '
+                                                  '0.0)'],
+                           'variant': 'prescription-px-sub32-v2',
+                           'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

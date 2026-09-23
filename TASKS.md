@@ -11,204 +11,6 @@ project here):
 
 ## Queued
 
-- [ ] Run $primitive-make-ray on todo batch 01 of 55: draw each of these 20 reference files in order. (tp:7b3e8505)
-  icon_set/work/todo-references/10 (text)_bb0be6c6-3c34-4162-a998-bb5a6771d625.svg
-  icon_set/work/todo-references/100% (text)_16e1f964-eb14-47ea-a749-2f4868526913.svg
-  icon_set/work/todo-references/24 (text)_e3ef1255-7230-466e-a0e3-b1897407d9eb.svg
-  icon_set/work/todo-references/500 (text)_19efbe81-d7b5-489d-9ea7-94a041ff5d58.svg
-  icon_set/work/todo-references/500 ERROR_ef5df59f-84d6-4816-b3bd-f093f78b50f4.svg
-  icon_set/work/todo-references/9 (text)_d938682c-91c0-4910-a381-b3d3f607aec2.svg
-  icon_set/work/todo-references/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
-  icon_set/work/todo-references/CSS (text)_4e86ad2e-5a24-449c-8379-d7e832726bb6.svg
-  icon_set/work/todo-references/FAQ_d9c1c79a-c6ed-49e0-81a3-44343e733b6f.svg
-  icon_set/work/todo-references/JAVA (text)_3679e6b1-f8a5-4ea0-a14d-1131e2498789.svg
-  icon_set/work/todo-references/Mobile Phone Cube_23b1ca2a-c99d-4a4c-89e3-6ce9e447d5be.svg
-  icon_set/work/todo-references/Rh_d266c763-9fe0-4ff3-af2a-db0d0256c7cb.svg
-  icon_set/work/todo-references/TIFF (text)_02af3840-b8eb-40f6-b3ef-54661616285b.svg
-  icon_set/work/todo-references/U Uranium_ee5f8122-b5e6-48ad-a907-9d33fc60a8b5.svg
-  icon_set/work/todo-references/a (text)_37012d29-357d-4e7a-9788-4fe102b86097.svg
-  icon_set/work/todo-references/a with sync arrow_8d0a0eeb-161b-49dd-b5f6-5bcfc4e716d9.svg
-  icon_set/work/todo-references/ad blue (text)_5eee88bc-fb92-4ce4-863a-e465668d0185.svg
-  icon_set/work/todo-references/adder_77a84225-bc63-404c-8e7b-1890d0aceb3d.svg
-  icon_set/work/todo-references/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg
-  icon_set/work/todo-references/aerial yoga bow pose_4a1112c6-2f20-434b-b756-511460d08610.svg
-
-- [ ] Run $primitive-make-ray on todo batch 02 of 55: draw each of these 20 reference files in order. (tp:200dcd9f)
-  icon_set/work/todo-references/air purifier 6_bf822c40-fb14-440d-ab32-e996788e5deb.svg
-  icon_set/work/todo-references/align bottom move_5869dc11-5541-4b5c-b969-659cb0ebec19.svg
-  icon_set/work/todo-references/align left move_7ecb4322-bc08-40dc-b66a-56bc0ca7c7cb.svg
-  icon_set/work/todo-references/align left right_5425cb89-f044-4dee-aebe-1d7888040169.svg
-  icon_set/work/todo-references/align middle move horizontal_86dda6f0-7614-4dc9-a730-e1f0bac0dc02.svg
-  icon_set/work/todo-references/align right move_bc08c07e-fd43-4866-85c6-472f38121c0c.svg
-  icon_set/work/todo-references/align to selection_203f388b-ae9d-49e9-954c-36a0d5700c60.svg
-  icon_set/work/todo-references/align top bottom_f31f1d33-4050-4371-af56-548e54cec150.svg
-  icon_set/work/todo-references/align top move_c7665d4b-d589-4003-8834-958ea7cbf3a9.svg
-  icon_set/work/todo-references/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg
-  icon_set/work/todo-references/amazon eventbridge_34f87da9-e584-47f7-8fe0-ca66e9aa7da9.svg
-  icon_set/work/todo-references/amazon kinesis data analytics_8a60c977-db4f-4a2b-852f-9198df1fc339.svg
-  icon_set/work/todo-references/amazon kinesis data stream_8ea46fb3-7a36-440c-ba27-7abf8a868086.svg
-  icon_set/work/todo-references/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg
-  icon_set/work/todo-references/amazon web service codepipeline 1_12be411f-98cd-4c43-b650-b16b090dc516.svg
-  icon_set/work/todo-references/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg
-  icon_set/work/todo-references/amazon web service marketplaces cart_b98df773-88b9-4b59-bf8f-31bdee2160b2.svg
-  icon_set/work/todo-references/amber_3ccf997d-67a6-4970-9541-a4835906cdba.svg
-  icon_set/work/todo-references/ankle tracker_09ba7447-8f77-4033-ba06-5bf4e4d39449.svg
-  icon_set/work/todo-references/app window wifi_d12b5c6d-5cff-4f23-9893-76defe7ca390.svg
-
-- [ ] Run $primitive-make-ray on todo batch 03 of 55: draw each of these 20 reference files in order. (tp:b5a0d053)
-  icon_set/work/todo-references/aquarium_4fb53005-bb60-46fd-bc0e-7ea549f599e9.svg
-  icon_set/work/todo-references/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg
-  icon_set/work/todo-references/arrow up 3_5cb31408-59f1-4f35-b964-02c5190426a4.svg
-  icon_set/work/todo-references/arrows spin_e63cb3c3-10bb-4fb1-a675-1e6b119047a5.svg
-  icon_set/work/todo-references/artboard_e4f23897-a7eb-4701-9482-a5a315ef920f.svg
-  icon_set/work/todo-references/asalha puja_8c539ea0-c1e4-4239-86da-777c9408c3f4.svg
-  icon_set/work/todo-references/astrology pentagram_815729c9-6c87-5e37-9c96-2f46aa26c6eb.svg
-  icon_set/work/todo-references/astrology_240b3739-6bb7-5bfa-832d-48a5bdaa33e8.svg
-  icon_set/work/todo-references/astronomy planet saturn 1_d3179da3-e2e2-4329-8932-7b3c8044a535.svg
-  icon_set/work/todo-references/athletics running 1_bbab0c61-cd66-44e3-8954-bcb31ddc3d23.svg
-  icon_set/work/todo-references/attic_fb7f6046-2a65-481a-a7cb-a6d495e10e76.svg
-  icon_set/work/todo-references/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg
-  icon_set/work/todo-references/audio book headphones_b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a.svg
-  icon_set/work/todo-references/auth0 logo_d0e05ee8-d54e-432a-913a-ebf397d5cad1.svg
-  icon_set/work/todo-references/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg
-  icon_set/work/todo-references/auto (text)_46e5998f-10dd-4ed4-a1d2-36de7f900099.svg
-  icon_set/work/todo-references/auto pilot car radius_8a6f5388-93e2-4e87-bb21-8db3666f5c20.svg
-  icon_set/work/todo-references/auto pilot car signal 1_148a6d3d-6e93-44b0-ad9c-3c3c30856f29.svg
-  icon_set/work/todo-references/auto setting column width_64ed5636-8e1f-4fbd-8a7a-ba14ed99b301.svg
-  icon_set/work/todo-references/automatic drive gear_f89489d3-928e-4d8e-8a13-9ff760315c90.svg
-
-- [ ] Run $primitive-make-ray on todo batch 04 of 55: draw each of these 20 reference files in order. (tp:6a42fd9a)
-  icon_set/work/todo-references/award wall_8e659963-5f68-4c80-963b-528218ccf29f.svg
-  icon_set/work/todo-references/award_4be122ae-6b9c-44a4-84d9-7652d7d7eac8.svg
-  icon_set/work/todo-references/bacteria magnifying glass_713363eb-bbe5-4962-bce9-7de2465bfdd4.svg
-  icon_set/work/todo-references/badge 1_83414ae1-83ad-4f09-a7d9-9c6c5864840a.svg
-  icon_set/work/todo-references/badge arrow_e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8.svg
-  icon_set/work/todo-references/baggage weight_ee2a071e-6904-4d7d-a879-a7315aec3bd6.svg
-  icon_set/work/todo-references/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg
-  icon_set/work/todo-references/bankbook_4512686f-a1a4-47d7-aba0-6b0d998def04.svg
-  icon_set/work/todo-references/bathroom mirror_db5fe124-1329-594f-9463-63ea811fbf4d.svg
-  icon_set/work/todo-references/battery low_770858fe-6109-4d1a-9d0f-cda2b82a34e1.svg
-  icon_set/work/todo-references/binary_abff6337-b854-552e-afe3-b89605887cad.svg
-  icon_set/work/todo-references/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
-  icon_set/work/todo-references/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg
-  icon_set/work/todo-references/blind file_98829c19-571e-403d-8c1e-efe6e085e23e.svg
-  icon_set/work/todo-references/blizzards 1_3a3fc291-ab2c-40c0-839b-984efa538590.svg
-  icon_set/work/todo-references/block_066b21a8-f091-485c-bcec-dbf7bacab23b.svg
-  icon_set/work/todo-references/bnter logo_f2e0c651-d48a-403a-b9be-ca4d6dfd34d6.svg
-  icon_set/work/todo-references/board 1_3ac51a01-49f8-4fab-833e-bfbdf004114a.svg
-  icon_set/work/todo-references/board_60aa39e1-d2fe-4d1f-8318-25cc5ae93a29.svg
-  icon_set/work/todo-references/bomb explode_bf3695d0-7417-50cb-93e5-008403f18c82.svg
-
-- [ ] Run $primitive-make-ray on todo batch 05 of 55: draw each of these 20 reference files in order. (tp:5a6b3bee)
-  icon_set/work/todo-references/book library shelf 1_e655553e-73b0-4aa0-bcb2-9107df91c8e5.svg
-  icon_set/work/todo-references/book library shelf_2841f97c-3470-4026-a287-d82828da5d59.svg
-  icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg
-  icon_set/work/todo-references/booklet_9ee58df5-c0c8-43b8-ac76-5d6d676e8615.svg
-  icon_set/work/todo-references/bookmarks_71a4e1b5-a989-577a-ae92-6e701febd332.svg
-  icon_set/work/todo-references/border_501f8434-1c77-49b7-b942-1e6d06061b3f.svg
-  icon_set/work/todo-references/boss desk document_18c142d2-e82e-43f2-97e5-93f5983b8bd6.svg
-  icon_set/work/todo-references/bower logo_ff183e37-2bed-4312-ad52-11655fc8a512.svg
-  icon_set/work/todo-references/box pen_a89e6154-b80a-49dd-8449-f86a088a5c81.svg
-  icon_set/work/todo-references/box remove_664d5dec-e292-48a0-b893-09339844ebf6.svg
-  icon_set/work/todo-references/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg
-  icon_set/work/todo-references/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg
-  icon_set/work/todo-references/brochure_1b6e6f08-5d4f-400d-965f-e902b3202598.svg
-  icon_set/work/todo-references/broken tab remove_b55ec75b-a606-4e27-845e-2f640329c00f.svg
-  icon_set/work/todo-references/browser dollar sign right_150d4701-3c3f-45a7-a26d-8c580a891da1.svg
-  icon_set/work/todo-references/browser euro sign right_0ede8d22-cb57-4794-b361-c89627ccda77.svg
-  icon_set/work/todo-references/browser euro sign_2445526d-6d27-4ec9-a2bd-a7623908795b.svg
-  icon_set/work/todo-references/browser page layout_b14caff0-05ed-47b9-bade-e59579619967.svg
-  icon_set/work/todo-references/browser page text 2_b317a6a6-fb5f-4063-b4ca-9345a6cec436.svg
-  icon_set/work/todo-references/browser page text_bfd2ddb1-65f9-4a12-9c60-693529e81c85.svg
-
-- [ ] Run $primitive-make-ray on todo batch 06 of 55: draw each of these 20 reference files in order. (tp:9086bc49)
-  icon_set/work/todo-references/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg
-  icon_set/work/todo-references/browser pound sign right_70992897-5703-44f1-b32b-410282375607.svg
-  icon_set/work/todo-references/browser pound sign_544f8a60-ccee-42bc-8507-07936210e82f.svg
-  icon_set/work/todo-references/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg
-  icon_set/work/todo-references/browser yuan sign right_f3a40f08-7124-46f5-9ed2-b85ee4e25e73.svg
-  icon_set/work/todo-references/browser yuan sign_fea32660-18d8-471e-9f27-73b635d24732.svg
-  icon_set/work/todo-references/brute force authentication password attack bash_2a272a63-d16a-4057-9c1a-7e52136b6784.svg
-  icon_set/work/todo-references/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg
-  icon_set/work/todo-references/bubble tea heart_d2f14f75-1ec0-41b0-83b6-100d1dcb63ea.svg
-  icon_set/work/todo-references/building user_f45d9583-295d-48ad-a334-df8ed9d7581c.svg
-  icon_set/work/todo-references/burrito_b3b9d031-1b14-49cd-b640-12d78e2f90f7.svg
-  icon_set/work/todo-references/business card hand 3_bcaaf2a2-b7c9-450b-836e-e0c294ab0564.svg
-  icon_set/work/todo-references/business card stack 1_c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41.svg
-  icon_set/work/todo-references/business contract approve_1ccecf6e-60d8-417b-accc-4a89121dd0ab.svg
-  icon_set/work/todo-references/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg
-  icon_set/work/todo-references/calendar number seven_d7201890-607e-4568-916a-e843756d3ef0.svg
-  icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg
-  icon_set/work/todo-references/calendar pie_8c9afa4f-6b92-41b3-8bcd-f538c69afde6.svg
-  icon_set/work/todo-references/camera file_ed808041-ff02-4ca5-8f86-337d16e29436.svg
-  icon_set/work/todo-references/canvas_e82ae3f4-3ab0-421b-9460-5df44f0236e9.svg
-
-- [ ] Run $primitive-make-ray on todo batch 07 of 55: draw each of these 20 reference files in order. (tp:e8f7df47)
-  icon_set/work/todo-references/car dashboard gear_fa01e257-da76-436f-8013-7b6c13ededaf.svg
-  icon_set/work/todo-references/car flash_3cb36a1f-8edb-4e21-9623-b8c8fac724c3.svg
-  icon_set/work/todo-references/car wrench_5dd7944c-8248-40cb-8bd4-400ceb51cae0.svg
-  icon_set/work/todo-references/card game cards spade diamond_51de7530-e4b9-4207-92df-6b4ec157c6a4.svg
-  icon_set/work/todo-references/card game cards_5af5ae7c-c36a-44e3-b9a3-a6d9683548ab.svg
-  icon_set/work/todo-references/card game diamond_06613e74-a027-47c8-b187-3a062d3e942b.svg
-  icon_set/work/todo-references/card game dice_7313c8ec-d635-4b38-acd5-fea39286b43e.svg
-  icon_set/work/todo-references/card game heart_2d678d4e-3c28-4171-9206-0e44c564a983.svg
-  icon_set/work/todo-references/card kids_7500cf20-50c6-4ded-9bb2-320b91cd3da9.svg
-  icon_set/work/todo-references/cards_f0795efe-1c23-4dba-b1b0-4398677469cc.svg
-  icon_set/work/todo-references/caret left_f2568c29-ad52-4aef-a68c-f1a1ef4f8574.svg
-  icon_set/work/todo-references/carport_5b34dc81-b846-4bb2-ab08-2edb491e7e4a.svg
-  icon_set/work/todo-references/casket_9007be4f-bd2b-4d9b-8fbd-69729f165f40.svg
-  icon_set/work/todo-references/cell border none_e3f91117-c4e6-409b-8dc4-acb538db6880.svg
-  icon_set/work/todo-references/cell border right_b9c1cbac-5439-4b45-98c2-03e923e14b07.svg
-  icon_set/work/todo-references/cemetery_b1f8b254-d1a6-42ab-b2cf-3daadafa7358.svg
-  icon_set/work/todo-references/certificate_146cf283-3304-46a9-8cae-29ee66a6a52f.svg
-  icon_set/work/todo-references/charging battery empty 1_9a4c5ce8-1c07-4186-90bf-51f1f80db709.svg
-  icon_set/work/todo-references/charging battery flash empty_86ff6696-4ddd-4dd2-abe4-b1bbb2a48273.svg
-  icon_set/work/todo-references/charging flash wave_c8b3d9a1-bb0f-4df5-b706-4b00986008d6.svg
-
-- [ ] Run $primitive-make-ray on todo batch 08 of 55: draw each of these 20 reference files in order. (tp:6ff84512)
-  icon_set/work/todo-references/chat conversation love romance talk_207acda0-b0e1-481e-9cb8-b0522fe56419.svg
-  icon_set/work/todo-references/chat medical cross left_5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1.svg
-  icon_set/work/todo-references/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg
-  icon_set/work/todo-references/checkbook_8d44d13a-d1c5-42b4-bf53-5b096df50d2a.svg
-  icon_set/work/todo-references/checklist flip_b95d6c26-7b7d-49e3-9767-2ac2b43ed856.svg
-  icon_set/work/todo-references/chef gear tea cookies_8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7.svg
-  icon_set/work/todo-references/children safety door lock 1_94d5a32b-ed7e-407e-b22e-5de85f0623bf.svg
-  icon_set/work/todo-references/children safety door unlock 1_e3bcbac7-70e3-4df1-87c4-0e740b47f92b.svg
-  icon_set/work/todo-references/christmas postcard 2_6341f7cd-9be8-48da-9d1f-bb8141ad4804.svg
-  icon_set/work/todo-references/circle bell_917e9e90-88a8-4573-a98f-ec5901b6b21f.svg
-  icon_set/work/todo-references/circle button previous_20ae5ca1-a8f1-4814-bf9a-56405dc59ca4.svg
-  icon_set/work/todo-references/circle cart_820ef6ec-ae9c-4549-bebb-aa00a7135eb4.svg
-  icon_set/work/todo-references/circle colon_6a0ef6b0-613d-4883-ad08-e75fd510a4f6.svg
-  icon_set/work/todo-references/circle cursor down_9788749e-24b9-44e5-a889-9835629a9ef8.svg
-  icon_set/work/todo-references/circle cursor right_f3964f57-12c0-4eaf-8a13-4ca7af83fcd5.svg
-  icon_set/work/todo-references/circle cursor up_6ae653ed-26ec-4e31-85cc-4b1ca6029c5f.svg
-  icon_set/work/todo-references/circle cursor west_453d5cee-208b-4803-8d43-ec5df45da9f9.svg
-  icon_set/work/todo-references/circle dash_80efe6e9-97d5-4b01-92f9-8ae70857d4a6.svg
-  icon_set/work/todo-references/circle kips_abcbb9db-f5c8-434b-b898-b6580cddb672.svg
-  icon_set/work/todo-references/circle notch_9d22466c-f3d2-483e-8d05-604dbca040ce.svg
-
-- [ ] Run $primitive-make-ray on todo batch 09 of 55: draw each of these 20 reference files in order. (tp:4f36fb1f)
-  icon_set/work/todo-references/circle peso_5237809e-84ca-4d2d-bd80-dd045d692a17.svg
-  icon_set/work/todo-references/circle rand_0347a479-eedb-4204-bff5-6fccfb03c880.svg
-  icon_set/work/todo-references/circle skull 1_0275d46c-9a52-48fb-9993-9a0c2a0a4b89.svg
-  icon_set/work/todo-references/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg
-  icon_set/work/todo-references/circle upload_3b83fd38-db3b-4974-b39c-fe72f9fbd03d.svg
-  icon_set/work/todo-references/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg
-  icon_set/work/todo-references/clapper_08ce9242-6dea-4459-b4d0-e91ada71f50a.svg
-  icon_set/work/todo-references/clean_9214cb47-7d20-45f8-a9b7-a4eb3d044121.svg
-  icon_set/work/todo-references/cleavage_0d0ebc6d-1584-496e-8a2f-d5c90dd3bab5.svg
-  icon_set/work/todo-references/clipboard text_3f07e720-0288-4625-8e49-dc8240a8d97e.svg
-  icon_set/work/todo-references/clipboard_8a44db68-8509-4e9a-b460-4143125c86a9.svg
-  icon_set/work/todo-references/clone_330e60bf-6b59-465a-9889-8e958e8dc7c3.svg
-  icon_set/work/todo-references/cloud with co2_75fb4fc6-e4f1-41a1-94d3-87656053d2cd.svg
-  icon_set/work/todo-references/clove_f6f8dff7-4bbf-4a12-a864-fabb05b563d8.svg
-  icon_set/work/todo-references/co working space plug users_2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4.svg
-  icon_set/work/todo-references/code build_8d435341-042f-470f-9af2-453657b4c06a.svg
-  icon_set/work/todo-references/coding apps website monitor image_a955fd25-e389-4525-81af-39146879565c.svg
-  icon_set/work/todo-references/cog dollar_fa84ff77-a565-4df3-9360-0b7e9c3de772.svg
-  icon_set/work/todo-references/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg
-  icon_set/work/todo-references/cog double_b484255b-2a40-40d1-9943-7e27cfb9f399.svg
-
 - [ ] Run $primitive-make-ray on todo batch 10 of 55: draw each of these 20 reference files in order. (tp:07ceb23f)
   icon_set/work/todo-references/color painting palette 1_d88e751c-189b-4587-8170-ca75de2bf464.svg
   icon_set/work/todo-references/column insert_feae9946-0309-4abb-92af-f66c52188484.svg
@@ -341,14 +143,13 @@ project here):
   icon_set/work/todo-references/folder file_d7b60535-d86c-4822-a2a7-f6c1499603fc.svg
   icon_set/work/todo-references/folder hold_1a3329ea-e0fc-446f-aa99-ae20be083956.svg
 
-- [ ] Run $primitive-make-ray on todo batch 16 of 55: draw each of these 20 reference files in order. (tp:a0f63341)
+- [ ] Run $primitive-make-ray on todo batch 16 of 55: draw each of these 19 reference files in order. (tp:a0f63341)
   icon_set/work/todo-references/folder open_11f861f7-9062-4cbd-a3fd-0cba990dfc4b.svg
   icon_set/work/todo-references/folder open_13abc017-fcc3-51a3-aa3d-7d3d0708d9ed.svg
   icon_set/work/todo-references/folder open_d7fb85d5-3ce1-5b14-bacb-ec568ad39a6c.svg
   icon_set/work/todo-references/folders_765a4718-3652-4552-81e5-4d88f99cd8e5.svg
   icon_set/work/todo-references/food allegic vegan meal 1_588d68f8-b31a-4c4c-97e2-20473cedb4a3.svg
   icon_set/work/todo-references/food allegic vegan meal 2_c4f5ba1f-68f6-4541-ad2f-2718ffc31448.svg
-  icon_set/work/todo-references/for rent (text)_e10dbb39-1708-47b1-a8f0-841a44b2cbf1.svg
   icon_set/work/todo-references/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg
   icon_set/work/todo-references/forensic science dna evidence_d6ecc97f-f19b-48b5-a88f-cd0c736478c1.svg
   icon_set/work/todo-references/formicarium_e726a1dc-d0b0-4e7a-b419-80e42e439489.svg
@@ -363,13 +164,12 @@ project here):
   icon_set/work/todo-references/framework_a80c4976-31bf-47f2-b198-dfc75df4dc14.svg
   icon_set/work/todo-references/freecodecamp logo_88e5f419-7545-4a1a-86c8-dc50363f1c62.svg
 
-- [ ] Run $primitive-make-ray on todo batch 17 of 55: draw each of these 20 reference files in order. (tp:65f0cfc9)
+- [ ] Run $primitive-make-ray on todo batch 17 of 55: draw each of these 19 reference files in order. (tp:65f0cfc9)
   icon_set/work/todo-references/game bundle package 2 game game bundle package_11e6c80b-9352-46d6-afbf-71492aac441e.svg
   icon_set/work/todo-references/game immersive vr_a58cb8f2-5a25-594d-a031-72828d14122f.svg
   icon_set/work/todo-references/gaming award_17c7d2fd-712c-4723-bb68-d76fbbb8bbd0.svg
   icon_set/work/todo-references/gas f_18728730-c932-5c2a-bbae-5f3d79009993.svg
   icon_set/work/todo-references/gatsby logo_b0804fba-a812-4586-ac38-99bf3f63c65a.svg
-  icon_set/work/todo-references/gdpr (text)_602db514-f9ff-4dc0-874b-ecc9030684ee.svg
   icon_set/work/todo-references/gdpr text in rectangle_06655b8e-39ad-4051-aafc-316a27ffb14a.svg
   icon_set/work/todo-references/gesture expand 1_52c32e39-3bac-4a0f-8904-0928470decff.svg
   icon_set/work/todo-references/gesture expand two fingers_d66f7a8f-53b3-4c52-a0e6-2f333aa5c85e.svg
@@ -407,11 +207,10 @@ project here):
   icon_set/work/todo-references/gray_70ac1d94-8ea0-4aa1-8dde-53e79b519ce7.svg
   icon_set/work/todo-references/grid artboard_3f8e8502-ee93-5815-9b80-fe4bec679a26.svg
 
-- [ ] Run $primitive-make-ray on todo batch 19 of 55: draw each of these 20 reference files in order. (tp:4c7bcc90)
+- [ ] Run $primitive-make-ray on todo batch 19 of 55: draw each of these 19 reference files in order. (tp:4c7bcc90)
   icon_set/work/todo-references/half phone_fbf87ef1-6fe5-4d7f-a84d-072b3a85353c.svg
   icon_set/work/todo-references/hand gesture control expand_50312a29-a897-494e-b23f-8a7aa90fde0d.svg
   icon_set/work/todo-references/head lock content movement_f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6.svg
-  icon_set/work/todo-references/heart rate 1_19dc1699-da2b-4e42-b072-21890cdb8a28.svg
   icon_set/work/todo-references/heart rate_8a7bb75e-fc55-5c1f-9e7a-6055f25d511f.svg
   icon_set/work/todo-references/heart user_e7e97355-bccb-465c-ae55-5037fd70d291.svg
   icon_set/work/todo-references/home cog_8e974970-0198-4484-85aa-47bb0a455f4b.svg
@@ -429,7 +228,7 @@ project here):
   icon_set/work/todo-references/hospital_ac907133-ac86-5817-9678-483912faa2f6.svg
   icon_set/work/todo-references/houdini logo_40ecea9e-45f2-4285-8c02-e860ff2c94db.svg
 
-- [ ] Run $primitive-make-ray on todo batch 20 of 55: draw each of these 20 reference files in order. (tp:a8aa0bf6)
+- [ ] Run $primitive-make-ray on todo batch 20 of 55: draw each of these 19 reference files in order. (tp:a8aa0bf6)
   icon_set/work/todo-references/house bulb_177bdc8f-a349-4eb2-9256-4dda4aaf2d56.svg
   icon_set/work/todo-references/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg
   icon_set/work/todo-references/house drop_46cfdeb4-afd1-4e8a-bdcd-54952c7a1dab.svg
@@ -445,14 +244,12 @@ project here):
   icon_set/work/todo-references/house unlock_d9e732b9-6854-4fe7-b39f-365bfd54abee.svg
   icon_set/work/todo-references/house ventilator_adc26099-d55f-405e-935e-9a654dc938e4.svg
   icon_set/work/todo-references/house with play button_7e3b79f2-dcc5-4988-ab08-8460306de315.svg
-  icon_set/work/todo-references/html (text)_149e1bb4-7caa-4573-92e8-c2528ea99ca1.svg
   icon_set/work/todo-references/idea message_92562640-9872-4421-b793-490578e15ce2.svg
   icon_set/work/todo-references/illegal logistic_c8de8135-2038-41da-8f58-2aeec3bdf7fd.svg
   icon_set/work/todo-references/inbox_793b0957-a634-42b9-b0c7-8e1c9cfce8af.svg
   icon_set/work/todo-references/inboxes_e62395aa-eb63-4166-835d-6e931dc59a5e.svg
 
-- [ ] Run $primitive-make-ray on todo batch 21 of 55: draw each of these 20 reference files in order. (tp:05173434)
-  icon_set/work/todo-references/indd (text)_f5ea5b1f-a0c0-4aab-b396-16942d8b27ce.svg
+- [ ] Run $primitive-make-ray on todo batch 21 of 55: draw each of these 18 reference files in order. (tp:05173434)
   icon_set/work/todo-references/indent increase_bf7b86fc-e069-4a2c-9d76-081efb9afc9b.svg
   icon_set/work/todo-references/infancy care_a8c124ba-bd78-456b-87fd-6763a1095d57.svg
   icon_set/work/todo-references/insectarium_9e1427e3-01db-4b03-91a2-6aedb6775a60.svg
@@ -469,7 +266,6 @@ project here):
   icon_set/work/todo-references/keyboard button direction_42a2cdda-9bae-4c47-b68a-7075bb296796.svg
   icon_set/work/todo-references/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg
   icon_set/work/todo-references/kitchen window_1051c492-cdc2-5350-9e90-f45df42fffa6.svg
-  icon_set/work/todo-references/la (text u)_7ad20e87-7343-4347-8dd5-6c0cde10087e.svg
   icon_set/work/todo-references/labor worker_5e90a983-c6c8-4780-99a7-53d2101f43e0.svg
   icon_set/work/todo-references/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg
 
@@ -495,7 +291,7 @@ project here):
   icon_set/work/todo-references/letter p with square_42eb00ca-58b3-40e3-9e1c-e058c8e11ff4.svg
   icon_set/work/todo-references/letter_4502ce36-4c06-4b3f-8a40-75a997cec743.svg
 
-- [ ] Run $primitive-make-ray on todo batch 23 of 55: draw each of these 20 reference files in order. (tp:695fe0b0)
+- [ ] Run $primitive-make-ray on todo batch 23 of 55: draw each of these 19 reference files in order. (tp:695fe0b0)
   icon_set/work/todo-references/lgbt love_223c2cf3-707e-5588-bcee-3eb48df2972c.svg
   icon_set/work/todo-references/lighting_223231a7-c760-4c40-ba86-2b1878f06e12.svg
   icon_set/work/todo-references/lion_9b6a2c4c-3b0c-4b0c-a13c-c9c39f1f1cad.svg
@@ -506,7 +302,6 @@ project here):
   icon_set/work/todo-references/love heart ranking_23d9de33-2d15-4372-8f12-18cd47ea7ba3.svg
   icon_set/work/todo-references/lte edge_338dd19b-18e2-58c6-aede-44560fae85ca.svg
   icon_set/work/todo-references/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg
-  icon_set/work/todo-references/m4v (text)_5082511a-c4d5-4f3c-be72-f61c5ef1ad0b.svg
   icon_set/work/todo-references/machine learning infrastructure_b5835419-04ce-4820-b84f-80a2863f52ba.svg
   icon_set/work/todo-references/magic circle_1aec8837-024a-4c4d-883a-b5be98397577.svg
   icon_set/work/todo-references/magnifying glass 1_172aa006-1394-4ef9-880b-ee637d510981.svg
@@ -517,7 +312,7 @@ project here):
   icon_set/work/todo-references/mail card 1_df1cae8e-423e-4522-aacd-442cdce49bdf.svg
   icon_set/work/todo-references/mail card bug_0b79dbcd-029c-4c05-baad-34d720b23be7.svg
 
-- [ ] Run $primitive-make-ray on todo batch 24 of 55: draw each of these 20 reference files in order. (tp:d24fc287)
+- [ ] Run $primitive-make-ray on todo batch 24 of 55: draw each of these 19 reference files in order. (tp:d24fc287)
   icon_set/work/todo-references/mainland_9e40b751-30db-44ed-8d7f-6043962fb748.svg
   icon_set/work/todo-references/male star_9d16496d-3f1e-497f-acc5-d87ece1bf0c8.svg
   icon_set/work/todo-references/mantel_cd0e91bf-8014-4487-8310-916da006a67a.svg
@@ -534,7 +329,6 @@ project here):
   icon_set/work/todo-references/merge pdf_9de2a8a2-983a-425a-99ec-00774bb6aef2.svg
   icon_set/work/todo-references/merge table vertical_125d1901-e1d4-4af8-992a-1b24766cf5c1.svg
   icon_set/work/todo-references/mesh wifi router_080c193b-0809-4e52-843c-538aec12a350.svg
-  icon_set/work/todo-references/message bubble building_c48fcffa-2fd4-43b2-a23b-9f7b743cc094.svg
   icon_set/work/todo-references/message bubble circle 1_37149c15-c3c1-44b7-b2c0-328541d9789b.svg
   icon_set/work/todo-references/message bubble circle_864a3e5e-bff8-4c48-84b5-70e4dafc6d23.svg
   icon_set/work/todo-references/message bubble person_f27e9ceb-3471-4f88-9ba7-afea584d2ef1.svg
@@ -605,7 +399,7 @@ project here):
   icon_set/work/todo-references/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg
   icon_set/work/todo-references/monitor payment_68edf9b6-f133-45a4-a6a6-b6d0df318a0c.svg
 
-- [ ] Run $primitive-make-ray on todo batch 28 of 55: draw each of these 20 reference files in order. (tp:1833c556)
+- [ ] Run $primitive-make-ray on todo batch 28 of 55: draw each of these 18 reference files in order. (tp:1833c556)
   icon_set/work/todo-references/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg
   icon_set/work/todo-references/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg
   icon_set/work/todo-references/monitor spoon and folk_84f3f807-398a-4f6c-9d2e-58805a5192a4.svg
@@ -618,16 +412,14 @@ project here):
   icon_set/work/todo-references/monitoring bed_fd9ee582-67bc-480d-85e3-0fdc2982679b.svg
   icon_set/work/todo-references/monitoring heart beat hand_f238b6ea-82d0-5437-a344-0ec38b16a28d.svg
   icon_set/work/todo-references/moutain with circle_fb412b73-2149-4427-b06e-19f0aa825780.svg
-  icon_set/work/todo-references/mov (text)_a126e323-d53b-4fec-a13c-409a222a15c7.svg
   icon_set/work/todo-references/move to top_a6f845d9-df32-42a8-8c8b-64a120a9f44d.svg
   icon_set/work/todo-references/movie_5369bbbe-4735-40b1-9ac5-84246a859e0f.svg
   icon_set/work/todo-references/movies director chair_26790288-140d-4885-a97e-0a3a2c64fc42.svg
   icon_set/work/todo-references/moving walkway_b13ef0ee-32e3-468d-876a-7e9b08b10fa2.svg
-  icon_set/work/todo-references/mpg (text)_51747961-07f5-47d7-97cb-f171e1557aa1.svg
   icon_set/work/todo-references/mudslide_ec2fdfe8-6612-41f4-989a-e02eaced92f2.svg
   icon_set/work/todo-references/multiple tags 2_da3a18cb-9766-5ab1-b651-eb447e6f30a2.svg
 
-- [ ] Run $primitive-make-ray on todo batch 29 of 55: draw each of these 20 reference files in order. (tp:dca21a95)
+- [ ] Run $primitive-make-ray on todo batch 29 of 55: draw each of these 19 reference files in order. (tp:dca21a95)
   icon_set/work/todo-references/multiple users wifi_a119cf45-d021-460f-b469-9d1f28774714.svg
   icon_set/work/todo-references/music box_b9c25347-4f61-49ed-b94b-bdbb23fd2b5e.svg
   icon_set/work/todo-references/music file_afef5066-8280-48f5-ac92-1b42175580cd.svg
@@ -638,7 +430,6 @@ project here):
   icon_set/work/todo-references/navigation menu 2_f0240cbb-c97d-481a-8652-de2b075a8bca.svg
   icon_set/work/todo-references/navigation previous_4c146073-9a15-4ce4-92c6-b12415905f32.svg
   icon_set/work/todo-references/navigation smartphone message_9d04d41b-14a1-476d-b164-23e91f0672af.svg
-  icon_set/work/todo-references/ne (text u)_a54812d2-f0ae-4c8c-aec5-a9e3a0071ab2.svg
   icon_set/work/todo-references/necromancer_253b2d2a-0938-4224-b01e-f0cf978b4d22.svg
   icon_set/work/todo-references/necromancy reanimate 1_ad553f32-ceb4-4d38-80d0-f5cef462f6e3.svg
   icon_set/work/todo-references/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg
@@ -759,14 +550,13 @@ project here):
   icon_set/work/todo-references/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg
   icon_set/work/todo-references/play circle_28139a46-33d3-497a-8145-8141fbadc0c4.svg
 
-- [ ] Run $primitive-make-ray on todo batch 35 of 55: draw each of these 20 reference files in order. (tp:482a6f1d)
+- [ ] Run $primitive-make-ray on todo batch 35 of 55: draw each of these 19 reference files in order. (tp:482a6f1d)
   icon_set/work/todo-references/playlist album_0c038416-c2a9-4ae0-ab80-a793e4a0b0c7.svg
   icon_set/work/todo-references/playroom_c6ecc684-688c-443b-ae9b-74c5652fb4fa.svg
   icon_set/work/todo-references/plug circle bolt_9bf99036-e893-456c-a168-8d42aefd653e.svg
   icon_set/work/todo-references/plug circle minus_a7eca348-f0d5-43fb-b292-bb5c41ea9e64.svg
   icon_set/work/todo-references/plug circle xmark_2fa2e764-f653-4eb6-b13a-4c6d7b198877.svg
   icon_set/work/todo-references/plugin_0ef960fc-1a4e-4b67-9b67-283cc8cc1cf3.svg
-  icon_set/work/todo-references/pm 2.5_5b795893-a150-4628-bb58-d92b32b39cdb.svg
   icon_set/work/todo-references/podium star_e768495f-4a83-4777-ba0c-6d66e88b98d4.svg
   icon_set/work/todo-references/police polygraph_48245d56-9c4b-5ff1-af7a-8b8a5f13acbc.svg
   icon_set/work/todo-references/polyester_7a069c80-678a-480c-a3ff-5da10f209d9c.svg
@@ -781,13 +571,11 @@ project here):
   icon_set/work/todo-references/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg
   icon_set/work/todo-references/programming language css 3_e2d37e28-a199-438d-9557-6d0ac7e39107.svg
 
-- [ ] Run $primitive-make-ray on todo batch 36 of 55: draw each of these 20 reference files in order. (tp:d80d22c2)
+- [ ] Run $primitive-make-ray on todo batch 36 of 55: draw each of these 17 reference files in order. (tp:d80d22c2)
   icon_set/work/todo-references/prospect_c391bbcf-577c-45a9-b477-e58680e4b14d.svg
   icon_set/work/todo-references/protocol open id logo_962c33a0-eaf5-4a99-9127-a5fd1da5870b.svg
-  icon_set/work/todo-references/psd (text)_f7c89911-684e-406a-a7a8-cc975c0bd5d5.svg
   icon_set/work/todo-references/psycho analysis 4_982b866f-9ae0-413f-9094-ecbac215f3b0.svg
   icon_set/work/todo-references/psycho analysis 5_fc8e8b95-766a-4f15-a80b-5e30979a5fc8.svg
-  icon_set/work/todo-references/qt (text)_08bec648-2d52-4612-97b2-467c1570d4eb.svg
   icon_set/work/todo-references/qualcomm logo_dd388978-26f3-4317-9a4f-7e9381f85924.svg
   icon_set/work/todo-references/quote left_bbf400c0-4ed9-481e-8643-979aa728bc9d.svg
   icon_set/work/todo-references/quote right_a669591d-8405-49c2-be0a-5d69af49a20c.svg
@@ -795,7 +583,6 @@ project here):
   icon_set/work/todo-references/quotes_d8e178df-75a7-436c-99cf-7f7c90cf866a.svg
   icon_set/work/todo-references/railroad metro circle_32b4f97d-14a8-44bd-b54f-1b1a1bb4bc7c.svg
   icon_set/work/todo-references/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg
-  icon_set/work/todo-references/rb (text)_928601b1-cc6f-4c81-b977-ad0ce69dd337.svg
   icon_set/work/todo-references/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg
   icon_set/work/todo-references/read world_707a74f4-f696-4ab1-aaf2-6be7de8a3c1a.svg
   icon_set/work/todo-references/real estate deal shake_490f19a8-c170-4914-bea1-18cbfb479033.svg
@@ -869,7 +656,7 @@ project here):
   icon_set/work/todo-references/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg
   icon_set/work/todo-references/roof house with wrench_92836afb-27f7-417c-bcab-bbb33f3c2203.svg
 
-- [ ] Run $primitive-make-ray on todo batch 40 of 55: draw each of these 20 reference files in order. (tp:19ff7931)
+- [ ] Run $primitive-make-ray on todo batch 40 of 55: draw each of these 19 reference files in order. (tp:19ff7931)
   icon_set/work/todo-references/room service do not disturb_be992ed2-ade4-5f64-a515-8f186d7ca8e3.svg
   icon_set/work/todo-references/rotate front_7dc295ff-87b1-4670-860d-c8009a0aa7e1.svg
   icon_set/work/todo-references/rounded rectanguler 1_24b42876-a6e9-460a-9c01-a039af2dee79.svg
@@ -883,7 +670,6 @@ project here):
   icon_set/work/todo-references/rune stone_50f8b937-c3ef-4dbe-b3bb-69d8a2f54940.svg
   icon_set/work/todo-references/rupee sign_e9b350be-f0e4-49b9-8413-4a4d1c678f43.svg
   icon_set/work/todo-references/safety fire right_10fe00ef-bdce-47d7-95cd-4727e2fc9f1a.svg
-  icon_set/work/todo-references/sale (text)_5aa2cae3-ce6d-4cd7-92d4-a010f71d4238.svg
   icon_set/work/todo-references/sass circle logo_b60b81a4-9d88-4566-84d3-7931d6c1da67.svg
   icon_set/work/todo-references/saving bear increase_b70b7993-149f-4dd9-95d6-fe029f2c8b42.svg
   icon_set/work/todo-references/saving bull_936d0079-3089-4c8c-bc22-422921c13e69.svg
@@ -1045,7 +831,7 @@ project here):
   icon_set/work/todo-references/square v_32c98c89-6e46-4737-9aa5-e927668b865d.svg
   icon_set/work/todo-references/square with up arrow_538b3965-823e-4cae-9f66-b095b6b07e9b.svg
 
-- [ ] Run $primitive-make-ray on todo batch 48 of 55: draw each of these 20 reference files in order. (tp:533ad25d)
+- [ ] Run $primitive-make-ray on todo batch 48 of 55: draw each of these 18 reference files in order. (tp:533ad25d)
   icon_set/work/todo-references/square xmark_08acfc76-564e-418d-abde-1f5766d10cdc.svg
   icon_set/work/todo-references/square y_69b6ff74-9803-422f-8ad2-afd60e6ee1e0.svg
   icon_set/work/todo-references/square z_5b8e48f8-a233-4d49-8f8a-22c3df94a297.svg
@@ -1055,7 +841,6 @@ project here):
   icon_set/work/todo-references/stack unstack column_ff75519b-afd0-4da5-b995-1999fe2b031a.svg
   icon_set/work/todo-references/stamen_cb9f560d-be6a-4ff9-ac29-891fb150b192.svg
   icon_set/work/todo-references/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg
-  icon_set/work/todo-references/state laptop_79c5c1b5-41fd-4524-bec2-dfae1604347f.svg
   icon_set/work/todo-references/step sister_073b7984-a3fe-4699-87e9-47bf76004f1c.svg
   icon_set/work/todo-references/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg
   icon_set/work/todo-references/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg
@@ -1064,7 +849,6 @@ project here):
   icon_set/work/todo-references/strainer_5bcfe5e1-9b28-4166-b6be-071e05c0a87f.svg
   icon_set/work/todo-references/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg
   icon_set/work/todo-references/study maths brain_6b7404a4-2ffc-469e-852a-20c37dbea4d9.svg
-  icon_set/work/todo-references/sub (text)_295f78a7-9bc7-4067-98f6-00bc14bc4585.svg
   icon_set/work/todo-references/subtitles slash_c9737be8-1096-4813-8fac-71d8f1cfa153.svg
 
 - [ ] Run $primitive-make-ray on todo batch 49 of 55: draw each of these 20 reference files in order. (tp:fa64c5cc)
@@ -1089,13 +873,12 @@ project here):
   icon_set/work/todo-references/tasks_a81e6ea3-91bb-4858-970b-5698021d1221.svg
   icon_set/work/todo-references/tea cup herbal_fd3519ca-61c2-4e48-a98b-ef47a0103f4c.svg
 
-- [ ] Run $primitive-make-ray on todo batch 50 of 55: draw each of these 20 reference files in order. (tp:94ad8b89)
+- [ ] Run $primitive-make-ray on todo batch 50 of 55: draw each of these 19 reference files in order. (tp:94ad8b89)
   icon_set/work/todo-references/team approve disapprove_4a473edf-a356-4eca-8cfd-195e95d6bc62.svg
   icon_set/work/todo-references/team vs team mode_5bac2074-ad7e-4c93-acd8-d73142b163b6.svg
   icon_set/work/todo-references/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg
   icon_set/work/todo-references/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg
   icon_set/work/todo-references/television_4cd4ca22-d211-4a74-b9e5-8f51a6b1f8ab.svg
-  icon_set/work/todo-references/temperature_58335f1d-dfae-41ef-bec6-fad278930777.svg
   icon_set/work/todo-references/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg
   icon_set/work/todo-references/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg
   icon_set/work/todo-references/text format superscript_3f065072-7f07-4009-b7a4-caa4fa4822d3.svg
@@ -1133,7 +916,7 @@ project here):
   icon_set/work/todo-references/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg
   icon_set/work/todo-references/trip road 1_ad200efe-c77b-4f38-9fed-8ab02c8a6235.svg
 
-- [ ] Run $primitive-make-ray on todo batch 52 of 55: draw each of these 20 reference files in order. (tp:f3c2e1d1)
+- [ ] Run $primitive-make-ray on todo batch 52 of 55: draw each of these 19 reference files in order. (tp:f3c2e1d1)
   icon_set/work/todo-references/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg
   icon_set/work/todo-references/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg
   icon_set/work/todo-references/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg
@@ -1146,7 +929,6 @@ project here):
   icon_set/work/todo-references/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg
   icon_set/work/todo-references/tv retro_f213d74b-e15b-42ab-953a-a7a36392d15b.svg
   icon_set/work/todo-references/two browsers_bc5b8f6b-9808-4649-b8de-3183919fb832.svg
-  icon_set/work/todo-references/two person_3cc1e5a0-7adf-4f46-a078-1156080eff2f.svg
   icon_set/work/todo-references/type cursor_54b02242-5568-41c3-a69f-a06ca068bbf9.svg
   icon_set/work/todo-references/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg
   icon_set/work/todo-references/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg
@@ -1199,7 +981,7 @@ project here):
   icon_set/work/todo-references/war banner guild faction_c0fef2f7-6c93-5a77-973b-346d07d1e626.svg
   icon_set/work/todo-references/watch 1_36787a9c-eb9e-41da-9526-6bab99e3b789.svg
 
-- [ ] Run $primitive-make-ray on todo batch 55 of 55: draw each of these 19 reference files in order. (tp:7b07057a)
+- [ ] Run $primitive-make-ray on todo batch 55 of 55: draw each of these 18 reference files in order. (tp:7b07057a)
   icon_set/work/todo-references/watch hands_ab913828-297d-4c94-ab76-5b92952287d3.svg
   icon_set/work/todo-references/wave square_23bded82-26fd-41b4-9b35-3c4566fa527a.svg
   icon_set/work/todo-references/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg
@@ -1216,7 +998,6 @@ project here):
   icon_set/work/todo-references/worker lay off fired user group_b2246172-0139-4ee7-a764-6aaebc6974cf.svg
   icon_set/work/todo-references/workflow agreement_3c6ab24c-f835-4933-927e-e286153e4e97.svg
   icon_set/work/todo-references/workflow data table increasing arrow_bd44c072-c5cf-4191-b2b0-3681a58f3a3a.svg
-  icon_set/work/todo-references/x4 (text)_2aa72adc-73bd-4dc7-9a10-98093ab16af8.svg
   icon_set/work/todo-references/z wave logo_36316472-32cf-4e56-a2d2-8989a12c4e29.svg
   icon_set/work/todo-references/zcool logo_14555301-7f11-43db-978e-a383d12a3b27.svg
 
@@ -1225,6 +1006,189 @@ project here):
 
 
 ## Done
+
+- [x] Run $primitive-make-ray on todo batch 09 of 55: draw each of these 20 reference files in order. (tp:4f36fb1f)
+  icon_set/work/todo-references/circle peso_5237809e-84ca-4d2d-bd80-dd045d692a17.svg
+  icon_set/work/todo-references/circle rand_0347a479-eedb-4204-bff5-6fccfb03c880.svg
+  icon_set/work/todo-references/circle skull 1_0275d46c-9a52-48fb-9993-9a0c2a0a4b89.svg
+  icon_set/work/todo-references/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg
+  icon_set/work/todo-references/circle upload_3b83fd38-db3b-4974-b39c-fe72f9fbd03d.svg
+  icon_set/work/todo-references/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg
+  icon_set/work/todo-references/clapper_08ce9242-6dea-4459-b4d0-e91ada71f50a.svg
+  icon_set/work/todo-references/clean_9214cb47-7d20-45f8-a9b7-a4eb3d044121.svg
+  icon_set/work/todo-references/cleavage_0d0ebc6d-1584-496e-8a2f-d5c90dd3bab5.svg
+  icon_set/work/todo-references/clipboard text_3f07e720-0288-4625-8e49-dc8240a8d97e.svg
+  icon_set/work/todo-references/clipboard_8a44db68-8509-4e9a-b460-4143125c86a9.svg
+  icon_set/work/todo-references/clone_330e60bf-6b59-465a-9889-8e958e8dc7c3.svg
+  icon_set/work/todo-references/cloud with co2_75fb4fc6-e4f1-41a1-94d3-87656053d2cd.svg
+  icon_set/work/todo-references/clove_f6f8dff7-4bbf-4a12-a864-fabb05b563d8.svg
+  icon_set/work/todo-references/co working space plug users_2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4.svg
+  icon_set/work/todo-references/code build_8d435341-042f-470f-9af2-453657b4c06a.svg
+  icon_set/work/todo-references/coding apps website monitor image_a955fd25-e389-4525-81af-39146879565c.svg
+  icon_set/work/todo-references/cog dollar_fa84ff77-a565-4df3-9360-0b7e9c3de772.svg
+  icon_set/work/todo-references/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg
+  icon_set/work/todo-references/cog double_b484255b-2a40-40d1-9943-7e27cfb9f399.svg
+
+- [x] Run $primitive-make-ray on todo batch 08 of 55: draw each of these 20 reference files in order. (tp:6ff84512)
+  icon_set/work/todo-references/chat conversation love romance talk_207acda0-b0e1-481e-9cb8-b0522fe56419.svg
+  icon_set/work/todo-references/chat medical cross left_5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1.svg
+  icon_set/work/todo-references/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg
+  icon_set/work/todo-references/checkbook_8d44d13a-d1c5-42b4-bf53-5b096df50d2a.svg
+  icon_set/work/todo-references/checklist flip_b95d6c26-7b7d-49e3-9767-2ac2b43ed856.svg
+  icon_set/work/todo-references/chef gear tea cookies_8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7.svg
+  icon_set/work/todo-references/children safety door lock 1_94d5a32b-ed7e-407e-b22e-5de85f0623bf.svg
+  icon_set/work/todo-references/children safety door unlock 1_e3bcbac7-70e3-4df1-87c4-0e740b47f92b.svg
+  icon_set/work/todo-references/christmas postcard 2_6341f7cd-9be8-48da-9d1f-bb8141ad4804.svg
+  icon_set/work/todo-references/circle bell_917e9e90-88a8-4573-a98f-ec5901b6b21f.svg
+  icon_set/work/todo-references/circle button previous_20ae5ca1-a8f1-4814-bf9a-56405dc59ca4.svg
+  icon_set/work/todo-references/circle cart_820ef6ec-ae9c-4549-bebb-aa00a7135eb4.svg
+  icon_set/work/todo-references/circle colon_6a0ef6b0-613d-4883-ad08-e75fd510a4f6.svg
+  icon_set/work/todo-references/circle cursor down_9788749e-24b9-44e5-a889-9835629a9ef8.svg
+  icon_set/work/todo-references/circle cursor right_f3964f57-12c0-4eaf-8a13-4ca7af83fcd5.svg
+  icon_set/work/todo-references/circle cursor up_6ae653ed-26ec-4e31-85cc-4b1ca6029c5f.svg
+  icon_set/work/todo-references/circle cursor west_453d5cee-208b-4803-8d43-ec5df45da9f9.svg
+  icon_set/work/todo-references/circle dash_80efe6e9-97d5-4b01-92f9-8ae70857d4a6.svg
+  icon_set/work/todo-references/circle kips_abcbb9db-f5c8-434b-b898-b6580cddb672.svg
+  icon_set/work/todo-references/circle notch_9d22466c-f3d2-483e-8d05-604dbca040ce.svg
+
+- [x] Run $primitive-make-ray on todo batch 02 of 55: draw each of these 20 reference files in order. (tp:200dcd9f)
+  icon_set/work/todo-references/air purifier 6_bf822c40-fb14-440d-ab32-e996788e5deb.svg
+  icon_set/work/todo-references/align bottom move_5869dc11-5541-4b5c-b969-659cb0ebec19.svg
+  icon_set/work/todo-references/align left move_7ecb4322-bc08-40dc-b66a-56bc0ca7c7cb.svg
+  icon_set/work/todo-references/align left right_5425cb89-f044-4dee-aebe-1d7888040169.svg
+  icon_set/work/todo-references/align middle move horizontal_86dda6f0-7614-4dc9-a730-e1f0bac0dc02.svg
+  icon_set/work/todo-references/align right move_bc08c07e-fd43-4866-85c6-472f38121c0c.svg
+  icon_set/work/todo-references/align to selection_203f388b-ae9d-49e9-954c-36a0d5700c60.svg
+  icon_set/work/todo-references/align top bottom_f31f1d33-4050-4371-af56-548e54cec150.svg
+  icon_set/work/todo-references/align top move_c7665d4b-d589-4003-8834-958ea7cbf3a9.svg
+  icon_set/work/todo-references/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg
+  icon_set/work/todo-references/amazon eventbridge_34f87da9-e584-47f7-8fe0-ca66e9aa7da9.svg
+  icon_set/work/todo-references/amazon kinesis data analytics_8a60c977-db4f-4a2b-852f-9198df1fc339.svg
+  icon_set/work/todo-references/amazon kinesis data stream_8ea46fb3-7a36-440c-ba27-7abf8a868086.svg
+  icon_set/work/todo-references/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg
+  icon_set/work/todo-references/amazon web service codepipeline 1_12be411f-98cd-4c43-b650-b16b090dc516.svg
+  icon_set/work/todo-references/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg
+  icon_set/work/todo-references/amazon web service marketplaces cart_b98df773-88b9-4b59-bf8f-31bdee2160b2.svg
+  icon_set/work/todo-references/amber_3ccf997d-67a6-4970-9541-a4835906cdba.svg
+  icon_set/work/todo-references/ankle tracker_09ba7447-8f77-4033-ba06-5bf4e4d39449.svg
+  icon_set/work/todo-references/app window wifi_d12b5c6d-5cff-4f23-9893-76defe7ca390.svg
+
+- [x] Run $primitive-make-ray on todo batch 07 of 55: draw each of these 20 reference files in order. (tp:e8f7df47)
+  icon_set/work/todo-references/car dashboard gear_fa01e257-da76-436f-8013-7b6c13ededaf.svg
+  icon_set/work/todo-references/car flash_3cb36a1f-8edb-4e21-9623-b8c8fac724c3.svg
+  icon_set/work/todo-references/car wrench_5dd7944c-8248-40cb-8bd4-400ceb51cae0.svg
+  icon_set/work/todo-references/card game cards spade diamond_51de7530-e4b9-4207-92df-6b4ec157c6a4.svg
+  icon_set/work/todo-references/card game cards_5af5ae7c-c36a-44e3-b9a3-a6d9683548ab.svg
+  icon_set/work/todo-references/card game diamond_06613e74-a027-47c8-b187-3a062d3e942b.svg
+  icon_set/work/todo-references/card game dice_7313c8ec-d635-4b38-acd5-fea39286b43e.svg
+  icon_set/work/todo-references/card game heart_2d678d4e-3c28-4171-9206-0e44c564a983.svg
+  icon_set/work/todo-references/card kids_7500cf20-50c6-4ded-9bb2-320b91cd3da9.svg
+  icon_set/work/todo-references/cards_f0795efe-1c23-4dba-b1b0-4398677469cc.svg
+  icon_set/work/todo-references/caret left_f2568c29-ad52-4aef-a68c-f1a1ef4f8574.svg
+  icon_set/work/todo-references/carport_5b34dc81-b846-4bb2-ab08-2edb491e7e4a.svg
+  icon_set/work/todo-references/casket_9007be4f-bd2b-4d9b-8fbd-69729f165f40.svg
+  icon_set/work/todo-references/cell border none_e3f91117-c4e6-409b-8dc4-acb538db6880.svg
+  icon_set/work/todo-references/cell border right_b9c1cbac-5439-4b45-98c2-03e923e14b07.svg
+  icon_set/work/todo-references/cemetery_b1f8b254-d1a6-42ab-b2cf-3daadafa7358.svg
+  icon_set/work/todo-references/certificate_146cf283-3304-46a9-8cae-29ee66a6a52f.svg
+  icon_set/work/todo-references/charging battery empty 1_9a4c5ce8-1c07-4186-90bf-51f1f80db709.svg
+  icon_set/work/todo-references/charging battery flash empty_86ff6696-4ddd-4dd2-abe4-b1bbb2a48273.svg
+  icon_set/work/todo-references/charging flash wave_c8b3d9a1-bb0f-4df5-b706-4b00986008d6.svg
+
+- [x] Run $primitive-make-ray on todo batch 06 of 55: draw each of these 20 reference files in order. (tp:9086bc49)
+  icon_set/work/todo-references/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg
+  icon_set/work/todo-references/browser pound sign right_70992897-5703-44f1-b32b-410282375607.svg
+  icon_set/work/todo-references/browser pound sign_544f8a60-ccee-42bc-8507-07936210e82f.svg
+  icon_set/work/todo-references/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg
+  icon_set/work/todo-references/browser yuan sign right_f3a40f08-7124-46f5-9ed2-b85ee4e25e73.svg
+  icon_set/work/todo-references/browser yuan sign_fea32660-18d8-471e-9f27-73b635d24732.svg
+  icon_set/work/todo-references/brute force authentication password attack bash_2a272a63-d16a-4057-9c1a-7e52136b6784.svg
+  icon_set/work/todo-references/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg
+  icon_set/work/todo-references/bubble tea heart_d2f14f75-1ec0-41b0-83b6-100d1dcb63ea.svg
+  icon_set/work/todo-references/building user_f45d9583-295d-48ad-a334-df8ed9d7581c.svg
+  icon_set/work/todo-references/burrito_b3b9d031-1b14-49cd-b640-12d78e2f90f7.svg
+  icon_set/work/todo-references/business card hand 3_bcaaf2a2-b7c9-450b-836e-e0c294ab0564.svg
+  icon_set/work/todo-references/business card stack 1_c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41.svg
+  icon_set/work/todo-references/business contract approve_1ccecf6e-60d8-417b-accc-4a89121dd0ab.svg
+  icon_set/work/todo-references/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg
+  icon_set/work/todo-references/calendar number seven_d7201890-607e-4568-916a-e843756d3ef0.svg
+  icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg
+  icon_set/work/todo-references/calendar pie_8c9afa4f-6b92-41b3-8bcd-f538c69afde6.svg
+  icon_set/work/todo-references/camera file_ed808041-ff02-4ca5-8f86-337d16e29436.svg
+  icon_set/work/todo-references/canvas_e82ae3f4-3ab0-421b-9460-5df44f0236e9.svg
+
+- [x] Run $primitive-make-ray on todo batch 01 of 55: draw each of these 7 reference files in order. (tp:7b3e8505)
+  icon_set/work/todo-references/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
+  icon_set/work/todo-references/Mobile Phone Cube_23b1ca2a-c99d-4a4c-89e3-6ce9e447d5be.svg
+  icon_set/work/todo-references/Rh_d266c763-9fe0-4ff3-af2a-db0d0256c7cb.svg
+  icon_set/work/todo-references/a with sync arrow_8d0a0eeb-161b-49dd-b5f6-5bcfc4e716d9.svg
+  icon_set/work/todo-references/adder_77a84225-bc63-404c-8e7b-1890d0aceb3d.svg
+  icon_set/work/todo-references/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg
+  icon_set/work/todo-references/aerial yoga bow pose_4a1112c6-2f20-434b-b756-511460d08610.svg
+
+- [x] Run $primitive-make-ray on todo batch 05 of 55: draw each of these 20 reference files in order. (tp:5a6b3bee)
+  icon_set/work/todo-references/book library shelf 1_e655553e-73b0-4aa0-bcb2-9107df91c8e5.svg
+  icon_set/work/todo-references/book library shelf_2841f97c-3470-4026-a287-d82828da5d59.svg
+  icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg
+  icon_set/work/todo-references/booklet_9ee58df5-c0c8-43b8-ac76-5d6d676e8615.svg
+  icon_set/work/todo-references/bookmarks_71a4e1b5-a989-577a-ae92-6e701febd332.svg
+  icon_set/work/todo-references/border_501f8434-1c77-49b7-b942-1e6d06061b3f.svg
+  icon_set/work/todo-references/boss desk document_18c142d2-e82e-43f2-97e5-93f5983b8bd6.svg
+  icon_set/work/todo-references/bower logo_ff183e37-2bed-4312-ad52-11655fc8a512.svg
+  icon_set/work/todo-references/box pen_a89e6154-b80a-49dd-8449-f86a088a5c81.svg
+  icon_set/work/todo-references/box remove_664d5dec-e292-48a0-b893-09339844ebf6.svg
+  icon_set/work/todo-references/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg
+  icon_set/work/todo-references/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg
+  icon_set/work/todo-references/brochure_1b6e6f08-5d4f-400d-965f-e902b3202598.svg
+  icon_set/work/todo-references/broken tab remove_b55ec75b-a606-4e27-845e-2f640329c00f.svg
+  icon_set/work/todo-references/browser dollar sign right_150d4701-3c3f-45a7-a26d-8c580a891da1.svg
+  icon_set/work/todo-references/browser euro sign right_0ede8d22-cb57-4794-b361-c89627ccda77.svg
+  icon_set/work/todo-references/browser euro sign_2445526d-6d27-4ec9-a2bd-a7623908795b.svg
+  icon_set/work/todo-references/browser page layout_b14caff0-05ed-47b9-bade-e59579619967.svg
+  icon_set/work/todo-references/browser page text 2_b317a6a6-fb5f-4063-b4ca-9345a6cec436.svg
+  icon_set/work/todo-references/browser page text_bfd2ddb1-65f9-4a12-9c60-693529e81c85.svg
+
+- [x] Run $primitive-make-ray on todo batch 04 of 55: draw each of these 19 reference files in order. (tp:6a42fd9a)
+  icon_set/work/todo-references/award wall_8e659963-5f68-4c80-963b-528218ccf29f.svg
+  icon_set/work/todo-references/award_4be122ae-6b9c-44a4-84d9-7652d7d7eac8.svg
+  icon_set/work/todo-references/bacteria magnifying glass_713363eb-bbe5-4962-bce9-7de2465bfdd4.svg
+  icon_set/work/todo-references/badge 1_83414ae1-83ad-4f09-a7d9-9c6c5864840a.svg
+  icon_set/work/todo-references/badge arrow_e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8.svg
+  icon_set/work/todo-references/baggage weight_ee2a071e-6904-4d7d-a879-a7315aec3bd6.svg
+  icon_set/work/todo-references/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg
+  icon_set/work/todo-references/bankbook_4512686f-a1a4-47d7-aba0-6b0d998def04.svg
+  icon_set/work/todo-references/bathroom mirror_db5fe124-1329-594f-9463-63ea811fbf4d.svg
+  icon_set/work/todo-references/battery low_770858fe-6109-4d1a-9d0f-cda2b82a34e1.svg
+  icon_set/work/todo-references/binary_abff6337-b854-552e-afe3-b89605887cad.svg
+  icon_set/work/todo-references/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
+  icon_set/work/todo-references/blind file_98829c19-571e-403d-8c1e-efe6e085e23e.svg
+  icon_set/work/todo-references/blizzards 1_3a3fc291-ab2c-40c0-839b-984efa538590.svg
+  icon_set/work/todo-references/block_066b21a8-f091-485c-bcec-dbf7bacab23b.svg
+  icon_set/work/todo-references/bnter logo_f2e0c651-d48a-403a-b9be-ca4d6dfd34d6.svg
+  icon_set/work/todo-references/board 1_3ac51a01-49f8-4fab-833e-bfbdf004114a.svg
+  icon_set/work/todo-references/board_60aa39e1-d2fe-4d1f-8318-25cc5ae93a29.svg
+  icon_set/work/todo-references/bomb explode_bf3695d0-7417-50cb-93e5-008403f18c82.svg
+
+- [x] Run $primitive-make-ray on todo batch 03 of 55: draw each of these 19 reference files in order. (tp:b5a0d053)
+  icon_set/work/todo-references/aquarium_4fb53005-bb60-46fd-bc0e-7ea549f599e9.svg
+  icon_set/work/todo-references/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg
+  icon_set/work/todo-references/arrow up 3_5cb31408-59f1-4f35-b964-02c5190426a4.svg
+  icon_set/work/todo-references/arrows spin_e63cb3c3-10bb-4fb1-a675-1e6b119047a5.svg
+  icon_set/work/todo-references/artboard_e4f23897-a7eb-4701-9482-a5a315ef920f.svg
+  icon_set/work/todo-references/asalha puja_8c539ea0-c1e4-4239-86da-777c9408c3f4.svg
+  icon_set/work/todo-references/astrology pentagram_815729c9-6c87-5e37-9c96-2f46aa26c6eb.svg
+  icon_set/work/todo-references/astrology_240b3739-6bb7-5bfa-832d-48a5bdaa33e8.svg
+  icon_set/work/todo-references/astronomy planet saturn 1_d3179da3-e2e2-4329-8932-7b3c8044a535.svg
+  icon_set/work/todo-references/athletics running 1_bbab0c61-cd66-44e3-8954-bcb31ddc3d23.svg
+  icon_set/work/todo-references/attic_fb7f6046-2a65-481a-a7cb-a6d495e10e76.svg
+  icon_set/work/todo-references/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg
+  icon_set/work/todo-references/audio book headphones_b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a.svg
+  icon_set/work/todo-references/auth0 logo_d0e05ee8-d54e-432a-913a-ebf397d5cad1.svg
+  icon_set/work/todo-references/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg
+  icon_set/work/todo-references/auto pilot car radius_8a6f5388-93e2-4e87-bb21-8db3666f5c20.svg
+  icon_set/work/todo-references/auto pilot car signal 1_148a6d3d-6e93-44b0-ad9c-3c3c30856f29.svg
+  icon_set/work/todo-references/auto setting column width_64ed5636-8e1f-4fbd-8a7a-ba14ed99b301.svg
+  icon_set/work/todo-references/automatic drive gear_f89489d3-928e-4d8e-8a13-9ff760315c90.svg
 
 - [x] Run $primitive-make-ray 30 times. (tp:1c908e93)
 

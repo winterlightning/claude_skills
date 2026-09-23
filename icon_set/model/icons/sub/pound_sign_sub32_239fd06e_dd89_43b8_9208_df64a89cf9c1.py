@@ -38,3 +38,14 @@ class Drawing(Sub32):
         self.relate("connect", 'p1-r1-4', 'p2-r1-1')
         self.relate("connect", 'p1-r1-4', 'p2-r1-2')
         self.relate("connect", 'p1-r1-5', 'p3-r1-1')
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'pound-sign-sub32': {'status': 'fixed',
+                      'date': '2026-09-23',
+                      'author': 'gpt-6',
+                      'source_icon_id': '239fd06e-dd89-43b8-9208-df64a89cf9c1',
+                      'failures_at_review': ['canvas/keyshape bounds: visible ink (3, 0, 29, 32) '
+                                             'does not match the VRECT_XL envelope (2, 0, 30, 32) '
+                                             '(deltas [1.0, 0.0, 1.0, 0.0], tolerance 0.0)'],
+                      'variant': 'pound-sign-sub32-v2',
+                      'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}

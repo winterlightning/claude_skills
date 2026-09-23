@@ -1,0 +1,44 @@
+{
+  "concept": "baggage weight",
+  "source_uuid": "ee2a071e-6904-4d7d-a879-a7315aec3bd6",
+  "reference_path": "icon_set/work/todo-references/baggage weight_ee2a071e-6904-4d7d-a879-a7315aec3bd6.svg",
+  "icon_id": "baggage-weight",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition uses the 36 by 36 centerline envelope.",
+  "description": "A suitcase on a baseline beneath a floating weighing dial.",
+  "symbol_plan": "Symmetric dial and case around x24; the needle is deliberately diagonal; handle joins the case roof.",
+  "construction_reference": "search: a round dial; rectangle-horizontal: rounded case corners.",
+  "validation_status": "invalid",
+  "validation_errors": 6,
+  "validation_warnings": 0,
+  "validation_findings": "status: invalid\n  ERROR  mic [handle]: parallel straight edges handle-2 and roof-left, roof-middle, roof-right are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [case]: parallel straight edges roof-left, roof-middle, roof-right and stripe are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [stripe]: parallel straight edges stripe and case-bottom are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [dial]: dial and needle are 3.75708 apart on centerlines nearest (29.6891, 8.37615)<->(27, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [dial]: dial and handle are 4 apart on centerlines nearest (24, 22)<->(24, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [case]: case and stripe are 5 apart on centerlines nearest (21, 32)<->(21, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n",
+  "visual_review": "Light/dark native and enlarged inspection: dial, suitcase, handle and baseline remain identifiable, but the needle approaches the rim and the handle and case openings are crowded. Not approved; retain the failed candidate for manual review.",
+  "visual_review_themes": [
+    "light",
+    "dark"
+  ],
+  "visual_review_sizes": [
+    48,
+    192
+  ],
+  "omissions": [
+    "Reduced the two suitcase stripes to one to reserve room for the handle and dial."
+  ],
+  "module": "baggage_weight_ee2a071e_6904_4d7d_a879_a7315aec3bd6.py",
+  "svg": "baggage-weight.svg",
+  "artifacts": [
+    "baggage-weight.metadata.json",
+    "baggage-weight.svg",
+    "baggage_weight_ee2a071e_6904_4d7d_a879_a7315aec3bd6.py",
+    "dark-192.png",
+    "dark-48.png",
+    "design-notes.json",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "validation-status.json",
+    "validation.txt"
+  ]
+}

@@ -38,3 +38,25 @@ class Drawing(Sub32):
         self.relate('connect', 'currency', 'tick-2--1')
         self.relate('connect', 'currency', 'tick-2-1')
         self.add_anchor('center',(16, 16))
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'bitcoin-cryptocurrency-symbol-sub32': {'status': 'cannot-fix',
+                                         'date': '2026-09-23',
+                                         'author': 'gpt-6',
+                                         'source_icon_id': '056563c8-a6c4-4201-b355-6ff5f08795ea',
+                                         'failures_at_review': ['mic [outline]: outline and '
+                                                                'tick--6-1 are 3.18322 apart on '
+                                                                'centerlines nearest (8.24777, '
+                                                                '27.6576)<->(10, 25); SUB32 '
+                                                                'requires at least 6 (ink '
+                                                                'clearance 2) unless the contact '
+                                                                'is declared with a scoped '
+                                                                '`connect` relationship'],
+                                         'blocker': 'The circle, two B bowls, middle bar, and '
+                                                    'paired stem tips cannot maintain 8px parallel '
+                                                    'stroke spacing and 6px frame clearance '
+                                                    'together',
+                                         'attempts': ['Original 32px B: frame-to-terminal MIC 3.18',
+                                                      'Compact 32px B: parallel stem and bowl gaps '
+                                                      '6 (<8), frame-to-tip gap 5.94 (<6)'],
+                                         'evidence': 'icon_set/work/side-sub-repairs-2026-09-23/strict32-evidence'}}
