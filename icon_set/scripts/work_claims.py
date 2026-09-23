@@ -9,17 +9,17 @@ that revision. The review statuses are the ones reviewers know plus one::
     claimed      a worker is on it; ``worker`` and ``claimed_at`` say who and since when
     approve / rejected   reviewer decisions, never claimable
 
-The ``work.state`` the API reports is derived from that row and the clock:
+The ``work.state`` the API reports is derived from that row and the clock, and
+follows the worker's path: Claimed -> Done or Cannot fix.
 
-    open        disapproved and nobody on it: claimable
     claimed     review status claimed, less than LEASE_HOURS ago
     done        ready, set by a worker's ``done`` report (feedback kept for review)
     cannot-fix  disapproved, but a worker gave up: ``worker`` and ``note`` stay on
                 the row so the queue skips it until a reviewer decides again
-    none        every other status
+    null        nobody has worked on this revision; a Disapproved one is claimable
 
 A claim older than LEASE_HOURS has expired: ``release_expired`` sets the row back
-to Disapproved (worker cleared) and it is ``open`` again; no heartbeat exists. A
+to Disapproved (worker cleared) and its work state is null again; no heartbeat exists. A
 deployed fix changes the hash, so the new revision starts Ready with no row; the
 old row stays as history. A reviewer who sets any status through the gallery
 clears the claim columns, so disapproving a ``done`` or ``cannot-fix`` icon again
@@ -36,7 +36,8 @@ import re
 
 LEASE_HOURS = 6
 DISAPPROVED = ('pending', 'claimed')  # the review statuses that mean "needs a fix"
-CLAIMABLE = ('open',)
+STATES = ('claimed', 'done', 'cannot-fix')
+CLAIMABLE = (None,)  # a Disapproved revision with no work state
 MAX_WORKER = 120
 MAX_NOTE = 4000
 MAX_QUEUE = 500
@@ -227,25 +228,25 @@ def expires_at(row):
     return (claimed + timedelta(hours=LEASE_HOURS)).isoformat() if claimed else None
 
 
-def work_state(row, now) -> str:
-    """The work state of one revision, from its review row and the clock."""
-    if not row:
-        return 'none'
+def work_state(row, now):
+    """The work state of one revision (claimed, done, cannot-fix) or None, from its review row and the clock."""
+    if not row or not row.get('worker'):
+        return None
     status = row['status']
     if status == 'pending':
-        return 'cannot-fix' if row.get('worker') else 'open'
+        return 'cannot-fix'
     if status == 'claimed':
         claimed = parse_time(row.get('claimed_at'))
-        return 'claimed' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else 'open'  # expired: released on next write
-    if status == 'ready' and row.get('worker'):
+        return 'claimed' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else None  # expired: released on next write
+    if status == 'ready':
         return 'done'
-    return 'none'
+    return None
 
 
 def work_field(row, state) -> dict:
-    """What the API returns under ``work``."""
+    """What the API returns under ``work``: ``{state: null}`` when nobody has worked on the revision."""
     field = {'state': state}
-    if row and row.get('worker') and state != 'open':
+    if row and row.get('worker') and state is not None:
         field.update(worker=row['worker'], note=row.get('note') or '', claimed_at=row.get('claimed_at'),
                      updated_at=row.get('updated_at'), svg_sha256=row['svg_sha256'])
         if row['status'] == 'claimed':
@@ -350,7 +351,7 @@ def listing(connection, catalog, decisions, now) -> dict:
         if not icon or (icon.get('svg_sha256') or '') != sha or not row.get('worker'):
             continue
         state = work_state(row, now)
-        if state in ('none', 'open'):
+        if state is None:
             continue
         decision = decisions.get(key)
         result.append(dict(work_field(row, state), icon=key, current=True,
@@ -373,7 +374,7 @@ def review_listing(connection, catalog, decisions, query, now) -> dict:
         ordered = [item for item in ordered if item['status'] == status]
     counts = {}
     for item in items:
-        counts[item['work']['state']] = counts.get(item['work']['state'], 0) + 1
+        counts[item['work']['state'] or 'unclaimed'] = counts.get(item['work']['state'] or 'unclaimed', 0) + 1
     return {'total': len(ordered), 'offset': offset, 'next_offset': offset + limit if offset + limit < len(ordered) else None,
             'counts': counts, 'items': ordered[offset:offset + limit]}
 
@@ -411,7 +412,7 @@ def claim(connection, key, sha, worker, *, decision, now, record, user) -> dict:
 def _own_claim(connection, key, sha, worker, now, verb):
     row, state = _current(connection, key, sha, now)
     if state != 'claimed':
-        raise WorkError(f'No active claim to {verb}; this revision is {state}.', 409, work_field(row, state))
+        raise WorkError(f'No active claim to {verb}; this revision is {state or "not claimed"}.', 409, work_field(row, state))
     if row['worker'] != worker:
         raise WorkError(f'This claim belongs to {row["worker"]}, not {worker}.', 409, work_field(row, state))
     return row
@@ -444,10 +445,10 @@ def abandon(connection, key, sha, worker, *, decision, now, record, user) -> dic
     worker = validate_worker(worker)
     row, state = _current(connection, key, sha, now)
     if state not in ('claimed', 'cannot-fix'):
-        raise WorkError(f'There is no claim to release; this revision is {state}.', 409 if row else 404, work_field(row, state))
+        raise WorkError(f'There is no claim to release; this revision is {state or "not claimed"}.', 409 if row else 404, work_field(row, state))
     connection.execute("UPDATE reviews SET status='pending', worker=NULL, claimed_at=NULL, note='' WHERE icon=? AND svg_sha256=?", (key, sha))
     record(connection, user, 'work_abandon', key, svg_sha256=sha, worker=row['worker'], released_by=worker, previous_state=state)
-    return {'work': work_field(None, 'open')}
+    return {'work': work_field(None, None)}
 
 
 def history(connection, catalog, decisions, key, now) -> dict:
@@ -472,7 +473,7 @@ def history(connection, catalog, decisions, key, now) -> dict:
         entry['review'] = {'status': public_status(row['status']), 'updated_by': row['updated_by'], 'updated_at': row['updated_at']}
         seen(entry, row['updated_at'])
         state = work_state(row, now)
-        if row.get('worker') and state not in ('none', 'open'):
+        if state is not None:
             entry['claim'] = work_field(row, state)
             seen(entry, row['claimed_at'])
     for row in connection.execute('SELECT id, svg_sha256, reason, feedback, author, created_at, edited_by, edited_at FROM feedback WHERE icon=? ORDER BY id', (key,)):
@@ -503,5 +504,5 @@ def history(connection, catalog, decisions, key, now) -> dict:
             'python_source': icon.get('python_source'),
             'current': {'svg_sha256': current_sha, 'status': current['review']['status'],
                         'updated_by': current['review']['updated_by'], 'updated_at': current['review']['updated_at'],
-                        'work': current['claim'] or {'state': 'open' if current['review']['status'] == 'disapprove' else 'none'}},
+                        'work': current['claim'] or {'state': None}},
             'revisions': ordered, 'events': events}

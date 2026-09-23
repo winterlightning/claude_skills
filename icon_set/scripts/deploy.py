@@ -1305,7 +1305,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return {'state': 'unknown', 'error': error}
             row = table.get(key)
             if not row or row.get('svg_sha256') != sha:
-                return {'state': 'open'}
+                return {'state': None}
             return {k: v for k, v in row.items() if k not in ('icon', 'current', 'status')}
         return remote
 

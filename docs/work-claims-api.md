@@ -45,17 +45,17 @@ Oldest disapproval first. Page with `next_offset` until it is `null`.
       "reason": "bad-stroke", "feedback": "Bad stroke drawn\n\nThe arms are not equal.",
       "disapproved_by": "hina", "disapproved_at": "2026-09-23T06:20:37+00:00", "feedback_by": "hina",
       "icon_type": null,
-      "work": {"state": "open"}
+      "work": {"state": null}
     }
   ]
 }
 ```
 
-`work.state` tells you what to do:
+`work.state` follows the worker's path, `claimed` → `done` or `cannot-fix`, and tells you what to do:
 
 | state | meaning | in `queue`? |
 |---|---|---|
-| `open` | Disapproved and nobody is on it (a claim older than six hours is set back to this) | yes |
+| `null` | nobody has worked on it; Disapproved, so claimable (a claim older than six hours is set back to this) | yes |
 | `claimed` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
 | `done` | review status `ready` set by a worker's report; waiting for the reviewer | no |
 | `cannot-fix` | Disapproved, but a worker gave up (`work.worker`, `work.note`); a reviewer decision or `abandon` reopens it | no |
@@ -112,7 +112,7 @@ Refusals you will see:
 The claim is one conditional update on the review row (`status = 'claimed'`
 only where it was Disapproved with no worker, or an expired claim), so two
 machines can never both win. Six hours after `claimed_at` the row goes back to
-Disapproved and `open`; there is nothing to extend.
+Disapproved with no work state; there is nothing to extend.
 Upload the current drawing as the `before` result (step 4a) if you want the
 before/after view in step 5.
 
@@ -140,7 +140,7 @@ git commit -m "Fix sub/plus" && git push origin icon-lib
 The per-icon build writes that icon's SVG, manifest row, metadata and gallery
 entry into `published/`. Production receives the new drawing on its next pull.
 Finish within six hours of the claim; after that the icon is Disapproved and
-`open` to other machines again.
+claimable by other machines again.
 
 ## 4a. Upload the result
 
@@ -256,7 +256,7 @@ Read it like this:
   new revision is `ready` with no claim (the example above); the old revision
   keeps its `done` row as history. The reviewer then approves it
   (`current.status` becomes `approve`) or disapproves it again (`disapprove`,
-  which clears the worker and puts the icon back in the queue as `open`).
+  which clears the worker and puts the icon back in the queue).
 
 **Before and after drawings**, for comparing:
 
@@ -270,7 +270,7 @@ curl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg                  
 **All fixed icons awaiting review**, or any other state:
 
 ```bash
-curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, claimed, cannot-fix, open
+curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, claimed, cannot-fix
 curl --fail-with-body "$API_BASE/api/work/review?status=approve"    # by review status
 ```
 

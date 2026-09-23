@@ -1000,9 +1000,10 @@ icons at once, so a fix claim is a **review status** on the same `reviews`
 row: Disapproved (`pending`) → **Claimed** (`worker`, `claimed_at`) → Ready
 (reported `done`, feedback kept for the reviewer), or back to Disapproved with
 the worker and a `note` kept when the worker reports cannot-fix. The API
-derives a `work.state` from that row and the clock: `open`, `claimed`, `done`
-or `cannot-fix`; a claim older than six hours is set back to Disapproved and
-`open` on the next work call, with no heartbeat. A claim is one conditional
+derives a `work.state` from that row and the clock, following the worker's
+path: `claimed`, then `done` or `cannot-fix` (null when nobody worked on the
+revision); a claim older than six hours is set back to Disapproved with no
+work state on the next work call, with no heartbeat. A claim is one conditional
 update, so two machines can never both win; any reviewer decision in the
 gallery clears the worker, so disapproving a done or cannot-fix icon again puts
 it straight back in the queue.

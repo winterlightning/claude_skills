@@ -83,7 +83,7 @@ class PrimitiveFixTests(ServerBase):
         revision = history['revisions'][0]
         self.assertEqual(revision['claim']['worker'], 'thuan-mac')
         self.assertEqual(revision['results']['before']['has_python'], True)
-        self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'open')
+        self.assertIsNone(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'])
         with patch('sys.stdout', io.StringIO()), patch('sys.stderr', io.StringIO()):
             code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
                                        'start', '--limit', '5', '--disapprove-status', 'other'])

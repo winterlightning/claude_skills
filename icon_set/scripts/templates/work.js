@@ -1,7 +1,8 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {open: 'Open · not claimed', claimed: 'Claimed', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', none: '—'};
+  const STATE_LABELS = {unclaimed: 'Not claimed', claimed: 'Claimed', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
+  const stateOf = row => row.work.state || 'unclaimed';
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   let rows = [], page = 1, loading = false;
@@ -83,7 +84,7 @@
     const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value, reason = $('workReason').value;
     const query = $('workSearch').value.trim().toLowerCase();
     const mine = $('workMine').checked && worker();
-    return rows.filter(row => (!family || row.family === family) && (!state || row.work.state === state) && (!status || row.status === status)
+    return rows.filter(row => (!family || row.family === family) && (!state || stateOf(row) === state) && (!status || row.status === status)
       && (!mine || row.work.worker === mine)
       && (!reason || (reason === 'missing' ? !row.reason : row.reason === reason))
       && (!query || [row.key, row.name, row.work.worker, row.feedback, row.disapproved_by, row.work.note].join(' ').toLowerCase().includes(query)));
@@ -106,8 +107,8 @@
 
   function render() {
     const counts = {};
-    for (const row of rows) counts[row.work.state] = (counts[row.work.state] || 0) + 1;
-    $('workSummary').replaceChildren(...['', 'open', 'claimed', 'done', 'cannot-fix'].map(state => {
+    for (const row of rows) counts[stateOf(row)] = (counts[stateOf(row)] || 0) + 1;
+    $('workSummary').replaceChildren(...['', 'unclaimed', 'claimed', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
@@ -146,7 +147,7 @@
       feedback.append(summaryLine, text);
       disapproval.append(meta, feedback);
       tr.append(cell(disapproval));
-      const stateCell = cell(badge('state', row.work.state, STATE_LABELS[row.work.state] || row.work.state));
+      const stateCell = cell(badge('state', stateOf(row), STATE_LABELS[stateOf(row)] || stateOf(row)));
       if ((row.work.results || []).includes('after')) stateCell.append(badge('result', 'after', 'fix uploaded'));
       tr.append(stateCell);
       tr.append(cell(row.work.worker ? (row.work.worker === worker() ? row.work.worker + ' (you)' : row.work.worker) : '—'));
@@ -218,7 +219,7 @@
     if (!claimed) verdict.textContent = 'No fix claim yet: the drawing shown is the one the reviewer disapproved.';
     else if (claimed.current) verdict.textContent = claimed.claim.state === 'done'
       ? 'Reported fixed by ' + claimed.claim.worker + ', but the new drawing has not reached production yet (same revision). The change will appear after the next production pull.'
-      : 'This revision is ' + STATE_LABELS[claimed.claim.state].toLowerCase() + '; the drawing has not changed on production yet.';
+      : 'This revision is ' + (STATE_LABELS[claimed.claim.state] || claimed.claim.state || 'not claimed').toLowerCase() + '; the drawing has not changed on production yet.';
     else verdict.textContent = 'The fix was deployed: the current revision differs from the one that was claimed. Compare the drawings above.';
     panel.append(verdict);
     if (claimed && claimed.results && (claimed.results.before?.has_python || claimed.results.after?.has_python || claimed.results.after?.has_validation)) {
@@ -290,7 +291,7 @@
       case 'work_done': return 'Reported done by ' + d.worker + (d.note ? ' · ' + d.note : '');
       case 'work_cannot_fix': return 'Reported cannot fix by ' + d.worker + (d.note ? ' · ' + d.note : '');
       case 'work_abandon': return 'Claim of ' + d.worker + ' released by ' + d.released_by + (d.previous_state ? ' (was ' + d.previous_state + ')' : '');
-      case 'work_expired': return 'Claim of ' + d.worker + ' expired' + (d.taken_by ? ' · taken by ' + d.taken_by : ' · open again');
+      case 'work_expired': return 'Claim of ' + d.worker + ' expired' + (d.taken_by ? ' · taken by ' + d.taken_by : ' · disapproved again, not claimed');
       default: return event.action.replaceAll('_', ' ') + (Object.keys(d).length ? ' · ' + JSON.stringify(d) : '');
     }
   }
