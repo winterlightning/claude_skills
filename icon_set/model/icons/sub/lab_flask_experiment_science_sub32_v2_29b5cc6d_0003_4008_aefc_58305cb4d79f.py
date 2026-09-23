@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a7804f8928e3355216fab37ef608b0b62b7975848ef0d27e353d3
 
 class DrawingVariant2(Sub32):
     icon_id = 'lab-flask-experiment-science-sub32-v2'
-    variant_of = 'lab-flask-experiment-science-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

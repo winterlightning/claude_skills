@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '289e8424138ee365ea9675a60bced483833aa53253ef39ca5fab2
 
 class DrawingVariant2(Sub32):
     icon_id = 'person-with-center-parted-hair-sub32-v2'
-    variant_of = 'person-with-center-parted-hair-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

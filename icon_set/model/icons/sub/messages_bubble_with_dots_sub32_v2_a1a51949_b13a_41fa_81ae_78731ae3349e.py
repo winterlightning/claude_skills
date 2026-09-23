@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '39f8291b05f35e684ddf67feec2714d56e71bdfd75efac63617f2
 
 class DrawingVariant2(Sub32):
     icon_id = 'messages-bubble-with-dots-sub32-v2'
-    variant_of = 'messages-bubble-with-dots-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

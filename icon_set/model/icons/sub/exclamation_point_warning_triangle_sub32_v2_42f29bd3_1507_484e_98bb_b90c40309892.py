@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '4527c73c3453bc70aa7b4e7dbbe251d34863d0f19f843b79cde55
 
 class DrawingVariant2(Sub32):
     icon_id = 'exclamation-point-warning-triangle-sub32-v2'
-    variant_of = 'exclamation-point-warning-triangle-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0ef6b411da6b7386ef6749579636e81996fb3979e24ac16b1ff79
 
 class DrawingVariant2(Sub32):
     icon_id = 'notification-bell-reference-072a73b7-1a6e-4972-9c99-c1bf69a5e759-sub32-v2'
-    variant_of = 'notification-bell-reference-072a73b7-1a6e-4972-9c99-c1bf69a5e759-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

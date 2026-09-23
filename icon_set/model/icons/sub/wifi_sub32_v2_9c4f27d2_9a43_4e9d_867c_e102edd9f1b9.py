@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '08e98cce167e74f1102bdab222a8ad6789a52d4b398fb8ced78a3
 
 class DrawingVariant2(Sub32):
     icon_id = 'wifi-sub32-v2'
-    variant_of = 'wifi-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

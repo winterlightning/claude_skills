@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '656440a3f26cdafe16d3d8195de80e8a5e75427797efdd258be06
 
 class DrawingVariant2(Sub32):
     icon_id = 'managed-service-search-sub32-v2'
-    variant_of = 'managed-service-search-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

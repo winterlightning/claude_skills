@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'f8984b6f8ad8c4ba37ca4ae88c4a981fc5236f9bad4541f8aebd3
 
 class DrawingVariant2(Sub32):
     icon_id = 'bag-bf5296da-sub32-v2'
-    variant_of = 'bag-bf5296da-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

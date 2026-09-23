@@ -33,6 +33,16 @@ def primitive_results_dir(root=REPO_ROOT):
     return Path(root) / 'icon_set' / 'work' / 'primitive-make-ray'
 
 
+def side_main_results_dir(root=REPO_ROOT):
+    """Standalone side-main results, separate from published catalogs and runtime state."""
+    return Path(root) / 'icon_set' / 'work' / 'side-main-make-thuan'
+
+
+def side_sub_results_dir(root=REPO_ROOT):
+    """Standalone side-sub results, separate from published catalogs and runtime state."""
+    return Path(root) / 'icon_set' / 'work' / 'side-sub-make-thuan'
+
+
 PUBLISHED_DIST = build_dist()
 DEFAULT_DIST = PUBLISHED_DIST
 DEFAULT_PNG = preview_dir()

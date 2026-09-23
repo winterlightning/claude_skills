@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd5f58e07738e0d621e1ea16e28b9d357c769a39e443b5f5dc7293
 
 class DrawingVariant2(Sub32):
     icon_id = 'cargo-ship-sub32-v2'
-    variant_of = 'cargo-ship-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

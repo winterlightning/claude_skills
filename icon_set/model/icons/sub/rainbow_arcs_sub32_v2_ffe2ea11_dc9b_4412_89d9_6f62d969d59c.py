@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'dcdb5a295e2a9ffe1d326ffeb613ed7bba7e24a93b9b05789dcfe
 
 class DrawingVariant2(Sub32):
     icon_id = 'rainbow-arcs-sub32-v2'
-    variant_of = 'rainbow-arcs-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'

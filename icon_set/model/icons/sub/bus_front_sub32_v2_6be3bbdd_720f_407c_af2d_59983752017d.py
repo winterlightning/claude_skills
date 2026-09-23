@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'a515514d2accbf20d8e88d0f111e037fe0a3fb605e3b5591d47aa
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bus-front-sub32'
     icon_id = 'bus-front-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

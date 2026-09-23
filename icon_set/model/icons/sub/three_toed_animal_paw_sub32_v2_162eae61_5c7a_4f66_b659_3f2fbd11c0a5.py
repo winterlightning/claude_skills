@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '97e14db0f190787388dc6913bc426cf24f0f12f95de4197689b02
 
 class DrawingVariant2(Sub32):
     icon_id = 'three-toed-animal-paw-sub32-v2'
-    variant_of = 'three-toed-animal-paw-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

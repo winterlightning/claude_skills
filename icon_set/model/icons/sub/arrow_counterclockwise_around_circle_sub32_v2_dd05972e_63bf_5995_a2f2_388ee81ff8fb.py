@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '633f158385c05f040c0b56e524b71d8345ad9deb2eb53ea828426
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'arrow-counterclockwise-around-circle-sub32'
     icon_id = 'arrow-counterclockwise-around-circle-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

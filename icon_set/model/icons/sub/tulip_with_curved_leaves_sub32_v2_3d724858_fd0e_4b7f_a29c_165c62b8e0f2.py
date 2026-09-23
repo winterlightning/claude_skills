@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '4464cc32a8460746dc9d4f9a337855db876c96b747153fcec5d7c
 
 class DrawingVariant2(Sub32):
     icon_id = 'tulip-with-curved-leaves-sub32-v2'
-    variant_of = 'tulip-with-curved-leaves-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

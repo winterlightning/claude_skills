@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a453e1b32864b0cbb9a7d310bda7543aa788eb898dee362ded585
 
 class DrawingVariant2(Sub32):
     icon_id = 'grid-globe-sub32-v2'
-    variant_of = 'grid-globe-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

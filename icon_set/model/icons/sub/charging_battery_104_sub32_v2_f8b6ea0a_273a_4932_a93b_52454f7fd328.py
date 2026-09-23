@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'bce7e3dc67e2bbf7ede8ce6ed99985ce7ae0e0bf332ad8f331136
 
 class DrawingVariant2(Sub32):
     icon_id = 'charging-battery-104-sub32-v2'
-    variant_of = 'charging-battery-104-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

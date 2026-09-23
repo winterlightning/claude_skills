@@ -15,10 +15,6 @@ project here):
 
 - [ ] Run $primitive-make-ray 30 times. (tp:f33b1e19)
 
-- [ ] Run $primitive-make-ray 30 times. (tp:1c908e93)
-
-- [ ] Run $primitive-make-ray 30 times. (tp:ae6d4b60)
-
 - [ ] Run $primitive-make-ray 30 times. (tp:e1318271)
 
 - [ ] Run $primitive-make-ray 30 times. (tp:6a6c1bbe)
@@ -213,7 +209,14 @@ project here):
 
 ## Done
 
+- [x] Run $primitive-make-ray 30 times. (tp:1c908e93)
+
 - [x] Run $primitive-make-ray 30 times. (tp:d234d708)
 
 - [x] Run $primitive-make-ray 30 times. (tp:0914cfc0)
+
+
+## Failed
+
+- [ ] Run $primitive-make-ray 30 times. (tp:ae6d4b60)
 

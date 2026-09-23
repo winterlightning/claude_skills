@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'fd061383d4724e84344b7d1a07e4103e71c657c50ff4965ed041d
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'biometric-fingerprint-sub32'
     icon_id = 'biometric-fingerprint-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

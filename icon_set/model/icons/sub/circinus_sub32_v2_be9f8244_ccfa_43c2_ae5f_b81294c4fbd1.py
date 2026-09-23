@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '61055bf0f80c248bfafae792ce040276c3b0d47254c65e00b81e9
 
 class DrawingVariant2(Sub32):
     icon_id = 'circinus-sub32-v2'
-    variant_of = 'circinus-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

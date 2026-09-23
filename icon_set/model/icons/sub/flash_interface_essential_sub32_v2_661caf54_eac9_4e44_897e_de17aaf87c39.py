@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'b0f5a0c0363b2e76d473dfd74bb38ac1f539260b41a6a164bc543
 
 class DrawingVariant2(Sub32):
     icon_id = 'flash-interface-essential-sub32-v2'
-    variant_of = 'flash-interface-essential-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

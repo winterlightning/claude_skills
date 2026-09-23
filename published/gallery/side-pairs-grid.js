@@ -1,11 +1,16 @@
-/* Side pairs as a grid of combined 64×64 icons. Subs are shown on the 32×32 system;
-   a pair with several subs keeps one and removes the others from the set. */
-let sidePairs=null, sidePreviews={}, sideLoading=false, sideError='', sideStatus='';
+/* Side pairs as rows of Original → Main → Sub → Combined, optionally grouped by a shared
+   main or sub. Subs are shown on the 32×32 system; a pair with several subs keeps one. */
+let sidePairs=null, sidePreviews={}, sideStatuses={}, sideLoading=false, sideError='', sideStatus='';
 const sidePreviewSub=new Map(), sideRendered=new Map(), sideRenderTargets=new Map(), sideQueue=[], sideFixItems=new WeakMap();
 let sideActiveRenders=0;
 const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
-const SIDE_FILTERS={'':'All side pairs',fix:'Needs sub fix',multi:'Pairs with 2+ subs',ready:'Ready to combine',main:'Main needed',sub:'Sub needed'};
+// One plain status per pair. Waiting: main and sub are drawn but not in the combine data yet.
+const SIDE_STATES={ready:'Ready',fix:'Fix sub',waiting:'Waiting',main:'Needs main',sub:'Needs sub',textsub:'Needs text sub'};
+const SIDE_STATE_HINTS={ready:'Main and sub are drawn and can be combined.',fix:'The sub fails a check. Fix it before combining.',waiting:'Main and sub are drawn but not combined yet.',main:'No 48×48 solo main icon yet.',sub:'No 32×32 sub icon yet.',textsub:'The sub is text or a number and is not drawn yet. It is generated separately.'};
+const SIDE_FILTERS={'':'All',...SIDE_STATES,text:'Text sub',multi:'2+ subs'};
 const sideParams=new URLSearchParams(location.search);
+// Main / sub status per source UUID from side-components.json, the same data as the Main icons and Sub icons pages.
+let sideComponentStatus={main:new Map(),sub:new Map()},sideComponents=null;
 let sideFilter=SIDE_FILTERS[sideParams.get('side')]?sideParams.get('side'):'', sidePageSize=[24,48,96].includes(Number(sideParams.get('size')))?Number(sideParams.get('size')):24;
 
 async function loadSidePairs(){
@@ -13,6 +18,15 @@ async function loadSidePairs(){
   try{
     const [pairs,previews]=await Promise.all(['experiment-combination.json','experiment-combination-results.json'].map(async url=>{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('Could not load side pair artwork.');return r.json();}));
     sidePairs=new Map(pairs.rows.map(r=>[r.id,r]));sidePreviews=previews.results||{};sideError='';
+    const components=await fetch('side-components.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Could not load side-components.json.');return r.json();});
+    sideComponents=components;
+    // Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count.
+    const reviews=await fetch('/api/reviews',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
+    const usable=d=>d.status==='pass'&&!['pending','rejected'].includes(reviews[d.key]);
+    for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
+    for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of item.source_ids)sideComponentStatus[role].set(id,item.status);
+    // Text / number marks are optional: without them the filter falls back to text-drawn subs.
+    try{const r=await fetch('/api/primitives/status',{cache:'no-store'});if(r.ok)sideStatuses=await r.json();}catch{}
   }catch(error){sideError=error.message;}
   finally{sideLoading=false;}
   if(state.view==='side')renderCombinations();
@@ -31,11 +45,26 @@ function sideSubProblems(s){
   return problems;
 }
 const sideCurrentSub=pair=>pair.subs.find(s=>s.icon===sidePreviewSub.get(pair.id))||pair.subs[0];
-function sideCategory(row){
-  const pair=sidePairs.get(row.id);
-  if(pair?.mains.length&&pair.subs.length)return {ready:true,fix:pair.subs.some(s=>sideSubProblems(s).length),multi:pair.subs.length>1};
+// A sub is text when its source was marked text / number or its current drawing is sized as text.
+function sideSubIsText(row,pair){
   const refs=combinationCatalog.references;
-  return {main:!combinationMain(row).generated.length,sub:!(row.sub_generated??refs[row.sub_id].generated).length};
+  if([row.sub_id,refs[row.sub_id]?.canonical_id].some(id=>id&&sideStatuses[id]?.reason==='text_number'))return true;
+  return !!pair?.subs.length&&sideCurrentSub(pair).sizing_kind==='text';
+}
+// A main counts only as a passing 48×48 solo drawing; a sub only as a 32×32 sub drawing.
+function sideKey(row){
+  const pair=sidePairs.get(row.id),main=sideComponentStatus.main.get(row.main_id),sub=sideComponentStatus.sub.get(row.sub_id);
+  const textSub=sub==='missing'&&sideSubIsText(row,pair);
+  if(main!=='done')return sub==='missing'?(textSub?'both-text':'both'):'main';
+  if(sub==='missing')return textSub?'textsub':'sub';
+  if(sub==='failing')return 'fix';
+  if(pair?.mains.length&&pair.subs.length)return sideSubProblems(sideCurrentSub(pair)).length?'fix':'ready';
+  return 'waiting';
+}
+function sideCategory(row){
+  const pair=sidePairs.get(row.id),key=sideKey(row);
+  const both=key.startsWith('both');
+  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
 }
 
 function sideCombined(pair,sub){
@@ -138,68 +167,237 @@ async function sideConfirmKeep(pair,current,button){
   sideDialog.showModal();
 }
 
-function sideTile(row){
-  const pair=sidePairs.get(row.id),card=node('article','side-tile'),media=node('div','side-combined');
-  if(!pair?.mains.length||!pair.subs.length){
-    const refs=combinationCatalog.references,ref=refs[row.id];
-    if(ref?.reference_url){const img=node('img');img.src=ref.reference_url;img.alt=row.concept+' — reference';img.loading='lazy';media.append(img);}
-    else media.append(node('span','side-combined-empty','Reference missing'));
-    card.classList.add('side-tile-missing');
-    const main=combinationMain(row).generated[0],sub=(row.sub_generated??refs[row.sub_id].generated)[0];
-    const parts=node('div','side-parts');
-    parts.append(sidePart('Main',main&&{icon:main.icon_id,preview_url:main.preview_url},48,false),sidePart('Sub',sub&&{icon:sub.icon_id,preview_url:sub.preview_url},32,true));
-    card.append(media,node('h3','',row.concept),node('p','side-meta','Reference · '+(main&&sub?'not in the 32×32 pair data yet':'components needed')),parts);
-    return card;
+/* Each pair is one row: Original → Main → Sub → Combined, with one main and one sub. */
+function sideParts(row){
+  const refs=combinationCatalog.references,pair=sidePairs.get(row.id);
+  const key=sideKey(row),hasMain=!['main','both','both-text'].includes(key),hasSub=!['sub','textsub','both','both-text'].includes(key);
+  if(pair?.mains.length&&pair.subs.length&&hasMain&&hasSub)return {pair,key,main:pair.mains.find(m=>m.family==='solo'||m.family==='combination_main')||pair.mains[0],sub:sideCurrentSub(pair),ready:true};
+  const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^sub\//.test(g.key));
+  return {pair,key,main:hasMain&&main&&{icon:main.icon_id,preview_url:main.preview_url,pending:true},sub:hasSub&&sub&&{icon:sub.icon_id,preview_url:sub.preview_url,pending:true},ready:false};
+}
+function sideState(row,parts){
+  const key=parts.key.startsWith('both')?'main':parts.key,label=parts.key==='both'?'Needs main + sub':parts.key==='both-text'?'Needs main + text sub':SIDE_STATES[key];
+  return [label,{ready:'ready',fix:'fix',waiting:'waiting',textsub:'info'}[key]||'needed',SIDE_STATE_HINTS[key]];
+}
+function sideStep(label,content,name){
+  const step=node('div','side-step');step.append(node('p','side-step-label',label),content);
+  if(name)step.append(node('p','side-step-name',name));return step;
+}
+function sideRow(row){
+  const refs=combinationCatalog.references,ref=refs[row.id],parts=sideParts(row),{pair,main,sub}=parts;
+  const card=node('article','side-row'),head=node('div','side-row-head'),[label,tone,hint]=sideState(row,parts);
+  head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · 64×64'),Object.assign(node('span','side-state '+tone,label),{title:hint}));
+  if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
+  if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
+  card.append(head);
+  const original=node('div','side-original');
+  if(ref?.reference_url){const img=node('img');img.src=ref.reference_url;img.alt=row.concept+' — original';img.loading='lazy';original.append(img);}
+  else original.append(node('span','side-combined-empty','Reference missing'));
+  const media=node('div','side-combined');
+  if(parts.ready)sideFillCombined(media,pair,sub);else media.append(node('span','side-combined-empty','Not combined yet'));
+  const steps=node('div','side-steps');
+  const mainPart=sidePart('Main',main,48,false),subPart=sidePart('Sub',sub,32,true);
+  if(main)sideInspectable(mainPart,'Main',main,48,row.concept);if(sub)sideInspectable(subPart,'Sub',sub,32,row.concept);
+  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep('Sub · 32',subPart,sub?.icon),sideStep('Combined · 64',media));
+  card.append(steps);
+  if(pair?.subs.length>1){
+    const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
+    resolve.open=sidePreviewSub.has(pair.id);card.append(resolve);
   }
-  const current=sideCurrentSub(pair),rerender=()=>card.replaceWith(sideTile(row));
-  sideFillCombined(media,pair,current);
-  const parts=node('div','side-parts');parts.append(sidePart('Main',pair.mains[0],48,false),sidePart('Sub',current,32,true));
-  card.append(media,node('h3','',row.concept),node('p','side-meta',(SIDE_POSITIONS[pair.position]||pair.position)+' · 64×64'),parts);
-  if(pair.subs.length>1)card.append(sidePicker(pair,current,rerender));
-  const actions=node('div','pair-card-actions'),found=sideCombined(pair,current);
-  if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
-  if(window.SideRepairFlags)actions.append(SideRepairFlags.button('main',pair.mains[0],pair),SideRepairFlags.button('sub',current,pair));
-  card.append(actions);return card;
+  if(parts.ready){
+    const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
+    if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
+    if(window.SideRepairFlags)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
+    if(actions.childElementCount)card.append(actions);
+  }
+  return card;
+}
+
+/* Clicking a main or sub opens it large on its own grid with its stroke centerline. */
+const SIDE_NS='http://www.w3.org/2000/svg';
+let sideInspectDialog=null,sideInspectView='both';
+function sideInspectable(figure,label,item,size,concept){
+  const art=figure.querySelector('.side-part-art');art.classList.add('side-inspectable');art.tabIndex=0;art.setAttribute('role','button');art.setAttribute('aria-label',`Inspect ${label.toLowerCase()} ${item.icon}`);
+  const openIt=()=>sideInspect(label,item,size,concept);
+  art.onclick=openIt;art.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openIt();}};
+}
+function sideSvgEl(name,attrs){const e=document.createElementNS(SIDE_NS,name);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e;}
+async function sideDocument(item){
+  if(item.document)return item.document;
+  const r=await fetch(item.preview_url,{cache:'no-store'});if(!r.ok)throw Error('Artwork unavailable');return r.text();
+}
+// Artwork in soft gray, the same paths as a thin centerline on top, over a one-unit grid.
+function sideInspectSVG(text){
+  const source=new DOMParser().parseFromString(text,'image/svg+xml').documentElement;if(source.nodeName!=='svg')throw Error('Artwork is not an SVG');
+  const box=(source.getAttribute('viewBox')||`0 0 ${source.getAttribute('width')||48} ${source.getAttribute('height')||48}`).split(/[\s,]+/).map(Number),[x,y,w,h]=box;
+  const svg=sideSvgEl('svg',{viewBox:box.join(' '),class:'side-component-canvas',role:'img'});
+  const grid=sideSvgEl('g',{'aria-hidden':'true'});
+  for(let i=0;i<=w;i++)grid.append(sideSvgEl('line',{x1:x+i,y1:y,x2:x+i,y2:y+h,stroke:i%8===0?'#9eb3bd':'#dae4e9','stroke-width':i%8===0?.1:.045}));
+  for(let i=0;i<=h;i++)grid.append(sideSvgEl('line',{x1:x,y1:y+i,x2:x+w,y2:y+i,stroke:i%8===0?'#9eb3bd':'#dae4e9','stroke-width':i%8===0?.1:.045}));
+  const art=sideSvgEl('g',{class:'side-component-art'}),line=sideSvgEl('g',{class:'side-component-centerline','aria-hidden':'true'});
+  for(const a of ['fill','stroke','stroke-width','stroke-linecap','stroke-linejoin'])if(source.hasAttribute(a))art.setAttribute(a,source.getAttribute(a));
+  if(!art.hasAttribute('stroke'))art.setAttribute('stroke','currentColor');
+  for(const child of [...source.children]){if(['title','desc','metadata'].includes(child.localName))continue;art.append(document.importNode(child,true));}
+  const trace=art.cloneNode(true);
+  for(const e of [trace,...trace.querySelectorAll('*')]){e.removeAttribute('id');if(e!==trace&&e.getAttribute('fill')&&e.getAttribute('fill')!=='none'&&!e.hasAttribute('stroke'))continue;e.setAttribute('stroke','#ef4444');e.setAttribute('stroke-width','.3');e.setAttribute('fill','none');}
+  line.append(...trace.childNodes);svg.append(grid,art,line);
+  return {svg,width:w,height:h};
+}
+function sideInspect(label,item,size,concept){
+  if(!sideInspectDialog){
+    const d=sideInspectDialog=node('dialog','side-inspect side-component-inspect');
+    d.innerHTML='<header><h2></h2><button type="button" class="side-inspect-close">Close</button></header><div class="side-component-controls" role="group" aria-label="Display"><button type="button" data-view="both">Artwork + centerline</button><button type="button" data-view="art">Artwork</button><button type="button" data-view="line">Centerline only</button><a target="_blank" rel="noopener">Open SVG</a></div><div class="side-stage"></div><dl class="side-component-facts"></dl>';
+    document.body.append(d);d.querySelector('.side-inspect-close').onclick=()=>d.close();
+    d.onclick=e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}};
+    for(const b of d.querySelectorAll('[data-view]'))b.onclick=()=>{sideInspectView=b.dataset.view;sideInspectApply();};
+  }
+  const d=sideInspectDialog,stage=d.querySelector('.side-stage'),facts=d.querySelector('.side-component-facts'),link=d.querySelector('a');
+  d.querySelector('h2').textContent=`${label} · ${item.icon}`;stage.replaceChildren(node('p','muted','Loading artwork…'));facts.replaceChildren();
+  link.href=item.document?sideDataURL(item.document):item.preview_url;
+  sideInspectApply();if(!d.open)d.showModal();
+  sideDocument(item).then(text=>{
+    const {svg,width,height}=sideInspectSVG(text);svg.setAttribute('aria-label',`${item.icon} on a ${width} by ${height} grid`);stage.replaceChildren(svg);
+    const rows=[['Pair',concept],['Family',item.family||item.model_key?.split('/')[0]||'generated'],['Canvas',`${sideRound(width)}×${sideRound(height)}`]];
+    if(item.bounds){const [w,h]=sideInk(item,label==='Sub');rows.push(['Ink',`${sideRound(w)}×${sideRound(h)} / ${size}`]);}
+    if(item.sizing_kind)rows.push(['Sizing',item.sizing_kind]);
+    if(item.model_validation)rows.push(['Validation',item.model_validation]);
+    if(item.sub32_status)rows.push(['SUB32 status',item.sub32_status+(item.sub32_reason?' · '+item.sub32_reason:'')]);
+    if(label==='Sub'&&item.document){const problems=sideSubProblems(item);rows.push(['Problems',problems.join(' · ')||'None']);}
+    if(item.pending)rows.push(['Status','Waiting to combine']);
+    if(item.python_source)rows.push(['Python model',item.python_source]);
+    if(item.svg)rows.push(['SVG',item.svg]);
+    for(const [k,v] of rows)facts.append(node('dt','',k),node('dd','',v));
+  }).catch(error=>stage.replaceChildren(node('p','muted',error.message)));
+}
+function sideInspectApply(){
+  const d=sideInspectDialog;d.dataset.view=sideInspectView;
+  for(const b of d.querySelectorAll('[data-view]'))b.setAttribute('aria-pressed',String(b.dataset.view===sideInspectView));
+}
+
+/* Grouping collects pairs that reuse the same main or the same sub icon. */
+const SIDE_GROUPS={'':'No grouping',main:'Group by main',sub:'Group by sub'};
+let sideGroup=SIDE_GROUPS[sideParams.get('group')]?sideParams.get('group'):'';
+const sideOpenGroups=new Set();
+function sideGroups(rows){
+  const refs=combinationCatalog.references,groups=new Map();
+  for(const row of rows){
+    const item=sideParts(row)[sideGroup],sourceId=sideGroup==='main'?row.main_id:row.sub_id;
+    const key=item?sideGroup+'/'+item.icon:'needed/'+sourceId;
+    if(!groups.has(key))groups.set(key,{key,item,title:item?item.icon:(refs[sourceId]?.concept||sourceId),rows:[]});
+    groups.get(key).rows.push(row);
+  }
+  return [...groups.values()].sort((a,b)=>b.rows.length-a.rows.length||a.title.localeCompare(b.title));
+}
+function sideGroupSection(group){
+  const section=node('details','container-group side-group'),heading=node('summary','container-group-heading'),item=group.item;
+  if(item){const img=node('img');img.src=item.document?sideDataURL(item.document):item.preview_url;img.alt='';img.loading='lazy';heading.append(img);}
+  const size=sideGroup==='main'?48:32,info=node('span','container-group-label');
+  const detail=!item?`${sideGroup==='main'?'Main':'Sub'} needed`:item.pending?`Drawn ${sideGroup} · waiting`:item.document?`Shared ${sideGroup} · ${sideRound(sideInk(item,sideGroup==='sub')[0])}×${sideRound(sideInk(item,sideGroup==='sub')[1])} / ${size}`:`Shared ${sideGroup}`;
+  info.append(node('strong','',group.title),node('span','muted',detail));
+  heading.append(info,node('span','chip',`${group.rows.length.toLocaleString()} pair${group.rows.length===1?'':'s'}`));
+  const children=node('div','side-list container-group-items');section.append(heading,children);
+  const fill=()=>{if(section.open&&!children.childElementCount)children.append(...group.rows.map(sideRow));};
+  section.open=sideOpenGroups.has(group.key);fill();
+  section.addEventListener('toggle',()=>{if(!section.isConnected)return;if(section.open)sideOpenGroups.add(group.key);else sideOpenGroups.delete(group.key);fill();});
+  return section;
+}
+
+/* Combine all reruns the side-pair refresh job on the server and reloads the rows. */
+let sideCombine={status:'idle',message:''},sideCombinePolling=false,sideCombineChecked=false;
+function sideCombineShow(){
+  const button=document.getElementById('sideCombineAll'),status=document.getElementById('sideCombineStatus');
+  if(button)button.disabled=sideCombine.status==='running';
+  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+' You can retry.':'Main + chosen sub for every side pair. Results appear on Experiment › Side combination.';
+}
+async function sideCombineRequest(method){
+  const init=method==='POST'?{method,headers:{'Content-Type':'application/json'},body:'{}'}:{method,cache:'no-store'};
+  const response=await fetch('/api/combination-refresh',init),data=await response.json();
+  if(!response.ok)throw Error(data.error||'Could not combine side pairs.');return data;
+}
+async function sideCombinePoll(){
+  if(sideCombinePolling)return;sideCombinePolling=true;
+  try{
+    while(sideCombine.status==='running'){await new Promise(r=>setTimeout(r,2000));sideCombine=await sideCombineRequest('GET');sideCombineShow();}
+    if(sideCombine.status==='complete'){
+      sideStatus='Combined all side pairs. '+(sideCombine.message||'');sideCombine={status:'idle',message:''};
+      sidePairs=null;sidePreviews={};sideRendered.clear();loadSidePairs();
+    }
+  }catch(error){sideCombine={status:'error',message:error.message};sideCombineShow();}
+  finally{sideCombinePolling=false;}
+}
+async function sideCombineAll(){
+  sideCombine={status:'running',message:'Starting…'};sideCombineShow();
+  try{sideCombine=await sideCombineRequest('POST');sideCombineShow();sideCombinePoll();}
+  catch(error){sideCombine={status:'error',message:error.message};sideCombineShow();}
+}
+// A refresh started earlier (or from another tab) keeps reporting progress here.
+async function sideCombineCheck(){
+  if(sideCombineChecked)return;sideCombineChecked=true;
+  try{const data=await sideCombineRequest('GET');if(data.status==='running'){sideCombine=data;sideCombineShow();sideCombinePoll();}}catch{}
 }
 
 function writeSideURL(){
   const u=new URL(location.href);
   if(sideFilter)u.searchParams.set('side',sideFilter);else u.searchParams.delete('side');
   if(sidePageSize!==24)u.searchParams.set('size',sidePageSize);else u.searchParams.delete('size');
+  if(sideGroup)u.searchParams.set('group',sideGroup);else u.searchParams.delete('group');
   history.replaceState(null,'',u);
+}
+// Side pairs are built from X main icons and Y sub icons; count the icons, the same way the Main icons and Sub icons pages do.
+function sideIconSummary(pairCount){
+  const isText=i=>[i.id,...i.source_ids].some(id=>sideStatuses[id]?.reason==='text_number');
+  const mains=sideComponents.mains,subs=sideComponents.subs,textSubs=subs.filter(isText),iconSubs=subs.filter(i=>!isText(i));
+  const count=(list,status)=>list.filter(i=>i.status===status).length;
+  const wrap=node('section','side-icon-summary');
+  wrap.append(node('p','side-icon-total',`${pairCount.toLocaleString()} side pairs, made from ${mains.length.toLocaleString()} main icons and ${subs.length.toLocaleString()} sub icons.`));
+  const group=(title,total,page,cells)=>{
+    const box=node('div','side-icon-group'),head=node('a','side-icon-head');head.href=page;head.append(node('strong','',title),node('span','',total.toLocaleString()+' icons →'));box.append(head);
+    const row=node('div','side-icon-cells');
+    for(const [label,value,status,tone] of cells){const a=node('a','side-icon-cell '+tone);a.href=page+'?status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));row.append(a);}
+    box.append(row);return box;
+  };
+  wrap.append(
+    group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),
+    group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]));
+  return wrap;
 }
 function renderSideGrid(host,all,summary){
   if(!sidePairs){
-    host.append(node('p','muted',sideError||'Loading combined icons…'));
+    host.append(node('p','muted',sideError||'Loading side pairs…'));
     if(sideError){const retry=node('button','','Retry');retry.onclick=()=>{sideError='';loadSidePairs();renderCombinations();};host.append(retry);}
     else loadSidePairs();
     return;
   }
   const categories=new Map(all.map(r=>[r.id,sideCategory(r)])),count=key=>[...categories.values()].filter(c=>c[key]).length;
-  for(const [label,value] of [['Ready to combine',count('ready')],['Subs needing fix',count('fix')],['Pairs with 2+ subs',count('multi')]]){
-    const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));summary.append(item);
-  }
+  summary.replaceWith(sideIconSummary(all.length));
+  const combine=node('div','toolbar side-combine'),combineButton=node('button','','Combine all side pairs'),combineStatus=node('span','muted');
+  combineButton.id='sideCombineAll';combineButton.type='button';combineButton.setAttribute('data-development-only','');combineButton.onclick=sideCombineAll;
+  combineStatus.id='sideCombineStatus';combineStatus.setAttribute('role','status');combine.append(combineButton,combineStatus);host.append(combine);
+  sideCombineShow();sideCombineCheck();
   const gallery=node('section');gallery.id='pairGallery';host.append(gallery);
   if(sideStatus){const status=node('p','side-status',sideStatus);status.setAttribute('role','status');gallery.append(status);}
-  const toolbar=node('div','toolbar'),search=node('input'),filter=node('select'),size=node('select');
-  search.type='search';search.placeholder='Search concept or component ID';search.setAttribute('aria-label','Search side pairs');search.value=state.q;
+  const toolbar=node('div','toolbar'),search=node('input'),filter=node('select'),group=node('select'),size=node('select');
+  search.type='search';search.placeholder='Search concept, component ID or icon name';search.setAttribute('aria-label','Search side pairs');search.value=state.q;
   filter.setAttribute('aria-label','Side pair filter');filter.append(...Object.entries(SIDE_FILTERS).map(([k,v])=>new Option(v,k)));filter.value=sideFilter;
-  size.setAttribute('aria-label','Icons per page');size.append(...[24,48,96].map(n=>new Option(n+' per page',n)));size.value=sidePageSize;
+  group.setAttribute('aria-label','Group side pairs');group.append(...Object.entries(SIDE_GROUPS).map(([k,v])=>new Option(v,k)));group.value=sideGroup;
+  size.setAttribute('aria-label','Items per page');size.append(...[24,48,96].map(n=>new Option(n+(sideGroup?' groups':' pairs')+' per page',n)));size.value=sidePageSize;
   filter.onchange=()=>{sideFilter=filter.value;page=1;renderCombinations();};
+  group.onchange=()=>{sideGroup=group.value;page=1;renderCombinations();};
   size.onchange=()=>{sidePageSize=Number(size.value);page=1;renderCombinations();};
   let timer;search.oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>{const cursor=search.selectionStart;state.q=search.value;page=1;renderCombinations();const next=host.querySelector('input[type=search]');next.focus();if(cursor!==null)next.setSelectionRange(cursor,cursor);},180);};
-  toolbar.append(search,filter,size);gallery.append(toolbar);
+  toolbar.append(search,filter,group,size);gallery.append(toolbar);
   const q=state.q.trim().toLowerCase(),refs=combinationCatalog.references;
   const rows=all.filter(r=>{
     if(sideFilter&&!categories.get(r.id)[sideFilter])return false;if(!q)return true;
     const pair=sidePairs.get(r.id);
     return [r.concept,r.id,r.main_id,r.sub_id,refs[r.main_id]?.concept,refs[r.sub_id]?.concept,...(pair?[...pair.mains,...pair.subs].map(m=>m.icon):[])].join(' ').toLowerCase().includes(q);
   });
-  const pages=Math.max(1,Math.ceil(rows.length/sidePageSize));page=Math.min(page,pages);writeURL();writeSideURL();
-  function pager(){const bar=node('div','pager'),prev=node('button','','← Previous'),next=node('button','','Next →');prev.disabled=page<=1;next.disabled=page>=pages;prev.onclick=()=>{page--;renderCombinations();host.scrollIntoView();};next.onclick=()=>{page++;renderCombinations();host.scrollIntoView();};bar.append(prev,node('span','muted',`${rows.length.toLocaleString()} matches · Page ${page} of ${pages}`),next);return bar;}
-  const grid=node('div','side-grid');
-  for(const row of rows.slice((page-1)*sidePageSize,page*sidePageSize))grid.append(sideTile(row));
-  if(!rows.length)grid.append(node('p','muted','No side pairs match these filters.'));
-  gallery.append(pager(),grid,pager());
+  const groups=sideGroup?sideGroups(rows):null,items=groups||rows;
+  const pages=Math.max(1,Math.ceil(items.length/sidePageSize));page=Math.min(page,pages);writeURL();writeSideURL();
+  function pager(){const bar=node('div','pager'),prev=node('button','','← Previous'),next=node('button','','Next →');prev.disabled=page<=1;next.disabled=page>=pages;prev.onclick=()=>{page--;renderCombinations();host.scrollIntoView();};next.onclick=()=>{page++;renderCombinations();host.scrollIntoView();};bar.append(prev,node('span','muted',`${rows.length.toLocaleString()} pairs${groups?' · '+groups.length.toLocaleString()+' '+(sideGroup==='main'?'main':'sub')+' icons':''} · Page ${page} of ${pages}`),next);return bar;}
+  const list=node('div','side-list'),visible=items.slice((page-1)*sidePageSize,page*sidePageSize);
+  list.append(...visible.map(groups?sideGroupSection:sideRow));
+  if(!rows.length)list.append(node('p','muted','No side pairs match these filters.'));
+  gallery.append(pager(),list,pager());
   window.SideRepairFlags?.setRows([...sidePairs.values()]);
 }

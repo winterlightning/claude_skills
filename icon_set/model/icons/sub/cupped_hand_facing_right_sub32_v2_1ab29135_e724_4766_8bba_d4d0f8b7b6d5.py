@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b826b683ec4ccced4119d52af613d4e90985586549ee2795fd3c8
 
 class DrawingVariant2(Sub32):
     icon_id = 'cupped-hand-facing-right-sub32-v2'
-    variant_of = 'cupped-hand-facing-right-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

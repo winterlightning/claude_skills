@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'e827b403f0f2d98ad6e17a3c029a6b96aa2d7c5f71feae7387902
 
 class DrawingVariant2(Sub32):
     icon_id = 'digital-facial-recognition-sub32-v2'
-    variant_of = 'digital-facial-recognition-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

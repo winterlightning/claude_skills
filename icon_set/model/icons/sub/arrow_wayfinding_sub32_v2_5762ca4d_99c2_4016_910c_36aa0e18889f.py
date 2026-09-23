@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'fb7ca096e67a76ab9545e9bb995029cc04dc63104de961ddeb745
 
 class DrawingVariant2(Sub32):
     icon_id = 'arrow-wayfinding-sub32-v2'
-    variant_of = 'arrow-wayfinding-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

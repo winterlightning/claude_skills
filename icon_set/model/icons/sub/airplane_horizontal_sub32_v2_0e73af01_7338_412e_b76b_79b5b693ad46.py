@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '1ced619c9f7ceac5ee7827e4a839b108a5f50ff8d495a43abca89
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'airplane-horizontal-sub32'
     icon_id = 'airplane-horizontal-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

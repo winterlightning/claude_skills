@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '12f2cddb08d6a6b936834fd64f3caf3b6e1043a25627b64dfe1fd
 
 class DrawingVariant2(Sub32):
     icon_id = 'strategy-play-sub32-v2'
-    variant_of = 'strategy-play-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '714a5e94343ceac986c7d3aa80a34a1afd7a80bd43ed3ab05ee53
 
 class DrawingVariant2(Sub32):
     icon_id = 'hex-nut-pointed-sub32-v2'
-    variant_of = 'hex-nut-pointed-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

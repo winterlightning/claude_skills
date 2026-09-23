@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'c9f751e8d2093e41aeb84b03566b8b6f5c6e01a1ca620823906ee
 
 class DrawingVariant2(Sub32):
     icon_id = 'tilted-cctv-camera-facing-left-sub32-v2'
-    variant_of = 'tilted-cctv-camera-facing-left-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '044e2ea9d57ea076a782adc06fc5517ca825163141babecee730f
 
 class DrawingVariant2(Sub32):
     icon_id = 'human-eye-160ed52a-sub32-v2'
-    variant_of = 'human-eye-160ed52a-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

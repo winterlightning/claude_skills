@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '8a631da03da80ce128b97882e9934cdc0680872cb6d110cf8aaa4
 
 class DrawingVariant2(Sub32):
     icon_id = 'bell-symbol-sub32-v2'
-    variant_of = 'bell-symbol-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

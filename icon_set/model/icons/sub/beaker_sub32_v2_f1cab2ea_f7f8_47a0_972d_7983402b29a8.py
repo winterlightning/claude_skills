@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '95b7b20a8d78444cd276bad327e730c6f1de876b8d4e59019a9e3
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'beaker-sub32'
     icon_id = 'beaker-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

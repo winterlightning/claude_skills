@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8b696ecad104c8d91f8c3d2c8f79cfaa09bc696a421c41c38fc45
 
 class DrawingVariant2(Sub32):
     icon_id = 'vr-headset-video-games-sub32-v2'
-    variant_of = 'vr-headset-video-games-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

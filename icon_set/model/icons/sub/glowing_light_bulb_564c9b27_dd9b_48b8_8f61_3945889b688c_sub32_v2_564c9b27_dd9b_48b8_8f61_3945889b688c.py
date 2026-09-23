@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b70d54d9fde4151a94a831f8c44d9ec9d8445f885cb4a5a8b8bbe
 
 class DrawingVariant2(Sub32):
     icon_id = 'glowing-light-bulb-564c9b27-dd9b-48b8-8f61-3945889b688c-sub32-v2'
-    variant_of = 'glowing-light-bulb-564c9b27-dd9b-48b8-8f61-3945889b688c-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

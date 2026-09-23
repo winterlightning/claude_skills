@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '8923ba53661b908a7f96607eef4c0e70762b0897a21ef7e8d2b08
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'chat-bubble-smile-sub32'
     icon_id = 'chat-bubble-smile-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

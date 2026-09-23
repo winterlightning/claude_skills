@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1d59bc02b0a1c183966450ad1ec0fbdf13e9860e24fcc2cb07629
 
 class DrawingVariant2(Sub32):
     icon_id = 'cracked-shield-sub32-v2'
-    variant_of = 'cracked-shield-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

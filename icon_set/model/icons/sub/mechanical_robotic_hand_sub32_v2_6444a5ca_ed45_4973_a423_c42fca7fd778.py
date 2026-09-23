@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b8926cc2cf3a0de9e433d7b62ad8b65f0c65d40fb47b37f680e3d
 
 class DrawingVariant2(Sub32):
     icon_id = 'mechanical-robotic-hand-sub32-v2'
-    variant_of = 'mechanical-robotic-hand-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

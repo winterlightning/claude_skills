@@ -15,7 +15,7 @@ REFERENCE_EXPORT_SHA256 = 'da12d6216d72f07d2d547a551af2902c8d08e57dd8be3314ac2c1
 
 class DrawingVariant3(Sub32):
     icon_id = 'flag-sub32-v3'
-    variant_of = 'flag-sub32-v2'
+    variant_of = 'flag-sub32'
     variant_label = 'Redraw proportions and source features'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

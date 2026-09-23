@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'f6eac61df5c8a817c1883d5a14b1caadca7e83cd081424725738b
 
 class DrawingVariant2(Sub32):
     icon_id = 'rocket-arched-cockpit-sub32-v2'
-    variant_of = 'rocket-arched-cockpit-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

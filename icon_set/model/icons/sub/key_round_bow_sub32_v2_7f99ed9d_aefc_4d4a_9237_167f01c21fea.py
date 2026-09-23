@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '03bdc2b2de3f7f32bee53969b6cae062f640ce2cb12b8bc6469c3
 
 class DrawingVariant2(Sub32):
     icon_id = 'key-round-bow-sub32-v2'
-    variant_of = 'key-round-bow-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

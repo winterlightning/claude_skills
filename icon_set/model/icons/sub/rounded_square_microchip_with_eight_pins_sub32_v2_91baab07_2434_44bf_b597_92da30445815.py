@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '915ab20b05f26b0889089a862d5a9bbbdf3f451a453d3c44ecafc
 
 class DrawingVariant2(Sub32):
     icon_id = 'rounded-square-microchip-with-eight-pins-sub32-v2'
-    variant_of = 'rounded-square-microchip-with-eight-pins-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

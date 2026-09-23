@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '65cd5fc7a2d62dbf513efd8d82ba848c9fd30f4cb3da305163c37
 
 class DrawingVariant2(Sub32):
     icon_id = 'dice-entertainment-sub32-v2'
-    variant_of = 'dice-entertainment-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

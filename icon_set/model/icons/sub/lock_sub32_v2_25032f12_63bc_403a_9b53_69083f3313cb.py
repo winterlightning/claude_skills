@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'c3f139e1f35a4f1b1fb13df6b653dd944c83035799d224f6acd79
 
 class DrawingVariant2(Sub32):
     icon_id = 'lock-sub32-v2'
-    variant_of = 'lock-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

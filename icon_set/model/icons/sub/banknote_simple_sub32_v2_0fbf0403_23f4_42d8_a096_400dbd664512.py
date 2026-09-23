@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '5d9498d5dfd55a394a8885d47b51d1c493a2d045e1141eaea4167
 
 class DrawingVariant2(Sub32):
     icon_id = 'banknote-simple-sub32-v2'
-    variant_of = 'banknote-simple-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

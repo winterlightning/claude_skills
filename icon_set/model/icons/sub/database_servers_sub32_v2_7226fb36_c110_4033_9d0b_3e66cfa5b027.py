@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'ad9ac229eddcd969e40d210b27eeed7f66ff8c9a2e5a743bbaf97
 
 class DrawingVariant2(Sub32):
     icon_id = 'database-servers-sub32-v2'
-    variant_of = 'database-servers-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

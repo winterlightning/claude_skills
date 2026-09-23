@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '96613f489f00818202b8110f36cef6070c09c6ab562561a713e0d
 
 class DrawingVariant2(Sub32):
     icon_id = 'horizontal-chain-link-sub32-v2'
-    variant_of = 'horizontal-chain-link-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'

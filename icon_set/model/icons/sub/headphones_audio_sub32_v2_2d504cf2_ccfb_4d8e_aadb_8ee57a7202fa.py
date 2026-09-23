@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'e2617c7a7bb7675b49c11b8b9de23adbf6bf8c7ab84629f7007d4
 
 class DrawingVariant2(Sub32):
     icon_id = 'headphones-audio-sub32-v2'
-    variant_of = 'headphones-audio-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

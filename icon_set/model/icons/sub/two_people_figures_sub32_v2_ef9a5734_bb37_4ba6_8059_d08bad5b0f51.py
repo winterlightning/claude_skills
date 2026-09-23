@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '920bc3d7d7d9c7f6d2eb3d4c71201a2257f490ab8dc99438fdd90
 
 class DrawingVariant2(Sub32):
     icon_id = 'two-people-figures-sub32-v2'
-    variant_of = 'two-people-figures-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

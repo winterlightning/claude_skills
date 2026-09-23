@@ -1476,11 +1476,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
                     result = discard_many(icons, source_root=source_root, dist=self.root,
                                           archive=self.database.parent / 'discarded-icons',
-                                          connection=connection, user=user)
+                                          connection=connection, user=user,
+                                          detach_variants=data.get('detach_variants') is True)
                     for row in result['discarded']:
                         record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']].get('svg_sha256'),
                                         source=row['source'], archive=row['archive'])
                     result['failed'] = failed + result['failed']
+                if result['discarded'] and (self.root / 'gallery/side-components.json').is_file():
+                    # Keep the Main icons / Sub icons pages in step with the removal.
+                    try:
+                        from icon_set.scripts.side_components import refresh as refresh_side_components
+                        refresh_side_components(self.root / 'gallery')
+                    except (OSError, ValueError, KeyError) as error:
+                        print(f'side-components refresh failed after discard: {error}', flush=True)
                 if not batch and result['failed']:
                     return self.json_response({'error': result['failed'][0]['error']}, 409)
                 return self.json_response(result)

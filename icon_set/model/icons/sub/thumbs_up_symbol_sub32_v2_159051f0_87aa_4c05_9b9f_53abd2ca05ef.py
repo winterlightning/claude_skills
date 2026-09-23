@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'fef39793b900339390a7f350b1a8d2cf9da5c5ce4dded16bb603b
 
 class DrawingVariant2(Sub32):
     icon_id = 'thumbs-up-symbol-sub32-v2'
-    variant_of = 'thumbs-up-symbol-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

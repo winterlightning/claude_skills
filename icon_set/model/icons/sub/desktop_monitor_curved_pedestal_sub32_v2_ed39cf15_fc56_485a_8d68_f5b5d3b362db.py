@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'dec03f28ba3b705c3829c1eda97b7ba8035caa956709e70b9a141
 
 class DrawingVariant2(Sub32):
     icon_id = 'desktop-monitor-curved-pedestal-sub32-v2'
-    variant_of = 'desktop-monitor-curved-pedestal-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

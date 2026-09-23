@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '8ba15747e748d7d8372fe617a3e175a1ecb67342ac2ed14850f5d
 
 class DrawingVariant2(Sub32):
     icon_id = 'icon-3d-box-sub32-v2'
-    variant_of = 'icon-3d-box-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

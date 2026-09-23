@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '8f0b14c0be93c3280fca07bd1dee6d577014a0608fb2808dbedd6
 
 class DrawingVariant2(Sub32):
     icon_id = 'cao-dai-sub32-v2'
-    variant_of = 'cao-dai-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

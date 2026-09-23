@@ -669,6 +669,159 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     )
 
 
+def _swap(content: str, old: str, new: str, *, regex: bool = False) -> str:
+    """Replace exactly once, failing loudly when the source skill text has drifted."""
+    if regex:
+        result, count = re.subn(old, lambda _: new, content, count=1, flags=re.DOTALL | re.MULTILINE)
+    else:
+        count = content.count(old)
+        result = content.replace(old, new, 1)
+    if count != 1:
+        raise ValueError(f"side-sub-make-thuan: expected one match for {old[:60]!r}, found {count}")
+    return result
+
+
+def render_side_sub() -> str:
+    """The icon-sub workflow on the next missing side sub, saved to a standalone folder."""
+    root = "icon_set/work/side-sub-make-thuan/"
+    content = render("sub")
+    content = "\n".join(line for line in content.split("\n") if not line.startswith("argument-hint:"))
+    content = _swap(content, "name: icon-sub\n", "name: side-sub-make-thuan\n")
+    content = _swap(content, "# /icon-sub —", "# /side-sub-make-thuan —")
+    content = _swap(
+        content, r"^description: [^\n]*",
+        "description: Retrieve the next missing side-combination sub (gallery side-subs page) "
+        "without parameters and author it as a Pictographic SUB32 icon exactly like its "
+        "reference, with no classification or routing. Save results and retrieval metadata "
+        "in a standalone folder without gallery updates. Generated from the contracts by "
+        "icon_set/scripts/generate_skills.py; do not edit by hand.", regex=True)
+    content = _swap(
+        content, "Request: $ARGUMENTS",
+        "Invoke this skill without parameters. Run from the repository containing `icon_set/`.\n\n"
+        "Retrieve the next missing side-combination sub (the Missing bucket of "
+        "`gallery/side-subs.html`: no drawing yet, not marked text/number) by running this "
+        "command without parameters:\n\n"
+        "```bash\npython3 icon_set/scripts/next_side_sub.py\n```\n\n"
+        "Use its output as the brief, including the source ID and reference path, then "
+        "follow the full authoring workflow below.\n\n"
+        f"**Folder-only output:** create a fresh result directory at `{root}"
+        "<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, "
+        "exports, reference renders, previews, retrieval metadata and findings there, "
+        "including unsuccessful attempts. Never overwrite an earlier run. Do not write to "
+        "`published/`, the registered icon folders, metadata catalogs, contracts, galleries, "
+        "queues or runtime state. Do not run build, compose, finish-icon, publish, release or "
+        "gallery update commands. This output rule overrides output and registration advice "
+        "in shared guides. The next-side-sub helper skips a source UUID once a run contains "
+        "an authored Python module and a readable result.json with that source_uuid. "
+        "Validation failures, warnings, and failed exports still count as attempts; do not "
+        "retry them automatically. Write result.json last, including failures. Only attempts "
+        "without a saved result remain eligible for automatic retry. If retrieval fails or no "
+        "missing side sub remains, report that result and stop.")
+    content = _swap(
+        content, r"## Reference fidelity comes first.*?(?=This skill authors)",
+        "**Draw the reference as it is:** author the retrieved sub `reference` as one SUB32 "
+        "icon that follows the reference. Do not classify, triage, route, skip or split it "
+        "into component briefs. Preserve every visible part of the reference: frames, "
+        "badges, secondary marks, holes, and their positions, directions and counts. The "
+        "`combination context` SVGs only show how this sub sits beside its main; never draw "
+        "that main. Inventory the reference parts before drawing, and afterwards compare "
+        "reference and result side by side at native and enlarged sizes.\n\n"
+        "Keep the strict 32×32 canvas and the 4px stroke: side combinations need a sub that "
+        "passes SUB32 as is. Do not enlarge the canvas, thin strokes, or produce an exact "
+        "resized original. If the complete reference cannot pass, keep every part, save the "
+        "validation findings and attempted fit in RESULT_DIR, and record the failure in "
+        "result.json; do not drop parts to force a pass.\n\n"
+        "Letters or digits inside the reference: reuse the matching glyphs in "
+        "`icon_set/typeface/glyphs.json` when they fit the reference; hand-author them only "
+        "when needed to preserve the reference's shape. These scope and text rules override "
+        "routing, skip and typeface restrictions in the shared guides. All SUB32 geometry "
+        "and validation requirements still apply.\n\n", regex=True)
+    content = _swap(
+        content, r"A \*\*sub\*\* icon is read small.*?(?=## Visual priorities)",
+        "Every input stays in `RESULT_DIR/` and subclasses `Sub32`. Modifiers, states and "
+        "verbs declare `semantic_role = \"SUB\"`; a simple noun shape (`heart`, `star`) "
+        "declares `MAIN` with `semantic_kind = \"noun\"`. Keep the complete reference on "
+        "the 32×32 canvas; do not reroute it to another family or enlarge the canvas.\n\n",
+        regex=True)
+    content = _swap(
+        content,
+        "   Search existing Python files by that ID before creating a new file; patch the\n"
+        "   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.",
+        "   Inspect existing Python files by that ID for context, but author a new\n"
+        "   standalone module inside this run's RESULT_DIR; do not patch registered originals.")
+    content = _swap(
+        content, r"Before reduction, apply .*?(?=2\. \*\*Reduce\.)",
+        "Inspect the complete reference before reduction, then glance at the (at most two) "
+        "combination-context SVGs to confirm which part is the sub. Draw only the reference; "
+        "do not reject, reroute or split it. For revisions, preserve the parent and author "
+        "the revised module in a fresh result directory.\n\n", regex=True)
+    content = _swap(content, "`icon_set/model/icons/sub/` — one file per icon", "`RESULT_DIR/` — one file per icon")
+    content = _swap(content, "`icon_set/model/icons/sub/<icon_id_with_underscores>.py`",
+                    "`RESULT_DIR/<icon_id_with_underscores>.py`")
+    content = _swap(
+        content,
+        f"| Ships to | `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/sub32/` with its own `manifest.json` |",
+        "| Exports to | `RESULT_DIR/` only; no gallery or manifest updates |")
+    content = _swap(content, "`Sub32` from `._base`", "`Sub32` from `icon_set.model.icons.sub._base`")
+    content = _swap(content, "from ...keyshapes import Keyshape\n   from ._base import Sub32",
+                    "from icon_set.model.keyshapes import Keyshape\n   from icon_set.model.icons.sub._base import Sub32")
+    content = _swap(
+        content, "   Nothing to register. The folder is the registry.",
+        "   Keep the module outside the registry. Load it by file path with\n"
+        "   `importlib.util.spec_from_file_location` from the repository root\n"
+        "   and instantiate its authored class directly.")
+    content = _swap(
+        content,
+        '   from icon_set.model.icons.registry import create\n   report = create("<icon-id>").validate_icon()',
+        "   icon = module.<ClassName>()  # module loaded from RESULT_DIR\n   report = icon.validate_icon()")
+    content = _swap(
+        content,
+        "A new 4-unit-axis glyph needs its own record in `icon_set/model/contracts/exceptions.v1.json` with `status: \"proposed\"`; see `icon_set/skills/icon-design/keyshape-fitting.md`.",
+        "A new 4-unit-axis glyph needs a proposed record; write the proposal into result.json instead of editing `icon_set/model/contracts/exceptions.v1.json`, and report it. See `icon_set/skills/icon-design/keyshape-fitting.md`.")
+    content = _swap(content, "opening, rebalance, remove the part — never squeeze.",
+                    "opening, rebalance — never squeeze or remove a reference part.")
+    content = _swap(
+        content, r"- After it validates, prove it composes: .*?\n",
+        "- The module is not registered, so skip `compose.py`; the result is judged on its own at 32 pixels.\n",
+        regex=True)
+    content = _swap(
+        content, r"7\. \*\*Build and look\.\*\*.*?(?=8\. \*\*Report\.)",
+        "7. **Export locally and look.**\n\n"
+        "   Save `icon.to_svg()` as `RESULT_DIR/<icon-id>.svg` and\n"
+        "   save the retrieval metadata beside it as `RESULT_DIR/<icon-id>.metadata.json`.\n"
+        "   Preserve the helper's concept, source UUID, reference path, category,\n"
+        "   `aliases`, `uses` and `combination_context` (a list of the context lines) as\n"
+        "   `concept`, `source_uuid`, `reference_path`, `category`, `aliases`, `uses` and\n"
+        "   `combination_context`. Keep the exact strings; do not substitute inferred values.\n"
+        "   Include the complete original stdout as `retrieval_stdout` to retain\n"
+        "   any additional fields, and stderr warnings as `retrieval_stderr`.\n"
+        "   Write this JSON as soon as retrieval succeeds, even if drawing fails.\n"
+        "   Save\n"
+        "   `report.describe()` as `RESULT_DIR/validation.txt`. Render that SVG\n"
+        "   directly with CairoSVG into light and dark PNGs at native 32px and\n"
+        "   enlarged size, all inside RESULT_DIR. Inspect both themes. Save a\n"
+        "   `result.json` containing source UUID/path, icon ID, author, validation\n"
+        "   status, visual-review findings, reference-part coverage, omissions and\n"
+        "   artifact filenames. Retain invalid candidates with their failure findings;\n"
+        "   do not claim they passed. If validation or rendering raises, retain the\n"
+        "   source and save the error in this same folder. No library build is needed.\n\n",
+        regex=True)
+    content = _swap(
+        content,
+        "Existing matches are patched in place, with source metadata\n  preserved or added and `AUTHOR` updated to you.",
+        "Source metadata is preserved in the standalone result module;\n  earlier runs and registered originals remain unchanged.")
+    content = _swap(
+        content,
+        "- Tests green; `build.py --family sub` exits 0; the icon is in\n"
+        f"  `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/sub32/manifest.json`.",
+        "- Source, SVG, matching retrieval metadata JSON, previews, validation findings\n"
+        "  and result.json are saved\n"
+        "  together in RESULT_DIR; link this directory and its SVG in the final response.\n"
+        "- No gallery, published output, registry, contract, queue or runtime-state updates.\n"
+        "- Every visible part of the reference is present on the 32×32 canvas with the 4px stroke.")
+    return content
+
+
 def write_all(check_only: bool = False, agent: str = "all", skill: str | None = None) -> int:
     stale = []
     outputs = {}
@@ -681,7 +834,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / skill_name(family) / "SKILL.md"] = render_codex(content)
     # Reuse solo construction, with Ray's queue intake and all-input scope.
-    if skill in (None, "primitive-make-ray"):
+    if skill in (None, "primitive-make-ray", "side-main-make-thuan"):
         content = render("solo").replace(
             "name: icon-solo\n", "name: primitive-make-ray\n", 1
         ).replace("# /icon-solo —", "# /primitive-make-ray —", 1)
@@ -823,6 +976,72 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
                 render_codex(content).replace(
                     "# /primitive-make-ray —", "# $primitive-make-ray —", 1
                 )
+            )
+        # Thuan: Ray's workflow on the side-mains page's missing mains, drawn as referenced.
+        thuan = content.replace(
+            "name: primitive-make-ray\n", "name: side-main-make-thuan\n", 1
+        ).replace("# /primitive-make-ray —", "# /side-main-make-thuan —", 1).replace(
+            "python3 icon_set/scripts/next_icon.py", "python3 icon_set/scripts/next_side_main.py"
+        ).replace(
+            "Retrieve the next TODO icon by running this command without parameters:",
+            "Retrieve the next missing side-combination main (the Missing bucket of "
+            "`gallery/side-mains.html`) by running this command without parameters:",
+        ).replace(
+            "TODO icon remains", "missing side main remains"
+        ).replace(
+            "icon_set/work/primitive-make-ray/", "icon_set/work/side-main-make-thuan/"
+        ).replace(
+            "The next-icon helper skips", "The next-side-main helper skips"
+        )
+        thuan = re.sub(
+            r"^description: .*",
+            "description: Retrieve the next missing side-combination main (gallery side-mains "
+            "page) without parameters and author it as a Pictographic SOLO48 icon exactly like "
+            "its reference, with no classification or routing. Save results and retrieval "
+            "metadata in a standalone folder without gallery updates. Generated from the "
+            "contracts by icon_set/scripts/generate_skills.py; do not edit by hand.",
+            thuan, count=1, flags=re.MULTILINE,
+        )
+        thuan = re.sub(
+            r"\*\*Generate every input:\*\*.*?(?=Letters and digits)",
+            "**Draw the reference as it is:** author the retrieved main `reference` as one "
+            "SOLO48 icon that follows the reference. Do not classify, triage, route, skip or "
+            "split it into component briefs, whatever it contains. The `combination context` "
+            "SVGs only show how this main is used beside a sub modifier; never draw that "
+            "side modifier. Preserve the reference's defining features and arrangement.\n\n",
+            thuan, count=1, flags=re.DOTALL,
+        )
+        thuan = thuan.replace(
+            "Inspect the complete reference before reduction. Treat its text, enclosure, main "
+            "subject and modifiers as parts of the requested composition; do not reject or "
+            "split combinations.",
+            "Inspect the complete reference before reduction, then glance at the "
+            "(at most two) combination-context SVGs to confirm which part is the main. Draw only the "
+            "reference; do not reject, reroute or split it.",
+        ).replace(
+            "   `category`, and `brief` (null when absent). Keep the exact strings,\n",
+            "   `category`, `aliases`, `uses` and `combination_context` (a list of the\n"
+            "   context lines). Keep the exact strings,\n",
+        ).replace(
+            "   including multiline brief content; do not substitute inferred values.\n",
+            "   do not substitute inferred values.\n",
+        )
+        if agent in ("all", "claude"):
+            outputs[SKILLS_DIR / "side-main-make-thuan" / "SKILL.md"] = thuan
+        if agent in ("all", "codex"):
+            outputs[CODEX_SKILLS_DIR / "side-main-make-thuan" / "SKILL.md"] = (
+                render_codex(thuan).replace(
+                    "# /side-main-make-thuan —", "# $side-main-make-thuan —", 1
+                )
+            )
+    # Thuan subs: the side-subs page's missing subs, drawn on strict SUB32 into a standalone folder.
+    if skill in (None, "side-sub-make-thuan"):
+        sub = render_side_sub()
+        if agent in ("all", "claude"):
+            outputs[SKILLS_DIR / "side-sub-make-thuan" / "SKILL.md"] = sub
+        if agent in ("all", "codex"):
+            outputs[CODEX_SKILLS_DIR / "side-sub-make-thuan" / "SKILL.md"] = (
+                render_codex(sub).replace("# /side-sub-make-thuan —", "# $side-sub-make-thuan —", 1)
             )
     if agent in ("all", "codex"):
         for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub"):

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '2d184c606668088db58c4615fae1e8702aaef16f72c63e50e853b
 
 class DrawingVariant2(Sub32):
     icon_id = 'embassy-sub32-v2'
-    variant_of = 'embassy-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

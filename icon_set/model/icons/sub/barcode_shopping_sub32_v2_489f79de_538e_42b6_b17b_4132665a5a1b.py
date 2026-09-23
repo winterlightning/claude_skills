@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'f60bec9fb1ed24ae0f22bb9e0851ed4348efb649ba0533f2d9f75
 
 class DrawingVariant2(Sub32):
     icon_id = 'barcode-shopping-sub32-v2'
-    variant_of = 'barcode-shopping-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '03ce75d6b3cec85b8419b496dfcfa9a6c5846028180055c5fbc33
 
 class DrawingVariant2(Sub32):
     icon_id = 'radiation-trefoil-sub32-v2'
-    variant_of = 'radiation-trefoil-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -1,0 +1,29 @@
+{
+  "source_uuid": "7c784cb7-5aec-47a9-96ef-4c2afb98e94a",
+  "source_path": "pictographic-primitives/_uncategorized_15/do not throw trash toilet_7c784cb7-5aec-47a9-96ef-4c2afb98e94a.svg",
+  "icon_id": "person-dropping-trash-into-toilet",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "validation_status": "invalid",
+  "validation_findings": "status: invalid\n  ERROR  canvas/keyshape bounds: visible ink (6, 4, 33, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 11.0, 0.0], tolerance 0.0)\n  ERROR  mic [arm]: parallel straight edges arm-2 and toilet-3 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [toilet]: parallel straight edges toilet-3 and toilet-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)\n  ERROR  mic [head]: head and trash are 4.24621 apart on centerlines nearest (23.1199, 10.9719)<->(19, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [toilet]: toilet and trash are 3.60555 apart on centerlines nearest (16, 20)<->(19, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [toilet]: toilet and droplet are 4 apart on centerlines nearest (16, 23)<->(20, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [trash]: trash and droplet are 5.09902 apart on centerlines nearest (19, 18)<->(20, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": "Light and dark native 48 px and enlarged previews inspected. The candidate remains crowded or out of bounds; see validation.txt.",
+  "omissions": "No intentional omissions from the reduced design.",
+  "construction_reference": "toilet: basin and tank; no useful person match; icon_set/references/human_ref/full_body_ref.png and user.svg inspected for human proportions",
+  "keyshape_reason": "Chosen for the overall reference silhouette and SOLO48 envelope.",
+  "artifacts": [
+    "dark-384.png",
+    "dark-48.png",
+    "light-384.png",
+    "light-48.png",
+    "person-dropping-trash-into-toilet.metadata.json",
+    "person-dropping-trash-into-toilet.svg",
+    "person_dropping_trash_into_toilet_7c784cb7_5aec_47a9_96ef_4c2afb98e94a.py",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "result.json",
+    "retrieval.metadata.json",
+    "validation.txt"
+  ],
+  "human_head_body_gap": "Head center (27,10), radius 4; torso junction (27,22): 8 centerline units and 4 ink units."
+}

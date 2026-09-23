@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '71692d2dc6d94ba391143845826aa618d6359c6e0703f34b97aee
 
 class DrawingVariant2(Sub32):
     icon_id = 'contactless-digital-wallet-solo-profile32-v2'
-    variant_of = 'contactless-digital-wallet-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

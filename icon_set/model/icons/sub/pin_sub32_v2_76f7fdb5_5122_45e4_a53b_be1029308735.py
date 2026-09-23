@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '267d1985c489b24572604f32fc408010b1c0590304c66b4756ffb
 
 class DrawingVariant2(Sub32):
     icon_id = 'pin-sub32-v2'
-    variant_of = 'pin-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

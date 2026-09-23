@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '075b9a342b75464a6f337a52bb11e757968334c1b3fc02351d60a
 
 class DrawingVariant2(Sub32):
     icon_id = 'laptop-with-rounded-base-sub32-v2'
-    variant_of = 'laptop-with-rounded-base-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

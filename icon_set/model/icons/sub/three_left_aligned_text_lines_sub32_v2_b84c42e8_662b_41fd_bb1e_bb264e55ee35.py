@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a32e3d57b7b2b0d6664541bae3ee86e82daae4b865304bb80ec38
 
 class DrawingVariant2(Sub32):
     icon_id = 'three-left-aligned-text-lines-sub32-v2'
-    variant_of = 'three-left-aligned-text-lines-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '49be0ec3d8f72c2837c6bd1eb5b01cf0c292408a493deb9f77782
 
 class DrawingVariant2(Sub32):
     icon_id = 'man-head-shoulders-outline-sub32-v2'
-    variant_of = 'man-head-shoulders-outline-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0e3c5c399b5f2ffcfea4b2559f8efaddc39b23d60f0d07af3ea34
 
 class DrawingVariant2(Sub32):
     icon_id = 'fork-and-knife-sub32-v2'
-    variant_of = 'fork-and-knife-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

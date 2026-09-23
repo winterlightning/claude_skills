@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '68e2a0a36089dd99416d90054cef68f6915ee4d4ca7bae94e8cbd
 
 class DrawingVariant2(Sub32):
     icon_id = 'vintage-movie-camera-sub32-v2'
-    variant_of = 'vintage-movie-camera-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

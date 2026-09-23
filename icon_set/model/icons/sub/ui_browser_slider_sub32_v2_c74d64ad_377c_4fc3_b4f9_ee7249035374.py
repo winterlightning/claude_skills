@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'bbe7abdff89bedf4b8c61d744d73c876ac3b916406f0ec2fb57f9
 
 class DrawingVariant2(Sub32):
     icon_id = 'ui-browser-slider-sub32-v2'
-    variant_of = 'ui-browser-slider-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

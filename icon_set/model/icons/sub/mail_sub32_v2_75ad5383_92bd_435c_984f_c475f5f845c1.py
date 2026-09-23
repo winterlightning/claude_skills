@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9e2c67811a8f83e9c1036555c0f9612b42e7aa6d06c6eab13201a
 
 class DrawingVariant2(Sub32):
     icon_id = 'mail-sub32-v2'
-    variant_of = 'mail-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

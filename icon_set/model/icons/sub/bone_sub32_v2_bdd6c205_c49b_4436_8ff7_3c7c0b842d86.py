@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'b4447a8b1a1e7ec2fe4ad116519564eedeffd318035e6b5766926
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bone-sub32'
     icon_id = 'bone-sub32-v2'
     keyshape = Keyshape.HRECT_M
     semantic_role = 'SUB'

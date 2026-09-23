@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '30f99f07168d104c199b39cacd2d0d504c301df1dcc5f3ce65563
 
 class DrawingVariant2(Sub32):
     icon_id = 'trash-symbol-sub32-v2'
-    variant_of = 'trash-symbol-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

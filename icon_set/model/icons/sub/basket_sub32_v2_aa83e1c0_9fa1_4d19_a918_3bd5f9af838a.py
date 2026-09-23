@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'f4a50091acf6871506137f4677997823d3dcffd98e55c6abbb8eb
 
 class DrawingVariant2(Sub32):
     icon_id = 'basket-sub32-v2'
-    variant_of = 'basket-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

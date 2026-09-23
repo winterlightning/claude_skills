@@ -60,20 +60,6 @@ function combinationState(row){
   const count=Number(!!combinationMain(row).generated.length)+Number(!!(row.sub_generated??refs[row.sub_id].generated).length);
   return count===2?'ready':count===1?'partial':'missing';
 }
-function sideComponentNeeds(rows){
-  const refs=combinationCatalog.references, main=new Map(), sub=new Map();
-  let mainUses=0,subUses=0;
-  for(const row of rows){
-    if(combinationState(row)==='generated')continue;
-    if(!combinationMain(row).generated.length){
-      mainUses++;if(!main.has(row.main_id))main.set(row.main_id,refs[row.main_id]);
-    }
-    if(!(row.sub_generated??refs[row.sub_id].generated).length){
-      subUses++;if(!sub.has(row.sub_id))sub.set(row.sub_id,refs[row.sub_id]);
-    }
-  }
-  return {main:main.size,sub:sub.size,mainUses,subUses};
-}
 async function renderCombinations(){
   const host=$('combinations');
   if(!combinationCatalog){
@@ -90,19 +76,17 @@ async function renderCombinations(){
   const all=combinationCatalog.rows.filter(r=>r.kind===state.view), counts={missing:0,partial:0,ready:0,generated:0};
   all.forEach(r=>counts[combinationState(r)]++);
   host.replaceChildren();
-  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':'Each tile is the combined 64×64 icon, with its 48-unit main and 32×32 sub. Subs marked Fix sub need repair; pairs with several subs keep one.'));
-  const sideNeeds=state.view==='side'?sideComponentNeeds(all):null;
+  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':'Work on each pair as Original → Main → Sub → Combined: one 48-unit main and one 32×32 sub. Group by main or sub to see where an icon is reused. Finished outputs live on Experiment › Side combination.'));
   const summary=node('div','combination-summary');
-  const summaryItems=[['Total',all.length],...Object.entries(counts).map(([k,v])=>[combinationLabels[k],v])];
-  if(sideNeeds)summaryItems.push(['Main icons needed',sideNeeds.main],['Sub icons needed',sideNeeds.sub]);
+  // The side grid adds its own plain status counts (Ready, Fix sub, Waiting, Needs main, Needs sub).
+  const summaryItems=state.view==='side'?[['Side pairs',all.length]]:[['Total',all.length],...Object.entries(counts).map(([k,v])=>[combinationLabels[k],v])];
   for(const [label,value] of summaryItems){
     const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));summary.append(item);
   }
   if(state.view!=='container'){
     host.append(summary);
-    if(sideNeeds){
-      host.append(node('p','muted',`${sideNeeds.mainUses.toLocaleString()} side pairs need a main icon · ${sideNeeds.subUses.toLocaleString()} side pairs need a sub icon.`));
-      const needed=node('p'),link=node('a','','Browse the main and sub icons still needed →');link.href='side-icons-needed.html';needed.append(link);host.append(needed);
+    if(state.view==='side'){
+      const needed=node('p','muted');needed.append('Pair badges: Waiting = main and sub are drawn but not combined yet. Lists: ');const link=node('a','','Main icons →'),subs=node('a','','Sub icons →');link.href='side-mains.html';subs.href='side-subs.html';needed.append(link,' · ',subs);host.append(needed);
     }
   }
   if(state.view==='side'){renderSideGrid(host,all,summary);return;}

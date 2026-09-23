@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '62d3063c4a98f4a9e29337c677e42e878b8f1ae3cd8a911517eff
 
 class DrawingVariant2(Sub32):
     icon_id = 'arrow-left-curved-sub32-v2'
-    variant_of = 'arrow-left-curved-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '27efd11e433eb03658a32f52951937d48201b522b13d943e64ac4
 
 class DrawingVariant2(Sub32):
     icon_id = 'molecule-science-sub32-v2'
-    variant_of = 'molecule-science-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

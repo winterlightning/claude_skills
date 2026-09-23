@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1ca60569a79b97e54d4f99c3c09e34c4f41c334c81f75ed74689e
 
 class DrawingVariant2(Sub32):
     icon_id = 'retro-game-controller-sub32-v2'
-    variant_of = 'retro-game-controller-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

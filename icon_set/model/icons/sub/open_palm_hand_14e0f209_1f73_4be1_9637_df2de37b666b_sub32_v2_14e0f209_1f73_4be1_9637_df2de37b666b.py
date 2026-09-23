@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '5d94efe90b12f2752213ae028698de92ef1533350fab01ddd1a31
 
 class DrawingVariant2(Sub32):
     icon_id = 'open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32-v2'
-    variant_of = 'open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

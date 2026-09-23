@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '764b4ffc339d83132ae16c761a39500cf8cd920b49f9ed3a98e90
 
 class DrawingVariant2(Sub32):
     icon_id = 'shield-sub32-v2'
-    variant_of = 'shield-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

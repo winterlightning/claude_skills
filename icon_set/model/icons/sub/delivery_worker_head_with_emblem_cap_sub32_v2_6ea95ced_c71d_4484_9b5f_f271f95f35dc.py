@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'f5ca168663e039620b80c906f20a62deceb074fe5e3512a8f339c
 
 class DrawingVariant2(Sub32):
     icon_id = 'delivery-worker-head-with-emblem-cap-sub32-v2'
-    variant_of = 'delivery-worker-head-with-emblem-cap-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

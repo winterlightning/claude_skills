@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '39b268cd29b8fe180b12d9648e587752d662b0b77bb4626884bab
 
 class DrawingVariant2(Sub32):
     icon_id = 'geometric-three-toed-paw-sub32-v2'
-    variant_of = 'geometric-three-toed-paw-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
