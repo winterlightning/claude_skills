@@ -120,34 +120,35 @@ class RejectedFeedbackTests(unittest.TestCase):
 
     def test_keep_side_sub_rejects_and_discards_the_alternative_everywhere(self):
         source_root = self.root / 'repo'
-        family = source_root / 'icon_set/model/icons/sub'
-        family.mkdir(parents=True)
-        model = family / 'square.py'
-        model.write_text("from ._base import Sub32\n\nclass Square(Sub32):\n    icon_id = 'square'\n")
-        catalog = self.dist / 'gallery/icons.json'
-        data = json.loads(catalog.read_text())
-        data['icons'][0]['python_source'] = {'path': 'icon_set/model/icons/sub/square.py', 'family': 'sub', 'class_name': 'Square'}
-        catalog.write_text(json.dumps(data))
         pairs = {'rows': [{'id': 'a', 'subs': [{'icon': 'kept', 'family': 'sub'}, {'icon': 'square', 'family': 'sub'}]},
                           {'id': 'b', 'subs': [{'icon': 'square', 'family': 'sub'}, {'icon': 'kept', 'family': 'sub'}]}]}
         (source_root / 'icon_set/data').mkdir(parents=True)
-        for path in (source_root / 'icon_set/data/combination-pairs.json', self.dist / 'gallery/experiment-combination.json'):
+        files = (source_root / 'icon_set/data/combination-pairs.json', self.dist / 'gallery/experiment-combination.json')
+        for path in files:
             path.write_text(json.dumps(pairs))
         self.enterContext(patch('icon_set.scripts.deploy.PACKAGE_ROOT', source_root / 'icon_set'))
+        calls = []
+
+        def discard(icons, **kwargs):
+            # Discard only runs once the alternative is recorded as rejected.
+            calls.append([(i['key'], kwargs['connection'].execute(
+                'SELECT status FROM reviews WHERE icon=? AND svg_sha256=?', (i['key'], i['svg_sha256'])).fetchone()[0]) for i in icons])
+            return {'discarded': [{'icon': i['key'], 'source': 'x.py', 'archive': 'x'} for i in icons], 'failed': []}
+        self.enterContext(patch('icon_set.scripts.deploy.discard_many', side_effect=discard))
         payload = {'pair_id': 'a', 'keep': 'sub/kept'}
 
         self.assertEqual(self.request('POST', '/api/combinations/side/keep-sub', dict(payload, keep='sub/other'))[0], 409)
         code, body = self.request('POST', '/api/combinations/side/keep-sub', dict(payload, dry_run=True))
         self.assertEqual(code, 200, body)
         self.assertEqual(json.loads(body)['remove'], [{'key': 'sub/square', 'icon': 'square', 'pairs': 2}])
-        self.assertTrue(model.exists())
+        self.assertEqual(calls, [])
+        self.assertEqual(json.loads(files[0].read_text()), pairs)
 
         code, body = self.request('POST', '/api/combinations/side/keep-sub', payload)
         self.assertEqual(code, 200, body)
         self.assertEqual(json.loads(body)['removed'], ['sub/square'])
-        self.assertFalse(model.exists())
-        self.assertTrue(list((self.root / 'discarded-icons').glob('*-sub-square.py')))
-        for path in (source_root / 'icon_set/data/combination-pairs.json', self.dist / 'gallery/experiment-combination.json'):
+        self.assertEqual(calls, [[('sub/square', 'rejected')]])
+        for path in files:
             self.assertEqual([[s['icon'] for s in r['subs']] for r in json.loads(path.read_text())['rows']], [['kept'], ['kept']])
 
     def test_failed_icon_can_be_discarded_without_rejecting_it(self):

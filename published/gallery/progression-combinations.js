@@ -90,7 +90,7 @@ async function renderCombinations(){
   const all=combinationCatalog.rows.filter(r=>r.kind===state.view), counts={missing:0,partial:0,ready:0,generated:0};
   all.forEach(r=>counts[combinationState(r)]++);
   host.replaceChildren();
-  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':'Generate the main and sub separately, then combine them to remake the reference.'));
+  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':'Each tile is the combined 64×64 icon, with its 48-unit main and 32×32 sub. Subs marked Fix sub need repair; pairs with several subs keep one.'));
   const sideNeeds=state.view==='side'?sideComponentNeeds(all):null;
   const summary=node('div','combination-summary');
   const summaryItems=[['Total',all.length],...Object.entries(counts).map(([k,v])=>[combinationLabels[k],v])];
@@ -105,6 +105,7 @@ async function renderCombinations(){
       const needed=node('p'),link=node('a','','Browse the main and sub icons still needed →');link.href='side-icons-needed.html';needed.append(link);host.append(needed);
     }
   }
+  if(state.view==='side'){renderSideGrid(host,all,summary);return;}
   else{
     const area=node('div','container-combine-controls');
     if(containerResults){
