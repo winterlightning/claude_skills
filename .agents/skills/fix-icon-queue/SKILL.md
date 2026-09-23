@@ -58,9 +58,17 @@ validated fix.
    `$icon-container` or `$icon-avatar` for the drawing rules of that family.
    Validation must be `valid` with zero warnings; a `review` is not a pass.
 
-4. **Build and publish.** `python3 -m icon_set build --icon <path> --no-png --no-report`,
-   inspect the export at native size in both themes, then
-   `python3 -m icon_set publish` and commit the source with `published/`.
+4. **Build and publish only this icon.** Never run a full library build or a
+   plain `publish` for one fix.
+
+   ```bash
+   python3 -m icon_set build --icon <path-to-new-variant.py> --no-png --no-report
+   python3 -m icon_set publish --no-build      # compacts catalogs, writes release.json, no rebuild
+   ```
+
+   Inspect the export at native size in both themes. Commit the new Python
+   module together with the files the build touched under `published/`
+   (the family folder, `gallery/icons.json`, `release.json`), then push.
    Production receives the new revision on its next pull.
 
 5. **Report.** Choose exactly one:

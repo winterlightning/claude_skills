@@ -27,6 +27,7 @@
     $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"';
     $('docClaim').textContent = post('/api/work/claim', claim);
     $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'sub/minus']});
+    $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json\ngit commit -m "Fix sub/plus" && git push origin icon-lib';
     $('docHeartbeat').textContent = post('/api/work/heartbeat', claim);
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
     $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';

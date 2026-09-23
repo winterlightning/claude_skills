@@ -117,11 +117,21 @@ Or let the CLI do steps 1–2 in one go and print the brief:
 python3 icon_set/scripts/work_queue.py next --family sub --worker "$WORKER"
 ```
 
-## 3. Fix it (outside the API)
+## 3. Fix it and build only that icon (outside the API)
 
-Author the repair as a new variant, validate, `python3 -m icon_set publish`,
-commit and push. Production receives the new drawing on its next pull. If the
-work takes longer than the lease, extend it:
+Author the repair as a new variant and validate it. Then build and publish
+**only the icon you fixed**; a full library build is never needed for one fix:
+
+```bash
+python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only
+python3 -m icon_set publish --no-build            # compact the catalogs and write release.json, no rebuild
+git add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json
+git commit -m "Fix sub/plus" && git push origin icon-lib
+```
+
+The per-icon build writes that icon's SVG, manifest row, metadata and gallery
+entry into `published/`. Production receives the new drawing on its next pull.
+If the work takes longer than the lease, extend it:
 
 ```bash
 curl --fail-with-body -H 'Content-Type: application/json' --data '{
