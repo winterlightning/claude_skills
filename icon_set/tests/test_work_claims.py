@@ -117,6 +117,8 @@ class StateRuleTests(unittest.TestCase):
         self.assertEqual(page['items'][1]['status'], 'disapprove')
         self.assertEqual(page['items'][1]['work'], {'state': 'open'})
         self.assertEqual(work_claims.queue(self.connection, catalog, decisions, {'family': ['solo']}, NOW)['total'], 0)
+        self.assertEqual([item['key'] for item in work_claims.queue(self.connection, catalog, decisions, {'reason': ['bad-stroke']}, NOW)['items']], ['sub/a'])
+        self.assertEqual(work_claims.review_listing(self.connection, catalog, decisions, {'reason': ['bad-stroke']}, NOW)['total'], 1)
         everything = work_claims.queue(self.connection, catalog, decisions, {}, NOW, claimable_only=False)
         self.assertEqual([(item['key'], item['work']['state']) for item in everything['items']],
                          [('sub/b', 'open'), ('sub/a', 'open'), ('solo/c', 'working')])

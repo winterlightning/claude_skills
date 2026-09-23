@@ -75,7 +75,7 @@ record and must match on every later call.
 
 | Route | Method | Body / query | Result |
 |---|---|---|---|
-| `/api/work/queue` | GET | `family`, `category`, `type`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable Disapproved icons, oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
+| `/api/work/queue` | GET | `family`, `category`, `type`, `reason`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable Disapproved icons, oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
 | `/api/work/disapproved` | GET | same filters as the queue | every Disapproved icon, claimable or not, each with `status` and `work` (`open`, `working`, `expired`, `done`, `cannot-fix`) |
 | `/api/work/review` | GET | `family`, `state`, `status`, `limit`, `offset` | every icon that is disapproved or carries a claim, newest work first, with `counts` per state; a claim on a revision that is no longer current is `superseded` (fix deployed) |
 | `/api/work/history` | GET | `icon` | the icon's revisions (review, claim, feedback, snapshot flag per hash) and its full change log from `activity_log` |
@@ -113,7 +113,8 @@ no local server or database.
 export PICTOGRAPHIC_WORKER="$(hostname -s)/claude-fable-5-1"   # default: hostname/user
 export PICTOGRAPHIC_API='https://<production>'                  # default: the recorded tunnel
 
-python3 icon_set/scripts/work_queue.py next --family sub --out fix-input.txt   # claim + brief; exit 3 = queue empty
+python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # claim + brief; exit 3 = nothing to claim
+python3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # several at once
 python3 icon_set/scripts/work_queue.py queue --family sub                       # look without claiming
 python3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus                # extend the lease
 python3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"

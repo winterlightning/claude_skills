@@ -28,7 +28,8 @@ curl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset
 curl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"
 ```
 
-Filters: `family`, `category`, `type`, `limit` (1–500, default 50), `offset`.
+Filters: `family`, `category`, `type`, `reason` (`bad-stroke`, `meaning`,
+`manual-fix-request`, `other`), `limit` (1–500, default 50), `offset`.
 Oldest disapproval first. Page with `next_offset` until it is `null`.
 
 ```json
@@ -114,8 +115,11 @@ the drawing as displayed at that moment, for the before/after view in step 5.
 Or let the CLI do steps 1–2 in one go and print the brief:
 
 ```bash
-python3 icon_set/scripts/work_queue.py next --family sub --worker "$WORKER"
+python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke --worker "$WORKER"
 ```
+
+`--limit` is how many icons to claim, `--offset` skips the first claimable
+ones, `--disapprove-status` (alias `--reason`) keeps one disapproval reason.
 
 ## 3. Fix it and build only that icon (outside the API)
 

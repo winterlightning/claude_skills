@@ -6,7 +6,7 @@ two of them fix the same icon. ``next`` claims the oldest claimable disapproved
 icon and prints its brief; ``done`` reports the fix (the revision returns to
 Ready for the reviewer); ``cannot-fix`` and ``abandon`` release it.
 
-    python3 icon_set/scripts/work_queue.py next --worker "$WORKER" [--family sub] [--out fix-input.txt]
+    python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke [--family sub] [--out fix-input.txt]
     python3 icon_set/scripts/work_queue.py done --icon sub/plus --worker "$WORKER" --note "sub/plus-v3"
     python3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --worker "$WORKER" --note "why"
     python3 icon_set/scripts/work_queue.py abandon --icon sub/plus --worker "$WORKER"
@@ -34,6 +34,8 @@ from urllib.request import Request, urlopen
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TIMEOUT = 30
 CLAIM_ATTEMPTS = 5
+MAX_PAGE = 500
+REASONS = ('bad-stroke', 'meaning', 'manual-fix-request', 'other')
 
 
 class ApiError(RuntimeError):
@@ -104,26 +106,28 @@ def brief(item, work=None):
     return '\n'.join(lines) + '\n'
 
 
-def take_next(base_url, worker, family=None, category=None, icon_type=None, lease_hours=None):
-    """Claim the first claimable queue item; retry a few rows when another machine wins the race."""
-    page = call(base_url, 'GET', '/api/work/queue',
-                query={'family': family, 'category': category, 'type': icon_type, 'limit': CLAIM_ATTEMPTS})
+def take_next(base_url, worker, family=None, category=None, icon_type=None, lease_hours=None, *,
+              limit=1, offset=0, reason=None):
+    """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins."""
+    query = {'family': family, 'category': category, 'type': icon_type, 'reason': reason,
+             'limit': min(MAX_PAGE, max(limit + CLAIM_ATTEMPTS, 1)), 'offset': offset}
+    page = call(base_url, 'GET', '/api/work/queue', query=query)
     if not page['items']:
-        return None, page
-    last = None
+        return [], page, None
+    claimed, last = [], None
     for item in page['items']:
+        if len(claimed) >= limit:
+            break
         body = {'icon': item['key'], 'svg_sha256': item['svg_sha256'], 'worker': worker}
         if lease_hours:
             body['lease_hours'] = lease_hours
         try:
-            result = call(base_url, 'POST', '/api/work/claim', body)
+            claimed.append(call(base_url, 'POST', '/api/work/claim', body))
         except ApiError as error:
             if error.status != 409:
                 raise
             last = error
-            continue
-        return result, page
-    raise last
+    return claimed, page, last
 
 
 def main(argv=None):
@@ -133,13 +137,18 @@ def main(argv=None):
     parser.add_argument('--worker', default=None, help='who is working (default: $PICTOGRAPHIC_WORKER or hostname/user)')
     parser.add_argument('--json', action='store_true', help='print the raw API response')
     commands = parser.add_subparsers(dest='command', required=True)
-    take = commands.add_parser('next', help='claim the next disapproved icon and print its brief')
+    take = commands.add_parser('next', help='claim the next disapproved icon(s) and print the brief(s)')
+    take.add_argument('--limit', type=int, default=1, help='how many icons to claim (default 1)')
+    take.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
+    take.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS,
+                      help='only icons disapproved for this reason')
     take.add_argument('--family')
     take.add_argument('--category')
     take.add_argument('--type', dest='icon_type')
     take.add_argument('--lease-hours', type=int)
-    take.add_argument('--out', type=Path, help='write the brief here instead of printing it')
+    take.add_argument('--out', type=Path, help='write the brief(s) here instead of printing')
     listing = commands.add_parser('queue', help='list claimable disapproved icons without claiming')
+    listing.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS)
     listing.add_argument('--family')
     listing.add_argument('--category')
     listing.add_argument('--type', dest='icon_type')
@@ -162,24 +171,31 @@ def main(argv=None):
     worker = args.worker or default_worker()
     try:
         if args.command == 'next':
-            result, page = take_next(base_url, worker, args.family, args.category, args.icon_type, args.lease_hours)
-            if result is None:
+            if args.limit < 1 or args.offset < 0:
+                parser.error('--limit must be at least 1 and --offset nonnegative')
+            results, page, last = take_next(base_url, worker, args.family, args.category, args.icon_type, args.lease_hours,
+                                            limit=args.limit, offset=args.offset, reason=args.reason)
+            if not results:
+                if last is not None:
+                    print(f'Error (409): {last}', file=sys.stderr)
+                    return 1
                 print(f'No claimable disapproved icons on {base_url}'
-                      + (f' for family {args.family}' if args.family else '') + '.', file=sys.stderr)
+                      + (f' for family {args.family}' if args.family else '')
+                      + (f' with reason {args.reason}' if args.reason else '') + '.', file=sys.stderr)
                 return 3
             if args.json:
-                json.dump(result, sys.stdout, indent=2)
+                json.dump(results if args.limit > 1 else results[0], sys.stdout, indent=2)
                 print()
                 return 0
-            text = brief(result['item'], result['work'])
+            text = '\n'.join(brief(result['item'], result['work']) for result in results)
             if args.out:
                 args.out.write_text(text, encoding='utf-8')
-                print(f'wrote {args.out}')
+                print(f'wrote {args.out} ({len(results)} icon' + ('s' if len(results) != 1 else '') + ')')
             else:
                 print(text, end='')
             return 0
         if args.command == 'queue':
-            data = call(base_url, 'GET', '/api/work/queue', query={'family': args.family, 'category': args.category,
+            data = call(base_url, 'GET', '/api/work/queue', query={'family': args.family, 'category': args.category, 'reason': args.reason,
                                                                    'type': args.icon_type, 'limit': args.limit, 'offset': args.offset})
             if args.json:
                 json.dump(data, sys.stdout, indent=2)

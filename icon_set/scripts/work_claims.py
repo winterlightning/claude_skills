@@ -174,7 +174,7 @@ def queue(connection, catalog, decisions, query, now, *, claimable_only=True) ->
         raise WorkError('limit and offset must be integers.', 400)
     if not 1 <= limit <= MAX_QUEUE or offset < 0:
         raise WorkError(f'limit must be 1-{MAX_QUEUE} and offset nonnegative.', 400)
-    family, category, wanted_type = one('family'), one('category'), one('type')
+    family, category, wanted_type, reason = one('family'), one('category'), one('type'), one('reason')
     claims, feedback, types = load_claims(connection), latest_feedback(connection), icon_types(connection)
     rows = []
     for key, decision in decisions.items():
@@ -189,6 +189,8 @@ def queue(connection, catalog, decisions, query, now, *, claimable_only=True) ->
         if wanted_type and icon.get('icon_type') != wanted_type:
             continue
         sha = icon.get('svg_sha256') or ''
+        if reason and (feedback.get((key, sha)) or {}).get('reason') != reason:
+            continue
         claim = claims.get((key, sha))
         state = work_state(claim, stamp, now)
         if claimable_only and state not in CLAIMABLE:
@@ -348,7 +350,9 @@ def review_listing(connection, catalog, decisions, query, now) -> dict:
         item['work'].setdefault('snapshot', False)
     ordered = sorted(rows.values(), key=lambda item: (item['work'].get('updated_at') or item['disapproved_at'] or '', item['key']), reverse=True)
     one = lambda name: (query.get(name) or [None])[0]  # noqa: E731
-    family, state, status = one('family'), one('state'), one('status')
+    family, state, status, reason = one('family'), one('state'), one('status'), one('reason')
+    if reason:
+        ordered = [item for item in ordered if item.get('reason') == reason]
     if family:
         ordered = [item for item in ordered if item.get('family') == family]
     if state:

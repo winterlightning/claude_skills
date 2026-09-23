@@ -31,7 +31,7 @@
     $('docHeartbeat').textContent = post('/api/work/heartbeat', claim);
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
     $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
-    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --family sub --out fix-input.txt   # fetch + claim, prints the brief; exit 3 = queue empty\npython3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
+    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # fetch + claim, prints the brief; exit 3 = nothing to claim\npython3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # three sub icons at once\npython3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
   }
   $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); render(); });
   $('docBase').addEventListener('input', renderDoc);
@@ -80,11 +80,12 @@
   function short(sha) { return sha ? sha.slice(0, 10) : '—'; }
 
   function visible() {
-    const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value;
+    const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value, reason = $('workReason').value;
     const query = $('workSearch').value.trim().toLowerCase();
     const mine = $('workMine').checked && worker();
     return rows.filter(row => (!family || row.family === family) && (!state || row.work.state === state) && (!status || row.status === status)
       && (!mine || row.work.worker === mine)
+      && (!reason || (reason === 'missing' ? !row.reason : row.reason === reason))
       && (!query || [row.key, row.name, row.work.worker, row.feedback, row.disapproved_by, row.work.note].join(' ').toLowerCase().includes(query)));
   }
 
@@ -279,7 +280,7 @@
     return section;
   }
 
-  for (const id of ['workFamily', 'workState', 'workStatus']) $(id).addEventListener('change', () => { page = 1; render(); });
+  for (const id of ['workFamily', 'workState', 'workStatus', 'workReason']) $(id).addEventListener('change', () => { page = 1; render(); });
   $('workSearch').addEventListener('input', () => { page = 1; render(); });
   $('workPageSize').addEventListener('change', () => { page = 1; render(); });
   $('workPrev').onclick = () => { page--; render(); };

@@ -42,8 +42,12 @@ validated fix.
 2. **Claim the next icon.** Pass `--family` when the request names one.
 
    ```bash
-   python3 icon_set/scripts/work_queue.py next --family sub --out fix-input.txt
+   python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke --family sub --out fix-input.txt
    ```
+
+   `--limit` claims that many icons, `--offset` skips the first claimable ones,
+   `--disapprove-status` keeps one reason (`bad-stroke`, `meaning`,
+   `manual-fix-request`, `other`); drop the filters you do not need.
 
    Exit code 3 means the queue is empty: report that and stop. The brief lists
    the icon key, family, Python source, current `svg_sha256`, disapproval reason,
