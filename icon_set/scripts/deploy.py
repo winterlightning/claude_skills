@@ -615,6 +615,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                                        'can_generate': not production, 'can_edit': True, 'can_upload': True,
                                        # Where work claims live: this server in production, its sync source in development.
                                        'production_api': '' if production else self.work_origin()})
+        # Primitive progress has one authority, just like the shared work queue.
+        if (not getattr(self.server, 'production', False) and parsed.path in (
+                '/gallery/primitives.json', '/api/primitives', '/api/primitives/status',
+                '/api/primitives/summary', '/api/primitives/briefs',
+                '/api/primitives/symbol-links', '/api/primitives/prompt')):
+            return self.forward_to_production('GET', self.path)
         if self.production_blocked(parsed.path):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         if parsed.path == '/api/combination-refresh':
@@ -1165,6 +1171,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.keep_side_sub(data, user)
             if route == '/api/feedback-db/sync':
                 return self.sync_feedback(data, user)
+            if (not getattr(self.server, 'production', False) and route in (
+                    '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link')):
+                return self.forward_to_production('POST', route, data)
             if route == '/api/primitives/briefs':
                 return self.save_primitive_brief(data, user)
             if route == '/api/primitives/status':
@@ -1277,7 +1286,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         return (getattr(self.server, 'sync_source', None) or DEFAULT_SYNC_SOURCE).rstrip('/')
 
     def forward_to_production(self, method, path, body=None):
-        """Relay a work request to production and return its answer unchanged."""
+        """Relay a shared-state request to production and return its answer unchanged."""
         origin = self.work_origin()
         request = urllib.request.Request(origin + path, method=method,
                                          data=json.dumps(body).encode('utf-8') if body is not None else None,

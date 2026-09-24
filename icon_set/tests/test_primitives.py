@@ -262,10 +262,20 @@ class PrimitivesServerTests(unittest.TestCase):
         (self.dist / 'sub32/manifest.json').write_text(json.dumps({'icons': [
             {'family': 'sub', 'icon_id': 'square', 'name': 'square', 'svg_sha256': 'abc'}]}))
         (self.dist / 'sub32/square.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')
-        with patch.dict(os.environ, {'PICTOGRAPHIC_PRIMITIVES': str(self.primitives)}):
-            stage_gallery(self.dist, self.dist, ['sub32'])
+        # HTTP fixtures contain only their own primitives, not the workspace's
+        # experiments, icon registry or folder-only generation runs.
+        gallery = self.dist / 'gallery'
+        gallery.mkdir()
+        (gallery / 'index.html').write_text('Test gallery')
+        (gallery / 'icons.json').write_text('{"icons": []}')
+        template = REPO_ROOT / 'icon_set/scripts/templates/primitives.html'
+        (gallery / 'primitives.html').write_text(template.read_text())
+        links = {name: {} for name in ('by_id', 'by_reference_id', 'by_path',
+                                       'by_reference_path', 'anonymous', 'families')}
+        catalog = build_catalog(self.primitives, {}, {}, links, work={})
+        (gallery / 'primitives.json').write_text(json.dumps(catalog))
         self.database = root / 'data/feedback.sqlite3'
-        self.server = create_server(self.dist, self.database, port=0, primitives=self.primitives)
+        self.server = create_server(self.dist, self.database, port=0, primitives=self.primitives, production=True)
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
@@ -284,6 +294,46 @@ class PrimitivesServerTests(unittest.TestCase):
             return response.status, response.read(), response
         finally:
             connection.close()
+
+    def test_development_uses_production_progress_and_does_not_fall_back(self):
+        production = self.server
+        origin = f'http://127.0.0.1:{production.server_port}'
+        # No local catalog: a successful read must have come from production.
+        local_dist = Path(self.tmp.name) / 'local-dist'
+        (local_dist / 'gallery').mkdir(parents=True)
+        (local_dist / 'gallery/index.html').write_text('Local gallery')
+        (local_dist / 'gallery/icons.json').write_text('{"icons": []}')
+        local_db = Path(self.tmp.name) / 'local.sqlite3'
+        development = create_server(local_dist, local_db, port=0, sync_source=origin)
+        threading.Thread(target=development.serve_forever, daemon=True).start()
+        self.addCleanup(development.server_close)
+        self.addCleanup(development.shutdown)
+        expected = {}
+        paths = ['/gallery/primitives.json', '/api/primitives/status', '/api/primitives/briefs',
+                 '/api/primitives/summary', '/api/primitives?category=computers',
+                 '/api/primitives/prompt?category=computers&format=json']
+        for path in paths:
+            code, body, _ = self.request('GET', path)
+            self.assertEqual(code, 200)
+            expected[path] = json.loads(body)
+        self.server = development
+        for path in paths:
+            code, body, response = self.request('GET', path)
+            self.assertEqual(code, 200, body)
+            self.assertEqual(json.loads(body), expected[path])
+            self.assertIn('no-store', response.getheader('Cache-Control'))
+        with sqlite3.connect(local_db) as connection:
+            local_statuses = ps.load_status(connection)
+        change = {'uuids': [U2], 'status': 'skip', 'reason': 'other', 'note': 'Production decision'}
+        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 200)
+        with sqlite3.connect(local_db) as connection:
+            self.assertEqual(ps.load_status(connection), local_statuses)
+        self.assertIn(U2, json.loads(self.request('GET', '/api/primitives/status')[1]))
+        production.shutdown()
+        production.server_close()
+        code, body, _ = self.request('GET', '/api/primitives/summary')
+        self.assertEqual(code, 502)
+        self.assertIn('unreachable', json.loads(body)['error'])
 
     def test_page_catalog_status_api_and_original_route(self):
         self.assertEqual(self.request('GET', '/gallery/primitives.html')[0], 200)

@@ -77,6 +77,12 @@ sets one to the review status Claimed on production and prints its brief,
 review grid on localhost shows production's claims. See
 [Work claims](work-claims.md).
 
+The development Primitives page also reads its catalog, classifications, briefs
+and counts from `--sync-source` through the local server. Primitive edits are
+forwarded to the same production authority. It does not fall back to local
+progress when production is unavailable; local icon builds do not count as
+production completion until deployed.
+
 Read a generation queue page without a running HTTP server using
 `python3 icon_set/scripts/generation_queue.py 40 --offline`. This reads the
 workspace's published primitive catalog and local review database in read-only

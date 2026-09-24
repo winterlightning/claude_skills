@@ -464,7 +464,8 @@ function renderReviewShortcuts(){
 
 function openCategory(name,brief=''){state.view='category';state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';state.brief=brief;page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
 function openView(view){state.view=view;state.category='';state.status=view==='review'?'all':'todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
-function show(){if(state.view==='category'&&!(catalog.categories||{})[state.category]){state.view='categories';state.category='';}
+function show(){if(!statusesAvailable||!briefsAvailable){$('overview').hidden=$('detail').hidden=true;return;}
+  if(state.view==='category'&&!(catalog.categories||{})[state.category]){state.view='categories';state.category='';}
   renderReviewShortcuts();
   const combination=['container','side'].includes(state.view);
   $('combinations').hidden=!combination;
@@ -510,22 +511,29 @@ async function galleryWrite(url,options){
   finally{galleryWrites--;galleryRevision++;}
 }
 function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
+function updateCatalogStatus(){
+  $('warning').textContent=catalog.warning||'';$('warning').hidden=!catalog.warning;
+  $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`;
+}
 async function refreshGalleryState(){
   if(refreshInFlight||!canRefreshGallery())return;
   refreshInFlight=true;
   const revision=galleryRevision;
   try{
-    const [statusResponse,briefResponse]=await Promise.all([
-      fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
-    if(!statusResponse.ok||!briefResponse.ok)throw Error('Gallery state unavailable');
-    const [nextStatuses,nextBriefs]=await Promise.all([statusResponse.json(),briefResponse.json()]);
+    const [catalogResponse,statusResponse,briefResponse]=await Promise.all([
+      fetch('primitives.json',{cache:'no-store'}),fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
+    if(!catalogResponse.ok||!statusResponse.ok||!briefResponse.ok)throw Error('Production primitive data unavailable');
+    const [nextCatalog,nextStatuses,nextBriefs]=await Promise.all([catalogResponse.json(),statusResponse.json(),briefResponse.json()]);
     if(revision!==galleryRevision||!canRefreshGallery())return;
-    const changed=!statusesAvailable||!briefsAvailable||JSON.stringify(statuses)!==JSON.stringify(nextStatuses)||JSON.stringify(referenceBriefs)!==JSON.stringify(nextBriefs);
-    statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;
+    const changed=!statusesAvailable||!briefsAvailable||JSON.stringify(catalog)!==JSON.stringify(nextCatalog)||JSON.stringify(statuses)!==JSON.stringify(nextStatuses)||JSON.stringify(referenceBriefs)!==JSON.stringify(nextBriefs);
+    catalog=nextCatalog;statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;
+    updateCatalogStatus();
     if(changed)show();
   }catch{
     if(revision===galleryRevision&&canRefreshGallery()){
-      statusesAvailable=briefsAvailable=false;show();
+      statusesAvailable=briefsAvailable=false;
+      $('overview').hidden=$('detail').hidden=true;
+      $('status').textContent='Production primitive data unavailable. Retrying…';
     }
   }finally{refreshInFlight=false;}
 }
@@ -555,16 +563,7 @@ window.addEventListener('beforeunload',event=>{if(briefDrafts.size||classificati
 
 (async()=>{
   readURL();
-  try{const response=await fetch('primitives.json');if(!response.ok)throw Error('primitives.json is missing — run primitives_catalog.py or a build.');catalog=await response.json();}
-  catch(error){$('status').textContent='Could not load primitives: '+error.message;return;}
-  if(catalog.warning){$('warning').textContent=catalog.warning;$('warning').hidden=false;}
-  let note='';
-  try{const response=await fetch('/api/primitives/status');if(!response.ok)throw Error();statuses=await response.json();statusesAvailable=true;}
-  catch{note=' · SKIP decisions unavailable (open this page through the gallery server).';}
-  try{const response=await fetch('/api/primitives/briefs');if(!response.ok)throw Error();referenceBriefs=await response.json();briefsAvailable=true;}
-  catch{note+=' · Saved briefs unavailable.';}
-  $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`+note;
-  show();
+  await refreshGalleryState();
   window.addEventListener('focus',refreshGalleryState);
   document.addEventListener('visibilitychange',refreshGalleryState);
   setInterval(refreshGalleryState,5000);

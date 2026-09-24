@@ -128,9 +128,9 @@ def refresh():
             fragment = row['id'][:18] if rule['role'] == 'main' else row['id'][19:34]
             if not row.get(field) and fragment == rule['fragment']:
                 row[field] = rule['reference_id']
-        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2}[m['family']],m['icon']))
+        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
         sub_id = (row.get('sub_id') or '').lower()
-        subs = sorted(state_subs.get(sub_id, index.get(sub_id, [])), key=lambda m: ({'sub':0,'solo':1,'combination_main':1,'container':2}[m['family']],m['icon']))
+        subs = sorted(state_subs.get(sub_id, index.get(sub_id, [])), key=lambda m: ({'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
         if not mains or not subs:
             continue
         try:

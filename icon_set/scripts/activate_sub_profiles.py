@@ -58,7 +58,10 @@ def run(root=ROOT):
                 published[item['icon_id']]=item
     models={};mapping={} 
     for original,entry in migration.items():
-        uid=entry['model_key'].split('/',1)[1];icon=create(uid)
+        uid=entry['model_key'].split('/',1)[1]
+        # Discarded models (e.g. the wiped text subs) stay in the migration log.
+        try:icon=create(uid)
+        except KeyError:continue
         document=icon.to_svg();bounds=list(centerline_bounds(icon.draw().primitives));ink=list(visible_bounds(icon.draw().primitives, radius=icon.STROKE_WIDTH / 2))
         name=uid+'.svg';file=folder/name;file.write_text(document);(public/name).write_text(document)
         digest=hashlib.sha256(document.encode()).hexdigest()
@@ -88,9 +91,10 @@ def run(root=ROOT):
         items=[];seen=set()
         for old in row['subs']:
             uid=mapping.get(old['icon'])
-            if uid is None:raise ValueError('Sub outside migrated inventory: '+old['icon'])
-            if uid in seen:continue
-            seen.add(uid);items.append(models[uid])
+            # Subs authored after the migration (e.g. promoted side subs) are already current.
+            key=uid or old['icon']
+            if key in seen:continue
+            seen.add(key);items.append(models[uid] if uid else old)
         if row['subs']!=items:changed+=1
         row['subs']=items
     payload=json.dumps(pairs);pairs_path.write_text(payload);(gallery/'experiment-combination.json').write_text(payload)

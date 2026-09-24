@@ -18,7 +18,9 @@ solo main drawn for a source that also has a container icon becomes
 Note the skills validate with ``validate_icon()`` only; the build also runs the
 hole/pinch and internal-spacing gates, so some promoted icons land in the
 Failing bucket rather than Done. --strict runs those gates first and skips
-icons that would fail, reporting them.
+icons that would fail, reporting them. --include-invalid promotes the newest
+run of a source that has no valid run, so it counts as a build failure (and can
+be fixed in the model tree) instead of staying folder-only.
 
     python3 icon_set/scripts/promote_work_icons.py --dry-run      # what would be promoted
     python3 icon_set/scripts/promote_work_icons.py --build        # promote, then build --changed-only
@@ -64,8 +66,9 @@ def _icon_module(run: Path, source_dir: Path) -> Path | None:
     return named[0] if len(named) == 1 else None
 
 
-def _latest_valid_run(source_dir: Path) -> Path | None:
-    runs = []
+def _latest_valid_run(source_dir: Path, include_invalid: bool = False) -> Path | None:
+    """The newest valid run; with include_invalid, fall back to the newest run of any status."""
+    runs, others = [], []
     for run in source_dir.iterdir():
         result = run / 'result.json'
         if not result.is_file():
@@ -74,8 +77,11 @@ def _latest_valid_run(source_dir: Path) -> Path | None:
             data = json.loads(result.read_text(encoding='utf-8'))
         except ValueError:
             continue
-        if data.get('validation_status') == 'valid' and _icon_module(run, source_dir) is not None:
-            runs.append(run)
+        if _icon_module(run, source_dir) is None:
+            continue
+        (runs if data.get('validation_status') == 'valid' else others).append(run)
+    if not runs and include_invalid:
+        runs = others
     return max(runs, key=lambda run: run.name) if runs else None
 
 
@@ -93,7 +99,8 @@ def _strict_ok(module_path: Path, icon_id: str) -> list[str]:
     return [f'no class with icon_id {icon_id!r}']
 
 
-def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, only: list[str] | None = None) -> dict:
+def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, only: list[str] | None = None,
+            include_invalid: bool = False) -> dict:
     from icon_set.model.icons.registry import factories
     registered = factories()
     report = {'promoted': [], 'skipped': [], 'held': [], 'families': set()}
@@ -107,7 +114,7 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
         for source_dir in sorted(p for p in root.iterdir() if p.is_dir()):
             if only and not any(source_dir.name.lower().startswith(prefix) for prefix in only):
                 continue
-            run = _latest_valid_run(source_dir)
+            run = _latest_valid_run(source_dir, include_invalid)
             if run is None:
                 report['skipped'].append((source_dir.name, 'no valid run'))
                 continue
@@ -126,8 +133,9 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
             if icon_id in taken:
                 owner = registered.get(icon_id)
                 where = f'registered in {owner.family}' if owner is not None else 'promoted from another run in this batch'
-                new_id = f'{icon_id}-{family}'
-                if not suffix or owner is None or new_id in taken:
+                # A clash inside this batch is two sources naming the same subject; the uuid tells them apart.
+                new_id = f'{icon_id}-{family}' if owner is not None else f'{icon_id}-{source_dir.name[:8].lower()}'
+                if not suffix or new_id in taken:
                     report['skipped'].append((source_dir.name, f'{icon_id} already {where}; rename the icon_id in {module.name}'))
                     continue
                 text = text[:match.start(3)] + new_id + text[match.end(3):]
@@ -167,13 +175,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--strict', action='store_true',
                         help="run the build's hole/pinch and spacing gates first and hold back icons that fail them")
     parser.add_argument('--build', action='store_true', help='after promoting, run build.py --changed-only for the touched families')
+    parser.add_argument('--include-invalid', action='store_true',
+                        help='for a source with no valid run, promote its newest run anyway; it builds into the Failed bucket')
     parser.add_argument('--only', action='append', metavar='UUID_PREFIX',
                         help='promote only source folders whose uuid starts with this (repeatable)')
     args = parser.parse_args(argv)
     skills = args.skill or ['side-main-make-thuan', 'side-sub-make-thuan']
 
     report = promote(skills, dry_run=args.dry_run, suffix=args.suffix, strict=args.strict,
-                     only=[p.lower() for p in args.only] if args.only else None)
+                     only=[p.lower() for p in args.only] if args.only else None,
+                     include_invalid=args.include_invalid)
     verb = 'would promote' if args.dry_run else 'promoted'
     print(f"{verb} {len(report['promoted'])} icon(s)")
     for source, icon_id, path in report['promoted']:
