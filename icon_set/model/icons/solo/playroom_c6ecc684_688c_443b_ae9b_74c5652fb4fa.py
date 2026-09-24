@@ -1,15 +1,14 @@
-"""A playroom house with a door and a stacking pawn toy.
-
-Symbol plan: house: coherent roof and walls; user.svg consulted to distinguish the toy from a person.
-Envelope: SQUARE. The complete composition has a square overall envelope and uses the (6,6)–(42,42) centerline extremes.
-Reduction: Toy reduced to a circular knob and broad base; roof eaves merged into house corners.
+"""Playroom house with a doorway and a round-headed pawn toy.
+Plan: SQUARE fits the roof, doorway and foreground toy.
+Reduction: Roof made shallower; right wall occluded by toy; stacked toy body simplified to a broad triangular base beneath its circular knob.
+Construction: house: coherent roof/wall and doorway construction. Toy identified from the supplied source, not treated as a human figure. Intentional foreground occlusion.
 """
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c6ecc684-688c-443b-ae9b-74c5652fb4fa'
-SOURCE_PATH = 'icon_set/work/todo-references/playroom_c6ecc684-688c-443b-ae9b-74c5652fb4fa.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/playroom_c6ecc684-688c-443b-ae9b-74c5652fb4fa.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -23,15 +22,13 @@ class Drawing(Solo48):
     ink_extremes = keyshape.bounds_for(Profile.SOLO48)
 
     def build(self):
-        axis=24
-        self.add_polyline('house',(6,20),(axis,6),(42,20),(42,42),(6,42),(6,20))
-        self.add_polyline('door',(14,42),(14,29),(22,29),(22,42))
-        self.relate('connect','house','door')
-        self.circle('toy-knob',33,26,3)
-        self.add_bezier('toy-base',(33,29),((39,31),(39,35),(36,36)),((42,39),(40,42),(33,42)),((26,42),(24,39),(30,36)),((27,35),(27,31),(33,29)))
-        self.add_contour('toy','toy-base',closed=True)
-        self.relate('connect','toy-knob','toy')
-        self.relate('connect','toy','house')
+        # Foreground pawn toy has a round knob, short connector and a broad base.
+        self.add_polyline('house',(42,16),(24,6),(6,16),(6,42),(14,42),(22,42),(30,42))
+        self.add_polyline('door',(14,42),(14,29),(22,29),(22,42));self.relate('connect','door','house')
+        self.circle('toy-knob',36,26,3)
+        self.add_line('toy-neck',(36,29),(36,32));self.relate('connect','toy-neck','toy-knob')
+        self.add_polyline('toy-base',(36,32),(42,42),(30,42),closed=True)
+        self.relate('connect','toy-neck','toy-base');self.relate('connect','toy-base','house')
 
     def circle(self, name, cx, cy, r):
         points = [(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

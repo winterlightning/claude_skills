@@ -1,11 +1,14 @@
-"""A hurricane spiral sweeps past a small house.
-Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
-SOLO48 SQUARE; omissions: None; spiral and complete house retained.
+"""natural disaster hurricane house: standalone SOLO48 repair.
+Plan: Spiral storm at upper left and complete house at lower right.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Reduced spiral to one open turn; omitted small door and duplicate roof overhang. Directional asymmetry follows reference.
+Lucide originals and atomic-debug construction reference: house.
+
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='3f984823-804b-4a87-b5c2-3f6d4596f2d2'
-SOURCE_PATH='icon_set/work/todo-references/natural disaster hurricane house_3f984823-804b-4a87-b5c2-3f6d4596f2d2.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/natural disaster hurricane house_3f984823-804b-4a87-b5c2-3f6d4596f2d2.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='natural-disaster-hurricane-house'
@@ -31,15 +34,9 @@ class Drawing(Solo48):
         self.add_contour(n,*ids,closed=True)
 
     def build(self):
-
-        self.add_bezier('tail',(6,30),((22,30),(34,24),(34,16)))
-        self.add_arc('outer-coil',(34,16),(14,16),radius_x=10,sweep=False)
-        self.add_arc('inner-coil',(14,16),(26,16),radius_x=6,sweep=False)
-        self.add_bezier('core',(26,16),((26,11),(18,11),(20,18)))
-        self.add_contour('hurricane','tail','outer-coil','inner-coil','core')
-        self.add_polyline('house',(26,36),(26,42),(42,42),(42,36),(34,32),closed=True)
-
-# Final visible bounds: (4, 4, 44, 44)
-# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
-# Final reductions: Door and secondary roof overhang omitted to retain a clearly spaced hurricane and complete house silhouette.
-# Visual review: Spiral and house read clearly after removing the small door and duplicate roof overhang. House is reduced to a complete silhouette; asymmetry preserves the approaching storm.
+        # One open expanding spiral; fewer turns preserve generous spacing.
+        self.add_bezier('tail',(6,30),((24,30),(28,24),(28,16)))
+        self.add_arc('outer-coil',(28,16),(8,16),radius_x=10,sweep=False)
+        self.add_arc('inner-coil',(8,16),(16,16),radius_x=4,sweep=False)
+        self.add_contour('hurricane','tail','outer-coil','inner-coil')
+        self.add_polyline('house',(26,35),(26,42),(42,42),(42,35),(34,29),closed=True)

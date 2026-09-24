@@ -1,11 +1,15 @@
+"""outdoors dog house: standalone SOLO48 repair.
+Plan: Dog in side profile under an open sloping shelter.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Rebalanced the roof, head and muzzle; retained two open leg strokes. Belly, far legs, tiny eye and tail omitted.
+Lucide originals and atomic-debug construction reference: house.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '176149f5-709e-4aea-827c-9e372966aa1a'
-SOURCE_PATH = 'icon_set/work/todo-references/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Dog standing under an open sloped kennel roof; intentional side profile.'
-OMISSIONS = 'Far legs and belly stroke omitted to keep the near legs distinct.'
-LUCIDE_REFERENCE = 'house'
 
 class Drawing(Solo48):
     icon_id = 'outdoors-dog-house'
@@ -15,7 +19,6 @@ class Drawing(Solo48):
     category = 'objects'
     aliases = ()
     keywords = ('outdoors', 'dog', 'house')
-    # Pantyhose anatomy reference: icon_set/references/human_ref/full_body_ref.png; no detached head.
 
     def circle(self, n, x, y, r, ry=None):
         ry = r if ry is None else ry
@@ -43,7 +46,7 @@ class Drawing(Solo48):
     def build(self):
         # Symbol plan: Dog standing under an open sloped kennel roof; intentional side profile.
 
-        self.add_polyline('kennel',(42,6),(6,16),(6,42),(42,42))
-        self.add_polyline('dog',(14,34),(14,27),(18,24),(28,24),(33,19),(34,23),(40,25),(37,29),(31,29),(29,34))
+        self.add_polyline('kennel',(42,6),(6,12),(6,42),(42,42))
+        self.add_polyline('dog',(14,34),(14,25),(18,22),(26,22),(32,16),(34,18),(42,20),(38,28),(30,28),(28,34))
         # Open lower silhouette retains the two leg ends.
 

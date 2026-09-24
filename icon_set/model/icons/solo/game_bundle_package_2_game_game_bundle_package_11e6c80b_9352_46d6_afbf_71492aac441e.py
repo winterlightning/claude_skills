@@ -1,10 +1,12 @@
-"""Game controller above an open package.
-SOLO48 SQUARE; geometry authored independently from the rendered reference.
-"""
+"""A game controller above an open package.
+Plan: SQUARE fits the controller over two mirrored box flaps.
+Reduction: Tiny plus/minus controller controls omitted; widened controller grips so the central notch stays visible.
+Construction: Lucide gamepad-2 and box: broad controller shoulders, central grip notch and shared package edges.
+Layout: Controller and flaps mirror about x24. Flaps, box and seam have explicit shared attachment nodes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '11e6c80b-9352-46d6-afbf-71492aac441e'
-SOURCE_PATH = 'icon_set/work/todo-references/game bundle package 2 game game bundle package_11e6c80b-9352-46d6-afbf-71492aac441e.svg'
+SOURCE_PATH = 'pictographic-primitives/video-games/batch-04/game bundle package 2 game game bundle package_11e6c80b-9352-46d6-afbf-71492aac441e.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -32,13 +34,13 @@ class Drawing(Solo48):
 
     def build(self):
         # Plan: controller silhouette and controls above two mirrored box flaps.
-        self.add_polyline('controller',(16,6),(32,6),(35,18),(29,18),(27,14),(21,14),(19,18),(13,18),closed=True)
+        self.add_polyline('controller',(16,6),(32,6),(38,18),(29,18),(27,14),(21,14),(19,18),(10,18),closed=True)
         # Tiny controller controls omitted: silhouette carries gaming identity.
         axis=24
         for side in (-1,1):
             p=lambda x,y:(axis+side*x,y)
-            self.add_polyline('flap'+str(side),p(0,26),p(14,26),p(18,34),p(4,34),closed=True)
-        self.add_polyline('box', (10,34),(10,42),(38,42),(38,34))
+            self.add_polyline('flap'+str(side),p(0,26),p(14,26),p(18,34),p(14,34),p(4,34),closed=True)
+        self.add_polyline('box', (10,34),(10,42),(24,42),(38,42),(38,34))
         self.line('seam',(24,36),(24,42))
         self.relate('connect','box','flap-1')
         self.relate('connect','box','flap1')

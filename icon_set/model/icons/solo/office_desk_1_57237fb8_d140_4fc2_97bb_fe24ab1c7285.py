@@ -1,8 +1,15 @@
+"""office desk 1: standalone SOLO48 repair.
+Plan: Office desk with screen at left and clock at right.
+Keyshape: HRECT_L; shared dimensions and nodes own repeated elements.
+Reduction: Enlarged clock and narrowed monitor; removed cup and bezel detail. Clock hands extend to its perimeter at genuine shared nodes.
+Lucide originals and atomic-debug construction reference: clock.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '57237fb8-d140-4fc2-97bb-fe24ab1c7285'
-SOURCE_PATH = 'icon_set/work/todo-references/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -48,11 +55,20 @@ class Drawing(Solo48):
         self.relate('connect',*(name+'-'+s for s in ['l','r','t','b']))
 
     def build(self):
-
-        self.add_polyline('desk',(4,32),(44,32),(42,40))
-        self.add_line('leg-left',(6,32),(4,40)); self.relate('connect','leg-left','desk')
-        self.rounded('monitor',4,8,26,24,3)
-        self.add_line('stand',(15,24),(15,32)); self.relate('connect','stand','monitor'); self.relate('connect','stand','desk')
-        self.circle('clock',38,14,6)
-        self.add_polyline('hands',(38,10),(38,14),(41,14))
-        self.add_polyline('cup',(34,32),(34,26),(40,26),(40,32)); self.relate('connect','cup','desk')
+        # Rebalance screen/clock; remove the cup that cannot fit below the clock.
+        self.add_polyline('desk',(4,36),(44,36),(42,40))
+        self.add_line('leg-left',(6,36),(4,40))
+        self.relate('connect','leg-left','desk')
+        self.rounded('monitor',4,8,15,27,2)
+        self.add_line('stand',(10,27),(10,36))
+        self.relate('connect','stand','monitor')
+        self.relate('connect','stand','desk')
+        self.add_arc('clock-ne',(34,8),(44,18),radius_x=10)
+        self.add_arc('clock-se',(44,18),(34,28),radius_x=10)
+        self.add_arc('clock-sw',(34,28),(24,18),radius_x=10)
+        self.add_arc('clock-nw',(24,18),(34,8),radius_x=10)
+        self.add_contour('clock','clock-ne','clock-se','clock-sw','clock-nw',closed=True)
+        self.add_polyline('hands',(34,8),(34,18),(44,18))
+        self.relate('connect','hands','clock-ne')
+        self.relate('connect','hands','clock-se')
+        self.relate('connect','hands','clock-nw')

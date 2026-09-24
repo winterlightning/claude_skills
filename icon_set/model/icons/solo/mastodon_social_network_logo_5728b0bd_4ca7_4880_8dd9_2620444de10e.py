@@ -1,8 +1,10 @@
-"""A rounded Mastodon-style social bubble with three interior marks.
+"""mastodon logo 2: standalone repair of supplied reference.
 
-Plan: one broad rounded outline bends into a lower-left tail; three equal
-marks form a centered row. Lucide message-square informed the bubble/tail
-construction. The low tail remains intentionally asymmetric.
+Plan: Rounded logo bubble with bottom tail. Keyshape SQUARE.
+Reduction: Interior rings reduced to three equal dots; tail opening enlarged.
+Construction references: local Lucide originals and atomic-debug: message-square.
+
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -25,9 +27,9 @@ class MastodonSocialNetworkLogo(Solo48):
         self.add_line("top", (16, 6), (32, 6))
         self.add_arc("upper-right", (32, 6), (42, 16), radius_x=10, sweep=True)
         self.add_line("right", (42, 16), (42, 25))
-        self.add_arc("lower-right", (42, 25), (33, 34), radius_x=9, sweep=True)
-        self.add_line("underbody", (33, 34), (18, 34))
-        self.add_line("tail-descend", (18, 34), (23, 42))
+        self.add_arc("lower-right", (42, 25), (35, 32), radius_x=7, sweep=True)
+        self.add_line("underbody", (35, 32), (18, 32))
+        self.add_line("tail-descend", (18, 32), (23, 42))
         self.add_line("tail-return", (23, 42), (16, 40))
         self.add_arc("lower-left", (16, 40), (6, 30), radius_x=10, sweep=True)
         self.add_line("left", (6, 30), (6, 16))

@@ -1,12 +1,13 @@
-"""Task list pin 1, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
-"""
+"""A pinned task sheet with a folded lower-right corner.
+Plan: SQUARE allocates a larger fold pocket beneath the pin.
+Reduction: Three writing lines reduced to one short line and a small second mark so the enlarged fold remains open.
+Construction: Source sheet and rounded-corner construction; no exact useful Lucide pinned-sheet match.
+Layout: Top-right pin and lower-right fold deliberately offset; fold joins the page at both ends."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='5de932db-9cc5-44c6-b9d7-4ae36e88165f'
-SOURCE_PATH='icon_set/work/todo-references/task list pin 1_5de932db-9cc5-44c6-b9d7-4ae36e88165f.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/task list pin 1_5de932db-9cc5-44c6-b9d7-4ae36e88165f.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id='task-list-pin-1'
@@ -21,15 +22,15 @@ class Drawing(Solo48):
     def build(self):
         # Folded note with three lines and a round-headed diagonal pin.
         self.path('paper',(22,6),[('L',(10,6)),('A',(6,10),4,False),
-            ('L',(6,42)),('L',(30,42)),('L',(38,34)),('L',(38,24))])
-        self.path('fold',(30,42),[('L',(30,38)),('A',(34,34),4),('L',(38,34))])
+            ('L',(6,42)),('L',(22,42)),('L',(38,26)),('L',(38,24))])
+        self.path('fold',(22,42),[('L',(22,30)),('A',(26,26),4),('L',(38,26))])
         self.relate('connect','paper','fold')
         self.add_arc('pin-a',(34,15),(40,7),radius_x=5)
         self.add_arc('pin-b',(40,7),(34,15),radius_x=5)
         self.add_contour('pin-head','pin-a','pin-b',closed=True)
-        self.add_line('pin-stem',(34,15),(30,19))
+        self.add_line('pin-stem',(34,15),(31,18))
         self.relate('connect','pin-head','pin-stem')
-        for i,(y,end) in enumerate(((17,21),(25,24),(33,21))):
+        for i,(y,end) in enumerate(((17,21),(25,15))):
             self.add_line(f'text-{i}',(15,y),(end,y))
 
 

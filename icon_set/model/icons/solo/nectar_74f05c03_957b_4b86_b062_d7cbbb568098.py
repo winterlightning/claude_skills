@@ -1,11 +1,14 @@
-"""A nectar bottle bears a five-petalled flower.
-Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
-SOLO48 SQUARE; omissions: Bottle cap rounding simplified; all five petals retained.
+"""nectar: standalone SOLO48 repair.
+Plan: Narrow capped bottle beside a five-petal flower.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Opened petal loops into five radial rounded marks, preserving petal count; narrowed bottle to leave clearance.
+Lucide originals and atomic-debug construction reference: flower.
+
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='74f05c03-957b-4b86-b062-d7cbbb568098'
-SOURCE_PATH='icon_set/work/todo-references/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='nectar'
@@ -31,19 +34,15 @@ class Drawing(Solo48):
         self.add_contour(n,*ids,closed=True)
 
     def build(self):
-
-        self.add_polyline('cap',(10,6),(26,6),(26,14),(10,14),closed=True)
-        self.add_polyline('bottle',(10,14),(6,22),(6,42),(30,42),(30,22),(26,14))
+        # Bottle and five-petal flower are separate, sharing the full square envelope.
+        self.add_polyline('cap',(10,6),(18,6),(18,14),(10,14),closed=True)
+        self.add_polyline('bottle',(10,14),(6,22),(6,42),(22,42),(22,22),(18,14))
         self.relate('connect','cap','bottle')
-        self.add_dot('flower-center',(34,21))
-        petals=[((27,15),(31,8),(35,14)),((34,8),(42,12),(40,18)),((36,15),(42,17),(42,21)),((43,28),(34,33),(32,26)),((24,30),(23,20),(29,20))]
-        for i,(c1,c2,k) in enumerate(petals):
-            n='petal-'+str(i)
-            if i==2:self.add_bezier(n,(34,21),(c1,c2,k),((42,25),(38,27),(34,21)))
-            else:self.add_bezier(n,(34,21),(c1,c2,k),(k,(34,21),(34,21)))
-            self.relate('connect',n,'flower-center')
-
-# Final visible bounds: (4, 4, 44, 44)
-# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
-# Final reductions: Bottle cap rounding simplified; all five petals retained.
-# Visual review: Bottle and all five petals are present, but the left petal crosses the bottle and flower details crowd at native size. Automated review warning retained; not approved.
+        # Open radial petals keep all five lobes without microscopic counters.
+        ends=((36,12),(42,17),(40,26),(32,26),(30,17))
+        names=[]
+        for i,end in enumerate(ends):
+            name=f'petal-{i}'
+            self.add_line(name,(36,20),end)
+            names.append(name)
+        self.relate('connect',*names)

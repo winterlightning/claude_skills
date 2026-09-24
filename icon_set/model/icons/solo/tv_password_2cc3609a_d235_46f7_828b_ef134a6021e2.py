@@ -1,36 +1,25 @@
+"""A password monitor on a centered pedestal.
+Symbol plan and construction: monitor-check: rounded screen and centered stand.
+Keyshape: HRECT_L gives two password marks room across the display.
+Omissions: Three repeated masking crosses reduced to two.
+Review: Approved: two equal masking crosses, even screen margins and a centered pedestal read clearly in both themes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='2cc3609a-d235-46f7-828b-ef134a6021e2'
-SOURCE_PATH='icon_set/work/todo-references/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg'
+SOURCE_PATH = 'pictographic-primitives/other/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg'
 AUTHOR='gpt-6'
-PLAN='Television with three X-shaped password marks.'
-CONSTRUCTION_REFERENCE='monitor: screen and foot; shared repeated X construction'
 
 class Drawing(Solo48):
     icon_id='tv-password'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
     category="objects/general"
     aliases=()
     keywords=('tv', 'password')
 
-    def circle(self,name,x,y,r):
-        self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
-    def box(self,name,left,top,right,bottom,r):
-        p=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),
-           (right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
-        names=[]
-        for i,start in enumerate(p):
-            n=f'{name}-{i}';end=p[(i+1)%8]
-            if i%2:self.add_arc(n,start,end,radius_x=r)
-            else:self.add_line(n,start,end)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
 
     def cross(self,name,x,y,r,diagonal=False):
         ends=[(-r,-r),(r,r),(r,-r),(-r,r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
@@ -55,23 +44,7 @@ class Drawing(Solo48):
         self.relate('connect','stand','screen-bottom-r','screen-bottom-l')
         self.relate('connect','stand','foot')
 
-    def browser(self):
-        # Chrome separator joins explicitly split side walls; two tiny source
-        # chrome dashes are omitted so the content keeps the available height.
-        self.add_line('top',(10,6),(38,6))
-        self.add_arc('tr',(38,6),(42,10),radius_x=4)
-        self.add_line('right-upper',(42,10),(42,14))
-        self.add_line('right-lower',(42,14),(42,38))
-        self.add_arc('br',(42,38),(38,42),radius_x=4)
-        self.add_line('bottom',(38,42),(10,42))
-        self.add_arc('bl',(10,42),(6,38),radius_x=4)
-        self.add_line('left-lower',(6,38),(6,14))
-        self.add_line('left-upper',(6,14),(6,10))
-        self.add_arc('tl',(6,10),(10,6),radius_x=4)
-        self.add_contour('browser','top','tr','right-upper','right-lower','br','bottom','bl','left-lower','left-upper','tl',closed=True)
-        self.add_line('chrome',(6,14),(42,14))
-        self.relate('connect','chrome','left-upper','left-lower','right-upper','right-lower')
 
     def build(self):
-        self.monitor()
-        for i,x in enumerate((15,24,33)):self.cross(f'password-{i}',x,23,2,True)
+        self.monitor(left=4,top=8,right=44,bottom=32,foot=40)
+        for i,x in enumerate((17,31)):self.cross(f'password-{i}',x,20,3,True)

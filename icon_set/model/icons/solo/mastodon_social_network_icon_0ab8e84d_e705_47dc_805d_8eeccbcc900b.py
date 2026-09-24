@@ -1,8 +1,10 @@
-"""A Mastodon-style outline with a centered lowercase m.
+"""mastodon logo 3: standalone repair of supplied reference.
 
-Plan: one rounded outer shape carries the characteristic low tail; inside,
-two repeated humps share a middle stem. Lucide message-square informed the
-outer bubble's broad corners. The asymmetric tail follows the reference.
+Plan: Rounded logo bubble containing m. Keyshape SQUARE.
+Reduction: Shortened letter stems and enlarged tail gap; preserved two humps.
+Construction references: local Lucide originals and atomic-debug: message-square.
+
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -25,9 +27,9 @@ class MastodonSocialNetworkIcon(Solo48):
         self.add_line("top", (16, 6), (32, 6))
         self.add_arc("upper-right", (32, 6), (42, 16), radius_x=10, sweep=True)
         self.add_line("right", (42, 16), (42, 25))
-        self.add_arc("lower-right", (42, 25), (33, 34), radius_x=9, sweep=True)
-        self.add_line("underbody", (33, 34), (18, 34))
-        self.add_line("tail-descend", (18, 34), (23, 42))
+        self.add_arc("lower-right", (42, 25), (35, 32), radius_x=7, sweep=True)
+        self.add_line("underbody", (35, 32), (18, 32))
+        self.add_line("tail-descend", (18, 32), (23, 42))
         self.add_line("tail-return", (23, 42), (16, 40))
         self.add_arc("lower-left", (16, 40), (6, 30), radius_x=10, sweep=True)
         self.add_line("left", (6, 30), (6, 16))
@@ -35,10 +37,10 @@ class MastodonSocialNetworkIcon(Solo48):
         self.add_contour("outline", "top", "upper-right", "right", "lower-right",
                          "underbody", "tail-descend", "tail-return", "lower-left",
                          "left", "upper-left", closed=True)
-        self.add_line("m-left", (16, 25), (16, 19))
+        self.add_line("m-left", (16, 23), (16, 19))
         self.add_arc("m-hump-left", (16, 19), (24, 19), radius_x=4, sweep=True)
         self.add_arc("m-hump-right", (24, 19), (32, 19), radius_x=4, sweep=True)
-        self.add_line("m-right", (32, 19), (32, 25))
+        self.add_line("m-right", (32, 19), (32, 23))
         self.add_contour("letter-m", "m-left", "m-hump-left", "m-hump-right", "m-right")
-        self.add_line("m-middle", (24, 19), (24, 25))
+        self.add_line("m-middle", (24, 19), (24, 23))
         self.relate("connect", "m-middle", "letter-m")

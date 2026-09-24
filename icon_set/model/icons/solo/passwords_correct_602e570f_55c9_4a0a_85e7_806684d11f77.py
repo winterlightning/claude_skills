@@ -2,12 +2,12 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '602e570f-55c9-4a0a-85e7-806684d11f77'
-SOURCE_PATH = 'icon_set/work/todo-references/passwords correct_602e570f-55c9-4a0a-85e7-806684d11f77.svg'
+SOURCE_PATH = 'pictographic-primitives/other/passwords correct_602e570f-55c9-4a0a-85e7-806684d11f77.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    """A password field displaying three X characters.
-    Plan: Three identical diagonal crosses spaced on a common baseline inside a wide rectangle.
+    """A password field displaying two X characters.
+    Plan: Two identical diagonal crosses spaced on a common baseline inside a wide rectangle.
     Reference: No useful Lucide match; repeated crosses and field are reconstructed from the supplied reference.
     """
     icon_id = 'passwords-correct'
@@ -51,6 +51,6 @@ class Drawing(Solo48):
     def build(self):
 
         self.add_polyline('field',(4,10),(44,10),(44,38),(4,38),closed=True)
-        for i,x in enumerate((12,24,36)):
+        for i,x in enumerate((16,32)):
             for j,(dx,dy) in enumerate(((-3,-3),(3,3),(-3,3),(3,-3))):self.add_line(f'x-{i}-{j}',(x,24),(x+dx,24+dy))
             self.relate('connect',*(f'x-{i}-{j}' for j in range(4)))

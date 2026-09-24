@@ -1,0 +1,32 @@
+"""Dizzy face with reduced-turn spiral eyes.
+Plan: SQUARE extrema (6,6)-(42,42); mirrored radius7 outer curls transition to radius4 inner turns.
+Forehead and jaw meet exact coil nodes so large eyes can define the face silhouette.
+Human construction reference user.svg; no body. No local Lucide spiral match found.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='cf969d29-b35a-425d-bec1-f3067a6600b5'
+SOURCE_PATH='pictographic-primitives/_uncategorized_17/face dizzy_cf969d29-b35a-425d-bec1-f3067a6600b5.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='dizzy-hypnotized-face'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='people/expressions'
+    aliases=()
+    keywords=('dizzy','spiral','face')
+    def build(self):
+        for i,(x,s) in enumerate(((13,1),(35,-1))):
+            q=lambda dx,y:(x+s*dx,y)
+            self.add_arc(f'eye-{i}-lower',q(0,29),q(-9,20),radius_x=9,sweep=s>0)
+            self.add_arc(f'eye-{i}-upper',q(-9,20),q(0,11),radius_x=9,sweep=s>0)
+            self.add_arc(f'eye-{i}-inner',q(0,11),q(5,16),radius_x=5,sweep=s>0)
+            self.add_arc(f'eye-{i}-end',q(5,16),q(0,21),radius_x=5,sweep=s>0)
+            self.add_contour(f'eye-{i}',f'eye-{i}-lower',f'eye-{i}-upper',f'eye-{i}-inner',f'eye-{i}-end')
+        self.add_arc('forehead',(13,11),(35,11),radius_x=11,radius_y=3)
+        self.add_arc('jaw',(13,29),(35,29),radius_x=11,radius_y=11,sweep=False)
+        for eye in ['eye-0','eye-1']:
+            self.relate('connect','forehead',eye)
+            self.relate('connect','jaw',eye)
+        self.add_line('mouth',(22,31),(26,31))

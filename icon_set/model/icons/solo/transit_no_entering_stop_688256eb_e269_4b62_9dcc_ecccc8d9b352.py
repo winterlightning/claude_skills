@@ -1,13 +1,13 @@
-"""Two route endpoints and opposed bends surround a stop X.
-Plan: Opposed semicircular turns and paired endpoint circles create a diagonal route; X stays centered.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. No useful local Lucide subject match used; shared geometric construction principles applied.
-"""
+"""Two transit endpoints and opposed route bends around a stop X.
+Plan: SQUARE gives the upper-left and lower-right endpoints diagonal separation.
+Reduction: Omitted two small route dashes and reduced the X; shifted the opposing bends away from its tips.
+Construction: No useful exact Lucide match; supplied source with paired semicircular turns.
+Layout: Turns and endpoint circles preserve the opposing route arrangement."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '688256eb-e269-4b62-9dcc-ecccc8d9b352'
-SOURCE_PATH = 'icon_set/work/todo-references/transit no entering stop_688256eb-e269-4b62-9dcc-ecccc8d9b352.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/travel/transit no entering stop_688256eb-e269-4b62-9dcc-ecccc8d9b352.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'transit-no-entering-stop'
     keyshape = Keyshape.SQUARE
@@ -70,9 +70,8 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
         self.circle('start',10,10,4);self.circle('end',38,38,4)
-        self.path('right-turn',(28,10),[('L',(34,10)),('A',(34,26),8,8,True)])
-        self.path('left-turn',(18,22),[('L',(14,22)),('A',(14,38),8,8,False),('L',(18,38))])
-        self.add_line('dash-top',(21,10),(24,10));self.add_line('dash-bottom',(23,38),(26,38))
-        self.cross('stop',24,24,3,True)
+        self.path('right-turn',(26,9),[('L',(34,9)),('A',(34,25),8,8,True)])
+        self.path('left-turn',(14,23),[('A',(14,39),8,8,False),('L',(22,39))])
+        self.cross('stop',24,24,2,True)
+

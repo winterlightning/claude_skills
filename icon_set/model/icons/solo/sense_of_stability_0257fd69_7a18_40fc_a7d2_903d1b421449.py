@@ -1,82 +1,39 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='0257fd69-7a18-40fc-a7d2-903d1b421449'
-SOURCE_PATH='icon_set/work/todo-references/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_33/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg'
 AUTHOR='gpt-6'
-PLAN='Person with outstretched arms in an open-front cylindrical enclosure. Rim, side bands, window edges and figure are one complete scene.'
-CONSTRUCTION_REFERENCES='Shared human-reference.md/full_body_ref.png: round head and coherent torso/limbs. Cylinder reconstructed from source.'
-OMISSIONS='Tiny upper rim ticks omitted; front opening, side bands and person retained.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
-
+PLAN='Cylinder with outstretched human. VRECT_L extremes8,4–40,44 add feet clearance; inner wall strips and bands omitted. Shared human full_body_ref: radius3 head bottom19 to torso27 gives exact8 centerline/4 ink gap, longer torso and balanced limbs.'
 class Drawing(Solo48):
     icon_id='sense-of-stability'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
     aliases=()
-    keywords=('sense', 'of', 'stability')
+    keywords=()
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def box(self,name,x,y,w,h,r=3):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,a in enumerate(pts):
-            b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
-            if i%2:self.add_arc(part,a,b,radius_x=r)
-            else:self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
-
-    def magnifier(self):
-        # The handle node (30,33) is exactly radius 15 from (21,21).
-        pts=[(6,21),(21,6),(36,21),(30,33),(6,21)]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):self.add_arc(f'lens-{i}',a,b,radius_x=15)
-        self.add_contour('lens',*(f'lens-{i}' for i in range(4)),closed=True)
-        self.add_line('handle',(30,33),(42,42));self.relate('connect','lens','handle')
-
-    def score(self,y):
-        self.add_arc('two-top',(12,y+4),(20,y+4),radius_x=4)
-        self.add_polyline('two-bottom',(20,y+4),(12,y+12),(20,y+12));self.relate('connect','two-top','two-bottom')
-        for i,cy in enumerate((y+3,y+11)):self.add_dot(f'colon-{i}',(25,cy))
-        self.box('zero',31,y,8,12,4)
-
-    def terminal(self):
-        self.box('screen',6,6,36,28,3)
-        self.add_line('stand',(24,34),(24,42));self.relate('connect','screen','stand')
-        self.add_polyline('foot',(16,42),(24,42),(32,42));self.relate('connect','stand','foot')
-        for i,y in enumerate((18,26)):self.add_line(f'equals-{i}',(31,y),(35,y))
-
-    def send(self,direction):
-        self.box('panel',6,6,36,36,4)
-        if direction=='left':
-            self.add_polyline('head',(23,17),(16,24),(23,31));self.add_line('shaft',(16,24),(33,24))
-        else:
-            self.add_polyline('head',(25,17),(32,24),(25,31));self.add_line('shaft',(32,24),(15,24))
-        self.relate('connect','head','shaft')
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,l,t,r,b,q=3):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{n}-{k}';ids.append(ident)
+            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(ident,pts[k],pts[(k+1)%8])
+        self.add_contour(n,*ids,closed=True)
 
     def build(self):
-        self.add_arc('rim-top',(6,12),(42,12),radius_x=18,radius_y=6)
-        self.add_bezier('rim-right',(42,12),((42,14),(39,15),(36,16)))
-        self.add_bezier('rim-left',(12,16),((9,15),(6,14),(6,12)))
-        self.add_polyline('wall-left',(6,12),(6,26),(6,36));self.relate('connect','rim-top','wall-left');self.relate('connect','rim-left','wall-left')
-        self.add_polyline('wall-right',(42,12),(42,26),(42,36));self.relate('connect','rim-top','wall-right');self.relate('connect','rim-right','wall-right')
-        self.add_bezier('bottom',(6,36),((6,38),(8,40),(12,40)),((16,41),(20,42),(24,42)),((28,42),(32,41),(36,40)),((40,40),(42,38),(42,36)))
-        self.relate('connect','bottom','wall-left');self.relate('connect','bottom','wall-right')
-        for name,x,rim in (('left',12,'rim-left'),('right',36,'rim-right')):
-         self.add_polyline('window-'+name,(x,16),(x,29),(x,40));self.relate('connect','window-'+name,rim);self.relate('connect','window-'+name,'bottom')
-        self.add_bezier('band-left',(6,26),((6,28),(9,29),(12,29)))
-        self.add_bezier('band-right',(36,29),((39,29),(42,28),(42,26)))
-        for name in ('left','right'):
-         self.relate('connect','band-'+name,'wall-'+name);self.relate('connect','band-'+name,'window-'+name)
-        self.circle('head',24,18,4)
-        self.add_line('torso',(24,30),(24,35))
-        self.add_polyline('arms',(16,30),(24,30),(32,30));self.relate('connect','torso','arms')
-        self.add_polyline('legs',(22,38),(24,35),(26,38));self.relate('connect','torso','legs')
+        self.add_arc('rim',(8,10),(40,10),radius_x=16,radius_y=6)
+        self.add_line('right',(40,10),(40,38))
+        self.add_arc('bottom',(40,38),(8,38),radius_x=16,radius_y=6)
+        self.add_line('left',(8,38),(8,10))
+        self.add_contour('enclosure','rim','right','bottom','left',closed=True)
+        self.circle('head',24,16,3)
+        self.add_line('torso',(24,27),(24,31))
+        self.add_polyline('arms',(17,27),(24,27),(31,27));self.relate('connect','torso','arms')
+        self.add_polyline('legs',(20,35),(24,31),(28,35));self.relate('connect','torso','legs')
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='Tiny upper rim ticks omitted; front opening, side bands and person retained.'

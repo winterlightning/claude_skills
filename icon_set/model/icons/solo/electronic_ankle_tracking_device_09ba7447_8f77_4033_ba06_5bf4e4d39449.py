@@ -1,12 +1,12 @@
-"""A foot and lower leg wearing a tracker with bilateral radio waves."""
+'A foot and lower leg wearing a radio ankle tracker.\nPlan: SQUARE preserves the central device with bilateral signal marks and a left-facing foot.\nReduction: Replaced the narrow angular foot wedges with a broad rounded toe, sole and heel. Signal marks remain simplified to one on each side.\nConstruction: Shared human reference inspected for consistent body-part vocabulary; no useful direct Lucide ankle-tracker match.'
 
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 
 SOURCE_ICON_ID = "09ba7447-8f77-4033-ba06-5bf4e4d39449"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_03/ankle tracker_09ba7447-8f77-4033-ba06-5bf4e4d39449.svg"
-AUTHOR = "gpt-5"
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/ankle tracker_09ba7447-8f77-4033-ba06-5bf4e4d39449.svg'
+AUTHOR = 'gpt-6'
 
 
 class ElectronicAnkleTrackingDevice(Solo48):
@@ -48,19 +48,14 @@ class ElectronicAnkleTrackingDevice(Solo48):
         self.relate("connect", "tracker-top", "leg-left")
         self.relate("connect", "tracker-top", "leg-right")
 
-        self.add_polyline(
-            "foot-outline",
-            (20, 28),
-            (20, 32),
-            (18, 36),
-            (8, 42),
-            (16, 42),
-            (24, 38),
-            (34, 40),
-            (38, 38),
-            (36, 34),
-            (28, 28),
-        )
+        # A broad rounded toe/sole removes the narrow angular wedges.
+        self.add_line('ankle-left',(20,28),(20,30))
+        self.add_bezier('instep',(20,30),((20,34),(16,34),(12,34)))
+        self.add_arc('toe',(12,34),(12,42),radius_x=4,sweep=False)
+        self.add_line('sole',(12,42),(32,42))
+        self.add_arc('heel',(32,42),(36,38),radius_x=4,sweep=False)
+        self.add_bezier('ankle-right',(36,38),((36,34),(28,32),(28,28)))
+        self.add_contour('foot-outline','ankle-left','instep','toe','sole','heel','ankle-right')
         self.relate("connect", "tracker-bottom", "foot-outline")
 
         self.add_arc("signal-left", (8, 20), (8, 24), radius_x=2, sweep=False)

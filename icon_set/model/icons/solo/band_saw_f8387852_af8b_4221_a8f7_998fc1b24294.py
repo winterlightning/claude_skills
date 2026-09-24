@@ -1,14 +1,14 @@
-"""A band saw frame with a toothed wheel and base.
-Symbol plan: cog: repeated radial teeth and central hole; source determines the nested machine frame.
-Reduction: Tooth count reduced to six broad teeth; ledge shortened where occluded by the wheel.
-Keyshape: SQUARE; exact bounds are obtained from the model.
-"""
+"""A band saw frame beside a toothed wheel.
+Plan: SQUARE allocates left space to the machine column and right space to the wheel.
+Reduction: Removed small hub, table ledge, upper inner return, and doubled base edge; reduced wheel to eight broad teeth.
+Construction: Supplied reference governs frame and gear; Lucide cog reviewed for repeated radial teeth, not its dense internal spokes.
+Layout: Asymmetric machine column and right-hand wheel preserve the source arrangement."""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='f8387852-af8b-4221-a8f7-998fc1b24294'
-SOURCE_PATH='icon_set/work/todo-references/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_05/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='band-saw'
     keyshape=Keyshape.SQUARE
@@ -19,19 +19,18 @@ class Drawing(Solo48):
     keywords=('band', 'saw')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.add_polyline('frame-left',(10,34),(10,12))
-        self.add_arc('frame-tl',(10,12),(16,6),radius_x=6)
-        self.add_line('frame-top',(16,6),(34,6))
-        self.add_arc('frame-tr',(34,6),(40,12),radius_x=6)
-        self.add_line('frame-right',(40,12),(40,18))
-        self.add_contour('frame','frame-left-1','frame-tl','frame-top','frame-tr','frame-right')
-        self.contours=[c for c in self.contours if c.contour_id!='frame-left']
-        self.add_polyline('inner',(16,34),(16,14),(32,14),(32,18))
-        self.rounded('base',6,34,42,42,3,breaks={0:[(10,34),(16,34)]})
-        self.relate('connect','inner','base');self.relate('connect','frame','base')
-        self.add_polyline('wheel',(27,18),(33,18),(35,23),(40,22),(42,28),(38,32),(40,37),(34,40),(30,36),(25,38),(21,33),(24,29),(22,24),(27,23),closed=True)
-        self.circle('hub',31,29,3)
-        self.add_line('ledge',(16,26),(22,26));self.relate('connect','ledge','inner')
+        # SQUARE extremes (6,6)-(42,42). Broad machine column, bottom rail,
+        # reduced eight-tooth wheel; upper frame joins the gear at its top.
+        self.add_line('column',(6,42),(6,12))
+        self.add_arc('corner',(6,12),(12,6),radius_x=6)
+        self.add_polyline('top',(12,6),(33,6),(33,15))
+        self.add_contour('frame','column','corner','top-1','top-2')
+        self.contours=[c for c in self.contours if c.contour_id!='top']
+        self.add_line('inner',(14,42),(14,16))
+        self.add_polyline('base',(6,42),(14,42),(42,42))
+        self.relate('connect','frame','base');self.relate('connect','inner','base')
+        self.add_polyline('wheel',(33,15),(36,18),(39,18),(39,21),(42,24),(39,27),(39,30),(36,30),(33,33),(30,30),(27,30),(27,27),(24,24),(27,21),(27,18),(30,18),closed=True)
+        self.relate('connect','wheel','frame')
 
     def circle(self,name,cx,cy,r):
         pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

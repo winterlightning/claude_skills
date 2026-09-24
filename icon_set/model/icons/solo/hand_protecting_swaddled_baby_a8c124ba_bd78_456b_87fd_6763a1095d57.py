@@ -1,15 +1,13 @@
-"""A sheltering hand above a baby tucked into a diagonal swaddle.
-
-Symbol plan: one open hand contour floats above a baby whose head and wrap
-share a continuous outer contour. The wrap fold is a single inner line.
-The SQUARE keyshape uses centerline extremes x=6..42 and y=6..42.
+"""Sheltering hand above a swaddled baby.
+Plan: SQUARE fits the upper hand and diagonal swaddle. Widened finger opening; round baby head joins the swaddle naturally, so detached stick-figure gap does not apply. Reviewed both themes.
+Reduction: Tiny facial marks omitted.
+Construction references: human_ref/user.svg for circular head vocabulary; Lucide hand reviewed for broad rounded fingertip construction.
 """
-
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = "a8c124ba-bd78-456b-87fd-6763a1095d57"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_23/infancy care_a8c124ba-bd78-456b-87fd-6763a1095d57.svg"
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_23/infancy care_a8c124ba-bd78-456b-87fd-6763a1095d57.svg'
 AUTHOR = "gpt-6"
 
 
@@ -25,8 +23,8 @@ class HandProtectingSwaddledBaby(Solo48):
     def build(self) -> None:
         # The finger reaches left; the two wrist ends deliberately stay open.
         self.add_line("hand-top", (42, 6), (30, 6))
-        self.add_line("hand-slope", (30, 6), (18, 12))
-        self.add_arc("hand-tip", (18, 12), (18, 16), radius_x=2, sweep=False)
+        self.add_line("hand-slope", (30, 6), (18, 8))
+        self.add_arc("hand-tip", (18, 8), (18, 16), radius_x=4, sweep=False)
         self.add_line("hand-under", (18, 16), (24, 16))
         self.add_line("hand-thumb", (24, 16), (30, 14))
         self.add_line("hand-palm", (30, 14), (42, 14))

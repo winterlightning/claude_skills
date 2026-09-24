@@ -1,11 +1,12 @@
-"""crayfish. Reconstructed whole reference on SOLO48.
-Plan: VRECT_L visible bounds (6, 2, 42, 46).
-Construction: shrimp (segmented body only). Shared dimensions and relationships are recorded in build.
+"""Crayfish with open pincers, paired legs and a tail fan.
+Plan: VRECT_L retains the upright body and raised pincers.
+Reduction: Fine antennae, extra leg rows, eyes and separate tail lobes omitted; narrow pincer slit enlarged into an open U.
+Construction: shrimp: coherent curved body and clear segmentation; no exact pincer match. Paired appendages mirror about x=24.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '813ecb4a-07a5-40d2-a4dc-2d3842c2a9f0'
-SOURCE_PATH = 'icon_set/work/todo-references/crayfish_813ecb4a-07a5-40d2-a4dc-2d3842c2a9f0.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_13/crawdad_813ecb4a-07a5-40d2-a4dc-2d3842c2a9f0.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -15,7 +16,7 @@ class Drawing(Solo48):
     semantic_kind = 'noun'
     category = 'objects/symbols'
     aliases = ()
-    keywords = ('crayfish',)
+    keywords = ('crawdad',)
 
     def circle(self, name, cx, cy, r):
         self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
@@ -32,42 +33,21 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=True)
 
     def build(self):
-        # Shared vertical body, mirrored appendages, and segmented tapered tail.
-        axis=24
-        self.add_arc('body-tl',(18,20),(24,14),radius_x=6)
-        self.add_arc('body-tr',(24,14),(30,20),radius_x=6)
-        self.add_line('body-right',(30,20),(30,26))
-        self.add_arc('body-br',(30,26),(24,32),radius_x=6)
-        self.add_arc('body-bl',(24,32),(18,26),radius_x=6)
-        self.add_line('body-left',(18,26),(18,20))
-        self.add_contour('body','body-tl','body-tr','body-right','body-br','body-bl','body-left',closed=True)
-        self.add_polyline('tail',(20,32),(20,37),(24,40),(28,37),(28,32),closed=True)
-        self.relate('connect','body','tail')
-        # Narrow extra tail rule omitted; abdomen and fan remain separate segments.
+        # Mirrored elongated claws, enlarged body and a broad tail fan; fine antennae and extra legs omitted.
+        self.add_arc('body-tl',(18,30),(24,24),radius_x=6)
+        self.add_arc('body-tr',(24,24),(30,30),radius_x=6)
+        nodes=[(30,30),(28,36),(32,44),(16,44),(20,36),(18,30)]
+        for k,(a,z) in enumerate(zip(nodes,nodes[1:]),1):self.add_line(f'body-bottom-{k}',a,z)
+        self.add_contour('body','body-tl','body-tr',*[f'body-bottom-{i}' for i in range(1,6)],closed=True)
+        self.add_line('tail-band',(20,36),(28,36));self.relate('connect','body','tail-band')
         for side in (-1,1):
-            def P(x,y):return axis+side*x,y
-            prefix='left' if side==-1 else 'right'
-            self.add_bezier(prefix+'-antenna',(24,14),(P(3,8),P(5,5),P(10,4)))
-            self.relate('connect','body',prefix+'-antenna')
-            self.add_bezier(prefix+'-arm',P(6,20),(P(8,20),P(11,19),P(12,17)))
-            self.relate('connect','body',prefix+'-arm')
-            for row,(base,outer,end) in enumerate(((26,28,32),)):
-                self.add_polyline(f'{prefix}-leg-{row}',P(6,base),P(13,outer),P(16,end))
-                self.relate('connect','body',f'{prefix}-leg-{row}')
-            self.add_polyline(prefix+'-hindleg',P(4,35),P(10,37),P(12,40))
-            self.relate('connect','tail',prefix+'-hindleg')
-            # Broad crayfish pincers carry a visible inward slit.
-            self.add_bezier(prefix+'-pincer-outer',P(12,17),(P(16,14),P(16,7),P(14,4)))
-            self.add_line(prefix+'-pincer-notch-1',P(14,4),P(13,12))
-            self.add_line(prefix+'-pincer-notch-2',P(13,12),P(10,14))
-            self.add_bezier(prefix+'-pincer-inner',P(10,14),(P(8,13),P(8,10),P(9,8)))
-            self.add_contour(prefix+'-pincer',prefix+'-pincer-outer',prefix+'-pincer-notch-1',prefix+'-pincer-notch-2',prefix+'-pincer-inner')
-            self.relate('connect',prefix+'-arm',prefix+'-pincer')
-        # Three connected lobes distinguish this tail fan from the crawdad's two.
-        self.add_bezier('fin-left',(24,40),((18,40),(17,44),(21,44)),((23,44),(24,42),(24,40)))
-        self.add_bezier('fin-right',(24,40),((24,42),(25,44),(27,44)),((31,44),(30,40),(24,40)))
-        self.add_contour('fin-l','fin-left',closed=True)
-        self.add_contour('fin-r','fin-right',closed=True)
-        self.add_line('fin-mid',(24,40),(24,44))
-        self.relate('connect','tail','fin-l','fin-r','fin-mid')
-
+            def P(x,y):return 24+side*x,y
+            n='left' if side==-1 else 'right'
+            self.add_line(n+'-arm',P(6,30),P(12,16));self.relate('connect','body',n+'-arm')
+            self.add_line(n+'-claw-a',P(16,4),P(16,12))
+            self.add_arc(n+'-claw-b',P(16,12),P(12,16),radius_x=4,sweep=side<0)
+            self.add_arc(n+'-claw-c',P(12,16),P(8,12),radius_x=4,sweep=side<0)
+            self.add_line(n+'-claw-d',P(8,12),P(8,4))
+            self.add_contour(n+'-claw',*[n+'-claw-'+k for k in 'abcd'])
+            self.relate('connect',n+'-arm',n+'-claw')
+            self.add_polyline(n+'-leg',P(6,30),P(12,30),P(16,34));self.relate('connect','body',n+'-leg');self.relate('connect',n+'-arm',n+'-leg')

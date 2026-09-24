@@ -1,16 +1,15 @@
-"""A plug inside an open circle with a lower-right cancellation cross.
-
-Symbol plan: plug: bowl and equal prongs; code: matched diagonal strokes.
-Envelope: SQUARE. The complete composition has a square overall envelope and uses the (6,6)–(42,42) centerline extremes.
-Reduction: No defining features omitted; open ring preserves room for the cross.
-"""
+"""A plug inside a broken circle with a cancellation cross.
+Plan: SQUARE gives the circle and lower-right cross the full (6,6)-(42,42) centerline envelope.
+Reduction: No defining component removed; plug bowl enlarged and cross made more compact.
+Construction: Lucide plug: paired prongs and tangent bowl corners.
+Layout: Ring opening and offset cross deliberately break symmetry; the plug prongs remain equal."""
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2fa2e764-f653-4eb6-b13a-4c6d7b198877'
-SOURCE_PATH = 'icon_set/work/todo-references/plug circle xmark_2fa2e764-f653-4eb6-b13a-4c6d7b198877.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/plug circle xmark_2fa2e764-f653-4eb6-b13a-4c6d7b198877.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'plug-circle-xmark'
@@ -27,21 +26,21 @@ class Drawing(Solo48):
         self.add_arc('ring-bottom',(24,42),(6,24),radius_x=18)
         self.add_contour('ring','ring-bottom','ring-top')
         cx=22; radius=6
-        self.add_polyline('plug-top',(cx-radius,25),(cx-4,25),(cx+4,25),(cx+radius,25))
-        self.add_line('plug-right',(cx+radius,25),(cx+radius,26))
-        self.add_arc('bowl-right',(cx+radius,26),(cx,32),radius_x=radius)
-        self.add_arc('bowl-left',(cx,32),(cx-radius,26),radius_x=radius)
-        self.add_line('plug-left',(cx-radius,26),(cx-radius,25))
+        self.add_polyline('plug-top',(cx-radius,24),(cx-4,24),(cx+4,24),(cx+radius,24))
+        self.add_line('plug-right',(cx+radius,24),(cx+radius,27))
+        self.add_arc('bowl-right',(cx+radius,27),(cx,33),radius_x=radius)
+        self.add_arc('bowl-left',(cx,33),(cx-radius,27),radius_x=radius)
+        self.add_line('plug-left',(cx-radius,27),(cx-radius,24))
         self.add_contour('plug-bowl','plug-right','bowl-right','bowl-left','plug-left')
         self.relate('connect','plug-bowl','plug-top')
         for i,x in enumerate((cx-4,cx+4)):
-            self.add_line(f'prong-{i}',(x,17),(x,25))
+            self.add_line(f'prong-{i}',(x,17),(x,24))
             self.relate('connect',f'prong-{i}','plug-top')
-        self.add_bezier('cable',(22,32),((22,37),(24,38),(24,42)))
+        self.add_bezier('cable',(22,33),((22,37),(24,38),(24,42)))
         self.relate('connect','cable','plug-bowl')
         self.relate('connect','cable','ring')
-        self.add_polyline('cross-down',(34,34),(38,38),(42,42))
-        self.add_polyline('cross-up',(34,42),(38,38),(42,34))
+        self.add_polyline('cross-down',(36,36),(39,39),(42,42))
+        self.add_polyline('cross-up',(36,42),(39,39),(42,36))
         self.relate('connect','cross-down','cross-up')
 
     def circle(self, name, cx, cy, r):

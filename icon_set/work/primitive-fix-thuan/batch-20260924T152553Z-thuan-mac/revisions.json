@@ -1,0 +1,102 @@
+{
+  "rhinoceros-facing-right": [
+    "HRECT_L",
+    "Heavy rhino silhouette with rounded back, two broad legs, low muzzle and rising horn. No useful Lucide match. Inner leg seams omitted.",
+    "\npath('rhino',(4,40),[(4,26),((18,12),14,14,True),(26,12),(31,8),(32,18),(36,22),(44,14),(44,26),((38,32),6,6,True),(32,30),(32,40),(24,40),(24,30),(12,30),(12,40),(4,40)],True)\n"
+  ],
+  "right-facing-head-with-curled-breath-lines": [
+    "SQUARE",
+    "Circular rear skull, continuous neck, rounded open mouth and two outward breath curls. Human user.svg informs skull flow; preserve attached anatomical neck.",
+    "\npath('head',(6,42),[(6,18),((18,6),12,12,True),((30,18),12,12,True),(30,20),(31,23),(24,23),((24,33),5,5,False),((22,39),6,6,True),(22,42)])\npath('breath-upper',(40,17),[((42,20),2,3,True),((40,23),2,3,True)])\npath('breath-lower',(36,34),[(39,34),((42,37),3,3,True),((39,40),3,3,True)])\n"
+  ],
+  "right-facing-human-profile": [
+    "VRECT_L",
+    "Circular skull and smooth quarter-circle shoulder; continuous neck remains anatomical. Human user.svg informs circular skull and rounded shoulder. No detached head.",
+    "\npath('profile',(24,44),[(24,32),(24,28),((12,16),12,12,True),((24,4),12,12,True),((36,16),12,12,True),(40,22),(34,24),(34,32),(32,32)])\npath('shoulder',(8,44),[((24,32),16,12,True)]);join('profile','shoulder')\n"
+  ],
+  "road-crossing-horizontal-line": [
+    "HRECT_L",
+    "Mirrored straight tapering road sides, a full width overpass and two center dashes; remove kinks in rejected road edges. No useful exact Lucide match.",
+    "\npoly('left',(8,40),(12,24),(16,8))\npoly('right',(40,40),(36,24),(32,8))\npoly('bridge',(4,24),(12,24),(36,24),(44,24))\njoin('bridge','left');join('bridge','right')\nline('dash-top',(24,8),(24,16));line('dash-bottom',(24,32),(24,40))\n"
+  ],
+  "rocket-passing-above-a-globe": [
+    "SQUARE",
+    "Diagonal pointed rocket with two fins above a curved globe, short exhaust and continent seam. Lucide rocket informs coherent pointed fuselage.",
+    "\npath('rocket',(16,18),[(28,8),(42,6),(40,12),(30,22),(26,25),(16,18)],True)\nline('fin-left',(16,18),(6,18));join('fin-left','rocket')\nline('fin-right',(30,22),(34,24));join('fin-right','rocket')\nline('exhaust',(6,34),(8,30))\npath('globe',(16,29),[((17,34),13,13,False),((29,42),13,13,False),((41,34),13,13,False),((42,29),13,13,False)])\npoly('latitude',(17,34),(29,34),(41,34));join('latitude','globe')\nline('meridian',(29,34),(29,42));join('meridian','globe');join('meridian','latitude')\n"
+  ],
+  "rolled-parchment-wavy-mark": [
+    "VRECT_L",
+    "Upright scroll with rounded rolled top and lower curl, one visible wave. Lucide scroll informs split shared boundaries and rolled-end construction.",
+    "\npath('sheet',(12,4),[(30,4),((38,12),8,8,True),(38,34),(40,34),(40,38),((34,44),6,6,True),(18,44),((12,38),6,6,True),(12,16)])\npath('top-roll',(8,16),[(8,8),((12,4),4,4,True),((16,8),4,4,True),(16,16),(12,16),(8,16)],True);join('sheet','top-roll')\npath('lower-curl',(24,34),[(24,38),((30,44),6,6,False)]);join('lower-curl','sheet')\nline('lip',(24,34),(38,34));join('lip','sheet');join('lip','lower-curl')\npath('wave',(21,25),[((25,23),4,4,True),((29,25),4,4,False)])\n"
+  ],
+  "rolled-sheet-with-loose-end": [
+    "HRECT_L",
+    "Horizontal cylinder with open spiral front and a loose sheet extending to lower right; circle and cylinder use shared tangent extrema. Lucide cylinder informs barrel.",
+    "\npath('spiral',(17,23),[((13,19),4,4,True),((19,13),6,6,True),((27,21),8,8,True),((16,32),11,11,True),((4,20),12,12,True),((16,8),12,12,True)])\npath('barrel',(16,8),[(32,8),((44,20),12,12,True),((32,32),12,12,True),(16,32)]);join('spiral','barrel')\npoly('flap',(16,32),(24,40),(44,40),(32,32));join('flap','barrel');join('flap','spiral')\n"
+  ],
+  "roller-coaster-ferris-wheel": [
+    "SQUARE",
+    "Ferris wheel with radial spokes and splayed supports beside a smooth descending coaster track. Lucide ferris-wheel informs radial wheel.",
+    "\ncircle('wheel',30,18,12)\npoly('spoke-v',(30,6),(30,18),(30,30));poly('spoke-h',(18,18),(30,18),(42,18))\njoin('spoke-v','wheel');join('spoke-h','wheel');join('spoke-v','spoke-h')\npoly('support',(24,42),(30,30),(36,42));join('support','wheel');join('support','spoke-v')\npath('track',(6,42),[(6,30),((14,30),4,4,True),((26,42),12,12,False),(42,42)])\njoin('track','support')\n"
+  ],
+  "rotating-valve-handle": [
+    "SQUARE",
+    "Centered horizontal valve handle and stem above a broad base, flanked by opposite rotation arrows. Lucide rotate-cw informs curved directional arrows.",
+    "\npath('handle',(19,14),[(29,14),((29,22),4,4,True),(24,22),(19,22),((19,14),4,4,True)],True)\nline('stem',(24,22),(24,42));join('stem','handle')\npoly('base',(14,42),(24,42),(34,42));join('base','stem')\npath('left-arrow',(12,6),[((6,18),15,15,False),(6,30),(12,30)])\npoly('left-head',(6,22),(6,30),(14,30));join('left-head','left-arrow')\npath('right-arrow',(36,34),[((42,22),15,15,False),(42,6),(34,6)])\npoly('right-head',(34,6),(42,6),(42,14));join('right-head','right-arrow')\n"
+  ],
+  "round-antenna-on-splayed-legs": [
+    "SQUARE",
+    "Circular antenna with horizontal divider, two splayed supports, balanced curved signal arcs. Lucide radio-tower informs paired arcs and splayed support.",
+    "\ncircle('dish',24,22,9)\npoly('divider',(15,22),(24,22),(33,22));join('divider','dish')\npoly('legs',(16,42),(24,31),(32,42));join('legs','dish')\npath('signal-left',(12,6),[((6,22),6,16,False),((10,32),4,10,False)])\npath('signal-right',(36,6),[((42,22),6,16,True),((38,32),4,10,True)])\n"
+  ],
+  "round-baby-head-with-one-curl": [
+    "CIRCLE",
+    "Closed circular baby face, integrated ears and one top curl; Lucide baby informs circular face and curl; human user.svg supplies circular anatomy. Facial dots omitted because source is blank.",
+    "\npath('head',(8,20),[((24,4),16,16,True),((40,20),16,16,True),((44,24),4,4,True),((40,28),4,4,True),((24,44),16,16,True),((8,28),16,16,True),((4,24),4,4,True),((8,20),4,4,True)],True)\npath('curl',(24,4),[((30,10),6,6,True),((24,16),6,6,True),((18,10),6,6,True)]);join('curl','head')\n"
+  ],
+  "round-bodied-hen": [
+    "HRECT_L",
+    "Smooth broad hen body with rounded head, beak, tail and two separate feet; Lucide bird informs flowing neck and body. Tiny comb seam omitted.",
+    "\npath('hen',(4,12),[(12,20),(24,20),(24,16),((32,8),8,8,True),((40,16),8,8,True),(44,20),(40,24),((28,36),12,12,True),(20,36),((4,20),16,16,True),(4,12)],True)\nline('foot-left',(20,36),(20,40));line('foot-right',(28,36),(28,40));join('foot-left','hen');join('foot-right','hen')\n"
+  ],
+  "round-bottom-flask-solo": [
+    "VRECT_L",
+    "Round flask with straight neck, distinct rolled lip and exact tangent circular bulb. Lucide flask-round informs circular bulb and upright neck. No liquid line because reference is empty.",
+    "\npath('bulb',(18,16),[(18,4),(30,4),(30,16),((40,30),16,16,True),((24,44),16,14,True),((8,30),16,14,True),((18,16),16,16,True)],True)\nline('lip-left',(14,4),(18,4));line('lip-right',(30,4),(34,4));join('lip-left','bulb');join('lip-right','bulb')\n"
+  ],
+  "round-gift-with-tied-ribbon": [
+    "CIRCLE",
+    "Round gift with horizontal and vertical ribbon and mirrored broad bow loops. Lucide gift informs matched bow lobes, avoiding overlapped knotted strokes.",
+    "\ncircle('box',24,24,20)\npoly('ribbon-h',(4,24),(24,24),(44,24));poly('ribbon-v',(24,24),(24,44));join('ribbon-h','box');join('ribbon-v','box');join('ribbon-h','ribbon-v')\npath('bow-left',(24,24),[(16,22),((16,12),5,5,True),((24,20),8,8,True),(24,24)],True)\npath('bow-right',(24,24),[(24,20),((32,12),8,8,True),((32,22),5,5,True),(24,24)],True)\nfor a in ['bow-left','bow-right']:\n join(a,'ribbon-h');join(a,'ribbon-v')\njoin('bow-left','bow-right')\n"
+  ],
+  "round-hatbox-with-loop-handle": [
+    "VRECT_L",
+    "Cylinder with oval lid and broad semicircular loop handle seated at actual shared lid endpoints. Lucide cylinder informs equal curved top and bottom.",
+    "\npath('lid',(8,24),[((16,16),8,8,True),(32,16),((40,24),8,8,True),((24,32),16,8,True),((8,24),16,8,True)],True)\npath('body',(8,24),[(8,36),((24,44),16,8,False),((40,36),16,8,False),(40,24)]);join('body','lid')\npath('handle',(16,16),[(16,12),((32,12),8,8,True),(32,16)]);join('handle','lid')\n"
+  ],
+  "round-lantern": [
+    "VRECT_L",
+    "Circular lantern globe divided by centered ribs; arched top handle and separate base. Circular joins split at exact nodes. No useful Lucide lamp match for this globe lantern.",
+    "\npath('outline',(16,16),[(16,12),((24,4),8,8,True),((32,12),8,8,True),(32,16),((40,28),8,12,True),((32,40),8,12,True),(32,44),(24,44),(16,44),(16,40),((8,28),8,12,True),((16,16),8,12,True)],True)\npoly('handle-base',(16,16),(24,16),(32,16));join('handle-base','outline')\npoly('vertical',(24,16),(24,28),(24,44));poly('horizontal',(8,28),(24,28),(40,28));join('vertical','outline');join('horizontal','outline');join('vertical','horizontal');join('vertical','handle-base')\n"
+  ],
+  "round-meatball-with-short-curved-marks": [
+    "CIRCLE",
+    "Circular meatball with four curved texture strokes arranged rotationally around center. Lucide cookie informs sparse internal texture; restore reference arcs instead of dots.",
+    "\ncircle('ball',24,24,20)\nfor i,(a,b) in enumerate([((15,21),(19,17)),((27,15),(31,19)),((33,27),(29,31)),((21,33),(17,29))]):\n self.add_arc(f'texture-{i}',a,b,radius_x=7,sweep=True)\n"
+  ],
+  "rounded-armchair-with-inset-seat-cushion": [
+    "SQUARE",
+    "Rounded armchair with thick arms, inset seat and two feet; Lucide armchair informs one coherent lower silhouette and tangent corners.",
+    "\npath('back',(14,22),[(14,12),((20,6),6,6,True),(28,6),((34,12),6,6,True),(34,22)])\npath('chair',(14,28),[(14,22),((6,22),4,4,False),(6,34),((10,38),4,4,False),(38,38),((42,34),4,4,False),(42,22),((34,22),4,4,False),(34,28),(14,28)],True);join('back','chair')\nline('foot-left',(10,38),(10,42));line('foot-right',(38,38),(38,42));join('foot-left','chair');join('foot-right','chair')\n"
+  ],
+  "rounded-camping-caravan": [
+    "HRECT_L",
+    "Rounded caravan with upright doorway, window opening, one wheel and tow bar. Lucide caravan informs continuous shell broken at the wheel.",
+    "\npath('shell',(11,35),[(4,35),(4,20),((16,8),12,12,True),(28,8),((40,20),12,12,True),(40,35),(28,35),(21,35)])\ncircle('wheel',16,35,5);join('shell','wheel')\npoly('door',(28,35),(28,20),(40,20));join('door','shell')\nline('window',(13,19),(19,19))\nline('tow',(40,35),(44,35));join('tow','shell')\n"
+  ],
+  "rounded-car-under-sun": [
+    "SQUARE",
+    "Complete rounded side car with two wheels below sun; Lucide car informs wheel breaks and roof slope. Tiny window seam and fine sun rays omitted.",
+    "\npath('body',(9,37),[(6,37),(6,30),((12,24),6,6,True),(18,18),(24,18),(32,24),(36,24),((42,30),6,6,True),(42,37),(39,37)])\ncircle('rear-wheel',14,37,5);circle('front-wheel',34,37,5)\nline('sill',(19,37),(29,37));join('sill','rear-wheel');join('sill','front-wheel');join('body','rear-wheel');join('body','front-wheel')\ncircle('sun',37,9,3)\n"
+  ]
+}

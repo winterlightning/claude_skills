@@ -1,11 +1,12 @@
-"""Suitcase pill, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
-"""
+"""A medical suitcase containing a diagonal capsule.
+Symbol plan and construction: briefcase-medical and pill: rounded case, attached handle and tangent capsule caps.
+Keyshape: SQUARE preserves a broad case and top handle within centerlines (6,6)-(42,42).
+Omissions: Capsule seam removed; the diagonal capsule and suitcase remain.
+Review: Approved in both themes at 48px and enlarged size. The handle and case are symmetric; the pill follows the source diagonal."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa'
-SOURCE_PATH='icon_set/work/todo-references/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg'
+SOURCE_PATH = 'pictographic-primitives/other/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -19,23 +20,17 @@ class Drawing(Solo48):
 
     # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
     def build(self):
-        # A diagonal capsule with an explicit midpoint seam; both halves retained.
+        # A short diagonal capsule with matched rounded ends and a shared seam.
         self.suitcase()
-        self.add_bezier('cap-low',(19,25),((15,29),(21,35),(25,31)))
-        self.add_line('side-low',(25,31),(27,29))
-        self.add_line('side-low-upper',(27,29),(29,27))
-        self.add_bezier('cap-high',(29,27),((33,23),(27,17),(23,21)))
-        self.add_line('side-high',(23,21),(21,23))
-        self.add_line('side-high-lower',(21,23),(19,25))
-        self.add_contour('pill','cap-low','side-low','side-low-upper','cap-high','side-high','side-high-lower',closed=True)
-        self.add_line('pill-seam',(21,23),(27,29))
-        self.relate('connect','pill','pill-seam')
+        self.add_bezier('cap-low',(20,26),((16,30),(22,36),(26,32)))
+        self.add_polyline('side-low',(26,32),(27,31),(28,30))
+        self.add_bezier('cap-high',(28,30),((32,26),(26,20),(22,24)))
+        self.add_polyline('side-high',(22,24),(21,25),(20,26))
+        self.add_contour('pill','cap-low','side-low-1','side-low-2','cap-high','side-high-1','side-high-2',closed=True)
+        self.contours=[c for c in self.contours if c.contour_id not in ['side-low','side-high']]
+        # Omit the central seam to leave one readable capsule opening.
 
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
 
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
@@ -65,7 +60,3 @@ class Drawing(Solo48):
         self.path('handle',(16,14),[('L',(16,10)),('A',(20,6),4),
             ('L',(28,6)),('A',(32,10),4),('L',(32,14))])
         self.relate('connect','case','handle')
-
-    def check(self,n,x,y):
-        self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
-

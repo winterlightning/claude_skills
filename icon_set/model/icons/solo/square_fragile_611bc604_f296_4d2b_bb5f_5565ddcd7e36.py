@@ -1,11 +1,16 @@
+"""A framed fragile wineglass symbol.
+Plan: SQUARE preserves the rounded frame and centered glass.
+Reduction: No defining part omitted; bowl shortened to provide an eight-unit stem.
+Construction: Lucide wine: rounded bowl, centered stem and equal foot halves.
+Layout: Glass is centered on x24 with a symmetric bowl and base."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='611bc604-f296-4d2b-bb5f-5565ddcd7e36'
-SOURCE_PATH='icon_set/work/todo-references/square fragile_611bc604-f296-4d2b-bb5f-5565ddcd7e36.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square fragile_611bc604-f296-4d2b-bb5f-5565ddcd7e36.svg'
+AUTHOR = "gpt-6"
 PLAN='Square containing a wine glass with rounded bowl, stem and foot.'
 CONSTRUCTION_REFERENCES='Lucide wine: bowl, centered stem and horizontal foot.'
-OMISSIONS='None.'
+OMISSIONS='No defining part omitted; bowl shortened to provide an eight-unit stem.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
@@ -60,10 +65,10 @@ class Drawing(Solo48):
 
     def build(self):
         self.box('frame',6,6,36,36,4)
-        self.add_polyline('bowl-top',(16,21),(16,15),(32,15),(32,21))
-        self.add_arc('bowl-bottom',(32,21),(16,21),radius_x=8);self.relate('connect','bowl-top','bowl-bottom')
-        self.add_line('stem',(24,29),(24,33));self.relate('connect','bowl-bottom','stem')
+        self.add_polyline('bowl-top',(16,17),(16,15),(32,15),(32,17))
+        self.add_arc('bowl-bottom',(32,17),(16,17),radius_x=8);self.relate('connect','bowl-top','bowl-bottom')
+        self.add_line('stem',(24,25),(24,33));self.relate('connect','bowl-bottom','stem')
         self.add_polyline('foot',(19,33),(24,33),(29,33));self.relate('connect','stem','foot')
 
 KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='None.'
+FINAL_REDUCTIONS='No defining part omitted; bowl shortened to provide an eight-unit stem.'

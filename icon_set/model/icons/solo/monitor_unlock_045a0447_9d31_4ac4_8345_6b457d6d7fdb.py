@@ -1,51 +1,46 @@
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-
-SOURCE_ICON_ID = '045a0447-9d31-4ac4-8345-6b457d6d7fdb'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
-AUTHOR = 'gpt-6'
-SUBJECT = 'A monitor displaying an unlocked padlock.'
-CONSTRUCTION_PLAN = 'Rounded lock body with an open circular shackle above it, inside the shared monitor.'
-KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]
-
-def circle(icon,name,cx,cy,r):
-    icon.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-    icon.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-    icon.add_contour(name,name+'-a',name+'-b',closed=True)
-
-def rounded_rect(icon,name,left,top,right,bottom,r=4,bottom_split=None):
-    points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),(right-r,bottom)]
-    if bottom_split is not None:points.append((bottom_split,bottom))
-    points += [(left+r,bottom),(left,bottom-r),(left,top+r)]
-    members=[]
-    for i,start in enumerate(points):
-        end=points[(i+1)%len(points)];n=f'{name}-{i}';members.append(n)
-        if start[0]!=end[0] and start[1]!=end[1]:icon.add_arc(n,start,end,radius_x=r)
-        else:icon.add_line(n,start,end)
-    icon.add_contour(name,*members,closed=True)
-
-def monitor(icon):
-    # Shared screen, central attachment and two base halves, drawn on SOLO48.
-    rounded_rect(icon,'screen',6,6,42,34,bottom_split=24)
-    icon.add_line('stand',(24,34),(24,42))
-    icon.add_line('base-left',(16,42),(24,42))
-    icon.add_line('base-right',(24,42),(32,42))
-    icon.relate('connect','screen','stand')
-    icon.relate('connect','stand','base-left','base-right')
-
+SOURCE_ICON_ID='045a0447-9d31-4ac4-8345-6b457d6d7fdb'
+SOURCE_PATH='pictographic-primitives/other/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
+AUTHOR='gpt-6'
+PLAN='Taller monitor screen permits an open padlock. Lucide lock-keyhole-open shackle; omit keyhole absent in source and horizontal foot bar to preserve the open lock.'
 class Drawing(Solo48):
-    icon_id = 'monitor-unlock'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('monitor', 'unlock')
-
+    icon_id='monitor-unlock'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('monitor', 'unlock')
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        monitor(self)
-        rounded_rect(self,'lock',17,21,31,29,r=2)
-        self.add_line('shackle-stem',(20,21),(20,15))
-        self.add_arc('shackle-arch',(20,15),(28,15),radius_x=4)
-        self.add_contour('shackle','shackle-stem','shackle-arch')
+        self.add_polyline('screen',(8,4),(40,4),(40,40),(24,40),(8,40),closed=True)
+        self.add_line('stand',(24,40),(24,44));self.relate('connect','screen','stand')
+        self.path('lock',(19,22),[('L',(20,22)),('L',(29,22)),('A',(31,24),2,2,True),('L',(31,28)),('A',(29,30),2,2,True),('L',(19,30)),('A',(17,28),2,2,True),('L',(17,24)),('A',(19,22),2,2,True)],True)
+        self.path('shackle',(20,22),[('L',(20,17)),('A',(24,13),4,4,True),('L',(28,13))])
         self.relate('connect','lock','shackle')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start;members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='B':self.add_bezier(eid,at,(*args,end))
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,q=4):
+        self.path(n,(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)
+
+    def monitor(self,l=6,t=6,r=42,b=34,foot=42):
+        q=4
+        self.path('screen',(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(24,b)),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)
+        self.add_line('stand',(24,b),(24,foot))
+        self.add_polyline('foot',(16,foot),(24,foot),(32,foot))
+        self.relate('connect','stand','screen');self.relate('connect','stand','foot')

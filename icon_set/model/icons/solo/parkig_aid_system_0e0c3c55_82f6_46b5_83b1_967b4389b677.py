@@ -1,13 +1,13 @@
-"""A parking P with sensor waves facing a triangular obstacle.
-Symbol plan: P sits upper-left, two expanding wave curves occupy the middle, and an obstacle sits lower-right. Ink extremes (4,4)-(44,44).
-Construction: square-parking: P construction; radio-tower: expanding signal arcs, adapted to the supplied right-facing arrangement.
-Human construction: Not applicable.
-"""
+"""A parking P emitting a sensor wave toward a triangular obstacle.
+Plan: SQUARE preserves the upper-left P and lower-right obstacle.
+Reduction: Reduced two sensor waves to one and moved it slightly right.
+Construction: Lucide-style parking letter loop and radio-wave construction, guided by the source.
+Layout: Intentional upper-left to lower-right sensing arrangement remains clear."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0e0c3c55-82f6-46b5-83b1-967b4389b677'
-SOURCE_PATH = 'icon_set/work/todo-references/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/transportation/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'parkig-aid-system'
@@ -20,8 +20,7 @@ class Drawing(Solo48):
 
     def build(self):
         self.parking_letter('p',6,6,24,12,12)
-        self.add_bezier('wave-inner',(26,12),((26,18),(24,23),(20,26)))
-        self.add_bezier('wave-outer',(34,14),((34,24),(29,31),(24,34)))
+        self.add_bezier('wave-inner',(27,12),((27,18),(25,23),(21,26)))
         self.add_polyline('obstacle',(34,26),(42,42),(26,42),closed=True)
         self.add_line('ground',(24,42),(26,42))
         self.relate('connect','ground','obstacle')

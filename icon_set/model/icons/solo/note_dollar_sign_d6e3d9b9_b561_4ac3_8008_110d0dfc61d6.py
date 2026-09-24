@@ -1,14 +1,14 @@
 """A clipboard containing a dollar sign.
 
 Symbol plan: Centered clip capsule attached to one rounded board contour. VRECT_L ink extremes (6,2)-(42,46).
-Construction: clipboard-list: open board contour around the clip; dollar-sign: smooth S construction.
+Construction: clipboard-list: open board contour around the clip; dollar-sign: geometric S with an open diagonal waist.
 Human construction: Not applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd6e3d9b9-b561-4ac3-8008-110d0dfc61d6'
-SOURCE_PATH = 'icon_set/work/todo-references/note dollar sign_d6e3d9b9-b561-4ac3-8008-110d0dfc61d6.svg'
+SOURCE_PATH = 'pictographic-primitives/other/note dollar sign_d6e3d9b9-b561-4ac3-8008-110d0dfc61d6.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -22,15 +22,14 @@ class Drawing(Solo48):
 
     def build(self):
         self.clipboard()
-        self.add_line('dollar-top-bar',(29,23),(24,23))
-        self.add_bezier('dollar-upper',(24,23),((17,23),(17,28),(24,28)))
-        self.add_bezier('dollar-lower',(24,28),((31,28),(31,33),(24,33)))
-        self.add_line('dollar-bottom-bar',(24,33),(19,33))
-        self.add_contour('dollar-s','dollar-top-bar','dollar-upper','dollar-lower','dollar-bottom-bar')
-        self.add_line('dollar-top',(24,21),(24,23))
-        self.add_line('dollar-bottom',(24,33),(24,35))
-        self.relate('connect','dollar-top','dollar-s')
-        self.relate('connect','dollar-bottom','dollar-s')
+        self.add_polyline('dollar-top-bar',(28,22),(24,22),(22,22))
+        self.add_arc('dollar-upper',(22,22),(20,24),radius_x=2,sweep=False)
+        self.add_line('dollar-waist',(20,24),(28,32))
+        self.add_arc('dollar-lower',(28,32),(26,34),radius_x=2)
+        self.add_polyline('dollar-bottom-bar',(26,34),(24,34),(20,34))
+        for a,b in [('dollar-top-bar','dollar-upper'),('dollar-upper','dollar-waist'),('dollar-waist','dollar-lower'),('dollar-lower','dollar-bottom-bar')]:self.relate('connect',a,b)
+        self.add_line('dollar-top',(24,21),(24,22));self.relate('connect','dollar-top','dollar-top-bar')
+        self.add_line('dollar-bottom',(24,34),(24,35));self.relate('connect','dollar-bottom','dollar-bottom-bar')
 
     def circle(self, name, cx, cy, rx, ry=None):
         ry = rx if ry is None else ry

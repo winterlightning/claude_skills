@@ -1,8 +1,10 @@
-"""A smartphone nested in stethoscope tubing with a small chestpiece.
+"""medical app smartphone listen: standalone repair of supplied reference.
 
-Symbol plan: the phone is a rounded rectangle; the U tubing has paired
-quarter-circle bends on one axis; a lower branch reaches the chestpiece.
-Lucide smartphone supplied the enclosure and stethoscope the U construction.
+Plan: Phone inside U with chestpiece at lower right. Keyshape SQUARE.
+Reduction: Shortened phone and lifted U to give the lower hose clearance; chestpiece uses radius-2 circle.
+Construction references: local Lucide originals and atomic-debug: smartphone, stethoscope.
+
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -25,20 +27,20 @@ class SmartphoneWithStethoscope(Solo48):
         r = 3
         self.add_line("phone-top", (18, 6), (26, 6))
         self.add_arc("phone-ne", (26, 6), (29, 9), radius_x=r, sweep=True)
-        self.add_line("phone-right", (29, 9), (29, 20))
-        self.add_arc("phone-se", (29, 20), (26, 23), radius_x=r, sweep=True)
-        self.add_line("phone-bottom", (26, 23), (18, 23))
-        self.add_arc("phone-sw", (18, 23), (15, 20), radius_x=r, sweep=True)
-        self.add_line("phone-left", (15, 20), (15, 9))
+        self.add_line("phone-right", (29, 9), (29, 17))
+        self.add_arc("phone-se", (29, 17), (26, 20), radius_x=r, sweep=True)
+        self.add_line("phone-bottom", (26, 20), (18, 20))
+        self.add_arc("phone-sw", (18, 20), (15, 17), radius_x=r, sweep=True)
+        self.add_line("phone-left", (15, 17), (15, 9))
         self.add_arc("phone-nw", (15, 9), (18, 6), radius_x=r, sweep=True)
         self.add_contour("phone", "phone-top", "phone-ne", "phone-right", "phone-se", "phone-bottom", "phone-sw", "phone-left", "phone-nw", closed=True)
 
-        self.add_line("u-left-stem", (6, 12), (6, 19))
-        self.add_arc("u-left-bend", (6, 19), (22, 35), radius_x=16, sweep=False)
-        self.add_arc("u-right-bend", (22, 35), (38, 19), radius_x=16, sweep=False)
-        self.add_line("u-right-stem", (38, 19), (38, 12))
+        self.add_line("u-left-stem", (6, 12), (6, 15))
+        self.add_arc("u-left-bend", (6, 15), (22, 31), radius_x=16, sweep=False)
+        self.add_arc("u-right-bend", (22, 31), (38, 15), radius_x=16, sweep=False)
+        self.add_line("u-right-stem", (38, 15), (38, 12))
         self.add_contour("stethoscope-u", "u-left-stem", "u-left-bend", "u-right-bend", "u-right-stem")
-        self.add_polyline("lower-tube", (22, 35), (22, 40), (38, 40))
+        self.add_polyline("lower-tube", (22, 31), (22, 40), (38, 40))
         self.relate("connect", "u-left-bend", "lower-tube")
         self.relate("connect", "u-right-bend", "lower-tube")
 

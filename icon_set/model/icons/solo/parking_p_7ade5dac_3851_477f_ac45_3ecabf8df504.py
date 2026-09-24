@@ -1,15 +1,19 @@
+"""parking p: standalone SOLO48 repair.
+Plan: Front-facing car partly covered by circular P badge.
+Keyshape: VRECT_L; shared dimensions and nodes own repeated elements.
+Reduction: Rebalanced to a tall envelope; omitted headlights and hidden roof/fascia strokes; retained P and both wheels. Circle attaches to roof at an exact 5-12-13 point.
+Lucide originals and atomic-debug construction reference: car-front.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7ade5dac-3851-477f-ac45-3ecabf8df504'
-SOURCE_PATH = 'icon_set/work/todo-references/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Front-facing car under an overlapping circular P parking badge. Car sides and wheels mirror about x=21.'
-CONSTRUCTION_REFERENCES = 'monitor: rounded car fascia; circle construction for the parking badge.'
-OMISSIONS = 'Headlamp pair reduced to two dots; small tire outlines reduced to strokes.'
 
 class Drawing(Solo48):
     icon_id = 'parking-p'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/general'
@@ -43,13 +47,19 @@ class Drawing(Solo48):
         self.relate('connect',name+'-return',name+'-stem')
 
     def build(self):
-        self.circle('badge',32,16,10)
-        self.letter_p('p',29,10,7,12)
-        self.add_polyline('roof',(8,30),(12,23),(22,23))
-        self.box('car',6,30,32,8,3)
-        for i,x in enumerate((12,32)):
-            self.add_line(f'wheel-{i}',(x,38),(x,42));self.relate('connect','car',f'wheel-{i}')
-        for i,x in enumerate((13,31)):self.add_dot(f'lamp-{i}',(x,34))
-
-KEYSHAPE_INK_BOUNDS = (4, 4, 44, 44)
-KEYSHAPE_REASON = 'The full composition is approximately square and uses the 36×36 centerline envelope.'
+        # Occluding badge dominates a front-facing car; joints are actual shared nodes.
+        # Badge radius 13 gives the lower-left 5-12-13 attachment (15,22).
+        self.add_arc('badge-a',(15,22),(27,4),radius_x=13)
+        self.add_arc('badge-b',(27,4),(40,17),radius_x=13)
+        self.add_arc('badge-c',(40,17),(27,30),radius_x=13)
+        self.add_arc('badge-d',(27,30),(15,22),radius_x=13)
+        self.add_contour('badge','badge-a','badge-b','badge-c','badge-d',closed=True)
+        self.circle('p-bowl',27,15,2)
+        self.add_line('p-stem',(25,15),(25,21))
+        self.relate('connect','p-stem','p-bowl')
+        self.add_polyline('car',(15,22),(8,32),(8,40),(12,40),(36,40),(40,40),(40,34))
+        self.relate('connect','car','badge-a')
+        self.relate('connect','car','badge-d')
+        for i,x in enumerate((12,36)):
+            self.add_line(f'wheel-{i}',(x,40),(x,44))
+            self.relate('connect',f'wheel-{i}','car')

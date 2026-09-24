@@ -1,0 +1,38 @@
+"""Smiling face with five-point star eyes.
+Plan: CIRCLE retains the round face. Outlined stars crowd the head and each other; a passing spoke version was rejected because it looked like flowers. Not visually approved.
+Reduction: Open grin simplified to a curved smile; defining stars retained.
+Construction references: Original star-eye reference and human facial vocabulary; no useful exact Lucide construction used.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='236451ca-3512-494c-8c17-87481ad251f8'
+SOURCE_PATH='pictographic-primitives/_uncategorized_17/face awesome_236451ca-3512-494c-8c17-87481ad251f8.svg'
+AUTHOR = "gpt-6"
+
+class Drawing(Solo48):
+    icon_id='face-awesome'
+    keyshape=Keyshape.CIRCLE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=('face', 'awesome')
+    def build(self):
+        self.circle('head',24,24,20)
+        for i,x in enumerate((15,33)):
+            self.add_polyline(f'star-{i}',(x,14),(x+2,18),(x+6,18),(x+3,22),(x+4,26),(x,23),(x-4,26),(x-3,22),(x-6,18),(x-2,18),closed=True)
+        self.add_arc('smile',(20,32),(28,32),radius_x=5,sweep=False)
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start; members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)

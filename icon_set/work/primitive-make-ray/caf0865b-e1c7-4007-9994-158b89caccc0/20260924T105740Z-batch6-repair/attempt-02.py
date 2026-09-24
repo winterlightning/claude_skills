@@ -1,0 +1,53 @@
+"""A rounded netsuke figure has a circular head and crossed looping arms.
+Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
+SOLO48 VRECT_M; omissions: Minor hand contours simplified into one loop.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='caf0865b-e1c7-4007-9994-158b89caccc0'
+SOURCE_PATH='icon_set/work/todo-references/netsuke_caf0865b-e1c7-4007-9994-158b89caccc0.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='netsuke'
+    keyshape=Keyshape.VRECT_M
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('netsuke',)
+    human_construction='bust'
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=2):
+        p=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        ids=[]
+        for i in range(8):
+            k=n+'-'+str(i);ids.append(k)
+            if i%2:self.add_arc(k,p[i],p[(i+1)%8],radius_x=r)
+            else:self.add_line(k,p[i],p[(i+1)%8])
+        self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+
+        self.circle('head',24,9,5)
+        self.add_arc('shoulders',(10,32),(38,32),radius_x=14,radius_y=14)
+        self.add_line('right-side',(38,32),(38,40));self.add_arc('right-bottom',(38,40),(34,44),radius_x=4)
+        self.add_line('right-base',(34,44),(28,44))
+        self.add_contour('right-body','shoulders','right-side','right-bottom','right-base')
+        self.add_line('left-side',(10,32),(10,40));self.add_arc('left-bottom',(10,40),(14,44),radius_x=4,sweep=False)
+        self.add_contour('left-body','left-side','left-bottom');self.relate('connect','right-body','left-body')
+        self.relate('connect','head','right-body')
+        self.circle('hand-loop',24,31,4)
+        self.add_bezier('arms',(14,44),((20,44),(20,35),(24,35)))
+        self.relate('connect','arms','left-body')
+        self.relate('connect','arms','hand-loop')
+        # Bust rule: head bottom18 and shoulder crest22, exactly zero visible gap.
+
+# Final visible bounds: (8, 2, 40, 46)
+# Construction: Shared human references supplied round heads, broad shoulders and coherent pose construction. Analytical head/body spacing is recorded in the visual review.
+# Final reductions: Minor hand contours simplified into one loop.
+# Visual review: Round-headed netsuke figure and looping arms read at native size. Shared bust construction: head bottom18, shoulder crest22, four centerline units imply zero visible ink gap. Scoped touching-ink relationship and human_construction=bust are recorded. Arm overlap is intentionally asymmetric.

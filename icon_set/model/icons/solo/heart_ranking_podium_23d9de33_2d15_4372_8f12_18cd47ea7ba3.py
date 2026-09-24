@@ -1,8 +1,10 @@
-"""A heart above a three-place ranking podium.
+"""love heart ranking: standalone repair of supplied reference.
 
-Plan: a symmetric heart is suspended over the tallest center block;
-one baseline aligns the three blocks. Lucide heart informed the lobes,
-and Lucide podium informed the staggered block tops.
+Plan: Broad three-place podium. Keyshape HRECT_L.
+Reduction: Rounded the heart lobes; preserved three podium sections.
+Construction references: local Lucide originals and atomic-debug: heart.
+
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -23,12 +25,13 @@ class HeartRankingPodium(Solo48):
 
     def build(self) -> None:
         axis = 24
-        self.add_polyline("heart", (axis, 21), (14, 14), (14, 11),
-                          (17, 8), (axis, 12), (31, 8),
-                          (34, 11), (34, 14), closed=True)
+        self.add_arc("heart-left", (14, 13), (24, 13), radius_x=5)
+        self.add_arc("heart-right", (24, 13), (34, 13), radius_x=5)
+        self.add_bezier("heart-bottom", (34, 13), ((34, 17), (28, 20), (24, 23)), ((20, 20), (14, 17), (14, 13)))
+        self.add_contour("heart", "heart-left", "heart-right", "heart-bottom", closed=True)
         # A single connected stair profile retains three different heights.
         self.add_polyline("podium", (4, 40), (4, 34), (17, 34),
-                          (17, 29), (31, 29), (31, 34),
+                          (17, 31), (31, 31), (31, 34),
                           (44, 34), (44, 40))
         self.add_line("left-center-seam", (17, 34), (17, 40))
         self.add_line("right-center-seam", (31, 34), (31, 40))

@@ -1,15 +1,16 @@
+"""Path P monogram with an open left bowl and hooked stem.
+Plan: VRECT_L follows the tall letter and hook.
+Reduction: Doubled ribbon outline reduced to coherent strokes; open bowl, internal stem and hooked foot preserved.
+Construction: No useful exact Lucide match. Shared circular arcs and actual stem/bowl/hook junctions preserve the source monogram.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '34127b46-eb99-4c72-abde-13c6d20da3f3'
-SOURCE_PATH = 'icon_set/work/todo-references/path logo_34127b46-eb99-4c72-abde-13c6d20da3f3.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/path logo_34127b46-eb99-4c72-abde-13c6d20da3f3.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    """The outlined Path P logo.
-    Plan: Continuous outer lobe and descending stem with rounded lower hook; inner lobe forms the P counter.
-    Reference: No useful Lucide match; custom continuous arcs preserve the logo lobe and hooked stem.
-    """
     icon_id = 'path-logo'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
@@ -49,21 +50,10 @@ class Drawing(Solo48):
         self.add_arc(n+'-shoulders',(x-width,body_y),(x+width,body_y),radius_x=width,radius_y=body_ry)
 
     def build(self):
-
-        self.add_arc('outer-top',(8,20),(40,20),radius_x=16)
-        self.add_arc('outer-right',(40,20),(28,32),radius_x=12)
-        self.add_line('stem-right',(28,32),(28,34))
-        self.add_arc('hook-right',(28,34),(18,44),radius_x=10)
-        self.add_line('hook-bottom',(18,44),(14,44))
-        self.add_arc('hook-left',(14,44),(10,40),radius_x=4)
-        self.add_line('hook-up',(10,40),(10,36))
-        self.add_line('hook-inner',(10,36),(14,36))
-        self.add_arc('stem-turn',(14,36),(18,32),radius_x=4,sweep=False)
-        self.add_line('stem-left',(18,32),(18,18))
-        self.add_arc('inner-top',(18,18),(26,18),radius_x=4)
-        self.add_line('inner-stem',(26,18),(26,24))
-        self.add_arc('inner-right',(26,24),(32,18),radius_x=6,sweep=False)
-        self.add_arc('inner-lobe',(32,18),(16,18),radius_x=8,sweep=False)
-        self.add_line('left-return',(16,18),(16,20))
-        self.add_arc('left-cap',(16,20),(8,20),radius_x=4)
-        self.add_contour('logo','outer-top','outer-right','stem-right','hook-right','hook-bottom','hook-left','hook-up','hook-inner','stem-turn','stem-left','inner-top','inner-stem','inner-right','inner-lobe','left-return','left-cap',closed=True)
+        # Open left bowl and a hooked vertical stem retain the distinctive Path monogram.
+        self.add_arc('bowl-top',(8,20),(40,20),radius_x=16)
+        self.add_arc('bowl-lower',(40,20),(24,36),radius_x=16)
+        self.add_contour('bowl','bowl-top','bowl-lower')
+        self.add_line('stem',(24,16),(24,36));self.relate('connect','stem','bowl')
+        self.add_arc('hook',(24,36),(16,44),radius_x=8)
+        self.add_line('foot',(16,44),(8,44));self.relate('connect','hook','foot');self.relate('connect','hook','stem');self.relate('connect','hook','bowl')

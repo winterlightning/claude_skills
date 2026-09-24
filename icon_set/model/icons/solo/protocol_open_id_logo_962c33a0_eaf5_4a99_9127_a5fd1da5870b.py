@@ -1,13 +1,13 @@
-"""The OpenID logo with an upright stem, rounded left loop and right arrow.
-Symbol plan: A tall angular stem meets a broad D-like loop and a right-pointing open arrow. Ink extremes (4,4)-(44,44).
-Construction: No useful exact Lucide match found; supplied OpenID geometry owns the logo.
-Human construction: Not applicable.
-"""
+"""The OpenID logo with loop, upright stem and right arrow.
+Plan: SQUARE fits the loop left, tall stem and right-pointing arrow.
+Reduction: Replaced the narrow outlined arrow with a clear shaft and chevron; widened the D-like loop band.
+Construction: No useful exact Lucide logo match used; supplied reference governs the arrangement.
+Layout: Intentional right-facing asymmetry; shared attachment nodes retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '962c33a0-eaf5-4a99-9127-a5fd1da5870b'
-SOURCE_PATH = 'icon_set/work/todo-references/protocol open id logo_962c33a0-eaf5-4a99-9127-a5fd1da5870b.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/protocol open id logo_962c33a0-eaf5-4a99-9127-a5fd1da5870b.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'protocol-open-id-logo'
@@ -19,16 +19,14 @@ class Drawing(Solo48):
     keywords = ('protocol', 'open', 'id', 'logo')
 
     def build(self):
-        self.add_polyline('stem',(22,16),(22,10),(30,6),(30,16),(30,38),(22,42),(22,36),(22,22),(22,16))
-        self.add_bezier('outer-loop',(22,16),((12,16),(6,22),(6,30)),((6,37),(13,42),(22,42)))
-        self.relate('connect','stem','outer-loop')
-        self.add_bezier('inner-loop',(22,22),((14,22),(12,25),(12,30)),((12,35),(17,36),(22,36)))
-        self.relate('connect','inner-loop','stem')
-        # The inner loop shares the existing stem wall, with no duplicate segment.
-        self.add_polyline('arrow-upper',(30,16),(42,22),(42,18))
-        self.add_polyline('arrow-lower',(42,22),(42,26),(32,26))
-        self.relate('connect','arrow-upper','arrow-lower')
-        self.relate('connect','arrow-upper','stem')
+        # SQUARE (6,6)-(42,42); widened outlined D and compact right arrow.
+        self.add_polyline('stem',(23,16),(23,10),(31,6),(31,20),(31,38),(23,42),(23,33),(23,25),(23,16))
+        self.add_bezier('outer-loop',(23,16),((12,16),(6,22),(6,29)),((6,37),(13,42),(23,42)))
+        self.add_bezier('inner-loop',(23,25),((18,25),(15,26),(15,29)),((15,32),(18,33),(23,33)))
+        self.relate('connect','stem','outer-loop');self.relate('connect','inner-loop','stem')
+        self.add_line('arrow-shaft',(31,20),(42,20))
+        self.add_polyline('arrow-head',(36,14),(42,20),(36,26))
+        self.relate('connect','arrow-shaft','stem');self.relate('connect','arrow-shaft','arrow-head')
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

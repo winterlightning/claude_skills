@@ -1,0 +1,47 @@
+{
+  "source_uuid": "cbc8a808-542b-49df-b4bd-c313efd61052",
+  "source_path": "pictographic-primitives/_uncategorized_39/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg",
+  "reference_path": "pictographic-primitives/_uncategorized_39/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg",
+  "concept": "valve logo",
+  "icon_id": "valve-logo",
+  "author": "gpt-6",
+  "keyshape": "HRECT_L",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "visual_review": {
+    "status": "blocked",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "findings": "BLOCKED: the final V is 5.66175 centreline units from L and 3 from E, below 8. Condensed V strokes also lose their letter identity. Six candidates saved; no visual approval."
+  },
+  "omissions": "No letters removed. Rounded A and condensed V strokes were attempted.",
+  "construction_references": "No useful local Lucide wordmark match; the supplied wordmark owns the lettering.",
+  "keyshape_reason": "HRECT_L is the widest available envelope; several distributions were attempted.",
+  "attempts": 6,
+  "svg_sha256": "f6594651c460292e08da3b2118167442fd85ea963e7e97789bda01aa136b4b11",
+  "blocker": "BUILD GATE FAIL (fail, 2 errors, 0 warnings)\n  error: mic [l]: l and v-second are 5.66175 apart on centerlines nearest (32, 32)<->(37.6568, 31.7643); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [v-second]: v-second and e are 3 apart on centerlines nearest (39, 16)<->(42, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "artifacts": {
+    "module": "valve_logo_cbc8a808_542b_49df_b4bd_c313efd61052.py",
+    "svg": "valve-logo.svg",
+    "input_metadata": "valve-logo.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/",
+    "findings": "findings.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  }
+}

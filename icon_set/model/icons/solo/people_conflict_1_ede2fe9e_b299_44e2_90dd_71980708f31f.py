@@ -1,15 +1,16 @@
+"""Two outward-facing human profiles with conflict sparks above.
+Plan: HRECT_L makes space for both profiles and three sparks.
+Reduction: Head widths reduced together; neck gaps widened; lightning zigzags reduced to two-segment sparks.
+Construction: human_ref/user.svg: head proportion reference. Continuous head/face/neck profiles have no detached head gap. Mirrored profiles with a repeated spark series.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ede2fe9e-b299-44e2-90dd-71980708f31f'
-SOURCE_PATH = 'icon_set/work/todo-references/people conflict 1_ede2fe9e-b299-44e2-90dd-71980708f31f.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/people conflict 1_ede2fe9e-b299-44e2-90dd-71980708f31f.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    """Two heads facing away with conflict sparks overhead.
-    Plan: Mirror-related continuous head/neck profiles; three separate lightning strokes.
-    Reference: No useful Lucide match; the source defines paired continuous profile silhouettes.
-    """
     icon_id = 'people-conflict-1'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
@@ -51,11 +52,11 @@ class Drawing(Solo48):
 
     def build(self):
 
-        for i,cx in enumerate((14,34)):
-            self.add_arc(f'skull-{i}',(cx-8,30),(cx+8,30),radius_x=8)
-        self.add_polyline('left-front',(6,30),(4,34),(8,34),(8,38),(14,38),(14,40))
-        self.add_line('left-back',(22,30),(22,40))
-        self.add_polyline('right-front',(42,30),(44,34),(40,34),(40,38),(34,38),(34,40))
-        self.add_line('right-back',(26,30),(26,40))
+        for i,cx in enumerate((13,35)):
+            self.add_arc(f'skull-{i}',(cx-7,30),(cx+7,30),radius_x=7)
+        self.add_polyline('left-front',(6,30),(4,34),(8,34),(8,38),(12,38),(12,40))
+        self.add_line('left-back',(20,30),(20,40))
+        self.add_polyline('right-front',(42,30),(44,34),(40,34),(40,38),(36,38),(36,40))
+        self.add_line('right-back',(28,30),(28,40))
         for a,b in [('skull-0','left-front'),('skull-0','left-back'),('skull-1','right-front'),('skull-1','right-back')]:self.relate('connect',a,b)
-        for i,x in enumerate((8,24,40)):self.add_polyline(f'spark-{i}',(x+2,8),(x-2,12),(x+2,12),(x-2,16))
+        for i,x in enumerate((8,24,40)):self.add_polyline(f'spark-{i}',(x-3,8),(x+3,11),(x-1,14))

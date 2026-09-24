@@ -1,13 +1,13 @@
-"""A pair of opening outlined quotation marks.
-Symbol plan: Two identical curved quote symbols share width15 and pitch25; closing form rotates each local symbol. Ink extremes (2,6)-(46,42).
-Construction: quote: a rounded block and curved return tail, with shared repeated geometry.
-Human construction: Not applicable.
-"""
+"""Two opening quotation marks.
+Plan: HRECT_L fits two equal 15-unit symbols on a 25-unit pitch.
+Reduction: No component removed; enlarged return caps and opened the tail bands.
+Construction: Lucide quote: rounded blocks, curved return tails and repeated definitions.
+Layout: Two identical symbols; curve radius5 at the tail cap, radius4 at body corners."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bbf400c0-4ed9-481e-8643-979aa728bc9d'
-SOURCE_PATH = 'icon_set/work/todo-references/quote left_bbf400c0-4ed9-481e-8643-979aa728bc9d.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/quote left_bbf400c0-4ed9-481e-8643-979aa728bc9d.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'quote-left'
@@ -47,11 +47,11 @@ class Drawing(Solo48):
         def line(n,a,b):self.add_line(name+n,p(a),p(b))
         def arc(n,a,b):self.add_arc(name+n,p(a),p(b),radius_x=4)
         def bez(n,a,*segs):self.add_bezier(name+n,p(a),*[(p(a),p(b),p(c)) for a,b,c in segs])
-        bez('-outer',(0,24),((0,16),(5,8),(11,8)))
-        arc('-crown',(11,8),(15,12))
-        arc('-return',(15,12),(11,16))
-        bez('-inner',(11,16),((7,16),(7,20),(7,24)))
-        line('-shelf',(7,24),(11,24))
+        bez('-outer',(0,24),((0,16),(4,8),(10,8)))
+        self.add_arc(name+'-crown',p((10,8)),p((15,13)),radius_x=5)
+        self.add_arc(name+'-return',p((15,13)),p((10,18)),radius_x=5)
+        bez('-inner',(10,18),((9,18),(9,21),(9,24)))
+        line('-shelf',(9,24),(11,24))
         arc('-tr',(11,24),(15,28))
         line('-right',(15,28),(15,36))
         arc('-br',(15,36),(11,40))

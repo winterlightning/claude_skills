@@ -2,10 +2,10 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'be992ed2-ade4-5f64-a515-8f186d7ca8e3'
-SOURCE_PATH = 'icon_set/work/todo-references/room service do not disturb_be992ed2-ade4-5f64-a515-8f186d7ca8e3.svg'
+SOURCE_PATH = 'pictographic-primitives/hotels/room service do not disturb_be992ed2-ade4-5f64-a515-8f186d7ca8e3.svg'
 AUTHOR = 'gpt-6'
 # Plan: Door-hanger tag with a large open hook and a minus sign. Hook radii share the vertical axis.
-# Reference: No exact Lucide hanger match; door-closed informed the simple sign treatment.
+# Reference: No useful exact Lucide hanger match; rounded hook construction.
 # Reduction: No defining parts omitted.
 
 class AuthoredIcon(Solo48):
@@ -24,7 +24,7 @@ class AuthoredIcon(Solo48):
         self.add_line('bottom',(34,44),(14,44))
         self.add_arc('bottom-left',(14,44),(10,40),radius_x=4)
         self.add_line('left',(10,40),(10,30))
-        self.add_bezier('hook-return',(10,30),((10,24),(30,27),(30,18)))
+        self.add_bezier('hook-return',(10,30),((10,28),(30,26),(30,18)))
         self.add_arc('inner-hook',(30,18),(18,18),radius_x=6,sweep=False)
         self.add_line('mouth',(18,18),(10,18))
         self.add_contour('tag','outer-hook','right','bottom-right','bottom','bottom-left','left','hook-return','inner-hook','mouth',closed=True)

@@ -1,9 +1,14 @@
+"""A domed autonomous car with radio signals.
+Plan: SQUARE allocates upper space to signals and lower space to car and wheels.
+Reduction: Reduced two wave pairs to one; beacon reduced to stem; divided circular window reduced to a windshield bar.
+Construction: Supplied reference owns dome and beacon; Lucide car-front supports sparse vehicle detail and paired wheels.
+Layout: Mirrored dome, wheels, and radio strokes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '148a6d3d-6e93-44b0-ad9c-3c3c30856f29'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/auto pilot car signal 1_148a6d3d-6e93-44b0-ad9c-3c3c30856f29.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'autonomous-domed-car-with-signal'
@@ -32,22 +37,20 @@ class Drawing(Solo48):
         self.add_contour(name,*ids,closed=True)
 
     def build(self):
-        # Plan: SQUARE extremes 6,6 to 42,42; dome, two wheels, divided round window, roof beacon and paired radio arcs.
-        self.add_arc('dome',(6,38),(42,38),radius_x=18,radius_y=16)
-        self.add_line('left-base',(6,38),(9,38))
-        self.add_line('center-base',(15,38),(33,38))
-        self.add_line('right-base',(39,38),(42,38))
-        for side,x in [('left',12),('right',36)]:
-            self.circle(side+'-wheel',x,39,3)
-        self.circle('window',24,31,6)
-        self.add_line('window-divider',(18,31),(30,31))
-        self.relate('connect','window','window-divider')
-        self.add_arc('beacon-top',(21,20),(27,20),radius_x=3)
-        self.add_polyline('beacon-stem',(21,22),(21,20))
-        self.add_line('beacon-right',(27,20),(27,22))
-        self.relate('connect','beacon-top','beacon-stem')
-        self.relate('connect','beacon-top','beacon-right')
-        for side in (0,1):
-            def p(x,y): return (48-x if side else x,y)
-            self.add_arc(f'outer-{side}',p(15,6),p(15,18),radius_x=6,sweep=bool(side))
-            self.add_arc(f'inner-{side}',p(20,8),p(20,16),radius_x=4,sweep=bool(side))
+        # SQUARE extremes (6,6)-(42,42). Dome joins wheel tops, repeated
+        # radio strokes flank the beacon. Omit doubled wave and window divider.
+        self.add_arc('dome-left',(9,36),(24,19),radius_x=15,radius_y=17)
+        self.add_arc('dome-right',(24,19),(39,36),radius_x=15,radius_y=17)
+        self.add_contour('dome','dome-left','dome-right')
+        for x in (9,39):
+            pts=[(x,36),(x+3,39),(x,42),(x-3,39),(x,36)]
+            for j in range(4):self.add_arc(f'wheel-{x}-{j}',pts[j],pts[j+1],radius_x=3)
+            self.add_contour(f'wheel-{x}',*(f'wheel-{x}-{j}' for j in range(4)),closed=True)
+            self.relate('connect','dome',f'wheel-{x}')
+        self.add_line('window',(20,29),(28,29))
+        self.add_line('base',(12,39),(36,39))
+        for x in (9,39):self.relate('connect','base',f'wheel-{x}')
+        self.add_line('beacon',(24,10),(24,19))
+        self.relate('connect','beacon','dome')
+        self.add_arc('radio-left',(14,6),(14,12),radius_x=3,sweep=False)
+        self.add_arc('radio-right',(34,6),(34,12),radius_x=3,sweep=True)

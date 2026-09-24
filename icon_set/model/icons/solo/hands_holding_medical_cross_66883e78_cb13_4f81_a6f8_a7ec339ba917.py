@@ -1,14 +1,13 @@
-"""Two cupped hands shelter a medical cross.
-
-Symbol plan: the cross is a 12-segment orthogonal contour. One hand's contour
-is mirrored around x=24 for the other. HRECT_L extremes x=4..44, y=8..40.
+"""Two cupped hands protecting a medical cross.
+Plan: HRECT_L provides width for mirrored hands around the cross. Mirrored palms and outlined cross retain clear separation; reviewed at native size in both themes.
+Reduction: Narrow hand return edges simplified into open curved palms.
+Construction references: human-reference.md and Lucide hand construction vocabulary; source supplies mirrored cupped gesture.
 """
-
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = "66883e78-cb13-4f81-a6f8-a7ec339ba917"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_23/insurance hands_66883e78-cb13-4f81-a6f8-a7ec339ba917.svg"
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_23/insurance hands_66883e78-cb13-4f81-a6f8-a7ec339ba917.svg'
 AUTHOR = "gpt-6"
 
 
@@ -27,7 +26,7 @@ class HandsHoldingMedicalCross(Solo48):
             (32, 22), (28, 22), (28, 26), (20, 26),
             (20, 22), (16, 22), (16, 14), (20, 14), closed=True,
         )
-        left = ((10, 40), (4, 32), (4, 26), (6, 24),
-                (8, 26), (13, 32), (17, 36), (17, 40))
-        self.add_polyline("hand-left", *left)
-        self.add_polyline("hand-right", *((48 - x, y) for x, y in left))
+        # Mirrored open palms retain wrists and rising fingers; omit narrow return edge.
+        for side in (-1,1):
+            p=lambda x,y:(24+side*x,y)
+            self.add_bezier(f'hand-{side}',p(20,24),(p(20,34),p(18,40),p(8,40)),(p(8,36),p(11,33),p(14,31)))

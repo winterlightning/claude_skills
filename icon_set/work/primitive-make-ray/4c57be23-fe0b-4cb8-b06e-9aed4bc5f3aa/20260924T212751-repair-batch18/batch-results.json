@@ -1,0 +1,707 @@
+[
+  {
+    "source_uuid": "4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa",
+    "source_path": "pictographic-primitives/other/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg",
+    "reference_path": "pictographic-primitives/other/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg",
+    "concept": "suitcase pill",
+    "icon_id": "suitcase-pill",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved in both themes at 48px and enlarged size. The handle and case are symmetric; the pill follows the source diagonal."
+    },
+    "omissions": "Capsule seam removed; the diagonal capsule and suitcase remain.",
+    "construction_references": "briefcase-medical and pill: rounded case, attached handle and tangent capsule caps.",
+    "keyshape_reason": "SQUARE preserves a broad case and top handle within centerlines (6,6)-(42,42).",
+    "attempts": 4,
+    "svg_sha256": "15db07ed00c44230bffc5b27c1cc924e2017b0ebf60920026fa62629df99e736",
+    "blocker": null,
+    "artifacts": {
+      "module": "suitcase_pill_4c57be23_fe0b_4cb8_b06e_9aed4bc5f3aa.py",
+      "svg": "suitcase-pill.svg",
+      "input_metadata": "suitcase-pill.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "f799a4bf-12e6-4111-a7f7-3023b0c48446",
+    "source_path": "pictographic-primitives/other/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg",
+    "reference_path": "pictographic-primitives/other/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg",
+    "concept": "test file",
+    "icon_id": "test-file",
+    "author": "gpt-6",
+    "keyshape": "VRECT_L",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: B counters close at native size. Page/B, A/answer and B/answer spacing, undersized holes, pinches and internal A clearance remain. Six candidates saved."
+    },
+    "omissions": "A apex rounded and answer dashes shortened; both letters and both rows retained.",
+    "construction_references": "file-text: clipped page corner and separate content rows.",
+    "keyshape_reason": "VRECT_L reserves maximum height for the two letter rows.",
+    "attempts": 6,
+    "svg_sha256": "1509cb0a0ea1debff273863fa3b712e44558e688d4411acad4f71abfc1e5e682",
+    "blocker": "BUILD GATE FAIL (fail, 4 errors, 3 warnings)\n  error: mic [page]: page and b-stem are 4 apart on centerlines nearest (17, 44)<->(17, 40); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [a-right]: a-right and answer-0 are 6 apart on centerlines nearest (25, 20)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [b-upper]: b-upper and answer-1 are 7.25941 apart on centerlines nearest (23.981, 34.1471)<->(31, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: holes/pinches: 2 undersized holes; 2 pinches\n  warning: mic [page]: page and answer-0 are 8 apart on centerlines nearest (40, 20)<->(32, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [page]: page and answer-1 are 8 apart on centerlines nearest (40, 36)<->(32, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: internal-spacing [a-cap / a-bar]: a-cap and a-bar have 3.5224 units of ink clearance over 4.1881 units; requires 4; review required",
+    "artifacts": {
+      "module": "test_file_f799a4bf_12e6_4111_a7f7_3023b0c48446.py",
+      "svg": "test-file.svg",
+      "input_metadata": "test-file.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "91199cb3-6e0d-41e0-9c27-12e09942eed6",
+    "source_path": "pictographic-primitives/other/tv circle check_91199cb3-6e0d-41e0-9c27-12e09942eed6.svg",
+    "reference_path": "pictographic-primitives/other/tv circle check_91199cb3-6e0d-41e0-9c27-12e09942eed6.svg",
+    "concept": "tv circle check",
+    "icon_id": "tv-circle-check",
+    "author": "gpt-6",
+    "keyshape": "VRECT_L",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: status-ring/check clearance is 4.17126, below 8. Native-size check remains crowded. Six candidates saved."
+    },
+    "omissions": "Tick shortened; ring and pedestal retained.",
+    "construction_references": "monitor-check: rounded screen and centered pedestal.",
+    "keyshape_reason": "VRECT_L provides the tallest screen and stand arrangement.",
+    "attempts": 6,
+    "svg_sha256": "7aa4a3d595f1970a1bf74bf0bb655ebf5ab29030821b11c083a435af16712c0c",
+    "blocker": "BUILD GATE FAIL (fail, 1 errors, 0 warnings)\n  error: mic [status-ring]: status-ring and check are 4.17126 apart on centerlines nearest (28.9855, 15.0869)<->(26, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "artifacts": {
+      "module": "tv_circle_check_91199cb3_6e0d_41e0_9c27_12e09942eed6.py",
+      "svg": "tv-circle-check.svg",
+      "input_metadata": "tv-circle-check.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "2cc3609a-d235-46f7-828b-ef134a6021e2",
+    "source_path": "pictographic-primitives/other/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg",
+    "reference_path": "pictographic-primitives/other/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg",
+    "concept": "tv password",
+    "icon_id": "tv-password",
+    "author": "gpt-6",
+    "keyshape": "HRECT_L",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved: two equal masking crosses, even screen margins and a centered pedestal read clearly in both themes."
+    },
+    "omissions": "Three repeated masking crosses reduced to two.",
+    "construction_references": "monitor-check: rounded screen and centered stand.",
+    "keyshape_reason": "HRECT_L gives two password marks room across the display.",
+    "attempts": 2,
+    "svg_sha256": "7e390011c15a220e2dc7c0f175d0ced35a63f3f3be90bc0b9711bb44f1073d96",
+    "blocker": null,
+    "artifacts": {
+      "module": "tv_password_2cc3609a_d235_46f7_828b_ef134a6021e2.py",
+      "svg": "tv-password.svg",
+      "input_metadata": "tv-password.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "24fe2386-b951-48d1-8a50-9d4e65f27e91",
+    "source_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+    "reference_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+    "concept": "ui webpage ad text",
+    "icon_id": "ui-webpage-ad-text",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: letters remain too close to the browser side walls and A/D curved-pair clearance requires review. Six candidates saved; no visual approval."
+    },
+    "omissions": "Small header dashes removed; A rounded; AD and full frame retained.",
+    "construction_references": "app-window: a header strip with shared side-wall joins; supplied source owns the letters.",
+    "keyshape_reason": "SQUARE balances the full browser and two letters after wider and taller trials.",
+    "attempts": 6,
+    "svg_sha256": "103aa42ea9b02c293e02f22dff9029e9d73406bcc16d2c30ca16c9463233900e",
+    "blocker": "BUILD GATE FAIL (fail, 3 errors, 1 warnings)\n  error: mic [a-left]: parallel straight edges a-left-2, a-left-1 and browser-1, browser-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  error: mic [browser]: browser and a-left are 6 apart on centerlines nearest (6, 32)<->(12, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [browser]: browser and d-bowl are 6 apart on centerlines nearest (42, 26)<->(36, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [a-cap]: a-cap and d-stem are 8 apart on centerlines nearest (20, 24)<->(28, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "artifacts": {
+      "module": "ui_webpage_ad_text_24fe2386_b951_48d1_8a50_9d4e65f27e91.py",
+      "svg": "ui-webpage-ad-text.svg",
+      "input_metadata": "ui-webpage-ad-text.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "9ab7c5fa-7d54-4c5c-8f9e-b01743e34909",
+    "source_path": "pictographic-primitives/other/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg",
+    "reference_path": "pictographic-primitives/other/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg",
+    "concept": "ui webpage skull",
+    "icon_id": "ui-webpage-skull",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: skull/frame gap is 6 and eye/skull gaps are 5.52732, below 8. Skull remains crowded at native size. Human reference user.svg checked for head vocabulary; no detached head/body pair applies."
+    },
+    "omissions": "Middle tooth removed; cranium, eye pair and jaw retained.",
+    "construction_references": "app-window and skull: browser header, curved cranium and narrowed open jaw.",
+    "keyshape_reason": "SQUARE preserves the full page and centered skull.",
+    "attempts": 6,
+    "svg_sha256": "2b8345734e3547580d6454f1979ee129c0b96e67e714f98bab1ae3ee789962b1",
+    "blocker": "BUILD GATE FAIL (fail, 3 errors, 0 warnings)\n  error: mic [browser]: browser and skull are 6 apart on centerlines nearest (19, 42)<->(19, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [skull]: skull and eye-20 are 5.52732 apart on centerlines nearest (15.0327, 25.5756)<->(20, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [skull]: skull and eye-28 are 5.52732 apart on centerlines nearest (32.9673, 25.5756)<->(28, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "artifacts": {
+      "module": "ui_webpage_skull_9ab7c5fa_7d54_4c5c_8f9e_b01743e34909.py",
+      "svg": "ui-webpage-skull.svg",
+      "input_metadata": "ui-webpage-skull.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "6fd53a7d-aab1-479b-9e12-e2f8acddcfb2",
+    "source_path": "pictographic-primitives/other/ui webpage t shirt_6fd53a7d-aab1-479b-9e12-e2f8acddcfb2.svg",
+    "reference_path": "pictographic-primitives/other/ui webpage t shirt_6fd53a7d-aab1-479b-9e12-e2f8acddcfb2.svg",
+    "concept": "ui webpage t shirt",
+    "icon_id": "ui-webpage-t-shirt",
+    "author": "gpt-6",
+    "keyshape": "VRECT_L",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved: upright garment proportions and equal sleeve steps read at native size in both themes. The neck detail is deliberately omitted rather than squeezed."
+    },
+    "omissions": "Tiny header dashes and scooped neckline removed; shoulder slopes, sleeves and body retained.",
+    "construction_references": "app-window and shirt: shared browser header nodes, matched shoulders, sleeves and body.",
+    "keyshape_reason": "VRECT_L gives the garment more vertical room; a flatter passing candidate was visually rejected.",
+    "attempts": 6,
+    "svg_sha256": "3a754eb5308ea67acdceb22bfea8b21c54a0adaec8f1143221fa1212962487c6",
+    "blocker": null,
+    "artifacts": {
+      "module": "ui_webpage_t_shirt_6fd53a7d_aab1_479b_9e12_e2f8acddcfb2.py",
+      "svg": "ui-webpage-t-shirt.svg",
+      "input_metadata": "ui-webpage-t-shirt.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "f11ccece-81b6-415d-a20a-a1bdd3fceb3c",
+    "source_path": "pictographic-primitives/other/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg",
+    "reference_path": "pictographic-primitives/other/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg",
+    "concept": "woman nude",
+    "icon_id": "woman-nude",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved: paired chest and waist contours remain visible in both themes. Lower ends moved up one unit for frame clearance. Headless torso: no detached head/body gap applies."
+    },
+    "omissions": "Nipple and navel dots removed to open the anatomical contours.",
+    "construction_references": "human_ref/user.svg and full_body_ref.png: paired human contours; source supplies headless torso and frame.",
+    "keyshape_reason": "SQUARE balances the surrounding frame and mirrored anatomy.",
+    "attempts": 2,
+    "svg_sha256": "01ea1fc5195d17de5a465fe8e7cf60e51dcd1f0876ac6119451b5b4dc7cfcbbf",
+    "blocker": null,
+    "artifacts": {
+      "module": "woman_nude_f11ccece_81b6_415d_a20a_a1bdd3fceb3c.py",
+      "svg": "woman-nude.svg",
+      "input_metadata": "woman-nude.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4",
+    "source_path": "pictographic-primitives/outdoors/outdoors pig apple_1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4.svg",
+    "reference_path": "pictographic-primitives/outdoors/outdoors pig apple_1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4.svg",
+    "concept": "outdoors pig apple",
+    "icon_id": "outdoors-pig-apple",
+    "author": "gpt-6",
+    "keyshape": "HRECT_L",
+    "status": "blocked",
+    "validation_status": "valid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: pig-upper has only 0.1751 internal ink clearance over 4.1048 units. Ear remains congested in both themes. Six candidates saved; the earless pass is not accepted."
+    },
+    "omissions": "Tiny nostril omitted; apple enlarged. Ear retained after an earless numeric pass lost too much identity.",
+    "construction_references": "piggy-bank and apple: animal contour and lobed fruit construction; source supplies the asymmetric arrangement.",
+    "keyshape_reason": "HRECT_L widens the apple panel while retaining the pig at left.",
+    "attempts": 6,
+    "svg_sha256": "0e03966e8e476344b4b080b5a0b3e2a26a0489bd84daccac2132365e46e04d88",
+    "blocker": "BUILD GATE FAIL (review, 0 errors, 1 warnings)\n  warning: internal-spacing [pig]: pig-upper and pig-upper have 0.1751 units of ink clearance over 4.1048 units; requires 4; review required",
+    "artifacts": {
+      "module": "outdoors_pig_apple_1c6d508d_38fb_4b6a_bfe9_e20ebd9e9bf4.py",
+      "svg": "outdoors-pig-apple.svg",
+      "input_metadata": "outdoors-pig-apple.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "29a5a818-9fcd-4062-843c-4ae6c6b33268",
+    "source_path": "pictographic-primitives/payments/credit card payment_29a5a818-9fcd-4062-843c-4ae6c6b33268.svg",
+    "reference_path": "pictographic-primitives/payments/credit card payment_29a5a818-9fcd-4062-843c-4ae6c6b33268.svg",
+    "concept": "credit card payment",
+    "icon_id": "credit-card-payment",
+    "author": "gpt-6",
+    "keyshape": "HRECT_L",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved: terminal, emerging receipt, separate card and downward arrow read clearly in both themes. Receipt meets actual split terminal nodes."
+    },
+    "omissions": "Card stripe, upper terminal bezel and extra keypad marks removed; two keys and one broad receipt notch remain.",
+    "construction_references": "credit-card and receipt: rounded card and broad paper notch.",
+    "keyshape_reason": "HRECT_L reserves separate terminal and card/arrow columns.",
+    "attempts": 1,
+    "svg_sha256": "4ec8d54c9e4a30a8b3f2a10cdd4f06d0f3538cc3e588f39732c593e18f60fc02",
+    "blocker": null,
+    "artifacts": {
+      "module": "credit_card_payment_29a5a818_9fcd_4062_843c_4ae6c6b33268.py",
+      "svg": "credit-card-payment.svg",
+      "input_metadata": "credit-card-payment.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "f2265828-4def-5cb0-be87-edeb3a4d341e",
+    "source_path": "pictographic-primitives/programing/amazon web service sagemaker_f2265828-4def-5cb0-be87-edeb3a4d341e.svg",
+    "reference_path": "pictographic-primitives/programing/amazon web service sagemaker_f2265828-4def-5cb0-be87-edeb3a4d341e.svg",
+    "concept": "amazon web service sagemaker",
+    "icon_id": "atom-three-orbits-reference",
+    "author": "gpt-6",
+    "keyshape": "CIRCLE",
+    "status": "blocked",
+    "validation_status": "valid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: six enclosed orbit pockets remain undersized. Shared crossing nodes are explicit and genuine; no false connections used. Enlarged lobes and alternate centre spacing were tried; final selects the balanced in-bounds candidate."
+    },
+    "omissions": "Nucleus outline simplified to a solid dot. All three orbits retained.",
+    "construction_references": "atom: coherent crossing elliptical contours; source requires three orbits.",
+    "keyshape_reason": "CIRCLE allows the three orbit directions their radial reach.",
+    "attempts": 7,
+    "svg_sha256": "351528313b2eda2998da6c8698af7e8e18e8f0a3b9017e2116e62064c42d2fb9",
+    "blocker": "BUILD GATE FAIL (fail, 1 errors, 0 warnings)\n  error: holes/pinches: 6 undersized holes; 0 pinches",
+    "artifacts": {
+      "module": "atom_three_orbits_reference_f2265828_4def_5cb0_be87_edeb3a4d341e.py",
+      "svg": "atom-three-orbits-reference.svg",
+      "input_metadata": "atom-three-orbits-reference.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "e8929314-39ec-46c6-9cfb-5107ebede2dc",
+    "source_path": "pictographic-primitives/programing/data lake code_e8929314-39ec-46c6-9cfb-5107ebede2dc.svg",
+    "reference_path": "pictographic-primitives/programing/data lake code_e8929314-39ec-46c6-9cfb-5107ebede2dc.svg",
+    "concept": "data lake code",
+    "icon_id": "data-lake-code",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: digit gaps remain 4-5 units instead of 8, including the parallel one strokes. Vertical separation improved, but native-size binary remains crowded. Six candidates saved."
+    },
+    "omissions": "Two water rows reduced to one; numeral ones omit serifs; all ten digits retained.",
+    "construction_references": "No useful local waves match found; source owns both literal binary strings and repeated wave form.",
+    "keyshape_reason": "SQUARE balances both code rows above a water band after wide and tall alternatives.",
+    "attempts": 6,
+    "svg_sha256": "07f96ea5e7eb6756196717b81d5d131adbd5ee02169a76962b09cc6b9dd76347",
+    "blocker": "BUILD GATE FAIL (fail, 9 errors, 0 warnings)\n  error: mic [digit-1-2]: parallel straight edges digit-1-2 and digit-1-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  error: mic [digit-0-0]: digit-0-0 and digit-0-1 are 5 apart on centerlines nearest (6, 9)<->(11, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-0-1]: digit-0-1 and digit-0-2 are 5 apart on centerlines nearest (17, 9)<->(22, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-0-2]: digit-0-2 and digit-0-3 are 4 apart on centerlines nearest (22, 9)<->(26, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-0-3]: digit-0-3 and digit-0-4 are 4 apart on centerlines nearest (32, 9)<->(36, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-1-0]: digit-1-0 and digit-1-1 are 5 apart on centerlines nearest (12, 25)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-1-1]: digit-1-1 and digit-1-2 are 5 apart on centerlines nearest (17, 22)<->(22, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-1-2]: digit-1-2 and digit-1-3 are 4 apart on centerlines nearest (22, 25)<->(26, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [digit-1-3]: digit-1-3 and digit-1-4 are 4 apart on centerlines nearest (32, 25)<->(36, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "artifacts": {
+      "module": "data_lake_code_e8929314_39ec_46c6_9cfb_5107ebede2dc.py",
+      "svg": "data-lake-code.svg",
+      "input_metadata": "data-lake-code.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "cf0d9970-8b38-5723-b109-a3be9696acdb",
+    "source_path": "pictographic-primitives/rating/rating star three_cf0d9970-8b38-5723-b109-a3be9696acdb.svg",
+    "reference_path": "pictographic-primitives/rating/rating star three_cf0d9970-8b38-5723-b109-a3be9696acdb.svg",
+    "concept": "rating star three",
+    "icon_id": "rating-star-three",
+    "author": "gpt-6",
+    "keyshape": "CIRCLE",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: adjacent stars are 2 units apart and several interior bands require review. Enlarged counters, staggered positions, joined tips and rectangular envelopes were tried. Narrow diamond-like candidates were visually rejected."
+    },
+    "omissions": "None; all three equal five-point stars retained.",
+    "construction_references": "star: alternating tips and valleys from one repeated definition.",
+    "keyshape_reason": "CIRCLE provides a radial envelope while retaining the horizontal three-star arrangement.",
+    "attempts": 8,
+    "svg_sha256": "f638069df6c5af54c69852bfd41c96c7b3341bb9d097250b7a100c59b9114719",
+    "blocker": "BUILD GATE FAIL (fail, 2 errors, 9 warnings)\n  error: mic [star-0]: star-0 and star-1 are 2 apart on centerlines nearest (16, 24)<->(18, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [star-1]: star-1 and star-2 are 2 apart on centerlines nearest (30, 24)<->(32, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: internal-spacing [star-0]: star-0-2 and star-0-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-0]: star-0-4 and star-0-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-0]: star-0-6 and star-0-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-2 and star-1-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-4 and star-1-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-6 and star-1-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-2 and star-2-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-4 and star-2-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-6 and star-2-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required",
+    "artifacts": {
+      "module": "rating_star_three_cf0d9970_8b38_5723_b109_a3be9696acdb.py",
+      "svg": "rating-star-three.svg",
+      "input_metadata": "rating-star-three.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "c0ea9f23-ec77-44d1-920d-71fcc67e252e",
+    "source_path": "pictographic-primitives/romance/wedding celebration_c0ea9f23-ec77-44d1-920d-71fcc67e252e.svg",
+    "reference_path": "pictographic-primitives/romance/wedding celebration_c0ea9f23-ec77-44d1-920d-71fcc67e252e.svg",
+    "concept": "wedding celebration",
+    "icon_id": "wedding-celebration",
+    "author": "gpt-6",
+    "keyshape": "SQUARE",
+    "status": "pass",
+    "validation_status": "valid",
+    "build_gate": "pass",
+    "visual_review": {
+      "status": "approved",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Approved: two open triangular flag counters and two distinct overlapping hearts remain clear in both themes. Rear-heart lobes lowered to separate them from the bunting; shared heart contacts are genuine."
+    },
+    "omissions": "Three flags reduced to two larger flags, removing undersized triangular holes.",
+    "construction_references": "heart: coherent paired lobes and pointed bases; source supplies hanging flags.",
+    "keyshape_reason": "SQUARE balances a broad bunting row above the paired hearts.",
+    "attempts": 3,
+    "svg_sha256": "0a867b185b3ad3f6aaf7eb22efae2d15e8177288c5f7f5d889bbc5b40c8b0146",
+    "blocker": null,
+    "artifacts": {
+      "module": "wedding_celebration_c0ea9f23_ec77_44d1_920d_71fcc67e252e.py",
+      "svg": "wedding-celebration.svg",
+      "input_metadata": "wedding-celebration.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  },
+  {
+    "source_uuid": "0918c48a-7ee6-4895-9035-4645fdc17ae1",
+    "source_path": "pictographic-primitives/sports/scoreboard_0918c48a-7ee6-4895-9035-4645fdc17ae1.svg",
+    "reference_path": "pictographic-primitives/sports/scoreboard_0918c48a-7ee6-4895-9035-4645fdc17ae1.svg",
+    "concept": "scoreboard",
+    "icon_id": "scoreboard",
+    "author": "gpt-6",
+    "keyshape": "HRECT_L",
+    "status": "blocked",
+    "validation_status": "invalid",
+    "build_gate": "fail",
+    "visual_review": {
+      "status": "blocked",
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "sizes": [
+        48,
+        384
+      ],
+      "findings": "Blocked: colon-to-digit gaps range from 3.0712 to 5.09902 instead of 8; curved frame/number margins still require review. Full score remains congested in both themes. Five repair rounds and a final better-candidate selection are saved."
+    },
+    "omissions": "Hangers stop at the frame instead of extending into the score; all digits and colon retained.",
+    "construction_references": "app-window: framed display; source supplies the complete hand-drawn score and two hangers.",
+    "keyshape_reason": "HRECT_L gives the score its widest available panel.",
+    "attempts": 7,
+    "svg_sha256": "a92ecbe06586919e9fe9b26415867a9f5224892d5a69690bfed2d33eb14b230f",
+    "blocker": "BUILD GATE FAIL (fail, 4 errors, 2 warnings)\n  error: mic [two-top]: two-top and colon-0 are 5.05569 apart on centerlines nearest (19.9751, 23.5572)<->(25, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [two-bottom]: two-bottom and colon-1 are 5.09902 apart on centerlines nearest (20, 32)<->(25, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [colon-0]: colon-0 and zero are 3.0712 apart on centerlines nearest (25, 23)<->(28.0433, 23.4133); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [colon-1]: colon-1 and zero are 3.61607 apart on centerlines nearest (25, 31)<->(28.3236, 29.5753); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [panel]: panel and two-top are 8 apart on centerlines nearest (4, 24)<->(12, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [panel]: panel and zero are 8 apart on centerlines nearest (32, 12)<->(32, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "artifacts": {
+      "module": "scoreboard_0918c48a_7ee6_4895_9035_4645fdc17ae1.py",
+      "svg": "scoreboard.svg",
+      "input_metadata": "scoreboard.metadata.json",
+      "reference": "reference.svg",
+      "reference_render": "reference.png",
+      "validation": "validation.txt",
+      "build_gate": "build-gate.txt",
+      "gate_overlays": "gate/",
+      "findings": "findings.md",
+      "previews": [
+        "light-48.png",
+        "dark-48.png",
+        "light-384.png",
+        "dark-384.png"
+      ]
+    }
+  }
+]

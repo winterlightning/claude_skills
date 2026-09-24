@@ -1,12 +1,13 @@
+"""Pillbox with a lid seam and medical plus.
+Plan: SQUARE fits the box and centered medical symbol.
+Reduction: Corner radius reduced and lid seam lowered slightly; no identifying feature omitted.
+Construction: monitor: coherent rounded rectangle construction. Lid attachments are explicit wall nodes; medical cross has shared center.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='da7fc73f-7180-4170-9161-a6c525c99704'
-SOURCE_PATH='icon_set/work/todo-references/pillbox_da7fc73f-7180-4170-9161-a6c525c99704.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pillbox_da7fc73f-7180-4170-9161-a6c525c99704.svg'
 AUTHOR='gpt-6'
-PLAN='Rounded pillbox with shallow lid division and medical plus centered below. Cross arms share one length.'
-CONSTRUCTION_REFERENCES='Lucide pill: rounded medical object; rounded rectangle construction.'
-OMISSIONS='Outlined medical plus reduced to crossed strokes to preserve its identity with more space.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
     icon_id='pillbox'
@@ -28,6 +29,10 @@ class Drawing(Solo48):
         for i,a in enumerate(points):
             b=points[(i+1)%8];part=f'{name}-{i}';members.append(part)
             if i%2:self.add_arc(part,a,b,radius_x=r)
+            elif a[0]==b[0] and min(a[1],b[1])<15<max(a[1],b[1]):
+                members.pop()
+                self.add_line(part+'-a',a,(a[0],15));self.add_line(part+'-b',(a[0],15),b)
+                members.extend((part+'-a',part+'-b'))
             else:self.add_line(part,a,b)
         self.add_contour(name,*members,closed=True)
 
@@ -52,8 +57,7 @@ class Drawing(Solo48):
         self.add_contour(name,name+'-dome',name+'-right',name+'-left',closed=True)
 
     def build(self):
-        self.box('box',6,6,36,36,6)
-        self.add_line('lid',(6,14),(42,14));self.relate('connect','box','lid')
+        self.box('box',6,6,36,36,4)
+        self.add_line('lid',(6,15),(42,15));self.relate('connect','box','lid')
         self.cross('medical-plus',24,28,5,5,False)
 
-KEYSHAPE_REASON='The whole composition is approximately square; the centerline extremes are (6,6)–(42,42).'

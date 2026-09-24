@@ -1,13 +1,13 @@
-"""A rating booklet with an outlined star and text lines.
-Symbol plan: Tall cover with a raised rear leaf contains a central star and two lower rules. Ink extremes (6,2)-(42,46).
-Construction: star: five-point outline with purposeful corners; book: upright cover and offset leaf.
-Human construction: Not applicable.
-"""
+"""A rating booklet with a prominent star.
+Plan: VRECT_L leaves vertical room for the rear page and front cover.
+Reduction: Omitted tiny writing lines; squared the rear-page edge in place of the crowded shallow diagonal.
+Construction: Lucide file-text and star: simple page silhouette and a centered five-point symbol.
+Layout: Star and cover are centered; rear-page offset intentionally indicates multiple pages."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd9776d01-07f9-402d-ac77-fc73a405a509'
-SOURCE_PATH = 'icon_set/work/todo-references/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rating-booklet'
@@ -20,10 +20,9 @@ class Drawing(Solo48):
 
     def build(self):
         self.add_polyline('cover',(8,12),(36,12),(40,12),(40,44),(8,44),closed=True)
-        self.add_polyline('rear-leaf',(10,10),(36,4),(36,12))
+        self.add_polyline('rear-leaf',(16,4),(36,4),(36,12))
         self.relate('connect','rear-leaf','cover')
-        self.add_polyline('rating-star',(24,18),(27,24),(33,24),(28,28),(30,34),(24,30),(18,34),(20,28),(15,24),(21,24),closed=True)
-        for i,y in enumerate((38,41)):self.add_line(f'text-{i}',(20,y),(28,y))
+        self.add_polyline('rating-star',(24,20),(27,26),(32,26),(28,30),(29,36),(24,32),(19,36),(20,30),(16,26),(21,26),closed=True)
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

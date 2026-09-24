@@ -1,9 +1,10 @@
-"""A letter P badge overlays a pie chart with an upper-right quadrant.
+"""microsoft powerpoint logo: standalone repair of supplied reference.
 
-Symbol plan: the pie outline is occluded at the badge's right wall;
-orthogonal chart radii share its center. The badge contains an upright P.
-Lucide chart-pie informed the quadrant construction. The left overlap is
-deliberately asymmetric, as in the reference.
+Plan: P badge left of pie chart. Keyshape HRECT_L.
+Reduction: Used squared badge and capital P counter; chart is narrower than reference to preserve legal openings.
+Construction references: local Lucide originals and atomic-debug: chart-pie.
+
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -23,39 +24,22 @@ class PresentationPieChartBadge(Solo48):
     keywords = ("pie", "chart", "letter p", "slides")
 
     def build(self) -> None:
-        self.add_arc("chart-upper-left", (25, 20), (34, 14), radius_x=9, radius_y=6, sweep=True)
-        self.add_arc("chart-upper-right", (34, 14), (44, 24), radius_x=10, sweep=True)
-        self.add_arc("chart-lower-right", (44, 24), (34, 34), radius_x=10, sweep=True)
-        self.add_arc("chart-lower-left", (34, 34), (25, 28), radius_x=9, radius_y=6, sweep=True)
+        self.add_arc("chart-upper-left", (28, 20), (36, 12), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc("chart-upper-right", (36, 12), (44, 24), radius_x=8, radius_y=12, sweep=True)
+        self.add_arc("chart-lower-right", (44, 24), (36, 36), radius_x=8, radius_y=12, sweep=True)
+        self.add_arc("chart-lower-left", (36, 36), (28, 28), radius_x=8, radius_y=8, sweep=True)
         self.add_contour("pie-outline", "chart-upper-left", "chart-upper-right", "chart-lower-right", "chart-lower-left")
-        self.add_line("pie-vertical", (34, 14), (34, 24))
-        self.add_line("pie-horizontal", (34, 24), (44, 24))
+        self.add_line("pie-vertical", (36, 12), (36, 24))
+        self.add_line("pie-horizontal", (36, 24), (44, 24))
         self.relate("connect", "pie-vertical", "pie-horizontal")
         self.relate("connect", "pie-vertical", "chart-upper-left")
         self.relate("connect", "pie-vertical", "chart-upper-right")
         self.relate("connect", "pie-horizontal", "chart-upper-right")
         self.relate("connect", "pie-horizontal", "chart-lower-right")
 
-        r = 4
-        self.add_line("badge-top", (8, 8), (21, 8))
-        self.add_arc("badge-ne", (21, 8), (25, 12), radius_x=r, sweep=True)
-        self.add_line("badge-right-upper", (25, 12), (25, 20))
-        self.add_line("badge-right-middle", (25, 20), (25, 28))
-        self.add_line("badge-right-lower", (25, 28), (25, 36))
-        self.add_arc("badge-se", (25, 36), (21, 40), radius_x=r, sweep=True)
-        self.add_line("badge-bottom", (21, 40), (8, 40))
-        self.add_arc("badge-sw", (8, 40), (4, 36), radius_x=r, sweep=True)
-        self.add_line("badge-left", (4, 36), (4, 12))
-        self.add_arc("badge-nw", (4, 12), (8, 8), radius_x=r, sweep=True)
-        self.add_contour("letter-badge", "badge-top", "badge-ne", "badge-right-upper", "badge-right-middle", "badge-right-lower", "badge-se", "badge-bottom", "badge-sw", "badge-left", "badge-nw", closed=True)
-        self.relate("connect", "chart-upper-left", "badge-right-upper")
-        self.relate("connect", "chart-upper-left", "badge-right-middle")
-        self.relate("connect", "chart-lower-left", "badge-right-middle")
-        self.relate("connect", "chart-lower-left", "badge-right-lower")
-
-        self.add_line("p-stem", (13, 17), (13, 31))
-        self.add_arc("p-bowl-upper", (13, 17), (16, 21), radius_x=3, radius_y=4, sweep=True)
-        self.add_arc("p-bowl-lower", (16, 21), (13, 25), radius_x=3, radius_y=4, sweep=True)
-        self.add_contour("p-bowl", "p-bowl-upper", "p-bowl-lower")
-        self.relate("connect", "p-stem", "p-bowl-upper")
-        self.relate("connect", "p-stem", "p-bowl-lower")
+        self.add_polyline("letter-badge", (4,8),(28,8),(28,20),(28,28),(28,40),(4,40),closed=True)
+        self.relate("connect", "chart-upper-left", "letter-badge")
+        self.relate("connect", "chart-lower-left", "letter-badge")
+        self.add_polyline("p-bowl", (12,17),(20,17),(20,25),(12,25),closed=True)
+        self.add_line("p-stem", (12,25),(12,31))
+        self.relate("connect", "p-stem", "p-bowl")

@@ -1,13 +1,13 @@
-"""A four-operation calculator in front of a house.
-Symbol plan: A two-by-two calculator grid contains plus, minus, multiply and equals; roof and wall sit behind it. Ink extremes (4,4)-(44,44).
-Construction: calculator: grouped controls within one enclosure; house: roof and rear wall.
-Human construction: Not applicable.
-"""
+"""A calculator in front of a house.
+Plan: SQUARE preserves foreground calculator and upper-right house overlap.
+Reduction: Replaced plus/minus/multiply/equals labels and quadrant dividers with a display and two keys.
+Construction: Lucide house and calculator: roof outline, display bar and sparse key row.
+Layout: Calculator intentionally occludes the lower-left part of the house; true attachment endpoints are shared."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '110df7d0-d83c-4e1f-a771-57b0adb39e09'
-SOURCE_PATH = 'icon_set/work/todo-references/real estate market calculator house_110df7d0-d83c-4e1f-a771-57b0adb39e09.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate market calculator house_110df7d0-d83c-4e1f-a771-57b0adb39e09.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'real-estate-market-calculator-house'
@@ -19,22 +19,15 @@ class Drawing(Solo48):
     keywords = ('real', 'estate', 'market', 'calculator', 'house')
 
     def build(self):
-        self.add_polyline('roof',(18,16),(30,6),(42,16))
-        self.add_polyline('house-wall',(40,20),(40,28),(34,28))
-        self.box('calculator',6,18,32,42,4)
-        self.add_polyline('vertical-divider',(19,18),(19,30),(19,42))
-        self.add_polyline('horizontal-divider',(6,30),(19,30),(32,30))
-        for n in ('vertical-divider','horizontal-divider'):self.relate('connect',n,'calculator')
-        self.relate('connect','vertical-divider','horizontal-divider')
-        for n,a,b in [('plus-left',(10,24),(12,24)),('plus-right',(12,24),(14,24)),('plus-top',(12,22),(12,24)),('plus-bottom',(12,24),(12,26))]:self.add_line(n,a,b)
-        parts=['plus-left','plus-right','plus-top','plus-bottom']
-        for i,a in enumerate(parts):
-            for b in parts[:i]:self.relate('connect',a,b)
-        self.add_line('minus',(23,24),(27,24))
-        self.add_polyline('multiply-a',(10,34),(12,36),(14,38))
-        self.add_polyline('multiply-b',(10,38),(12,36),(14,34))
-        self.relate('connect','multiply-a','multiply-b')
-        for i,y in enumerate((34,38)):self.add_line(f'equals-{i}',(23,y),(27,y))
+        # SQUARE (6,6)-(42,42); calculator occludes the house lower-left.
+        # Keep a display and two keys; omit crowded operator labels and dividers.
+        self.add_polyline('roof',(18,18),(30,6),(42,18))
+        self.add_polyline('house-wall',(42,18),(42,30),(30,30))
+        self.add_polyline('calculator',(6,18),(18,18),(30,18),(30,30),(30,42),(6,42),closed=True)
+        self.relate('connect','roof','house-wall')
+        self.relate('connect','roof','calculator');self.relate('connect','house-wall','calculator')
+        self.add_line('display',(14,26),(22,26))
+        for x in (14,22):self.add_dot(f'key-{x}',(x,34))
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

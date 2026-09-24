@@ -1,0 +1,37 @@
+"""One recognizable flame with a pointed rising tongue and a curved inset lick. The partial source is completed into the named fire subject.
+References: Lucide flame original and atomic-debug; supplied name and incomplete source.
+Authored directly on SOLO48; original retained for comparison."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'bab5b5ab-20b1-4dd5-9adc-c0506955e155'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/air pollution fire_bab5b5ab-20b1-4dd5-9adc-c0506955e155.svg'
+AUTHOR = 'gpt-6'
+
+class AirPollutionFire(Solo48):
+    icon_id = 'air-pollution-fire'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'Uncategorized'
+    aliases = ()
+    keywords = ('air', 'pollution', 'fire')
+
+    def build(self):
+        # Symbol plan: One recognizable flame with a pointed rising tongue and a curved inset lick. The partial source is completed into the named fire subject.
+
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('flame',(24,4),[('C',(40,28),(24,16),(40,18)),('A',(8,28),16,16,True),('C',(16,16),(8,22),(12,18)),('C',(20,28),(14,22),(16,26)),('C',(24,4),(26,23),(26,12))],True)

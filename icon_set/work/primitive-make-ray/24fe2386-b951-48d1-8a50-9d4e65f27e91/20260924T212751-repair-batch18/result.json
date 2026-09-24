@@ -1,0 +1,49 @@
+{
+  "source_uuid": "24fe2386-b951-48d1-8a50-9d4e65f27e91",
+  "source_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+  "reference_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+  "concept": "ui webpage ad text",
+  "icon_id": "ui-webpage-ad-text",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "visual_review": {
+    "status": "blocked",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "findings": "Blocked: letters remain too close to the browser side walls and A/D curved-pair clearance requires review. Six candidates saved; no visual approval."
+  },
+  "omissions": "Small header dashes removed; A rounded; AD and full frame retained.",
+  "construction_references": "app-window: a header strip with shared side-wall joins; supplied source owns the letters.",
+  "keyshape_reason": "SQUARE balances the full browser and two letters after wider and taller trials.",
+  "attempts": 6,
+  "svg_sha256": "103aa42ea9b02c293e02f22dff9029e9d73406bcc16d2c30ca16c9463233900e",
+  "blocker": "BUILD GATE FAIL (fail, 3 errors, 1 warnings)\n  error: mic [a-left]: parallel straight edges a-left-2, a-left-1 and browser-1, browser-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  error: mic [browser]: browser and a-left are 6 apart on centerlines nearest (6, 32)<->(12, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [browser]: browser and d-bowl are 6 apart on centerlines nearest (42, 26)<->(36, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [a-cap]: a-cap and d-stem are 8 apart on centerlines nearest (20, 24)<->(28, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "artifacts": {
+    "module": "ui_webpage_ad_text_24fe2386_b951_48d1_8a50_9d4e65f27e91.py",
+    "svg": "ui-webpage-ad-text.svg",
+    "input_metadata": "ui-webpage-ad-text.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/",
+    "findings": "findings.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  },
+  "keyshape_bounds": "(4, 4, 44, 44)",
+  "module_sha256": "526b8514bac5d8b8c91a5426ae6fb1da8d91386b9f4cbf9e24c16f5729794245"
+}

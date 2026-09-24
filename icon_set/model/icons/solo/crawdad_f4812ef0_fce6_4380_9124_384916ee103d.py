@@ -1,11 +1,12 @@
-"""crawdad. Reconstructed whole reference on SOLO48.
-Plan: VRECT_L visible bounds (6, 2, 42, 46).
-Construction: shrimp (segmented body only). Shared dimensions and relationships are recorded in build.
+"""Crawdad with closed leaf-shaped claws, paired legs and a tail fan.
+Plan: VRECT_L retains an upright body and raised claws.
+Reduction: Fine antennae, extra leg rows, eyes and separate tail lobes omitted; body and tail enlarged and simplified.
+Construction: shrimp: coherent curved body and clear segmentation; no exact claw match. Paired appendages mirror about x=24.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f4812ef0-fce6-4380-9124-384916ee103d'
-SOURCE_PATH = 'icon_set/work/todo-references/crawdad_f4812ef0-fce6-4380-9124-384916ee103d.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_13/crawdad_f4812ef0-fce6-4380-9124-384916ee103d.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -32,37 +33,19 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=True)
 
     def build(self):
-        # Shared vertical body, mirrored appendages, and segmented tapered tail.
-        axis=24
-        self.add_arc('body-tl',(18,20),(24,14),radius_x=6)
-        self.add_arc('body-tr',(24,14),(30,20),radius_x=6)
-        self.add_line('body-right',(30,20),(30,26))
-        self.add_arc('body-br',(30,26),(24,32),radius_x=6)
-        self.add_arc('body-bl',(24,32),(18,26),radius_x=6)
-        self.add_line('body-left',(18,26),(18,20))
-        self.add_contour('body','body-tl','body-tr','body-right','body-br','body-bl','body-left',closed=True)
-        self.add_polyline('tail',(20,32),(20,37),(24,40),(28,37),(28,32),closed=True)
-        self.relate('connect','body','tail')
-        # Narrow extra tail rule omitted; abdomen and fan remain separate segments.
+        # Mirrored elongated claws, enlarged body and a broad tail fan; fine antennae and extra legs omitted.
+        self.add_arc('body-tl',(18,30),(24,24),radius_x=6)
+        self.add_arc('body-tr',(24,24),(30,30),radius_x=6)
+        nodes=[(30,30),(28,36),(32,44),(16,44),(20,36),(18,30)]
+        for k,(a,z) in enumerate(zip(nodes,nodes[1:]),1):self.add_line(f'body-bottom-{k}',a,z)
+        self.add_contour('body','body-tl','body-tr',*[f'body-bottom-{i}' for i in range(1,6)],closed=True)
+        self.add_line('tail-band',(20,36),(28,36));self.relate('connect','body','tail-band')
         for side in (-1,1):
-            def P(x,y):return axis+side*x,y
-            prefix='left' if side==-1 else 'right'
-            self.add_bezier(prefix+'-antenna',(24,14),(P(3,8),P(5,5),P(10,4)))
-            self.relate('connect','body',prefix+'-antenna')
-            self.add_bezier(prefix+'-arm',P(6,20),(P(8,20),P(11,19),P(12,17)))
-            self.relate('connect','body',prefix+'-arm')
-            for row,(base,outer,end) in enumerate(((26,28,32),)):
-                self.add_polyline(f'{prefix}-leg-{row}',P(6,base),P(13,outer),P(16,end))
-                self.relate('connect','body',f'{prefix}-leg-{row}')
-            self.add_polyline(prefix+'-hindleg',P(4,35),P(10,37),P(12,40))
-            self.relate('connect','tail',prefix+'-hindleg')
-            # Narrow leaf-shaped crawdad claws use a mirrored pair of smooth curves.
-            self.add_bezier(prefix+'-claw-outer',P(12,17),(P(17,14),P(16,10),P(12,7)))
-            self.add_bezier(prefix+'-claw-inner',P(12,7),(P(9,11),P(8,14),P(12,17)))
-            self.add_contour(prefix+'-claw',prefix+'-claw-outer',prefix+'-claw-inner',closed=True)
-            self.relate('connect',prefix+'-arm',prefix+'-claw')
-        self.add_bezier('fin-left',(24,40),((20,40),(16,44),(20,44)),((22,44),(23,43),(24,42)))
-        self.add_bezier('fin-right',(24,42),((25,43),(26,44),(28,44)),((32,44),(28,40),(24,40)))
-        self.add_contour('fin','fin-left','fin-right',closed=True)
-        self.relate('connect','tail','fin')
-
+            def P(x,y):return 24+side*x,y
+            n='left' if side==-1 else 'right'
+            self.add_line(n+'-arm',P(6,30),P(12,16));self.relate('connect','body',n+'-arm')
+            self.add_arc(n+'-claw-a',P(12,4),P(12,16),radius_x=4,radius_y=6)
+            self.add_arc(n+'-claw-b',P(12,16),P(12,4),radius_x=4,radius_y=6)
+            self.add_contour(n+'-claw',n+'-claw-a',n+'-claw-b',closed=True)
+            self.relate('connect',n+'-arm',n+'-claw')
+            self.add_polyline(n+'-leg',P(6,30),P(12,30),P(16,34));self.relate('connect','body',n+'-leg');self.relate('connect',n+'-arm',n+'-leg')

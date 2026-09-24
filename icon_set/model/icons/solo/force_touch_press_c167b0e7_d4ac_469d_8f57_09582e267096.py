@@ -1,44 +1,39 @@
-"""Bent finger pressing down on a surface with downward feedback arrow.
-Symbol plan: preserve the reference's complete composition; shared parameters own repeated elements.
-Keyshape SQUARE; exact profile envelope supplied by Keyshape.bounds_for.
-Omissions: Surface thickness and tiny impact rays omitted.
-Lucide: none; rounded contour and coherent stroke construction where applicable.
-Human reference: icon_set/references/human_ref/user.svg for portrait modules.
-"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='c167b0e7-d4ac-469d-8f57-09582e267096'
-SOURCE_PATH='icon_set/work/todo-references/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
+SOURCE_PATH='pictographic-primitives/mobile/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
 AUTHOR='gpt-6'
+PLAN='Lucide hand rounded fingertip; widened bent index silhouette, omitted small secondary knuckle and impact rays. Deliberate directional asymmetry; no detached head.'
 class Drawing(Solo48):
     icon_id='force-touch-press'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category='objects/general'
     aliases=()
     keywords=('force', 'touch', 'press')
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-
-    def box(self, name, x, y, w, h, r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i in range(8):
-            eid=f'{name}-{i}';ids.append(eid)
-            if i%2:self.add_arc(eid,pts[i],pts[(i+1)%8],radius_x=r)
-            else:self.add_line(eid,pts[i],pts[(i+1)%8])
-        self.add_contour(name,*ids,closed=True)
-
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
+        self.path('finger',(22,6),[('B',(10,22),(18,8),(14,16)),('A',(18,28),5,5,False),('L',(28,14)),('B',(36,10),(30,12),(32,10))])
+        self.add_line('surface-left',(6,38),(10,38))
+        self.add_line('surface-right',(38,38),(42,38))
+        self.add_line('press',(24,34),(24,42))
+        self.add_polyline('arrow',(20,38),(24,42),(28,38));self.relate('connect','press','arrow')
 
-        self.add_bezier('finger',(22,6),((18,8),(15,15),(12,21)),((10,25),(14,28),(17,24)),((19,21),(20,15),(23,16)),((26,17),(22,21),(26,22)),((30,23),(29,14),(36,12)))
-        self.add_line('surface-left',(6,34),(12,34))
-        self.add_line('surface-right',(36,34),(42,34))
-        self.add_polyline('press',(24,30),(24,42))
-        self.add_polyline('arrow',(20,38),(24,42),(28,38))
-        self.relate('connect','press','arrow')
-
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start;members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='B':self.add_bezier(eid,at,(*args,end))
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,q=4):
+        self.path(n,(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)

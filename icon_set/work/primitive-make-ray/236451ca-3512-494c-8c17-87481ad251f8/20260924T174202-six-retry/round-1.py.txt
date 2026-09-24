@@ -1,0 +1,30 @@
+"""Star-eyed smile. Equal six-ray star glyphs replace tiny enclosed star pockets.
+Plan: CIRCLE radius20; repeated star centers x17,31 at y20; mirrored rays share true centers.
+Human reference: user.svg circular facial vocabulary; no body is depicted.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='236451ca-3512-494c-8c17-87481ad251f8'
+SOURCE_PATH='pictographic-primitives/_uncategorized_17/face awesome_236451ca-3512-494c-8c17-87481ad251f8.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='smiling-star-eyed-face'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='people/expressions'
+    aliases=()
+    keywords=('star','eyes','smile')
+    def build(self):
+        self.add_arc('head-top',(4,24),(44,24),radius_x=20)
+        self.add_arc('head-bottom',(44,24),(4,24),radius_x=20)
+        self.add_contour('head','head-top','head-bottom',closed=True)
+        for i,x in enumerate((17,31)):
+            rays=((0,-5),(3,-2),(3,2),(0,5),(-3,2),(-3,-2))
+            names=[]
+            for j,(dx,dy) in enumerate(rays):
+                n=f'eye-{i}-ray-{j}';names.append(n)
+                self.add_line(n,(x,20),(x+dx,20+dy))
+            for j,n in enumerate(names):
+                for q in names[j+1:]:self.relate('connect',n,q)
+        self.add_arc('smile',(20,33),(28,33),radius_x=5,sweep=False)

@@ -1,13 +1,13 @@
-"""A handshake beneath a house roof.
-Symbol plan: Pitched roof frames two cuffs and interlocking hands. Ink extremes (4,4)-(44,44).
-Construction: handshake: overlapping thumb and joined wrist contours; house: a pitched roof.
-Human construction: human-reference.md and human_ref/full_body_ref.png inspected for coherent limb flow. Only hands/forearms appear; no head-spacing rule applies.
-"""
+"""A real-estate handshake beneath a roof.
+Plan: SQUARE separates the roof from a broad handshake and paired cuffs.
+Reduction: Minor finger creases omitted; thumb and hand contours widened without removing the handshake.
+Construction: Lucide handshake: joined wrists, thumb fold and broad finger mass; shared human reference guidance inspected.
+Layout: Handshake anatomy is intentionally asymmetric beneath a symmetric roof; no detached head-body spacing applies."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '490f19a8-c170-4914-bea1-18cbfb479033'
-SOURCE_PATH = 'icon_set/work/todo-references/real estate deal shake_490f19a8-c170-4914-bea1-18cbfb479033.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate deal shake_490f19a8-c170-4914-bea1-18cbfb479033.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'real-estate-deal-shake'
@@ -22,20 +22,18 @@ class Drawing(Solo48):
         self.add_polyline('roof',(6,20),(24,6),(42,20))
         self.add_polyline('cuff-left',(6,28),(14,28),(14,30),(14,38),(14,40),(6,40),closed=True)
         self.add_polyline('cuff-right',(34,28),(42,28),(42,40),(34,40),(34,38),(34,30),closed=True)
-        self.add_line('left-hand-top-1',(14, 30),(20, 28))
-        self.add_line('left-hand-top-2',(20, 28),(24, 28))
-        self.add_bezier('right-hand-top',(34,30),((30,29),(27,26),(24,28)))
-        self.add_line('thumb-1',(24, 28),(20, 32))
-        self.add_bezier('thumb-return',(20,32),((22,35),(24,33),(26,32)))
-        self.add_line('fingers-upper-1',(26, 32),(32, 38))
-        self.add_bezier('fingers-bottom',(32,38),((32,40),(30,41),(28,40)),((28,42),(25,42),(24,42)),((21,42),(18,39),(14,38)))
+        self.add_line('left-hand-top-1',(14, 30),(17, 24))
+        self.add_line('left-hand-top-2',(17, 24),(28, 24))
+        self.add_bezier('right-hand-top',(34,28),((32,25),(30,24),(28,24)))
+        self.add_line('thumb-1',(28, 24),(22, 32))
+        self.add_bezier('thumb-return',(22,32),((24,35),(27,33),(28,32)))
+        self.add_line('fingers-upper-1',(28, 32),(34, 38))
+        self.add_bezier('fingers-bottom',(34,38),((34,40),(30,41),(28,40)),((28,42),(25,42),(24,42)),((21,42),(18,39),(14,38)))
         self.add_contour('handshake-outline','left-hand-top-1','left-hand-top-2','thumb-1','thumb-return','fingers-upper-1','fingers-bottom')
-        self.add_line('right-wrist',(32,38),(34,38))
         self.relate('connect','handshake-outline','cuff-left')
+        self.relate('connect','handshake-outline','cuff-right')
         self.relate('connect','right-hand-top','handshake-outline')
         self.relate('connect','right-hand-top','cuff-right')
-        self.relate('connect','right-wrist','handshake-outline')
-        self.relate('connect','right-wrist','cuff-right')
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

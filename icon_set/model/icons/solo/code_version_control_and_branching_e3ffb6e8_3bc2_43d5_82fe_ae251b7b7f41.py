@@ -1,12 +1,12 @@
-"""A branching revision graph beside an open panel containing a code mark."""
+'A branching revision graph beside an open panel containing a code slash.\nPlan: HRECT_L preserves the side-by-side graph and panel.\nReduction: Omitted the crowded code chevrons; retained the slash. The inherited compact graph uses point junctions in place of hollow node circles.\nConstruction: Lucide git-branch: a coherent revision trunk, branch and node structure.'
 
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 
 SOURCE_ICON_ID = "e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_02/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg"
-AUTHOR = "gpt-5"
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg'
+AUTHOR = 'gpt-6'
 
 
 class CodeVersionControlAndBranching(Solo48):
@@ -21,7 +21,7 @@ class CodeVersionControlAndBranching(Solo48):
     def build(self) -> None:
         # Plan: the left graph owns a three-node vertical series and one branch
         # node leading to an upper-left arrow. The right panel is an open rounded
-        # contour hosting a single continuous </>-like code stroke.
+        # contour hosting a single diagonal code slash.
         chain_nodes = ((4, 8), (4, 22), (4, 36))
         self.add_line("chain-upper", chain_nodes[0], chain_nodes[1])
         self.add_line("chain-lower", chain_nodes[1], chain_nodes[2])
@@ -62,12 +62,5 @@ class CodeVersionControlAndBranching(Solo48):
             "panel-bottom-left",
         )
 
-        self.add_polyline(
-            "code-mark",
-            (26, 22),
-            (22, 27),
-            (26, 31),
-            (30, 20),
-            (34, 27),
-            (30, 31),
-        )
+        # Keep the slash as the minimal code mark; omit crowded chevrons.
+        self.add_line("code-mark", (28,31), (32,22))

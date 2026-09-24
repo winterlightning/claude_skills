@@ -1,12 +1,13 @@
-"""Three upright archive binders with spine labels and circular finger holes.
-
-Plan: Three identical rounded rectangles in a centered series, shared width and radius. HRECT_L extremes (4,8)-(44,40). Lucide book informs tangent rounded corners. All identifying details retained; dense three-column topology may block MIC.
-"""
+"""Three upright archive books.
+Plan: HRECT_L fits three equal eight-unit spines and two eight-unit gaps.
+Reduction: Removed spine labels and finger holes; they cannot fit inside the narrow spines.
+Construction: Lucide book-open: simple book outlines; supplied reference determines the three-spine series.
+Layout: Repeated equal spines centered on x=24."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '42cdb953-b64a-446a-9e2f-0a5e1116e601'
-SOURCE_PATH = 'icon_set/work/todo-references/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'archive-books'
@@ -18,10 +19,8 @@ class Drawing(Solo48):
     keywords = ('archive', 'books')
     def build(self):
         for i in range(3):
-            x=4+15*i
-            self.roundrect(f'binder-{i}',x,8,x+10,40,2)
-            self.add_polyline(f'label-{i}',(x+3,14),(x+7,14),(x+7,26),(x+3,26),closed=True)
-            self.circle(f'hole-{i}',x+5,33,2)
+            x=4+16*i
+            self.roundrect(f'binder-{i}',x,8,x+8,40,2)
 
     def circle(self,name,cx,cy,r):
         self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)

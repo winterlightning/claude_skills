@@ -1,15 +1,18 @@
-"""Four musical notes rise over a nightclub building with an arched doorway.
-Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
-SOLO48 SQUARE; omissions: Building cornice rounding omitted; both note pairs retained.
+"""nightclub: standalone SOLO48 repair.
+Plan: Two music-note pairs above a club entrance.
+Keyshape: HRECT_L; shared dimensions and nodes own repeated elements.
+Reduction: Kept all four notes; reduced cornice to one rail and changed the crowded arched door to a shallow rectangular opening.
+Lucide originals and atomic-debug construction reference: music, house.
+
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='4f2adf74-2b0c-4983-8567-ce3c6c50bff8'
-SOURCE_PATH='icon_set/work/todo-references/nightclub_4f2adf74-2b0c-4983-8567-ce3c6c50bff8.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nightclub_4f2adf74-2b0c-4983-8567-ce3c6c50bff8.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='nightclub'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects'
@@ -31,17 +34,13 @@ class Drawing(Solo48):
         self.add_contour(n,*ids,closed=True)
 
     def build(self):
-
-        self.add_polyline('cornice',(6,28),(8,28),(40,28),(42,28))
-        self.add_polyline('building',(8,28),(8,42),(20,42),(28,42),(40,42),(40,28));self.relate('connect','building','cornice')
-        self.add_line('door-left',(20,42),(20,38));self.add_arc('door-top',(20,38),(28,38),radius_x=4);self.add_line('door-right',(28,38),(28,42))
-        self.add_contour('door','door-left','door-top','door-right');self.relate('connect','door','building')
-        for j,x in enumerate((10,30)):
-            self.circle('note-'+str(j)+'-left',x,17,2);self.circle('note-'+str(j)+'-right',x+8,15,2)
-            n='beam-'+str(j);self.add_polyline(n,(x+2,17),(x+2,8),(x+10,6),(x+10,15))
-            self.relate('connect',n,'note-'+str(j)+'-left');self.relate('connect',n,'note-'+str(j)+'-right')
-
-# Final visible bounds: (4, 4, 44, 44)
-# Construction: Round noteheads connect to coherent stems and beam runs.
-# Final reductions: Cornice thickness reduced to one rail to keep eight-unit clearance below all four music notes.
-# Visual review: Building, arched doorway and all four musical notes remain present. Cornice thickness reduced to one rail; note pairs retain directional stems.
+        # Four noteheads on a common baseline; shared pair spacing is 12.
+        self.add_line('cornice',(4,28),(44,28))
+        self.add_polyline('building',(8,28),(8,40),(16,40),(16,36),(32,36),(32,40),(40,40),(40,28))
+        self.relate('connect','building','cornice')
+        for j,x in enumerate((6,30)):
+            self.circle(f'note-{j}-left',x,18,2)
+            self.circle(f'note-{j}-right',x+12,18,2)
+            self.add_polyline(f'beam-{j}',(x+2,18),(x+2,8),(x+14,8),(x+14,18))
+            self.relate('connect',f'beam-{j}',f'note-{j}-left')
+            self.relate('connect',f'beam-{j}',f'note-{j}-right')

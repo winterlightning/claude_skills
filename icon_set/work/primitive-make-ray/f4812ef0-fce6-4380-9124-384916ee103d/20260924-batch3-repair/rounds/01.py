@@ -1,0 +1,54 @@
+"""crawdad. Reconstructed whole reference on SOLO48.
+Plan: VRECT_L visible bounds (6, 2, 42, 46).
+Construction: shrimp (segmented body only). Shared dimensions and relationships are recorded in build.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'f4812ef0-fce6-4380-9124-384916ee103d'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_13/crawdad_f4812ef0-fce6-4380-9124-384916ee103d.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'crawdad'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/symbols'
+    aliases = ()
+    keywords = ('crawdad',)
+
+    def circle(self, name, cx, cy, r):
+        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
+        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
+        self.add_contour(name,name+'-a',name+'-b',closed=True)
+
+    def rounded_rect(self, name, x, y, w, h, r):
+        nodes=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i in range(8):
+            a,b=nodes[i],nodes[(i+1)%8];eid=f'{name}-{i}';members.append(eid)
+            if i%2:self.add_arc(eid,a,b,radius_x=r)
+            else:self.add_line(eid,a,b)
+        self.add_contour(name,*members,closed=True)
+
+    def build(self):
+        # Mirrored body, two larger leaf claws, antenna pair, lateral legs and open tail fan.
+        self.add_arc('body-tl',(18,20),(24,14),radius_x=6)
+        self.add_arc('body-tr',(24,14),(30,20),radius_x=6)
+        nodes=[(30,20),(30,26),(28,34),(32,44),(16,44),(20,34),(18,26),(18,20)]
+        for k,(a,z) in enumerate(zip(nodes,nodes[1:]),1):self.add_line(f'body-bottom-{k}',a,z)
+        self.add_contour('body','body-tl','body-tr',*[f'body-bottom-{i}' for i in range(1,8)],closed=True)
+        self.add_line('tail-band',(20,34),(28,34));self.relate('connect','body','tail-band')
+        for side in (-1,1):
+            def P(x,y):return 24+side*x,y
+            n='left' if side==-1 else 'right'
+            self.add_bezier(n+'-antenna',(24,14),(P(1,10),P(3,6),P(4,4)))
+            self.relate('connect','body',n+'-antenna')
+            self.add_line(n+'-arm',P(6,20),P(12,17));self.relate('connect','body',n+'-arm')
+            self.add_arc(n+'-claw-a',P(12,5),P(12,17),radius_x=4,radius_y=6)
+            self.add_arc(n+'-claw-b',P(12,17),P(12,5),radius_x=4,radius_y=6)
+            self.add_contour(n+'-claw',n+'-claw-a',n+'-claw-b',closed=True)
+            self.relate('connect',n+'-arm',n+'-claw')
+            self.add_polyline(n+'-leg',P(6,26),P(12,26),P(16,30));self.relate('connect','body',n+'-leg')
+            self.add_line(n+'-hindleg',P(4,34),P(14,37));self.relate('connect','body',n+'-hindleg')
+        self.relate('connect','left-antenna','right-antenna')

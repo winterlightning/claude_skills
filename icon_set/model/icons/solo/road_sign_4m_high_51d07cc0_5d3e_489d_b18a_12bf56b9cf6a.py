@@ -1,14 +1,14 @@
-"""A four-metre height restriction mark with vertical chevrons.
-
-Plan: Hand-authored 4 and M retain the text; mirrored top/bottom chevrons mark height.
-Construction: expand: paired directional chevrons
-"""
+"""A 4M height restriction mark between opposing chevrons.
+Plan: SQUARE retains the text and top/bottom direction marks.
+Reduction: Shortened the glyph height and four crossbar; reduced chevron size. No character or arrow omitted.
+Construction: Lucide expand: opposing chevrons; source supplies the 4M lettering.
+Layout: Chevrons mirror around y24. Letterforms are naturally asymmetric and use actual stroke junctions."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '51d07cc0-5d3e-489d-b18a-12bf56b9cf6a'
-SOURCE_PATH = 'icon_set/work/todo-references/road sign 4m high_51d07cc0-5d3e-489d-b18a-12bf56b9cf6a.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/transportation/road sign 4m high_51d07cc0-5d3e-489d-b18a-12bf56b9cf6a.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'road-sign-4m-high'
@@ -20,14 +20,13 @@ class Drawing(Solo48):
     keywords = ('road', 'sign', '4m', 'high')
 
     def build(self):
-        self.add_polyline('four',(6,28),(18,14),(18,28),(18,34))
-        self.add_polyline('four-bar',(6,28),(18,28),(22,28))
-        for a in ('four-2','four-3'):
-            for b in ('four-bar-1','four-bar-2'):self.relate('connect',a,b)
-        self.relate('connect','four-1','four-bar-1')
-        self.add_polyline('m',(28,34),(28,14),(35,26),(42,14),(42,34))
-        self.add_polyline('up',(20,10),(24,6),(28,10))
-        self.add_polyline('down',(20,38),(24,42),(28,38))
+        self.add_polyline('four-left',(14,17),(6,27),(16,27),(18,27))
+        self.add_polyline('four-stem',(16,17),(16,27),(16,31))
+        self.relate('connect','four-left','four-stem')
+        self.add_polyline('m',(28,31),(28,17),(35,26),(42,17),(42,31))
+        self.add_polyline('up',(21,9),(24,6),(27,9))
+        self.add_polyline('down',(21,39),(24,42),(27,39))
+
 
     def circle(self, name, x, y, r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
