@@ -1,7 +1,7 @@
 """mobile phone fingerprint: fresh spacing repair.
-Plan: Lucide smartphone frame with tangent corner arcs and explicit wall endpoints. Continuous fingerprint arch and return preserve a clear inner stem; straight wall gap is exactly8.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Ridges simplified into one returning ridge; bottom separator omitted.
+Plan: Returning ridge reads as a simplified fingerprint in an upright phone; smooth arch and inner stem retain ridge flow.
+Keyshape VRECT_L: VRECT_L preserves the phone proportions.
+Omissions: Fingerprint reduced to one continuous returning ridge; lower separator omitted.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

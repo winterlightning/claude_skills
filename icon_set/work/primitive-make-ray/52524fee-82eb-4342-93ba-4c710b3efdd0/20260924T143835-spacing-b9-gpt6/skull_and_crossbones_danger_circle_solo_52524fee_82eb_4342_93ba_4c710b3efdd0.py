@@ -1,7 +1,7 @@
 """circle skull xmark: fresh spacing repair.
-Plan: Four diagonal bone runs join exact ring nodes and exposed skull nodes; no crossings hidden through the skull. Lucide skull informs dome and jaw.
-Keyshape CIRCLE: extrema derived from the profile's standard envelope.
-Omissions: Eyes merged into cheek sockets; central tooth omitted. Bone ends genuinely join the circular border.
+Plan: Skull and diagonal crossbones remain recognizable within the ring. Bone runs meet real skull and ring nodes.
+Keyshape CIRCLE: CIRCLE preserves the enclosing warning badge.
+Omissions: Eyes merged into cheek sockets; center tooth omitted; bone ends joined to border.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

@@ -1,7 +1,7 @@
 """mail card bug: fresh spacing repair.
-Plan: Wide card leaves room for a small beetle body with four genuine endpoint attachments. Envelope fold remains below the bug.
-Keyshape SQUARE: extrema derived from the profile's standard envelope.
-Omissions: Card and envelope side walls merged; bug divider, lower leg pair and envelope seam strokes omitted.
+Plan: Bug body, two antenna strokes and side legs remain above the envelope fold.
+Keyshape SQUARE: SQUARE gives the card enough width for its bug.
+Omissions: Card/envelope side walls merged; bug divider, lower legs and envelope seam strokes omitted.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

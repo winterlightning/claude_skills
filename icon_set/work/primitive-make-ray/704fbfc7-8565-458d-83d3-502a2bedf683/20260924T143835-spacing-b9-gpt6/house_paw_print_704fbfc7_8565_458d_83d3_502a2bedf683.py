@@ -1,7 +1,7 @@
 """house paw print: fresh spacing repair.
-Plan: Three repeated toe dots above a triangular pad in a symmetric house. Dot positions and lower pad budget separate gaps explicitly.
-Keyshape SQUARE: extrema derived from the profile's standard envelope.
-Omissions: Toe outlines reduced to dots; central triangular pad enlarged.
+Plan: Three toe dots and a larger closed central pad read as a paw; the earlier face-like open pad was rejected.
+Keyshape SQUARE: SQUARE preserves the house envelope.
+Omissions: Toe outlines reduced to dots; triangular pad replaced with a larger circular pad.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

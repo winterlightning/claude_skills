@@ -1,7 +1,7 @@
 """circle bluetooth: fresh spacing repair.
-Plan: Circle encloses the Lucide-style continuous angular Bluetooth rune. Opposing diagonals and upright stem retain logo identity.
-Keyshape CIRCLE: extrema derived from the profile's standard envelope.
-Omissions: None; reconstructed directly on SOLO48.
+Plan: Bluetooth rune remains legible inside a circular border; expanded triangles retain clear openings.
+Keyshape CIRCLE: CIRCLE preserves the source badge.
+Omissions: Rune loops widened; no defining part omitted.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

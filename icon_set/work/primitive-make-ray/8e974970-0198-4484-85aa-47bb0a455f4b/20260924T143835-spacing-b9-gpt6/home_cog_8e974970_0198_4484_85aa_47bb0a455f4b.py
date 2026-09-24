@@ -1,7 +1,7 @@
 """home cog: fresh spacing repair.
-Plan: House encloses a circular gear with four real cardinal attachments. Shared cog center and radius own all tooth positions.
-Keyshape SQUARE: extrema derived from the profile's standard envelope.
-Omissions: Six crowded lobes reduced to four simple teeth; central dot omitted.
+Plan: Four teeth and a circular core form a compact gear inside the house.
+Keyshape SQUARE: SQUARE balances house and settings symbol.
+Omissions: Six crowded lobes reduced to four cardinal teeth; central dot omitted.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

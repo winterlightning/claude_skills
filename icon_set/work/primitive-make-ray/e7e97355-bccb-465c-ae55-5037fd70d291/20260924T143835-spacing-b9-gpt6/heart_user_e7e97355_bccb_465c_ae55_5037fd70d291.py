@@ -1,7 +1,7 @@
 """heart user: fresh spacing repair.
-Plan: Mirrored heart gains vertical room. Shared human user.svg vocabulary; head bottom21 and shoulder crest29 give exactly 4 ink units.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Small bust and broad lower heart; notch made shallower.
+Plan: Small head and open shoulders remain identifiable inside the tall heart; lower flanks provide clear space.
+Keyshape VRECT_L: VRECT_L adds room below the shallow notch.
+Omissions: Bust reduced; heart notch made shallower and lower flanks widened.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

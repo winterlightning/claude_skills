@@ -1,7 +1,7 @@
 """magnifying glass pill: fresh spacing repair.
-Plan: Circular lens retains a true 9-12-15 handle node. Capsule has shared 4-unit cap radii and a middle seam with split wall endpoints.
-Keyshape SQUARE: extrema derived from the profile's standard envelope.
-Omissions: Pill turned upright and shortened to fit the lens.
+Plan: Diagonal capsule inside the circular lens retains the reference direction; handle joins an exact lens node.
+Keyshape SQUARE: SQUARE fits the lens and diagonal handle.
+Omissions: Capsule shortened; internal divider omitted after internal-spacing failure.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

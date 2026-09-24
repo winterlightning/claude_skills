@@ -1,7 +1,7 @@
 """file person: fresh spacing repair.
-Plan: Lucide file contour, shared human_ref/user.svg circular head and broad open shoulders. Exact detached head/body gap8 on centerlines.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Head slightly reduced and bust shifted left to clear the folded corner.
+Plan: Circular head and open shoulders read as a person inside a clipped-corner file.
+Keyshape VRECT_L: VRECT_L preserves the portrait page.
+Omissions: Bust narrowed and shifted left to clear the folded corner.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

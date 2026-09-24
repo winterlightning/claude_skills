@@ -1,7 +1,7 @@
 """file with shield plus: fresh spacing repair.
-Plan: Clipped document top remains above an integrated shield rim and rounded shield bottom. Plus stays centered in the shield. Lucide file informs upper corner construction.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Shield sides and lower document sides merged into one shared outline.
+Plan: Clipped file top, shield rim, rounded shield base and centered medical plus remain visible.
+Keyshape VRECT_L: VRECT_L accommodates the upright integrated file and shield.
+Omissions: Lower page and shield walls merged into one real outline.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

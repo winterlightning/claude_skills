@@ -1,7 +1,7 @@
 """circle skull: fresh spacing repair.
-Plan: Lucide-style skull dome and narrowed jaw within a circular border. Mirrored sockets meet actual contour endpoints; central tooth remains.
-Keyshape CIRCLE: extrema derived from the profile's standard envelope.
-Omissions: Dot eyes extended into open sockets that join the cheeks.
+Plan: Horizontal sockets distinguish this skull from the slanted-eye variant; dome and narrowed jaw remain clear.
+Keyshape CIRCLE: CIRCLE preserves the badge around the skull.
+Omissions: Dot eyes extended into open sockets joined to the cheeks; center tooth shortened.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

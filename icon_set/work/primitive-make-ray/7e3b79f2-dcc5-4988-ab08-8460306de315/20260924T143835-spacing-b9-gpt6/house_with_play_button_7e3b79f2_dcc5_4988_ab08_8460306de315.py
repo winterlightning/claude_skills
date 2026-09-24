@@ -1,7 +1,7 @@
 """house with play button: fresh spacing repair.
-Plan: House envelope owns a single large right-facing play symbol; intentional directional asymmetry.
-Keyshape SQUARE: extrema derived from the profile's standard envelope.
-Omissions: Circular button bezel omitted so the play triangle has a clear opening.
+Plan: Right-facing play triangle remains clear within the house.
+Keyshape SQUARE: SQUARE preserves the house envelope.
+Omissions: Secondary circular button bezel omitted to leave a readable play opening.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

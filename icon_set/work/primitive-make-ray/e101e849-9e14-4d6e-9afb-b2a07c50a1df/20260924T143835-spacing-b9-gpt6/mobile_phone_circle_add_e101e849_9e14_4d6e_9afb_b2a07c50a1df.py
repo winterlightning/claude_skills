@@ -1,7 +1,7 @@
 """mobile phone circle add: fresh spacing repair.
-Plan: Merge plus spokes into the circle at four actual endpoints to test an integrated circled plus without gap exemptions elsewhere.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Plus extended to true cardinal circle junctions; all named symbols retained.
+Plan: Upright phone, lower band and full circled plus remain readable. The dot-like compact-plus and square-phone alternatives were rejected.
+Keyshape VRECT_L: VRECT_L preserves the phone proportions.
+Omissions: Plus spokes extended to true cardinal circle junctions; all named symbols retained.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
@@ -46,7 +46,16 @@ class Drawing(Solo48):
         self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
     def build(self):
-        self.phone()
+        # Phone frame is split at its real corner and lower separator nodes.
+        pts=[(12,4),(36,4),(40,8),(40,36),(40,40),(36,44),(12,44),(8,40),(8,36),(8,8)]
+        arcs={1,4,6,9}
+        for i,a in enumerate(pts):
+            b=pts[(i+1)%len(pts)]
+            if i in arcs:self.add_arc(f'phone-{i}',a,b,radius_x=4)
+            else:self.add_line(f'phone-{i}',a,b)
+        for i in range(len(pts)):self.relate('connect',f'phone-{i}',f'phone-{(i+1)%len(pts)}')
+        self.add_line('separator',(8,36),(40,36))
+        for i in (2,3,7,8):self.relate('connect','separator',f'phone-{i}')
         self.path('add-circle',(24,12),[('A',(32,20),8),('A',(24,28),8),('A',(16,20),8),('A',(24,12),8)],True)
         self.cross('plus',24,20,8)
         for i in range(4):self.relate('connect','add-circle',f'plus-{i}')

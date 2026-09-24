@@ -1,7 +1,7 @@
 """mobile phone eye: fresh spacing repair.
-Plan: Lucide smartphone frame with lower band, symmetric almond-shaped eye made from two smooth curves.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Tiny pupil omitted; eye outline retained at readable size.
+Plan: Wide almond-shaped eye reads clearly inside the phone; native review prompted a flatter eye contour.
+Keyshape VRECT_L: VRECT_L preserves the upright phone and lower band.
+Omissions: Tiny pupil omitted; lid curves widened relative to height.
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
