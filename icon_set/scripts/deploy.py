@@ -1473,7 +1473,21 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         path = '/api/work/result?icon=' + quote(key, safe='') + '&svg_sha256=' + quote(sha, safe='') + '&stage=after&part=svg'
         if not getattr(self.server, 'production', False):
             return self.forward_to_production('GET', path)
-        return self.work_read(urlsplit(path))
+        # One row read: the grid requests this for every fixed tile, so it must not rebuild the catalog.
+        with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+            row = work_claims.load_result(connection, key, sha, 'after')
+        if row is None:
+            return self.json_response({'error': 'No uploaded result for this revision and stage.'}, 404)
+        content = row['svg'].encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', 'image/svg+xml')
+        self.send_header('Content-Length', str(len(content)))
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+        self.end_headers()
+        if self.command != 'HEAD':
+            self.wfile.write(content)
 
     def work_read(self, parsed):
         if not getattr(self.server, 'production', False):
