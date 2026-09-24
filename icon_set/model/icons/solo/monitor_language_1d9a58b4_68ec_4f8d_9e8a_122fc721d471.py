@@ -4,12 +4,12 @@ Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1d9a58b4-68ec-4f8d-9e8a-122fc721d471'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg'
+SOURCE_PATH = 'pictographic-primitives/other/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'monitor-language'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -55,13 +55,14 @@ class Drawing(Solo48):
             self.relate('connect','note','corner-'+str(i))
 
     def build(self):
-        # Hand-authored language glyph: top tick and bar over two crossing curves.
-        self.monitor()
-        self.add_polyline('top-bar',(16,18),(20,18),(24,18),(28,18),(32,18))
-        self.add_line('tick',(24,15),(24,18))
-        self.relate('connect','tick','top-bar')
-        self.add_arc('left-fall',(20,18),(32,25),radius_x=12,radius_y=7,sweep=False)
-        self.add_arc('right-fall',(28,18),(16,25),radius_x=12,radius_y=7)
-        self.relate('connect','top-bar','left-fall')
-        self.relate('connect','top-bar','right-fall')
+        # Taller screen gives the language glyph's curved upper pocket real space.
+        self.rounded('screen',8,4,32,32,3)
+        self.add_line('stand',(24,36),(24,44))
+        self.add_polyline('foot',(16,44),(24,44),(32,44))
+        self.relate('connect','screen','stand');self.relate('connect','stand','foot')
+        self.add_polyline('top-bar',(17,14),(24,14),(31,14))
+        self.add_line('tick',(24,13),(24,14));self.relate('connect','tick','top-bar')
+        self.add_bezier('left-fall',(17,14),((17,24),(25,27),(31,27)))
+        self.add_bezier('right-fall',(31,14),((31,24),(23,27),(17,27)))
+        self.relate('connect','top-bar','left-fall');self.relate('connect','top-bar','right-fall')
         self.relate('connect','left-fall','right-fall')

@@ -1,7 +1,6 @@
-"""A low building sprouts a two-leaf plant from its roof.
-
-SOLO48 HRECT_L; Lucide reference: factory: low industrial outline; leaf: paired leaves.
-Symbol plan: source composition reduced to named outlines and shared geometry.
+"""factory building eco friendly 3.
+Sloped building, doorway and a branching plant remain readable.
+Horizontal envelope fits the low building and plant.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -54,8 +53,18 @@ class EcoFriendlyBuildingPlant(Solo48):
         self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
 
     def build(self) -> None:
-        self.add_polyline('building',(4,25),(4,40),(44,40),(44,25),(24,20))
-        self.add_polyline('door',(12,40),(12,30),(20,30),(20,40)); self.relate('connect','door','building')
-        self.add_line('stem',(28,21),(30,7))
-        self.add_arc('leaf-left',(29,15),(21,7),radius_x=8,radius_y=8,sweep=False)
-        self.add_arc('leaf-right',(30,13),(40,5),radius_x=10,radius_y=8,sweep=True)
+        self.add_polyline('building',(4,20),(28,24),(44,28),(44,40),(4,40),closed=True)
+        self.add_polyline('door',(12,40),(12,32),(20,32),(20,40))
+        self.relate('connect','door','building')
+        self.add_line('stem',(28,24),(28,16))
+        self.add_arc('leaf-left',(16,8),(28,16),radius_x=12,radius_y=8,sweep=True)
+        self.add_arc('leaf-right',(28,16),(40,8),radius_x=12,radius_y=8,sweep=False)
+        self.relate('connect','stem','building')
+        self.relate('connect','stem','leaf-left')
+        self.relate('connect','stem','leaf-right')
+        self.relate('connect','leaf-left','leaf-right')
+
+# Repair plan: Sloped building, doorway and a branching plant remain readable.
+# Omissions: Closed leaf outlines reduced to curved fronds; tiny windows omitted.
+# Construction references: Lucide sprout original and atomic-debug: shared branch junction and curved growth.
+# Keyshape and proportions: Horizontal envelope fits the low building and plant.

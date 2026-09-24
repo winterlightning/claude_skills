@@ -1,13 +1,13 @@
-"""Tag yuan, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""tag yuan: fresh parallel-spacing repair.
+Plan: Full yuan mark retains two bars; the clipped tag corner remains visible.
+Keyshape SQUARE: Square envelope widens the tag body around the complete currency symbol.
+Omissions: Small punched hole omitted to make room for both currency bars.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='280da1a2-f9bb-4c4f-8a82-4da931ec7064'
-SOURCE_PATH='icon_set/work/todo-references/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg'
 AUTHOR='gpt-6'
-
 class Drawing(Solo48):
     icon_id='tag-yuan'
     keyshape=Keyshape.SQUARE
@@ -17,24 +17,10 @@ class Drawing(Solo48):
     aliases=()
     keywords=('tag', 'yuan')
 
-    # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
-    def build(self):
-        # Diagonal price tag with a circular punch hole and the complete yuan sign.
-        self.add_polyline('tag',(6,28),(28,6),(42,6),(42,22),(22,42),closed=True)
-        self.circle('hole',32,16,3)
-        self.add_polyline('yuan-fork',(17,23),(21,28),(25,23))
-        self.add_polyline('yuan-stem',(21,28),(21,34),(21,36))
-        for n,y in [('upper',28),('lower',34)]:
-            self.add_polyline(n,(18,y),(21,y),(24,y))
-            self.relate('connect',n,'yuan-stem')
-        self.relate('connect','yuan-fork','yuan-stem','upper')
-
-
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
         for i,s in enumerate(segments):
@@ -44,26 +30,28 @@ class Drawing(Solo48):
             else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
             at=end; members.append(eid)
         self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        # One rounded rectangle owns paired radii, extents, and connection splits.
-        seg=[('L',(x,t)) for x in sorted(set(top)) if l+k<x<r-k]
-        seg += [('L',(r-k,t)),('A',(r,t+k),k)]
-        seg += [('L',(r,y)) for y in sorted(set(right)) if t+k<y<b-k]
-        seg += [('L',(r,b-k)),('A',(r-k,b),k)]
-        seg += [('L',(x,b)) for x in sorted(set(bottom),reverse=True) if l+k<x<r-k]
-        seg += [('L',(l+k,b)),('A',(l,b-k),k)]
-        seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
-        seg += [('L',(l,t+k)),('A',(l+k,t),k)]
-        self.path(n,(l+k,t),seg,True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def suitcase(self):
-        # SQUARE: ink (4,4)-(44,44); centerlines (6,6)-(42,42).
-        self.rect('case',6,14,42,42,4,top=(16,32))
-        self.path('handle',(16,14),[('L',(16,10)),('A',(20,6),4),
-            ('L',(28,6)),('A',(32,10),4),('L',(32,14))])
-        self.relate('connect','case','handle')
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
-    def check(self,n,x,y):
-        self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
-
+    def build(self):
+        self.path('tag',(6,16),[('L',(16,6)),('L',(42,6)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,16))],True)
+        self.add_polyline('fork',(19,16),(24,25),(29,16))
+        self.add_polyline('stem',(24,25),(24,33))
+        for i,y in enumerate([25,33]):
+            self.add_polyline(f'bar-{i}',(18,y),(24,y),(30,y))
+        self.relate('connect','fork','stem');self.relate('connect','fork','bar-0');self.relate('connect','stem','bar-0');self.relate('connect','stem','bar-1')

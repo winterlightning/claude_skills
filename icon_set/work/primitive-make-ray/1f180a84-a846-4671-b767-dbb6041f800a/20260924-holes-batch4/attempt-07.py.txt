@@ -1,0 +1,42 @@
+"""Passport cover and globe: a mirrored meridian pair, equator and circular rim. Rounded enclosure uses the Lucide id-card corner construction."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '1f180a84-a846-4671-b767-dbb6041f800a'
+SOURCE_PATH = 'pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg'
+AUTHOR = 'gpt-6'
+PLAN = 'Square passport cover with centered globe; circular rim, mirrored meridians and equator. The square envelope provides the greatest balanced interior for the globe.'
+OMISSIONS = ['Rear-cover reveal omitted to give the globe a full cover interior.']
+class Drawing(Solo48):
+    icon_id = 'passport'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('passport',)
+    def build(self):
+        # Enlarged globe: four shared symmetric cubic quadrants reserve enough
+        # area for four cells. Pole and equator nodes are actual contour joins.
+        self.add_polyline('cover',(6,6),(42,6),(42,42),(6,42),closed=True)
+        self.add_bezier('globe-ne',(24,14),((30,14),(34,18),(34,24)))
+        self.add_bezier('globe-se',(34,24),((34,30),(30,34),(24,34)))
+        self.add_bezier('globe-sw',(24,34),((18,34),(14,30),(14,24)))
+        self.add_bezier('globe-nw',(14,24),((14,18),(18,14),(24,14)))
+        self.add_contour('globe','globe-ne','globe-se','globe-sw','globe-nw',closed=True)
+        self.add_polyline('equator',(14,24),(24,24),(34,24))
+        self.add_polyline('meridian',(24,14),(24,24),(24,34))
+        self.relate('connect','globe','equator','meridian')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+        members=[]
+        for i,a in enumerate(pts):
+            z=pts[(i+1)%8]; p=n+str(i)
+            if i%2:self.add_arc(p,a,z,radius_x=rad)
+            else:self.add_line(p,a,z)
+            members.append(p)
+        self.add_contour(n,*members,closed=True)

@@ -1,15 +1,13 @@
-"""A printer and output sheet crossed by a diagonal slash.
-
-Symbol plan: printer: nested input sheet, rounded housing and output sheet; slash keeps the input direction.
-Envelope: SQUARE. The complete composition has a square overall envelope and uses the (6,6)–(42,42) centerline extremes.
-Reduction: Tiny status indicator omitted, as it is absent from the supplied drawing.
+"""A printer crossed by a disabling slash.
+Repair plan: Enlarged output sheet upward so the slash no longer leaves an undersized triangle. Slash is intentionally diagonal.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd0766f1e-f6cf-4413-a966-2923a42de78b'
-SOURCE_PATH = 'icon_set/work/todo-references/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -26,7 +24,7 @@ class Drawing(Solo48):
         self.rounded('printer',6,14,42,34,5)
         self.add_polyline('input-paper',(14,14),(14,6),(34,6),(34,14))
         self.relate('connect','input-paper','printer')
-        self.rounded('output-paper',14,26,34,42,3)
+        self.rounded('output-paper',14,22,34,42,3)
         self.add_line('disabled-slash',(6,42),(42,6))
 
     def circle(self, name, cx, cy, r):

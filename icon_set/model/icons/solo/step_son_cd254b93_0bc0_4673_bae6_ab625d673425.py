@@ -1,11 +1,13 @@
+"""A young-person bust with a circular relationship badge.
+Repair plan: Removed small hair pocket; shortened hem clears badge. Head center (22,14), radius 8, shoulders y=30 give exactly 4 units of detached ink gap.
+Omissions: Interior hairline and neck; detached head follows human reference.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'cd254b93-0bc0-4673-bae6-ab625d673425'
-SOURCE_PATH = 'icon_set/work/todo-references/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Young man with swept hair and circular lower-right relationship badge.'
-CONSTRUCTION_REFERENCE = 'human_ref/user.svg: circular face and smooth broad shoulders'
 
 class Drawing(Solo48):
     icon_id = 'step-son'
@@ -46,15 +48,12 @@ class Drawing(Solo48):
         self.add_line('shoulder-top',(16,30),(24,30))
         self.add_arc('shoulder-right',(24,30),(30,36),radius_x=6)
         self.add_contour('shoulders','body-left','shoulder-left','shoulder-top','shoulder-right')
-        self.add_line('hem',(6,42),(36,42))
+        self.add_line('hem',(6,42),(23,42))
         self.circle('badge',36,36,6)
         self.relate('connect','hem','body-left')
-        self.relate('connect','hem','badge-lower')
         self.relate('connect','shoulder-right','badge-upper','badge-lower')
 
     def build(self):
         self.bust_body()
         self.circle('head',22,14,8)
-        self.add_bezier('hairline',(14,14),((17,8),(20,14),(26,10)),((28,10),(29,12),(30,14)))
         # Head bottom y=22, own shoulders y=30: exactly 4 units of ink gap.
-        self.relate('connect','head','hairline')

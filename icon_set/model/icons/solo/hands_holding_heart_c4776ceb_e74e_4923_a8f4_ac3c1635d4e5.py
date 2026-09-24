@@ -1,61 +1,31 @@
-"""Two hands surround and hold a central heart.
-
-SOLO48 SQUARE; Lucide reference: hand-heart: hand and heart silhouettes.
-Symbol plan: source composition reduced to named outlines and shared geometry.
-"""
+"""Two hands enclosing a heart. SQUARE ink bounds; central heart separated from the enclosing hands. Shared human reference inspected; no detached figure head."""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = 'c4776ceb-e74e-4923-a8f4-ac3c1635d4e5'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/donation care hands heart 1_c4776ceb-e74e-4923-a8f4-ac3c1635d4e5.svg'
 AUTHOR = 'gpt-6'
 
-class HandsHoldingHeart(Solo48):
+class Drawing(Solo48):
     icon_id = 'hands-holding-heart'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'care/donation'
-    aliases = ('Hands holding a heart',)
-    keywords = tuple('hands holding a heart'.split())
-
-    def ring(self, name, x, y, r):
-        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
-        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
-        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
-
-    def box(self, name, x1, y1, x2, y2):
-        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
-
-    def round_box(self, name, x1, y1, x2, y2, r):
-        parts=[]
-        def line(s,a,b):
-            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
-        def arc(s,a,b):
-            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
-        line('top',(x1+r,y1),(x2-r,y1))
-        arc('ne',(x2-r,y1),(x2,y1+r))
-        line('right',(x2,y1+r),(x2,y2-r))
-        arc('se',(x2,y2-r),(x2-r,y2))
-        line('bottom',(x2-r,y2),(x1+r,y2))
-        arc('sw',(x1+r,y2),(x1,y2-r))
-        line('left',(x1,y2-r),(x1,y1+r))
-        arc('nw',(x1,y1+r),(x1+r,y1))
-        self.add_contour(name,*parts,closed=True)
-
-    def heart(self,name,x,y):
-        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
-        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
-        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
-        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
-        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
-
-    def build(self) -> None:
-        self.heart('heart',24,14)
-        self.add_polyline('left-hand',(6,27),(9,36),(15,36),(21,41),(24,38))
-        self.add_polyline('right-hand',(42,27),(39,36),(33,36),(27,41),(24,38))
-        self.add_arc('left-arch',(6,27),(22,6),radius_x=18,radius_y=18,sweep=True)
-        self.add_arc('right-arch',(26,6),(42,27),radius_x=18,radius_y=18,sweep=True)
+    category = 'objects/symbol'
+    aliases = ()
+    keywords = ()
+    # Keyshape chosen first; stroke centerlines inset 2 from the ink bounds.
+    chosen_bounds = Keyshape.SQUARE.bounds_for(Profile.SOLO48)
+    def build(self):
+        # Enclosing hand silhouette with a central heart; repeated heart lobes share radius 4.
+        self.add_bezier('hands',(24,8),((21,7),(19,6),(16,6)),((12,6),(6,14),(6,20)),((6,24),(6,30),(6,34)))
+        self.add_arc('thumb-turn',(6,34),(16,34),radius_x=5,sweep=False)
+        
+        self.add_line('fingers-2',(16,34),(26,42))
+        self.add_line('fingers-3',(26,42),(32,36))
+        self.add_bezier('right-hand',(32,36),((36,42),(41,38),(42,32)),((42,28),(42,24),(42,20)),((42,14),(36,6),(32,6)),((29,6),(27,7),(24,8)))
+        self.add_contour('hand-outline','hands','thumb-turn','fingers-2','fingers-3','right-hand',closed=True)
+        self.add_arc('heart-left',(24,20),(16,20),radius_x=4,sweep=False)
+        self.add_bezier('heart-tip',(16,20),((16,23),(20,25),(24,28)),((28,25),(32,23),(32,20)))
+        self.add_arc('heart-right',(32,20),(24,20),radius_x=4,sweep=False)
+        self.add_contour('heart','heart-left','heart-tip','heart-right',closed=True)

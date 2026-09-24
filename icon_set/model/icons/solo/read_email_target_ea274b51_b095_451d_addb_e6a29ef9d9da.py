@@ -1,12 +1,11 @@
-"""An envelope centered in a circular targeting reticle.
-Symbol plan: Four smooth target arcs alternate with diagonal corner marks around a central envelope. Ink extremes (4,4)-(44,44).
-Construction: mail: centered envelope with attached flap; scan: detached targeting segments surrounding content.
-Human construction: Not applicable.
+"""An envelope in a targeting reticle.
+Repair plan: Open envelope top; mirrored U outline and shallow flap preserve the mail shape without the tiny upper triangle.
+Omissions: Top horizontal envelope edge.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ea274b51-b095-451d-addb-e6a29ef9d9da'
-SOURCE_PATH = 'icon_set/work/todo-references/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -26,8 +25,8 @@ class Drawing(Solo48):
         self.add_bezier('ring-left',(7,30),((c,26),(c,22),(7,18)))
         self.add_bezier('ring-right',(41,18),((48-c,22),(48-c,26),(41,30)))
         for i,(a,b) in enumerate((((6,6),(10,10)),((42,6),(38,10)),((6,42),(10,38)),((42,42),(38,38)))):self.add_line(f'target-tick-{i}',a,b)
-        self.add_polyline('envelope',(16,17),(32,17),(32,31),(16,31),closed=True)
-        self.add_polyline('flap',(16,17),(24,24),(32,17))
+        self.add_polyline('envelope',(16,17),(16,31),(32,31),(32,17))
+        self.add_polyline('flap',(16,17),(24,22),(32,17))
         self.relate('connect','flap','envelope')
 
     def circle(self,name,cx,cy,rx,ry=None):

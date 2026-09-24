@@ -1,0 +1,39 @@
+{
+  "source_uuid": "4fe6a86e-b26a-405a-9e35-84f3c5a12b9e",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__adjacent-teeth-with-braces/20260924T092136Z-thuan-mac/reference/dental brace_4fe6a86e-b26a-405a-9e35-84f3c5a12b9e.svg",
+  "concept": "dental brace",
+  "source_key": "solo/adjacent-teeth-with-braces",
+  "icon_id": "adjacent-teeth-with-braces",
+  "author": "gpt-6",
+  "keyshape": "HRECT_L",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 6.25, 46, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 0.25, 0.0, 0.0], tolerance 0.0)",
+    "mic [bracket-0]: parallel straight edges bracket-0-1 and wire are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bracket-1]: parallel straight edges bracket-1-1 and wire are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [wire]: parallel straight edges wire and bracket-0-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [wire]: parallel straight edges wire and bracket-1-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tooth-0]: tooth-0 and tooth-1 are 4 apart on centerlines nearest (22, 18)<->(26, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [tooth-0]: tooth-0 and wire are 0 apart on centerlines nearest (4.0029, 21)<->(4.0029, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [wire]: wire and tooth-1 are 0 apart on centerlines nearest (26.0029, 21)<->(26.0029, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "visual_review": "Inspected light/dark previews at native48 and enlarged384. Not visually approved: bracket openings fill in and teeth crowd each other. Paired outlined brace brackets cannot fit: each 8-unit bracket needs 8-unit centerline clearance to both tooth walls (24 units per tooth), exceeding the 40-unit total width before inter-tooth spacing. The attempted wire also makes 4-unit parallel gaps against bracket edges. Replacing brackets with the rejected ticks would lose the requested structure.",
+  "omissions": "None",
+  "construction_reference": "No useful local Lucide tooth match; repeated mirrored molars",
+  "module": "adjacent_teeth_with_braces_4fe6a86e_b26a_405a_9e35_84f3c5a12b9e.py",
+  "svg": "adjacent-teeth-with-braces.svg",
+  "artifacts": [
+    "preview-dark-384.png",
+    "adjacent_teeth_with_braces_4fe6a86e_b26a_405a_9e35_84f3c5a12b9e.py",
+    "preview-dark-48.png",
+    "adjacent-teeth-with-braces.metadata.json",
+    "reference.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "adjacent-teeth-with-braces.svg",
+    "preview-light-48.png"
+  ],
+  "outcome": "cannot-fix"
+}

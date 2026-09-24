@@ -2,7 +2,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'cb6d4791-374d-48bd-942d-4c57ef0d8eb0'
-SOURCE_PATH = 'icon_set/work/todo-references/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg'
+SOURCE_PATH = 'pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg'
 AUTHOR = 'gpt-6'
 SUBJECT = 'A framed pictogram of male genital anatomy.'
 CONSTRUCTION_PLAN = 'A diagonal shaft, rounded glans with seam, and curved scrotal outline sit inside a rounded square. Shared endpoint nodes define the glans seam; deliberate anatomical asymmetry. No useful Lucide anatomy match. Human construction guide inspected; detached-head rules do not apply. '
@@ -42,5 +42,4 @@ class Drawing(Solo48):
         self.add_line('shaft-bottom',(30,26),(24,29))
         self.add_bezier('scrotum',(24,29),((28,34),(18,34),(15,30)))
         self.add_contour('anatomy','shaft-top','glans','shaft-bottom','scrotum')
-        self.add_line('glans-seam',(26,16),(30,26))
-        self.relate('connect','anatomy','glans-seam')
+        # Omit the minor glans seam to keep an open, legible anatomical silhouette.

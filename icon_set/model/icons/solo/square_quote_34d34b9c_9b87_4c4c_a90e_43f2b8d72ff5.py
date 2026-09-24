@@ -1,8 +1,12 @@
+"""Two closing quotation marks inside a square.
+Repair plan: Equal circular bowls with exactly 4-unit centerline diameter and open descending tails.
+Omissions: Inner return edge of each comma tail.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5'
-SOURCE_PATH = 'icon_set/work/todo-references/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg'
 AUTHOR = 'gpt-6'
 # Plan: Rounded square containing two matching closing quotation marks.
 # References: quote: repeated rounded upper bowls and descending hooked tails.
@@ -19,13 +23,11 @@ class AuthoredIcon(Solo48):
 
     def build(self):
         self.box("frame",6,6,42,42,4)
+        # Shared circular bowls and open tails avoid narrow comma interiors.
         for n,x in [('left',17),('right',31)]:
-            self.add_arc(n+'-top',(x-3,19),(x+3,19),radius_x=3)
-            self.add_bezier(n+'-outside',(x+3,19),((x+3,26),(x+2,30),(x-1,32)))
-            self.add_line(n+'-tip',(x-1,32),(x-3,29))
-            self.add_bezier(n+'-inside',(x-3,29),((x,27),(x,24),(x,22)))
-            self.add_arc(n+'-bowl',(x,22),(x-3,19),radius_x=3)
-            self.add_contour(n,n+'-top',n+'-outside',n+'-tip',n+'-inside',n+'-bowl',closed=True)
+            self.circle(n,x,19,2)
+            self.add_bezier(n+'-tail',(x+2,19),((x+2,25),(x+1,29),(x-2,31)))
+            self.relate('connect',n,n+'-tail')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

@@ -1,14 +1,14 @@
-"""A raised index finger selects a floating cube.
-Plan: Isometric cube at upper left; one coherent pointing-hand silhouette at lower right.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Construction references: icon_set/references/lucide/original/hand.svg and atomic-debug/hand.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
+"""technology ar searching finger touch.
+Symbol plan: Cube above left and pointing hand below right; remove short obscured lower cube edge.
+Lucide originals and atomic-debug inspected: hand, type, map-pin, trash-2, triangle-alert, video-off, cloud, wheat, clock.
+Shared geometric contours and explicit attachment nodes; intentional scene asymmetry retained.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '505403c5-6a6b-4a09-8ee4-eac7ce3a505f'
-SOURCE_PATH = 'icon_set/work/todo-references/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'technology-ar-searching-finger-touch'
     keyshape = Keyshape.SQUARE
@@ -17,7 +17,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('technology', 'ar', 'searching', 'finger', 'touch')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,10 +71,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
         self.add_polyline('cube-top',(6,12),(18,6),(30,12),(18,18),(6,12))
         self.add_polyline('cube-left',(6,12),(6,24),(18,30),(18,18))
-        self.add_line('cube-right',(30,12),(30,18))
-        self.add_line('cube-bottom',(18,30),(22,28))
-        self.join('cube-top','cube-left');self.join('cube-top','cube-right');self.join('cube-left','cube-bottom')
-        self.path('hand',(24,42),[('L',(19,35)),('C',(17,31),(21,29),(24,32)),('L',(28,36)),('L',(28,24)),('A',(36,24),4,4,True),('L',(36,32)),('L',(38,32)),('A',(42,36),4,4,True),('L',(42,42))])
+        self.join('cube-top','cube-left')
+        self.path('hand',(28,42),[('L',(24,36)),('L',(32,40)),('L',(32,24)),('A',(40,24),4,4,True),('L',(40,32)),('L',(42,34)),('L',(42,42))])

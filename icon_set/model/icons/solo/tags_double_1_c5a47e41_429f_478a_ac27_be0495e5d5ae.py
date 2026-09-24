@@ -1,11 +1,10 @@
-"""Tags double 1, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""Two overlapping tags with a circular eyelet.
+Plan: Wider leading eyelet band. Rear tag shares real front endpoints; deliberate diagonal overlap.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='c5a47e41-429f-478a-ac27-be0495e5d5ae'
-SOURCE_PATH='icon_set/work/todo-references/tags double 1_c5a47e41-429f-478a-ac27-be0495e5d5ae.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/tags double 1_c5a47e41-429f-478a-ac27-be0495e5d5ae.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -19,12 +18,11 @@ class Drawing(Solo48):
 
     # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
     def build(self):
-        # Two complete tag silhouettes in overlap, with the rear exposed on top/right.
-        self.add_polyline('front',(6,14),(14,14),(18,14),(36,32),(26,42),(6,28),closed=True)
-        self.add_polyline('rear',(14,14),(14,6),(26,6),(42,22),(42,26),(36,32))
+        # Front tag owns a larger eyelet band; rear silhouette shares its tip.
+        self.add_polyline('front',(6,14),(14,14),(22,14),(38,30),(26,42),(6,32),closed=True)
+        self.add_polyline('rear',(14,14),(14,6),(26,6),(42,22),(42,26),(38,30))
         self.relate('connect','front','rear')
-        self.circle('hole',15,23,3)
-
+        self.circle('hole',17,25,2)
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
@@ -63,3 +61,8 @@ class Drawing(Solo48):
     def check(self,n,x,y):
         self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
 
+
+PLAN = 'Two overlapping tags with a circular eyelet. Wider leading eyelet band.'
+OMISSIONS = 'None.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/tag.svg', 'icon_set/references/lucide/atomic-debug/tag.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/tags_double_1_c5a47e41_429f_478a_ac27_be0495e5d5ae.py'

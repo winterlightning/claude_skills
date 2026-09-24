@@ -1,12 +1,13 @@
-"""A tire-pressure warning outline encloses a vertical warning stroke.
-Plan: Mirrored throat caps lead into a broad U-shaped bulb; paired lower stems stay aligned.
-Keyshape: VRECT_L. Exact envelope: {'ink': [6, 2, 42, 46], 'centerline': [8, 4, 40, 44]}.
-Construction references: No useful local Lucide subject match found; shared geometric construction principles used.
+"""tire pressure warning.
+Plan: A broad U-shaped tire cross section with centered warning stem; mirrored sides.
+Construction: No useful exact Lucide match; coherent U with circular lower bowl.
+Omissions: Second tire wall and tiny tread stems simplified into a single U outline.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '992df6cb-53a3-42d8-b584-7ec4584f57b0'
-SOURCE_PATH = 'icon_set/work/todo-references/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -17,7 +18,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('tire', 'pressure', 'warning')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,8 +72,5 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.path('tire',(12,8),[('A',(20,8),4,4,True),('L',(20,14)),('C',(20,20),(16,22),(16,27)),('C',(16,32),(19,34),(24,34)),('C',(29,34),(32,32),(32,27)),('C',(32,22),(28,20),(28,14)),('L',(28,8)),('A',(36,8),4,4,True),('C',(36,18),(40,20),(40,28)),('C',(40,36),(34,40),(28,40)),('L',(20,40)),('C',(14,40),(8,36),(8,28)),('C',(8,20),(12,18),(12,8))],True)
-        self.add_line('warning',(24,15),(24,23))
-        for name,x in [('stem-left',20),('stem-right',28)]:
-            self.add_line(name,(x,40),(x,44));self.join('tire',name)
+        self.path('tire',(12,4),[('L',(8,20)),('L',(8,28)),('A',(40,28),16,16,False),('L',(40,20)),('L',(36,4))])
+        self.add_line('warning',(24,12),(24,26))

@@ -1,49 +1,42 @@
-"""A circular Kanda Matsuri emblem contains three inward-pointing heart forms and hanging strokes.
-Construction reference: heart.
+"""kanda matsuri: fresh spacing repair.
+Plan: Circular festival crest with one coherent three-lobed heart knot. Shared center owns all lobes, mirrored lower pair. No useful Lucide match.
+Keyshape CIRCLE: extrema derived from the profile's standard envelope.
+Omissions: Three inward heart tips merged into one continuous central knot; outside tassels and radial stems omitted.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '89d827d8-1f4b-40fc-aad1-858c1f8fb087'
-SOURCE_PATH = 'icon_set/work/todo-references/kanda matsuri_89d827d8-1f4b-40fc-aad1-858c1f8fb087.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='89d827d8-1f4b-40fc-aad1-858c1f8fb087'
+SOURCE_PATH='pictographic-primitives/holidays/kanda matsuri_89d827d8-1f4b-40fc-aad1-858c1f8fb087.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'kanda-matsuri'
-    keyshape = Keyshape.VRECT_L
-    # Visible ink extremes: (6, 2, 42, 46).
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    aliases = ()
-    keywords = ('kanda', 'matsuri')
+    icon_id='kanda-matsuri'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('kanda', 'matsuri')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-    def rect(self,name,x,y,w,h,r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        names=[]
-        for i,a in enumerate(pts):
-            n=f'{name}-{i}';b=pts[(i+1)%8]
-            if i%2:self.add_arc(n,a,b,radius_x=r)
-            else:self.add_line(n,a,b)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
     def build(self):
-
-        # Plan: round medallion and three oriented heart shapes; paired lower strokes.
-        self.circle('medallion',24,20,16)
-        self.add_line('top-stem',(24,4),(24,11))
-        self.add_bezier('heart-top',(24,11),((14,5),(14,15),(24,19)),((34,15),(34,5),(24,11)))
-        self.add_bezier('heart-left',(20,23),((8,13),(10,24),(15,25)),((10,33),(21,34),(20,23)))
-        self.add_bezier('heart-right',(28,23),((40,13),(38,24),(33,25)),((38,33),(27,34),(28,23)))
-        self.add_line('stem-left',(10,28),(15,25))
-        self.add_line('stem-right',(38,28),(33,25))
-        self.relate('connect','top-stem','medallion')
-        self.relate('connect','top-stem','heart-top')
-        self.relate('connect','stem-left','heart-left')
-        self.relate('connect','stem-right','heart-right')
-        self.add_line('tassel-left',(8,38),(12,44))
-        self.add_line('tassel-right',(40,38),(36,44))
-        self.add_dot('tassel-center',(24,44))
+        self.circle('medallion',24,24,20)
+        # One continuous three-lobed knot, with a shared central junction.
+        self.add_bezier('crest',(24,24),((32,20),(32,10),(24,16)),((16,10),(16,20),(24,24)),((18,18),(10,22),(18,28)),((14,36),(24,34),(24,24)),((24,34),(34,36),(30,28)),((38,22),(30,18),(24,24)))

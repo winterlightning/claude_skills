@@ -5,7 +5,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT))
-ITEMS = json.loads(Path('/tmp/fix20.json').read_text())
+ITEMS = json.loads((Path(__file__).parent/'batch.json').read_text())
 AUTHOR = 'gpt-6'
 SOURCE_ICON_ID = tuple(x['uuid'] for x in ITEMS)
 SOURCE_PATH = tuple(x['reference'] for x in ITEMS)

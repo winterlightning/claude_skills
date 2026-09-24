@@ -4,12 +4,12 @@ Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '991e767c-0d53-46c0-b400-e2914ae3c7ef'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg'
+SOURCE_PATH = 'pictographic-primitives/other/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'monitor-leaf'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -55,10 +55,12 @@ class Drawing(Solo48):
             self.relate('connect','note','corner-'+str(i))
 
     def build(self):
-        # Diagonal leaf lens with a visible stalk and rising central vein.
-        self.monitor()
-        self.add_arc('leaf-upper',(17,24),(31,15),radius_x=14,radius_y=9)
-        self.add_arc('leaf-lower',(31,15),(17,24),radius_x=14,radius_y=9)
+        # Broad diagonal leaf, with a short external stalk and no crowded inner vein.
+        self.rounded('screen',8,4,32,32,3)
+        self.add_line('stand',(24,36),(24,44))
+        self.add_polyline('foot',(16,44),(24,44),(32,44))
+        self.relate('connect','screen','stand');self.relate('connect','stand','foot')
+        self.add_bezier('leaf-upper',(19,25),((16,16),(22,16),(29,16)))
+        self.add_bezier('leaf-lower',(29,16),((29,23),(26,27),(19,25)))
         self.add_contour('leaf','leaf-upper','leaf-lower',closed=True)
-        self.add_polyline('vein',(15,25),(17,24),(25,19))
-        self.relate('connect','leaf','vein')
+        self.add_line('stalk',(17,27),(19,25));self.relate('connect','leaf','stalk')

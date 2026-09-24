@@ -1,84 +1,62 @@
-"""A person uses a toilet incorrectly beside an X.
-Plan: Seated torso axis sets the circular head; upright lower leg and an X preserve the alternate pose.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Human spacing: Head center (27,11), radius5; neck (22,23), hip (17,35). Center-to-neck vector (5,-12) has length13 and is collinear with the upper torso axis. Outline-to-neck distance13-5=8, leaving exactly4 ink units. The torso continues away from the head. mark_human_figure records the actual torso start.
-Construction references: icon_set/references/human_ref/user.svg and full_body_ref.png: circular heads, smooth shoulders, coherent limb strokes and exact detached-head spacing.
+"""toilet use wrong: fresh parallel-spacing repair.
+Plan: More upright seated figure, vertical lower leg, bowl and X distinguish the wrong-use pose.
+Keyshape SQUARE: Square envelope separates the head, X and toilet.
+Omissions: Narrow tank outline reduced to its back edge; seat and thigh share one stroke; short arm omitted.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '53c92910-6cf3-4deb-8c80-dce8bbb9cc11'
-SOURCE_PATH = 'icon_set/work/todo-references/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='53c92910-6cf3-4deb-8c80-dce8bbb9cc11'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'toilet-use-wrong'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('toilet', 'use', 'wrong')
+    icon_id='toilet-use-wrong'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('toilet', 'use', 'wrong')
 
-    def path(self, name, start, operations, closed=False):
-        # A coherent path owns its members exactly once.
-        current=start; members=[]
-        for i,op in enumerate(operations):
-            n=f'{name}-{i}'
-            if op[0]=='L':
-                end=op[1]; self.add_line(n,current,end)
-            elif op[0]=='A':
-                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
-            else:
-                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
-            members.append(n);current=end
-        if closed and current!=start:
-            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
-        self.add_contour(name,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def circle(self,name,x,y,r):
-        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
-        ops=[]
-        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
-        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
-        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
-        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
-        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
-        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
-        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
-        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
-        # Capsules can have zero-length straight runs; omit those.
-        cleaned=[];p=(x+r,y)
-        for op in ops:
-            if op[0]!='L' or op[1]!=p: cleaned.append(op)
-            p=op[1]
-        self.path(name,(x+r,y),cleaned,True)
-
-    def join(self,*names):
-        for i,a in enumerate(names):
-            for b in names[i+1:]: self.relate('connect',a,b)
-
-    def cross(self,name,x,y,r,diagonal=False):
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        names=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
-        self.join(*names)
-
-    def letter_a(self,name,apex,left,right,bar_left,bar_right):
-        self.add_polyline(name,left,bar_left,apex,bar_right,right)
-        self.add_line(name+'-bar',bar_left,bar_right)
-        self.join(name,name+'-bar')
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
     def build(self):
-
-        self.circle('head',27,11,5)
-        self.add_line('torso',(22, 23),(17, 35))
-        self.add_polyline('leg',(17, 35),(31,35),(31, 42))
-        self.join('torso','leg')
+        self.circle('head',20,11,5)
+        self.add_line('torso',(20,24),(18,34))
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-        self.add_polyline('toilet',(6,42),(6,24),(10,24),(10,36),(26,36))
-        self.add_bezier('bowl',(26,36),((26,40),(20,40),(20,42)))
-        self.join('toilet','bowl')
-        self.cross('wrong',38,10,4,True)
+        self.add_polyline('leg',(18,34),(24,34),(34,34),(34,42))
+        self.add_polyline('tank',(6,24),(6,34),(6,42))
+        self.add_line('seat',(6,34),(18,34))
+        self.add_bezier('bowl',(24,34),((24,39),(20,39),(20,42)))
+        for a,b in [('torso','leg'),('tank','seat'),('seat','torso'),('seat','leg'),('leg','bowl')]:self.relate('connect',a,b)
+        self.add_polyline('x-a',(34,6),(38,10),(42,14))
+        self.add_polyline('x-b',(34,14),(38,10),(42,6))
+        self.relate('connect','x-a','x-b')

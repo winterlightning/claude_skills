@@ -1,12 +1,13 @@
-"""Z wave logo, preserving its complete supplied composition.
-Symbol plan: coherent contours, nested identifying symbols and parameterized repeats.
+"""z wave logo: fresh spacing repair.
+Plan: Circular Z badge lower right and detached quarter-circle broadcast arc upper left; intentional diagonal asymmetry. No useful Lucide logo match.
+Keyshape SQUARE: extrema derived from the profile's standard envelope.
+Omissions: Three broadcast arcs reduced to one to preserve legible enclosed Z.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='36316472-32cf-4e56-a2d2-8989a12c4e29'
-SOURCE_PATH='icon_set/work/todo-references/z wave logo_36316472-32cf-4e56-a2d2-8989a12c4e29.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_40/z wave logo_36316472-32cf-4e56-a2d2-8989a12c4e29.svg'
 AUTHOR='gpt-6'
-
 class Drawing(Solo48):
     icon_id='z-wave-logo'
     keyshape=Keyshape.SQUARE
@@ -16,21 +17,10 @@ class Drawing(Solo48):
     aliases=()
     keywords=('z', 'wave', 'logo')
 
-    # Visible extrema (4, 4, 44, 44); centerline extremes (6, 6, 42, 42).
-    # For CIRCLE the envelope is radial: center (24,24), centerline radius 20.
-    def build(self):
-        # Three concentric quarter-wave arcs above-left of a circular Z badge.
-        for i,r in enumerate((18,12,6)):
-            self.add_arc(f'wave-{i}',(24-r,24),(24,24-r),radius_x=r)
-        self.circle('badge',32,32,10)
-        self.add_polyline('z',(29,28),(35,28),(29,36),(35,36))
-
-
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
         for i,s in enumerate(segments):
@@ -40,21 +30,13 @@ class Drawing(Solo48):
             else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
             at=end; members.append(eid)
         self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        # Shared rectangle parameters own radii, symmetry and attachment nodes.
-        seg=[('L',(x,t)) for x in sorted(set(top)) if l+k<x<r-k]
-        seg += [('L',(r-k,t)),('A',(r,t+k),k)]
-        seg += [('L',(r,y)) for y in sorted(set(right)) if t+k<y<b-k]
-        seg += [('L',(r,b-k)),('A',(r-k,b),k)]
-        seg += [('L',(x,b)) for x in sorted(set(bottom),reverse=True) if l+k<x<r-k]
-        seg += [('L',(l+k,b)),('A',(l,b-k),k)]
-        seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
-        seg += [('L',(l,t+k)),('A',(l+k,t),k)]
-        self.path(n,(l+k,t),seg,True)
-
-    def shoulders(self,n,l,x,r,top,bottom):
-        self.add_arc(n+'-left',(l,bottom),(x,top),radius_x=x-l,radius_y=bottom-top)
-        self.add_arc(n+'-right',(x,top),(r,bottom),radius_x=r-x,radius_y=bottom-top)
-        self.add_contour(n,n+'-left',n+'-right')
-
+    def build(self):
+        self.add_arc('wave',(6,18),(18,6),radius_x=12)
+        self.circle('badge',28,28,14)
+        self.add_polyline('z',(25,24),(31,24),(25,32),(31,32))

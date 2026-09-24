@@ -1,68 +1,49 @@
-"""A round game flask containing a small stepped city and a floating ball.
-Symbol plan: cylinder: round vessel vocabulary; source supplies narrow neck, city blocks and ball.
-Keyshape: VRECT_L; fixed profile envelope is recorded in ink_extremes.
-Reduction: None.
+"""Video game bowl city.
+Symbol plan: Wide round necked vessel contains a two-step open skyline. Shared mirrored bowl controls reach6,6..42,42. City step pitch8; no skyline baseline.
+Omissions: Floating ball, city baseline and third stair removed so the defining bowl and stepped skyline retain clearance.
+Construction references: No useful Lucide exact game logo; geometric reconstruction from supplied silhouette.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
-SOURCE_PATH='icon_set/work/todo-references/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
 AUTHOR='gpt-6'
-
 class Drawing(Solo48):
     icon_id='video-game-bowl-city'
-    keyshape=Keyshape.VRECT_L
+    keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
     aliases=()
     keywords=('video', 'game', 'bowl', 'city')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+
+    def path(self,n,start,ops,closed=False):
+        at=start; members=[]
+        for i,op in enumerate(ops):
+            kind,end,*args=op
+            if at==end: continue
+            m=f'{n}-{i}'
+            if kind=='L': self.add_line(m,at,end)
+            elif kind=='A': self.add_arc(m,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            else: self.add_bezier(m,at,(args[0],args[1],end))
+            members.append(m);at=end
+        if closed and at!=start:
+            self.add_line(n+'-close',at,start);members.append(n+'-close')
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
+        ops=[('L',(x,t)) for x in sorted(top) if l+k<x<r-k]
+        ops += [('L',(r-k,t)),('A',(r,t+k),k,k,True)]
+        ops += [('L',(r,y)) for y in sorted(right) if t+k<y<b-k]
+        ops += [('L',(r,b-k)),('A',(r-k,b),k,k,True)]
+        ops += [('L',(x,b)) for x in sorted(bottom,reverse=True) if l+k<x<r-k]
+        ops += [('L',(l+k,b)),('A',(l,b-k),k,k,True)]
+        ops += [('L',(l,y)) for y in sorted(left,reverse=True) if t+k<y<b-k]
+        ops += [('L',(l,t+k)),('A',(l+k,t),k,k,True)]
+        self.path(n,(l+k,t),ops,True)
 
     def build(self):
-        self.add_bezier('bowl-left',(18,14),((12,16),(8,21),(8,28)),((8,37),(15,44),(24,44)))
-        self.add_bezier('bowl-right',(24,44),((33,44),(40,37),(40,28)),((40,21),(36,16),(30,14)))
-        self.add_polyline('neck',(18,14),(18,8),(30,8),(30,14))
-        self.relate('connect','neck','bowl-left');self.relate('connect','neck','bowl-right');self.relate('connect','bowl-left','bowl-right')
-        self.add_line('lip',(14,8),(34,8))
-        self.circle('ball',34,6,2)
-        self.add_polyline('city',(16,35),(16,31),(20,31),(20,27),(24,27),(24,23),(28,23),(28,27),(32,27),(32,35),closed=True)
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def person(self,name,cx,cy,r,bottom):
-        # Shared human reference: exact detached head gap at the shoulder apex.
-        self.circle(name+'-head',cx,cy,r)
-        top=cy+r+8;w=6
-        self.add_arc(name+'-shoulder-left',(cx-w,top+6),(cx,top),radius_x=w)
-        self.add_arc(name+'-shoulder-right',(cx,top),(cx+w,top+6),radius_x=w)
-        self.add_line(name+'-right',(cx+w,top+6),(cx+w,bottom))
-        self.add_line(name+'-bottom-right',(cx+w,bottom),(cx,bottom))
-        self.add_line(name+'-bottom-left',(cx,bottom),(cx-w,bottom))
-        self.add_line(name+'-left',(cx-w,bottom),(cx-w,top+6))
-        self.add_contour(name+'-body',name+'-shoulder-left',name+'-shoulder-right',name+'-right',name+'-bottom-right',name+'-bottom-left',name+'-left',closed=True)
-
-    def dollar(self,cx,cy):
-        self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
-        self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
-        self.relate('connect','dollar','dollar-stem')
+        self.path('bowl',(18,10),[('C',(6,28),(10,12),(6,21)),('C',(24,42),(6,36),(14,42)),('C',(42,28),(34,42),(42,36)),('C',(30,10),(42,21),(38,12))])
+        self.add_polyline('neck',(18,10),(18,6),(30,6),(30,10));self.relate('connect','bowl','neck')
+        self.add_polyline('city',(16,31),(16,30),(24,30),(24,22),(32,22),(32,31))

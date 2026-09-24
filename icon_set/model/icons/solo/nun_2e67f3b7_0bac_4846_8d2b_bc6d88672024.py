@@ -1,8 +1,12 @@
+"""nun.
+Symmetric arch veil, circular face and cross give a very simplified nun portrait.
+Square balances the veil and robe; face is enclosed by veil rather than a detached stick figure.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2e67f3b7-0bac-4846-8d2b-bc6d88672024'
-SOURCE_PATH = 'icon_set/work/todo-references/nun_2e67f3b7-0bac-4846-8d2b-bc6d88672024.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nun_2e67f3b7-0bac-4846-8d2b-bc6d88672024.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -48,17 +52,19 @@ class Drawing(Solo48):
             self.add_line(name+'-'+suffix,(cx,cy),end)
         self.relate('connect',*(name+'-'+s for s in ['l','r','t','b']))
 
-    def build(self):
-
+    def build(self) -> None:
         self.add_arc('veil-top',(6,24),(42,24),radius_x=18)
-        self.add_line('veil-sides-1',(42,24),(42,42))
-        self.add_line('veil-sides-2',(42,42),(6,42))
-        self.add_line('veil-sides-3',(6,42),(6,24))
-        self.add_contour('veil','veil-top','veil-sides-1','veil-sides-2','veil-sides-3',closed=True)
-        self.circle('face',24,21,7)
-        self.add_arc('shoulder-left',(6,42),(16,36),radius_x=10,radius_y=6)
-        self.add_line('shoulder-top',(16,36),(32,36))
-        self.add_arc('shoulder-right',(32,36),(42,42),radius_x=10,radius_y=6)
-        self.add_contour('shoulders','shoulder-left','shoulder-top','shoulder-right')
-        self.relate('connect','shoulders','veil')
-        self.cross('cross',24,40,3)
+        self.add_line('veil-base-1',(42,24),(42,42))
+        self.add_line('veil-base-2',(42,42),(6,42))
+        self.add_line('veil-base-3',(6,42),(6,24))
+        self.add_contour('veil','veil-top','veil-base-1','veil-base-2','veil-base-3',closed=True)
+        self.circle('face',24,20,5)
+        self.add_polyline('cross-v',(24,33),(24,34),(24,42))
+        self.add_polyline('cross-h',(20,34),(24,34),(28,34))
+        self.relate('connect','cross-v','cross-h')
+        self.relate('connect','cross-v','veil')
+
+# Repair plan: Symmetric arch veil, circular face and cross give a very simplified nun portrait.
+# Omissions: Forehead band, neck and shoulder seam omitted.
+# Construction references: human_ref/user.svg: circular head vocabulary.
+# Keyshape and proportions: Square balances the veil and robe; face is enclosed by veil rather than a detached stick figure.

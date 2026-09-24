@@ -1,15 +1,13 @@
-"""A broadcast user icon above the word LIVE.
-Symbol plan: radio: nested broadcast arcs; human_ref/user.svg: circular head and smooth shoulder run.
-Keyshape: SQUARE; fixed profile envelope is recorded in ink_extremes.
-Reduction: None; all four letters retained as authored strokes.
+"""User live.
+Symbol plan: Frontal user: head(24,8)radius2; shoulder apex18 gives exact8 centerline/4 ink gap. LIVE baseline42; outer L/E cap26 and inner I/V cap28 clear shoulders. SQUARE bounds6..42.
+Omissions: Inner broadcast ring removed; remaining signal split into flanking arcs. Condensed LIVE glyphs use taller E to retain8-unit bar pitch.
+Construction references: human_ref/user.svg for head and shoulders; Lucide radio for nested signal arcs.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='ec05ecd3-fd02-4b5d-ae99-33f8a6f16464'
-SOURCE_PATH='icon_set/work/todo-references/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg'
 AUTHOR='gpt-6'
-
 class Drawing(Solo48):
     icon_id='user-live'
     keyshape=Keyshape.SQUARE
@@ -18,53 +16,40 @@ class Drawing(Solo48):
     category='objects/general'
     aliases=()
     keywords=('user', 'live')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+
+    def path(self,n,start,ops,closed=False):
+        at=start; members=[]
+        for i,op in enumerate(ops):
+            kind,end,*args=op
+            if at==end: continue
+            m=f'{n}-{i}'
+            if kind=='L': self.add_line(m,at,end)
+            elif kind=='A': self.add_arc(m,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            else: self.add_bezier(m,at,(args[0],args[1],end))
+            members.append(m);at=end
+        if closed and at!=start:
+            self.add_line(n+'-close',at,start);members.append(n+'-close')
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
+        ops=[('L',(x,t)) for x in sorted(top) if l+k<x<r-k]
+        ops += [('L',(r-k,t)),('A',(r,t+k),k,k,True)]
+        ops += [('L',(r,y)) for y in sorted(right) if t+k<y<b-k]
+        ops += [('L',(r,b-k)),('A',(r-k,b),k,k,True)]
+        ops += [('L',(x,b)) for x in sorted(bottom,reverse=True) if l+k<x<r-k]
+        ops += [('L',(l+k,b)),('A',(l,b-k),k,k,True)]
+        ops += [('L',(l,y)) for y in sorted(left,reverse=True) if t+k<y<b-k]
+        ops += [('L',(l,t+k)),('A',(l+k,t),k,k,True)]
+        self.path(n,(l+k,t),ops,True)
 
     def build(self):
-        self.add_arc('signal-outer',(6,24),(42,24),radius_x=18)
-        self.add_arc('signal-inner',(14,24),(34,24),radius_x=10)
-        self.circle('head',24,20,3)
-        self.add_arc('shoulders',(18,34),(30,34),radius_x=6,radius_y=3)
-        self.add_polyline('letter-l',(6,34),(6,42),(12,42))
-        self.add_line('letter-i',(17,34),(17,42))
-        self.add_polyline('letter-v',(22,34),(26,42),(30,34))
-        self.add_polyline('letter-e',(42,34),(35,34),(35,38),(35,42),(42,42))
-        self.add_line('e-middle',(35,38),(40,38));self.relate('connect','letter-e','e-middle')
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def person(self,name,cx,cy,r,bottom):
-        # Shared human reference: exact detached head gap at the shoulder apex.
-        self.circle(name+'-head',cx,cy,r)
-        top=cy+r+8;w=6
-        self.add_arc(name+'-shoulder-left',(cx-w,top+6),(cx,top),radius_x=w)
-        self.add_arc(name+'-shoulder-right',(cx,top),(cx+w,top+6),radius_x=w)
-        self.add_line(name+'-right',(cx+w,top+6),(cx+w,bottom))
-        self.add_line(name+'-bottom-right',(cx+w,bottom),(cx,bottom))
-        self.add_line(name+'-bottom-left',(cx,bottom),(cx-w,bottom))
-        self.add_line(name+'-left',(cx-w,bottom),(cx-w,top+6))
-        self.add_contour(name+'-body',name+'-shoulder-left',name+'-shoulder-right',name+'-right',name+'-bottom-right',name+'-bottom-left',name+'-left',closed=True)
-
-    def dollar(self,cx,cy):
-        self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
-        self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
-        self.relate('connect','dollar','dollar-stem')
+        self.add_arc('signal-left',(10,6),(10,18),radius_x=4,radius_y=6,sweep=False)
+        self.add_arc('signal-right',(38,6),(38,18),radius_x=4,radius_y=6,sweep=True)
+        self.circle('head',24,8,2)
+        self.add_arc('shoulders',(20,20),(28,20),radius_x=4,radius_y=2)
+        self.add_polyline('letter-l',(6,26),(6,42),(10,42))
+        self.add_line('letter-i',(18,28),(18,42))
+        self.add_polyline('letter-v',(26,28),(29,42),(32,28))
+        self.add_polyline('letter-e',(42,26),(40,26),(40,34),(40,42),(42,42))
+        self.add_line('e-middle',(40,34),(42,34));self.relate('connect','letter-e','e-middle')

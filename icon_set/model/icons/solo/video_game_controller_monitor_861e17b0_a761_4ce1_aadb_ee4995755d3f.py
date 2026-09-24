@@ -1,12 +1,11 @@
-"""A game monitor showing a mouth-shaped character connects to a controller.
-Plan: Upper-left screen, short stand and wire; lower-right slanted controller silhouette.
-Keyshape SQUARE: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-References: Supplied SVG rendered and inspected. Lucide original/gamepad-2.svg and atomic-debug/gamepad-2.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48. Lucide original/video.svg and atomic-debug/video.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48.
+"""video game controller monitor.
+A display on its stand and a separate tilted controller retain the gaming setup.
+Square permits staggered objects; short left-facing stand foot clears controller.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '861e17b0-a761-4ce1-aadb-ee4995755d3f'
-SOURCE_PATH = 'icon_set/work/todo-references/video game controller monitor_861e17b0-a761-4ce1-aadb-ee4995755d3f.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video game controller monitor_861e17b0-a761-4ce1-aadb-ee4995755d3f.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'video-game-controller-monitor'
@@ -69,11 +68,14 @@ class Drawing(Solo48):
         self.add_line(name+'-bar',bar_left,bar_right)
         self.join(name,name+'-bar')
 
-    def build(self):
+    def build(self) -> None:
+        self.rect('monitor',6,6,24,16,3,split_x=(14,))
+        self.add_line('stand',(14,22),(14,30))
+        self.add_line('stand-foot',(6,30),(14,30))
+        self.join('monitor','stand');self.join('stand','stand-foot')
+        self.path('controller',(24,32),[('L',(34,29)),('C',(38,27),(42,30),(42,34)),('C',(42,38),(38,40),(34,38)),('L',(28,42)),('L',(24,42)),('C',(18,42),(18,36),(24,32))],True)
 
-        self.rect('monitor',6,6,28,20,3,split_x=(20,))
-        self.add_line('stand',(20,26),(20,30));self.add_polyline('stand-foot',(16,30),(20,30),(24,30));self.join('monitor','stand');self.join('stand','stand-foot')
-        self.add_arc('character',(19,11),(19,21),radius_x=6,large_arc=True,sweep=False)
-        self.add_polyline('mouth',(19,11),(15,16),(19,21));self.join('character','mouth');self.add_dot('pellet',(25,16))
-        self.add_bezier('cable',(34,20),((40,20),(40,26),(36,28)));self.join('monitor','cable')
-        self.path('controller',(23,33),[('L',(35,28)),('C',(39,26),(42,30),(42,33)),('C',(42,38),(38,39),(35,37)),('L',(28,40)),('C',(24,44),(19,42),(19,38)),('C',(19,36),(20,34),(23,33))],True)
+# Repair plan: A display on its stand and a separate tilted controller retain the gaming setup.
+# Omissions: Small screen character, pellet and cable omitted.
+# Construction references: Lucide gamepad-2 original and atomic-debug: coherent grip contour.
+# Keyshape and proportions: Square permits staggered objects; short left-facing stand foot clears controller.

@@ -4,8 +4,8 @@ Symbol plan is recorded in build(). Visible keyshape extremes: (4, 4, 44, 44).
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6ea8474c-4454-55bb-9882-399cf49d120a'
-SOURCE_PATH = 'icon_set/work/todo-references/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'lesbian-lgbt-festival-fair-exhibition'
@@ -39,10 +39,15 @@ class Drawing(Solo48):
     def build(self):
         # Three equal bunting triangles above a heart; shared horizontal cord.
         for i,x in enumerate((6,18,30)):
-            self.add_polyline('flag-'+str(i),(x,6),(x+12,6),(x+6,14),closed=True)
+            self.add_polyline('flag-'+str(i),(x,6),(x+12,6),(x+6,16),closed=True)
         for i in range(2):self.relate('connect','flag-'+str(i),'flag-'+str(i+1))
-        self.add_arc('heart-left',(24,28),(8,28),radius_x=8,radius_y=6,sweep=False)
-        self.add_line('heart-side-left',(8,28),(24,42))
-        self.add_line('heart-side-right',(24,42),(40,28))
-        self.add_arc('heart-right',(40,28),(24,28),radius_x=8,radius_y=6,sweep=False)
+        self.add_arc('heart-left',(24,30),(8,30),radius_x=8,radius_y=6,sweep=False)
+        self.add_line('heart-side-left',(8,30),(24,42))
+        self.add_line('heart-side-right',(24,42),(40,30))
+        self.add_arc('heart-right',(40,30),(24,30),radius_x=8,radius_y=6,sweep=False)
         self.add_contour('heart','heart-left','heart-side-left','heart-side-right','heart-right',closed=True)
+
+# Final repair review: Three bunting triangles hang over a heart.
+# SQUARE accommodates the full bunting row and heart.
+# Changes: Flags made taller and heart moved down; no defining components omitted.
+# validate_icon: valid; build gate: pass with zero errors and zero warnings.

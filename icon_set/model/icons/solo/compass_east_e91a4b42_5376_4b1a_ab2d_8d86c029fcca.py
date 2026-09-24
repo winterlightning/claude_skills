@@ -1,13 +1,11 @@
-"""A circular east badge containing E beside a right-pointing compass arrow.
-Plan: No omissions. Letter, enclosing circle and separate directional arrow are all essential; keep spacing failures if they cannot fit.
-Lucide construction references: navigation.
-Keyshape HRECT_M: (2,8)-(46,40) ink.
+"""E beside a right-facing compass arrow.
+Plan: Horizontal east-direction composition. E and right-facing arrow retain east meaning; rightward asymmetry is intentional.
 """
 from ._base import Solo48
 from ...keyshapes import Keyshape
 
 SOURCE_ICON_ID = 'e91a4b42-5376-4b1a-ab2d-8d86c029fcca'
-SOURCE_PATH = 'icon_set/work/todo-references/compass east_e91a4b42-5376-4b1a-ab2d-8d86c029fcca.svg'
+SOURCE_PATH = 'pictographic-primitives/navigation/compass east_e91a4b42-5376-4b1a-ab2d-8d86c029fcca.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -38,10 +36,15 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=True)
 
     def build(self):
-        # East: outlined E inside a circular badge, followed by a concave right arrow.
-        self.circle('badge',16,24,12)
-        self.add_polyline('letter-e',(20,16),(12,16),(12,24),(12,32),(20,32))
-        self.add_line('middle-bar',(12,24),(20,24))
+        # Directional E and a right-facing arrow carry the east meaning.
+        # Drop the surrounding badge: a legible three-bar E plus its circle
+        # would consume the width needed by the independent direction arrow.
+        self.add_polyline('letter-e',(16,10),(4,10),(4,24),(4,38),(16,38))
+        self.add_line('middle-bar',(4,24),(16,24))
         self.relate('connect','letter-e','middle-bar')
-        self.add_polyline('east-arrow',(34,10),(44,24),(34,38),(38,24),closed=True)
+        self.add_polyline('east-arrow',(30,10),(44,24),(30,38),(36,24),closed=True)
 
+PLAN = 'E beside a right-facing compass arrow. Horizontal east-direction composition.'
+OMISSIONS = 'Circular badge omitted to retain a legible E and independent arrow.'
+CONSTRUCTION_REFERENCES = ['No useful local Lucide subject match found.']
+PARENT_SOURCE = 'icon_set/model/icons/solo/compass_east_e91a4b42_5376_4b1a_ab2d_8d86c029fcca.py'

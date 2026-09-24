@@ -1,7 +1,6 @@
-"""A woozy face with uneven mouth and a floating star.
-
-SOLO48 CIRCLE; Lucide reference: no useful Lucide face match; circular outline geometry.
-Symbol plan: source composition reduced to named outlines and shared geometry.
+"""face woozy.
+Open circular face, uneven mouth and closed eyes; a six-ray asterisk preserves the floating-star cue.
+Square fits face and floating star; intentional facial asymmetry.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -11,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 class WoozyFaceFloatingStar(Solo48):
     icon_id = 'woozy-face-floating-star'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emoji/faces'
@@ -54,8 +53,21 @@ class WoozyFaceFloatingStar(Solo48):
         self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
 
     def build(self) -> None:
-        self.ring('face',24,24,20)
-        self.add_arc('eye-left',(14,22),(20,22),radius_x=4,radius_y=3,sweep=False)
-        self.add_arc('eye-right',(29,22),(35,22),radius_x=4,radius_y=3,sweep=False)
-        self.add_polyline('wavy-mouth',(17,33),(22,31),(27,34),(32,32))
-        self.add_polyline('star',(9,6),(11,11),(16,12),(12,16),(13,21))
+        self.add_arc('face-ne',(24,6),(42,24),radius_x=18)
+        self.add_arc('face-se',(42,24),(24,42),radius_x=18)
+        self.add_arc('face-sw',(24,42),(6,24),radius_x=18)
+        self.add_contour('face','face-ne','face-se','face-sw')
+        for x in (18,30):
+            self.add_arc('eye-'+str(x),(x-2,19),(x+2,19),radius_x=2,sweep=False)
+        self.add_polyline('mouth',(18,31),(22,29),(26,31),(30,29))
+        self.add_polyline('star-h',(6,9),(9,9),(12,9))
+        self.add_polyline('star-d1',(8,6),(9,9),(10,12))
+        self.add_polyline('star-d2',(8,12),(9,9),(10,6))
+        self.relate('connect','star-h','star-d1')
+        self.relate('connect','star-h','star-d2')
+        self.relate('connect','star-d1','star-d2')
+
+# Repair plan: Open circular face, uneven mouth and closed eyes; a six-ray asterisk preserves the floating-star cue.
+# Omissions: Five-point star outline reduced to six rays; face upper-left arc opened.
+# Construction references: No useful local Lucide smile match.
+# Keyshape and proportions: Square fits face and floating star; intentional facial asymmetry.

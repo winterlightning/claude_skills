@@ -1,61 +1,30 @@
-"""A kissing face with closed eyes and a floating heart.
-
-SOLO48 CIRCLE; Lucide reference: no useful Lucide face match; circular outline geometry.
-Symbol plan: source composition reduced to named outlines and shared geometry.
-"""
+"""Closed-eye kissing face with a separate floating heart. Source distinction from beam version retained by omitting the emission line. CIRCLE radial envelope radius22 around24,24."""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '08de5c3e-418d-4732-b0b0-0789943abce3'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg'
 AUTHOR = 'gpt-6'
 
-class KissingFaceHeart(Solo48):
+class Drawing(Solo48):
     icon_id = 'kissing-face-heart'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'emoji/faces'
-    aliases = ('Kissing Face with Heart',)
-    keywords = tuple('kissing face with heart'.split())
-
-    def ring(self, name, x, y, r):
-        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
-        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
-        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
-
-    def box(self, name, x1, y1, x2, y2):
-        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
-
-    def round_box(self, name, x1, y1, x2, y2, r):
-        parts=[]
-        def line(s,a,b):
-            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
-        def arc(s,a,b):
-            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
-        line('top',(x1+r,y1),(x2-r,y1))
-        arc('ne',(x2-r,y1),(x2,y1+r))
-        line('right',(x2,y1+r),(x2,y2-r))
-        arc('se',(x2,y2-r),(x2-r,y2))
-        line('bottom',(x2-r,y2),(x1+r,y2))
-        arc('sw',(x1+r,y2),(x1,y2-r))
-        line('left',(x1,y2-r),(x1,y1+r))
-        arc('nw',(x1,y1+r),(x1+r,y1))
-        self.add_contour(name,*parts,closed=True)
-
-    def heart(self,name,x,y):
-        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
-        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
-        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
-        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
-        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
-
-    def build(self) -> None:
-        self.ring('face',24,24,20)
-        self.add_arc('eye-left',(12,20),(20,20),radius_x=5,radius_y=4,sweep=False)
-        self.add_arc('eye-right',(28,20),(36,20),radius_x=5,radius_y=4,sweep=False)
-        self.add_polyline('kiss',(23,29),(27,31),(23,34))
-        self.heart('heart',36,30)
+    category = 'objects/symbol'
+    aliases = ()
+    keywords = ()
+    # Keyshape chosen first; stroke centerlines inset 2 from the ink bounds.
+    chosen_bounds = Keyshape.CIRCLE.bounds_for(Profile.SOLO48)
+    def build(self):
+        # Circular face is open behind the floating heart. Radius19 at (24,23) fits CIRCLE radial envelope.
+        self.add_arc('head-top',(5,23),(43,23),radius_x=19)
+        self.add_arc('head-bottom',(24,42),(5,23),radius_x=19)
+        self.relate('connect','head-top','head-bottom')
+        for name,x in [('left',18),('right',30)]:
+            self.add_arc('eye-'+name,(x-2,18),(x+2,18),radius_x=2,radius_y=1,sweep=False)
+        self.add_polyline('kiss',(19,28),(21,30),(19,32))
+        self.add_arc('heart-left',(35,33),(29,33),radius_x=3,sweep=False)
+        self.add_bezier('heart-tip',(29,33),((29,35),(32,38),(35,40)),((38,38),(41,35),(41,33)))
+        self.add_arc('heart-right',(41,33),(35,33),radius_x=3,sweep=False)
+        self.add_contour('heart','heart-left','heart-tip','heart-right',closed=True)

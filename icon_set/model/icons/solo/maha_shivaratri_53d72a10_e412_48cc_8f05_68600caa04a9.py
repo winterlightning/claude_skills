@@ -5,7 +5,7 @@ Keyshape SQUARE; full composition retained on SOLO48. Omissions: Minor hooked ti
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='53d72a10-e412-48cc-8f05-68600caa04a9'
-SOURCE_PATH='icon_set/work/todo-references/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg'
+SOURCE_PATH = 'pictographic-primitives/holidays/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='maha-shivaratri'
@@ -52,13 +52,13 @@ class Drawing(Solo48):
     def build(self):
 
         self.add_arc('moon-outer',(16,6),(16,26),radius_x=10,radius_y=10,sweep=False)
-        self.add_bezier('moon-inner',(16,26),((9,19),(10,12),(16,6)))
+        self.add_bezier('moon-inner',(16,26),((14,20),(14,12),(16,6)))
         self.add_contour('moon','moon-outer','moon-inner',closed=True)
         self.add_line('shaft-upper',(32,6),(32,29))
         self.circle('emblem',32,35,6)
         self.relate('connect','shaft-upper','emblem')
         self.add_line('shaft-lower',(32,41),(32,42));self.relate('connect','shaft-lower','emblem')
-        self.add_polyline('trident-bowl',(24,10),(24,23),(32,23),(40,23),(40,10))
+        self.add_polyline('trident-bowl',(24,10),(24,20),(32,20),(40,20),(40,10))
         self.relate('connect','trident-bowl','shaft-upper')
         self.add_line('left-ray',(22,35),(26,35));self.add_line('right-ray',(38,35),(42,35))
         self.relate('connect','left-ray','emblem');self.relate('connect','right-ray','emblem')

@@ -1,43 +1,44 @@
-"""A coin sits below a medical cross on a rising balance beam, indicating cheap insurance.
-Construction reference: scale.
+"""insurance cheap: fresh spacing repair.
+Plan: Rising beam with left coin lower than right medical plus, triangular support attached at shared central node.
+Keyshape SQUARE: extrema derived from the profile's standard envelope.
+Omissions: Dollar inscription removed; outlined medical cross reduced to open plus.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '58b70697-62ea-4501-873d-8e51b3416d7a'
-SOURCE_PATH = 'icon_set/work/todo-references/insurance cheap_58b70697-62ea-4501-873d-8e51b3416d7a.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='58b70697-62ea-4501-873d-8e51b3416d7a'
+SOURCE_PATH='pictographic-primitives/health/insurance cheap_58b70697-62ea-4501-873d-8e51b3416d7a.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'insurance-cheap'
-    keyshape = Keyshape.SQUARE
-    # Visible ink extremes: (4, 4, 44, 44).
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    aliases = ()
-    keywords = ('insurance', 'cheap')
+    icon_id='insurance-cheap'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('insurance', 'cheap')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-    def rect(self,name,x,y,w,h,r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        names=[]
-        for i,a in enumerate(pts):
-            n=f'{name}-{i}';b=pts[(i+1)%8]
-            if i%2:self.add_arc(n,a,b,radius_x=r)
-            else:self.add_line(n,a,b)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
     def build(self):
-
-        # Plan: tilted beam and triangular fulcrum; left coin lower than right cross.
-        self.circle('coin',14,18,8)
-        self.add_bezier('dollar',(17,14),((10,12),(10,18),(14,18)),((19,18),(18,23),(11,22)))
-        self.add_line('dollar-stem',(14,11),(14,25))
-        self.relate('connect','dollar','dollar-stem')
-        self.add_polyline('medical-cross',(30,6),(38,6),(38,10),(42,10),(42,18),(38,18),(38,22),(30,22),(30,18),(26,18),(26,10),(30,10),closed=True)
-        self.add_polyline('beam',(6,38),(24,33),(42,28))
-        self.add_polyline('fulcrum',(24,33),(16,42),(32,42),closed=True)
+        self.circle('coin',13,16,6)
+        self.cross('medical-cross',36,12,6)
+        self.add_polyline('beam',(6,34),(24,30),(42,26))
+        self.add_polyline('fulcrum',(24,30),(16,42),(32,42),closed=True)
         self.relate('connect','beam','fulcrum')

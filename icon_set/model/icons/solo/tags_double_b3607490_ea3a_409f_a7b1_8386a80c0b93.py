@@ -1,11 +1,10 @@
-"""Tags double, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""Two overlapping tags with a notched front tail.
+Plan: Room for eyelet and notched tail. Notched tail preserves this reference’s distinctive shape.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='b3607490-ea3a-409f-a7b1-8386a80c0b93'
-SOURCE_PATH='icon_set/work/todo-references/tags double_b3607490-ea3a-409f-a7b1-8386a80c0b93.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/tags double_b3607490-ea3a-409f-a7b1-8386a80c0b93.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -19,12 +18,11 @@ class Drawing(Solo48):
 
     # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
     def build(self):
-        # Front tag has the distinctive inward shoulder and short pointed lower tail.
-        self.add_polyline('front',(6,14),(20,14),(38,32),(31,35),(28,42),(6,28),closed=True)
-        self.add_polyline('rear',(12,6),(24,6),(42,24),(42,28),(38,32))
+        # Wider leading band preserves a real circular eyelet with certified clearance.
+        self.add_polyline('front',(6,14),(22,14),(38,30),(32,34),(28,42),(6,32),closed=True)
+        self.add_polyline('rear',(12,6),(26,6),(42,22),(42,26),(38,30))
         self.relate('connect','front','rear')
-        self.circle('hole',15,23,3)
-
+        self.circle('hole',17,25,2)
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
@@ -63,3 +61,8 @@ class Drawing(Solo48):
     def check(self,n,x,y):
         self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
 
+
+PLAN = 'Two overlapping tags with a notched front tail. Room for eyelet and notched tail.'
+OMISSIONS = 'None.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/tag.svg', 'icon_set/references/lucide/atomic-debug/tag.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/tags_double_b3607490_ea3a_409f_a7b1_8386a80c0b93.py'

@@ -515,15 +515,22 @@ function updateCatalogStatus(){
   $('warning').textContent=catalog.warning||'';$('warning').hidden=!catalog.warning;
   $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`;
 }
+// One database read; a server that predates /api/primitives/state gets the three separate reads.
+async function loadPrimitiveState(){
+  const response=await fetch('/api/primitives/state',{cache:'no-store'}).catch(()=>null);
+  if(response?.ok){const data=await response.json();return [data.catalog,data.statuses,data.briefs];}
+  if(response&&response.status!==404)throw Error('Production primitive data unavailable');
+  const [catalogResponse,statusResponse,briefResponse]=await Promise.all([
+    fetch('primitives.json',{cache:'no-store'}),fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
+  if(!catalogResponse.ok||!statusResponse.ok||!briefResponse.ok)throw Error('Production primitive data unavailable');
+  return Promise.all([catalogResponse.json(),statusResponse.json(),briefResponse.json()]);
+}
 async function refreshGalleryState(){
   if(refreshInFlight||!canRefreshGallery())return;
   refreshInFlight=true;
   const revision=galleryRevision;
   try{
-    const [catalogResponse,statusResponse,briefResponse]=await Promise.all([
-      fetch('primitives.json',{cache:'no-store'}),fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
-    if(!catalogResponse.ok||!statusResponse.ok||!briefResponse.ok)throw Error('Production primitive data unavailable');
-    const [nextCatalog,nextStatuses,nextBriefs]=await Promise.all([catalogResponse.json(),statusResponse.json(),briefResponse.json()]);
+    const [nextCatalog,nextStatuses,nextBriefs]=await loadPrimitiveState();
     if(revision!==galleryRevision||!canRefreshGallery())return;
     const changed=!statusesAvailable||!briefsAvailable||JSON.stringify(catalog)!==JSON.stringify(nextCatalog)||JSON.stringify(statuses)!==JSON.stringify(nextStatuses)||JSON.stringify(referenceBriefs)!==JSON.stringify(nextBriefs);
     catalog=nextCatalog;statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;

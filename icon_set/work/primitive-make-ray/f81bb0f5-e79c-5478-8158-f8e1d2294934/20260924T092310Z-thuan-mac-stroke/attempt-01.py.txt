@@ -1,0 +1,37 @@
+"""Table tennis paddle, broad diagonal grip and detached ball. Round upper-right face, diagonal face seam; bounds 6,6 to42,42.
+Construction reference: No useful exact Lucide match; circle and tangent handle construction.
+Omissions: None.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'f81bb0f5-e79c-5478-8158-f8e1d2294934'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__table-tennis-paddle-and-ball-solo-b016/20260924T092136Z-thuan-mac/reference/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'table-tennis-paddle-and-ball-solo-b016'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/other'
+    aliases = ()
+    keywords = ('toys', 'ping', 'pong')
+    def build(self):
+        self.path('outline',(12,23),[('C',(25,6),(10,14),(17,6)),('C',(40,21),(34,6),(40,12)),('C',(25,35),(40,30),(33,35)),('L',(20,34)),('L',(12,42)),('L',(6,36)),('L',(14,28)),('L',(12,23))],True)
+        self.add_line('seam',(12,23),(25,35));self.relate('connect','seam','outline')
+        self.circle('ball',39,39,3)
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

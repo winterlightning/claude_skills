@@ -1,7 +1,6 @@
-"""A cupped hand supports three family figures.
-
-SOLO48 HRECT_L; Lucide reference: hand-heart: supporting palm; user.svg for head proportions.
-Symbol plan: source composition reduced to named outlines and shared geometry.
+"""family hold.
+Two adults and a smaller child sit over a curved supporting palm.
+Horizontal family group; asymmetric palm curve. Adult head bottom14 to shoulder22 and child bottom18 to shoulder26 each give 4 ink clearance.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -54,7 +53,15 @@ class HandSupportingFamily(Solo48):
         self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
 
     def build(self) -> None:
-        self.ring('adult-left',12,12,4); self.ring('adult-right',36,12,4); self.ring('child',24,22,3)
-        self.add_arc('body-left',(5,31),(16,23),radius_x=11,radius_y=8,sweep=True)
-        self.add_arc('body-right',(32,23),(43,31),radius_x=11,radius_y=8,sweep=True)
-        self.add_polyline('palm',(4,36),(17,36),(27,41),(42,34))
+        # Human user.svg: head and shoulders with exact detached gap.
+        for x in (10,38):
+            self.ring('head-'+str(x),x,11,3)
+            self.add_arc('body-'+str(x),(x-4,26),(x+4,26),radius_x=4)
+        self.ring('child',24,16,2)
+        self.add_arc('child-body',(22,28),(26,28),radius_x=2)
+        self.add_bezier('palm',(4,36),((14,36),(18,40),(26,40)),((32,40),(38,36),(44,34)))
+
+# Repair plan: Two adults and a smaller child sit over a curved supporting palm.
+# Omissions: Wrist cuff and separate fingers omitted.
+# Construction references: human_ref/user.svg: circular heads and open shoulders.
+# Keyshape and proportions: Horizontal family group; asymmetric palm curve. Adult head bottom14 to shoulder22 and child bottom18 to shoulder26 each give 4 ink clearance.

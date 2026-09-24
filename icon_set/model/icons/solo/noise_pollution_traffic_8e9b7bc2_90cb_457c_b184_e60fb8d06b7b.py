@@ -1,7 +1,11 @@
+"""Two cars with a lightning bolt and noise marks.
+Repair plan: Open lightning zigzag; repeated car bodies and paired wheels preserve the traffic scene. Noise marks intentionally differ.
+Omissions: Return side of the outlined lightning bolt.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8e9b7bc2-90cb-457c-b184-e60fb8d06b7b'
-SOURCE_PATH = 'icon_set/work/todo-references/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg'
+SOURCE_PATH = 'pictographic-primitives/ecology/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg'
 AUTHOR = 'gpt-6'
 # Construction plan: Two repeated front-facing cars below a central lightning bolt; shared car dimensions preserve equality.
 # Keyshape visible extremes are supplied by Keyshape.SQUARE.bounds_for(SOLO48).
@@ -20,7 +24,7 @@ class Drawing(Solo48):
             for j,dx in enumerate((0,12)):
                 self.add_line(f'wheel-{i}-{j}',(x+dx,38),(x+dx,42))
                 self.relate('connect',f'car-{i}',f'wheel-{i}-{j}')
-        self.add_polyline('lightning',(26,6),(18,16),(25,16),(22,22),(32,12),(25,12),closed=True)
+        self.add_polyline('lightning',(28,6),(18,14),(32,14),(22,22))
         self.add_polyline('noise-left',(6,14),(8,18),(10,14))
         self.add_polyline('noise-right',(40,8),(42,12),(40,16))
 
@@ -52,4 +56,4 @@ class Drawing(Solo48):
 
 
 # Visible keyshape extremes: (4, 4, 44, 44).
-# Visual review: Two cars and noise marks remain recognizable, but the enclosed lightning aperture pinches at native size. Numeric pass; visual review requires revision.
+# Visual review: Open lightning and paired cars remain recognizable at native size.

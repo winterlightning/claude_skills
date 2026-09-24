@@ -1,8 +1,12 @@
+"""pepper hot.
+Curved tapered chili, upright stem and separate flame retain the heat concept.
+Square extrema are explicit endpoints; asymmetry follows the chili.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1b9c1a21-5633-4aac-a5fa-db87094b0bc1'
-SOURCE_PATH = 'icon_set/work/todo-references/pepper hot_1b9c1a21-5633-4aac-a5fa-db87094b0bc1.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pepper hot_1b9c1a21-5633-4aac-a5fa-db87094b0bc1.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -48,11 +52,20 @@ class Drawing(Solo48):
         self.circle(n+'-head',x,y,r)
         self.add_arc(n+'-shoulders',(x-width,body_y),(x+width,body_y),radius_x=width,radius_y=body_ry)
 
-    def build(self):
+    def build(self) -> None:
+        self.add_arc('pepper-cap-left',(28,19),(35,12),radius_x=7)
+        self.add_arc('pepper-cap-right',(35,12),(42,19),radius_x=7)
+        self.add_bezier('pepper-outer',(42,19),((42,33),(34,42),(22,42)))
+        self.add_bezier('pepper-inner',(22,42),((32,34),(26,26),(28,19)))
+        self.add_contour('pepper','pepper-cap-left','pepper-cap-right','pepper-outer','pepper-inner',closed=True)
+        self.add_line('stem',(35,6),(35,12))
+        self.relate('connect','stem','pepper')
+        self.add_bezier('flame-right',(12,14),((12,22),(18,22),(18,28)))
+        self.add_arc('flame-bottom',(18,28),(6,28),radius_x=6)
+        self.add_bezier('flame-left',(6,28),((6,22),(12,22),(12,14)))
+        self.add_contour('flame','flame-right','flame-bottom','flame-left',closed=True)
 
-        self.add_arc('pepper-top',(28,16),(42,22),radius_x=8,radius_y=7)
-        self.add_arc('pepper-outside',(42,22),(20,42),radius_x=24)
-        self.add_arc('pepper-inside',(20,42),(28,16),radius_x=23,sweep=False)
-        self.add_contour('pepper','pepper-top','pepper-outside','pepper-inside',closed=True)
-        self.add_arc('stem',(32,14),(36,6),radius_x=8)
-        self.add_polyline('flame',(12,12),(14,22),(20,28),(18,36),(14,32),(12,36),(6,32),(6,26),(12,12))
+# Repair plan: Curved tapered chili, upright stem and separate flame retain the heat concept.
+# Omissions: Inner flame notch omitted.
+# Construction references: No additional useful local Lucide match used.
+# Keyshape and proportions: Square extrema are explicit endpoints; asymmetry follows the chili.

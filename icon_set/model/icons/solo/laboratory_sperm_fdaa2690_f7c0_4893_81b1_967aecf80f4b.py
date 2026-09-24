@@ -1,43 +1,44 @@
-"""Two sperm cells and a detached oval are shown in a circular laboratory view.
-Construction reference: none.
+"""laboratory sperm: fresh spacing repair.
+Plan: Two offset repeated sperm cells inside the circular field. Heads expose actual lower tail attachment; organic diagonal arrangement preserved. No useful Lucide match.
+Keyshape CIRCLE: extrema derived from the profile's standard envelope.
+Omissions: Detached third cell omitted; sperm heads simplified to small circular outlines.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'fdaa2690-f7c0-4893-81b1-967aecf80f4b'
-SOURCE_PATH = 'icon_set/work/todo-references/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='fdaa2690-f7c0-4893-81b1-967aecf80f4b'
+SOURCE_PATH='pictographic-primitives/health/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'laboratory-sperm'
-    keyshape = Keyshape.CIRCLE
-    # Visible ink extremes: (2, 2, 46, 46).
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    aliases = ()
-    keywords = ('laboratory', 'sperm')
+    icon_id='laboratory-sperm'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('laboratory', 'sperm')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-    def rect(self,name,x,y,w,h,r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        names=[]
-        for i,a in enumerate(pts):
-            n=f'{name}-{i}';b=pts[(i+1)%8]
-            if i%2:self.add_arc(n,a,b,radius_x=r)
-            else:self.add_line(n,a,b)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
     def build(self):
-
-        # Plan: round observation field; diagonal ovals and flowing tails inside.
         self.circle('field',24,24,20)
-        self.add_bezier('head-left',(16,19),((12,17),(17,10),(20,12)),((24,14),(20,21),(16,19)))
-        self.add_bezier('tail-left',(16,19),((11,21),(16,26),(11,29)))
-        self.add_bezier('head-right',(30,24),((26,22),(31,15),(34,17)),((38,19),(34,26),(30,24)))
-        self.add_bezier('tail-right',(30,24),((25,28),(32,30),(26,35)))
-        self.add_bezier('oval',(17,35),((13,33),(18,28),(20,30)),((23,32),(20,37),(17,35)))
-        self.relate('connect','head-left','tail-left')
-        self.relate('connect','head-right','tail-right')
+        for n,x,y in [('left',18,18),('right',30,22)]:
+            self.path(n+'-head',(x,y-2),[('A',(x+2,y),2),('A',(x,y+2),2),('A',(x-2,y),2),('A',(x,y-2),2)],True)
+            self.add_bezier(n+'-tail',(x,y+2),((x-3,y+5),(x,y+7),(x-3,y+9)))
+            self.relate('connect',n+'-head',n+'-tail')

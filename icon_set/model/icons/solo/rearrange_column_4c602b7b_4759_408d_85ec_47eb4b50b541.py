@@ -1,7 +1,7 @@
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='4c602b7b-4759-408d-85ec-47eb4b50b541'
-SOURCE_PATH='icon_set/work/todo-references/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg'
 AUTHOR='gpt-6'
 PLAN='Three segmented columns below a curved two-ended rearrangement arrow.'
 OMISSIONS='Rows reduced to two per column.'
@@ -48,7 +48,7 @@ class Drawing(Solo48):
         for i,x in enumerate((4,20,36)):
             self.add_polyline('column'+str(i),(x,24),(x+8,24),(x+8,40),(x,40),closed=True)
             self.add_line('rule'+str(i),(x,32),(x+8,32));self.relate('connect','rule'+str(i),'column'+str(i))
-        self.add_bezier('arrow',(8,15),((8,8),(14,8),(20,8)),((26,8),(40,8),(40,15)))
-        self.add_polyline('left-tip',(4,11),(8,15),(12,11));self.relate('connect','left-tip','arrow')
-        self.add_polyline('right-tip',(36,11),(40,15),(44,11));self.relate('connect','right-tip','arrow')
+        self.add_bezier('arrow',(8,16),((8,8),(16,8),(24,8)),((32,8),(40,8),(40,16)))
+        self.add_polyline('left-tip',(4,12),(8,16),(12,12));self.relate('connect','left-tip','arrow')
+        self.add_polyline('right-tip',(36,12),(40,16),(44,12));self.relate('connect','right-tip','arrow')
 

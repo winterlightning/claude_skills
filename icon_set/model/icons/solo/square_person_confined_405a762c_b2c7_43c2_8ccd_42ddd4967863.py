@@ -1,42 +1,56 @@
+"""square person confined: fresh parallel-spacing repair.
+Plan: Small head and open shoulders remain legible inside the square enclosure.
+Keyshape SQUARE: Square envelope preserves the confined-person frame.
+Omissions: Closed body base and crowded arm seams omitted.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '405a762c-b2c7-43c2-8ccd-42ddd4967863'
-SOURCE_PATH = 'icon_set/work/todo-references/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg'
-AUTHOR = 'gpt-6'
-# Plan: Square enclosure containing a frontal person with a closed torso and two arm seams.
-# References: human_ref/user.svg and full_body_ref.png: circular head, broad smooth shoulders and exact detached gap.
-# Reduction: No defining parts omitted.
-
-class AuthoredIcon(Solo48):
-    icon_id = 'square-person-confined'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('square', 'person', 'confined')
-
-    def build(self):
-        self.box("frame",6,6,42,42,4)
-        self.circle('head',24,17,3)
-        self.add_bezier('torso',(24,28),((18,28),(15,29),(15,32)))
-        self.add_bezier('right-shoulder',(24,28),((30,28),(33,29),(33,32)))
-        self.add_polyline('body-base',(15,32),(15,35),(33,35),(33,32))
-        self.relate('connect','torso','right-shoulder');self.relate('connect','torso','body-base');self.relate('connect','right-shoulder','body-base')
-        for n,x in [('left',20),('right',28)]:self.add_line(n+'-arm',(x,32),(x,35));self.relate('connect',n+'-arm','body-base')
-        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+SOURCE_ICON_ID='405a762c-b2c7-43c2-8ccd-42ddd4967863'
+SOURCE_PATH='pictographic-primitives/_uncategorized_35/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='square-person-confined'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('square', 'person', 'confined')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def box(self,n,l,t,r,b,q=4):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
+
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
+
+    def build(self):
+        self.frame()
+        self.circle('head',24,17,2)
+        self.add_arc('shoulders-left',(16,33),(24,27),radius_x=8,radius_y=6)
+        self.add_arc('shoulders-right',(24,27),(32,33),radius_x=8,radius_y=6)
+        self.add_contour('shoulders','shoulders-left','shoulders-right')

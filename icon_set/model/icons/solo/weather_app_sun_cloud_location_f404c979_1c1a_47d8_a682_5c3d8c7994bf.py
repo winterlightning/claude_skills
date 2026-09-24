@@ -1,72 +1,80 @@
-"""Weather app sun cloud location, preserving its complete supplied composition.
-Symbol plan: coherent contours, nested identifying symbols and parameterized repeats.
+"""weather app sun cloud location.
+Plan: Exposed sun cap above left cloud; large pin overlays lower-right and shares a genuine cloud endpoint.
+Construction: Source sun/cloud/pin arrangement, circular sun cap and smooth coherent cloud boundary.
+Omissions: Sun rays removed; location center ring reduced to a dot.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID='f404c979-1c1a-47d8-a682-5c3d8c7994bf'
-SOURCE_PATH='icon_set/work/todo-references/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = 'f404c979-1c1a-47d8-a682-5c3d8c7994bf'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    icon_id='weather-app-sun-cloud-location'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
-    aliases=()
-    keywords=('weather', 'app', 'sun', 'cloud', 'location')
+    icon_id = 'weather-app-sun-cloud-location'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('weather', 'app', 'sun', 'cloud', 'location')
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
 
-    # Visible extrema (4, 4, 44, 44); centerline extremes (6, 6, 42, 42).
-    # For CIRCLE the envelope is radial: center (24,24), centerline radius 20.
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
+
     def build(self):
-        # Complete sun/cloud/location composition, retaining all three symbols.
-        self.add_arc('sun-upper',(8,16),(24,16),radius_x=8)
-        self.add_bezier('sun-lower',(13,23),((10,23),(8,20),(8,16)))
-        self.add_contour('sun','sun-lower','sun-upper')
-        for n,a,b in [('north',(16,6),(16,7)),('west',(6,16),(7,16)),
-                      ('northwest',(8,8),(9,9)),('northeast',(23,8),(24,7)),
-                      ('southwest',(8,24),(7,25))]: self.add_line('ray-'+n,a,b)
-        self.add_line('cloud-base',(22,34),(12,34))
-        self.add_bezier('cloud-left',(12,34),((8,34),(6,31),(6,28)),((6,25),(9,23),(13,23)))
-        self.add_bezier('cloud-crown',(13,23),((16,23),(16,16),(24,16)),((30,14),(34,18),(36,22)))
-        self.add_bezier('cloud-right',(36,22),((40,22),(42,24),(42,28)),((42,30),(41,32),(40,33)))
-        self.add_contour('cloud','cloud-base','cloud-left','cloud-crown','cloud-right')
+        self.add_arc('sun',(6,13),(20,13),radius_x=7)
+        self.path('cloud',(16,42),[('L',(14,42)),('A',(6,34),8,8,True),('A',(14,26),8,8,True),('C',(14,19),(15,13),(20,13)),('C',(25,13),(29,14),(32,18))])
         self.relate('connect','sun','cloud')
-        self.add_arc('pin-top',(26,30),(42,30),radius_x=8)
-        self.add_bezier('pin-lower',(42,30),((42,34),(36,40),(34,42)),((32,40),(26,34),(26,30)))
-        self.add_contour('pin','pin-top','pin-lower',closed=True)
-        self.circle('pin-hole',34,30,3)
-
-
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def path(self,n,start,segments,closed=False):
-        at=start; members=[]
-        for i,s in enumerate(segments):
-            eid=f'{n}-{i}'; kind,end,*args=s
-            if end==at: continue
-            if kind=='L': self.add_line(eid,at,end)
-            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
-            at=end; members.append(eid)
-        self.add_contour(n,*members,closed=closed)
-
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        # Shared rectangle parameters own radii, symmetry and attachment nodes.
-        seg=[('L',(x,t)) for x in sorted(set(top)) if l+k<x<r-k]
-        seg += [('L',(r-k,t)),('A',(r,t+k),k)]
-        seg += [('L',(r,y)) for y in sorted(set(right)) if t+k<y<b-k]
-        seg += [('L',(r,b-k)),('A',(r-k,b),k)]
-        seg += [('L',(x,b)) for x in sorted(set(bottom),reverse=True) if l+k<x<r-k]
-        seg += [('L',(l+k,b)),('A',(l,b-k),k)]
-        seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
-        seg += [('L',(l,t+k)),('A',(l+k,t),k)]
-        self.path(n,(l+k,t),seg,True)
-
-    def shoulders(self,n,l,x,r,top,bottom):
-        self.add_arc(n+'-left',(l,bottom),(x,top),radius_x=x-l,radius_y=bottom-top)
-        self.add_arc(n+'-right',(x,top),(r,bottom),radius_x=r-x,radius_y=bottom-top)
-        self.add_contour(n,n+'-left',n+'-right')
-
+        self.path('pin',(32,18),[('A',(42,28),10,10,True),('C',(42,33),(36,39),(32,42)),('C',(28,39),(22,33),(22,28)),('A',(32,18),10,10,True)],True)
+        self.relate('connect','cloud','pin')
+        self.add_dot('pin-center',(32,28))

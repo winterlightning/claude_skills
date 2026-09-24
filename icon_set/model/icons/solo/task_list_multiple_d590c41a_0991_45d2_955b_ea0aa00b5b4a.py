@@ -1,13 +1,13 @@
-"""Task list multiple, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""task list multiple: fresh parallel-spacing repair.
+Plan: Two sheets, an asymmetric check and a text rule remain clear at native size.
+Keyshape SQUARE: Square envelope preserves the overlapping page arrangement.
+Omissions: Repeated checklist rows reduced to one check and one text rule.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d590c41a-0991-45d2-955b-ea0aa00b5b4a'
-SOURCE_PATH='icon_set/work/todo-references/task list multiple_d590c41a-0991-45d2-955b-ea0aa00b5b4a.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/task list multiple_d590c41a-0991-45d2-955b-ea0aa00b5b4a.svg'
 AUTHOR='gpt-6'
-
 class Drawing(Solo48):
     icon_id='task-list-multiple'
     keyshape=Keyshape.SQUARE
@@ -17,22 +17,10 @@ class Drawing(Solo48):
     aliases=()
     keywords=('task', 'list', 'multiple')
 
-    # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
-    def build(self):
-        # Two stacked task sheets, two checkmarks and three short text lines.
-        self.rect('front',14,14,42,42,3,top=(34,),left=(34,))
-        self.path('rear',(14,34),[('L',(10,34)),('A',(6,30),4),('L',(6,10)),
-            ('A',(10,6),4),('L',(30,6)),('A',(34,10),4),('L',(34,14))])
-        self.relate('connect','front','rear')
-        for i,y in enumerate((23,32)): self.check(f'check-{i}',20,y)
-        for i,y in enumerate((20,28,36)): self.add_line(f'text-{i}',(34,y),(36,y))
-
-
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
         for i,s in enumerate(segments):
@@ -42,26 +30,36 @@ class Drawing(Solo48):
             else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
             at=end; members.append(eid)
         self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        # One rounded rectangle owns paired radii, extents, and connection splits.
-        seg=[('L',(x,t)) for x in sorted(set(top)) if l+k<x<r-k]
-        seg += [('L',(r-k,t)),('A',(r,t+k),k)]
-        seg += [('L',(r,y)) for y in sorted(set(right)) if t+k<y<b-k]
-        seg += [('L',(r,b-k)),('A',(r-k,b),k)]
-        seg += [('L',(x,b)) for x in sorted(set(bottom),reverse=True) if l+k<x<r-k]
-        seg += [('L',(l+k,b)),('A',(l,b-k),k)]
-        seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
-        seg += [('L',(l,t+k)),('A',(l+k,t),k)]
-        self.path(n,(l+k,t),seg,True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def suitcase(self):
-        # SQUARE: ink (4,4)-(44,44); centerlines (6,6)-(42,42).
-        self.rect('case',6,14,42,42,4,top=(16,32))
-        self.path('handle',(16,14),[('L',(16,10)),('A',(20,6),4),
-            ('L',(28,6)),('A',(32,10),4),('L',(32,14))])
-        self.relate('connect','case','handle')
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
-    def check(self,n,x,y):
-        self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
-
+    def build(self):
+        self.add_polyline('front-top',(18,14),(34,14),(38,14))
+        self.add_arc('front-tr',(38,14),(42,18),radius_x=4)
+        self.add_line('front-right',(42,18),(42,38))
+        self.add_arc('front-br',(42,38),(38,42),radius_x=4)
+        self.add_line('front-bottom',(38,42),(18,42))
+        self.add_arc('front-bl',(18,42),(14,38),radius_x=4)
+        self.add_polyline('front-left',(14,38),(14,34),(14,18))
+        self.add_arc('front-tl',(14,18),(18,14),radius_x=4)
+        parts=['front-top','front-tr','front-right','front-br','front-bottom','front-bl','front-left','front-tl']
+        for a,b in zip(parts,parts[1:]+parts[:1]):self.relate('connect',a,b)
+        self.path('rear',(14,34),[('L',(10,34)),('A',(6,30),4),('L',(6,10)),('A',(10,6),4),('L',(30,6)),('A',(34,10),4),('L',(34,14))])
+        self.relate('connect','front-top','rear');self.relate('connect','front-left','rear')
+        self.add_polyline('check',(23,24),(26,26),(33,22))
+        self.add_line('text',(23,34),(33,34))

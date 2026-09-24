@@ -1,12 +1,11 @@
-"""Three wireless waves rise above a game controller.
-Plan: Centered nested waves and a symmetric controller retain the source hierarchy.
-Keyshape SQUARE: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-References: Supplied SVG rendered and inspected. Lucide original/gamepad-2.svg and atomic-debug/gamepad-2.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48. Lucide original/wifi.svg and atomic-debug/wifi.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48.
+"""video game controller wifi.
+Two Wi-Fi bands above a symmetric controller.
+Square; bands share axis24 and cardinal ellipse endpoints.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '36ec33e6-3587-4196-b433-a5ed4e77ad2d'
-SOURCE_PATH = 'icon_set/work/todo-references/video game controller wifi_36ec33e6-3587-4196-b433-a5ed4e77ad2d.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video game controller wifi_36ec33e6-3587-4196-b433-a5ed4e77ad2d.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'video-game-controller-wifi'
@@ -69,12 +68,12 @@ class Drawing(Solo48):
         self.add_line(name+'-bar',bar_left,bar_right)
         self.join(name,name+'-bar')
 
-    def build(self):
+    def build(self) -> None:
+        self.add_arc('wifi-outer',(10,12),(38,12),radius_x=14,radius_y=6)
+        self.add_arc('wifi-inner',(16,20),(32,20),radius_x=8,radius_y=4)
+        self.path('controller',(12,30),[('L',(36,30)),('A',(42,36),6,6,True),('A',(36,42),6,6,True),('L',(32,38)),('L',(16,38)),('L',(12,42)),('A',(6,36),6,6,True),('A',(12,30),6,6,True)],True)
 
-        self.add_bezier('wifi-outer',(10,12),((14,8),(20,6),(24,6)),((28,6),(34,8),(38,12)))
-        self.add_bezier('wifi-middle',(16,20),((19,17),(22,15),(24,15)),((26,15),(29,17),(32,20)))
-        self.add_bezier('wifi-inner',(21,24),((22,23),(23,23),(24,23)),((25,23),(26,23),(27,24)))
-
-        self.path('controller',(14,28),[('L',(34,28)),('A',(42,36),8,8,True),('L',(42,38)),('C',(42,42),(38,42),(35,39)),('L',(31,36)),('L',(17,36)),('L',(13,39)),('C',(10,42),(6,42),(6,38)),('L',(6,36)),('A',(14,28),8,8,True)],True)
-        self.cross('d-pad',14,33,3)
-        self.add_dot('button',(34,32))
+# Repair plan: Two Wi-Fi bands above a symmetric controller.
+# Omissions: Third Wi-Fi band and button details omitted.
+# Construction references: Lucide gamepad-2 original and atomic-debug: paired grip geometry.
+# Keyshape and proportions: Square; bands share axis24 and cardinal ellipse endpoints.

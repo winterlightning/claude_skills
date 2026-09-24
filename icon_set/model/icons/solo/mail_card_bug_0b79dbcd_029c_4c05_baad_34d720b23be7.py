@@ -1,68 +1,45 @@
-"""A card showing a bug protrudes from an open envelope.
-Plan: semantic components use coherent contours, shared nodes, and mirrored or repeated definitions.
-Keyshape SQUARE; full composition retained on SOLO48. Omissions: Antennae and legs reduced to the reference’s six radial strokes.
+"""mail-card-bug: Merge outer card and envelope silhouette at shared shoulders to remove parallel overlap. Rebalance flap height; omit bug divider, lower legs and envelope seams.
+Symbol plan: shared shape helpers and mirrored coordinates. Keyshape SQUARE; exact bounds from contract.
+Local Lucide originals and atomic-debug: bluetooth, skull, file-user, shield-plus, heart, house, paw-print, search, bug, smartphone, eye, fingerprint-pattern. Coherent outlines and shared junctions inform construction.
 """
-from ...keyshapes import Keyshape
 from ._base import Solo48
+from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='0b79dbcd-029c-4c05-baad-34d720b23be7'
-SOURCE_PATH='icon_set/work/todo-references/mail card bug_0b79dbcd-029c-4c05-baad-34d720b23be7.svg'
+SOURCE_PATH='pictographic-primitives/other/mail card bug_0b79dbcd-029c-4c05-baad-34d720b23be7.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='mail-card-bug'
     keyshape=Keyshape.SQUARE
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects'
     aliases=()
-    keywords=('mail', 'card', 'bug')
+    keywords=('mail-card-bug',)
+    def build(self):
+        self.add_polyline('outline',(9,29),(9,6),(39,6),(39,29),(42,29),(42,42),(6,42),(6,29),closed=True)
+        self.add_polyline('flap',(9,29),(18,34),(30,34),(39,29))
+        self.relate('connect','outline','flap')
+        pts=[(21,16),(27,16),(29,20),(27,24),(21,24),(19,20)]
+        for j,a in enumerate(pts):self.add_arc('bug-'+str(j),a,pts[(j+1)%6],radius_x=5)
+        self.add_contour('bug',*('bug-'+str(j) for j in range(6)),closed=True)
+        for j,(a,b) in enumerate([((21,16),(19,14)),((27,16),(29,14)),((19,20),(17,20)),((29,20),(31,20))]):
+            self.add_line('leg-'+str(j),a,b)
+            self.relate('connect','leg-'+str(j),'bug')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def heart(self):
-        # Shared bilateral lobe radius and mirrored flanks; exact square extremes.
-        self.add_arc('lobe-left',(24,15),(6,15),radius_x=9,sweep=False)
-        self.add_bezier('flank-left',(6,15),((6,28),(16,37),(24,42)))
-        self.add_bezier('flank-right',(24,42),((32,37),(42,28),(42,15)))
-        self.add_arc('lobe-right',(42,15),(24,15),radius_x=9,sweep=False)
-        self.add_contour('heart','lobe-left','flank-left','flank-right','lobe-right',closed=True)
-
-    def lens(self):
-        # Circle at (21,21), radius 15. Shared handle node (30,33): 9²+12²=15².
-        self.add_arc('lens-a',(30,33),(12,9),radius_x=15)
-        self.add_arc('lens-b',(12,9),(30,33),radius_x=15)
-        self.add_contour('lens','lens-a','lens-b',closed=True)
-        self.add_line('handle',(30,33),(42,42))
-        self.relate('connect','lens','handle')
-
-    def envelope(self):
-        # Complete card protruding from an open envelope; bilateral fold nodes.
-        self.add_polyline('body',(6,24),(6,42),(42,42),(42,24))
-        self.add_polyline('fold',(6,24),(14,28),(18,30),(30,30),(34,28),(42,24))
-        self.relate('connect','body','fold')
-        self.add_polyline('card',(14,28),(14,6),(34,6),(34,28))
-        self.relate('connect','card','fold')
-        self.add_line('seam-left',(18,30),(12,36))
-        self.add_line('seam-right',(30,30),(36,36))
-        self.relate('connect','seam-left','fold')
-        self.relate('connect','seam-right','fold')
-
-    def build(self):
-
-        self.envelope()
-        nodes=[(21,15),(27,15),(29,19),(27,23),(21,23),(19,19)]
-        members=[]
-        for j,a in enumerate(nodes):
-            n='bug-arc-'+str(j);members.append(n)
-            self.add_arc(n,a,nodes[(j+1)%6],radius_x=5)
-        self.add_contour('bug',*members,closed=True)
-        self.add_line('bug-divider',(19,19),(29,19));self.relate('connect','bug-divider','bug')
-        for j,(x,y) in enumerate(nodes):
-            dx=-3 if x<24 else 3;dy=-3 if y<19 else 3 if y>19 else 0
-            n='leg-'+str(j);self.add_line(n,(x,y),(x+dx,y+dy));self.relate('connect',n,'bug')
-
-# Final review record: Bug legs crowd the card rails and merge visually. MIC failure retained; not approved.
-# Visible keyshape bounds: (4, 4, 44, 44)
-# Construction: Coherent enclosure and shared fold nodes.
+    def rect(self,n,l,t,r,b,rad=2):
+        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+        for i,a in enumerate(pts):
+            z=pts[(i+1)%8]
+            if i%2:self.add_arc(n+str(i),a,z,radius_x=rad)
+            else:self.add_line(n+str(i),a,z)
+        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
+    def house(self):
+        self.add_polyline('house',(6,42),(6,18),(24,6),(42,18),(42,42),closed=True)
+    def page(self):
+        self.add_polyline('page',(8,44),(8,4),(28,4),(40,16),(40,44),closed=True)

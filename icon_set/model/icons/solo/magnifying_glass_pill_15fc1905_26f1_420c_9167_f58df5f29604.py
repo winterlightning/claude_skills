@@ -1,18 +1,19 @@
-"""A diagonal two-part medicine capsule sits inside a magnifier.
-Plan: semantic components use coherent contours, shared nodes, and mirrored or repeated definitions.
-Keyshape SQUARE; full composition retained on SOLO48. Omissions: None.
+"""magnifying glass pill: fresh spacing repair.
+Plan: Diagonal capsule inside the circular lens retains the reference direction; handle joins an exact lens node.
+Keyshape SQUARE: SQUARE fits the lens and diagonal handle.
+Omissions: Capsule shortened; internal divider omitted after internal-spacing failure.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='15fc1905-26f1-420c-9167-f58df5f29604'
-SOURCE_PATH='icon_set/work/todo-references/magnifying glass pill_15fc1905-26f1-420c-9167-f58df5f29604.svg'
+SOURCE_PATH='pictographic-primitives/other/magnifying glass pill_15fc1905-26f1-420c-9167-f58df5f29604.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='magnifying-glass-pill'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category='objects/general'
     aliases=()
     keywords=('magnifying', 'glass', 'pill')
 
@@ -20,45 +21,37 @@ class Drawing(Solo48):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def heart(self):
-        # Shared bilateral lobe radius and mirrored flanks; exact square extremes.
-        self.add_arc('lobe-left',(24,15),(6,15),radius_x=9,sweep=False)
-        self.add_bezier('flank-left',(6,15),((6,28),(16,37),(24,42)))
-        self.add_bezier('flank-right',(24,42),((32,37),(42,28),(42,15)))
-        self.add_arc('lobe-right',(42,15),(24,15),radius_x=9,sweep=False)
-        self.add_contour('heart','lobe-left','flank-left','flank-right','lobe-right',closed=True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def lens(self):
-        # Circle at (21,21), radius 15. Shared handle node (30,33): 9²+12²=15².
+    def build(self):
         self.add_arc('lens-a',(30,33),(12,9),radius_x=15)
         self.add_arc('lens-b',(12,9),(30,33),radius_x=15)
         self.add_contour('lens','lens-a','lens-b',closed=True)
-        self.add_line('handle',(30,33),(42,42))
-        self.relate('connect','lens','handle')
-
-    def envelope(self):
-        # Complete card protruding from an open envelope; bilateral fold nodes.
-        self.add_polyline('body',(6,24),(6,42),(42,42),(42,24))
-        self.add_polyline('fold',(6,24),(12,28),(18,32),(30,32),(36,28),(42,24))
-        self.relate('connect','body','fold')
-        self.add_polyline('card',(12,28),(12,6),(36,6),(36,28))
-        self.relate('connect','card','fold')
-        self.add_line('seam-left',(18,32),(13,37))
-        self.add_line('seam-right',(30,32),(35,37))
-        self.relate('connect','seam-left','fold')
-        self.relate('connect','seam-right','fold')
-
-    def build(self):
-
-        self.lens()
-        self.add_line('pill-upper',(15,21),(21,15))
-        self.add_bezier('pill-cap-right',(21,15),((26,10),(32,16),(27,21)))
-        self.add_line('pill-lower',(27,21),(21,27))
-        self.add_bezier('pill-cap-left',(21,27),((16,32),(10,26),(15,21)))
+        self.add_line('handle',(30,33),(42,42));self.relate('connect','handle','lens')
+        self.add_line('pill-upper',(17,19),(19,17))
+        self.add_bezier('pill-cap-right',(19,17),((22,14),(28,20),(25,23)))
+        self.add_line('pill-lower',(25,23),(23,25))
+        self.add_bezier('pill-cap-left',(23,25),((20,28),(14,22),(17,19)))
         self.add_contour('pill','pill-upper','pill-cap-right','pill-lower','pill-cap-left',closed=True)
-        self.add_line('pill-seam',(18,18),(24,24));self.relate('connect','pill','pill-seam')
-
-# Final review record: Pill and divider recognizable but crowd the lens. MIC failure retained; not approved.
-# Visible keyshape bounds: (4, 4, 44, 44)
-# Construction: Circular lens with a shared, analytically exact handle attachment.

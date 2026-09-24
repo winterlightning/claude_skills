@@ -1,56 +1,60 @@
-"""Scissors beside a partial female-operation symbol.
-Plan: Two equal finger loops and converging blades; right curved symbol retains its diagonal cross.
-Keyshape: SQUARE; extrema follow the profile contract.
-References: supplied reference SVG; No useful local Lucide subject match used; shared geometric construction principles applied.
+"""stablization operation female: fresh parallel-spacing repair.
+Plan: Crossing scissors blades, two open handle loops and partial female symbol remain separated.
+Keyshape SQUARE: Square envelope retains the scissors on the left and symbol at upper right.
+Omissions: Outlined blade wedge and blade seam replaced with two open crossing blades.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '852044c0-c346-4658-9c9c-035df8dc7b7b'
-SOURCE_PATH = 'icon_set/work/todo-references/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='852044c0-c346-4658-9c9c-035df8dc7b7b'
+SOURCE_PATH='pictographic-primitives/_uncategorized_36/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'stablization-operation-female'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('stablization', 'operation', 'female')
+    icon_id='stablization-operation-female'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('stablization', 'operation', 'female')
 
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def rect(self, name, x, y, w, h, r=4):
-        # One owning rectangle; four equal tangent corner arcs.
-        points = [(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                  (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,p in enumerate(points):
-            q=points[(i+1)%8]; n=f'{name}-{i}'
-            if i%2: self.add_arc(n,p,q,radius_x=r)
-            else: self.add_line(n,p,q)
-            members.append(n)
-        self.add_contour(name,*members,closed=True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def cross(self, name, x, y, r, diagonal=False):
-        # Four rays share the true intersection node.
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        ids=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));ids.append(n)
-        for i,a in enumerate(ids):
-            for b in ids[i+1:]: self.relate('connect',a,b)
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
     def build(self):
-
-        for x in (12,26): self.circle(f'loop-{x}',x,36,6)
-        self.add_polyline('blade-left',(18,36),(18,22),(20,8),(26,30))
-        self.add_line('blade-cut',(18,28),(24,22))
-        self.relate('connect','loop-12','blade-left')
-        self.relate('connect','loop-26','blade-left')
-        self.add_arc('female-arc',(30,14),(34,30),radius_x=10)
-        self.add_line('female-shaft',(36,18),(42,12))
-        self.cross('female-cross',38,10,4,True)
+        self.circle('left-loop',10,38,4)
+        self.circle('right-loop',28,38,4)
+        self.add_polyline('blade-left',(14,38),(19,22),(24,6))
+        self.add_polyline('blade-right',(24,38),(19,22),(14,6))
+        self.relate('connect','blade-left','left-loop');self.relate('connect','blade-right','right-loop');self.relate('connect','blade-left','blade-right')
+        self.add_arc('female-arc',(30,16),(36,26),radius_x=8)
+        self.add_polyline('female-shaft',(30,16),(38,10),(42,6))
+        self.add_polyline('female-cross',(34,6),(38,10),(42,14))
+        self.relate('connect','female-arc','female-shaft');self.relate('connect','female-shaft','female-cross')

@@ -1,8 +1,12 @@
+"""ocd disorder symptoms 2.
+Left-facing head contains one check and an empty checkbox.
+Vertical envelope reserves room for checklist; intentional side-profile asymmetry.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9bf327e4-22cd-4f46-a740-34545d603a6f'
-SOURCE_PATH = 'icon_set/work/todo-references/ocd disorder symptoms 2_9bf327e4-22cd-4f46-a740-34545d603a6f.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/ocd disorder symptoms 2_9bf327e4-22cd-4f46-a740-34545d603a6f.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -48,15 +52,16 @@ class Drawing(Solo48):
             self.add_line(name+'-'+suffix,(cx,cy),end)
         self.relate('connect',*(name+'-'+s for s in ['l','r','t','b']))
 
-    def build(self):
+    def build(self) -> None:
+        self.add_arc('head-top',(8,20),(40,20),radius_x=16)
+        self.add_line('neck-back',(40,20),(40,44))
+        self.relate('connect','head-top','neck-back')
+        self.add_polyline('face-neck',(8,20),(8,28),(16,28),(16,44))
+        self.relate('connect','head-top','face-neck')
+        self.add_polyline('check',(20,16),(24,20),(29,14))
+        self.add_polyline('empty-box',(24,30),(32,30),(32,38),(24,38),closed=True)
 
-        self.add_arc('cranium',(12,20),(40,20),radius_x=14,radius_y=16)
-        self.add_arc('back',(40,20),(35,34),radius_x=22)
-        self.add_line('neck-back',(35,34),(35,44))
-        self.add_polyline('face-neck',(12,20),(8,28),(12,28),(12,34),(20,34),(20,44))
-        self.add_contour('profile-top','cranium','back','neck-back')
-        self.relate('connect','profile-top','face-neck')
-        for i,y in enumerate((15,24)):
-            self.add_polyline(f'check-{i}',(19,y),(21,y+2),(24,y-2))
-            self.add_line(f'text-{i}',(32,y),(33,y))
-        self.add_polyline('empty-box',(25,33),(29,33),(29,37),(25,37),closed=True)
+# Repair plan: Left-facing head contains one check and an empty checkbox.
+# Omissions: Repeated completed row and text rules omitted.
+# Construction references: human_ref/full_body_ref.png: restrained human construction.
+# Keyshape and proportions: Vertical envelope reserves room for checklist; intentional side-profile asymmetry.

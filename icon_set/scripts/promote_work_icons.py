@@ -7,9 +7,12 @@ the side-mains and side-subs pages keep showing those sources as missing until
 the module is copied into ``icon_set/model/icons/<family>/`` and a build runs.
 This script does that step: for every source it takes the newest run whose
 result.json says ``valid``, rewrites the module's imports to the relative form
-the model tree uses, and copies it in. A run that was promoted before (its
-module already exists in the tree, or the run carries promoted.json) is left
-alone, as is a source with no valid run.
+the model tree uses, and copies it in. A source with no valid run is left
+alone. A source already promoted (a run carries promoted.json) is left alone
+unless a valid run was created after that promotion (its result.json is newer
+than promoted_at and its recorded build gate did not fail): that run is a
+repair, so it replaces the module in the tree under the same icon_id and
+takes over promoted.json.
 
 An icon id already owned by another family gets the ``-<family>`` suffix, so a
 solo main drawn for a source that also has a container icon becomes
@@ -91,6 +94,64 @@ def _latest_valid_run(source_dir: Path, include_invalid: bool = False) -> Path |
     return max(runs, key=lambda run: run.name) if runs else None
 
 
+def _repair_after_promotion(source_dir: Path) -> tuple[Path, Path, dict] | None:
+    """A valid run created after the source's promotion: (repair run, old promoted.json, its data).
+
+    A run counts as created when its result.json was written. A run whose recorded
+    build gate failed is not a repair and is left alone.
+    """
+    marker = next(source_dir.glob('*/promoted.json'), None)
+    if marker is None:
+        return None
+    try:
+        promoted = json.loads(marker.read_text(encoding='utf-8'))
+        promoted_at = datetime.fromisoformat(promoted['promoted_at']).timestamp()
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    repairs = []
+    for run in source_dir.iterdir():
+        result = run / 'result.json'
+        if run == marker.parent or not result.is_file() or result.stat().st_mtime <= promoted_at:
+            continue
+        try:
+            data = json.loads(result.read_text(encoding='utf-8'))
+        except ValueError:
+            continue
+        gate = data.get('build_gate')
+        gate = gate.get('status') if isinstance(gate, dict) else gate
+        if data.get('validation_status') == 'valid' and gate != 'fail' and _icon_module(run, source_dir) is not None:
+            repairs.append((result.stat().st_mtime, run))
+    return (max(repairs)[1], marker, promoted) if repairs else None
+
+
+def _promote_repair(source_dir: Path, family: str, base: str, *, dry_run: bool) -> tuple[str, str] | None:
+    """Replace an already promoted module with its newer repair, keeping the published icon_id."""
+    found = _repair_after_promotion(source_dir)
+    if found is None:
+        return None
+    run, marker, promoted = found
+    target = REPO_ROOT / promoted['module']
+    if not target.is_file():
+        return None
+    current = ICON_ID.search(target.read_text(encoding='utf-8'))
+    text = _icon_module(run, source_dir).read_text(encoding='utf-8')
+    match = ICON_ID.search(text)
+    if current is None or match is None:
+        return None
+    icon_id = current[3]
+    text = _relative_imports(text[:match.start(3)] + icon_id + text[match.end(3):], family, base)
+    if not dry_run:
+        now = datetime.now(timezone.utc).isoformat()
+        target.write_text(text, encoding='utf-8')
+        (marker.parent / 'promoted.superseded.json').write_text(json.dumps(
+            {**promoted, 'superseded_by': run.name, 'superseded_at': now}, indent=2) + '\n', encoding='utf-8')
+        marker.unlink()
+        (run / 'promoted.json').write_text(json.dumps({
+            'icon_id': icon_id, 'module': promoted['module'], 'promoted_at': now, 'replaces_run': marker.parent.name,
+        }, indent=2) + '\n', encoding='utf-8')
+    return icon_id, promoted['module']
+
+
 def _strict_ok(module_path: Path, icon_id: str) -> list[str]:
     """The build's own findings for a module, so a failing icon can be held back."""
     import importlib.util
@@ -109,7 +170,7 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
             include_invalid: bool = False) -> dict:
     from icon_set.model.icons.registry import factories
     registered = factories()
-    report = {'promoted': [], 'skipped': [], 'held': [], 'families': set()}
+    report = {'promoted': [], 'replaced': [], 'skipped': [], 'held': [], 'families': set()}
     taken = set(registered)  # ids owned by the tree plus those promoted earlier in this run
     for skill in skills:
         family, base = SKILLS[skill]
@@ -121,7 +182,12 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
             if only and not any(source_dir.name.lower().startswith(prefix) for prefix in only):
                 continue
             if any(source_dir.glob('*/promoted.json')):
-                continue  # one promoted drawing per source; a later run replaces it only by hand
+                # One promoted drawing per source; a valid run created after it is a repair and replaces it.
+                replaced = _promote_repair(source_dir, family, base, dry_run=dry_run)
+                if replaced is not None:
+                    report['replaced'].append((source_dir.name, *replaced))
+                    report['families'].add(family)
+                continue
             run = _latest_valid_run(source_dir, include_invalid)
             if run is None:
                 report['skipped'].append((source_dir.name, 'no valid run'))
@@ -199,6 +265,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{verb} {len(report['promoted'])} icon(s)")
     for source, icon_id, path in report['promoted']:
         print(f"  {source[:8]}  {icon_id}  -> {path}")
+    if report['replaced']:
+        print(f"{'would replace' if args.dry_run else 'replaced'} {len(report['replaced'])} promoted icon(s) with a newer repair run")
+        for source, icon_id, path in report['replaced']:
+            print(f"  {source[:8]}  {icon_id}  -> {path}")
     for source, icon_id, finding in report['held']:
         print(f"  held {source[:8]}  {icon_id}: {finding}")
     for source, reason in report['skipped']:
@@ -208,13 +278,14 @@ def main(argv: list[str] | None = None) -> int:
     if quiet:
         print(f"  {quiet} source folder(s) have no valid run yet")
 
-    if args.build and report['promoted'] and not args.dry_run:
+    changed = report['promoted'] or report['replaced']
+    if args.build and changed and not args.dry_run:
         command = [sys.executable, str(REPO_ROOT / 'icon_set' / 'scripts' / 'build.py'), '--changed-only']
         for family in sorted(report['families']):
             command += ['--family', family]
         print('$', ' '.join(command[1:]), flush=True)
         return subprocess.call(command, cwd=REPO_ROOT)
-    if report['promoted'] and not args.dry_run:
+    if changed and not args.dry_run:
         families = ' '.join(f'--family {f}' for f in sorted(report['families']))
         print(f"now run: python3 icon_set/scripts/build.py {families} --changed-only")
     return 0

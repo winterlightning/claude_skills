@@ -1,52 +1,48 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '57218de4-325d-49db-9661-2dd851d08161'
-SOURCE_PATH = 'icon_set/work/todo-references/share holder notification 2_57218de4-325d-49db-9661-2dd851d08161.svg'
-AUTHOR = 'gpt-6'
-# Plan: Notification bell above three shareholder busts, with shared head radii and exact own head-to-shoulder gaps.
-# Construction references: bell: flared contour; human_ref/user.svg and full_body_ref.png: circular heads and smooth shoulders.
-# Reduction: Omitted tiny bell top loop; retained bell clapper and all three people.
-
-class AuthoredIcon(Solo48):
-    icon_id = 'share-holder-notification-2'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('share', 'holder', 'notification', '2')
-
-    def build(self):
-        self.add_bezier('bell',(14,18),((19,14),(15,6),(24,6)),((33,6),(29,14),(34,18)))
-        self.add_line('bell-base',(34,18),(14,18));self.add_contour('bell-outline','bell','bell-base',closed=True)
-        self.add_arc('clapper',(21,18),(27,18),radius_x=3,sweep=False);self.relate('connect','clapper','bell-outline')
-        for n,x in [('left',11),('center',24),('right',37)]:
-            self.circle(n+'-head',x,26,3)
-            self.add_bezier(n+'-torso',(x,37),((x-3,37),(x-5,39),(x-5,42)))
-            self.add_bezier(n+'-shoulder',(x,37),((x+3,37),(x+5,39),(x+5,42)))
-            self.relate('connect',n+'-torso',n+'-shoulder')
-            self.mark_human_figure(n,head=n+'-head',torso=n+'-torso',torso_junction='start')
-
+SOURCE_ICON_ID='57218de4-325d-49db-9661-2dd851d08161'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/share holder notification 2_57218de4-325d-49db-9661-2dd851d08161.svg'
+AUTHOR='gpt-6'
+PLAN='A notification bell above three shareholder busts. Shared human_ref/user.svg proportions and round heads. Head bottoms29, shoulder crests37 give exact8 centerline /4 visible ink gap. All three busts retained, symmetric about x24.'
+CONSTRUCTION_REFERENCE='Lucide bell flared silhouette; human_ref/user.svg circular heads and broad shoulders'
+class Drawing(Solo48):
+    icon_id='share-holder-notification-2'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('share', 'holder', 'notification', '2')
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,l,t,r,b,k=4):
+        ps=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ns=[]
+        for j,a in enumerate(ps):
+            z=ps[(j+1)%8]
+            if a==z: continue
+            m=f'{n}-{j}'; ns.append(m)
+            if j%2:self.add_arc(m,a,z,radius_x=k)
+            else:self.add_line(m,a,z)
+        self.add_contour(n,*ns,closed=True)
+    def cross(self,n,x,y,r):
+        ns=[]
+        for j,p in enumerate([(x-r,y),(x+r,y),(x,y-r),(x,y+r)]):
+            m=f'{n}-{j}';ns.append(m);self.add_line(m,(x,y),p)
+        self.relate('connect',*ns)
+    def build(self):
+        self.add_line('bell-left',(14,16),(18,12))
+        self.add_arc('bell-dome',(18,12),(30,12),radius_x=6)
+        self.add_line('bell-right',(30,12),(34,16))
+        self.add_line('bell-base',(34,16),(14,16))
+        self.add_contour('bell','bell-left','bell-dome','bell-right','bell-base',closed=True)
+        # Shared human_ref/user.svg vocabulary; exact head bottom29 / shoulder crest37 gap8.
+        for n,x in [('left',12),('center',24),('right',36)]:
+            self.circle(n+'-head',x,27,2)
+            self.add_arc(n+'-shoulder',(x-6,42),(x+6,42),radius_x=6,radius_y=5)
+        self.relate('connect','left-shoulder','center-shoulder');self.relate('connect','center-shoulder','right-shoulder')
 
-    def box(self,n,l,t,r,b,q=3):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
-
-    def shield(self):
-        self.add_bezier('crown-left',(8,12),((15,12),(21,7),(24,4)))
-        self.add_bezier('crown-right',(24,4),((27,7),(33,12),(40,12)))
-        self.add_line('wall-right',(40,12),(40,23))
-        self.add_bezier('base-right',(40,23),((40,33),(33,40),(24,44)))
-        self.add_bezier('base-left',(24,44),((15,40),(8,33),(8,23)))
-        self.add_line('wall-left',(8,23),(8,12))
-        self.add_contour('shield','crown-left','crown-right','wall-right','base-right','base-left','wall-left',closed=True)
+FINAL_OMISSIONS = 'Omit bell top loop and clapper; use small heads and joined shoulder contours.'
+VISUAL_REVIEW = 'Shared human_ref/user.svg proportions and round heads. Head bottoms29, shoulder crests37 give exact8 centerline /4 visible ink gap. All three busts retained, symmetric about x24.'

@@ -1,17 +1,15 @@
-"""A phone with opposed inward-curving squeeze marks.
-Plan: Tall rounded phone with mirrored curved marks and a lower home bar.
-Keyshape: VRECT_M; extrema follow the profile contract.
-References: supplied reference SVG; lucide/original/square-x.svg and atomic-debug/square-x.svg: equal corner radii and centered marks
+"""Phone with inward-curving squeeze marks.
+Plan: Wider phone accommodates the marks. Mirrored curves share radius and placement; phone has equal corner radii.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bb90ccf0-9578-45c7-ad84-a7eb1350bdaf'
-SOURCE_PATH = 'icon_set/work/todo-references/squeeze sides_bb90ccf0-9578-45c7-ad84-a7eb1350bdaf.svg'
+SOURCE_PATH = 'pictographic-primitives/mobile/squeeze sides_bb90ccf0-9578-45c7-ad84-a7eb1350bdaf.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'squeeze-sides-bb90ccf0'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/general'
@@ -46,7 +44,12 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.rect('phone',10,4,28,40,4)
-        self.add_arc('left-squeeze',(18,14),(18,26),radius_x=10,sweep=True)
-        self.add_arc('right-squeeze',(30,14),(30,26),radius_x=10,sweep=False)
-        self.add_line('home-bar',(18,36),(30,36))
+        self.rect('phone',8,4,32,40,4)
+        self.add_arc('left-squeeze',(17,14),(17,26),radius_x=10,sweep=True)
+        self.add_arc('right-squeeze',(31,14),(31,26),radius_x=10,sweep=False)
+        self.add_line('home-bar',(17,35),(31,35))
+
+PLAN = 'Phone with inward-curving squeeze marks. Wider phone accommodates the marks.'
+OMISSIONS = 'One curve per side; bottom separator reduced to a home bar.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/tablet.svg', 'icon_set/references/lucide/atomic-debug/tablet.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/squeeze_sides_bb90ccf0_9578_45c7_ad84_a7eb1350bdaf.py'

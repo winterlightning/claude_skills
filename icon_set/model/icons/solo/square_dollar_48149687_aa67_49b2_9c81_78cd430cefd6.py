@@ -1,13 +1,12 @@
-"""A dollar sign inside a rounded square.
-Plan: Smooth S consists of four tangent cubic runs; continuous vertical stem splits at all real S junctions.
-Construction: No local square-dollar-sign match found; rounded-square construction follows square-check, and S is hand-authored from the supplied reference.
-Envelope: visible (4,4)-(44,44); centerlines (6,6)-(42,42).
+"""A dollar sign inside a square.
+Repair plan: Open S with attached upper and lower stem tips; opposite S lobes remain balanced.
+Omissions: Internal stem spans, retaining the terminal dollar strokes.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '48149687-aa67-49b2-9c81-78cd430cefd6'
-SOURCE_PATH = 'icon_set/work/todo-references/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -30,14 +29,6 @@ class Drawing(Solo48):
         self.add_line('stem-bottom',(24,32),(24,33))
         for part in ('s-top','s-upper'):self.relate('connect','stem-top',part)
         for part in ('s-lower','s-bottom'):self.relate('connect','stem-bottom',part)
-        if True:
-            self.add_line('stem-upper',(24,16),(24,24))
-            self.add_line('stem-lower',(24,24),(24,32))
-            for part in ('s-top','s-upper','s-lower'):self.relate('connect','stem-upper',part)
-            for part in ('s-upper','s-lower','s-bottom'):self.relate('connect','stem-lower',part)
-            self.relate('connect','stem-top','stem-upper')
-            self.relate('connect','stem-upper','stem-lower')
-            self.relate('connect','stem-lower','stem-bottom')
 
     def box(self,name,l=6,t=6,r=42,b=42,rad=4):
         mx,my=(l+r)//2,(t+b)//2

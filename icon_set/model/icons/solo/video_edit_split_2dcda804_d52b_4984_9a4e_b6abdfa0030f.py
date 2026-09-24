@@ -7,8 +7,8 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='2dcda804-d52b-4984-9a4e-b6abdfa0030f'
-SOURCE_PATH='icon_set/work/todo-references/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/video/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id='video-edit-split'
@@ -22,10 +22,10 @@ class Drawing(Solo48):
 
     def build(self):
         for name,l,r in [('left',6,16),('right',32,42)]:
-            self.rounded(name,l,22,r,42,3,breaks={2:[(r,34)],6:[(l,34)]})
+            self.rounded(name,l,24,r,42,3,breaks={2:[(r,34)],6:[(l,34)]})
             self.add_line(name+'-footer',(l,34),(r,34));self.relate('connect',name+'-footer',name)
-        self.add_polyline('marker',(18,6),(30,6),(24,14),closed=True)
-        for i,y in enumerate((22,34)):self.add_line(f'cut-{i}',(24,y),(24,y+4))
+        self.add_polyline('marker',(18,6),(30,6),(24,16),closed=True)
+        for i,y in enumerate((24,36)):self.add_line(f'cut-{i}',(24,y),(24,y+4))
 
     def circle(self,name,cx,cy,r):
         pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
@@ -64,3 +64,8 @@ class Drawing(Solo48):
         self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
         self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
         self.relate('connect','dollar','dollar-stem')
+
+# Final repair review: Two video strips flank a dashed cut line beneath a triangular marker.
+# SQUARE fits paired strips and the upper marker.
+# Changes: Marker made taller; strips moved downward; no defining components omitted.
+# validate_icon: valid; build gate: pass with zero errors and zero warnings.

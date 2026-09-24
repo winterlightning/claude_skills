@@ -1,10 +1,9 @@
+"""auto pilot car radius. Plan: mirrored car with equal circular wheels and four surrounding sensor arcs. SQUARE extremes (6,6)-(42,42). Lucide car-front informs roof/body simplification; source side-view wheels retained. Omit repeated inner sensor layer to free clearance."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8a6f5388-93e2-4e87-bb21-8db3666f5c20'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/auto pilot car radius_8a6f5388-93e2-4e87-bb21-8db3666f5c20.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'autonomous-car-sensor-signal'
     keyshape = Keyshape.SQUARE
@@ -12,35 +11,31 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "objects/general"
     aliases = ()
-    keywords = ('autonomous', 'car', 'sensor', 'signal')
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def box(self, name, x, y, w, h, r=0):
-        if not r:
-            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            return
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i in range(8):
-            part=f'{name}-{i}'; ids.append(part)
-            if i%2: self.add_arc(part,pts[i],pts[(i+1)%8],radius_x=r)
-            else: self.add_line(part,pts[i],pts[(i+1)%8])
-        self.add_contour(name,*ids,closed=True)
-
+    keywords = ('auto', 'pilot', 'car', 'radius')
+    def path(self,n,start,steps,closed=False):
+        here=start;members=[]
+        for k,step in enumerate(steps):
+            ident=f'{n}-{k}';members.append(ident)
+            if len(step)==2:
+                self.add_line(ident,here,step);here=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep);here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,q=0):
+        if q==0:self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True)
+        else:self.path(n,(l+q,t),[(r-q,t),((r,t+q),q,q,True),(r,b-q),((r-q,b),q,q,True),(l+q,b),((l,b-q),q,q,True),(l,t+q),((l+q,t),q,q,True)],True)
     def build(self):
-        # Plan: SQUARE extremes 6,6 to 42,42; four mirrored pairs of concentric corner arcs enclose side-view car with equal wheels.
+        # Four sensor quadrants share one radius; the redundant inner band is omitted.
         for ix in (0,1):
             for iy in (0,1):
-                def p(x,y): return (48-x if ix else x,48-y if iy else y)
-                for label,r in [('outer',12),('inner',4)]:
-                    self.add_arc(f'sensor-{ix}-{iy}-{label}',p(18-r,18),p(18,18-r),radius_x=r,sweep=(ix==iy))
-        self.add_polyline('body',(15,29),(13,29),(13,25),(17,23),(20,18),(28,18),(31,23),(35,25),(35,29),(33,29))
-        for x in (18,30): self.circle(f'wheel-{x}',x,29,3)
-        self.add_line('chassis',(21,29),(27,29))
-        for wheel in ('wheel-18','wheel-30'):
-            self.relate('connect','body',wheel)
-            self.relate('connect','chassis',wheel)
+                def p(x,y):return (48-x if ix else x,48-y if iy else y)
+                self.add_arc(f'sensor-{ix}-{iy}',p(6,18),p(18,6),radius_x=12,sweep=(ix==iy))
+        points=[(14,29),(14,25),(18,22),(20,18),(28,18),(30,22),(34,25),(34,29)]
+        for j,(a,b) in enumerate(zip(points,points[1:]),1):self.add_line(f'body-{j}',a,b)
+        self.add_arc('wheel-right',(34,29),(28,29),radius_x=3)
+        self.add_line('chassis',(28,29),(20,29))
+        self.add_arc('wheel-left',(20,29),(14,29),radius_x=3)
+        self.add_contour('car','body-1','body-2','body-3','body-4','body-5','body-6','body-7','wheel-right','chassis','wheel-left',closed=True)

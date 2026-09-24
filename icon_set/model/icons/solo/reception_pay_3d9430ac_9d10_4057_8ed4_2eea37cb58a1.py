@@ -1,13 +1,11 @@
+"""Receptionist receives payment from a standing customer.
+Plan: Room for both people and desk. Both head-to-torso gaps are exactly 8 centerline units / 4 ink units; head and torso axes align.
+"""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='3d9430ac-9d10-4057-8ed4-2eea37cb58a1'
-SOURCE_PATH='icon_set/work/todo-references/reception pay_3d9430ac-9d10-4057-8ed4-2eea37cb58a1.svg'
+SOURCE_PATH='pictographic-primitives/hotels/reception pay_3d9430ac-9d10-4057-8ed4-2eea37cb58a1.svg'
 AUTHOR='gpt-6'
-PLAN='A receptionist behind a desk receives payment from a standing customer.'
-OMISSIONS='Currency mark simplified to a dollar-style S with stem; hands reduced to gestures.'
-LUCIDE_REFERENCE='user'
-HUMAN_REFERENCE='icon_set/references/human_ref/user.svg'
-FULL_BODY_REFERENCE='icon_set/references/human_ref/full_body_ref.png'
 class Drawing(Solo48):
     icon_id='reception-pay'
     keyshape=Keyshape.SQUARE
@@ -43,16 +41,25 @@ class Drawing(Solo48):
         # Exact detached gap: (y+r+8) - (y+r) = 8 centerline / 4 ink.
 
     def build(self):
-        # A receptionist behind a desk receives payment from a standing customer.
-
-        self.bust('clerk',14,10,4,8,4)
-        self.add_line('counter',(6,26),(22,26));self.relate('connect','counter','clerk-shoulders')
-        self.add_line('desk',(10,26),(10,42));self.relate('connect','desk','counter')
-        self.circle('head',36,10,4)
-        self.add_line('torso',(36,22),(36,32))
-        self.add_polyline('legs',(30,42),(36,32),(42,42));self.relate('connect','torso','legs')
-        self.add_polyline('arms',(26,28),(36,22),(42,28));self.relate('connect','arms','torso')
+        # Two detached circular heads share the human reference's exact 8u gap.
+        # Payment is a circular coin; omit the crowded currency lettering.
+        self.circle('clerk-head',12,10,4)
+        self.add_line('clerk-torso',(12,22),(12,26))
+        self.add_polyline('counter',(6,26),(8,26),(12,26),(18,26))
+        self.add_line('desk',(8,26),(8,42))
+        self.relate('connect','counter','clerk-torso')
+        self.relate('connect','counter','desk')
+        self.mark_human_figure('clerk',head='clerk-head',torso='clerk-torso',torso_junction='start')
+        self.circle('head',38,10,4)
+        self.add_line('torso',(38,22),(38,32))
+        self.add_polyline('legs',(32,42),(38,32),(42,42))
+        self.add_polyline('arms',(26,26),(38,22),(42,26))
+        self.relate('connect','torso','legs')
+        self.relate('connect','torso','arms')
         self.mark_human_figure('customer',head='head',torso='torso',torso_junction='start')
-        self.add_bezier('dollar',(25,32),((15,29),(16,36),(22,36)),((28,36),(26,43),(18,40)))
-        self.add_line('currency-stem',(22,30),(22,42))
+        self.circle('payment-coin',21,38,3)
 
+PLAN = 'Receptionist receives payment from a standing customer. Room for both people and desk.'
+OMISSIONS = 'Currency lettering replaced with a coin; clerk shoulders reduced to torso at counter.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/human_ref/user.svg', 'icon_set/references/human_ref/full_body_ref.png']
+PARENT_SOURCE = 'icon_set/model/icons/solo/reception_pay_3d9430ac_9d10_4057_8ed4_2eea37cb58a1.py'

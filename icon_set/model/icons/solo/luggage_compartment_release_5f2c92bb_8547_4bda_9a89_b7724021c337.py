@@ -5,11 +5,11 @@ Keyshape HRECT_L; full composition retained on SOLO48. Omissions: Short bumper t
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='5f2c92bb-8547-4bda-9a89-b7724021c337'
-SOURCE_PATH='icon_set/work/todo-references/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/transportation/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg'
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id='luggage-compartment-release'
-    keyshape=Keyshape.HRECT_L
+    keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects'
@@ -51,17 +51,22 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.add_polyline('car',(4,32),(4,22),(12,8),(36,8),(44,22),(44,32),(42,32),(34,32),(33,32),(15,32),(14,32),(6,32),(4,32))
+        self.add_polyline('car',(6,32),(6,22),(12,6),(36,6),(42,22),(42,32),(42,32),(34,32),(33,32),(15,32),(14,32),(6,32),(6,32))
         for n,x in [('left',10),('right',38)]:
-            self.add_line(n+'-wheel-side',(x-4,32),(x-4,36))
-            self.add_arc(n+'-wheel-round',(x-4,36),(x+4,36),radius_x=4,sweep=False)
-            self.add_line(n+'-wheel-end',(x+4,36),(x+4,32))
+            self.add_line(n+'-wheel-side',(x-4,32),(x-4,38))
+            self.add_arc(n+'-wheel-round',(x-4,38),(x+4,38),radius_x=4,sweep=False)
+            self.add_line(n+'-wheel-end',(x+4,38),(x+4,32))
             self.add_contour(n+'-wheel',n+'-wheel-side',n+'-wheel-round',n+'-wheel-end');self.relate('connect',n+'-wheel','car')
-        self.add_polyline('luggage',(15,32),(15,22),(19,22),(29,22),(33,22),(33,32))
+        self.add_polyline('luggage',(15,32),(15,24),(17,24),(31,24),(33,24),(33,32))
         self.relate('connect','luggage','car')
-        self.add_arc('luggage-handle',(19,22),(29,22),radius_x=5)
+        self.add_arc('luggage-handle',(17,24),(31,24),radius_x=7)
         self.relate('connect','luggage-handle','luggage')
 
 # Final review record: Car, paired wheels and luggage symbol remain distinct. Wheel bends use matched radius4.
 # Visible keyshape bounds: (2, 6, 46, 42)
 # Construction: No useful local Lucide match was used; geometry follows the supplied reference and shared construction guidance.
+
+# Final repair review: A car-shaped compartment release sign enclosing luggage.
+# SQUARE adds vertical room for the wheels and handle.
+# Changes: Enlarged luggage handle and deepened wheel openings; omitted tiny side ticks.
+# validate_icon: valid; build gate: pass with zero errors and zero warnings.

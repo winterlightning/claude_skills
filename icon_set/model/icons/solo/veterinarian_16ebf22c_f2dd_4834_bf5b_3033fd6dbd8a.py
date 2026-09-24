@@ -1,71 +1,82 @@
-"""A veterinarian with a stethoscope and cat badge.
-Symbol plan: human_ref/user.svg: circular head and shoulders; stethoscope: tubing and bell; source supplies cat badge.
-Keyshape: SQUARE; fixed profile envelope is recorded in ink_extremes.
-Reduction: Fine facial detail omitted; collar, stethoscope and cat retained.
+"""veterinarian.
+Plan: Doctor bust at upper-left with attached stethoscope; cat head at lower-right.
+Construction: Human user.svg owns head/shoulder proportions and exact four-unit ink gap; source supplies stethoscope and cat.
+Omissions: Outer cat badge circle, collar and occluded right shoulder omitted.
 """
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID='16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a'
-SOURCE_PATH='icon_set/work/todo-references/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = '16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    icon_id='veterinarian'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
-    aliases=()
-    keywords=('veterinarian',)
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+    icon_id = 'veterinarian'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('veterinarian',)
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
 
     def build(self):
-        self.circle('head',20,12,6)
-        self.add_bezier('shoulders',(6,42),((6,28),(10,26),(20,26)),((28,26),(32,29),(32,34)))
-        self.add_line('body-bottom',(6,42),(28,42));self.relate('connect','body-bottom','shoulders')
-        self.add_polyline('collar',(16,26),(20,30),(24,26))
-        self.add_line('stethoscope-tube',(14,27),(14,33))
-        self.circle('stethoscope-bell',14,36,3);self.relate('connect','stethoscope-tube','stethoscope-bell')
-        self.circle('badge',33,33,9)
-        self.add_polyline('cat-ears',(28,32),(28,27),(32,29),(34,29),(38,27),(38,32))
-        self.add_arc('cat-jaw',(38,32),(28,32),radius_x=5,sweep=True)
-        self.relate('connect','cat-ears','cat-jaw')
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def person(self,name,cx,cy,r,bottom):
-        # Shared human reference: exact detached head gap at the shoulder apex.
-        self.circle(name+'-head',cx,cy,r)
-        top=cy+r+8;w=6
-        self.add_arc(name+'-shoulder-left',(cx-w,top+6),(cx,top),radius_x=w)
-        self.add_arc(name+'-shoulder-right',(cx,top),(cx+w,top+6),radius_x=w)
-        self.add_line(name+'-right',(cx+w,top+6),(cx+w,bottom))
-        self.add_line(name+'-bottom-right',(cx+w,bottom),(cx,bottom))
-        self.add_line(name+'-bottom-left',(cx,bottom),(cx-w,bottom))
-        self.add_line(name+'-left',(cx-w,bottom),(cx-w,top+6))
-        self.add_contour(name+'-body',name+'-shoulder-left',name+'-shoulder-right',name+'-right',name+'-bottom-right',name+'-bottom-left',name+'-left',closed=True)
-
-    def dollar(self,cx,cy):
-        self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
-        self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
-        self.relate('connect','dollar','dollar-stem')
+        # Human reference user.svg: head radius 6, lower head y18, shoulder top y26: ink gap 4.
+        self.circle('head',16,12,6)
+        self.path('shoulders',(6,42),[('L',(6,36)),('A',(16,26),10,10,True),('L',(19,26))])
+        self.add_line('stethoscope-tube',(16,26),(16,37))
+        self.relate('connect','shoulders','stethoscope-tube')
+        self.path('stethoscope-bell',(16,37),[('A',(16,41),2,2,True),('A',(16,37),2,2,True)],True)
+        self.relate('connect','stethoscope-tube','stethoscope-bell')
+        self.path('cat',(28,34),[('L',(28,26)),('L',(33,29)),('L',(37,29)),('L',(42,26)),('L',(42,34)),('A',(28,34),7,8,True)],True)

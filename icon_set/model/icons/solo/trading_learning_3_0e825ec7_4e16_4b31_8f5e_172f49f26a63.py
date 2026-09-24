@@ -1,12 +1,11 @@
-"""An open book carries an ascending trading chart.
-Plan: Mirrored lower page curves meet at the spine; a directional zigzag rises above the open top.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/book-open.svg and atomic-debug/book-open.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
+"""trading learning 3.
+Open book beneath a rising trading chart.
+Square; cardinal corner arcs avoid overshoot, chart remains directional.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0e825ec7-4e16-4b31-8f5e-172f49f26a63'
-SOURCE_PATH = 'icon_set/work/todo-references/trading learning 3_0e825ec7-4e16-4b31-8f5e-172f49f26a63.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/trading learning 3_0e825ec7-4e16-4b31-8f5e-172f49f26a63.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'trading-learning-3'
@@ -69,9 +68,13 @@ class Drawing(Solo48):
         self.add_line(name+'-bar',bar_left,bar_right)
         self.join(name,name+'-bar')
 
-    def build(self):
-
-        self.path('book',(12,12),[('L',(10,12)),('A',(6,16),4,4,False),('L',(6,34)),('A',(10,38),4,4,False),('C',(18,38),(21,40),(24,42)),('C',(27,40),(30,38),(38,38)),('A',(42,34),4,4,False),('L',(42,16)),('A',(40,12),4,4,False)])
-        self.add_line('spine',(24,22),(24,42));self.join('book','spine')
-        self.add_polyline('chart',(14,20),(22,12),(28,18),(40,6))
+    def build(self) -> None:
+        self.path('book',(10,12),[('A',(6,16),4,4,False),('L',(6,34)),('A',(10,38),4,4,False),('C',(18,38),(21,40),(24,42)),('C',(27,40),(30,38),(38,38)),('A',(42,34),4,4,False),('L',(42,22))])
+        self.add_line('spine',(24,27),(24,42));self.join('book','spine')
+        self.add_polyline('chart',(15,20),(22,12),(28,18),(40,6))
         self.add_polyline('arrow',(34,6),(40,6),(40,12));self.join('chart','arrow')
+
+# Repair plan: Open book beneath a rising trading chart.
+# Omissions: Upper-right page curl omitted; left page tip shortened; spine starts lower.
+# Construction references: Lucide book-open original and atomic-debug: smooth page curves and spine junction.
+# Keyshape and proportions: Square; cardinal corner arcs avoid overshoot, chart remains directional.

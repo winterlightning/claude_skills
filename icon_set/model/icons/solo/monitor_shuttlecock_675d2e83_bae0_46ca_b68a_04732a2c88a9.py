@@ -2,7 +2,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '675d2e83-bae0-46ca-b68a-04732a2c88a9'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg'
+SOURCE_PATH = 'pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg'
 AUTHOR = 'gpt-6'
 SUBJECT = 'A monitor showing a diagonal badminton shuttlecock.'
 CONSTRUCTION_PLAN = 'Shared monitor enclosure with a rounded shuttle base and three feather lobes; diagonal subject orientation retained.'
@@ -44,8 +44,9 @@ class Drawing(Solo48):
 
     def build(self):
         monitor(self)
-        circle(self,'shuttle-base',20,24,3)
-        self.add_line('feather-left',(17,24),(23,14))
-        self.add_bezier('feathers',(23,14),((24,12),(28,14),(26,18)),((31,13),(32,17),(28,21)),((32,18),(33,21),(23,24)))
-        self.add_contour('feather-fan','feather-left','feathers')
-        self.relate('connect','shuttle-base','feather-fan')
+        # One open feather fan and rounded cork silhouette; omit overlapping feather loops.
+        self.add_line('feather-fan-1',(17,23),(21,13))
+        self.add_line('feather-fan-2',(21,13),(31,17))
+        self.add_line('feather-fan-3',(31,17),(25,23))
+        self.add_arc('cork',(25,23),(17,23),radius_x=4)
+        self.add_contour('shuttle','feather-fan-1','feather-fan-2','feather-fan-3','cork',closed=True)

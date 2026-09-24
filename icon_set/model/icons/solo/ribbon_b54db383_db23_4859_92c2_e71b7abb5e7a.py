@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b54db383-db23-4859-92c2-e71b7abb5e7a'
-SOURCE_PATH = 'icon_set/work/todo-references/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg'
+SOURCE_PATH = 'pictographic-primitives/other/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -20,25 +20,16 @@ class Drawing(Solo48):
     keywords = ('ribbon',)
 
     def build(self):
-        points=[(12,30),(9,21),(24,6),(39,21),(36,30),(24,36)]
-        for i in range(6):self.add_arc(f'medal-{i}',points[i],points[(i+1)%6],radius_x=15)
-        self.add_contour('medal',*(f'medal-{i}' for i in range(6)),closed=True)
+        # Smaller medal gives the mirrored fabric tails broad negative spaces.
+        points=[(12,18),(24,6),(36,18),(24,30)]
+        for i in range(4): self.add_arc(f'medal-{i}',points[i],points[(i+1)%4],radius_x=12)
+        self.add_contour('medal',*(f'medal-{i}' for i in range(4)),closed=True)
         for side in (0,1):
-            def p(x,y):return (48-x if side else x,y)
-            name=f'tail-{side}'
-            if True:
-                self.add_bezier(name+'-outer',p(12,30),(p(10,33),p(7,35),p(6,38)))
-                self.add_line(name+'-fork-1',p(6,38),p(14,37))
-                self.add_line(name+'-fork-2',p(14,37),p(16,42))
-                self.add_bezier(name+'-inner',p(16,42),(p(19,41),p(22,38),p(24,36)))
-                self.add_contour(name,name+'-outer',name+'-fork-1',name+'-fork-2',name+'-inner')
-                outer,inner=name+'-outer',name+'-inner'
-            else:
-                self.add_polyline(name,p(12,30),p(6,38),p(14,38),p(18,42),p(24,36))
-                outer,inner=name+'-1',name+'-4'
-            for arc in ([0,5] if not side else [3,4]):self.relate('connect',outer,f'medal-{arc}')
-            for arc in (4,5):self.relate('connect',inner,f'medal-{arc}')
-        self.relate('connect','tail-0-'+('inner' if True else '4'),'tail-1-'+('inner' if True else '4'))
+            def p(x,y): return (48-x if side else x,y)
+            n=f'tail-{side}'
+            self.add_polyline(n,p(12,18),p(6,38),p(14,36),p(16,42),p(24,30))
+            self.relate('connect','medal',n)
+        self.relate('connect','tail-0','tail-1')
 
     def circle(self, name, x, y, r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)

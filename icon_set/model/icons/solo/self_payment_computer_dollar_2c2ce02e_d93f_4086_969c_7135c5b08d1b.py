@@ -1,67 +1,50 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='2c2ce02e-d93f-4086-969c-7135c5b08d1b'
-SOURCE_PATH='icon_set/work/todo-references/self payment computer dollar_2c2ce02e-d93f-4086-969c-7135c5b08d1b.svg'
-AUTHOR='gpt-6'
-PLAN='Payment terminal with dollar symbol at left and two equality/menu rules at right, supported by a stand.'
-CONSTRUCTION_REFERENCES='Lucide monitor: screen and stand; dollar-sign: S contour crossed by vertical stem.'
-OMISSIONS='No currency or rule omitted.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
+SOURCE_ICON_ID = '2c2ce02e-d93f-4086-969c-7135c5b08d1b'
+SOURCE_PATH = 'pictographic-primitives/other/self payment computer dollar_2c2ce02e-d93f-4086-969c-7135c5b08d1b.svg'
+AUTHOR = 'gpt-6'
+PLAN = 'Payment monitor with dollar sign and two menu rules.'
+CONSTRUCTION_REFERENCES = 'Lucide monitor: screen and stand.'
+OMISSIONS = 'Compact currency glyph; no semantic omissions.'
 
 class Drawing(Solo48):
-    icon_id='self-payment-computer-dollar'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
-    aliases=()
-    keywords=('self', 'payment', 'computer', 'dollar')
+    icon_id = 'self-payment-computer-dollar'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/general"
+    aliases = ()
+    keywords = ('self', 'payment', 'computer', 'dollar')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def box(self,name,x,y,w,h,r=3):
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,x,y,w,h,r=3):
         pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
         for i,a in enumerate(pts):
-            b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
-            if i%2:self.add_arc(part,a,b,radius_x=r)
-            else:self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
-
-    def magnifier(self):
-        # The handle node (30,33) is exactly radius 15 from (21,21).
-        pts=[(6,21),(21,6),(36,21),(30,33),(6,21)]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):self.add_arc(f'lens-{i}',a,b,radius_x=15)
-        self.add_contour('lens',*(f'lens-{i}' for i in range(4)),closed=True)
-        self.add_line('handle',(30,33),(42,42));self.relate('connect','lens','handle')
-
-    def score(self,y):
-        self.add_arc('two-top',(12,y+4),(20,y+4),radius_x=4)
-        self.add_polyline('two-bottom',(20,y+4),(12,y+12),(20,y+12));self.relate('connect','two-top','two-bottom')
-        for i,cy in enumerate((y+3,y+11)):self.add_dot(f'colon-{i}',(25,cy))
-        self.box('zero',31,y,8,12,4)
-
-    def terminal(self):
-        self.add_polyline('screen',(6,6),(42,6),(42,34),(24,34),(6,34),closed=True)
-        self.add_line('stand',(24,34),(24,42));self.relate('connect','screen','stand')
-        self.add_polyline('foot',(16,42),(24,42),(32,42));self.relate('connect','stand','foot')
-        for i,y in enumerate((18,26)):self.add_line(f'equals-{i}',(32,y),(34,y))
-
-    def send(self,direction):
-        self.box('panel',6,6,36,36,4)
-        if direction=='left':
-            self.add_polyline('head',(23,17),(16,24),(23,31));self.add_line('shaft',(16,24),(33,24))
-        else:
-            self.add_polyline('head',(25,17),(32,24),(25,31));self.add_line('shaft',(32,24),(15,24))
-        self.relate('connect','head','shaft')
+            b=pts[(i+1)%8]
+            if i%2:self.add_arc(n+str(i),a,b,radius_x=r)
+            else:self.add_line(n+str(i),a,b)
+        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
+    def monitor(self):
+        self.box('screen',6,6,36,28,3)
+        self.add_line('stand',(24,34),(24,42))
+        self.add_polyline('foot',(16,42),(24,42),(32,42))
+        self.relate('connect','screen','stand');self.relate('connect','stand','foot')
+    def person(self,x,y,r):
+        # human_ref/user.svg: head and broad shoulders. Exact 8 centerline / 4 ink gap.
+        self.circle('head',x,y,r)
+        top=y+r+8
+        self.add_arc('shoulders',(x-5,top+5),(x+5,top+5),radius_x=5)
+    def play(self,x,y,w,h):
+        self.add_polyline('play',(x,y),(x+w,y+h//2),(x,y+h),closed=True)
 
     def build(self):
-        self.terminal()
-        self.add_bezier('dollar',(22,15),((21,14),(19,14),(18,14)),((12,14),(12,19),(18,20)),((24,21),(24,26),(18,26)),((16,26),(15,26),(14,25)))
-        self.add_polyline('dollar-stem',(18,11),(18,14),(18,20),(18,26),(18,29));self.relate('connect','dollar','dollar-stem')
-
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='No semantic elements omitted. Larger currency glyph retained for legibility; menu rules shortened and screen corners use round joins.'
+        # Upright terminal reallocates screen height to make the dollar stem legible.
+        self.add_polyline('screen',(8,4),(40,4),(40,36),(24,36),(8,36),closed=True)
+        self.add_line('stand',(24,36),(24,44));self.relate('connect','screen','stand')
+        self.add_polyline('foot',(16,44),(24,44),(32,44));self.relate('connect','stand','foot')
+        self.add_bezier('dollar',(23,16),((22,15),(21,15),(20,15)),((15,15),(15,19),(20,20)),((25,21),(25,25),(20,25)),((19,25),(18,25),(17,24)))
+        self.add_polyline('currency-stem',(20,12),(20,15),(20,20),(20,25),(20,28));self.relate('connect','dollar','currency-stem')
+        for i,y in enumerate((16,24)):self.add_dot('menu-'+str(i),(32,y))

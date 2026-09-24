@@ -2,9 +2,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='16b19145-212f-42bd-b9b5-ab0936754a35'
-SOURCE_PATH='icon_set/work/todo-references/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg'
-AUTHOR='gpt-6'
-PLAN='Television with a previous-track bar and left-pointing triangle.'
+SOURCE_PATH = 'pictographic-primitives/other/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg'
+AUTHOR = 'gpt-6'
+PLAN = 'A screen and stand with a leftward previous-track triangle and bar.'
 CONSTRUCTION_REFERENCE='monitor: screen and stand construction'
 
 class Drawing(Solo48):
@@ -74,5 +74,10 @@ class Drawing(Solo48):
 
     def build(self):
         self.monitor()
-        self.add_line('previous-bar',(16,15),(16,25))
-        self.add_polyline('previous-triangle',(33,15),(25,20),(33,25),closed=True)
+        self.add_line('previous-bar',(15,15),(15,25))
+        self.add_polyline('previous-triangle',(33,15),(23,20),(33,25),closed=True)
+
+# Final repair review: A screen and stand with a leftward previous-track triangle and bar.
+# SQUARE balances the screen and stand.
+# Changes: Triangle widened and bar moved left; no defining parts omitted. Intentional leftward direction.
+# validate_icon: valid; build gate: pass with zero errors and zero warnings.

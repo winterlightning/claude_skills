@@ -1,10 +1,10 @@
-"""An iPod-like player has a triangular play control above a circular button.
-Construction reference: tablet.
+"""Portable player with play triangle and circular control.
+Plan: Separate vertical control bands. Play triangle and circular button remain recognizable at 48px.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '95b0fd3b-05a5-49bd-b7c9-29486aaf4857'
-SOURCE_PATH = 'icon_set/work/todo-references/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
+SOURCE_PATH = 'pictographic-primitives/music/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'ipod-play'
@@ -31,10 +31,13 @@ class Drawing(Solo48):
         self.add_contour(name,*names,closed=True)
 
     def build(self):
-
-        # Plan: upright rounded rectangle split into display and lower button band.
+        # The body contains a generous play band and the circular control below.
+        # Omit the screen separator to allocate clearance to both controls.
         self.rect('body',8,4,32,40)
-        self.add_line('separator',(8,28),(40,28))
-        self.relate('connect','body','separator')
-        self.add_polyline('play',(18,12),(28,18),(18,24),closed=True)
-        self.circle('button',24,36,3)
+        self.add_polyline('play',(17,13),(29,19),(17,25),closed=True)
+        self.circle('button',24,33,2)
+
+PLAN = 'Portable player with play triangle and circular control. Separate vertical control bands.'
+OMISSIONS = 'Screen separator omitted.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/tablet.svg', 'icon_set/references/lucide/atomic-debug/tablet.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/ipod_play_95b0fd3b_05a5_49bd_b7c9_29486aaf4857.py'

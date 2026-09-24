@@ -1,12 +1,10 @@
-"""A Thaipusam spearhead contains a scalloped central emblem and triangular base.
-Plan: The outer teardrop and center emblem mirror about x24; the base forms a deliberate angular junction.
-Keyshape: VRECT_L. Exact envelope: {'ink': [6, 2, 42, 46], 'centerline': [8, 4, 40, 44]}.
-Construction references: No useful local Lucide subject match found; shared geometric construction principles used.
+"""Upright spearhead with a centered emblem.
+Plan: Tall silhouette. Symmetric spearhead and central emblem remain clear.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd6a78037-29f1-4227-a0c5-2e4158ef4f53'
-SOURCE_PATH = 'icon_set/work/todo-references/thaipusam 1_d6a78037-29f1-4227-a0c5-2e4158ef4f53.svg'
+SOURCE_PATH = 'pictographic-primitives/holidays/thaipusam 1_d6a78037-29f1-4227-a0c5-2e4158ef4f53.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -71,7 +69,13 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
+        # Mirrored spearhead surrounds an enlarged, simplified central emblem.
+        # The small base triangle is omitted: it creates a subminimum hole.
         self.path('spearhead',(24,4),[('C',(32,10),(40,20),(40,28)),('C',(40,36),(34,41),(30,44)),('L',(18,44)),('C',(14,41),(8,36),(8,28)),('C',(8,20),(16,10),(24,4))],True)
-        self.add_polyline('base-triangle',(18,44),(24,38),(30,44));self.join('spearhead','base-triangle')
-        self.path('emblem',(20,18),[('L',(28,18)),('A',(31,21),3,3,True),('C',(31,23),(29,23),(31,26)),('C',(29,29),(31,29),(31,31)),('A',(28,34),3,3,True),('L',(20,34)),('A',(17,31),3,3,True),('C',(17,29),(19,29),(17,26)),('C',(19,23),(17,23),(17,21)),('A',(20,18),3,3,True)],True)
+        self.rect('emblem',19,21,10,12,3)
+
+
+PLAN = 'Upright spearhead with a centered emblem. Tall silhouette.'
+OMISSIONS = 'Base triangle omitted; scalloped emblem simplified to a rounded rectangle.'
+CONSTRUCTION_REFERENCES = ['No useful local Lucide subject match found.']
+PARENT_SOURCE = 'icon_set/model/icons/solo/thaipusam_1_d6a78037_29f1_4227_a0c5_2e4158ef4f53.py'

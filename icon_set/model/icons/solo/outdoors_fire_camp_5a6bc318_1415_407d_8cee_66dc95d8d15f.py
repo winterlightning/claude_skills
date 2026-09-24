@@ -1,7 +1,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5a6bc318-1415-407d-8cee-66dc95d8d15f'
-SOURCE_PATH = 'icon_set/work/todo-references/outdoors fire camp_5a6bc318-1415-407d-8cee-66dc95d8d15f.svg'
+SOURCE_PATH = 'pictographic-primitives/outdoors/outdoors fire camp_5a6bc318-1415-407d-8cee-66dc95d8d15f.svg'
 AUTHOR = 'gpt-6'
 PLAN = 'Campfire above a rectangular six-section fuel bed. Grid cells share intersections.'
 CONSTRUCTION_REFERENCES = 'flame: asymmetric tongue and rounded lower bowl.'
@@ -43,10 +43,12 @@ class Drawing(Solo48):
         self.relate('connect',name+'-return',name+'-stem')
 
     def build(self):
-        self.add_arc('fire-left',(18,12),(24,6),radius_x=8,sweep=False)
-        self.add_arc('fire-tip',(24,6),(30,12),radius_x=12,sweep=False)
+        # Clearly asymmetric tongue with left indentation, as in the reference.
+        # Bowl and tongue share tangent directions at their smooth junction.
+        self.add_bezier('fire-left',(18,12),((19,15),(24,12),(22,6)))
+        self.add_bezier('fire-right',(22,6),((27,7),(30,9),(30,12)))
         self.add_arc('fire-bowl',(30,12),(18,12),radius_x=6,radius_y=5)
-        self.add_contour('flame','fire-left','fire-tip','fire-bowl',closed=True)
+        self.add_contour('flame','fire-left','fire-right','fire-bowl',closed=True)
         self.box('fuel',6,26,36,16,2)
         self.add_line('fuel-horizontal',(6,34),(42,34));self.relate('connect','fuel','fuel-horizontal')
         for x in (18,30):

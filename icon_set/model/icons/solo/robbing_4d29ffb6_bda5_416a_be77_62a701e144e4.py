@@ -1,13 +1,12 @@
-"""A robber threatening another person with a knife for money.
-
-Plan: Two shared circular heads with exact detached torso gap, bent threatening arm, blade and dollar symbol.
-Construction: human_ref/user.svg and full_body_ref.png: circular heads and coherent bent limbs
+"""robbing.
+Two aligned figures; the left figure holds a broad sloping blade toward the right figure.
+Square; robber head bottom16 to torso24 and victim bottom14 to torso22 give exactly4 ink clearance. Intentional figure-size and pose asymmetry.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4d29ffb6-bda5-416a-be77-62a701e144e4'
-SOURCE_PATH = 'icon_set/work/todo-references/robbing_4d29ffb6-bda5-416a-be77-62a701e144e4.svg'
+SOURCE_PATH = 'pictographic-primitives/crime/robbing_4d29ffb6-bda5-416a-be77-62a701e144e4.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -19,20 +18,16 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('robbing',)
 
-    def build(self):
-        # Heads end at y16 and y18; actual torso starts y24 and y26: 8 centerline / 4 ink gap.
-        self.circle('robber-head',14,11,5)
-        self.circle('victim-head',36,14,4)
-        self.add_line('robber-torso',(14,24),(14,42))
-        self.add_line('victim-torso',(36,26),(36,42))
-        self.mark_human_figure('robber',head='robber-head',torso='robber-torso',torso_junction='start')
-        self.mark_human_figure('victim',head='victim-head',torso='victim-torso',torso_junction='start')
-        self.add_polyline('arm',(14,24),(6,28),(6,34),(20,34))
-        self.relate('connect','arm-1','robber-torso')
-        self.add_polyline('knife',(20,34),(20,28),(28,28),(32,34),closed=True)
-        self.relate('connect','arm-3','knife-1');self.relate('connect','arm-3','knife-4')
-        self.add_bezier('money',(42,29),((35,26),(35,33),(40,34)),((44,35),(43,40),(38,39)))
-        self.add_line('money-stem',(40,26),(40,42))
+    def build(self) -> None:
+        # full_body_ref.png: circular heads aligned to torso axes; exact 4 ink gap.
+        for who,x,radius,body_top in (('robber',11,5,24),('victim',39,3,22)):
+            self.circle(who+'-head',x,11,radius)
+            self.add_line(who+'-torso',(x,body_top),(x,42))
+            self.mark_human_figure(who,head=who+'-head',torso=who+'-torso',torso_junction='start')
+        self.add_line('arm',(11,30),(19,30))
+        self.relate('connect','arm','robber-torso')
+        self.add_polyline('knife',(19,30),(19,24),(27,24),(31,36),(19,36),closed=True)
+        self.relate('connect','arm','knife')
 
     def circle(self, name, x, y, r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
@@ -57,3 +52,8 @@ class Drawing(Solo48):
         self.add_bezier(name+'-left',(x,top+2),((x-half,top-5),(x-half-3,top+4),(x-half,top+7)),((x-half+2,top+10),(x, bottom),(x,bottom)))
         self.add_bezier(name+'-right',(x,bottom),((x,bottom),(x+half-2,top+10),(x+half,top+7)),((x+half+3,top+4),(x+half,top-5),(x,top+2)))
         self.add_contour(name,name+'-left',name+'-right',closed=True)
+
+# Repair plan: Two aligned figures; the left figure holds a broad sloping blade toward the right figure.
+# Omissions: Mask eyes and dollar symbol omitted; blade simplified.
+# Construction references: human_ref/full_body_ref.png: circular heads, straight torsos and an action arm.
+# Keyshape and proportions: Square; robber head bottom16 to torso24 and victim bottom14 to torso22 give exactly4 ink clearance. Intentional figure-size and pose asymmetry.

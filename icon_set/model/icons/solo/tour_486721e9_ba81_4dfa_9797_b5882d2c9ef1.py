@@ -1,13 +1,15 @@
-"""A location pin hovers above a winding route on a perspective map.
-Plan: Map outline is interrupted behind the pin; a continuous winding route ends on its lower edge.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/map-pin.svg and atomic-debug/map-pin.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
+"""tour.
+Plan: Upper-right location pin over an open trapezoidal map; one broad route bend.
+Construction: Lucide geometric enclosure principles; source provides pin/map arrangement.
+Omissions: Winding route omitted after spacing failures; map and pin retained.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '486721e9-ba81-4dfa-9797-b5882d2c9ef1'
-SOURCE_PATH = 'icon_set/work/todo-references/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'tour'
     keyshape = Keyshape.SQUARE
@@ -16,7 +18,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('tour',)
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,9 +72,6 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.add_polyline('map',(18,14),(10,14),(6,42),(22,42),(42,42),(38,14),(36,14))
-        self.path('pin',(20,14),[('A',(36,14),8,8,True),('C',(36,20),(31,26),(28,30)),('C',(25,26),(20,20),(20,14))],True)
-        self.circle('pin-hole',28,14,2)
-        self.add_bezier('route',(20,22),((10,25),(12,28),(23,30)),((36,32),(29,38),(22,42)))
-        self.join('map','route')
+        self.add_polyline('map',(11,18),(10,18),(6,42),(23,42),(42,42),(41,35))
+        self.path('pin',(20,17),[('A',(42,17),11,11,True),('C',(42,23),(35,29),(31,33)),('C',(27,29),(20,23),(20,17))],True)
+        self.circle('pin-hole',31,17,2)

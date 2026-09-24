@@ -1,23 +1,24 @@
-"""Two seated people wait beneath a clock.
-Plan: Paired circular heads align with their torso starts; two distinct seated leg arrangements preserve the scene.
-Keyshape SQUARE: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Human spacing: Both stick figures: heads centered (24,16) and (36,16), radius3, torso starts at (24,27) and (36,27). Each aligned head-to-torso centerline gap is 27-(16+3)=8, leaving exactly4 ink units. The recorded human flags name these actual torso starts. Clock and inter-person clearances fail independently.
-References: Supplied SVG rendered and inspected. human-reference.md, human_ref/user.svg and full_body_ref.png: circular heads, consistent limbs, aligned torso and exact 4-unit detached-head ink gap.
+"""waiting room couple.
+Plan: Clock at left with two seated figures at right, shared three-unit head radii and exact four-unit head/torso ink gaps.
+Construction: human_ref/full_body_ref.png supplies outlined heads and simple connected seated limbs; source supplies scene.
+Omissions: Second clock hand and extra left leg omitted. Clock minute hand reaches its actual top boundary.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '18363920-a131-4703-9250-544ef6984fd4'
-SOURCE_PATH = 'icon_set/work/todo-references/waiting room couple_18363920-a131-4703-9250-544ef6984fd4.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/waiting room couple_18363920-a131-4703-9250-544ef6984fd4.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'waiting-room-couple'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/general'
     aliases = ()
     keywords = ('waiting', 'room', 'couple')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,12 +72,14 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.circle('clock',12,12,6);self.add_polyline('clock-hands',(12,9),(12,12),(15,12))
-        for i,x in enumerate((24,36)):
-            self.circle(f'head-{i}',x,16,3)
-            self.add_line(f'torso-{i}',(x,27),(x,34))
+        self.path('clock',(10,14),[('A',(10,26),6,6,True),('A',(10,14),6,6,True)],True)
+        self.add_line('clock-hand',(10,14),(10,20))
+        self.relate('connect','clock','clock-hand')
+        for i,x in enumerate((26,41)):
+            self.circle(f'head-{i}',x,11,3)
+            self.add_line(f'torso-{i}',(x,22),(x,32))
             self.mark_human_figure(f'person-{i}',head=f'head-{i}',torso=f'torso-{i}',torso_junction='start')
-        self.add_polyline('legs-left',(24,34),(20,34),(18,34),(14,42));self.join('torso-0','legs-left')
-        self.add_line('lower-left',(20,34),(20,42));self.join('legs-left','lower-left')
-        self.add_polyline('legs-right',(36,34),(42,34),(42,42));self.join('torso-1','legs-right')
+        self.add_polyline('legs-left',(26,32),(22,32),(22,40))
+        self.add_polyline('legs-right',(41,32),(44,32),(44,40))
+        self.relate('connect','torso-0','legs-left')
+        self.relate('connect','torso-1','legs-right')

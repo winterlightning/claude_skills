@@ -1,49 +1,42 @@
+"""Rating basket with three five-ray stars, middle raised. Lucide shopping-basket informs trapezoid and handles. Replace tiny closed star holes with open five-ray stars and omit basket ribs. HRECT_L widens rating row.
+Plan: shared dimensions and attachment nodes; exact HRECT_L envelope."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d'
-SOURCE_PATH = 'icon_set/work/todo-references/shopping basket rating_21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d.svg'
-AUTHOR = 'gpt-6'
-# Plan: Shopping basket beneath three rating stars, with the middle star raised.
-# Construction references: No exact useful Lucide rating match; shared star definition and mirrored basket sides.
-# Reduction: Reduced basket ribs to two; retained three stars and both handles.
-
-class AuthoredIcon(Solo48):
-    icon_id = 'shopping-basket-rating'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('shopping', 'basket', 'rating')
-
+SOURCE_ICON_ID='21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/shopping basket rating_21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='shopping-basket-rating'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('shopping basket rating',)
     def build(self):
-        for n,x,y in [('left',11,16),('center',24,11),('right',37,16)]:
-            self.add_polyline(n,(x,y-5),(x+2,y-1),(x+5,y-1),(x+3,y+2),(x+4,y+5),(x,y+3),(x-4,y+5),(x-3,y+2),(x-5,y-1),(x-2,y-1),closed=True)
-        self.add_line('rim',(8,29),(40,29))
-        self.add_polyline('basket',(10,29),(14,42),(34,42),(38,29));self.relate('connect','basket','rim')
-        for n,a,b in [('left',(15,29),(19,23)),('right',(33,29),(29,23))]:self.add_line(n+'-handle',a,b);self.relate('connect',n+'-handle','rim')
-        for x in (20,28):self.add_line('rib-'+str(x),(x,34),(x,38))
+        for n,x,y in [('left',8,16),('middle',24,12),('right',40,16)]:
+            members=[]
+            for k,(dx,dy) in enumerate([(0,-4),(4,-1),(2,3),(-2,3),(-4,-1)]):
+                eid=f'{n}-{k}';self.add_line(eid,(x,y),(x+dx,y+dy));members.append(eid)
+            for k,a in enumerate(members):
+                for b in members[k+1:]:self.relate('connect',a,b)
+        self.add_polyline('basket',(6,27),(12,40),(36,40),(42,27),(34,27),(14,27),closed=True)
+        self.add_line('handle-left',(14,27),(18,22));self.relate('connect','handle-left','basket')
+        self.add_line('handle-right',(34,27),(30,22));self.relate('connect','handle-right','basket')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def box(self,n,l,t,r,b,q=3):
+    def box(self,n,l=6,t=6,r=42,b=42,q=4):
         pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
         for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
-
-    def shield(self):
-        self.add_bezier('crown-left',(8,12),((15,12),(21,7),(24,4)))
-        self.add_bezier('crown-right',(24,4),((27,7),(33,12),(40,12)))
-        self.add_line('wall-right',(40,12),(40,23))
-        self.add_bezier('base-right',(40,23),((40,33),(33,40),(24,44)))
-        self.add_bezier('base-left',(24,44),((15,40),(8,33),(8,23)))
-        self.add_line('wall-left',(8,23),(8,12))
-        self.add_contour('shield','crown-left','crown-right','wall-right','base-right','base-left','wall-left',closed=True)
+            if k%2:self.add_arc(f'{n}-{k}',pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{k}',pts[k],pts[(k+1)%8])
+        self.add_contour(n,*(f'{n}-{k}' for k in range(8)),closed=True)
+    def cross(self,n,x,y,r):
+        ids=[]
+        for k,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            ident=f'{n}-{k}';self.add_line(ident,(x,y),(x+dx,y+dy));ids.append(ident)
+        for k,a in enumerate(ids):
+            for b in ids[k+1:]:self.relate('connect',a,b)

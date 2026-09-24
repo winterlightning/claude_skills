@@ -1,46 +1,44 @@
-"""An open laurel wreath with three leaves on each crossing branch.
-SOLO48 SQUARE; geometry authored independently from the rendered reference.
+"""gaming award.
+Plan: Mirrored smooth laurel branches with open foliage strokes and crossing base. Lucide sprout informs curved plant stems and leaf attachments. Reduce three leaves per branch to two and omit closed inner leaf outlines for clear negative space.
+Keyshape SQUARE: visible bounds (4, 4, 44, 44); centerlines inset 2 from these bounds.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '17c7d2fd-712c-4723-bb68-d76fbbb8bbd0'
-SOURCE_PATH = 'icon_set/work/todo-references/gaming award_17c7d2fd-712c-4723-bb68-d76fbbb8bbd0.svg'
-AUTHOR = "gpt-6"
+SOURCE_ICON_ID='17c7d2fd-712c-4723-bb68-d76fbbb8bbd0'
+SOURCE_PATH='pictographic-primitives/video-games/batch-04/gaming award_17c7d2fd-712c-4723-bb68-d76fbbb8bbd0.svg'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id = 'gaming-award'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects/award'
-    aliases = ()
-    keywords = ('gaming', 'award')
-
-    def line(self, n, a, b):
-        self.add_line(n,a,b)
-
-    def arc(self,n,a,b,rx,ry=None,sweep=True):
-        self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-
-    def rect(self,n,x,y,w,h,r):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        for i in range(8):
-            a,b=pts[i],pts[(i+1)%8]
-            if i%2:self.arc(f"{n}-{i}",a,b,r)
-            else:self.line(f"{n}-{i}",a,b)
-        self.add_contour(n,*(f"{n}-{i}" for i in range(8)),closed=True)
-
+    icon_id='gaming-award'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=('gaming', 'award')
     def build(self):
-        # Plan: paired branches reflected about x=24; three pointed leaves per side.
-        axis=24
         for side in (-1,1):
-            p=lambda x,y:(axis+side*x,y)
-            n='left' if side<0 else 'right'
-            self.arc(n+'-stem',p(12,16),p(-10,42),28,28,side>0)
-            leaves=[((12,16),(12,6),5,8),((15,24),(18,18),6,6),((10,33),(18,31),6,6)]
-            for i,(a,b,rx,ry) in enumerate(leaves):
-                self.arc(f'{n}-leaf{i}a',p(*a),p(*b),rx,ry,True)
-                self.arc(f'{n}-leaf{i}b',p(*b),p(*a),rx,ry,True)
-                self.add_contour(f'{n}-leaf{i}',f'{n}-leaf{i}a',f'{n}-leaf{i}b',closed=True)
-            self.relate('connect',n+'-stem',n+'-leaf0')
+            p=lambda x,y:(24+side*(x-24),y)
+            n='left' if side==1 else 'right'
+            self.add_line(n+'-top',p(12,6),p(12,18))
+            self.add_bezier(n+'-curve',p(12,18),(p(12,22),p(13,25),p(16,28)),(p(18,32),p(22,35),p(24,36)))
+            self.add_line(n+'-tail',p(24,36),p(34,42))
+            self.add_contour(n+'-stem',n+'-top',n+'-curve',n+'-tail')
+            self.add_arc(n+'-leaf-0',p(6,10),p(12,18),radius_x=10,sweep=side<0)
+            self.add_arc(n+'-leaf-1',p(6,24),p(16,28),radius_x=12,sweep=side<0)
+            for j in (0,1):self.relate('connect',n+'-stem',f'{n}-leaf-{j}')
         self.relate('connect','left-stem','right-stem')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start; members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)

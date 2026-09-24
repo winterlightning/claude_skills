@@ -1,13 +1,13 @@
+"""square parking: fresh parallel-spacing repair.
+Plan: Single-stroke P has a large clear counter inside the rounded square.
+Keyshape SQUARE: Square envelope preserves the parking sign.
+Omissions: Double-outline letter reduced to a single centerline P with a large counter.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='7ad3706e-c1c2-4821-ba45-49920032c75f'
-SOURCE_PATH='icon_set/work/todo-references/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
+SOURCE_PATH='pictographic-primitives/_uncategorized_35/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
 AUTHOR='gpt-6'
-PLAN='Square containing an outlined uppercase parking P.'
-CONSTRUCTION_REFERENCES='Lucide square-parking: P structure; outlined form hand-authored from source.'
-OMISSIONS='None.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
-
 class Drawing(Solo48):
     icon_id='square-parking'
     keyshape=Keyshape.SQUARE
@@ -17,57 +17,40 @@ class Drawing(Solo48):
     aliases=()
     keywords=('square', 'parking')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def box(self,name,x,y,w,h,r=3):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,a in enumerate(pts):
-            b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
-            if i%2:self.add_arc(part,a,b,radius_x=r)
-            else:self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def magnifier(self):
-        # The handle node (30,33) is exactly radius 15 from (21,21).
-        pts=[(6,21),(21,6),(36,21),(30,33),(6,21)]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):self.add_arc(f'lens-{i}',a,b,radius_x=15)
-        self.add_contour('lens',*(f'lens-{i}' for i in range(4)),closed=True)
-        self.add_line('handle',(30,33),(42,42));self.relate('connect','lens','handle')
-
-    def score(self,y):
-        self.add_arc('two-top',(12,y+4),(20,y+4),radius_x=4)
-        self.add_polyline('two-bottom',(20,y+4),(12,y+12),(20,y+12));self.relate('connect','two-top','two-bottom')
-        for i,cy in enumerate((y+3,y+11)):self.add_dot(f'colon-{i}',(25,cy))
-        self.box('zero',31,y,8,12,4)
-
-    def terminal(self):
-        self.box('screen',6,6,36,28,3)
-        self.add_line('stand',(24,34),(24,42));self.relate('connect','screen','stand')
-        self.add_polyline('foot',(16,42),(24,42),(32,42));self.relate('connect','stand','foot')
-        for i,y in enumerate((18,26)):self.add_line(f'equals-{i}',(31,y),(35,y))
-
-    def send(self,direction):
-        self.box('panel',6,6,36,36,4)
-        if direction=='left':
-            self.add_polyline('head',(23,17),(16,24),(23,31));self.add_line('shaft',(16,24),(33,24))
-        else:
-            self.add_polyline('head',(25,17),(32,24),(25,31));self.add_line('shaft',(32,24),(15,24))
-        self.relate('connect','head','shaft')
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
     def build(self):
-        self.box('frame',6,6,36,36,4)
-        self.add_polyline('p-left',(16,34),(16,14),(24,14))
-        self.add_arc('p-bowl',(24,14),(24,28),radius_x=7)
-        self.add_polyline('p-foot',(24,28),(21,28),(21,34),(16,34))
-        self.relate('connect','p-left','p-bowl');self.relate('connect','p-bowl','p-foot');self.relate('connect','p-foot','p-left')
-        self.add_polyline('counter-left',(21,19),(24,19))
-        self.add_arc('counter-round',(24,19),(24,23),radius_x=2)
-        self.add_polyline('counter-bottom',(24,23),(21,23),(21,19))
-        self.relate('connect','counter-left','counter-round');self.relate('connect','counter-round','counter-bottom');self.relate('connect','counter-bottom','counter-left')
-
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='None.'
+        self.frame()
+        self.add_polyline('p-stem',(18,33),(18,27),(18,15),(25,15))
+        self.add_arc('p-bowl',(25,15),(25,27),radius_x=6)
+        self.add_line('p-return',(25,27),(18,27))
+        self.relate('connect','p-stem','p-bowl');self.relate('connect','p-bowl','p-return');self.relate('connect','p-return','p-stem')

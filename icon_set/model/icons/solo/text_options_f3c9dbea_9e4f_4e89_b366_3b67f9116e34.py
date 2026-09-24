@@ -1,14 +1,14 @@
-"""A serif A sits over a dropdown field.
-Plan: Centered A with matched foot serifs; rounded dropdown with a right chevron.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Construction references: icon_set/references/lucide/original/type.svg and atomic-debug/type.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
+"""text options.
+Symbol plan: A above dropdown field; retain field silhouette, omit tiny chevron to leave an open interior.
+Lucide originals and atomic-debug inspected: hand, type, map-pin, trash-2, triangle-alert, video-off, cloud, wheat, clock.
+Shared geometric contours and explicit attachment nodes; intentional scene asymmetry retained.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = 'f3c9dbea-9e4f-4e89-b366-3b67f9116e34'
-SOURCE_PATH = 'icon_set/work/todo-references/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'text-options'
     keyshape = Keyshape.SQUARE
@@ -17,7 +17,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('text', 'options')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,9 +71,5 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.letter_a('a',(24,6),(14,26),(34,26),(19,16),(29,16))
-        for name,x in [('serif-left',14),('serif-right',34)]:
-            self.add_polyline(name,(x-3,26),(x,26),(x+3,26));self.join('a',name)
-        self.rect('dropdown',6,34,36,8,4)
-        self.add_polyline('chevron',(32,37),(34,39),(36,37))
+        self.letter_a('a',(24,6),(12,24),(36,24),(18,15),(30,15))
+        self.rect('dropdown',6,33,36,9,4)

@@ -1,12 +1,12 @@
+"""A bilingual translation display on a phone.
+Repair plan: Rounded A counter and taller Chinese-stroke pocket; preserve directional glyph asymmetry.
+Omissions: Minor central translation curve omitted as in parent.
+"""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='8e1da427-4019-4007-a9b7-0389885201df'
-SOURCE_PATH='icon_set/work/todo-references/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg'
 AUTHOR='gpt-6'
-PLAN='A phone with Latin A and Chinese translation strokes across its screen.'
-OMISSIONS='Glyphs reduced to their essential strokes, preserving the bilingual layout.'
-LUCIDE_REFERENCE=None
-HUMAN_REFERENCE=None
 class Drawing(Solo48):
     icon_id='phone-translate'
     keyshape=Keyshape.VRECT_L
@@ -40,9 +40,13 @@ class Drawing(Solo48):
 
         self.add_polyline('phone-top',(12,8),(12,4),(36,4),(36,8))
         self.add_polyline('phone-bottom',(12,40),(12,44),(36,44),(36,40))
-        self.add_polyline('a',(8,33),(13,18),(18,33));self.add_line('a-bar',(10,27),(16,27));self.relate('connect','a','a-bar')
-        self.add_line('wen-top',(26,20),(40,20));self.add_line('wen-stem',(33,16),(33,20));self.relate('connect','wen-top','wen-stem')
-        self.add_polyline('wen-left',(28,20),(30,25),(32,27),(34,29),(40,32))
-        self.add_polyline('wen-right',(38,20),(34,25),(32,27),(30,29),(26,32));self.relate('connect','wen-left','wen-right')
+        self.add_line('a-left',(8,33),(8,23))
+        self.add_arc('a-top',(8,23),(18,23),radius_x=5)
+        self.add_line('a-right',(18,23),(18,33))
+        self.add_contour('a','a-left','a-top','a-right')
+        self.add_line('a-bar',(8,29),(18,29));self.relate('connect','a','a-bar')
+        self.add_line('wen-top',(26,18),(40,18));self.add_line('wen-stem',(33,16),(33,18));self.relate('connect','wen-top','wen-stem')
+        self.add_polyline('wen-left',(26,18),(28,24),(33,29),(40,33))
+        self.add_polyline('wen-right',(40,18),(38,24),(33,29),(26,33));self.relate('connect','wen-left','wen-right')
         self.relate('connect','wen-left','wen-top');self.relate('connect','wen-right','wen-top')
 

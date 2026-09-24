@@ -7,7 +7,7 @@ from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = '37c9b2bf-2623-41e2-b321-1ce5634ee388'
-SOURCE_PATH = 'icon_set/work/todo-references/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg'
+SOURCE_PATH = 'pictographic-primitives/other/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -54,6 +54,6 @@ class Drawing(Solo48):
         for side,ids in [('left',(0,1)),('right',(1,2))]:
             for i in ids:
                 self.relate('connect','neck-'+side,f'rim-{i}')
-        self.add_arc('leaf-upper',(19,33),(29,25),radius_x=10,radius_y=8)
-        self.add_arc('leaf-lower',(29,25),(19,33),radius_x=10,radius_y=8)
+        self.add_bezier('leaf-upper',(19,33),((16,24),(22,24),(29,25)))
+        self.add_bezier('leaf-lower',(29,25),((29,31),(26,35),(19,33)))
         self.add_contour('leaf','leaf-upper','leaf-lower',closed=True)

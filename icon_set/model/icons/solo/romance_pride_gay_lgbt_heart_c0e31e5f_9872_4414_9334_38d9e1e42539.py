@@ -1,54 +1,45 @@
-"""A rainbow arch above a heart.
-
-Plan: Three concentric upper semicircles share center; separate mirrored heart sits below.
-Construction: heart: symmetric lobes and pointed base
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = 'c0e31e5f-9872-4414-9334-38d9e1e42539'
-SOURCE_PATH = 'icon_set/work/todo-references/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='c0e31e5f-9872-4414-9334-38d9e1e42539'
+SOURCE_PATH='pictographic-primitives/_uncategorized_33/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg'
+AUTHOR='gpt-6'
+PLAN='A rainbow above a heart. Shared horizontal center; mirrored heart lobes and evenly nested rainbow bands. Flattened arcs provide room above heart.'
+CONSTRUCTION_REFERENCE='Lucide rainbow concentric arcs; heart mirrored lobes'
 class Drawing(Solo48):
-    icon_id = 'romance-pride-gay-lgbt-heart'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('romance', 'pride', 'gay', 'lgbt', 'heart')
-
+    icon_id='romance-pride-gay-lgbt-heart'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('romance', 'pride', 'gay', 'lgbt', 'heart')
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,l,t,r,b,k=4):
+        ps=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ns=[]
+        for j,a in enumerate(ps):
+            z=ps[(j+1)%8]
+            if a==z: continue
+            m=f'{n}-{j}'; ns.append(m)
+            if j%2:self.add_arc(m,a,z,radius_x=k)
+            else:self.add_line(m,a,z)
+        self.add_contour(n,*ns,closed=True)
+    def cross(self,n,x,y,r):
+        ns=[]
+        for j,p in enumerate([(x-r,y),(x+r,y),(x,y-r),(x,y+r)]):
+            m=f'{n}-{j}';ns.append(m);self.add_line(m,(x,y),p)
+        self.relate('connect',*ns)
     def build(self):
-        for i,r in enumerate((20,14,8)):self.add_arc(f'rainbow-{i}',(24-r,28),(24+r,28),radius_x=r)
-        self.add_polyline('baseline-left',(4,28),(10,28),(16,28))
-        self.add_polyline('baseline-right',(32,28),(38,28),(44,28))
-        for i in range(3):
-            for side in ('left','right'):
-                for j in (1,2):
-                    if (i==0 and ((side=='left' and j==1) or (side=='right' and j==2))) or i==1 or (i==2 and ((side=='left' and j==2) or (side=='right' and j==1))):self.relate('connect',f'rainbow-{i}',f'baseline-{side}-{j}')
-        self.heart('heart',24,32,7,40)
+        self.add_arc('rainbow-outer',(4,20),(44,20),radius_x=20,radius_y=12)
+        self.add_arc('rainbow-inner',(13,20),(35,20),radius_x=11,radius_y=3)
+        self.add_arc('heart-left',(16,32),(24,32),radius_x=4)
+        self.add_arc('heart-right',(24,32),(32,32),radius_x=4)
+        self.add_line('heart-down',(32,32),(24,40))
+        self.add_line('heart-up',(24,40),(16,32))
+        self.add_contour('heart','heart-left','heart-right','heart-down','heart-up',closed=True)
 
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def box(self, name, l, t, r, b, rad=2):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-        for i in range(8):
-            a,z=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(f'{name}-{i}',a,z,radius_x=rad)
-            else:self.add_line(f'{name}-{i}',a,z)
-        self.add_contour(name,*(f'{name}-{i}' for i in range(8)),closed=True)
-
-    def arrow(self, name, start, tip, wing1, wing2):
-        self.add_line(name+'-shaft',start,tip)
-        self.add_polyline(name+'-head',wing1,tip,wing2)
-        for i in (1,2):self.relate('connect',name+'-shaft',f'{name}-head-{i}')
-
-    def heart(self, name, x, top, half, bottom):
-        # Mirrored lobes share dimensions and meet the pointed lower silhouette.
-        self.add_bezier(name+'-left',(x,top+3),((x-3,top-2),(x-half,top-2),(x-half,top+3)),((x-half,top+6),(x-3,bottom-3),(x,bottom)))
-        self.add_bezier(name+'-right',(x,bottom),((x+3,bottom-3),(x+half,top+6),(x+half,top+3)),((x+half,top-2),(x+3,top-2),(x,top+3)))
-        self.add_contour(name,name+'-left',name+'-right',closed=True)
+FINAL_OMISSIONS = 'Reduce rainbow to two arcs and remove baseline.'
+VISUAL_REVIEW = 'Shared horizontal center; mirrored heart lobes and evenly nested rainbow bands. Flattened arcs provide room above heart.'

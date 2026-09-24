@@ -4,7 +4,7 @@ Construction reference: smartphone.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1651603f-bfb9-458c-8d4f-d01b057f84fa'
-SOURCE_PATH = 'icon_set/work/todo-references/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg'
+SOURCE_PATH = 'pictographic-primitives/other/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'mobile-phone-a-text'
@@ -38,6 +38,6 @@ class Drawing(Solo48):
         self.relate('connect','phone','separator')
 
         # Capital A: common apex and crossbar intersections.
-        self.add_polyline('a',(17,28),(24,14),(31,28))
-        self.add_line('crossbar',(20,22),(28,22))
+        self.add_polyline('a',(17,28),(18,23),(20,13),(28,13),(30,23),(31,28))
+        self.add_line('crossbar',(18,23),(30,23))
         self.relate('connect','a','crossbar')

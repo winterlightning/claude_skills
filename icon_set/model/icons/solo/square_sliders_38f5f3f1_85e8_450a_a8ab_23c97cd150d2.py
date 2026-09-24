@@ -2,15 +2,17 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '38f5f3f1-85e8-450a-a8ab-23c97cd150d2'
-SOURCE_PATH = 'icon_set/work/todo-references/square sliders_38f5f3f1-85e8-450a-a8ab-23c97cd150d2.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square sliders_38f5f3f1-85e8-450a-a8ab-23c97cd150d2.svg'
 AUTHOR = 'gpt-6'
-# Plan: Rounded square with three horizontal sliders and staggered circular knobs.
+# Plan: Taller rounded panel gives three shared rows 10 units of separation.
+# VRECT_L centerline extremes (8,4)-(40,44); equal knobs with alternating x=20,28.
+# Deliberate alternating settings preserve the reference; no parts dropped.
 # References: sliders-horizontal: shared track lengths, repeated knobs and staggered settings.
 # Reduction: No parts omitted.
 
 class AuthoredIcon(Solo48):
     icon_id = 'square-sliders'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/general"
@@ -18,11 +20,11 @@ class AuthoredIcon(Solo48):
     keywords = ('square', 'sliders')
 
     def build(self):
-        self.box("frame",6,6,42,42,4)
-        for i,x in enumerate((21,27,20)):
-            y=16+8*i
+        self.box("frame",8,4,40,44,4)
+        for i,x in enumerate((20,28,20)):
+            y=14+10*i
             self.circle('knob-'+str(i),x,y,2)
-            self.add_line('left-'+str(i),(15,y),(x-2,y));self.add_line('right-'+str(i),(x+2,y),(33,y))
+            self.add_line('left-'+str(i),(17,y),(x-2,y));self.add_line('right-'+str(i),(x+2,y),(31,y))
             self.relate('connect','knob-'+str(i),'left-'+str(i));self.relate('connect','knob-'+str(i),'right-'+str(i))
 
     def circle(self,n,x,y,r):
@@ -37,4 +39,8 @@ class AuthoredIcon(Solo48):
             ident=f'{n}-{k}';ids.append(ident)
             if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
             else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+        # Split at tangencies into four genuine connected frame strokes.
+        self.add_contour(n+'-right',*ids[1:4])
+        self.add_contour(n+'-left',*ids[5:8])
+        for a,b in ((n+'-0',n+'-right'),(n+'-right',n+'-4'),(n+'-4',n+'-left'),(n+'-left',n+'-0')):
+            self.relate('connect',a,b)

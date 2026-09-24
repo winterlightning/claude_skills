@@ -1,0 +1,36 @@
+"""Classical profile bust with curly crown, a distinct nose and chin, continuous neck, shoulders and plinth. Envelope8,4 to40,44.
+Construction reference: Shared human_ref/user.svg: broad shoulders and head proportions; source requires continuous neck in profile.
+Omissions: Facial microdetails and pedestal side edges omitted to keep clearance.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '1bafc453-5bc6-415b-bdab-800770f2d87b'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__classical-statue-bust/20260924T092136Z-thuan-mac/reference/greek statue_1bafc453-5bc6-415b-bdab-800770f2d87b.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'classical-statue-bust'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/other'
+    aliases = ()
+    keywords = ('greek', 'statue')
+    def build(self):
+        self.path('bust',(15,12),[('C',(20,4),(11,8),(14,4)),('C',(28,5),(23,4),(25,4)),('C',(35,13),(34,4),(36,8)),('C',(31,21),(37,19),(33,21)),('L',(31,27)),('L',(36,29)),('C',(40,36),(39,30),(40,33)),('L',(8,36)),('C',(13,29),(8,32),(10,30)),('L',(21,26)),('L',(21,23)),('C',(14,20),(16,24),(14,23)),('L',(14,17)),('L',(10,17)),('L',(15,12))],True)
+        self.add_line('plinth',(13,44),(35,44))
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

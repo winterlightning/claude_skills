@@ -1,13 +1,15 @@
-"""A rounded warning triangle contains an exclamation mark.
-Plan: Mirrored outer curves preserve exact horizontal extrema; the exclamation has a short stem and detached dot.
-Keyshape HRECT_L: exact ink and centerline envelopes ((2, 6, 46, 42), (4, 8, 44, 40)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/triangle-alert.svg and atomic-debug/triangle-alert.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
+"""triangle exclamation.
+Plan: Symmetric rounded triangle and centered exclamation; move marks upward together to clear curved base.
+Construction: Lucide triangle-alert: rounded triangular silhouette and centered punctuation.
+Omissions: 
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '3ed0411c-4d4d-4b46-9ef9-41c8004000c9'
-SOURCE_PATH = 'icon_set/work/todo-references/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'triangle-exclamation'
     keyshape = Keyshape.HRECT_L
@@ -16,7 +18,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('triangle', 'exclamation')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,6 +72,6 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
         self.path('triangle',(24,8),[('C',(26,8),(27,10),(28,12)),('L',(42,34)),('C',(43,36),(44,37),(44,38)),('C',(44,40),(42,40),(40,40)),('L',(8,40)),('C',(6,40),(4,40),(4,38)),('C',(4,37),(5,36),(6,34)),('L',(20,12)),('C',(21,10),(22,8),(24,8))],True)
-        self.add_line('stem',(24,22),(24,24));self.add_dot('dot',(24,32))
+        self.add_line('stem',(24,21),(24,23))
+        self.add_dot('dot',(24,31))

@@ -1,41 +1,55 @@
+"""snorer: fresh parallel-spacing repair.
+Plan: Detached head, reclining torso, blanket and one large Z remain readable.
+Keyshape SQUARE: Square envelope separates the sleeper from the large Z.
+Omissions: Two Zs reduced to one larger Z; pillow crease and redundant outline omitted.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = 'f8998b5a-15d8-45ce-9679-4cac7ab954c3'
-SOURCE_PATH = 'icon_set/work/todo-references/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg'
-AUTHOR = 'gpt-6'
-# Plan: Sleeping person in bed with two hand-authored Z marks overhead.
-# References: bed: simple bedding silhouette; human_ref/user.svg and full_body_ref.png: circular head and smooth shoulder construction.
-# Reduction: Omitted minor pillow crease; retained pillow, blanket and both Zs.
-
-class AuthoredIcon(Solo48):
-    icon_id = 'snorer'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('snorer',)
-
-    def build(self):
-        self.circle('head',16,25,6)
-        self.add_bezier('torso',(16,39),((18,39),(21,41),(24,42)))
-        self.mark_human_figure('sleeper',head='head',torso='torso',torso_junction='start')
-        self.add_polyline('pillow',(15,34),(6,34),(6,42),(24,42));self.relate('connect','pillow','torso')
-        self.add_bezier('blanket-top',(24,42),((26,31),(26,30),(31,30)),((36,30),(42,28),(42,35)))
-        self.add_polyline('blanket-base',(42,35),(42,42),(24,42));self.relate('connect','blanket-top','blanket-base');self.relate('connect','blanket-top','torso')
-        for n,x,y in [('small',23,15),('large',33,6)]:self.add_polyline(n,(x,y),(x+6,y),(x,y+6),(x+6,y+6))
+SOURCE_ICON_ID='f8998b5a-15d8-45ce-9679-4cac7ab954c3'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='snorer'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('snorer',)
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def box(self,n,l,t,r,b,q=3):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
+
+    def build(self):
+        self.circle('head',14,24,5)
+        self.add_bezier('torso',(14,37),((14,40),(20,42),(24,42)))
+        self.mark_human_figure('sleeper',head='head',torso='torso',torso_junction='start')
+        self.add_polyline('bed',(6,42),(24,42),(42,42),(42,34))
+        self.add_bezier('blanket',(24,42),((26,32),(27,30),(32,30)),((38,30),(42,30),(42,34)))
+        self.relate('connect','bed','blanket');self.relate('connect','bed','torso');self.relate('connect','torso','blanket')
+        self.add_polyline('z',(30,6),(42,6),(30,14),(42,14))

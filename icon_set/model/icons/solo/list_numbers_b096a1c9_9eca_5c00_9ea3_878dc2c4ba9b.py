@@ -9,7 +9,7 @@ OMISSIONS = 'Compact monoline numerals.'
 
 class Drawing(Solo48):
     icon_id = 'list-numbers'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/general"
@@ -41,8 +41,9 @@ class Drawing(Solo48):
         self.add_polyline('play',(x,y),(x+w,y+h//2),(x,y+h),closed=True)
 
     def build(self):
-        self.add_polyline('one',(6,8),(9,6),(9,12))
-        self.add_arc('two-top',(6,23),(12,23),radius_x=3)
-        self.add_polyline('two-base',(12,23),(6,27),(12,27));self.relate('connect','two-top','two-base')
-        self.add_bezier('three',(6,35),((13,35),(13,38),(9,38)),((13,38),(13,42),(6,42)))
-        for i,y in enumerate((9,24,39)):self.add_line('row-'+str(i),(22,y),(42,y))
+        # Taller list gives each numeral eight units and two full inter-row gaps.
+        self.add_polyline('one',(8,6),(12,4),(12,10))
+        self.add_bezier('two-top',(8,20),((14,17),(19,21),(14,24)))
+        self.add_polyline('two-base',(14,24),(8,29),(16,29));self.relate('connect','two-top','two-base')
+        self.add_bezier('three',(8,37),((17,37),(17,40),(12,40)),((17,40),(17,44),(8,44)))
+        for i,y in enumerate((8,24,40)):self.add_line('row-'+str(i),(26,y),(40,y))

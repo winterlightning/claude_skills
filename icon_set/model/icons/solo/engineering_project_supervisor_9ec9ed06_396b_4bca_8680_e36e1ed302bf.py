@@ -1,62 +1,38 @@
-"""An engineering supervisor symbol with a head and project marks.
-
-SOLO48 VRECT_L; Lucide reference: hard-hat: centered headwear; no exact scene match.
-Symbol plan: source composition reduced to named outlines and shared geometry.
+"""engineer project superviser 1.
+Plan: Helmeted supervisor beside plan bracket. human-reference.md/user.svg shared circular head radius8, lower22 and shoulder apex30 give exactly4 ink gap; semicircular shoulder construction. Omit small helmet ridge. No useful Lucide exact match.
+Keyshape SQUARE: visible bounds (4, 4, 44, 44); centerlines inset 2 from these bounds.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '9ec9ed06-396b-4bca-8680-e36e1ed302bf'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/engineer project superviser 1_9ec9ed06-396b-4bca-8680-e36e1ed302bf.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='9ec9ed06-396b-4bca-8680-e36e1ed302bf'
+SOURCE_PATH='pictographic-primitives/_uncategorized_16/engineer project superviser 1_9ec9ed06-396b-4bca-8680-e36e1ed302bf.svg'
+AUTHOR="gpt-6"
 
-class EngineeringProjectSupervisor(Solo48):
-    icon_id = 'engineering-project-supervisor'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'people/engineering'
-    aliases = ('Engineering Project Supervisor',)
-    keywords = tuple('engineering project supervisor'.split())
+class Drawing(Solo48):
+    icon_id='engineering-project-supervisor'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=('engineer', 'project', 'superviser', '1')
+    def build(self):
+        self.circle('head',18,14,8)
+        self.add_polyline('brim',(6,14),(10,14),(26,14),(30,14));self.relate('connect','head','brim')
+        self.path('shoulders',(6,42),[('A',(18,30),12,12,True),('A',(30,42),12,12,True)])
+        self.path('plan',(42,6),[('A',(38,10),4,4,False),('L',(38,18)),('L',(38,26)),('A',(42,30),4,4,False)])
+        self.add_line('plan-mark',(38,18),(42,18));self.relate('connect','plan','plan-mark')
 
-    def ring(self, name, x, y, r):
-        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
-        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
-        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
-
-    def box(self, name, x1, y1, x2, y2):
-        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
-
-    def round_box(self, name, x1, y1, x2, y2, r):
-        parts=[]
-        def line(s,a,b):
-            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
-        def arc(s,a,b):
-            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
-        line('top',(x1+r,y1),(x2-r,y1))
-        arc('ne',(x2-r,y1),(x2,y1+r))
-        line('right',(x2,y1+r),(x2,y2-r))
-        arc('se',(x2,y2-r),(x2-r,y2))
-        line('bottom',(x2-r,y2),(x1+r,y2))
-        arc('sw',(x1+r,y2),(x1,y2-r))
-        line('left',(x1,y2-r),(x1,y1+r))
-        arc('nw',(x1,y1+r),(x1+r,y1))
-        self.add_contour(name,*parts,closed=True)
-
-    def heart(self,name,x,y):
-        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
-        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
-        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
-        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
-        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
-
-    def build(self) -> None:
-        self.ring('head',24,16,9)
-        self.add_line('hat-brim',(12,15),(36,15))
-        self.add_line('hat-ridge',(24,4),(24,10))
-        self.add_arc('shoulders',(8,44),(24,31),radius_x=16,radius_y=14,sweep=True)
-        self.add_arc('shoulders-right',(24,31),(40,44),radius_x=16,radius_y=14,sweep=True)
-        self.add_line('plan-line',(38,6),(38,27))
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start; members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)

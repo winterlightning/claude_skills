@@ -1,13 +1,11 @@
-"""A book carrying a circular head over curved arms and a torso.
-Symbol plan: book-user: book cover and pages; human_ref/user.svg and full_body_ref.png: circular head and coherent human strokes.
-Reduction: None; book, head, raised arms and torso retained.
-Keyshape: VRECT_L; exact bounds are obtained from the model.
+"""Book bearing a person with curved arms.
+Plan: Tall book and lower page band. Head bottom y19 and torso start y27 give exactly 8 centerline / 4 ink units. Head and torso align at x24; central straight shoulders join tangent outer curves.
 """
 from ._base import Solo48
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='8ed961c5-a996-4c78-a7d6-d1d6baa41755'
-SOURCE_PATH='icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg'
+SOURCE_PATH = 'pictographic-primitives/other/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='book-person'
@@ -22,10 +20,14 @@ class Drawing(Solo48):
         self.rounded('book',8,4,40,44,4,breaks={2:[(40,36)],6:[(8,36)]})
         self.add_line('pages',(8,36),(40,36));self.relate('connect','pages','book')
         self.circle('head',24,16,3)
-        self.add_arc('arm-left',(16,24),(24,27),radius_x=8,radius_y=3,sweep=False)
-        self.add_arc('arm-right',(24,27),(32,24),radius_x=8,radius_y=3,sweep=False)
-        self.add_contour('arms','arm-left','arm-right')
-        self.add_polyline('torso',(24,27),(24,28));self.relate('connect','arms','torso')
+        self.add_bezier('arm-left',(17,25),((18,26),(20,27),(22,27)))
+        self.add_line('shoulder-left',(22,27),(24,27))
+        self.add_line('shoulder-right',(24,27),(26,27))
+        self.add_bezier('arm-right',(26,27),((28,27),(30,26),(31,25)))
+        self.relate('connect','arm-left','shoulder-left')
+        self.relate('connect','shoulder-left','shoulder-right')
+        self.relate('connect','shoulder-right','arm-right')
+        self.add_polyline('torso',(24,27),(24,28));self.relate('connect','shoulder-left','torso');self.relate('connect','shoulder-right','torso')
         self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')
         # Head bottom19, torso start27 => exact8 centerline /4 ink; front-facing axis x24.
 
@@ -62,3 +64,8 @@ class Drawing(Solo48):
     def euro(self,x):
         self.add_bezier('euro',(x+3,22),((x-2,19),(x-8,21),(x-8,28)),((x-8,35),(x-2,37),(x+3,34)))
         self.add_polyline('crossbar',(x-11,28),(x-8,28),(x,28));self.relate('connect','euro','crossbar')
+
+PLAN = 'Book bearing a person with curved arms. Tall book and lower page band.'
+OMISSIONS = 'None.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/book-user.svg', 'icon_set/references/lucide/atomic-debug/book-user.svg', 'icon_set/references/human_ref/user.svg', 'icon_set/references/human_ref/full_body_ref.png']
+PARENT_SOURCE = 'icon_set/model/icons/solo/book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py'

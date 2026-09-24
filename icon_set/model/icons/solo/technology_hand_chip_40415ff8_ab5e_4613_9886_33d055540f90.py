@@ -1,85 +1,57 @@
-"""An open hand with a palm mark sits beside a microchip.
-Plan: Three tall fingertips and a thumb form one outline; the chip owns an evenly spaced pin series.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Construction references: icon_set/references/lucide/original/hand.svg and atomic-debug/hand.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
+"""technology hand chip: fresh parallel-spacing repair.
+Plan: Open hand with two broad finger groups and thumb sits beside a processor with four pins.
+Keyshape HRECT_L: Horizontal envelope separates the upright hand from the small processor.
+Omissions: Four fingers reduced to two broad finger groups; palm crease omitted; one chip pin per side.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '40415ff8-ab5e-4613-9886-33d055540f90'
-SOURCE_PATH = 'icon_set/work/todo-references/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='40415ff8-ab5e-4613-9886-33d055540f90'
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'technology-hand-chip'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('technology', 'hand', 'chip')
+    icon_id='technology-hand-chip'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('technology', 'hand', 'chip')
 
-    def path(self, name, start, operations, closed=False):
-        # A coherent path owns its members exactly once.
-        current=start; members=[]
-        for i,op in enumerate(operations):
-            n=f'{name}-{i}'
-            if op[0]=='L':
-                end=op[1]; self.add_line(n,current,end)
-            elif op[0]=='A':
-                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
-            else:
-                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
-            members.append(n);current=end
-        if closed and current!=start:
-            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
-        self.add_contour(name,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
-    def circle(self,name,x,y,r):
-        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
-    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
-        ops=[]
-        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
-        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
-        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
-        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
-        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
-        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
-        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
-        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
-        # Capsules can have zero-length straight runs; omit those.
-        cleaned=[];p=(x+r,y)
-        for op in ops:
-            if op[0]!='L' or op[1]!=p: cleaned.append(op)
-            p=op[1]
-        self.path(name,(x+r,y),cleaned,True)
-
-    def join(self,*names):
-        for i,a in enumerate(names):
-            for b in names[i+1:]: self.relate('connect',a,b)
-
-    def cross(self,name,x,y,r,diagonal=False):
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        names=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
-        self.join(*names)
-
-    def letter_a(self,name,apex,left,right,bar_left,bar_right):
-        self.add_polyline(name,left,bar_left,apex,bar_right,right)
-        self.add_line(name+'-bar',bar_left,bar_right)
-        self.join(name,name+'-bar')
+    def frame(self):
+        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
 
     def build(self):
-
-        self.path('hand',(6,42),[('L',(6,14)),('A',(12,14),3,3,True),('L',(12,9)),('A',(18,9),3,3,True),('L',(18,13)),('A',(24,13),3,3,True),('L',(24,22)),('A',(30,22),3,3,True),('L',(30,29)),('C',(30,34),(22,35),(22,39)),('L',(22,42))])
-        self.add_line('finger-division-left',(12,14),(12,22));self.join('hand','finger-division-left')
-        self.add_line('finger-division-right',(18,13),(18,22));self.join('hand','finger-division-right')
-        self.path('palm-mark',(15,26),[('C',(11,30),(11,32),(15,36)),('C',(19,32),(19,30),(15,26))],True)
-        self.rect('chip',32,28,8,8,1,split_x=(34,38),split_y=(30,34))
-        for i,p in enumerate((34,38)):
-            for name,a,b in [(f'pin-top-{i}',(p,26),(p,28)),(f'pin-bottom-{i}',(p,36),(p,38))]:
-                self.add_line(name,a,b);self.join('chip',name)
-        for i,p in enumerate((30,34)):
-            for name,a,b in [(f'pin-left-{i}',(30,p),(32,p)),(f'pin-right-{i}',(40,p),(42,p))]:
-                self.add_line(name,a,b);self.join('chip',name)
+        self.path('hand-left',(4,40),[('L',(4,12)),('A',(8,8),4),('A',(12,12),4),('L',(12,22))])
+        self.path('hand-right',(12,12),[('A',(16,8),4),('A',(20,12),4),('L',(20,24)),('A',(24,28),4),('L',(24,30)),('A',(20,36),8),('L',(20,40))])
+        self.relate('connect','hand-left','hand-right')
+        self.add_polyline('chip',(34,30),(38,30),(42,30),(42,34),(42,38),(38,38),(34,38),(34,34),closed=True)
+        for n,a,b in [('top',(38,28),(38,30)),('right',(42,34),(44,34)),('bottom',(38,38),(38,40)),('left',(32,34),(34,34))]:
+            self.add_line('pin-'+n,a,b);self.relate('connect','chip','pin-'+n)

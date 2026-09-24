@@ -5,8 +5,8 @@ Keyshape SQUARE; full composition retained on SOLO48. Omissions: None.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d91aa870-d162-59ac-ae8f-ebb2fbe18fc5'
-SOURCE_PATH='icon_set/work/todo-references/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/romance/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg'
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id='love-heart-keyhole'
     keyshape=Keyshape.SQUARE
@@ -50,17 +50,13 @@ class Drawing(Solo48):
         self.relate('connect','seam-right','fold')
 
     def build(self):
-
+        # Complete circular keyhole head, with a solid stem replacing the tiny wedge.
         self.heart()
-        self.add_arc('keyhole-top',(21,23),(27,23),radius_x=3)
-        self.add_bezier('keyhole-right',(27,23),((27,24),(26,25),(25,25)))
-        self.add_line('keyhole-base-1',(25,25),(27,30))
-        self.add_line('keyhole-base-2',(27,30),(21,30))
-        self.add_line('keyhole-base-3',(21,30),(23,25))
-        self.add_bezier('keyhole-left',(23,25),((22,25),(21,24),(21,23)))
-        # One contour, shared endpoints preserve the keyhole topology.
-        self.add_contour('keyhole','keyhole-top','keyhole-right','keyhole-base-1','keyhole-base-2','keyhole-base-3','keyhole-left',closed=True)
+        self.circle('keyhole-head',24,23,3)
+        self.add_line('keyhole-stem',(24,26),(24,30))
+        self.relate('connect','keyhole-stem','keyhole-head')
 
-# Final review record: Recognizable heart/keyhole, but the keyhole interior closes at native size. Numeric pass; visual approval withheld.
-# Visible keyshape bounds: (4, 4, 44, 44)
-# Construction: Paired lobes and coherent contour construction.
+# Final repair review: A heart encloses a round-headed keyhole.
+# SQUARE retains generous heart lobes around the keyhole.
+# Changes: Tiny flared stem pocket replaced by a solid stem attached to a complete diameter-6 circle.
+# validate_icon: valid; build gate: pass with zero errors and zero warnings.

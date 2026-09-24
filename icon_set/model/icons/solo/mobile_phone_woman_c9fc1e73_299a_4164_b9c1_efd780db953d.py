@@ -1,51 +1,64 @@
-"""A mobile phone displaying woman icon.
-Construction reference: human_ref/user.svg.
+"""mobile phone woman. Circular face with flared hair sides, exact 4-unit face-to-shoulder ink gap.
+Symbol plan: enclosure and content use shared parameters and genuine attachment nodes.
+Construction: Lucide smartphone/monitor/megaphone geometric enclosures and joins;
+human_ref/user.svg supplies circular heads and open shoulder proportions where applicable.
+Omissions: Lower phone band and collar removed to open spacing.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = 'c9fc1e73-299a-4164-b9c1-efd780db953d'
-SOURCE_PATH = 'icon_set/work/todo-references/mobile phone woman_c9fc1e73-299a-4164-b9c1-efd780db953d.svg'
+SOURCE_PATH = 'pictographic-primitives/other/mobile phone woman_c9fc1e73-299a-4164-b9c1-efd780db953d.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'mobile-phone-woman'
     keyshape = Keyshape.VRECT_L
-    # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'objects/general'
     aliases = ()
-    keywords = ('mobile', 'phone', 'woman')
+    keywords = ('mobile phone woman',)
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-    def rect(self,name,x,y,w,h,r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        names=[]
+    def circle(self,n,x,y,r):
+        pts=[(x-r,y),(x,y-r),(x+r,y),(x,y+r),(x-r,y)]
+        for i,(a,b) in enumerate(zip(pts,pts[1:])):
+            self.add_arc(n+str(i),a,b,radius_x=r)
+        self.add_contour(n,*(n+str(i) for i in range(4)),closed=True)
+
+    def box(self,n,l,t,r,b,rad=3,breaks=None):
+        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+        members=[]
         for i,a in enumerate(pts):
-            n=f'{name}-{i}';b=pts[(i+1)%8]
-            if i%2:self.add_arc(n,a,b,radius_x=r)
-            else:self.add_line(n,a,b)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
+            z=pts[(i+1)%8]
+            if i%2:
+                p=f'{n}-{i}';self.add_arc(p,a,z,radius_x=rad);members.append(p)
+            else:
+                nodes=[a]+(breaks or {}).get(i,[])+[z]
+                for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                    if u==v:continue
+                    p=f'{n}-{i}-{j}';self.add_line(p,u,v);members.append(p)
+        self.add_contour(n,*members,closed=True)
+
+    def monitor(self,l=6,t=6,r=42,b=34,foot=42):
+        self.box('screen',l,t,r,b,3,{4:[(24,b)]})
+        self.add_line('stand',(24,b),(24,foot))
+        self.add_polyline('foot',(16,foot),(24,foot),(32,foot))
+        self.relate('connect','screen','stand')
+        self.relate('connect','stand','foot')
+
+    def bust(self,n,x,y,r,w,h):
+        # human_ref/user.svg: circular head, smooth open shoulders, exact 4 ink gap.
+        self.circle(n+'-head',x,y,r)
+        top=y+r+8
+        self.add_arc(n+'-shoulder-l',(x-w,top+h),(x,top),radius_x=w,radius_y=h)
+        self.add_arc(n+'-shoulder-r',(x,top),(x+w,top+h),radius_x=w,radius_y=h)
+        self.add_contour(n+'-shoulders',n+'-shoulder-l',n+'-shoulder-r')
 
     def build(self):
-
-        # Plan: rounded upright phone and lower band; content owns its own geometry.
-        self.rect('phone',8,4,32,40)
-        self.add_line('separator',(8,36),(40,36))
-        self.relate('connect','phone','separator')
-
-        # Human reference: icon_set/references/human_ref/user.svg.
-        # Head center (24,19), radius 5; nearest shoulders (19,31)/(29,31).
-        # Distance sqrt(5^2+12^2)-5=8 centerline, exactly 4 ink units.
-        self.circle('head',24,19,5)
-        self.add_bezier('hair',(18,25),((21,21),(15,13),(24,13)),((33,13),(27,21),(30,25)))
-        self.add_bezier('shoulders',(16,36),((17,32),(18,31),(19,31)))
-        self.add_polyline('collar',(19,31),(24,35),(29,31))
-        self.add_bezier('shoulders-right',(29,31),((30,31),(31,32),(32,36)))
-        self.relate('connect','shoulders','collar')
-        self.relate('connect','shoulders-right','collar')
-        self.relate('connect','shoulders','separator')
-        self.relate('connect','shoulders-right','separator')
+        self.box('phone',8,4,40,44,4)
+        self.bust('woman',24,17,4,7,3)
+        for side,x in [('left',20),('right',28)]:
+            self.add_line('hair-'+side,(x,17),(17 if side=='left' else 31,21))
+            self.relate('connect','woman-head','hair-'+side)

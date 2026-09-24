@@ -1,13 +1,11 @@
-"""Three teammates stand above a game controller.
-Plan: Repeated circular heads and shallow shoulder curves precede a shared controller outline.
-Keyshape SQUARE: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Human spacing: Three detached busts: head centers (12,9), (24,9), (36,9), radius3; lower head centerline y12 and own shoulder apex y20 give exactly8 centerline /4 ink units. Neighboring heads remain too close (6 centerline units). These are shoulder busts rather than stick figures.
-References: Supplied SVG rendered and inspected. Lucide original/gamepad-2.svg and atomic-debug/gamepad-2.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48. human-reference.md, human_ref/user.svg and full_body_ref.png: circular heads, consistent limbs, aligned torso and exact 4-unit detached-head ink gap.
+"""video game controller team.
+Three equal people above a controller with paired grips.
+Square; mirrored heads and shoulders. Each head bottom12 to shoulder20 gives exactly4 ink clearance.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fb5ed3c8-9522-4523-9735-214910411c7e'
-SOURCE_PATH = 'icon_set/work/todo-references/video game controller team_fb5ed3c8-9522-4523-9735-214910411c7e.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video game controller team_fb5ed3c8-9522-4523-9735-214910411c7e.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'video-game-controller-team'
@@ -70,12 +68,14 @@ class Drawing(Solo48):
         self.add_line(name+'-bar',bar_left,bar_right)
         self.join(name,name+'-bar')
 
-    def build(self):
+    def build(self) -> None:
+        # user.svg: common radius and exact detached shoulder gap.
+        for i,x in enumerate((10,24,38)):
+            self.circle('head-'+str(i),x,9,3)
+            self.add_arc('shoulders-'+str(i),(x-3,23),(x+3,23),radius_x=3)
+        self.path('controller',(11,32),[('L',(37,32)),('A',(42,37),5,5,True),('A',(37,42),5,5,True),('L',(32,40)),('L',(16,40)),('L',(11,42)),('A',(6,37),5,5,True),('A',(11,32),5,5,True)],True)
 
-        for i,x in enumerate((12,24,36)):
-            self.circle(f'head-{i}',x,9,3)
-            self.add_bezier(f'shoulders-{i}',(x-6,23),((x-4,20),(x-2,20),(x,20)),((x+2,20),(x+4,20),(x+6,23)))
-
-        self.path('controller',(14,28),[('L',(34,28)),('A',(42,36),8,8,True),('L',(42,38)),('C',(42,42),(38,42),(35,39)),('L',(31,36)),('L',(17,36)),('L',(13,39)),('C',(10,42),(6,42),(6,38)),('L',(6,36)),('A',(14,28),8,8,True)],True)
-        self.cross('d-pad',14,33,3)
-        self.add_dot('button',(34,32))
+# Repair plan: Three equal people above a controller with paired grips.
+# Omissions: D-pad and action button omitted.
+# Construction references: human_ref/user.svg; Lucide gamepad-2 original and atomic-debug.
+# Keyshape and proportions: Square; mirrored heads and shoulders. Each head bottom12 to shoulder20 gives exactly4 ink clearance.

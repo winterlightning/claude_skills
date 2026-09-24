@@ -1,11 +1,10 @@
-"""expand corner: reference reconstructed as a complete SOLO48 subject.
-Plan: coherent contours and shared parameters; see build for symbol ownership.
-Keyshape SQUARE; visible extremes (4,4)-(44,44).
+"""Northeast expand arrow escapes an open square.
+Plan: Room for diagonal expansion. Shorter frame endpoints clear the shaft; northeast asymmetry is intentional.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ea16c393-c392-4d12-b19e-6f8605815090'
-SOURCE_PATH = 'icon_set/work/todo-references/expand corner_ea16c393-c392-4d12-b19e-6f8605815090.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/expand corner_ea16c393-c392-4d12-b19e-6f8605815090.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -32,7 +31,12 @@ class Drawing(Solo48):
 
     def build(self):
         # Open square at lower left and a diagonal escaping to the upper right.
-        self.add_polyline('open-box',(26,14),(6,14),(6,42),(34,42),(34,28))
+        self.add_polyline('open-box',(22,14),(6,14),(6,42),(34,42),(34,32))
         self.add_line('shaft',(26,22),(42,6))
         self.add_polyline('arrow',(30,6),(42,6),(42,18))
         self.relate('connect','shaft','arrow')
+
+PLAN = 'Northeast expand arrow escapes an open square. Room for diagonal expansion.'
+OMISSIONS = 'None.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/expand.svg', 'icon_set/references/lucide/atomic-debug/expand.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/expand_corner_ea16c393_c392_4d12_b19e_6f8605815090.py'

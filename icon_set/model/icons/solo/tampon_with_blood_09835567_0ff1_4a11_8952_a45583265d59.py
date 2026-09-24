@@ -1,11 +1,11 @@
-"""Tampon with blood, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""A tampon, string and separate blood drop.
+Repair plan: String now attaches directly to tampon, eliminating small connector loop. Diagonal placement follows the source.
+Omissions: Small connector loop.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='09835567-0ff1-4a11-8952-a45583265d59'
-SOURCE_PATH='icon_set/work/todo-references/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -26,10 +26,8 @@ class Drawing(Solo48):
         self.add_line('body-right',(33,16),(21,28))
         self.add_bezier('body-end',(21,28),((19,30),(12,24),(14,22)))
         self.add_contour('tampon','body-left','cap-left','cap-right','body-right','body-end',closed=True)
-        self.add_polyline('connector',(14,22),(10,27),(13,30),(18,27))
-        self.relate('connect','tampon','connector')
-        self.add_bezier('string',(10,27),((4,32),(10,37),(6,42)))
-        self.relate('connect','connector','string')
+        self.add_bezier('string',(14,22),((4,32),(10,37),(6,42)))
+        self.relate('connect','tampon','string')
         self.add_bezier('drop-right',(37,25),((40,29),(42,33),(42,36)),((42,42),(30,42),(30,36)))
         self.add_bezier('drop-left',(30,36),((30,32),(34,28),(37,25)))
         self.add_contour('blood-drop','drop-right','drop-left',closed=True)

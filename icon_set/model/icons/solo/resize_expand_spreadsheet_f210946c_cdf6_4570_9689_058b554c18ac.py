@@ -1,13 +1,11 @@
-"""A spreadsheet with horizontal and vertical expansion arrows.
-
-Plan: A two-by-two table and two orthogonal double arrows share outer limits.
-Construction: table and expand: connected orthogonal grid and arrowheads
+"""Spreadsheet with two orthogonal double expansion arrows.
+Plan: Separate table and arrow bands. Both ends of both arrows are legible at native size.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f210946c-cdf6-4570-9689-058b554c18ac'
-SOURCE_PATH = 'icon_set/work/todo-references/resize expand spreadsheet_f210946c-cdf6-4570-9689-058b554c18ac.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/resize expand spreadsheet_f210946c-cdf6-4570-9689-058b554c18ac.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -20,9 +18,9 @@ class Drawing(Solo48):
     keywords = ('resize', 'expand', 'spreadsheet')
 
     def build(self):
-        self.add_polyline('table',(6,6),(18,6),(30,6),(30,18),(30,30),(18,30),(6,30),(6,18),closed=True)
-        self.add_polyline('vertical',(18,6),(18,18),(18,30))
-        self.add_polyline('horizontal',(6,18),(18,18),(30,18))
+        self.add_polyline('table',(6,6),(16,6),(26,6),(26,16),(26,26),(16,26),(6,26),(6,16),closed=True)
+        self.add_polyline('vertical',(16,6),(16,16),(16,26))
+        self.add_polyline('horizontal',(6,16),(16,16),(26,16))
         for a in ('vertical-1','vertical-2'):
             for b in ('horizontal-1','horizontal-2'):self.relate('connect',a,b)
         for a,bs in [('vertical-1',['table-1','table-2']),('vertical-2',['table-5','table-6']),('horizontal-1',['table-7','table-8']),('horizontal-2',['table-3','table-4'])]:
@@ -57,3 +55,8 @@ class Drawing(Solo48):
         self.add_bezier(name+'-left',(x,top+2),((x-half,top-5),(x-half-3,top+4),(x-half,top+7)),((x-half+2,top+10),(x, bottom),(x,bottom)))
         self.add_bezier(name+'-right',(x,bottom),((x,bottom),(x+half-2,top+10),(x+half,top+7)),((x+half+3,top+4),(x+half,top-5),(x,top+2)))
         self.add_contour(name,name+'-left',name+'-right',closed=True)
+
+PLAN = 'Spreadsheet with two orthogonal double expansion arrows. Separate table and arrow bands.'
+OMISSIONS = 'Grid reduced to two rows and two columns.'
+CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/expand.svg', 'icon_set/references/lucide/atomic-debug/expand.svg']
+PARENT_SOURCE = 'icon_set/model/icons/solo/resize_expand_spreadsheet_f210946c_cdf6_4570_9689_058b554c18ac.py'

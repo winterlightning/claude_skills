@@ -2,7 +2,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '078c527e-7fad-4791-9242-4409c4f071d0'
-SOURCE_PATH = 'icon_set/work/todo-references/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg'
+SOURCE_PATH = 'pictographic-primitives/other/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -26,8 +26,5 @@ class Drawing(Solo48):
         self.add_line('frame-left',(l,b-rad),(l,t+rad))
         self.add_arc('frame-tl',(l,t+rad),(l+rad,t),radius_x=rad)
         self.add_contour('frame','frame-top','frame-tr','frame-right','frame-br','frame-bottom','frame-bl','frame-left','frame-tl',closed=True)
-        # Mirrored diamond and cap band share their attachment nodes.
-        axis=24
-        self.add_polyline('mortarboard',(14,22),(axis,16),(34,22),(29,25),(axis,28),(19,25),closed=True)
-        self.add_polyline('band',(19,25),(19,32),(axis,34),(29,32),(29,25))
-        self.relate('connect','mortarboard','band')
+        # Merge the lower board seam into the cap band: preserve wide brim and crown.
+        self.add_polyline('cap',(15,21),(24,15),(33,21),(30,23),(30,31),(24,33),(18,31),(18,23),closed=True)
