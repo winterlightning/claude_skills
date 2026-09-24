@@ -52,7 +52,7 @@ def stage(target):
             if (r['main_id'].lower() not in available_main if role=='main' else not r.get('sub_generated')):
                 key=r[role+'_id'];entry=missing[role].setdefault(key,{'source_id':key,'examples':[],'combinations':0});entry['combinations']+=1
                 if len(entry['examples'])<3:entry['examples'].append(r['concept'])
-    ready=sum(any(models[s['icon']]['model_validation']=='pass' for s in r['subs']) for r in pairs)
+    ready=sum(any(models.get(s['icon'],{}).get('model_validation')=='pass' for s in r['subs']) for r in pairs)
     report={'side_combinations':len(sides),'recombined':ready,'available_pairs':len(pairs),'waiting_sub_repair':len(pairs)-ready,'waiting_components':len(sides)-len(pairs),'sub_models':len(models),'passing_sub_models':sum(m['model_validation']=='pass' for m in models.values()),'main_models_in_sides':len({(x['family'],x['icon']) for r in pairs for x in r['mains']}),'main_to_generate':len(missing['main']),'sub_to_generate':len(missing['sub']),'missing':{role:sorted(values.values(),key=lambda x:-x['combinations']) for role,values in missing.items()}}
     for role, entries in report['missing'].items():
         for entry in entries:entry['action']='build or link existing source model' if entry['source_id'].lower() in authored_sources else 'generate new icon'

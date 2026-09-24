@@ -57,7 +57,13 @@ def _relative_imports(text: str, family: str, base: str) -> str:
 
 
 def _icon_module(run: Path, source_dir: Path) -> Path | None:
-    """The run's icon module: the only .py, or the one named after the source uuid beside helper scripts."""
+    """The run's icon module: the one result.json names, else the only .py, else the one named after the source uuid."""
+    try:
+        named = json.loads((run / 'result.json').read_text(encoding='utf-8')).get('module')
+    except (OSError, ValueError, AttributeError):
+        named = None
+    if isinstance(named, str) and Path(named).name == named and (run / named).is_file():
+        return run / named
     modules = [p for p in run.glob('*.py') if not p.name.startswith('.')]
     if len(modules) == 1:
         return modules[0]
@@ -114,6 +120,8 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
         for source_dir in sorted(p for p in root.iterdir() if p.is_dir()):
             if only and not any(source_dir.name.lower().startswith(prefix) for prefix in only):
                 continue
+            if any(source_dir.glob('*/promoted.json')):
+                continue  # one promoted drawing per source; a later run replaces it only by hand
             run = _latest_valid_run(source_dir, include_invalid)
             if run is None:
                 report['skipped'].append((source_dir.name, 'no valid run'))
@@ -135,6 +143,8 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
                 where = f'registered in {owner.family}' if owner is not None else 'promoted from another run in this batch'
                 # A clash inside this batch is two sources naming the same subject; the uuid tells them apart.
                 new_id = f'{icon_id}-{family}' if owner is not None else f'{icon_id}-{source_dir.name[:8].lower()}'
+                if new_id in taken:
+                    new_id = f'{icon_id}-{source_dir.name[:8].lower()}'
                 if not suffix or new_id in taken:
                     report['skipped'].append((source_dir.name, f'{icon_id} already {where}; rename the icon_id in {module.name}'))
                     continue
