@@ -11,159 +11,6 @@ project here):
 
 ## Queued
 
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 2 of 4. Redraw each of these 15 reference files in order. (tp:e08bfc8d)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/phone-translate.svg
-  pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/compact-pickup-side-view.svg
-  pictographic-primitives/_uncategorized_31/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/print-slash.svg
-  pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/read-email-target.svg
-  pictographic-primitives/_uncategorized_34/snarl_47ddf223-ee29-448c-9235-3145f69bc3fa.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/snarling-face-with-two-fangs.svg
-  pictographic-primitives/_uncategorized_35/square bolt_abd4c13a-0851-416c-9370-fe3d89993b99.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-bolt.svg
-  pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-dollar-solo.svg
-  pictographic-primitives/_uncategorized_35/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-quote.svg
-  pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/station-wagon-reference-11bcc694.svg
-  pictographic-primitives/_uncategorized_36/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/step-son.svg
-  pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tampon-with-blood.svg
-  pictographic-primitives/_uncategorized_37/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/terrarium.svg
-  pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tty-answer.svg
-  pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smart-watch-yuan-symbol.svg
-  pictographic-primitives/ecology/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/noise-pollution-traffic.svg
-
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 3 of 4. Redraw each of these 15 reference files in order. (tp:44a16be1)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/holidays/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/maha-shivaratri.svg
-  pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/list-numbers.svg
-  pictographic-primitives/interface-essential/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/rearrange-column.svg
-  pictographic-primitives/other/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/academic-graduation-cap-solo.svg
-  pictographic-primitives/other/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/biology.svg
-  pictographic-primitives/other/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/house-dollar-sign.svg
-  pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/men-nude.svg
-  pictographic-primitives/other/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/mobile-phone-a-text.svg
-  pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/mobile-phone-moon.svg
-  pictographic-primitives/other/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-language.svg
-  pictographic-primitives/other/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-leaf.svg
-  pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg
-    failed: holes/pinches: 4 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-shuttlecock.svg
-  pictographic-primitives/other/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/play-button.svg
-  pictographic-primitives/other/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ribbon.svg
-  pictographic-primitives/other/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg
-    failed: holes/pinches: 3 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smartwatch-pound-symbol.svg
-
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 4 of 4. Redraw each of these 13 reference files in order. (tp:f17dc9e2)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smartwatch-circle.svg
-  pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-spoon-and-knife-solo.svg
-  pictographic-primitives/other/tv control next_99b37bd2-37e1-42f8-b918-e34adc73280d.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tv-control-next.svg
-  pictographic-primitives/other/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tv-control-previous.svg
-  pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ui-webpage-bug.svg
-  pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/gift-heart.svg
-  pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ranking-ribbon.svg
-  pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg
-    failed: holes/pinches: 3 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/lesbian-lgbt-festival-fair-exhibition.svg
-  pictographic-primitives/romance/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/love-heart-keyhole.svg
-  pictographic-primitives/transportation/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/luggage-compartment-release.svg
-  pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg
-    failed: holes/pinches: 4 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/passport.svg
-  pictographic-primitives/video/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/video-edit-split.svg
-  pictographic-primitives/video/video player movie_585c392a-9c3f-4878-ad5b-8aae0e8bf5b5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/video-player-movie.svg
-
-
-## Backlog
-
 - [ ] Run $primitive-make-ray to repair failed icons: part spacing under 8, batch 10 of 11. Redraw each of these 15 reference files in order. (tp:9c11e689)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
   Failure type for this batch: Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
@@ -339,6 +186,9 @@ project here):
     failed: mic [ticket-text-0]: parallel straight edges ticket-text-0 and ticket-text-1 are 7.84465 apart on centerlines (ink gap 3.84465); requires at least 8 centerline / 4 ink (m | mic [passport]: passport and globe are 4 apart on centerlines nearest (6, 29)<->(10, 29) (needs 8) (+4 more)
     also: part spacing under 8, pinches, undersized holes
     current drawing: published/failed/solo48/passport-ticket.svg
+
+
+## Backlog
 
 - [ ] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 2 of 9. Redraw each of these 15 reference files in order. (tp:5894fbbf)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
@@ -1894,6 +1744,156 @@ project here):
 
 
 ## Done
+
+- [x] Run $primitive-make-ray to repair failed icons: undersized holes, batch 4 of 4. Redraw each of these 13 reference files in order. (tp:f17dc9e2)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smartwatch-circle.svg
+  pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-spoon-and-knife-solo.svg
+  pictographic-primitives/other/tv control next_99b37bd2-37e1-42f8-b918-e34adc73280d.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tv-control-next.svg
+  pictographic-primitives/other/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tv-control-previous.svg
+  pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ui-webpage-bug.svg
+  pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/gift-heart.svg
+  pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ranking-ribbon.svg
+  pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg
+    failed: holes/pinches: 3 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/lesbian-lgbt-festival-fair-exhibition.svg
+  pictographic-primitives/romance/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/love-heart-keyhole.svg
+  pictographic-primitives/transportation/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/luggage-compartment-release.svg
+  pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg
+    failed: holes/pinches: 4 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/passport.svg
+  pictographic-primitives/video/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/video-edit-split.svg
+  pictographic-primitives/video/video player movie_585c392a-9c3f-4878-ad5b-8aae0e8bf5b5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/video-player-movie.svg
+
+- [x] Run $primitive-make-ray to repair failed icons: undersized holes, batch 3 of 4. Redraw each of these 15 reference files in order. (tp:44a16be1)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/holidays/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/maha-shivaratri.svg
+  pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/list-numbers.svg
+  pictographic-primitives/interface-essential/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/rearrange-column.svg
+  pictographic-primitives/other/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/academic-graduation-cap-solo.svg
+  pictographic-primitives/other/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/biology.svg
+  pictographic-primitives/other/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/house-dollar-sign.svg
+  pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/men-nude.svg
+  pictographic-primitives/other/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/mobile-phone-a-text.svg
+  pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/mobile-phone-moon.svg
+  pictographic-primitives/other/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-language.svg
+  pictographic-primitives/other/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-leaf.svg
+  pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg
+    failed: holes/pinches: 4 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-shuttlecock.svg
+  pictographic-primitives/other/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/play-button.svg
+  pictographic-primitives/other/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ribbon.svg
+  pictographic-primitives/other/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg
+    failed: holes/pinches: 3 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smartwatch-pound-symbol.svg
+
+- [x] Run $primitive-make-ray to repair failed icons: undersized holes, batch 2 of 4. Redraw each of these 15 reference files in order. (tp:e08bfc8d)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/phone-translate.svg
+  pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/compact-pickup-side-view.svg
+  pictographic-primitives/_uncategorized_31/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/print-slash.svg
+  pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/read-email-target.svg
+  pictographic-primitives/_uncategorized_34/snarl_47ddf223-ee29-448c-9235-3145f69bc3fa.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/snarling-face-with-two-fangs.svg
+  pictographic-primitives/_uncategorized_35/square bolt_abd4c13a-0851-416c-9370-fe3d89993b99.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-bolt.svg
+  pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-dollar-solo.svg
+  pictographic-primitives/_uncategorized_35/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-quote.svg
+  pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/station-wagon-reference-11bcc694.svg
+  pictographic-primitives/_uncategorized_36/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/step-son.svg
+  pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tampon-with-blood.svg
+  pictographic-primitives/_uncategorized_37/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/terrarium.svg
+  pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tty-answer.svg
+  pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smart-watch-yuan-symbol.svg
+  pictographic-primitives/ecology/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/noise-pollution-traffic.svg
 
 - [x] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 5 of 9. Redraw each of these 15 reference files in order. (tp:b42412af)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.

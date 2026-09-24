@@ -19,8 +19,8 @@ def reliable(base,method,path,body=None,query=None):
     print('Recovered confirmed done receipt',body['icon'],flush=True)
     return {'work':work,'status':'ready'}
    print('API attempt failed',path,(body or {}).get('icon'),err.status,str(err),flush=True)
-   if err.status!=0 or attempt==1:raise
-   time.sleep(2)
+   if err.status not in (0,502,503,504) or attempt==1:raise
+   time.sleep(10)
 w.call=reliable
 for r in rows[15:]:
  if (Path(r['fix'])/'result.json').exists():continue

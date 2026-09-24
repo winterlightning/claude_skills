@@ -1,5 +1,7 @@
 # Bad-stroke revisions — thuan-mac
 
+Completed: **20 done, 0 cannot-fix; all Ready on production**.
+
 Requested: 20 icons, offset 30, reason `bad-stroke`. All artwork was authored with `primitive-make-ray` in fresh standalone runs. No registered originals or published gallery files were edited.
 
 [Visual comparison](review.html)
@@ -152,7 +154,7 @@ Construction references: icon_set/references/lucide/original/undo-2.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-batch-020-03)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-batch-020-03/counterclockwise-circular-refresh-arrows-batch-020-03.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-batch-020-03/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/counterclockwise-circular-refresh-arrows-solo-b018
 
@@ -167,7 +169,7 @@ Construction references: icon_set/references/lucide/original/undo-2.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-solo-b018)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-solo-b018/counterclockwise-circular-refresh-arrows-solo-b018.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0a11ecc5-12d2-479f-ad50-bf72f2730e09/20260924T083211Z-thuan-fix-counterclockwise-circular-refresh-arrows-solo-b018/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/counterclockwise-refresh-arrow
 
@@ -182,7 +184,7 @@ Construction references: icon_set/references/lucide/original/undo-2.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/77f5a2c6-8120-4350-aa53-7bb00704de7d/20260924T083211Z-thuan-fix-counterclockwise-refresh-arrow)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/77f5a2c6-8120-4350-aa53-7bb00704de7d/20260924T083211Z-thuan-fix-counterclockwise-refresh-arrow/counterclockwise-refresh-arrow.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/77f5a2c6-8120-4350-aa53-7bb00704de7d/20260924T083211Z-thuan-fix-counterclockwise-refresh-arrow/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/counterclockwise-synchronize-arrows
 
@@ -197,7 +199,7 @@ Construction references: icon_set/references/lucide/original/undo-2.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/bafc5d96-6820-5892-a08b-927ab58a96ff/20260924T083211Z-thuan-fix-counterclockwise-synchronize-arrows)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/bafc5d96-6820-5892-a08b-927ab58a96ff/20260924T083211Z-thuan-fix-counterclockwise-synchronize-arrows/counterclockwise-synchronize-arrows.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/bafc5d96-6820-5892-a08b-927ab58a96ff/20260924T083211Z-thuan-fix-counterclockwise-synchronize-arrows/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/cricket
 
@@ -212,7 +214,7 @@ Construction references: No useful exact local Lucide match; reference-led smoot
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/f676f8b4-b6a7-4e6b-ab0e-87feab8269f5/20260924T083211Z-thuan-fix-cricket)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/f676f8b4-b6a7-4e6b-ab0e-87feab8269f5/20260924T083211Z-thuan-fix-cricket/cricket.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/f676f8b4-b6a7-4e6b-ab0e-87feab8269f5/20260924T083211Z-thuan-fix-cricket/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/crowned-chess-queen-batch-013-05
 
@@ -227,7 +229,7 @@ Construction references: No useful exact local Lucide match; reference-led smoot
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1ec83c77-fb81-4fbb-9d48-20b45ebca8b3/20260924T083211Z-thuan-fix-crowned-chess-queen-batch-013-05)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1ec83c77-fb81-4fbb-9d48-20b45ebca8b3/20260924T083211Z-thuan-fix-crowned-chess-queen-batch-013-05/crowned-chess-queen-batch-013-05.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1ec83c77-fb81-4fbb-9d48-20b45ebca8b3/20260924T083211Z-thuan-fix-crowned-chess-queen-batch-013-05/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/diagonal-circular-refresh-arrows-solo-b018
 
@@ -242,7 +244,7 @@ Construction references: icon_set/references/lucide/original/undo-2.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/3012b212-ec5f-487b-935e-c18701a8601b/20260924T083211Z-thuan-fix-diagonal-circular-refresh-arrows-solo-b018)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/3012b212-ec5f-487b-935e-c18701a8601b/20260924T083211Z-thuan-fix-diagonal-circular-refresh-arrows-solo-b018/diagonal-circular-refresh-arrows-solo-b018.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/3012b212-ec5f-487b-935e-c18701a8601b/20260924T083211Z-thuan-fix-diagonal-circular-refresh-arrows-solo-b018/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/diagonal-wrench-batch-071
 
@@ -257,7 +259,7 @@ Construction references: icon_set/references/lucide/original/wrench.svg and atom
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/2430802f-43f4-4644-995a-8831329598fe/20260924T083211Z-thuan-fix-diagonal-wrench-batch-071)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/2430802f-43f4-4644-995a-8831329598fe/20260924T083211Z-thuan-fix-diagonal-wrench-batch-071/diagonal-wrench-batch-071.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/2430802f-43f4-4644-995a-8831329598fe/20260924T083211Z-thuan-fix-diagonal-wrench-batch-071/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/key-shaped-blank-solo-b017
 
@@ -272,7 +274,7 @@ Construction references: No useful exact local Lucide match; reference-led smoot
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0f0a99d8-5904-46c1-950e-8134fc37ff93/20260924T083211Z-thuan-fix-key-shaped-blank-solo-b017)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0f0a99d8-5904-46c1-950e-8134fc37ff93/20260924T083211Z-thuan-fix-key-shaped-blank-solo-b017/key-shaped-blank-solo-b017.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/0f0a99d8-5904-46c1-950e-8134fc37ff93/20260924T083211Z-thuan-fix-key-shaped-blank-solo-b017/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/paintbrush-with-separate-ferrule-solo-b017
 
@@ -287,7 +289,7 @@ Construction references: icon_set/references/lucide/original/paintbrush.svg and 
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1abc0ab3-cc14-5329-b46e-3658f7db2237/20260924T083211Z-thuan-fix-paintbrush-with-separate-ferrule-solo-b017)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1abc0ab3-cc14-5329-b46e-3658f7db2237/20260924T083211Z-thuan-fix-paintbrush-with-separate-ferrule-solo-b017/paintbrush-with-separate-ferrule-solo-b017.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/1abc0ab3-cc14-5329-b46e-3658f7db2237/20260924T083211Z-thuan-fix-paintbrush-with-separate-ferrule-solo-b017/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**
 
 ## solo/plane-on-runway
 
@@ -302,4 +304,4 @@ Construction references: No useful exact local Lucide match; reference-led smoot
 - [RESULT_DIR](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/c2782429-745d-5835-abe8-ed5499875d12/20260924T083211Z-thuan-fix-plane-on-runway)
 - [SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/c2782429-745d-5835-abe8-ed5499875d12/20260924T083211Z-thuan-fix-plane-on-runway/plane-on-runway.svg)
 - [Validation](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/c2782429-745d-5835-abe8-ed5499875d12/20260924T083211Z-thuan-fix-plane-on-runway/validation.txt): **valid, zero warnings**
-- Production outcome: **pending**; review status: **pending**
+- Production outcome: **done**; review status: **ready**

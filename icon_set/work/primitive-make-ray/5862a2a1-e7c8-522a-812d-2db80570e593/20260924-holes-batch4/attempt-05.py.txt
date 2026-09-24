@@ -1,0 +1,34 @@
+"""A ribbon-tied gift box with a heart hanging over its front.
+Lucide gift: joined lid/body structure and mirrored bow loops; supplied reference adds the heart.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '5862a2a1-e7c8-522a-812d-2db80570e593'
+SOURCE_PATH = 'pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'gift-heart'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('gift', 'heart')
+    def build(self):
+        # Bow loops share the lid node. Lid is reduced to one coherent top edge;
+        # the box lower edge is occluded by the hanging heart.
+        self.add_arc('bow-l',(16,16),(16,4),radius_x=6)
+        self.add_line('bow-l-diagonal',(16,4),(24,16))
+        self.add_line('bow-l-base',(24,16),(16,16))
+        self.add_contour('bow-left','bow-l','bow-l-diagonal','bow-l-base',closed=True)
+        self.add_arc('bow-r',(32,4),(32,16),radius_x=6)
+        self.add_line('bow-r-base',(32,16),(24,16))
+        self.add_line('bow-r-diagonal',(24,16),(32,4))
+        self.add_contour('bow-right','bow-r','bow-r-base','bow-r-diagonal',closed=True)
+        self.add_polyline('box',(18,40),(8,40),(8,16),(16,16),(24,16),(32,16),(40,16),(40,40),(30,40))
+        self.relate('connect','bow-left','bow-right','box')
+        self.add_line('ribbon',(24,16),(24,30))
+        self.add_bezier('heart',(24,30),((17,23),(13,34),(24,44)),((35,34),(31,23),(24,30)))
+        self.add_contour('heart-outline','heart',closed=True)
+        self.relate('connect','ribbon','box')
+        self.relate('connect','ribbon','heart-outline')
