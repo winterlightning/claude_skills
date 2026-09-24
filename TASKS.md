@@ -11,10 +11,13 @@ project here):
 
 ## Queued
 
-- [ ] $primitive-fix-thuan 20 --offset 100 --disapprove-status bad-stroke --worker thuan-mac (tp:994d90be)
-
 
 ## Backlog
 
 - [ ] $primitive-fix-thuan 20 --offset 200 --disapprove-status bad-stroke --worker thuan-mac (tp:d5ac735e)
+
+
+## Done
+
+- [x] $primitive-fix-thuan 20 --offset 100 --disapprove-status bad-stroke --worker thuan-mac (tp:994d90be)
 

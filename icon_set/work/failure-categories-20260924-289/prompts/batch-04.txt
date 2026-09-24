@@ -1,0 +1,92 @@
+Run $primitive-make-ray to repair failed icons, batch 4 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_16/eel_f644d4c1-b881-4092-96b4-a643877d65a5.svg
+     icon_id: eel-with-narrow-raised-tail
+     current drawing: published/failed/solo48/eel-with-narrow-raised-tail.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [eel]: eel-2 and eel-5 have 3.251 units of ink clearance over 10.390 units; requires 4; review required | internal-spacing [eel]: eel-4 and eel-8 have 0.649 units of ink clearance over 2.405 units; requires 4; review required | internal-spacing [eel]: eel-4 and eel-9 have 0.625 units of ink clearance over 12.962 units; requires 4; review required (+3 more)
+  2. pictographic-primitives/_uncategorized_16/elf_2a1d8754-4e2e-4a0a-b2fe-427b85f1964c.svg
+     icon_id: smiling-elf-with-drooping-bobble-hat
+     current drawing: published/failed/solo48/smiling-elf-with-drooping-bobble-hat.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  3. pictographic-primitives/_uncategorized_16/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3.svg
+     icon_id: smiling-face-behind-game-controller
+     current drawing: published/failed/solo48/smiling-face-behind-game-controller.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [face]: face and eye-19 are 7.323 apart on centerlines nearest (14.424, 8.758)<->(18.304, 14.969); (needs 8) | mic [face]: face and eye-29 are 7.323 apart on centerlines nearest (33.575, 8.758)<->(29.695, 14.969); (needs 8) | mic [eye-19]: eye-19 and eye-29 are 6 apart on centerlines nearest (21, 17)<->(27, 17); (needs 8)
+  4. pictographic-primitives/_uncategorized_17/face awesome_236451ca-3512-494c-8c17-87481ad251f8.svg
+     icon_id: smiling-star-eyed-face
+     current drawing: published/failed/solo48/smiling-star-eyed-face.svg
+     violates 2 rules: part spacing under 8, undersized holes
+       - part spacing under 8: mic [head]: head and star-0 are 7.469 apart on centerlines nearest (6.434, 14.438)<->(13, 18); (needs 8) | mic [head]: head and star-1 are 7.469 apart on centerlines nearest (41.566, 14.438)<->(35, 18); (needs 8) | mic [star-0]: star-0 and star-1 are 6 apart on centerlines nearest (21, 18)<->(27, 18); (needs 8) (+2 more)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  5. pictographic-primitives/_uncategorized_17/face dizzy_aa0c1f8e-f7ca-4bf9-adf6-7f6f74e5b90a.svg
+     icon_id: dizzy-face-with-spiral-eyes
+     current drawing: published/failed/solo48/dizzy-face-with-spiral-eyes.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [head]: head and spiral-0 are 1.744 apart on centerlines nearest (4.582, 19.209)<->(6.277, 19.623); (needs 8) | mic [head]: head and spiral-1 are 1.744 apart on centerlines nearest (43.417, 19.209)<->(41.722, 19.623); (needs 8) | mic [head]: head and mouth are 4.999 apart on centerlines nearest (23.969, 43.999)<->(24, 39); (needs 8) (+3 more)
+  6. pictographic-primitives/_uncategorized_17/face grin stars_3e7a0a74-079b-41a7-abfe-d06129db8361.svg
+     icon_id: smiling-face-with-star-eyes;smiling-face-with-star-eyes-v2;smiling-face-with-star-eyes-v3
+     current drawing: published/failed/solo48/smiling-face-with-star-eyes.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [face]: face and star-0 are 2.535 apart on centerlines nearest (5.675, 15.986)<->(8, 17); (needs 8) | mic [face]: face and star-1 are 2.535 apart on centerlines nearest (42.324, 15.986)<->(40, 17); (needs 8) | mic [star-0]: star-0 and star-1 are 4 apart on centerlines nearest (22, 17)<->(26, 17); (needs 8) (+7 more)
+       - parallel straight edges under 8: mic [star-1]: parallel straight edges star-1-4 and star-1-7 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [star-0]: parallel straight edges star-0-4 and star-0-7 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 2 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 2 undersized holes; 2 pinches | holes/pinches: 2 undersized holes; 0 pinches
+  7. pictographic-primitives/_uncategorized_18/face smile hearts_9e0a5c9e-1146-434d-a2ff-8fa7fe9193f8.svg
+     icon_id: heart-shaped-face-with-heart-eyes
+     current drawing: published/failed/solo48/heart-shaped-face-with-heart-eyes.svg
+     violates 2 rules: part spacing under 8, undersized holes
+       - part spacing under 8: mic [heart]: heart and eye-0 are 5.733 apart on centerlines nearest (23.239, 12.243)<->(19.207, 16.319); (needs 8) | mic [heart]: heart and eye-1 are 5.733 apart on centerlines nearest (24.760, 12.243)<->(28.792, 16.319); (needs 8) | mic [heart]: heart and smile are 6.564 apart on centerlines nearest (29.569, 36.343)<->(25.968, 30.854); (needs 8) (+2 more)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  8. pictographic-primitives/_uncategorized_18/face spiral eyes_cf969d29-b35a-425d-bec1-f3067a6600b5.svg
+     icon_id: dizzy-hypnotized-face
+     current drawing: published/failed/solo48/dizzy-hypnotized-face.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [head]: head and spiral-0 are 1.744 apart on centerlines nearest (4.582, 19.209)<->(6.277, 19.623); (needs 8) | mic [head]: head and spiral-1 are 1.744 apart on centerlines nearest (43.417, 19.209)<->(41.722, 19.623); (needs 8) | mic [spiral-0]: spiral-0 and spiral-1 are 4 apart on centerlines nearest (22, 22)<->(26, 22); (needs 8) (+1 more)
+  9. pictographic-primitives/_uncategorized_20/gesture swipe vertical 3_db37e620-1eb0-4c99-bce3-2c53b5c5fa76.svg
+     icon_id: one-finger-vertical-swipe-gesture
+     current drawing: published/failed/solo48/one-finger-vertical-swipe-gesture.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand]: hand-6 and hand-9 have 2.987 units of ink clearance over 2.5 units; requires 4; review required
+  10. pictographic-primitives/_uncategorized_20/gesture tap swipe right 1_3b0fa0d0-112f-4a7d-9586-70fd5b30cbaa.svg
+     icon_id: hand-swipe-right-gesture
+     current drawing: published/failed/solo48/hand-swipe-right-gesture.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand]: hand-3 and hand-11 have 2.338 units of ink clearance over 6.216 units; requires 4; review required | internal-spacing [hand]: hand-8 and hand-10 have 0.624 units of ink clearance over 5 units; requires 4; review required
+  11. pictographic-primitives/_uncategorized_20/gesture two finger flip right_3808dced-acba-4c34-8f9f-05ba44dfe152.svg
+     icon_id: two-finger-swipe-right
+     current drawing: published/failed/solo48/two-finger-swipe-right.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand]: hand-3 and hand-18 have 2.088 units of ink clearance over 6.987 units; requires 4; review required | internal-spacing [hand]: hand-4 and hand-8 have 3.004 units of ink clearance over 7.246 units; requires 4; review required | internal-spacing [hand]: hand-9 and hand-13 have 2.029 units of ink clearance over 5.967 units; requires 4; review required
+  12. pictographic-primitives/_uncategorized_21/graffiti_c6d7f6d7-a700-4894-830b-9788ba0a2a17.svg
+     icon_id: interlocking-graffiti-cloud
+     current drawing: published/failed/solo48/interlocking-graffiti-cloud.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [cloud / seam]: cloud and seam have 2.755 units of ink clearance over 3.853 units; requires 4; review required
+  13. pictographic-primitives/_uncategorized_23/infancy care_a8c124ba-bd78-456b-87fd-6763a1095d57.svg
+     icon_id: hand-protecting-swaddled-baby
+     current drawing: published/failed/solo48/hand-protecting-swaddled-baby.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand]: hand-slope and hand-under have 0.277 units of ink clearance over 5.714 units; requires 4; review required | internal-spacing [hand]: hand-slope and hand-thumb have 2.412 units of ink clearance over 5.465 units; requires 4; review required
+  14. pictographic-primitives/_uncategorized_23/insurance hands_66883e78-cb13-4f81-a6f8-a7ec339ba917.svg
+     icon_id: hands-holding-medical-cross
+     current drawing: published/failed/solo48/hands-holding-medical-cross.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand-left]: hand-left-1 and hand-left-5 have 2.946 units of ink clearance over 4.75 units; requires 4; review required | internal-spacing [hand-left]: hand-left-1 and hand-left-6 have 3.287 units of ink clearance over 3.689 units; requires 4; review required | internal-spacing [hand-right]: hand-right-1 and hand-right-5 have 2.946 units of ink clearance over 4.75 units; requires 4; review required (+1 more)
+  15. pictographic-primitives/_uncategorized_24/labor worker_5e90a983-c6c8-4780-99a7-53d2101f43e0.svg
+     icon_id: construction-worker-with-wrench
+     current drawing: published/failed/solo48/construction-worker-with-wrench.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [head-and-hat / hat-brim]: hard-hat-dome and hat-brim have 3.028 units of ink clearance over 8.211 units; requires 4; review required | internal-spacing [head-and-hat / hard-hat-rib]: hard-hat-dome and hard-hat-rib have 2.968 units of ink clearance over 3.732 units; requires 4; review required | internal-spacing [head-and-hat / hat-brim]: face-lower and hat-brim have 3.028 units of ink clearance over 8.211 units; requires 4; review required

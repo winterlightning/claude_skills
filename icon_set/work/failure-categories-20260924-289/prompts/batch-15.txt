@@ -1,0 +1,100 @@
+Run $primitive-make-ray to repair failed icons, batch 15 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/other/Mobile Phone Cube_23b1ca2a-c99d-4a4c-89e3-6ce9e447d5be.svg
+     icon_id: mobile-phone-cube
+     current drawing: published/failed/solo48/mobile-phone-cube.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [footer]: footer and cube are 7 apart on centerlines nearest (24, 36)<->(24, 29); (needs 8)
+       - parallel straight edges under 8: mic [cube]: parallel straight edges cube-2 and cube-front-seam are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [cube-front-seam]: parallel straight edges cube-front-seam and cube-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [cube]: parallel straight edges cube-6 and cube-top-seam-2 are 6.945 apart on centerlines (ink gap 2.945); requires at least 8 centerline / 4 ink (overlap-fallback) (+3 more)
+  2. pictographic-primitives/other/mobile phone euro sign_1c0f91c5-ddcd-4057-9258-33ab46aaac34.svg
+     icon_id: mobile-phone-euro-sign
+     current drawing: published/failed/solo48/mobile-phone-euro-sign.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [euro-curve / euro-bar]: euro-curve and euro-bar have 1.274 units of ink clearance over 2.715 units; requires 4; review required
+  3. pictographic-primitives/other/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg
+     icon_id: mobile-phone-headphone
+     current drawing: published/failed/solo48/mobile-phone-headphone.svg
+     violates 3 rules: parallel straight edges under 8, pinches, undersized holes
+       - parallel straight edges under 8: mic [ear-right]: parallel straight edges ear-right-2 and ear-right-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [ear-right]: parallel straight edges ear-right-4 and ear-left-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [ear-left]: parallel straight edges ear-left-2 and ear-left-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 2 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 2 undersized holes; 2 pinches
+  4. pictographic-primitives/other/mobile phone lock_26319804-c7ff-498f-a76f-62441d482fc8.svg
+     icon_id: mobile-phone-lock
+     current drawing: published/failed/solo48/mobile-phone-lock.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [lock-body / shackle]: lock-body-0 and shackle-top have 2.522 units of ink clearance over 4.188 units; requires 4; review required
+  5. pictographic-primitives/other/mobile phone music note_9541eb00-a034-4794-a052-1575ee33b845.svg
+     icon_id: mobile-phone-music-note
+     current drawing: published/failed/solo48/mobile-phone-music-note.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [note-head / flag]: note-head-a and flag have 3.150 units of ink clearance over 7.397 units; requires 4; review required
+  6. pictographic-primitives/other/mobile phone phone_13ea825f-ae04-4150-a4b6-56b3bed9dc5d.svg
+     icon_id: mobile-phone-phone
+     current drawing: published/failed/solo48/mobile-phone-phone.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 2 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 2 undersized holes; 1 pinches
+  7. pictographic-primitives/other/mobile phone plane_0a850f90-2953-422f-b95d-65062508b5a1.svg
+     icon_id: mobile-phone-plane
+     current drawing: published/failed/solo48/mobile-phone-plane.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [fuselage / wing]: fuselage and wing have 2.491 units of ink clearance over 2.747 units; requires 4; review required
+  8. pictographic-primitives/other/mobile phone pound sign_a70db137-a446-4f4c-b656-4fea14660981.svg
+     icon_id: mobile-phone-pound-sign
+     current drawing: published/failed/solo48/mobile-phone-pound-sign.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [pound / bar]: pound and bar have 3.402 units of ink clearance over 2.824 units; requires 4; review required
+  9. pictographic-primitives/other/mobile phone skull_079086c7-cfbe-4c2b-a1d3-438ec4146466.svg
+     icon_id: mobile-phone-skull
+     current drawing: published/failed/solo48/mobile-phone-skull.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [separator]: separator and skull are 7 apart on centerlines nearest (20, 36)<->(20, 29); (needs 8) | mic [separator]: separator and jaw-center are 7 apart on centerlines nearest (24, 36)<->(24, 29); (needs 8) | mic [skull]: skull and jaw-center are 4 apart on centerlines nearest (20, 29)<->(24, 29); (needs 8) (+5 more)
+       - parallel straight edges under 8: mic [skull]: parallel straight edges jaw-right and jaw-center are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [jaw-center]: parallel straight edges jaw-center and jaw-left are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 3 undersized holes; 0 pinches
+  10. pictographic-primitives/other/mobile phone unlock_b0d42cd4-6acc-4018-ae89-490f3eb333a9.svg
+     icon_id: mobile-phone-unlock
+     current drawing: published/failed/solo48/mobile-phone-unlock.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [separator]: separator and lock-body are 5 apart on centerlines nearest (28, 36)<->(28, 31); (needs 8)
+       - parallel straight edges under 8: mic [lock-body]: parallel straight edges lock-body-4 and separator are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  11. pictographic-primitives/other/module file_e715b082-2f7d-4370-a969-0707c7e743f2.svg
+     icon_id: module-file
+     current drawing: published/failed/solo48/module-file.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [document]: document and module-1 are 6 apart on centerlines nearest (8, 28)<->(14, 28); (needs 8) | mic [document]: document and module-2 are 4 apart on centerlines nearest (40, 28)<->(36, 28); (needs 8) | mic [module-0]: module-0 and module-1 are 6 apart on centerlines nearest (20, 22)<->(20, 28); (needs 8) (+2 more)
+       - parallel straight edges under 8: mic [document]: parallel straight edges document-3 and module-2-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [module-2]: parallel straight edges module-2-4 and module-1-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [module-1]: parallel straight edges module-1-4 and document-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+1 more)
+  12. pictographic-primitives/other/money bill pound_a2425a69-d3ed-4c10-8e19-41a99038d49e.svg
+     icon_id: money-bill-pound
+     current drawing: published/failed/solo48/money-bill-pound.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [note / corner-0]: note-1 and corner-0 have 2.988 units of ink clearance over 3.695 units; requires 4; review required | internal-spacing [note / corner-1]: note-1 and corner-1 have 2.988 units of ink clearance over 3.695 units; requires 4; review required | internal-spacing [note / corner-1]: note-2 and corner-1 have 2.988 units of ink clearance over 3.695 units; requires 4; review required (+5 more)
+  13. pictographic-primitives/other/money bill_57a71ef9-0c30-4a25-a290-84a6666d4f6e.svg
+     icon_id: money-bill
+     current drawing: published/failed/solo48/money-bill.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [note / corner-0]: note-1 and corner-0 have 2.988 units of ink clearance over 3.695 units; requires 4; review required | internal-spacing [note / corner-1]: note-1 and corner-1 have 2.988 units of ink clearance over 3.695 units; requires 4; review required | internal-spacing [note / corner-1]: note-2 and corner-1 have 2.988 units of ink clearance over 3.695 units; requires 4; review required (+5 more)
+  14. pictographic-primitives/other/monitor graduation hat_25a4cb19-9e79-49d4-b5af-74c85495cf76.svg
+     icon_id: monitor-graduation-hat
+     current drawing: published/failed/solo48/monitor-graduation-hat.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [screen]: screen and crown are 6 apart on centerlines nearest (24, 34)<->(24, 28); (needs 8) | mic [mortarboard]: mortarboard and crown are 0.371 apart on centerlines nearest (29.862, 20.655)<->(30, 21); (needs 8)
+       - parallel straight edges under 8: mic [mortarboard]: parallel straight edges mortarboard-1 and mortarboard-3 are 7.427 apart on centerlines (ink gap 3.427); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [mortarboard]: parallel straight edges mortarboard-2 and mortarboard-4 are 7.427 apart on centerlines (ink gap 3.427); requires at least 8 centerline / 4 ink (overlap-fallback)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  15. pictographic-primitives/other/monitor laboratory_6ac9826c-356d-4f89-843e-a1caf6908626.svg
+     icon_id: monitor-laboratory
+     current drawing: published/failed/solo48/monitor-laboratory.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [screen]: screen and flask are 6 apart on centerlines nearest (32, 34)<->(32, 28); (needs 8)
+       - parallel straight edges under 8: mic [liquid]: parallel straight edges liquid and flask-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [flask]: parallel straight edges flask-4 and bottom-left, bottom-right are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches

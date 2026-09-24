@@ -22,7 +22,7 @@ class NativeSideTextTests(unittest.TestCase):
         for a,b in zip(placements,placements[1:]):
             if a['line']==b['line']:self.assertAlmostEqual(b['ink_bounds'][0]-a['ink_bounds'][2],4)
         self.assertAlmostEqual(placements[0]['ink_bounds'][3]-placements[0]['ink_bounds'][1],19,places=3)
-        self.assertAlmostEqual(placements[1]['ink_bounds'][3]-placements[1]['ink_bounds'][1],20,places=3)
+        self.assertAlmostEqual(placements[1]['ink_bounds'][3]-placements[1]['ink_bounds'][1],glyphs['1']['ink_height'],places=3)
 
     def test_wide_composition_expands_without_scaling(self):
         sub,w,h,_=native_text('ERROR',glyph_map())

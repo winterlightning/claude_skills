@@ -1,8 +1,8 @@
 """Flowing leaping dog silhouette and open vertical hoop; retain directional pose.
 Plan: named coherent contours; paired features derive from shared parameters.
 Reference: supplied original plus rejected production SVG.
-Lucide: dog (rounded animal contours), pipette (coherent diagonal tool construction).
-Human parts: human_ref/full_body_ref.png; no detached human head in these subjects.
+Lucide dog: coherent rounded animal contours.
+
 """
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48

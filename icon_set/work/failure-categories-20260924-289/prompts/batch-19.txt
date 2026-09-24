@@ -1,0 +1,96 @@
+Run $primitive-make-ray to repair failed icons, batch 19 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/sports/scoreboard_26cfbb23-55d5-4b36-b8ee-026317013752.svg
+     icon_id: scoreboard-26cfbb23
+     current drawing: published/failed/solo48/scoreboard-26cfbb23.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [panel]: panel and two-top are 6 apart on centerlines nearest (6, 18)<->(12, 18); (needs 8) | mic [panel]: panel and colon-1 are 7 apart on centerlines nearest (25, 32)<->(25, 25); (needs 8) | mic [panel]: panel and zero are 3 apart on centerlines nearest (42, 18)<->(39, 18); (needs 8) (+4 more)
+       - parallel straight edges under 8: mic [panel]: parallel straight edges panel-2 and zero-2 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [two-bottom]: parallel straight edges two-bottom-2 and panel-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  2. pictographic-primitives/sports/shooting rifle aim_4ed91cc5-870d-4844-a54d-8cf25bededb3.svg
+     icon_id: shooting-rifle-aim
+     current drawing: published/failed/solo48/shooting-rifle-aim.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [trigger]: trigger and sight-bottom are 3.830 apart on centerlines nearest (22.028, 29.715)<->(24, 33); (needs 8)
+       - parallel straight edges under 8: mic [rifle]: parallel straight edges rifle-1 and stock-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 4 undersized holes; 0 pinches
+  3. pictographic-primitives/sports/tournament bracket_6d731820-468b-5c38-b10b-859f24a8eab3.svg
+     icon_id: tournament-bracket
+     current drawing: published/failed/solo48/tournament-bracket.svg
+     violates 1 rule: parallel straight edges under 8
+       - parallel straight edges under 8: mic [bracket]: parallel straight edges bracket-2, bracket-3 and node-left-0, node-left-1 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [bracket]: parallel straight edges bracket-2, bracket-3 and node-right-0, node-right-1 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  4. pictographic-primitives/technology/head lock content movement_f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6.svg
+     icon_id: head-lock-content-movement
+     current drawing: published/failed/solo48/head-lock-content-movement.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [content]: content and ray-left are 4.242 apart on centerlines nearest (14, 14)<->(11, 11); (needs 8) | mic [content]: content and ray-right are 4.242 apart on centerlines nearest (19, 21)<->(22, 24); (needs 8) | mic [content]: content and turn are 2.828 apart on centerlines nearest (28, 12)<->(30, 10); (needs 8) (+2 more)
+  5. pictographic-primitives/technology/network 5g_9dc361bf-d268-4878-852c-ebdc9f66c69b.svg
+     icon_id: network-5g
+     current drawing: published/failed/solo48/network-5g.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [bottom--1]: bottom--1 and five-bowl are 7.464 apart on centerlines nearest (18, 38)<->(16.937, 30.611); (needs 8) | mic [tick--1-16]: tick--1-16 and five-top are 2.828 apart on centerlines nearest (10, 16)<->(12, 18); (needs 8) | mic [tick--1-32]: tick--1-32 and five-bowl are 2.828 apart on centerlines nearest (10, 32)<->(12, 30); (needs 8) (+4 more)
+  6. pictographic-primitives/transportation/automatic drive gear_f89489d3-928e-4d8e-8a13-9ff760315c90.svg
+     icon_id: automatic-drive-gear
+     current drawing: published/failed/solo48/automatic-drive-gear.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [letter-a]: letter-a and letter-u are 5.475 apart on centerlines nearest (11.623, 35.361)<->(17.043, 34.586); (needs 8) | mic [letter-u]: letter-u and t-bar are 3 apart on centerlines nearest (25, 10)<->(28, 10); (needs 8) | mic [t-bar]: t-bar and letter-o are 2.830 apart on centerlines nearest (36, 10)<->(38.426, 11.457); (needs 8)
+       - parallel straight edges under 8: mic [letter-o]: parallel straight edges letter-o-2 and letter-o-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [letter-o]: parallel straight edges letter-o-6 and t-stem are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [t-stem]: parallel straight edges t-stem and u-right are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  7. pictographic-primitives/transportation/four wheel drive_1dfab6f7-a053-5aee-8d2b-b99c63e6f3df.svg
+     icon_id: four-wheel-drive
+     current drawing: published/failed/solo48/four-wheel-drive.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  8. pictographic-primitives/transportation/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg
+     icon_id: kiss-and-ride
+     current drawing: published/failed/solo48/kiss-and-ride.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [r-stem / r-leg]: r-stem-1 and r-leg have 0.277 units of ink clearance over 8.447 units; requires 4; review required
+  9. pictographic-primitives/transportation/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg
+     icon_id: parkig-aid-system
+     current drawing: published/failed/solo48/parkig-aid-system.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [wave-outer]: wave-outer and obstacle are 2.493 apart on centerlines nearest (31.385, 25.652)<->(33.615, 26.768); (needs 8)
+  10. pictographic-primitives/transportation/road sign 4m high_51d07cc0-5d3e-489d-b18a-12bf56b9cf6a.svg
+     icon_id: road-sign-4m-high
+     current drawing: published/failed/solo48/road-sign-4m-high.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [four-bar]: four-bar and m are 6 apart on centerlines nearest (22, 28)<->(28, 28); (needs 8) | mic [four]: four and up are 4.472 apart on centerlines nearest (18, 14)<->(20, 10); (needs 8) | mic [four]: four and down are 4.472 apart on centerlines nearest (18, 34)<->(20, 38); (needs 8) (+2 more)
+  11. pictographic-primitives/travel/transit no entering stop_688256eb-e269-4b62-9dcc-ecccc8d9b352.svg
+     icon_id: transit-no-entering-stop
+     current drawing: published/failed/solo48/transit-no-entering-stop.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [start]: start and dash-top are 7 apart on centerlines nearest (14, 10)<->(21, 10); (needs 8) | mic [right-turn]: right-turn and dash-top are 4 apart on centerlines nearest (28, 10)<->(24, 10); (needs 8) | mic [right-turn]: right-turn and stop-1 are 7.071 apart on centerlines nearest (34, 26)<->(27, 27); (needs 8) (+2 more)
+  12. pictographic-primitives/users/user experience design_0bed2a31-9297-4a65-99ad-c1ed293776b1.svg
+     icon_id: user-centered-shape-diagram;user-centered-shape-diagram-v2;user-centered-shape-diagram-v3
+     current drawing: published/failed/solo48/user-centered-shape-diagram.svg
+     violates 2 rules: part spacing under 8, undersized holes
+       - part spacing under 8: mic [square]: square and head are 7 apart on centerlines nearest (24, 14)<->(24, 21); (needs 8) | mic [circle]: circle and shoulders are 4.318 apart on centerlines nearest (13.920, 36.791)<->(18.145, 37.685); (needs 8) | mic [circle]: circle and orbit-left are 7.704 apart on centerlines nearest (8.652, 32.233)<->(6, 25); (needs 8) (+11 more)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches | holes/pinches: 1 undersized holes; 0 pinches | holes/pinches: 1 undersized holes; 0 pinches
+  13. pictographic-primitives/video-games/batch-04/game bundle package 2 game game bundle package_11e6c80b-9352-46d6-afbf-71492aac441e.svg
+     icon_id: game-bundle-package-2-game-game-bundle-package
+     current drawing: published/failed/solo48/game-bundle-package-2-game-game-bundle-package.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [controller]: controller-2 and controller-4 have 2.091 units of ink clearance over 3.710 units; requires 4; review required | internal-spacing [controller]: controller-6 and controller-8 have 2.091 units of ink clearance over 3.710 units; requires 4; review required
+  14. pictographic-primitives/video-games/batch-12/war banner guild faction_c0fef2f7-6c93-5a77-973b-346d07d1e626.svg
+     icon_id: war-banner-guild-faction
+     current drawing: published/failed/solo48/war-banner-guild-faction.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [finial / banner]: finial-1 and banner-1 have 2.195 units of ink clearance over 3.25 units; requires 4; review required
+  15. pictographic-primitives/video/amazon web service interactive video service_676befa5-604d-5f0a-9344-ef3dfc7baea7.svg
+     icon_id: triangular-video-emblem
+     current drawing: published/failed/solo48/triangular-video-emblem.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [diagonal-a]: diagonal-a and triangle-1 are 4.437 apart on centerlines nearest (25.538, 21.692)<->(28, 18); (needs 8) | mic [triangle-3]: triangle-3 and triangle-5 are 5.487 apart on centerlines nearest (32, 26)<->(29.176, 30.705); (needs 8) | mic [diagonal-b]: diagonal-b and triangle-4 are 2.529 apart on centerlines nearest (20.8, 27.6)<->(20, 30); (needs 8)
+       - parallel straight edges under 8: mic [triangle-2]: parallel straight edges triangle-2-2 and triangle-4-1 are 5.487 apart on centerlines (ink gap 1.487); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [triangle-3]: parallel straight edges triangle-3-2 and triangle-5-1 are 5.487 apart on centerlines (ink gap 1.487); requires at least 8 centerline / 4 ink (midpoint-normal)
