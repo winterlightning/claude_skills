@@ -14,7 +14,10 @@ its model state is:
 * ``generated``    a linked icon is published in dist
 * ``build_failed`` linked icons exist but only in dist/failed
 * ``model_only``   linked models exist but were not built
-* ``none``         no linked model
+* ``work_only``    no linked model, but a folder-only skill run (icon_set/work/
+                   primitive-make-ray, side-main-make-thuan, side-sub-make-thuan)
+                   holds a drawing for the uuid; ``work`` records the newest run
+* ``none``         no linked model and no work run
 
 TODO/SKIP decisions are not stored here; they live in the gallery database
 (primitive_status.py) and are merged by the page, the API and the CLI.
@@ -51,6 +54,8 @@ from icon_set.scripts.category_report import UUID, declared_references, source_i
 ROOT_ENV = 'PICTOGRAPHIC_PRIMITIVES'
 UNCATEGORIZED = 'Uncategorized'
 ALIASES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-aliases.json'
+WORK_ROOT = REPO_ROOT / 'icon_set' / 'work'
+WORK_SKILLS = ('primitive-make-ray', 'side-main-make-thuan', 'side-sub-make-thuan')
 _VIEWBOX = re.compile(r'viewBox="([^"]+)"')
 
 
@@ -214,6 +219,43 @@ def model_links() -> dict:
                 by_reference_path=by_reference_path, anonymous=anonymous, families=families)
 
 
+def work_runs(work_root: Path = WORK_ROOT) -> dict[str, dict]:
+    """uuid -> newest folder-only skill run: {skill, runs, run, status}.
+
+    Folder-only skills save ``<skill>/<source-uuid>/<run>/result.json`` and never
+    register a model, so without this the source would still count as TODO.
+    The newest run (by result.json time) supplies ``status`` (its validation_status).
+    """
+    result = {}
+    for skill in WORK_SKILLS:
+        skill_dir = work_root / skill
+        if not skill_dir.is_dir():
+            continue
+        for source_dir in skill_dir.iterdir():
+            match = UUID.search(source_dir.name) if source_dir.is_dir() else None
+            if not match:
+                continue
+            uid = match.group(0).lower()
+            runs = []
+            for run in source_dir.iterdir():
+                result_path = run / 'result.json'
+                if not run.is_dir() or not result_path.is_file():
+                    continue
+                try:
+                    status = str(json.loads(result_path.read_text(encoding='utf-8')).get('validation_status') or 'unknown')
+                except (OSError, ValueError):
+                    status = 'unknown'
+                runs.append((result_path.stat().st_mtime, run.name, status))
+            if not runs:
+                continue
+            runs.sort()
+            entry = {'skill': skill, 'runs': len(runs), 'run': f'{skill}/{source_dir.name}/{runs[-1][1]}', 'status': runs[-1][2]}
+            previous = result.get(uid)
+            if not previous or runs[-1][0] > previous['_time']:
+                result[uid] = {**entry, '_time': runs[-1][0]}
+    return {uid: {k: v for k, v in entry.items() if k != '_time'} for uid, entry in result.items()}
+
+
 def row_uuids(row: dict) -> list[str]:
     """The canonical uuid followed by every alias folded into the row."""
     return [uid for uid in [row.get('uuid')] + [alias['uuid'] for alias in row.get('aliases', [])] if uid]
@@ -241,15 +283,18 @@ def link(row: dict, links: dict) -> tuple[list[str], str]:
 
 
 def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = None,
-                  aliases: dict[str, str] | None = None) -> dict:
+                  aliases: dict[str, str] | None = None, work: dict[str, dict] | None = None) -> dict:
     """built/failed map icon_id -> gallery record (needs key and preview_url).
 
     Primitives listed as aliases in data/primitive-aliases.json fold into their canonical row.
+    ``work`` maps uuid -> newest folder-only skill run (work_runs()); it only matters for rows
+    with no linked model, which become ``work_only`` instead of ``none``.
     """
     aliases = load_aliases() if aliases is None else aliases
     rows = fold_aliases(scan(root), aliases)
     warning = conversion_warning(root, rows)
     links = links or model_links()
+    work = work_runs() if work is None else work
     text_by_source = collections.defaultdict(list)
     for icon_id, record in built.items():
         if record.get('family') == 'text':
@@ -267,6 +312,12 @@ def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = No
         state = ('generated' if generated else 'build_failed' if any(m in failed for m in models)
                  else 'model_only' if models else 'none')
         row.update(models=models, match=method, generated=generated, state=state)
+        work_run = next((work[uid] for uid in row_uuids(row) if uid in work), None)
+        if state == 'none' and work_run:
+            state = 'work_only'
+            row.update(state=state, work=work_run)
+        else:
+            row.pop('work', None)
         row.pop('proposed_icon_id', None)
         if row['copies'] == 1:
             del row['copies']
@@ -320,7 +371,7 @@ def main(argv=None) -> int:
     for counts in catalog['categories'].values():
         totals.update(counts)
     print(f"{catalog['count']} primitives in {len(catalog['categories'])} categories from {root}")
-    print('  ' + ' '.join(f'{state}={totals[state]}' for state in ('generated', 'build_failed', 'model_only', 'none')))
+    print('  ' + ' '.join(f'{state}={totals[state]}' for state in ('generated', 'build_failed', 'model_only', 'work_only', 'none')))
     if catalog['warning']:
         print('warning: ' + catalog['warning'], file=sys.stderr)
     print(f"-> {args.dist / 'gallery' / 'primitives.json'}")

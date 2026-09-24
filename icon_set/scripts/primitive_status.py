@@ -244,7 +244,7 @@ def effective(row: dict, decision: dict | None) -> str:
         return 'generated'
     if decision:
         return 'skip'
-    if row.get('models') or row.get('state') in ('model_only', 'build_failed'):
+    if row.get('models') or row.get('state') in ('model_only', 'build_failed', 'work_only'):
         return 'drawn'
     return 'todo'
 

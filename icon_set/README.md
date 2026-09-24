@@ -735,7 +735,13 @@ by skip reason, and by text. Logged-in users can select tiles and mark them SKIP
 
 - **Generated** is computed, never stored: a model linked to the primitive's UUID is
   published in dist. Linked models that only failed their build stay TODO with a
-  *Build failed* badge. A primitive marked SKIP that later gets generated counts as
+  *Build failed* badge.
+- **Drawn, unpublished** covers linked models that were not built or failed their build,
+  and sources with no model at all whose drawing lives in a folder-only skill run
+  (`icon_set/work/primitive-make-ray`, `side-main-make-thuan`, `side-sub-make-thuan`;
+  catalog state `work_only`, with the newest run and its validation status under `work`).
+  Those runs leave TODO even when they failed validation; fix and promote them with
+  `promote_work_icons.py` or a fresh run rather than re-authoring from the queue. A primitive marked SKIP that later gets generated counts as
   generated and is flagged as a conflict.
 - **SKIP** decisions live in the gallery database (`primitive_status` table) and every
   change is written to `activity_log`.
@@ -1070,8 +1076,8 @@ and deduplication apply the profile mapping automatically.
 ### Token-free generation brief API
 
 `GET /api/primitives/generation-queue?category=Uncategorized&batch=03&family=solo&limit=50&offset=0`
-returns only effective TODO primitives, excluding published, skipped, model-only
-and failed existing drawings. Optional `q` searches concept, old concept, path
+returns only effective TODO primitives, excluding published, skipped, model-only,
+failed and folder-only (`work_only`) existing drawings. Optional `q` searches concept, old concept, path
 and UUID; `brief=ready|missing` filters saved brief availability. Omit category
 and batch for all categories. `limit` is 1–500 (default 50); `offset` defaults to
 0. Results are ordered by source path and UUID, with `total` and `next_offset`.

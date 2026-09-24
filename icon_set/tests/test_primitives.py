@@ -14,7 +14,7 @@ from icon_set.scripts import primitive_status as ps
 from icon_set.scripts.deploy import create_server, init_database, record_activity
 from icon_set.scripts.gallery import stage_gallery
 from icon_set.scripts.primitives_catalog import (REPO_ROOT, build_catalog, conversion_warning, link, model_links,
-                                                  primitives_root, scan)
+                                                  primitives_root, scan, work_runs)
 
 U1 = '00000000-0000-4000-8000-000000000001'
 U2 = '00000000-0000-4000-8000-000000000002'
@@ -54,7 +54,7 @@ class CatalogTests(unittest.TestCase):
             root = primitives_tree(Path(tmp))
             built = {'monitor-icon': {'key': 'solo/monitor-icon', 'preview_url': '../solo48/monitor-icon.svg'}}
             failed = {'cat-icon': {'key': 'solo/cat-icon', 'preview_url': '../failed/solo48/cat-icon.svg'}}
-            catalog = build_catalog(root, built, failed, fake_links())
+            catalog = build_catalog(root, built, failed, fake_links(), work={})
         rows = {row['uuid']: row for row in catalog['rows']}
         self.assertEqual(catalog['count'], 4)
         self.assertEqual((rows[U1]['category'], rows[U1]['concept'], rows[U1]['state']),
@@ -66,6 +66,31 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual((rows[U4]['state'], rows[U4]['match']), ('model_only', 'source path'))
         self.assertEqual(rows[U2]['concept'], 'South West')
         self.assertEqual(catalog['categories']['Uncategorized'], {'total': 1, 'none': 1})
+
+    def test_folder_only_runs_count_as_drawn(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = primitives_tree(Path(tmp) / 'primitives')
+            work = Path(tmp) / 'work'
+            for run, status in (('20260923T01', 'invalid'), ('20260923T02', 'review')):
+                (work / 'primitive-make-ray' / U2 / run).mkdir(parents=True)
+                (work / 'primitive-make-ray' / U2 / run / 'result.json').write_text(json.dumps(
+                    {'source_uuid': U2, 'validation_status': status}))
+                os.utime(work / 'primitive-make-ray' / U2 / run / 'result.json', (1, 1 if run.endswith('01') else 2))
+            (work / 'side-main-make-thuan' / U1 / 'r').mkdir(parents=True)  # generated wins over a work run
+            (work / 'side-main-make-thuan' / U1 / 'r' / 'result.json').write_text(json.dumps({'validation_status': 'valid'}))
+            (work / 'primitive-make-ray' / U3 / 'empty').mkdir(parents=True)  # no result.json: not a run
+            runs = work_runs(work)
+            self.assertEqual(set(runs), {U1, U2})
+            self.assertEqual(runs[U2], {'skill': 'primitive-make-ray', 'runs': 2,
+                                        'run': f'primitive-make-ray/{U2}/20260923T02', 'status': 'review'})
+            built = {'monitor-icon': {'key': 'solo/monitor-icon', 'preview_url': '../solo48/monitor-icon.svg'}}
+            catalog = build_catalog(root, built, {}, fake_links(), work=runs)
+        rows = {row['uuid']: row for row in catalog['rows']}
+        self.assertEqual((rows[U2]['state'], rows[U2]['work']['status']), ('work_only', 'review'))
+        self.assertEqual(rows[U1]['state'], 'generated')
+        self.assertNotIn('work', rows[U1])
+        self.assertEqual(catalog['categories']['Uncategorized'], {'total': 1, 'work_only': 1})
+        self.assertEqual(ps.effective(rows[U2], None), 'drawn')
 
     def test_conversions_copy_is_flagged_and_root_resolution(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -208,6 +233,7 @@ class StatusStoreTests(unittest.TestCase):
         from icon_set.scripts.primitive_status import effective
         self.assertEqual(effective({'state': 'model_only'}, None), 'drawn')
         self.assertEqual(effective({'state': 'build_failed'}, None), 'drawn')
+        self.assertEqual(effective({'state': 'work_only'}, None), 'drawn')
         self.assertEqual(effective({'state': 'none', 'models': ['existing']}, None), 'drawn')
         self.assertEqual(effective({'state': 'none'}, None), 'todo')
         self.assertEqual(effective({'state': 'model_only'}, {'reason': 'container'}), 'skip')
@@ -361,7 +387,7 @@ class GenerationQueueServerTests(unittest.TestCase):
                      state=state, models=models)
                 for i, (state, models) in enumerate([
                     ('generated', []), ('model_only', []), ('build_failed', []),
-                    ('none', ['existing']), ('none', []), ('none', [])])]
+                    ('none', ['existing']), ('none', []), ('none', []), ('work_only', [])])]
         result = generation_queue({'rows': rows}, {'5': {'reason': 'other'}}, {}, {})
         self.assertEqual([item['uuid'] for item in result['briefs']], ['4'])
         item = result['briefs'][0]

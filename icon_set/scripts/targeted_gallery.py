@@ -83,7 +83,8 @@ def stage_targeted_gallery(staged: Path, published: Path, folders, only) -> Path
         # Preserve existing editorial/model associations outside this selection.
         models = sorted(set(row.get('models', [])) - only | (set(models) & only))
         generated = [dict(icon_id=i, key=built[i]['key'], preview_url=built[i]['preview_url']) for i in models if i in built]
-        state = 'generated' if generated else 'build_failed' if failed_ids.intersection(models) else 'model_only' if models else 'none'
+        state = ('generated' if generated else 'build_failed' if failed_ids.intersection(models) else 'model_only' if models
+                 else 'work_only' if row.get('work') else 'none')
         row.update(models=models, generated=generated, state=state)
         if only.intersection(models):
             row['match'] = method

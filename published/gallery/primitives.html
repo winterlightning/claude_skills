@@ -184,7 +184,7 @@ const PAGE_SIZE=50;
 const state={view:'todo',category:'',status:'todo',batch:'',reason:'',q:'',brief:''};
 
 function pct(part,total){return total?Math.round(part/total*1000)/10:0;}
-function effective(row){return row.state==='generated'?'generated':statuses[row.uuid]?'skip':(row.models?.length||['model_only','build_failed'].includes(row.state))?'drawn':'todo';}
+function effective(row){return row.state==='generated'?'generated':statuses[row.uuid]?'skip':(row.models?.length||['model_only','build_failed','work_only'].includes(row.state))?'drawn':'todo';}
 function counts(rows){const c={total:0,todo:0,skip:0,generated:0,drawn:0,build_failed:0,conflict:0};for(const k in REASONS)c['skip_'+k]=0;
   for(const row of rows){const s=effective(row),d=statuses[row.uuid];c.total++;c[s]++;if(row.state==='build_failed')c.build_failed++;if(d&&s==='generated')c.conflict++;if(d&&s==='skip')c['skip_'+d.reason]++;}
   c.done=pct(c.generated+c.drawn+c.skip,c.total);return c;}
@@ -289,7 +289,7 @@ function tile(row){
     box.onchange=()=>{box.checked?selected.add(row.uuid):selected.delete(row.uuid);el.classList.toggle('selected',box.checked);updateSelection();};label.append(box);el.append(label);}
   const art=node('div','art');const original=node('figure');const img=document.createElement('img');img.loading='lazy';img.alt='';img.src=primitiveURL(row.path);original.append(img);
   original.append(node('figcaption','','Original'));art.append(original);
-  if(state.view!=='todo'&&!(row.generated||[]).length){const empty=node('figure','placeholder');empty.append(node('span','',s==='skip'?'Skipped':row.state==='build_failed'?'Drawn · build failed':s==='drawn'?'Drawn · not published':'Not generated'));art.append(empty);}
+  if(state.view!=='todo'&&!(row.generated||[]).length){const empty=node('figure','placeholder');empty.append(node('span','',s==='skip'?'Skipped':row.state==='build_failed'?'Drawn · build failed':row.state==='work_only'?'Drawn · work folder'+(row.work?.status?' · '+row.work.status:''):s==='drawn'?'Drawn · not published':'Not generated'));art.append(empty);}
   for(const g of (row.generated||[])){const fig=node('figure');const a=document.createElement('a');a.href='index.html?q='+encodeURIComponent(g.icon_id);a.title='Open '+g.icon_id+' in the icon grid';
     const gi=document.createElement('img');gi.loading='lazy';gi.alt=g.icon_id;gi.src=g.preview_url;a.append(gi);fig.append(a,node('figcaption','',g.icon_id.replace(/-/g,' ')));art.append(fig);}
   el.append(art,node('h3','',row.concept),node('p','',row.old_concept+(row.batch?' · '+row.batch:'')));
@@ -299,6 +299,7 @@ function tile(row){
   if(s==='todo'&&briefsAvailable)badges.append(node('span','badge '+(hasBrief(row)?'generated':'todo'),hasBrief(row)?'Brief ready':'Brief missing'));
   if(d)badges.append(node('span','badge skip',REASONS[d.reason]||d.reason));
   if(row.state==='build_failed')badges.append(node('span','badge failed','Build failed'));
+  if(row.state==='work_only'&&row.work){const w=row.work;const b=node('span','badge '+(w.status==='valid'?'generated':'failed'),w.skill+' · '+w.status+(w.runs>1?' · '+w.runs+' runs':''));b.title=w.run;badges.append(b);}
   if(d&&s==='generated')badges.append(node('span','badge conflict','Skipped but generated'));
   if((row.generated||[]).length>1)badges.append(node('span','badge',row.generated.length+' icons'));
   if((row.aliases||[]).length)badges.append(node('span','badge merged',row.aliases.length+' merged'));
@@ -346,7 +347,7 @@ function classificationEditor(row){
   note.placeholder='Review note (required for Other)';note.setAttribute('aria-label','Classification note for '+row.concept);
   const actions=node('div','classification-buttons'),saveButton=node('button','','Save type'),todo=node('button','','Mark TODO');saveButton.type=todo.type='button';
   const message=node('p','');message.setAttribute('role','status');
-  const hint=row.state==='generated'?'Existing artwork stays Generated. TODO clears the classification; it does not delete or requeue artwork.':row.models?.length||['model_only','build_failed'].includes(row.state)?'Existing drawings stay Drawn. TODO clears the classification.':'';
+  const hint=row.state==='generated'?'Existing artwork stays Generated. TODO clears the classification; it does not delete or requeue artwork.':row.models?.length||['model_only','build_failed','work_only'].includes(row.state)?'Existing drawings stay Drawn. TODO clears the classification.':'';
   if(hint)section.append(node('p','muted',hint));
   const update=async value=>{
     if(!value){message.textContent='Choose a classification first.';return;}
