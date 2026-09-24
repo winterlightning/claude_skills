@@ -1,0 +1,23 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'../..'),read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
+const combinationCatalog=read('published/gallery/combinations.json');
+const components=read('published/gallery/side-components.json');
+const report=read('published/gallery/side-text-v2.json');
+const context=vm.createContext({URLSearchParams,location:{search:''},document:{addEventListener(){}},window:{},combinationCatalog,components,report,
+ combinationMain:row=>combinationCatalog.references[row.main_id]});
+vm.runInContext(fs.readFileSync(path.join(root,'icon_set/scripts/templates/side-pairs-grid.js'),'utf8'),context);
+vm.runInContext(`sidePairs=new Map();sideMapNativeText(report,components,d=>d.status==='pass');
+for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of [item.id,...item.source_ids])sideComponentStatus[role].set(id,item.status);`,context);
+const api=combinationCatalog.rows.find(r=>r.concept==='coding apps website web dev cog api');assert.ok(api);
+context.api=api;
+assert.equal(vm.runInContext('sideKey(api)',context),'ready');
+assert.equal(vm.runInContext('sideParts(api).sub.family',context),'text');
+assert.equal(vm.runInContext('sideParts(api).main.icon',context),'cog-4c6e5052');
+assert.equal(vm.runInContext('sideSubProblems(sideParts(api).sub).length',context),0);
+assert.match(vm.runInContext('sideCombined(sideParts(api).pair,sideParts(api).sub).url',context),/compositions\/side-text-v2-/);
+assert.equal(vm.runInContext('sidePairs.size',context),report.pairs.length);
+assert.equal(vm.runInContext('[...sidePairs.values()].every(p=>sideSubProblems(p.subs[0]).length===0)',context),true);
+vm.runInContext(`sidePairs=new Map();sideMapNativeText(report,components,d=>d.status==='pass'&&d.key!=='solo/cog-4c6e5052');`,context);
+assert.equal(vm.runInContext('sidePairs.has(api.id)',context),false,'Do not show a native composition whose selected main is no longer usable');
+console.log('Native text grid: API mapping, all native pairs, wide text, previews and rejected-main exclusion passed.');

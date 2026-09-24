@@ -262,6 +262,26 @@ the watched branch again, so revert the bad commit before resuming updates.
 The watcher itself stays at its installed version; pull and restart it when
 changing deployment orchestration code.
 
+## Native typeface v2 side text
+
+`icon_set/data/side-text-v2.json` stores the visually checked strings and source
+UUIDs for the text sub list. Rebuild them with
+`python3 -m icon_set side-text --reviews /path/to/review-status.json`, where the
+review file is the target gallery's current `/api/reviews` response. Rejected or
+needs-fix mains are excluded. This writes `published/text-native-v2/`, updates the
+side-component gallery, and saves native combinations under `published/compositions/`.
+Combinations use the shared convex-hull clearance engine with its existing
+8-unit buffer, 2-unit padding and opposite-edge anchoring. Native text pairs
+are also registered in the shared experiment snapshots and preview cache.
+
+These text layouts preserve the existing glyph paths, apply translations only,
+and leave 4 units between character ink bounds (8 between facing centerlines).
+Letters and digits use v2; punctuation absent from v2 uses existing v1 paths at
+native size. They are text layouts, not SUB32 profile drawings. Wide or multiline
+text expands the composition canvas rather than shrinking the letters. The
+report in `published/gallery/side-text-v2.json` records generated pairs and
+references blocked by unavailable mains or non-text symbols.
+
 ## Explicit SUB32 visual exceptions
 
 A user may accept a complete 32×32 drawing that retains 4px strokes despite

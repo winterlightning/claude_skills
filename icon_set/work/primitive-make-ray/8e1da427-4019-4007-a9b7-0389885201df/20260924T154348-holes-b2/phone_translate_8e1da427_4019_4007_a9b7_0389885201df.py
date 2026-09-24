@@ -1,0 +1,52 @@
+"""A bilingual translation display on a phone.
+Repair plan: Rounded A counter and taller Chinese-stroke pocket; preserve directional glyph asymmetry.
+Omissions: Minor central translation curve omitted as in parent.
+"""
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='8e1da427-4019-4007-a9b7-0389885201df'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='phone-translate'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/media'
+    aliases=()
+    keywords=('phone', 'translate')
+
+    def circle(self,n,x,y,r,ry=None):
+        ry=r if ry is None else ry
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r,radius_y=ry)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r,radius_y=ry)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=3):
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        names=[]
+        for j,a in enumerate(pts):
+            b=pts[(j+1)%8];name=f'{n}-{j}';names.append(name)
+            if j%2:self.add_arc(name,a,b,radius_x=r)
+            else:self.add_line(name,a,b)
+        self.add_contour(n,*names,closed=True)
+
+    def handset(self):
+        # One coherent side-profile receiver: round outer sweep and two ear pads.
+        self.add_bezier('receiver',(9,6),((6,6),(6,12),(6,15)),((6,26),(22,42),(33,42)),((37,42),(42,40),(42,37)),((42,35),(36,30),(34,30)),((32,30),(30,34),(28,32)),((22,28),(19,25),(16,20)),((14,17),(19,15),(19,12)),((19,10),(12,6),(9,6)))
+
+    def build(self):
+        # A phone with Latin A and Chinese translation strokes across its screen.
+
+        self.add_polyline('phone-top',(12,8),(12,4),(36,4),(36,8))
+        self.add_polyline('phone-bottom',(12,40),(12,44),(36,44),(36,40))
+        self.add_line('a-left',(8,33),(8,23))
+        self.add_arc('a-top',(8,23),(18,23),radius_x=5)
+        self.add_line('a-right',(18,23),(18,33))
+        self.add_contour('a','a-left','a-top','a-right')
+        self.add_line('a-bar',(8,29),(18,29));self.relate('connect','a','a-bar')
+        self.add_line('wen-top',(26,18),(40,18));self.add_line('wen-stem',(33,16),(33,18));self.relate('connect','wen-top','wen-stem')
+        self.add_polyline('wen-left',(26,18),(28,24),(33,29),(40,33))
+        self.add_polyline('wen-right',(40,18),(38,24),(33,29),(26,33));self.relate('connect','wen-left','wen-right')
+        self.relate('connect','wen-left','wen-top');self.relate('connect','wen-right','wen-top')
+

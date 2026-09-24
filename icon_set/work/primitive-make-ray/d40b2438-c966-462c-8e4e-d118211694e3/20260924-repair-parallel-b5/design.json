@@ -1,0 +1,6 @@
+{
+  "keyshape": "HRECT_L",
+  "body": "\nself.circle('main',20,24,16)\nfor name,y in [('upper',10),('lower',38)]:\n    self.circle('node-'+name,42,y,2)\n    self.add_line('link-'+name,(36,24),(42,12 if y==10 else 36))\n    self.join('link-'+name,'main');self.join('link-'+name,'node-'+name)\nself.add_polyline('p-stem',(16,30),(16,28),(16,18),(20,18))\nself.path('p-bowl',(20,18),[('A',(20,28),5,5,True),('L',(16,28))]);self.join('p-stem','p-bowl')\n",
+  "note": "Widen P bowl and move opening down; retain descending stem. Shorten descending stem by one to clear the main circle.",
+  "round": 6
+}

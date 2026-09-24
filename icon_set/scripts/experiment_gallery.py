@@ -139,17 +139,23 @@ POSITION_LABELS = {'br': 'Bottom-right', 'tr': 'Top-right', 'bo': 'Bottom', 'to'
                    'bl': 'Bottom-left', 'tl': 'Top-left', 'ri': 'Right', 'le': 'Left'}
 
 
-def stage_preview_combinations(target: Path, pairs: Path, results: dict) -> int:
+def stage_preview_combinations(target: Path) -> int:
     """The side-combination library for the Preview page's usage examples.
 
+    Built from the gallery's own side-pair data (experiment-combination.json and
+    experiment-combination-results.json), so the Preview picker offers exactly
+    the combined 64 icons the Progression "Side pairs" view shows. Every script
+    that rewrites those results calls this again, or the picker goes stale.
     preview-library.js appends these to the approved icons, and preview-scene.js
     resolves every template placement to one of these ids, so without this file
     all ten examples silently fall back to solo icons.
     """
+    pairs, previews = target / 'experiment-combination.json', target / 'experiment-combination-results.json'
     rows = json.loads(pairs.read_text())['rows'] if pairs.is_file() else []
+    results = json.loads(previews.read_text())['results'] if previews.is_file() else {}
     icons = [{'icon_id': row['id'], 'name': row['concept'], 'family': 'combination',
               'category': POSITION_LABELS.get(row['position'], row['position']),
-              'preview_url': 'combination-previews/' + row['id'] + '.svg'}
+              'preview_url': results[row['id']].get('url') or 'combination-previews/' + row['id'] + '.svg'}
              for row in rows if row['id'] in results]
     (target / 'preview-combination-icons.json').write_text(
         json.dumps({'icons': icons}, ensure_ascii=False) + '\n', encoding='utf-8')
@@ -214,7 +220,7 @@ def stage_experiments(target: Path) -> None:
         for key, item in results.items():
             (preview_dir / (key + '.svg')).write_text(item['result']['svg'])
         (target / 'experiment-combination-results.json').write_text(json.dumps({'results': results}))
-        stage_preview_combinations(target, combination, results)
+        stage_preview_combinations(target)
 
     template = (Path(__file__).with_name('templates') / 'experiment.html').read_text()
     # Embed this small collection so the user's local-file experiment works offline.

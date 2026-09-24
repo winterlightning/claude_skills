@@ -9,8 +9,10 @@ from concurrent.futures import ProcessPoolExecutor
 
 if __package__:
     from .workspace import build_dist
+    from .experiment_gallery import stage_preview_combinations
 else:
     from workspace import build_dist
+    from experiment_gallery import stage_preview_combinations
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
@@ -73,6 +75,7 @@ def main():
         cards.append(f'<article><h2>{html.escape(row["concept"])}</h2><div class="art"><img loading="lazy" src="svg/{uid}.svg" width="128" height="128"><img loading="lazy" src="svg/{uid}.svg" width="64" height="64"><div class="dark"><img loading="lazy" src="svg/{uid}.svg" width="64" height="64"></div></div><p>{html.escape(sub["icon"])}</p><small>{html.escape(row["position"])} · geometry pass</small></article>')
     text=json.dumps(payload);(data/'combination-pairs.json').write_text(text);(gallery/'experiment-combination.json').write_text(text)
     (data/'combination-previews.json').write_text(json.dumps(cache));(gallery/'experiment-combination-results.json').write_text(json.dumps({'results':cache}))
+    stage_preview_combinations(gallery)
     report={'policy':'Use current geometry-passing SUB32 models; human review statuses unchanged','passing_sub_models':sum(m['model_validation']=='pass' for m in models.values()),'available_side_pairs':len(payload['rows']),'recombined':len(records),'waiting':len(pending),'rows':records,'pending':pending}
     catalog=json.loads((gallery/'combinations.json').read_text())['rows']
     available={r['id'] for r in payload['rows']}

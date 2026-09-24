@@ -25,7 +25,7 @@ class EditValidationTests(unittest.TestCase):
         from icon_set.model.icons.solo.apple_vision_pro_space_volume_3d52a574_2cf8_4bbf_95ef_7eaebf475a4e import AppleVisionProSpaceVolume
         icon = AppleVisionProSpaceVolume().to_record() | {'key': 'solo/apple-vision-pro-space-volume', 'svg_sha256': 'fixture'}
         with tempfile.TemporaryDirectory() as folder:
-            store = StrokeEditStore(folder)
+            store = StrokeEditStore(Path(folder) / 'state.sqlite3')
             data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'scales': {'contour:goggles': [1, .875]}, 'keyshape': 'HRECT_M'}
             before = store.validate(icon, data)
             self.assertEqual(before['status'], 'fail')
@@ -77,7 +77,7 @@ class EditValidationTests(unittest.TestCase):
         result = subprocess.run(['node', '-e', script], cwd=Path(__file__).resolve().parents[2],
                                 input=json.dumps(inputs), text=True, capture_output=True, check=True)
         with tempfile.TemporaryDirectory() as folder:
-            store = StrokeEditStore(folder)
+            store = StrokeEditStore(Path(folder) / 'state.sqlite3')
             for (model, shape), fixture, fitted in zip(cases, inputs, json.loads(result.stdout)):
                 with self.subTest(icon=model.icon_id, shape=shape):
                     icon = fixture['icon'] | {'key': 'solo/'+model.icon_id+'-'+shape, 'svg_sha256': 'fixture'}
@@ -106,7 +106,7 @@ class EditValidationTests(unittest.TestCase):
 
     def test_human_override_is_attributed_and_bound_to_exact_geometry(self):
         with tempfile.TemporaryDirectory() as folder:
-            store, icon = StrokeEditStore(folder), portrait()
+            store, icon = StrokeEditStore(Path(folder) / 'state.sqlite3'), portrait()
             data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'keyshape': 'VRECT_M'}
             for invalid in ({'reason': None}, {'reason': 42}, {'reason': 'x'*2001}, True):
                 with self.assertRaises(ValueError):
@@ -140,7 +140,7 @@ class EditValidationTests(unittest.TestCase):
     def test_human_override_without_note_is_persisted_and_bound_to_geometry(self):
         for requested in ({}, {'reason': ''}, {'reason': '  '}):
             with self.subTest(requested=requested), tempfile.TemporaryDirectory() as folder:
-                store, icon = StrokeEditStore(folder), portrait()
+                store, icon = StrokeEditStore(Path(folder) / 'state.sqlite3'), portrait()
                 data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {},
                         'keyshape': 'VRECT_M', 'validation_override': requested}
                 saved = store.save(icon, data, 'jakes')
@@ -157,7 +157,7 @@ class EditValidationTests(unittest.TestCase):
         from icon_set.model.icons.solo.acoustic_guitar_2e3b9013_429e_4cb3_8093_1e76dd0f5307 import AcousticGuitar
         icon = AcousticGuitar().to_record() | {'key': 'solo/acoustic-guitar', 'svg_sha256': 'fixture'}
         with tempfile.TemporaryDirectory() as folder:
-            store = StrokeEditStore(folder)
+            store = StrokeEditStore(Path(folder) / 'state.sqlite3')
             for path_diameter, hole_status in ((2, 'fail'), (4, 'pass'), (6, 'pass')):
                 scale = path_diameter / 6
                 data = {'svg_sha256': 'fixture', 'keyshape': 'VRECT_M',
@@ -177,7 +177,7 @@ class EditValidationTests(unittest.TestCase):
 
     def test_change_keyshape_fail_then_resize_pass_and_persist(self):
         with tempfile.TemporaryDirectory() as folder:
-            store = StrokeEditStore(Path(folder) / 'edits')
+            store = StrokeEditStore(Path(folder) / 'state.sqlite3')
             icon = portrait()
             original = deepcopy(icon)
             data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}}
@@ -186,7 +186,7 @@ class EditValidationTests(unittest.TestCase):
             failed = store.validate(icon, data)
             self.assertEqual(failed['status'], 'fail')
             self.assertTrue(any('VRECT_M envelope' in e for e in failed['errors']))
-            self.assertFalse(store.root.exists(), 'Checking must not save edits')
+            self.assertIsNone(store.get(icon['key'], 'fixture'), 'Checking must not save edits')
             data['scales'] = {'contour:outline': [.875, 1]}
             passed = store.validate(icon, data)
             self.assertEqual(passed['status'], 'pass', passed)
@@ -208,7 +208,7 @@ class EditValidationTests(unittest.TestCase):
 
     def test_fractional_grid_and_invalid_or_stale_requests(self):
         with tempfile.TemporaryDirectory() as folder:
-            store, icon = StrokeEditStore(folder), portrait()
+            store, icon = StrokeEditStore(Path(folder) / 'state.sqlite3'), portrait()
             data = {'svg_sha256': 'fixture', 'offsets': {'contour:outline': [.5, 0]}}
             result = store.validate(icon, data)
             self.assertEqual(result['status'], 'fail')

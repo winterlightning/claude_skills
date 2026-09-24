@@ -109,6 +109,9 @@ WORK_CACHE_SECONDS = 10
 # Uploaded fixes shown in the gallery: a short timeout so a dead production never stalls the catalog.
 FIXES_TIMEOUT = 4
 FIXES_CACHE_SECONDS = 30
+# The fix review listing rebuilds the whole catalog; reuse it until icons.json or the database changes. The age cap
+# lets leases that expired with no write in between show as expired.
+REVIEW_CACHE_SECONDS = 60
 FIXES_RETRY_SECONDS = 60
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
 # Artwork choices and stroke edits are database tables now; only reference image bytes
@@ -538,7 +541,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         data = self.catalog_data()
         rows = data['icons'] + (data.get('failed_icons', []) if include_failed else [])
         fixes = self.work_fixes()
-        return {item['key']: self.artwork_record(item, fixes) for item in rows}
+        with self.server.artwork.snapshot():
+            return {item['key']: self.artwork_record(item, fixes) for item in rows}
 
     def catalog_icon(self, key):
         data = self.catalog_data()
@@ -742,10 +746,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/gallery/icons.json':
             try:
                 data, fixes = dict(self.catalog_data()), self.work_fixes()
-                for field in ('icons', 'failed_icons'):
-                    data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
+                with self.server.artwork.snapshot():
+                    for field in ('icons', 'failed_icons'):
+                        data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
                 return self.json_response(data)
-            except (OSError, ValueError):
+            except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
         if parsed.path in ('/api/icon-artwork', '/api/icon-artwork/svg'):
             key = parse_qs(parsed.query).get('icon', [''])[0]
@@ -1186,6 +1191,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
+        self.server.review_cache = None  # any write may change the fix review listing
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
@@ -1489,25 +1495,45 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.command != 'HEAD':
             self.wfile.write(content)
 
+    def review_items(self, connection, now):
+        """work_claims.review_items, cached per server until icons.json or the database files change."""
+        def stamp(path):
+            try:
+                stat = path.stat()
+                return stat.st_mtime_ns, stat.st_size
+            except OSError:
+                return None
+        database = Path(self.database)
+        key = tuple(stamp(path) for path in (self.root / 'gallery/icons.json', database,
+                                             database.with_name(database.name + '-wal'), database.with_name(database.name + '-journal')))
+        cached = getattr(self.server, 'review_cache', None)
+        if cached and cached[0] == key and cached[1] > time.monotonic():
+            return cached[2]
+        catalog = self.catalog(include_failed=True)
+        items = work_claims.review_items(connection, catalog, current_decisions(connection, catalog), now)
+        self.server.review_cache = (key, time.monotonic() + REVIEW_CACHE_SECONDS, items)
+        return items
+
     def work_read(self, parsed):
         if not getattr(self.server, 'production', False):
             return self.forward_to_production('GET', parsed.path + ('?' + parsed.query if parsed.query else ''))
         try:
-            catalog = self.catalog(include_failed=True)
             with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                 now = datetime.now(timezone.utc)
                 if work_claims.release_expired(connection, now, record_activity):
                     connection.commit()
-                decisions = current_decisions(connection, catalog)
                 query = parse_qs(parsed.query)
-                if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
-                    return self.json_response(work_claims.queue(connection, catalog, decisions, query, now,
-                                                                claimable_only=parsed.path.endswith('/queue')))
+                # These two need no catalog, and building it is the slow part of every other route.
                 if parsed.path == '/api/work/fixes':
                     return self.json_response({'fixes': [dict(fix, icon=key, svg_sha256=sha) for (key, sha), fix
                                                          in sorted(work_claims.after_results(connection).items())]})
                 if parsed.path == '/api/work/review':
-                    return self.json_response(work_claims.review_listing(connection, catalog, decisions, query, now))
+                    return self.json_response(work_claims.filter_review(self.review_items(connection, now), query))
+                catalog = self.catalog(include_failed=True)
+                decisions = current_decisions(connection, catalog)
+                if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
+                    return self.json_response(work_claims.queue(connection, catalog, decisions, query, now,
+                                                                claimable_only=parsed.path.endswith('/queue')))
                 key = query.get('icon', [''])[0]
                 if parsed.path in ('/api/work/history', '/api/work/result'):
                     if key not in catalog:
@@ -1827,8 +1853,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     connection.execute('BEGIN IMMEDIATE')
                     if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
                         return self.json_response({'error': 'Restore this rejected icon before picking and approving its artwork.'}, 409)
-                    self.server.artwork.save(icon, data, user, self.stroke_edits)
-                    result = self.artwork_response(icon)
+                    # The choice, its approval and the response share this one transaction.
+                    with self.server.artwork.using(connection), self.stroke_edits.using(connection):
+                        self.server.artwork.save(icon, data, user, self.stroke_edits)
+                        result = self.artwork_response(icon)
                     record = result['record']
                     now = utc_now()
                     connection.execute(
@@ -1867,7 +1895,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Validation is unavailable on this server. Install the shared icon model, validation package, schemas, contracts, and QA dependencies.'}, 503)
             except (KeyError, TypeError) as error:
                 return self.json_response({'error': 'The catalog is missing geometry metadata required for validation: '+str(error)}, 400)
-            except OSError:
+            except (OSError, sqlite3.Error):
                 return self.json_response({'error': 'Could not write edits to server storage. Your draft has not been saved.'}, 503)
 
     def discard_icon(self, data, user):

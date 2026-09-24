@@ -367,25 +367,50 @@ def listing(connection, catalog, decisions, now) -> dict:
     return {'claims': result}
 
 
-def review_listing(connection, catalog, decisions, query, now) -> dict:
-    """Every icon a reviewer may want to follow: disapproved, claimed, cannot-fix, or fixed and awaiting review."""
-    one, limit, offset = _paging(dict(query, limit=query.get('limit') or [str(MAX_QUEUE)]))
-    items = _disapproved_items(connection, catalog, decisions, now, (one('family'), None, None, one('reason')))
+def review_items(connection, catalog, decisions, now) -> list:
+    """The whole review listing, newest claim or disapproval first, before any filter or paging (the server caches it)."""
+    items = _disapproved_items(connection, catalog, decisions, now, (None, None, None, None))
     summaries = result_summaries(connection)
     for item in items:
         item['work']['results'] = sorted(summaries.get((item['key'], item.get('svg_sha256') or ''), {}))
-    ordered = sorted(items, key=lambda item: (item['work'].get('claimed_at') or item['disapproved_at'] or '', item['key']), reverse=True)
-    state, status = one('state'), one('status')
-    if state:
-        ordered = [item for item in ordered if item['work']['state'] == state]
-    if status:
-        ordered = [item for item in ordered if item['status'] == status]
+    return sorted(items, key=lambda item: (item['work'].get('claimed_at') or item['disapproved_at'] or '', item['key']), reverse=True)
+
+
+def filter_review(items, query) -> dict:
+    """One page of review_items. counts ignore only the state filter, so the page's state buttons show what each would list."""
+    one, limit, offset = _paging(dict(query, limit=query.get('limit') or [str(MAX_QUEUE)]))
+    family, reason, status, worker = one('family'), one('reason'), one('status'), one('worker')
+    text = (one('q') or '').strip().lower()
+
+    def searchable(item):
+        work = item['work']
+        return ' '.join(str(value or '') for value in (item['key'], item['name'], work.get('worker'), item['feedback'],
+                                                       item['disapproved_by'], work.get('note'))).lower()
+
+    matching = [item for item in items if (not family or item['family'] == family)
+                and (not reason or (item['reason'] or 'missing') == reason)
+                and (not status or item['status'] == status)
+                and (not worker or item['work'].get('worker') == worker)
+                and (not text or text in searchable(item))]
     counts = {state: 0 for state in STATES}
-    for item in items:
+    for item in matching:
         if item['work']['state']:
             counts[item['work']['state']] += 1
-    return {'total': len(ordered), 'offset': offset, 'next_offset': offset + limit if offset + limit < len(ordered) else None,
-            'counts': counts, 'items': ordered[offset:offset + limit]}
+    unfiltered = len(matching)
+    state = one('state')
+    if state:
+        matching = [item for item in matching if item['work']['state'] == (None if state == 'open' else state)]
+    return {'total': len(matching), 'offset': offset, 'next_offset': offset + limit if offset + limit < len(matching) else None,
+            'counts': counts, 'all': unfiltered, 'families': sorted({item['family'] for item in items if item['family']}),
+            'items': matching[offset:offset + limit]}
+
+
+def review_listing(connection, catalog, decisions, query, now) -> dict:
+    """Every icon a reviewer may want to follow: disapproved, claimed, cannot-fix, or fixed and awaiting review.
+
+    Filters: family, reason (or missing), status, state (working | done | cannot-fix | open = unclaimed), worker, q (text search).
+    """
+    return filter_review(review_items(connection, catalog, decisions, now), query)
 
 
 # ---- transitions; each runs inside the caller's write transaction ----

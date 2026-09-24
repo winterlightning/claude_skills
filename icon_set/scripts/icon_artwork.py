@@ -4,6 +4,7 @@ Authored Python remains the baseline. Manual SVGs and accepted graph snapshots
 are independent inputs; no generated source code is rewritten by an upload.
 Choices are rows of the gallery database's icon_artwork table.
 """
+from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
@@ -138,12 +139,29 @@ def safe_svg(text, canvas):
 
 
 class ArtworkStore(StrokeEditStore):
-    def get(self, key):
+    @contextmanager
+    def snapshot(self):
+        """Answer get() from one read of every choice, for loops over the whole catalog on this thread."""
         with self.connect() as connection:
-            row = connection.execute('SELECT document FROM icon_artwork WHERE icon=?', (key,)).fetchone()
-        if not row:
+            rows = dict(connection.execute('SELECT icon, document FROM icon_artwork'))
+        previous = getattr(self._local, 'snapshot', None)
+        self._local.snapshot = rows
+        try:
+            yield self
+        finally:
+            self._local.snapshot = previous
+
+    def get(self, key):
+        rows = getattr(self._local, 'snapshot', None)
+        if rows is not None:
+            text = rows.get(key)
+        else:
+            with self.connect() as connection:
+                row = connection.execute('SELECT document FROM icon_artwork WHERE icon=?', (key,)).fetchone()
+            text = row[0] if row else None
+        if not text:
             return None
-        document = json.loads(row[0])
+        document = json.loads(text)
         if document.get('schema') != 'pictographic.icon-artwork.v1' or document.get('icon') != key:
             raise ValueError('Invalid saved artwork record.')
         return document
@@ -195,8 +213,7 @@ class ArtworkStore(StrokeEditStore):
             result['selected_upload'] = deepcopy(result['uploaded'])
             result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
                                        'svg_sha256': result['uploaded']['svg_sha256']}
-        with self.connect() as connection, connection:
-            connection.execute('BEGIN IMMEDIATE')
+        with self.transaction() as connection:
             current = connection.execute('SELECT revision FROM icon_artwork WHERE icon=?', (key,)).fetchone()
             if (current[0] if current else 0) != (old or {}).get('revision', 0):
                 raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')

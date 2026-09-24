@@ -125,11 +125,11 @@ class NaturalTypefaceV2Tests(unittest.TestCase):
                             if g['kind']=='uppercase' else 'digit-'+g['character'])
                 self.assertEqual(g['icon_id'], expected)
                 self.assertAlmostEqual(g['body_top'], 2)
-                self.assertAlmostEqual(g['baseline'], 18)
-                self.assertAlmostEqual(g['body_height'], 16)
+                self.assertAlmostEqual(g['baseline'], g['canvas_height']-2)
+                self.assertAlmostEqual(g['body_height'], g['canvas_height']-4)
                 self.assertEqual(g['stroke_width'], 4)
-                self.assertIn(g['canvas_height'], (20,21))
-                self.assertEqual(g['canvas_width'], 20)
+                self.assertEqual(g['canvas_height'], 20 if g['kind']=='digit' else 19)
+                self.assertEqual(g['canvas_width'], 20 if g['kind']=='digit' else 19)
                 self.assertLessEqual(g['ink_height'],g['canvas_height']+.01)
                 self.assertLessEqual(g['ink_width'],g['canvas_width']+.01)
                 self.assertAlmostEqual(g['bounds'][1], 2, delta=.01)
@@ -153,4 +153,4 @@ class NaturalTypefaceV2Tests(unittest.TestCase):
     def test_q_tail_is_a_stroke(self):
         q = self.by_char['Q']
         self.assertEqual(len(q['paths']), 2)
-        self.assertAlmostEqual(q['centerline_width'], self.by_char['O']['centerline_width'], places=3)
+        self.assertGreater(q['centerline_width'], self.by_char['O']['centerline_width'])

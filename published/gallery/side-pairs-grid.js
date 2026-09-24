@@ -25,11 +25,32 @@ async function loadSidePairs(){
     const usable=d=>d.status==='pass'&&!['pending','rejected'].includes(reviews[d.key]);
     for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
     for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of item.source_ids)sideComponentStatus[role].set(id,item.status);
+    // Native text is a separate layout family. Map its exact selected main and
+    // sub by source UUID/key, then reuse the already generated native SVG.
+    const native=await fetch('side-text-v2.json',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
+    sideMapNativeText(native,components,usable);
     // Text / number marks are optional: without them the filter falls back to text-drawn subs.
     try{const r=await fetch('/api/primitives/status',{cache:'no-store'});if(r.ok)sideStatuses=await r.json();}catch{}
   }catch(error){sideError=error.message;}
   finally{sideLoading=false;}
   if(state.view==='side')renderCombinations();
+}
+function sideMapNativeText(report,components,usable){
+  for(const result of report.pairs||[]){
+    const row=combinationCatalog.rows.find(r=>r.id===result.id);
+    if(!row)continue;
+    if(sidePairs.get(row.id)?.subs.some(s=>s.sizing_mode==='typeface-native'))continue;
+    const main=components.mains.flatMap(i=>i.drawings).find(d=>d.key===result.main_key&&usable(d));
+    const source=components.subs.find(i=>[i.id,...i.source_ids].includes(result.sub_source_id));
+    const sub=source?.drawings.find(d=>d.profile==='TEXT_NATIVE_V2'&&usable(d));
+    if(!main||!sub)continue;
+    const item=d=>({...d,icon:d.icon_id,model_key:d.key,model_validation:'pass'});
+    const pair={...row,native_text:true,canvas_width:result.canvas_width||64,canvas_height:result.canvas_height||64,
+      mains:[item(main)],subs:[{...item(sub),sizing_kind:'text',native_text:true,
+        bounds:[2,2,sub.canvas_width-2,sub.canvas_height-2]}]};
+    sidePairs.set(row.id,pair);
+    sidePreviews[row.id]={url:result.preview_url,native_text:true,main:main.icon_id,sub:sub.icon_id};
+  }
 }
 const sideSubKey=s=>s.model_key||s.family+'/'+s.icon;
 const sideDataURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
@@ -40,7 +61,7 @@ function sideSubProblems(s){
   const problems=[],[w,h]=sideInk(s,true);
   if(s.model_validation&&s.model_validation!=='pass')problems.push('Model validation: '+s.model_validation);
   if(['needs_redraw','needs_review'].includes(s.sub32_status))problems.push(s.sub32_reason||'Needs a SUB32 redraw');
-  if(w>32.01||h>32.01)problems.push(`Ink ${sideRound(w)}×${sideRound(h)} exceeds 32×32`);
+  if(!s.native_text&&(w>32.01||h>32.01))problems.push(`Ink ${sideRound(w)}×${sideRound(h)} exceeds 32×32`);
   if(window.SideRepairFlags?.flagged(s))problems.push('Flagged for repair');
   return problems;
 }
@@ -69,6 +90,7 @@ function sideCategory(row){
 
 function sideCombined(pair,sub){
   const prebuilt=sidePreviews[pair.id],placed=role=>prebuilt?.result?.placements?.find(p=>p.role===role)?.icon;
+  if(prebuilt?.native_text&&prebuilt.sub===sub.icon&&prebuilt.main===pair.mains[0].icon)return prebuilt;
   if(prebuilt&&placed('sub')===sub.icon&&placed('main')===pair.mains[0].icon)return prebuilt;
   return sideRendered.get(pair.id+'|'+sub.icon);
 }
@@ -77,7 +99,8 @@ function sideFillCombined(media,pair,sub){
   if(found?.error){media.append(node('span','side-combined-empty',found.error));return;}
   if(!found){media.append(node('span','side-combined-empty','Rendering…'));sideRequestRender(pair,sub,media);return;}
   const img=node('img');img.src=found.url||sideDataURL(found.result.svg);img.alt=pair.concept+' — combined';img.width=img.height=128;
-  media.append(img);window.SideCombinationPopup?.attach(img,pair.concept,found.result);
+  if(found.native_text){const link=node('a');link.href=found.url;link.target='_blank';link.append(img);media.append(link);}
+  else{media.append(img);window.SideCombinationPopup?.attach(img,pair.concept,found.result);}
 }
 // Renders missing previews on demand, two at a time, and fills the tile if it is still shown.
 function sideRequestRender(pair,sub,media){
@@ -99,7 +122,7 @@ function sidePart(label,item,size,isSub){
   const figure=node('figure','side-part'),art=node('div','side-part-art side-grid-'+size);
   if(item){
     const img=node('img');img.src=item.document?sideDataURL(item.document):item.preview_url;img.alt=label+' '+item.icon;img.loading='lazy';art.append(img);
-    const caption=item.document?`${label} ${sideRound(sideInk(item,isSub)[0])}×${sideRound(sideInk(item,isSub)[1])} / ${size}`:`${label} · generated`;
+    const caption=item.native_text?`${label} ${sideRound(item.canvas_width)}×${sideRound(item.canvas_height)} · native`:item.document?`${label} ${sideRound(sideInk(item,isSub)[0])}×${sideRound(sideInk(item,isSub)[1])} / ${size}`:`${label} · generated`;
     figure.append(art,node('figcaption','',caption));
     if(isSub&&item.document){sideFixItems.set(figure,item);sideMarkFix(figure);}
   }else{art.classList.add('side-part-missing');art.append(node('span','',label+' needed'));figure.append(art,node('figcaption','',label+' · '+size+'×'+size));}
@@ -172,7 +195,7 @@ function sideParts(row){
   const refs=combinationCatalog.references,pair=sidePairs.get(row.id);
   const key=sideKey(row),hasMain=!['main','both','both-text'].includes(key),hasSub=!['sub','textsub','both','both-text'].includes(key);
   if(pair?.mains.length&&pair.subs.length&&hasMain&&hasSub)return {pair,key,main:pair.mains.find(m=>m.family==='solo'||m.family==='combination_main')||pair.mains[0],sub:sideCurrentSub(pair),ready:true};
-  const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^sub\//.test(g.key));
+  const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^(sub|text)\//.test(g.key));
   return {pair,key,main:hasMain&&main&&{icon:main.icon_id,preview_url:main.preview_url,pending:true},sub:hasSub&&sub&&{icon:sub.icon_id,preview_url:sub.preview_url,pending:true},ready:false};
 }
 function sideState(row,parts){
@@ -186,7 +209,7 @@ function sideStep(label,content,name){
 function sideRow(row){
   const refs=combinationCatalog.references,ref=refs[row.id],parts=sideParts(row),{pair,main,sub}=parts;
   const card=node('article','side-row'),head=node('div','side-row-head'),[label,tone,hint]=sideState(row,parts);
-  head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · 64×64'),Object.assign(node('span','side-state '+tone,label),{title:hint}));
+  head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · '+(pair?.native_text?`${sideRound(pair.canvas_width)}×${sideRound(pair.canvas_height)}`:'64×64')),Object.assign(node('span','side-state '+tone,label),{title:hint}));
   if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
   if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
   card.append(head);
@@ -198,7 +221,7 @@ function sideRow(row){
   const steps=node('div','side-steps');
   const mainPart=sidePart('Main',main,48,false),subPart=sidePart('Sub',sub,32,true);
   if(main)sideInspectable(mainPart,'Main',main,48,row.concept);if(sub)sideInspectable(subPart,'Sub',sub,32,row.concept);
-  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep('Sub · 32',subPart,sub?.icon),sideStep('Combined · 64',media));
+  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,sub?.icon),sideStep(pair?.native_text?'Combined · native':'Combined · 64',media));
   card.append(steps);
   if(pair?.subs.length>1){
     const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
@@ -207,7 +230,7 @@ function sideRow(row){
   if(parts.ready){
     const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
     if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
-    if(window.SideRepairFlags)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
+    if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
     if(actions.childElementCount)card.append(actions);
   }
   return card;

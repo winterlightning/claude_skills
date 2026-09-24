@@ -20,12 +20,12 @@ ROOT = Path(__file__).resolve().parents[2]
 DASHED = re.compile(r'([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})$', re.I)
 UNDERSCORED = re.compile(r'([a-z0-9]{8}(?:_[a-z0-9]{4}){3}_[a-z0-9]{12})$', re.I)
 MAIN_FAMILIES = ('solo', 'combination_main')
-SUB_FAMILIES = ('sub',)
+SUB_FAMILIES = ('sub', 'text')
 STATUS_ORDER = {'missing': 0, 'failing': 1, 'done': 2}
 
 
 def _source_ids(record: dict) -> set[str]:
-    ids = set()
+    ids = set(record.get('source_ids') or [])
     path = (record.get('python_source') or {}).get('path') or ''
     if match := UNDERSCORED.search(Path(path).stem):
         ids.add(match[1].replace('_', '-').lower())
@@ -50,7 +50,8 @@ def _drawing(record: dict, failed: bool) -> dict:
             'family': record['family'], 'status': status, 'preview_url': record.get('preview_url'),
             'exception': validation.get('exception'),
             'python_source': (record.get('python_source') or {}).get('path'), 'svg_sha256': record.get('svg_sha256'),
-            'errors': errors[:4]}
+            'errors': errors[:4], 'profile': record.get('profile'),
+            'canvas_width': record.get('canvas_width'), 'canvas_height': record.get('canvas_height')}
 
 
 def _originals(root: Path) -> dict[str, str]:
@@ -128,6 +129,14 @@ def build(combinations: dict, records: list[dict], failed_records: list[dict], r
 
 def write(target: Path, combinations: dict, records: list[dict], failed_records: list[dict], root: Path = ROOT) -> dict:
     result = build(combinations, records, failed_records, root)
+    text_report = target / 'side-text-v2.json'
+    if text_report.exists():
+        report = json.loads(text_report.read_text())
+        for item in result['subs']:
+            ids = {item['id'], *item['source_ids']}
+            item['text_combinations'] = [p for p in report['pairs'] if p['sub_source_id'] in ids]
+            item['text_blocked'] = [p for p in report['blocked'] if p.get('sub_source_id') in ids]
+            item['text_note'] = next((r['reason'] for r in report['unresolved'] if r['source_id'] in ids), None)
     (target / 'side-components.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     return result
 

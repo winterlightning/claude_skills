@@ -1,0 +1,45 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+
+SOURCE_ICON_ID='171ff3c8-7724-4935-ac18-b58d43e05931'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg'
+AUTHOR="gpt-6"
+PLAN='A/B button rims omitted; outlined directional pad reduced to a centerline cross; letters enlarged until their counters pass.'
+class Drawing(Solo48):
+    icon_id='video-game-control-directions'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';end=op[1]
+            if op[0]=='L': self.add_line(eid,p,end)
+            elif op[0]=='A': self.add_arc(eid,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            else: self.add_bezier(eid,p,(op[2],op[3],end))
+            p=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+
+    def build(self):
+        self.add_polyline('a',(6,42),(14,18),(22,42))
+        self.add_line('a-bar',(8,36),(20,36))
+        self.relate('connect','a','a-bar')
+        self.add_polyline('b',(28,6),(28,16),(28,26),(34,26))
+        self.add_bezier('b-upper',(28,6),((44,6),(44,16),(28,16)))
+        self.add_bezier('b-lower',(28,16),((44,16),(44,26),(34,26)))
+        for n in ['b-upper','b-lower']:self.relate('connect','b',n)
+        self.relate('connect','b-upper','b-lower')
+        self.add_polyline('pad-horizontal',(30,38),(34,38),(42,38))
+        self.add_polyline('pad-vertical',(34,35),(34,38),(34,42))
+        self.relate('connect','pad-horizontal','pad-vertical')
+

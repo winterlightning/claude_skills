@@ -1,6 +1,6 @@
 (function(root){
 'use strict';
-function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,stroke=4,padding=16,underline=false,strikethrough=false,canvasHeight=null,align='left',trimInk=false}={}){
+function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,stroke=4,padding=16,underline=false,strikethrough=false,canvasHeight=null,align='left',trimInk=false,nativeSize=false}={}){
   if(![xHeight,capHeight,tracking,lineGap,stroke,padding].every(Number.isFinite)||xHeight<=0||capHeight<=0||tracking<0||lineGap<0||stroke<=0||padding<0)throw Error('Invalid text dimensions.');
   if(canvasHeight!==null){
     if(!Number.isFinite(canvasHeight)||canvasHeight<=0)throw Error('Invalid canvas height.');
@@ -30,7 +30,7 @@ function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,strok
     for(const c of lineText){
       if(c===' '){cursor+=xHeight*.55;continue;}
       hasGlyphs=true;
-      const g=map.get(c),scale=(g.kind==='digit'||g.kind==='uppercase'?capHeight:xHeight)/g.body_height;
+      const g=map.get(c),scale=nativeSize&&g.geometry_policy==='source-native-20'?1:(g.kind==='digit'||g.kind==='uppercase'?capHeight:xHeight)/g.body_height;
       const width=(g.bounds[2]-g.bounds[0])*scale+stroke;
       const x=cursor+stroke/2-g.bounds[0]*scale,y=-g.baseline*scale;
       top=Math.min(top,g.bounds[1]*scale+y-stroke/2);
@@ -107,13 +107,12 @@ const v2Node=document.getElementById('glyphDataV2'),dataV2=v2Node?JSON.parse(v2N
 // v2 draws uppercase letters and digits: text is uppercased, and symbols come from v1.
 function withFallback(primary,fallback){const covered=new Set(primary.filter(g=>g.preferred).map(g=>g.character));return primary.concat(fallback.filter(g=>g.kind!=='lowercase'&&!covered.has(g.character)));}
 // v1: the height input is the lowercase body (caps 52/36 taller); locked ink is the 28-unit text family.
-// v2: fixed at the supplied 16-unit cap centerline on a 20-unit canvas; no height input,
-// and never fitted to the lock, so each line keeps the glyphs' native 20-unit ink.
+// v2 keeps each supplied letter and digit at native scale, including mixed canvas sizes.
 const versions={v1:{glyphs:data.glyphs,text:t=>t,inspect:'letter-b',height:36,lock:28,metrics:h=>({xHeight:h,capHeight:h*52/36})},
-                v2:{glyphs:withFallback(dataV2.glyphs,data.glyphs),text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',height:16,fixedHeight:true,lock:20,metrics:h=>({xHeight:h*36/52,capHeight:h})}};
+                v2:{glyphs:withFallback(dataV2.glyphs,data.glyphs),text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',height:16,fixedHeight:true,lock:20,metrics:h=>({xHeight:h*36/52,capHeight:h,nativeSize:true})}};
 let version=new URLSearchParams(location.search).get('version');if(!(version in versions))version='v1';$('version').value=version;
 const active=()=>versions[version];
-function applyVersionDefaults(){$('height').value=active().height;$('heightControl').hidden=!!active().fixedHeight;$('lockHeightLabel').textContent=active().fixedHeight?'Native size, trimmed to ink ('+active().lock+' per line, no padding)':'Lock visible ink height to '+active().lock+' (no padding)';}
+function applyVersionDefaults(){$('height').value=active().height;$('heightControl').hidden=!!active().fixedHeight;$('lockHeightLabel').textContent=active().fixedHeight?'Native size, trimmed to ink (no padding)':'Lock visible ink height to '+active().lock+' (no padding)';}
 applyVersionDefaults();
 let current=null;
 function update(){

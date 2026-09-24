@@ -137,6 +137,10 @@ def refresh():
             rows.append(dict(row, type='side', mains=[measure(m,'main') for m in mains], subs=[measure(m,'sub') for m in subs]))
         except Exception as error:
             failures.append({'id':row['id'],'concept':row['concept'],'error':str(error)})
+    # Native text layouts are generated from the supplied typeface, outside the
+    # Python primitive registry. Keep them in the shared combination pipeline.
+    native = {row['id']: row for row in old if row.get('native_text')}
+    rows = [row for row in rows if row['id'] not in native] + list(native.values())
     DATA.write_text(json.dumps({'rows': rows, 'failures': failures, 'state_skips': state_skips}))
     (ROOT / 'data/combination-sub32.json').write_text(json.dumps(export_manifest, indent=2)+'\n')
     (build_dist(ROOT.parent) / 'gallery/experiment-combination.json').write_text(DATA.read_text())

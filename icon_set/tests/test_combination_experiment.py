@@ -1,4 +1,5 @@
 import json
+import math
 import unittest
 import xml.etree.ElementTree as ET
 from icon_set.scripts.refresh_combination_pairs import export_sub32
@@ -32,6 +33,13 @@ class CombinationExperimentTests(unittest.TestCase):
     def test_automatic_sub_bounds_fit_all_available_pairs(self):
         for row in json.loads(DATA.read_text())['rows']:
             for item in row['subs']:
+                if item.get('sizing_mode') in ('typeface-native','side-32x48','side-one-axis32','side-source-fit','container-content-resize'):
+                    canvas=max(64,math.ceil(max(item['canvas_width'],item['canvas_height'])+4-1e-8))
+                    result=placement(item,32,(1,1),(0,0),size_lock='auto',canvas=canvas)
+                    self.assertAlmostEqual(result['painted_box']['w'],item['bounds'][2]-item['bounds'][0]+4)
+                    self.assertAlmostEqual(result['painted_box']['h'],item['bounds'][3]-item['bounds'][1]+4)
+                    self.assertIsNone(result['locked_size'])
+                    continue
                 result=placement(item,32,(1,1),(0,0),size_lock='auto')
                 box=result['painted_box']
                 if item['family'] != 'sub':
@@ -52,9 +60,10 @@ class CombinationExperimentTests(unittest.TestCase):
             for ax,ay in POSITIONS.values():
                 for role,size,anchor in [('mains',48,(1-ax,1-ay)),('subs',32,(ax,ay))]:
                     for item in row[role]:
-                        box=placement(item,size,anchor,(0,0))['painted_box']
+                        canvas=max(64,math.ceil(max(item['canvas_width'],item['canvas_height'])+4-1e-8)) if item.get('sizing_mode') in ('typeface-native','side-32x48','side-one-axis32','side-source-fit','container-content-resize') else 64
+                        box=placement(item,size,anchor,(0,0),canvas=canvas)['painted_box']
                         for k,e,a in [('x','w',anchor[0]),('y','h',anchor[1])]:
-                            self.assertAlmostEqual(box[k]+box[e]*a,2+60*a)
+                            self.assertAlmostEqual(box[k]+box[e]*a,2+(canvas-4)*a)
 
     def test_keyshape_does_not_change_origin_or_scale(self):
         for w,h in [(36,36),(40,32),(32,40),(40,40)]:

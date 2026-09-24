@@ -6,13 +6,14 @@ the same versioned JSON document the old per-file store wrote. Consumers can che
 effective validation (including a bound human override), then reconcile anchors
 and relationships before adopting the graph.
 """
-from contextlib import closing
+from contextlib import closing, contextmanager, nullcontext
 from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import json
 import math
 from pathlib import Path
+import threading
 
 if __package__:
     from . import state_db
@@ -203,11 +204,34 @@ class StrokeEditStore:
         self.database = Path(database)
         self.contracts_path = Path(contracts_path) if contracts_path else None
         self.database.parent.mkdir(parents=True, exist_ok=True)
+        self._local = threading.local()
         with closing(state_db.connect(self.database)) as connection, connection:
             state_db.init_store_tables(connection)
 
+    @contextmanager
+    def using(self, connection):
+        """Read and write through the caller's open transaction on this thread (it commits)."""
+        previous = getattr(self._local, 'connection', None)
+        self._local.connection = connection
+        try:
+            yield self
+        finally:
+            self._local.connection = previous
+
     def connect(self):
-        return closing(state_db.connect(self.database))
+        shared = getattr(self._local, 'connection', None)
+        return nullcontext(shared) if shared is not None else closing(state_db.connect(self.database))
+
+    @contextmanager
+    def transaction(self):
+        """A write transaction: the caller's (see using) or a new BEGIN IMMEDIATE that commits on exit."""
+        shared = getattr(self._local, 'connection', None)
+        if shared is not None:
+            yield shared
+            return
+        with closing(state_db.connect(self.database)) as connection, connection:
+            connection.execute('BEGIN IMMEDIATE')
+            yield connection
 
     def graph_for(self, icon, data, old=None):
         if data.get('svg_sha256') != icon['svg_sha256']:
@@ -306,8 +330,7 @@ class StrokeEditStore:
         document['effective_validation_status'] = effective_validation_status(document)
         if graph.get('keyshape'):
             document['keyshape'] = graph['keyshape']
-        with self.connect() as connection, connection:
-            connection.execute('BEGIN IMMEDIATE')
+        with self.transaction() as connection:
             current = connection.execute('SELECT revision FROM stroke_edits WHERE icon=? AND source_svg_sha256=?',
                                          (key, sha)).fetchone()
             if (current[0] if current else 0) != data['revision']:

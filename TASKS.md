@@ -11,72 +11,155 @@ project here):
 
 ## Queued
 
-- [ ] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 4 of 9. Redraw each of these 15 reference files in order. (tp:6e1cee35)
+- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 2 of 4. Redraw each of these 15 reference files in order. (tp:e08bfc8d)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
   validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
   Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
   Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/_uncategorized_34/smartphone pay dollar_76f441a8-5364-4c32-8def-992dfc5a44ec.svg
-    failed: mic [banknote]: parallel straight edges banknote-4-0 and phone-footer are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [phone]: phone and dollar-stem are 3.16228 apart on centerlines nearest (26, 12)<->(29, 13) (needs 8) (+5 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/smartphone-pay-dollar.svg
-  pictographic-primitives/_uncategorized_34/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg
-    failed: mic [large]: parallel straight edges large-1 and large-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [small]: parallel straight edges small-1 and small-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/snorer.svg
-  pictographic-primitives/_uncategorized_34/solar charging car 3_3f94101a-2b9f-45aa-9df1-583e0d6d7077.svg
-    failed: mic [panel]: parallel straight edges panel-1 and row are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [row]: parallel straight edges row and panel-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/solar-charging-car-3.svg
-  pictographic-primitives/_uncategorized_35/south east_4236f26b-6e26-4a4e-b565-3dda332eac7d.svg
-    failed: mic [e]: parallel straight edges e-1 and e-bar are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [e]: parallel straight edges e-1 and e-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback) (+8 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/south-east.svg
-  pictographic-primitives/_uncategorized_35/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg
-    failed: mic [counter-bottom]: parallel straight edges counter-bottom-2 and p-left-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-norma | mic [p-foot]: parallel straight edges p-foot-2 and p-left-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) (+5 more)
-    also: part spacing under 8, pinches, undersized holes
-    current drawing: published/failed/solo48/square-parking.svg
-  pictographic-primitives/_uncategorized_35/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg
-    failed: mic [body-base]: parallel straight edges body-base-3 and right-arm are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [left-arm]: parallel straight edges left-arm and body-base-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/square-person-confined.svg
-  pictographic-primitives/_uncategorized_36/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg
-    failed: mic [female-cross-2]: parallel straight edges female-cross-2 and female-shaft are 4.24264 apart on centerlines (ink gap 0.242641); requires at least 8 centerline / 4 ink  | mic [female-cross-3]: parallel straight edges female-cross-3 and female-shaft are 4.24264 apart on centerlines (ink gap 0.242641); requires at least 8 centerline / 4 ink  (+3 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/stablization-operation-female.svg
-  pictographic-primitives/_uncategorized_37/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg
-    failed: mic [upper]: parallel straight edges upper-1, upper-2 and lower-1, lower-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal | mic [tag]: tag and hole are 6.89949 apart on centerlines nearest (25, 9)<->(29.8787, 13.8787) (needs 8) (+3 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/tag-yuan.svg
-  pictographic-primitives/_uncategorized_37/task list multiple_d590c41a-0991-45d2-955b-ea0aa00b5b4a.svg
-    failed: mic [check-0]: parallel straight edges check-0-2 and check-1-2 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (overlap-fallbac | mic [front]: parallel straight edges front-0, front-1 and text-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/task-list-multiple.svg
-  pictographic-primitives/_uncategorized_37/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg
-    failed: mic [pin-bottom-1]: parallel straight edges pin-bottom-1 and pin-bottom-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [pin-top-1]: parallel straight edges pin-top-1 and pin-top-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+11 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/technology-hand-chip.svg
-  pictographic-primitives/_uncategorized_37/ticket basketball game_776076fa-8de2-42b1-9fac-cc7b5225e2bd.svg
-    failed: mic [ticket-rule-0]: parallel straight edges ticket-rule-0 and ticket-rule-1 are 5.37587 apart on centerlines (ink gap 1.37587); requires at least 8 centerline / 4 ink (m | mic [ball]: ball and seam-one are 0.272066 apart on centerlines nearest (9.80586, 9.8094)<->(10, 10) (needs 8) (+11 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/ticket-basketball-game.svg
-  pictographic-primitives/_uncategorized_38/toilet use right_2dff611f-5296-466d-ac68-3fd4303496ea.svg
-    failed: mic [toilet]: parallel straight edges toilet-3 and toilet-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [leg]: parallel straight edges leg-1 and toilet-4 are 1 apart on centerlines (ink gap -3); requires at least 8 centerline / 4 ink (midpoint-normal) (+2 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/toilet-use-right.svg
-  pictographic-primitives/_uncategorized_38/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg
-    failed: mic [toilet]: parallel straight edges toilet-3 and toilet-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [leg]: parallel straight edges leg-1 and toilet-4 are 1 apart on centerlines (ink gap -3); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/toilet-use-wrong.svg
-  pictographic-primitives/_uncategorized_38/trading news 1_55261672-8aa2-44d9-b648-0fed630f399c.svg
-    failed: mic [page]: parallel straight edges page-2 and arrow-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [header]: parallel straight edges header-4 and text-long are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/trading-news-1.svg
-  pictographic-primitives/_uncategorized_38/transportation ticket boat transfer_79b63fb3-53d2-42aa-af62-afdbc09d4964.svg
-    failed: mic [sail]: parallel straight edges sail-2 and hull-0, hull-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | holes/pinches: 1 undersized holes; 1 pinches
-    also: pinches, undersized holes
-    current drawing: published/failed/solo48/transportation-ticket-boat-transfer.svg
+  pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/phone-translate.svg
+  pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/compact-pickup-side-view.svg
+  pictographic-primitives/_uncategorized_31/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/print-slash.svg
+  pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/read-email-target.svg
+  pictographic-primitives/_uncategorized_34/snarl_47ddf223-ee29-448c-9235-3145f69bc3fa.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/snarling-face-with-two-fangs.svg
+  pictographic-primitives/_uncategorized_35/square bolt_abd4c13a-0851-416c-9370-fe3d89993b99.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-bolt.svg
+  pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-dollar-solo.svg
+  pictographic-primitives/_uncategorized_35/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-quote.svg
+  pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/station-wagon-reference-11bcc694.svg
+  pictographic-primitives/_uncategorized_36/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/step-son.svg
+  pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tampon-with-blood.svg
+  pictographic-primitives/_uncategorized_37/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/terrarium.svg
+  pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tty-answer.svg
+  pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smart-watch-yuan-symbol.svg
+  pictographic-primitives/ecology/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/noise-pollution-traffic.svg
+
+- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 3 of 4. Redraw each of these 15 reference files in order. (tp:44a16be1)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/holidays/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/maha-shivaratri.svg
+  pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/list-numbers.svg
+  pictographic-primitives/interface-essential/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/rearrange-column.svg
+  pictographic-primitives/other/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/academic-graduation-cap-solo.svg
+  pictographic-primitives/other/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/biology.svg
+  pictographic-primitives/other/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/house-dollar-sign.svg
+  pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/men-nude.svg
+  pictographic-primitives/other/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/mobile-phone-a-text.svg
+  pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/mobile-phone-moon.svg
+  pictographic-primitives/other/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-language.svg
+  pictographic-primitives/other/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-leaf.svg
+  pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg
+    failed: holes/pinches: 4 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/monitor-shuttlecock.svg
+  pictographic-primitives/other/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/play-button.svg
+  pictographic-primitives/other/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ribbon.svg
+  pictographic-primitives/other/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg
+    failed: holes/pinches: 3 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smartwatch-pound-symbol.svg
+
+- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 4 of 4. Redraw each of these 13 reference files in order. (tp:f17dc9e2)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/smartwatch-circle.svg
+  pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/square-spoon-and-knife-solo.svg
+  pictographic-primitives/other/tv control next_99b37bd2-37e1-42f8-b918-e34adc73280d.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tv-control-next.svg
+  pictographic-primitives/other/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/tv-control-previous.svg
+  pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ui-webpage-bug.svg
+  pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg
+    failed: holes/pinches: 2 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/gift-heart.svg
+  pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/ranking-ribbon.svg
+  pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg
+    failed: holes/pinches: 3 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/lesbian-lgbt-festival-fair-exhibition.svg
+  pictographic-primitives/romance/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/love-heart-keyhole.svg
+  pictographic-primitives/transportation/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/luggage-compartment-release.svg
+  pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg
+    failed: holes/pinches: 4 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/passport.svg
+  pictographic-primitives/video/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/video-edit-split.svg
+  pictographic-primitives/video/video player movie_585c392a-9c3f-4878-ad5b-8aae0e8bf5b5.svg
+    failed: holes/pinches: 1 undersized holes; 0 pinches
+    current drawing: published/failed/solo48/video-player-movie.svg
 
 
 ## Backlog
@@ -387,73 +470,6 @@ project here):
     failed: mic [handle-0]: parallel straight edges handle-0 and fridge-left-upper, fridge-left-lower are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink ( | mic [handle-1]: parallel straight edges handle-1 and fridge-left-upper, fridge-left-lower are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink ( (+7 more)
     also: part spacing under 8
     current drawing: published/failed/solo48/smart-refrigerator-device.svg
-
-- [ ] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 5 of 9. Redraw each of these 15 reference files in order. (tp:b42412af)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/_uncategorized_38/trash can list_ec941977-3867-480d-8373-1d308ee56a47.svg
-    failed: mic [lid]: parallel straight edges lid-7, lid-6, lid-5 and list-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [list-0]: parallel straight edges list-0 and list-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+6 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/trash-can-list.svg
-  pictographic-primitives/_uncategorized_38/trash list_1d6b9ee2-a7d3-4044-8400-4b4bc924b7cc.svg
-    failed: mic [lid]: parallel straight edges lid-7, lid-6, lid-5 and list-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [list-0]: parallel straight edges list-0 and list-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+11 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/trash-list.svg
-  pictographic-primitives/_uncategorized_38/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg
-    failed: mic [house-walls]: parallel straight edges house-walls-3 and door-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [door]: parallel straight edges door-3 and door-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+5 more)
-    also: part spacing under 8, pinches
-    current drawing: published/failed/solo48/truck-moving.svg
-  pictographic-primitives/_uncategorized_39/turn 1_9906051d-60e6-48a1-85dc-e14a0d83a72d.svg
-    failed: mic [route]: parallel straight edges route-5 and route-7 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [route]: parallel straight edges route-11 and route-8 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+4 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/turn-1.svg
-  pictographic-primitives/_uncategorized_39/tv retro_f213d74b-e15b-42ab-953a-a7a36392d15b.svg
-    failed: mic [display]: parallel straight edges display-6 and cabinet-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [cabinet]: parallel straight edges cabinet-0 and display-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+8 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/tv-retro.svg
-  pictographic-primitives/_uncategorized_39/user cash scale_fca396e7-351b-4b96-8ac4-233b3625135c.svg
-    failed: mic [person-body]: parallel straight edges person-bottom-left, person-bottom-right and beam-1, beam-2 are 2 apart on centerlines (ink gap -2); requires at least 8 centerl | mic [person-body]: person-body and beam are 2 apart on centerlines nearest (6, 30)<->(6, 32) (needs 8) (+3 more)
-    also: part spacing under 8, pinches, undersized holes
-    current drawing: published/failed/solo48/user-cash-scale.svg
-  pictographic-primitives/_uncategorized_39/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg
-    failed: mic [upper-link]: parallel straight edges upper-link and p-stem-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [main]: main and p-bowl are 4.99981 apart on centerlines nearest (28.3858, 12.7896)<->(25.3828, 16.7872) (needs 8)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/user-drop-zone-1.svg
-  pictographic-primitives/_uncategorized_39/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg
-    failed: mic [letter-e]: parallel straight edges letter-e-1 and e-middle are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [e-middle]: parallel straight edges e-middle and letter-e-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+4 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/user-live.svg
-  pictographic-primitives/_uncategorized_39/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg
-    failed: mic [v-first]: parallel straight edges v-first-2 and a-sides-1 are 5.96585 apart on centerlines (ink gap 1.96585); requires at least 8 centerline / 4 ink (midpoint-normal | mic [v-first]: v-first and a-sides are 5.96585 apart on centerlines nearest (10, 10)<->(15.9319, 10.6356) (needs 8) (+7 more)
-    also: part spacing under 8, pinches, undersized holes
-    current drawing: published/failed/solo48/valve-logo.svg
-  pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg
-    failed: mic [city]: parallel straight edges city-7 and city-5 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [city]: parallel straight edges city-2 and city-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+1 more)
-    also: part spacing under 8
-    current drawing: published/failed/solo48/video-game-bowl-city.svg
-  pictographic-primitives/_uncategorized_39/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg
-    failed: mic [b-top]: parallel straight edges b-top-0 and b-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [b]: parallel straight edges b-4 and b-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+6 more)
-    also: part spacing under 8, pinches, undersized holes
-    current drawing: published/failed/solo48/video-game-control-directions.svg
-  pictographic-primitives/_uncategorized_39/video game logo companion cube_6e798969-b8c1-4108-aa25-07455cf19213.svg
-    failed: mic [right-connector]: parallel straight edges right-connector-2 and right-connector-6 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (mid | mic [corner-1]: parallel straight edges corner-1-6 and top-connector-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+14 more)
-    also: part spacing under 8, pinches, undersized holes
-    current drawing: published/failed/solo48/video-game-logo-companion-cube.svg
-  pictographic-primitives/_uncategorized_39/vr video 1_66464e9f-35f0-4894-b4e2-7c801bd38b27.svg
-    failed: mic [headset]: parallel straight edges headset-10 and cube-left-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [headset]: parallel straight edges headset-1 and headset-rim are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) (+8 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/vr-video-1.svg
-  pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg
-    failed: mic [arms]: parallel straight edges arms-1 and hip are 6.1017 apart on centerlines (ink gap 2.1017); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [slash]: slash and head are 4.20004 apart on centerlines nearest (18.2303, 16.3071)<->(21.5904, 13.7871) (needs 8) (+1 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/walking-forbidden.svg
-  pictographic-primitives/_uncategorized_40/workflow data table increasing arrow_bd44c072-c5cf-4191-b2b0-3681a58f3a3a.svg
-    failed: mic [table]: parallel straight edges table-3, table-4 and row-27-1, row-27-2 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-norm | mic [row-27]: parallel straight edges row-27-1, row-27-2 and row-32-1, row-32-2, row-32-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink ( (+5 more)
-    also: part spacing under 8, undersized holes
-    current drawing: published/failed/solo48/workflow-data-table-increasing-arrow.svg
 
 - [ ] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 6 of 9. Redraw each of these 15 reference files in order. (tp:8e38bca3)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
@@ -1258,156 +1274,6 @@ project here):
     failed: holes/pinches: 4 undersized holes; 0 pinches
     current drawing: published/failed/solo48/passport-hand.svg
 
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 2 of 4. Redraw each of these 15 reference files in order. (tp:e08bfc8d)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/phone-translate.svg
-  pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/compact-pickup-side-view.svg
-  pictographic-primitives/_uncategorized_31/print slash_d0766f1e-f6cf-4413-a966-2923a42de78b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/print-slash.svg
-  pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/read-email-target.svg
-  pictographic-primitives/_uncategorized_34/snarl_47ddf223-ee29-448c-9235-3145f69bc3fa.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/snarling-face-with-two-fangs.svg
-  pictographic-primitives/_uncategorized_35/square bolt_abd4c13a-0851-416c-9370-fe3d89993b99.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-bolt.svg
-  pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-dollar-solo.svg
-  pictographic-primitives/_uncategorized_35/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-quote.svg
-  pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/station-wagon-reference-11bcc694.svg
-  pictographic-primitives/_uncategorized_36/step son_cd254b93-0bc0-4673-bae6-ab625d673425.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/step-son.svg
-  pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tampon-with-blood.svg
-  pictographic-primitives/_uncategorized_37/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/terrarium.svg
-  pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tty-answer.svg
-  pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smart-watch-yuan-symbol.svg
-  pictographic-primitives/ecology/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/noise-pollution-traffic.svg
-
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 3 of 4. Redraw each of these 15 reference files in order. (tp:44a16be1)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/holidays/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/maha-shivaratri.svg
-  pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/list-numbers.svg
-  pictographic-primitives/interface-essential/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/rearrange-column.svg
-  pictographic-primitives/other/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/academic-graduation-cap-solo.svg
-  pictographic-primitives/other/biology_37c9b2bf-2623-41e2-b321-1ce5634ee388.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/biology.svg
-  pictographic-primitives/other/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/house-dollar-sign.svg
-  pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/men-nude.svg
-  pictographic-primitives/other/mobile phone a text_1651603f-bfb9-458c-8d4f-d01b057f84fa.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/mobile-phone-a-text.svg
-  pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/mobile-phone-moon.svg
-  pictographic-primitives/other/monitor language_1d9a58b4-68ec-4f8d-9e8a-122fc721d471.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-language.svg
-  pictographic-primitives/other/monitor leaf_991e767c-0d53-46c0-b400-e2914ae3c7ef.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-leaf.svg
-  pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg
-    failed: holes/pinches: 4 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/monitor-shuttlecock.svg
-  pictographic-primitives/other/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/play-button.svg
-  pictographic-primitives/other/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ribbon.svg
-  pictographic-primitives/other/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg
-    failed: holes/pinches: 3 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smartwatch-pound-symbol.svg
-
-- [ ] Run $primitive-make-ray to repair failed icons: undersized holes, batch 4 of 4. Redraw each of these 13 reference files in order. (tp:f17dc9e2)
-  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
-  Failure type for this batch: Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
-  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
-  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
-  Files (the earlier failure and current drawing are under each one):
-  pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/smartwatch-circle.svg
-  pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/square-spoon-and-knife-solo.svg
-  pictographic-primitives/other/tv control next_99b37bd2-37e1-42f8-b918-e34adc73280d.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tv-control-next.svg
-  pictographic-primitives/other/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/tv-control-previous.svg
-  pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ui-webpage-bug.svg
-  pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg
-    failed: holes/pinches: 2 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/gift-heart.svg
-  pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/ranking-ribbon.svg
-  pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg
-    failed: holes/pinches: 3 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/lesbian-lgbt-festival-fair-exhibition.svg
-  pictographic-primitives/romance/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/love-heart-keyhole.svg
-  pictographic-primitives/transportation/luggage compartment release_5f2c92bb-8547-4bda-9a89-b7724021c337.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/luggage-compartment-release.svg
-  pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg
-    failed: holes/pinches: 4 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/passport.svg
-  pictographic-primitives/video/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/video-edit-split.svg
-  pictographic-primitives/video/video player movie_585c392a-9c3f-4878-ad5b-8aae0e8bf5b5.svg
-    failed: holes/pinches: 1 undersized holes; 0 pinches
-    current drawing: published/failed/solo48/video-player-movie.svg
-
 - [ ] Run $primitive-make-ray to repair failed icons: reviewer marked Needs fix, batch 1 of 12. Redraw each of these 15 reference files in order. (tp:64ce00c0)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Do not reuse an earlier run: the reviewer rejected the drawing itself.
   Failure type for this batch: Reviewer Needs fix: the current drawing passes validation, but a reviewer rejected it. It is usually off-reference in shape, has bad strokes, or has wrong proportions. Render the reference and the current drawing side by side, apply the reviewer note when there is one, and redraw so it reads like the reference. It must still pass every check below.
@@ -2028,6 +1894,140 @@ project here):
 
 
 ## Done
+
+- [x] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 5 of 9. Redraw each of these 15 reference files in order. (tp:b42412af)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/_uncategorized_38/trash can list_ec941977-3867-480d-8373-1d308ee56a47.svg
+    failed: mic [lid]: parallel straight edges lid-7, lid-6, lid-5 and list-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [list-0]: parallel straight edges list-0 and list-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+6 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/trash-can-list.svg
+  pictographic-primitives/_uncategorized_38/trash list_1d6b9ee2-a7d3-4044-8400-4b4bc924b7cc.svg
+    failed: mic [lid]: parallel straight edges lid-7, lid-6, lid-5 and list-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [list-0]: parallel straight edges list-0 and list-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+11 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/trash-list.svg
+  pictographic-primitives/_uncategorized_38/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg
+    failed: mic [house-walls]: parallel straight edges house-walls-3 and door-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [door]: parallel straight edges door-3 and door-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+5 more)
+    also: part spacing under 8, pinches
+    current drawing: published/failed/solo48/truck-moving.svg
+  pictographic-primitives/_uncategorized_39/turn 1_9906051d-60e6-48a1-85dc-e14a0d83a72d.svg
+    failed: mic [route]: parallel straight edges route-5 and route-7 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [route]: parallel straight edges route-11 and route-8 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+4 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/turn-1.svg
+  pictographic-primitives/_uncategorized_39/tv retro_f213d74b-e15b-42ab-953a-a7a36392d15b.svg
+    failed: mic [display]: parallel straight edges display-6 and cabinet-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [cabinet]: parallel straight edges cabinet-0 and display-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+8 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/tv-retro.svg
+  pictographic-primitives/_uncategorized_39/user cash scale_fca396e7-351b-4b96-8ac4-233b3625135c.svg
+    failed: mic [person-body]: parallel straight edges person-bottom-left, person-bottom-right and beam-1, beam-2 are 2 apart on centerlines (ink gap -2); requires at least 8 centerl | mic [person-body]: person-body and beam are 2 apart on centerlines nearest (6, 30)<->(6, 32) (needs 8) (+3 more)
+    also: part spacing under 8, pinches, undersized holes
+    current drawing: published/failed/solo48/user-cash-scale.svg
+  pictographic-primitives/_uncategorized_39/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg
+    failed: mic [upper-link]: parallel straight edges upper-link and p-stem-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [main]: main and p-bowl are 4.99981 apart on centerlines nearest (28.3858, 12.7896)<->(25.3828, 16.7872) (needs 8)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/user-drop-zone-1.svg
+  pictographic-primitives/_uncategorized_39/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg
+    failed: mic [letter-e]: parallel straight edges letter-e-1 and e-middle are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [e-middle]: parallel straight edges e-middle and letter-e-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+4 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/user-live.svg
+  pictographic-primitives/_uncategorized_39/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg
+    failed: mic [v-first]: parallel straight edges v-first-2 and a-sides-1 are 5.96585 apart on centerlines (ink gap 1.96585); requires at least 8 centerline / 4 ink (midpoint-normal | mic [v-first]: v-first and a-sides are 5.96585 apart on centerlines nearest (10, 10)<->(15.9319, 10.6356) (needs 8) (+7 more)
+    also: part spacing under 8, pinches, undersized holes
+    current drawing: published/failed/solo48/valve-logo.svg
+  pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg
+    failed: mic [city]: parallel straight edges city-7 and city-5 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [city]: parallel straight edges city-2 and city-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+1 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/video-game-bowl-city.svg
+  pictographic-primitives/_uncategorized_39/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg
+    failed: mic [b-top]: parallel straight edges b-top-0 and b-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [b]: parallel straight edges b-4 and b-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+6 more)
+    also: part spacing under 8, pinches, undersized holes
+    current drawing: published/failed/solo48/video-game-control-directions.svg
+  pictographic-primitives/_uncategorized_39/video game logo companion cube_6e798969-b8c1-4108-aa25-07455cf19213.svg
+    failed: mic [right-connector]: parallel straight edges right-connector-2 and right-connector-6 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (mid | mic [corner-1]: parallel straight edges corner-1-6 and top-connector-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+14 more)
+    also: part spacing under 8, pinches, undersized holes
+    current drawing: published/failed/solo48/video-game-logo-companion-cube.svg
+  pictographic-primitives/_uncategorized_39/vr video 1_66464e9f-35f0-4894-b4e2-7c801bd38b27.svg
+    failed: mic [headset]: parallel straight edges headset-10 and cube-left-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [headset]: parallel straight edges headset-1 and headset-rim are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) (+8 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/vr-video-1.svg
+  pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg
+    failed: mic [arms]: parallel straight edges arms-1 and hip are 6.1017 apart on centerlines (ink gap 2.1017); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [slash]: slash and head are 4.20004 apart on centerlines nearest (18.2303, 16.3071)<->(21.5904, 13.7871) (needs 8) (+1 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/walking-forbidden.svg
+  pictographic-primitives/_uncategorized_40/workflow data table increasing arrow_bd44c072-c5cf-4191-b2b0-3681a58f3a3a.svg
+    failed: mic [table]: parallel straight edges table-3, table-4 and row-27-1, row-27-2 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-norm | mic [row-27]: parallel straight edges row-27-1, row-27-2 and row-32-1, row-32-2, row-32-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink ( (+5 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/workflow-data-table-increasing-arrow.svg
+
+- [x] Run $primitive-make-ray to repair failed icons: parallel edges too close, batch 4 of 9. Redraw each of these 15 reference files in order. (tp:6e1cee35)
+  Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  Failure type for this batch: Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Files (the earlier failure and current drawing are under each one):
+  pictographic-primitives/_uncategorized_34/smartphone pay dollar_76f441a8-5364-4c32-8def-992dfc5a44ec.svg
+    failed: mic [banknote]: parallel straight edges banknote-4-0 and phone-footer are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [phone]: phone and dollar-stem are 3.16228 apart on centerlines nearest (26, 12)<->(29, 13) (needs 8) (+5 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/smartphone-pay-dollar.svg
+  pictographic-primitives/_uncategorized_34/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg
+    failed: mic [large]: parallel straight edges large-1 and large-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [small]: parallel straight edges small-1 and small-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/snorer.svg
+  pictographic-primitives/_uncategorized_34/solar charging car 3_3f94101a-2b9f-45aa-9df1-583e0d6d7077.svg
+    failed: mic [panel]: parallel straight edges panel-1 and row are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [row]: parallel straight edges row and panel-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/solar-charging-car-3.svg
+  pictographic-primitives/_uncategorized_35/south east_4236f26b-6e26-4a4e-b565-3dda332eac7d.svg
+    failed: mic [e]: parallel straight edges e-1 and e-bar are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [e]: parallel straight edges e-1 and e-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback) (+8 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/south-east.svg
+  pictographic-primitives/_uncategorized_35/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg
+    failed: mic [counter-bottom]: parallel straight edges counter-bottom-2 and p-left-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-norma | mic [p-foot]: parallel straight edges p-foot-2 and p-left-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) (+5 more)
+    also: part spacing under 8, pinches, undersized holes
+    current drawing: published/failed/solo48/square-parking.svg
+  pictographic-primitives/_uncategorized_35/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg
+    failed: mic [body-base]: parallel straight edges body-base-3 and right-arm are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [left-arm]: parallel straight edges left-arm and body-base-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/square-person-confined.svg
+  pictographic-primitives/_uncategorized_36/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg
+    failed: mic [female-cross-2]: parallel straight edges female-cross-2 and female-shaft are 4.24264 apart on centerlines (ink gap 0.242641); requires at least 8 centerline / 4 ink  | mic [female-cross-3]: parallel straight edges female-cross-3 and female-shaft are 4.24264 apart on centerlines (ink gap 0.242641); requires at least 8 centerline / 4 ink  (+3 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/stablization-operation-female.svg
+  pictographic-primitives/_uncategorized_37/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg
+    failed: mic [upper]: parallel straight edges upper-1, upper-2 and lower-1, lower-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal | mic [tag]: tag and hole are 6.89949 apart on centerlines nearest (25, 9)<->(29.8787, 13.8787) (needs 8) (+3 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/tag-yuan.svg
+  pictographic-primitives/_uncategorized_37/task list multiple_d590c41a-0991-45d2-955b-ea0aa00b5b4a.svg
+    failed: mic [check-0]: parallel straight edges check-0-2 and check-1-2 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (overlap-fallbac | mic [front]: parallel straight edges front-0, front-1 and text-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/task-list-multiple.svg
+  pictographic-primitives/_uncategorized_37/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg
+    failed: mic [pin-bottom-1]: parallel straight edges pin-bottom-1 and pin-bottom-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [pin-top-1]: parallel straight edges pin-top-1 and pin-top-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+11 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/technology-hand-chip.svg
+  pictographic-primitives/_uncategorized_37/ticket basketball game_776076fa-8de2-42b1-9fac-cc7b5225e2bd.svg
+    failed: mic [ticket-rule-0]: parallel straight edges ticket-rule-0 and ticket-rule-1 are 5.37587 apart on centerlines (ink gap 1.37587); requires at least 8 centerline / 4 ink (m | mic [ball]: ball and seam-one are 0.272066 apart on centerlines nearest (9.80586, 9.8094)<->(10, 10) (needs 8) (+11 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/ticket-basketball-game.svg
+  pictographic-primitives/_uncategorized_38/toilet use right_2dff611f-5296-466d-ac68-3fd4303496ea.svg
+    failed: mic [toilet]: parallel straight edges toilet-3 and toilet-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [leg]: parallel straight edges leg-1 and toilet-4 are 1 apart on centerlines (ink gap -3); requires at least 8 centerline / 4 ink (midpoint-normal) (+2 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/toilet-use-right.svg
+  pictographic-primitives/_uncategorized_38/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg
+    failed: mic [toilet]: parallel straight edges toilet-3 and toilet-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [leg]: parallel straight edges leg-1 and toilet-4 are 1 apart on centerlines (ink gap -3); requires at least 8 centerline / 4 ink (midpoint-normal) (+3 more)
+    also: part spacing under 8, undersized holes
+    current drawing: published/failed/solo48/toilet-use-wrong.svg
+  pictographic-primitives/_uncategorized_38/trading news 1_55261672-8aa2-44d9-b648-0fed630f399c.svg
+    failed: mic [page]: parallel straight edges page-2 and arrow-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [header]: parallel straight edges header-4 and text-long are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) (+9 more)
+    also: part spacing under 8
+    current drawing: published/failed/solo48/trading-news-1.svg
+  pictographic-primitives/_uncategorized_38/transportation ticket boat transfer_79b63fb3-53d2-42aa-af62-afdbc09d4964.svg
+    failed: mic [sail]: parallel straight edges sail-2 and hull-0, hull-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | holes/pinches: 1 undersized holes; 1 pinches
+    also: pinches, undersized holes
+    current drawing: published/failed/solo48/transportation-ticket-boat-transfer.svg
 
 - [x] Run $primitive-make-ray to repair failed icons: part spacing under 8, batch 9 of 11. Redraw each of these 15 reference files in order. (tp:7472b46e)
   Every file below was already drawn at least once (a registered model and/or an earlier primitive-make-ray or side-main-make-thuan run), and that drawing FAILED the check. It shows as "Drawn, unpublished" on gallery/primitives.html or "Needs fix" on gallery/side-mains.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.

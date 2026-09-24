@@ -1,0 +1,6 @@
+{
+  "keyshape": "SQUARE",
+  "body": "\nself.add_line('stylus',(6,6),(12,12))\nself.add_polyline('cube-left',(6,22),(18,26),(18,36),(6,32),closed=True)\nself.add_polyline('cube-top',(24,15),(30,17),(18,26));self.join('cube-left','cube-top')\nself.add_line('cube-right',(30,17),(30,28));self.join('cube-top','cube-right')\nself.path('headset',(30,28),[('L',(38,28)),('A',(42,32),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(36,42)),('L',(34,38)),('L',(32,42)),('L',(30,42)),('A',(26,38),4,4,True),('L',(26,32)),('A',(30,28),4,4,True)],True)\nself.join('cube-right','headset')\n",
+  "note": "Stylus above cube, goggles in foreground; cube wall ends at actual goggle top node. Omit crowded rim and lens circles; preserve nose bridge. Raise cube top away from goggle junction. Add one unit of corner clearance.",
+  "round": 3
+}

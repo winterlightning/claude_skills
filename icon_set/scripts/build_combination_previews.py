@@ -4,6 +4,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from .combination_experiment import DATA, ROOT, render
+from .experiment_gallery import stage_preview_combinations
 
 if __package__:
     from .workspace import build_dist
@@ -74,6 +75,7 @@ def build(*, force=False):
     for key,item in results.items():
         (folder/(key+'.svg')).write_text(item['result']['svg'])
     (build_dist(ROOT.parent) / 'gallery/experiment-combination-results.json').write_text(json.dumps({'results':results}))
+    stage_preview_combinations(build_dist(ROOT.parent) / 'gallery')
     print(f'Published {len(results)} combined icons.',flush=True)
 
 if __name__=='__main__':build()

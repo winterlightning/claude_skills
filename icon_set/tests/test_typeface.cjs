@@ -183,12 +183,17 @@ console.log('All printable keyboard characters, punctuation positions, escaping 
  assert.equal(result.placements[0].glyph.geometry_policy,'source-native-20');
  assert.equal(result.placements[1].glyph.icon_id,'letter-a-uppercase');
  assert.equal(result.placements[1].glyph.geometry_policy,'source-native-20');
- assert.equal(result.placements[1].glyph.body_height,16);
+ assert.equal(result.placements[1].glyph.body_height,15);
  assert.equal(result.placements[3].glyph.icon_id,'letter-h-uppercase');
  assert.equal(result.placements[4].glyph.kind,'digit');
  for(const p of result.placements)assert.ok(Math.abs(p.glyph.body_height*p.scale-52)<1e-8);
  const wide=layout('W',merged),narrow=layout('I',merged);
  assert.ok(wide.placements[0].width>narrow.placements[0].width);
+ const mixed=layout('AZQ1',merged,{xHeight:16*36/52,capHeight:16,nativeSize:true,trimInk:true,padding:0});
+ for(const p of mixed.placements)assert.equal(p.scale,1);
+ assert.ok(Math.abs(mixed.height-20)<.01);
+ const letters=layout('AZQ',merged,{xHeight:16*36/52,capHeight:16,nativeSize:true,trimInk:true,padding:0});
+ assert.ok(Math.abs(letters.height-19)<.01);
  const native=layout('A1',merged,{xHeight:16*36/52,capHeight:16,canvasHeight:20,trimInk:true,padding:0});
  assert.equal(native.height,20);
  assert.throws(()=>layout('a',v2),/Unsupported/);

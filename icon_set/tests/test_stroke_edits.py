@@ -1,16 +1,18 @@
 """Persistence, version conflicts, and Python handoff for the stroke editor."""
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from copy import deepcopy
 import http.client
 import json
 from pathlib import Path
+import sqlite3
 import tempfile
 import threading
 import unittest
 from unittest.mock import patch
 
 from icon_set.scripts.deploy import create_server
-from icon_set.scripts.stroke_edits import StrokeEditStore, EditConflict, edited_graph, load_edit
+from icon_set.scripts.stroke_edits import StrokeEditStore, EditConflict, edited_graph, load_edit, check_edit
 
 
 def example():
@@ -31,7 +33,7 @@ class StrokeEditTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.store = StrokeEditStore(self.root / 'edits')
+        self.store = StrokeEditStore(self.root / 'state.sqlite3')
         self.icon = example()
         self.data = {'svg_sha256': 'version-a', 'revision': 0, 'offsets': {'contour:outline': [3, -1], 'primitive:c': [.5, 2]}}
 
@@ -46,11 +48,11 @@ class StrokeEditTests(unittest.TestCase):
         self.assertEqual(primitives[2]['segments'], [[[4.5, 10], [10.5, 10], [12.5, 12]]])
         self.assertEqual(row['validation']['status'], 'not-run')
         self.assertEqual(row['original_graph']['primitives'], before['primitives'])
-        restarted = StrokeEditStore(self.store.root)
+        restarted = StrokeEditStore(self.store.database)
         self.assertEqual(restarted.get(self.icon['key'], 'version-a'), row)
-        self.assertEqual(load_edit(self.store.path(self.icon['key'], 'version-a'), expected_svg_sha256='version-a'), row)
+        self.assertEqual(check_edit(restarted.get(self.icon['key'], 'version-a'), expected_svg_sha256='version-a'), row)
         with self.assertRaises(EditConflict):
-            load_edit(self.store.path(self.icon['key'], 'version-a'), expected_svg_sha256='new')
+            check_edit(row, expected_svg_sha256='new')
 
     def test_resize_arc_and_bezier_and_read_legacy_edits(self):
         self.data['scales'] = {'contour:outline': [2, .5], 'primitive:c': [.5, 2]}
@@ -105,7 +107,7 @@ class StrokeEditTests(unittest.TestCase):
         self.assertEqual(row['edited_graph']['human_figures'], [])
         self.assertEqual(self.icon, before)
         self.assertEqual(row['original_graph']['primitives'], before['primitives'])
-        self.assertEqual(StrokeEditStore(self.store.root).get(self.icon['key'], 'version-a'), row)
+        self.assertEqual(StrokeEditStore(self.store.database).get(self.icon['key'], 'version-a'), row)
         # Older clients cannot inadvertently resurrect deleted strokes.
         legacy = self.store.save(self.icon, self.data | {'revision': 1}, 'jakes')
         self.assertEqual(legacy['edited_graph'], row['edited_graph'])
@@ -143,11 +145,10 @@ class StrokeEditTests(unittest.TestCase):
                 edited_graph(self.icon, invalid)
         row = self.store.save(self.icon, self.data, 'jakes')
         self.data.update(revision=1, offsets={})
-        with patch('icon_set.scripts.stroke_edits.os.replace', side_effect=OSError('disk full')):
-            with self.assertRaises(OSError):
+        with patch('icon_set.scripts.stroke_edits.state_db.put_stroke_edit', side_effect=sqlite3.OperationalError('disk I/O error')):
+            with self.assertRaises(sqlite3.Error):
                 self.store.save(self.icon, self.data, 'jakes')
         self.assertEqual(self.store.get(self.icon['key'], 'version-a'), row)
-        self.assertFalse(list(self.store.root.rglob('*.tmp')))
         reset = self.store.save(self.icon, self.data, 'hina')
         self.assertEqual(reset['edited_graph'], reset['original_graph'])
         self.assertEqual(reset['revision'], 2)
@@ -166,7 +167,7 @@ class StrokeEditAPITests(unittest.TestCase):
         status, report = self.call('POST', route, data)
         self.assertEqual(status, 200)
         self.assertEqual(report['status'], 'fail')
-        self.assertFalse(list((self.database.parent / 'stroke-edits').rglob('*.json')))
+        self.assertEqual(self.saved_edits(), [])
         self.assertEqual(self.call('POST', route, data | {'svg_sha256': 'old'})[0], 409)
         self.assertEqual(self.call('POST', route, data | {'keyshape': 'FREE'})[0], 400)
 
@@ -204,6 +205,10 @@ class StrokeEditAPITests(unittest.TestCase):
         self.start()
         self.cookie = None
 
+    def saved_edits(self):
+        with closing(sqlite3.connect(self.database)) as connection:
+            return [check_edit(json.loads(text)) for (text,) in connection.execute('SELECT document FROM stroke_edits')]
+
     def start(self):
         self.server = create_server(self.dist, self.database, port=0)
         threading.Thread(target=self.server.serve_forever, daemon=True).start()
@@ -238,9 +243,7 @@ class StrokeEditAPITests(unittest.TestCase):
         self.assertEqual(row['updated_by'], 'jakes')
         self.assertEqual(self.call('POST', data=data)[0], 409)
         self.assertEqual(self.call('GET', '/api/stroke-edits?icon=sub%2Fexample')[1]['edit'], row)
-        files = list((self.database.parent / 'stroke-edits').rglob('*.json'))
-        self.assertEqual(len(files), 1)
-        self.assertEqual(load_edit(files[0]), row)
+        self.assertEqual(self.saved_edits(), [row])
         self.server.shutdown(); self.server.server_close(); self.start()
         self.assertEqual(self.call('GET', '/api/stroke-edits?icon=sub%2Fexample')[1]['edit'], row)
         self.assertEqual(self.call('POST', data=dict(data, icon='../../escape'))[0], 404)

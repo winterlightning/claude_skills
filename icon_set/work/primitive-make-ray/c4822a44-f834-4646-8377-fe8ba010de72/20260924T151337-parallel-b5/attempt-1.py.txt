@@ -1,0 +1,38 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+
+SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
+AUTHOR="gpt-6"
+PLAN='City in bowl: reduce stepped skyline to one broad tower and low wings; dot represents thrown ball.'
+class Drawing(Solo48):
+    icon_id='video-game-bowl-city'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';end=op[1]
+            if op[0]=='L': self.add_line(eid,p,end)
+            elif op[0]=='A': self.add_arc(eid,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            else: self.add_bezier(eid,p,(op[2],op[3],end))
+            p=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+
+    def build(self):
+        self.path('bowl',(16,14),[('C',(6,26),(6,16),(6,20)),('C',(24,42),(6,36),(14,42)),('C',(42,26),(34,42),(42,36)),('C',(32,14),(42,20),(42,16))])
+        self.add_polyline('neck',(16,14),(16,6),(32,6),(32,14))
+        self.relate('connect','bowl','neck')
+        self.add_dot('ball',(42,6))
+        self.add_polyline('city',(16,32),(20,32),(20,23),(28,23),(28,32),(32,32))

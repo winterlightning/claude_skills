@@ -1,0 +1,45 @@
+{
+  "concept": "walking forbidden",
+  "source_uuid": "d3d76995-132c-4fd1-ae17-729e5381f6a4",
+  "source_path": "pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg",
+  "reference_path": "pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg",
+  "icon_id": "walking-forbidden",
+  "author": "gpt-6",
+  "status": "blocked",
+  "build_gate": "fail",
+  "validation_status": "invalid",
+  "validation_errors": 1,
+  "validation_warnings": 0,
+  "keyshape": "CIRCLE",
+  "repair_attempts": 6,
+  "visual_review": "Blocked: arm crowds head and lower sign region is undersized. Head16 radius3 ends19, aligned upper torso begins27: exact8 centerline/4 ink gap. human_ref/full_body_ref.png reviewed.",
+  "omissions": [
+    "Rear arm omitted; slash lowered to open head space. Forward arm/head and lower enclosed-region blockers remain."
+  ],
+  "references": [
+    "supplied SVG rendered as reference.png",
+    "Lucide original/trash-2.svg and atomic-debug/trash-2.svg: shared handle nodes and coherent rounded contours",
+    "Lucide original/tv.svg and atomic-debug/tv.svg: consistent rounded enclosure construction",
+    "icon_set/references/human_ref/full_body_ref.png"
+  ],
+  "blockers": [
+    "error: mic [arms]: arms and head are 6.15255 apart on centerlines nearest (29.0795, 23.6136)<->(25.6667, 18.4944); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "artifacts": {
+    "module": "walking_forbidden_d3d76995_132c_4fd1_ae17_729e5381f6a4.py",
+    "svg": "walking-forbidden.svg",
+    "metadata": "walking-forbidden.metadata.json",
+    "reference": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "debug": "gate/",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-240.png",
+      "dark-240.png"
+    ],
+    "attempts": "attempts/"
+  }
+}

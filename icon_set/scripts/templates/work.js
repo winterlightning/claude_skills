@@ -5,7 +5,8 @@
   const stateOf = row => row.work.state || '';
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
-  let rows = [], page = 1, loading = false;
+  // rows is the current page only; the server filters, counts and pages (/api/work/review).
+  let rows = [], page = 1, total = 0, all = 0, counts = {}, request = 0, searchTimer = 0;
   const open = new Set();
   const histories = new Map();
   const workerKey = 'pictographic_worker';
@@ -34,7 +35,7 @@
     $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review\ncurl --fail-with-body "$API_BASE/api/work/fixes"                             # uploaded fixes the gallery shows until the rebuilt model lands';
     $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke\n\n# --disapprove-status: bad-stroke | meaning | manual-fix-request | other';
   }
-  $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); render(); });
+  $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); if ($('workMine').checked) reload(); else render(); });
   $('docBase').addEventListener('input', renderDoc);
 
   async function api(path) {
@@ -44,51 +45,51 @@
     return data;
   }
 
-  async function load() {
-    if (loading) return;
-    loading = true;
-    $('workNotice').textContent = '';
-    $('workRows').innerHTML = '<tr><td colspan="9" class="work-empty">Loading…</td></tr>';
-    try {
-      const all = [];
-      let offset = 0;
-      for (;;) {
-        const data = await api('/api/work/review?limit=500&offset=' + offset);
-        all.push(...data.items);
-        if (data.next_offset === null || data.next_offset === undefined) break;
-        offset = data.next_offset;
-      }
-      rows = all;
-      histories.clear();
-      fillFamilies();
-    } catch (error) {
-      rows = [];
-      $('workNotice').textContent = 'Could not load the fix queue: ' + error.message;
-    } finally {
-      loading = false;
-      render();
-    }
+  function reviewQuery() {
+    const size = Number($('workPageSize').value) || 100;
+    const params = new URLSearchParams({limit: size, offset: (page - 1) * size});
+    const set = (name, value) => { if (value) params.set(name, value); };
+    set('family', $('workFamily').value); set('state', $('workState').value);
+    set('status', $('workStatus').value); set('reason', $('workReason').value);
+    set('q', $('workSearch').value.trim());
+    set('worker', $('workMine').checked && worker());
+    return params;
   }
 
-  function fillFamilies() {
+  // One page per request; a newer request (filter change, next page) wins over a slower older one.
+  async function load() {
+    const ticket = ++request;
+    $('workNotice').textContent = '';
+    if (!rows.length) $('workRows').innerHTML = '<tr><td colspan="9" class="work-empty">Loading…</td></tr>';
+    $('workSummary').setAttribute('aria-busy', 'true');
+    try {
+      const data = await api('/api/work/review?' + reviewQuery());
+      if (ticket !== request) return;
+      if (!data.families) $('workNotice').textContent = 'Production runs an older deploy.py: search, "mine" and the per-filter counts need its update.';
+      rows = data.items; total = data.total; counts = data.counts || {};
+      all = data.all ?? Object.values(counts).reduce((sum, n) => sum + n, 0);
+      fillFamilies(data.families || []);
+      const pages = Math.max(1, Math.ceil(total / (Number($('workPageSize').value) || 100)));
+      if (page > pages) { page = pages; return load(); }
+    } catch (error) {
+      if (ticket !== request) return;
+      rows = []; total = 0; all = 0; counts = {};
+      $('workNotice').textContent = 'Could not load the fix queue: ' + error.message;
+    }
+    $('workSummary').removeAttribute('aria-busy');
+    render();
+  }
+
+  function reload() { page = 1; load(); }
+
+  function fillFamilies(families) {
     const select = $('workFamily'), current = select.value;
-    const families = [...new Set(rows.map(row => row.family).filter(Boolean))].sort();
     select.replaceChildren(new Option('All families', ''), ...families.map(family => new Option(family, family)));
     select.value = families.includes(current) ? current : '';
   }
 
   function when(stamp) { return stamp ? new Date(stamp).toLocaleString() : ''; }
   function short(sha) { return sha ? sha.slice(0, 10) : '—'; }
-
-  function visible() {
-    const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value, reason = $('workReason').value;
-    const query = $('workSearch').value.trim().toLowerCase();
-    const mine = $('workMine').checked && worker();
-    return rows.filter(row => (!family || row.family === family) && (!state || stateOf(row) === state) && (!status || row.status === status)
-      && (!mine || row.work.worker === mine)
-      && (!reason || (reason === 'missing' ? !row.reason : row.reason === reason))
-      && (!query || [row.key, row.name, row.work.worker, row.feedback, row.disapproved_by, row.work.note].join(' ').toLowerCase().includes(query)));
-  }
 
   function cell(content, className) {
     const td = document.createElement('td');
@@ -106,25 +107,21 @@
   }
 
   function render() {
-    const counts = {};
-    for (const row of rows) counts[stateOf(row)] = (counts[stateOf(row)] || 0) + 1;
     $('workSummary').replaceChildren(...['', 'working', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
-      button.innerHTML = (state ? STATE_LABELS[state] : 'All') + ' <b>' + (state ? counts[state] || 0 : rows.length) + '</b>';
-      button.onclick = () => { $('workState').value = state; page = 1; render(); };
+      button.innerHTML = (state ? STATE_LABELS[state] : 'All') + ' <b>' + (state ? counts[state] || 0 : all) + '</b>';
+      button.onclick = () => { $('workState').value = state; reload(); };
       return button;
     }));
-    const shown = visible();
     const size = Number($('workPageSize').value) || 100;
-    const pages = Math.max(1, Math.ceil(shown.length / size));
-    page = Math.min(Math.max(1, page), pages);
-    const slice = shown.slice((page - 1) * size, page * size);
+    const pages = Math.max(1, Math.ceil(total / size));
+    const slice = rows;
     const body = $('workRows');
     body.replaceChildren();
     if (!slice.length) {
-      body.innerHTML = '<tr><td colspan="9" class="work-empty">' + (rows.length ? 'No icons match these filters.' : 'No disapproved icons or fix claims on production.') + '</td></tr>';
+      body.innerHTML = '<tr><td colspan="9" class="work-empty">' + (all || $('workSearch').value.trim() || $('workFamily').value || $('workStatus').value || $('workReason').value || $('workMine').checked ? 'No icons match these filters.' : 'No disapproved icons or fix claims on production.') + '</td></tr>';
     }
     for (const row of slice) {
       const tr = document.createElement('tr');
@@ -165,7 +162,7 @@
       body.append(tr);
       if (open.has(row.key)) body.append(detailRow(row));
     }
-    $('workPageInfo').textContent = shown.length ? 'Page ' + page + ' of ' + pages + ' · ' + shown.length + ' icons' : '';
+    $('workPageInfo').textContent = total ? 'Page ' + page + ' of ' + pages + ' · ' + total + ' icons' : '';
     $('workPrev').disabled = page <= 1; $('workNext').disabled = page >= pages;
   }
 
@@ -315,13 +312,11 @@
     return section;
   }
 
-  for (const id of ['workFamily', 'workState', 'workStatus', 'workReason']) $(id).addEventListener('change', () => { page = 1; render(); });
-  $('workSearch').addEventListener('input', () => { page = 1; render(); });
-  $('workPageSize').addEventListener('change', () => { page = 1; render(); });
-  $('workPrev').onclick = () => { page--; render(); };
-  $('workNext').onclick = () => { page++; render(); };
-  $('workMine').addEventListener('change', () => { page = 1; render(); });
-  $('workRefresh').onclick = load;
+  for (const id of ['workFamily', 'workState', 'workStatus', 'workReason', 'workPageSize', 'workMine']) $(id).addEventListener('change', reload);
+  $('workSearch').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(reload, 300); });
+  $('workPrev').onclick = () => { page--; load(); };
+  $('workNext').onclick = () => { page++; load(); };
+  $('workRefresh').onclick = () => { histories.clear(); load(); };
   renderDoc();
   load();
 })();

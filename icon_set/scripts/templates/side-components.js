@@ -50,12 +50,13 @@ function renderStats(){
 const GRID=ROLE==='sub'?32:48;
 function drawingFigure(item,d){
   const fig=node('figure','sc-drawing '+d.status),a=node('a','sc-grid sc-grid-'+GRID);a.href=d.preview_url||'#';a.target='_blank';a.rel='noopener';a.title=d.python_source||d.icon_id;
+  if(d.profile==='TEXT_NATIVE_V2'){a.className='sc-text-native';a.style.aspectRatio=String(d.canvas_width/d.canvas_height);}
   const img=document.createElement('img');img.loading='lazy';img.alt=d.icon_id;img.src=d.preview_url;a.append(img);
   if(d.preview_url)centerlineObserver.observe(a);a.dataset.src=d.preview_url||'';
-  fig.append(a,node('figcaption','',`${d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.exception?'pass · exception':d.status}`));
+  fig.append(a,node('figcaption','',`${d.profile==='TEXT_NATIVE_V2'?'Typeface v2 · native size · gap 4':d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.exception?'pass · exception':d.status}`));
   if(reviews[d.key]==='pending')fig.classList.add('flagged');
-  if(d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
-  if(d.svg_sha256){fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
+  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
+  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256){fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
   return fig;
 }
 // Centerline: each drawing is inlined as its artwork plus a thin copy of the same paths (CSS .sc-cl).
@@ -147,7 +148,7 @@ function tile(item){
   if(item.drawings.length)for(const d of item.drawings)art.append(drawingFigure(item,d));
   else{const f=node('figure');f.append(node('div','ph',b==='text'?'Text · generate separately':'Not generated'));art.append(f);}
   el.append(art);
-  const badges=node('div','sc-badges');badges.append(node('span','sc-badge '+b,{missing:'Not generated',failing:'Needs fix',done:'Generated',text:'Text'}[b]));
+  const badges=node('div','sc-badges');badges.append(node('span','sc-badge '+b,{missing:'Not generated',failing:'Needs fix',done:'Generated',text:item.drawings.some(d=>d.profile==='TEXT_NATIVE_V2'&&usable(d))?'Text · generated':'Text'}[b]));
   if(item.failing_variants&&item.status==='done')badges.append(node('span','sc-badge fail',`${item.failing_variants} failing variant${item.failing_variants===1?'':'s'}`));
   for(const f of item.other_drawings||[])badges.append(node('span','sc-badge',`${f} exists`));
   el.append(badges,node('h3','',item.concept),node('p','',`Used by ${item.uses.toLocaleString()} side pair${item.uses===1?'':'s'}: ${item.pairs.map(p=>p.concept).join(', ')}${item.uses>item.pairs.length?'…':''}`));
@@ -159,6 +160,9 @@ function tile(item){
     for(const d of failing)for(const e of d.errors)ul.append(node('li','',`${d.icon_id}: ${e}`));det.append(ul);el.append(det);}
   const links=node('div','sc-links'),pairs=node('a','','View side pairs');pairs.href='primitives.html?view=side&q='+encodeURIComponent(item.source_ids[0]||item.id);links.append(pairs);
   if(item.source_path){const s=node('a','','Source SVG');s.href=item.reference_url||'#';s.title=item.source_path;s.target='_blank';s.rel='noopener';links.append(s);}
+  for(const pair of item.text_blocked||[])el.append(node('p','',`${pair.concept}: ${pair.reason}.`));
+  if(item.text_note)el.append(node('p','',item.text_note));
+  if(item.text_combinations?.length){const details=node('details');details.append(node('summary','',`${item.text_combinations.length} combined icons`));for(const pair of item.text_combinations){const a=node('a');a.href=pair.preview_url;a.target='_blank';const img=document.createElement('img');img.src=pair.preview_url;img.alt=pair.concept;img.style.cssText='width:96px;height:96px;object-fit:contain';a.append(img);details.append(a); }el.append(details);}
   el.append(links);if(ROLE==='sub')el.append(classify(item));return el;
 }
 function classify(item){

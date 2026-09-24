@@ -170,6 +170,15 @@ class StateRuleTests(unittest.TestCase):
         review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
         self.assertEqual(review['counts'], {'working': 1, 'done': 0, 'cannot-fix': 0})
         self.assertEqual(review['items'][0]['key'], 'solo/c', 'most recent work first')
+        self.assertEqual((review['all'], review['families']), (3, ['solo', 'sub']))
+        find = lambda **query: [item['key'] for item in work_claims.review_listing(  # noqa: E731
+            self.connection, catalog, decisions, {name: [value] for name, value in query.items()}, NOW)['items']]
+        self.assertEqual(find(worker='mac-a/claude'), ['solo/c'])
+        self.assertEqual(find(q='ROUND THE'), ['sub/a'], 'search is case-insensitive over feedback, key, name, worker')
+        self.assertEqual(find(state='open'), ['sub/a', 'sub/b'])
+        self.assertEqual(find(reason='missing'), ['solo/c', 'sub/b'])
+        narrowed = work_claims.review_listing(self.connection, catalog, decisions, {'state': ['working'], 'family': ['sub']}, NOW)
+        self.assertEqual((narrowed['total'], narrowed['all'], narrowed['counts']['working']), (0, 2, 0), 'counts follow every filter but state')
         # A deployed fix changes the hash: the new revision starts Ready with no row and leaves the listing.
         catalog['solo/c']['svg_sha256'] = 'c2'
         decisions['solo/c'] = ('ready', None, None)

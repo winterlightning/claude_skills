@@ -1,0 +1,28 @@
+"""Square Spoon and Knife. Authored directly on SOLO48 for later user-requested sub reuse.
+Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
+smartphone and hand references inform coherent contours and shared joins.
+
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._payments_batch01 import circle, rounded_rect
+SOURCE_ICON_ID = 'b2e51317-7251-4abe-a7c5-6e845a33f1c5'
+SOURCE_PATH = 'pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'square-spoon-and-knife-solo'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/interface-essential'
+    tags = ('sub icon',)
+    keywords = ('sub icon', 'square spoon and knife')
+    def build(self):
+        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
+        rounded_rect(self,'outline',6,6,42,42,5)
+        circle(self,'spoon',19,18,3)
+        self.add_line('handle',(19,21),(19,33))
+        self.relate('connect','spoon','handle')
+        # Open blade silhouette removes the insignificant closed blade pocket.
+        self.add_polyline('knife',(31,33),(31,16),(34,23))

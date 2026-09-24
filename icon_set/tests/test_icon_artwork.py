@@ -20,8 +20,8 @@ class ArtworkTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.store = ArtworkStore(self.root/'artwork')
-        self.edits = StrokeEditStore(self.root/'edits')
+        self.store = ArtworkStore(self.root/'state.sqlite3')
+        self.edits = StrokeEditStore(self.root/'state.sqlite3')
         self.icon = portrait()
         self.icon['svg_sha256'] = sha(icon_from_graph(self.icon).to_svg())
         self.data = {'svg_sha256': self.icon['svg_sha256'], 'revision': 0, 'source_mode': 'use_upload', 'svg': SVG, 'filename': 'manual.svg'}
@@ -31,7 +31,7 @@ class ArtworkTests(unittest.TestCase):
         self.assertEqual(saved['uploaded']['uploaded_by'], 'jakes')
         selected = resolve_artwork(self.icon, saved)
         self.assertEqual(selected['svg_sha256'], sha(selected['svg']))
-        self.assertEqual(ArtworkStore(self.store.root).get(self.icon['key']), saved)
+        self.assertEqual(ArtworkStore(self.store.database).get(self.icon['key']), saved)
         original = self.store.save(self.icon, {'svg_sha256': self.icon['svg_sha256'], 'revision': 1, 'source_mode': 'use_org'}, 'hina', self.edits)
         self.assertIsNone(resolve_artwork(self.icon, original))
         self.assertEqual(original['uploaded'], saved['uploaded'])
@@ -91,7 +91,7 @@ class ArtworkTests(unittest.TestCase):
              patch('icon_set.model.icons.registry.all_icons', return_value=[icon]), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), redirect_stdout(io.StringIO()):
             return builder.build(self.root/'dist', self.root/'png', write_png=True, only=['solo'],
-                                 report=report, rebuild_all=all, artwork_dir=self.store.root)
+                                 report=report, rebuild_all=all, artwork_dir=self.store.database)
 
     def gallery(self, staging, published, folders):
         target = staging/'gallery'; target.mkdir(exist_ok=True); (target/'index.html').write_text('fixture'); return target
@@ -101,7 +101,7 @@ class ArtworkTests(unittest.TestCase):
         model = icon_from_graph(self.icon)
         with patch.object(builder, 'icons_in', return_value=[model]), \
              patch.object(builder, 'stage_gallery', side_effect=self.gallery), \
-             patch.object(builder, 'ArtworkStore', side_effect=AssertionError('Original build read manual state')), \
+             patch.object(builder, 'open_artwork_store', side_effect=AssertionError('Original build read manual state')), \
              redirect_stdout(io.StringIO()):
             builder.build(self.root/'originals', None, write_png=False, only=['solo'], report=False)
         # The fixture can fail current geometry rules; either output must be Python artwork.
