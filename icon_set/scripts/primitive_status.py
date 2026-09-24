@@ -311,6 +311,31 @@ def filter_rows(merged, category=None, status=None, batch=None, reason=None):
         yield row
 
 
+TODO_REFERENCES = 'icon_set/work/todo-references'
+MAKE_RAY_NOTE = ('Most of these already have a primitive-make-ray run that failed validation. Do not skip a file '
+                 'because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its '
+                 'newest existing run is already valid, in which case report it as done and move on.')
+
+
+def make_ray_prompt(merged, category: str, count: int = 4, offset: int = 0) -> dict:
+    """The next `count` TODO primitives of a category as a ready-to-paste primitive-make-ray prompt.
+
+    Files are the todo-references copies (icon_set/work/todo-references/<concept>_<uuid>.svg), named after the
+    original primitive file, in catalog order; `offset` skips the first TODO rows so batches can be paged.
+    """
+    todo = list(filter_rows(merged, category, 'todo'))
+    picked = todo[offset:offset + max(0, count)]
+    files = [f"{TODO_REFERENCES}/{Path(row['path']).name}" for row in picked]
+    label = (category or 'all').strip() or 'all'
+    lines = [f'Run $primitive-make-ray draw each of these {len(files)} reference files in order. (tp:{label})',
+             '  ' + MAKE_RAY_NOTE, *('  ' + file for file in files)]
+    return {'category': label, 'count': len(files), 'offset': offset, 'todo_total': len(todo),
+            'remaining': max(0, len(todo) - offset - len(files)),
+            'icons': [{'uuid': row['uuid'], 'concept': row.get('concept') or row.get('old_concept') or '',
+                       'file': file} for row, file in zip(picked, files)],
+            'files': files, 'prompt': '\n'.join(lines) + '\n'}
+
+
 def _load_catalog(dist: Path) -> dict:
     path = dist / 'gallery' / 'primitives.json'
     if not path.is_file():

@@ -45,7 +45,7 @@ if __package__:
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
     from .primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from .primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map,
+    from .primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map, make_ray_prompt,
                                     init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
@@ -63,7 +63,7 @@ else:
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
     from primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map,
+    from primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map, make_ray_prompt,
                                    init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from progression import import_snapshot
     from primitives_catalog import primitives_root
@@ -823,6 +823,32 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response(load_symbol_links(connection))
             except sqlite3.Error:
                 return self.json_response({'error': 'Symbol links are temporarily unavailable'}, 503)
+        if parsed.path == '/api/primitives/prompt':
+            query = parse_qs(parsed.query)
+            one = lambda name, default='': (query.get(name, [default])[0] or default)  # noqa: E731
+            try:
+                count, offset = int(one('count', '4')), int(one('offset', '0'))
+                if count < 1 or count > 100 or offset < 0:
+                    raise ValueError
+            except ValueError:
+                return self.json_response({'error': 'count must be 1-100 and offset a non-negative integer'}, 400)
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    statuses = load_status(connection)
+                merged = merge(self.primitives_catalog()['rows'], statuses)
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Primitive progress is temporarily unavailable'}, 503)
+            result = make_ray_prompt(merged, one('category'), count, offset)
+            if one('format', 'text') == 'json':
+                return self.json_response(result)
+            content = result['prompt'].encode('utf-8')
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/plain; charset=utf-8')
+            self.send_header('Content-Length', str(len(content)))
+            self.end_headers()
+            if self.command != 'HEAD':
+                self.wfile.write(content)
+            return
         if parsed.path in ('/api/primitives', '/api/primitives/status', '/api/primitives/summary'):
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:

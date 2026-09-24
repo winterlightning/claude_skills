@@ -312,6 +312,30 @@ class PrimitivesServerTests(unittest.TestCase):
         summary = json.loads(self.request('GET', '/api/primitives/summary')[1])
         self.assertEqual((summary['overall']['total'], summary['overall']['skip'], summary['overall']['todo']), (4, 1, 3))
 
+    def test_make_ray_prompt_api_lists_todo_reference_files(self):
+        code, body, response = self.request('GET', '/api/primitives/prompt?category=Uncategorized')
+        self.assertEqual(code, 200, body)
+        self.assertIn('text/plain', response.getheader('Content-Type'))
+        self.assertEqual(body.decode().splitlines(), [
+            'Run $primitive-make-ray draw each of these 1 reference files in order. (tp:Uncategorized)',
+            '  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file '
+            'because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its '
+            'newest existing run is already valid, in which case report it as done and move on.',
+            f'  icon_set/work/todo-references/south west_{U2}.svg'])
+        result = json.loads(self.request('GET', '/api/primitives/prompt?category=tools&count=1&format=json')[1])
+        self.assertEqual((result['category'], result['count'], result['todo_total'], result['remaining']), ('tools', 1, 1, 0))
+        self.assertEqual(result['files'], [f'icon_set/work/todo-references/hammer_{U4}.svg'])
+        self.assertEqual(result['icons'][0]['uuid'], U4)
+        paged = json.loads(self.request('GET', '/api/primitives/prompt?count=2&offset=1&format=json')[1])
+        self.assertEqual((paged['category'], paged['count'], paged['todo_total'], paged['remaining']), ('all', 2, 4, 1))
+        self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        self.request('POST', '/api/primitives/status', {'uuids': [U2], 'status': 'skip', 'reason': 'text_number', 'note': 'x'})
+        skipped = json.loads(self.request('GET', '/api/primitives/prompt?category=Uncategorized&format=json')[1])
+        self.assertEqual((skipped['count'], skipped['todo_total'], skipped['files']), (0, 0, []))
+        for query in ('count=0', 'count=101', 'offset=-1', 'count=many'):
+            with self.subTest(query=query):
+                self.assertEqual(self.request('GET', '/api/primitives/prompt?' + query)[0], 400)
+
     def test_reference_brief_round_trip_preserves_status(self):
         change = {'uuid': U1, 'family': 'solo', 'brief': 'Concept: Monitor\nDescription: A monitor viewed from the front.'}
         self.assertEqual(self.request('POST', '/api/primitives/briefs', change)[0], 200)
