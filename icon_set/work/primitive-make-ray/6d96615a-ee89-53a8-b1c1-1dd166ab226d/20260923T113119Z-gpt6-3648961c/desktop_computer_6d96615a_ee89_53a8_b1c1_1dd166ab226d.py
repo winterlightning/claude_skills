@@ -9,7 +9,7 @@ SOURCE_PATH = 'icon_set/work/todo-references/desktop computer_6d96615a-ee89-53a8
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'desktop-computer'
+    icon_id = 'desktop-computer-6d96615a'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

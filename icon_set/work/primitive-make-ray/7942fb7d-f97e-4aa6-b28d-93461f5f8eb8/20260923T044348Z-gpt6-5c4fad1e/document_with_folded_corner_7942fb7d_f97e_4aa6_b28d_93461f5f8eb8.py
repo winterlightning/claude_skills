@@ -10,7 +10,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/fill_7942fb7d-f97e-4aa6
 AUTHOR = 'gpt-6'
 
 class DocumentWithFoldedCorner(Solo48):
-    icon_id = 'document-with-folded-corner'
+    icon_id = 'document-with-folded-corner-7942fb7d'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'

@@ -10,7 +10,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/fillet_4ec593fc-b144-4f
 AUTHOR = 'gpt-6'
 
 class RoundedSquareShape(Solo48):
-    icon_id = 'rounded-square-shape'
+    icon_id = 'rounded-square-shape-4ec593fc'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'

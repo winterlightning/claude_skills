@@ -54,6 +54,16 @@ def _relative_imports(text: str, family: str, base: str) -> str:
     return text
 
 
+def _icon_module(run: Path, source_dir: Path) -> Path | None:
+    """The run's icon module: the only .py, or the one named after the source uuid beside helper scripts."""
+    modules = [p for p in run.glob('*.py') if not p.name.startswith('.')]
+    if len(modules) == 1:
+        return modules[0]
+    stem = source_dir.name.replace('-', '_').lower()
+    named = [p for p in modules if stem in p.name.lower()]
+    return named[0] if len(named) == 1 else None
+
+
 def _latest_valid_run(source_dir: Path) -> Path | None:
     runs = []
     for run in source_dir.iterdir():
@@ -64,7 +74,7 @@ def _latest_valid_run(source_dir: Path) -> Path | None:
             data = json.loads(result.read_text(encoding='utf-8'))
         except ValueError:
             continue
-        if data.get('validation_status') == 'valid' and len(list(run.glob('*.py'))) == 1:
+        if data.get('validation_status') == 'valid' and _icon_module(run, source_dir) is not None:
             runs.append(run)
     return max(runs, key=lambda run: run.name) if runs else None
 
@@ -83,7 +93,7 @@ def _strict_ok(module_path: Path, icon_id: str) -> list[str]:
     return [f'no class with icon_id {icon_id!r}']
 
 
-def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool) -> dict:
+def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, only: list[str] | None = None) -> dict:
     from icon_set.model.icons.registry import factories
     registered = factories()
     report = {'promoted': [], 'skipped': [], 'held': [], 'families': set()}
@@ -95,15 +105,19 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool) -> 
             continue
         target_dir = MODELS / family
         for source_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+            if only and not any(source_dir.name.lower().startswith(prefix) for prefix in only):
+                continue
             run = _latest_valid_run(source_dir)
             if run is None:
                 report['skipped'].append((source_dir.name, 'no valid run'))
                 continue
-            module = next(run.glob('*.py'))
+            module = _icon_module(run, source_dir)
             target = target_dir / module.name
             if (run / 'promoted.json').is_file() or target.is_file():
                 continue
-            text = _relative_imports(module.read_text(encoding='utf-8'), family, base)
+            # Rename on the original text; the strict check imports it standalone, so the
+            # package-relative rewrite happens only for the copy that lands in the tree.
+            text = module.read_text(encoding='utf-8')
             match = ICON_ID.search(text)
             if match is None:
                 report['skipped'].append((source_dir.name, f'{module.name}: no icon_id'))
@@ -121,7 +135,7 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool) -> 
             if strict:
                 # Check the copy as the build will see it, in a scratch location.
                 scratch = run / f'.strict-{module.name}'
-                scratch.write_text(text, encoding='utf-8')
+                scratch.write_text(text, encoding='utf-8')  # absolute imports, loadable from anywhere
                 try:
                     findings = _strict_ok(scratch, icon_id)
                 finally:
@@ -130,6 +144,7 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool) -> 
                     report['held'].append((source_dir.name, icon_id, findings[0]))
                     continue
             taken.add(icon_id)
+            text = _relative_imports(text, family, base)
             report['promoted'].append((source_dir.name, icon_id, str(target.relative_to(REPO_ROOT))))
             report['families'].add(family)
             if dry_run:
@@ -152,10 +167,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--strict', action='store_true',
                         help="run the build's hole/pinch and spacing gates first and hold back icons that fail them")
     parser.add_argument('--build', action='store_true', help='after promoting, run build.py --changed-only for the touched families')
+    parser.add_argument('--only', action='append', metavar='UUID_PREFIX',
+                        help='promote only source folders whose uuid starts with this (repeatable)')
     args = parser.parse_args(argv)
     skills = args.skill or ['side-main-make-thuan', 'side-sub-make-thuan']
 
-    report = promote(skills, dry_run=args.dry_run, suffix=args.suffix, strict=args.strict)
+    report = promote(skills, dry_run=args.dry_run, suffix=args.suffix, strict=args.strict,
+                     only=[p.lower() for p in args.only] if args.only else None)
     verb = 'would promote' if args.dry_run else 'promoted'
     print(f"{verb} {len(report['promoted'])} icon(s)")
     for source, icon_id, path in report['promoted']:

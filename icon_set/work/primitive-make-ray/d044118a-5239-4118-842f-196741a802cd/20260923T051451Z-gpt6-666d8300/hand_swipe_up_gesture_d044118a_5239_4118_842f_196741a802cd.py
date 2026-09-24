@@ -5,7 +5,7 @@ SOURCE_PATH = "pictographic-primitives/_uncategorized_20/gesture swipe vertical 
 AUTHOR = "gpt-6"
 
 class HandSwipeUpGesture(Solo48):
-    icon_id = "hand-swipe-up-gesture"
+    icon_id = "hand-swipe-up-gesture-d044118a"
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

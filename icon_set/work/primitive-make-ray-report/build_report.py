@@ -163,7 +163,8 @@ def main() -> int:
                          'status': str(result.get('validation_status') or 'error'),
                          'errors': sum(l.startswith('ERROR') for l in lines),
                          'warnings': sum(l.startswith('WARN') for l in lines),
-                         'findings': lines, 'mtime': result_path.stat().st_mtime})
+                         'findings': lines, 'mtime': result_path.stat().st_mtime,
+                         'svg': clean_svg(result_svg(result, run))})
         row = rows.get(uuid)
         ref = reference_for(uuid, row)
         concept = (row or {}).get('old_concept') or (ref.name.rsplit('_', 1)[0] if ref else source_dir.name)
@@ -177,7 +178,7 @@ def main() -> int:
         sources.append({'uuid': uuid, 'concept': concept, 'category': (row or {}).get('category', ''),
                         'gallery': effective(row, statuses), 'bucket': bucket(latest['status']),
                         'status': latest['status'], 'runs': runs, 'latest': latest,
-                        'svg': clean_svg(result_svg(latest['result'], latest['dir'])), 'reference': ref, 'dir': source_dir})
+                        'svg': latest['svg'], 'reference': ref, 'dir': source_dir})
 
     order = {'failed': 0, 'review': 1, 'passed': 2}
     sources.sort(key=lambda s: (order[s['bucket']], s['concept'].lower()))
@@ -204,8 +205,10 @@ def main() -> int:
                 badges.append(f'<b class="warn">{latest["warnings"]} warning{"s" if latest["warnings"] != 1 else ""}</b>')
         badges.append(f'<b class="gal {esc(s["gallery"])}">{esc(s["gallery"])}</b>')
         runs_html = ''.join(
-            f'<li><a href="../{esc(str(r["dir"].relative_to(HERE.parent)))}/">{esc(r["run"])}</a> · {esc(r["status"])}'
-            f'{" · " + str(r["errors"]) + " err" if r["errors"] else ""}{" · " + str(r["warnings"]) + " warn" if r["warnings"] else ""}</li>'
+            f'<li class="run {bucket(r["status"])}"><span class="thumb">{r["svg"] or "<span class=none>no svg</span>"}</span>'
+            f'<span class="run-meta"><a href="../{esc(str(r["dir"].relative_to(HERE.parent)))}/">{esc(r["run"])}</a><br>'
+            f'{esc(r["status"])}{" · " + str(r["errors"]) + " err" if r["errors"] else ""}{" · " + str(r["warnings"]) + " warn" if r["warnings"] else ""}'
+            f'{" · newest" if r is latest else ""}</span></li>'
             for r in reversed(s['runs']))
         find_html = ('<details><summary>Findings</summary><pre>' + esc('\n'.join(findings)) + '</pre></details>') if findings else ''
         search = ' '.join([s['concept'], s['uuid'], icon_id, s['category'], s['status'], s['gallery'], author]).lower()
@@ -218,7 +221,7 @@ def main() -> int:
             f'<p class="meta">{esc(icon_id)}{" · " if icon_id and s["category"] else ""}{esc(s["category"])}{" · " + esc(author) if author else ""}</p>'
             f'<p class="badges">{"".join(badges)}</p>'
             f'{find_html}'
-            f'<details><summary>{len(s["runs"])} run{"s" if len(s["runs"]) != 1 else ""} · <code>{esc(s["uuid"])}</code></summary><ul class="runs">{runs_html}</ul></details>'
+            f'<details class="allruns"><summary>{len(s["runs"])} run{"s" if len(s["runs"]) != 1 else ""} · <code>{esc(s["uuid"])}</code></summary><ul class="runs">{runs_html}</ul></details>'
             f'<p class="links"><a href="../{esc(str(run_dir))}/">open run folder</a></p>'
             f'</article>')
 
@@ -237,7 +240,7 @@ main{{max-width:1500px;margin:0 auto;padding:24px 16px 60px}}h1{{font-size:26px;
 .stat span{{display:block;color:var(--muted);font-size:12px}}.stat strong{{font-size:22px}}.stat.failed strong{{color:var(--fail)}}.stat.review strong{{color:var(--warn)}}.stat.passed strong{{color:var(--pass)}}
 .toolbar{{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:2}}
 .chip{{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;font:inherit}}.chip[aria-pressed=true]{{background:var(--ink);color:var(--bg);border-color:var(--ink)}}
-input,select{{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}}input{{min-width:220px;flex:1}}
+input,select{{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}}input[type=search]{{min-width:220px;flex:1}}
 .count{{color:var(--muted);margin-left:auto}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}}
 .card{{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:12px;min-width:0}}
@@ -250,7 +253,10 @@ input,select{{font:inherit;padding:7px 10px;border:1px solid var(--line);border-
 .badges{{margin:6px 0}}.badges b{{display:inline-block;font-weight:600;font-size:11px;border-radius:6px;padding:2px 7px;margin:0 6px 4px 0}}
 .err{{color:var(--fail);background:var(--fail-bg)}}.warn{{color:var(--warn);background:var(--warn-bg)}}.gal{{background:var(--chip);color:var(--muted)}}.gal.generated{{color:var(--pass);background:var(--pass-bg)}}.gal.todo{{color:var(--fail);background:var(--fail-bg)}}
 details{{margin:4px 0}}summary{{cursor:pointer;color:var(--accent);font-size:12px}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;margin:6px 0 0;max-height:220px;overflow:auto}}
-.runs{{margin:4px 0 0;padding-left:18px;font-size:12px}}code{{font-size:11px}}a{{color:var(--accent)}}.links{{margin:4px 0 0;font-size:12px}}
+.runs{{margin:6px 0 0;padding:0;list-style:none;font-size:12px}}.run{{display:flex;gap:10px;align-items:center;padding:4px 0;border-top:1px solid var(--line)}}
+.thumb{{flex:none;width:56px;height:56px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:#fff;color:#111}}.thumb svg{{width:44px;height:44px}}
+@media(prefers-color-scheme:dark){{:root:not([data-theme=light]) .thumb{{background:#111;color:#fff}}}}:root[data-theme=dark] .thumb{{background:#111;color:#fff}}
+.run.failed .thumb{{border-color:var(--fail)}}.run.passed .thumb{{border-color:var(--pass)}}.run.review .thumb{{border-color:var(--warn)}}.run-meta{{min-width:0;overflow-wrap:anywhere}}code{{font-size:11px}}a{{color:var(--accent)}}.links{{margin:4px 0 0;font-size:12px}}
 .card[hidden]{{display:none}}.empty{{color:var(--muted);padding:30px;text-align:center}}
 </style></head><body><main>
 <h1>primitive-make-ray results</h1>
@@ -261,6 +267,7 @@ details{{margin:4px 0}}summary{{cursor:pointer;color:var(--accent);font-size:12p
 <button class="chip" data-bucket="failed" aria-pressed="true">Failed</button><button class="chip" data-bucket="review" aria-pressed="false">Review</button><button class="chip" data-bucket="passed" aria-pressed="false">Passed</button><button class="chip" data-bucket="" aria-pressed="false">All</button>
 <select id="category" aria-label="Category"><option value="">All categories</option>{"".join(f'<option value="{esc(c)}">{esc(c)}</option>' for c in categories)}</select>
 <select id="gallery" aria-label="Gallery status"><option value="">Any gallery status</option><option value="todo">TODO</option><option value="generated">Generated</option><option value="drawn">Drawn</option><option value="skip">Skip</option></select>
+<label class="chip" style="cursor:pointer"><input id="expand" type="checkbox"> Show every run</label>
 <input id="q" type="search" placeholder="Search concept, icon id, uuid, author" aria-label="Search">
 <span class="count" id="count"></span></div>
 <div class="grid" id="grid">{"".join(cards)}</div><p class="empty" id="empty" hidden>Nothing matches.</p>
@@ -271,7 +278,9 @@ for(const c of cards){{const show=(!bucket||c.dataset.bucket===bucket)&&(!cat||c
 document.getElementById('count').textContent=n+' shown';document.getElementById('empty').hidden=n>0;}}
 chips.forEach(b=>b.onclick=()=>{{bucket=b.dataset.bucket;chips.forEach(x=>x.setAttribute('aria-pressed',String(x===b)));apply();}});
 for(const id of ['q','category','gallery'])document.getElementById(id).addEventListener('input',apply);
+document.getElementById('expand').onchange=e=>document.querySelectorAll('details.allruns').forEach(d=>d.open=e.target.checked);
 const p=new URLSearchParams(location.search);if(p.has('view')){{bucket=p.get('view');chips.forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.bucket===bucket)));}}
+if(p.get('expand')==='1'){{document.getElementById('expand').checked=true;document.querySelectorAll('details.allruns').forEach(d=>d.open=true);}}
 apply();
 </script></main></body></html>'''
     (HERE / 'index.html').write_text(page, encoding='utf-8')
