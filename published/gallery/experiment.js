@@ -53,7 +53,7 @@
       for(const tab of tabs){if(tab.dataset.type===type)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current');}
       $('typefaceLegend').hidden=true;$('reviewCollection').hidden=true;$('experimentEmpty').hidden=true;
       document.querySelector('.experiment-pagination').hidden=true;
-      history.replaceState(null,'','experiment.html?type=combination');
+      if(!new URLSearchParams(location.search).has('type')||new URLSearchParams(location.search).get('type')!=='combination')history.replaceState(null,'','experiment.html?type=combination');
       window.dispatchEvent(new Event('show-combinations'));return;
     }
     if(!restore){page=1;$('experimentSearch').value='';}
