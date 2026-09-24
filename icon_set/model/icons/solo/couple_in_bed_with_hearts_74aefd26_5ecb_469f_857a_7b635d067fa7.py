@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class CoupleInBedWithHearts(Solo48):
-    icon_id = "couple-in-bed-with-hearts"
+    icon_id = 'couple-in-bed-with-hearts'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

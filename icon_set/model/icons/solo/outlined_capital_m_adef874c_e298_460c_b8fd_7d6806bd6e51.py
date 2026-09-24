@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class OutlinedCapitalM(Solo48):
-    icon_id = "outlined-capital-m"
+    icon_id = 'outlined-capital-m'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

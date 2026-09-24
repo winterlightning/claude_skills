@@ -1,14 +1,9 @@
-"""American Football Ball.
-
-Plan: Broad diagonal football with two end bands and two transverse laces; explicit band attachment nodes. Square extrema 6,6–42,42.
-Construction reference: circle (local original and atomic-debug inspected).
-Simplification: Four source laces reduced to two; end bands retained and openings enlarged.
-"""
+'A diagonal American football with central laces.\nPlan: SQUARE fits the diagonal ball and its exact four extremes.\nReduction: Omitted the end bands because they crowded the pointed-end pockets. Retained two transverse laces and the seam.\nConstruction: No additional useful Lucide match was used for this repair; supplied football silhouette and laces govern the design.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a9f0b51b-1232-4e6f-922b-648cbe4c0f54'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_03/american football ball 1_a9f0b51b-1232-4e6f-922b-648cbe4c0f54.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/american football ball 1_a9f0b51b-1232-4e6f-922b-648cbe4c0f54.svg'
 AUTHOR = 'gpt-6'
 
 class BatchIcon(Solo48):
@@ -50,7 +45,4 @@ class BatchIcon(Solo48):
         for j,c in enumerate((20,28)):
             self.add_polyline(f'lace-{j}',(c-2,48-c-2),(c,48-c),(c+2,48-c+2))
             self.relate('connect','seam',f'lace-{j}')
-        self.add_line('end-band-low',(7,27),(21,41))
-        self.add_line('end-band-high',(27,7),(41,21))
-        self.relate('connect','outline','end-band-low')
-        self.relate('connect','outline','end-band-high')
+        # End bands omitted: they crowd the pointed end pockets; laces retain football identity.

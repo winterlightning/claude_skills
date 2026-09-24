@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class SmartphoneWithStethoscope(Solo48):
-    icon_id = "smartphone-with-stethoscope"
+    icon_id = 'smartphone-with-stethoscope'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

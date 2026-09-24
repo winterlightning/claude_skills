@@ -1,43 +1,31 @@
-"""Upright Snake with Curled Lower Body
-Plan: Raised snake head, S-curved neck and curled lower body.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Reconstructed thick snake ribbon with broad head and inward tail; crowded bend remains subject to release review.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '793e902f-88a8-4473-bf76-f80306c7a173'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_34/snake_793e902f-88a8-4473-bf76-f80306c7a173.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='793e902f-88a8-4473-bf76-f80306c7a173'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/snake_793e902f-88a8-4473-bf76-f80306c7a173.svg'
+AUTHOR='gpt-6'
+PLAN='Repair4 widens neck from both edges and raises coil crest to increase body thickness; retain full snake outline and exact SQUARE extrema.'
 class Drawing(Solo48):
-    icon_id = 'upright-snake-with-curled-lower-body'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('snake', 'reptile', 'coil', 'tail', 'animal', 'serpent')
+    icon_id='upright-snake-with-curled-lower-body'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,l,t,r,b,q=3):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{n}-{k}';ids.append(ident)
+            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(ident,pts[k],pts[(k+1)%8])
+        self.add_contour(n,*ids,closed=True)
 
     def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('snake',(6,12),[('C',(18,6),(7,7),(13,6)),('C',(27,14),(24,6),(27,8)),('C',(18,29),(27,20),(18,24)),('C',(22,34),(15,35),(18,38)),('C',(35,24),(28,26),(29,24)),('C',(42,34),(42,24),(42,29)),('C',(34,42),(42,39),(39,42)),('L',(28,42)),('C',(34,34),(30,38),(36,39)),('C',(29,33),(34,29),(32,29)),('C',(15,41),(24,40),(21,42)),('C',(9,29),(6,40),(6,34)),('L',(18,16)),('C',(15,13),(22,10),(19,10)),('L',(6,13)),('L',(6,12))],True)
+        self.add_bezier('snake',(6,14),((6,8),(10,6),(14,6)),((22,6),(24,10),(24,16)),((24,22),(16,25),(16,30)),((16,34),(20,32),(24,31)),((28,27),(30,23),(34,23)),((40,23),(42,29),(42,34)),((42,40),(38,42),(32,42)),((34,40),(36,37),(34,36)),((30,34),(27,42),(16,42)),((6,42),(6,37),(6,32)),((6,25),(12,20),(12,16)),((12,14),(10,14),(6,14)))
+        self.add_contour('outline','snake',closed=True)

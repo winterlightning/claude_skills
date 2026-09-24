@@ -1,44 +1,39 @@
-"""Smiling Face Behind Game Controller
-Plan: Smiling face above a broad two-grip controller.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: Lucide gamepad-2: two grips and broad upper control deck.
-Reduction: Tiny controls and mouth omitted in first fit; review identity before release."""
+"""Smiling face behind a game controller.
+Plan: SQUARE holds the head and paired controller grips. Existing passing geometry retained; head and controller remain legible in both themes at 48px.
+Reduction: Earlier passing repair omits eyes and tiny controller cross.
+Construction references: Original reference reviewed; earlier run records Lucide gamepad-2 construction, not independently reinspected here.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b0db5c05-63ca-4bad-830f-6a24ddb21cb3'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_16/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'smiling-face-behind-game-controller'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects/general"
     aliases = ()
-    keywords = ('emoji', 'game', 'controller', 'face', 'smile', 'gaming', 'controls')
-
-    def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+    keywords = ('emoji', 'gaming', 'lover', 'hug', '1')
+    def path(self,n,start,steps,closed=False):
+        here=start;members=[]
+        for k,step in enumerate(steps):
+            ident=f'{n}-{k}';members.append(ident)
+            if len(step)==2:
+                self.add_line(ident,here,step);here=step
             else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('face',(10,31),[('A',(6,24),18,18,True),('A',(24,6),18,18,True),('A',(42,24),18,18,True),('A',(38,31),18,18,True)])
-        path('controller',(13,28),[('L',(35,28)),('C',(39,33),(38,28),(39,30)),('L',(42,40)),('C',(36,42),(42,42),(38,42)),('L',(30,36)),('L',(18,36)),('L',(12,42)),('C',(6,40),(10,42),(6,42)),('L',(9,33)),('C',(13,28),(9,30),(10,28))],True)
-        for x in (19,29):path(f'eye-{x}',(x-2,17),[('C',(x+2,17),(x-1,14),(x+1,14))])
-        self.relate('connect','face','controller')
+                end,rx,ry,sweep=step
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep);here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,q=0):
+        if q==0:self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True)
+        else:self.path(n,(l+q,t),[(r-q,t),((r,t+q),q,q,True),(r,b-q),((r-q,b),q,q,True),(l+q,b),((l,b-q),q,q,True),(l,t+q),((l+q,t),q,q,True)],True)
+    def build(self):
+        self.path('face',(8,32),[((6,24),18,18,True),((24,6),18,18,True),((42,24),18,18,True),((40,32),18,18,True)])
+        self.add_bezier('controller',(8,32),((9,29),(11,29),(14,29)),((20,29),(28,29),(34,29)),((37,29),(39,29),(40,32)),((41,34),(42,36),(42,38)),((42,41),(41,42),(38,42)),((35,42),(33,38),(30,38)),((26,38),(22,38),(18,38)),((15,38),(13,42),(10,42)),((7,42),(6,41),(6,38)),((6,36),(7,34),(8,32)))
+        self.add_contour('gamepad','controller',closed=True)
+        self.relate('connect','face','gamepad')
+        self.add_arc('smile',(20,17),(28,17),radius_x=4,radius_y=3,sweep=False)

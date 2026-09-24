@@ -1,14 +1,22 @@
-'Pointed Artist Paintbrush\nPlan: Diagonal pointed brush with rounded handle, ferrule and flowing pointed bristles.\nReference: Lucide paintbrush: coherent head/handle attachment; supplied reference keeps pointed bristles.\nReduction: Retain the defining silhouette and visible parts.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""paintbrush: standalone SOLO48 repair.
+Plan: Diagonal pointed brush with rounded handle and ferrule.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Broadened handle and ferrule openings. A radius-5 cap and 3-4-5 tangent construction make the handle joins smooth.
+Lucide originals and atomic-debug construction reference: paintbrush.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f6746ee9-8a45-44c8-81ef-7d3da12c0bca'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_29/paintbrush_f6746ee9-8a45-44c8-81ef-7d3da12c0bca.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/paintbrush_f6746ee9-8a45-44c8-81ef-7d3da12c0bca.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'pointed-artist-paintbrush'
     keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
     keywords = ('pointed', 'artist', 'paintbrush')
 
@@ -34,8 +42,14 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
-        self.add_bezier('handle',(26,26),((30,20),(35,10),(38,6)),((40,6),(42,8),(42,10)),((38,16),(31,25),(30,30)))
-        self.add_line('handle-end',(30,30),(26,26));self.add_contour('handle-outline','handle','handle-end',closed=True)
-        self.add_polyline('ferrule',(26,26),(20,30),(24,36),(30,30));self.relate('connect','ferrule','handle-outline')
-        self.add_bezier('bristles',(20,30),((10,29),(12,38),(6,42)),((15,42),(22,42),(24,36)))
+        # Capsule cap: center (37,11), radius 5; side tangents use the 3-4-5 triangle.
+        # The 8x6 base vector and 6x-8 ferrule vector both have length 10.
+        self.add_line('handle-side-a',(21,24),(33,8))
+        self.add_arc('handle-cap',(33,8),(41,14),radius_x=5)
+        self.add_line('handle-side-b',(41,14),(29,30))
+        self.add_line('handle-base',(29,30),(21,24))
+        self.add_contour('handle-outline','handle-side-a','handle-cap','handle-side-b','handle-base',closed=True)
+        self.add_polyline('ferrule',(21,24),(15,32),(23,38),(29,30))
+        self.relate('connect','ferrule','handle-outline')
+        self.add_bezier('bristles',(15,32),((6,30),(12,38),(6,42)),((15,42),(23,42),(23,38)))
         self.relate('connect','bristles','ferrule')

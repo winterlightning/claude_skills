@@ -1,13 +1,13 @@
-"""Seated Chinchilla with Curved Tail
-Plan: Seated rodent with round ear, bent hind leg and raised curved tail.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: None."""
+"""Seated chinchilla with a rounded ear, bent hind leg and raised tail.
+Plan: SQUARE fits the seated animal and upright tail.
+Reduction: Ear widened; no defining part omitted.
+Construction: squirrel: coherent body, hind-leg curve and rising tail. Natural side-view asymmetry retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'df04551f-f9b1-422f-a44f-8a7dfd1d0dda'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_11/chinchilla_df04551f-f9b1-422f-a44f-8a7dfd1d0dda.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/chinchilla_df04551f-f9b1-422f-a44f-8a7dfd1d0dda.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -38,6 +38,6 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('chinchilla',(6,20),[('C',(16,12),(6,16),(11,12)),('C',(20,6),(16,8),(17,6)),('C',(24,10),(23,6),(24,8)),('L',(23,17)),('C',(33,34),(30,19),(33,26)),('L',(33,42)),('L',(12,42)),('L',(15,36)),('C',(6,20),(9,31),(10,25))],True)
+        path('chinchilla',(6,20),[('C',(16,12),(6,16),(11,12)),('C',(20,6),(16,8),(17,6)),('C',(26,10),(25,6),(26,8)),('L',(25,17)),('C',(33,34),(30,19),(33,26)),('L',(33,42)),('L',(22,42)),('L',(12,42)),('L',(15,36)),('C',(6,20),(9,31),(10,25))],True)
         path('leg',(25,31),[('C',(22,42),(18,31),(18,40))]);self.relate('connect','chinchilla','leg')
         path('tail',(33,42),[('C',(42,30),(42,40),(42,36)),('C',(42,14),(42,24),(35,20))]);self.relate('connect','chinchilla','tail')

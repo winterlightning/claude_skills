@@ -1,13 +1,13 @@
-"""Curving Pinworm
-Plan: Continuous thick worm ribbon with alternating bends and rounded ends.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: None."""
+"""Curving outlined pinworm with alternating bends.
+Plan: SQUARE fits the wide bent ribbon.
+Reduction: Both narrow middle and tail bands enlarged; right endpoint rounded; no main bend removed.
+Construction: No useful exact Lucide match. Coherent curves rebalanced around the two opposing bends; natural asymmetry preserved.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '12ed033b-94af-439b-9775-23fdba88d590'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_31/pinworm_12ed033b-94af-439b-9775-23fdba88d590.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/pinworm_12ed033b-94af-439b-9775-23fdba88d590.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -39,4 +39,11 @@ class Drawing(Solo48):
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
         # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('worm',(10,6),[('C',(18,18),(15,8),(19,12)),('C',(16,29),(17,23),(13,29)),('C',(23,24),(18,29),(20,26)),('C',(34,22),(27,18),(32,20)),('C',(42,32),(40,24),(42,27)),('C',(39,42),(42,37),(39,39)),('L',(31,42)),('C',(34,32),(31,38),(35,35)),('C',(28,32),(33,29),(30,29)),('C',(16,38),(24,36),(21,38)),('C',(6,27),(8,38),(6,33)),('C',(9,18),(6,23),(10,21)),('C',(6,10),(9,15),(6,14)),('A',(10,6),4,4,True)],True)
+        path('worm',(10,6),[
+            ('C',(18,18),(15,8),(19,12)),('C',(16,29),(17,23),(13,29)),
+            ('C',(26,23),(20,29),(23,26)),('C',(34,18),(29,18),(32,18)),
+            ('C',(42,28),(40,20),(42,22)),('L',(42,38)),
+            ('A',(38,42),4,4,True),('A',(34,38),4,4,True),('L',(34,34)),
+            ('C',(28,34),(34,30),(30,30)),('C',(16,40),(24,38),(21,40)),
+            ('C',(6,27),(8,40),(6,33)),('C',(9,18),(6,23),(10,21)),
+            ('C',(6,10),(9,15),(6,14)),('A',(10,6),4,4,True)],True)

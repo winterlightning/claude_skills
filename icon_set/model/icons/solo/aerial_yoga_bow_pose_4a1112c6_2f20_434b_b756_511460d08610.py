@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class AerialYogaBowPose(Solo48):
-    icon_id = "aerial-yoga-bow-pose"
+    icon_id = 'aerial-yoga-bow-pose'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

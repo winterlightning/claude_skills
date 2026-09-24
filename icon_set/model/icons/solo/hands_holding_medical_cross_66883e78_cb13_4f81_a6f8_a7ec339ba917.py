@@ -12,7 +12,7 @@ AUTHOR = "gpt-6"
 
 
 class HandsHoldingMedicalCross(Solo48):
-    icon_id = "hands-holding-medical-cross"
+    icon_id = 'hands-holding-medical-cross'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

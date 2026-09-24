@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class FossilizedBugInAmber(Solo48):
-    icon_id = "fossilized-bug-in-amber"
+    icon_id = 'fossilized-bug-in-amber'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

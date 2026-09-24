@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class MusicMonitorAndSpeaker(Solo48):
-    icon_id = "music-monitor-and-speaker"
+    icon_id = 'music-monitor-and-speaker'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

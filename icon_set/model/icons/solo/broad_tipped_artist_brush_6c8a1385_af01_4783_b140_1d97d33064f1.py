@@ -1,14 +1,22 @@
-'Broad-Tipped Artist Brush\nPlan: Broad pointed brush head beneath diagonal rounded handle and transverse ferrule.\nReference: Lucide paintbrush: broad bristle mass and attached ferrule; retain source pointed brush.\nReduction: Retain the defining silhouette and visible parts.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""paintwork: standalone SOLO48 repair.
+Plan: Diagonal brush with broad bristle tuft and rounded handle.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Broadened handle and ferrule; fuller bristle controls distinguish this tuft from the pointed brush. Uses the same tangent cap construction.
+Lucide originals and atomic-debug construction reference: paintbrush.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6c8a1385-af01-4783-b140-1d97d33064f1'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_29/paintwork_6c8a1385-af01-4783-b140-1d97d33064f1.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/paintwork_6c8a1385-af01-4783-b140-1d97d33064f1.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'broad-tipped-artist-brush'
     keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
     keywords = ('broad', 'tipped', 'artist', 'brush')
 
@@ -34,8 +42,14 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
-        self.add_bezier('handle',(24,22),((30,16),(34,10),(38,6)),((40,6),(42,8),(42,10)),((37,16),(32,22),(28,28)))
-        self.add_line('handle-base',(28,28),(24,22));self.add_contour('handle-outline','handle','handle-base',closed=True)
-        self.add_polyline('ferrule',(24,22),(18,26),(24,34),(28,28));self.relate('connect','ferrule','handle-outline')
-        self.add_bezier('bristles',(18,26),((7,26),(12,36),(6,42)),((17,42),(24,42),(24,34)))
+        # Capsule cap: center (37,11), radius 5; side tangents use the 3-4-5 triangle.
+        # The 8x6 base vector and 6x-8 ferrule vector both have length 10.
+        self.add_line('handle-side-a',(21,24),(33,8))
+        self.add_arc('handle-cap',(33,8),(41,14),radius_x=5)
+        self.add_line('handle-side-b',(41,14),(29,30))
+        self.add_line('handle-base',(29,30),(21,24))
+        self.add_contour('handle-outline','handle-side-a','handle-cap','handle-side-b','handle-base',closed=True)
+        self.add_polyline('ferrule',(21,24),(15,32),(23,38),(29,30))
+        self.relate('connect','ferrule','handle-outline')
+        self.add_bezier('bristles',(15,32),((5,27),(11,36),(6,42)),((18,42),(24,42),(23,38)))
         self.relate('connect','bristles','ferrule')

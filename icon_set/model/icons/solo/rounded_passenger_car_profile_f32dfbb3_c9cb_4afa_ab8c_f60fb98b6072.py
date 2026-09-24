@@ -1,13 +1,13 @@
-"""Rounded Passenger Car Profile
-Plan: Paired wheels beneath low body and raised cabin.
-Keyshape: HRECT_M; exact inset SOLO48 envelope.
-Construction: Lucide car: body stops at wheel rims.
-Reduction: None."""
+"""Passenger car with a raised cabin and paired wheels.
+Plan: HRECT_M follows the wide, low vehicle.
+Reduction: Wheel radius reduced to three; cabin and wheel gaps enlarged.
+Construction: car: body ends at wheel rims and both wheels share radius and baseline.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f32dfbb3-c9cb-4afa-ab8c-f60fb98b6072'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_08/buggy_f32dfbb3-c9cb-4afa-ab8c-f60fb98b6072.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/buggy_f32dfbb3-c9cb-4afa-ab8c-f60fb98b6072.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -38,11 +38,12 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('roof',(10,18),[('L',(15,12)),('C',(19,10),(16,10),(17,10)),('L',(29,10)),('C',(33,12),(31,10),(32,10)),('L',(38,18))])
-        path('body',(8,32),[('L',(4,32)),('L',(4,23)),('A',(9,18),5,5,True),('L',(39,18)),('A',(44,23),5,5,True),('L',(44,32)),('L',(40,32))])
-        for x in (14,34):circle(f'wheel-{x}',x,32,6)
-        self.add_line('underbody',(20,32),(28,32))
+        # Mirrored cabin and paired wheel construction; body terminates at wheel rims.
+        path('roof',(12,22),[('L',(17,12)),('C',(20,10),(18,10),(19,10)),('L',(28,10)),('C',(31,12),(29,10),(30,10)),('L',(36,22))])
+        path('body',(11,35),[('L',(8,35)),('A',(4,31),4,4,True),('L',(4,26)),('A',(8,22),4,4,True),('L',(12,22)),('L',(36,22)),('L',(40,22)),('A',(44,26),4,4,True),('L',(44,31)),('A',(40,35),4,4,True),('L',(37,35))])
+        for x in (14,34):circle(f'wheel-{x}',x,35,3)
+        self.add_line('underbody',(17,35),(31,35))
         self.relate('connect','roof','body')
         for x in (14,34):
-         self.relate('connect','body',f'wheel-{x}');self.relate('connect','underbody',f'wheel-{x}')
+            self.relate('connect','body',f'wheel-{x}')
+            self.relate('connect','underbody',f'wheel-{x}')

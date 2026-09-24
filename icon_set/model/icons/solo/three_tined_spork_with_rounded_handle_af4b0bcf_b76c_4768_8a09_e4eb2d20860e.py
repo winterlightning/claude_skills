@@ -1,14 +1,14 @@
-"""Three-Tined Spork with Rounded Handle
-Plan: Three-tined broad bowl joins a rounded handle.
-Keyshape: VRECT_M; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: None."""
+"""A three-tined spork with a broad rounded bowl and loop-shaped handle.
+Plan: VRECT_M fits the upright utensil within centerlines (10,4)-(38,44).
+Reduction: Tines reduced to centerline strokes; bowl and rounded outlined handle retained.
+Construction: Lucide utensils: shared-axis tines, rounded bowl transitions and long handle.
+Layout: Bowl sides mirror around x24; handle uses equal vertical sides and radius6 lower cap."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'af4b0bcf-b76c-4768-8a09-e4eb2d20860e'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_35/spork_af4b0bcf-b76c-4768-8a09-e4eb2d20860e.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/spork_af4b0bcf-b76c-4768-8a09-e4eb2d20860e.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-tined-spork-with-rounded-handle'
@@ -38,4 +38,8 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('spork',(14,4),[('C',(10,20),(11,8),(10,12)),('A',(18,28),8,8,False),('L',(18,38)),('A',(30,38),6,6,False),('L',(30,28)),('A',(38,20),8,8,False),('C',(34,4),(38,12),(37,8)),('L',(34,12)),('A',(24,12),5,5,True),('L',(24,4)),('L',(24,12)),('A',(14,12),5,5,True),('L',(14,4))],True)
+        # Shared bowl shoulders join the rounded handle at exact endpoints.
+        path('bowl',(12,4),[('C',(10,16),(10,8),(10,12)),('A',(18,24),8,8,False),('L',(24,24)),('L',(30,24)),('A',(38,16),8,8,False),('C',(36,4),(38,12),(38,8))])
+        self.add_line('middle-tine',(24,4),(24,24))
+        path('handle',(18,24),[('L',(18,38)),('A',(30,38),6,6,False),('L',(30,24))])
+        self.relate('connect','bowl','handle');self.relate('connect','bowl','middle-tine')

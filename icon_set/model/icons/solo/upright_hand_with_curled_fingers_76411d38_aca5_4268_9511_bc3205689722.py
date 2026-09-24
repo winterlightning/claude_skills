@@ -1,10 +1,14 @@
-'Upright Hand with Curled Fingers\nPlan: Upright hand with thumb curling inward; continuous anatomical contour and a long open finger slit.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Retain upright finger and curling thumb. Shared human reference inspected; no detached head applies.\nKeyshape: VRECT_M; exact SOLO48 contract envelope.'
+"""An upright hand with a curled thumb.
+Plan: VRECT_L leaves room for the long index finger and widened thumb curl.
+Reduction: No defining component removed; thumb tip and inner palm rebalanced.
+Construction: Human reference guidance inspected; Lucide hand reviewed for round finger caps and continuous palm contour.
+Layout: Anatomical asymmetry preserved; no head or torso gap applies."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '76411d38-aca5-4268-9511-bc3205689722'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_06/bhudda hand finger citron 1_76411d38-aca5-4268-9511-bc3205689722.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_06/bhudda hand finger citron 1_76411d38-aca5-4268-9511-bc3205689722.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'upright-hand-with-curled-fingers'
@@ -34,7 +38,9 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
-        self.add_bezier('thumb',(8,44),((8,35),(8,29),(13,22)),((15,19),(17,16),(18,16)),((21,16),(18,23),(18,27)),((18,34),(28,34),(28,25)),((28,20),(28,14),(28,10)))
+        self.add_bezier('thumb-outer',(8,44),((8,33),(8,22),(10,18)))
+        self.add_arc('thumb-tip',(10,18),(18,24),radius_x=5)
+        self.add_bezier('thumb-inner',(18,24),((17,26),(17,27),(17,29)),((17,34),(28,34),(28,25)),((28,20),(28,14),(28,10)))
         self.add_arc('index-0',(28,10),(40,10),radius_x=6,sweep=True)
         self.add_bezier('palm',(40,10),((40,28),(40,32),(30,39)),((27,41),(25,43),(24,44)))
-        self.add_contour('hand','thumb','index-0','palm')
+        self.add_contour('hand','thumb-outer','thumb-tip','thumb-inner','index-0','palm')

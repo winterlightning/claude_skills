@@ -1,14 +1,14 @@
-"""Smiling Elf with Drooping Bobble Hat
-Plan: Pointed ears, round jaw and drooping bobble hat.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: human_ref/user.svg: circular jaw; source hat and ears retained.
-Reduction: Tiny eyes omitted from crowded face."""
+"""Smiling elf wearing a drooping bobble hat.
+Plan: SQUARE fits the round jaw, broad ears and tall hat. Smooth circular jaw, integrated ears and deliberately asymmetric hat; reviewed at 48px in both themes.
+Reduction: Tiny eyes and internal ear seams omitted to preserve open negative space.
+Construction references: human_ref/user.svg for circular facial construction; no torso is depicted.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2a1d8754-4e2e-4a0a-b2fe-427b85f1964c'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_16/elf_2a1d8754-4e2e-4a0a-b2fe-427b85f1964c.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/elf_2a1d8754-4e2e-4a0a-b2fe-427b85f1964c.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'smiling-elf-with-drooping-bobble-hat'
@@ -38,9 +38,9 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+        # Ears belong to the outer face silhouette, without narrow enclosed seams.
         path('hat',(12,22),[('C',(26,6),(15,13),(19,6)),('C',(38,14),(30,6),(32,14))])
         circle('bobble',39,11,3);self.relate('connect','bobble','hat')
-        path('face',(12,22),[('L',(36,22)),('L',(36,30)),('A',(24,42),12,12,True),('A',(12,30),12,12,True),('L',(12,22))],True)
-        for s in (-1,1):self.add_polyline(f'ear-{s}',(24+s*12,24),(24+s*18,22),(24+s*15,33),(24+s*12,34));self.relate('connect',f'ear-{s}','face')
+        path('face',(12,22),[('L',(6,24)),('C',(12,30),(6,28),(8,30)),('A',(24,42),12,12,False),('A',(36,30),12,12,False),('C',(42,24),(40,30),(42,28)),('L',(36,22)),('L',(12,22))],True)
         self.relate('connect','hat','face')
         path('smile',(21,31),[('A',(27,31),4,4,False)])

@@ -1,14 +1,16 @@
-'Pointed Arch Linux Emblem\nPlan: Triangular Arch emblem with central rounded notch and interrupted right slope.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Retain the defining silhouette and visible parts.\nKeyshape: VRECT_L; exact SOLO48 contract envelope.'
+'The pointed Arch Linux emblem with a rounded lower notch and interrupted right slope.\nPlan: VRECT_L matches the tall pointed emblem.\nReduction: Made the lower notch shallower and slightly narrower to clear the left slope; retained its opening and the right-side break.\nConstruction: No useful direct Lucide match; supplied Arch emblem governs the silhouette.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7f1ad0e2-4f9e-423b-9473-4df26eae6fed'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_04/arch linux logo_7f1ad0e2-4f9e-423b-9473-4df26eae6fed.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/arch linux logo_7f1ad0e2-4f9e-423b-9473-4df26eae6fed.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'pointed-arch-linux-emblem'
     keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
     keywords = ('pointed', 'arch', 'linux', 'emblem')
 
@@ -35,5 +37,5 @@ class Drawing(Solo48):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
         self.add_polyline('left',(8,44),(24,4),(35,31))
-        path('base',(8,44),[(19,38),((29,38),5,8,True),(40,44),(38,39)])
+        path('base',(8,44),[(20,39),((28,39),4,4,True),(40,44),(38,39)])
         self.relate('connect','left','base')

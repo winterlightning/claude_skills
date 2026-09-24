@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class AdjustableBrightnessLightBulb(Solo48):
-    icon_id = "adjustable-brightness-light-bulb"
+    icon_id = 'adjustable-brightness-light-bulb'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

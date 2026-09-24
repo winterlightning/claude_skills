@@ -1,15 +1,14 @@
-"""User Centered Geometric Interaction.
-
-Plan: Central user with three different orbit shapes and curved connectors. Extremes 6,6,42,42.
-Construction: No useful direct Lucide match; coherent arcs and shared endpoints.
-Reduction: Retain all three shapes and central user; reduce orbit to two visible curved connectors. Detached head to shoulders target 4 ink units.
-"""
+"""A user surrounded by square, circular and triangular design symbols.
+Plan: SQUARE accommodates the square above, small circle left and large triangle lower-right.
+Reduction: Reduced the head and circular symbol to tiny complete circles, narrowed the shoulders and shortened the two orbit arcs.
+Construction: human_ref/user.svg: round head and broad shoulder arc; source owns the surrounding shapes.
+Layout: User shifted left to clear the enlarged triangle. Head center (19,24), radius2, bottom y26; shoulder apex y34 gives exactly four units of detached ink clearance."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0bed2a31-9297-4a65-99ad-c1ed293776b1'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-021/references/25-0bed2a31-9297-4a65-99ad-c1ed293776b1.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/users/user experience design_0bed2a31-9297-4a65-99ad-c1ed293776b1.svg'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):
@@ -45,9 +44,9 @@ class Drawing(Solo48):
         def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
         def join(a,b): self.relate('connect',a,b)
         rect('square',20,6,8,8)
-        circle('circle',10,36,4)
-        poly('triangle',(34,42),(42,42),(38,34),closed=True)
-        circle('head',24,24,3)
-        path('shoulders',(18,39),[('A',(30,39),6,6,True)])
-        path('orbit-left',(6,25),[('C',(11,14),(6,20),(8,17))])
-        path('orbit-right',(37,14),[('C',(42,25),(40,17),(42,20))])
+        circle('circle',8,29,2)
+        poly('triangle',(30,42),(42,42),(37,26),closed=True)
+        circle('head',19,24,2)
+        path('shoulders',(15,38),[('A',(23,38),4,4,True)])
+        path('orbit-left',(6,19),[('C',(11,10),(6,15),(8,12))])
+        path('orbit-right',(37,10),[('C',(42,17),(40,11),(42,14))])

@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class FireplaceWithBurningFlame(Solo48):
-    icon_id = "fireplace-with-burning-flame"
+    icon_id = 'fireplace-with-burning-flame'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

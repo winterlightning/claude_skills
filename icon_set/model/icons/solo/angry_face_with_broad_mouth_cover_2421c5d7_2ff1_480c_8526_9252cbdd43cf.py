@@ -1,41 +1,45 @@
-'Angry Face with Broad Mouth Cover\nPlan: Round upper face over broad rectangular mask and visible chin arc; angry eye strokes inset from dome.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Retain the defining silhouette and visible parts.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""Angry face and broad mouth cover. Lower chin arc omitted to give the cover a full-height clear opening. Circular upper face and symmetric angry eyes. No useful exact Lucide match.
+Plan: shared dimensions and attachment nodes; exact SQUARE envelope."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '2421c5d7-2ff1-480c-8526-9252cbdd43cf'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_34/smiley decode_2421c5d7-2ff1-480c-8526-9252cbdd43cf.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='2421c5d7-2ff1-480c-8526-9252cbdd43cf'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/smiley decode_2421c5d7-2ff1-480c-8526-9252cbdd43cf.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'angry-face-with-broad-mouth-cover'
-    keyshape = Keyshape.SQUARE
-    category = "objects"
-    keywords = ('angry', 'face', 'with', 'broad', 'mouth', 'cover')
-
+    icon_id='angry-face-with-broad-mouth-cover'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('smiley decode',)
     def build(self):
-
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-
         self.add_arc('dome',(6,24),(42,24),radius_x=18)
-        path('cover',(6,24),[(42,24),(42,31),((38,35),4,4,True),(10,35),((6,31),4,4,True),(6,24)],True)
-        self.relate('connect','dome','cover')
-        self.add_arc('chin',(12,35),(36,35),radius_x=12,radius_y=7,sweep=False);self.relate('connect','chin','cover')
-        self.add_line('eye-left',(19,15),(20,16));self.add_line('eye-right',(29,15),(28,16))
+        self.add_line('right-neck',(42,24),(42,26))
+        self.add_line('right',(42,26),(42,38))
+        self.add_arc('bottom-right',(42,38),(38,42),radius_x=4)
+        self.add_line('bottom',(38,42),(10,42))
+        self.add_arc('bottom-left',(10,42),(6,38),radius_x=4)
+        self.add_line('left',(6,38),(6,26))
+        self.add_line('left-neck',(6,26),(6,24))
+        self.add_contour('outline','dome','right-neck','right','bottom-right','bottom','bottom-left','left','left-neck',closed=True)
+        self.add_line('cover-top',(6,26),(42,26));self.relate('connect','outline','cover-top')
+        self.add_line('eye-left',(19,16),(20,17))
+        self.add_line('eye-right',(29,16),(28,17))
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def box(self,n,l=6,t=6,r=42,b=42,q=4):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        for k in range(8):
+            if k%2:self.add_arc(f'{n}-{k}',pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{k}',pts[k],pts[(k+1)%8])
+        self.add_contour(n,*(f'{n}-{k}' for k in range(8)),closed=True)
+    def cross(self,n,x,y,r):
+        ids=[]
+        for k,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            ident=f'{n}-{k}';self.add_line(ident,(x,y),(x+dx,y+dy));ids.append(ident)
+        for k,a in enumerate(ids):
+            for b in ids[k+1:]:self.relate('connect',a,b)

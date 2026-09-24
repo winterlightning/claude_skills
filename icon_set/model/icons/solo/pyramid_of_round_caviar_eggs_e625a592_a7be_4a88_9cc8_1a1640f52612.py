@@ -1,41 +1,34 @@
-"""Pyramid of Round Caviar Eggs
-Plan: Six circular eggs in a one-two-three triangular stack; preserve exact count.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: None."""
+"""caviar. Plan: SQUARE extremes (6,6)-(42,42); six identical radius-three circles in centered one-two-three rows. Shared circle construction follows local Lucide circle. Eggs separated by at least nine centerline units; circular openings use the existing diameter-six circle rule. None omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e625a592-a7be-4a88-9cc8-1a1640f52612'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_10/caviar_e625a592-a7be-4a88-9cc8-1a1640f52612.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/caviar_e625a592-a7be-4a88-9cc8-1a1640f52612.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'pyramid-of-round-caviar-eggs'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects/general"
     aliases = ()
-    keywords = ('caviar', 'eggs', 'roe', 'food', 'stack', 'round', 'seafood')
-
-    def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+    keywords = ('caviar',)
+    def path(self,n,start,steps,closed=False):
+        here=start;members=[]
+        for k,step in enumerate(steps):
+            ident=f'{n}-{k}';members.append(ident)
+            if len(step)==2:
+                self.add_line(ident,here,step);here=step
             else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        for i,(x,y) in enumerate(((24,12),(16,24),(32,24),(12,36),(24,36),(36,36))):circle(f'egg-{i}',x,y,6)
+                end,rx,ry,sweep=step
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep);here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,q=0):
+        if q==0:self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True)
+        else:self.path(n,(l+q,t),[(r-q,t),((r,t+q),q,q,True),(r,b-q),((r-q,b),q,q,True),(l+q,b),((l,b-q),q,q,True),(l,t+q),((l+q,t),q,q,True)],True)
+    def build(self):
+        # Shared circular egg definition and three centered rows preserve the 1-2-3 count.
+        rows=((9,(24,)),(24,(16,32)),(39,(9,24,39)))
+        for row,(y,xs) in enumerate(rows):
+            for col,x in enumerate(xs):self.circle(f'egg-{row}-{col}',x,y,3)

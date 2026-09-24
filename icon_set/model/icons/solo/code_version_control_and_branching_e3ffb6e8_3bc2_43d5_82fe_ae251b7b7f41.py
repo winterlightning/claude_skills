@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class CodeVersionControlAndBranching(Solo48):
-    icon_id = "code-version-control-and-branching"
+    icon_id = 'code-version-control-and-branching'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

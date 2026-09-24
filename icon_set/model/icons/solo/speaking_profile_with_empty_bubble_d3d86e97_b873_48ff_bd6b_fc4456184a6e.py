@@ -1,6 +1,10 @@
-"""Speaking profile with complete empty speech balloon at upper right. Source profile direction retained; Lucide message-square informs tail. HRECT_L wide composition.
-Redraw authorized 2026-09-22. Source interpretation follows visible composition.
-Earlier draft, if any, is preserved. Shared parameters own repeated geometry.
+"""linguist: standalone repair of supplied reference.
+
+Plan: Wide head-and-balloon composition. Keyshape HRECT_L.
+Reduction: Simplified facial notch and omitted ear; widened open neck.
+Construction references: local Lucide originals and atomic-debug: message-square.
+Continuous profile preserves its natural neck; detached-head rule does not apply.
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -25,6 +29,6 @@ class Drawing(Solo48):
             self.add_contour(n,n+'-a',n+'-b',closed=True)
         def join(*n): self.relate('connect',*n)
         curve('skull',(12,40),((12,33),(4,28),(4,18)),((4,8),(18,8),(22,8)))
-        poly('face',(22,8),(22,20),(26,26),(22,28),(22,34),(18,34),(18,40))
+        poly('face',(22,8),(22,20),(26,26),(22,28),(22,34),(22,34),(22,40))
         join('skull','face')
         poly('speech',(34,24),(34,10),(44,10),(44,24),(40,24),(34,30),(34,24),closed=True)

@@ -12,7 +12,7 @@ AUTHOR = "gpt-6"
 
 
 class ConstructionWorkerWithWrench(Solo48):
-    icon_id = "construction-worker-with-wrench"
+    icon_id = 'construction-worker-with-wrench'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

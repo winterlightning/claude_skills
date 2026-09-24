@@ -12,7 +12,7 @@ AUTHOR = "gpt-6"
 
 
 class HearingAssistanceSymbol(Solo48):
-    icon_id = "hearing-assistance-symbol"
+    icon_id = 'hearing-assistance-symbol'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

@@ -12,7 +12,7 @@ AUTHOR = "gpt-6"
 
 
 class ConcertStageWithSinger(Solo48):
-    icon_id = "concert-stage-with-singer"
+    icon_id = 'concert-stage-with-singer'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

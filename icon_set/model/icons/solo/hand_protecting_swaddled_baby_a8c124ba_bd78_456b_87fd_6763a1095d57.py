@@ -12,7 +12,7 @@ AUTHOR = "gpt-6"
 
 
 class HandProtectingSwaddledBaby(Solo48):
-    icon_id = "hand-protecting-swaddled-baby"
+    icon_id = 'hand-protecting-swaddled-baby'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

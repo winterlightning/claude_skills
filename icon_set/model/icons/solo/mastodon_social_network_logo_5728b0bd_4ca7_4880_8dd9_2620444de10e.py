@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class MastodonSocialNetworkLogo(Solo48):
-    icon_id = "mastodon-social-network-logo"
+    icon_id = 'mastodon-social-network-logo'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class PersonOnRisingEscalator(Solo48):
-    icon_id = "person-on-rising-escalator"
+    icon_id = 'person-on-rising-escalator'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

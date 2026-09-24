@@ -10,7 +10,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_20/gesture swipe vertical 
 AUTHOR = "gpt-6"
 
 class OneFingerVerticalSwipeGesture(Solo48):
-    icon_id = "one-finger-vertical-swipe-gesture"
+    icon_id = 'one-finger-vertical-swipe-gesture'
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"

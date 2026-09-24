@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class InternetExplorerE(Solo48):
-    icon_id = "internet-explorer-e"
+    icon_id = 'internet-explorer-e'
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"

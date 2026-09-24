@@ -1,41 +1,40 @@
-"""Five Interlocked Olympic Rings.
-
-Plan: Five equal rings in two staggered rows. Bounds4,10,44,38. Preserve crossing ring identity without false connections.
-Construction reference: No useful local Lucide match.
+"""Five linked rings with smoother curves and more consistent openings.
+Plan: mirrored three-over-two network; equal 14-unit center pitch in both rows.
+Top centers are 10,24,38; lower centers are 17,31. Outer cells are 13 units
+wide and the center cell 14, preserving symmetry on the integer grid.
+All silhouette curves meet side segments vertically and apexes horizontally.
+Shared edges replace exact circular overlap lenses; all five loops are retained.
+HRECT_M visible bounds (2,8)-(46,40). No useful local Lucide match.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '3c672b26-42c9-4289-a407-8947e0d6a086'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_29/olympic rings_3c672b26-42c9-4289-a407-8947e0d6a086.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='3c672b26-42c9-4289-a407-8947e0d6a086'
+SOURCE_PATH='pictographic-primitives/_uncategorized_29/olympic rings_3c672b26-42c9-4289-a407-8947e0d6a086.svg'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'five-interlocking-olympic-rings'
-    keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('five', 'interlocking', 'olympic', 'rings')
-
+    icon_id='five-interlocking-olympic-rings'
+    keyshape=Keyshape.HRECT_M
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='symbols/sport'
+    aliases=('olympic rings',)
+    keywords=('olympics','five','rings','sport')
     def build(self):
-
-        def path(name, start, commands, closed=False):
-            here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
-                member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
-
-        for j,(x,y) in enumerate([(14,20),(24,20),(34,20),(19,28),(29,28)]):circle(f'ring-{j}',x,y,10)
+        edges=[]
+        def line(n,a,b):
+            self.add_line(n,a,b);edges.append((n,a,b))
+        def curve(n,a,b,c,d):
+            self.add_bezier(n,a,(b,c,d));edges.append((n,a,d))
+        for i,(left,cx,right) in enumerate(((4,10,17),(17,24,31),(31,38,44))):
+            curve(f'crown-left-{i}',(left,17),(left,12),(cx-4,10),(cx,10))
+            curve(f'crown-right-{i}',(cx,10),(cx+4,10),(right,12),(right,17))
+            curve(f'lower-left-{i}',(left,19),(left,23),(cx-4,26),(cx,26))
+            curve(f'lower-right-{i}',(cx,26),(cx+4,26),(right,23),(right,19))
+        for i,x in enumerate((4,17,31,44)):line(f'upper-side-{i}',(x,17),(x,19))
+        for i,(left,cx,right) in enumerate(((10,17,24),(24,31,38))):
+            curve(f'base-left-{i}',(left,29),(left,34),(cx-4,38),(cx,38))
+            curve(f'base-right-{i}',(cx,38),(cx+4,38),(right,34),(right,29))
+        for i,x in enumerate((10,24,38)):line(f'lower-side-{i}',(x,26),(x,29))
+        for i,(n,a,b) in enumerate(edges):
+            for other,c,d in edges[i+1:]:
+                if a in (c,d) or b in (c,d):self.relate('connect',n,other)

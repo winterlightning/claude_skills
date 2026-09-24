@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class FishInAnAquariumTank(Solo48):
-    icon_id = "fish-in-an-aquarium-tank"
+    icon_id = 'fish-in-an-aquarium-tank'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

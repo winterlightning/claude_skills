@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 
 class ElectronicAnkleTrackingDevice(Solo48):
-    icon_id = "electronic-ankle-tracking-device"
+    icon_id = 'electronic-ankle-tracking-device'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

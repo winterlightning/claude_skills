@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class SmartphoneWithDollarSign(Solo48):
-    icon_id = "smartphone-with-dollar-sign"
+    icon_id = 'smartphone-with-dollar-sign'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

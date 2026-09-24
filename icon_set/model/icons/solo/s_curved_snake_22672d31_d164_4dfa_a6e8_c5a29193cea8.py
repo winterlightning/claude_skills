@@ -1,19 +1,14 @@
-"""S-Curved Snake
-Plan: Continuous winding snake with raised rounded head and low tail.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Reconstructed thick ribbon after thin-stroke candidate lost the source silhouette; tight bends require review.
-"""
+'A winding snake with a rounded head end and tapered tail.\nPlan: VRECT_L provides height for two broad turns with legal body width.\nReduction: Simplified the diagonal winding body to a continuous S ribbon and fewer turns; retained a tapered tail and rounded head end.\nConstruction: No useful exact Lucide match; supplied reference governs the winding body and taper.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '22672d31-d164-4dfa-a6e8-c5a29193cea8'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_03/anaconda_22672d31-d164-4dfa-a6e8-c5a29193cea8.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/anaconda_22672d31-d164-4dfa-a6e8-c5a29193cea8.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 's-curved-snake'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'objects'
@@ -21,23 +16,20 @@ class Drawing(Solo48):
     keywords = ('snake', 'serpent', 'reptile', 'anaconda', 'curve', 'tail', 'wildlife')
 
     def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('snake',(42,12),[('C',(30,6),(40,6),(34,6)),('C',(28,20),(22,6),(23,15)),('L',(33,25)),('C',(29,30),(39,31),(33,36)),('L',(18,19)),('C',(6,22),(13,14),(6,16)),('C',(12,34),(6,28),(8,30)),('C',(6,42),(20,42),(14,42)),('L',(17,42)),('C',(22,29),(30,39),(26,34)),('L',(15,23)),('C',(12,26),(10,19),(8,22)),('L',(24,37)),('C',(42,29),(33,42),(42,38)),('C',(35,17),(42,23),(40,21)),('C',(36,12),(30,12),(30,12)),('L',(42,12))],True)
+        # Plan: one continuous rounded S ribbon. Shared turn centers/radii keep
+        # the body eight units wide; VRECT_L extremes (8,4)-(40,44).
+        self.add_arc('head-cap',(36,4),(36,12),radius_x=4)
+        self.add_line('upper-inner',(36,12),(20,12))
+        self.add_arc('upper-inner-turn',(20,12),(20,20),radius_x=4,sweep=False)
+        self.add_line('middle-upper',(20,20),(28,20))
+        self.add_arc('lower-outer-turn',(28,20),(28,44),radius_x=12)
+        self.add_line('tail-lower',(28,44),(8,44))
+        self.add_line('tail-cap',(8,44),(12,36))
+        self.add_line('tail-upper',(12,36),(28,36))
+        self.add_arc('lower-inner-turn',(28,36),(28,28),radius_x=4,sweep=False)
+        self.add_line('middle-lower',(28,28),(20,28))
+        self.add_arc('upper-outer-turn',(20,28),(20,4),radius_x=12)
+        self.add_line('head-upper',(20,4),(36,4))
+        self.add_contour('snake','head-cap','upper-inner','upper-inner-turn','middle-upper',
+            'lower-outer-turn','tail-lower','tail-cap','tail-upper','lower-inner-turn',
+            'middle-lower','upper-outer-turn','head-upper',closed=True)

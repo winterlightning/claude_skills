@@ -10,7 +10,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_20/gesture two finger flip
 AUTHOR = "gpt-6"
 
 class TwoFingerSwipeRight(Solo48):
-    icon_id = "two-finger-swipe-right"
+    icon_id = 'two-finger-swipe-right'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

@@ -1,20 +1,19 @@
-"""Geometric Hexagonal Video Play Symbol.
-
-Plan: Six alternating outlined triangles with central diagonal crossing. Shared triangle grid. Extremes 6,6,42,42.
-Construction: No useful direct Lucide match; coherent arcs and shared endpoints.
-Reduction: No identifying parts omitted.
-"""
+"""A geometric video emblem made from six alternating triangles.
+Plan: VRECT_L gives three rows extra vertical room within centerlines (8,4)-(40,44).
+Reduction: Omitted the two central diagonal joining strokes and shortened the triangles to separate the repeated rows; retained all six alternating triangles.
+Construction: No useful exact Lucide logo match; the supplied emblem governs the six-triangle arrangement.
+Layout: Each triangle uses the same width and height; rows and columns are mirrored with alternating direction."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '676befa5-604d-5f0a-9344-ef3dfc7baea7'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-021/references/26-676befa5-604d-5f0a-9344-ef3dfc7baea7.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/video/amazon web service interactive video service_676befa5-604d-5f0a-9344-ef3dfc7baea7.svg'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):
     icon_id = 'triangular-video-emblem'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -44,6 +43,5 @@ class Drawing(Solo48):
         def line(name, a, b): self.add_line(name,a,b)
         def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
         def join(a,b): self.relate('connect',a,b)
-        for n,pts in enumerate([[(10,12),(20,6),(20,18)],[(28,6),(38,12),(28,18)],[(6,20),(16,26),(6,32)],[(42,20),(32,26),(42,32)],[(10,36),(20,30),(20,42)],[(28,30),(38,36),(28,42)]]):poly(f'triangle-{n}',*pts,closed=True)
-        line('diagonal-a',(20,18),(32,26));line('diagonal-b',(16,26),(28,30))
-        for a,b in [('diagonal-a','triangle-0'),('diagonal-a','triangle-3'),('diagonal-b','triangle-2'),('diagonal-b','triangle-5')]:join(a,b)
+        for n,pts in enumerate([[(8,9),(20,4),(20,14)],[(28,4),(40,9),(28,14)],[(8,19),(20,24),(8,29)],[(40,19),(28,24),(40,29)],[(8,39),(20,34),(20,44)],[(28,34),(40,39),(28,44)]]):poly(f'triangle-{n}',*pts,closed=True)
+

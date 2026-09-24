@@ -10,7 +10,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_20/gesture tap swipe right
 AUTHOR = "gpt-6"
 
 class HandSwipeRightGesture(Solo48):
-    icon_id = "hand-swipe-right-gesture"
+    icon_id = 'hand-swipe-right-gesture'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

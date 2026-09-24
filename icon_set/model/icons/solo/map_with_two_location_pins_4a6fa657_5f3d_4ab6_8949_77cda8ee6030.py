@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class MapWithTwoLocationPins(Solo48):
-    icon_id = "map-with-two-location-pins"
+    icon_id = 'map-with-two-location-pins'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"

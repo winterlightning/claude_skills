@@ -15,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class HeartRankingPodium(Solo48):
-    icon_id = "heart-ranking-podium"
+    icon_id = 'heart-ranking-podium'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

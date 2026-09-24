@@ -1,14 +1,14 @@
-"""Football Boot Kicking Panelled Ball
-Plan: Uptilted football boot and separate paneled ball.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: Lucide ball-like circles and connected boot silhouette.
-Reduction: Panels and stripes simplified; original kick scene kept whole."""
+"""A football boot kicking a paneled ball.
+Plan: SQUARE fits the upper-left ball and lower-right boot and sock.
+Reduction: Ball reduced to one panel divider; boot stripes and studs omitted. Widened the sole band.
+Construction: Lucide circular construction and the source boot silhouette.
+Layout: Intentional ball/boot asymmetry preserves the kicking scene."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7637106f-a796-4b5a-8382-ddbd48faa5f0'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_34/soccer kick ball_7637106f-a796-4b5a-8382-ddbd48faa5f0.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_34/soccer kick ball_7637106f-a796-4b5a-8382-ddbd48faa5f0.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'football-boot-kicking-panelled-ball'
@@ -39,6 +39,6 @@ class Drawing(Solo48):
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
         circle('ball',15,15,9)
-        self.add_polyline('boot',(42,24),(39,42),(14,40),(15,33),(31,34),(34,22),closed=True)
+        self.add_polyline('boot',(42,24),(39,42),(14,42),(15,33),(31,33),(34,22),closed=True)
         self.add_line('cuff',(34,22),(36,6));self.add_line('sock',(36,6),(42,8));self.relate('connect','cuff','boot');self.relate('connect','cuff','sock')
         self.add_line('panel',(15,6),(15,24));self.relate('connect','panel','ball')

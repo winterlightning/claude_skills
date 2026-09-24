@@ -1,15 +1,14 @@
-"""Smiling Television Mascot
-Plan: Television mascot with paired aerials, feet and integrated face.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Inset screen border omitted to preserve clear expression; cabinet, eyes, smile, aerial and feet retained.
-"""
+"""A smiling television mascot with aerials and feet.
+Plan: SQUARE preserves a broad screen beneath the aerials.
+Reduction: Prior inset screen border remains omitted; eyes are dots.
+Construction: Lucide tv: rounded cabinet and steep aerial attachment; supplied reference owns expression and feet.
+Layout: Mirrored aerials, eyes, feet, and cabinet; aerials attach at explicit top-edge nodes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '967f7cba-3409-4e70-8a1c-ac8501b16e27'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_06/bilibili logo_967f7cba-3409-4e70-8a1c-ac8501b16e27.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_06/bilibili logo_967f7cba-3409-4e70-8a1c-ac8501b16e27.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'smiling-television-mascot'
@@ -39,8 +38,9 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        rect('tv',6,10,36,28,4)
-        self.add_polyline('aerial',(15,6),(24,10),(33,6));self.relate('connect','aerial','tv')
+        path('tv',(10,10),[('L',(20,10)),('L',(28,10)),('L',(38,10)),('A',(42,14),4,4,True),('L',(42,34)),('A',(38,38),4,4,True),('L',(35,38)),('L',(13,38)),('L',(10,38)),('A',(6,34),4,4,True),('L',(6,14)),('A',(10,10),4,4,True)],True)
+        for x,join in [(16,20),(32,28)]:
+            self.add_line(f'aerial-{x}',(x,6),(join,10));self.relate('connect',f'aerial-{x}','tv')
         for x in (18,30):self.add_dot(f'eye-{x}',(x,19))
         path('smile',(20,28),[('C',(28,28),(22,30),(26,30))])
         for x in (13,35):self.add_line(f'foot-{x}',(x,38),(x,42));self.relate('connect',f'foot-{x}','tv')
