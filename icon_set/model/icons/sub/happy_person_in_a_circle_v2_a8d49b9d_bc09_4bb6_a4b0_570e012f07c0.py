@@ -13,7 +13,6 @@ REPAIR_PLAN = {'concept': 'Happy Person in a Circle', 'core_parts': ('enclosing 
 
 class DrawingVariant2(Sub32):
     icon_id = "happy-person-in-a-circle-v2"
-    variant_of = "happy-person-in-a-circle"
     variant_label = 'Reduced the head and centered the body at the exact 4px human gap'
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"

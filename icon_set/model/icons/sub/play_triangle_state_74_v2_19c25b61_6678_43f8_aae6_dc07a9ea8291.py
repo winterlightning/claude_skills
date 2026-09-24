@@ -10,7 +10,6 @@ SOURCE_PATH = 'pictographic-primitives/state/circle play_19c25b61-6678-43f8-aae6
 AUTHOR = 'gpt-6'
 class CompleteReferenceRedraw(Sub32):
     icon_id = 'play-triangle-state-74-v2'
-    variant_of = 'play-triangle-state-74'
     variant_label = 'Complete reference redraw'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

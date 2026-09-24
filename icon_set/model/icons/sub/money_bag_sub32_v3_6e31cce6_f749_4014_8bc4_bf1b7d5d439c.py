@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0e2c5e13d6bbd9c804573a7efed2f30626824cad34a4b2376b257
 
 class DrawingVariant3(Sub32):
     icon_id = 'money-bag-sub32-v3'
-    variant_of = 'money-bag-sub32'
     variant_label = 'User review correction; preserve earlier variants'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

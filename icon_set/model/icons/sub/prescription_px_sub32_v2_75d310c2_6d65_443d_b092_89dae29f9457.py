@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = 'bc4bb7535cfbc24db8f065e65ca4baffab987de25ff769d0bb1fc
 
 class DrawingVariant2(Sub32):
     icon_id = 'prescription-px-sub32-v2'
-    variant_of = 'prescription-px-sub32'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

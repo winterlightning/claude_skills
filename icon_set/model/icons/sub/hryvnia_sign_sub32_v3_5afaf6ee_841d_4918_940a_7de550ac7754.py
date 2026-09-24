@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b9e1434df29b434468c4b6ea403b86c765d4f5b0fa3c6b4c140ac
 
 class DrawingVariant3(Sub32):
     icon_id = 'hryvnia-sign-sub32-v3'
-    variant_of = 'hryvnia-sign-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

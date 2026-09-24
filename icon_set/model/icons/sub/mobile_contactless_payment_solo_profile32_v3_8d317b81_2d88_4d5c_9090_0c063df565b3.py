@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a876b26c0cc05c054034c777d3eb9a0358c522a6a9e464fc0280f
 
 class DrawingVariant3(TallSideSub32):
     icon_id = 'mobile-contactless-payment-solo-profile32-v3'
-    variant_of = 'mobile-contactless-payment-solo-profile32'
     variant_label = 'User review correction; preserve earlier variants'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

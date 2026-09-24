@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '7ad2a4aedf8e623d264f045f700872f67db3207d773da5b87af2b
 
 class DrawingVariant2(Sub32):
     icon_id = 'nanobot-sub32-v2'
-    variant_of = 'nanobot-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

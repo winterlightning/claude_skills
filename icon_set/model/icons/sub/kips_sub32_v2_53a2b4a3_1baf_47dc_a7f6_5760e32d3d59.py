@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = '82cb25dba3107a4eb4ff98100e292dc7d27f165f3e51479e119c9
 
 class DrawingVariant2(Sub32):
     icon_id = 'kips-sub32-v2'
-    variant_of = 'kips-sub32'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

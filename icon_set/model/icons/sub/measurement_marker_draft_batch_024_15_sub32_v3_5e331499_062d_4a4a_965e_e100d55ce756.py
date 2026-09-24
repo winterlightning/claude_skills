@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '87c7e406c9b43dd8ea797baabb748d1eb350ef001b0658e1a16b8
 
 class DrawingVariant3(Sub32):
     icon_id = 'measurement-marker-draft-batch-024-15-sub32-v3'
-    variant_of = 'measurement-marker-draft-batch-024-15-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

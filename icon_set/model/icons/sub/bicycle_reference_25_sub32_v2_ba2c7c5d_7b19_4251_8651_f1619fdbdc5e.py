@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '715c83355c6af1534edaeebc5e3f7c45ec47d099c947d3457999f
 
 class DrawingVariant2(Sub32):
     icon_id = 'bicycle-reference-25-sub32-v2'
-    variant_of = 'bicycle-reference-25-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

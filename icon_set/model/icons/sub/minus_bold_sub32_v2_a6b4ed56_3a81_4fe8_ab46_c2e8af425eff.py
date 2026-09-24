@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '7b8f3082619ce5237a6e1d44ab69665d9a1569915821bd0df89c5
 
 class DrawingVariant2(Sub32):
     icon_id = 'minus-bold-sub32-v2'
-    variant_of = 'minus-bold-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'

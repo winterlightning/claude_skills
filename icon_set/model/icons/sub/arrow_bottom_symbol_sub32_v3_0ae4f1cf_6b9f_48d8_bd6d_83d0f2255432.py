@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = '9ec597e0f406140f8860ffa9d27a4143e7f8e33e585523ce83d74
 
 class DrawingVariant3(Sub32):
     icon_id = 'arrow-bottom-symbol-sub32-v3'
-    variant_of = 'arrow-bottom-symbol-sub32-v2'
     variant_label = 'Continuous centerlines'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

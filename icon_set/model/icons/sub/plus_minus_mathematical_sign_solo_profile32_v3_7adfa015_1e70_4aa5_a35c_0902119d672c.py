@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'aa2095a0d08ddb7850de28a17e9ed9c92085ba2a4dc15064d4a5f
 
 class DrawingVariant3(Sub32):
     icon_id = 'plus-minus-mathematical-sign-solo-profile32-v3'
-    variant_of = 'plus-minus-mathematical-sign-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

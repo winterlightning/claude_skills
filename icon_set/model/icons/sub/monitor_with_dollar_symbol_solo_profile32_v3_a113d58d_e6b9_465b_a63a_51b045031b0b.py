@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9ba5df7fdc87988260ad6ce87b3597e491efb20dcfef355330b22
 
 class DrawingVariant3(Sub32):
     icon_id = 'monitor-with-dollar-symbol-solo-profile32-v3'
-    variant_of = 'monitor-with-dollar-symbol-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

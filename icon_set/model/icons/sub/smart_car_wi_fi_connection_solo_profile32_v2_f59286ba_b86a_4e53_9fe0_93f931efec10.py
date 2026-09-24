@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '83330e909c95140182b492c4da83a49c167d67240f89ba29d0bc9
 
 class DrawingVariant2(Sub32):
     icon_id = 'smart-car-wi-fi-connection-solo-profile32-v2'
-    variant_of = 'smart-car-wi-fi-connection-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

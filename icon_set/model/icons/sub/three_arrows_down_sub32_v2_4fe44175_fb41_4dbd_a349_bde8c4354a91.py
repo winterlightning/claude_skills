@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a642aaee0d5b7509366d15c650f70e035204ba14d54e5e1cf9922
 
 class DrawingVariant2(Sub32):
     icon_id = 'three-arrows-down-sub32-v2'
-    variant_of = 'three-arrows-down-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

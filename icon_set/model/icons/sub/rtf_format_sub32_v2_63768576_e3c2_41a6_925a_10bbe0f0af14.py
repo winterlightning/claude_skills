@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8b8894e93c5ffd08941da3c860035b2d19a104b99c99902b0cae6
 
 class DrawingVariant2(Sub32):
     icon_id = 'rtf-format-sub32-v2'
-    variant_of = 'rtf-format-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

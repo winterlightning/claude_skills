@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '8991d993511a9cd378234419e8d6682d8e404d6c3ee01c45dd87f
 
 class DrawingVariant2(Sub32):
     icon_id = 'column-selected-single-1-state-sub32-v2'
-    variant_of = 'column-selected-single-1-state-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

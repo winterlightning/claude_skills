@@ -16,7 +16,6 @@ AUTHOR = 'gpt-6'
 
 class BitcoinSignState169Variant2(SourceFaithfulSideSub):
     icon_id = 'bitcoin-sign-state-169-v2'
-    variant_of = 'bitcoin-sign-state-169'
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'

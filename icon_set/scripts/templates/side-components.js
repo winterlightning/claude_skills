@@ -104,10 +104,11 @@ async function batchDelete(){
   const picks=[...selected.values()],post=async(url,body)=>{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Could not delete.');return data;};
   const errors=[];let done=0;
   try{
-    // Discard only takes rejected (or failed-build) icons, so reject the rest first.
+    // Discard only takes rejected (or failed-build) icons, so reject every pick first. A drawing that
+    // fails validation still builds and needs the reject; a failed build is not in the review catalog.
     for(const [i,{d}] of picks.entries()){
       msg.textContent=`Rejecting ${i+1}/${picks.length}…`;
-      if(d.status!=='fail')await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected/i.test(e.message))errors.push(`${d.icon_id}: ${e.message}`);});
+      await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected|unknown icon/i.test(e.message))errors.push(`${d.icon_id}: ${e.message}`);});
     }
     for(let start=0;start<picks.length;start+=500){
       msg.textContent=`Deleting ${Math.min(start+500,picks.length)}/${picks.length}…`;
@@ -128,7 +129,7 @@ function removeButton(item,d){
     clearTimeout(armed);armed=0;button.disabled=true;button.textContent='Removing…';msg.textContent='';
     try{
       const post=async(url,body)=>{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Could not remove.');return data;};
-      if(d.status!=='fail')await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected/i.test(e.message))throw e;});
+      await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected|unknown icon/i.test(e.message))throw e;});
       await post('/api/icons/discard',{icon:d.key,svg_sha256:d.svg_sha256,detach_variants:true});
       item.drawings=item.drawings.filter(x=>x.key!==d.key);
       restatus(item);

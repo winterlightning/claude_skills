@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = 'e40bd69750f4eb3147f9a383eb2bc20ab3339d4b8dabc691afe54
 
 class DrawingVariant2(Sub32):
     icon_id = 'liras-sub32-v2'
-    variant_of = 'liras-sub32'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

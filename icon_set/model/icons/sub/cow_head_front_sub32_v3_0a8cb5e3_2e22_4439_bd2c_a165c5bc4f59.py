@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '41004d51be8811ac90edff7215b79923799d47b45a94f525f5eb8
 
 class DrawingVariant3(Sub32):
     icon_id = 'cow-head-front-sub32-v3'
-    variant_of = 'cow-head-front-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

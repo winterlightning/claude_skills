@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '43adbe4b281e6a9120867a13ea55b0aeb19d9eca4f1f209cdd75c
 
 class DrawingVariant2(Sub32):
     icon_id = 'moon-and-star-sub32-v2'
-    variant_of = 'moon-and-star-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

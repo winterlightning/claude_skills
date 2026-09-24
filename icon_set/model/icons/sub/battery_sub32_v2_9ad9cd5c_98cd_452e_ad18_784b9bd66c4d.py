@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '4695269714d782ca4e93e5345b16c88649e8e9bd14b055fe8cae0
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'battery-sub32'
     icon_id = 'battery-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

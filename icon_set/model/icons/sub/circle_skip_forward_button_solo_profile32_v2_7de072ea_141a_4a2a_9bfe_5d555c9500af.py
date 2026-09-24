@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'fcfe0047f537e4f077d475f573800958eeecd1d46c71a2f89e0f2
 
 class DrawingVariant2(Sub32):
     icon_id = 'circle-skip-forward-button-solo-profile32-v2'
-    variant_of = 'circle-skip-forward-button-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

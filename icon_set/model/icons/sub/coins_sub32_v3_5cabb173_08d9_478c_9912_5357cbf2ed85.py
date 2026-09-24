@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'e854f337b3c543c33ad1270a1e8e9c07bc89b4d44151b16c98832
 
 class DrawingVariant3(Sub32):
     icon_id = 'coins-sub32-v3'
-    variant_of = 'coins-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

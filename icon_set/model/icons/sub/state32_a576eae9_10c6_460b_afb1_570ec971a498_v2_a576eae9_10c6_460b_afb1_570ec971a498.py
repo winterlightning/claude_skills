@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '33fcea0d9806ceb9df8d71f829abd70c1c4248d9140fb9ee078ea
 
 class DrawingVariant2(Sub32):
     icon_id = 'state32-a576eae9-10c6-460b-afb1-570ec971a498-v2'
-    variant_of = 'state32-a576eae9-10c6-460b-afb1-570ec971a498'
     variant_label = 'Record the actual joined strokes; preserve reviewed artwork'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

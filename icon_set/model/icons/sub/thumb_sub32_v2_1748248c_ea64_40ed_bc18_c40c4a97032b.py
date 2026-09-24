@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd0ba68115546736ca9894c4ac6f3e5459fbf3145a63a8a9083937
 
 class DrawingVariant2(Sub32):
     icon_id = 'thumb-sub32-v2'
-    variant_of = 'thumb-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

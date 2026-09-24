@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/fix_icon_sub.py", line 308, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/fix_icon_sub.py", line 304, in main
+    return {'check': cmd_check, 'scaffold': cmd_scaffold, 'record': cmd_record, 'backlog': cmd_backlog, 'list': cmd_list}[args.command](args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/fix_icon_sub.py", line 134, in cmd_check
+    results = [strict_check(icon_id) for icon_id in expand_icons(args.icon, args.source)]
+               ~~~~~~~~~~~~^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/fix_icon_sub.py", line 97, in strict_check
+    icon = create(icon_id)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/registry.py", line 142, in create
+    factory = factories()[icon_id]
+              ~~~~~~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/registry.py", line 132, in factories
+    _FACTORIES = _discover()
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/registry.py", line 122, in _discover
+    validate_variants(factories)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/registry.py", line 99, in validate_variants
+    raise ValueError(f'{icon_id}: variant parent {parent!r} does not exist')
+ValueError: arrow-bottom-symbol-sub32-v3: variant parent 'arrow-bottom-symbol-sub32' does not exist

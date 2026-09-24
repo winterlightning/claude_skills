@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '1367e16a7aaa6416e25a2ce6c9f814eda55b163a7f4fe47ac1ebd
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bed-sub32'
     icon_id = 'bed-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

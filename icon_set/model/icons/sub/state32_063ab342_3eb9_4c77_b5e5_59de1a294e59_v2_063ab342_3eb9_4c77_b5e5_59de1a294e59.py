@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = '33ab7b0e6c44f0f7e36a7ad00d3490162d8213cc758c88090eaf9
 
 class DrawingVariant2(Sub32):
     icon_id = 'state32-063ab342-3eb9-4c77-b5e5-59de1a294e59-v2'
-    variant_of = 'state32-063ab342-3eb9-4c77-b5e5-59de1a294e59'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'

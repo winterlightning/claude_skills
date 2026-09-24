@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '7ecae7256fe5a5cbd99b00c67677a2b71bd5845fe8f1630835fe1
 
 class DrawingVariant3(Sub32):
     icon_id = 'ring-sight-inner-ticks-sub32-v3'
-    variant_of = 'ring-sight-inner-ticks-sub32-v2'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

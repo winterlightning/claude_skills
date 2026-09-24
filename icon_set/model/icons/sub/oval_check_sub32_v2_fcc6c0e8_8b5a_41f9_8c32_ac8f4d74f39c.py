@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd72e7226c9146f68419dc2c8df7694c6870102230ad408f644f26
 
 class DrawingVariant2(Sub32):
     icon_id = 'oval-check-sub32-v2'
-    variant_of = 'oval-check-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

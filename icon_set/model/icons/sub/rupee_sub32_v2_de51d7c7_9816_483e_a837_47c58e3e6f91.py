@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = 'd536f4e4b92b12d08bb5b92748218d185264fe9015b95befd0da3
 
 class DrawingVariant2(Sub32):
     icon_id = 'rupee-sub32-v2'
-    variant_of = 'rupee-sub32'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'c4e86c80d7111839b06cbdba703750f8525d496d58afabdac997f
 
 class DrawingVariant2(Sub32):
     icon_id = 'balaclava-mask-batch-025-12-sub32-v2'
-    variant_of = 'balaclava-mask-batch-025-12-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

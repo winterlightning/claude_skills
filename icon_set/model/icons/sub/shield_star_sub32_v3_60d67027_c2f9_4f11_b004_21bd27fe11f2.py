@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '23557e4569ad216f72d950d2ecca0672700cf127096ad68e68036
 
 class DrawingVariant3(Sub32):
     icon_id = 'shield-star-sub32-v3'
-    variant_of = 'shield-star-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'bc3f3f367b641f5add882cfef713d7fd0ac4bb34d099939cf1533
 
 class DrawingVariant2(Sub32):
     icon_id = 'user-profile-selection-cursor-solo-profile32-v2'
-    variant_of = 'user-profile-selection-cursor-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

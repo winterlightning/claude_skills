@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'cc97f838ced67d583ecd052ba174121fc94dcdac494ec5a0cbb8d
 
 class DrawingVariant2(Sub32):
     icon_id = 'bean-sub32-v2'
-    variant_of = 'bean-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

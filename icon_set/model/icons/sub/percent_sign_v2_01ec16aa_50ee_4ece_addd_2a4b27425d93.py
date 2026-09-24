@@ -10,7 +10,6 @@ SOURCE_PATH = 'pictographic-primitives/state/percent symbol circle_01ec16aa-50ee
 AUTHOR = 'gpt-6'
 class CompleteReferenceRedraw(Sub32):
     icon_id = 'percent-sign-v2'
-    variant_of = 'percent-sign'
     variant_label = 'Complete reference redraw'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

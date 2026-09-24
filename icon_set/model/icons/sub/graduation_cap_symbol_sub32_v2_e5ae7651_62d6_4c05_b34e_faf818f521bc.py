@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '3db2ce90f5f70f0792c27acb4fbe21a247b788f59a72a50715d79
 
 class DrawingVariant2(Sub32):
     icon_id = 'graduation-cap-symbol-sub32-v2'
-    variant_of = 'graduation-cap-symbol-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

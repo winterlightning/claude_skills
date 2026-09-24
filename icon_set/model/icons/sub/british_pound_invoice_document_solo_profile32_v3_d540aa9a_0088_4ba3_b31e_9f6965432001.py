@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a88b439195a4f7689ddfeb8aa6c25e178b5856f4fa7fed53300c2
 
 class DrawingVariant3(TallSideSub32):
     icon_id = 'british-pound-invoice-document-solo-profile32-v3'
-    variant_of = 'british-pound-invoice-document-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

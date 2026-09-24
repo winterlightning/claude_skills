@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'ebd363b1469735de22c8454660bdd205e274b4fdba037a0c5b2b8
 
 class DrawingVariant2(Sub32):
     icon_id = 'luggage-sub32-v2'
-    variant_of = 'luggage-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

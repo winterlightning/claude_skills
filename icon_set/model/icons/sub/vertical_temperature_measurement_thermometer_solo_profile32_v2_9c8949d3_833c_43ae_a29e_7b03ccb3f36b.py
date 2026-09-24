@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '29553c9bd62a6bc2d6b5970ba59b83429952e35800bbea38de402
 
 class DrawingVariant2(Sub32):
     icon_id = 'vertical-temperature-measurement-thermometer-solo-profile32-v2'
-    variant_of = 'vertical-temperature-measurement-thermometer-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

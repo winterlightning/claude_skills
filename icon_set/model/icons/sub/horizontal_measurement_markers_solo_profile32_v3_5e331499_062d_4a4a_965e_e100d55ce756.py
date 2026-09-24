@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'e71307bcdc77a23c7b2c24c8a93d0e80f3ffe320abc3f1b400a73
 
 class DrawingVariant3(Sub32):
     icon_id = 'horizontal-measurement-markers-solo-profile32-v3'
-    variant_of = 'horizontal-measurement-markers-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

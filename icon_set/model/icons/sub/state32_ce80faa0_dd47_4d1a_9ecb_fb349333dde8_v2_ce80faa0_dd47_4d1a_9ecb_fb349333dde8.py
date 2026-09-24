@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '915ffab8ead313a6bc74b5dd5c1fe12f80234e42bdda65045985b
 
 class DrawingVariant2(Sub32):
     icon_id = 'state32-ce80faa0-dd47-4d1a-9ecb-fb349333dde8-v2'
-    variant_of = 'state32-ce80faa0-dd47-4d1a-9ecb-fb349333dde8'
     variant_label = 'Open the thumb gap and smooth the rounded fingertip'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

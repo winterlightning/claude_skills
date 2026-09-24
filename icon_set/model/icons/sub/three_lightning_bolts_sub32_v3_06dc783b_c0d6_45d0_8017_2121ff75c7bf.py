@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '5dde48edd89c3fc235d34bb3eddd75ceb154bf98c751b8187c1dc
 
 class DrawingVariant3(Sub32):
     icon_id = 'three-lightning-bolts-sub32-v3'
-    variant_of = 'three-lightning-bolts-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '92d6f7aa5f112153455bbef090004fb08fac8d48ea6f7685b0959
 
 class DrawingVariant2(Sub32):
     icon_id = 'cloud-sub32-v2'
-    variant_of = 'cloud-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

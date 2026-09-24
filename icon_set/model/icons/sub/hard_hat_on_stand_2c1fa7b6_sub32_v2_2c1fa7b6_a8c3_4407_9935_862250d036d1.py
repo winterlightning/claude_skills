@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '12f446f680d96f9ac87f65cc989236605efa365c44c8f0ebc558e
 
 class DrawingVariant2(Sub32):
     icon_id = 'hard-hat-on-stand-2c1fa7b6-sub32-v2'
-    variant_of = 'hard-hat-on-stand-2c1fa7b6-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

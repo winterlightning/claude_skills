@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'fc287b2033f1f997471d2a1565723715760e86edebee783467b4c
 
 class DrawingVariant2(Sub32):
     icon_id = 'mobile-phone-control-pause-sub32-v2'
-    variant_of = 'mobile-phone-control-pause-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

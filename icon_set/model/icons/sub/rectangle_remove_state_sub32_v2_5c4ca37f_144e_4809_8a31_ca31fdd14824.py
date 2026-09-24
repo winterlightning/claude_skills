@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '03be80878aacbac0addaceb08ddf4b9f23023dd16de4aa2ddceb5
 
 class DrawingVariant2(Sub32):
     icon_id = 'rectangle-remove-state-sub32-v2'
-    variant_of = 'rectangle-remove-state-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

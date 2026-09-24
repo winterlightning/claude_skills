@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1a5497fa2fa112ad7d6880e943ae2a16cc938a1d74da0f85a8298
 
 class DrawingVariant2(Sub32):
     icon_id = 'tactical-game-plan-diagram-solo-profile32-v2'
-    variant_of = 'tactical-game-plan-diagram-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

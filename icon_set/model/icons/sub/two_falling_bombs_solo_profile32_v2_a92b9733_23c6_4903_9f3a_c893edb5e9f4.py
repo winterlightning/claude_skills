@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '541331099ccfba43b09640cdf3f213721080150ea2b320abe3b5a
 
 class DrawingVariant2(Sub32):
     icon_id = 'two-falling-bombs-solo-profile32-v2'
-    variant_of = 'two-falling-bombs-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8a6e70040bac9b1e07cb53acbab666753626bb3bb9e43c2bcd30a
 
 class DrawingVariant2(Sub32):
     icon_id = 'mobile-phone-control-play-sub32-v2'
-    variant_of = 'mobile-phone-control-play-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

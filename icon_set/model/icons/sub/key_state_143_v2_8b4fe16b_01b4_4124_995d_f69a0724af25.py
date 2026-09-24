@@ -16,7 +16,6 @@ AUTHOR = 'gpt-6'
 
 class KeyState143Variant2(SourceFaithfulSideSub):
     icon_id = 'key-state-143-v2'
-    variant_of = 'key-state-143'
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b7c0515f7de3002b2ccc1c0c1222bbb9273c75f4f852db578b954
 
 class DrawingVariant2(Sub32):
     icon_id = 'carrot-with-two-pointed-leaves-profile32-v2'
-    variant_of = 'carrot-with-two-pointed-leaves-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'

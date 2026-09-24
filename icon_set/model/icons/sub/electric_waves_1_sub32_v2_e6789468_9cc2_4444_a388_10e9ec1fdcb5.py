@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '881a581a00a906eed54f90344ffc38c3a3805d31f6febfbd161e6
 
 class DrawingVariant2(Sub32):
     icon_id = 'electric-waves-1-sub32-v2'
-    variant_of = 'electric-waves-1-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

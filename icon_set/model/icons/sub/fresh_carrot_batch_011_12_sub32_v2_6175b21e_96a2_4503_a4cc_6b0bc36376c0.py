@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '2c67db710f6202338a4b821064cf730bdb737e4968f7733871534
 
 class DrawingVariant2(Sub32):
     icon_id = 'fresh-carrot-batch-011-12-sub32-v2'
-    variant_of = 'fresh-carrot-batch-011-12-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

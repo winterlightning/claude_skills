@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '7c817548ff415228863e6c8585187889006bbb7cb98800fa2fb9e
 
 class DrawingVariant2(Sub32):
     icon_id = 'power-sub32-v2'
-    variant_of = 'power-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

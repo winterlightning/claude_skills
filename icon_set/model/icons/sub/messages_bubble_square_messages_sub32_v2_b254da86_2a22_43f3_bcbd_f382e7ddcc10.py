@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '619ee934de1dd5db9b17853baea4c093357dad48f5ba978a9e481
 
 class DrawingVariant2(Sub32):
     icon_id = 'messages-bubble-square-messages-sub32-v2'
-    variant_of = 'messages-bubble-square-messages-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

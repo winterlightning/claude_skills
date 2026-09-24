@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'd4b74fffb8aa265f90be6f63f1b5a9f56bfd66a97711e19372ff2
 
 class DrawingVariant2(Sub32):
     icon_id = 'camera-video-sub32-v2'
-    variant_of = 'camera-video-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

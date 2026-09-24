@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a92e3d237ac9f07d637fcb3d2107e46eb57e4a77a671e826758be
 
 class DrawingVariant2(Sub32):
     icon_id = 'checklist-document-for-tasks-solo-profile32-v2'
-    variant_of = 'checklist-document-for-tasks-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

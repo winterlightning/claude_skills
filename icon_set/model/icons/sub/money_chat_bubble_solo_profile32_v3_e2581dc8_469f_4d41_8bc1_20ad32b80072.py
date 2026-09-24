@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a0eb804bb7dcb76a17857cbff085f2d0c34ad5451f33cc871fe31
 
 class DrawingVariant3(Sub32):
     icon_id = 'money-chat-bubble-solo-profile32-v3'
-    variant_of = 'money-chat-bubble-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

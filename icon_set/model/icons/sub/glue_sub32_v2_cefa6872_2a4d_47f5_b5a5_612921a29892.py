@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'c0778f3bb21ab5c5d84b97410539ef606102d7154b60dd3c60fcb
 
 class DrawingVariant2(Sub32):
     icon_id = 'glue-sub32-v2'
-    variant_of = 'glue-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

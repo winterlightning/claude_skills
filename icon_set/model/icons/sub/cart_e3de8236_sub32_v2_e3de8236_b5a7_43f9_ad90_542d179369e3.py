@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '82923987077b2e5e26e4b136d709f1d0f244cd358f13409fb1c18
 
 class DrawingVariant2(Sub32):
     icon_id = 'cart-e3de8236-sub32-v2'
-    variant_of = 'cart-e3de8236-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

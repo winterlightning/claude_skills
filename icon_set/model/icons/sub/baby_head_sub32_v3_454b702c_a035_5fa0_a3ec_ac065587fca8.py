@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'c68e2a7d40d4e7ea30956ae407215e1929527232a33f01a28390f
 
 class DrawingVariant3(Sub32):
     icon_id = 'baby-head-sub32-v3'
-    variant_of = 'baby-head-sub32-v2'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

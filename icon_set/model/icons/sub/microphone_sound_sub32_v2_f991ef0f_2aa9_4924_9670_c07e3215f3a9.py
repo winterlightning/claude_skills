@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '9e7fec83b02b08562b88ecacdb030ebc8e249ff66efdd4a60e87a
 
 class DrawingVariant2(Sub32):
     icon_id = 'microphone-sound-sub32-v2'
-    variant_of = 'microphone-sound-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

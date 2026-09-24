@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0cb5eafdb20fa971dfcf916cd41d1d1dc4fe8b02ff8bb49de5d0d
 
 class DrawingVariant2(Sub32):
     icon_id = 'female-person-pictogram-batch-023-02-sub32-v2'
-    variant_of = 'female-person-pictogram-batch-023-02-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '6d5b6d721f6bdede00fd4d9d02872bc8992658ea250d9fe293a9c
 
 class DrawingVariant3(Sub32):
     icon_id = 'financial-dollar-sign-document-solo-profile32-v3'
-    variant_of = 'financial-dollar-sign-document-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

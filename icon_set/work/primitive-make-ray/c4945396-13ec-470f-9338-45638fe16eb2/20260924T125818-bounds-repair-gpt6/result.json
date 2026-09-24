@@ -1,0 +1,54 @@
+{
+  "concept": "amazon web service elemental medialive",
+  "source_uuid": "c4945396-13ec-470f-9338-45638fe16eb2",
+  "reference_path": "pictographic-primitives/_uncategorized_02/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/c4945396-13ec-470f-9338-45638fe16eb2/20260924T125818-bounds-repair-gpt6",
+  "build_gate": "fail",
+  "validation": "status: invalid\n  ERROR  mic [play]: parallel straight edges play-2 and right-6 are 4.02492 apart on centerlines (ink gap 0.0249224); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [top]: parallel straight edges top-4 and play-1 are 6.7082 apart on centerlines (ink gap 2.7082); requires at least 8 centerline / 4 ink (overlap-fallback)\n  ERROR  mic [top]: top and play are 6.7082 apart on centerlines nearest (24, 16)<->(21, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [play]: play and right are 4.02492 apart on centerlines nearest (32.2, 28.4)<->(34, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": "Blocked after five repair rounds. Exact VRECT_L bounds are met, but play triangle crowds top and right media nodes. Both themes show near-touching paint. No passing reconstruction found.",
+  "omissions": [
+    "Three peripheral scan marks removed to recover space"
+  ],
+  "construction_references": [
+    "lucide/hexagon: repeated six-sided contours"
+  ],
+  "blocker": "BUILD GATE FAIL (fail, 4 errors, 0 warnings)\n  error: mic [play]: parallel straight edges play-2 and right-6 are 4.02492 apart on centerlines (ink gap 0.0249224); requires at least 8 centerline / 4 ink (midpoint-normal)\n  error: mic [top]: parallel straight edges top-4 and play-1 are 6.7082 apart on centerlines (ink gap 2.7082); requires at least 8 centerline / 4 ink (overlap-fallback)\n  error: mic [top]: top and play are 6.7082 apart on centerlines nearest (24, 16)<->(21, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [play]: play and right are 4.02492 apart on centerlines nearest (32.2, 28.4)<->(34, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n",
+  "artifacts": [
+    "__pycache__",
+    "amazon-web-service-elemental-medialive.metadata.json",
+    "amazon-web-service-elemental-medialive.svg",
+    "amazon_web_service_elemental_medialive_c4945396_13ec_470f_9338_45638fe16eb2.py",
+    "attempts",
+    "build-gate.txt",
+    "dark-384.png",
+    "dark-48.png",
+    "findings.md",
+    "gate",
+    "input.metadata.json",
+    "light-384.png",
+    "light-48.png",
+    "lucide-hexagon-atomic-debug.png",
+    "lucide-hexagon-original.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "result.json",
+    "review.png",
+    "validation.txt"
+  ],
+  "repair_attempts": 6,
+  "icon_id": "amazon-web-service-elemental-medialive",
+  "keyshape": "VRECT_L",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "validation_errors": 4,
+  "validation_warnings": 0,
+  "sha256": {
+    "amazon_web_service_elemental_medialive_c4945396_13ec_470f_9338_45638fe16eb2.py": "71fdba5627d69e475b359a08f1aa2df41ef6fadc74acef0d1b860a37da0e4111",
+    "amazon-web-service-elemental-medialive.svg": "c9525454dee29dbcac726b52e4d016faf0f9d2381553957ce6c4dfda5cdcca80",
+    "validation.txt": "3bfc7465ad3cbf1e419669bc05e000fdc73ace833bee229d6ef53cb972b3543d",
+    "build-gate.txt": "97b5b5fdffe803fcdd781a1e68fa123a1077f83aa67fd3c7da1dd745654a5f71"
+  },
+  "repair_rounds": 5
+}

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '6d9e39f55b062cd667d346f1fd91bafc3e674d4168b6f5979154e
 
 class DrawingVariant3(Sub32):
     icon_id = 'seated-electric-scooter-sub32-v3'
-    variant_of = 'seated-electric-scooter-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

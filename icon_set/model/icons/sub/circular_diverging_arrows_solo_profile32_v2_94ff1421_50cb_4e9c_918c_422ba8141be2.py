@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '27474575b3eee891d07b569f1a61abaf62fc2fa68cd225fb37edf
 
 class DrawingVariant2(Sub32):
     icon_id = 'circular-diverging-arrows-solo-profile32-v2'
-    variant_of = 'circular-diverging-arrows-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

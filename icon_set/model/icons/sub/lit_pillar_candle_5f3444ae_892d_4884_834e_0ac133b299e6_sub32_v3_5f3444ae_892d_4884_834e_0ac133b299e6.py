@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'a7c0c4d42ff463a01d521cd8753d73961b3e01b37343f118311c0
 
 class DrawingVariant3(Sub32):
     icon_id = 'lit-pillar-candle-5f3444ae-892d-4884-834e-0ac133b299e6-sub32-v3'
-    variant_of = 'lit-pillar-candle-5f3444ae-892d-4884-834e-0ac133b299e6-sub32-v2'
     variant_label = 'Redraw proportions and source features'
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'

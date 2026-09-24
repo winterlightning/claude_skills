@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '4f7bb313309b9583c1e9623fba4d8e56c0a25d7fb79e80859cf9a
 
 class DrawingVariant3(Sub32):
     icon_id = 'user-profile-with-plus-symbol-solo-profile32-v3'
-    variant_of = 'user-profile-with-plus-symbol-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

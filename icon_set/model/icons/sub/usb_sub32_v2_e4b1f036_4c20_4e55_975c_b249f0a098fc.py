@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8569afa12f1a5809791eafab748edcae54ae265cef077bc2423d7
 
 class DrawingVariant2(Sub32):
     icon_id = 'usb-sub32-v2'
-    variant_of = 'usb-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

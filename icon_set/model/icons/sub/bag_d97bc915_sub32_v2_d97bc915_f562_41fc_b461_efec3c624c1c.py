@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9006fe3a8677e5d01079cf7b1059cd6582231ad99323db8936cdf
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bag-d97bc915-sub32'
     icon_id = 'bag-d97bc915-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'b0b9915f9be16e9ef765fa327dd92c257eafe1a45fc1316695859
 
 class DrawingVariant2(Sub32):
     icon_id = 'state32-fc90d456-ac4f-4fc7-b86f-8210f32884cf-v2'
-    variant_of = 'state32-fc90d456-ac4f-4fc7-b86f-8210f32884cf'
     variant_label = 'Remove the retraced knife shaft and join the spoon handle'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

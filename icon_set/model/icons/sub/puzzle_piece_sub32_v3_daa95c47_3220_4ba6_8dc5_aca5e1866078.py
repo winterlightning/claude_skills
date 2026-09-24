@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '69bb0742c20688dfc2cb2726d56da61a0bfb102e3c45bc787f4a1
 
 class DrawingVariant3(Sub32):
     icon_id = 'puzzle-piece-sub32-v3'
-    variant_of = 'puzzle-piece-sub32-v2'
     variant_label = 'Redraw shape and structural proportions'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

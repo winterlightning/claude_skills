@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1aed9ece8daf9f853443f7683f46868886f3a263c274d74dfd332
 
 class DrawingVariant2(Sub32):
     icon_id = 'unlock-sub32-v2'
-    variant_of = 'unlock-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

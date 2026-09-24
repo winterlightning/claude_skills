@@ -13,7 +13,6 @@ REPAIR_PLAN = {'concept': 'Crescent Moon Card', 'core_parts': ('open-bottom card
 
 class DrawingVariant2(Sub32):
     icon_id = "crescent-moon-card-v2"
-    variant_of = "crescent-moon-card"
     variant_label = 'Opened the card bottom and widened the crescent'
     keyshape = Keyshape.VRECT_XL
     semantic_role = "SUB"

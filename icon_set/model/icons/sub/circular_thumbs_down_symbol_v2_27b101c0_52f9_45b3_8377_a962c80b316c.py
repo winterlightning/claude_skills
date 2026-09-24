@@ -13,7 +13,6 @@ REPAIR_PLAN = {'concept': 'Circular Thumbs Down Symbol', 'core_parts': ('enclosi
 
 class DrawingVariant2(Sub32):
     icon_id = "circular-thumbs-down-symbol-v2"
-    variant_of = "circular-thumbs-down-symbol"
     variant_label = 'Inked cuff edge merged into the hand outline and thumb moved inward'
     keyshape = Keyshape.CIRCLE
     semantic_role = "SUB"

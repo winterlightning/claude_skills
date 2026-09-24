@@ -12,7 +12,6 @@ AUTHOR = 'gpt-6'
 
 class DrawingVariant2(Sub32):
     icon_id = 'two-standing-people-sub32-v2'
-    variant_of = 'two-standing-people-sub32'
     variant_label = 'Two outlined heads and readable standing figures'
     keyshape = Keyshape.SQUARE
     aliases = ()

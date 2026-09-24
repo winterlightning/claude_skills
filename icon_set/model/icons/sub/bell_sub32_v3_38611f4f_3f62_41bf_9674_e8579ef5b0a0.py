@@ -16,7 +16,6 @@ REFERENCE_EXPORT_SHA256 = 'de26374281622a462fb648af7bf94525e67a93020cae8059b3b3f
 
 class DrawingVariant3(Sub32):
     icon_id = 'bell-sub32-v3'
-    variant_of = 'bell-sub32-v2'
     variant_label = 'Continuous centerlines'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

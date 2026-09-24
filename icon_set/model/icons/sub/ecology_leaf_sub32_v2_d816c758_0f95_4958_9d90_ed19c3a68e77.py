@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '3ed5069bfc0e588adb918c6a94a4e9604c79f6fe0df2f1a8f5693
 
 class DrawingVariant2(Sub32):
     icon_id = 'ecology-leaf-sub32-v2'
-    variant_of = 'ecology-leaf-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

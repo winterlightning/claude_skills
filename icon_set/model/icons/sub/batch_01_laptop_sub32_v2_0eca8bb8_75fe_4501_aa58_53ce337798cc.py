@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '7a8d541adbc07580400536eb9000ec61fff450b9862a40b2700ca
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'batch-01-laptop-sub32'
     icon_id = 'batch-01-laptop-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

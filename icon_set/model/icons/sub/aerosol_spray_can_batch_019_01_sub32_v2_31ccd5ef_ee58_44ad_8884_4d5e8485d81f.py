@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '39fa470eb754bd0af248cc1a09283a709fb12819622e60a31985c
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'aerosol-spray-can-batch-019-01-sub32'
     icon_id = 'aerosol-spray-can-batch-019-01-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
