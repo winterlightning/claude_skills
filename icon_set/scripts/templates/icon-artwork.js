@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id), tabs=['browser','manual','pick'];
   let icon=null, data=null, file=null, token=0, busy=false;
   const labels={use_org:'Original',use_upload:'Manual Edit',use_edited:'Browser Edit'};
-  const current=()=>data?.choice?.source_mode || data?.source_mode || icon?.artwork_source || 'use_org';
+  const current=()=>{const mode=data?.choice?.source_mode || data?.source_mode || icon?.artwork_source || 'use_org';return mode==='work_fix'?'use_org':mode;};
   const preview=variant=>'../api/icon-artwork/svg?icon='+encodeURIComponent(icon.key)+'&variant='+variant+'&v='+(data?.choice?.revision || 0)+'-'+(data?.edit_revision || 0);
   function tab(name,focus=false){
     if(name==='browser' && icon?.uploaded_icon)name='manual';
@@ -23,7 +23,7 @@
     $('artworkUploadName').textContent=file?file.name:uploaded?'Saved: '+uploaded.name:'SVG only · up to 1 MB · keep the original canvas size.';
     $('artworkDownload').href=data?.preview_url || icon?.preview_url || '';
     $('artworkDownload').download=(icon?.icon_id || 'icon')+'.svg';
-    $('artworkCurrent').textContent='Currently displayed: '+labels[current()];
+    $('artworkCurrent').textContent='Currently displayed: '+(!data?.choice && icon?.artwork_source==='work_fix'?'Uploaded · worker fix (picked)':labels[current()]);
     $('manualEditPreview').hidden=!uploaded;$('manualEditEmpty').hidden=!!uploaded;
     if(uploaded)$('manualEditPreview').src=preview('use_upload');
     for(const mode of Object.keys(labels)){
@@ -75,7 +75,7 @@
     }catch(error){if(request===token)status.textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
   }
-  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source || 'use_org';$('browserEditTab').disabled=!!next.uploaded_icon;tab(next.uploaded_icon?'manual':'browser');controls();load();}
+  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source==='work_fix'?'use_org':(next.artwork_source || 'use_org');$('browserEditTab').disabled=!!next.uploaded_icon;tab(next.uploaded_icon?'manual':'browser');controls();load();}
   document.addEventListener('DOMContentLoaded',()=>{
     for(const [i,name] of tabs.entries()){
       $(name+'EditTab').onclick=()=>tab(name);

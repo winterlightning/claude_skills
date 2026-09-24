@@ -32,3 +32,23 @@ class Drawing(Sub32):
         self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'male-gender-slash-sub32': {'status': 'fixed',
+                             'date': '2026-09-24',
+                             'author': 'gpt-6',
+                             'source_icon_id': 'cd720f08-5370-4624-9fe2-6fecc239b148',
+                             'failures_at_review': ['mic [circle]: circle and shaft are '
+                                                    '0.000514467 apart on centerlines nearest '
+                                                    '(17.9997, 12.0004)<->(18, 12); SUB32 requires '
+                                                    'at least 6 (ink clearance 2) unless the '
+                                                    'contact is declared with a scoped `connect` '
+                                                    'relationship',
+                                                    'mic [circle]: circle and slash are 0 apart on '
+                                                    'centerlines nearest (4.92893, '
+                                                    '12.9289)<->(4.92893, 12.9289); SUB32 requires '
+                                                    'at least 6 (ink clearance 2) unless the '
+                                                    'contact is declared with a scoped `connect` '
+                                                    'relationship'],
+                             'variant': 'male-gender-slash-sub32-clean',
+                             'evidence': 'icon_set/work/side-subs-20260924/fix-25/cd720f08-5370-4624-9fe2-6fecc239b148'}}

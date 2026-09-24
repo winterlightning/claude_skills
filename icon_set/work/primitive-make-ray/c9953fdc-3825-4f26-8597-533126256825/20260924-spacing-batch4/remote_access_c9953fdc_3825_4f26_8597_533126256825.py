@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c9953fdc-3825-4f26-8597-533126256825'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/remote access_c9953fdc-3825-4f26-8597-533126256825.svg'
 AUTHOR='gpt-6'
-PLAN='Two centered hexagons share parameters and axes. Reduce small center circle to solid dot.'
+PLAN='Nested hexagons around a central remote-access dot. Both hexagons share axes and paired dimensions. Even bands and centered point remain clear at48px.'
 CONSTRUCTION_REFERENCE='No useful exact Lucide match; regular paired polygon construction from source'
 class Drawing(Solo48):
     icon_id='remote-access'
@@ -36,3 +36,6 @@ class Drawing(Solo48):
         for n,w,t,h in [('outer',20,10,16),('inner',10,5,8)]:
             self.add_polyline(n,(24-w,24),(24-t,24-h),(24+t,24-h),(24+w,24),(24+t,24+h),(24-t,24+h),closed=True)
         self.add_dot('center',(24,24))
+
+FINAL_OMISSIONS = 'Reduce center circle to a dot.'
+VISUAL_REVIEW = 'Both hexagons share axes and paired dimensions. Even bands and centered point remain clear at48px.'

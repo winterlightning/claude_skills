@@ -180,6 +180,12 @@ def result_summaries(connection, key=None) -> dict:
     return summaries
 
 
+def after_results(connection) -> dict:
+    """(icon, sha) -> {worker, saved_at} for every uploaded fix; the gallery shows it until that revision is rebuilt."""
+    return {(icon, sha): {'worker': worker, 'saved_at': saved_at} for icon, sha, worker, saved_at in connection.execute(
+        "SELECT icon, svg_sha256, worker, saved_at FROM work_results WHERE stage='after'")}
+
+
 def parse_time(stamp):
     if not stamp:
         return None

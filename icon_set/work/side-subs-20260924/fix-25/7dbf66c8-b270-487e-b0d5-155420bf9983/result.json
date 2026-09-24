@@ -1,0 +1,69 @@
+{
+  "index": 10,
+  "icon_id": "check-cross-square-sub32-clean",
+  "source_uuid": "7dbf66c8-b270-487e-b0d5-155420bf9983",
+  "source_path": "pictographic-primitives/other/rectangle remove and check_7dbf66c8-b270-487e-b0d5-155420bf9983.svg",
+  "concept": "Check and Cross Square",
+  "module": "icon_set/model/icons/sub/check_cross_square_sub32_clean_7dbf66c8_b270_487e_b0d5_155420bf9983.py",
+  "previous_module": "icon_set/model/icons/sub/check_cross_square_sub32_7dbf66c8_b270_487e_b0d5_155420bf9983.py",
+  "previous_icon_id": "check-cross-square-sub32",
+  "parts": [
+    "rounded square frame",
+    "upper-left checkmark",
+    "diagonal rising divider",
+    "lower-right cross"
+  ],
+  "repair_plan": "Move the checkmark and cross inward and detach both ends of the divider from the frame.",
+  "qa_status": "fail",
+  "errors": [
+    "mic [frame]: frame and check are 5 apart on centerlines nearest (2, 12)<->(7, 12); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and divider are 4 apart on centerlines nearest (10, 30)<->(10, 26); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and cross-a are 4 apart on centerlines nearest (25, 30)<->(25, 26); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [check]: check and divider are 5.65945 apart on centerlines nearest (10, 15)<->(14.8529, 17.9118); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "warnings": [],
+  "author": "gpt-6",
+  "stroke_width": 4,
+  "canvas": [
+    32,
+    32
+  ],
+  "strict_check": {
+    "icon_id": "check-cross-square-sub32-clean",
+    "module": "icon_set/model/icons/sub/check_cross_square_sub32_clean_7dbf66c8_b270_487e_b0d5_155420bf9983.py",
+    "source_icon_id": "7dbf66c8-b270-487e-b0d5-155420bf9983",
+    "source_path": "pictographic-primitives/other/rectangle remove and check_7dbf66c8-b270-487e-b0d5-155420bf9983.svg",
+    "keyshape": "SQUARE",
+    "qa_status": "fail",
+    "strict_32": "fail",
+    "failures": [
+      "mic [frame]: frame and check are 5 apart on centerlines nearest (2, 12)<->(7, 12); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [frame]: frame and divider are 4 apart on centerlines nearest (10, 30)<->(10, 26); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [frame]: frame and cross-a are 4 apart on centerlines nearest (25, 30)<->(25, 26); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [check]: check and divider are 5.65945 apart on centerlines nearest (10, 15)<->(14.8529, 17.9118); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ]
+  },
+  "outcome": "visual-cleanup-with-unresolved-validation",
+  "source_part_coverage": [
+    "rounded square frame",
+    "upper-left checkmark",
+    "diagonal rising divider",
+    "lower-right cross"
+  ],
+  "omissions": [],
+  "additions": [],
+  "earlier_variant_preserved": true,
+  "visual_review": "Compared full reference, previous and repaired output at 32 and 128 pixels in light and dark. Dense enclosed details can still merge at 4px; this is not a blanket visual approval.",
+  "publication": {
+    "status": "pass-by-exception",
+    "exception": {
+      "reason": "User-approved complete reference composition; accept remaining visual/grid/spacing findings while preserving 32x32 and uniform 4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-24",
+      "svg_sha256": "bf8ccd90d1d8738da4bab6883e993367b24531c7330c793d143da113fd4bbd8c"
+    },
+    "automatic_status": "fail"
+  }
+}

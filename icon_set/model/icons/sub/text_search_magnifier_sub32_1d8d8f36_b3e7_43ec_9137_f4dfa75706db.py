@@ -42,3 +42,48 @@ class Drawing(Sub32):
         self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'text-search-magnifier-sub32': {'status': 'fixed',
+                                 'date': '2026-09-24',
+                                 'author': 'gpt-6',
+                                 'source_icon_id': '1d8d8f36-b3e7-43ec-9137-f4dfa75706db',
+                                 'failures_at_review': ['style/grid [handle]: start.x must be an '
+                                                        'integer on grid 1, got 22.485281374238568',
+                                                        'style/grid [handle]: start.y must be an '
+                                                        'integer on grid 1, got 22.485281374238568',
+                                                        'style/grid [text-T-0-0-0-0]: start.x must '
+                                                        'be an integer on grid 1, got 9.0',
+                                                        'style/grid [text-T-0-0-0-0]: start.y must '
+                                                        'be an integer on grid 1, got 7.0',
+                                                        'style/grid [text-T-0-0-0-0]: end.x must '
+                                                        'be an integer on grid 1, got 19.0',
+                                                        'style/grid [text-T-0-0-0-0]: end.y must '
+                                                        'be an integer on grid 1, got 7.0',
+                                                        'style/grid [text-T-0-1-0-0]: start.x must '
+                                                        'be an integer on grid 1, got 14.0',
+                                                        'style/grid [text-T-0-1-0-0]: start.y must '
+                                                        'be an integer on grid 1, got 7.0',
+                                                        'style/grid [text-T-0-1-0-0]: end.x must '
+                                                        'be an integer on grid 1, got 14.0',
+                                                        'style/grid [text-T-0-1-0-0]: end.y must '
+                                                        'be an integer on grid 1, got 21.0',
+                                                        'mic: parallel straight geometry could not '
+                                                        'be checked: handle: non-integer authored '
+                                                        'line',
+                                                        'mic [frame]: frame and serif-right are '
+                                                        '3.39691 apart on centerlines nearest '
+                                                        '(20.9899, 4.24695)<->(19, 7); SUB32 '
+                                                        'requires at least 6 (ink clearance 2) '
+                                                        'unless the contact is declared with a '
+                                                        'scoped `connect` relationship',
+                                                        'holes/pinches: 1 undersized holes; 0 '
+                                                        'pinches',
+                                                        'mic [frame]: frame and handle are 0 apart '
+                                                        'on centerlines nearest (22.4853, '
+                                                        '22.4853)<->(22.4853, 22.4853); SUB32 '
+                                                        'requires at least 6 (ink clearance 2) '
+                                                        'unless the contact is declared with a '
+                                                        'scoped `connect` relationship'],
+                                 'variant': 'text-search-magnifier-sub32-v2-clean',
+                                 'evidence': 'icon_set/work/side-subs-20260924/fix-25/1d8d8f36-b3e7-43ec-9137-f4dfa75706db'}}

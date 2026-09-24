@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9bf20118-a278-4080-979f-4ea937240a2a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/retouch landscape_9bf20118-a278-4080-979f-4ea937240a2a.svg'
 AUTHOR='gpt-6'
-PLAN='Open picture boundary, sun and mountain, upper-right retouch wand and sparkle. Drop second mountain to open spacing.'
+PLAN='A landscape picture with a retouch wand and sparkles. Mountain joins explicitly split frame at17,42 and42,42. Sun, frame and wand remain distinct. Intentional upper-right editing tool placement.'
 CONSTRUCTION_REFERENCE='Lucide wand-sparkles diagonal wand; image frame'
 class Drawing(Solo48):
     icon_id='retouch-landscape'
@@ -33,10 +33,13 @@ class Drawing(Solo48):
             m=f'{n}-{j}';ns.append(m);self.add_line(m,(x,y),p)
         self.relate('connect',*ns)
     def build(self):
-        self.add_polyline('frame',(23,14),(6,14),(6,42),(42,42),(42,35))
+        self.add_polyline('frame',(23,14),(6,14),(6,42),(17,42),(42,42),(42,35))
         self.circle('sun',16,24,2)
         self.add_polyline('mountain',(17,42),(29,27),(42,42))
         self.relate('connect','mountain','frame')
         self.add_line('wand',(31,16),(42,27))
         self.add_line('spark-up',(34,6),(34,7))
         self.add_line('spark-right',(42,8),(42,9))
+
+FINAL_OMISSIONS = 'Drop second mountain; simplify sparkle strokes.'
+VISUAL_REVIEW = 'Mountain joins explicitly split frame at17,42 and42,42. Sun, frame and wand remain distinct. Intentional upper-right editing tool placement.'

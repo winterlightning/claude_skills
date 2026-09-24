@@ -1,8 +1,11 @@
 """Uploaded reference images (SVG or PNG) for feedback and generation briefs.
 
 Files are stored by content hash outside the served dist folder and referred to
-by that hash, so feedback rows and generation jobs only ever carry ids.
+by that hash, so feedback rows and generation jobs only ever carry ids. With a
+database, each image's metadata is a reference_images row; the bytes stay in the folder.
 """
+from contextlib import closing
+from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
 import json
@@ -42,8 +45,14 @@ def _name(name, kind):
 
 
 class ReferenceStore:
-    def __init__(self, folder):
+    def __init__(self, folder, database=None):
         self.folder = Path(folder)
+        self.database = Path(database) if database else None
+        if self.database:
+            from icon_set.scripts import state_db
+            self._db = state_db
+            with closing(state_db.connect(self.database)) as connection, connection:
+                state_db.init_store_tables(connection)
 
     def save(self, name, data):
         if not isinstance(data, bytes) or not data:
@@ -59,14 +68,28 @@ class ReferenceStore:
             temporary = image.with_suffix('.tmp')
             temporary.write_bytes(data)
             temporary.replace(image)
-        (self.folder / f'{image_id}.json').write_text(json.dumps(meta))
+        if self.database:
+            with closing(self._db.connect(self.database)) as connection, connection:
+                connection.execute('INSERT INTO reference_images VALUES (?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name',
+                                   (image_id, kind, meta['name'], len(data), datetime.now(timezone.utc).isoformat()))
+        else:
+            (self.folder / f'{image_id}.json').write_text(json.dumps(meta))
         return meta
+
+    def _stored_meta(self, image_id):
+        if self.database:
+            with closing(self._db.connect(self.database)) as connection:
+                row = connection.execute('SELECT kind, name FROM reference_images WHERE id=?', (image_id,)).fetchone()
+            if row:
+                return {'id': image_id, 'kind': row[0], 'name': row[1]}
+        # Images saved before the database held their metadata keep a JSON sidecar.
+        return json.loads((self.folder / f'{image_id}.json').read_text())
 
     def meta(self, image_id):
         if not isinstance(image_id, str) or not _ID.fullmatch(image_id):
             raise ValueError('Unknown reference image.')
         try:
-            meta = json.loads((self.folder / f'{image_id}.json').read_text())
+            meta = self._stored_meta(image_id)
         except (OSError, ValueError):
             raise ValueError('Unknown reference image.')
         if not (self.folder / f"{image_id}.{meta.get('kind')}").is_file():

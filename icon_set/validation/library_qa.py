@@ -285,6 +285,8 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
     except Exception as error:
         row['status'] = 'error'
         row['errors'].append(f'{type(error).__name__}: {error}')
+    from .icon_exception import apply_exception
+    apply_exception(icon, row)
     return row
 
 

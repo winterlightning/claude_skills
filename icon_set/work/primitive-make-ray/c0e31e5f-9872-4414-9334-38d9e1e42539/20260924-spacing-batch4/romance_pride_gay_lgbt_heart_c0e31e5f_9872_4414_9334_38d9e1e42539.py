@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c0e31e5f-9872-4414-9334-38d9e1e42539'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg'
 AUTHOR='gpt-6'
-PLAN='Two concentric rainbow arcs and centered heart below; remove third arc and baseline to widen negative space.'
+PLAN='A rainbow above a heart. Shared horizontal center; mirrored heart lobes and evenly nested rainbow bands. Flattened arcs provide room above heart.'
 CONSTRUCTION_REFERENCE='Lucide rainbow concentric arcs; heart mirrored lobes'
 class Drawing(Solo48):
     icon_id='romance-pride-gay-lgbt-heart'
@@ -40,3 +40,6 @@ class Drawing(Solo48):
         self.add_line('heart-down',(32,32),(24,40))
         self.add_line('heart-up',(24,40),(16,32))
         self.add_contour('heart','heart-left','heart-right','heart-down','heart-up',closed=True)
+
+FINAL_OMISSIONS = 'Reduce rainbow to two arcs and remove baseline.'
+VISUAL_REVIEW = 'Shared horizontal center; mirrored heart lobes and evenly nested rainbow bands. Flattened arcs provide room above heart.'

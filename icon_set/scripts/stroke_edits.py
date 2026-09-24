@@ -1,19 +1,23 @@
-"""Versioned, atomic JSON handoffs from the gallery to Python authoring tools.
+"""Versioned handoffs from the gallery to Python authoring tools.
 
-These are pending edits, never published geometry. Consumers can check effective
-validation (including a bound human override), then reconcile anchors and
-relationships before adopting the graph.
+These are pending edits, never published geometry. They are rows of the gallery
+database's stroke_edits table (one per icon and source SVG version), each holding
+the same versioned JSON document the old per-file store wrote. Consumers can check
+effective validation (including a bound human override), then reconcile anchors
+and relationships before adopting the graph.
 """
-from contextlib import contextmanager
+from contextlib import closing
 from copy import deepcopy
 from datetime import datetime, timezone
-import fcntl
 import hashlib
 import json
 import math
-import os
 from pathlib import Path
-import tempfile
+
+if __package__:
+    from . import state_db
+else:
+    import state_db
 
 
 class EditConflict(ValueError):
@@ -164,7 +168,10 @@ def edited_graph(icon, offsets, scales=None, geometry=None, deleted_strokes=None
 
 def load_edit(path, *, expected_svg_sha256=None):
     """Read a local or downloaded handoff, refusing a different source version."""
-    document = json.loads(Path(path).read_text(encoding='utf-8'))
+    return check_edit(json.loads(Path(path).read_text(encoding='utf-8')), expected_svg_sha256=expected_svg_sha256)
+
+
+def check_edit(document, *, expected_svg_sha256=None):
     if document.get('schema') not in ('pictographic.stroke-edit.v1', 'pictographic.stroke-edit.v2'):
         raise ValueError('Unsupported stroke edit schema.')
     if expected_svg_sha256 is not None and document['source_svg_sha256'] != expected_svg_sha256:
@@ -190,9 +197,17 @@ def effective_validation_status(document):
 
 
 class StrokeEditStore:
-    def __init__(self, root, contracts_path=None):
-        self.root = Path(root)
+    """Saved gallery edits in the stroke_edits table of `database` (the gallery SQLite file)."""
+
+    def __init__(self, database, contracts_path=None):
+        self.database = Path(database)
         self.contracts_path = Path(contracts_path) if contracts_path else None
+        self.database.parent.mkdir(parents=True, exist_ok=True)
+        with closing(state_db.connect(self.database)) as connection, connection:
+            state_db.init_store_tables(connection)
+
+    def connect(self):
+        return closing(state_db.connect(self.database))
 
     def graph_for(self, icon, data, old=None):
         if data.get('svg_sha256') != icon['svg_sha256']:
@@ -232,31 +247,17 @@ class StrokeEditStore:
             from edit_validation import validate_graph
         return validate_graph(graph)
 
-    def folder(self, key):
-        return self.root / hashlib.sha256(key.encode()).hexdigest()
-
-    def path(self, key, sha):
-        return self.folder(key) / (hashlib.sha256(sha.encode()).hexdigest() + '.json')
-
-    @contextmanager
-    def locked(self, key):
-        folder = self.folder(key)
-        folder.mkdir(parents=True, exist_ok=True)
-        with (folder / '.lock').open('a') as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            try:
-                yield
-            finally:
-                fcntl.flock(lock, fcntl.LOCK_UN)
-
     def get(self, key, sha):
-        path = self.path(key, sha)
-        return load_edit(path) if path.is_file() else None
+        with self.connect() as connection:
+            row = connection.execute('SELECT document FROM stroke_edits WHERE icon=? AND source_svg_sha256=?',
+                                     (key, sha)).fetchone()
+        return check_edit(json.loads(row[0])) if row else None
 
     def previous_versions(self, key, sha):
-        rows = [load_edit(path) for path in self.folder(key).glob('*.json')]
-        return [{'source_svg_sha256': row['source_svg_sha256'], 'updated_at': row['updated_at']}
-                for row in rows if row['source_svg_sha256'] != sha]
+        with self.connect() as connection:
+            rows = connection.execute('SELECT source_svg_sha256, updated_at FROM stroke_edits '
+                                      'WHERE icon=? AND source_svg_sha256<>?', (key, sha)).fetchall()
+        return [{'source_svg_sha256': source, 'updated_at': at} for source, at in rows]
 
     def save(self, icon, data, user):
         if data.get('svg_sha256') != icon['svg_sha256']:
@@ -264,59 +265,53 @@ class StrokeEditStore:
         if type(data.get('revision')) is not int or data['revision'] < 0:
             raise ValueError('A saved edit revision is required.')
         key, sha = icon['key'], icon['svg_sha256']
-        with self.locked(key):
-            old = self.get(key, sha)
-            if data['revision'] != (old['revision'] if old else 0):
+        # Optimistic: validate outside any lock, then write only if nobody saved in between.
+        old = self.get(key, sha)
+        if data['revision'] != (old['revision'] if old else 0):
+            raise EditConflict('Someone saved newer edits. Download your draft, then reload saved edits.')
+        # Older clients can still translate an edit without erasing its resize.
+        offsets, scales, graph = self.graph_for(icon, data, old)
+        geometry = normalized_geometry(icon, data.get('geometry', (old or {}).get('geometry')))
+        deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', (old or {}).get('deleted_strokes', [])))
+        override = (old or {}).get('validation_override')
+        if override and (override.get('graph_sha256') != graph_sha256(graph) or
+                         override.get('source_svg_sha256') != sha):
+            override = None
+        if 'validation_override' in data:
+            requested = data['validation_override']
+            override = None
+            if requested is not None:
+                reason = requested.get('reason', '') if isinstance(requested, dict) else None
+                if not isinstance(reason, str) or len(reason) > 2000:
+                    raise ValueError('The optional human override note must be text of at most 2000 characters.')
+                override = {'reason': reason.strip(), 'reviewed_by': user,
+                            'reviewed_at': datetime.now(timezone.utc).isoformat(),
+                            'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}
+        validation = {'status': 'not-run', 'note': 'Run validation on these edits before publishing.'}
+        if data.get('validate') is True or override:
+            validation = self.validate(icon, dict(data, scales=scales, keyshape=graph.get('keyshape'), geometry=geometry, deleted_strokes=deleted))
+        document = {
+            'schema': 'pictographic.stroke-edit.v2', 'icon': key,
+            'source_svg_sha256': sha, 'python_source': icon.get('python_source'),
+            'revision': data['revision'] + 1,
+            'updated_at': datetime.now(timezone.utc).isoformat(), 'updated_by': user,
+            'status': 'pending', 'offsets': offsets, 'scales': scales, 'geometry': geometry, 'deleted_strokes': deleted,
+            'scale_origin': [icon['canvas_size'] / 2, icon['canvas_size'] / 2],
+            'stroke_groups': stroke_groups(icon),
+            'original_graph': {k: deepcopy(icon[k]) for k in GRAPH_FIELDS if k in icon},
+            'edited_graph': graph,
+            'validation': validation,
+            'validation_override': override,
+        }
+        document['effective_validation_status'] = effective_validation_status(document)
+        if graph.get('keyshape'):
+            document['keyshape'] = graph['keyshape']
+        with self.connect() as connection, connection:
+            connection.execute('BEGIN IMMEDIATE')
+            current = connection.execute('SELECT revision FROM stroke_edits WHERE icon=? AND source_svg_sha256=?',
+                                         (key, sha)).fetchone()
+            if (current[0] if current else 0) != data['revision']:
                 raise EditConflict('Someone saved newer edits. Download your draft, then reload saved edits.')
-            # Older clients can still translate an edit without erasing its resize.
-            offsets, scales, graph = self.graph_for(icon, data, old)
-            geometry = normalized_geometry(icon, data.get('geometry', (old or {}).get('geometry')))
-            deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', (old or {}).get('deleted_strokes', [])))
-            override = (old or {}).get('validation_override')
-            if override and (override.get('graph_sha256') != graph_sha256(graph) or
-                             override.get('source_svg_sha256') != sha):
-                override = None
-            if 'validation_override' in data:
-                requested = data['validation_override']
-                override = None
-                if requested is not None:
-                    reason = requested.get('reason', '') if isinstance(requested, dict) else None
-                    if not isinstance(reason, str) or len(reason) > 2000:
-                        raise ValueError('The optional human override note must be text of at most 2000 characters.')
-                    override = {'reason': reason.strip(), 'reviewed_by': user,
-                                'reviewed_at': datetime.now(timezone.utc).isoformat(),
-                                'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}
-            validation = {'status': 'not-run', 'note': 'Run validation on these edits before publishing.'}
-            if data.get('validate') is True or override:
-                validation = self.validate(icon, dict(data, scales=scales, keyshape=graph.get('keyshape'), geometry=geometry, deleted_strokes=deleted))
-            document = {
-                'schema': 'pictographic.stroke-edit.v2', 'icon': key,
-                'source_svg_sha256': sha, 'python_source': icon.get('python_source'),
-                'revision': data['revision'] + 1,
-                'updated_at': datetime.now(timezone.utc).isoformat(), 'updated_by': user,
-                'status': 'pending', 'offsets': offsets, 'scales': scales, 'geometry': geometry, 'deleted_strokes': deleted,
-                'scale_origin': [icon['canvas_size'] / 2, icon['canvas_size'] / 2],
-                'stroke_groups': stroke_groups(icon),
-                'original_graph': {k: deepcopy(icon[k]) for k in GRAPH_FIELDS if k in icon},
-                'edited_graph': graph,
-                'validation': validation,
-                'validation_override': override,
-            }
-            document['effective_validation_status'] = effective_validation_status(document)
-            if graph.get('keyshape'):
-                document['keyshape'] = graph['keyshape']
-            path = self.path(key, sha)
-            temp = None
-            try:
-                with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, suffix='.tmp',
-                                                 encoding='utf-8', delete=False) as stream:
-                    temp = Path(stream.name)
-                    json.dump(document, stream, ensure_ascii=False, indent=2, allow_nan=False)
-                    stream.write('\n')
-                    stream.flush()
-                    os.fsync(stream.fileno())
-                os.replace(temp, path)
-            finally:
-                if temp and temp.exists():
-                    temp.unlink()
+            json.dumps(document, allow_nan=False)  # refuse NaN before it reaches storage
+            state_db.put_stroke_edit(connection, document)
         return document

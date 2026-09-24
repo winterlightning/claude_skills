@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ea945a43-10ca-4ee5-a157-515c7b4149fa'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/road lock_ea945a43-10ca-4ee5-a157-515c7b4149fa.svg'
 AUTHOR='gpt-6'
-PLAN='Symmetric lock with receding trapezoid road. Remove center road dash; road and shackle attach to explicitly split body nodes.'
+PLAN='A lock containing a receding road. Symmetric shackle and road meet split body nodes; road narrowed at its bottom to provide legal side-wall gaps.'
 CONSTRUCTION_REFERENCE='Lucide lock arched shackle and body'
 class Drawing(Solo48):
     icon_id='road-lock'
@@ -42,3 +42,6 @@ class Drawing(Solo48):
         self.relate('connect','shackle','body')
         self.add_polyline('road',(16,44),(20,32),(28,32),(32,44))
         self.relate('connect','road','body')
+
+FINAL_OMISSIONS = 'Remove center road dash.'
+VISUAL_REVIEW = 'Symmetric shackle and road meet split body nodes; road narrowed at its bottom to provide legal side-wall gaps.'

@@ -646,6 +646,79 @@ it as one primitive and queue two component briefs. A Pending component brief
 """
 
 
+def render_primitive_fix() -> str:
+    """/primitive-fix-thuan: the production claim and upload around /primitive-make-ray."""
+    return (
+        "---\n"
+        "name: primitive-fix-thuan\n"
+        "argument-hint: <count> [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--worker name]\n"
+        "description: Claim a number of disapproved Pictographic solo icons from the shared production fix "
+        "queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's "
+        "feedback, upload the before and after drawings to production and report done or cannot-fix. "
+        "Arguments: count, optional --offset, --disapprove-status and --worker. Generated from the contracts "
+        "by icon_set/scripts/generate_skills.py; do not edit by hand.\n"
+        "---\n\n"
+        "# /primitive-fix-thuan — claim, redraw with /primitive-make-ray, upload\n\n"
+        "Arguments: $ARGUMENTS\n\n"
+        "This skill does **only the production part** of a fix: claim the icons, hand each one to\n"
+        "/primitive-make-ray, then upload the result and report it. All drawing, validation and\n"
+        "export rules are /primitive-make-ray's; do not author or repair geometry any other way.\n\n"
+        "Run from the repository containing `icon_set/`. The first number in the arguments is the\n"
+        "**count** of icons to claim (required; ask when it is missing). `--offset N` skips that many\n"
+        "claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,\n"
+        "`manual-fix-request`, `other`). The **worker name** identifies your machine on every call and is\n"
+        "**required**: take it from `--worker`, else from `$PICTOGRAPHIC_WORKER`; if neither is set, ask\n"
+        "the user for it (for example `thuan-mac`) before claiming anything. Never invent one from the\n"
+        "hostname, and never reuse a name you saw in the queue; the scripts refuse to run without it.\n\n"
+        "## 1. Claim\n\n"
+        "```bash\n"
+        "python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> [--offset N] [--disapprove-status R]\n"
+        "```\n\n"
+        "It claims the icons on production (so no other machine fixes them), creates one fix directory\n"
+        "per icon at `icon_set/work/primitive-fix-thuan/<icon-key>/<run-id>/` with `brief.txt`,\n"
+        "`claim.json`, a `before/` copy of the registered module and the displayed SVG, and\n"
+        "`reference/<concept>_<source-uuid>.svg` (the original reference), uploads the before drawing to\n"
+        "production, and prints one block per icon: the icon key, the **reference** path, the `before/`\n"
+        "folder, the disapproval reason and the reviewer's **feedback**. Exit code 3 means nothing was\n"
+        "claimable: report that and stop.\n\n"
+        "## 2. Redraw with /primitive-make-ray\n\n"
+        "For each block, run /primitive-make-ray on its **reference** path and follow that skill\n"
+        "completely. Two additions for a fix:\n\n"
+        "- The reviewer's feedback is the specification for the revision, and `before/<icon-id>.svg` is\n"
+        "  the drawing they rejected; look at both before drawing. Keep the `icon_id` of the block.\n"
+        "- This is a revision: author a **fresh** run even when an earlier\n"
+        "  `icon_set/work/primitive-make-ray/<source-uuid>/*/result.json` exists; that skip rule does not\n"
+        "  apply here.\n\n"
+        "Note the new `RESULT_DIR` it creates. A block whose reference line says `none` cannot go through\n"
+        "/primitive-make-ray: finish it as cannot-fix.\n\n"
+        "## 3. Upload and report\n\n"
+        "When the /primitive-make-ray run is valid with zero warnings:\n\n"
+        "```bash\n"
+        "python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-key> --run <make-ray RESULT_DIR> --outcome done --note \"<what changed>\"\n"
+        "```\n\n"
+        "`finish` loads the module from that run, validates it again, writes `after/` (module, SVG,\n"
+        "light/dark previews), `validation.txt` and `result.json` in the fix directory, uploads the after\n"
+        "drawing, module and validation to production, and reports **done**: the revision returns to\n"
+        "Ready for the reviewer. It refuses `done` (exit 2, nothing uploaded or reported) while the model\n"
+        "is invalid or has warnings; go back to /primitive-make-ray. When no meaning-preserving drawing\n"
+        "can pass, report instead (add `--run` when a run exists so its attempt is uploaded):\n\n"
+        "```bash\n"
+        "python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-key> [--run <make-ray RESULT_DIR>] --outcome cannot-fix --note \"<the blocking check and element>\"\n"
+        "```\n\n"
+        "The icon stays **Disapproved** with your worker name and note; reviewers find it with the Cannot\n"
+        "fix filter.\n\n"
+        "## 4. Report\n\n"
+        "For every claimed icon say the key, what the feedback asked for, the /primitive-make-ray\n"
+        "`RESULT_DIR` and its SVG, the validation status, and the outcome reported (done or cannot-fix).\n\n"
+        "## Never\n\n"
+        "- Fix an icon you did not claim, or claim more than the requested count.\n"
+        "- Edit registered modules, build, publish or push; the fix lives in the /primitive-make-ray\n"
+        "  run and is promoted separately.\n"
+        "- Report `done` without `finish`, or change the production status through `/api/reviews`.\n"
+        "- Leave a claimed icon without a `finish` call (done or cannot-fix).\n"
+    )
+
+
 def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     """Adapt host syntax while retaining the shared authoring instructions."""
     content = "\n".join(
@@ -1141,171 +1214,15 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
                     "# /side-main-make-thuan —", "# $side-main-make-thuan —", 1
                 )
             )
-    # Thuan fixes: claim disapproved solo icons on production, repair the registered module in place,
-    # keep the first version in history, upload before/after and report done.
+    # Thuan fixes: claim disapproved solo icons on production, redraw each with /primitive-make-ray,
+    # then upload before/after and report. Only the claiming and uploading live here.
     if skill in (None, "primitive-fix-thuan"):
-        fix = render("solo").replace(
-            "name: icon-solo\n", "name: primitive-fix-thuan\n", 1
-        ).replace("# /icon-solo — one solo icon on `SOLO48`", "# /primitive-fix-thuan — fix claimed solo icons in place on `SOLO48`", 1)
-        fix = re.sub(
-            r"^argument-hint: .*",
-            "argument-hint: <count> [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--worker name]",
-            fix, count=1, flags=re.MULTILINE,
-        )
-        fix = re.sub(
-            r"^description: .*",
-            "description: Claim a number of disapproved Pictographic solo icons from the shared production "
-            "fix queue, repair each registered Python module in place with the SOLO48 rules, keep the first "
-            "version in history, upload the before and after drawings to production and report done or "
-            "cannot-fix. Arguments: count, optional --offset, --disapprove-status and --worker. Generated from "
-            "the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.",
-            fix, count=1, flags=re.MULTILINE,
-        )
-        fix = fix.replace(
-            "Request: $ARGUMENTS",
-            "Arguments: $ARGUMENTS\n\n"
-            "Run from the repository containing `icon_set/`. The first number in the arguments is the\n"
-            "**count** of icons to claim (required; ask when it is missing). `--offset N` skips that many\n"
-            "claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,\n"
-            "`manual-fix-request`, `other`). The **worker name** identifies your machine on every call and is\n"
-            "**required**: take it from `--worker`, else from `$PICTOGRAPHIC_WORKER`; if neither is set, ask\n"
-            "the user for it (for example `thuan-mac`) before claiming anything. Never invent one from the\n"
-            "hostname, and never reuse a name you saw in the queue; the scripts refuse to run without it.\n\n"
-            "**Claim first.** Retrieve and claim the icons with one command built from those arguments:\n\n"
-            "```bash\n"
-            "python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> [--offset N] [--disapprove-status R]\n"
-            "```\n\n"
-            "It claims the icons on production (so no other machine fixes them), creates one result\n"
-            "directory per icon at `icon_set/work/primitive-fix-thuan/<icon-key>/<run-id>/` with\n"
-            "`brief.txt`, `claim.json` and a `before/` copy of the registered module and the displayed SVG,\n"
-            "uploads that first version to production, and prints one block per icon: the icon key, the\n"
-            "**module** path to edit, the result directory, the disapproval reason and the reviewer's\n"
-            "feedback. Exit code 3 means nothing was claimable: report that and stop. Treat each block as\n"
-            "one job and the feedback as its specification; then follow the full authoring workflow below\n"
-            "for every claimed icon.",
-        )
-        fix = re.sub(
-            r"\*\*Text and numbers:\*\*.*?(?=This skill authors)",
-            "**Fix in place:** every job is a registered solo icon that a reviewer disapproved. Edit the\n"
-            "module named in its block directly; do not create a variant, a new file or a copy, and do not\n"
-            "touch any other icon. Its first version is already saved in `RESULT_DIR/before/` and on\n"
-            "production, so the history survives your edit. Preserve the icon's concept and `icon_id`;\n"
-            "change the geometry the feedback asks for, and repair whatever keeps validation from passing.\n"
-            "Set `AUTHOR` to yourself: you drew the geometry that ships.\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = re.sub(
-            r"A \*\*solo\*\* icon.*?(?=## Visual priorities)",
-            "Every job stays in `icon_set/model/icons/solo/`, subclasses `Solo48`, and keeps its\n"
-            "`semantic_role`, `semantic_kind`, `icon_id`, `SOURCE_ICON_ID` and `SOURCE_PATH`. Keep the\n"
-            "complete composition on the 48×48 canvas; do not reroute it to another family or enlarge\n"
-            "the canvas.\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = re.sub(
-            r"Before reduction, apply .*?(?=2\. \*\*Reduce\.)",
-            "Read `RESULT_DIR/brief.txt` and render `RESULT_DIR/before/<icon-id>.svg` before touching the\n"
-            "module: the feedback names what is wrong, the drawing shows what the reviewer saw. Keep what\n"
-            "was not criticised unless validation forces a change.\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = fix.replace(
-            "1. **Name it.** One sentence for what the subject is, then a kebab-case\n",
-            "1. **Keep its name.** The `icon_id`, `aliases` and `keywords` stay unless the feedback asks\n"
-            "   otherwise. For reference, a new id would be a kebab-case\n",
-        ).replace(
-            "   Search existing Python files by that ID before creating a new file; patch the\n"
-            "   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.",
-            "   Patch the module named in the job block; that file is the deliverable. Never create\n"
-            "   a variant or a second module for a fix.",
-        ).replace(
-            "For review revisions, preserve the parent and edit a new file from `create_variant.py`.",
-            "The `before/` copy is the preserved parent; edit the registered module itself.",
-        )
-        fix = re.sub(
-            r"4\. \*\*Author the module\*\* at .*?(?=   ```python)",
-            "4. **Edit the module** at the path printed in the job block. Its `SOURCE_ICON_ID`,\n"
-            "   `SOURCE_PATH` and class stay; set `AUTHOR` to the model you are running as, lowercase and\n"
-            "   hyphenated, never guessed. The shape of a solo module, for orientation:\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = re.sub(
-            r"7\. \*\*Build and look\.\*\*.*?(?=8\. \*\*Report\.)",
-            "7. **Finish the job.** When the model validates with zero warnings and looks right at\n"
-            "   native size in both themes, record and report it:\n\n"
-            "   ```bash\n"
-            "   python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-key> --outcome done --note \"<what changed>\"\n"
-            "   ```\n\n"
-            "   `finish` validates the registered module again through the registry, writes\n"
-            "   `RESULT_DIR/after/` (module copy, SVG, light/dark previews at 48 and 384 px),\n"
-            "   `validation.txt` and `result.json`, uploads the after drawing, module and validation to\n"
-            "   production, and reports **done**: the revision returns to Ready for the reviewer with its\n"
-            "   feedback kept. It refuses `done` (exit 2, nothing uploaded or reported) while the model is\n"
-            "   invalid or has warnings; fix the model and run it again. When no meaning-preserving\n"
-            "   drawing can pass, stop and report instead:\n\n"
-            "   ```bash\n"
-            "   python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-key> --outcome cannot-fix --note \"<the blocking check and element>\"\n"
-            "   ```\n\n"
-            "   The icon stays **Disapproved** with your worker name and note; the queue skips it and reviewers\n"
-            "   find it with the Cannot fix filter. Restore the module to its `before/` copy so an unfinished\n"
-            "   attempt does not ship.\n\n"
-            "   **After every claimed icon is finished**, publish only the fixed icons; never run a full\n"
-            "   library build or a plain `publish` for fixes:\n\n"
-            "   ```bash\n"
-            "   python3 -m icon_set build --icon <module> --no-png --no-report   # once per fixed module\n"
-            "   python3 -m icon_set publish --no-build\n"
-            "   git add <fixed modules> published/solo48 published/gallery/icons.json published/release.json icon_set/work/primitive-fix-thuan\n"
-            "   git commit -m \"Fix <icon keys>\" && git push origin icon-lib\n"
-            "   ```\n\n"
-            "   Production shows the new drawings after its next pull; the Fix queue page already shows\n"
-            "   the uploaded before/after.\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = fix.replace(
-            "8. **Report.** Say what the subject is, which keyshape and why, what you dropped\n"
-            "   and why, which references you used and what you took from each, and the\n"
-            "   validation status.",
-            "8. **Report.** For every claimed icon say the key, what the feedback asked for, what you\n"
-            "   changed, which keyshape and why, the validation status, the outcome you reported (done or\n"
-            "   cannot-fix) and the result directory. Say which modules were built and pushed.",
-        )
-        fix = re.sub(
-            r"## Never\n.*?(?=## Definition of done)",
-            "## Never\n\n"
-            "- Fix an icon you did not claim, or claim more than the requested count.\n"
-            "- Create a variant, a copy or a new module for a fix, or edit any icon that is not one of\n"
-            "  the claimed jobs.\n"
-            "- Report `done` on a model that is invalid, has warnings, or that you did not run\n"
-            "  `finish` on; never change the production status through `/api/reviews` instead.\n"
-            "- Change a profile constant, keyshape dimension, tolerance or `numeric_epsilon`.\n"
-            "- Put this icon in another family's folder or subclass another base for a\n"
-            "  different canvas.\n"
-            "- Declare `connect` on parts that do not touch, add a `FREE` record to dodge a\n"
-            "  repair, or describe a `review` as a pass.\n"
-            "- Hand-write or patch the emitted SVG.\n"
-            "- Run a full library build or a plain `publish`.\n\n",
-            fix, count=1, flags=re.DOTALL,
-        )
-        fix = re.sub(
-            r"## Definition of done\n.*",
-            "## Definition of done\n\n"
-            "- Every claimed icon has `RESULT_DIR/before/`, `RESULT_DIR/after/` (or a cannot-fix\n"
-            "  `result.json`), `validation.txt` and `result.json`, and `finish` reported its outcome;\n"
-            "  link each result directory and its after SVG in the final response.\n"
-            "- The registered module keeps its `icon_id`, `SOURCE_ICON_ID` and `SOURCE_PATH`, and\n"
-            "  records an `AUTHOR` naming your own model.\n"
-            "- `validate_icon()` is `valid` with no warnings for every icon reported done.\n"
-            "- Reviewed at native size in both themes for smooth joins, consistent radii,\n"
-            "  balanced negative space, and symmetry wherever the subject supports it.\n"
-            "- Only the fixed icons were built; `publish --no-build` ran once; the modules, the touched\n"
-            "  `published/` files and the result directories are committed and pushed.\n",
-            fix, count=1, flags=re.DOTALL,
-        )
+        fix = render_primitive_fix()
         if agent in ("all", "claude"):
             outputs[SKILLS_DIR / "primitive-fix-thuan" / "SKILL.md"] = fix
         if agent in ("all", "codex"):
-            outputs[CODEX_SKILLS_DIR / "primitive-fix-thuan" / "SKILL.md"] = (
-                render_codex(fix).replace("# /primitive-fix-thuan —", "# $primitive-fix-thuan —", 1)
+            outputs[CODEX_SKILLS_DIR / "primitive-fix-thuan" / "SKILL.md"] = re.sub(
+                r"(?<![\w./-])/primitive-", "$primitive-", render_codex(fix)
             )
     # Thuan subs: the side-subs page's missing subs, drawn on strict SUB32 into a standalone folder.
     if skill in (None, "side-sub-make-thuan"):

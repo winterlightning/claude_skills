@@ -261,3 +261,19 @@ pointing `--dist` at the slot recorded by `active.json` as `previous` and its
 the watched branch again, so revert the bad commit before resuming updates.
 The watcher itself stays at its installed version; pull and restart it when
 changing deployment orchestration code.
+
+## Explicit SUB32 visual exceptions
+
+A user may accept a complete 32×32 drawing that retains 4px strokes despite
+visual spacing, grid, keyshape or small-opening findings. Set the Python icon
+class parameter `exception` to a dictionary containing `reason`, `approved_by`
+and `svg_sha256` (the SHA-256 of `icon.to_svg().encode("utf-8")`). Optional
+`approved_on` records the approval date. This approval belongs to that exact SVG;
+changing its drawing invalidates the exception. Remove the parameter to revoke it.
+
+The build still runs all checks, preserves errors, warnings and the
+`automatic_status`, and exports the approved drawing with its `exception`
+metadata. The side-component gallery labels it **pass · exception**. Checker
+errors, invalid schema, a different canvas/profile or non-4px strokes cannot be
+accepted this way. The strict `fix_icon_sub.py check` command continues to report
+the automatic result, so acceptance is never confused with a strict geometry pass.

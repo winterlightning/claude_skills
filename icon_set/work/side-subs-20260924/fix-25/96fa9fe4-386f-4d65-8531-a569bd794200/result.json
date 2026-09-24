@@ -1,0 +1,76 @@
+{
+  "index": 2,
+  "icon_id": "fork-knife-circle-sub32-clean",
+  "source_uuid": "96fa9fe4-386f-4d65-8531-a569bd794200",
+  "source_path": "pictographic-primitives/state/circle fork knife_96fa9fe4-386f-4d65-8531-a569bd794200.svg",
+  "concept": "Fork and Knife Dining Symbol",
+  "module": "icon_set/model/icons/sub/fork_knife_circle_sub32_clean_96fa9fe4_386f_4d65_8531_a569bd794200.py",
+  "previous_module": "icon_set/model/icons/sub/fork_knife_circle_sub32_96fa9fe4_386f_4d65_8531_a569bd794200.py",
+  "previous_icon_id": "fork-knife-circle-sub32",
+  "parts": [
+    "circle frame",
+    "three-tined fork with bowl and handle",
+    "curved knife blade and handle"
+  ],
+  "repair_plan": "Shorten the blade and raise its heel; compress the fork bowl vertically while retaining all three tines.",
+  "qa_status": "fail",
+  "errors": [
+    "mic [fork]: parallel straight edges fork-right and fork-center are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+    "mic [fork-center]: parallel straight edges fork-center and fork-left are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+    "mic [frame]: frame and fork are 2.33802 apart on centerlines nearest (4.00203, 8.78573)<->(6, 10); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and fork-center are 4.56576 apart on centerlines nearest (8.58105, 27.8723)<->(11, 24); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and knife-edge are 2.95439 apart on centerlines nearest (29.9419, 17.2715)<->(27, 17); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "mic [fork]: fork and fork-center are 0 apart on centerlines nearest (11, 17.75)<->(11, 17.75); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [fork / fork-center]: fork-left and fork-center have 1 units of ink clearance over 3 units; requires 2; review required",
+    "internal-spacing [fork / fork-center]: fork-right and fork-center have 1 units of ink clearance over 3 units; requires 2; review required"
+  ],
+  "author": "gpt-6",
+  "stroke_width": 4,
+  "canvas": [
+    32,
+    32
+  ],
+  "strict_check": {
+    "icon_id": "fork-knife-circle-sub32-clean",
+    "module": "icon_set/model/icons/sub/fork_knife_circle_sub32_clean_96fa9fe4_386f_4d65_8531_a569bd794200.py",
+    "source_icon_id": "96fa9fe4-386f-4d65-8531-a569bd794200",
+    "source_path": "pictographic-primitives/state/circle fork knife_96fa9fe4-386f-4d65-8531-a569bd794200.svg",
+    "keyshape": "CIRCLE",
+    "qa_status": "fail",
+    "strict_32": "fail",
+    "failures": [
+      "mic [fork]: parallel straight edges fork-right and fork-center are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+      "mic [fork-center]: parallel straight edges fork-center and fork-left are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+      "mic [frame]: frame and fork are 2.33802 apart on centerlines nearest (4.00203, 8.78573)<->(6, 10); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [frame]: frame and fork-center are 4.56576 apart on centerlines nearest (8.58105, 27.8723)<->(11, 24); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [frame]: frame and knife-edge are 2.95439 apart on centerlines nearest (29.9419, 17.2715)<->(27, 17); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches",
+      "mic [fork]: fork and fork-center are 0 apart on centerlines nearest (11, 17.75)<->(11, 17.75); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [fork / fork-center]: fork-left and fork-center have 1 units of ink clearance over 3 units; requires 2; review required",
+      "internal-spacing [fork / fork-center]: fork-right and fork-center have 1 units of ink clearance over 3 units; requires 2; review required"
+    ]
+  },
+  "outcome": "visual-cleanup-with-unresolved-validation",
+  "source_part_coverage": [
+    "circle frame",
+    "three-tined fork with bowl and handle",
+    "curved knife blade and handle"
+  ],
+  "omissions": [],
+  "additions": [],
+  "earlier_variant_preserved": true,
+  "visual_review": "Compared full reference, previous and repaired output at 32 and 128 pixels in light and dark. Dense enclosed details can still merge at 4px; this is not a blanket visual approval.",
+  "publication": {
+    "status": "pass-by-exception",
+    "exception": {
+      "reason": "User-approved complete reference composition; accept remaining visual/grid/spacing findings while preserving 32x32 and uniform 4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-24",
+      "svg_sha256": "8c5c33462edfb52fd858d9ab35b307c83814377b48ce6bdafd707a8063bd176e"
+    },
+    "automatic_status": "fail"
+  }
+}

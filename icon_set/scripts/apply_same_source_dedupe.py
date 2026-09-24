@@ -100,7 +100,7 @@ def main(argv=None) -> int:
     init_database(args.database)
     with closing(sqlite3.connect(args.database, timeout=10)) as connection, connection:
         result = discard_many(icons, source_root=REPO_ROOT, dist=args.dist,
-                              archive=args.database.parent / "discarded-icons", connection=connection, user=args.user)
+                              connection=connection, user=args.user)
         for row in result["discarded"]:
             record_activity(connection, args.user, "discard", row["icon"], svg_sha256=by_key[row["icon"]].get("svg_sha256"),
                             source=row["source"], archive=row["archive"], reason="same-source duplicate")

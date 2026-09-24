@@ -48,6 +48,7 @@ def _drawing(record: dict, failed: bool) -> dict:
         errors = [validation['provenance']]
     return {'icon_id': record['icon_id'], 'key': record.get('key') or f"{record['family']}/{record['icon_id']}",
             'family': record['family'], 'status': status, 'preview_url': record.get('preview_url'),
+            'exception': validation.get('exception'),
             'python_source': (record.get('python_source') or {}).get('path'), 'svg_sha256': record.get('svg_sha256'),
             'errors': errors[:4]}
 

@@ -1,0 +1,64 @@
+{
+  "index": 8,
+  "icon_id": "charging-battery-sub32-clean",
+  "source_uuid": "638f0a9f-914c-4078-b32c-13c8ec4aacf6",
+  "source_path": "pictographic-primitives/other/battery 1_638f0a9f-914c-4078-b32c-13c8ec4aacf6.svg",
+  "concept": "Charging Battery Symbol",
+  "module": "icon_set/model/icons/sub/charging_battery_sub32_clean_638f0a9f_914c_4078_b32c_13c8ec4aacf6.py",
+  "previous_module": "icon_set/model/icons/sub/charging_battery_sub32_638f0a9f_914c_4078_b32c_13c8ec4aacf6.py",
+  "previous_icon_id": "charging-battery-sub32",
+  "parts": [
+    "rounded rectangular battery body",
+    "separate right terminal",
+    "centered zigzag lightning bolt"
+  ],
+  "repair_plan": "Widen the open lightning zigzag to distinguish both bends and recenter it within the battery.",
+  "qa_status": "fail",
+  "errors": [
+    "mic [bolt]: parallel straight edges bolt-1 and bolt-3 are 3.84111 apart on centerlines (ink gap -0.158894); requires at least 6 centerline / 2 ink (midpoint-normal)",
+    "mic [body]: body and bolt are 5 apart on centerlines nearest (16, 6)<->(16, 11); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [bolt]: bolt-1 and bolt-3 have -0.1589 units of ink clearance over 3.6611 units; requires 2; review required"
+  ],
+  "author": "gpt-6",
+  "stroke_width": 4,
+  "canvas": [
+    32,
+    32
+  ],
+  "strict_check": {
+    "icon_id": "charging-battery-sub32-clean",
+    "module": "icon_set/model/icons/sub/charging_battery_sub32_clean_638f0a9f_914c_4078_b32c_13c8ec4aacf6.py",
+    "source_icon_id": "638f0a9f-914c-4078-b32c-13c8ec4aacf6",
+    "source_path": "pictographic-primitives/other/battery 1_638f0a9f-914c-4078-b32c-13c8ec4aacf6.svg",
+    "keyshape": "HRECT_L",
+    "qa_status": "fail",
+    "strict_32": "fail",
+    "failures": [
+      "mic [bolt]: parallel straight edges bolt-1 and bolt-3 are 3.84111 apart on centerlines (ink gap -0.158894); requires at least 6 centerline / 2 ink (midpoint-normal)",
+      "mic [body]: body and bolt are 5 apart on centerlines nearest (16, 6)<->(16, 11); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [bolt]: bolt-1 and bolt-3 have -0.1589 units of ink clearance over 3.6611 units; requires 2; review required"
+    ]
+  },
+  "outcome": "visual-cleanup-with-unresolved-validation",
+  "source_part_coverage": [
+    "rounded rectangular battery body",
+    "separate right terminal",
+    "centered zigzag lightning bolt"
+  ],
+  "omissions": [],
+  "additions": [],
+  "earlier_variant_preserved": true,
+  "visual_review": "Compared full reference, previous and repaired output at 32 and 128 pixels in light and dark. Dense enclosed details can still merge at 4px; this is not a blanket visual approval.",
+  "publication": {
+    "status": "pass-by-exception",
+    "exception": {
+      "reason": "User-approved complete reference composition; accept remaining visual/grid/spacing findings while preserving 32x32 and uniform 4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-24",
+      "svg_sha256": "9a229fc195bf7382d1aa6418a835b94fcc4efb0a1dbae1ad37d8532d9d415ca5"
+    },
+    "automatic_status": "fail"
+  }
+}

@@ -42,3 +42,17 @@ class Drawing(Sub32):
         self.add_arc('frame-tl',(2,4),(4,2),radius_x=2)
         self.add_contour('frame','frame-top','frame-tr','frame-right','frame-br',*[f'frame-tail-{i}' for i in range(1,5)],'frame-bl','frame-left','frame-tl',closed=True)
 
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'starred-message-bubble-sub32': {'status': 'fixed',
+                                  'date': '2026-09-24',
+                                  'author': 'gpt-6',
+                                  'source_icon_id': '69947d59-11b4-48dd-a799-4b94e6112dec',
+                                  'failures_at_review': ['mic [frame]: frame and star are 4 apart '
+                                                         'on centerlines nearest (21, 25)<->(21, '
+                                                         '21); SUB32 requires at least 6 (ink '
+                                                         'clearance 2) unless the contact is '
+                                                         'declared with a scoped `connect` '
+                                                         'relationship'],
+                                  'variant': 'starred-message-bubble-sub32-v2-clean',
+                                  'evidence': 'icon_set/work/side-subs-20260924/fix-25/69947d59-11b4-48dd-a799-4b94e6112dec'}}

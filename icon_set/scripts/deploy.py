@@ -50,6 +50,7 @@ if __package__:
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
     from . import work_claims
+    from . import state_db
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from reviewer_stats import current_decisions, current_reviews, reviewer_stats
@@ -68,6 +69,7 @@ else:
     from progression import import_snapshot
     from primitives_catalog import primitives_root
     import work_claims
+    import state_db
 
 if __package__:
     from .workspace import DEFAULT_DIST, DEFAULT_DATABASE
@@ -104,10 +106,16 @@ REVIEWS_TABLE = '''CREATE TABLE IF NOT EXISTS reviews (
 REVIEWS_COLUMNS = ('icon', 'svg_sha256', 'status', 'updated_at', 'updated_by', 'worker', 'claimed_at', 'note')
 WORK_FORWARD_TIMEOUT = 30
 WORK_CACHE_SECONDS = 10
+# Uploaded fixes shown in the gallery: a short timeout so a dead production never stalls the catalog.
+FIXES_TIMEOUT = 4
+FIXES_CACHE_SECONDS = 30
+FIXES_RETRY_SECONDS = 60
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
-# Review decisions point at artwork kept beside the database: an approved upload or
-# gallery edit changes the icon's svg_sha256, so these folders travel with the database.
-SYNC_STORES = ('icon-artwork', 'stroke-edits', 'reference-images')
+# Artwork choices and stroke edits are database tables now; only reference image bytes
+# still live in a folder beside the database, so only that folder travels with it.
+SYNC_STORES = ('reference-images',)
+# A production server that has not been updated still sends these folders; they are imported.
+LEGACY_SYNC_STORES = ('icon-artwork', 'stroke-edits')
 
 
 def init_database(path: Path) -> None:
@@ -182,6 +190,7 @@ def init_database(path: Path) -> None:
         init_primitive_symbol_links(connection)
         init_primitive_briefs(connection)
         work_claims.init_work_claims(connection)
+        state_db.migrate(connection)
     # Data migrations run against this installation's live database after its
     # schema is committed; no local database copy or manual attribution command.
     migrate_legacy_reviewers(path)
@@ -234,6 +243,8 @@ def export_feedback_snapshot(database: Path, target: Path) -> None:
             if table in tables:
                 copy.execute(f'DELETE FROM {table}')
         copy.execute(f'DELETE FROM activity_log WHERE {PROGRESSION_ACTIVITY}')
+        # The catalog mirror is derived from each server's own build; the receiver re-mirrors.
+        state_db.clear_mirror(copy)
         copy.commit()
         copy.execute('VACUUM')
 
@@ -271,7 +282,7 @@ def extract_review_bundle(bundle: Path, folder: Path) -> list:
         with zipfile.ZipFile(bundle) as archive:
             names = archive.namelist()
             stores = json.loads(archive.read('stores.json')) if 'stores.json' in names else []
-            if 'feedback.sqlite3' not in names or not isinstance(stores, list) or not set(stores) <= set(SYNC_STORES):
+            if 'feedback.sqlite3' not in names or not isinstance(stores, list) or not set(stores) <= set(SYNC_STORES + LEGACY_SYNC_STORES):
                 raise ValueError('Production did not send a valid review data bundle.')
             for name in names:
                 parts = Path(name).parts
@@ -349,11 +360,26 @@ def replace_feedback_database(database: Path, snapshot: Path, user: str, origin:
             incoming.execute(f'DELETE FROM activity_log WHERE {PROGRESSION_ACTIVITY}')
             incoming.executemany('INSERT INTO activity_log(username,action,icon,details,created_at) VALUES (?,?,?,?,?)',
                                  live.execute(f'SELECT username,action,icon,details,created_at FROM activity_log WHERE {PROGRESSION_ACTIVITY} ORDER BY id').fetchall())
+            legacy = [store for store in stores if store in LEGACY_SYNC_STORES]
+            if legacy:
+                # An older production sent artwork as folders: its copy replaces ours, as a sync always does.
+                for table in ('icon_artwork', 'stroke_edits'):
+                    incoming.execute(f'DELETE FROM {table}')
+                state_db.import_store_folders(incoming, stores_dir, names=tuple(legacy))
+            if 'reference-images' in stores:
+                state_db.import_store_folders(incoming, stores_dir, names=('reference-images',))
+            incoming.execute("INSERT OR IGNORE INTO review_data_migrations VALUES (?,?,?)",
+                             (state_db.LEGACY_MIGRATION, utc_now(), json.dumps({'source': 'sync'})))
+            state_db.clear_mirror(incoming)
             record_activity(incoming, user, 'feedback_sync', source=origin, backup=backup.name, exported_at=exported_at)
             incoming.commit()
             counts = {table: incoming.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] for table in SYNC_COUNTED_TABLES}
             incoming.backup(live)
-        files = replace_review_stores(database.parent, stores_dir, stores, backups / f'stores.before-sync-{stamp}') if stores else {}
+        folders = [store for store in stores if store in SYNC_STORES]
+        files = replace_review_stores(database.parent, stores_dir, folders, backups / f'stores.before-sync-{stamp}') if folders else {}
+        for store in stores:
+            if store in LEGACY_SYNC_STORES:
+                files[store] = sum(1 for path in (stores_dir / store).rglob('*.json')) if (stores_dir / store).is_dir() else 0
     return {'synced': True, 'source': origin, 'backup': backup.name, 'exported_at': exported_at, 'counts': counts,
             'stores': files}
 
@@ -414,7 +440,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     @property
     def stroke_edits(self):
         if getattr(self.server, 'live_release_root', None):
-            return StrokeEditStore(self.database.parent / 'stroke-edits', self.root / 'gallery/laboratory.json')
+            return StrokeEditStore(self.database, self.root / 'gallery/laboratory.json')
         return self.server.stroke_edits
 
     def handle(self):
@@ -511,14 +537,70 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def catalog(self, *, include_failed=False):
         data = self.catalog_data()
         rows = data['icons'] + (data.get('failed_icons', []) if include_failed else [])
-        return {item['key']: self.artwork_record(item) for item in rows}
+        fixes = self.work_fixes()
+        return {item['key']: self.artwork_record(item, fixes) for item in rows}
 
     def catalog_icon(self, key):
         data = self.catalog_data()
         record = next((row for row in data['icons'] + data.get('failed_icons', []) if row['key'] == key), None)
-        return self.artwork_record(record) if record else None
+        return self.artwork_record(record, self.work_fixes()) if record else None
 
-    def artwork_record(self, record):
+    def work_fixes(self):
+        """(icon, sha) -> {worker, saved_at} for each uploaded fix: production's own table, or production's via the sync source."""
+        if getattr(self.server, 'production', False):
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    return work_claims.after_results(connection)
+            except sqlite3.Error:
+                return {}
+        cached = getattr(self.server, 'fixes_cache', None)
+        if cached and cached[0] > time.monotonic():
+            return cached[1]
+        def fetch(route):
+            request = urllib.request.Request(self.work_origin() + route, headers={'Accept': 'application/json'})
+            with urllib.request.urlopen(request, timeout=FIXES_TIMEOUT) as response:
+                return json.loads(response.read().decode('utf-8'))
+
+        try:
+            try:
+                rows = fetch('/api/work/fixes')['fixes']
+                fixes = {(row['icon'], row['svg_sha256']): {'worker': row['worker'], 'saved_at': row['saved_at']} for row in rows}
+            except urllib.error.HTTPError as error:
+                if error.code != 404:
+                    raise
+                # A production running an older deploy.py: its fix queue listing says which revisions have an after upload.
+                fixes, offset = {}, 0
+                while offset is not None:
+                    page = fetch(f'/api/work/review?limit=500&offset={offset}')
+                    for item in page['items']:
+                        if 'after' in (item.get('work') or {}).get('results', []):
+                            work = item['work']
+                            fixes[(item['key'], item['svg_sha256'])] = {'worker': work.get('worker'),
+                                                                       'saved_at': work.get('updated_at') or work.get('claimed_at')}
+                    offset = page.get('next_offset')
+            expires = FIXES_CACHE_SECONDS
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError, KeyError, TypeError):
+            fixes, expires = (cached[1] if cached else {}), FIXES_RETRY_SECONDS  # keep the last good answer
+        self.server.fixes_cache = (time.monotonic() + expires, fixes)
+        return fixes
+
+    def artwork_record(self, record, fixes=None):
+        """The catalog record as displayed: a human artwork choice, else a worker's uploaded fix for this exact revision.
+
+        The fix changes only the drawing shown. svg_sha256 stays the Python revision, so reviews, claims and
+        feedback keep their keys, and a rebuilt model (a new revision) replaces the fix without any cleanup.
+        """
+        from urllib.parse import quote
+        result = self.selected_artwork(record)
+        sha = baseline(record)['svg_sha256']
+        fix = (fixes or {}).get((record['key'], sha))
+        if fix and result.get('svg_sha256') == sha and result.get('artwork_source', 'use_org') == 'use_org' and not record.get('uploaded_icon'):
+            result.update(artwork_source='work_fix', work_fix=dict(fix))
+            result['preview_url'] = ('../api/icon-artwork/svg?icon=' + quote(record['key'], safe='')
+                                     + '&v=' + quote(sha[:12] + '-' + str(fix.get('saved_at') or ''), safe=''))
+        return result
+
+    def selected_artwork(self, record):
         from urllib.parse import quote
         source = baseline(record)
         choice = self.server.artwork.get(record['key'])
@@ -559,20 +641,34 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         source = baseline(icon)
         choice = self.server.artwork.get(icon['key'])
         edit = self.stroke_edits.get(icon['key'], source['svg_sha256'])
-        return {'choice': choice, 'source_mode': (choice or {}).get('source_mode', icon.get('artwork_source', 'use_org')), 'svg_sha256': source['svg_sha256'],
+        fallback = 'use_org' if icon.get('artwork_source') == 'work_fix' else icon.get('artwork_source', 'use_org')  # a fix is not a saved choice
+        return {'choice': choice, 'source_mode': (choice or {}).get('source_mode', fallback), 'svg_sha256': source['svg_sha256'],
                 'edit_revision': (edit or (choice or {}).get('edited') or {}).get('revision'),
                 'preview_url': '../api/icon-artwork/svg?icon='+quote(icon['key'], safe='')+'&v='+str((choice or {}).get('revision', 0)),
                 'record': self.artwork_record(icon)}
 
+    def mirror(self, *sources):
+        """A database connection whose catalog mirror matches this gallery's published JSON."""
+        connection = state_db.connect(self.database)
+        try:
+            state_db.refresh_catalog(connection, self.root / 'gallery', sources=sources or None)
+        except BaseException:
+            connection.close()
+            raise
+        return closing(connection)
+
     def primitives_catalog(self):
-        """gallery/primitives.json, reparsed only when a build or refresh replaces it."""
-        path = self.root / 'gallery/primitives.json'
-        stamp = path.stat().st_mtime_ns
-        cached = getattr(self.server, 'primitives_cache', None)
-        if not cached or cached[0] != stamp:
-            cached = (stamp, json.loads(path.read_text(encoding='utf-8')))
-            self.server.primitives_cache = cached
-        return cached[1]
+        """primitives.json as mirrored in the database; rebuilt only when a build replaces the file."""
+        with self.mirror('primitives') as connection:
+            row = connection.execute("SELECT sha256 FROM catalog_imports WHERE source='primitives'").fetchone()
+            cached = getattr(self.server, 'primitives_cache', None)
+            if row and cached and cached[0] == row[0]:
+                return cached[1]
+            data = state_db.load_primitives_catalog(connection)
+        if data is None:
+            raise FileNotFoundError(self.root / 'gallery/primitives.json')
+        self.server.primitives_cache = (row[0], data)
+        return data
 
     def serve_primitive(self, path):
         """Original primitive artwork, from outside dist; SVG only, sandboxed like reference images."""
@@ -618,7 +714,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         # Primitive progress has one authority, just like the shared work queue.
         if (not getattr(self.server, 'production', False) and parsed.path in (
                 '/gallery/primitives.json', '/api/primitives', '/api/primitives/status',
-                '/api/primitives/summary', '/api/primitives/briefs',
+                '/api/primitives/summary', '/api/primitives/briefs', '/api/primitives/state',
+                '/api/primitives/categories',
                 '/api/primitives/symbol-links', '/api/primitives/prompt')):
             return self.forward_to_production('GET', self.path)
         if self.production_blocked(parsed.path):
@@ -644,9 +741,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Could not load categories. You can still type a category.'}, 503)
         if parsed.path == '/gallery/icons.json':
             try:
-                data = dict(self.catalog_data())
+                data, fixes = dict(self.catalog_data()), self.work_fixes()
                 for field in ('icons', 'failed_icons'):
-                    data[field] = [{k: v for k, v in self.artwork_record(row).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
+                    data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
                 return self.json_response(data)
             except (OSError, ValueError):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
@@ -659,6 +756,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path == '/api/icon-artwork':
                     return self.json_response(self.artwork_response(icon))
                 variant = parse_qs(parsed.query).get('variant', [None])[0]
+                if variant is None and icon.get('artwork_source') == 'work_fix':
+                    return self.serve_work_fix(key, icon['svg_sha256'])
                 choice = self.server.artwork.get(key)
                 if variant == 'browser_edit':
                     edit = self.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
@@ -817,6 +916,30 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': str(error)}, 400)
             except (OSError, sqlite3.Error):
                 return self.json_response({'error': 'Generation queue is temporarily unavailable'}, 503)
+        if parsed.path == '/api/primitives/state':
+            # One read for the primitives page: catalog, TODO/SKIP decisions and briefs from one database.
+            try:
+                catalog = self.primitives_catalog()
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    return self.json_response({'catalog': catalog, 'statuses': load_status(connection),
+                                               'briefs': load_primitive_briefs(connection)})
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Primitive progress is temporarily unavailable'}, 503)
+        if parsed.path == '/api/primitives/categories':
+            try:
+                with self.mirror('primitives', 'icons') as connection:
+                    return self.json_response({'categories': state_db.category_progress(connection)})
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Category progress is temporarily unavailable'}, 503)
+        if parsed.path == '/api/side-components':
+            try:
+                with self.mirror('side_components') as connection:
+                    data = state_db.load_side_components(connection)
+                if data is None:
+                    return self.json_response({'error': 'side-components.json is not built yet. Run the gallery build.'}, 404)
+                return self.json_response(data)
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Side components are temporarily unavailable'}, 503)
         if parsed.path == '/api/primitives/briefs':
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -1344,6 +1467,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return {k: v for k, v in row.items() if k not in ('icon', 'current', 'status')}
         return remote
 
+    def serve_work_fix(self, key, sha):
+        """The uploaded after SVG of a fixed revision, as /api/work/result serves it (forwarded in development)."""
+        from urllib.parse import quote
+        path = '/api/work/result?icon=' + quote(key, safe='') + '&svg_sha256=' + quote(sha, safe='') + '&stage=after&part=svg'
+        if not getattr(self.server, 'production', False):
+            return self.forward_to_production('GET', path)
+        return self.work_read(urlsplit(path))
+
     def work_read(self, parsed):
         if not getattr(self.server, 'production', False):
             return self.forward_to_production('GET', parsed.path + ('?' + parsed.query if parsed.query else ''))
@@ -1358,6 +1489,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
                     return self.json_response(work_claims.queue(connection, catalog, decisions, query, now,
                                                                 claimable_only=parsed.path.endswith('/queue')))
+                if parsed.path == '/api/work/fixes':
+                    return self.json_response({'fixes': [dict(fix, icon=key, svg_sha256=sha) for (key, sha), fix
+                                                         in sorted(work_claims.after_results(connection).items())]})
                 if parsed.path == '/api/work/review':
                     return self.json_response(work_claims.review_listing(connection, catalog, decisions, query, now))
                 key = query.get('icon', [''])[0]
@@ -1752,7 +1886,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         return self.json_response({'error': failed[0]['error']}, 404 if failed[0]['error'] == 'Unknown icon' else 409)
                     source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
                     result = discard_many(icons, source_root=source_root, dist=self.root,
-                                          archive=self.database.parent / 'discarded-icons',
                                           connection=connection, user=user,
                                           detach_variants=data.get('detach_variants') is True)
                     for row in result['discarded']:
@@ -1810,7 +1943,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                             (icon['key'], icon.get('svg_sha256'), now, user))
                     source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
                     outcome = discard_many(icons, source_root=source_root, dist=self.root,
-                                           archive=self.database.parent / 'discarded-icons',
                                            connection=connection, user=user)
                     for row in outcome['discarded']:
                         record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']].get('svg_sha256'),
@@ -2049,15 +2181,19 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         from icon_set.scripts.automatic_deploy import validate_paths
         live_release_root, _ = validate_paths(PACKAGE_ROOT.parent, live_release_root, database)
     init_database(database)
-    if not production:
-        with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
-            import_snapshot(connection)
+    with closing(state_db.connect(database)) as connection:
+        # Artwork, stroke edits and discards moved from JSON folders into the database (runs once).
+        state_db.import_legacy_json(connection, database.parent)
+        if not production:
+            with connection:
+                import_snapshot(connection)
+        state_db.refresh_catalog(connection, dist / 'gallery')
     server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
     server.production = production
     server.live_release_root = live_release_root
-    server.references = ReferenceStore(database.parent / 'reference-images')
-    server.artwork = ArtworkStore(database.parent / 'icon-artwork')
-    server.stroke_edits = StrokeEditStore(database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
+    server.references = ReferenceStore(database.parent / 'reference-images', database)
+    server.artwork = ArtworkStore(database)
+    server.stroke_edits = StrokeEditStore(database, dist / 'gallery/laboratory.json')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)
     server.sync_source = sync_source

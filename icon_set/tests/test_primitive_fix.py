@@ -4,6 +4,7 @@ import http.client
 import io
 import json
 from pathlib import Path
+import shutil
 import sqlite3
 import tempfile
 import unittest
@@ -49,6 +50,13 @@ class PrimitiveFixTests(ServerBase):
         self.module.parent.mkdir(parents=True, exist_ok=True)
         self.module.write_text('AUTHOR = "before"\n', encoding='utf-8')
         self.addCleanup(lambda: self.module.unlink(missing_ok=True))
+        # A /primitive-make-ray run holding the redrawn module, as the skill hands it to finish.
+        self.uuid = '11111111-2222-3333-4444-555555555555'
+        self.ray_run = Path(primitive_fix.REPO_ROOT) / 'icon_set' / 'work' / 'primitive-make-ray' / self.uuid / 'test-run'
+        self.ray_run.mkdir(parents=True, exist_ok=True)
+        (self.ray_run / 'attempt-01.py').write_text('x = 1\n', encoding='utf-8')
+        (self.ray_run / f"anchor_{self.uuid.replace('-', '_')}.py").write_text('AUTHOR = "after"\n', encoding='utf-8')
+        self.addCleanup(shutil.rmtree, self.ray_run.parent, True)
         cookie = self.login(self.server)
         for name, reason in (('anchor', 'bad-stroke'), ('bell', 'meaning'), ('cup', 'bad-stroke')):
             status, body, _ = self.request(self.server, 'POST', '/api/reviews', {
@@ -62,6 +70,7 @@ class PrimitiveFixTests(ServerBase):
         data = json.loads(catalog.read_text())
         for row in data['icons']:
             row['python_source'] = {'path': relative, 'family': 'solo', 'class_name': 'Icon'}
+            row['original_sources'] = [{'source_path': f"todo/{row['icon_id']}_{self.uuid}.svg", 'url': 'originals/none.svg'}]
         catalog.write_text(json.dumps(data))
 
     def test_start_claims_records_first_version_and_uploads_before(self):
@@ -78,6 +87,9 @@ class PrimitiveFixTests(ServerBase):
         self.assertTrue((run / 'brief.txt').is_file() and (run / 'claim.json').is_file())
         self.assertEqual((run / 'before' / '.test-module.py').read_text(), 'AUTHOR = "before"\n')
         self.assertIn('<svg', (run / 'before' / 'cup.svg').read_text())
+        self.assertEqual(primitive_fix.reference_name({'original_sources': [{'source_path': f'todo/cup_{self.uuid}.svg'}]}),
+                         f'cup_{self.uuid}.svg')
+        self.assertIn('reference: ', stdout.getvalue())
         self.assertFalse((run / 'before-upload-error.txt').exists())
         history = self.request(self.server, 'GET', '/api/work/history?icon=solo/cup')[1]
         revision = history['revisions'][0]
@@ -95,11 +107,15 @@ class PrimitiveFixTests(ServerBase):
             self.assertEqual(primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
                                                  'start', '--limit', '1']), 0)
         run = next((self.results / 'solo__anchor').iterdir())
-        self.module.write_text('AUTHOR = "after"\n', encoding='utf-8')
+        (run / 'reference').mkdir(exist_ok=True)
+        (run / 'reference' / f'anchor_{self.uuid}.svg').write_text(SVG, encoding='utf-8')
+        with self.assertRaises(SystemExit):  # done needs the make-ray run
+            primitive_fix.finish(self.base, 'thuan-mac', 'solo/anchor', 'done', 'x', self.results)
         warned = FakeIcon(FakeReport('valid', ['review: near-parallel edge']))
         with patch('sys.stderr', io.StringIO()) as err, patch.object(primitive_fix, 'load_icon', return_value=warned):
             code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
-                                       'finish', '--icon', 'solo/anchor', '--outcome', 'done', '--note', 'straightened'])
+                                       'finish', '--icon', 'solo/anchor', '--run', str(self.ray_run),
+                                       '--outcome', 'done', '--note', 'straightened'])
         self.assertEqual(code, 2)
         self.assertIn('refused', err.getvalue())
         self.assertFalse((run / 'result.json').exists())
@@ -109,11 +125,15 @@ class PrimitiveFixTests(ServerBase):
         with patch('sys.stdout', io.StringIO()) as out, patch.object(primitive_fix, 'load_icon', return_value=clean), \
                 patch.object(primitive_fix, 'render_previews', return_value=['preview-light-48.png']):
             code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
-                                       'finish', '--icon', 'solo/anchor', '--outcome', 'done', '--note', 'straightened'])
+                                       'finish', '--icon', 'solo/anchor', '--run', str(self.ray_run),
+                                       '--outcome', 'done', '--note', 'straightened'])
         self.assertEqual(code, 0, out.getvalue())
         result = json.loads((run / 'result.json').read_text())
         self.assertEqual((result['outcome'], result['validation_status'], result['review_status']), ('done', 'valid', 'ready'))
-        self.assertEqual((run / 'after' / '.test-module.py').read_text(), 'AUTHOR = "after"\n')
+        module_name = f"anchor_{self.uuid.replace('-', '_')}.py"
+        self.assertEqual((run / 'after' / module_name).read_text(), 'AUTHOR = "after"\n')
+        self.assertEqual(result['module'].rsplit('/', 1)[-1], module_name)
+        self.assertEqual(self.module.read_text(), 'AUTHOR = "before"\n', 'registered module untouched')
         self.assertIn('r="10"', (run / 'after' / 'anchor.svg').read_text())
         self.assertTrue((run / 'validation.txt').is_file())
         status, body, _ = self.request(self.server, 'GET', '/api/work?icon=solo/anchor')
@@ -140,6 +160,7 @@ class PrimitiveFixTests(ServerBase):
         with patch('sys.stdout', io.StringIO()), patch.object(primitive_fix, 'load_icon', return_value=broken), \
                 patch.object(primitive_fix, 'render_previews', return_value=[]):
             code = primitive_fix.finish(self.base, 'thuan-mac', 'solo/anchor', 'cannot-fix', 'MIC 8 impossible', self.results)
+        self.assertIsNone(json.loads(next((self.results / 'solo__anchor').iterdir()).joinpath('result.json').read_text())['make_ray_run'])
         self.assertEqual(code, 0)
         body = self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]
         self.assertEqual((body['status'], body['work']['state'], body['work']['note']), ('disapprove', 'cannot-fix', 'MIC 8 impossible'))
@@ -169,6 +190,81 @@ class UploadRuleTests(ServerBase):
         self.assertEqual(listing['work']['results'], ['after', 'before'])
         self.assertEqual(self.request(server, 'GET', '/api/work/result?icon=solo/anchor&svg_sha256=abc&stage=after&part=validation')[0], 404)
 
+
+FIXED = SVG.replace('r="12"', 'r="9"')
+
+
+class WorkFixDisplayTests(ServerBase):
+    """An uploaded after SVG is what the gallery shows until the rebuilt Python model changes the revision."""
+
+    @staticmethod
+    def raw(server, path):
+        connection = http.client.HTTPConnection('127.0.0.1', server.server_port)
+        try:
+            connection.request('GET', path)
+            response = connection.getresponse()
+            return response.status, response.read().decode('utf-8')
+        finally:
+            connection.close()
+
+    def assert_fixed(self, response):
+        status, text = response
+        self.assertEqual(status, 200, text)
+        self.assertIn('r="9"', text, 'the uploaded fix, as sanitised on upload')
+
+    def fixed_server(self, root):
+        server, _ = self.start(root, production=True, family='solo', folder_name='solo48', names=('anchor', 'bell'), canvas=48, svg=SVG)
+        cookie = self.login(server)
+        self.request(server, 'POST', '/api/reviews', {'icon': 'solo/anchor', 'svg_sha256': 'abc', 'status': 'disapprove',
+                                                       'reason': 'bad-stroke', 'feedback': 'x'}, cookie)
+        claim = {'icon': 'solo/anchor', 'svg_sha256': 'abc', 'worker': 'thuan-mac'}
+        self.assertEqual(self.request(server, 'POST', '/api/work/claim', claim)[0], 201)
+        self.assertEqual(self.request(server, 'POST', '/api/work/result', dict(claim, stage='after', svg=FIXED))[0], 200)
+        self.assertEqual(self.request(server, 'POST', '/api/work/done', claim)[0], 200)
+        return server
+
+    def catalog(self, server):
+        icons = self.request(server, 'GET', '/gallery/icons.json')[1]['icons']
+        return {row['key']: row for row in icons}
+
+    def test_production_shows_the_uploaded_fix_with_the_python_revision(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        server = self.fixed_server(Path(temp.name))
+        rows = self.catalog(server)
+        anchor, bell = rows['solo/anchor'], rows['solo/bell']
+        self.assertEqual((anchor['artwork_source'], anchor['svg_sha256'], anchor['work_fix']['worker']), ('work_fix', 'abc', 'thuan-mac'))
+        self.assertIn('/api/icon-artwork/svg?icon=solo%2Fanchor&v=abc-', anchor['preview_url'])
+        self.assertNotIn('work_fix', bell)
+        self.assert_fixed(self.raw(server, "/api/icon-artwork/svg?icon=solo/anchor"))
+        self.assertEqual(self.request(server, 'GET', '/api/icon-artwork?icon=solo/anchor')[1]['source_mode'], 'use_org',
+                         'a fix is not a saved artwork choice')
+        self.assertEqual(self.request(server, 'GET', '/api/reviews')[1]['solo/anchor'], 'ready', 'the review status keeps its key')
+        self.assertEqual(self.request(server, 'GET', '/api/work/review?state=done')[1]['total'], 1)
+        self.assertEqual(self.request(server, 'GET', '/api/work/fixes')[1]['fixes'][0]['icon'], 'solo/anchor')
+        # A rebuilt model is a new revision: the fix no longer applies and the Python drawing is shown.
+        catalog = Path(temp.name) / 'dist' / 'gallery' / 'icons.json'
+        data = json.loads(catalog.read_text())
+        for row in data['icons']:
+            row['svg_sha256'] = 'rebuilt'
+        catalog.write_text(json.dumps(data))
+        self.assertNotIn('work_fix', self.catalog(server)['solo/anchor'])
+
+    def test_development_shows_production_fixes_and_survives_an_outage(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root / 'prod').mkdir()
+        (root / 'dev').mkdir()
+        production = self.fixed_server(root / 'prod')
+        development, _ = self.start(root / 'dev', production=False, sync_source=f'http://127.0.0.1:{production.server_port}',
+                                    family='solo', folder_name='solo48', names=('anchor', 'bell'), canvas=48, svg=SVG)
+        self.assertEqual(self.catalog(development)['solo/anchor']['artwork_source'], 'work_fix')
+        self.assert_fixed(self.raw(development, "/api/icon-artwork/svg?icon=solo/anchor"))
+        production.shutdown()
+        production.server_close()
+        development.fixes_cache = None
+        self.assertEqual(self.catalog(development)['solo/anchor'].get('artwork_source', 'use_org'), 'use_org')
 
 if __name__ == '__main__':
     unittest.main()

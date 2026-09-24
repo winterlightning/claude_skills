@@ -1,0 +1,46 @@
+{
+  "concept": "circle skull",
+  "source_uuid": "52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec",
+  "source_path": "pictographic-primitives/other/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg",
+  "reference_path": "pictographic-primitives/other/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg",
+  "icon_id": "circle-skull",
+  "author": "gpt-6",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "repair_rounds": 5,
+  "attempt_count": 6,
+  "keyshape": "CIRCLE",
+  "keyshape_reason": "Circular badge requires radial envelope of radius 22 visible ink.",
+  "visual_review": {
+    "reviewed_native_light_and_dark": true,
+    "approved": false,
+    "findings": "Eye-free candidate rejected as headphone-like; retaining identifying eyes fails skull clearance."
+  },
+  "omissions": [],
+  "construction_references": [
+    "icon_set/references/lucide/original/skull.svg",
+    "icon_set/references/lucide/atomic-debug/skull.svg"
+  ],
+  "blockers": [
+    "error: mic [skull]: skull and eye-left are 6.52317 apart on centerlines nearest (15.3042, 28.5278)<->(20, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: mic [skull]: skull and eye-right are 6.52317 apart on centerlines nearest (32.6958, 28.5278)<->(28, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: mic [skull]: skull and tooth are 8 apart on centerlines nearest (16, 32)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": {
+    "module": "circle_skull_52cd86bc_bba7_4a12_8eae_e78fbf4ca2ec.py",
+    "svg": "circle-skull.svg",
+    "metadata": "circle-skull.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "debug": "gate",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-384.png",
+    "dark_enlarged": "dark-384.png",
+    "findings": "findings.md"
+  },
+  "module_sha256": "a31cb95434d86b4040842dd3b27d21cf3503459b63633a503523795842836cf3"
+}

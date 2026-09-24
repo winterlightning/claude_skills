@@ -31,7 +31,7 @@
     $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json\ngit commit -m "Fix sub/plus" && git push origin icon-lib';
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
     $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon sub/plus --stage after \\\n  --svg published/sub32/plus.svg --python icon_set/model/icons/sub/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
-    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
+    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review\ncurl --fail-with-body "$API_BASE/api/work/fixes"                             # uploaded fixes the gallery shows until the rebuilt model lands';
     $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke\n\n# --disapprove-status: bad-stroke | meaning | manual-fix-request | other';
   }
   $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); render(); });
@@ -218,7 +218,9 @@
     const verdict = document.createElement('p'); verdict.className = 'work-verdict';
     if (!claimed) verdict.textContent = 'No fix claim yet: the drawing shown is the one the reviewer disapproved.';
     else if (claimed.current) verdict.textContent = claimed.claim.state === 'done'
-      ? 'Reported fixed by ' + claimed.claim.worker + ', but the new drawing has not reached production yet (same revision). The change will appear after the next production pull.'
+      ? 'Reported fixed by ' + claimed.claim.worker + '. ' + (claimed.results?.after
+        ? 'The gallery shows the uploaded fix, picked like a manual upload.'
+        : 'No fix drawing was uploaded; the change will appear after the rebuilt model reaches production.')
       : 'This revision is ' + (STATE_LABELS[claimed.claim.state] || claimed.claim.state || 'not claimed').toLowerCase() + '; the drawing has not changed on production yet.';
     else verdict.textContent = 'The fix was deployed: the current revision differs from the one that was claimed. Compare the drawings above.';
     panel.append(verdict);

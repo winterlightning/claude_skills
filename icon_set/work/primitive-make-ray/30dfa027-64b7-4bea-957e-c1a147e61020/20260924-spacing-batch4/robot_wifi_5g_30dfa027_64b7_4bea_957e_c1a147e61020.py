@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='30dfa027-64b7-4bea-957e-c1a147e61020'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/robot wifi 5g_30dfa027-64b7-4bea-957e-c1a147e61020.svg'
 AUTHOR='gpt-6'
-PLAN='Wireless arcs above a robot arm with two pivots and gripper. Single arm stroke replaces crowded parallel edges.'
+PLAN='A wireless robot arm with two pivots and a gripper. All pivot attachment points are explicit quarter-circle endpoints. Signal arcs, arm direction and gripper remain readable; intentional mechanical asymmetry.'
 CONSTRUCTION_REFERENCE='Lucide bot circular joints; wifi nested radio arcs'
 class Drawing(Solo48):
     icon_id='robot-wifi-5g'
@@ -14,9 +14,9 @@ class Drawing(Solo48):
     aliases=()
     keywords=('robot', 'wifi', '5g')
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
+        ps=[(x-r,y),(x,y-r),(x+r,y),(x,y+r)]
+        for j,a in enumerate(ps):self.add_arc(f'{n}-{j}',a,ps[(j+1)%4],radius_x=r)
+        self.add_contour(n,*[f'{n}-{j}' for j in range(4)],closed=True)
     def box(self,n,l,t,r,b,k=4):
         ps=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
         ns=[]
@@ -44,3 +44,6 @@ class Drawing(Solo48):
         self.relate('connect','base-left','base-joint');self.relate('connect','base-right','base-joint');self.relate('connect','base-right','arm')
         self.add_polyline('gripper',(38,19),(42,25),(42,31))
         self.relate('connect','gripper','upper-joint')
+
+FINAL_OMISSIONS = 'Drop tiny signal dot, use single arm stroke and open pedestal legs.'
+VISUAL_REVIEW = 'All pivot attachment points are explicit quarter-circle endpoints. Signal arcs, arm direction and gripper remain readable; intentional mechanical asymmetry.'

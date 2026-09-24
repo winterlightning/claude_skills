@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bb8fc343-a336-4027-84fb-5394db05a944'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/rss_bb8fc343-a336-4027-84fb-5394db05a944.svg'
 AUTHOR='gpt-6'
-PLAN='Rounded RSS badge, single inner broadcast arc and source dot. Outer badge curve doubles as outer broadcast arc; remove redundant inner arc.'
+PLAN='An RSS symbol in a rounded badge. Quarter-circle broadcast geometry follows the source origin; asymmetric lower-left dot preserved.'
 CONSTRUCTION_REFERENCE='Lucide rss concentric quarter-circle construction'
 class Drawing(Solo48):
     icon_id='rss'
@@ -44,3 +44,6 @@ class Drawing(Solo48):
         self.add_contour('badge','top','outer-curve','right','br','bottom','bl','left','tl',closed=True)
         self.add_arc('radio',(15,15),(33,33),radius_x=18)
         self.add_dot('dot',(15,33))
+
+FINAL_OMISSIONS = 'Outer badge curve doubles as outer broadcast arc; remove redundant inner arc and reduce source circle to dot.'
+VISUAL_REVIEW = 'Quarter-circle broadcast geometry follows the source origin; asymmetric lower-left dot preserved.'

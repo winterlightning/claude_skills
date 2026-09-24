@@ -1,0 +1,72 @@
+{
+  "index": 7,
+  "icon_id": "bitcoin-oval-message-sub32-clean",
+  "source_uuid": "1b6ce2a0-ce30-49ce-99cf-a772bb04245d",
+  "source_path": "pictographic-primitives/symbol/messages bubble round bitcoin_1b6ce2a0-ce30-49ce-99cf-a772bb04245d.svg",
+  "concept": "Bitcoin Speech Bubble",
+  "module": "icon_set/model/icons/sub/bitcoin_oval_message_sub32_clean_1b6ce2a0_ce30_49ce_99cf_a772bb04245d.py",
+  "previous_module": "icon_set/model/icons/sub/bitcoin_oval_message_sub32_1b6ce2a0_ce30_49ce_99cf_a772bb04245d.py",
+  "previous_icon_id": "bitcoin-oval-message-sub32",
+  "parts": [
+    "oval speech bubble",
+    "lower-left tail",
+    "Bitcoin B with two bowls",
+    "two top and bottom currency ticks"
+  ],
+  "repair_plan": "Rebuild smooth Bitcoin bowls with exact bar and currency tick connections inside the oval bubble.",
+  "qa_status": "fail",
+  "errors": [
+    "mic [top]: parallel straight edges top and middle are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+    "mic [middle]: parallel straight edges middle and bottom are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+    "mic [frame]: frame and bottom are 3.60549 apart on centerlines nearest (6.98204, 22.9879)<->(9, 20); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 3 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "internal-spacing [top / middle]: top and middle have 1 units of ink clearance over 6 units; requires 2; review required",
+    "internal-spacing [bottom / middle]: bottom and middle have 1 units of ink clearance over 6 units; requires 2; review required"
+  ],
+  "author": "gpt-6",
+  "stroke_width": 4,
+  "canvas": [
+    32,
+    32
+  ],
+  "strict_check": {
+    "icon_id": "bitcoin-oval-message-sub32-clean",
+    "module": "icon_set/model/icons/sub/bitcoin_oval_message_sub32_clean_1b6ce2a0_ce30_49ce_99cf_a772bb04245d.py",
+    "source_icon_id": "1b6ce2a0-ce30-49ce-99cf-a772bb04245d",
+    "source_path": "pictographic-primitives/symbol/messages bubble round bitcoin_1b6ce2a0-ce30-49ce-99cf-a772bb04245d.svg",
+    "keyshape": "SQUARE",
+    "qa_status": "fail",
+    "strict_32": "fail",
+    "failures": [
+      "mic [top]: parallel straight edges top and middle are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+      "mic [middle]: parallel straight edges middle and bottom are 5 apart on centerlines (ink gap 1); requires at least 6 centerline / 2 ink (midpoint-normal)",
+      "mic [frame]: frame and bottom are 3.60549 apart on centerlines nearest (6.98204, 22.9879)<->(9, 20); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 3 undersized holes; 0 pinches",
+      "internal-spacing [top / middle]: top and middle have 1 units of ink clearance over 6 units; requires 2; review required",
+      "internal-spacing [bottom / middle]: bottom and middle have 1 units of ink clearance over 6 units; requires 2; review required"
+    ]
+  },
+  "outcome": "visual-cleanup-with-unresolved-validation",
+  "source_part_coverage": [
+    "oval speech bubble",
+    "lower-left tail",
+    "Bitcoin B with two bowls",
+    "two top and bottom currency ticks"
+  ],
+  "omissions": [],
+  "additions": [],
+  "earlier_variant_preserved": true,
+  "visual_review": "Compared full reference, previous and repaired output at 32 and 128 pixels in light and dark. Dense enclosed details can still merge at 4px; this is not a blanket visual approval.",
+  "publication": {
+    "status": "pass-by-exception",
+    "exception": {
+      "reason": "User-approved complete reference composition; accept remaining visual/grid/spacing findings while preserving 32x32 and uniform 4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-24",
+      "svg_sha256": "9faed3cbcf8f10cab9fa42d0b15cf7e0dbcddfe40c9b06ad46dd89356982a854"
+    },
+    "automatic_status": "fail"
+  }
+}

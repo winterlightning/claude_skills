@@ -3,8 +3,8 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b60b81a4-9d88-4566-84d3-7931d6c1da67'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/sass circle logo_b60b81a4-9d88-4566-84d3-7931d6c1da67.svg'
 AUTHOR='gpt-6'
-PLAN='Circular Sass badge with calligraphic S; raise lower loop and simplify terminal curl while retaining both loops.'
-CONSTRUCTION_REFERENCE='No useful Lucide logo match; supplied Sass silhouette owns script'
+PLAN='A circular Sass script logo. Expanded upper script loop and circular lower loop preserve the calligraphic S. Actual shared endpoint24,31; source-directed asymmetry retained.'
+CONSTRUCTION_REFERENCE='No useful Lucide logo match; supplied Sass script'
 class Drawing(Solo48):
     icon_id='sass-circle-logo'
     keyshape=Keyshape.CIRCLE
@@ -34,4 +34,9 @@ class Drawing(Solo48):
         self.relate('connect',*ns)
     def build(self):
         self.circle('badge',24,24,20)
-        self.add_bezier('script',(23,21),((30,24),(35,17),(29,15)),((25,13),(15,18),(15,22)),((14,26),(27,27),(24,32)),((22,36),(15,34),(18,31)),((22,28),(30,27),(31,31)))
+        self.add_bezier('script',(24,22),((32,24),(33,13),(28,13)),((23,13),(15,18),(15,22)),((15,25),(24,26),(24,31)))
+        self.circle('lower-loop',21,31,3)
+        self.relate('connect','script','lower-loop')
+
+FINAL_OMISSIONS = 'Regularize lower loop as a circle and omit terminal curl.'
+VISUAL_REVIEW = 'Expanded upper script loop and circular lower loop preserve the calligraphic S. Actual shared endpoint24,31; source-directed asymmetry retained.'

@@ -49,3 +49,67 @@ class Drawing(Sub32):
         self.add_line('text-1-0-0-2-0',(15.756454, 12.0),(14.0, 12.0))
         self.add_line('text-1-0-1-0-0',(14.0, 24.0),(18.0, 24.0))
 
+
+# Outcome of /fix-icon-sub for the strict 32x32 gate; metadata only.
+SUB32_FIX_RECORDS = {'first-place-podium-sub32': {'status': 'fixed',
+                              'date': '2026-09-24',
+                              'author': 'gpt-6',
+                              'source_icon_id': '537f61ca-8ecd-4e15-bb46-ac683be40ccd',
+                              'failures_at_review': ['style/grid [text-1-0-0-0-0]: start.x must be '
+                                                     'an integer on grid 1, got 16.005902',
+                                                     'style/grid [text-1-0-0-0-0]: start.y must be '
+                                                     'an integer on grid 1, got 23.90522',
+                                                     'style/grid [text-1-0-0-0-0]: end.x must be '
+                                                     'an integer on grid 1, got 16.005902',
+                                                     'style/grid [text-1-0-0-0-0]: end.y must be '
+                                                     'an integer on grid 1, got 12.354073',
+                                                     'style/grid [text-1-0-0-1-0]: start.x must be '
+                                                     'an integer on grid 1, got 16.005902',
+                                                     'style/grid [text-1-0-0-1-0]: start.y must be '
+                                                     'an integer on grid 1, got 12.354073',
+                                                     'style/grid [text-1-0-0-1-0]: end.x must be '
+                                                     'an integer on grid 1, got 15.756454',
+                                                     'style/grid [text-1-0-0-1-0]: end.y must be '
+                                                     'an integer on grid 1, got 12.0',
+                                                     'style/grid [text-1-0-0-2-0]: start.x must be '
+                                                     'an integer on grid 1, got 15.756454',
+                                                     'style/grid [text-1-0-0-2-0]: start.y must be '
+                                                     'an integer on grid 1, got 12.0',
+                                                     'style/grid [text-1-0-0-2-0]: end.x must be '
+                                                     'an integer on grid 1, got 14.0',
+                                                     'style/grid [text-1-0-0-2-0]: end.y must be '
+                                                     'an integer on grid 1, got 12.0',
+                                                     'style/grid [text-1-0-1-0-0]: start.x must be '
+                                                     'an integer on grid 1, got 14.0',
+                                                     'style/grid [text-1-0-1-0-0]: start.y must be '
+                                                     'an integer on grid 1, got 24.0',
+                                                     'style/grid [text-1-0-1-0-0]: end.x must be '
+                                                     'an integer on grid 1, got 18.0',
+                                                     'style/grid [text-1-0-1-0-0]: end.y must be '
+                                                     'an integer on grid 1, got 24.0',
+                                                     'mic: parallel straight geometry could not be '
+                                                     'checked: text-1-0-0-0-0: non-integer '
+                                                     'authored line',
+                                                     'mic [center-left]: center-left and '
+                                                     'text-1-0-0-2-0 are 3 apart on centerlines '
+                                                     'nearest (11, 12)<->(14, 12); SUB32 requires '
+                                                     'at least 6 (ink clearance 2) unless the '
+                                                     'contact is declared with a scoped `connect` '
+                                                     'relationship',
+                                                     'mic [center-left]: center-left and '
+                                                     'text-1-0-1-0-0 are 3 apart on centerlines '
+                                                     'nearest (11, 24)<->(14, 24); SUB32 requires '
+                                                     'at least 6 (ink clearance 2) unless the '
+                                                     'contact is declared with a scoped `connect` '
+                                                     'relationship',
+                                                     'mic [text-1-0-0-0-0]: text-1-0-0-0-0 and '
+                                                     'text-1-0-1-0-0 are 0.09478 apart on '
+                                                     'centerlines nearest (16.0059, '
+                                                     '23.9052)<->(16.0059, 24); SUB32 requires at '
+                                                     'least 6 (ink clearance 2) unless the contact '
+                                                     'is declared with a scoped `connect` '
+                                                     'relationship',
+                                                     'holes/pinches: 3 undersized holes; 0 '
+                                                     'pinches'],
+                              'variant': 'first-place-podium-sub32-v2-clean',
+                              'evidence': 'icon_set/work/side-subs-20260924/fix-25/537f61ca-8ecd-4e15-bb46-ac683be40ccd'}}

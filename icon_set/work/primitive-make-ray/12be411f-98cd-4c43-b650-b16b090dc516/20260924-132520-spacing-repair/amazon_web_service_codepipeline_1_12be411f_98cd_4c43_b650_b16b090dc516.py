@@ -1,4 +1,4 @@
-"""amazon web service codepipeline 1. Plan: equal side brackets and mirrored chevrons about x=24; central slanted slash. HRECT_L extremes (4,8)-(44,40). Lucide code informs coherent chevron strokes."""
+"""amazon web service codepipeline 1. Plan: equal side brackets and rotationally paired chevrons around the slanted slash; central slanted slash. HRECT_L extremes (4,8)-(44,40). Lucide code informs coherent chevron strokes."""
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '12be411f-98cd-4c43-b650-b16b090dc516'

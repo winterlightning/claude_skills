@@ -1,0 +1,47 @@
+{
+  "concept": "circle skull 1",
+  "source_uuid": "0275d46c-9a52-48fb-9993-9a0c2a0a4b89",
+  "source_path": "pictographic-primitives/other/circle skull 1_0275d46c-9a52-48fb-9993-9a0c2a0a4b89.svg",
+  "reference_path": "pictographic-primitives/other/circle skull 1_0275d46c-9a52-48fb-9993-9a0c2a0a4b89.svg",
+  "icon_id": "circle-skull-1",
+  "author": "gpt-6",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "repair_rounds": 5,
+  "attempt_count": 6,
+  "keyshape": "CIRCLE",
+  "keyshape_reason": "Circular badge requires radial envelope of radius 22 visible ink.",
+  "visual_review": {
+    "reviewed_native_light_and_dark": true,
+    "approved": false,
+    "findings": "Eye-free candidate rejected as headphone-like; retaining slanted eyes fails skull clearance."
+  },
+  "omissions": [],
+  "construction_references": [
+    "icon_set/references/lucide/original/skull.svg",
+    "icon_set/references/lucide/atomic-debug/skull.svg"
+  ],
+  "blockers": [
+    "error: mic [skull]: skull and eye-left are 6.65157 apart on centerlines nearest (15.4385, 28.8411)<->(20, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: mic [skull]: skull and eye-right are 6.65157 apart on centerlines nearest (32.5615, 28.8411)<->(28, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: mic [ring]: ring and skull are 7.99985 apart on centerlines nearest (41.3773, 14.0995)<->(34.441, 18.0852); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: mic [skull]: skull and tooth are 8 apart on centerlines nearest (16, 32)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": {
+    "module": "circle_skull_1_0275d46c_9a52_48fb_9993_9a0c2a0a4b89.py",
+    "svg": "circle-skull-1.svg",
+    "metadata": "circle-skull-1.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "debug": "gate",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-384.png",
+    "dark_enlarged": "dark-384.png",
+    "findings": "findings.md"
+  },
+  "module_sha256": "82fef29f4088dcce179a08ba4aef26a677553a9cf5bfae5f473a071dad5c3824"
+}

@@ -3,7 +3,7 @@
 (()=>{
 const ROLE=document.body.dataset.role, PAGE_SIZE=48, $=id=>document.getElementById(id);
 const BUCKETS=ROLE==='sub'
-  ?[['done','Generated','A 32×32 sub drawing passes'],['text','Text','Text or a number · generated separately'],['failing','Needs fix','Fails validation or marked needs fix · /fix-icon-sub'],['missing','Not generated','No 32×32 drawing yet · /icon-sub'],['variants','Extra versions failing','Generated, but other versions fail or need fix'],['all','All sub icons','']]
+  ?[['done','Generated','Passes checks or has an approved exception'],['text','Text','Text or a number · generated separately'],['failing','Needs fix','Fails validation or marked needs fix · /fix-icon-sub'],['missing','Not generated','No 32×32 drawing yet · /icon-sub'],['variants','Extra versions failing','Generated, but other versions fail or need fix'],['all','All sub icons','']]
   :[['done','Generated','A 48×48 solo drawing passes'],['missing','Not generated','No 48×48 solo drawing yet · /icon-solo'],['failing','Needs fix','Fails validation or marked needs fix'],['all','All main icons','']];
 const HANDOFF={missing:ROLE==='sub'?'Generate each as a SUB32 sub icon with /icon-sub from its source reference.':'Generate each as a SOLO48 main icon with /icon-solo from its source reference.',
   failing:ROLE==='sub'?'Repair each with /fix-icon-sub: keep the reference meaning, produce a variant that passes the SUB32 gate.':'Repair each drawing so it passes validation, keeping the reference meaning.',
@@ -52,7 +52,7 @@ function drawingFigure(item,d){
   const fig=node('figure','sc-drawing '+d.status),a=node('a','sc-grid sc-grid-'+GRID);a.href=d.preview_url||'#';a.target='_blank';a.rel='noopener';a.title=d.python_source||d.icon_id;
   const img=document.createElement('img');img.loading='lazy';img.alt=d.icon_id;img.src=d.preview_url;a.append(img);
   if(d.preview_url)centerlineObserver.observe(a);a.dataset.src=d.preview_url||'';
-  fig.append(a,node('figcaption','',`${d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.status}`));
+  fig.append(a,node('figcaption','',`${d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.exception?'pass · exception':d.status}`));
   if(reviews[d.key]==='pending')fig.classList.add('flagged');
   if(d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
   if(d.svg_sha256){fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
@@ -208,7 +208,8 @@ const applyCl=()=>{document.body.classList.toggle('sc-no-cl',!showCl);clToggle.s
 clToggle.onclick=()=>{showCl=!showCl;try{localStorage.setItem('sc-centerline',showCl?'on':'off');}catch{}applyCl();};$('closeCopy').onclick=()=>$('copyDialog').close();
 (async()=>{
   try{
-    const [data,status,review]=await Promise.all([fetch('side-components.json',{cache:'no-store'}),ROLE==='sub'?fetch('/api/primitives/status',{cache:'no-store'}).catch(()=>null):null,fetch('/api/reviews',{cache:'no-store'}).catch(()=>null)]);
+    const fromDb=await fetch('/api/side-components',{cache:'no-store'}).catch(()=>null);
+    const [data,status,review]=await Promise.all([fromDb?.ok?fromDb:fetch('side-components.json',{cache:'no-store'}),ROLE==='sub'?fetch('/api/primitives/status',{cache:'no-store'}).catch(()=>null):null,fetch('/api/reviews',{cache:'no-store'}).catch(()=>null)]);
     if(!data.ok)throw Error('side-components.json is not built yet. Run the gallery build.');
     const json=await data.json();items=ROLE==='sub'?json.subs:json.mains;counts=json.counts[ROLE]||{};
     if(review?.ok)reviews=await review.json();items.forEach(restatus);

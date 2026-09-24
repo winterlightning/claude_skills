@@ -2,13 +2,13 @@
 
 Authored Python remains the baseline. Manual SVGs and accepted graph snapshots
 are independent inputs; no generated source code is rewritten by an upload.
+Choices are rows of the gallery database's icon_artwork table.
 """
 from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import io
 import json
-import os
 from pathlib import Path
 import re
 import tempfile
@@ -17,13 +17,15 @@ import xml.etree.ElementTree as ET
 if __package__:
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
     from .edit_validation import icon_from_graph
-    from .workspace import STATE_ROOT
+    from .workspace import DEFAULT_DATABASE
+    from . import state_db
 else:
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
     from edit_validation import icon_from_graph
-    from workspace import STATE_ROOT
+    from workspace import DEFAULT_DATABASE
+    import state_db
 
-DEFAULT_ARTWORK = STATE_ROOT / 'icon-artwork'
+DEFAULT_ARTWORK = DEFAULT_DATABASE
 MODES = ('use_org', 'use_upload', 'use_edited')
 SVG_NS = 'http://www.w3.org/2000/svg'
 MAX_SVG = 1024 * 1024
@@ -137,10 +139,11 @@ def safe_svg(text, canvas):
 
 class ArtworkStore(StrokeEditStore):
     def get(self, key):
-        path = self.folder(key) / 'artwork.json'
-        if not path.is_file():
+        with self.connect() as connection:
+            row = connection.execute('SELECT document FROM icon_artwork WHERE icon=?', (key,)).fetchone()
+        if not row:
             return None
-        document = json.loads(path.read_text(encoding='utf-8'))
+        document = json.loads(row[0])
         if document.get('schema') != 'pictographic.icon-artwork.v1' or document.get('icon') != key:
             raise ValueError('Invalid saved artwork record.')
         return document
@@ -156,56 +159,63 @@ class ArtworkStore(StrokeEditStore):
         if upload_only and 'svg' not in data:
             raise ValueError('Choose an SVG file to save.')
         key = icon['key']
-        with self.locked(key):
-            old = self.get(key)
-            if type(data.get('revision')) is not int or data['revision'] != (old or {}).get('revision', 0):
+        old = self.get(key)
+        if type(data.get('revision')) is not int or data['revision'] != (old or {}).get('revision', 0):
+            raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')
+        if upload_only:
+            mode = (old or {}).get('source_mode', 'use_org')
+        result = deepcopy(old) if old else {'schema': 'pictographic.icon-artwork.v1', 'icon': key}
+        if old:
+            result.setdefault('selected_by', old.get('updated_by'))
+            result.setdefault('selected_at', old.get('updated_at'))
+        if old and old.get('source_mode') == 'use_upload' and not result.get('selected_upload'):
+            result['selected_upload'] = deepcopy(old['uploaded'])
+        now = datetime.now(timezone.utc).isoformat()
+        if 'svg' in data:
+            document = safe_svg(data['svg'], icon['canvas_size'])
+            result['uploaded'] = {'svg': document, 'svg_sha256': sha(document),
+                                  'name': Path(str(data.get('filename') or 'uploaded.svg')).name[:200],
+                                  'uploaded_by': user, 'uploaded_at': now}
+        if mode == 'use_upload' and not result.get('uploaded'):
+            raise ValueError('Upload an SVG before choosing the uploaded version.')
+        if mode == 'use_edited' and not upload_only:
+            # Bind selection to the revision the human actually saw.
+            edit = edits.get(key, icon['svg_sha256'])
+            edit = edit or result.get('edited')
+            if not edit or data.get('edit_revision') != edit['revision']:
+                raise EditConflict('Save your gallery edits, then reload the source choices to use them.')
+            if effective_validation_status(edit) != 'pass':
+                raise ValueError('Run validation and save the gallery edits first, or save a human force-pass reason.')
+            result['edited'] = edit
+        result.update(source_mode=mode, source_svg_sha256=icon['svg_sha256'],
+                      revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
+        if not upload_only:
+            result.update(selected_by=user, selected_at=now)
+        if mode == 'use_upload' and not upload_only:
+            result['selected_upload'] = deepcopy(result['uploaded'])
+            result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
+                                       'svg_sha256': result['uploaded']['svg_sha256']}
+        with self.connect() as connection, connection:
+            connection.execute('BEGIN IMMEDIATE')
+            current = connection.execute('SELECT revision FROM icon_artwork WHERE icon=?', (key,)).fetchone()
+            if (current[0] if current else 0) != (old or {}).get('revision', 0):
                 raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')
-            if upload_only:
-                mode = (old or {}).get('source_mode', 'use_org')
-            result = deepcopy(old) if old else {'schema': 'pictographic.icon-artwork.v1', 'icon': key}
-            if old:
-                result.setdefault('selected_by', old.get('updated_by'))
-                result.setdefault('selected_at', old.get('updated_at'))
-            if old and old.get('source_mode') == 'use_upload' and not result.get('selected_upload'):
-                result['selected_upload'] = deepcopy(old['uploaded'])
-            now = datetime.now(timezone.utc).isoformat()
-            if 'svg' in data:
-                document = safe_svg(data['svg'], icon['canvas_size'])
-                result['uploaded'] = {'svg': document, 'svg_sha256': sha(document),
-                                      'name': Path(str(data.get('filename') or 'uploaded.svg')).name[:200],
-                                      'uploaded_by': user, 'uploaded_at': now}
-            if mode == 'use_upload' and not result.get('uploaded'):
-                raise ValueError('Upload an SVG before choosing the uploaded version.')
-            if mode == 'use_edited' and not upload_only:
-                # Bind selection to the revision the human actually saw.
-                with edits.locked(key):
-                    edit = edits.get(key, icon['svg_sha256'])
-                edit = edit or result.get('edited')
-                if not edit or data.get('edit_revision') != edit['revision']:
-                    raise EditConflict('Save your gallery edits, then reload the source choices to use them.')
-                if effective_validation_status(edit) != 'pass':
-                    raise ValueError('Run validation and save the gallery edits first, or save a human force-pass reason.')
-                result['edited'] = edit
-            result.update(source_mode=mode, source_svg_sha256=icon['svg_sha256'],
-                          revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
-            if not upload_only:
-                result.update(selected_by=user, selected_at=now)
-            if mode == 'use_upload' and not upload_only:
-                result['selected_upload'] = deepcopy(result['uploaded'])
-                result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
-                                           'svg_sha256': result['uploaded']['svg_sha256']}
-            temporary = None
-            try:
-                with tempfile.NamedTemporaryFile(mode='w', dir=self.folder(key), suffix='.tmp',
-                                                 encoding='utf-8', delete=False) as stream:
-                    temporary = Path(stream.name)
-                    json.dump(result, stream, indent=2, ensure_ascii=False, allow_nan=False)
-                    stream.write('\n'); stream.flush(); os.fsync(stream.fileno())
-                os.replace(temporary, self.folder(key) / 'artwork.json')
-            finally:
-                if temporary and temporary.exists():
-                    temporary.unlink()
+            json.dumps(result, allow_nan=False)
+            state_db.put_artwork(connection, result)
         return result
+
+
+def open_artwork_store(location):
+    """A gallery database, or an old icon-artwork JSON folder loaded into a scratch database."""
+    location = Path(location)
+    if not location.is_dir():
+        return ArtworkStore(location)
+    scratch = Path(tempfile.mkdtemp(prefix='artwork-')) / 'artwork.sqlite3'
+    store = ArtworkStore(scratch)
+    with store.connect() as connection, connection:
+        state_db.import_store_folders(connection, location.parent if location.name == 'icon-artwork' else location,
+                                      names=('icon-artwork',))
+    return store
 
 
 def resolve_artwork(record, choice, *, variant=None):

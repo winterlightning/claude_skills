@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aec06f81-4835-4b96-93f1-57f1ca360f5e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg'
 AUTHOR='gpt-6'
-PLAN='Diagonal tag and separate lower-right leaf; omit inner vein and reduce eyelet to a dot.'
+PLAN='A diagonal recycling tag with a separate leaf. Leaf halves and stem share the explicit node30,39. Intentional diagonal tag and offset leaf; clear negative space in both themes.'
 CONSTRUCTION_REFERENCE='Lucide tag clipped tip; leaf coherent outline'
 class Drawing(Solo48):
     icon_id='recycling-label'
@@ -35,5 +35,10 @@ class Drawing(Solo48):
     def build(self):
         self.add_polyline('tag',(6,22),(22,6),(38,6),(38,14),(14,38),closed=True)
         self.add_dot('eyelet',(25,15))
-        self.add_bezier('leaf',(42,30),((32,29),(27,35),(30,39)),((34,44),(42,42),(42,30)))
+        self.add_bezier('leaf-left',(42,30),((32,29),(27,35),(30,39)))
+        self.add_bezier('leaf-right',(30,39),((34,44),(42,42),(42,30)))
+        self.add_contour('leaf','leaf-left','leaf-right',closed=True)
         self.add_line('stem',(26,42),(30,39));self.relate('connect','stem','leaf')
+
+FINAL_OMISSIONS = 'Reduce eyelet to a dot and drop leaf vein; rebalance tag edges.'
+VISUAL_REVIEW = 'Leaf halves and stem share the explicit node30,39. Intentional diagonal tag and offset leaf; clear negative space in both themes.'
