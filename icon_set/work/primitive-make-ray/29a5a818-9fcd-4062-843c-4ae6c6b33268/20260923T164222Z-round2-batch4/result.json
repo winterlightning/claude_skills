@@ -1,0 +1,50 @@
+{
+  "position": 15,
+  "concept": "credit card payment",
+  "source_uuid": "29a5a818-9fcd-4062-843c-4ae6c6b33268",
+  "reference_path": "icon_set/work/todo-references/credit card payment_29a5a818-9fcd-4062-843c-4ae6c6b33268.svg",
+  "icon_id": "credit-card-payment",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/29a5a818-9fcd-4062-843c-4ae6c6b33268/20260923T164222Z-round2-batch4",
+  "previous_result": "icon_set/work/primitive-make-ray/29a5a818-9fcd-4062-843c-4ae6c6b33268/20260923T-batch11-f38c6a/result.json",
+  "action": "fresh-run",
+  "family": "solo",
+  "profile": "SOLO48",
+  "keyshape": "HRECT_L",
+  "keyshape_rationale": "The wide composition uses the 40 by32 centerline envelope.",
+  "subject": "A payment terminal with receipt beside a card and insertion arrow.",
+  "validation_status": "invalid",
+  "validation_errors": 4,
+  "validation_warnings": 2,
+  "validation_findings": "status: invalid\n  ERROR  mic [card]: parallel straight edges card-2-0 and stripe are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [stripe]: parallel straight edges stripe and card-6-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [terminal]: parallel straight edges terminal-2-0, terminal-2-1 and receipt-5, receipt-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)\n  ERROR  mic [receipt]: parallel straight edges receipt-2, receipt-1 and terminal-6-1, terminal-6-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)\n  WARN   mic [terminal]: terminal and key-0 are 8 apart on centerlines nearest (12, 40)<->(12, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [terminal]: terminal and key-1 are 8 apart on centerlines nearest (20, 40)<->(20, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n",
+  "visual_review": {
+    "approved": false,
+    "sizes": [
+      48,
+      240
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Receipt and terminal remain identifiable; the detached card stripe fills its narrow card and cannot read cleanly. Receipt-to-terminal clearances also fail. Not approved."
+  },
+  "construction_reference": "credit-card: outlined card and stripe; source supplies terminal and receipt.",
+  "omissions": "Six keypad marks reduced to two; receipt serrations reduced to one broad notch.",
+  "human_review": null,
+  "artifacts": {
+    "python": "credit_card_payment_29a5a818_9fcd_4062_843c_4ae6c6b33268.py",
+    "svg": "credit-card-payment.svg",
+    "input_metadata": "credit-card-payment.metadata.json",
+    "reference": "reference.svg",
+    "reference_preview": "reference.png",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-240.png",
+    "dark_enlarged": "dark-240.png",
+    "validation": "validation.txt",
+    "plan": "plan.json",
+    "findings": "findings.md"
+  },
+  "completed_at": "2026-09-23T16:53:43.904217+00:00"
+}

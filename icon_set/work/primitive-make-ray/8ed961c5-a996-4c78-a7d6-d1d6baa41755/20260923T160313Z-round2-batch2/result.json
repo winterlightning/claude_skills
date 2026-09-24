@@ -1,0 +1,66 @@
+{
+  "position": 8,
+  "concept": "book person",
+  "source_uuid": "8ed961c5-a996-4c78-a7d6-d1d6baa41755",
+  "reference_path": "icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg",
+  "icon_id": "book-person",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/8ed961c5-a996-4c78-a7d6-d1d6baa41755/20260923T160313Z-round2-batch2",
+  "previous_result": "icon_set/work/primitive-make-ray/8ed961c5-a996-4c78-a7d6-d1d6baa41755/20260923-gpt6-e1c8a8c8d2/result.json",
+  "action": "fresh-run",
+  "family": "solo",
+  "profile": "SOLO48",
+  "keyshape": "VRECT_L",
+  "keyshape_rationale": "Upright envelope supplies 40 centerline units of height for stacked or nested parts.",
+  "subject": "A book carrying a circular head over curved arms and a torso.",
+  "validation_status": "review",
+  "validation_errors": 0,
+  "validation_warnings": 2,
+  "validation_findings": "status: review\n  WARN   mic [book]: book and arms are 8 apart on centerlines nearest (8, 24)<->(16, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [head]: head and arms are 7.99992 apart on centerlines nearest (24, 19)<->(24.0368, 26.9998); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n",
+  "visual_review": {
+    "approved": false,
+    "sizes": [
+      48,
+      240
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Book, circular head and curved arms remain recognizable. Torso is much shorter than the source and the head-to-arms equality remains a numeric warning. Exact detached gap is retained, but not approved."
+  },
+  "construction_reference": "book-user: book cover and pages; human_ref/user.svg and full_body_ref.png: circular head and coherent human strokes.",
+  "omissions": "None; book, head, raised arms and torso retained.",
+  "human_review": {
+    "reference": "icon_set/references/human_ref/user.svg; icon_set/references/human_ref/full_body_ref.png",
+    "head_center": [
+      24,
+      16
+    ],
+    "radius": 3,
+    "head_bottom": 19,
+    "torso_start": [
+      24,
+      27
+    ],
+    "centerline_gap": 8,
+    "visible_ink_gap": 4,
+    "flags": "person/head/torso-1/start",
+    "limitation": "Head/arms sampled equality remains a warning; short torso is a visual compromise."
+  },
+  "artifacts": {
+    "python": "book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py",
+    "svg": "book-person.svg",
+    "metadata": "book-person.metadata.json",
+    "reference": "reference.svg",
+    "reference_preview": "reference.png",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-240.png",
+    "dark_enlarged": "dark-240.png",
+    "validation": "validation.txt",
+    "plan": "plan.json",
+    "findings": "findings.md"
+  },
+  "completed_at": "2026-09-23T16:40:12.622571+00:00"
+}

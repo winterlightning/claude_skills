@@ -1,0 +1,63 @@
+{
+  "concept": "card game dice",
+  "source_uuid": "7313c8ec-d635-4b38-acd5-fea39286b43e",
+  "reference_path": "icon_set/work/todo-references/card game dice_7313c8ec-d635-4b38-acd5-fea39286b43e.svg",
+  "icon_id": "card-game-dice",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/7313c8ec-d635-4b38-acd5-fea39286b43e/20260923-round2-b03-9425f8",
+  "parent_result": "icon_set/work/primitive-make-ray/7313c8ec-d635-4b38-acd5-fea39286b43e/20260922T222321-2443bd/result.json",
+  "parent_status": "invalid",
+  "parent_module": "icon_set/work/primitive-make-ray/7313c8ec-d635-4b38-acd5-fea39286b43e/20260922T222321-2443bd/playing_cards_and_dice_7313c8ec_d635_4b38_acd5_fea39286b43e.py",
+  "plan": "Two suit cards and foreground die; restore the reference two-pip face and enlarge the die opening.",
+  "omissions": [
+    "Removed the two extra lower pips invented by the parent; the supplied reference has two visible pips."
+  ],
+  "module": "card_game_dice_7313c8ec_d635_4b38_acd5_fea39286b43e.py",
+  "validation_status": "invalid",
+  "keyshape": "SQUARE",
+  "status": "authored-invalid",
+  "construction_reference": "spade, diamond and dice-4: suit shapes, die enclosure and pip series; pip count comes from the supplied reference",
+  "keyshape_reason": "Visible ink (4,4)\u2013(44,44), centerline envelope (6,6)\u2013(42,42), balances the complete composition.",
+  "validation_findings": [
+    "  ERROR  mic [diamond]: parallel straight edges diamond-4 and diamond-2 are 6.37905 apart on centerlines (ink gap 2.37905); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [diamond]: parallel straight edges diamond-1 and diamond-3 are 7.18399 apart on centerlines (ink gap 3.18399); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [die]: die and stem are 1 apart on centerlines nearest (32, 24)<->(32, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "  WARN   mic [die]: die and pip-0 are 8 apart on centerlines nearest (18, 33)<->(26, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "  WARN   mic [die]: die and pip-1 are 8 apart on centerlines nearest (42, 33)<->(34, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "selection_rule": "Fresh run unless newest prior result is valid; newest prior result selected by result.json modification time.",
+  "visual_review": {
+    "reviewed": true,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      192
+    ],
+    "findings": "Two cards, both suits and foreground die remain. The die now has the source two visible pips, correcting the parent four-pip interpretation. Suit and die clearances still fail; not approved.",
+    "status": "not-approved"
+  },
+  "artifacts": {
+    "module": "card_game_dice_7313c8ec_d635_4b38_acd5_fea39286b43e.py",
+    "svg": "card-game-dice.svg",
+    "metadata": "card-game-dice.metadata.json",
+    "reference": "reference.svg",
+    "reference_previews": [
+      "reference-48.png",
+      "reference-192.png"
+    ],
+    "previews": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "comparison": "comparison.png",
+    "validation": "validation.txt",
+    "findings": "findings.md",
+    "initial_attempt": "initial-attempt/",
+    "result": "result.json"
+  }
+}

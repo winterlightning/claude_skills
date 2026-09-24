@@ -1,0 +1,64 @@
+{
+  "concept": "card game diamond",
+  "source_uuid": "06613e74-a027-47c8-b187-3a062d3e942b",
+  "reference_path": "icon_set/work/todo-references/card game diamond_06613e74-a027-47c8-b187-3a062d3e942b.svg",
+  "icon_id": "card-game-diamond",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/06613e74-a027-47c8-b187-3a062d3e942b/20260923-round2-b03-9425f8",
+  "parent_result": "icon_set/work/primitive-make-ray/06613e74-a027-47c8-b187-3a062d3e942b/20260922T222300-80fc00/result.json",
+  "parent_status": "invalid",
+  "parent_module": "icon_set/work/primitive-make-ray/06613e74-a027-47c8-b187-3a062d3e942b/20260922T222300-80fc00/ace_of_diamonds_playing_card_06613e74_a027_47c8_b187_3a062d3e942b.py",
+  "plan": "Three outlined diamonds on an upright playing card; enlarge corner diamonds and reduce the center to test the spacing budget.",
+  "omissions": [],
+  "module": "card_game_diamond_06613e74_a027_47c8_b187_3a062d3e942b.py",
+  "validation_status": "invalid",
+  "keyshape": "VRECT_L",
+  "status": "authored-invalid",
+  "construction_reference": "diamond: repeated outlined rhombi from shared center and radius parameters",
+  "keyshape_reason": "Visible ink (6,2)\u2013(42,46), centerline envelope (8,4)\u2013(40,44), preserves the upright sheet/card and gives vertical content room.",
+  "validation_findings": [
+    "  ERROR  mic [upper]: parallel straight edges upper-4 and upper-2 are 6.24695 apart on centerlines (ink gap 2.24695); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [lower]: parallel straight edges lower-4 and lower-2 are 6.24695 apart on centerlines (ink gap 2.24695); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [upper]: parallel straight edges upper-1 and upper-3 are 6.24695 apart on centerlines (ink gap 2.24695); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [lower]: parallel straight edges lower-1 and lower-3 are 6.24695 apart on centerlines (ink gap 2.24695); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [card]: card and upper are 3 apart on centerlines nearest (16, 4)<->(16, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "  ERROR  mic [card]: card and lower are 3 apart on centerlines nearest (32, 44)<->(32, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "  ERROR  mic [main]: main and upper are 5.62226 apart on centerlines nearest (24, 16)<->(19.6098, 12.4878); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "  ERROR  mic [main]: main and lower are 5.62226 apart on centerlines nearest (24, 32)<->(28.3902, 35.5122); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "selection_rule": "Fresh run unless newest prior result is valid; newest prior result selected by result.json modification time.",
+  "visual_review": {
+    "reviewed": true,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      192
+    ],
+    "findings": "Large center diamond and both outlined corner diamonds remain. Enlarging the corner symbols improves their openings but cannot satisfy all card and suit clearances; not approved.",
+    "status": "not-approved"
+  },
+  "artifacts": {
+    "module": "card_game_diamond_06613e74_a027_47c8_b187_3a062d3e942b.py",
+    "svg": "card-game-diamond.svg",
+    "metadata": "card-game-diamond.metadata.json",
+    "reference": "reference.svg",
+    "reference_previews": [
+      "reference-48.png",
+      "reference-192.png"
+    ],
+    "previews": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "comparison": "comparison.png",
+    "validation": "validation.txt",
+    "findings": "findings.md",
+    "initial_attempt": "initial-attempt/",
+    "result": "result.json"
+  }
+}

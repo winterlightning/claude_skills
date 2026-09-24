@@ -11,11 +11,506 @@ project here):
 
 ## Queued
 
+- [ ] Run $primitive-make-ray on todo round 2 batch 5 of 22: draw each of these 20 reference files in order. (tp:b7c623ac)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/design pen tool_cd921e04-704d-5a6b-a478-676cad6d9f2e.svg
+  icon_set/work/todo-references/desktop computer_608b1519-3106-4016-b167-9a2fdd08b76b.svg
+  icon_set/work/todo-references/desktop computer_6d96615a-ee89-53a8-b1c1-1dd166ab226d.svg
+  icon_set/work/todo-references/desktop monitor back 1_3b1aecfb-e26b-49bf-9b71-205dbd24b136.svg
+  icon_set/work/todo-references/digital monster digimon adventure digivice_5cfb6aec-4109-5595-b654-d939106df346.svg
+  icon_set/work/todo-references/do not throw trash toilet_7c784cb7-5aec-47a9-96ef-4c2afb98e94a.svg
+  icon_set/work/todo-references/dollar bill_ce8e18cb-9215-42b4-8bc1-1f1fc2a0437d.svg
+  icon_set/work/todo-references/donation care hands heart 1_c4776ceb-e74e-4923-a8f4-ac3c1635d4e5.svg
+  icon_set/work/todo-references/donation charity smartphone heart_4bb28054-94de-493d-a03f-2cbba2687378.svg
+  icon_set/work/todo-references/doubble love bubbles_edf17625-c6e7-4eec-ac25-03f51a636788.svg
+  icon_set/work/todo-references/double exclamation mark_f71fe757-88b6-48d4-b89e-057d7b7b9a50.svg
+  icon_set/work/todo-references/drone add_01c58ca2-2653-5de0-a9f1-717d163992bf.svg
+  icon_set/work/todo-references/dual sim no signal_19123985-b5e6-4131-94ce-1bd0c5c55af6.svg
+  icon_set/work/todo-references/ear listen_4317946e-a563-47b7-9c3d-e830b878ecc6.svg
+  icon_set/work/todo-references/earthquake hiding proof table_8d2595e2-135f-48bd-8886-08c5da475869.svg
+  icon_set/work/todo-references/east_ad12d3ce-dd3a-4c8e-9db3-83b54c4a1c0b.svg
+  icon_set/work/todo-references/election ballot box 4_f5e0e86d-7112-4916-b34c-7188d6eaf49e.svg
+  icon_set/work/todo-references/electric skateboard_7468e664-b07c-408d-a3b8-fc474c356713.svg
+  icon_set/work/todo-references/elemental mediaconnect 1_6b152715-10e9-4683-860f-3b5e258f19e4.svg
+  icon_set/work/todo-references/embroidery hoop_43991475-8f12-5467-b407-e55e5e59e1f3.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 6 of 22: draw each of these 20 reference files in order. (tp:c9227fef)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/embroidery hoop_d9cf0e21-172d-52e9-8723-29202feb39ba.svg
+  icon_set/work/todo-references/engineer project superviser 1_9ec9ed06-396b-4bca-8680-e36e1ed302bf.svg
+  icon_set/work/todo-references/escalator descend person_ef26ac2a-67ca-4e82-9052-f1f383659603.svg
+  icon_set/work/todo-references/expand corner_ea16c393-c392-4d12-b19e-6f8605815090.svg
+  icon_set/work/todo-references/face kiss beam_b020e38b-16c9-41eb-9970-ec2702be1b3c.svg
+  icon_set/work/todo-references/face kiss wink heart_465fa6c6-5f8b-4335-a186-c938fe764751.svg
+  icon_set/work/todo-references/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg
+  icon_set/work/todo-references/face party_db4dd436-0c1b-4e44-a5c2-fb12637a6682.svg
+  icon_set/work/todo-references/face woozy_fe974dc7-4d81-41d1-9dba-73ed68ac785f.svg
+  icon_set/work/todo-references/factory building eco friendly 3_f782aaea-ece3-4563-802f-f0a5558305f6.svg
+  icon_set/work/todo-references/family hold_1123c19a-08d6-416a-bfa1-beb497d65c19.svg
+  icon_set/work/todo-references/female stablization_afc4dfb2-9402-4a68-97f2-65e2833846c5.svg
+  icon_set/work/todo-references/file person_96e78ff1-3119-4911-8baf-721686e578a7.svg
+  icon_set/work/todo-references/file with shield plus_d1c4154e-8c68-4782-9c5a-e5c81055a594.svg
+  icon_set/work/todo-references/fill_7942fb7d-f97e-4aa6-b28d-93461f5f8eb8.svg
+  icon_set/work/todo-references/fillet_4ec593fc-b144-4f4c-9a18-c14ecda0a6a7.svg
+  icon_set/work/todo-references/folder hold_1a3329ea-e0fc-446f-aa99-ae20be083956.svg
+  icon_set/work/todo-references/food allegic vegan meal 1_588d68f8-b31a-4c4c-97e2-20473cedb4a3.svg
+  icon_set/work/todo-references/frame human_1dccf6db-d157-5a7b-98f3-d179b8bf43ee.svg
+  icon_set/work/todo-references/frame woman_0289cf64-76d2-5178-94b9-4767e8076f59.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 7 of 22: draw each of these 20 reference files in order. (tp:613d94e2)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/gaming award_17c7d2fd-712c-4723-bb68-d76fbbb8bbd0.svg
+  icon_set/work/todo-references/gdpr text in rectangle_06655b8e-39ad-4051-aafc-316a27ffb14a.svg
+  icon_set/work/todo-references/gesture swipe vertical up 1_d98ff112-975f-484e-8360-e821f5790178.svg
+  icon_set/work/todo-references/gesture swipe vertical up_d044118a-5239-4118-842f-196741a802cd.svg
+  icon_set/work/todo-references/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg
+  icon_set/work/todo-references/head lock content movement_f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6.svg
+  icon_set/work/todo-references/heart rate 1_19dc1699-da2b-4e42-b072-21890cdb8a28.svg
+  icon_set/work/todo-references/heart user_e7e97355-bccb-465c-ae55-5037fd70d291.svg
+  icon_set/work/todo-references/home cog_8e974970-0198-4484-85aa-47bb0a455f4b.svg
+  icon_set/work/todo-references/horizontal mobile 1_e4175660-eb48-4cfd-9801-ac825bd0b8c3.svg
+  icon_set/work/todo-references/horizontal mobile_ada6dde6-1dce-4251-86a0-6555bb862052.svg
+  icon_set/work/todo-references/hospital emergency department_ada06bdd-01dd-511e-b314-42a4a1cf8a81.svg
+  icon_set/work/todo-references/house bulb_177bdc8f-a349-4eb2-9256-4dda4aaf2d56.svg
+  icon_set/work/todo-references/house paw print_704fbfc7-8565-458d-83d3-502a2bedf683.svg
+  icon_set/work/todo-references/house phone_7c7ae497-e683-4449-9d47-32e2c0e677e7.svg
+  icon_set/work/todo-references/house thermometer_c6485cd4-824d-44f8-a250-201a66d4bd70.svg
+  icon_set/work/todo-references/house with play button_7e3b79f2-dcc5-4988-ab08-8460306de315.svg
+  icon_set/work/todo-references/houses 1_83052c1a-5096-46d3-8b4d-e74c4baca8cf.svg
+  icon_set/work/todo-references/illegal logistic_c8de8135-2038-41da-8f58-2aeec3bdf7fd.svg
+  icon_set/work/todo-references/insurance cheap_58b70697-62ea-4501-873d-8e51b3416d7a.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 8 of 22: draw each of these 20 reference files in order. (tp:1f60a358)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/insurance expensive_bf8f6fdd-5ee3-4cb9-9a0f-3104f1eeaa48.svg
+  icon_set/work/todo-references/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg
+  icon_set/work/todo-references/kanda matsuri_89d827d8-1f4b-40fc-aad1-858c1f8fb087.svg
+  icon_set/work/todo-references/keyboard button direction_42a2cdda-9bae-4c47-b68a-7075bb296796.svg
+  icon_set/work/todo-references/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg
+  icon_set/work/todo-references/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg
+  icon_set/work/todo-references/laptop small squares_71714a04-dd1b-4fab-90a6-dbd391dacaf5.svg
+  icon_set/work/todo-references/layout 10_0102b735-aede-403e-87b9-00cea10c4efc.svg
+  icon_set/work/todo-references/lgbt love_223c2cf3-707e-5588-bcee-3eb48df2972c.svg
+  icon_set/work/todo-references/magnifying glass pill_15fc1905-26f1-420c-9167-f58df5f29604.svg
+  icon_set/work/todo-references/mail card bug_0b79dbcd-029c-4c05-baad-34d720b23be7.svg
+  icon_set/work/todo-references/message bubble building_c48fcffa-2fd4-43b2-a23b-9f7b743cc094.svg
+  icon_set/work/todo-references/message key_eb0b6680-3f5b-40fd-9a39-04012841c110.svg
+  icon_set/work/todo-references/messages bubble text_b43ae04a-1ea7-48c8-9d78-6d2f1fe1a195.svg
+  icon_set/work/todo-references/microphone podcast international 1_1b529eb2-ba2a-4b82-8816-bb0f813a06d5.svg
+  icon_set/work/todo-references/microphone podcast international_9241b7de-9722-4a77-a035-d10d9bdf9d33.svg
+  icon_set/work/todo-references/migration evaluator_a7e910d6-a6a9-5aa8-87a3-2fd790b2dac2.svg
+  icon_set/work/todo-references/mobile phone circle add_e101e849-9e14-4d6e-9afb-b2a07c50a1df.svg
+  icon_set/work/todo-references/mobile phone eye_68f5ee87-964a-4acb-b5b1-78cd1710295f.svg
+  icon_set/work/todo-references/mobile phone fingerprint_0ef09a66-6578-497b-817b-f821ad82e177.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 9 of 22: draw each of these 20 reference files in order. (tp:5c730669)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg
+  icon_set/work/todo-references/mobile phone skull_079086c7-cfbe-4c2b-a1d3-438ec4146466.svg
+  icon_set/work/todo-references/mobile phone unlock_b0d42cd4-6acc-4018-ae89-490f3eb333a9.svg
+  icon_set/work/todo-references/mobile phone woman_c9fc1e73-299a-4164-b9c1-efd780db953d.svg
+  icon_set/work/todo-references/mobile phone wrench_05e2ce47-0cc9-49ed-8c9a-44eadff51505.svg
+  icon_set/work/todo-references/modern music monitor speaker_ddfc1e41-af2e-4f27-a89f-8cb60796155a.svg
+  icon_set/work/todo-references/module file_e715b082-2f7d-4370-a969-0707c7e743f2.svg
+  icon_set/work/todo-references/module four_8c0da42a-e577-481a-a50e-84f0e8648aae.svg
+  icon_set/work/todo-references/money bags_facf19d7-e5b7-4559-806e-6d1d682ef4d0.svg
+  icon_set/work/todo-references/monitor astronomy_05e504e4-9d44-430b-a3b8-b381d38174f9.svg
+  icon_set/work/todo-references/monitor bug 1_3648786c-989b-4daf-b5c8-46f46ae599ce.svg
+  icon_set/work/todo-references/monitor globe_47d2e77c-7d13-4e49-a9d3-b0ee7dd5fe74.svg
+  icon_set/work/todo-references/monitor graduation hat_25a4cb19-9e79-49d4-b5af-74c85495cf76.svg
+  icon_set/work/todo-references/monitor heart beat touch_effbc2d1-e5a5-4a1b-88be-7ca24a41a9c1.svg
+  icon_set/work/todo-references/monitor laboratory_6ac9826c-356d-4f89-843e-a1caf6908626.svg
+  icon_set/work/todo-references/monitor letters_dd80ecbb-13f8-47dc-9883-44bd19aa7cc6.svg
+  icon_set/work/todo-references/monitor math_6cbe1bf6-f7d0-4add-99b4-0d1a57f47f13.svg
+  icon_set/work/todo-references/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg
+  icon_set/work/todo-references/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg
+  icon_set/work/todo-references/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 10 of 22: draw each of these 20 reference files in order. (tp:e9303463)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/monitoring activity tracking 2_3932acf9-d8a9-4dab-a9e2-4e0a52270bc7.svg
+  icon_set/work/todo-references/monitoring bed_fd9ee582-67bc-480d-85e3-0fdc2982679b.svg
+  icon_set/work/todo-references/monitoring heart beat hand_f238b6ea-82d0-5437-a344-0ec38b16a28d.svg
+  icon_set/work/todo-references/moutain with circle_fb412b73-2149-4427-b06e-19f0aa825780.svg
+  icon_set/work/todo-references/movie 1_0cbf5f78-78da-44fa-97c3-85cdd666321d.svg
+  icon_set/work/todo-references/movies director chair_26790288-140d-4885-a97e-0a3a2c64fc42.svg
+  icon_set/work/todo-references/multiple tags 2_da3a18cb-9766-5ab1-b651-eb447e6f30a2.svg
+  icon_set/work/todo-references/multiple users wifi_a119cf45-d021-460f-b469-9d1f28774714.svg
+  icon_set/work/todo-references/navigation smartphone message_9d04d41b-14a1-476d-b164-23e91f0672af.svg
+  icon_set/work/todo-references/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg
+  icon_set/work/todo-references/network 5g_9dc361bf-d268-4878-852c-ebdc9f66c69b.svg
+  icon_set/work/todo-references/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg
+  icon_set/work/todo-references/nun_2e67f3b7-0bac-4846-8d2b-bc6d88672024.svg
+  icon_set/work/todo-references/ocd disorder symptoms 2_9bf327e4-22cd-4f46-a740-34545d603a6f.svg
+  icon_set/work/todo-references/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg
+  icon_set/work/todo-references/onam 1_7d27b436-d05f-41d3-b72f-2e31759f48e2.svg
+  icon_set/work/todo-references/online doctor laptop facetime_bc0dbbdb-7b2e-4bb7-b53e-d84b9f2a2265.svg
+  icon_set/work/todo-references/outdoors pig apple_1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4.svg
+  icon_set/work/todo-references/oxygen tank timer_12af7a01-21fd-509d-9eae-c7bfcfdaedd2.svg
+  icon_set/work/todo-references/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 11 of 22: draw each of these 20 reference files in order. (tp:6be4bebc)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg
+  icon_set/work/todo-references/passport globe_df632f40-c8e3-4ae9-9986-caca559c4210.svg
+  icon_set/work/todo-references/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg
+  icon_set/work/todo-references/passwords correct_602e570f-55c9-4a0a-85e7-806684d11f77.svg
+  icon_set/work/todo-references/patentee_64b0a542-67a6-4d92-8168-4adc3edbd214.svg
+  icon_set/work/todo-references/path logo_34127b46-eb99-4c72-abde-13c6d20da3f3.svg
+  icon_set/work/todo-references/pen tools_e4b8631c-5185-5ace-a823-05b73325753b.svg
+  icon_set/work/todo-references/people arrows_cd870bf9-9544-4c9b-a2dd-608effb82774.svg
+  icon_set/work/todo-references/people conflict 1_ede2fe9e-b299-44e2-90dd-71980708f31f.svg
+  icon_set/work/todo-references/people conflict 3_e990e7ac-7a33-40af-9103-6dc2c867b7fd.svg
+  icon_set/work/todo-references/pepper hot_1b9c1a21-5633-4aac-a5fa-db87094b0bc1.svg
+  icon_set/work/todo-references/performance increase mail_15cdcedc-403b-4401-be0b-ba02e4b22811.svg
+  icon_set/work/todo-references/performance tablet increase_2db6cf72-5f8c-42a8-a787-67d6ad07a91f.svg
+  icon_set/work/todo-references/permafrost_3f77b04c-ad63-443d-a816-599e467435a6.svg
+  icon_set/work/todo-references/person magnifying glass_8d4aec38-b440-43a0-b4f2-b3a846ae4cb1.svg
+  icon_set/work/todo-references/pesach passover 2_8eb34e8a-c1a0-4770-a3b1-2f00e05fdaef.svg
+  icon_set/work/todo-references/pest busters_326bdd17-1f70-4f59-8cfb-654489aa053d.svg
+  icon_set/work/todo-references/photo crop rotate_05a94426-1cba-44df-a701-8939c33872de.svg
+  icon_set/work/todo-references/photo frame hang_a42c5ace-2d95-442e-890a-394dc910c551.svg
+  icon_set/work/todo-references/photo frame hang_e821bc5d-e684-4839-a902-f813478bd32f.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 12 of 22: draw each of these 20 reference files in order. (tp:a0232e7c)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/photo frame human_8c7d8432-5fda-4e13-a1e1-a5e9fa982221.svg
+  icon_set/work/todo-references/photo frame_020a56a5-f5a1-50e3-82a6-a0f431f34437.svg
+  icon_set/work/todo-references/picture polaroid album_eb9bbe63-0916-43bf-99ad-9262aa13b44e.svg
+  icon_set/work/todo-references/picture polaroid landscape_7b4f6d04-e199-443e-be81-3c0acef5ca62.svg
+  icon_set/work/todo-references/picture stack landscape_038671a5-e4b2-47c1-9b89-3dc45061018d.svg
+  icon_set/work/todo-references/picture sun_d8495254-20a2-4d70-a2c6-140b4f7cd24a.svg
+  icon_set/work/todo-references/pill with checkmark and x_67a3758e-aa06-455b-bb00-226525eeddc2.svg
+  icon_set/work/todo-references/pin add_edc387fb-8345-489a-a276-38ea07c6e827.svg
+  icon_set/work/todo-references/plane trip cocktail service_102607c1-25ef-426c-be86-bf3e263e4a81.svg
+  icon_set/work/todo-references/plane trip food service_373ac967-90cc-46ee-9b78-f2b3cc4a75c9.svg
+  icon_set/work/todo-references/plane trip person_5ba1d1e1-9400-4baf-a55c-e0c11aabf158.svg
+  icon_set/work/todo-references/playlist album_0c038416-c2a9-4ae0-ab80-a793e4a0b0c7.svg
+  icon_set/work/todo-references/pm 2.5_5b795893-a150-4628-bb58-d92b32b39cdb.svg
+  icon_set/work/todo-references/polyester_7a069c80-678a-480c-a3ff-5da10f209d9c.svg
+  icon_set/work/todo-references/pound_4b4714a5-9ccb-46f5-aa7c-3672e3f9cac9.svg
+  icon_set/work/todo-references/pregnancy ultrasound baby_2d2f2aa4-e230-4080-bb7a-a6dd56a0d413.svg
+  icon_set/work/todo-references/prescription drug px 2_5a9d43a5-7519-4e64-81a0-64a7c06298cc.svg
+  icon_set/work/todo-references/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg
+  icon_set/work/todo-references/read world_707a74f4-f696-4ab1-aaf2-6be7de8a3c1a.svg
+  icon_set/work/todo-references/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 13 of 22: draw each of these 20 reference files in order. (tp:9ddb9789)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/real estate market calculator house_110df7d0-d83c-4e1f-a771-57b0adb39e09.svg
+  icon_set/work/todo-references/real estate market house decrease_79bf90d8-329d-4a4d-83de-1b10b21a59b2.svg
+  icon_set/work/todo-references/real estate market house_1228a3cf-b0ac-41b8-a4db-2d272fbe1241.svg
+  icon_set/work/todo-references/real estate message couple building_c86928c6-4109-4558-bbc9-1f9ffaea2a41.svg
+  icon_set/work/todo-references/real estate search house 2_eb4e4433-41fd-4f9e-9779-df93d4b8c025.svg
+  icon_set/work/todo-references/reception pay_3d9430ac-9d10-4057-8ed4-2eea37cb58a1.svg
+  icon_set/work/todo-references/recruiting resume document_37ae4172-af70-4ae7-8de2-52970a6302ab.svg
+  icon_set/work/todo-references/rectangle buy text_7ecac39c-d98d-4ff3-af33-ae4cbc274cb3.svg
+  icon_set/work/todo-references/rectangle code_0efa564f-5fe3-43ba-904f-a0826782e979.svg
+  icon_set/work/todo-references/rectangle employee resume 1_bbec6574-bfdd-4612-9ecb-0def3df626fd.svg
+  icon_set/work/todo-references/rectangle employee resume_485264e5-d5d9-4af5-a33a-88ae3ae2126e.svg
+  icon_set/work/todo-references/rectangle history_5bf1aba4-f7d5-46d8-ad17-5b349ba3bb93.svg
+  icon_set/work/todo-references/rectangle like text_3d250c41-6017-4d1f-9278-42fadf1fc93d.svg
+  icon_set/work/todo-references/rectangle list_592beacc-84e1-4868-af66-30a20a39dbfd.svg
+  icon_set/work/todo-references/rectangle single man focus_748d6e5f-8942-4061-a602-5b499075202e.svg
+  icon_set/work/todo-references/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg
+  icon_set/work/todo-references/rectangle two persons_d96343a5-e841-44ec-86db-6217d2856341.svg
+  icon_set/work/todo-references/rectangle vertical history_69099a2e-0b2c-47a9-931c-af42c66da3a2.svg
+  icon_set/work/todo-references/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg
+  icon_set/work/todo-references/refugee immigration war 2_922ba268-0492-4ece-8f41-54253b52949a.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 14 of 22: draw each of these 20 reference files in order. (tp:7565c4a2)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/religion cao dai_77937bbd-92c4-4b29-ac40-52719ed0b6cd.svg
+  icon_set/work/todo-references/remote access_c9953fdc-3825-4f26-8597-533126256825.svg
+  icon_set/work/todo-references/remove row_321ddc46-d254-44b0-be3f-5fad65e304d5.svg
+  icon_set/work/todo-references/resize expand spreadsheet_f210946c-cdf6-4570-9689-058b554c18ac.svg
+  icon_set/work/todo-references/restroom outdoor_5347ab2e-1381-488a-955c-635749f52970.svg
+  icon_set/work/todo-references/retouch landscape_9bf20118-a278-4080-979f-4ea937240a2a.svg
+  icon_set/work/todo-references/retouch magic wand_8c5e00f1-695d-4149-a1e3-b3738ddd67eb.svg
+  icon_set/work/todo-references/road lock_ea945a43-10ca-4ee5-a157-515c7b4149fa.svg
+  icon_set/work/todo-references/road sign 4m high_51d07cc0-5d3e-489d-b18a-12bf56b9cf6a.svg
+  icon_set/work/todo-references/robbing_4d29ffb6-bda5-416a-be77-62a701e144e4.svg
+  icon_set/work/todo-references/robot wifi 5g_30dfa027-64b7-4bea-957e-c1a147e61020.svg
+  icon_set/work/todo-references/roleplay game poisonous dagger knife_3e8bfa80-059e-487c-bda0-70b3d4ddf001.svg
+  icon_set/work/todo-references/romance heterosextual symbol_1bf5b8f8-1714-40eb-bf12-43026ede4d1e.svg
+  icon_set/work/todo-references/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg
+  icon_set/work/todo-references/room service do not disturb_be992ed2-ade4-5f64-a515-8f186d7ca8e3.svg
+  icon_set/work/todo-references/rounded rectanguler 1_6ef7d688-743d-48f1-ba6c-255c92b929a7.svg
+  icon_set/work/todo-references/rss_bb8fc343-a336-4027-84fb-5394db05a944.svg
+  icon_set/work/todo-references/safety fire right_10fe00ef-bdce-47d7-95cd-4727e2fc9f1a.svg
+  icon_set/work/todo-references/sass circle logo_b60b81a4-9d88-4566-84d3-7931d6c1da67.svg
+  icon_set/work/todo-references/saving bear increase_b70b7993-149f-4dd9-95d6-fe029f2c8b42.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 15 of 22: draw each of these 20 reference files in order. (tp:4ed9f19a)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/saving bull_936d0079-3089-4c8c-bc22-422921c13e69.svg
+  icon_set/work/todo-references/saving money flower_776da6f9-d7d4-597a-a158-44ea69d4fbb8.svg
+  icon_set/work/todo-references/scooter parking shade roof_090386bc-ec29-43fe-9dba-5fd9ed1f0f5e.svg
+  icon_set/work/todo-references/scoreboard_0918c48a-7ee6-4895-9035-4645fdc17ae1.svg
+  icon_set/work/todo-references/scoreboard_26cfbb23-55d5-4b36-b8ee-026317013752.svg
+  icon_set/work/todo-references/seeker_eebf9355-e5dd-4833-b849-ec1865cc85fe.svg
+  icon_set/work/todo-references/self driving car_7a8b5b6b-d72f-42df-9379-3389fd1e33fd.svg
+  icon_set/work/todo-references/self payment computer dollar_2c2ce02e-d93f-4086-969c-7135c5b08d1b.svg
+  icon_set/work/todo-references/self payment computer euro_9204a741-e696-415f-a720-706376b448e6.svg
+  icon_set/work/todo-references/self payment computer pound_1e1fac7c-54c5-4468-baea-d2c722f0520d.svg
+  icon_set/work/todo-references/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg
+  icon_set/work/todo-references/seo search eye_4bd2f046-d00e-4c3d-99dd-153eae347474.svg
+  icon_set/work/todo-references/settings toggle horizontal_96fa123b-1a28-4a25-87c0-68e7e675cef7.svg
+  icon_set/work/todo-references/share holder notification 2_57218de4-325d-49db-9661-2dd851d08161.svg
+  icon_set/work/todo-references/shelf tv_fbc92d89-8107-55c0-bb86-46259baa871b.svg
+  icon_set/work/todo-references/shipment approve smartphone_59f997a9-32d8-436a-ae34-06535681b16e.svg
+  icon_set/work/todo-references/shipment fragile_6fb1e1e2-8daf-44eb-99ef-5f74d171ee0f.svg
+  icon_set/work/todo-references/shoemaker_4a1b8b06-db68-40b2-adfe-7ecac75aaa72.svg
+  icon_set/work/todo-references/shooting rifle aim_4ed91cc5-870d-4844-a54d-8cf25bededb3.svg
+  icon_set/work/todo-references/shop sign 1_fe4ed243-598f-461a-b0a7-5906eb6431a4.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 16 of 22: draw each of these 20 reference files in order. (tp:8b48a63b)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/shopping basket rating_21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d.svg
+  icon_set/work/todo-references/side road angle left 2_d0d6406a-6c7c-431f-a9b8-ee87990c2cf2.svg
+  icon_set/work/todo-references/side road angle right 2_d19fe7af-bf3f-4193-8210-2e69b664727e.svg
+  icon_set/work/todo-references/sign language thank you_98f6fd32-ffa9-4713-85d4-721b3399c95c.svg
+  icon_set/work/todo-references/signal slash_945b25be-2ad9-4b54-9548-b41ff357244a.svg
+  icon_set/work/todo-references/signboard 1_27005b33-be8e-4027-a5b5-311a85fa87c3.svg
+  icon_set/work/todo-references/signboard 2_af559e2b-ad11-450d-a0e5-db901e98c461.svg
+  icon_set/work/todo-references/smart house open_cd72149b-476c-4b5b-a1fd-e19535644748.svg
+  icon_set/work/todo-references/smart induction stove_cc0f870e-e6f6-426d-9d3f-73d669be714f.svg
+  icon_set/work/todo-references/smart refrigerator device_30cd9303-dbd1-4ff5-9b6d-c3de44b1a7e4.svg
+  icon_set/work/todo-references/smart tv app_799bdd89-191b-47de-b592-f0b9b831e18c.svg
+  icon_set/work/todo-references/smart watch circle euro sign_73571a2b-4ed5-4ead-96e1-495841cb43da.svg
+  icon_set/work/todo-references/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg
+  icon_set/work/todo-references/smart watch square dollar sign_22b0de95-e0f5-450b-9f1f-9e0284263be7.svg
+  icon_set/work/todo-references/smart watch square pound sign_2c0ac7cd-8681-4e21-803e-6437b35eb4a2.svg
+  icon_set/work/todo-references/smartphone pay dollar_76f441a8-5364-4c32-8def-992dfc5a44ec.svg
+  icon_set/work/todo-references/smartwatch circle 1_36ccc32b-a081-409b-9f00-e11fce599f93.svg
+  icon_set/work/todo-references/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg
+  icon_set/work/todo-references/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg
+  icon_set/work/todo-references/solar charging car 3_3f94101a-2b9f-45aa-9df1-583e0d6d7077.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 17 of 22: draw each of these 20 reference files in order. (tp:d203e4d7)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/south east_4236f26b-6e26-4a4e-b565-3dda332eac7d.svg
+  icon_set/work/todo-references/south west_00066094-2048-4259-bd02-411ee5eca13f.svg
+  icon_set/work/todo-references/specialty hearing_4c966f3f-127d-48b1-9cb4-530f9109feb3.svg
+  icon_set/work/todo-references/spellbook_4a5d4a34-afe6-4020-b1fa-c429eb47cc78.svg
+  icon_set/work/todo-references/sport curling_8032e556-8b26-54fa-ba05-e7108d122eaf.svg
+  icon_set/work/todo-references/square arrow trend up_73fb23c1-2829-46c7-89b1-3591caacb92a.svg
+  icon_set/work/todo-references/square block 1_4cbd4cd4-8eb5-4a07-9671-7f02efb34973.svg
+  icon_set/work/todo-references/square bubble user_262dd529-82e6-4744-ac57-ec46c428f624.svg
+  icon_set/work/todo-references/square code_bace2392-58d6-42ff-85cc-dedbb5e924c6.svg
+  icon_set/work/todo-references/square dashed circle plus_b67f4e19-f005-4972-8fd5-b3a7a1f67e76.svg
+  icon_set/work/todo-references/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg
+  icon_set/work/todo-references/square dot top_eba62204-89c9-492a-958f-b4f34fbc386d.svg
+  icon_set/work/todo-references/square grid 1_84b1af62-87f4-4697-8c00-7bded0f9b00a.svg
+  icon_set/work/todo-references/square megaphone_84596dd2-069a-450e-b70c-08a8dc22159b.svg
+  icon_set/work/todo-references/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg
+  icon_set/work/todo-references/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg
+  icon_set/work/todo-references/square quote_34d34b9c-9b87-4c4c-a90e-43f2b8d72ff5.svg
+  icon_set/work/todo-references/square sliders_38f5f3f1-85e8-450a-a8ab-23c97cd150d2.svg
+  icon_set/work/todo-references/square user_55360bd5-b0c0-48c8-b255-4f7c05d395d6.svg
+  icon_set/work/todo-references/square xmark_08acfc76-564e-418d-abde-1f5766d10cdc.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 18 of 22: draw each of these 20 reference files in order. (tp:c3b755c8)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/squeeze sides_8d871e7d-03c3-4f02-90aa-ec0ac69a56b5.svg
+  icon_set/work/todo-references/squeeze sides_bb90ccf0-9578-45c7-ad84-a7eb1350bdaf.svg
+  icon_set/work/todo-references/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg
+  icon_set/work/todo-references/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg
+  icon_set/work/todo-references/state laptop_79c5c1b5-41fd-4524-bec2-dfae1604347f.svg
+  icon_set/work/todo-references/state question_2e0fbeaa-154e-4e0a-860a-5b0e0542cf5f.svg
+  icon_set/work/todo-references/step sister_073b7984-a3fe-4699-87e9-47bf76004f1c.svg
+  icon_set/work/todo-references/stepdaughter_7bead6c0-72f2-44e3-81e8-617544d2ab4d.svg
+  icon_set/work/todo-references/suitcase key_1fb25f2b-ac92-4139-a840-97f6d0b98387.svg
+  icon_set/work/todo-references/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg
+  icon_set/work/todo-references/switch lite_a7738f9c-a514-4341-bcd3-0d5e5ba614bd.svg
+  icon_set/work/todo-references/tab 1_f6842c4f-d5ca-41e1-8dda-5a69cc5b329c.svg
+  icon_set/work/todo-references/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg
+  icon_set/work/todo-references/tags double 1_c5a47e41-429f-478a-ac27-be0495e5d5ae.svg
+  icon_set/work/todo-references/tags double_b3607490-ea3a-409f-a7b1-8386a80c0b93.svg
+  icon_set/work/todo-references/tags double_bbbb8c01-8107-4272-9dce-88135b510ab3.svg
+  icon_set/work/todo-references/task list multiple_d590c41a-0991-45d2-955b-ea0aa00b5b4a.svg
+  icon_set/work/todo-references/tasks_a81e6ea3-91bb-4858-970b-5698021d1221.svg
+  icon_set/work/todo-references/tea cup herbal_fd3519ca-61c2-4e48-a98b-ef47a0103f4c.svg
+  icon_set/work/todo-references/team approve disapprove_4a473edf-a356-4eca-8cfd-195e95d6bc62.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 19 of 22: draw each of these 20 reference files in order. (tp:3b474a4a)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/team vs team mode_5bac2074-ad7e-4c93-acd8-d73142b163b6.svg
+  icon_set/work/todo-references/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg
+  icon_set/work/todo-references/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg
+  icon_set/work/todo-references/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg
+  icon_set/work/todo-references/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg
+  icon_set/work/todo-references/thaipusam 1_d6a78037-29f1-4227-a0c5-2e4158ef4f53.svg
+  icon_set/work/todo-references/ticket basketball game_776076fa-8de2-42b1-9fac-cc7b5225e2bd.svg
+  icon_set/work/todo-references/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg
+  icon_set/work/todo-references/toilet use right_2dff611f-5296-466d-ac68-3fd4303496ea.svg
+  icon_set/work/todo-references/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg
+  icon_set/work/todo-references/tools tear gas_8f58894e-3584-4d7e-9183-ffe9e81333d8.svg
+  icon_set/work/todo-references/touch up_cc404dcf-c8d5-46a5-97a2-34ff80d2c015.svg
+  icon_set/work/todo-references/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg
+  icon_set/work/todo-references/tournament bracket_6d731820-468b-5c38-b10b-859f24a8eab3.svg
+  icon_set/work/todo-references/trading learning 3_0e825ec7-4e16-4b31-8f5e-172f49f26a63.svg
+  icon_set/work/todo-references/trading news 1_55261672-8aa2-44d9-b648-0fed630f399c.svg
+  icon_set/work/todo-references/transfusion hand blood 1_8edf71ce-9641-48ee-b234-2472a29f27b1.svg
+  icon_set/work/todo-references/transfusion hand blood_1c1a874c-bde4-457e-8690-be53b0c8ed3b.svg
+  icon_set/work/todo-references/transit no entering stop_688256eb-e269-4b62-9dcc-ecccc8d9b352.svg
+  icon_set/work/todo-references/transportation ticket boat transfer_79b63fb3-53d2-42aa-af62-afdbc09d4964.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 20 of 22: draw each of these 20 reference files in order. (tp:cf43a2e2)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/transporter 2_a94a77f8-560c-43b1-83e5-a5b781212a50.svg
+  icon_set/work/todo-references/trash can list_ec941977-3867-480d-8373-1d308ee56a47.svg
+  icon_set/work/todo-references/trash clock_b4bf811c-cc24-4d58-a27f-2cf37289678d.svg
+  icon_set/work/todo-references/trash list_1d6b9ee2-a7d3-4044-8400-4b4bc924b7cc.svg
+  icon_set/work/todo-references/trash plus_38a24b73-5041-4ea2-83f6-2bbac1782a14.svg
+  icon_set/work/todo-references/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg
+  icon_set/work/todo-references/trip road 1_ad200efe-c77b-4f38-9fed-8ab02c8a6235.svg
+  icon_set/work/todo-references/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg
+  icon_set/work/todo-references/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg
+  icon_set/work/todo-references/turn 1_9906051d-60e6-48a1-85dc-e14a0d83a72d.svg
+  icon_set/work/todo-references/tv 1_4aafc9a5-700d-4b18-a0c2-6f421300852d.svg
+  icon_set/work/todo-references/tv circle check_91199cb3-6e0d-41e0-9c27-12e09942eed6.svg
+  icon_set/work/todo-references/tv password_2cc3609a-d235-46f7-828b-ef134a6021e2.svg
+  icon_set/work/todo-references/tv retro_f213d74b-e15b-42ab-953a-a7a36392d15b.svg
+  icon_set/work/todo-references/two browsers 1_fe8594d4-6236-4870-8fba-7b0f5dc42af3.svg
+  icon_set/work/todo-references/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg
+  icon_set/work/todo-references/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg
+  icon_set/work/todo-references/ui webpage template 1_a434346c-ec35-4a36-89af-8b0682a68ec6.svg
+  icon_set/work/todo-references/underground_c301d7dd-6085-4b9d-94b3-1ce712942ed5.svg
+  icon_set/work/todo-references/user cash scale_fca396e7-351b-4b96-8ac4-233b3625135c.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 21 of 22: draw each of these 20 reference files in order. (tp:4e2111f8)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg
+  icon_set/work/todo-references/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg
+  icon_set/work/todo-references/user mobility_b1192815-6a57-5386-a577-6d322e659502.svg
+  icon_set/work/todo-references/vaisakhi harvest_a0865ae5-c028-46f5-ade5-f26da83b22c2.svg
+  icon_set/work/todo-references/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg
+  icon_set/work/todo-references/vertical coupon 1_415a49f8-dd8d-4783-aa35-0f5e1ae0ed49.svg
+  icon_set/work/todo-references/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg
+  icon_set/work/todo-references/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg
+  icon_set/work/todo-references/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg
+  icon_set/work/todo-references/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg
+  icon_set/work/todo-references/video game controller monitor_861e17b0-a761-4ce1-aadb-ee4995755d3f.svg
+  icon_set/work/todo-references/video game controller team_fb5ed3c8-9522-4523-9735-214910411c7e.svg
+  icon_set/work/todo-references/video game controller wifi_36ec33e6-3587-4196-b433-a5ed4e77ad2d.svg
+  icon_set/work/todo-references/video game logo companion cube_6e798969-b8c1-4108-aa25-07455cf19213.svg
+  icon_set/work/todo-references/video slash_6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2.svg
+  icon_set/work/todo-references/virtual coin crypto 0x zrx_24bf1d97-6037-5919-9f14-530a400a7d7a.svg
+  icon_set/work/todo-references/virtual coin crypto algorand_099a478f-4287-40bc-a508-fc3894c1428a.svg
+  icon_set/work/todo-references/visibility_c9a32a88-1037-4cb5-8b11-265935d5449f.svg
+  icon_set/work/todo-references/vr video 1_66464e9f-35f0-4894-b4e2-7c801bd38b27.svg
+  icon_set/work/todo-references/waiting room couple_18363920-a131-4703-9250-544ef6984fd4.svg
+
+- [ ] Run $primitive-make-ray on todo round 2 batch 22 of 22: draw each of these 9 reference files in order. (tp:e06565d0)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg
+  icon_set/work/todo-references/watch hands_ab913828-297d-4c94-ab76-5b92952287d3.svg
+  icon_set/work/todo-references/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg
+  icon_set/work/todo-references/web form progress_93ee9247-04b8-4aa1-b24d-f007fa02d450.svg
+  icon_set/work/todo-references/wheat awn circle exclamation_1e6635a8-8173-444b-b047-ddcc2a5f1d19.svg
+  icon_set/work/todo-references/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg
+  icon_set/work/todo-references/workflow agreement_3c6ab24c-f835-4933-927e-e286153e4e97.svg
+  icon_set/work/todo-references/workflow data table increasing arrow_bd44c072-c5cf-4191-b2b0-3681a58f3a3a.svg
+  icon_set/work/todo-references/z wave logo_36316472-32cf-4e56-a2d2-8989a12c4e29.svg
+
 
 ## Backlog
 
 
 ## Done
+
+- [x] Run $primitive-make-ray on todo round 2 batch 4 of 22: draw each of these 20 reference files in order. (tp:72003f39)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/christmas postcard 2_6341f7cd-9be8-48da-9d1f-bb8141ad4804.svg
+  icon_set/work/todo-references/circle rupee_54a12c47-2b42-4009-a41b-1b8ab3a9ef93.svg
+  icon_set/work/todo-references/circle skull 1_0275d46c-9a52-48fb-9993-9a0c2a0a4b89.svg
+  icon_set/work/todo-references/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg
+  icon_set/work/todo-references/cloud with co2_75fb4fc6-e4f1-41a1-94d3-87656053d2cd.svg
+  icon_set/work/todo-references/co working space plug users_2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4.svg
+  icon_set/work/todo-references/code build_8d435341-042f-470f-9af2-453657b4c06a.svg
+  icon_set/work/todo-references/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg
+  icon_set/work/todo-references/cog double_b484255b-2a40-40d1-9943-7e27cfb9f399.svg
+  icon_set/work/todo-references/column insert_feae9946-0309-4abb-92af-f66c52188484.svg
+  icon_set/work/todo-references/compass east_e91a4b42-5376-4b1a-ab2d-8d86c029fcca.svg
+  icon_set/work/todo-references/concentrics circle_bb1e99be-b8aa-4996-a028-00e28815b345.svg
+  icon_set/work/todo-references/concert rock_3a11e17f-1153-59b2-b135-910a41a584c7.svg
+  icon_set/work/todo-references/couple polaroid image_e2c5bf0f-5995-5267-b0b2-06ba6ad56a64.svg
+  icon_set/work/todo-references/credit card payment_29a5a818-9fcd-4062-843c-4ae6c6b33268.svg
+  icon_set/work/todo-references/crop rotate_b05e7a98-e0c7-5855-a771-4dc4b12ff639.svg
+  icon_set/work/todo-references/crowdin logo_e89d9bcb-0e93-4a07-abd4-7740608fbbd7.svg
+  icon_set/work/todo-references/crypto currency megacoin_13d0089e-f330-48ba-93f8-58b6b6f1f9e2.svg
+  icon_set/work/todo-references/data lake code_e8929314-39ec-46c6-9cfb-5107ebede2dc.svg
+  icon_set/work/todo-references/death rip_c37f6508-e0df-51bf-9da4-8fafc43e3b54.svg
+
+- [x] Run $primitive-make-ray on todo round 2 batch 3 of 22: draw each of these 20 reference files in order. (tp:e640e492)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg
+  icon_set/work/todo-references/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg
+  icon_set/work/todo-references/burrito_b3b9d031-1b14-49cd-b640-12d78e2f90f7.svg
+  icon_set/work/todo-references/business card hand 3_bcaaf2a2-b7c9-450b-836e-e0c294ab0564.svg
+  icon_set/work/todo-references/business contract approve_1ccecf6e-60d8-417b-accc-4a89121dd0ab.svg
+  icon_set/work/todo-references/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg
+  icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg
+  icon_set/work/todo-references/calendar pie_8c9afa4f-6b92-41b3-8bcd-f538c69afde6.svg
+  icon_set/work/todo-references/car flash_3cb36a1f-8edb-4e21-9623-b8c8fac724c3.svg
+  icon_set/work/todo-references/car wrench_5dd7944c-8248-40cb-8bd4-400ceb51cae0.svg
+  icon_set/work/todo-references/card game cards spade diamond_51de7530-e4b9-4207-92df-6b4ec157c6a4.svg
+  icon_set/work/todo-references/card game diamond_06613e74-a027-47c8-b187-3a062d3e942b.svg
+  icon_set/work/todo-references/card game dice_7313c8ec-d635-4b38-acd5-fea39286b43e.svg
+  icon_set/work/todo-references/card game heart_2d678d4e-3c28-4171-9206-0e44c564a983.svg
+  icon_set/work/todo-references/card kids_7500cf20-50c6-4ded-9bb2-320b91cd3da9.svg
+  icon_set/work/todo-references/charging battery flash empty_86ff6696-4ddd-4dd2-abe4-b1bbb2a48273.svg
+  icon_set/work/todo-references/charging flash wave_c8b3d9a1-bb0f-4df5-b706-4b00986008d6.svg
+  icon_set/work/todo-references/chat conversation love romance talk_207acda0-b0e1-481e-9cb8-b0522fe56419.svg
+  icon_set/work/todo-references/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg
+  icon_set/work/todo-references/chef gear tea cookies_8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7.svg
+
+- [x] Run $primitive-make-ray on todo round 2 batch 2 of 22: draw each of these 20 reference files in order. (tp:7452102a)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/award wall_8e659963-5f68-4c80-963b-528218ccf29f.svg
+  icon_set/work/todo-references/baggage weight_ee2a071e-6904-4d7d-a879-a7315aec3bd6.svg
+  icon_set/work/todo-references/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg
+  icon_set/work/todo-references/battery 1_ba844de8-52e9-42c8-a701-c100623e1e4e.svg
+  icon_set/work/todo-references/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg
+  icon_set/work/todo-references/bomb explode_bf3695d0-7417-50cb-93e5-008403f18c82.svg
+  icon_set/work/todo-references/book library shelf_2841f97c-3470-4026-a287-d82828da5d59.svg
+  icon_set/work/todo-references/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg
+  icon_set/work/todo-references/bookmarks_71a4e1b5-a989-577a-ae92-6e701febd332.svg
+  icon_set/work/todo-references/bower logo_ff183e37-2bed-4312-ad52-11655fc8a512.svg
+  icon_set/work/todo-references/box pen_a89e6154-b80a-49dd-8449-f86a088a5c81.svg
+  icon_set/work/todo-references/box remove_664d5dec-e292-48a0-b893-09339844ebf6.svg
+  icon_set/work/todo-references/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg
+  icon_set/work/todo-references/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg
+  icon_set/work/todo-references/broken tab remove_b55ec75b-a606-4e27-845e-2f640329c00f.svg
+  icon_set/work/todo-references/browser dollar sign right_150d4701-3c3f-45a7-a26d-8c580a891da1.svg
+  icon_set/work/todo-references/browser euro sign right_0ede8d22-cb57-4794-b361-c89627ccda77.svg
+  icon_set/work/todo-references/browser euro sign_2445526d-6d27-4ec9-a2bd-a7623908795b.svg
+  icon_set/work/todo-references/browser page text 2_b317a6a6-fb5f-4063-b4ca-9345a6cec436.svg
+  icon_set/work/todo-references/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg
+
+- [x] Run $primitive-make-ray on todo round 2 batch 1 of 22: draw each of these 20 reference files in order. (tp:965b8b88)
+  Most of these already have a primitive-make-ray run that failed validation. Do not skip a file because a result.json exists: author a fresh run in a new RESULT_DIR for every file, unless its newest existing run is already valid, in which case report it as done and move on.
+  icon_set/work/todo-references/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg
+  icon_set/work/todo-references/Mobile Phone Cube_23b1ca2a-c99d-4a4c-89e3-6ce9e447d5be.svg
+  icon_set/work/todo-references/a with sync arrow_8d0a0eeb-161b-49dd-b5f6-5bcfc4e716d9.svg
+  icon_set/work/todo-references/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg
+  icon_set/work/todo-references/amazon eventbridge_34f87da9-e584-47f7-8fe0-ca66e9aa7da9.svg
+  icon_set/work/todo-references/amazon web service codepipeline 1_12be411f-98cd-4c43-b650-b16b090dc516.svg
+  icon_set/work/todo-references/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg
+  icon_set/work/todo-references/amazon web service marketplaces cart_b98df773-88b9-4b59-bf8f-31bdee2160b2.svg
+  icon_set/work/todo-references/app window wifi_d12b5c6d-5cff-4f23-9893-76defe7ca390.svg
+  icon_set/work/todo-references/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg
+  icon_set/work/todo-references/astrology pentagram_815729c9-6c87-5e37-9c96-2f46aa26c6eb.svg
+  icon_set/work/todo-references/astrology_240b3739-6bb7-5bfa-832d-48a5bdaa33e8.svg
+  icon_set/work/todo-references/astronomy planet saturn 1_d3179da3-e2e2-4329-8932-7b3c8044a535.svg
+  icon_set/work/todo-references/athletics running 1_bbab0c61-cd66-44e3-8954-bcb31ddc3d23.svg
+  icon_set/work/todo-references/audio book headphones_b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a.svg
+  icon_set/work/todo-references/auth0 logo_d0e05ee8-d54e-432a-913a-ebf397d5cad1.svg
+  icon_set/work/todo-references/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg
+  icon_set/work/todo-references/auto pilot car radius_8a6f5388-93e2-4e87-bb21-8db3666f5c20.svg
+  icon_set/work/todo-references/auto pilot car signal 1_148a6d3d-6e93-44b0-ad9c-3c3c30856f29.svg
+  icon_set/work/todo-references/automatic drive gear_f89489d3-928e-4d8e-8a13-9ff760315c90.svg
 
 - [x] Run $primitive-make-ray 30 times. (tp:ae6d4b60)
 
