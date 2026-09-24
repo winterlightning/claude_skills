@@ -1,41 +1,37 @@
-"""A small rocket points upper-right beside a gap in a large circular planet outline. A curved orbital trail loops around the lower-left edge, and a separate tapered exhaust mark lies between the rocket and planet.
-
-SQUARE visible bounds (4,4)-(44,44); rocket departing upper-right from an open planet outline. Dense orbit loop reduced to curved flight trail; separate exhaust omitted. Lucide rocket informed the small pointed craft. Directional scene retained.
+"""Restored a curved pointed rocket body with swept fins, a larger circular planet and a clean departure trail. Omitted the tiny separate exhaust mark; preserved upward-right direction.
+Construction: Lucide rocket: pointed body with swept fins. Circular planet and diagonal departure trail remain; tiny separate exhaust omitted. Asymmetry is directional.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '580783ee-ea4c-46de-a4ee-9830684ffda4'
 SOURCE_PATH = 'pictographic-primitives/science/rocket earth_580783ee-ea4c-46de-a4ee-9830684ffda4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-class RocketDepartingPlanet(Solo48):
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
+
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'rocket-departing-planet'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/science"
     aliases = ()
-    keywords = ('rocket', 'planet', 'orbit', 'departure', 'space', 'flight')
-
-    def segments(self, name, *points):
-        for i,(a,b) in enumerate(zip(points,points[1:]),1):
-            self.add_line(f'{name}-{i}',a,b)
-
-    def circle(self, name, x, y, r):
-        points = [(x-r,y), (x,y-r), (x+r,y), (x,y+r)]
-        for i, start in enumerate(points):
-            self.add_arc(f'{name}-{i}', start, points[(i+1)%4], radius_x=r)
-        self.add_contour(name, *(f'{name}-{i}' for i in range(4)), closed=True)
-
+    keywords = ('rocket', 'earth')
     def build(self):
-        self.add_arc('planet-upper-left',(18,20),(8,30),radius_x=10,sweep=False)
-        self.add_arc('planet-left-bottom',(8,30),(12,38),radius_x=10,sweep=False)
-        self.add_arc('planet-bottom',(12,38),(18,40),radius_x=10,sweep=False)
-        self.add_arc('planet-right',(18,40),(28,30),radius_x=10,sweep=False)
-        self.add_contour('planet','planet-upper-left','planet-left-bottom','planet-bottom','planet-right')
-        self.add_polyline('rocket',(42,6),(40,16),(35,21),(27,13),(32,8),closed=True)
-        self.add_arc('trail-curl',(6,42),(12,38),radius_x=10)
-        self.add_line('trail',(12,38),(26,24))
-        self.add_contour('departure-trail','trail-curl','trail')
-        self.relate('connect','departure-trail','planet')
+        s = self
+        path(s,'planet',(14,17),('A',(6,29),13,13,False),('A',(14,41),13,13,False),('A',(19,42),13,13,False),('A',(31,34),13,13,False))
+        path(s,'rocket',(24,16),('L',(28,16)),('A',(42,6),14,10,True),('A',(34,22),8,16,True),('L',(34,26)),('L',(24,16)),closed=True)
+        path(s,'trail',(6,42),('A',(14,41),8,1,False),('L',(23,28)));s.relate('connect','planet','trail')

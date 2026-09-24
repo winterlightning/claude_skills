@@ -1,41 +1,36 @@
-'Classical statue bust.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
+"""Classical profile bust with curly crown, a distinct nose and chin, continuous neck, shoulders and plinth. Envelope8,4 to40,44.
+Construction reference: Shared human_ref/user.svg: broad shoulders and head proportions; source requires continuous neck in profile.
+Omissions: Facial microdetails and pedestal side edges omitted to keep clearance.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1bafc453-5bc6-415b-bdab-800770f2d87b'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/greek statue_1bafc453-5bc6-415b-bdab-800770f2d87b.svg'
 AUTHOR = 'gpt-6'
-
-class ClassicalStatueBust(Solo48):
+class Drawing(Solo48):
     icon_id = 'classical-statue-bust'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/culture'
     aliases = ()
-    keywords = ('statue', 'bust', 'greek', 'classical', 'sculpture', 'marble', 'museum', 'antiquity')
+    keywords = ('greek', 'statue')
+    def build(self):
+        self.path('bust',(15,12),[('C',(20,4),(11,8),(14,4)),('C',(28,5),(23,4),(25,4)),('C',(35,13),(34,4),(36,8)),('C',(31,21),(37,19),(33,21)),('L',(31,27)),('L',(36,29)),('C',(40,36),(39,30),(40,33)),('L',(8,36)),('C',(13,29),(8,32),(10,30)),('L',(21,26)),('L',(21,23)),('C',(14,20),(16,24),(14,23)),('L',(14,17)),('L',(10,17)),('L',(15,12))],True)
+        self.add_line('plinth',(13,44),(35,44))
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_13_13 = (13, 13)
-        p_33_13 = (33, 13)
-        p_30_24 = (30, 24)
-        p_35_26 = (35, 26)
-        p_40_35 = (40, 35)
-        p_8_35 = (8, 35)
-        p_13_26 = (13, 26)
-        p_20_23 = (20, 23)
-        p_8_19 = (8, 19)
-        p_13_44 = (13, 44)
-        p_35_44 = (35, 44)
-        self.add_arc('crown', p_13_13, p_33_13, radius_x=10, radius_y=9, sweep=True, large_arc=False)
-        self.add_arc('back', p_33_13, p_30_24, radius_x=12, radius_y=12, sweep=True, large_arc=False)
-        self.add_line('back-neck', p_30_24, p_35_26)
-        self.add_arc('shoulder-right', p_35_26, p_40_35, radius_x=5, radius_y=9, sweep=True, large_arc=False)
-        self.add_line('base', p_40_35, p_8_35)
-        self.add_arc('shoulder-left', p_8_35, p_13_26, radius_x=5, radius_y=9, sweep=True, large_arc=False)
-        self.add_line('profile-0', p_13_26, p_20_23)
-        self.add_line('profile-1', p_20_23, p_8_19)
-        self.add_line('profile-2', p_8_19, p_13_13)
-        self.add_line('plinth', p_13_44, p_35_44)
-        self.add_contour('bust', 'crown', 'back', 'back-neck', 'shoulder-right', 'base', 'shoulder-left', 'profile-0', 'profile-1', 'profile-2', closed=True)
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

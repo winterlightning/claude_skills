@@ -1,29 +1,49 @@
-'sombrero: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
+"""Mirror the tapered crown about x=24, using tangent cubic shoulders; a broad curved brim reaches (4,38)-(44,38).
+Construction: Lucide soup: tangent rounded lower enclosure, adapted to a wide brim.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1c8abf37-4cc4-54b0-8d99-9072a76c457d'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-02/hat sombrero_1c8abf37-4cc4-54b0-8d99-9072a76c457d.svg'
 AUTHOR = 'gpt-6'
 
-class Sombrero(Solo48):
+class Drawing(Solo48):
     icon_id = 'sombrero'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/accessories'
+    keyshape = Keyshape.HRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/accessories"
     aliases = ()
-    keywords = ('hat', 'sombrero', 'mexican', 'wide brim', 'sun hat', 'fiesta', 'headwear', 'straw')
+    keywords = ('hat', 'sombrero')
 
-    def build(self) -> None:
-        self.add_arc('crown-top', (18, 14), (30, 14), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('crown-left', (13, 30), (18, 14))
-        self.add_line('crown-right', (30, 14), (35, 30))
-        self.add_contour('crown', 'crown-left', 'crown-top', 'crown-right', closed=False)
-        self.add_line('brim-top-1', (4, 30), (13, 30))
-        self.add_line('brim-top-2', (13, 30), (35, 30))
-        self.add_line('brim-top-3', (35, 30), (44, 30))
-        self.add_arc('brim-right', (44, 30), (34, 40), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('brim-base', (34, 40), (14, 40))
-        self.add_arc('brim-left', (14, 40), (4, 30), radius_x=10, radius_y=10, sweep=True)
-        self.add_contour('brim', 'brim-top-1', 'brim-top-2', 'brim-top-3', 'brim-right', 'brim-base', 'brim-left', closed=True)
-        self.relate('connect', 'crown', 'brim')
+    def build(self):
+        # Symbol plan: Mirror the tapered crown about x=24, using tangent cubic shoulders; a broad curved brim reaches (4,38)-(44,38).
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        p('crown',(14,28),[('C',(24,10),(18,15),(18,10)),('C',(34,28),(30,10),(30,15))])
+        p('brim',(4,28),[('L',(14,28)),('L',(34,28)),('L',(44,28)),('A',(34,38),10,10,True),('L',(14,38)),('A',(4,28),10,10,True)],True)
+        join('crown','brim')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

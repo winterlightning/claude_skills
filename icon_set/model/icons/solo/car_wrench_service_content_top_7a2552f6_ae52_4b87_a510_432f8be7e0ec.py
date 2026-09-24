@@ -1,30 +1,72 @@
-"""Car and Wrench Repair Icon.
-Symbol plan: Car front beneath an open-ended wrench. Repeated wheel stems and mirrored car shape; simplified headlights.
-User explicitly requested the complete combined subject on SOLO48.
-References: supplied source render; local Lucide original and atomic geometry sheet
-(triangle-alert, user-round-plus, file-up, battery-charging, plug-zap, scan-face,
-clapperboard, badge-check, paw-print, car, wrench, shirt, chart-pie, delete).
-Human subjects follow icon_set/references/human_ref/user.svg.
+"""Front-facing car and double-ended wrench in the original vertical order. Mirrored car and equal wrench jaws; bounds (8,4)-(40,44).
+Keyshape VRECT_L; fresh revision for feedback: Bad stroke drawn.
+Construction reference: Lucide car-front: windshield and round bumper construction; wrench: clearly open jaws.
+Omissions: Tiny headlights omitted; complete car windshield restored.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
-from ._container_content_batch import path, cross, contacts, bust, car, bolt
-
 SOURCE_ICON_ID = '7a2552f6-ae52-4b87-a510-432f8be7e0ec'
 SOURCE_PATH = 'icon_set/dist/gallery/combination-originals/7a2552f6-ae52-4b87-a510-432f8be7e0ec.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'car-wrench-service-content-top'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('car and wrench repair icon',)
+    aliases = ()
+    keywords = ('car', 'repair')
+
     def build(self):
-        car(self,'car',top=25,bottom=36)
-        path(self,'wrench',(4,8),('A',(4,18),5,5,True))
-        path(self,'wrench-right',(44,18),('A',(44,8),5,5,True))
-        self.add_line('wrench-shaft',(9,13),(39,13))
-        self.relate('connect','wrench','wrench-shaft')
-        self.relate('connect','wrench-right','wrench-shaft')
-        contacts(self)
+        y=26
+        self.path('car',(8,y+8),('L',(14,y)),('L',(34,y)),('L',(40,y+8)),('L',(40,y+14)),('A',(38,y+16),2,2,True),('L',(36,y+16)),('L',(12,y+16)),('L',(10,y+16)),('A',(8,y+14),2,2,True),('L',(8,y+8)),closed=True)
+        self.add_line('windshield',(8,y+8),(40,y+8))
+        for x in (12,36):self.add_line('wheel-'+str(x),(x,y+16),(x,y+18))
+
+        y=10
+        self.path('wrench-left',(8,y-6),('A',(14,y),6,6,True),('A',(8,y+6),6,6,True))
+        self.path('wrench-right',(40,y+6),('A',(34,y),6,6,True),('A',(40,y-6),6,6,True))
+        self.add_line('shaft',(14,y),(34,y))
+        self.contacts()
+
+    def path(self, name, start, *commands, closed=False):
+        members=[]
+        here=start
+        for j,command in enumerate(commands):
+            kind,end,*args=command
+            ident=f'{name}-{j}'
+            if kind=='L': self.add_line(ident,here,end)
+            else:
+                rx,ry,sweep=args
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            here=end;members.append(ident)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+    def contacts(self):
+        # Split receiving straight runs at true attachment nodes. Declare only
+        # actual endpoint contact; never connect separated shapes.
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        endpoints={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        replacement={};rebuilt=[]
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in endpoints if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        ident=f'{p.element_id}-join-{j}';rebuilt.append(Line(ident,u,v));ids.append(ident)
+                    replacement[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacement.get(m,[m]))) for c in self.contours]
+        for j,a in enumerate(self.primitives):
+            for b in self.primitives[j+1:]:
+                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)

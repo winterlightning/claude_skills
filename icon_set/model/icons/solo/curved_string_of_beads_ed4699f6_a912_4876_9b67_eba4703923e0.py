@@ -1,34 +1,43 @@
-"""Five circular beads on a sagging string. HRECT_M fits a wide U shape, deepened for spacing. Beads share radius3 and mirror across x24; straight links meet cardinal bead nodes. No useful Lucide necklace match; reference supplies bead count and arrangement.
-Source editorial brief is preserved in the gallery; source supplies identity and arrangement.
-"""
-from ._base import Solo48
+"""Five equal circular beads on a U-shaped cord; larger bead openings replace the tiny rejected loops.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction: No useful exact Lucide necklace match; source supplies five beads and U arrangement.
+Omissions: U is deepened to fit five beads and strict clearance.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
-
+from ._base import Solo48
 SOURCE_ICON_ID = 'ed4699f6-a912-4876-9b67-eba4703923e0'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_06/bead_ed4699f6-a912-4876-9b67-eba4703923e0.svg'
-AUTHOR = "gpt-6"
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'curved-string-of-beads'
-    keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "Uncategorized"
-    aliases = ['Curved String of Beads']
-    keywords = ['beads', 'string', 'necklace', 'circles', 'chain', 'jewelry', 'curve']
-
+    icon_id='curved-string-of-beads'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='Uncategorized'
+    aliases=()
+    keywords=('curved', 'string', 'of', 'beads')
     def build(self):
-        beads=((7,13),(11,29),(24,35),(37,29),(41,13))
-        for j,(x,y) in enumerate(beads):
-            points=((x+3,y),(x,y+3),(x-3,y),(x,y-3),(x+3,y))
-            members=[]
-            for k in range(4):
-                name=f"bead-{j}-{k}"
-                self.add_arc(name,points[k],points[k+1],radius_x=3)
-                members.append(name)
-            self.add_contour(f"bead-{j}",*members,closed=True)
-        links=(((7,16),(11,26)),((14,29),(21,35)),((27,35),(34,29)),((37,26),(41,16)))
-        for j,(a,b) in enumerate(links):
-            self.add_line(f"string-{j}",a,b)
-            self.relate("connect",f"string-{j}",f"bead-{j}")
-            self.relate("connect",f"string-{j}",f"bead-{j+1}")
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        centers=((10,10),(10,28),(24,38),(38,28),(38,10));radius=4
+        for i,(x,y) in enumerate(centers):ellipse(f'bead-{i}',x,y,radius,radius)
+        links=(((10,14),(10,24)),((14,28),(20,38)),((28,38),(34,28)),((38,24),(38,14)))
+        for i,(a,b) in enumerate(links):
+         line(f'cord-{i}',a,b);join(f'cord-{i}',f'bead-{i}');join(f'cord-{i}',f'bead-{i+1}')

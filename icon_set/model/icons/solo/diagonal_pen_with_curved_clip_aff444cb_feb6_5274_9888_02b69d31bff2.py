@@ -1,27 +1,40 @@
+"""Bad-stroke revision. Lucide pen: rounded cap, long diagonal barrel and separate triangular nib.
+Omissions: Clip simplified to one smoothly attached curved stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'aff444cb-feb6-5274-9888-02b69d31bff2'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/pen_aff444cb-feb6-5274-9888-02b69d31bff2.svg'
 AUTHOR = 'gpt-6'
-
-
-class DiagonalPenWithCurvedClip(Solo48):
+class Revision(Solo48):
     icon_id = 'diagonal-pen-with-curved-clip'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/design'
     aliases = ()
-    keywords = ('pen', 'writing', 'nib', 'cap', 'clip', 'stationery', 'ink', 'tool')
+    keywords = ('pen',)
+    def build(self):
 
-    def build(self) -> None:
-        # Diagonal rounded barrel and conical nib; the clip curves out to the right.
-        self.add_bezier('cap',(26,8),((28,6),(28,6),(30,6)),((33,6),(36,9),(36,12)),((36,14),(35,15),(34,16)))
-        points=[(34,16),(30,20),(18,32),(6,42),(10,24),(26,8)]
-        for n,(a,b) in enumerate(zip(points,points[1:]),1):self.add_line(f'body-{n}',a,b)
-        self.add_contour('pen','cap',*[f'body-{n}' for n in range(1,6)],closed=True)
-        self.add_line('band',(22,12),(30,20));self.relate('connect','band','pen')
-        self.add_bezier('clip-top',(30,20),((38,20),(42,20),(42,28)))
-        self.add_arc('clip-bottom',(42,28),(36,34),radius_x=6)
-        self.add_contour('clip','clip-top','clip-bottom');self.relate('connect','clip','pen');self.relate('connect','clip','band')
+        # Typed continuous paths own their junctions. Repeated parts share parameters.
+        def path(name, start, commands, closed=False):
+            ids=[]; here=start
+            for i, (kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                ids.append(ident);here=end
+            self.add_contour(name,*ids,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        # Barrel edges share the 45-degree axis; clip grows from the cap seam.
+        path('pen',(34,6),[('A',(42,14),8,8,True),('C',(38,20),(42,17),(40,18)),('L',(20,38)),('L',(6,42)),('L',(10,28)),('L',(28,10)),('C',(34,6),(30,8),(31,6))],True)
+        line('cap-seam',(28,10),(38,20));join('pen','cap-seam')
+        line('nib-seam',(10,28),(20,38));join('pen','nib-seam')
+        path('clip',(38,20),[('C',(42,30),(42,22),(42,26)),('C',(32,40),(42,33),(36,36))])
+        join('clip','pen');join('clip','cap-seam')

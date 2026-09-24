@@ -1,40 +1,40 @@
-"""Child cycle with circular wheels, high seat back and attached front basket. Frame has a rounded transition into front stem. Centerline6,6–42,42.
-Construction reference: bike.
+"""Child cycle with a backrest, seat, basket and two equal wheels; open frame and rounded basket restore the toy silhouette.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction references: Lucide bike circular wheels and round joins.
+Omissions: Wheel spokes and small handlebar omitted.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='5ff4ebdd-5754-482c-9fb2-040f1c9eaa90'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/kids/tricycle_5ff4ebdd-5754-482c-9fb2-040f1c9eaa90.svg'
-SAVED_REFERENCE_PATH='/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/tricycle_5ff4ebdd-5754-482c-9fb2-040f1c9eaa90.svg'
-EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-016/references/tricycle_5ff4ebdd-5754-482c-9fb2-040f1c9eaa90.svg'
-AUTHOR='gpt-6'
-class BatchIcon(Solo48):
-    icon_id='child-cycle-with-front-basket-solo-b016-r02'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/toys"
-    aliases=()
-    keywords=('child', 'cycle', 'with', 'front', 'basket')
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'child-cycle-with-front-basket-solo-b016-r02'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/toys'
+    aliases = ()
+    keywords = ('tricycle',)
     def build(self):
 
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
         def circle(n,x,y,r):
-            pts=((x-r,y),(x,y-r),(x+r,y),(x,y+r));members=[]
-            for i in range(4):
-                m=n+str(i);self.add_arc(m,pts[i],pts[(i+1)%4],radius_x=r);members.append(m)
-            self.add_contour(n,*members,closed=True)
-        def path(n,start,commands,closed=False):
-            p=start;members=[]
-            for i,c in enumerate(commands):
-                m=n+str(i);q=c[-1]
-                if c[0]=='L':self.add_line(m,p,q)
-                elif c[0]=='A':self.add_arc(m,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
-                elif c[0]=='B':self.add_bezier(m,p,(c[1],c[2],q))
-                members.append(m);p=q
-            self.add_contour(n,*members,closed=closed)
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        circle('rear',13,35,7);circle('front',35,35,7)
-        path('frame',(13,28),[('L',(13,19)),('L',(23,19)),('B',(29,19),(29,16),(35,16)),('L',(35,28))])
-        self.add_line('back',(13,6),(13,19));self.relate('connect','back','frame')
-        self.relate('connect','rear','frame');self.relate('connect','front','frame')
-        self.add_polyline('basket',(29,16),(29,6),(42,6),(42,16),(35,16));self.relate('connect','basket','frame')
+        for n,x in [('rear',13),('front',35)]: circle(n,x,35,7)
+        path('frame',(13,28),[('L',(13,20)),('L',(24,20)),('B',(35,16),(30,20),(33,18)),('L',(35,28))])
+        path('seat',(13,20),[('L',(10,10)),('A',(18,10),4,4,True),('L',(20,14))])
+        path('basket',(35,16),[('L',(31,6)),('L',(42,6)),('L',(42,12)),('A',(38,16),4,4,True),('L',(35,16))],True)
+        for n in ('rear','front','seat','basket'): join(n,'frame')

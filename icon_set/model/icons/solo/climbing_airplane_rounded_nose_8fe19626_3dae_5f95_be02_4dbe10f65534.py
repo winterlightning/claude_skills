@@ -1,43 +1,35 @@
-"""A gently climbing airplane has a rounded nose and swept near wing.
-
-Construction: plane-takeoff: a continuous fuselage with rounded nose and tapered tail.
-Reduction: Omitted windows; kept the upper wing and distinct lower wing. Side-view asymmetry follows the source.
+"""Side-view climbing airplane, with a smooth round nose, upper swept wing, broad lower wing and raised tail. Bounds4,8 to44,40.
+Construction reference: Lucide plane-takeoff: coherent fuselage and tapered wings.
+Omissions: No windows in source; retained both wings.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8fe19626-3dae-5f95-be02-4dbe10f65534'
 SOURCE_PATH = 'pictographic-primitives/travel/plane 1_8fe19626-3dae-5f95-be02-4dbe10f65534.svg'
 AUTHOR = 'gpt-6'
-
-
-class ClimbingAirplaneRoundedNose(Solo48):
+class Drawing(Solo48):
     icon_id = 'climbing-airplane-rounded-nose'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/travel"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/travel'
     aliases = ()
-    keywords = ('airplane', 'plane', 'flight', 'climbing', 'aircraft', 'departure', 'aviation', 'travel')
+    keywords = ('plane', '1')
+    def build(self):
+        self.path('plane',(4,22),[('L',(9,21)),('L',(14,25)),('L',(21,23)),('L',(13,10)),('L',(19,8)),('L',(31,20)),('L',(36,18)),('C',(44,23),(40,17),(44,20)),('C',(39,27),(44,25),(42,26)),('L',(29,30)),('L',(23,40)),('L',(16,40)),('L',(20,31)),('L',(13,35)),('C',(7,29),(10,36),(8,32)),('L',(4,22))],True)
 
-    def build(self) -> None:
-        # Envelope repair: shared boundary nodes and cardinal curve extrema;
-        # retain the subject, grid, stroke, and declared physical joins.
-        runs = {}
-        def run(name, *points):
-         ids = []
-         for n,(a,b) in enumerate(zip(points,points[1:])):
-          part = f'{name}-{n}'
-          self.add_line(part,a,b)
-          ids.append(part)
-         runs[name] = ids
-        # HRECT_L centerline extremes (4,8)-(44,40); coherent curved belly and round nose.
-        run('upper-body',(4, 21),(10,19),(14,25),(23,20),(12,10),(22,8),(33,18),(35,16))
-        self.add_arc('nose',(35,16),(44, 22),radius_x=9,radius_y=6)
-        self.add_arc('chin',(44, 22),(40,26),radius_x=4)
-        run('lower-body',(40,26),(30,29),(25,40),(15,40),(19,30),(13,34))
-        self.add_arc('belly',(13,34),(7,30),radius_x=8)
-        self.add_line('tail-close',(7,30),(4, 21))
-        self.add_contour('outline',*runs['upper-body'],'nose','chin',*runs['lower-body'],'belly','tail-close',closed=True)
-        # The far wing is part of the silhouette; its redundant crossing seam
-        # is omitted so the tail/wing junction does not create tiny counters.
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

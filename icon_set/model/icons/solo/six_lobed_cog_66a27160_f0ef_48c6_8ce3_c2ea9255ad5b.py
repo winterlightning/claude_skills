@@ -1,53 +1,49 @@
-"""Six Lobed Cog — independently authored for batch 49."""
+"""Six rounded lobes with smooth alternating convex and concave shoulders; mirror both axes using one upper-right definition.
+Construction: Lucide settings: tangent alternating convex and concave lobes.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '66a27160-f0ef-48c6-8ce3-c2ea9255ad5b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/cog_66a27160-f0ef-48c6-8ce3-c2ea9255ad5b.svg'
 AUTHOR = 'gpt-6'
 
-class BatchIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'six-lobed-cog-66a27160-f0ef-48c6-8ce3-c2ea9255ad5b'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "interface-essential"
     aliases = ()
-    keywords = ('six', 'lobed', 'cog')
+    keywords = ('cog',)
 
     def build(self):
-        # Plan: six smooth lobes around a shared center; mirror the right half.
-        # Extremes (6,6)-(42,42). Lucide settings: alternating convex/concave curves.
-        start=(24,6)
-        segments=[((30,6),(27,15),(33,15)),((36,15),(42,10),(42,17)),
-                  ((42,20),(36,21),(36,24)),((36,27),(42,28),(42,31)),
-                  ((42,38),(36,33),(33,33)),((27,33),(30,42),(24,42))]
-        self.add_bezier('right',start,*segments)
-        nodes=[start]+[s[2] for s in segments]
-        mirror=lambda p:(48-p[0],p[1])
-        reverse=[(mirror(s[1]),mirror(s[0]),mirror(nodes[i])) for i,s in reversed(list(enumerate(segments)))]
-        self.add_bezier('left',(24,42),*reverse)
-        self.add_contour('cog','right','left',closed=True)
-        self.add_line('center-mark',(24,23),(24,25))
+        # Symbol plan: Six rounded lobes with smooth alternating convex and concave shoulders; mirror both axes using one upper-right definition.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        q=[('C',(32,14),(28,6),(28,14)),('C',(42,16),(36,14),(42,10)),('C',(37,24),(42,20),(37,21)),('C',(42,32),(37,27),(42,28)),('C',(32,34),(42,38),(36,34)),('C',(24,42),(28,34),(28,42))]
+        self.mirror('gear',(24,6),q)
+        line('center-mark',(24,23),(24,25))
 
-
-    def rectangle(self, name, x, y, w, h, attachments=()):
-        # Split receiving edges at actual attachment nodes; one joined contour.
-        corners=[(x,y),(x+w,y),(x+w,y+h),(x,y+h)]
-        nodes=[]
-        for start,end in zip(corners,corners[1:]+corners[:1]):
-            dx,dy=end[0]-start[0],end[1]-start[1]
-            inside=[p for p in attachments if (p[0]-start[0])*dy == (p[1]-start[1])*dx
-                    and 0 < (p[0]-start[0])*dx+(p[1]-start[1])*dy < dx*dx+dy*dy]
-            inside.sort(key=lambda p:(p[0]-start[0])*dx+(p[1]-start[1])*dy)
-            nodes.extend([start]+inside)
-        self.add_polyline(name,*nodes,closed=True)
-
-    def capsule(self, name, x, y, w, h):
-        r = h // 2
-        self.add_line(name+'-top', (x+r,y), (x+w-r,y))
-        self.add_arc(name+'-right', (x+w-r,y), (x+w-r,y+h), radius_x=r)
-        self.add_line(name+'-bottom', (x+w-r,y+h), (x+r,y+h))
-        self.add_arc(name+'-left', (x+r,y+h), (x+r,y), radius_x=r)
-        self.add_contour(name, *[name+s for s in ('-top','-right','-bottom','-left')], closed=True)
-
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

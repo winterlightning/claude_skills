@@ -1,11 +1,9 @@
-"""Flying Blimp Airship.
-
-Plan: Long airship hull with rear fins and hanging cabin. Bounds4,8,44,40. Asymmetry preserves right tail.
-Construction reference: No useful local Lucide match.
+"""Horizontal elliptical airship hull, separate upper/lower tail fins and hanging cabin; extremes 4,8,44,40.
+Construction: No useful direct Lucide match
+Reduction: No omissions; cabin and two fins retained.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '59bf9944-e39e-44d7-a13e-05c98d58e886'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_07/blimp_59bf9944-e39e-44d7-a13e-05c98d58e886.svg'
 AUTHOR = 'gpt-6'
@@ -18,26 +16,21 @@ class Drawing(Solo48):
     category = "objects"
     aliases = ()
     keywords = ('blimp', 'with', 'tail', 'fins')
-
     def build(self):
 
-        def path(name, start, commands, closed=False):
+        def path(name, start, steps, closed=False):
             here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
-                member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                else: self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m); here=end
             self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+        def poly(name,*pts,closed=False): self.add_polyline(name,*pts,closed=closed)
         def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
         def join(a,b): self.relate('connect',a,b)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
 
-        path('hull',(4,24),[('C',(24,8),(4,14),(16,8)),('C',(32,16),(28,8),(30,12)),('C',(36,24),(34,19),(36,22)),('C',(32,30),(36,27),(34,29)),('C',(24,32),(30,32),(28,32)),('L',(16,32)),('C',(4,24),(8,32),(4,28))],True)
-        poly('tail',(32,16),(44,8),(44,40),(32,30));join('tail','hull')
-        poly('cabin',(16,32),(16,40),(24,40),(24,32));join('cabin','hull')
+        path('hull',(4,22),[('A',(20,12),16,10,True),('A',(36,16),20,10,True),('L',(40,8)),('L',(44,8)),('L',(44,36)),('L',(40,36)),('L',(36,28)),('A',(28,32),12,8,True),('L',(16,32)),('A',(4,22),12,10,True)],True)
+        poly('cabin',(16,32),(16,40),(28,40),(28,32));join('cabin','hull')

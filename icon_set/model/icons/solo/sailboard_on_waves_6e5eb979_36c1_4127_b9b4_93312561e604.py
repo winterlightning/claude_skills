@@ -1,35 +1,38 @@
-"""Sailboard on Waves. Leaning mast and curved sail above a raised board nose; omit paired sail stripes and reduce water to one wave row.
-Keyshape SQUARE, visible extremes (4, 4, 44, 44); centerline envelope inset by 2.
-Construction: Lucide sailboat: a sparse sail and board hierarchy. Source establishes the subject and pose.
-Shared circles and rounded rectangles keep repeated radii coherent."""
+"""Rebalanced tall bowed sail and leaning mast above an upturned board; separated two equal wave lobes. Omitted sail stripes for clearance.
+Construction: Lucide sailboat: clear sail/mast/board hierarchy. Source keeps leaning mast, bowed sail and raised board nose; omit sail stripes, use two equal wave lobes.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6e5eb979-36c1-4127-b9b4-93312561e604'
 SOURCE_PATH = 'pictographic-primitives/recreation/nautic sports sailing_6e5eb979-36c1-4127-b9b4-93312561e604.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
 
-class SailboardOnWaves(Solo48):
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'sailboard-on-waves'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/recreation"
     aliases = ()
-    keywords = ('sailboard', 'on', 'waves')
-
-    def build(self) -> None:
-        self.add_arc('sail-curve', (19, 6), (9, 22), radius_x=28, radius_y=28, sweep=False)
-        self.add_line('sail-base-1', (9, 22), (27, 22))
-        self.add_line('sail-base-2', (27, 22), (19, 6))
-        self.add_contour('sail', 'sail-curve', 'sail-base-1', 'sail-base-2', closed=True)
-        self.add_line('mast', (27, 22), (31, 31))
-        self.relate("connect", 'sail', 'mast')
-        self.add_line('board-1', (6, 31), (31, 31))
-        self.add_line('board-2', (31, 31), (42, 27))
-        self.add_contour('board', 'board-1', 'board-2', closed=False)
-        self.relate("connect", 'mast', 'board')
-        self.add_arc('wave-left', (6, 40), (24, 40), radius_x=9, radius_y=2, sweep=False)
-        self.add_arc('wave-right', (24, 40), (42, 40), radius_x=9, radius_y=2, sweep=False)
-        self.add_contour('water', 'wave-left', 'wave-right', closed=False)
+    keywords = ('nautic', 'sports', 'sailing')
+    def build(self):
+        s = self
+        path(s,'sail',(18,4),('A',(8,24),30,30,False),('L',(26,24)),('L',(18,4)),closed=True)
+        s.add_line('mast',(26,24),(30,33));s.relate('connect','mast','sail')
+        s.add_polyline('board',(8,33),(30,33),(40,30));s.relate('connect','mast','board')
+        path(s,'wave',(8,42),('A',(24,42),8,2,False),('A',(40,42),8,2,False))

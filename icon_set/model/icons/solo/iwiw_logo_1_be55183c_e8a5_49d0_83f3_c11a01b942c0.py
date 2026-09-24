@@ -1,64 +1,72 @@
-"""Iwiw logo 1 (logos), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""iwiw logo 1. Revision of reviewer feedback: Bad stroke drawn.
+Plan: Three connected hexagons, unique shared walls and a downward stem. Square extremes 6,6,42,42.
+Construction reference: Lucide hexagon: coherent polygonal walls, paired corner geometry.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'be55183c-e8a5-49d0-83f3-c11a01b942c0'
 SOURCE_PATH = 'pictographic-primitives/logos/iwiw logo 1_be55183c-e8a5-49d0-83f3-c11a01b942c0.svg'
 AUTHOR = 'gpt-6'
-
-class IwiwLogo1(Solo48):
+class Drawing(Solo48):
     icon_id = 'iwiw-logo-1'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
-    keywords = ('iwiw', 'logo', 'logos')
-
+    keywords = ('iwiw', 'logo', '1')
     def build(self):
-        self.add_line('e0', (28, 42), (28, 34))
-        self.add_line('e1', (29, 17), (35, 22))
-        self.add_line('e2', (29, 17), (21, 22))
-        self.add_line('e3', (29, 17), (29, 11))
-        self.add_line('e4', (30, 9), (35, 6))
-        self.add_line('e5', (36, 6), (41, 9))
-        self.add_line('e6', (42, 11), (42, 17))
-        self.add_line('e7', (41, 17), (35, 22))
-        self.add_line('e8', (28, 34), (35, 31))
-        self.add_line('e10', (28, 34), (21, 29))
-        self.add_line('e11', (21, 22), (13, 17))
-        self.add_line('e12', (12, 17), (7, 22))
-        self.add_line('e13', (6, 22), (6, 29))
-        self.add_line('e14', (7, 31), (13, 34))
-        self.add_line('e15', (13, 34), (21, 29))
-        self.add_line('e16', (21, 22), (21, 29))
-        self.add_line('e17', (29, 11), (30, 9))
-        self.add_line('e18', (35, 6), (36, 6))
-        self.add_line('e19', (41, 9), (42, 11))
-        self.add_line('e20', (42, 17), (41, 17))
-        self.add_line('e21', (35, 31), (35, 22))
-        self.add_line('e22', (13, 17), (12, 17))
-        self.add_arc('e23', (7, 22), (6, 22), radius_x=1, radius_y=1, large_arc=False, sweep=False)
-        self.add_arc('e24', (6, 29), (7, 31), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e2', closed=False)
-        self.add_contour('c3', 'e3', 'e17', 'e4', 'e18', 'e5', 'e19', 'e6', 'e20', 'e7', closed=False)
-        self.add_contour('c4', 'e8', 'e21', closed=False)
-        self.add_contour('c5', 'e10', closed=False)
-        self.add_contour('c6', 'e11', 'e22', 'e12', 'e23', 'e13', 'e24', 'e14', 'e15', closed=False)
-        self.add_contour('c7', 'e16', closed=False)
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c2', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c6', 'c7')
+
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        bez = self.add_bezier
+        def arc(n,a,b,r,ry=None,sweep=True,large=False):
+            self.add_arc(n,a,b,radius_x=r,radius_y=r if ry is None else ry,sweep=sweep,large_arc=large)
+        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def oval(n,x,y,rx,ry=None):
+            ry = rx if ry is None else ry
+            pts=[(x,y-ry),(x+rx,y),(x,y+ry),(x-rx,y)]
+            for j in range(4): arc(n+str(j),pts[j],pts[(j+1)%4],rx,ry)
+            contour(n,*(n+str(j) for j in range(4)),closed=True)
+        def box(n,l,t,r,b,rad=4):
+            pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+            members=[]
+            for j in range(8):
+                a,bp=pts[j],pts[(j+1)%8]
+                if a==bp: continue
+                name=n+str(j);members.append(name)
+                if j%2: arc(name,a,bp,rad)
+                else: line(name,a,bp)
+            contour(n,*members,closed=True)
+
+        poly('left',(20,22),(13,18),(6,22),(6,30),(13,34),(20,30))
+        line('shared-left',(20,22),(20,30))
+        poly('middle-top',(20,22),(26,18),(34,22))
+        poly('middle-bottom',(20,30),(26,34),(34,30),(34,22))
+        poly('upper',(26,18),(26,10),(34,6),(42,10),(42,18),(34,22))
+        line('stem',(26,34),(26,42))
+
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        ends={q for p in self.primitives for q in (p.start,p.end)}
+        rebuilt=[]; replacements={}
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in ends if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        n=p.element_id+'-joint-'+str(j);rebuilt.append(Line(n,u,v));ids.append(n)
+                    replacements[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)

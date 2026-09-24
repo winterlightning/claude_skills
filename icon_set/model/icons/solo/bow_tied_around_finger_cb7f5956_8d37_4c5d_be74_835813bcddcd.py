@@ -1,36 +1,39 @@
-"""Bow Tied around Finger.
-
-Plan: Two rounded bow loops tied above one long finger. Isolate the named finger; remove curled neighboring fingers. Shared human references inform rounded fingertip. Bounds (8,4)-(40,44).
+"""A bow tied above a downward pointing finger and curled palm; oblique hand retained, bow has two round loops.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction references: Lucide hand rounded fingertip and coherent palm; human_ref/user.svg and full_body_ref.png
+Omissions: Neighboring curled finger crease lines omitted to retain open palm.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'cb7f5956-8d37-4c5d-be74-835813bcddcd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/raksha bandhan_cb7f5956-8d37-4c5d-be74-835813bcddcd.svg'
 AUTHOR = 'gpt-6'
-
-class BowTiedAroundFinger(Solo48):
+class Drawing(Solo48):
     icon_id = 'bow-tied-around-finger'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/holidays'
     aliases = ()
-    keywords = ('bow', 'tied', 'around', 'finger')
-
+    keywords = ('raksha', 'bandhan')
     def build(self):
-        self.add_line('bow-l-top',(24,16),(14,4))
-        self.add_arc('bow-l-end',(14,4),(8,10),radius_x=6,sweep=False)
-        self.add_arc('bow-l-bottom',(8,10),(14,16),radius_x=6,sweep=False)
-        self.add_line('bow-l-return',(14,16),(24,16))
-        self.add_contour('bow-left','bow-l-top','bow-l-end','bow-l-bottom','bow-l-return',closed=True)
-        self.add_line('bow-r-top',(24,16),(34,4))
-        self.add_arc('bow-r-end',(34,4),(40,10),radius_x=6)
-        self.add_arc('bow-r-bottom',(40,10),(34,16),radius_x=6)
-        self.add_line('bow-r-return',(34,16),(24,16))
-        self.add_contour('bow-right','bow-r-top','bow-r-end','bow-r-bottom','bow-r-return',closed=True)
-        self.add_polyline('finger-sides',(20,40),(20,16),(24,16),(28,16),(28,40))
-        self.add_arc('finger-tip',(28,40),(20,40),radius_x=4)
-        self.add_contour('finger',*[f'finger-sides-{i}' for i in range(1,5)],'finger-tip',closed=True)
-        self.contours=[c for c in self.contours if c.contour_id!='finger-sides']
-        for a,b in [('finger','bow-left'),('finger','bow-right'),('bow-left','bow-right')]:self.relate('connect',a,b)
+
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        path('bow',(30,16),[('B',(22,16),(27,16),(25,16)),('B',(16,10),(16,16),(16,14)),('B',(22,6),(16,6),(19,6)),('B',(30,16),(26,6),(28,12)),('B',(38,6),(33,9),(35,6)),('B',(42,12),(42,6),(42,9)),('B',(30,16),(42,16),(35,16))],True)
+        path('hand',(22,16),[('L',(8,30)),('B',(6,35),(6,32),(6,33)),('B',(13,42),(6,39),(9,42)),('B',(18,40),(15,42),(16,42)),('L',(24,34)),('L',(29,29))])
+        path('palm',(30,16),[('B',(38,26),(36,17),(38,20)),('B',(24,34),(38,35),(30,40))])
+        join('bow','hand');join('bow','palm');join('hand','palm')

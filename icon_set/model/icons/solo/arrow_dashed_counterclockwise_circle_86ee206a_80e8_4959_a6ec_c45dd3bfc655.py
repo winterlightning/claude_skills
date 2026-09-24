@@ -1,29 +1,39 @@
-"""Arrow Dashed Counterclockwise Circle. Circle radial envelope; broken loop uses four separated curved dashes and a tangent right-pointing terminal. Reduce seven source dashes to five runs to preserve negative space; terminal shares one tip.
-Reference supplies silhouette and direction; Lucide arrow-up-right supplies
-shared shaft/head junction construction. Rebuilt on SOLO48; no traced coordinates.
-"""
-from ._base import Solo48
+"""Restore a balanced dashed circular sweep and align the lower arrowhead with its counterclockwise tangent.
+Construction: Lucide circle-dashed: spaced curved dashes; source counterclockwise arrow retained.
+Omissions: Nine tiny dashes reduced to four separated runs.
+Keyshape SQUARE: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
-
+from ._base import Solo48
 SOURCE_ICON_ID = '86ee206a-80e8-4959-a6ec-c45dd3bfc655'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_14/diagram dash circle_86ee206a-80e8-4959-a6ec-c45dd3bfc655.svg'
-AUTHOR = "gpt-6-astra"
-
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'arrow-dashed-counterclockwise-circle'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "Uncategorized"
-    aliases = ('Dashed Circular Arrow',)
-    keywords = ('arrow', 'circle', 'dashed', 'loop', 'rotation', 'path', 'direction')
-
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'Uncategorized'
+    aliases = ()
+    keywords = ('arrow', 'dashed', 'counterclockwise', 'circle')
     def build(self):
-        self.add_bezier('upper-left',(9,14),((10,11),(12,8),(14,7)))
-        self.add_bezier('top',(24,4),((28,4),(32,6),(35,9)))
-        self.add_bezier('right',(40,20),((40,23),(39,26),(38,28)))
-        self.add_bezier('lower-left',(8,24),((9,28),(11,31),(14,33)))
-        tip=(32,36)
-        self.add_line('tail',(24,36),tip)
-        self.add_polyline('head',(24,28),tip,(24,44))
-        self.relate('connect','tail','head')
+
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+
+        path('top',(12,10),[('C',(24,6),(16,7),(20,6))])
+        path('right',(38,12),[('C',(42,24),(41,16),(42,20))])
+        path('left',(7,18),[('C',(6,24),(6,20),(6,22)),('C',(7,30),(6,26),(6,28))])
+        path('bottom',(12,38),[('C',(24,42),(16,41),(20,42)),('C',(36,34),(30,42),(33,38))])
+        poly('head',(28,34),(36,34),(36,42));join('head','bottom')

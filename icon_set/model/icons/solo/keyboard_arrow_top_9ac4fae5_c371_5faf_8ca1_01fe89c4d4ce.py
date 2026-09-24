@@ -1,29 +1,39 @@
-"""Keyboard arrow top (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""A continuous U-turn arrow, with one circular bend and equal arrowhead arms. Retain direction and open return; no omissions. Centerline box (8,4)-(40,44)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9ac4fae5-c371-5faf-8ca1-01fe89c4d4ce'
 SOURCE_PATH = 'pictographic-primitives/arrows/keyboard arrow top_9ac4fae5-c371-5faf-8ca1-01fe89c4d4ce.svg'
 AUTHOR = 'gpt-6'
-
-class KeyboardArrowTop(Solo48):
+CONSTRUCTION_REFERENCE = 'corner-down-right'
+DESIGN_PLAN = 'A continuous U-turn arrow, with one circular bend and equal arrowhead arms. Retain direction and open return; no omissions. Centerline box (8,4)-(40,44).'
+class Drawing(Solo48):
     icon_id = 'keyboard-arrow-top'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
     aliases = ()
-    keywords = ('keyboard', 'arrow', 'top', 'arrows')
+    keywords = ('keyboard', 'arrow', 'top')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (17, 4), (26, 13))
-        self.add_line('e1', (8, 13), (17, 4))
-        self.add_line('e2', (17, 4), (17, 34))
-        self.add_line('e3', (40, 33), (40, 25))
-        self.add_arc('e4-1', (17, 34), (27, 44), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_line('e4-2', (27, 44), (34, 42))
-        self.add_arc('e4-3', (34, 42), (40, 33), radius_x=12, radius_y=12, large_arc=False, sweep=False)
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e1', 'e2', 'e4-1', 'e4-2', 'e4-3', 'e3'), closed=False)
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
+
+    def build(self):
+        p=lambda x,y:(48-x,48-y)
+        self.add_line('return',p(8,24),p(8,16))
+        self.add_arc('bend-left',p(8,16),p(20,4),radius_x=12)
+        self.add_arc('bend-right',p(20,4),p(32,16),radius_x=12)
+        self.add_line('shaft',p(32,16),p(32,44))
+        self.add_contour('turn','return','bend-left','bend-right','shaft')
+        self.add_polyline('head',p(24,36),p(32,44),p(40,36))
+        self.relate('connect','turn','head')

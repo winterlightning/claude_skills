@@ -19,7 +19,8 @@ production. Exit 3 when nothing was claimable.
 ``finish`` loads the module /primitive-make-ray wrote in ``--run``, validates it,
 writes ``after/`` (module, SVG, previews), ``validation.txt`` and ``result.json``,
 uploads the after result, then reports ``done`` (only when the model is valid
-with zero warnings; otherwise exit 2 and nothing is uploaded or reported) or
+with zero warnings and passes the build gate, build_gate.py: holes/pinches,
+internal spacing, symmetry; otherwise exit 2 and nothing is uploaded or reported) or
 ``cannot-fix`` (note required; ``--run`` optional). Registered modules are never
 touched; promotion stays with promote_work_icons.py. Until a rebuilt model
 reaches production, the gallery shows the uploaded after SVG as a worker fix.
@@ -43,7 +44,7 @@ from urllib.request import Request, urlopen
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-from icon_set.scripts import work_queue  # noqa: E402
+from icon_set.scripts import build_gate, work_queue  # noqa: E402
 from icon_set.scripts.workspace import primitive_fix_results_dir, primitive_results_dir  # noqa: E402
 
 FAMILY = 'solo'
@@ -273,8 +274,12 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['validation_status'] = report.status
         findings['validation_errors'] = list(getattr(report, 'errors', []) or [])
         findings['validation_warnings'] = list(getattr(report, 'warnings', []) or [])
+        # validate_icon() misses the build's hole/pinch, internal-spacing and symmetry gates; run them too.
+        findings['build_gate'] = build_gate.gate(module_path)
         validation_path = run / 'validation.txt'
-        validation_path.write_text(report.describe() + '\n', encoding='utf-8')
+        gate_lines = [f"build gate: {findings['build_gate']['status']}"] + [
+            f'  {message}' for message in findings['build_gate']['errors'] + findings['build_gate']['warnings']]
+        validation_path.write_text(report.describe() + '\n\n' + '\n'.join(gate_lines) + '\n', encoding='utf-8')
         findings['artifacts'].append('validation.txt')
         svg = icon.to_svg()
         svg_path = after / f'{icon_id}.svg'
@@ -291,11 +296,16 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
     except Exception as error:
         findings['error'] = f'{type(error).__name__}: {error}'
         (run / 'finish-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
-    clean = (findings['validation_status'] == 'valid' and not findings['validation_warnings'] and 'error' not in findings)
+    gate_status = (findings.get('build_gate') or {}).get('status')
+    clean = (findings['validation_status'] == 'valid' and not findings['validation_warnings'] and gate_status == 'pass'
+             and 'error' not in findings)
     if outcome == 'done' and not clean:
         findings['outcome'] = 'refused'
         (run / 'result.json.refused').write_text(json.dumps(findings, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-        problem = findings.get('error') or f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
+        problem = findings.get('error') or (
+            f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
+            if findings['validation_status'] != 'valid' or findings['validation_warnings'] else
+            f"build gate {gate_status}: " + '; '.join((findings['build_gate']['errors'] + findings['build_gate']['warnings'])[:3]))
         print(f'refused: {key} is not clean ({problem}); nothing uploaded or reported. Fix the model or finish with --outcome cannot-fix.',
               file=sys.stderr)
         return 2

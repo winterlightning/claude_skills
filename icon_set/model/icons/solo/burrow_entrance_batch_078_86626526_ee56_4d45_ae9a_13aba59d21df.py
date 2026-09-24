@@ -1,43 +1,38 @@
+"""Burrow mound with shoulder bumps, ground baseline and centered arched entrance; mirror around x24.
+Keyshape HRECT_M: exact SOLO48 contract envelope.
+Construction references: No useful local Lucide match; original reference informs construction.
+Omissions: None; restored the shoulder bumps and ground.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '86626526-ee56-4d45-ae9a-13aba59d21df'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_39/warren_86626526-ee56-4d45-ae9a-13aba59d21df.svg'
 AUTHOR = 'gpt-6'
-REFERENCE_COPY = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-078/references/warren_86626526-ee56-4d45-ae9a-13aba59d21df.svg'
-# SOLO48 visible extremes (2, 8, 46, 40); centerline extremes (4, 10, 44, 38).
-# Construction reference: No useful local Lucide subject match
-# Plan: Mirrored mound and centered tunnel arch; broad horizontal fit keeps the ground low.
-
-class Batch078Icon(Solo48):
+class Drawing(Solo48):
     icon_id = 'burrow-entrance-batch-078'
     keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
     aliases = ()
-    keywords = ('underground', 'burrow', 'entrance')
-
+    keywords = ('warren',)
     def build(self):
 
-        self.add_arc('mound',(4,38),(44,38),radius_x=20,radius_y=28)
-        self.add_line('ground-left',(4,38),(16,38))
-        self.add_arc('entrance',(16,38),(32,38),radius_x=8,radius_y=14)
-        self.add_line('ground-right',(32,38),(44,38))
-        self.add_contour('earth','ground-left','entrance','ground-right')
-        self.relate('connect','mound','earth')
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-a', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-b', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-a', name+'-b', closed=True)
-
-    def rect(self, name, l, t, r, b, radius=4):
-        k=radius
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        for j in range(8):
-            a,z=pts[j],pts[(j+1)%8]
-            if j%2: self.add_arc(name+str(j),a,z,radius_x=k)
-            else: self.add_line(name+str(j),a,z)
-        self.add_contour(name,*(name+str(j) for j in range(8)),closed=True)
+        path('mound',(4,38),[('B',(10,30),(4,34),(6,31)),('L',(10,24)),('A',(38,24),14,14,True),('L',(38,30)),('B',(44,38),(42,31),(44,34)),('L',(32,38)),('L',(16,38)),('L',(4,38))],True)
+        path('tunnel',(16,38),[('L',(16,33)),('A',(32,33),8,8,True),('L',(32,38))])
+        join('mound','tunnel')

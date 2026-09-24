@@ -1,31 +1,38 @@
-'Departing plane: smooth semicircular nose and a wider fuselage above a straight runway.'
+"""Ascending passenger plane above one separate horizontal runway. Smooth nose and swept wings retain the reference; tail stays a true part of the aircraft, not joined to the runway."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c2782429-745d-5835-abe8-ed5499875d12'
 SOURCE_PATH = 'pictographic-primitives/travel/plane on runway_c2782429-745d-5835-abe8-ed5499875d12.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class PlaneOnRunway(Solo48):
-    icon_id = 'plane-on-runway'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'travel'
-    aliases = ()
-    keywords = ('plane', 'on', 'runway', 'travel')
+class Drawing(Solo48):
+    icon_id='plane-on-runway'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="travel"
+    aliases=()
+    keywords=()
 
     def build(self):
-        # Departing plane: naturally balanced broad wing, tail and fuselage with a smooth nose above the runway.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
+        # Symbol plan: Ascending passenger plane above one separate horizontal runway. Smooth nose and swept wings retain the reference; tail stays a true part of the aircraft, not joined to the runway.
 
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
+        def path(n,start,commands,closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                m=f'{n}-{i}'
+                if kind=='L': self.add_line(m,start,end)
+                elif kind=='A': self.add_arc(m,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(m,start,(args[0],args[1],end))
+                members.append(m);start=end
+            self.add_contour(n,*members,closed=closed)
+        def oval(n,x,y,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(n,l,t,r,b,rad=4):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        join=lambda a,b:self.relate('connect',a,b)
 
-        p('plane',(36,6),(24,12),(18,6),(10,10),(19,20),(10,24),(6,20),(6,34),(14,34),(36,18))
-        a('nose',(36,18),(36,6),6,sweep=False)
-        link('connect','plane','nose')
-        l('runway',(6,42),(42,42))
+        path('plane',(6,28),[('L',(6,20)),('L',(12,23)),('L',(19,19)),('L',(11,11)),('L',(20,6)),('L',(28,14)),('L',(35,9)),('C',(42,12),(38,8),(42,8)),('C',(40,17),(42,14),(42,16)),('L',(16,32)),('C',(6,28),(12,35),(9,32))],True)
+        line('runway',(6,42),(42,42))

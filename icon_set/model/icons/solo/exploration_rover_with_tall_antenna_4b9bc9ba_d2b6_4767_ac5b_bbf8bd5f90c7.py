@@ -1,44 +1,44 @@
-"Planetary Surface Exploration Rover.\nSymbol plan: Half-circle wheels below the chassis, cabin and antenna retained; upper tires and hubs omitted.\nConstruction: Lucide original and atomic-debug: bath, truck, notebook, piano, orbit, sprout and pill-bottle; coherent arcs, shared joins and repeated dimensions.\nKeyshape HRECT_L: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+"""Exploration rover with two full circular wheels, a low deck, small equipment housing and a tall capped antenna.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction: tractor: full wheels below chassis and clear vehicle silhouette
+Omissions: Tiny wheel hubs and secondary sloping deck details omitted.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4b9bc9ba-d2b6-4767-ac5b-bbf8bd5f90c7'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_26/lunar rover_4b9bc9ba-d2b6-4767-ac5b-bbf8bd5f90c7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'exploration-rover-with-tall-antenna'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('rover', 'vehicle', 'wheels', 'antenna', 'exploration', 'space', 'transport')
+class Drawing(Solo48):
+    icon_id='exploration-rover-with-tall-antenna'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('exploration', 'rover', 'with', 'tall', 'antenna')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        poly('body',(8,34),(4,34),(4,22),(44,22),(44,34),(40,34))
-        line('axle',(20,34),(28,34))
-        for x in (14,34):arc('wheel'+str(x),(x+6,34),(x-6,34),6)
-        poly('cab',(8,22),(8,14),(20,14),(20,22))
-        line('antenna',(30,22),(30,8));self.add_dot('tip',(30,8))
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        box('deck',6,20,42,30,2)
+        for i,x in enumerate((12,36)):
+         ellipse(f'wheel-{i}',x,36,6,6);join(f'wheel-{i}','deck')
+        poly('equipment',(10,20),(12,12),(18,12),(18,20));join('equipment','deck')
+        ellipse('antenna-tip',28,8,2,2)
+        line('antenna',(28,10),(28,20));join('antenna','antenna-tip');join('antenna','deck')

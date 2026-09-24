@@ -1,30 +1,41 @@
-"""car-e1ae9ac1: approved original model.
-
-Construction: Compact car with an arched roof and a central windshield pillar; retain the circular wheels.
-Keyshape: HRECT_L; exact SOLO48 envelope.
-Construction reference: car-front from the previously inspected Lucide original and atomic-debug library.
-Approved design replaces the original model; previous revisions are archived."""
+"""Restore a flat-topped rounded cabin rather than a semicircle, and separate the circular wheels from the car body.
+Construction: Lucide car: paired round wheels and coherent body; source rounded cabin.
+Omissions: None
+Keyshape HRECT_M: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 SOURCE_ICON_ID = 'e1ae9ac1-dad6-526e-975f-e2ee61a2940d'
 SOURCE_PATH = 'pictographic-primitives/transportation/car_e1ae9ac1-dad6-526e-975f-e2ee61a2940d.svg'
 AUTHOR = 'gpt-6'
-
-class CarE1ae9ac1(Solo48):
+class Drawing(Solo48):
     icon_id = 'car-e1ae9ac1'
+    keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-e1ae9ac1')
-    keyshape = Keyshape.HRECT_L
-
+    keywords = ('car', 'e1ae9ac1')
     def build(self):
-        path(self, 'roof', (12, 19), ('A', 12, 11, True, (24, 8)), ('A', 12, 11, True, (36, 19)))
-        line(self, 'windshield-pillar', (24, 8), (24, 19))
-        path(self, 'body', (8, 34), ('C', (5, 34), (4, 30), (4, 27)), ('L', (4, 24)), ('C', (4, 21), (7, 19), (12, 19)), ('L', (36, 19)), ('C', (41, 19), (44, 21), (44, 24)), ('L', (44, 27)), ('C', (44, 30), (43, 34), (40, 34)))
-        ellipse(self, 'wheel-left', 14, 34, 6)
-        ellipse(self, 'wheel-right', 34, 34, 6)
-        line(self, 'floor', (20, 34), (28, 34))
-        contacts(self)
+
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+
+        path('body',(7,33),[('A',(4,30),3,3,True),('L',(4,27)),('A',(12,19),8,8,True),('L',(24,19)),('L',(36,19)),('A',(44,27),8,8,True),('L',(44,30)),('A',(41,33),3,3,True)])
+        path('roof',(12,19),[('A',(21,10),9,9,True),('L',(24,10)),('L',(27,10)),('A',(36,19),9,9,True)])
+        line('pillar',(24,10),(24,19));join('roof','body');join('pillar','roof');join('pillar','body')
+
+        for x in (12,36):circle(f'wheel-{x}',x,33,5)
+        line('sill',(17,33),(31,33));join('sill','wheel-12');join('sill','wheel-36')
+        join('body','wheel-12');join('body','wheel-36')

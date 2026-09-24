@@ -1,40 +1,48 @@
-"""Motor scooter with raised seat, covered rear wheel and exposed front wheel.
-HRECT_L: (4,8)-(44,40). Seat uses equal eight-unit spans. Steering owns
-body attachment (34,16); wheel attaches at its top. Lucide scooter supplies
-wheel/fork contour principle. Omit small headlamp at this profile.
+"""sidecar. Revision: Restore long low scooter cowl and seat, smooth rear wheel, and angled fork. Omit small headlamp.
+Construction: No useful direct Lucide match; supplied source silhouette. Preserve source-facing direction and arrangement.
+Keyshape HRECT_L; exact contract extremes, stroke four. No validation exceptions.
 """
-from ._base import Solo48
 from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID = '8ce52ac4-8cd4-4f1c-996b-cf71cccf69bd'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_34/sidecar_8ce52ac4-8cd4-4f1c-996b-cf71cccf69bd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'low-motor-scooter-in-right-profile'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'Uncategorized'
-    aliases = ['Vintage Motor Scooter']
-    keywords = ['scooter','motorcycle','wheels','vehicle','seat','transport']
+    icon_id='low-motor-scooter-in-right-profile'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='Uncategorized'
+    aliases=()
+    keywords=('sidecar',)
+
     def build(self):
-        self.add_arc('rear-cowl',(4,32),(12,24),radius_x=8)
-        self.add_line('seat-bottom',(12,24),(20,24))
-        self.add_line('deck-top',(20,24),(21,24))
-        self.add_line('body-rise',(21,24),(34,16))
-        self.add_bezier('body-bottom',(21,24),((21,30),(21,32),(20,32)))
-        self.add_line('deck-bottom',(20,32),(18,32))
-        self.add_line('rear-bottom',(18,32),(4,32))
-        self.add_contour('body','rear-cowl','seat-bottom','deck-top','body-bottom','deck-bottom','rear-bottom',closed=True)
-        self.relate('connect','body-rise','deck-top')
-        self.relate('connect','body-rise','body-bottom')
-        self.add_polyline('seat',(12,24),(12,16),(20,16),(20,24))
-        for a,b in [('seat-1','rear-cowl'),('seat-1','seat-bottom'),('seat-3','seat-bottom'),('seat-3','deck-top')]:self.relate('connect',a,b)
-        self.add_arc('rear-wheel',(20,32),(4,32),radius_x=8)
-        for x in ['deck-bottom','rear-cowl','body-bottom']:self.relate('connect','rear-wheel',x)
-        self.add_polyline('handlebar',(26,8),(32,8),(34,16))
-        self.add_line('fork',(34,16),(37,26))
-        for a,b in [('handlebar-2','fork'),('handlebar-2','body-rise'),('fork','body-rise')]:self.relate('connect',a,b)
-        self.add_arc('front-right',(37,26),(37,40),radius_x=7)
-        self.add_arc('front-left',(37,40),(37,26),radius_x=7)
-        self.add_contour('front-wheel','front-right','front-left',closed=True)
-        for a in ['front-right','front-left']:self.relate('connect','fork',a)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
+
+        path('body',(4,31),[('A',(12,23),8,8,True),('L',(20,23)),('L',(25,23)),('C',(31,19),(28,23),(29,21)),('L',(34,15))])
+        path('floor',(4,31),[('L',(12,31)),('L',(20,31)),('A',(25,26),5,5,False),('L',(25,23))])
+        path('rear-wheel',(4,31),[('A',(20,31),8,9,False)])
+        path('seat',(12,23),[('L',(12,19)),('A',(16,15),4,4,True),('L',(20,15)),('L',(20,23))])
+        poly('fork',(27,8),(32,8),(34,15),(37,26))
+        circle('front-wheel',37,33,7)
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

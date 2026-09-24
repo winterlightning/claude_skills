@@ -1,27 +1,12 @@
-"""Eyedropper Color Selection Tool.
-Plan: Broad diagonal pipette with a softly squared bulb and crossbar. Centerline extremes (6,6)-(42,42).
-Construction: Lucide pipette; collar and body joins.
-Reduction: Fine nozzle irregularities replaced with a rounded tip.
+"""Diagonal pipette with rounded bulb, straight crossbar and shaped nozzle. Parallel shaft edges share diagonal direction; square envelope6,6 to42,42.
+Construction reference: Lucide pipette: continuous nozzle with diagonal collar.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8ba14a04-c8da-5278-9772-abe74358faf2'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/color picker_8ba14a04-c8da-5278-9772-abe74358faf2.svg'
 AUTHOR = 'gpt-6'
-CATALOG_REFERENCE = 'pictographic-primitives/design/color picker_8ba14a04-c8da-5278-9772-abe74358faf2.svg'
-
-def _run(icon, name, *points):
-    for i,(a,b) in enumerate(zip(points,points[1:]),1):
-        icon.add_line(f'{name}-{i}',a,b)
-
-def _circle(icon, name, cx, cy, radius):
-    a,b=(cx-radius,cy),(cx+radius,cy)
-    icon.add_arc(name+'-a',a,b,radius_x=radius)
-    icon.add_arc(name+'-b',b,a,radius_x=radius)
-    icon.add_contour(name,name+'-a',name+'-b',closed=True)
-
-
 class Drawing(Solo48):
     icon_id = 'broad-diagonal-eyedropper-with-crossbar'
     keyshape = Keyshape.SQUARE
@@ -29,17 +14,24 @@ class Drawing(Solo48):
     semantic_kind = 'noun'
     category = 'objects/design'
     aliases = ()
-    keywords = ('eyedropper', 'color', 'selection', 'tool')
-
+    keywords = ('color', 'picker')
     def build(self):
-        # Upper-right bulb uses a cardinal quarter-circle; lower body follows the diagonal.
-        self.add_line('bulb-start',(24,14),(32,6))
-        self.add_arc('bulb-round',(32,6),(42,16),radius_x=10)
-        self.add_line('bulb-end',(42,16),(36,24))
-        self.add_contour('bulb','bulb-start','bulb-round','bulb-end')
-        _run(self,'body-a',(24,14),(8,30),(6,36))
-        self.add_arc('nozzle-round',(6,36),(12,42),radius_x=6,sweep=False)
-        _run(self,'body-b',(12,42),(18,40),(36,24))
-        self.add_contour('body','body-a-1','body-a-2','nozzle-round','body-b-1','body-b-2')
-        self.add_polyline('collar',(20,10),(24,14),(36,24),(38,28))
-        for a,c in [('bulb','body'),('bulb','collar'),('body','collar')]: self.relate('connect',a,c)
+        self.path('outline',(6,42),[('C',(10,30),(11,37),(8,34)),('L',(21,19)),('L',(32,8)),('C',(36,6),(33,7),(34,6)),('A',(42,12),6,6,True),('C',(40,18),(42,14),(42,16)),('L',(31,27)),('L',(21,37)),('C',(6,42),(17,41),(12,37))],True)
+        self.add_polyline('collar',(16,15),(21,19),(31,27),(36,31))
+        self.relate('connect','collar','outline')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

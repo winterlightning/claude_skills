@@ -1,46 +1,39 @@
-"""Orange Fruit with Leaf and Slice.
-Symbol plan: Whole orange behind diagonal cut wedge with attached upper-left leaf. Bounds (6,6)-(42,42).
-Construction reference: Supplied orange and wedge; Lucide citrus segment and curved rind construction.
-Reduction: Double rind omitted; short stem, leaf and one segment division retained.
-"""
+'Whole orange behind a diagonal semicircular slice; upper left leaf and vertical stem. Centerline6,6 to42,42.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'fa7b7f99-3071-4d51-9441-0a401cfe97ef'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/orange grapefruit citrus_fa7b7f99-3071-4d51-9441-0a401cfe97ef.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide citrus: diagonal chord, round rind and radial divider.'
+OMISSIONS = 'Double rind and extra segment lines omitted.'
 
-class OrangeLeafSlice(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'orange-leaf-slice'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/food'
     aliases = ()
-    keywords = ('orange', 'leaf', 'slice')
-
+    keywords = ('orange', 'grapefruit', 'citrus')
     def build(self):
-        self.path('whole',(30,26),[((28,25),(26,25),(24,25)),((14,25),(6,25),(6,34)),((6,38),(10,41),(14,42))])
-        self.path('slice',(14,42),[(28,28),(30,26),(42,14),((42,26),(38,34),(34,38)),((30,41),(23,42),(14,42))],True);self.relate('connect','whole','slice')
-        self.path('leaf',(24,16),[((15,19),(8,14),(6,6)),((15,6),(24,8),(24,16))],True)
-        self.add_line('stem',(24,16),(24,25));self.relate('connect','stem','whole');self.relate('connect','stem','leaf')
-        self.add_line('segment',(28,28),(34,38));self.relate('connect','segment','slice')
-
-    def path(self, name, start, commands, closed=False):
-        members=[]
-        for j,c in enumerate(commands):
-            tag=f'{name}-{j}'
-            if len(c)==2:self.add_line(tag,start,c);start=c
-            else:self.add_bezier(tag,start,c);start=c[2]
-            members.append(tag)
-        self.add_contour(name,*members,closed=closed)
-
-    def loop(self,name,x,y,rx,ry=None):
-        ry=rx if ry is None else ry
-        self.add_arc(name+'-r',(x,y-ry),(x,y+ry),radius_x=rx,radius_y=ry)
-        self.add_arc(name+'-l',(x,y+ry),(x,y-ry),radius_x=rx,radius_y=ry)
-        self.add_contour(name,name+'-r',name+'-l',closed=True)
-
-    def steam(self,x,top,bottom,name):
-        mid=(top+bottom)//2
-        self.add_bezier(name,(x+1,top),((x-2,top+2),(x-2,mid),(x,mid)),((x+2,mid),(x+2,bottom-2),(x-1,bottom)))
+        path(self,'leaf',(6,6),[('C',(16,6),(23,6),(24,15)),('C',(21,16),(18,16),(16,15)),('C',(11,13),(8,10),(6,6))],True)
+        self.add_line('stem',(27,6),(27,16))
+        self.relate('connect','leaf','fruit')
+        path(self,'fruit',(16,15),[('C',(9,20),(6,26),(6,31)),('C',(6,38),(12,42),(18,42))])
+        path(self,'top-fruit',(27,16),[('C',(33,16),(36,19),(38,22))])
+        self.relate('connect','stem','top-fruit')
+        path(self,'slice',(18,42),[('L',(38,22)),('C',(41,25),(42,28),(42,31)),('C',(42,35),(39,38),(35,40)),('C',(33,41),(32,42),(30,42)),('L',(18,42))],True)
+        self.relate('connect','slice','fruit');self.relate('connect','slice','top-fruit')
+        self.add_line('segment',(28,32),(35,40));self.relate('connect','segment','slice')

@@ -1,38 +1,37 @@
-"""Walking Dog.
-
-Plan: Level back, floppy head, raised tail and one lifted front leg; legs reduced to three clear strokes.
-Centerline extremes: (4,8)-(44,40).
-"""
+"""A dog walking right with a drooping ear, raised tail and staggered paws. Bounds (4,8)-(44,40). Rounded neck and back preserve the source pose.
+Construction reference: Lucide dog: smooth hanging ear and organic contour; source owns full walking pose.
+Omissions: Far legs simplified to avoid a crowded underbody."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'dc4c5c52-445e-5838-9b2d-3ec7062a15ae'
 SOURCE_PATH = 'pictographic-primitives/pets/dog walk_dc4c5c52-445e-5838-9b2d-3ec7062a15ae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR="gpt-6"
 
-class WalkingDog(Solo48):
-    icon_id = 'walking-dog'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/pets"
-    aliases = ()
-    keywords = ('dog', 'walk', 'walking', 'profile', 'pet', 'stride', 'exercise')
-
+class Drawing(Solo48):
+    icon_id='walking-dog'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/pets"
+    aliases=()
+    keywords=('dog', 'walk')
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        line('back',(10,20),(28,20))
-        arc('head',(28,20),(40,20),6,12)
-        line('snout',(40,20),(44,20))
-        arc('chin',(44,20),(36,28),8)
-        line('front-leg',(36,28),(34,40))
-        line('paw',(34,40),(42,40))
-        contour('dog','back','head','snout','chin','front-leg','paw')
-        arc('tail',(10,20),(4,8),6,12)
-        self.relate('connect','tail','dog')
-        self.add_polyline('rear-leg',(10,20),(10,32),(6,40),(14,40))
-        self.relate('connect','rear-leg','dog')
-        self.relate('connect','rear-leg','tail')
-        self.add_polyline('stride',(24,29),(20,34),(24,40))
+
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('dog',(10,40),[('L',(8,30)),('C',(10,22),(11,28),(10,25)),('A',(16,16),6,6,True),('L',(29,16)),('C',(35,8),(29,10),(31,8)),('C',(40,12),(38,8),(39,11)),('L',(44,13)),('C',(38,21),(44,19),(41,21)),('L',(36,30)),('L',(35,40)),('L',(42,40))])
+        path('belly',(35,40),[('L',(28,40)),('L',(28,28)),('L',(18,27)),('C',(16,32),(18,29),(18,31)),('L',(18,40)),('L',(10,40))]);join('belly','dog')
+        path('tail',(10,22),[('C',(4,8),(5,17),(4,14))]);join('tail','dog')
+        path('raised-paw',(36,30),[('C',(44,33),(40,28),(44,29))]);join('raised-paw','dog')
+        path('ear',(35,8),[('L',(34,17)),('C',(29,20),(34,20),(31,21))]);join('ear','dog')

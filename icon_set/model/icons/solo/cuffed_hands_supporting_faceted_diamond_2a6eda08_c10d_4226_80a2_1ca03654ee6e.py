@@ -1,21 +1,30 @@
-'Paired open hands around held object. Fingers reduced to cupped gesture; cuffs and small internal detail omitted. Shared human reference and Lucide hand construction inspected.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape SQUARE uses exact SOLO48 contract bounds. No useful exact Lucide reference unless noted.'
+"""cuffed-hands-supporting-faceted-diamond.
+Plan: Mirrored cupped hands with retained cuffs support a centered faceted diamond; shared axis x24 and common cuff dimensions.
+Keyshape: SQUARE, exact SOLO48 inset envelope.
+Reference construction: Lucide hand-helping: a continuous palm stroke and simple cuff.
+Omissions: Small secondary diamond facets.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2a6eda08-c10d-4226-80a2-1ca03654ee6e'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/diamond give_2a6eda08-c10d-4226-80a2-1ca03654ee6e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cuffed-hands-supporting-faceted-diamond'
     keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
+    aliases = ()
+    keywords = ('diamond', 'give')
+
     def build(self):
 
-        def path(name,start,steps,closed=False):
+        def path(name, start, steps, closed=False):
             members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
+            for index, step in enumerate(steps):
+                member=f"{name}-{index}"
                 if len(step)==2:
                     self.add_line(member,point,step); point=step
                 else:
@@ -25,15 +34,17 @@ class Drawing(Solo48):
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
             path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
+        def box(name,l,t,r,b,rad):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
+        def curve(name,start,*segments):
+            self.add_bezier(name,start,*segments)
 
+        self.add_polyline('gem',(18,6),(30,6),(36,14),(24,24),(12,14),closed=True)
+        self.add_line('facet',(12,14),(36,14));self.relate('connect','facet','gem')
         for side in (-1,1):
-            x=lambda a:24+side*a
-            self.add_bezier(f'hand{side}',(x(7),42),((x(7),39),(x(18),40),(x(18),34)),((x(18),31),(x(18),28),(x(18),24)))
-            line(f'thumb{side}',(x(18),34),(x(10),32))
-            join(f'hand{side}',f'thumb{side}')
-        poly('gem',(14,14),(19,6),(29,6),(34,14),(24,23),(14,14));line('facet',(14,14),(34,14));join('gem','facet')
+            def pt(x,y):return (24+side*x,y)
+            n='left' if side<0 else 'right'
+            self.add_line(n,pt(18,22),pt(18,34))
+            path(n+'-thumb',pt(6,34),[pt(6,31),pt(10,27)])
+            box(n+'-cuff',6 if side<0 else 30,34,18 if side<0 else 42,42,1)
+            self.relate('connect',n,n+'-cuff');self.relate('connect',n+'-thumb',n+'-cuff')

@@ -1,38 +1,36 @@
-"""A rounded rectangular speech bubble with a tail at its lower left. Its top edge breaks near the left, where a left-pointing arrowhead turns the outline back toward the upper-left corner."""
+"""Restored rectangular speech-bubble sides, consistent corner radii and a distinct lower-left tail; integrated reply arrow retained.
+Construction: Lucide message-square-reply: corner radii and coherent return arrow. Restore rectangular speech body and distinct lower-left tail; integrated upper reply arrow stays directional.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4bea84d2-e574-5f4d-ab3c-3cd97efde30d'
 SOURCE_PATH = 'pictographic-primitives/messages/reply to message_4bea84d2-e574-5f4d-ab3c-3cd97efde30d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-class MessageIcon(Solo48):
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
+
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'reply-message-bubble-solo'
     keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/messages'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/messages"
     aliases = ()
-    keywords = ('reply', 'message', 'speech-bubble', 'arrow', 'respond', 'chat', 'conversation')
-
+    keywords = ('reply', 'to', 'message')
     def build(self):
-        # Lucide original and atomic-debug references: message-square, reply.
-        # Contours own continuous strokes; corner radii and attachment points are shared.
-        def path(name,start,commands,closed=False):
-            here,members=start,[]
-            for i,(kind,end,*args) in enumerate(commands):
-                ident=f"{name}-{i}"
-                if kind=='L':self.add_line(ident,here,end)
-                else:
-                    rx,ry,sweep=args
-                    self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
-                here=end
-                members.append(ident)
-            self.add_contour(name,*members,closed=closed)
-        radius = 8
-        # HRECT_L extremes (4,8)-(44,40): rounded bubble perimeter with an integrated reply arrow.
-        # The two right radius-8 arcs join tangentially at (44,24); arrow tip is a shared node.
-        tip=(24,16)
-        path('outline',(12,16),[('A',(4,24),radius,radius,False),('L',(4,40)),('L',(16,32)),('L',(36,32)),('A',(44,24),radius,radius,False),('A',(36,16),radius,radius,False),('L',tip)])
-        wing = 8
-        self.add_polyline('reply-head',(tip[0]+wing,tip[1]-wing),tip,(tip[0]+wing,tip[1]+wing))
-        self.relate('connect','outline','reply-head')
+        s = self
+        path(s,'bubble',(12,16),('L',(8,16)),('A',(4,20),4,4,False),('L',(4,28)),('A',(8,32),4,4,False),('L',(12,32)),('L',(12,40)),('L',(22,32)),('L',(40,32)),('A',(44,28),4,4,False),('L',(44,20)),('A',(40,16),4,4,False),('L',(24,16)))
+        s.add_polyline('arrow',(32,8),(24,16),(32,24));s.relate('connect','bubble','arrow')

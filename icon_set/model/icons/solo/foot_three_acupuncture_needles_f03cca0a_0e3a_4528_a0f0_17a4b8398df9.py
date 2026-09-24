@@ -1,52 +1,39 @@
-"""Foot Acupuncture Therapy.
-
-Plan: Foot silhouette on left with three needles entering from right at evenly spaced y; bounds (8,4)-(40,44).
-Construction: No useful direct Lucide match; coherent arcs and shared endpoints.
-Reduction: Toes reduced to broad rounded toe profile; needle heads use round stroke caps rather than tiny rings.
+"""A sole-facing foot with rounded toe lobes receives three evenly spaced acupuncture needles with circular heads. Extrema 8,4,40,44.
+Construction: footprints: rounded toe/heel contour; human reference reviewed, no head/body gap applies
+Reduction: Smallest toe divisions reduced to three clear lobes.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f03cca0a-0e3a-4528-a0f0-17a4b8398df9'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-005/references/04-f03cca0a-0e3a-4528-a0f0-17a4b8398df9.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'foot-three-acupuncture-needles'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('foot', 'three', 'acupuncture', 'needles')
-
+    icon_id='foot-three-acupuncture-needles'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('foot', 'three', 'acupuncture', 'needles')
     def build(self):
 
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name, (x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name, a, b): self.add_line(name,a,b)
-        def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
-        path('foot',(28,16),[('L',(28,11)),('A',(22,11),3,3,False),('A',(8,11),7,7,False),('L',(8,36)),('A',(16,44),8,8,False),('L',(24,44)),('A',(28,40),4,4,False)])
-        for j,y in enumerate((16,28,40)):
-         line(f'needle-{j}',(24,y),(40,y))
-        self.add_dot('needle-head-0',(40,16));self.add_dot('needle-head-1',(40,28));self.add_dot('needle-head-2',(40,40))
-        join('foot','needle-0');join('foot','needle-2')
-        for j in range(3):join(f'needle-{j}',f'needle-head-{j}')
+        def path(name,start,steps,closed=False):
+            here=start;members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                elif kind=='C': self.add_bezier(m,here,(args[0],args[1],end))
+                else:self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m);here=end
+            self.add_contour(name,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*pts,closed=False):self.add_polyline(n,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+        path('foot',(24,40),[('A',(20,44),4,4,True),('L',(16,44)),('A',(8,36),8,8,True),('L',(8,9)),('A',(18,9),5,5,True),('A',(24,9),3,3,True),('A',(30,9),3,3,True)])
+        for i,(a,y) in enumerate([((20,20),16),((22,28),28),((24,40),40)]):
+            line('needle-'+str(i),a,(36,y));circle('head-'+str(i),38,y,2);join('needle-'+str(i),'head-'+str(i))
+        join('needle-2','foot')

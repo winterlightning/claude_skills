@@ -1,19 +1,23 @@
-'Dripping Wax Pot.\nPlan and review: Retained rounded pot and wax layer with two unequal drips.\nKeyshape: HRECT_L, exact SOLO48 envelope selected for this subject.\nConstruction reference: No useful Lucide subject match; source render guides construction.'
+"""dripping-wax-pot.
+Plan: Wax pot with a rounded lip and two smoothly rounded drips; long central drip and shorter left drip retain the reference hierarchy.
+Keyshape: SQUARE, exact SOLO48 inset envelope.
+Reference construction: No useful Lucide subject match.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd17ea3f7-3c72-47c7-a0c5-d88e0cf7a4aa'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_40/wax_d17ea3f7-3c72-47c7-a0c5-d88e0cf7a4aa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'dripping-wax-pot'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('dripping', 'wax', 'pot')
+    keywords = ('wax',)
 
     def build(self):
 
@@ -35,6 +39,6 @@ class Drawing(Solo48):
         def curve(name,start,*segments):
             self.add_bezier(name,start,*segments)
 
-        path('wax',(10,8),[(38,8),((44,14),6,6,True),((38,20),6,6,True),(30,20),(30,28),((22,28),4,4,True),(22,20),(14,20),(14,24),((6,24),4,4,True),(6,20),(4,20),(4,14),((10,8),6,6,True)],True)
-        path('pot',(6,28),[(6,34),((12,40),6,6,False),(34,40),((40,34),6,6,False),(40,20)])
+        path('wax',(6,14),[((14,6),8,8,True),(34,6),((42,14),8,8,True),((38,18),4,4,True),(30,18),(30,30),((22,30),4,4,True),(22,18),(14,18),(14,24),((6,24),4,4,True),(6,14)],True)
+        path('pot',(6,24),[(6,34),((14,42),8,8,False),(34,42),((42,34),8,8,False),(42,14)])
         self.relate('connect','pot','wax')

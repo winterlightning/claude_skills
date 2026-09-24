@@ -1,44 +1,45 @@
-"Person with native headband.\nSymbol plan: Single headband seam and feather; continuous profile neck.\nConstruction: human_ref/full_body_ref.png: circular heads and coherent limbs; Lucide object construction where relevant.\nKeyshape VRECT_L: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+"""native. Revision: Smooth circular crown and curved jaw, replace stepped nose with a sloping profile, and shape the hanging feather. Retain one band seam; omit facial marks.
+Construction: Shared human_ref/user.svg and full_body_ref.png: round head vocabulary; source has continuous profile neck, no detached head gap. Preserve source-facing direction and arrangement.
+Keyshape VRECT_L; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bb78ee6e-23ad-48c2-bee5-8f71980f418f'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_28/native_bb78ee6e-23ad-48c2-bee5-8f71980f418f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='profile-feathered-headband'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('native',)
 
-class BatchIcon(Solo48):
-    icon_id = 'profile-feathered-headband'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('profile', 'headband', 'feather', 'head', 'person', 'portrait')
     def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        arc('crown',(16,16),(40,16),12)
-        poly('profile',(40,16),(40,25),(34,25),(34,34),(26,34),(26,44))
-        poly('back',(16,16),(16,30),(18,34),(18,44))
-        line('band',(16,16),(40,16))
-        bez('feather',(8,36),((8,25),(8,19),(16,16)),((19,26),(13,34),(8,36)))
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
 
-        # Declare only real, shared endpoints as automatic contacts.
+        path('head',(18,44),[('L',(18,34)),('C',(16,26),(18,31),(16,30)),('L',(16,14)),('A',(36,14),10,10,True),('L',(36,20)),('L',(40,25)),('L',(35,26)),('L',(35,31)),('A',(29,37),6,6,True),('L',(27,37)),('L',(27,44))])
+        line('band',(16,14),(36,14))
+        path('feather',(16,14),[('C',(8,36),(8,21),(8,29)),('C',(16,26),(14,35),(16,31)),('L',(16,14))],True)
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
         for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
             for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

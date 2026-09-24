@@ -1,46 +1,49 @@
-"""Replace tall pointed ears with smaller rounded Bengal-style ear tips. Applied to the original icon identity."""
+"""Bengal cat face with tall rounded ears, soft cheeks and tapered chin; mirror one side to avoid uneven jaws.
+Construction: Lucide cat: coherent mirrored ear/cheek outline.
+Omissions: No added eyes; reference has only the small nose/mouth mark.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7702e4e2-e41d-5abb-87f2-54692461fd5d'
 SOURCE_PATH = 'pictographic-primitives/pets/bengal_7702e4e2-e41d-5abb-87f2-54692461fd5d.svg'
 AUTHOR = 'gpt-6'
 
-class BengalCatFace(Solo48):
+class Drawing(Solo48):
     icon_id = 'bengal-cat-face'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/pets'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/pets"
     aliases = ()
-    keywords = ('cat', 'bengal', 'face', 'breed', 'feline', 'pet', 'ears')
+    keywords = ('bengal',)
 
     def build(self):
-        """Symbol plan: Replace tall pointed ears with smaller rounded Bengal-style ear tips. Reference: Lucide cat: mirrored ears and rounded jaw."""
+        # Symbol plan: Bengal cat face with tall rounded ears, soft cheeks and tapered chin; mirror one side to avoid uneven jaws.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        self.mirror('head',(24,16),[('C',(31,17),(27,16),(29,16)),('C',(39,6),(35,12),(37,6)),('C',(42,10),(41,6),(42,7)),('C',(39,25),(42,15),(40,21)),('C',(34,35),(42,30),(39,33)),('C',(24,42),(31,39),(29,42))])
+        p('mouth',(21,30),[('L',(24,27)),('L',(27,30))])
+        line('nose',(24,25),(24,27));join('nose','mouth')
 
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for i, c in enumerate(commands):
-                kind, end, *args = c
-                name = f'{n}-{i}'
-                if kind == 'L':
-                    self.add_line(name, here, end)
-                elif kind == 'A':
-                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C':
-                    self.add_bezier(name, here, (args[0], args[1], end))
-                members.append(name)
-                here = end
-            self.add_contour(n, *members, closed=closed)
-
-        def oval(n, x, y, rx, ry):
-            path(n, (x - rx, y), [('A', (x + rx, y), rx, ry, True), ('A', (x - rx, y), rx, ry, True)], True)
-
-        def box(n, l, t, r, b, rad=4):
-            path(n, (l + rad, t), [('L', (r - rad, t)), ('A', (r, t + rad), rad, rad, True), ('L', (r, b - rad)), ('A', (r - rad, b), rad, rad, True), ('L', (l + rad, b)), ('A', (l, b - rad), rad, rad, True), ('L', (l, t + rad)), ('A', (l + rad, t), rad, rad, True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        dot = self.add_dot
-        join = lambda a, b: self.relate('connect', a, b)
-        path('head', (6, 24), [('L', (6, 10)), ('C', (12, 6), (6, 6), (9, 6)), ('L', (18, 14)), ('L', (30, 14)), ('L', (36, 6)), ('C', (42, 10), (39, 6), (42, 6)), ('L', (42, 24)), ('A', (24, 42), 18, 18, True), ('A', (6, 24), 18, 18, True)], True)
-        poly('nose', (21, 29), (24, 32), (27, 29))
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

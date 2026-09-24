@@ -1,48 +1,39 @@
-'Water Hovercraft Transport Vehicle.\nPlan: Hovercraft skirt below a low cabin and curved aft fan guard. Bounds4,10..44,38.\nConstruction reference: No useful exact local Lucide match; geometric arcs and coherent contours preserve the supplied subject.\nReduction: Reduce cabin glazing and second hull seam; preserve skirt, central cabin and aft fan housing.\nKeyshape: HRECT_M; use exact SOLO48 centerline extremes from the contract.'
+"""Hovercraft with a rounded air cushion, slanted cabin and curved aft fan guard. Roof transition tangent matches slanted windshield.
+Keyshape HRECT_M: exact SOLO48 contract envelope.
+Construction references: No useful local Lucide match; original reference informs construction.
+Omissions: No window glazing or extra skirt seam.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2f516480-e830-48c3-85e6-fd2de22b8bc1'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_23/hovercraft_2f516480-e830-48c3-85e6-fd2de22b8bc1.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'hovercraft'
     keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects'
     aliases = ()
     keywords = ('hovercraft',)
-
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('hull',(4,28),[(44,28),((34,38),10,10,True),(14,38),((4,28),10,10,True)],True)
-        path('cabin',(8,28),[(12,16),((18,10),6,6,True),(24,10),((28,14),4,4,True),(28,28)]);self.relate('connect','hull','cabin')
-        path('fan',(36,28),[(36,20),((44,12),8,8,True),(44,28)]);self.relate('connect','fan','hull')
+        path('hull',(4,28),[('L',(9,28)),('L',(28,28)),('L',(36,28)),('L',(44,28)),('A',(34,38),10,10,True),('L',(14,38)),('A',(4,28),10,10,True)],True)
+        path('cabin',(9,28),[('L',(13,16)),('B',(20,10),(15,10),(16,10)),('L',(24,10)),('A',(28,14),4,4,True),('L',(28,28))])
+        path('fan',(36,28),[('L',(36,22)),('A',(44,14),8,8,True),('L',(44,28))])
+        join('hull','cabin');join('hull','fan')

@@ -1,7 +1,7 @@
-"""Bulb above a battery with a detached U-shaped circuit wire. SQUARE bounds.
-Natural electrical scene, not a badge combination. Lucide lightbulb informs
-pear-shaped bulb contour. Omit filament, minus and small battery step to retain
-clearance; keep all three physical components and source arrangement.
+"""Bulb and battery with a bent connecting wire at right; pear bulb uses one smooth circular cap and tangent shoulders.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction references: Lucide lightbulb: circular cap and smooth shoulder transitions.
+Omissions: Filament and battery polarity omitted because their openings would be too small.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -14,15 +14,25 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'Uncategorized'
-    aliases = ['Light Bulb Electrical Circuit']
-    keywords = ['bulb','battery','circuit','wire','electricity','science']
+    aliases = ()
+    keywords = ('science', 'electricity')
     def build(self):
-        self.add_bezier('bulb-left',(12,26),((12,20),(6,22),(6,16)),((6,10),(10,6),(16,6)))
-        self.add_bezier('bulb-right',(16,6),((22,6),(26,10),(26,16)),((26,22),(20,20),(20,26)))
-        self.add_line('bulb-base',(20,26),(12,26))
-        self.add_contour('bulb','bulb-left','bulb-right','bulb-base',closed=True)
-        self.add_polyline('battery',(6,34),(27,34),(27,42),(6,42),closed=True)
-        self.add_bezier('wire',(36,16),((42,16),(42,18),(42,22)))
-        self.add_line('wire-right',(42,22),(42,36))
-        self.add_arc('wire-turn',(42,36),(36,42),radius_x=6)
-        self.add_contour('circuit-wire','wire','wire-right','wire-turn')
+
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        path('bulb',(12,26),[('B',(6,16),(12,21),(6,23)),('A',(26,16),10,10,True),('B',(20,26),(26,23),(20,21)),('L',(12,26))],True)
+        poly('battery',(6,34),(27,34),(27,42),(6,42),closed=True)
+        path('wire',(36,16),[('A',(42,22),6,6,True),('L',(42,36)),('A',(36,42),6,6,True)])

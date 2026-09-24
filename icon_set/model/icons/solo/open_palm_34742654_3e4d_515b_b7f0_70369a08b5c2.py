@@ -1,39 +1,44 @@
-'An upright hand displays four long rounded fingers and a thumb angled to the right. Short interior divisions separate the fingers above a broad smoothly rounded palm.\n\nConstruction: Four rounded fingertips with shared eight-unit spacing and an outward thumb. Finger creases reduced to three straight seams; clapping reference reduced to its dominant raised hand. Bounds (6,6)-(42,42).\nLucide: hand: rounded fingertip arches and broad palm.'
+'Stop palm: four rounded fingers and outward right thumb; shared radius4 and pitch8, smoothly curved lower palm.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '34742654-3e4d-515b-b7f0-70369a08b5c2'
 SOURCE_PATH = 'pictographic-primitives/wayfinding/hand stop_34742654-3e4d-515b-b7f0-70369a08b5c2.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide hand: four finger seams and round fingertips; source reversed thumb.'
+OMISSIONS = 'None'
 
-class OpenPalm(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'open-palm'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/wayfinding'
     aliases = ()
-    keywords = ('hand', 'palm', 'stop', 'fingers', 'open', 'gesture')
-
+    keywords = ('hand', 'stop')
     def build(self):
-        # Exact shared contact nodes; continuous shapes remain coherent contours.
-        self.add_line('little-side', (6, 26), (6, 20))
-        self.add_arc('little-tip', (6, 20), (14, 20), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('ring-side', (14, 20), (14, 14))
-        self.add_arc('ring-tip', (14, 14), (22, 14), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('middle-side', (22, 14), (22, 10))
-        self.add_arc('middle-tip', (22, 10), (30, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('index-side', (30, 10), (30, 14))
-        self.add_arc('index-tip', (30, 14), (38, 14), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('thumb-side-1', (38, 14), (38, 23))
-        self.add_line('thumb-side-2', (38, 23), (42, 27))
-        self.add_line('thumb-side-3', (42, 27), (34, 35))
-        self.add_arc('palm-right', (34, 35), (24, 42), radius_x=10, radius_y=7, large_arc=False, sweep=True)
-        self.add_arc('palm-left', (24, 42), (6, 26), radius_x=18, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('finger-seam-14', (14, 20), (14, 26))
-        self.add_line('finger-seam-22', (22, 14), (22, 26))
-        self.add_line('finger-seam-30', (30, 14), (30, 26))
-        self.add_contour('palm', 'little-side', 'little-tip', 'ring-side', 'ring-tip', 'middle-side', 'middle-tip', 'index-side', 'index-tip', 'thumb-side-1', 'thumb-side-2', 'thumb-side-3', 'palm-right', 'palm-left', closed=True)
-        self.relate('connect', 'finger-seam-14', 'palm')
-        self.relate('connect', 'finger-seam-22', 'palm')
-        self.relate('connect', 'finger-seam-30', 'palm')
+        class Mirror:
+            def __init__(s,icon):s.icon=icon
+            def add_line(s,n,a,b):s.icon.add_line(n,(48-a[0],a[1]),(48-b[0],b[1]))
+            def add_arc(s,n,a,b,**kw):
+                kw['sweep']=not kw.get('sweep',True);s.icon.add_arc(n,(48-a[0],a[1]),(48-b[0],b[1]),**kw)
+            def add_bezier(s,n,a,c):s.icon.add_bezier(n,(48-a[0],a[1]),tuple((48-p[0],p[1]) for p in c))
+            def add_contour(s,*a,**kw):s.icon.add_contour(*a,**kw)
+            def relate(s,*a):s.icon.relate(*a)
+        s=Mirror(self)
+        
+        path(s,'hand',(12,27),[('L',(12,16)),('A',4,4,True,(20,16)),('L',(20,12)),('A',4,4,True,(28,12)),('L',(28,14)),('A',4,4,True,(36,14)),('L',(36,18)),('A',4,4,True,(44,18)),('L',(44,28)),('A',12,12,True,(32,40)),('L',(23,40)),('C',(15,40),(4,32),(4,27)),('C',(4,22),(10,22),(12,27))],True)
+        for x,y in [(20,16),(28,14),(36,18)]:
+            s.add_line('crease-'+str(x),(x,y),(x,25))
+            s.relate('connect','hand','crease-'+str(x))

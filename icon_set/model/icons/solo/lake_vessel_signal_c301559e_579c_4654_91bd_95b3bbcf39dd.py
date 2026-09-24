@@ -1,39 +1,35 @@
-"""A wide vessel carries two nested signal arcs over water. The crowded rear rim is omitted and water reduces to one smooth wave, as visible in the prepared reference. Source establishes the vessel and signal; no useful exact Lucide match. Shared axes and radii produce balanced curves.
-SOLO48 SQUARE, designed directly against the live contract bounds.
-"""
+"""A broad bowl-shaped vessel under wireless signal arcs above water. SQUARE centerlines (6,6)-(42,42). Shared signal axis and symmetric hull, one smooth wave. Omit crowded rear rim and third signal tier."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID='c301559e-579c-4654-91bd-95b3bbcf39dd'
 SOURCE_PATH='pictographic-primitives/programing/lake formation_c301559e-579c-4654-91bd-95b3bbcf39dd.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'wifi'
+DESIGN_PLAN = 'A broad bowl-shaped vessel under wireless signal arcs above water. SQUARE centerlines (6,6)-(42,42). Shared signal axis and symmetric hull, one smooth wave. Omit crowded rear rim and third signal tier.'
+class Drawing(Solo48):
+    icon_id = 'lake-vessel-signal'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/programming'
+    aliases = ()
+    keywords = ('lake', 'vessel', 'signal')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-class LakeVesselSignal(Solo48):
-    icon_id='lake-vessel-signal'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/programming"
-    aliases=()
-    keywords=('lake', 'water', 'vessel', 'signal', 'data', 'formation', 'waves', 'boat')
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
 
-    def build(self) -> None:
-        def ring(name,x,y,r):
-            points=((x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r))
-            members=[]
-            for i,(a,b) in enumerate(zip(points,points[1:])):
-                member=f'{name}-{i}'
-                self.add_arc(member,a,b,radius_x=r)
-                members.append(member)
-            self.add_contour(name,*members,closed=True)
 
-        def join(*names):
-            from itertools import combinations
-            for a,b in combinations(names,2): self.relate('connect',a,b)
-
-        self.add_arc('signal-outer',(14,12),(34,12),radius_x=10,radius_y=6)
-        self.add_arc('signal-inner',(21,18),(27,18),radius_x=3)
-        self.add_arc('vessel',(42,20),(6,20),radius_x=18,radius_y=8)
-        self.add_arc('water-left',(8,40),(24,40),radius_x=17,sweep=False)
-        self.add_arc('water-right',(24,40),(40,40),radius_x=17)
-        self.add_contour('water','water-left','water-right')
+    def build(self):
+        self.path('signal-outer',(13,10),[('C',(24,6),(16,7),(20,6)),('C',(35,10),(28,6),(32,7))])
+        self.path('signal-inner',(21,18),[('C',(27,18),(23,16),(25,16))])
+        self.path('vessel',(6,23),[('C',(24,30),(6,28),(14,30)),('C',(42,23),(34,30),(42,28))])
+        self.path('water',(6,40),[('C',(15,42),(9,40),(11,42)),('C',(24,40),(19,42),(21,40)),('C',(33,38),(27,40),(29,38)),('C',(42,40),(37,38),(39,40))])

@@ -1,40 +1,35 @@
-"""Diagonal 3D pen and filament. Broad cap, tapered lower barrel, integral filament; tiny button and separate nib seam omitted for clarity."""
+'Diagonal 3D printing pen with narrow working tip and flowing filament. Bounds6,6 to42,42.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b550ace6-3955-57c6-a1be-ca749e2c6fcd'
 SOURCE_PATH = 'pictographic-primitives/technology/3d pen_b550ace6-3955-57c6-a1be-ca749e2c6fcd.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide pen: diagonal barrel and short nib; source filament curl.'
+OMISSIONS = 'Small barrel button omitted for clearance.'
 
-class Pen3DPrinting(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'pen-3d-printing'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/technology'
     aliases = ()
-    keywords = ('3d-pen', 'pen', '3d-printing', 'drawing', 'filament', 'craft', 'maker')
-
+    keywords = ('3d', 'pen')
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
-        def connect(a,b): self.relate("connect",a,b)
-        def circle(n,x,y,r):
-            arc(n+'a',(x,y-r),(x,y+r),r)
-            arc(n+'b',(x,y+r),(x,y-r),r)
-            contour(n,n+'a',n+'b',closed=True)
-        def box(n,l,t,r,b,rad=4):
-            line(n+'t',(l+rad,t),(r-rad,t)); arc(n+'tr',(r-rad,t),(r,t+rad),rad)
-            line(n+'r',(r,t+rad),(r,b-rad)); arc(n+'br',(r,b-rad),(r-rad,b),rad)
-            line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
-            line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
-            contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-        arc('cap',(26,8),(38,24),10)
-        barrel_points = ((38,24),(22,36),(14,30),(16,20),(26,8))
-        for i,(a,b) in enumerate(zip(barrel_points,barrel_points[1:]),1): line(f'barrel-{i}',a,b)
-        contour('pen','cap','barrel-1','barrel-2','barrel-3','barrel-4',closed=True)
-        arc('filament-a',(14,30),(6,38),8,sweep=False)
-        arc('filament-b',(6,38),(10,42),4,sweep=False)
-        line('tail',(10,42),(18,42))
-        contour('strand','filament-a','filament-b','tail');connect('strand','pen')
+        path(self,'pen',(17,26),[('L',(30,9)),('C',(32,7),(34,6),(36,6)),('A',6,6,True,(42,12)),('C',(42,15),(41,17),(40,19)),('L',(24,32)),('L',(17,26))],True)
+        path(self,'nib',(17,26),[('L',(13,31)),('L',(17,35)),('L',(24,32))])
+        self.relate('connect','pen','nib')
+        path(self,'filament',(13,31),[('C',(9,33),(6,35),(6,38)),('A',4,4,False,(10,42)),('L',(17,42))])
+        self.relate('connect','filament','nib')

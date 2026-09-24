@@ -1,42 +1,46 @@
-'Motorhome with Overcab Roof.\nSymbol plan: A motorhome faces right with a high cabin roof extending above the windshield. A large side window and separate cab window sit over two round wheels and a plain body.\nConstruction: Lucide caravan: broad body, cabin window and two wheels.\nReduction: Cab window is open under the overcab roof; omit thin door seams.\nKeyshape HRECT_L: ink extremes (2, 6, 46, 42).'
+"""camper. Revision: Smooth overcab roof and front cab, enlarge round wheels and use a single window mark. Omit tight door and second window.
+Construction: Lucide truck: body arcs, shared chassis and circular wheels. Preserve source-facing direction and arrangement.
+Keyshape HRECT_L; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd86d46d5-367a-4ef9-b622-6b5791529dc1'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_09/camper_d86d46d5-367a-4ef9-b622-6b5791529dc1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='motorhome-with-overcab-roof-d86d46d5'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('camper',)
 
-class BatchIcon(Solo48):
-    icon_id = 'motorhome-with-overcab-roof-d86d46d5'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('motorhome', 'camper', 'rv', 'vehicle', 'travel', 'windows', 'wheels')
     def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        poly('roof',(4,35),(4,8),(38,8),(38,16),(34,16),(42,24),(44,24))
-        line('floor',(14,35),(30,35));circle('rear-wheel',9,35,5);circle('front-wheel',35,35,5)
-        rect('window',17,16,8,8)
-        self.relate('connect','rear-wheel','roof');self.relate('connect','rear-wheel','floor');self.relate('connect','front-wheel','floor')
-        # Only genuine shared endpoints are automatically declared as contacts.
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
+
+        circle('rear-wheel',11,34,6);circle('front-wheel',37,34,6)
+        path('body',(5,34),[('L',(4,14)),('A',(10,8),6,6,True),('L',(34,8)),('A',(40,16),6,8,True),('L',(32,16)),('L',(44,26)),('L',(44,32)),('L',(43,34))])
+        line('sill',(17,34),(31,34))
+        line('window',(13,18),(22,18))
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
         for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
             for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

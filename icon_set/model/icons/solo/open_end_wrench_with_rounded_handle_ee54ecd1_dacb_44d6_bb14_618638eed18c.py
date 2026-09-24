@@ -1,46 +1,43 @@
-'Open End Wrench with Rounded Handle.\nSymbol plan: A wrench angles toward the upper right with a broad open jaw and a long narrow handle. The jaw has curved outer shoulders, while the lower handle ends in a rounded cap.\nConstruction: Lucide wrench: open jaw integrated with a rounded diagonal handle.\nReduction: Retain the source parts and arrangement.\nKeyshape SQUARE: ink extremes (4, 4, 44, 44).'
+"""maintenance tool. Revision: Restore upright diagonal wrench with parallel handle sides and a rounded heel; round the internal jaw. Omit no defining feature.
+Construction: Lucide wrench: round jaw, parallel shaft and semicircular heel. Preserve source-facing direction and arrangement.
+Keyshape VRECT_L; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ee54ecd1-dacb-44d6-bb14-618638eed18c'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_26/maintenance tool_ee54ecd1-dacb-44d6-bb14-618638eed18c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='open-end-wrench-with-rounded-handle'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('maintenance', 'tool')
 
-class BatchIcon(Solo48):
-    icon_id = 'open-end-wrench-with-rounded-handle'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('wrench', 'spanner', 'tool', 'jaw', 'handle', 'repair', 'mechanical')
     def build(self):
-
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        bez('heel',(8,30),((6,32),(6,34),(6,36)),((6,40),(8,42),(12,42)),((14,42),(16,40),(18,38)))
-        line('handle-right',(18,38),(29,25))
-        bez('outer-right',(29,25),((38,28),(42,20),(42,15)),((42,12),(41,8),(40,6)))
-        poly('mouth',(40,6),(30,18),(22,12),(30,6))
-        bez('outer-left',(30,6),((18,6),(16,12),(16,17)),((16,20),(18,22),(19,23)))
-        line('handle-left',(19,23),(8,30))
-        con('wrench','heel','handle-right','outer-right','mouth-1','mouth-2','mouth-3','outer-left','handle-left',closed=True)
-        # Only genuine shared endpoints are automatically declared as contacts.
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
+
+        path('wrench',(10,34),[('L',(20,21)),('C',(16,14),(17,19),(16,17)),('C',(29,4),(16,7),(22,4)),('L',(24,12)),('A',(25,16),3,3,False),('L',(29,19)),('A',(33,18),3,3,False),('L',(39,9)),('C',(40,17),(40,11),(40,14)),('C',(35,27),(40,21),(39,24)),('C',(29,29),(33,29),(31,29)),('L',(20,42)),('C',(14,44),(18,44),(16,44)),('A',(8,38),6,6,True),('C',(10,34),(8,36),(9,35))],True)
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
         for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
             for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

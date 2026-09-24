@@ -1,43 +1,41 @@
-'oval-stadium-with-two-flags: Wide elliptical stadium with an inner playing area, curved front wall and two compact rectangular flags. Original redrawn in place after the nine-icon meaning review.'
+"""Oval stadium bowl with a broad opening and two raised flags.
+Symbol plan: shared parameters and coherent contours.
+Construction: No useful exact Lucide match; shared elliptical bowl and repeated flags.
+Omissions: Inner field arc omitted because an additional nested opening cannot fit with 8-unit centerline spacing.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2bedb9d2-a20f-5959-916c-51b7841e2d87'
 SOURCE_PATH = 'pictographic-primitives/building/stadium classic_2bedb9d2-a20f-5959-916c-51b7841e2d87.svg'
-AUTHOR = 'gpt-6'
-SOURCE_REFERENCES = (('2bedb9d2-a20f-5959-916c-51b7841e2d87', 'pictographic-primitives/building/stadium classic_2bedb9d2-a20f-5959-916c-51b7841e2d87.svg'),)
+AUTHOR='gpt-6'
 
-class OvalStadiumWithTwoFlags(Solo48):
-    icon_id = 'oval-stadium-with-two-flags'
-    keyshape = Keyshape.FREE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'building'
-    aliases = ()
-    keywords = ('oval', 'stadium', 'with', 'two', 'flags')
+class Drawing(Solo48):
+    icon_id='oval-stadium-with-two-flags'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="building"
+    aliases=()
+    keywords=('oval', 'stadium', 'with', 'two', 'flags')
+
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
 
     def build(self):
-        # Symbol plan: Wide elliptical stadium with an inner playing area, curved front wall and two compact rectangular flags.
-
-        def path(name,start,commands,closed=False):
-            members=[];here=start
-            for i,(kind,end,*args) in enumerate(commands):
-                ident=f'{name}-{i}'
-                if kind=='L': self.add_line(ident,here,end)
-                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
-                members.append(ident);here=end
-            self.add_contour(name,*members,closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r): ellipse(name,x,y,r,r)
-        def rounded(name,x0,y0,x1,y1,r):
-            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
-        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
-        join=lambda a,b:self.relate('connect',a,b)
-        path('rim',(4,27),[('C',(20,18),(4,21),(12,18)),('L',(28,18)),('C',(36,20),(31,18),(34,19)),('C',(44,27),(41,22),(44,24)),('C',(39,33),(44,30),(42,32)),('C',(24,36),(35,35),(29,36)),('C',(9,33),(19,36),(13,35)),('C',(4,27),(6,32),(4,30))],True)
-        path('field',(9,33),[('C',(24,26),(12,28),(18,26)),('C',(39,33),(30,26),(36,28))]);join('field','rim')
-        path('wall',(4,27),[('L',(6,38)),('C',(24,46),(7,44),(16,46)),('C',(42,38),(32,46),(41,44)),('L',(44,27))]);join('rim','wall')
-        for i,(x,y) in enumerate([(4, 27), (36, 20)]):
-         poly('flag-'+str(i),(x,2),(x+8,2),(x+8,10),(x,10),closed=True)
-         line('pole-'+str(i),(x,10),(x,y));join('pole-'+str(i),'flag-'+str(i));join('pole-'+str(i),'rim')
+        # Capsule rim and elliptical wall retain an open bowl; poles end on explicit rim nodes.
+        self.path('rim',(12,21),[('L',(34,21)),('L',(36,21)),('A',(42,27),6,6,True),('A',(36,33),6,6,True),('L',(12,33)),('A',(6,27),6,6,True),('A',(12,21),6,6,True)],True)
+        self.path('wall',(6,27),[('L',(6,35)),('A',(42,35),18,7,False),('L',(42,27))])
+        self.relate('connect','wall','rim')
+        for i,x in enumerate([12,34]):
+            self.add_polyline('flag-'+str(i),(x,6),(x+8,10),(x,14),closed=True)
+            self.add_line('pole-'+str(i),(x,14),(x,21))
+            self.relate('connect','pole-'+str(i),'flag-'+str(i));self.relate('connect','pole-'+str(i),'rim')

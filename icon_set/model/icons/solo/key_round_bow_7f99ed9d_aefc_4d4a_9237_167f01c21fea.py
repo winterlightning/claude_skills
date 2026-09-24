@@ -1,39 +1,33 @@
-"""Diagonal key with round lower-left bow and ring hole. Lucide key-round informs a single bow-and-shaft outline; source lacks teeth so none added.
-
-SOLO48 SQUARE; live visible envelope (4, 4, 44, 44).
-"""
+"""One round lower-left bow and a toothless diagonal shaft; SQUARE centerlines (6,6)-(42,42). Shaft edges are parallel with a broad opening. Preserve the round hole where present; omit the blank reference stray dot."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID='7f99ed9d-aefc-4d4a-9237-167f01c21fea'
 SOURCE_PATH='pictographic-primitives/symbol/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'key-round'
+DESIGN_PLAN = 'One round lower-left bow and a toothless diagonal shaft; SQUARE centerlines (6,6)-(42,42). Shaft edges are parallel with a broad opening. Preserve the round hole where present; omit the blank reference stray dot.'
+class Drawing(Solo48):
+    icon_id = 'key-round-bow'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/symbols'
+    aliases = ()
+    keywords = ('key', 'round', 'bow')
 
-class KeyRoundBow(Solo48):
-    icon_id='key-round-bow'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/symbols"
-    aliases=()
-    keywords = ('key', 'access', 'unlock', 'password', 'security', 'lock', 'login', 'privacy', 'sub icon')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-    def oval(self,n,cx,cy,rx,ry=None):
-        ry=rx if ry is None else ry
-        self.add_arc(n+'-top',(cx-rx,cy),(cx+rx,cy),radius_x=rx,radius_y=ry)
-        self.add_arc(n+'-bottom',(cx+rx,cy),(cx-rx,cy),radius_x=rx,radius_y=ry)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,points,closed=False):
-        self.add_polyline(n,*points,closed=closed)
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
 
     def build(self):
-
-        self.add_arc('bow',(30,30),(18,18),radius_x=12,large_arc=True)
-        self.path('shaft',[(18,18),(30,6),(42,6),(42,18),(30,30)])
-        self.relate('connect','bow','shaft')
-        self.oval('hole',18,30,3)
-
-
-# Reviewed source-equivalent container sub-icon references.
-SOURCE_REFERENCES = [('8d4e51db-4d2a-4285-a400-fd2f7b20a987', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/video-games/batch-05/key_8d4e51db-4d2a-4285-a400-fd2f7b20a987.svg')]
+        self.path('outline',(32,29),[('A',(6,29),13,13,True),('A',(19,16),13,13,True),('C',(25,17),(21,16),(23,16)),('L',(36,6)),('L',(42,6)),('L',(42,12)),('L',(31,23)),('C',(32,29),(32,25),(32,27))],True)
+        self.circle('hole',19,29,4)

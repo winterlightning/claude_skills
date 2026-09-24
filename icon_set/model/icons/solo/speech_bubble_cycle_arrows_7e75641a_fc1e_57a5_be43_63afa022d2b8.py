@@ -1,41 +1,36 @@
-"""A rounded rectangular speech bubble with a tail at its lower left, its outline broken into two arrows: a downward arrow on the left side and an upward arrow on the right, circling the bubble anticlockwise."""
+"""A rectangular conversation bubble formed by two alternating perimeter arrows. Restores long top edge, rounded corners, and lower-left speech tail. Bounds (6,6)-(42,42).
+Construction reference: Lucide message-square and refresh-ccw: rounded bubble perimeter and shared arrow tips.
+Omissions: None."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7e75641a-fc1e-57a5-be43-63afa022d2b8'
 SOURCE_PATH = 'pictographic-primitives/messages/discussion converstion_7e75641a-fc1e-57a5-be43-63afa022d2b8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR="gpt-6"
 
-class MessageIcon(Solo48):
-    icon_id = 'speech-bubble-cycle-arrows'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/messages'
-    aliases = ()
-    keywords = ('conversation', 'discussion', 'speech-bubble', 'arrows', 'exchange', 'chat', 'message')
-
+class Drawing(Solo48):
+    icon_id='speech-bubble-cycle-arrows'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/messages"
+    aliases=()
+    keywords=('discussion', 'converstion')
     def build(self):
-        # Lucide original and atomic-debug references: message-square, refresh-ccw.
-        # Contours own continuous strokes; corner radii and attachment points are shared.
+
         def path(name,start,commands,closed=False):
-            here,members=start,[]
+            here=start; members=[]
             for i,(kind,end,*args) in enumerate(commands):
-                ident=f"{name}-{i}"
-                if kind=='L':self.add_line(ident,here,end)
-                else:
-                    rx,ry,sweep=args
-                    self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
-                here=end
-                members.append(ident)
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
             self.add_contour(name,*members,closed=closed)
-        radius = 8
-        # HRECT_L extremes (4,8)-(44,40): two open perimeter strokes and two attached arrowheads.
-        # Down on the left, up on the right. Arrow tips are shared contour endpoints.
-        down_tip,up_tip=(12,28),(36,16)
-        path('upper-outline',(32,8),[('L',(20,8)),('A',(12,16),radius,radius,False),('L',down_tip)])
-        path('lower-outline',(12,38),[('L',(12,40)),('L',(24,36)),('L',(28,36)),('A',(36,28),radius,radius,False),('L',up_tip)])
-        wing = 8
-        self.add_polyline('down-head',(down_tip[0]-wing,down_tip[1]-wing),down_tip,(down_tip[0]+wing,down_tip[1]-wing))
-        self.add_polyline('up-head',(up_tip[0]-wing,up_tip[1]+wing),up_tip,(up_tip[0]+wing,up_tip[1]+wing))
-        self.relate('connect','upper-outline','down-head')
-        self.relate('connect','lower-outline','up-head')
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('upper',(38,12),[('L',(38,10)),('A',(34,6),4,4,False),('L',(16,6)),('A',(12,10),4,4,False),('L',(12,24))])
+        poly('down-head',(6,18),(12,24),(18,18));join('upper','down-head')
+        path('lower',(12,34),[('L',(12,42)),('L',(24,36)),('L',(32,36)),('A',(36,32),4,4,False),('L',(36,22))])
+        poly('up-head',(30,28),(36,22),(42,28));join('lower','up-head')

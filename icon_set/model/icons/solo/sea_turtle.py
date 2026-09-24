@@ -1,45 +1,40 @@
-# Review candidate; original preserved.
-"""A sea turtle from above with an oval shell and four sweeping flippers."""
+"""Top-view sea turtle with an elongated head, divided shell and four swept flippers. Shared mirror axis x24 and equal limb curves. SQUARE centerlines (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1adaf0a7-6662-4745-959f-fe860dd47485'
 SOURCE_PATH = 'pictographic-primitives/animals/turtle_1adaf0a7-6662-4745-959f-fe860dd47485.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='turtle: shell with attached limbs; source owns the top view'
+DESIGN_PLAN='Top-view sea turtle with an elongated head, divided shell and four swept flippers. Shared mirror axis x24 and equal limb curves. SQUARE centerlines (6,6)-(42,42).'
+OMISSIONS='None; fine shell pattern reduced to the source central seam.'
+class Drawing(Solo48):
+    icon_id='sea-turtle'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='nature/animals'
+    aliases=()
+    keywords=('sea', 'turtle')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-class SeaTurtle(Solo48):
-    icon_id = 'sea-turtle'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'nature/animals'
-    aliases = ()
-    keywords = ('turtle', 'tortoise', 'sea turtle', 'shell', 'flippers', 'marine', 'ocean', 'reptile')
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
 
-    def build(self) -> None:
-        """Opening repair: Round head and broader mirrored front flippers replace thin lens-shaped pockets."""
-        self.add_arc('shell-top-right', (24, 14), (34, 20), radius_x=10, radius_y=6)
-        self.add_line('shell-right-upper', (34, 20), (34, 28))
-        self.add_line('shell-right-lower', (34, 28), (34, 32))
-        self.add_arc('shell-bottom-right', (34, 32), (24, 40), radius_x=10, radius_y=8)
-        self.add_arc('shell-bottom-left', (24, 40), (14, 32), radius_x=10, radius_y=8)
-        self.add_line('shell-left-lower', (14, 32), (14, 28))
-        self.add_line('shell-left-upper', (14, 28), (14, 20))
-        self.add_arc('shell-top-left', (14, 20), (24, 14), radius_x=10, radius_y=6)
-        self.add_contour('shell', 'shell-top-right', 'shell-right-upper', 'shell-right-lower', 'shell-bottom-right', 'shell-bottom-left', 'shell-left-lower', 'shell-left-upper', 'shell-top-left', closed=True)
-        self.add_line('shell-seam', (24, 14), (24, 40))
-        self.relate('connect', 'shell', 'shell-seam')
-        self.add_arc('head-left', (24, 14), (24, 6), radius_x=4, radius_y=4)
-        self.add_arc('head-right', (24, 6), (24, 14), radius_x=4, radius_y=4)
-        self.add_contour('head', 'head-left', 'head-right', closed=True)
-        self.relate('connect', 'head', 'shell')
-        self.relate('connect', 'head', 'shell-seam')
-        for side, flip in (('left', False), ('right', True)):
 
-            def p(x, y):
-                return (48 - x, y) if flip else (x, y)
-            self.add_arc(side + '-front-upper', p(14, 20), p(6, 28), radius_x=8, sweep=flip)
-            self.add_line(side + '-front-lower', p(6, 28), p(14, 28))
-            self.add_contour(side + '-front', side + '-front-upper', side + '-front-lower')
-            self.relate('connect', side + '-front', 'shell')
-            self.add_arc(side + '-rear', p(14, 32), p(12, 42), radius_x=12, sweep=flip)
-            self.relate('connect', side + '-rear', 'shell')
+
+    def build(self):
+        self.path('shell',(24,16),[('C',(16,20),(20,16),(16,17)),('L',(16,24)),('L',(16,32)),('C',(20,38),(16,35),(18,37)),('C',(24,40),(21,39),(22,40)),('C',(28,38),(26,40),(27,39)),('C',(32,32),(30,37),(32,35)),('L',(32,24)),('L',(32,20)),('C',(24,16),(32,17),(28,16))],True)
+        self.path('head',(24,16),[('C',(20,10),(20,14),(20,12)),('C',(24,6),(20,8),(22,6)),('C',(28,10),(26,6),(28,8)),('C',(24,16),(28,12),(28,14))],True);self.relate('connect','head','shell')
+        self.add_line('seam',(24,16),(24,40));self.relate('connect','seam','shell');self.relate('connect','seam','head')
+        for side in (-1,1):
+            p=lambda x,y:(24+side*(x-24),y)
+            self.path(f'front-{side}',p(16,20),[('C',p(6,26),p(12,15),p(6,21)),('C',p(16,24),p(10,27),p(12,26))]);self.relate('connect',f'front-{side}','shell')
+            self.path(f'rear-{side}',p(16,32),[('C',p(12,42),p(12,35),p(10,39)),('C',p(20,38),p(16,42),p(18,41))]);self.relate('connect',f'rear-{side}','shell')

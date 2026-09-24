@@ -1,42 +1,37 @@
-'Simple Cargo Trailer.\nPlan and review: Retained blank cargo trailer, rounded roof and two equal wheels. Opened underside at wheel joins. No hitch or cab invented.\nKeyshape: HRECT_L, exact SOLO48 envelope.\nConstruction reference: Lucide truck: equal wheels and blank cargo body; no cab/hitch invented.'
+"""Restore a broad rounded cargo body with a level base and full-sized equal wheels.
+Construction: Lucide caravan: rounded cargo roof and separate circular wheels.
+Omissions: None
+Keyshape HRECT_L: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4e3da0fe-15bd-4ec1-862f-98dbf14eed50'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_38/transporter 7_4e3da0fe-15bd-4ec1-862f-98dbf14eed50.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'cargo-trailer'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
     aliases = ()
     keywords = ('cargo', 'trailer')
-
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        path('body',(8,36),[(4,30),(4,18),((14,8),10,10,True),(34,8),((44,18),10,10,True),(44,30),(40,36)])
-        self.add_line('underside',(16,36),(32,36))
-        for j,x in enumerate((12,36)):
-         circle(f'wheel-{j}',x,36,4)
-         for s in ('body','underside'):self.relate('connect',s,f'wheel-{j}')
+        path('body',(7,35),[('L',(4,35)),('L',(4,20)),('A',(16,8),12,12,True),('L',(32,8)),('A',(44,20),12,12,True),('L',(44,35)),('L',(41,35))])
+        for x in (12,36):circle(f'wheel-{x}',x,35,5);join('body',f'wheel-{x}')
+        line('sill',(17,35),(31,35));join('sill','wheel-12');join('sill','wheel-36')

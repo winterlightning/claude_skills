@@ -1,38 +1,43 @@
-'A right-facing alligator has a long blunt snout, raised eye ridge, and sawtooth bumps along its back. Short legs sit below the low body, and a curled tail turns around the left side.\nPlan: Low alligator with long snout, raised eye, back bumps, legs and curling tail. Exact centerline extremes follow the declared SOLO48 keyshape.\nConstruction reference: No useful direct Lucide match; coherent contours reconstructed from the inspected original.'
+"""alligator. Revision: Low curved snout and curled tail, restrained back ridges, two bent legs. Omit eye dot and mouth line to keep the snout open.
+Construction: No useful direct Lucide match; supplied source silhouette. Preserve source-facing direction and arrangement.
+Keyshape HRECT_M; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '033c9d4f-a0ab-42dc-80b5-4f148935d09a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_02/alligator_033c9d4f-a0ab-42dc-80b5-4f148935d09a.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'low-alligator-in-profile'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    aliases = ()
-    keywords = ('low', 'alligator', 'in', 'profile')
+    icon_id='low-alligator-in-profile'
+    keyshape=Keyshape.HRECT_M
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('alligator',)
 
-    # Repair: Widen the snout to fit a mouth and simplify two near-side legs into one bent leg; preserve the curved tail, sawtooth back and eye ridge.
-    # Repair: Build the eye ridge from two tangent curves sharing its exact top extreme.
     def build(self):
-
-        def path(name,start,steps,closed=False):
-            here=start; members=[]
-            for j,(kind,end,*args) in enumerate(steps):
-                member=f'{name}-{j}'
-                if kind=='L':self.add_line(member,here,end)
-                elif kind=='A':self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C':self.add_bezier(member,here,(args[0],args[1],end))
-                here=end;members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def line(name,a,b):self.add_line(name,a,b)
-        def poly(name,*points):self.add_polyline(name,*points,closed=points[0]==points[-1])
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
         def join(a,b):self.relate('connect',a,b)
 
-        path('animal',(14,40),[('C',(4,26),(6,40),(4,34)),('C',(12,16),(4,20),(8,16)),('L',(16,12)),('L',(20,16)),('L',(24,12)),('L',(28,16)),('C',(32,8),(28,10),(30,8)),('C',(36,16),(34,8),(36,10)),('L',(44,16)),('L',(44,32)),('L',(34,32)),('L',(36,40)),('L',(28,40)),('L',(24,32)),('L',(16,32))])
-        line('mouth',(36,24),(44,24));join('mouth','animal')
+        path('animal',(14,38),[('C',(4,26),(7,38),(4,33)),('C',(12,16),(4,20),(7,16)),('L',(16,14)),('L',(20,16)),('L',(24,14)),('L',(28,16)),('A',(36,16),4,6,True),('L',(40,16)),('A',(44,20),4,4,True),('A',(40,26),4,6,True),('L',(32,26)),('L',(34,34)),('L',(26,34)),('L',(22,26))])
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

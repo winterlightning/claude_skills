@@ -1,81 +1,36 @@
-"""Butternut Squash Vegetable.
-Plan: Diagonal butternut squash; hooked stem simplified to short horizontal attachment.
-Construction reference: Lucide bottle-wine; independently solved SOLO48 geometry.
-Source copy inspected: work/brief-exports/20260917-all-todo-batches-15/batches/batch-010/references/butternutsquash_0e2a3b90-793a-5161-aa41-5a7e08f9195c.svg
-"""
+"""Restore the squash broad bulb, narrowed neck and a visible curved stem with smooth outline transitions.
+Construction: No useful exact Lucide match; supplied reference controls the silhouette.
+Omissions: None
+Keyshape SQUARE: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0e2a3b90-793a-5161-aa41-5a7e08f9195c'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/food/butternutsquash_0e2a3b90-793a-5161-aa41-5a7e08f9195c.svg'
 AUTHOR = 'gpt-6'
-
-
-class GeneratedSolo(Solo48):
+class Drawing(Solo48):
     icon_id = 'butternut-squash-vegetable-batch-010-11'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/batch-010"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/batch-010'
     aliases = ()
-    keywords = ('butternut', 'squash', 'vegetable')
-
+    keywords = ('butternut', 'squash', 'vegetable', 'batch', '010', '11')
     def build(self):
 
-        def line(name, start, end):
-            self.add_line(name, start, end)
-        def arc(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx, radius_y=ry, sweep=sweep)
-        def curve(name, start, *segments):
-            self.add_bezier(name, start, *segments)
-        def path(name, *points, closed=False):
-            self.add_polyline(name, *points, closed=closed)
-        def circle(name, x, y, r, ry=None):
-            ry = r if ry is None else ry
-            points = [(x-r,y),(x,y-ry),(x+r,y),(x,y+ry)]
-            for j in range(4): arc(f'{name}-{j}',points[j],points[(j+1)%4],r,ry)
-            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                path(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                 (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(f'{name}-{j}',pts[j],pts[(j+1)%8],r)
-                else: line(f'{name}-{j}',pts[j],pts[(j+1)%8])
-            self.add_contour(name,*(f'{name}-{j}' for j in range(8)),closed=True)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        curve('squash',(18,42),((11,42),(6,37),(6,30)),((6,22),(17,20),(23,14)),((27,10),(28,6),(34,6)),((39,6),(42,10),(42,15)),((42,22),(34,25),(31,30)),((26,35),(27,42),(18,42)))
-        line('stem',(34,6),(39,6))
-
-        # Connect only actual shared endpoints, including contour junctions.
-        # Split receiving straight runs at attachment nodes to preserve topology.
-        from ...primitives import Line, Point
-        endpoints = {p.start for p in self.primitives} | {p.end for p in self.primitives}
-        replacements = {}
-        rebuilt = []
-        for primitive in self.primitives:
-            if isinstance(primitive, Line) and primitive.start != primitive.end:
-                a, b = primitive.start, primitive.end
-                dx, dy = b.x-a.x, b.y-a.y
-                cuts = [q for q in endpoints if q not in (a,b)
-                        and (q.x-a.x)*dy == (q.y-a.y)*dx
-                        and 0 < (q.x-a.x)*dx+(q.y-a.y)*dy < dx*dx+dy*dy]
-                if cuts:
-                    nodes = [a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
-                    ids=[]
-                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
-                        ident=f'{primitive.element_id}-join-{j}'
-                        rebuilt.append(Line(ident,u,v)); ids.append(ident)
-                    replacements[primitive.element_id]=ids
-                    continue
-            rebuilt.append(primitive)
-        if replacements:
-            from dataclasses import replace
-            self.primitives[:] = rebuilt
-            self.contours[:] = [replace(c, members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]
-        for i, a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end} & {b.start,b.end}:
-                    self.relate('connect',a.element_id,b.element_id)
+        path('fruit',(18,42),[('C',(6,29),(11,42),(6,37)),('C',(20,17),(6,22),(14,21)),('C',(31,10),(25,13),(26,10)),('C',(42,19),(38,10),(42,12)),('C',(32,32),(42,24),(36,27)),('C',(18,42),(28,38),(27,42))],True)
+        path('stem',(31,10),[('C',(34,6),(34,10),(35,8))]);join('stem','fruit')

@@ -1,28 +1,40 @@
+"""Revision for bad-stroke feedback. Lucide refresh-cw: two smooth rotational arcs with open right-angle heads.
+Omissions: None; diagonal opposing arrow arrangement retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3012b212-ec5f-487b-935e-c18701a8601b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/arrows spin_3012b212-ec5f-487b-935e-c18701a8601b.svg'
 AUTHOR = 'gpt-6'
-EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/references/arrows spin_3012b212-ec5f-487b-935e-c18701a8601b.svg'
-BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/02-circular-refresh-arrows--3012b212-ec5f-487b-935e-c18701a8601b.md'
-DESIGN_PLAN = 'One coherent outline; shared dimensions own repeated parts.'
-DESIGN_NOTES = ['Two opposing arcs preserve rotation; arrowheads remain at diagonal ends.']
-CONSTRUCTION_REFERENCE = 'No useful exact Lucide match; geometric contour construction.'
-
-class BatchIcon(Solo48):
+class Revision(Solo48):
     icon_id = 'diagonal-circular-refresh-arrows-batch-020-02'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    keywords = ('refresh', 'repeat', 'arrows', 'circle', 'clockwise', 'loop', 'rotation', 'sync')
-
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('arrows', 'spin')
     def build(self):
-        # One coherent outline; shared dimensions own repeated parts.
-        self.add_arc('upper', (4, 24), (36, 8), radius_x=20, radius_y=20, sweep=True, large_arc=False)
-        self.add_arc('lower', (44, 24), (12, 40), radius_x=20, radius_y=20, sweep=True, large_arc=False)
-        self.add_polyline('head-upper', (26, 8), (36, 8), (36, 18), closed=False)
-        self.add_polyline('head-lower', (22, 40), (12, 40), (12, 30), closed=False)
-        self.relate("connect", 'upper', 'head-upper')
-        self.relate("connect", 'lower', 'head-lower')
+
+        # Typed continuous paths own their junctions. Repeated parts share parameters.
+        def path(name, start, commands, closed=False):
+            ids=[]; here=start
+            for i, (kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                ids.append(ident);here=end
+            self.add_contour(name,*ids,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        # Opposite halves derive by 180-degree rotation; shared radius and head length.
+        for i in range(2):
+            def p(x,y): return (x,y) if i==0 else (48-x,48-y)
+            path(f'arc-{i}',p(6,24),[('A',p(24,6),18,18,True),('C',p(40,14),p(31,6),p(36,9))])
+            poly(f'head-{i}',p(40,6),p(40,14),p(32,14))
+            join(f'arc-{i}',f'head-{i}')

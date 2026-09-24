@@ -1,46 +1,36 @@
-'Minimalist Kraken Symbol.\n\nSymbol plan: Large central dome with two curling side tentacles; no invented face or additional limbs.\nKeyshape: HRECT_L; authored on SOLO48, not scaled from source.\nLucide: no useful subject match; reference-informed geometric construction.'
+"""Symmetric kraken silhouette with a rounded crown and two smoothly curled tentacle tips. Extrema 4,8,44,40.
+Construction: No useful Lucide kraken match; mirrored arcs and shared radii
+Reduction: No source features omitted; open bottom retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9ad80511-a8c6-4459-b672-0350f39bbe3d'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_24/kraken_9ad80511-a8c6-4459-b672-0350f39bbe3d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class KrakenSilhouette(Solo48):
-    icon_id = 'kraken-silhouette'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects/reference'
-    aliases = ()
-    keywords = ('kraken', 'silhouette')
-
+class Drawing(Solo48):
+    icon_id='kraken-silhouette'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('kraken', 'silhouette')
     def build(self):
-        # Large central dome with two curling side tentacles; no invented face or additional limbs.
-        axis_x = 24
-        p_4_28 = (4, 28)
-        p_6_40 = (6, 40)
-        p_9_28 = (9, 28)
-        p_12_40 = (12, 40)
-        p_14_20 = (14, 20)
-        p_14_28 = (14, 28)
-        p_14_33 = (14, 33)
-        p_18_40 = (18, 40)
-        p_24_8 = (24, 8)
-        p_30_40 = (2 * axis_x - p_18_40[0], p_18_40[1])
-        p_34_20 = (2 * axis_x - p_14_20[0], p_14_20[1])
-        p_34_28 = (2 * axis_x - p_14_28[0], p_14_28[1])
-        p_34_33 = (2 * axis_x - p_14_33[0], p_14_33[1])
-        p_36_40 = (2 * axis_x - p_12_40[0], p_12_40[1])
-        p_39_28 = (2 * axis_x - p_9_28[0], p_9_28[1])
-        p_42_40 = (2 * axis_x - p_6_40[0], p_6_40[1])
-        p_44_28 = (2 * axis_x - p_4_28[0], p_4_28[1])
-        self.add_bezier('kraken-1', p_4_28, (p_9_28, p_6_40, p_12_40))
-        self.add_bezier('kraken-2', p_12_40, (p_18_40, p_14_33, p_14_28))
-        self.add_line('kraken-3', p_14_28, p_14_20)
-        self.add_arc('kraken-4', p_14_20, p_24_8, radius_x=10, radius_y=12, sweep=True)
-        self.add_arc('kraken-5', p_24_8, p_34_20, radius_x=10, radius_y=12, sweep=True)
-        self.add_line('kraken-6', p_34_20, p_34_28)
-        self.add_bezier('kraken-7', p_34_28, (p_34_33, p_30_40, p_36_40))
-        self.add_bezier('kraken-8', p_36_40, (p_42_40, p_39_28, p_44_28))
-        self.add_contour('kraken', 'kraken-1', 'kraken-2', 'kraken-3', 'kraken-4', 'kraken-5', 'kraken-6', 'kraken-7', 'kraken-8', closed=False)
+
+        def path(name,start,steps,closed=False):
+            here=start;members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                elif kind=='C': self.add_bezier(m,here,(args[0],args[1],end))
+                else:self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m);here=end
+            self.add_contour(name,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*pts,closed=False):self.add_polyline(n,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+        path('kraken',(4,28),[('A',(6,30),2,2,True),('L',(6,36)),('A',(14,36),4,4,False),('L',(14,20)),('A',(24,8),10,12,True),('A',(34,20),10,12,True),('L',(34,36)),('A',(42,36),4,4,False),('L',(42,30)),('A',(44,28),2,2,True)])

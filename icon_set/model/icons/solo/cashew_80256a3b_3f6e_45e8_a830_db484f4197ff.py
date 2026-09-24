@@ -1,50 +1,64 @@
-"""cashew: next hundred AI review; original preserved."""
+"""Cashew with a full curved belly and two rounded tips around a concave inner arc. Six tangent circular arcs replace the kinked tip. Bounds (6,6)-(42,42).
+Keyshape SQUARE; fresh revision for feedback: Bad stroke drawn.
+Construction reference: No useful exact Lucide cashew match; tangent circular construction follows the source crescent. Deliberate asymmetric nut orientation.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '80256a3b-3f6e-45e8-a830-db484f4197ff'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/cashew_80256a3b-3f6e-45e8-a830-db484f4197ff.svg'
 AUTHOR = 'gpt-6'
 
-class Cashew(Solo48):
+class Drawing(Solo48):
     icon_id = 'cashew'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = '_uncategorized'
     aliases = ()
-    keywords = ('cashew', '_uncategorized', 'solo-ai-next100')
+    keywords = ('cashew',)
 
     def build(self):
-        # Plan: A smooth crescent cashew retains broad rounded tips, a full outer belly and one scooped inner curve.
-        # Reference: No useful exact Lucide match; supplied original silhouette.
+        self.path('cashew',(30,6),('A',(42,18),12,12,True),('A',(18,42),24,24,True),('A',(6,30),12,12,True),('A',(12,24),6,6,True),('A',(24,12),12,12,False),('A',(30,6),6,6,True),closed=True)
+        self.contacts()
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
-            here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('nut',(29,6),[('C',(42,20),(38,6),(42,10)),('C',(19,42),(42,34),(33,42)),('C',(6,30),(10,42),(6,37)),('C',(15,25),(6,24),(10,23)),('C',(25,20),(23,29),(28,24)),('C',(23,12),(23,17),(22,15)),('C',(29,6),(23,8),(25,6))],True)
+    def path(self, name, start, *commands, closed=False):
+        members=[]
+        here=start
+        for j,command in enumerate(commands):
+            kind,end,*args=command
+            ident=f'{name}-{j}'
+            if kind=='L': self.add_line(ident,here,end)
+            else:
+                rx,ry,sweep=args
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            here=end;members.append(ident)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+    def contacts(self):
+        # Split receiving straight runs at true attachment nodes. Declare only
+        # actual endpoint contact; never connect separated shapes.
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        endpoints={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        replacement={};rebuilt=[]
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in endpoints if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        ident=f'{p.element_id}-join-{j}';rebuilt.append(Line(ident,u,v));ids.append(ident)
+                    replacement[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacement.get(m,[m]))) for c in self.contours]
+        for j,a in enumerate(self.primitives):
+            for b in self.primitives[j+1:]:
+                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)

@@ -1,41 +1,34 @@
-"""Magic wand (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""An angled five-point star on a diagonal wand. The star is intentionally rotated as in the source, with an open central counter. SQUARE centerlines (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ab312eb6-0227-4cb6-98e2-21e3c1f7afe5'
 SOURCE_PATH = 'pictographic-primitives/design/magic wand_ab312eb6-0227-4cb6-98e2-21e3c1f7afe5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='wand: one diagonal shaft with a dominant magical head; supplied source owns five-point star'
+DESIGN_PLAN='An angled five-point star on a diagonal wand. The star is intentionally rotated as in the source, with an open central counter. SQUARE centerlines (6,6)-(42,42).'
+OMISSIONS='None.'
+class Drawing(Solo48):
+    icon_id='magic-wand'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='design'
+    aliases=()
+    keywords=('magic', 'wand')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-class MagicWand(Solo48):
-    icon_id = 'magic-wand'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'design'
-    aliases = ()
-    keywords = ('magic', 'wand', 'design')
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
+
 
     def build(self):
-        # Plan: A larger regular five-point head has a broad central counter; the wand joins one exact lower point.
-
-        # Each path owns a coherent stroke; control points preserve smooth tangents.
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, c in enumerate(commands):
-                k, end, *args = c
-                name = f'{n}-{j}'
-                if k == 'L': self.add_line(name, here, end)
-                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
-        def circle(n, x, y, r):
-            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
-        def box(n, l, t, r, b, rad=4):
-            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate('connect',a,b)
-        poly('star',(30,6),(34,14),(42,14),(36,20),(38,30),(30,24),(22,30),(24,20),(18,14),(26,14),closed=True)
-        line('wand',(6,42),(22,30));join('wand','star')
+        self.add_polyline('star',(23,6),(30,12),(39,8),(36,18),(42,25),(32,25),(27,34),(24,24),(14,22),(23,17),closed=True)
+        self.add_line('wand',(6,42),(24,24));self.relate('connect','star','wand')

@@ -1,19 +1,23 @@
-'Curved Drainage Pipe.\nPlan and review: Retained thick bent pipe and three flow marks. Omitted separate collar and simplified wavy flow lines to short marks.\nKeyshape: VRECT_L, exact SOLO48 envelope selected for this subject.\nConstruction reference: No useful Lucide subject match; source render guides construction.'
+"""curved-drainage-pipe.
+Plan: Open-ended S-shaped drainage elbow with tangent quarter arcs and two short flowing water strokes.
+Keyshape: VRECT_L, exact SOLO48 inset envelope.
+Reference construction: No useful Lucide subject match.
+Omissions: Top flange and one of three water trails omitted to maintain spacing.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a4710d47-9041-49d6-96a8-3a84a671fe4a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_21/gutter_a4710d47-9041-49d6-96a8-3a84a671fe4a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'curved-drainage-pipe'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('curved', 'drainage', 'pipe')
+    keywords = ('gutter',)
 
     def build(self):
 
@@ -35,5 +39,6 @@ class Drawing(Solo48):
         def curve(name,start,*segments):
             self.add_bezier(name,start,*segments)
 
-        path('pipe',(8,4),[(20,4),(20,16),((24,20),4,4,False),(28,20),((40,32),12,12,True),(40,34),(28,34),(28,32),(20,32),((8,20),12,12,True),(8,4)],True)
-        for j,x in enumerate((20,30,40)): self.add_line(f'flow-{j}',(x,43),(x,44))
+        path('pipe',(8,4),[(20,4),(20,16),((24,20),4,4,False),(28,20),((40,32),12,12,True),(40,34),(32,34),(32,32),((28,28),4,4,False),(20,28),((8,16),12,12,True),(8,4)],True)
+        for x in (28,39):
+            self.add_line(f'water-{x}',(x,43),(x,44))

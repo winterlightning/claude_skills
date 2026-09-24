@@ -1,29 +1,37 @@
-"""A diagonal paintbrush with a rounded handle and a broad pointed bristle head."""
+"""Rebuilt brush with a tangent circular handle cap and a coherent curved pointed tuft. Omitted fine bristle texture.
+Construction: Lucide paintbrush informs bristle/handle hierarchy; source pointed tuft retained. Smooth bristle quarters and rounded cap replace the angular rejected outline. No useful exact pointed-brush Lucide match.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e2452464-4988-4b2f-a220-0a5f8d32cc3e'
 SOURCE_PATH = 'pictographic-primitives/decoration/batch-01/brush_e2452464-4988-4b2f-a220-0a5f8d32cc3e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-class PointedPaintbrush(Solo48):
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
+
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'pointed-paintbrush'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/decoration'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
     aliases = ()
-    keywords = ('paintbrush', 'brush', 'paint', 'art', 'bristles', 'handle', 'craft')
-
+    keywords = ('brush',)
     def build(self):
-        # Lucide paintbrush: diagonal handle and broad bristle head. Intentional bristle point; coherent cap will be checked against exact square extrema.
-        self.add_line('handle-upper', (18, 19), (34, 7))
-        self.add_arc('cap', (34, 7), (40, 15), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('handle-lower', (40, 15), (24, 27))
-        self.add_line('ferrule', (24, 27), (18, 19))
-        self.add_contour('handle', 'handle-upper', 'cap', 'handle-lower', 'ferrule', closed=True)
-        self.add_arc('bristle-crown', (18, 19), (8, 32), radius_x=14, radius_y=14, sweep=False)
-        self.add_line('bristle-tip', (8, 32), (6, 42))
-        self.add_line('bristle-bottom', (6, 42), (22, 42))
-        self.add_arc('bristle-side', (22, 42), (24, 27), radius_x=16, radius_y=16, sweep=False)
-        self.add_contour('bristles', 'bristle-crown', 'bristle-tip', 'bristle-bottom', 'bristle-side', closed=False)
-        self.relate("connect", 'handle', 'bristles')
+        s = self
+        path(s,'handle',(18,19),('L',(34,7)),('A',(40,15),5,5,True),('L',(24,27)))
+        path(s,'bristles',(18,19),('A',(6,31),12,12,False),('L',(6,42)),('L',(14,42)),('A',(24,32),10,10,False),('L',(24,27)),('L',(18,19)),closed=True)
+        s.relate('connect','handle','bristles')

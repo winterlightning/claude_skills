@@ -1,53 +1,34 @@
-"""Paint Brush Creative Tool.
-Plan: Diagonal rounded handle joins a broad curved bristle head at a shared slanted seam. Centerline extremes (6,6)-(42,42).
-Construction: Lucide paintbrush: diagonal handle and working-head seam.
-Reduction: Extraction irregularities removed; identifying parts retained.
-"""
+"""Diagonal rounded handle joins a broad flowing bristle head. SQUARE centerlines (6,6)-(42,42). Tangents flow around the cap and working tip; slanted shared seam separates materials."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd94b82bd-4c5f-4d8d-833a-9a520a8bed54'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/brush_d94b82bd-4c5f-4d8d-833a-9a520a8bed54.svg'
-AUTHOR = 'gpt-6'
-CATALOG_REFERENCE = 'pictographic-primitives/design/brush_d94b82bd-4c5f-4d8d-833a-9a520a8bed54.svg'
-
-def _run(icon, name, *points):
-    for i,(a,b) in enumerate(zip(points,points[1:]),1):
-        icon.add_line(f'{name}-{i}',a,b)
-
-def _circle(icon,name,cx,cy,r):
-    a,b=(cx-r,cy),(cx+r,cy)
-    icon.add_arc(name+'-a',a,b,radius_x=r)
-    icon.add_arc(name+'-b',b,a,radius_x=r)
-    icon.add_contour(name,name+'-a',name+'-b',closed=True)
-
-def _box(icon,name,l,t,r,b,rad,top_nodes=()):
-    xs=[l+rad]+sorted(x for x in top_nodes if l+rad<x<r-rad)+[r-rad]
-    _run(icon,name+'-top',*[(x,t) for x in xs])
-    icon.add_arc(name+'-tr',(r-rad,t),(r,t+rad),radius_x=rad)
-    icon.add_line(name+'-right',(r,t+rad),(r,b-rad))
-    icon.add_arc(name+'-br',(r,b-rad),(r-rad,b),radius_x=rad)
-    icon.add_line(name+'-bottom',(r-rad,b),(l+rad,b))
-    icon.add_arc(name+'-bl',(l+rad,b),(l,b-rad),radius_x=rad)
-    icon.add_line(name+'-left',(l,b-rad),(l,t+rad))
-    icon.add_arc(name+'-tl',(l,t+rad),(l+rad,t),radius_x=rad)
-    icon.add_contour(name,*[name+f'-top-{i}' for i in range(1,len(xs))],*[name+'-'+s for s in ('tr','right','br','bottom','bl','left','tl')],closed=True)
-
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='paintbrush: coherent handle/head seam'
+DESIGN_PLAN='Diagonal rounded handle joins a broad flowing bristle head. SQUARE centerlines (6,6)-(42,42). Tangents flow around the cap and working tip; slanted shared seam separates materials.'
+OMISSIONS='None.'
 class Drawing(Solo48):
-    icon_id = 'long-paintbrush-with-curved-bristle-tip'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/design'
-    aliases = ()
-    keywords = ('paint', 'brush', 'creative', 'tool')
+    icon_id='long-paintbrush-with-curved-bristle-tip'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/design'
+    aliases=()
+    keywords=('long', 'paintbrush', 'with', 'curved', 'bristle', 'tip')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
+
 
     def build(self):
-        self.add_line('handle-a',(18,26),(34,6))
-        self.add_arc('end',(34,6),(42,14),radius_x=8)
-        self.add_line('handle-b',(42,14),(26,34))
-        self.add_line('joint',(26,34),(18,26))
-        self.add_contour('handle','handle-a','end','handle-b','joint',closed=True)
-        self.add_arc('bristles-a',(18,26),(10,34),radius_x=8,sweep=False)
-        self.add_arc('bristles-b',(10,34),(6,42),radius_x=10)
-        self.add_arc('bristles-c',(6,42),(26,34),radius_x=29,sweep=False)
-        self.add_contour('bristles','bristles-a','bristles-b','bristles-c');self.relate('connect','bristles','handle')
+        self.path('handle',(20,24),[('L',(34,8)),('C',(38,6),(35,7),(36,6)),('C',(42,10),(40,6),(42,8)),('C',(40,14),(42,12),(41,13)),('L',(26,32)),('L',(20,24))],True)
+        self.path('bristles',(20,24),[('C',(12,28),(16,22),(12,24)),('C',(10,36),(11,32),(11,33)),('C',(6,42),(9,39),(8,41)),('C',(26,32),(18,42),(26,38))]);self.relate('connect','bristles','handle')

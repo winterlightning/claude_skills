@@ -1,30 +1,26 @@
-"""Pencil above Writing Line.
-Plan: Diagonal pencil outline, cap seam and separated writing line; omit barrel facet. Extremes (6,6)-(42,42).
-Lucide original and atomic-debug: pencil-line.
+"""Rebuilt pencil with parallel barrel edges, a tangent circular cap, a distinct nib seam and a separated writing line; omitted the fine barrel facet.
+Construction: Lucide pencil-line: diagonal barrel, rounded cap, joined nib and detached writing line. Barrel facet omitted to preserve clearance.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9831d51b-062f-5589-98b9-8768752474a6'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/pencil edit_9831d51b-062f-5589-98b9-8768752474a6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-def circle(icon,name,cx,cy,r):
-    icon.add_arc(name+"-top",(cx-r,cy),(cx+r,cy),radius_x=r)
-    icon.add_arc(name+"-bottom",(cx+r,cy),(cx-r,cy),radius_x=r)
-    icon.add_contour(name,name+"-top",name+"-bottom",closed=True)
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
 
-def path(icon,name,start,commands,closed=False):
-    point=start;members=[]
-    for i,command in enumerate(commands):
-        member=f"{name}-{i}"; kind=command[0]; end=command[-1]
-        if kind=="L":icon.add_line(member,point,end)
-        elif kind=="A":icon.add_arc(member,point,end,radius_x=command[1],radius_y=command[2],sweep=command[3])
-        else:icon.add_bezier(member,point,(command[1],command[2],end))
-        members.append(member);point=end
-    icon.add_contour(name,*members,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
 
-def box(icon,name,x,y,w,h,r=2):
-    path(icon,name,(x+r,y),[("L",(x+w-r,y)),("A",r,r,True,(x+w,y+r)),("L",(x+w,y+h-r)),("A",r,r,True,(x+w-r,y+h)),("L",(x+r,y+h)),("A",r,r,True,(x,y+h-r)),("L",(x,y+r)),("A",r,r,True,(x+r,y))],True)
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
 
 class Drawing(Solo48):
     icon_id = 'pencil-above-writing-line'
@@ -33,8 +29,10 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "objects/interface-essential"
     aliases = ()
-    keywords = ('pencil', 'write', 'line', 'edit', 'stationery', 'tip')
+    keywords = ('pencil', 'edit')
     def build(self):
-        path(self,"pencil",(6,32),[("L",(10,20)),("L",(18,12)),("L",(24,6)),("C",(26,6),(28,6),(30,8)),("L",(34,12)),("C",(36,14),(36,16),(34,18)),("L",(29,23)),("L",(20,32)),("L",(6,32))],True)
-        self.add_line("cap-seam",(18,12),(29,23));self.relate("connect","pencil","cap-seam")
-        self.add_line("writing-line",(18,42),(42,42))
+        s = self
+        path(s,'pencil',(6,38),('L',(10,25)),('L',(26,13)),('L',(34,7)),('A',(40,15),5,5,True),('L',(32,21)),('L',(16,33)),('L',(6,38)),closed=True)
+        s.add_line('cap-seam',(26,13),(32,21));s.relate('connect','pencil','cap-seam')
+        s.add_line('nib-seam',(10,25),(16,33));s.relate('connect','pencil','nib-seam')
+        s.add_line('writing-line',(24,42),(42,42))

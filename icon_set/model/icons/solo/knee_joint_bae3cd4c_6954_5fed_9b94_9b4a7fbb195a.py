@@ -1,37 +1,33 @@
-"""Knee Joint.
-Plan: Centerlines (10,4)-(38,44); open upper/lower shafts with broad uneven joint lobes and an enlarged joint space.
-References: supplied original source; source joint anatomy; no direct useful Lucide match.
-Human guidance: human_ref/user.svg and full_body_ref.png where applicable.
-"""
+"""Two open bone shafts with smooth uneven articular lobes and a clear joint space. VRECT_M centerlines (10,4)-(38,44). Preserve anatomical asymmetry; no detached head or body is present, so the human head gap does not apply. No omissions."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bae3cd4c-6954-5fed-9b94-9b4a7fbb195a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/specialty knee_bae3cd4c-6954-5fed-9b94-9b4a7fbb195a.svg'
 AUTHOR = 'gpt-6'
-
+CONSTRUCTION_REFERENCE = 'bone; human_ref/user.svg and full_body_ref.png'
+DESIGN_PLAN = 'Two open bone shafts with smooth uneven articular lobes and a clear joint space. VRECT_M centerlines (10,4)-(38,44). Preserve anatomical asymmetry; no detached head or body is present, so the human head gap does not apply. No omissions.'
 class Drawing(Solo48):
     icon_id = 'knee-joint-bae3cd4c'
     keyshape = Keyshape.VRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "health"
-    aliases = ('knee-joint',)
-    keywords = ('knee', 'joint')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'health'
+    aliases = ()
+    keywords = ('knee', 'joint', 'bae3cd4c')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
+
 
     def build(self):
-
-        def stroke(name, start, segments, closed=False):
-            members=[]
-            for j,s in enumerate(segments):
-                member=f"{name}-{j}"
-                if len(s)==1: self.add_line(member,start,s[0])
-                else: self.add_arc(member,start,s[0],radius_x=s[1],radius_y=s[2],sweep=s[3],large_arc=s[4] if len(s)>4 else False)
-                members.append(member);start=s[0]
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,cx,cy,r):
-            stroke(name,(cx-r,cy),[((cx+r,cy),r,r,True),((cx-r,cy),r,r,True)],True)
-        stroke("femur",(14,4),[((16,12),),((10,16),6,4,False),((16,20),6,4,False),
-            ((24,18),8,4,False),((32,20),8,4,True),((38,14),6,6,False),((32,10),),((30,4),)])
-        stroke("tibia",(14,44),[((14,40),),((10,34),4,6,False),((16,30),6,4,True),
-            ((24,32),8,4,True),((32,30),8,4,False),((38,34),6,4,True),((32,40),6,6,True),((32,44),)])
+        self.path('femur',(14,4),[('L',(16,11)),('C',(10,17),(14,13),(10,13)),('C',(16,21),(10,20),(13,21)),('C',(24,19),(20,21),(20,19)),('C',(31,20),(28,19),(28,20)),('C',(38,15),(35,20),(38,19)),('C',(34,9),(38,12),(35,12)),('L',(32,4))])
+        self.path('tibia',(14,44),[('C',(10,33),(14,36),(10,37)),('C',(16,30),(10,29),(13,30)),('C',(24,32),(20,30),(20,32)),('C',(32,30),(28,32),(28,30)),('C',(38,33),(35,29),(38,29)),('C',(32,44),(38,37),(32,36))])

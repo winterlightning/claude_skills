@@ -1,41 +1,65 @@
-'Light bulb: circular crown, equal shoulders and a base with a 10-unit interior height.'
+"""Broad light bulb with circular crown, tapered shoulders and wider screw base. Shared vertical axis x=24; extremes (8,4)-(40,44).
+Keyshape VRECT_L; fresh revision for feedback: Bad stroke drawn.
+Construction reference: Lucide lightbulb: circular crown and narrowing lower shoulders; source retains closed base.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6af73469-938c-4006-9537-bc65e0be96b4'
 SOURCE_PATH = 'pictographic-primitives/work/bulb 1_6af73469-938c-4006-9537-bc65e0be96b4.svg'
 AUTHOR = 'gpt-6'
 
-
-class BroadLightBulb(Solo48):
+class Drawing(Solo48):
     icon_id = 'broad-light-bulb'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/work"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/work'
     aliases = ()
-    keywords = ('bulb', 'light', 'lamp', 'idea', 'illumination', 'electricity')
+    keywords = ('bulb', '1')
 
     def build(self):
-        # Light bulb: tangent circular crown and reverse-curved shoulders, with a balanced open base.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
+        self.path('bulb',(8,20),('A',(40,20),16,16,True),('A',(32,32),8,12,True),('A',(30,36),2,4,False),('L',(30,42)),('A',(28,44),2,2,True),('L',(20,44)),('A',(18,42),2,2,True),('L',(18,36)),('A',(16,32),2,4,False),('A',(8,20),8,12,True),closed=True)
+        self.add_line('base-seam',(18,36),(30,36))
+        self.contacts()
 
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
+    def path(self, name, start, *commands, closed=False):
+        members=[]
+        here=start
+        for j,command in enumerate(commands):
+            kind,end,*args=command
+            ident=f'{name}-{j}'
+            if kind=='L': self.add_line(ident,here,end)
+            else:
+                rx,ry,sweep=args
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            here=end;members.append(ident)
+        self.add_contour(name,*members,closed=closed)
 
-        a('crown',(8,20),(40,20),16)
-        a('shoulder-r',(40,20),(32,28),8)
-        a('neck-r',(32,28),(28,32),4,sweep=False)
-        l('base-r',(28,32),(28,42))
-        a('base-br',(28,42),(26,44),2)
-        l('base-bottom',(26,44),(22,44))
-        a('base-bl',(22,44),(20,42),2)
-        l('base-l',(20,42),(20,32))
-        a('neck-l',(20,32),(16,28),4,sweep=False)
-        a('shoulder-l',(16,28),(8,20),8)
-        self.add_contour('bulb','crown','shoulder-r','neck-r','base-r','base-br','base-bottom','base-bl','base-l','neck-l','shoulder-l',closed=True)
-        l('seam',(20,34),(28,34))
-        link('connect','bulb','seam')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+    def contacts(self):
+        # Split receiving straight runs at true attachment nodes. Declare only
+        # actual endpoint contact; never connect separated shapes.
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        endpoints={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        replacement={};rebuilt=[]
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in endpoints if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        ident=f'{p.element_id}-join-{j}';rebuilt.append(Line(ident,u,v));ids.append(ident)
+                    replacement[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacement.get(m,[m]))) for c in self.contours]
+        for j,a in enumerate(self.primitives):
+            for b in self.primitives[j+1:]:
+                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)

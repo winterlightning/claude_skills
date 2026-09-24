@@ -1,40 +1,40 @@
-'Round Bodied Hen\nPlan: Hen body with upright head and tail; two equal attached leg strokes.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Remove eye, crest layering and wattle; silhouette retains beak, neck and tail.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""Rebuilt the hen with smooth head and belly arcs, a clear beak and tail, and two separate short feet.
+Symbol plan: Smooth broad hen body with rounded head, beak, tail and two separate feet; Lucide bird informs flowing neck and body. Tiny comb seam omitted.
+Final reduction: Tiny comb and inner wing seam omitted; fine toes reduced to short feet.
+References: Lucide bird original and atomic-debug: smooth body and neck.
+Keyshape reason: Horizontal bird silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9555863c-04f0-4a1d-97a0-34f34e0a22f8'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_08/broiler_9555863c-04f0-4a1d-97a0-34f34e0a22f8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'round-bodied-hen'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    keywords = ('round', 'bodied', 'hen')
-
+    icon_id='round-bodied-hen'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('round', 'bodied', 'hen')
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for i,step in enumerate(steps):
+                m=f"{n}-{i}"
+                if len(step)==2:
+                    self.add_line(m,p,step);p=step
                 else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-
-        path('hen',(6,14),[(14,22),(26,22),(26,14),((38,14),6,8,True),(42,18),(38,22),(38,26),((22,36),16,10,True),((6,26),16,10,True),(6,14)],True)
-        self.add_polyline('legs',(16,42),(22,36),(28,42));self.relate('connect','hen','legs')
+                    end,rx,ry,sweep=step
+                    self.add_arc(m,p,end,radius_x=rx,radius_y=ry,sweep=sweep);p=end
+                members.append(m)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[((x,y-r),r,r,True),((x+r,y),r,r,True),((x,y+r),r,r,True),((x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        path('hen',(4,12),[(12,20),(24,20),(24,16),((32,8),8,8,True),((40,16),8,8,True),(44,20),(40,24),((28,36),12,12,True),(20,36),((4,20),16,16,True),(4,12)],True)
+        line('foot-left',(20,36),(20,40));line('foot-right',(28,36),(28,40));join('foot-left','hen');join('foot-right','hen')

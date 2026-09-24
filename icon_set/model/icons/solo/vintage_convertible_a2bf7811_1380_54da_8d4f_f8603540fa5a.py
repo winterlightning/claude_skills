@@ -1,36 +1,51 @@
-"""A right-facing vintage convertible with an open top and equal wheels. HRECT_L ink (6,6)-(42,42). Lucide bus and car-front informed the body/wheel relationship; direction and windscreen rake remain asymmetric."""
+"""Low classic convertible with equal wheels and a single rounded hood; wheel joins occur at explicit cardinal nodes instead of cutting across tires.
+Construction: Lucide car: equal circular wheels, split body edges, coherent curved hood.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a2bf7811-1380-54da-8d4f-f8603540fa5a'
 SOURCE_PATH = 'pictographic-primitives/transportation/car convertible_a2bf7811-1380-54da-8d4f-f8603540fa5a.svg'
-SOURCE_REFERENCES = (('a2bf7811-1380-54da-8d4f-f8603540fa5a', 'pictographic-primitives/transportation/car convertible_a2bf7811-1380-54da-8d4f-f8603540fa5a.svg'),)
 AUTHOR = 'gpt-6'
 
-class VintageConvertible(Solo48):
+class Drawing(Solo48):
     icon_id = 'vintage-convertible'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/transportation'
+    keyshape = Keyshape.HRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/transportation"
     aliases = ()
-    keywords = ('convertible', 'vintage', 'classic car', 'car', 'open top', 'roadster', 'vehicle', 'side view')
+    keywords = ('car', 'convertible')
 
-    def build(self) -> None:
-        for side,x in [('rear',11),('front',37)]:
-            self.add_arc(side+'-upper',(x-7,33),(x+7,33),radius_x=7)
-            self.add_arc(side+'-lower',(x+7,33),(x-7,33),radius_x=7)
-            self.add_contour(side+'-wheel',side+'-upper',side+'-lower',closed=True)
-        self.add_line('body-rear',(6,33),(6,20))
-        self.add_line('body-top-a',(6,20),(24,20))
-        self.add_line('body-top-b',(24,20),(34,20))
-        self.add_arc('body-nose',(34,20),(42,30),radius_x=10)
-        self.add_line('body-front',(42,30),(42,33))
-        self.add_contour('body','body-rear','body-top-a','body-top-b','body-nose','body-front')
-        self.add_line('chassis',(18,33),(30,33))
-        for wheel in ['rear-wheel','front-wheel']:
-            self.relate('connect','body',wheel)
-            self.relate('connect','chassis',wheel)
+    def build(self):
+        # Symbol plan: Low classic convertible with equal wheels and a single rounded hood; wheel joins occur at explicit cardinal nodes instead of cutting across tires.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        for n,x in [('rear',12),('front',36)]:oval(n,x,32,6,6)
+        p('body',(6,32),[('L',(4,32)),('L',(4,25)),('A',(9,20),5,5,True),('L',(25,20)),('L',(33,20)),('C',(44,32),(39,20),(44,25)),('L',(42,32))])
+        line('chassis',(18,32),(30,32))
+        for n in ('rear','front'):join('body',n);join('chassis',n)
+        p('windscreen',(25,20),[('L',(19,10)),('L',(16,10))]);join('windscreen','body')
 
-        self.add_polyline('windscreen',(24,20),(18,8),(15,8))
-        self.relate('connect','windscreen','body')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

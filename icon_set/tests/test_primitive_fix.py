@@ -112,7 +112,8 @@ class PrimitiveFixTests(ServerBase):
         with self.assertRaises(SystemExit):  # done needs the make-ray run
             primitive_fix.finish(self.base, 'thuan-mac', 'solo/anchor', 'done', 'x', self.results)
         warned = FakeIcon(FakeReport('valid', ['review: near-parallel edge']))
-        with patch('sys.stderr', io.StringIO()) as err, patch.object(primitive_fix, 'load_icon', return_value=warned):
+        with patch('sys.stderr', io.StringIO()) as err, patch.object(primitive_fix, 'load_icon', return_value=warned), \
+                patch.object(primitive_fix.build_gate, 'gate', return_value={'status': 'pass', 'errors': [], 'warnings': []}):
             code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
                                        'finish', '--icon', 'solo/anchor', '--run', str(self.ray_run),
                                        '--outcome', 'done', '--note', 'straightened'])
@@ -122,7 +123,18 @@ class PrimitiveFixTests(ServerBase):
         self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'working')
         self.assertEqual(self.request(self.server, 'GET', '/api/work/history?icon=solo/anchor')[1]['revisions'][0]['results'].get('after'), None)
         clean = FakeIcon(FakeReport('valid'))
+        spaced = {'status': 'review', 'errors': [], 'warnings': ['internal-spacing [a]: a and b have 1 units of ink clearance']}
+        with patch('sys.stderr', io.StringIO()) as err, patch.object(primitive_fix, 'load_icon', return_value=clean), \
+                patch.object(primitive_fix.build_gate, 'gate', return_value=spaced):
+            code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
+                                       'finish', '--icon', 'solo/anchor', '--run', str(self.ray_run),
+                                       '--outcome', 'done', '--note', 'straightened'])
+        self.assertEqual(code, 2, 'valid but failing the build gate is refused')
+        self.assertIn('build gate review', err.getvalue())
+        self.assertFalse((run / 'result.json').exists())
+        passed = {'status': 'pass', 'errors': [], 'warnings': []}
         with patch('sys.stdout', io.StringIO()) as out, patch.object(primitive_fix, 'load_icon', return_value=clean), \
+                patch.object(primitive_fix.build_gate, 'gate', return_value=passed), \
                 patch.object(primitive_fix, 'render_previews', return_value=['preview-light-48.png']):
             code = primitive_fix.main(['--base-url', self.base, '--worker', 'thuan-mac', '--results-root', str(self.results),
                                        'finish', '--icon', 'solo/anchor', '--run', str(self.ray_run),

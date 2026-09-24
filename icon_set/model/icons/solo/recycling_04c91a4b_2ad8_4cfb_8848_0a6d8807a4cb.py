@@ -1,30 +1,38 @@
-"""recycling: reviewed and repaired in place on SOLO48."""
+"""Replaced flattened half-turns with coherent rounded turns and matching arrowheads. The two paths are rotationally paired with a larger separation at the open ends.
+Construction: Lucide refresh-cw: circular turns and corner arrowheads. Rotational pair uses 20x18 quarter-ellipses followed by radius20 circular arcs and shared integer 3-4-5 radial points; preserve two opposing arrows.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '04c91a4b-2ad8-4cfb-8848-0a6d8807a4cb'
 SOURCE_PATH = 'pictographic-primitives/state/recycling_04c91a4b-2ad8-4cfb-8848-0a6d8807a4cb.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-repaired'
+AUTHOR = "gpt-6"
 
-class Recycling(Solo48):
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
+
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'recycling'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'state'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "state"
     aliases = ()
-    keywords = ('recycling', 'state')
-
+    keywords = ('recycling',)
     def build(self):
-        # SQUARE (6,6)-(42,42); opposite turns with ten-unit end separation.
-        # Construction reference: Lucide refresh-cw: smooth circular turns and coherent arrowheads
-        # Equal elliptical half-turns; arrowheads point along each local tangent.
-        self.add_arc('upper',(6,19),(42,19),radius_x=18,radius_y=13)
-        self.add_polyline('upper-head',(36,13),(42,19),(42,11))
-        self.add_arc('lower',(42,29),(6,29),radius_x=18,radius_y=13)
-        self.add_polyline('lower-head',(12,35),(6,29),(6,37))
-        self.relate('connect','upper','upper-head')
-        self.relate('connect','lower','lower-head')
+        s = self
+        path(s,'upper',(6,24),('A',(26,6),20,18,True),('A',(42,14),20,20,True))
+        s.add_polyline('upper-head',(34,14),(42,14),(42,6));s.relate('connect','upper','upper-head')
+        path(s,'lower',(42,24),('A',(22,42),20,18,True),('A',(6,34),20,20,True))
+        s.add_polyline('lower-head',(14,34),(6,34),(6,42));s.relate('connect','lower','lower-head')

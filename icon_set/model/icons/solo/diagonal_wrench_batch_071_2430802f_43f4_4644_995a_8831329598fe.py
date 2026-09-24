@@ -1,37 +1,37 @@
-"""08-mechanical-spanner-wrench--2430802f-43f4-4644-995a-8831329598fe
-Plan: Independent second wrench with wider angular jaw, rounded diagonal handle. Extremes (6,6)-(42,42).
-Construction: Lucide wrench: open negative-space jaw and diagonal shaft.
-Reduction: Handle hole omitted.
-"""
+"""Open-end wrench on a diagonal with circular jaw shoulders, a roomy mouth and a rounded handle end. Lucide circular construction informs smooth neck and head transitions."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2430802f-43f4-4644-995a-8831329598fe'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_38/tool_2430802f-43f4-4644-995a-8831329598fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-def _path(icon, name, start, steps, closed=False):
-    members=[]
-    for i, step in enumerate(steps):
-        end=step[0]; member=f'{name}-{i}'
-        if len(step)==1: icon.add_line(member,start,end)
-        else: icon.add_arc(member,start,end,radius_x=step[1],radius_y=step[2],sweep=step[3])
-        members.append(member); start=end
-    icon.add_contour(name,*members,closed=closed)
-
-
-def _circle(icon,name,x,y,r):
-    _path(icon,name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-
-
-class Batch071Icon08(Solo48):
-    icon_id = 'diagonal-wrench-batch-071'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('diagonal', 'wrench')
+class Drawing(Solo48):
+    icon_id='diagonal-wrench-batch-071'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=()
 
     def build(self):
-        _path(self,'outline',(30,6),[((18,18),12,12,False),((18,22),),((8,32),),((6,36),5,5,False),((12,42),6,6,False),((16,40),5,5,False),((28,28),),((42,14),14,14,False),((32,19),),((26,15),),((30,6),)],True)
+        # Symbol plan: Open-end wrench on a diagonal with circular jaw shoulders, a roomy mouth and a rounded handle end. Lucide circular construction informs smooth neck and head transitions.
+
+        def path(n,start,commands,closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                m=f'{n}-{i}'
+                if kind=='L': self.add_line(m,start,end)
+                elif kind=='A': self.add_arc(m,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(m,start,(args[0],args[1],end))
+                members.append(m);start=end
+            self.add_contour(n,*members,closed=closed)
+        def oval(n,x,y,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(n,l,t,r,b,rad=4):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('wrench',(18,22),[('C',(32,6),(14,12),(23,6)),('L',(26,14)),('C',(34,22),(26,18),(30,22)),('L',(42,14)),('C',(28,30),(42,26),(36,32)),('L',(16,40)),('C',(12,42),(15,41),(14,42)),('A',(6,36),6,6,True),('C',(8,32),(6,34),(7,33)),('L',(18,22))],True)

@@ -1,40 +1,45 @@
-"""Two front-facing people raise their inner arms until their hands meet above the center. Their outer shoulders extend sideways, and three short rays emphasize the joined hands between the circular heads.
-Lucide users head and shoulder construction. Two people share raised hands; outer shoulders and torso strokes retained. Three rays reduced to one central dot for space. Bilaterally symmetric.
-SQUARE: centerline extremes (6,6)-(42,42); freshly authored on SOLO48.
+"""Two people raise their inner arms to meet in a high five.
+Symbol plan: shared parameters and coherent contours.
+Construction: human_ref/user.svg and full_body_ref.png: paired round heads and raised limbs.
+Omissions: Three contact rays reduced to one dot to keep the upper gap clear.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '635ece78-65ec-4140-9338-f24f52af0c2d'
 SOURCE_PATH = 'pictographic-primitives/work/workflow teamwork user high five_635ece78-65ec-4140-9338-f24f52af0c2d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='people-giving-high-five'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/work"
+    aliases=()
+    keywords=('people', 'giving', 'high', 'five')
 
-class PeopleGivingHighFive(Solo48):
-    icon_id = 'people-giving-high-five'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/work"
-    aliases = ()
-    keywords = ('people', 'highfive', 'teamwork', 'celebration', 'greeting', 'contact')
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
 
-    def build(self) -> None:
-        self.add_arc('head-left-top', (6, 16), (14, 16), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('head-left-bottom', (14, 16), (6, 16), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('head-left', 'head-left-top', 'head-left-bottom', closed=True)
-        self.add_arc('head-right-top', (34, 16), (42, 16), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('head-right-bottom', (42, 16), (34, 16), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('head-right', 'head-right-top', 'head-right-bottom', closed=True)
-        self.add_line('outer-left', (6, 42), (6, 38))
-        self.add_arc('shoulder-left', (6, 38), (14, 34), radius_x=8, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('raised-left', (14, 34), (24, 20))
-        self.add_line('raised-right', (24, 20), (34, 34))
-        self.add_arc('shoulder-right', (34, 34), (42, 38), radius_x=8, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('outer-right', (42, 38), (42, 42))
-        self.add_contour('people', 'outer-left', 'shoulder-left', 'raised-left', 'raised-right', 'shoulder-right', 'outer-right', closed=False)
-        self.add_line('body-left', (14, 34), (14, 42))
-        self.relate("connect", 'body-left', 'people')
-        self.add_line('body-right', (34, 34), (34, 42))
-        self.relate("connect", 'body-right', 'people')
-        self.add_dot('contact-ray', (24, 6))
+    def build(self):
+        # Shared human head radius4; shoulder y28 minus head bottom20 gives exact 4 ink gap.
+        for i,x in enumerate([10,38]):self.oval('head-'+str(i),x,16,4)
+        for i in range(2):
+            def q(x,y):return (x if i==0 else 48-x,y)
+            self.path('shoulder-'+str(i),q(6,42),[('L',q(6,32)),('A',q(10,28),4,4,i==0),('L',q(14,28))])
+            self.path('arm-'+str(i),q(14,28),[('A',q(24,18),10,10,i!=0)])
+            self.add_line('torso-'+str(i),q(14,28),q(14,42))
+            self.relate('connect','torso-'+str(i),'shoulder-'+str(i))
+            self.relate('connect','arm-'+str(i),'shoulder-'+str(i))
+            self.relate('connect','arm-'+str(i),'torso-'+str(i))
+        self.relate('connect','arm-0','arm-1')
+        self.add_dot('contact-ray',(24,6))

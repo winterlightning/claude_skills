@@ -1,64 +1,40 @@
-"""Beetle Bug Insect Symbol.
-
-Plan: Beetle with divided wing cases, rounded head, paired antennae and three mirrored legs.
-Construction reference: Lucide bug: shared shell, central seam and three mirrored leg attachments.
-Keyshape SQUARE: whole subject uses the exact SOLO48 inset envelope.
-"""
+"""A beetle with rounded divided wing covers, separate domed head, two antennae and three leg pairs. Bounds (6,6)-(42,42). Shared bilateral parameters preserve symmetry.
+Construction reference: Lucide bug: domed head, divided rounded body and mirrored limbs.
+Omissions: Tiny leg bends simplified."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2c75d81b-ef5b-4152-b873-e02ec0753a82'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/bugs_2c75d81b-ef5b-4152-b873-e02ec0753a82.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id = 'beetle-with-divided-wing-covers'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/misc'
-    aliases = ()
-    keywords = ('beetle', 'bug', 'insect', 'symbol')
-
+    icon_id='beetle-with-divided-wing-covers'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/misc"
+    aliases=()
+    keywords=('bugs',)
     def build(self):
-        # One continuous head/body outline; each leg meets a vertical wall.
-        self.arc('head',(16,18),(32,18),8)
-        self.arc('top-right',(32,18),(34,20),2)
-        self.add_line('right-wall',(34,20),(34,32))
-        self.arc('bottom-right',(34,32),(32,38),10)
-        self.arc('bottom',(32,38),(16,38),10)
-        self.arc('bottom-left',(16,38),(14,32),10)
-        self.add_line('left-wall',(14,32),(14,20))
-        self.arc('top-left',(14,20),(16,18),2)
-        self.add_contour('outline','head','top-right','right-wall','bottom-right','bottom','bottom-left','left-wall','top-left',closed=True)
-        self.add_line('seam',(24,20),(24,42));self.relate('connect','outline','seam')
-        for side,sgn in [('left',-1),('right',1)]:
-            self.add_line('antenna-'+side,(24,10),(24+sgn*10,6))
-            self.relate('connect','outline','antenna-'+side)
-            for i,y in enumerate((22,30,38)):
-                self.add_line(f'{side}-leg-{i}',(24+sgn*(8 if i==2 else 10),y),(24+sgn*18,y+(i-1)*4))
-                self.relate('connect','outline',f'{side}-leg-{i}')
-        self.relate('connect','antenna-left','antenna-right')
 
-    def circle(self, name, x, y, r, ry=None):
-        ry = r if ry is None else ry
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r, radius_y=ry)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r, radius_y=ry)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def path(self, name, points, closed=False):
-        self.add_polyline(name, *points, closed=closed)
-
-    def arc(self, name, a, b, r, ry=None, sweep=True):
-        self.add_arc(name, a, b, radius_x=r, radius_y=r if ry is None else ry, sweep=sweep)
-
-    def rect(self, name, x, y, w, h, r=4):
-        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i,a in enumerate(points):
-            b=points[(i+1)%8]; part=f'{name}-{i}'; ids.append(part)
-            if i%2: self.arc(part,a,b,r)
-            elif a != b: self.add_line(part,a,b)
-            else: ids.pop()
-        self.add_contour(name,*ids,closed=True)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('body',(14,22),[('C',(16,18),(14,20),(15,19)),('C',(24,16),(18,16),(21,16)),('C',(32,18),(27,16),(30,16)),('C',(34,22),(33,19),(34,20)),('L',(34,32)),('A',(30,40),10,10,True),('A',(24,42),10,10,True),('A',(18,40),10,10,True),('A',(14,32),10,10,True),('L',(14,22))],True)
+        path('head',(16,18),[('L',(16,14)),('C',(20,8),(16,11),(18,9)),('C',(24,6),(21,7),(22,6)),('C',(28,8),(26,6),(27,7)),('C',(32,14),(30,9),(32,11)),('L',(32,18))]);join('head','body')
+        line('wing-seam',(24,16),(24,42));join('wing-seam','body')
+        for side in (-1,1):
+         def p(x,y):return (x if side==-1 else 48-x,y)
+         path('antenna-'+str(side),p(20,8),[('C',p(14,6),p(18,6),p(16,6))]);join('antenna-'+str(side),'head')
+         for j,points in enumerate([[(14,22),(10,22),(6,18)],[(14,30),(8,30),(6,32)],[(18,40),(10,38),(8,42)]]):
+          name=f'leg-{side}-{j}';poly(name,*[p(*v) for v in points]);join(name,'body')

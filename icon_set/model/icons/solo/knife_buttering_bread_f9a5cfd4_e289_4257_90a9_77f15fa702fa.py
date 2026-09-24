@@ -1,51 +1,39 @@
-'A broad round-tipped butter knife lies diagonally across a slice of bread. SQUARE preserves the toast silhouette and diagonal handle. One bread contour owns the scene; the blade has a rounded curved back, straight cutting edge and attached handle. Source supplies bread and the spreading gesture. No useful direct Lucide toast-and-knife match was found. Widen the blade for readable negative space and omit the separate butter dab after left and central placements crowded the base or blade. The lower-right bread edge is physically behind the knife. No source metadata or original reference artwork changed.'
+"""Bread slice with spreading knife resting diagonally across it; right bread edge meets the crossing handle at an actual occlusion.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction references: No useful local Lucide match; original reference informs construction.
+Omissions: Small butter dab omitted; broad blade and bread silhouette retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f9a5cfd4-e289-4257-90a9-77f15fa702fa'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_08/bread slice spread_f9a5cfd4-e289-4257-90a9-77f15fa702fa.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'knife-buttering-bread'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "Uncategorized"
-    aliases = ('Knife Spreading Butter on Toast',)
-    keywords = ('knife', 'spreading', 'butter', 'on', 'toast')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'Uncategorized'
+    aliases = ()
+    keywords = ('bread', 'slice', 'spread')
     def build(self):
 
-        def path(name,start,steps,closed=False):
-            members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
-            if rad==0:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),(l,t)); return
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        def bez(name,start,*segments): self.add_bezier(name,start,*segments)
-
-        bez('bread-top',(8,25),((6,24),(6,22),(6,18)),((6,10),(9,6),(16,6)),((21,6),(27,6),(32,6)),((42,6),(44,23),(36,25)))
-        line('bread-right',(36,25),(38,42))
-        line('bread-bottom',(38,42),(6,42))
-        line('bread-left',(6,42),(8,25))
-        self.add_contour('bread','bread-top','bread-right','bread-bottom','bread-left',closed=True)
-        bez('knife-back',(22,14),((16,10),(12,20),(16,26)),((20,32),(25,33),(32,30)))
-        line('knife-edge',(32,30),(22,14))
-        self.add_contour('knife','knife-back','knife-edge',closed=True)
-        line('handle',(32,30),(42,42));join('knife','handle')
-
+        path('bread',(8,25),[('B',(6,18),(6,24),(6,22)),('A',(18,6),12,12,True),('L',(30,6)),('A',(42,18),12,12,True),('B',(36,25),(42,22),(40,25)),('L',(36,35))])
+        poly('bread-base',(36,35),(36,42),(6,42),(8,25));join('bread','bread-base')
+        path('blade',(22,15),[('B',(16,18),(18,12),(16,14)),('B',(30,28),(16,27),(24,31)),('L',(22,15))],True)
+        poly('handle',(30,28),(36,35),(42,42));join('blade','handle');join('bread','handle');join('bread-base','handle')

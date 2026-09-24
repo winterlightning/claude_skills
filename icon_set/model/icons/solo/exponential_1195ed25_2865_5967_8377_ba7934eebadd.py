@@ -1,31 +1,36 @@
-"""Exponential (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""Balanced crossed x and smooth superscript two.
+Plan: named coherent contours; paired features derive from shared parameters.
+Reference: supplied original plus rejected production SVG.
+No useful exact Lucide match inspected; supplied reference guided the geometric reconstruction.
+
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1195ed25-2865-5967-8377-ba7934eebadd'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/exponential_1195ed25-2865-5967-8377-ba7934eebadd.svg'
-AUTHOR = 'gpt-6'
-
-class Exponential(Solo48):
-    icon_id = 'exponential'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'interface-essential'
-    aliases = ()
-    keywords = ('exponential', 'interface-essential')
-
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (40, 13), (31, 21))
-        self.add_line('e1', (31, 21), (42, 21))
-        self.add_line('e2', (6, 21), (24, 42))
-        self.add_line('e3', (7, 41), (23, 22))
-        self.add_line('e4-1', (32, 9), (34, 7))
-        self.add_line('e4-2', (34, 7), (38, 6))
-        self.add_arc('e4-3', (38, 6), (42, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e4-4', (42, 10), (40, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e4-1', 'e4-2', 'e4-3', 'e4-4', 'e0', 'e1'), closed=False)
-        self.add_contour('c1', *('e2',), closed=False)
-        self.add_contour('c2', *('e3',), closed=False)
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='exponential'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='interface-essential'
+    aliases=()
+    keywords=('exponential',)
+    def build(self):
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                k,end,*args=c; name=f'{n}-{j}'
+                if k=='L': self.add_line(name,here,end)
+                elif k=='A': self.add_arc(name,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif k=='C': self.add_bezier(name,here,(args[0],args[1],end))
+                here=end; members.append(name)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('x-a',(6,22),(15,32),(24,42));poly('x-b',(6,42),(15,32),(24,22));join('x-a','x-b')
+        path('two',(30,10),[('C',(36,6),(30,8),(32,6)),('A',(42,12),6,6,True),('C',(33,22),(42,16),(35,19)),('L',(42,22))])

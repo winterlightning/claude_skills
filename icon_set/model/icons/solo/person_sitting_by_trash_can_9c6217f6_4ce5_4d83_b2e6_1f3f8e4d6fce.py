@@ -1,43 +1,43 @@
-"""A bowed person sits with knees drawn up beside a lidded bin. Lucide person-standing informs reduced limbs; no useful exact seated-scene match. Bin ribs, fingers, and extra clothing folds are omitted."""
+"""Rebuilt seated figure with a round head, bent legs and arm resting at the knee; squared the separate bin. Head center (38,10), radius4 and neck (38,22) give exact 8 centerline / 4 ink gap on the vertical torso axis. Omitted bin taper and clothing details.
+Construction: Shared human_ref/full_body_ref.png: round head and coherent seated limbs. Head center (38,10), radius4; neck (38,22) gives exactly4 ink gap. Bin and person remain separate.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9c6217f6-4ce5-4d83-b2e6-1f3f8e4d6fce'
 SOURCE_PATH = 'pictographic-primitives/users/user homeless poverty_9c6217f6-4ce5-4d83-b2e6-1f3f8e4d6fce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
 
-class PersonSittingByTrashCan(Solo48):
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'person-sitting-by-trash-can'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "people/users"
     aliases = ()
-    keywords = ('homeless', 'poverty', 'person', 'sitting', 'trash', 'bin', 'street', 'despair')
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
-        ids=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            eid=name+'-'+str(i);self.add_arc(eid,a,b,radius_x=r);ids.append(eid)
-        self.add_contour(name,*ids,closed=True)
-
-
-    def build(self) -> None:
-        # Square centerline extremes (6,6)-(42,42); person right, bin left.
-        self.circle('head',34,12,6)
-        self.add_arc('back',(32,27),(42,37),radius_x=10)
-        self.add_line('back-low',(42,37),(42,42))
-        self.add_line('seat',(42,42),(34,42))
-        self.add_contour('seated-back','back','back-low','seat')
-        self.add_polyline('legs',(34,42),(30,33),(25,42))
-        self.add_polyline('arms',(32,27),(26,31),(30,33))
-        self.relate('connect','seated-back','legs')
-        self.relate('connect','seated-back','arms')
-        self.relate('connect','arms','legs')
-        self.add_polyline('bin',(6,24),(8,42),(16,42),(18,24))
-        self.add_polyline('lid',(6,24),(12,24),(18,24))
-        self.add_line('lid-handle',(12,18),(12,24))
-        self.relate('connect','bin','lid')
-        self.relate('connect','lid','lid-handle')
+    keywords = ('user', 'homeless', 'poverty')
+    def build(self):
+        s = self
+        circle(s,'head',38,10,4)
+        s.add_line('torso',(38,22),(38,24))
+        path(s,'back',(38,24),('L',(38,34)),('A',(30,42),8,8,True))
+        s.relate('connect','torso','back')
+        s.add_polyline('legs',(30,42),(28,32),(24,42));s.relate('connect','back','legs')
+        s.add_line('arm',(38,24),(28,32));s.relate('connect','arm','torso');s.relate('connect','arm','back');s.relate('connect','arm','legs')
+        s.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        s.add_polyline('bin',(6,24),(6,42),(16,42),(16,24),(11,24),closed=True)
+        s.add_line('lid-handle',(11,17),(11,24));s.relate('connect','lid-handle','bin')

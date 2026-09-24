@@ -1,44 +1,40 @@
-"""Bottle with Burning Wick. Upright bottle and swept burning wick; mouth collar omitted.
-Keyshape VRECT_XL: chosen for the subject's overall proportions; authored directly on SOLO48.
-"""
+"""Rounded bottle with a narrow neck and a flowing burning cloth wick, with a pointed fluttering end.
+Keyshape VRECT_L: exact SOLO48 contract envelope.
+Construction: cooking-pot: tangent rounded body corners; source governs asymmetric wick
+Omissions: Mouth collar omitted to preserve 8-unit neck opening.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e4244e59-74e6-5710-ad04-81650dfcfc48'
 SOURCE_PATH = 'pictographic-primitives/war/bomb fire bottle_e4244e59-74e6-5710-ad04-81650dfcfc48.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BottleWithBurningWick(Solo48):
-    icon_id = 'bottle-with-burning-wick'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/war'
-    aliases = ()
-    keywords = ('bottle', 'wick', 'fire', 'incendiary', 'glass', 'flame')
-
+class Drawing(Solo48):
+    icon_id='bottle-with-burning-wick'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/war'
+    aliases=()
+    keywords=('bottle', 'with', 'burning', 'wick')
     def build(self):
-        # Envelope repair: shared boundary nodes and cardinal curve extrema;
-        # retain the subject, grid, stroke, and declared physical joins.
 
-        def L(n,a,b): self.add_line(n,a,b)
-        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def C(n,x,y,r):
-            A(n+'a',(x-r,y),(x+r,y),r)
-            A(n+'b',(x+r,y),(x-r,y),r)
-            self.add_contour(n,n+'a',n+'b',closed=True)
-        def J(a,b): self.relate('connect',a,b)
-        def R(n,x,y,w,h,r=4):
-            L(n+'t',(x+r,y),(x+w-r,y))
-            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
-            L(n+'r',(x+w,y+r),(x+w,y+h-r))
-            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
-            L(n+'b',(x+w-r,y+h),(x+r,y+h))
-            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
-            L(n+'l',(x,y+h-r),(x,y+r))
-            A(n+'tl',(x,y+r),(x+r,y),r)
-            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        P('bottle',(8, 44),(8,30),(16,22),(16,14),(26,14),(26,22),(32,30),(32, 44),(8, 44))
-        A('wick-rise',(21,14),(29, 4),8,10)
-        P('flame',(29, 4),(34,10),(40,10));J('wick-rise','bottle');J('wick-rise','flame')
+        path('bottle',(12,44),[('A',(8,40),4,4,True),('L',(8,29)),('C',(14,20),(8,25),(14,24)),('L',(14,14)),('L',(24,14)),('L',(24,20)),('C',(30,29),(24,24),(30,25)),('L',(30,40)),('A',(26,44),4,4,True),('L',(12,44))],True)
+        path('wick',(19,14),[('C',(27,4),(19,8),(21,4)),('C',(40,16),(35,4),(32,14)),('L',(35,20)),('C',(27,12),(29,20),(29,17))]);join('wick','bottle')

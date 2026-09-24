@@ -1,57 +1,48 @@
-"""Seven-Lobed Cannabis Leaf.
-
-Plan: SQUARE centerlines (6,6)-(42,42); one mirrored pointed leaf contour with a tall central lobe, paired spreading lobes and a shared stem junction. Exact named lobe count is retained.
-Construction references: Lucide cannabis: a single coherent contour of curved pointed lobes around a shared stem.
-Reduction: Unified matching sources; omitted fine veins and serrations absent from the brief. Curved-stem variant deliberately bends left.
+"""Seven pointed cannabis lobes around a tall narrow center leaflet. Mirror tapered curves while retaining deliberate sharp valleys and a short stem.
+Construction: Lucide cannabis: seven coherent pointed lobes; taller central leaflet preserves the original proportions.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-
+from ._base import Solo48
 SOURCE_ICON_ID = '487f3a05-de28-44cf-9e49-3130e24b6363'
 SOURCE_PATH = 'pictographic-primitives/cannabis/cannabis_487f3a05-de28-44cf-9e49-3130e24b6363.svg'
-SOURCE_ICON_IDS = ('487f3a05-de28-44cf-9e49-3130e24b6363',)
-SOURCE_PATHS = ('pictographic-primitives/cannabis/cannabis_487f3a05-de28-44cf-9e49-3130e24b6363.svg',)
 AUTHOR = 'gpt-6'
 
-
-class SevenLobedCannabisLeaf(Solo48):
+class Drawing(Solo48):
     icon_id = 'seven-lobed-cannabis-leaf'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'cannabis'
+    category = "cannabis"
     aliases = ()
-    keywords = ('seven-lobed', 'cannabis', 'leaf', 'sub icon')
+    keywords = ('cannabis',)
 
-    def build(self) -> None:
-        def path(name, start, commands, closed=False):
-            members=[]
-            here=start
-            for i,command in enumerate(commands):
-                k=f"{name}-{i}"
-                kind,end,*args=command
-                if kind=="L": self.add_line(k,here,end)
-                elif kind=="A": self.add_arc(k,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=="C": self.add_bezier(k,here,(args[0],args[1],end))
-                members.append(k);here=end
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x,y-r),[("A",(x,y+r),r,r,True),("A",(x,y-r),r,r,True)],True)
+    def build(self):
+        # Symbol plan: Seven pointed cannabis lobes around a tall narrow center leaflet. Mirror tapered curves while retaining deliberate sharp valleys and a short stem.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        self.mirror('leaf',(24,4),[('C',(27,24),(29,12),(29,18)),('C',(38,14),(31,19),(35,15)),('C',(31,29),(38,21),(34,26)),('C',(40,32),(35,29),(38,30)),('C',(30,35),(37,35),(33,36)),('C',(32,41),(31,37),(32,39)),('C',(24,37),(28,41),(26,39))])
+        line('stem',(24,37),(24,44));join('stem','leaf')
 
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
         axis=24
-        commands=[("C",(28,20),(28,12),(29,16)),("C",(40,12),(32,16),(36,12)),("C",(32,24),(39,19),(36,22)),("C",(42,28),(36,23),(40,26)),("C",(32,32),(40,33),(36,33)),("C",(34,41),(34,35),(34,39)),("C",(24,37),(30,41),(27,39))]
-
-        # Reflect and reverse the exact curve sequence about the shared axis.
-        segments=[];here=(axis,6)
-        for c in commands:segments.append((here,c));here=c[1]
-        mirror=lambda p:(48-p[0],p[1])
-        for start,c in reversed(segments):
-            if c[0]=="C":commands.append(("C",mirror(start),mirror(c[3]),mirror(c[2])))
-            else:commands.append(("L",mirror(start)))
-        path("leaf",(axis,6),commands,True)
-        self.add_line("stem",(24,37),(24,42))
-        self.relate("connect","leaf","stem")
-
-
-# Reviewed source-equivalent container sub-icon references.
-SOURCE_REFERENCES = [('8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/cannabis/cannabis_8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1.svg')]
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

@@ -1,44 +1,41 @@
-# Final reduction: Arms and cushion share boundaries; continuous plinth replaces tiny feet.
-'Rounded Armchair with Inset Seat Cushion.\nSymbol plan: A broad armchair faces forward with a tall rounded back and thick rounded arms. A separate seat cushion sits between the arms above a continuous lower base and two short straight legs.\nConstruction: Lucide armchair: clear arms around a central cushion.\nReduction: Continuous lower plinth replaces tiny feet.\nKeyshape SQUARE: ink extremes (4, 4, 44, 44).'
+"""Rounded the chair back and arms, rebuilt the continuous seat/base contour, and restored two feet.
+Symbol plan: Rounded armchair with thick arms, inset seat and two feet; Lucide armchair informs one coherent lower silhouette and tangent corners.
+Final reduction: Cushion uses one shared seat edge instead of a doubled narrow seam.
+References: Lucide armchair original and atomic-debug: continuous arms and lower silhouette.
+Keyshape reason: Square frontal chair with mirrored parts.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'efcd3f01-3898-4701-8f39-b77fbd1f7836'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/divan_efcd3f01-3898-4701-8f39-b77fbd1f7836.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'rounded-armchair-with-inset-seat-cushion'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('armchair', 'chair', 'seat', 'cushion', 'furniture', 'arms', 'living')
+class Drawing(Solo48):
+    icon_id='rounded-armchair-with-inset-seat-cushion'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('rounded', 'armchair', 'with', 'inset', 'seat', 'cushion')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for i,step in enumerate(steps):
+                m=f"{n}-{i}"
+                if len(step)==2:
+                    self.add_line(m,p,step);p=step
+                else:
+                    end,rx,ry,sweep=step
+                    self.add_arc(m,p,end,radius_x=rx,radius_y=ry,sweep=sweep);p=end
+                members.append(m)
+            self.add_contour(n,*members,closed=closed)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        poly('back',(14,18),(14,6),(34,6),(34,18))
-        rect('left-arm',6,18,8,16,4);rect('right-arm',34,18,8,16,4)
-        line('seat',(14,26),(34,26));line('seat-bottom',(14,34),(34,34))
-        poly('base',(6,34),(6,42),(42,42),(42,34))
-        self.relate('connect','back','left-arm');self.relate('connect','back','right-arm');self.relate('connect','seat','left-arm');self.relate('connect','seat','right-arm');self.relate('connect','base','left-arm');self.relate('connect','base','right-arm');self.relate('connect','base','seat-bottom');self.relate('connect','left-arm','seat-bottom');self.relate('connect','right-arm','seat-bottom')
-        # Only genuine shared endpoints are automatically declared as contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+            path(n,(x-r,y),[((x,y-r),r,r,True),((x+r,y),r,r,True),((x,y+r),r,r,True),((x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        path('back',(14,22),[(14,12),((20,6),6,6,True),(28,6),((34,12),6,6,True),(34,22)])
+        path('chair',(14,28),[(14,22),((6,22),4,4,False),(6,34),((10,38),4,4,False),(38,38),((42,34),4,4,False),(42,22),((34,22),4,4,False),(34,28),(14,28)],True);join('back','chair')
+        line('foot-left',(10,38),(10,42));line('foot-right',(38,38),(38,42));join('foot-left','chair');join('foot-right','chair')

@@ -1,53 +1,39 @@
-"""car-796e3289: Soft compact car; earlier revisions preserved."""
+"""Broaden the cabin and lower the roof proportions; smooth the hood and trunk into a body with separate full circular wheels.
+Construction: Lucide car: continuous roof/hood contour and separate round wheel outlines.
+Omissions: None
+Keyshape HRECT_M: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '796e3289-99b8-4ef8-bce0-4e8fa2bfefc8'
 SOURCE_PATH = 'pictographic-primitives/transportation/car_796e3289-99b8-4ef8-bce0-4e8fa2bfefc8.svg'
 AUTHOR = 'gpt-6'
-
-class Car796e3289(Solo48):
+class Drawing(Solo48):
     icon_id = 'car-796e3289'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-796e3289')
-
+    keywords = ('car', '796e3289')
     def build(self):
-        # Plan: Preserve the original car silhouette with a full lower body, broad round wheels and smooth shoulders. The roof profile and windshield treatment retain this variant’s identity.
-        # Reference: Lucide car: original and atomic-debug geometry.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
-            here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('body',(6,34),[('C', (4, 24), (4, 32), (4, 28)), ('C', (10, 18), (4, 20), (6, 18)), ('L', (14, 12)), ('C', (20, 8), (16, 9), (18, 8)), ('L', (27, 8)), ('C', (31, 13), (29, 8), (30, 11)), ('L', (34, 18)), ('L', (38, 18)), ('C', (44, 24), (40, 18), (44, 20)), ('C', (42, 34), (44, 28), (44, 32)), ('A', (36, 40), 6, 6, True), ('A', (30, 34), 6, 6, True), ('L', (18, 34)), ('A', (12, 40), 6, 6, True), ('A', (6, 34), 6, 6, True)],True)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        for x in (12,36):
-         path(f'wheel-{x}',(x-6,34),[('A',(x,28),6,6,True),('A',(x+6,34),6,6,True)]);join(f'wheel-{x}','body')
+        path('body',(7,33),[('A',(4,30),3,3,True),('L',(4,25)),('A',(8,21),4,4,True),('L',(10,21)),('L',(17,12)),('C',(21,10),(18,10),(19,10)),('L',(27,10)),('C',(31,12),(29,10),(30,11)),('L',(36,19)),('L',(40,20)),('C',(44,25),(43,21),(44,22)),('L',(44,30)),('A',(41,33),3,3,True)])
+
+        for x in (12,36):circle(f'wheel-{x}',x,33,5)
+        line('sill',(17,33),(31,33));join('sill','wheel-12');join('sill','wheel-36')
+        join('body','wheel-12');join('body','wheel-36')

@@ -1,28 +1,36 @@
-"""Battery with Charging Flash Symbol.
-Symbol plan: Open battery outline reserves room for a large bolt, following Lucide battery-charging.
-User explicitly requested the complete combined subject on SOLO48.
-References: supplied source render; local Lucide original and atomic geometry sheet
-(triangle-alert, user-round-plus, file-up, battery-charging, plug-zap, scan-face,
-clapperboard, badge-check, paw-print, car, wrench, shirt, chart-pie, delete).
-Human subjects follow icon_set/references/human_ref/user.svg.
+"""Closed horizontal battery and centered lightning stroke with external terminal; extremes 4,10,44,38.
+Construction: battery-charging: angular bolt and rounded corners
+Reduction: Terminal is a single short stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
-from ._container_content_batch import path, cross, contacts, bust, car, bolt
-
 SOURCE_ICON_ID = 'f8b6ea0a-273a-4932-a93b-52454f7fd328'
 SOURCE_PATH = 'icon_set/dist/gallery/combination-originals/f8b6ea0a-273a-4932-a93b-52454f7fd328.svg'
 AUTHOR = 'gpt-6'
+
 class Drawing(Solo48):
     icon_id = 'charging-battery-104-solo'
     keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('battery with charging flash symbol',)
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/interface-essential"
+    aliases = ()
+    keywords = ('charging', 'battery', '104', 'solo')
     def build(self):
-        path(self,'left',(14,8),('L',(8,8)),('A',(4,12),4,4,False),('L',(4,36)),('A',(8,40),4,4,False),('L',(11,40)))
-        path(self,'right',(36,14),('L',(36,36)),('A',(32,40),4,4,True),('L',(31,40)))
-        self.add_line('terminal',(44,20),(44,28))
-        bolt(self,'bolt',((25,8),(16,25),(25,25),(20,40)))
-        contacts(self)
+
+        def path(name, start, steps, closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                else: self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m); here=end
+            self.add_contour(name,*members,closed=closed)
+        def poly(name,*pts,closed=False): self.add_polyline(name,*pts,closed=closed)
+        def line(name,a,b): self.add_line(name,a,b)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+        path('case',(8,8),[('L',(32,8)),('A',(36,12),4,4,True),('L',(36,36)),('A',(32,40),4,4,True),('L',(8,40)),('A',(4,36),4,4,True),('L',(4,12)),('A',(8,8),4,4,True)],True)
+        poly('bolt',(24,17),(16,25),(25,25),(18,31));line('terminal',(44,20),(44,28))

@@ -1,32 +1,34 @@
-"""Open Hand Palm. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
-
-"""
+'Four rounded fingers and left thumb on a broad smooth open palm. Shared finger radius4 and pitch8. Horizontal envelope accommodates five digits.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '92d8dd38-d4cf-4c21-a6ee-c09f59061b77'
 SOURCE_PATH = 'pictographic-primitives/other/hand 1_92d8dd38-d4cf-4c21-a6ee-c09f59061b77.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide hand: four rounded fingertips with shared seams; source palm.'
+OMISSIONS = 'Wrist line retained; no palm crease.'
+
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
 
 class Drawing(Solo48):
     icon_id = 'open-hand-palm-solo'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('sub icon', 'open hand palm')
+    aliases = ()
+    keywords = ('hand', '1')
     def build(self):
-        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
-        self.add_bezier('hand',(18,44),((13,40),(8,34),(8,30)),((8,26),(12,25),(15,29)))
-        self.add_line('index',(15,29),(15,10))
-        self.add_arc('finger-a',(15,10),(23,10),radius_x=4)
-        self.add_line('joint-a',(23,10),(23,8))
-        self.add_arc('finger-b',(23,8),(31,8),radius_x=4)
-        self.add_line('joint-b',(31,8),(31,12))
-        self.add_arc('finger-c',(31,12),(39,12),radius_x=4)
-        self.add_bezier('outer',(39,12),((40,20),(40,27),(40,32)),((40,40),(34,44),(27,44)))
-        self.add_line('wrist',(27,44),(18,44))
-        self.add_contour('outline','hand','index','finger-a','joint-a','finger-b','joint-b','finger-c','outer','wrist',closed=True)
+        path(self,'hand',(12,27),[('L',(12,16)),('A',4,4,True,(20,16)),('L',(20,12)),('A',4,4,True,(28,12)),('L',(28,14)),('A',4,4,True,(36,14)),('L',(36,18)),('A',4,4,True,(44,18)),('L',(44,28)),('A',12,12,True,(32,40)),('L',(23,40)),('C',(15,40),(4,32),(4,27)),('C',(4,22),(10,22),(12,27))],True)
+        for x,y in [(20,16),(28,14),(36,18)]:
+            self.add_line('crease-'+str(x),(x,y),(x,25))
+            self.relate('connect','hand','crease-'+str(x))

@@ -1,42 +1,39 @@
-'looped-cord-and-two-pin-plug. Plan: Single serpentine cord feeding a right-facing two-pin plug. Keyshape: HRECT_L, exact SOLO48 bounds. Construction: Lucide cable: coherent cable path and plug attachments. Reduction: Two broad cable turns feed a rectangular plug with two actual projecting pins; removed additional original loops.'
+"""Looped cord with a rounded two-pin plug; one continuous cable curls into the center of its rear wall. Equal pins share length and spacing.
+Keyshape HRECT_L: exact SOLO48 contract envelope.
+Construction references: Lucide plug and cable: smooth cable turns, rounded housing and equal pins.
+Omissions: Extra cable turns reduced to one open loop.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e1427d2c-be06-40e8-b02b-6218ce9bc520'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_13/cord_e1427d2c-be06-40e8-b02b-6218ce9bc520.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'looped-cord-and-two-pin-plug'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects'
     aliases = ()
-    keywords = ('cord', 'cable', 'plug', 'electric', 'power', 'loop', 'connector')
-
+    keywords = ('cord',)
     def build(self):
 
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        path('cord',(36,8),[('L',(12,8)),('A',(12,24),8,8,False),('A',(12,40),8,8,True),('L',(28,40))])
-        rect('plug',28,24,12,16,0);self.relate('connect','cord','plug')
-        for y in (28,36):
-         self.add_line(f'pin-{y}',(40,y),(44,y));self.relate('connect','plug',f'pin-{y}')
+        path('cord',(36,8),[('L',(12,8)),('A',(12,24),8,8,False),('L',(20,24)),('B',(28,32),(24,24),(28,28))])
+        path('plug',(28,32),[('A',(36,24),8,8,True),('L',(36,28)),('L',(36,36)),('L',(36,40)),('A',(28,32),8,8,True)],True)
+        join('cord','plug')
+        for y in (28,36): line(f'pin-{y}',(36,y),(44,y));join('plug',f'pin-{y}')

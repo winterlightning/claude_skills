@@ -1,21 +1,35 @@
-"""Shield (protection), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""Symmetric pointed shield with concave top edges and long smooth sides.
+Symbol plan: shared parameters and coherent contours.
+Construction: shield: coherent symmetric outline.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9d1518e9-5e35-4779-b56b-310143dea4df'
 SOURCE_PATH = 'pictographic-primitives/protection/shield_9d1518e9-5e35-4779-b56b-310143dea4df.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class Shield9d1518e9(Solo48):
-    icon_id = 'shield-9d1518e9'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'protection'
-    aliases = ()
-    keywords = ('shield', 'protection')
+class Drawing(Solo48):
+    icon_id='shield-9d1518e9'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="protection"
+    aliases=()
+    keywords=('shield', '9d1518e9')
+
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
 
     def build(self):
-        self.add_line('e0', (24, 4), (28, 7))
-        self.add_bezier('e1', (24, 44), ((14.173, 37.773), (8.008, 26), (8.008, 13.645)), ((8.008, 13.27), (8, 12.894), (8, 12.518)), ((8, 12.512), (8, 12.506), (8, 12.5)), ((8, 12.209), (8.008, 11.909), (8.008, 11.609)), ((8.025, 11.436), (8, 10.691), (8.059, 10.573)), ((8.101, 10.518), (11.571, 9.882), (11.992, 9.764)), ((15.141, 8.891), (18.147, 7.418), (21.002, 5.782)), ((21.651, 5.409), (22.299, 5.036), (22.939, 4.645)), ((23.166, 4.5), (23.335, 4.264), (23.571, 4.145)), ((24.042, 4), (23.52, 4.282), (24, 4)))
-        self.add_bezier('e2', (28, 7), ((29.979, 8.282), (33.777, 9.2), (36.051, 9.773)), ((36.472, 9.873), (39.933, 10.545), (39.983, 10.6)), ((39.983, 10.664), (39.983, 10.727), (39.983, 10.782)), ((39.983, 11.104), (40, 11.417), (40, 11.731)), ((40, 11.736), (40, 11.74), (40, 11.745)), ((40, 12.155), (39.983, 12.573), (39.983, 12.991)), ((39.983, 25.882), (34.173, 37.291), (24, 44)))
-        self.add_contour('c0', 'e1', 'e0', 'e2', closed=True)
+        # Shared axis x=24, mirrored circular sides; extremes (8,4)-(40,44).
+        self.path('shield',(24,4),[('A',(40,12),40,40,False),('A',(24,44),40,40,True),('A',(8,12),40,40,True),('A',(24,4),40,40,False)],True)

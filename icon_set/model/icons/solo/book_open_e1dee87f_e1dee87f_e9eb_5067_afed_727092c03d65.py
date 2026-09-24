@@ -1,51 +1,40 @@
-"""book-open-e1dee87f: next fifty AI review; original preserved."""
+"""Open book with straight outer sides, rounded corners, curved paired leaves and a central binding.
+Keyshape HRECT_L: exact SOLO48 contract envelope.
+Construction: book-open: straight sides, paired leaf curves and shared spine
+Omissions: None.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e1dee87f-e9eb-5067-afed-727092c03d65'
 SOURCE_PATH = 'pictographic-primitives/content/book open_e1dee87f-e9eb-5067-afed-727092c03d65.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BookOpenE1dee87f(Solo48):
-    icon_id = 'book-open-e1dee87f'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'content'
-    aliases = ()
-    keywords = ('book', 'open', 'content', 'solo-ai-next50')
-
+class Drawing(Solo48):
+    icon_id='book-open-e1dee87f'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='content'
+    aliases=()
+    keywords=('book', 'open', 'e1dee87f')
     def build(self):
-        # Plan: A soft open book has bowed outer edges and level inner leaves. Its flared silhouette and broad centered lower arc create a distinct flexible binding.
-        # Reference: Lucide book-open original and atomic-debug construction.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
-            here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('spread',(24,12),[('C',(8,8),(18,8),(12,8)),('C',(4,28),(6,14),(4,22)),('L',(4,36)),('C',(24,40),(12,34),(18,36)),('C',(44,36),(30,36),(36,34)),('L',(44,28)),('C',(40,8),(44,22),(42,14)),('C',(24,12),(36,8),(30,8))],True)
-        line('spine',(24,12),(24,40));join('spine','spread')
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('spread',(24,14),[('C',(8,8),(20,10),(15,8)),('L',(6,8)),('A',(4,10),2,2,False),('L',(4,34)),('A',(6,36),2,2,False),('L',(8,36)),('C',(24,40),(15,36),(20,37)),('C',(40,36),(28,37),(33,36)),('L',(42,36)),('A',(44,34),2,2,False),('L',(44,10)),('A',(42,8),2,2,False),('L',(40,8)),('C',(24,14),(33,8),(28,10))],True)
+        line('spine',(24,14),(24,40));join('spine','spread')

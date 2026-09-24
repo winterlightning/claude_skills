@@ -1,32 +1,39 @@
-"""Arrow thick top (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Mirrored outlined up arrow with a broad head and softly rounded stem base.
+Keyshape VRECT_L: exact SOLO48 contract envelope.
+Construction: arrow-big-up: continuous outline and rounded stem corners
+Omissions: None.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e3d7b5b6-09dd-4914-98aa-6e9e8e9481e4'
 SOURCE_PATH = 'pictographic-primitives/symbol/arrow thick top_e3d7b5b6-09dd-4914-98aa-6e9e8e9481e4.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-reconstructed'
+AUTHOR='gpt-6'
 
-class ArrowThickTopSymbol(Solo48):
-    icon_id = 'arrow-thick-top-symbol'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'symbol'
-    aliases = ()
-    keywords = ('arrow', 'thick', 'top', 'symbol')
-
+class Drawing(Solo48):
+    icon_id='arrow-thick-top-symbol'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='symbol'
+    aliases=()
+    keywords=('arrow', 'thick', 'top', 'symbol')
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (8, 24), (24, 4))
-        self.add_line('e1', (24, 4), (38, 22))
-        self.add_line('e2', (38, 22), (40, 24))
-        self.add_line('e3', (40, 24), (32, 24))
-        self.add_line('e4', (32, 24), (32, 44))
-        self.add_line('e5', (32, 44), (16, 44))
-        self.add_line('e6', (16, 44), (16, 24))
-        self.add_line('e7', (16, 24), (8, 24))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', closed=True)
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('arrow',(24,4),[('L',(40,24)),('L',(30,24)),('L',(30,41)),('A',(27,44),3,3,True),('L',(21,44)),('A',(18,41),3,3,True),('L',(18,24)),('L',(8,24)),('L',(24,4))],True)

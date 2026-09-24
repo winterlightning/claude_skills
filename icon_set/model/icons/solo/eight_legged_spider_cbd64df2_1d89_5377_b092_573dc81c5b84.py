@@ -1,34 +1,42 @@
-"""Eight Legged Spider.
+"""Eight curved mirrored legs and distinct round head and abdomen.
+Plan: named coherent contours; paired features derive from shared parameters.
+Reference: supplied original plus rejected production SVG.
+No useful exact Lucide match inspected; supplied reference guided the geometric reconstruction.
 
-Plan: Eight jointed legs spread from a rounded two-part body. Shared side nodes, four legs per side, equal pitch and mirrored reach. Lucide bug informs body/leg joins. Bounds (4,8)-(44,40).
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'cbd64df2-1d89-5377-b092-573dc81c5b84'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/halloween spider_cbd64df2-1d89-5377-b092-573dc81c5b84.svg'
-AUTHOR = 'gpt-6'
-
-class EightLeggedSpider(Solo48):
-    icon_id = 'eight-legged-spider'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/holidays"
-    aliases = ()
-    keywords = ('eight', 'legged', 'spider')
-
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='eight-legged-spider'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/holidays'
+    aliases=()
+    keywords=('halloween spider',)
     def build(self):
-        self.add_polyline('body-left',(16,16),(16,24),(16,32))
-        self.add_arc('body-bottom',(16,32),(32,32),radius_x=8,sweep=False)
-        self.add_polyline('body-right',(32,32),(32,24),(32,16))
-        self.add_arc('body-top',(32,16),(16,16),radius_x=8,sweep=False)
-        self.add_contour('body','body-left-1','body-left-2','body-bottom','body-right-1','body-right-2','body-top',closed=True)
-        self.contours=[c for c in self.contours if c.contour_id not in ['body-left','body-right']]
-        self.add_line('waist',(16,24),(32,24));self.relate('connect','body','waist')
-        for side in [-1,1]:
-         def p(x,y):return (24+side*x,y)
-         n='left' if side<0 else 'right'
-         for j,pts in enumerate([[p(8,16),p(16,8),p(20,8)],[p(8,16),p(20,16)],[p(8,32),p(20,32)],[p(8,32),p(16,40),p(20,40)]]):
-          self.add_polyline(f'{n}-{j}',*pts);self.relate('connect','body',f'{n}-{j}')
-         self.relate('connect',f'{n}-0',f'{n}-1');self.relate('connect',f'{n}-2',f'{n}-3')
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                k,end,*args=c; name=f'{n}-{j}'
+                if k=='L': self.add_line(name,here,end)
+                elif k=='A': self.add_arc(name,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif k=='C': self.add_bezier(name,here,(args[0],args[1],end))
+                here=end; members.append(name)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        circle('head',24,16,8)
+        path('abdomen',(24,24),[('A',(24,40),8,8,True),('A',(24,24),8,8,True)],True)
+        join('head','abdomen')
+        for s in (-1,1):
+         def p(x,y):return (24+s*x,y)
+         for j,(start,end,c1,c2) in enumerate([(p(8,16),p(12,8),p(12,16),p(12,12)),(p(8,16),p(20,16),p(14,19),p(18,19)),(p(8,32),p(20,32),p(14,29),p(18,29)),(p(8,32),p(12,40),p(12,32),p(12,36))]):
+          path(f'leg-{s}-{j}',start,[('C',end,c1,c2)]);join(f'leg-{s}-{j}','head' if j<2 else 'abdomen')
+         for a,b in [(0,1),(2,3)]:join(f'leg-{s}-{a}',f'leg-{s}-{b}')

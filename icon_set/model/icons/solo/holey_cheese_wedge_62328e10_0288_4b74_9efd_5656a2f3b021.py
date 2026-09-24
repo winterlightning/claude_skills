@@ -1,28 +1,41 @@
-"""Cheese wedge with triangular top and broad perforated side. HRECT_L allows two separated circular holes. Reference supplies curved rind and wedge; no Lucide cheese match. Reduce three holes and partial edge bite to two differently sized holes; level lower face for clearance."""
-from ._base import Solo48
+"""Cheese wedge with a curved rind, shallow sloped top seam and two open circular holes.
+Keyshape HRECT_L: exact SOLO48 contract envelope.
+Construction: No useful local Lucide cheese match; source governs wedge and round perforations
+Omissions: Three holes reduced to two; small edge bite omitted for clearance.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID = '62328e10-0288-4b74-9efd-5656a2f3b021'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/cheddar_62328e10-0288-4b74-9efd-5656a2f3b021.svg'
-AUTHOR = "gpt-6"
+AUTHOR='gpt-6'
+
 class Drawing(Solo48):
-    icon_id = 'holey-cheese-wedge'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "Uncategorized"
-    aliases = ['Holey Cheese Wedge']
-    keywords = ['cheese', 'wedge', 'holes', 'dairy', 'food', 'slice', 'ingredient']
+    icon_id='holey-cheese-wedge'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='Uncategorized'
+    aliases=()
+    keywords=('holey', 'cheese', 'wedge')
     def build(self):
-        self.add_line("slope",(4,22),(24,8))
-        self.add_bezier("rind",(24,8),((32,8),(44,8),(44,12)))
-        self.add_line("side-1",(44,12),(44,40))
-        self.add_line("side-2",(44,40),(4,40))
-        self.add_line("side-3",(4,40),(4,22))
-        self.add_contour("outline","slope","rind","side-1","side-2","side-3",closed=True)
-        self.add_line("top-seam",(4,22),(44,12))
-        self.relate("connect","outline","top-seam")
-        for i,(x,y,r) in enumerate(((18,30,2),(32,27,3))):
-            name=f"hole{i}"
-            self.add_arc(name+"a",(x-r,y),(x+r,y),radius_x=r)
-            self.add_arc(name+"b",(x+r,y),(x-r,y),radius_x=r)
-            self.add_contour(name,name+"a",name+"b",closed=True)
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('wedge',(4,18),[('L',(26,8)),('C',(44,14),(34,8),(40,10)),('L',(44,40)),('L',(4,40)),('L',(4,18))],True)
+        line('top-seam',(4,18),(44,14));join('top-seam','wedge')
+        for i,(x,y) in enumerate(((16,28),(32,27))):ellipse(f'hole-{i}',x,y,3,3)

@@ -1,50 +1,49 @@
-"""Liquid Glue Bottle.
-Plan: Symmetric plain squeeze bottle with a broad rounded base and a rounded tapered nozzle. Centerline extremes (10,4)-(38,44).
-Construction: Lucide milk: simple rounded bottle.
-Reduction: Extra collar band omitted; no label added to the plain body.
+"""Symmetric tapered glue bottle with a distinct cap collar, smoothly rounded base and a tapered rounded nozzle.
+Construction: Lucide milk: a continuous bottle silhouette with deliberately joined cap sections.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7d16ffd0-ae17-562c-bdfa-c0c66b3b9636'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/design tool paper glue_7d16ffd0-ae17-562c-bdfa-c0c66b3b9636.svg'
 AUTHOR = 'gpt-6'
-CATALOG_REFERENCE = 'pictographic-primitives/design/design tool paper glue_7d16ffd0-ae17-562c-bdfa-c0c66b3b9636.svg'
-
-def _run(icon, name, *points):
-    for i,(a,b) in enumerate(zip(points,points[1:]),1):
-        icon.add_line(f'{name}-{i}',a,b)
-
-def _circle(icon,name,cx,cy,r):
-    a,b=(cx-r,cy),(cx+r,cy)
-    icon.add_arc(name+'-a',a,b,radius_x=r)
-    icon.add_arc(name+'-b',b,a,radius_x=r)
-    icon.add_contour(name,name+'-a',name+'-b',closed=True)
-
-def _box(icon,name,l,t,r,b,rad,top_nodes=()):
-    xs=[l+rad]+sorted(x for x in top_nodes if l+rad<x<r-rad)+[r-rad]
-    _run(icon,name+'-top',*[(x,t) for x in xs])
-    icon.add_arc(name+'-tr',(r-rad,t),(r,t+rad),radius_x=rad)
-    icon.add_line(name+'-right',(r,t+rad),(r,b-rad))
-    icon.add_arc(name+'-br',(r,b-rad),(r-rad,b),radius_x=rad)
-    icon.add_line(name+'-bottom',(r-rad,b),(l+rad,b))
-    icon.add_arc(name+'-bl',(l+rad,b),(l,b-rad),radius_x=rad)
-    icon.add_line(name+'-left',(l,b-rad),(l,t+rad))
-    icon.add_arc(name+'-tl',(l,t+rad),(l+rad,t),radius_x=rad)
-    icon.add_contour(name,*[name+f'-top-{i}' for i in range(1,len(xs))],*[name+'-'+s for s in ('tr','right','br','bottom','bl','left','tl')],closed=True)
 
 class Drawing(Solo48):
     icon_id = 'plain-glue-bottle-with-rounded-nozzle'
-    keyshape = Keyshape.VRECT_M
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/design'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/design"
     aliases = ()
-    keywords = ('liquid', 'glue', 'bottle')
+    keywords = ('design', 'tool', 'paper', 'glue')
 
     def build(self):
-        _box(self,'body',10,18,38,44,6)
-        self.add_line('nozzle-left',(16,18),(20,8))
-        self.add_arc('tip',(20,8),(28,8),radius_x=4)
-        self.add_line('nozzle-right',(28,8),(32,18))
-        self.add_contour('nozzle','nozzle-left','tip','nozzle-right')
-        self.relate('connect','nozzle','body')
+        # Symbol plan: Symmetric tapered glue bottle with a distinct cap collar, smoothly rounded base and a tapered rounded nozzle.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        p('body',(14,22),[('L',(34,22)),('C',(37,26),(36,22),(37,24)),('L',(40,38)),('A',(34,44),6,6,True),('L',(14,44)),('A',(8,38),6,6,True),('L',(11,26)),('C',(14,22),(11,24),(12,22))],True)
+        p('collar',(14,22),[('L',(14,14)),('L',(18,14)),('L',(30,14)),('L',(34,14)),('L',(34,22))]);join('collar','body')
+        p('nozzle',(18,14),[('L',(21,6)),('C',(24,4),(22,4),(23,4)),('C',(27,6),(25,4),(26,4)),('L',(30,14))]);join('nozzle','collar')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

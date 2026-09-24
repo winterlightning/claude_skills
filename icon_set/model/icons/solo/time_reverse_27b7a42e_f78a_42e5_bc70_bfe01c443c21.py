@@ -1,41 +1,71 @@
-"""Time reverse (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""time reverse. Revision of reviewer feedback: Bad stroke drawn.
+Plan: Circular clock return arrow; square extremes 6,6,42,42. Continuous circular arc and upper tangent cubic; shared arrow tip.
+Construction reference: Lucide rotate-cw: continuous return arc and single shared arrow tip.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '27b7a42e-f78a-42e5-bc70-bfe01c443c21'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/time reverse_27b7a42e-f78a-42e5-bc70-bfe01c443c21.svg'
 AUTHOR = 'gpt-6'
-
-class TimeReverse(Solo48):
+class Drawing(Solo48):
     icon_id = 'time-reverse'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('time', 'reverse', 'interface-essential')
+    keywords = ('time', 'reverse')
+    def build(self):
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (28, 4), (31, 8))
-        self.add_line('e1', (31, 8), (32, 10))
-        self.add_line('e2', (28, 14), (32, 10))
-        self.add_line('e3', (21, 18), (21, 27))
-        self.add_line('e4', (21, 27), (25, 31))
-        self.add_arc('e5-1', (40, 24), (40, 28), radius_x=50, radius_y=50, large_arc=False, sweep=False)
-        self.add_arc('e5-2', (40, 28), (36, 38), radius_x=18, radius_y=18, large_arc=False, sweep=True)
-        self.add_arc('e5-3', (36, 38), (24, 44), radius_x=15, radius_y=15, large_arc=False, sweep=True)
-        self.add_line('e5-4', (24, 44), (18, 43))
-        self.add_arc('e5-5', (18, 43), (15, 41), radius_x=16, radius_y=16, large_arc=False, sweep=False)
-        self.add_arc('e5-6', (15, 41), (8, 27), radius_x=18, radius_y=18, large_arc=False, sweep=True)
-        self.add_line('e5-7', (8, 27), (9, 19))
-        self.add_line('e5-8', (9, 19), (13, 13))
-        self.add_arc('e5-9', (13, 13), (32, 10), radius_x=15, radius_y=15, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e0', 'e1'), closed=False)
-        self.add_contour('c1', *('e5-1', 'e5-2', 'e5-3', 'e5-4', 'e5-5', 'e5-6', 'e5-7', 'e5-8', 'e5-9'), closed=False)
-        self.add_contour('c2', *('e2',), closed=False)
-        self.add_contour('c3', *('e3', 'e4'), closed=False)
-        self.relate('connect', *('c0', 'c1'))
-        self.relate('connect', *('c0', 'c2'))
-        self.relate('connect', *('c1', 'c2'))
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        bez = self.add_bezier
+        def arc(n,a,b,r,ry=None,sweep=True,large=False):
+            self.add_arc(n,a,b,radius_x=r,radius_y=r if ry is None else ry,sweep=sweep,large_arc=large)
+        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def oval(n,x,y,rx,ry=None):
+            ry = rx if ry is None else ry
+            pts=[(x,y-ry),(x+rx,y),(x,y+ry),(x-rx,y)]
+            for j in range(4): arc(n+str(j),pts[j],pts[(j+1)%4],rx,ry)
+            contour(n,*(n+str(j) for j in range(4)),closed=True)
+        def box(n,l,t,r,b,rad=4):
+            pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+            members=[]
+            for j in range(8):
+                a,bp=pts[j],pts[(j+1)%8]
+                if a==bp: continue
+                name=n+str(j);members.append(name)
+                if j%2: arc(name,a,bp,rad)
+                else: line(name,a,bp)
+            contour(n,*members,closed=True)
+
+        arc('round',(42,24),(24,6),18,sweep=True,large=True)
+        bez('turn',(24,6),((30,6),(34,8),(38,12)))
+        contour('rim','round','turn')
+        poly('arrow',(32,12),(38,12),(38,6))
+        poly('hands',(24,16),(24,25),(29,30))
+
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        ends={q for p in self.primitives for q in (p.start,p.end)}
+        rebuilt=[]; replacements={}
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in ends if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        n=p.element_id+'-joint-'+str(j);rebuilt.append(Line(n,u,v));ids.append(n)
+                    replacements[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)

@@ -1,31 +1,38 @@
-"""Circular arrow (state), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""Clockwise circular arrow with a full rounded sweep and an upper-right open head; fewer coherent arcs remove the rejected kink."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a576eae9-10c6-460b-afb1-570ec971a498'
 SOURCE_PATH = 'pictographic-primitives/state/circular arrow_a576eae9-10c6-460b-afb1-570ec971a498.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-reconstructed'
+AUTHOR='gpt-6'
 
-class CircularArrow(Solo48):
-    icon_id = 'circular-arrow'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'state'
-    aliases = ()
-    keywords = ('circular', 'arrow', 'state')
+class Drawing(Solo48):
+    icon_id='circular-arrow'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="state"
+    aliases=()
+    keywords=()
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_line('e0', (41, 15), (36, 11))
-        self.add_line('e1', (40, 31), (42, 26))
-        self.add_line('e2', (32, 16), (41, 16))
-        self.add_line('e3', (41, 16), (41, 7))
-        self.add_bezier('e4', (36, 11), ((35.067, 10.223), (34.391, 9.256), (33.385, 8.585)), ((30.914, 6.957), (27.78, 6.016), (24.818, 6.016)), ((24.442, 6.016), (24.065, 6), (23.689, 6)), ((23.503, 6), (23.326, 6), (23.149, 6)), ((21.717, 6), (20.245, 6.352), (18.878, 6.753)), ((13.65, 8.315), (9.575, 11.883), (7.366, 16.898)), ((6.573, 18.706), (6.016, 20.76), (6.016, 22.748)), ((6.016, 22.928), (6, 23.116), (6, 23.296)), ((6, 23.541), (6.008, 23.783), (6.008, 24.016)), ((6.008, 31.56), (11.032, 38.343), (18.044, 40.895)), ((19.688, 41.501), (21.529, 41.984), (23.296, 41.984)), ((23.558, 41.984), (23.82, 42), (24.082, 42)), ((24.411, 42), (24.725, 41.984), (25.039, 41.984)), ((30.766, 41.984), (36.445, 38.155), (39.284, 33.319)), ((39.644, 32.714), (39.779, 31.671), (40, 31)))
-        self.add_contour('c0', 'e0', 'e4', 'e1', closed=False)
-        self.add_contour('c1', 'e2', 'e3', closed=False)
-        self.relate('connect', 'c0', 'c1')
+        # Symbol plan: Clockwise circular arrow with a full rounded sweep and an upper-right open head; fewer coherent arcs remove the rejected kink.
+
+        def path(n,start,commands,closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                m=f'{n}-{i}'
+                if kind=='L': self.add_line(m,start,end)
+                elif kind=='A': self.add_arc(m,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(m,start,(args[0],args[1],end))
+                members.append(m);start=end
+            self.add_contour(n,*members,closed=closed)
+        def oval(n,x,y,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(n,l,t,r,b,rad=4):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('arc',(42,28),[('C',(24,42),(40,37),(33,42)),('A',(6,24),18,18,True),('A',(24,6),18,18,True),('C',(40,16),(31,6),(36,10))])
+        self.add_polyline('head',(40,6),(40,16),(30,16));join('head','arc')

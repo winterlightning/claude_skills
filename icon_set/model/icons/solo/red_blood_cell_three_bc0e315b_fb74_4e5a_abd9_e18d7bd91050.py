@@ -1,41 +1,37 @@
-"""Red blood cell three (health), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Three separate red blood cells in a triangular arrangement.
+Symbol plan: shared parameters and coherent contours.
+Construction: No useful exact Lucide match; coherent elliptical contours.
+Omissions: Small source tilts reduced to horizontal ovals to avoid fragmented curves.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bc0e315b-fb74-4e5a-abd9-e18d7bd91050'
 SOURCE_PATH = 'pictographic-primitives/health/red blood cell three_bc0e315b-fb74-4e5a-abd9-e18d7bd91050.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class RedBloodCellThree(Solo48):
-    icon_id = 'red-blood-cell-three'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'health'
-    aliases = ()
-    keywords = ('red', 'blood', 'cell', 'three', 'health')
+class Drawing(Solo48):
+    icon_id='red-blood-cell-three'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="health"
+    aliases=()
+    keywords=('red', 'blood', 'cell', 'three')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_arc('e0-1', (20, 11), (12, 8), radius_x=13, radius_y=13, large_arc=False, sweep=False)
-        self.add_line('e0-2', (12, 8), (6, 9))
-        self.add_arc('e0-3', (6, 9), (4, 12), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('e0-4', (4, 12), (9, 16), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_arc('e0-5', (9, 16), (19, 16), radius_x=17, radius_y=17, large_arc=False, sweep=False)
-        self.add_arc('e0-6', (19, 16), (20, 11), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_arc('e1-1', (43, 13), (34, 13), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_arc('e1-2', (34, 13), (28, 20), radius_x=8, radius_y=8, large_arc=False, sweep=False)
-        self.add_arc('e1-3', (28, 20), (35, 22), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_arc('e1-4', (35, 22), (43, 18), radius_x=17, radius_y=17, large_arc=False, sweep=False)
-        self.add_arc('e1-5', (43, 18), (44, 15), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_line('e1-6', (44, 15), (43, 13))
-        self.add_line('e2-1', (28, 38), (22, 40))
-        self.add_arc('e2-2', (22, 40), (11, 37), radius_x=22, radius_y=22, large_arc=False, sweep=True)
-        self.add_arc('e2-3', (11, 37), (6, 31), radius_x=10, radius_y=10, large_arc=False, sweep=True)
-        self.add_arc('e2-4', (6, 31), (11, 25), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('e2-5', (11, 25), (26, 29), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e2-6', (26, 29), (28, 38), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e0-1', 'e0-2', 'e0-3', 'e0-4', 'e0-5', 'e0-6'), closed=True)
-        self.add_contour('c1', *('e1-1', 'e1-2', 'e1-3', 'e1-4', 'e1-5', 'e1-6'), closed=True)
-        self.add_contour('c2', *('e2-1', 'e2-2', 'e2-3', 'e2-4', 'e2-5', 'e2-6'), closed=True)
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+
+    def build(self):
+        # Three oval definitions retain the source count and broad triangular arrangement.
+        self.oval('upper-left',12,12,8,4)
+        self.oval('upper-right',36,18,8,5)
+        self.oval('lower',17,33,11,7)

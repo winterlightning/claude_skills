@@ -1,37 +1,36 @@
+"""Replace flattened capsule shoulders with balanced rounded ends and tangent diagonal sidewalls; center the transverse seam.
+Construction: Lucide pill: parallel diagonal walls, smoothly rounded ends and perpendicular midpoint seam.
+Omissions: None
+Keyshape SQUARE: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '23650838-a114-42c4-968f-13c9b79fbbd0'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/pill_23650838-a114-42c4-968f-13c9b79fbbd0.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'capsule-pill-23650838'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/health"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/health'
     aliases = ()
-    keywords = ('capsule', 'pill')
-
+    keywords = ('capsule', 'pill', '23650838')
     def build(self):
-        # Plan: Diagonal capsule with a single center seam. SQUARE centerlines (6,6)-(42,42). Lucide pill informs a coherent rounded capsule and transverse seam. Matched paired cubic shoulders preserve smooth integer-grid tangents. The source UUID distinguishes this brief from the other capsule sources.
-        self.path('shell',(24,10),[((28,6),(30,6),(34,6)),((40,6),(42,10),(42,16)),((42,20),(40,22),(38,24)),(31,31),(24,38),((20,42),(18,42),(14,42)),((8,42),(6,38),(6,32)),((6,28),(8,26),(10,24)),(17,17),(24,10)],True)
-        self.add_line('seam',(17,17),(31,31))
-        self.relate('connect','seam','shell')
 
-    def path(self, name, start, commands, closed=False):
-        members=[]
-        for i, command in enumerate(commands):
-            tag=f"{name}-{i}"
-            if len(command)==2:
-                self.add_line(tag,start,command); start=command
-            else:
-                self.add_bezier(tag,start,command); start=command[2]
-            members.append(tag)
-        self.add_contour(name,*members,closed=closed)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-    def circle(self,name,x,y,r):
-        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
+        path('shell',(24,10),[('C',(31,6),(26,8),(28,6)),('C',(42,17),(37,6),(42,11)),('C',(38,24),(42,20),(40,22)),('L',(31,31)),('L',(24,38)),('C',(17,42),(22,40),(20,42)),('C',(6,31),(11,42),(6,37)),('C',(10,24),(6,28),(8,26)),('L',(17,17)),('L',(24,10))],True)
+        line('seam',(17,17),(31,31));join('seam','shell')

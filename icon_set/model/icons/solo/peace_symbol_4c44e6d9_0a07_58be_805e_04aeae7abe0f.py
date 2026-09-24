@@ -1,33 +1,40 @@
-"""A circular peace emblem with a central stem and paired downward branches.
-
-Construction: No useful exact local match; simple circular arcs and a shared central junction.
-Reduction: No features omitted; diagonal endpoints use the integer 12/16/20 radius triangle.
+"""Circular peace emblem with a vertical stem and two downward diagonal branches.
+Symbol plan: shared parameters and coherent contours.
+Construction: No useful exact Lucide match; exact circle and shared junction.
+Omissions: None
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4c44e6d9-0a07-58be-805e-04aeae7abe0f'
 SOURCE_PATH = 'pictographic-primitives/travel/peace_4c44e6d9-0a07-58be-805e-04aeae7abe0f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='peace-symbol'
+    keyshape=Keyshape.CIRCLE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/travel"
+    aliases=()
+    keywords=('peace', 'symbol')
 
-class PeaceSymbol(Solo48):
-    icon_id = 'peace-symbol'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/travel"
-    aliases = ()
-    keywords = ('peace', 'symbol', 'sign', 'pacifism', 'harmony', 'circle', 'antiwar')
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
 
-    def build(self) -> None:
-        # CIRCLE: center (24,24), centerline radius20, visible radius22.
-        points=[(24,6),(36,40),(24,42),(12,40),(24,6)]
-        for i,(a,b) in enumerate(zip(points,points[1:])):
-         self.add_arc(f'rim-{i}',a,b,radius_x=20)
-        self.add_contour('rim',*(f'rim-{i}' for i in range(4)),closed=True)
-        for name,end in [('top',(24,6)),('bottom',(24,42)),('left',(12,40)),('right',(36,40))]:
-         self.add_line(name,(24,24),end)
-         self.relate('connect','rim',name)
-        for a,b in [('top','bottom'),('top','left'),('top','right'),('bottom','left'),('bottom','right'),('left','right')]:
-         self.relate('connect',a,b)
+    def build(self):
+        # All ring nodes lie on radius20 about (24,24), using 12/16/20 triangles.
+        nodes=[(24,4),(44,24),(36,40),(24,44),(12,40),(4,24),(24,4)]
+        self.path('rim',nodes[0],[('A',p,20,20,True) for p in nodes[1:]],True)
+        for n,p in [('top',(24,4)),('bottom',(24,44)),('left',(12,40)),('right',(36,40))]:
+            self.add_line(n,(24,24),p);self.relate('connect',n,'rim')
+        for i,a in enumerate(['top','bottom','left','right']):
+            for b in ['top','bottom','left','right'][i+1:]:self.relate('connect',a,b)

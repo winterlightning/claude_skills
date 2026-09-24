@@ -1,36 +1,38 @@
-"""Counterclockwise sweeping refresh arrow around a circular pivot. Concentric radii20 and5 leave generous clearance; arrowhead tangent to left terminal.
-Lucide refresh-cw: circular sweep and open arrowhead.
-Keyshape CIRCLE on SOLO48; exact envelope from the unchanged contract.
+"""Counterclockwise circular arrow surrounding a pivot. Elliptical sweep centered 26,24 with radii18,16; arrow points down at left endpoint. Centerline bounds 4,8 to 44,40.
+Construction reference: Lucide rotate-ccw: circular shaft and tangent arrowhead.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7cf64b00-9120-590b-8cbb-dece46c03d25'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/interface-essential/synchronize arrow 2_7cf64b00-9120-590b-8cbb-dece46c03d25.svg'
-SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/synchronize arrow 2_7cf64b00-9120-590b-8cbb-dece46c03d25.svg'
-EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-013/references/synchronize arrow 2_7cf64b00-9120-590b-8cbb-dece46c03d25.svg'
 AUTHOR = 'gpt-6'
-
-class BatchIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'rotation-arrow-around-central-circle-batch-013'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'interface/controls'
     aliases = ()
-    keywords = ('rotation', 'arrow', 'around', 'central', 'circle')
-
+    keywords = ('synchronize', 'arrow', '2')
     def build(self):
+        self.path('sweep',(26,40),[('A',(44,24),18,16,False),('A',(26,8),18,16,False),('A',(8,24),18,16,False)])
+        self.add_polyline('arrow',(4,18),(8,24),(14,18))
+        self.relate('connect','arrow','sweep')
+        self.circle('pivot',26,24,5)
 
-        def circle(name, x, y, r):
-            self.add_arc(name+'-upper',(x-r,y),(x+r,y),radius_x=r)
-            self.add_arc(name+'-lower',(x+r,y),(x-r,y),radius_x=r)
-            self.add_contour(name,name+'-upper',name+'-lower',closed=True)
-
-        self.add_arc('sweep',(24,44),(4,24),radius_x=20,large_arc=True,sweep=False)
-        self.add_polyline('arrowhead',(4,24),(10,18))
-        self.add_line('arrow-wing',(4,24),(10,30))
-        self.relate('connect','arrowhead','arrow-wing')
-        self.relate('connect','sweep','arrow-wing')
-        self.relate('connect','sweep','arrowhead')
-        circle('pivot',24,24,5)
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

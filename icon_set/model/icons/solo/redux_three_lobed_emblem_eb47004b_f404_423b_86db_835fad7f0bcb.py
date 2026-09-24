@@ -1,40 +1,46 @@
-'Three small circular nodes are joined by sweeping curved lines in a rotating triangular arrangement. Each curve wraps around the outside before meeting the next node, leaving open gaps along the outer silhouette.\nPlan: Redux orbit emblem with three open sweep curves and circular nodes.\nConstruction reference: No useful direct Lucide match; reconstructed from the inspected original silhouette.'
+"""redux logo. Revision: Restore three distinct circular nodes and three broad orbital sweeps in triangular arrangement. Preserve open sweep ends.
+Construction: No useful direct Lucide match; supplied source silhouette. Preserve source-facing direction and arrangement.
+Keyshape SQUARE; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'eb47004b-f404-423b-86db-835fad7f0bcb'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_32/redux logo_eb47004b-f404-423b-86db-835fad7f0bcb.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'redux-three-lobed-emblem'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    aliases = ()
-    keywords = ('redux', 'three', 'lobed', 'emblem')
+    icon_id='redux-three-lobed-emblem'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('redux', 'logo')
 
-    # Repair: Separate three orbit sweeps and reposition nodes to protect their radial clearance.
-    # Repair: Move lower-right node away from upper orbit and shorten lower sweep to protect the left node.
     def build(self):
-
-        def path(name,start,steps,closed=False):
-            here=start; members=[]
-            for j,(kind,end,*args) in enumerate(steps):
-                member=f'{name}-{j}'
-                if kind=='L':self.add_line(member,here,end)
-                elif kind=='A':self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C':self.add_bezier(member,here,(args[0],args[1],end))
-                here=end;members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def line(name,a,b):self.add_line(name,a,b)
-        def poly(name,*points):self.add_polyline(name,*points,closed=points[0]==points[-1])
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
         def join(a,b):self.relate('connect',a,b)
 
-        circle('node-a',18,18,2);circle('node-b',14,30,2);circle('node-c',30,30,2)
-        path('orbit-a',(14,28),[('C',(6,20),(6,28),(6,26)),('C',(18,6),(6,10),(10,6)),('C',(32,10),(24,6),(30,6))]);join('node-b','orbit-a')
-        path('orbit-b',(20,18),[('C',(42,28),(34,18),(42,20)),('L',(42,34))]);join('node-a','orbit-b')
-        path('orbit-c',(30,32),[('C',(20,42),(30,38),(28,42)),('C',(6,40),(12,42),(6,42))]);join('node-c','orbit-c')
+        circle('node-top',22,18,3);circle('node-left',14,30,3);circle('node-right',30,31,3)
+        path('orbit-top',(14,27),[('C',(10,19),(10,25),(10,21)),('C',(23,6),(10,10),(17,6)),('C',(32,8),(27,6),(30,6))])
+        path('orbit-right',(25,18),[('C',(42,32),(35,18),(42,23)),('L',(42,34))])
+        path('orbit-left',(30,34),[('C',(19,42),(29,41),(24,42)),('C',(6,40),(12,42),(6,42))])
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

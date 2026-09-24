@@ -1,11 +1,6 @@
-"""Vertical Temperature Measurement Thermometer. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
-
-"""
+"""Thermometer with a true rounded tube, symmetric bulb and two aligned scale marks. Lucide thermometer informed the bulb-to-tube transition; interior mercury retained at a readable size."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '9c8949d3-833c-43ae-a29e-7b03ccb3f36b'
 SOURCE_PATH = 'pictographic-primitives/other/thermometer_9c8949d3-833c-43ae-a29e-7b03ccb3f36b.svg'
 AUTHOR = 'gpt-6'
@@ -16,13 +11,24 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('sub icon', 'vertical temperature measurement thermometer')
+    aliases = ()
+    keywords = ('vertical', 'temperature', 'measurement', 'thermometer', 'solo')
+
     def build(self):
-        self.add_line('tube-left',(10,27),(10,13))
-        self.add_arc('top',(10,13),(28,13),radius_x=9)
-        self.add_line('tube-right',(28,13),(28,27))
-        self.add_bezier('bulb',(28,27),((36,35),(32,44),(20,44)),((8,44),(8,40),(8,36)),((8,32),(9,29),(10,27)))
-        self.add_contour('outline','tube-left','top','tube-right','bulb',closed=True)
-        self.add_line('mercury',(19,24),(19,35))
-        self.add_line('scale',(38,17),(40,17))
+        # Plan: Thermometer with a true rounded tube, symmetric bulb and two aligned scale marks. Lucide thermometer informed the bulb-to-tube transition; interior mercury retained at a readable size.
+        def path(n, start, steps, closed=False):
+            p=start; ids=[]
+            for i,s in enumerate(steps):
+                name=f'{n}-{i}'; kind,end,*args=s
+                if kind=='L': self.add_line(name,p,end)
+                elif kind=='A': self.add_arc(name,p,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(name,p,(args[0],args[1],end))
+                ids.append(name); p=end
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        def join(a,b): self.relate('connect',a,b)
+        path('outline',(10,28),[('L',(10,13)),('A',(28,13),9,9,True),('L',(28,28)),('C',(30,36),(30,30),(30,33)),('C',(19,44),(30,42),(25,44)),('C',(8,36),(13,44),(8,42)),('C',(10,28),(8,33),(8,30))],True)
+        line('mercury',(19,24),(19,35))
+        for i,y in enumerate((14,24)):line(f'scale-{i}',(38,y),(40,y))

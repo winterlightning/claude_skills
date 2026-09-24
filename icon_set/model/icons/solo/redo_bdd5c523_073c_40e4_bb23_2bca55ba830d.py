@@ -1,32 +1,48 @@
-"""Redo (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Redo arrow made from two tangent quarter-circle arcs and one smooth shoulder, with a right-angle arrowhead.
+Construction: Lucide redo: coherent curved shaft with an explicit arrowhead junction.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bdd5c523-073c-40e4-bb23-2bca55ba830d'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/redo_bdd5c523-073c-40e4-bb23-2bca55ba830d.svg'
 AUTHOR = 'gpt-6'
 
-class Redo(Solo48):
+class Drawing(Solo48):
     icon_id = 'redo'
     keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'interface-essential'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "interface-essential"
     aliases = ()
-    keywords = ('redo', 'interface-essential')
+    keywords = ('redo',)
 
     def build(self):
-        self.add_line('e0', (40, 4), (40, 14))
-        self.add_line('e1', (32, 14), (40, 14))
-        self.add_arc('e3-1', (25, 44), (12, 37), radius_x=17, radius_y=17, large_arc=False, sweep=True)
-        self.add_arc('e3-2', (12, 37), (9, 32), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_line('e3-3', (9, 32), (8, 25))
-        self.add_arc('e3-4', (8, 25), (9, 19), radius_x=19, radius_y=19, large_arc=False, sweep=True)
-        self.add_arc('e3-5', (9, 19), (11, 14), radius_x=19, radius_y=19, large_arc=False, sweep=True)
-        self.add_arc('e3-6', (11, 14), (23, 6), radius_x=18, radius_y=18, large_arc=False, sweep=True)
-        self.add_arc('e3-7', (23, 6), (40, 14), radius_x=18, radius_y=18, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e3-5', 'e3-6', 'e3-7', closed=False)
-        self.add_contour('c2', 'e1', closed=False)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Symbol plan: Redo arrow made from two tangent quarter-circle arcs and one smooth shoulder, with a right-angle arrowhead.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        p('sweep',(26,44),[('A',(8,26),18,18,True),('A',(26,8),18,18,True),('C',(40,14),(32,8),(36,10))])
+        poly('arrowhead',(40,4),(40,14),(30,14));join('arrowhead','sweep')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

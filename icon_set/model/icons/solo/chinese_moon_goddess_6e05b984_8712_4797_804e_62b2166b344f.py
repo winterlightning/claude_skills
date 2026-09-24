@@ -1,37 +1,41 @@
-"""Chinese Moon Goddess.
-
-Plan: Paired hair buns and a circular radius-8 lower jaw centered at (24,12), above a flared robe and flowing sleeves. Jaw bottom y20 and robe/shoulders at (24,28) give exactly 8 centerline / 4 visible units of detached clearance. Shared human references user.svg and full_body_ref.png. Remove interior robe folds. Bounds (6,6)-(42,42).
+"""Moon goddess with paired hair buns, circular jaw, flared robe and upward curling long sleeves. Head bottom20 and shoulder28 give exact4 ink gap.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction references: human_ref/user.svg and full_body_ref.png: round jaw and balanced head/body proportions.
+Omissions: Robe folds reduced to open silhouette; complete sleeves retained.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6e05b984-8712-4797-804e-62b2166b344f'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/chinese moon festival lady_6e05b984-8712-4797-804e-62b2166b344f.svg'
 AUTHOR = 'gpt-6'
-
-class ChineseMoonGoddess(Solo48):
+class Drawing(Solo48):
     icon_id = 'chinese-moon-goddess'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/holidays"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/holidays'
     aliases = ()
-    keywords = ('chinese', 'moon', 'goddess')
-
+    keywords = ('chinese', 'moon', 'festival', 'lady')
     def build(self):
-        self.add_line('hair-left',(16,12),(16,10))
-        self.add_arc('hair-bun-left',(16,10),(24,10),radius_x=4)
-        self.add_arc('hair-bun-right',(24,10),(32,10),radius_x=4)
-        self.add_line('hair-right',(32,10),(32,12))
-        self.add_arc('jaw',(32,12),(16,12),radius_x=8)
-        self.add_contour('head','hair-left','hair-bun-left','hair-bun-right','hair-right','jaw',closed=True)
-        self.add_polyline('robe',(24,28),(34,42),(14,42),closed=True)
-        self.add_line('left-shoulder',(24,28),(14,28))
-        self.add_arc('left-sleeve',(14,28),(6,36),radius_x=8,sweep=False)
-        self.add_line('left-tail',(6,36),(6,40))
-        self.add_contour('left','left-shoulder','left-sleeve','left-tail')
-        self.add_line('right-shoulder',(24,28),(34,28))
-        self.add_arc('right-sleeve',(34,28),(42,36),radius_x=8)
-        self.add_line('right-tail',(42,36),(42,40))
-        self.add_contour('right','right-shoulder','right-sleeve','right-tail')
-        for a,b in [('robe','left'),('robe','right'),('left','right')]:self.relate('connect',a,b)
+
+        def path(n, start, steps, closed=False):
+            ids=[]; p=start
+            for i,step in enumerate(steps):
+                k=f'{n}-{i}';kind=step[0];q=step[1]
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=step[2],radius_y=step[3],sweep=step[4])
+                elif kind=='B': self.add_bezier(k,p,(step[2],step[3],q))
+                ids.append(k);p=q
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        path('head',(16,12),[('L',(16,10)),('A',(24,10),4,4,True),('A',(32,10),4,4,True),('L',(32,12)),('A',(16,12),8,8,True)],True)
+        path('robe',(18,28),[('L',(24,28)),('L',(30,28)),('B',(42,42),(30,34),(36,38)),('L',(6,42)),('B',(18,28),(12,38),(18,34))],True)
+        for side in (0,1):
+         p=lambda x,y:(x,y) if not side else (48-x,y)
+         path('sleeve-'+str(side),p(18,28),[('B',p(10,34),p(18,32),p(14,34)),('B',p(6,22),p(6,34),p(6,28))])
+         join('robe','sleeve-'+str(side))

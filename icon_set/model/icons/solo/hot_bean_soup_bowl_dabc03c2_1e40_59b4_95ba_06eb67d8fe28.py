@@ -1,44 +1,42 @@
-"""Hot Bowl of Bean Soup.
-Symbol plan: Broad open bowl with one large kidney bean, two steam wisps. Bounds (4,8)-(44,40).
-Construction reference: Lucide soup for bowl and wisps; supplied reference for bean on open surface.
-Reduction: Two beans reduced to one recognizable kidney bean; rear rim and foot omitted.
-"""
+"""Broad bowl with two separated curved steam wisps and one recognizable bean. Smooth bowl contour and large bean opening.
+Keyshape HRECT_L. Lucide soup: simple smooth bowl and long coherent steam strokes.
+Omissions: One bean, rear rim and foot omitted to preserve spacing."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'dabc03c2-1e40-59b4-95ba-06eb67d8fe28'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/bean soup_dabc03c2-1e40-59b4-95ba-06eb67d8fe28.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-class HotBeanSoupBowl(Solo48):
+class Drawing(Solo48):
     icon_id = 'hot-bean-soup-bowl'
     keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/food'
-    aliases = ()
-    keywords = ('hot', 'bean', 'soup', 'bowl')
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/food"
+    aliases=()
+    keywords=('hot', 'bean', 'soup', 'bowl')
 
     def build(self):
-        self.path('bowl',(4,22),[((4,34),(14,40),(24,40)),((34,40),(44,34),(44,22))])
-        self.path('bean',(22,20),[((27,18),(31,21),(31,25)),((31,30),(25,32),(21,29)),((17,26),(23,25),(20,22)),((19,21),(20,20),(22,20))],True)
-        for i,x in enumerate((12,38)):self.steam(x,8,14,f'steam-{i}')
 
-    def path(self, name, start, commands, closed=False):
-        members=[]
-        for j,c in enumerate(commands):
-            tag=f'{name}-{j}'
-            if len(c)==2:self.add_line(tag,start,c);start=c
-            else:self.add_bezier(tag,start,c);start=c[2]
-            members.append(tag)
-        self.add_contour(name,*members,closed=closed)
+        def path(n, start, steps, closed=False):
+            members=[]; here=start
+            for i,(kind,end,*a) in enumerate(steps):
+                if here==end: continue
+                tag=f'{n}-{i}'
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif kind=='C': self.add_bezier(tag,here,(a[0],a[1],end))
+                members.append(tag); here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,q=4):
+            path(n,(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-    def loop(self,name,x,y,rx,ry=None):
-        ry=rx if ry is None else ry
-        self.add_arc(name+'-r',(x,y-ry),(x,y+ry),radius_x=rx,radius_y=ry)
-        self.add_arc(name+'-l',(x,y+ry),(x,y-ry),radius_x=rx,radius_y=ry)
-        self.add_contour(name,name+'-r',name+'-l',closed=True)
+        path('bowl',(4,23),[('A',(24,40),20,17,False),('A',(44,23),20,17,False)])
+        path('bean',(20,21),[('C',(31,25),(27,18),(31,20)),('C',(23,31),(31,30),(27,32)),('C',(18,27),(19,31),(17,29)),('C',(20,21),(22,27),(23,24))],True)
+        for x in (11,38):path(f'steam-{x}',(x,8),[('C',(x,14),(x-3,10),(x+3,12))])
 
-    def steam(self,x,top,bottom,name):
-        mid=(top+bottom)//2
-        self.add_bezier(name,(x+1,top),((x-2,top+2),(x-2,mid),(x,mid)),((x+2,mid),(x+2,bottom-2),(x-1,bottom)))

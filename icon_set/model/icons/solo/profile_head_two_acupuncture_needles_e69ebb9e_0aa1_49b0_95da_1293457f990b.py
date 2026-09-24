@@ -1,49 +1,46 @@
-'Head with Acupuncture Needles.\nPlan: Right-facing profile with two separate round-headed acupuncture needles inserted into the scalp.\nConstruction reference: No useful exact local Lucide match; geometric arcs and coherent contours preserve the supplied subject.\nReduction: Eye and ear omitted; both round-headed needles remain separated and meet actual scalp nodes.\nKeyshape: SQUARE; use exact SOLO48 centerline extremes from the contract.'
+"""acupuncture head. Revision: Restore two outlined pin heads with shorter diagonal needles, smooth the head silhouette and jaw. Omit eye and ear.
+Construction: Shared human_ref/user.svg: round cranium; source needles interrupt scalp, no detached body. Preserve source-facing direction and arrangement.
+Keyshape SQUARE; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e69ebb9e-0aa1-49b0-95da-1293457f990b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_01/acupuncture head_e69ebb9e-0aa1-49b0-95da-1293457f990b.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'profile-head-two-acupuncture-needles'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('profile', 'head', 'two', 'acupuncture', 'needles')
+    icon_id='profile-head-two-acupuncture-needles'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('acupuncture', 'head')
 
     def build(self):
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        circle('pin-upper',14,9,3);circle('pin-left',9,25,3)
+        path('head',(19,42),[('L',(19,39)),('C',(16,36),(19,38),(17,37))])
+        path('face',(29,13),[('A',(38,22),9,9,True),('L',(42,30)),('L',(37,31)),('L',(37,34)),('A',(31,40),6,6,True),('L',(31,42))])
+        line('needle-upper',(14,12),(20,18));line('needle-left',(12,25),(17,27))
 
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('head',(20,42),[(20,38),(14,32),(14,30),((24,20),10,10,True),((34,30),10,10,True),(42,34),(34,36),(34,42)])
-        circle('pin-one',8,8,2);circle('pin-two',24,8,2)
-        self.add_line('needle-one',(10,8),(14,30));self.relate('connect','needle-one','pin-one');self.relate('connect','needle-one','head')
-        self.add_line('needle-two',(24,10),(24,20));self.relate('connect','needle-two','pin-two');self.relate('connect','needle-two','head')
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

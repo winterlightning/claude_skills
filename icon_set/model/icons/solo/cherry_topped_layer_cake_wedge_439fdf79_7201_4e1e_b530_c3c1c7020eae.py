@@ -1,42 +1,39 @@
-'Cherry Topped Layer Cake Wedge\nPlan: Cake wedge, single layer seam and round cherry on top.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Single layer retained with cherry and stem; perspective reduced to triangular top.\nKeyshape: VRECT_L; exact SOLO48 contract envelope.'
+"""Cherry-topped layer cake has a curved rear edge and a cherry stem; extremes 6,6,42,42.
+Construction: cake-slice: curved back and spaced layer
+Reduction: One horizontal layer retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '439fdf79-7201-4e1e-b530-c3c1c7020eae'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_14/dessert_439fdf79-7201-4e1e-b530-c3c1c7020eae.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'cherry-topped-layer-cake-wedge'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
+    aliases = ()
     keywords = ('cherry', 'topped', 'layer', 'cake', 'wedge')
-
     def build(self):
 
         def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                else: self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m); here=end
+            self.add_contour(name,*members,closed=closed)
+        def poly(name,*pts,closed=False): self.add_polyline(name,*pts,closed=closed)
+        def line(name,a,b): self.add_line(name,a,b)
+        def join(a,b): self.relate('connect',a,b)
         def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
 
-        path('cake',(8,26),[(40,26),(40,40),((36,44),4,4,True),(8,44),(8,26)],True)
-        self.add_line('layer',(8,35),(40,35));self.relate('connect','layer','cake')
-        self.add_line('top-left',(8,26),(20,18));self.relate('connect','top-left','cake')
-        self.add_bezier('top-right',(30,16),((36,18),(40,21),(40,26)));self.relate('connect','top-right','cake')
-        circle('cherry',25,12,5);self.relate('connect','cherry','top-left');self.relate('connect','cherry','top-right')
-        self.add_bezier('stem',(25,7),((25,5),(29,4),(32,4)));self.relate('connect','stem','cherry')
+        path('cake',(26,12),[('A',(42,24),16,12,True),('L',(42,33)),('L',(42,38)),('A',(38,42),4,4,True),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,33)),('L',(6,24)),('L',(18,12))])
+        circle('cherry',22,12,4);join('cherry','cake')
+        line('stem',(22,8),(26,6));join('stem','cherry')
+        line('top',(6,24),(42,24));join('top','cake')
+        line('layer',(6,33),(42,33));join('layer','cake')

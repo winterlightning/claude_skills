@@ -1,43 +1,47 @@
-"""An open head-and-shoulders outline with a broad head and narrow neck. Vertical envelope fits the silhouette. Lucide user-round informs paired shoulder curves, while the source establishes the connected neck. Tiny ear bumps are omitted for smooth sides; the bottom remains open."""
+"""Man head and shoulders as a single smooth open outline with a continuous neck, circular jaw arcs and rounded shoulder sweeps.
+Construction: Human user.svg and full_body_ref.png: smooth head/shoulder construction. The original has a continuous neck, not a detached head.
+Omissions: Omit tiny ear bumps; preserve the uninterrupted neck and open shoulder baseline.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'fabe2871-28e2-4de0-93c6-579984309329'
 SOURCE_PATH = 'pictographic-primitives/photography/man_fabe2871-28e2-4de0-93c6-579984309329.svg'
 AUTHOR = 'gpt-6'
 
-class ManHeadShouldersOutline(Solo48):
+class Drawing(Solo48):
     icon_id = 'man-head-shoulders-outline'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/photography"
     aliases = ()
-    keywords = ('man', 'person', 'silhouette', 'portrait', 'profile', 'user', 'avatar', 'head')
+    keywords = ('man',)
 
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
-        def connect(a,b): self.relate("connect",a,b)
-        def circle(n,x,y,r):
-            arc(n+'-top',(x-r,y),(x+r,y),r)
-            arc(n+'-bottom',(x+r,y),(x-r,y),r)
-            contour(n,n+'-top',n+'-bottom',closed=True)
-        def box(n,l,t,r,b,rad=4):
-            pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-            for j,a in enumerate(pts):
-                z=pts[(j+1)%8]
-                if j%2:arc(n+str(j),a,z,rad)
-                else:line(n+str(j),a,z)
-            contour(n,*[n+str(j) for j in range(8)],closed=True)
+        # Symbol plan: Man head and shoulders as a single smooth open outline with a continuous neck, circular jaw arcs and rounded shoulder sweeps.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        p('portrait',(8,44),[('C',(12,36),(8,40),(9,38)),('L',(20,32)),('L',(20,28)),('A',(14,16),14,14,True),('A',(34,16),10,12,True),('A',(28,28),14,14,True),('L',(28,32)),('L',(36,36)),('C',(40,44),(39,38),(40,40))])
 
-        line('crown',(20,4),(28,4))
-        arc('head-right',(28,4),(34,10),6)
-        poly('jaw-right',(34,10),(34,18),(28,28),(28,32),(36,36))
-        arc('shoulder-right',(36,36),(40,44),10)
-        arc('shoulder-left',(8,44),(12,36),10)
-        poly('jaw-left',(12,36),(20,32),(20,28),(14,18),(14,10))
-        arc('head-left',(14,10),(20,4),6)
-        connect('crown','head-left');connect('crown','head-right');connect('head-right','jaw-right');connect('head-left','jaw-left');connect('shoulder-right','jaw-right');connect('shoulder-left','jaw-left')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

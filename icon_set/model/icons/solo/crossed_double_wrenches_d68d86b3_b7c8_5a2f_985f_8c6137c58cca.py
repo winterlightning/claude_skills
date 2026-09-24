@@ -1,37 +1,44 @@
-"""Two outlined double-ended wrenches overlap diagonally; broad open jaws and a continuous foreground handle preserve the tool silhouettes."""
+"""Revision for bad-stroke feedback. Lucide wrench: rounded open jaws and broad diagonal shafts.
+Omissions: Double shaft outlines reduced to open strokes; all four jaws retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd68d86b3-b7c8-5a2f-985f-8c6137c58cca'
 SOURCE_PATH = 'pictographic-primitives/tools/tools wrench_d68d86b3-b7c8-5a2f-985f-8c6137c58cca.svg'
 AUTHOR = 'gpt-6'
-
-class CrossedDoubleWrenches(Solo48):
+class Revision(Solo48):
     icon_id = 'crossed-double-wrenches'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/tools'
     aliases = ()
-    keywords = ('wrenches', 'wrench', 'crossed', 'spanner', 'repair', 'maintenance', 'mechanic', 'tools')
+    keywords = ('tools', 'wrench')
+    def build(self):
 
-    def build(self) -> None:
-        points=[(30,6),(24,12),(24,18),(18,24),(12,24),(6,30),(6,36),(12,30),(18,36),(12,42),(18,42),(24,36),(24,30),(30,24),(36,24),(42,18),(42,12),(36,18),(30,12),(36,6),(30,6)]
-        arcs={0:(6,False),4:(6,False),7:(6,True),10:(6,False),14:(6,False),17:(6,True)}
-        ids=[]
-        for j,(a,b) in enumerate(zip(points,points[1:])):
-            n='front-'+str(j);ids.append(n)
-            if j in arcs:
-                r,sw=arcs[j];self.add_arc(n,a,b,radius_x=r,sweep=sw)
-            else:self.add_line(n,a,b)
-        self.add_contour('front',*ids,closed=True)
-        for name,flip in [('rear-upper',False),('rear-lower',True)]:
-            def p(x,y):return (48-x,48-y) if flip else (x,y)
-            pts=[(18,24),(12,18),(6,12),(6,6),(12,12),(18,6),(18,12),(24,18)]
-            ids=[]
-            for j,(a,b) in enumerate(zip(pts,pts[1:])):
-                n=name+'-'+str(j);ids.append(n)
-                a=p(*a);b=p(*b)
-                if j==1:self.add_arc(n,a,b,radius_x=6)
-                else:self.add_line(n,a,b)
-            self.add_contour(name,*ids)
-            self.relate('connect',name,'front')
+        # Typed continuous paths own their junctions. Repeated parts share parameters.
+        def path(name, start, commands, closed=False):
+            ids=[]; here=start
+            for i, (kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                ids.append(ident);here=end
+            self.add_contour(name,*ids,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        # Four open U-shaped jaws share one curved construction. The two slim
+        # shafts meet at an explicit central crossing; remove double outlines
+        # that made tiny wedges in the rejected drawing.
+        for i,(sx,sy) in enumerate([(-1,-1),(1,-1),(1,1),(-1,1)]):
+            def p(x,y): return (24+sx*(24-x),24+sy*(24-y))
+            path(f'jaw-{i}',p(6,14),[('C',p(18,18),p(8,20),p(14,22)),('C',p(14,6),p(22,14),p(20,8))])
+            line(f'shaft-{i}',p(18,18),(24,24))
+            join(f'jaw-{i}',f'shaft-{i}')
+        for i in range(4):
+            for j in range(i): join(f'shaft-{i}',f'shaft-{j}')

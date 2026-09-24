@@ -1,34 +1,37 @@
-"""A front-facing bust has a rounded lower face topped by a jagged crown-like opening. A curved band crosses the upper head, short rays flank it, and a small vertical mark sits on the chest.
-Lucide user shoulder construction; no exact stress-head match. Jagged opening and band retained; chest mark and extra rays omitted to protect space. Symmetric.
-SQUARE: centerline extremes (6,6)-(42,42); independently authored on SOLO48.
+"""Stressed person with a jagged open head and a detached broad shoulder arch.
+Symbol plan: shared parameters and coherent contours.
+Construction: human_ref/user.svg: broad shoulders and detached head.
+Omissions: Peripheral stress rays and center shirt mark removed to preserve clear head and body.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a909b542-9eea-596a-b3f1-76f310afb7f5'
 SOURCE_PATH = 'pictographic-primitives/work/human resources employee stress_a909b542-9eea-596a-b3f1-76f310afb7f5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='person-with-jagged-open-head'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/work"
+    aliases=()
+    keywords=('person', 'with', 'jagged', 'open', 'head')
 
-class PersonWithJaggedOpenHead(Solo48):
-    icon_id = 'person-with-jagged-open-head'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/work"
-    aliases = ()
-    keywords = ('person', 'head', 'stress', 'employee', 'bust', 'pressure')
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
 
-    def build(self) -> None:
-        self.add_polyline('crown', (15, 18), (15, 6), (20, 10), (24, 6), (28, 10), (33, 6), (33, 18), closed=False)
-        self.add_arc('jaw', (33, 18), (15, 18), radius_x=9, radius_y=9, sweep=True, large_arc=False)
-        self.relate("connect", 'crown', 'jaw')
-        self.add_line('band', (15, 18), (33, 18))
-        self.relate("connect", 'band', 'crown')
-        self.relate("connect", 'band', 'jaw')
-        self.add_dot('ray-left', (6, 16))
-        self.add_dot('ray-right', (42, 16))
-        self.add_arc('shoulder-left', (6, 42), (14, 37), radius_x=8, radius_y=5, sweep=True, large_arc=False)
-        self.add_line('shoulder-top', (14, 37), (34, 37))
-        self.add_arc('shoulder-right', (34, 37), (42, 42), radius_x=8, radius_y=5, sweep=True, large_arc=False)
-        self.add_contour('shoulders', 'shoulder-left', 'shoulder-top', 'shoulder-right', closed=False)
+    def build(self):
+        # Open cranium zigzag retained; smooth semicircular jaw; body apex36 minus jaw28=8.
+        self.path('head',(14,18),[('L',(14,16)),('L',(14,4)),('L',(19,9)),('L',(24,4)),('L',(29,9)),('L',(34,4)),('L',(34,16)),('L',(34,18)),('A',(14,18),10,10,True)],True)
+        self.add_line('opening',(14,16),(34,16));self.relate('connect','opening','head')
+        self.path('shoulders',(8,44),[('A',(40,44),16,8,True)])

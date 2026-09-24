@@ -1,39 +1,33 @@
-"""Paw Print with Round Toes.
-
-Plan: Four toes around a rounded triangular pad; two inner toes are round and larger than outer marks.
-Centerline extremes: (4,8)-(44,40).
-"""
+'Paw print: four outlined rounded toes around a broad curved triangular pad. Mirror symmetry about24. Bounds6,6 to42,42.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4d3f443a-fb06-4e76-808c-702c115f4835'
 SOURCE_PATH = 'pictographic-primitives/pets/pets allowed_4d3f443a-fb06-4e76-808c-702c115f4835.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide paw-print: four circular toes and smooth central pad.'
+OMISSIONS = 'Oval toes replaced by circular outlines for legibility.'
 
-class PawPrintRoundToes(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'paw-print-round-toes'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/pets"
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/pets'
     aliases = ()
-    keywords = ('paw', 'paw-print', 'pets-allowed', 'footprint', 'pet', 'animal', 'track')
-
+    keywords = ('pets', 'allowed')
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        axis=24
-        def mirror(p): return (2 * axis - p[0], p[1])
-        for i,cx in enumerate((16,32)):
-         arc(f'toe-{i}-a',(cx,8),(cx,14),3)
-         arc(f'toe-{i}-b',(cx,14),(cx,8),3)
-         contour(f'toe-{i}',f'toe-{i}-a',f'toe-{i}-b',closed=True)
-        for i,x in enumerate((4,44)):line(f'outer-{i}',(x,22),(x,24))
-        arc('pad-top',(18,30),mirror((18,30)),6,5)
-        line('pad-right',mirror((18,30)),mirror((12,36)))
-        arc('base-right',mirror((12,36)),mirror((16,40)),4)
-        line('base',mirror((16,40)),(16,40))
-        arc('base-left',(16,40),(12,36),4)
-        line('pad-left',(12,36),(18,30))
-        contour('pad','pad-top','pad-right','base-right','base','base-left','pad-left',closed=True)
+        for n,x,y in [('top-left',17,9),('top-right',31,9),('outer-left',9,22),('outer-right',39,22)]:
+            circle(self,n,x,y,3)
+        path(self,'pad',(24,24),[('C',(28,24),(31,31),(34,34)),('C',(38,40),(32,42),(28,42)),('L',(20,42)),('C',(16,42),(10,40),(14,34)),('C',(17,31),(20,24),(24,24))],True)

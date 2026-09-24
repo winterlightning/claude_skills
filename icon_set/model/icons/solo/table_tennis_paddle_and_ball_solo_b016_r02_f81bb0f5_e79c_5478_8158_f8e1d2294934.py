@@ -1,37 +1,37 @@
-"""Large round paddle and detached lower-right ball, with diagonal lower-left handle attached at bottom. Face seam omitted to preserve clear paddle interior. Centerline6,6–42,42.
-Construction reference: No useful exact Lucide match; supplied reference.
+"""Revision for bad-stroke feedback. Lucide coffee informed tangent contour transitions; no useful exact paddle match.
+Omissions: Rubber seam omitted to preserve paddle face opening; outlined handle and ball retained.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='f81bb0f5-e79c-5478-8158-f8e1d2294934'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/kids/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-SAVED_REFERENCE_PATH='/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-016/references/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-AUTHOR='gpt-6'
-class BatchIcon(Solo48):
-    icon_id='table-tennis-paddle-and-ball-solo-b016-r02'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/toys"
-    aliases=()
-    keywords=('table', 'tennis', 'paddle', 'and', 'ball')
+AUTHOR = 'gpt-6'
+class Revision(Solo48):
+    icon_id = 'table-tennis-paddle-and-ball-solo-b016-r02'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/toys'
+    aliases = ()
+    keywords = ('toys', 'ping', 'pong')
     def build(self):
 
-        def circle(n,x,y,r):
-            pts=((x-r,y),(x,y-r),(x+r,y),(x,y+r));members=[]
-            for i in range(4):
-                m=n+str(i);self.add_arc(m,pts[i],pts[(i+1)%4],radius_x=r);members.append(m)
-            self.add_contour(n,*members,closed=True)
-        def path(n,start,commands,closed=False):
-            p=start;members=[]
-            for i,c in enumerate(commands):
-                m=n+str(i);q=c[-1]
-                if c[0]=='L':self.add_line(m,p,q)
-                elif c[0]=='A':self.add_arc(m,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
-                elif c[0]=='B':self.add_bezier(m,p,(c[1],c[2],q))
-                members.append(m);p=q
-            self.add_contour(n,*members,closed=closed)
+        # Typed continuous paths own their junctions. Repeated parts share parameters.
+        def path(name, start, commands, closed=False):
+            ids=[]; here=start
+            for i, (kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                ids.append(ident);here=end
+            self.add_contour(name,*ids,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        circle('paddle',22,20,14);circle('ball',39,39,3)
-        self.add_line('handle',(6,42),(22,34));self.relate('connect','handle','paddle')
+        # Diagonal paddle: large rounded blade, neck, and capsule-ended handle.
+        path('paddle',(18,24),[('C',(12,12),(10,22),(8,18)),('C',(26,6),(16,6),(22,6)),('C',(38,18),(34,6),(38,12)),('C',(24,28),(38,26),(32,28)),('L',(12,42)),('A',(6,36),6,6,True),('L',(18,24))],True)
+        circle('ball',39,39,3)

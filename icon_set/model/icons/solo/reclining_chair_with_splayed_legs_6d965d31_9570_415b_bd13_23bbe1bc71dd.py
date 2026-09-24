@@ -1,44 +1,44 @@
-'Reclining Chair with Splayed Legs.\nSymbol plan: A reclining chair has a long flat seat and an inclined backrest rising to the upper left. Two slender legs splay outward beneath its bent cushion outline at the front and rear.\nConstruction: No useful exact Lucide match; coherent contours and shared parameters.\nReduction: \nKeyshape HRECT_L.'
+"""lounge. Revision: Smooth padded backrest into seat, round both ends and connect splayed legs exactly on underside. Omit no defining features.
+Construction: No useful direct Lucide match; supplied source silhouette. Preserve source-facing direction and arrangement.
+Keyshape HRECT_L; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6d965d31-9570-415b-bd13-23bbe1bc71dd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_26/lounge_6d965d31-9570-415b-bd13-23bbe1bc71dd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='reclining-chair-with-splayed-legs'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('lounge',)
 
-class BatchIcon(Solo48):
-    icon_id = 'reclining-chair-with-splayed-legs'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('lounger', 'chair', 'recliner', 'seat', 'furniture', 'backrest', 'outdoor')
     def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        poly('top',(4,12),(12,8),(26,26),(38,26))
-        arc('end',(38,26),(38,34),4)
-        poly('bottom',(38,34),(18,34),(4,12))
-        con('chair','top-1','top-2','top-3','end','bottom-1','bottom-2',closed=True)
-        line('leg-a',(17,29),(12,40));line('leg-b',(38,34),(44,40))
-        self.relate('connect','leg-a','chair')
-        # Declare only real, shared endpoints as automatic contacts.
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
+
+        path('seat',(4,12),[('A',(8,8),4,4,True),('C',(11,10),(9,8),(10,9)),('L',(25,26)),('L',(40,26)),('A',(40,34),4,4,True),('L',(36,34)),('L',(18,34)),('L',(5,17)),('C',(4,12),(4,16),(4,14))],True)
+        line('rear-leg',(18,34),(13,40));line('front-leg',(36,34),(40,40))
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
         for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
             for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

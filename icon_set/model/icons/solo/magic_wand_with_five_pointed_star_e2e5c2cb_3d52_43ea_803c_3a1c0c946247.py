@@ -1,39 +1,36 @@
-'Five-point star at the end of a diagonal wand. Lucide wand informs the diagonal shaft; retain source star rather than substituting spark lines.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape SQUARE uses exact SOLO48 contract bounds. No useful exact Lucide reference unless noted.'
+"""Rotate the five-pointed star toward the diagonal shaft; a longer 45-degree wand ends at a star valley.
+Construction: Lucide wand: single diagonal shaft; source five-point star retained.
+Omissions: None
+Keyshape SQUARE: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e2e5c2cb-3d52-43ea-803c-3a1c0c946247'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_26/magic wand 1_e2e5c2cb-3d52-43ea-803c-3a1c0c946247.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'magic-wand-with-five-pointed-star'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('magic', 'wand', 'with', 'five', 'pointed', 'star')
     def build(self):
 
-        def path(name,start,steps,closed=False):
-            members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
-            if rad==0:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),(l,t)); return
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        def bez(name,start,*segments): self.add_bezier(name,start,*segments)
-
-        poly('star',(30,6),(34,16),(42,16),(36,23),(39,33),(30,27),(21,33),(24,23),(18,16),(27,16),(30,6))
-        line('wand',(6,42),(21,33));join('wand','star')
+        poly('star',(25,6),(32,12),(41,8),(37,18),(42,26),(32,25),(28,34),(25,25),(16,23),(24,17),closed=True)
+        line('wand',(6,42),(25,25));join('wand','star')

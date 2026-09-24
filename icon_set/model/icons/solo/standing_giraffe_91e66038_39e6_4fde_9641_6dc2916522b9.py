@@ -1,25 +1,33 @@
-'Standing giraffe: independent spacing revision.\n\nWiden muzzle, long neck and both visible legs; omit short overlapping tail and horn strokes.\nNative solo family, VRECT_XL keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
+"""Giraffe with long gently leaning neck, rounded muzzle and foot corners, small ear and two visible legs; no exact Lucide giraffe match. Source directional asymmetry retained. Lengthened the legs while retaining the long neck and rounded muzzle."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '91e66038-39e6-4fde-9641-6dc2916522b9'
 SOURCE_PATH = 'pictographic-primitives/animals/giraffe body_91e66038-39e6-4fde-9641-6dc2916522b9.svg'
 AUTHOR = 'gpt-6'
 
-class StandingGiraffe(Solo48):
+class Drawing(Solo48):
     icon_id = 'standing-giraffe'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
     aliases = ()
-    keywords = ('giraffe', 'standing', 'neck', 'tall', 'animal', 'safari', 'zoo', 'africa')
+    keywords = ('standing', 'giraffe')
 
     def build(self):
-        self.add_polyline('rear-back',(8, 44),(8, 30),(18, 30),closed=False)
-        self.add_arc('shoulder',(18, 30),(22, 26),radius_x=4,radius_y=4,sweep=False)
-        self.add_polyline('neck-head',(22, 26),(24, 8),(32, 8),(40, 16),(40, 26),(32, 24),(32, 44),(24, 44),(24, 38),(16, 38),(16, 44),(8, 44),closed=False)
-        self.contours = [c for c in self.contours if c.contour_id != 'rear-back']
-        self.contours = [c for c in self.contours if c.contour_id != 'neck-head']
-        self.add_line('ear',(24,8),(20,4))
-        self.relate('connect','ear','body')
-        self.add_contour('body','rear-back-1','rear-back-2','shoulder','neck-head-1','neck-head-2','neck-head-3','neck-head-4','neck-head-5','neck-head-6','neck-head-7','neck-head-8','neck-head-9','neck-head-10','neck-head-11',closed=True)
+        # Plan: Giraffe with long gently leaning neck, rounded muzzle and foot corners, small ear and two visible legs; no exact Lucide giraffe match. Source directional asymmetry retained.
+        def path(n, start, steps, closed=False):
+            p=start; ids=[]
+            for i,s in enumerate(steps):
+                name=f'{n}-{i}'; kind,end,*args=s
+                if kind=='L': self.add_line(name,p,end)
+                elif kind=='A': self.add_arc(name,p,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(name,p,(args[0],args[1],end))
+                ids.append(name); p=end
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        def join(a,b): self.relate('connect',a,b)
+        path('body',(10,44),[('A',(8,42),2,2,True),('L',(8,30)),('A',(12,26),4,4,True),('L',(18,26)),('A',(24,20),6,6,False),('L',(26,8)),('L',(32,8)),('L',(38,14)),('C',(40,18),(40,16),(40,16)),('A',(36,22),4,4,True),('L',(32,22)),('L',(32,42)),('A',(30,44),2,2,True),('L',(26,44)),('A',(24,42),2,2,True),('L',(24,34)),('L',(16,34)),('L',(16,42)),('A',(14,44),2,2,True),('L',(10,44))],True)
+        line('ear',(26,8),(22,4));join('ear','body')

@@ -1,56 +1,44 @@
-'Thumbs Up Hand Gesture.\nPlan: Raised or lowered thumb, curved palm, closed fingers and left wrist.\nConstruction reference: Lucide thumbs-up and thumbs-down: coherent thumb/palm contour and separate cuff junction.\nReduction: Four tiny finger creases reduced to one central crease; thumb direction and cuff distinction retained.\nKeyshape: HRECT_L; use exact SOLO48 centerline extremes from the contract.'
+"""cuffed-thumbs-up.
+Plan: Continuous hand silhouette, rounded thumb and fingertip transitions, full cuff and one finger separator; width allocated before detailing.
+Keyshape: SQUARE, exact SOLO48 inset envelope.
+Reference construction: Lucide thumbs-up: contiguous thumb-palm contour and single cuff divider.
+Omissions: Three finger dividers reduced to one.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1f9081ba-1e28-4062-8437-47975e42f022'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_37/thumb_1f9081ba-1e28-4062-8437-47975e42f022.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cuffed-thumbs-up'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('cuffed', 'thumbs', 'up')
+    keywords = ('thumb',)
 
     def build(self):
 
         def path(name, start, steps, closed=False):
-            members, point = [], start
+            members=[]; point=start
             for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
+                member=f"{name}-{index}"
+                if len(step)==2:
+                    self.add_line(member,point,step); point=step
                 else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
+                    end,rx,ry,sweep=step
+                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
                 members.append(member)
-            self.add_contour(name, *members, closed=closed)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+        def curve(name,start,*segments):
+            self.add_bezier(name,start,*segments)
 
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        def point(x,y):return (x,48-y) if False else (x,y)
-        def handpath(name,start,steps,closed=False):
-         out=[]
-         for step in steps:
-          if len(step)==2:out.append(point(*step))
-          else:out.append((point(*step[0]),step[1],step[2],not step[3] if False else step[3]))
-         path(name,point(*start),out,closed)
-        handpath('hand',(14,24),[(20,18),(22,8),(26,8),((30,12),4,4,True),(28,22),(38,22),((44,28),6,6,True),(44,31),(44,34),((38,40),6,6,True),(14,40)])
-        self.add_line('finger-crease',point(35,31),point(44,31));self.relate('connect','finger-crease','hand')
-
-        handpath('cuff',(14,24),[(6,24),((4,26),2,2,False),(4,38),((6,40),2,2,False),(14,40),(14,24)],True);self.relate('connect','hand','cuff')
+        path('outline',(6,26),[((10,22),4,4,True),(16,22),(24,14),(24,6),(28,6),((32,10),4,4,True),(29,22),(36,22),((42,28),6,6,True),(42,36),((36,42),6,6,True),(10,42),((6,38),4,4,True),(6,26)],True)
+        self.add_line('cuff',(16,22),(16,42));self.relate('connect','cuff','outline')
+        self.add_line('finger',(33,32),(42,32));self.relate('connect','finger','outline')

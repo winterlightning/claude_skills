@@ -1,38 +1,37 @@
-"""Round paddle with integrated diagonal handle, diagonal face seam, and separate ball. Centerline6,6–42,42; simplify handle to one sturdy stroke.
-Lucide construction reference: No useful exact Lucide match.
+"""Table tennis paddle, broad diagonal grip and detached ball. Round upper-right face, diagonal face seam; bounds 6,6 to42,42.
+Construction reference: No useful exact Lucide match; circle and tangent handle construction.
+Omissions: None.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='f81bb0f5-e79c-5478-8158-f8e1d2294934'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/kids/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-016/references/toys ping pong_f81bb0f5-e79c-5478-8158-f8e1d2294934.svg'
-AUTHOR='gpt-6'
-class BatchIcon(Solo48):
-    icon_id='table-tennis-paddle-and-ball-solo-b016'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/toys"
-    aliases=()
-    keywords=('table', 'tennis', 'paddle', 'and', 'ball')
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'table-tennis-paddle-and-ball-solo-b016'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/toys'
+    aliases = ()
+    keywords = ('toys', 'ping', 'pong')
     def build(self):
+        self.path('outline',(13,18),[('A',(25,6),12,12,True),('A',(37,18),12,12,True),('A',(25,30),12,12,True),('L',(21,30)),('L',(12,42)),('L',(6,36)),('L',(15,27)),('C',(13,18),(14,24),(13,21))],True)
+        self.add_line('seam',(13,18),(25,30));self.relate('connect','seam','outline')
+        self.circle('ball',39,39,3)
 
-        def circle(n,x,y,r):
-            pts=((x-r,y),(x,y-r),(x+r,y),(x,y+r));members=[]
-            for i in range(4):
-                m=n+str(i);self.add_arc(m,pts[i],pts[(i+1)%4],radius_x=r);members.append(m)
-            self.add_contour(n,*members,closed=True)
-        def path(n,start,commands,closed=False):
-            p=start;members=[]
-            for i,c in enumerate(commands):
-                m=n+str(i);q=c[-1]
-                if c[0]=='L':self.add_line(m,p,q)
-                elif c[0]=='A':self.add_arc(m,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
-                elif c[0]=='B':self.add_bezier(m,p,(c[1],c[2],q))
-                members.append(m);p=q
-            self.add_contour(n,*members,closed=closed)
-
-        circle('paddle',22,18,12)
-        self.add_line('handle',(6,42),(22,30));self.relate('connect','paddle','handle')
-        circle('ball',38,38,4)
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

@@ -1,43 +1,41 @@
-"""Diagonal Chalk Stick with Mark
-Plan: Diagonal broad chalk with beveled tip.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: Lucide pill: diagonal body and terminal seam.
-Reduction: Writing mark omitted to retain clear space beneath the long tool."""
+"""Diagonal chalk stick with rounded upper end, beveled lower end and a detached horizontal chalk mark.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction: pencil and pill: coherent diagonal body and round terminal
+Omissions: None; missing chalk mark restored.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd68116b9-c9af-4353-a796-1e8f052913d8'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_10/chalk_d68116b9-c9af-4353-a796-1e8f052913d8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'diagonal-chalk-stick-with-mark'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('chalk', 'writing', 'stick', 'mark', 'school', 'stationery', 'tool')
-
+    icon_id='diagonal-chalk-stick-with-mark'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('diagonal', 'chalk', 'stick', 'with', 'mark')
     def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('chalk',(6,32),[('L',(30,6)),('L',(42,18)),('L',(19,41)),('L',(6,42)),('L',(6,32))],True)
-        self.add_line('bevel',(6,32),(19,41));self.relate('connect','chalk','bevel')
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('chalk',(6,34),[('C',(10,26),(6,31),(7,28)),('L',(32,6)),('L',(36,6)),('C',(42,12),(39,6),(42,9)),('L',(18,32)),('L',(6,34))],True)
+        line('bevel',(10,26),(18,32));join('bevel','chalk')
+        line('mark',(18,42),(36,42))

@@ -1,41 +1,46 @@
-'Low Vacuum with Tall Curved Hose\nPlan: Low canister and round wheel below tall looping hose, with right floor nozzle.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Single-line hose and floor nozzle; preserve low rounded canister and wheel.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""cleaning vacuum 2. Revision: Restore low canister with large visible wheel, flexible hose and rounded floor nozzle. Omit wheel hub.
+Construction: No useful direct Lucide match; supplied source silhouette. Preserve source-facing direction and arrangement.
+Keyshape SQUARE; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '73b9d387-6248-460f-a92b-023ea2dc33b8'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_11/cleaning vacuum 2_73b9d387-6248-460f-a92b-023ea2dc33b8.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'low-vacuum-with-tall-curved-hose'
-    keyshape = Keyshape.SQUARE
-    category = "objects"
-    keywords = ('low', 'vacuum', 'with', 'tall', 'curved', 'hose')
+    icon_id='low-vacuum-with-tall-curved-hose'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('cleaning', 'vacuum', '2')
 
     def build(self):
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+        path('body',(6,36),[('L',(6,29)),('A',(11,24),5,5,True),('L',(17,24)),('A',(29,36),12,12,True),('L',(29,38)),('L',(18,38))])
+        circle('wheel',12,36,6);join('body','wheel')
+        path('hose',(17,24),[('C',(24,13),(27,24),(24,18)),('L',(24,12)),('A',(36,12),6,6,True),('L',(36,34))]);join('hose','body')
+        path('nozzle',(36,34),[('L',(38,34)),('A',(42,38),4,4,True),('L',(42,42)),('L',(32,42))])
 
-        path('body',(8,39),[(6,26),(14,26),((26,36),12,10,True),(14,39)])
-        circle('wheel',11,39,3);self.relate('connect','wheel','body')
-        self.add_bezier('hose',(23,29),((26,23),(24,17),(24,12)),((24,4),(36,4),(36,12)),((36,22),(36,30),(36,34)));self.relate('connect','hose','body')
-        self.add_polyline('nozzle',(36,34),(42,34),(42,42),(34,42))
-        self.relate('connect','hose','nozzle')
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

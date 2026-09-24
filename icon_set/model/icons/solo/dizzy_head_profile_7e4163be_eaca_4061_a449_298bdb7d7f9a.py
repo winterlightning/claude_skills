@@ -1,38 +1,41 @@
+"""Bad-stroke revision. Shared human_ref/user.svg and full_body_ref.png for simplified human curves; supplied profile retains its own anatomy.
+Omissions: Two minimal orbit marks replace the denser source star series.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7e4163be-eaca-4061-a449-298bdb7d7f9a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/head dizziness_7e4163be-eaca-4061-a449-298bdb7d7f9a.svg'
 AUTHOR = 'gpt-6'
-
-class Drawing(Solo48):
+class Revision(Solo48):
     icon_id = 'dizzy-head-profile'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/health"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/health'
     aliases = ()
-    keywords = ('dizzy', 'head', 'profile')
-
+    keywords = ('head', 'dizziness')
     def build(self):
-        # Plan: Left-facing head with orbit across crown; bounds (6,6)-(42,42). Drop crowded stars and retain circular motion cue. Human reference for simplified contour; source profile intentional asymmetry.
-        self.path('head',(14,16),[(6,28),(14,28),(14,32),((14,36),(16,38),(20,38)),(22,38),(22,42)])
-        self.path('back',(32,42),[(32,34),((38,30),(40,24),(34,16))])
-        self.path('orbit',(14,6),[((6,6),(6,8),(6,11)),((6,14),(10,16),(14,16)),(34,16),((40,16),(42,14),(42,11)),((42,8),(40,6),(34,6)),(26,6)])
-        self.relate('connect','orbit','head');self.relate('connect','orbit','back')
 
-    def path(self, name, start, commands, closed=False):
-        members=[]
-        for i, command in enumerate(commands):
-            tag=f"{name}-{i}"
-            if len(command)==2:
-                self.add_line(tag,start,command); start=command
-            else:
-                self.add_bezier(tag,start,command); start=command[2]
-            members.append(tag)
-        self.add_contour(name,*members,closed=closed)
+        # Typed continuous paths own their junctions. Repeated parts share parameters.
+        def path(name, start, commands, closed=False):
+            ids=[]; here=start
+            for i, (kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                ids.append(ident);here=end
+            self.add_contour(name,*ids,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-    def circle(self,name,x,y,r):
-        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
+        # Left-facing head meets a shallow open orbit; a plus and a round spark sit above.
+        path('orbit',(6,14),[('C',(14,20),(6,17),(10,19)),('C',(24,22),(17,21),(20,22)),('C',(34,20),(28,22),(31,21)),('C',(42,14),(38,19),(42,17))])
+        path('face',(14,20),[('L',(8,30)),('L',(14,30)),('L',(14,34)),('A',(20,40),6,6,False),('L',(22,40)),('L',(22,42))])
+        path('back',(34,20),[('C',(32,36),(38,26),(38,32)),('L',(32,42))])
+        join('face','orbit');join('back','orbit')
+        poly('spark-h',(14,8),(16,8),(18,8));poly('spark-v',(16,6),(16,8),(16,10));join('spark-h','spark-v')
+        circle('spark-circle',32,8,2)

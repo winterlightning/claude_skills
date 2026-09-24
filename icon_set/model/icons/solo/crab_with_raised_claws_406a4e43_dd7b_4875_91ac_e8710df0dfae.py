@@ -1,7 +1,9 @@
-"""Crab with Large Open Pincers."""
+"""Mirrored pointed crab claws above a broad curved carapace, with paired raised arms and two pairs of splayed legs.
+Construction: No useful Lucide crab match; mirrored coherent contour construction.
+Omissions: Reduce three leg pairs to two, preserving large claws and the tapered shell.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '406a4e43-dd7b-4875-91ac-e8710df0dfae'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/crab_406a4e43-dd7b-4875-91ac-e8710df0dfae.svg'
 AUTHOR = 'gpt-6'
@@ -9,19 +11,43 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'crab-with-raised-claws'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/food'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/food"
     aliases = ()
-    keywords = ('crab', 'seafood', 'claw', 'pincer', 'shellfish', 'legs', 'animal')
+    keywords = ('crab',)
 
     def build(self):
-        # Plan: Broad crab body, paired open raised pincers and four legs. Six legs reduced to four. Shared mirror axis and exact shell attachments. No close Lucide match; envelope (6,6)-(42,42).
-        self.add_bezier('shell',(12,28),((12,24),(18,24),(24,24)),((30,24),(36,24),(36,28)),((36,31),(35,34),(33,36)),((30,40),(26,42),(24,42)),((22,42),(18,40),(15,36)),((13,34),(12,31),(12,28)))
-        self.add_contour('body','shell',closed=True)
+        # Symbol plan: Mirrored pointed crab claws above a broad curved carapace, with paired raised arms and two pairs of splayed legs.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        p('shell',(12,27),[('C',(24,23),(16,23),(20,23)),('C',(36,27),(28,23),(32,23)),('C',(33,35),(36,30),(35,33)),('C',(24,42),(30,39),(27,42)),('C',(15,35),(21,42),(18,39)),('C',(12,27),(13,33),(12,30))],True)
         for side in (-1,1):
-         def p(x,y):return (24+side*x,y)
-         self.add_bezier(f'claw-{side}',p(10,6),(p(18,6),p(18,16),p(12,16)),(p(8,16),p(8,10),p(6,8)))
-         self.add_line(f'arm-{side}',p(12,16),p(12,28));self.relate('connect',f'arm-{side}',f'claw-{side}');self.relate('connect',f'arm-{side}','body')
-         self.add_line(f'leg-a-{side}',p(12,28),p(18,31));self.relate('connect',f'leg-a-{side}','body');self.relate('connect',f'leg-a-{side}',f'arm-{side}')
-         self.add_line(f'leg-b-{side}',p(9,36),p(18,42));self.relate('connect',f'leg-b-{side}','body')
+         m=lambda x,y:(24+side*x,y)
+         p('claw-'+str(side),m(9,6),[('C',m(18,12),m(14,6),m(18,8)),('C',m(13,17),m(18,16),m(16,17)),('C',m(6,12),m(9,17),m(7,14)),('L',m(10,12)),('L',m(6,8)),('C',m(9,6),m(6,7),m(7,6))],True)
+         p('arm-'+str(side),m(13,17),[('C',m(12,27),m(13,22),m(13,24))]);join('arm-'+str(side),'claw-'+str(side));join('arm-'+str(side),'shell')
+         line('upper-leg-'+str(side),m(12,27),m(18,32));line('lower-leg-'+str(side),m(9,35),m(18,42))
+         join('upper-leg-'+str(side),'shell');join('upper-leg-'+str(side),'arm-'+str(side));join('lower-leg-'+str(side),'shell')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

@@ -1,25 +1,38 @@
-'pop-up-alert: independent smooth-curve repair.\n\nConstruction: Question panel with a larger readable question hook and separate dot; retain its meaningful asymmetry. Three alert dots replace cramped short rays above the panel.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/circle.svg and atomic-debug/circle.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""Replaced folded question stroke with a true circular hook and distinct dot. Compact alert marks preserve the pop-up cue; side rays shortened to fit clearance.
+Construction: Rounded enclosure construction from Lucide message-square-reply. A true arc question hook and distinct dot replace the folded stroke; side alert rays restored. Center ray reduced to dot for spacing.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '1f2d1b12-2c74-4b57-91be-a4a84e1da748'
 SOURCE_PATH = 'pictographic-primitives/apps/pop up alert_1f2d1b12-2c74-4b57-91be-a4a84e1da748.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
+def path(s,n,start,*steps,closed=False):
+    ids=[]; here=start
+    for i,c in enumerate(steps):
+        k,end,*args=c; ident=f'{n}-{i}'
+        if k=='L': s.add_line(ident,here,end)
+        else: s.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+        ids.append(ident);here=end
+    s.add_contour(n,*ids,closed=closed)
 
-class PopUpAlert(Solo48):
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True),closed=True)
+
+def box(s,n,l,t,r,b,k=3):
+    path(s,n,(l+k,t),('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True),closed=True)
+
+class Drawing(Solo48):
     icon_id = 'pop-up-alert'
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'apps'
-    aliases = ()
-    keywords = ('pop', 'up', 'alert', 'apps')
     keyshape = Keyshape.VRECT_L
-
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "apps"
+    aliases = ()
+    keywords = ('pop', 'up', 'alert')
     def build(self):
-        box(self,'panel',8,12,40,44,4)
-        path(self,'question',(18,26),('C',(18,19.333333333),(30,19.333333333),(30,26)),('C',(30,27),(24,27),(24,27)))
-        self.add_dot('question-dot',(24,35))
-        for name,x in (('left',8),('center',24),('right',40)): self.add_dot('alert-'+name,(x,4))
-        contacts(self)
+        s = self
+        box(s,'panel',8,12,40,44,4)
+        path(s,'question',(21,24),('A',(27,24),3,3,True),('A',(24,27),3,3,True))
+        s.add_dot('question-dot',(24,35))
+        s.add_line('ray-left',(8,4),(10,4));s.add_dot('ray-top',(24,4));s.add_line('ray-right',(38,4),(40,4))

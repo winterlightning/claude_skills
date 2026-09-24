@@ -1,35 +1,34 @@
-"""Upright mouse with two rounded ears and haunch; eye and paw scoring omitted. Lucide rat informs ears."""
+"""A seated mouse facing right, with two round ears, smooth muzzle, pear-shaped haunch and a curved tail. Envelope (8,4)-(40,44).
+Construction reference: Lucide rat: round ears, continuous organic silhouette and curling tail.
+Omissions: Small eye and haunch crease omitted to protect clear interior."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6b5aea17-34c8-5162-be3a-0fe980689f78'
 SOURCE_PATH = 'pictographic-primitives/animals/mouse body_6b5aea17-34c8-5162-be3a-0fe980689f78.svg'
-AUTHOR = 'gpt-6'
+AUTHOR="gpt-6"
 
+class Drawing(Solo48):
+    icon_id='sitting-mouse'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="nature/animals"
+    aliases=()
+    keywords=('mouse', 'body')
+    def build(self):
 
-class SittingMouse(Solo48):
-    icon_id = 'sitting-mouse'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "nature/animals"
-    aliases = ()
-    keywords = ('sitting', 'mouse')
-
-    def build(self) -> None:
-        # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
-        # Curves reaching an edge use bounded cubic controls, with shared endpoints retained.
-        self.add_arc('ear-left-base',(18, 16),(10, 10),radius_x=8,radius_y=6,large_arc=False,sweep=True)
-        self.add_bezier('ear-left',(10, 10),*(((10.0, 6.6862915), (13.13400675, 4.0), (17.0, 4)), ((20.86599325, 4), (24.0, 6.6862915), (24, 10))))
-        self.add_bezier('ear-right',(24, 10),*(((24.0, 6.6862915), (27.13400675, 4.0), (31.0, 4)), ((34.86599325, 4), (38.0, 6.6862915), (38, 10))))
-        self.add_arc('ear-right-base',(38, 10),(34, 16),radius_x=6,radius_y=6,large_arc=False,sweep=True)
-        self.add_line('nose',(34, 16),(40, 22))
-        self.add_arc('muzzle',(40, 22),(32, 28),radius_x=8,radius_y=6,large_arc=False,sweep=True)
-        self.add_line('chest',(32, 28),(32, 34))
-        self.add_bezier('belly',(32, 34),*(((30.22736717, 40.30129534), (25.33504611, 44), (20, 44)),))
-        self.add_bezier('rump',(20, 44),*(((14.66495389, 44), (9.77263283, 40.30129534), (8, 34)),))
-        self.add_arc('back',(8, 34),(18, 24),radius_x=10,radius_y=10,large_arc=False,sweep=True)
-        self.add_line('neck',(18, 24),(18, 16))
-        self.add_bezier('tail',(32, 34),*(((36.418278, 34.0), (40, 38.4771525), (40, 44)),))
-        self.add_contour('mouse',*('ear-left-base', 'ear-left', 'ear-right', 'ear-right-base', 'nose', 'muzzle', 'chest', 'belly', 'rump', 'back', 'neck'),closed=True)
-        self.relate('connect',*('mouse', 'tail'))
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('mouse',(17,16),[('A',(11,10),6,6,True),('A',(17,4),6,6,True),('A',(23,10),6,6,True),('A',(29,4),6,6,True),('A',(35,10),6,6,True),('A',(31,16),6,6,True),('C',(36,21),(34,17),(36,18)),('C',(29,24),(36,24),(32,24)),('L',(29,32)),('C',(28,34),(29,33),(29,34)),('C',(18,44),(27,41),(24,44)),('C',(8,34),(11,44),(8,40)),('C',(17,24),(8,28),(11,26)),('L',(17,16))],True)
+        path('tail',(28,34),[('C',(40,44),(38,32),(40,38))]);join('tail','mouse')

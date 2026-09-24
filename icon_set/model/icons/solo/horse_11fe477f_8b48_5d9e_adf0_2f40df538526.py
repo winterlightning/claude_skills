@@ -1,44 +1,41 @@
-"""Refine the horse’s ear, muzzle, and chest so the head reads less like a single horn.
-Plan: continuous horse profile with raised ear, muzzle and squared hooves.
-SQUARE centerline extremes (6,6)-(42,42).
-Lucide: No useful subject-specific match; supplied original guides the silhouette.
-Independent variant; original preserved."""
+"""Right-facing horse with curved mane and back, long nose and two broad legs; preserve natural asymmetry.
+Keyshape SQUARE. No useful subject-specific Lucide match; supplied original determines the silhouette.
+Omissions: Far legs and eye omitted; tail restored."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '11fe477f-8b48-5d9e-adf0-2f40df538526'
 SOURCE_PATH = 'pictographic-primitives/animals/symbol cavalry_11fe477f-8b48-5d9e-adf0-2f40df538526.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
-class Horse(Solo48):
+class Drawing(Solo48):
     icon_id = 'horse'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'animals'
-    aliases = ()
-    keywords = ('horse', 'pony', 'stallion', 'equine', 'cavalry', 'animal', 'riding', 'profile')
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="animals"
+    aliases=()
+    keywords=('horse',)
 
     def build(self):
 
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, (kind, end, *args) in enumerate(commands):
-                name = f'{n}-{j}'
-                if kind == 'L':
-                    self.add_line(name, here, end)
-                elif kind == 'A':
-                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C':
-                    self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
+        def path(n, start, steps, closed=False):
+            members=[]; here=start
+            for i,(kind,end,*a) in enumerate(steps):
+                if here==end: continue
+                tag=f'{n}-{i}'
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif kind=='C': self.add_bezier(tag,here,(a[0],a[1],end))
+                members.append(tag); here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,q=4):
+            path(n,(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        def circle(n, x, y, r):
-            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        dot = self.add_dot
-        join = lambda a, b: self.relate('connect', a, b)
-        path('horse', (6, 42), [('L', (6, 30)), ('A', (16, 20), 10, 10, True), ('L', (24, 20)), ('A', (30, 14), 6, 6, False), ('L', (30, 6)), ('L', (36, 12)), ('L', (42, 18)), ('L', (42, 26)), ('L', (34, 23)), ('L', (34, 32)), ('A', (32, 34), 2, 2, True), ('L', (32, 42)), ('L', (24, 42)), ('L', (24, 32)), ('L', (14, 32)), ('L', (14, 42)), ('L', (6, 42))], True)
+        path('horse',(10,42),[('L',(10,30)),('A',(20,20),10,10,True),('L',(24,20)),('C',(32,6),(26,12),(30,9)),('L',(33,13)),('L',(42,21)),('C',(37,26),(42,25),(40,27)),('L',(33,24)),('L',(31,42)),('L',(23,42)),('L',(22,31)),('C',(18,30),(20,31),(19,30)),('L',(18,42)),('L',(10,42))],True)
+        path('tail',(20,20),[('C',(6,32),(10,20),(6,24))]);join('tail','horse')
+

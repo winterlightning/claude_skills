@@ -1,38 +1,37 @@
-# Repair: Rebalance the jaw opening and hand together, keeping both readable and separated.
-"""Dog Placing Paw on Hand.
-
-Plan: Upper-right floppy dog head with offered forepaw resting on a broad open palm; finger detail reduced to one contour.
-Centerline extremes: (6,6)-(42,42).
+"""Round dog head and muzzle above a cupped human hand; remove angular fist.
+Plan: named coherent contours; paired features derive from shared parameters.
+Reference: supplied original plus rejected production SVG.
+Lucide dog: coherent rounded animal contours.
+Human reference: icon_set/references/human_ref/full_body_ref.png; hand/foot contour only, no detached head.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '511ea518-3b8b-552d-b9df-827c71ed2c6b'
 SOURCE_PATH = 'pictographic-primitives/pets/dog training giving hand paw_511ea518-3b8b-552d-b9df-827c71ed2c6b.svg'
-AUTHOR = 'gpt-6'
-
-class DogPawOnHand(Solo48):
-    icon_id = 'dog-paw-on-hand'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/pets'
-    aliases = ()
-    keywords = ('dog', 'paw', 'hand', 'shake', 'training', 'trick', 'pet')
-
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='dog-paw-on-hand'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/pets'
+    aliases=()
+    keywords=('dog training giving hand paw',)
     def build(self):
-
-        def line(n, a, b):
-            self.add_line(n, a, b)
-
-        def arc(n, a, b, rx, ry=None, sweep=True):
-            self.add_arc(n, a, b, radius_x=rx, radius_y=ry or rx, sweep=sweep)
-
-        def contour(n, *parts, closed=False):
-            self.add_contour(n, *parts, closed=closed)
-        arc('head', (26, 16), (42, 16), 8, 10)
-        self.add_polyline('muzzle', (26, 16), (18, 16), (18, 24), (28, 24), (28, 34), (20, 34))
-        line('back', (42, 16), (42, 34))
-        self.relate('connect', 'head', 'muzzle')
-        self.relate('connect', 'head', 'back')
-        self.add_polyline('hand', (6, 30), (12, 30), (20, 34), (32, 34), (36, 38), (32, 42), (18, 42), (6, 40))
-        self.relate('connect', 'muzzle', 'hand')
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                k,end,*args=c; name=f'{n}-{j}'
+                if k=='L': self.add_line(name,here,end)
+                elif k=='A': self.add_arc(name,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif k=='C': self.add_bezier(name,here,(args[0],args[1],end))
+                here=end; members.append(name)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('dog',(42,30),[('L',(42,16)),('A',(26,16),8,10,False),('L',(18,16)),('A',(24,24),6,8,False),('L',(28,24)),('L',(28,34))])
+        path('hand',(6,30),[('L',(12,30)),('L',(20,34)),('L',(32,34)),('A',(32,42),4,4,True),('L',(20,42)),('L',(6,38))])
+        join('dog','hand')

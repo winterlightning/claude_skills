@@ -1,40 +1,35 @@
-"""Skull (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""A skull with a smooth circular cranium, cheek transitions and a squared jaw. Bounds (8,4)-(40,44); bilateral symmetry about x24.
+Construction reference: Lucide skull: circular crown, smooth cheek transitions, minimal paired eye sockets.
+Omissions: No added nasal symbol absent from original."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bf02abda-c65a-4ff2-af41-3fdc5c490cc7'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/skull_bf02abda-c65a-4ff2-af41-3fdc5c490cc7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR="gpt-6"
 
-class SkullBf02abda(Solo48):
-    icon_id = 'skull-bf02abda'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'interface-essential'
-    aliases = ()
-    keywords = ('skull', 'interface-essential')
+class Drawing(Solo48):
+    icon_id='skull-bf02abda'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="interface-essential"
+    aliases=()
+    keywords=('skull',)
+    def build(self):
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (24, 38), (24, 44))
-        self.add_line('e1', (12, 34), (15, 37))
-        self.add_line('e2', (15, 37), (15, 40))
-        self.add_line('e3', (18, 44), (30, 44))
-        self.add_line('e4', (33, 40), (33, 37))
-        self.add_arc('e5-1', (33, 37), (39, 28), radius_x=19, radius_y=19, large_arc=False, sweep=False)
-        self.add_line('e5-2', (39, 28), (40, 22))
-        self.add_arc('e5-3', (40, 22), (36, 10), radius_x=20, radius_y=20, large_arc=False, sweep=False)
-        self.add_arc('e5-4', (36, 10), (24, 4), radius_x=15, radius_y=15, large_arc=False, sweep=False)
-        self.add_arc('e5-5', (24, 4), (14, 8), radius_x=15, radius_y=15, large_arc=False, sweep=False)
-        self.add_arc('e5-6', (14, 8), (10, 13), radius_x=18, radius_y=18, large_arc=False, sweep=False)
-        self.add_line('e5-7', (10, 13), (8, 22))
-        self.add_arc('e5-8', (8, 22), (12, 34), radius_x=20, radius_y=20, large_arc=False, sweep=False)
-        self.add_arc('e6', (15, 40), (18, 44), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_arc('e7', (30, 44), (33, 40), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('e8', (31, 20), (31, 20))
-        self.add_line('e9', (17, 20), (17, 20))
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e5-1', 'e5-2', 'e5-3', 'e5-4', 'e5-5', 'e5-6', 'e5-7', 'e5-8', 'e1', 'e2', 'e6', 'e3', 'e7', 'e4'), closed=True)
-        self.relate('connect', *('c0', 'c1'))
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('skull',(8,20),[('A',(24,4),16,16,True),('A',(40,20),16,16,True),('C',(34,34),(40,26),(38,30)),('L',(34,40)),('A',(30,44),4,4,True),('L',(18,44)),('A',(14,40),4,4,True),('L',(14,34)),('C',(8,20),(10,30),(8,26))],True)
+        for x in (17,31): self.add_dot('eye-'+str(x),(x,20))
+        line('jaw-cleft',(24,36),(24,44));join('jaw-cleft','skull')

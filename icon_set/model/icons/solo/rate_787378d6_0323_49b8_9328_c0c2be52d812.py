@@ -1,33 +1,48 @@
-"""Rate (diagrams), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""An exact symmetric diamond divided horizontally at its widest points; remove small off-grid jogs and the uneven top seam.
+Construction: No useful exact Lucide rate symbol; use a shared center and equal diamond diagonals.
+Omissions: None.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '787378d6-0323-49b8-9328-c0c2be52d812'
 SOURCE_PATH = 'pictographic-primitives/diagrams/rate_787378d6-0323-49b8-9328-c0c2be52d812.svg'
 AUTHOR = 'gpt-6'
 
-class Rate(Solo48):
+class Drawing(Solo48):
     icon_id = 'rate'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'diagrams'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "diagrams"
     aliases = ()
-    keywords = ('rate', 'diagrams')
+    keywords = ('rate',)
 
     def build(self):
-        self.add_line('e0', (6, 25), (12, 24))
-        self.add_line('e1', (12, 24), (42, 24))
-        self.add_line('e2', (6, 25), (23, 42))
-        self.add_line('e4', (23, 42), (42, 24))
-        self.add_line('e5', (6, 25), (23, 6))
-        self.add_line('e6', (24, 6), (42, 24))
-        self.add_line('e7', (23, 6), (24, 6))
-        self.add_contour('c0', 'e0', 'e1', closed=False)
-        self.add_contour('c1', 'e2', 'e4', closed=False)
-        self.add_contour('c2', 'e5', 'e7', 'e6', closed=False)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Symbol plan: An exact symmetric diamond divided horizontally at its widest points; remove small off-grid jogs and the uneven top seam.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        poly('diamond',(6,24),(24,6),(42,24),(24,42),closed=True)
+        line('divider',(6,24),(42,24));join('divider','diamond')
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            n=f'{name}-{i}'
+            if kind=='L': self.add_line(n,start,end)
+            elif kind=='A': self.add_arc(n,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(n,start,(args[0],args[1],end))
+            members.append(n);start=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def mirror(self,n,start,commands,closed=True):
+        axis=24
+        m=lambda p:(2*axis-p[0],p[1])
+        nodes=[start]+[c[1] for c in commands]
+        rev=[]
+        for i,c in reversed(list(enumerate(commands))):
+            k,end,*args=c
+            if k=='C':rev.append((k,m(nodes[i]),m(args[1]),m(args[0])))
+            elif k=='A':rev.append((k,m(nodes[i]),*args))
+            else:rev.append((k,m(nodes[i])))
+        self.path(n,start,commands+rev,closed)

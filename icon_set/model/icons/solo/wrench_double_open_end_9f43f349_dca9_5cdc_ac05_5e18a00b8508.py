@@ -1,41 +1,33 @@
-"""Diagonal double open-end wrench. Lucide wrench informs open rounded jaws; the outlined handle is reduced to one straight joining stroke, retaining both opposing mouths.
-
-SOLO48 SQUARE; live visible envelope (4, 4, 44, 44).
-"""
+"""A diagonal double-ended open wrench with rounded jaw shoulders and two angled jaw mouths. Bounds (6,6)-(42,42); halves mirror around (24,24).
+Construction reference: Lucide wrench: curved open jaw and diagonal shaft; source duplicated open jaw retained.
+Omissions: None."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID='9f43f349-dca9-5cdc-ac05-5e18a00b8508'
 SOURCE_PATH='pictographic-primitives/symbol/wrench right_9f43f349-dca9-5cdc-ac05-5e18a00b8508.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
-class WrenchDoubleOpenEnd(Solo48):
+class Drawing(Solo48):
     icon_id='wrench-double-open-end'
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
     category="objects/symbols"
     aliases=()
-    keywords=('wrench', 'spanner', 'tool', 'repair', 'fix', 'settings', 'mechanic', 'maintenance')
-
-    def oval(self,n,cx,cy,rx,ry=None):
-        ry=rx if ry is None else ry
-        self.add_arc(n+'-top',(cx-rx,cy),(cx+rx,cy),radius_x=rx,radius_y=ry)
-        self.add_arc(n+'-bottom',(cx+rx,cy),(cx-rx,cy),radius_x=rx,radius_y=ry)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def raw(self,n,points):
-        for j,(a,b) in enumerate(zip(points,points[1:]),1):self.add_line(n+'-'+str(j),a,b)
-
-    def path(self,n,points,closed=False):
-        self.add_polyline(n,*points,closed=closed)
-
+    keywords=('wrench', 'right')
     def build(self):
 
-        self.add_line('upper-top',(42,6),(37,6));self.add_arc('upper-outer-a',(37,6),(33,14),radius_x=5,sweep=False)
-        self.add_arc('upper-outer-b',(33,14),(37,16),radius_x=5,sweep=False);self.add_line('upper-bottom',(37,16),(42,16))
-        self.add_contour('upper-jaw','upper-top','upper-outer-a','upper-outer-b','upper-bottom')
-        self.add_line('lower-bottom',(6,42),(11,42));self.add_arc('lower-outer-a',(11,42),(15,34),radius_x=5,sweep=False)
-        self.add_arc('lower-outer-b',(15,34),(11,32),radius_x=5,sweep=False);self.add_line('lower-top',(11,32),(6,32))
-        self.add_contour('lower-jaw','lower-bottom','lower-outer-a','lower-outer-b','lower-top')
-        self.add_line('handle',(15,34),(33,14));self.relate('connect','handle','upper-jaw');self.relate('connect','handle','lower-jaw')
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('wrench',(29,6),[('C',(39,7),(32,6),(36,6)),('L',(30,14)),('L',(34,18)),('L',(42,13)),('C',(42,17),(42,11),(42,14)),('C',(31,24),(42,24),(35,26)),('L',(24,31)),('C',(17,42),(26,35),(24,42)),('C',(7,41),(13,42),(10,42)),('L',(18,34)),('L',(14,30)),('L',(6,35)),('C',(6,31),(6,36),(6,33)),('C',(17,24),(6,24),(13,22)),('L',(24,17)),('C',(29,6),(22,13),(23,6))],True)

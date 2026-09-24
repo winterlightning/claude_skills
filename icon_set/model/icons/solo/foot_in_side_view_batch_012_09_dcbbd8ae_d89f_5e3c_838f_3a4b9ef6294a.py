@@ -1,38 +1,35 @@
-"""Human Foot with Two Dots.
-
-SOLO48 visible bounds: (2, 6, 46, 42). Centerline extremes: (4, 8, 44, 40).
-
-Symbol plan: Side-view foot with raised ankle, rounded heel/toe and two detached marks.
-Reduction: Preserve both ambiguous dots below the foot. Human-reference consulted; no detached head applies.
-Construction reference: No useful local Lucide subject match; supplied reference governs.
+"""Anatomical ankle and continuous heel, arch and rounded toes; omit extraction specks.
+Plan: named coherent contours; paired features derive from shared parameters.
+Reference: supplied original plus rejected production SVG.
+No useful exact Lucide match inspected; supplied reference guided the geometric reconstruction.
+Human reference: icon_set/references/human_ref/full_body_ref.png; hand/foot contour only, no detached head.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/health/specialty feet_dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a.svg'
-SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/specialty feet_dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a.svg'
-EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-012/references/specialty feet_dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a.svg'
-AUTHOR = "gpt-6"
-BATCH_AUTHORING_RUN = "20260917-011-015"
-
-
-class GeneratedSolo(Solo48):
-    icon_id = 'foot-in-side-view-batch-012-09'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/batch-subjects"
-    aliases = ()
-    keywords = ('foot', 'ankle', 'heel', 'toe', 'anatomy', 'side')
-
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='foot-in-side-view-batch-012-09'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/batch-subjects'
+    aliases=()
+    keywords=('specialty feet',)
     def build(self):
-        self.add_line('foot-1', (8, 8), (8, 22))
-        self.add_bezier('foot-2', (8, 22), ((8, 30), (4, 30), (4, 32)))
-        self.add_bezier('foot-3', (4, 32), ((4, 36), (12, 34), (16, 32)))
-        self.add_bezier('foot-4', (16, 32), ((24, 28), (30, 32), (38, 32)))
-        self.add_bezier('foot-5', (38, 32), ((46, 32), (46, 24), (38, 24)))
-        self.add_bezier('foot-6', (38, 24), ((30, 24), (20, 18), (20, 8)))
-        self.add_contour('foot', 'foot-1', 'foot-2', 'foot-3', 'foot-4', 'foot-5', 'foot-6', closed=False)
-        self.add_dot('mark-left', (21, 40))
-        self.add_dot('mark-right', (32, 40))
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                k,end,*args=c; name=f'{n}-{j}'
+                if k=='L': self.add_line(name,here,end)
+                elif k=='A': self.add_arc(name,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif k=='C': self.add_bezier(name,here,(args[0],args[1],end))
+                here=end; members.append(name)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('foot',(10,8),[('L',(10,20)),('C',(4,34),(10,28),(4,28)),('A',(10,40),6,6,False),('C',(16,38),(12,40),(14,39)),('C',(32,38),(22,34),(26,38)),('L',(38,38)),('A',(38,28),6,5,False),('C',(24,18),(32,28),(24,22)),('L',(24,8))])

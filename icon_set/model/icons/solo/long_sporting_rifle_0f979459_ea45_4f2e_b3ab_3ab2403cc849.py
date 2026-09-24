@@ -1,54 +1,35 @@
-# Repair: Widen the rifle fore-end while retaining the long barrel and angled stock.
-"""Long Sporting Rifle. Long diagonal rifle and angular shoulder stock; tiny trigger guard removed.
-Keyshape SQUARE: chosen for the subject's overall proportions; authored directly on SOLO48.
-"""
+"""Long diagonal sporting rifle with broad shouldered stock. SQUARE centerlines (6,6)-(42,42). An outlined shoulder stock, enlarged trigger guard and long barrel preserve the rifle silhouette."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0f979459-ea45-4f2e-b3ab-3ab2403cc849'
 SOURCE_PATH = 'pictographic-primitives/war/rifle_0f979459-ea45-4f2e-b3ab-3ab2403cc849.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='No useful local Lucide rifle match'
+DESIGN_PLAN='Long diagonal sporting rifle with broad shouldered stock. SQUARE centerlines (6,6)-(42,42). An outlined shoulder stock, enlarged trigger guard and long barrel preserve the rifle silhouette.'
+OMISSIONS='Doubled barrel edge reduced to one stroke; trigger guard retained and enlarged.'
+class Drawing(Solo48):
+    icon_id='long-sporting-rifle'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/war'
+    aliases=()
+    keywords=('long', 'sporting', 'rifle')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-class LongSportingRifle(Solo48):
-    icon_id = 'long-sporting-rifle'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/war'
-    aliases = ()
-    keywords = ('rifle', 'stock', 'barrel', 'trigger', 'sporting', 'weapon')
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
+
 
     def build(self):
-
-        def L(n, a, b):
-            self.add_line(n, a, b)
-
-        def P(n, *p, closed=False):
-            self.add_polyline(n, *p, closed=closed)
-
-        def A(n, a, b, r, ry=None, s=True):
-            self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
-
-        def C(n, x, y, r):
-            A(n + 'a', (x - r, y), (x + r, y), r)
-            A(n + 'b', (x + r, y), (x - r, y), r)
-            self.add_contour(n, n + 'a', n + 'b', closed=True)
-
-        def J(a, b):
-            self.relate('connect', a, b)
-
-        def R(n, x, y, w, h, r=4):
-            L(n + 't', (x + r, y), (x + w - r, y))
-            A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
-            L(n + 'r', (x + w, y + r), (x + w, y + h - r))
-            A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
-            L(n + 'b', (x + w - r, y + h), (x + r, y + h))
-            A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
-            L(n + 'l', (x, y + h - r), (x, y + r))
-            A(n + 'tl', (x, y + r), (x + r, y), r)
-            self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
-        P('stock', (6, 34), (14, 42), (22, 28), (16, 24), closed=True)
-        L('barrel', (22, 28), (42, 6))
-        J('barrel', 'stock')
-        L('grip', (22, 28), (28, 32))
-        J('grip', 'stock')
-        J('grip', 'barrel')
+        self.add_polyline('stock',(6,34),(14,42),(20,32),(26,24),(20,20),(16,26),(12,28),closed=True)
+        self.add_line('barrel',(26,24),(42,6));self.relate('connect','barrel','stock')
+        self.path('trigger-guard',(26,24),[('C',(34,30),(30,24),(34,26)),('C',(28,38),(34,34),(32,38)),('L',(20,32))]);self.relate('connect','trigger-guard','stock');self.relate('connect','trigger-guard','barrel')

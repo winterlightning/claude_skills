@@ -1,55 +1,34 @@
-"""Wildfire with Smoke Clouds.
-Symbol plan: Pointed flame below three distinct rounded smoke puffs.
-Reference construction: flame.
-SQUARE visible extremes: (4, 4, 44, 44); centerlines inset 2.
-"""
+'Three outlined smoke puffs over a broad pointed flame, smooth base and two tongues. Extremes6,6 to42,42.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e169ce75-2425-4df4-8390-e71be7ca6c54'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/ecology/wildfire_e169ce75-2425-4df4-8390-e71be7ca6c54.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'Lucide flame: pointed tongue flowing into round lower bowl.'
+OMISSIONS = 'Inner flame omitted to retain clearance; all three smoke puffs retained.'
 
-class BatchIcon(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'open-flame-with-three-rounded-smoke-puffs'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/ecology'
     aliases = ()
-    keywords = ('fire', 'smoke', 'flame', 'wildfire', 'heat', 'burning', 'puffs', 'ecology')
+    keywords = ('wildfire',)
     def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry,sweep=sweep)
-        def contour(n,*parts,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members) & set(parts)]
-            self.add_contour(n,*parts,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r)
-            arc(n+'b',(x+r,y),(x-r,y),r)
-            contour(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r:
-                poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for i in range(8):
-                a,b=pts[i],pts[(i+1)%8]
-                if i%2: arc(n+str(i),a,b,r)
-                else: line(n+str(i),a,b)
-            contour(n,*(n+str(i) for i in range(8)),closed=True)
-        arc('tongue',(24,18),(24,30),6,12)
-        line('notch',(24,30),(16,24))
-        arc('left',(16,24),(8,34),8,10,sweep=False)
-        arc('base-left',(8,34),(24,42),16,8,sweep=False)
-        arc('base-right',(24,42),(40,30),16,12,sweep=False)
-        arc('right',(40,30),(24,18),16,12,sweep=False)
-        contour('flame','tongue','notch','left','base-left','base-right','right',closed=True)
-        circle('smoke-left',10,10,4)
-        circle('smoke-center',26,8,2)
-        circle('smoke-right',40,12,2)
-        # Declare only exact shared-endpoint contacts, not mere proximity.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end} & {b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        circle(self,'smoke-left',9,18,3)
+        circle(self,'smoke-middle',21,9,3)
+        circle(self,'smoke-right',38,11,4)
+        path(self,'flame',(20,21),[('C',(29,25),(28,31),(30,32)),('L',(35,26)),('C',(41,34),(42,42),(26,42)),('C',(9,42),(8,37),(13,29)),('L',(17,33)),('C',(21,29),(21,25),(20,21))],True)

@@ -1,42 +1,39 @@
-'Football Passing Through Goalposts\nPlan: Goal at right, detached ball at upper left, two trajectory dashes rising from lower left. Shared post junction.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Two trajectory dashes; ball kept separate from goal.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""A diagonal football travels between upright goalposts above a central post; two trail marks show motion. Extrema 6,6,42,42.
+Construction: No useful Lucide goal-post match; original arrangement retained
+Reduction: Ball laces omitted.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '47149a22-d0ce-4e36-93a9-5d52a967e3c3'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_03/american football score_47149a22-d0ce-4e36-93a9-5d52a967e3c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'football-passing-through-goalposts'
-    keyshape = Keyshape.SQUARE
-    category = "objects"
-    keywords = ('football', 'passing', 'through', 'goalposts')
-
+    icon_id='football-passing-through-goalposts'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('football', 'passing', 'through', 'goalposts')
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+        def path(name,start,steps,closed=False):
+            here=start;members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                elif kind=='C': self.add_bezier(m,here,(args[0],args[1],end))
+                else:self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m);here=end
+            self.add_contour(name,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*pts,closed=False):self.add_polyline(n,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
 
-        self.add_polyline('goal',(26,6),(26,28),(42,28),(42,6))
-        self.add_line('post',(33,28),(33,42)); self.relate('connect','goal','post')
-        self.add_line('foot',(25,42),(41,42)); self.relate('connect','post','foot')
-        ellipse('ball',12,13,6,4)
-        self.add_line('trail-low',(6,42),(7,37))
-        self.add_line('trail-high',(10,29),(13,25))
+        line('left-upright',(6,6),(6,18))
+        poly('goal',(42,6),(42,28),(32,28),(22,28));line('post',(32,28),(32,42));poly('base',(22,42),(32,42),(42,42));join('post','goal');join('post','base')
+        path('ball',(22,18),[('A',(32,8),8,8,True),('A',(22,18),8,8,True)],True)
+        line('trail-low',(6,42),(8,37));line('trail-high',(11,29),(14,25))

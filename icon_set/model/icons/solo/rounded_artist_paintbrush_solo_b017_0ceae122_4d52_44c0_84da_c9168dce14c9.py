@@ -1,37 +1,40 @@
-"""Rounded diagonal paintbrush with long handle, broad ferrule seam and swept lower-left bristles. Centerline6,6–42,42.
-Lucide construction reference: paintbrush.
+"""Diagonal artist brush with rounded handle, slanted ferrule and flowing bristle tip. Centerline extremes 6,6 to 42,42. Deliberately asymmetric sweep follows the source.
+Construction reference: Lucide paintbrush: handle, collar and separate bristle contour.
+Omissions: Thin double collar simplified to a single seam.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='0ceae122-4d52-44c0-84da-c9168dce14c9'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/brush_0ceae122-4d52-44c0-84da-c9168dce14c9.svg'
-SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/brush_0ceae122-4d52-44c0-84da-c9168dce14c9.svg'
-EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-017/references/brush_0ceae122-4d52-44c0-84da-c9168dce14c9.svg'
-AUTHOR='gpt-6'
-class BatchIcon(Solo48):
-    icon_id='rounded-artist-paintbrush-solo-b017'
-    keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/everyday"
-    aliases=()
-    keywords=('rounded', 'artist', 'paintbrush')
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'rounded-artist-paintbrush-solo-b017'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/everyday'
+    aliases = ()
+    keywords = ('brush',)
     def build(self):
+        self.path('handle',(19,24),[('L',(31,9)),('C',(36,6),(33,7),(34,6)),('A',(42,12),6,6,True),('C',(40,17),(42,14),(41,16)),('L',(27,30))])
+        self.path('bristles',(19,24),[('C',(9,32),(13,23),(9,26)),('C',(6,42),(9,37),(8,40)),('C',(27,30),(22,42),(29,39))])
+        self.add_polyline('ferrule',(17,22),(19,24),(27,30),(30,32))
+        self.relate('connect','handle','bristles')
+        self.relate('connect','handle','ferrule')
+        self.relate('connect','bristles','ferrule')
 
-        def circle(n,x,y,r):
-            pts=((x-r,y),(x,y-r),(x+r,y),(x,y+r));members=[]
-            for i in range(4):
-                m=n+str(i);self.add_arc(m,pts[i],pts[(i+1)%4],radius_x=r);members.append(m)
-            self.add_contour(n,*members,closed=True)
-        def path(n,start,commands,closed=False):
-            p=start;members=[]
-            for i,c in enumerate(commands):
-                m=n+str(i);q=c[-1]
-                if c[0]=='L':self.add_line(m,p,q)
-                elif c[0]=='A':self.add_arc(m,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
-                elif c[0]=='B':self.add_bezier(m,p,(c[1],c[2],q))
-                members.append(m);p=q
-            self.add_contour(n,*members,closed=closed)
-
-        path('brush',(6,42),[('B',(12,36),(6,29),(15,26)),('L',(22,22)),('L',(34,6)),('B',(38,6),(42,10),(42,14)),('L',(27,29)),('B',(29,40),(18,42),(6,42))],True)
-        self.add_line('ferrule',(15,26),(27,29));self.relate('connect','ferrule','brush')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

@@ -1,74 +1,38 @@
-"""A rounded rectangular film clapperboard with a raised hinged top and diagonal stripes along the clap rails."""
+"""Round lower board corners and restore stripes to raised clap rail. Shared rail attachment points prevent overshooting ends.
+Construction: Lucide clapperboard: curved board corners, striped tilted upper rail.
+Omissions: Lower duplicate striped band omitted to preserve board opening.
+Keyshape SQUARE: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e5c047d5-bb67-43ec-8917-118d98836012'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_11/clapperboard_e5c047d5-bb67-43ec-8917-118d98836012.svg'
 AUTHOR = 'gpt-6'
-ADAPTED_FROM = 'clapperboard-plain'
-DESIGN_NOTES = 'No defining feature omitted.'
-CONSTRUCTION_REFERENCE = 'Lucide clapperboard original and atomic-debug; coherent contours and shared attachment nodes.'
-
 class Drawing(Solo48):
     icon_id = 'movie-director-film-clapperboard'
-    variant_of = 'clapperboard-plain'
-    variant_label = 'Movie Director Film Clapperboard'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'Uncategorized'
     aliases = ()
-    keywords = ('movie', 'director', 'film', 'clapperboard', 'raised', 'hinged', 'diagonal', 'stripes')
+    keywords = ('movie', 'director', 'film', 'clapperboard')
     def build(self):
-        # Plan: A rounded rectangular film clapperboard with a raised hinged top and diagonal stripes along the clap rails.
-        # SQUARE: exact SOLO48 envelope; repeated parts share coordinates.
-        # Reduction: No defining feature omitted.
 
-        # Shared shape definitions: equal corner radii and exact attachment nodes.
-        nodes = {}
-        def l(n, a, b):
-            self.add_line(n, a, b); nodes[n] = {a, b}
-        def p(n, *pts, closed=False):
-            self.add_polyline(n, *pts, closed=closed); nodes[n] = set(pts)
-        def a(n, start, end, r, sweep=True, ry=None):
-            self.add_arc(n, start, end, radius_x=r, radius_y=ry or r, sweep=sweep)
-            nodes[n] = {start, end}
-        def c(n, x, y, r):
-            pts = [(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
-            for j in range(4):
-                self.add_arc(f'{n}-{j}', pts[j], pts[(j+1)%4], radius_x=r)
-            self.add_contour(n, *[f'{n}-{j}' for j in range(4)], closed=True)
-            nodes[n] = set(pts)
-        def rr(n, x1,y1,x2,y2,r=2, top=(),right=(),bottom=(),left=()):
-            # Clockwise edges are split at real branch attachments.
-            if r == 0:
-                pts=[(x1,y1)]+[(x,y1) for x in sorted(top)]+[(x2,y1)]+[(x2,y) for y in sorted(right)]+[(x2,y2)]+[(x,y2) for x in sorted(bottom,reverse=True)]+[(x1,y2)]+[(x1,y) for y in sorted(left,reverse=True)]
-                p(n,*pts,closed=True)
-                return
-            corners=[((x1+r,y1),(x2-r,y1),(x2,y1+r)),
-                     ((x2,y1+r),(x2,y2-r),(x2-r,y2)),
-                     ((x2-r,y2),(x1+r,y2),(x1,y2-r)),
-                     ((x1,y2-r),(x1,y1+r),(x1+r,y1))]
-            cuts=[[(x,y1) for x in sorted(top)],[(x2,y) for y in sorted(right)],
-                  [(x,y2) for x in sorted(bottom,reverse=True)],[(x1,y) for y in sorted(left,reverse=True)]]
-            members=[]; allpts=set()
-            for j,(start,end,nxt) in enumerate(corners):
-                pts=[start]+[q for q in cuts[j] if q not in (start,end)]+[end]
-                allpts.update(pts)
-                for k,(v,w) in enumerate(zip(pts,pts[1:])):
-                    if v==w: continue
-                    part=f'{n}-e{j}-{k}'; self.add_line(part,v,w);members.append(part)
-                part=f'{n}-c{j}'; self.add_arc(part,end,nxt,radius_x=r);members.append(part)
-            self.add_contour(n,*members,closed=True);nodes[n]=allpts
-        def dot(n,x,y):
-            self.add_dot(n,(x,y));nodes[n]={(x,y)}
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        p('raised',(6,16),(38,6),(42,14),(10,24),closed=True)
-        p('board',(6,24),(18,24),(30,24),(42,24),(42,42),(6,42),closed=True)
-        l('rail',(6,32),(42,32))
-        l('stripe-one',(18,24),(14,32));l('stripe-two',(30,24),(26,32))
-
-        # Only exact shared nodes declare physical contact; never proximity.
-        names=list(nodes)
-        for i,n in enumerate(names):
-            for m in names[i+1:]:
-                if nodes[n] & nodes[m]: self.relate('connect',n,m)
+        poly('raised',(6,16),(22,11),(36,6),(40,14),(26,19),(10,24),closed=True)
+        line('stripe-a',(22,11),(26,19));join('stripe-a','raised')
+        path('board',(10,24),[('L',(42,24)),('L',(42,38)),('A',(38,42),4,4,True),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,24)),('L',(10,24))],True)
+        join('raised','board')

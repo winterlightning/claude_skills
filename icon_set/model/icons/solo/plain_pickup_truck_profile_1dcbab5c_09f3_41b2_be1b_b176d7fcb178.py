@@ -1,41 +1,46 @@
-"Pickup Truck.\nSymbol plan: Two lower half-circle wheels show below the chassis; upper tire halves are hidden to keep the pickup clear.\nConstruction: Lucide original and atomic-debug: bath, truck, notebook, piano, orbit, sprout and pill-bottle; coherent arcs, shared joins and repeated dimensions.\nKeyshape HRECT_L: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+"""car truck. Revision: Restore full circular wheels and rounded bed corners; retain open pickup bed and raised sloped cab. Omit no defining part.
+Construction: Lucide truck: round wheels, shared chassis contacts, rounded corners. Preserve source-facing direction and arrangement.
+Keyshape HRECT_L; exact contract extremes, stroke four. No validation exceptions.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1dcbab5c-09f3-41b2-be1b-b176d7fcb178'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_09/car truck_1dcbab5c-09f3-41b2-be1b-b176d7fcb178.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='plain-pickup-truck-profile'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('car', 'truck')
 
-class BatchIcon(Solo48):
-    icon_id = 'plain-pickup-truck-profile'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('pickup', 'truck', 'vehicle', 'bed', 'cab', 'wheels', 'transport')
     def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        poly('truck',(8,34),(4,34),(4,20),(24,20),(24,8),(33,8),(44,20),(44,34),(40,34))
-        line('bed-cab',(24,20),(44,20));line('axle',(20,34),(28,34))
-        for x in (14,34):arc('wheel'+str(x),(x+6,34),(x-6,34),6)
-        # Declare only real, shared endpoints as automatic contacts.
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
+
+        circle('rear-wheel',12,34,6);circle('front-wheel',36,34,6)
+        path('body',(6,34),[('L',(4,34)),('L',(4,24)),('A',(8,20),4,4,True),('L',(24,20)),('L',(40,20)),('A',(44,24),4,4,True),('L',(44,34)),('L',(42,34))])
+        path('cab',(24,20),[('L',(24,12)),('A',(28,8),4,4,True),('L',(31,8)),('C',(35,10),(33,8),(34,8)),('L',(40,20))]);join('cab','body')
+        line('chassis',(18,34),(30,34))
+
+        # Declare actual shared endpoints only; no proximity-based exemptions.
         for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
             for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

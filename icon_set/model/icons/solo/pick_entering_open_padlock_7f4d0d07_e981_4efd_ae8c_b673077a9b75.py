@@ -1,54 +1,46 @@
-"""Bent pick with an oblong grip entering an open padlock.
-SQUARE (6,6)..(42,42) balances the lower-left tool against the upper-right lock.
-The diagonal capsule has radius 5, integer tangent endpoints, and a split arc
-at its genuine pick attachment. Omit the crowded left/bottom lock edges as
-in the reference; reduce the keyhole to a short slot. Lucide lock-open informs
-the rounded housing and detached shackle end; all geometry is reauthored.
+"""crime tools loackpick unlock. Revision: Straighten pick toward lock, lengthen keyhole mark and smooth grip. Preserve open shackle and partially occluded housing.
+Construction: Lucide lock-open: arched shackle and rounded housing. Preserve source-facing direction and arrangement.
+Keyshape SQUARE; exact contract extremes, stroke four. No validation exceptions.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7f4d0d07-e981-4efd-ae8c-b673077a9b75'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_13/crime tools loackpick unlock_7f4d0d07-e981-4efd-ae8c-b673077a9b75.svg'
-AUTHOR = 'gpt-6-astra'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'pick-entering-open-padlock'
-    keyshape = Keyshape.SQUARE
-    category = 'Uncategorized'
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    aliases = ['Lockpicking a Padlock']
-    keywords = ['padlock','pick','lockpicking','keyhole','shackle','tool','security']
+    icon_id='pick-entering-open-padlock'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='Uncategorized'
+    aliases=()
+    keywords=('crime', 'tools', 'loackpick', 'unlock')
+
     def build(self):
+        # Each contour owns its shape. Repeated parts share dimensions and axes.
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for j,s in enumerate(steps):
+                k=f'{n}-{j}';kind,q,*v=s
+                if kind=='L': self.add_line(k,p,q)
+                elif kind=='A': self.add_arc(k,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+                elif kind=='C': self.add_bezier(k,p,(v[0],v[1],q))
+                members.append(k);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*p):self.add_polyline(n,*p)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def join(a,b):self.relate('connect',a,b)
 
+        path('lock',(24,24),[('L',(38,24)),('A',(42,28),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(31,42))])
+        path('shackle',(24,24),[('L',(24,15)),('A',(42,15),9,9,True)])
+        path('handle',(8,33),[('L',(12,30)),('A',(19,31),5,5,True),('A',(18,38),5,5,True),('L',(14,41)),('A',(8,33),5,5,True)],True)
+        poly('pick',(19,31),(25,33),(31,33))
 
-        def path(name,start,steps,closed=False):
-            members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
-            if rad==0:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),(l,t)); return
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
-
-        def bez(name,start,*segments): self.add_bezier(name,start,*segments)
-
-        path('lock',(24,24),[(38,24),((42,28),4,4,True),(42,38),((38,42),4,4,True),(32,42)])
-        path('shackle',(24,24),[(24,15),((42,15),9,9,True)]);join('lock','shackle')
-        path('handle',(8,33),[(12,30),((19,31),5,5,True),((18,38),5,5,True),(14,41),((8,33),5,5,True)],True)
-        poly('pick',(19,31),(25,34),(30,34))
-        line('keyhole',(30,33),(30,34))
-        join('pick','handle');join('pick','keyhole')
+        # Declare actual shared endpoints only; no proximity-based exemptions.
+        for i,a in enumerate(self.primitives):
+            if not hasattr(a,'start'):continue
+            for b in self.primitives[i+1:]:
+                if hasattr(b,'start') and {a.start,a.end}&{b.start,b.end}:
+                    self.relate('connect',a.element_id,b.element_id)

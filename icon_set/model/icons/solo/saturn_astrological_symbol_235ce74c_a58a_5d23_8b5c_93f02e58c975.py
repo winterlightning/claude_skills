@@ -1,31 +1,34 @@
-"""Shortened the stem and sickle extent, keeping the asymmetric hook.
-
-Keyshape VRECT_L: visible bounds (6, 2, 42, 46).
-Reference: No useful exact match.
-"""
-# Independent repair of saturn-astrological-symbol; parent preserved.
+"""Saturn glyph with a cross at the top of a long stem and a smooth asymmetric sickle. VRECT_L centerlines (8,4)-(40,44). One coherent cubic hook replaces mismatched elliptic arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '235ce74c-a58a-5d23-8b5c-93f02e58c975'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology saturn_235ce74c-a58a-5d23-8b5c-93f02e58c975.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='No useful direct Lucide match'
+DESIGN_PLAN='Saturn glyph with a cross at the top of a long stem and a smooth asymmetric sickle. VRECT_L centerlines (8,4)-(40,44). One coherent cubic hook replaces mismatched elliptic arcs.'
+OMISSIONS='None.'
+class Drawing(Solo48):
+    icon_id='saturn-astrological-symbol'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='culture'
+    aliases=()
+    keywords=('saturn', 'astrological', 'symbol')
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
 
-class SaturnAstrologicalSymbol(Solo48):
-    icon_id = 'saturn-astrological-symbol'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'culture'
-    aliases = ()
-    keywords = ('saturn', 'astrology', 'planet', 'scythe', 'symbol', 'horoscope', 'glyph', 'cronus')
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
 
-    # Symbol plan: retain the subject and shared attachment stations;
-    # fit the current keyshape by adjusting the owning cap, base or repeat.
-    def build(self) -> None:
-        self.add_line('stem-top', (16, 4), (16, 10))
-        self.add_line('stem-bottom', (16, 10), (16, 26))
-        self.add_polyline('crossbar', (8, 10), (16, 10), (28, 10))
-        self.add_arc('shoulder', (16, 26), (40, 26), radius_x=12, radius_y=7)
-        self.add_arc('sickle', (40, 26), (16, 44), radius_x=24, radius_y=18)
-        self.add_contour('saturn', 'stem-top', 'stem-bottom', 'shoulder', 'sickle')
-        self.relate('connect', 'saturn', 'crossbar')
+
+    def build(self):
+        self.path('stem-and-sickle',(16,4),[('L',(16,12)),('L',(16,24)),('C',(28,20),(20,18),(24,20)),('C',(40,28),(35,20),(40,22)),('C',(18,44),(40,37),(30,44))])
+        self.add_polyline('crossbar',(8,12),(16,12),(28,12));self.relate('connect','crossbar','stem-and-sickle')

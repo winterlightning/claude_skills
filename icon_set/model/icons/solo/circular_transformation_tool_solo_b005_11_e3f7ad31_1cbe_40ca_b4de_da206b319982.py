@@ -1,75 +1,40 @@
-"""Circular transformation tool, resumed for saved batch-025.
-Symbol plan: open circular disc with a shared radial arm, round handle endpoint,
-diagonal control arrow and two detached curved rotation cues.
-VRECT_L centerline bounds: (8,4)-(40,44). Rebalanced on the SOLO48 integer grid.
-Reduction: widen the disc opening; use the round cap for the tiny handle ring;
-shorten outer arrowheads and remove crowded return strokes. The asymmetry
-preserves the distinct radial controls and surrounding rotation cues.
-Lucide repeat-2 original and atomic-debug informed separated turning arrows.
-Validation and release QA pass; reviewed at native 48px in light and dark.
+"""Open circular transform disc with radial sector, handle dot and two directional corner arrows; extremes 6,6,42,42.
+Construction: refresh-cw: detached directional arrow strokes
+Reduction: No defining element omitted.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e3f7ad31-1cbe-40ca-b4de-da206b319982'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/design/transform shrink_e3f7ad31-1cbe-40ca-b4de-da206b319982.svg'
-EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-005/references/transform shrink_e3f7ad31-1cbe-40ca-b4de-da206b319982.svg'
 AUTHOR = 'gpt-6'
 
-def circle(s,n,x,y,r):
-    s.add_arc(n+'-a',(x,y-r),(x,y+r),radius_x=r)
-    s.add_arc(n+'-b',(x,y+r),(x,y-r),radius_x=r)
-    s.add_contour(n,n+'-a',n+'-b',closed=True)
-
-def box(s,n,l,t,r,b,k=3,nodes=()):
-    pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k),(l+k,t)]
-    members=[]
-    for i,(a,z) in enumerate(zip(pts,pts[1:])):
-        if a==z: continue
-        if i%2:
-            q=f'{n}-{i}';s.add_arc(q,a,z,radius_x=k);members.append(q)
-        else:
-            dx,dy=z[0]-a[0],z[1]-a[1]
-            cuts=sorted([p for p in nodes if (p[0]-a[0])*dy==(p[1]-a[1])*dx and 0<(p[0]-a[0])*dx+(p[1]-a[1])*dy<dx*dx+dy*dy],key=lambda p:(p[0]-a[0])*dx+(p[1]-a[1])*dy)
-            seq=[a]+cuts+[z]
-            for j,(u,v) in enumerate(zip(seq,seq[1:])):
-                q=f'{n}-{i}-{j}';s.add_line(q,u,v);members.append(q)
-    s.add_contour(n,*members,closed=True)
-
-def join(s,a,b):
-    s.relate('connect',a,b)
-
-def arrow(s,n,a,z,w=7):
-    s.add_line(n+'-shaft',a,z)
-    dx,dy=z[0]-a[0],z[1]-a[1]
-    if dy==0: pts=((z[0]-(w if dx>0 else -w),z[1]-w),z,(z[0]-(w if dx>0 else -w),z[1]+w))
-    elif dx==0: pts=((z[0]-w,z[1]-(w if dy>0 else -w)),z,(z[0]+w,z[1]-(w if dy>0 else -w)))
-    else: pts=((z[0]-(w if dx>0 else -w),z[1]),z,(z[0],z[1]-(w if dy>0 else -w)))
-    s.add_polyline(n+'-tip',*pts);join(s,n+'-shaft',n+'-tip')
-
-class GeneratedSolo(Solo48):
+class Drawing(Solo48):
     icon_id = 'circular-transformation-tool-solo-b005-11'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
     aliases = ()
-    keywords = ('circular', 'transformation', 'tool')
-
+    keywords = ('circular', 'transformation', 'tool', 'solo', 'b005', '11')
     def build(self):
-        # Open disc, radial handle/arrow, and two independent rotation arrows.
-        # VRECT_L extrema x8/40 and y4/44; no profile exceptions.
-        self.add_arc('disc-top',(32,25),(12,25),radius_x=10,sweep=False)
-        self.add_arc('disc-lower-left',(12,25),(14,31),radius_x=10,sweep=False)
-        self.add_contour('disc','disc-top','disc-lower-left')
-        self.add_polyline('radial',(38,25),(32,25),(22,25),(34,39))
-        self.relate('connect','radial','disc')
-        self.add_dot('handle',(38,25))
-        self.relate('connect','handle','radial')
-        self.add_polyline('radial-tip',(26,39),(34,39),(34,33))
-        self.relate('connect','radial','radial-tip')
-        self.add_bezier('rotation-top',(16,4),((28,4),(35,6),(40,12)))
-        self.add_polyline('rotation-top-tip',(40,4),(40,12),(35,12))
-        self.relate('connect','rotation-top','rotation-top-tip')
-        self.add_bezier('rotation-bottom',(19,44),((16,44),(12,44),(8,42)))
-        self.add_polyline('rotation-bottom-tip',(8,37),(8,42),(16,42))
-        self.relate('connect','rotation-bottom','rotation-bottom-tip')
+
+        def path(name, start, steps, closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                else: self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m); here=end
+            self.add_contour(name,*members,closed=closed)
+        def poly(name,*pts,closed=False): self.add_polyline(name,*pts,closed=closed)
+        def line(name,a,b): self.add_line(name,a,b)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+        path('disc',(32,24),[('A',(16,24),8,8,False),('A',(24,32),8,8,False)])
+        poly('radial',(42,24),(32,24),(24,24),(34,34));join('radial','disc')
+        poly('radial-tip',(26,34),(34,34),(34,26));join('radial','radial-tip')
+        self.add_dot('handle',(42,24));join('handle','radial')
+        poly('top-arrow',(42,14),(34,6),(34,11));line('top-wing',(34,6),(42,6));join('top-arrow','top-wing')
+        poly('bottom-arrow',(6,34),(14,42),(14,37));line('bottom-wing',(14,42),(6,42));join('bottom-arrow','bottom-wing')

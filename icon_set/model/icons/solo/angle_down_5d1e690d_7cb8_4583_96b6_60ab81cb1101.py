@@ -1,31 +1,40 @@
-"""Angle down (_uncategorized_03), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""One diagonal shaft and a joined right-angle arrowhead; common endpoint removes the tiny spurious arc.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction: arrow-down-right: shared arrowhead vertex
+Omissions: None.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5d1e690d-7cb8-4583-96b6-60ab81cb1101'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/angle down_5d1e690d-7cb8-4583-96b6-60ab81cb1101.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-reconstructed'
+AUTHOR='gpt-6'
 
-class AngleDown(Solo48):
-    icon_id = 'angle-down'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = '_uncategorized_03'
-    aliases = ()
-    keywords = ('angle', 'down', '_uncategorized_03')
-
+class Drawing(Solo48):
+    icon_id='angle-down'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='_uncategorized_03'
+    aliases=()
+    keywords=('angle', 'down')
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('sym-e0', (6, 6), (42, 42))
-        self.add_line('sym-e2', (42, 42), (42, 23))
-        self.add_line('sym-e3', (23, 42), (40, 42))
-        self.add_arc('sym-e4-1', (40, 42), (41, 42), radius_x=41, radius_y=41, large_arc=False, sweep=True)
-        self.add_line('sym-e4-2', (41, 42), (42, 42))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e2', closed=False)
-        self.add_contour('sym-c1', 'sym-e3', 'sym-e4-1', 'sym-e4-2', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c1')
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        poly('head',(20,42),(42,42),(42,20))
+        line('shaft',(6,6),(42,42));join('shaft','head')

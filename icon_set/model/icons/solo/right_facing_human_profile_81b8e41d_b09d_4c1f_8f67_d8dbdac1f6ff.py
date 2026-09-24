@@ -1,46 +1,40 @@
-'Right Facing Human Profile.\nSymbol plan: A human bust faces right with a rounded skull, small projecting nose and short flat chin. A long straight neck descends beside a single curved shoulder at the left.\nConstruction: human_ref/user.svg: smooth shoulder and circular skull vocabulary.\nReduction: Continuous neck, no detached head.\nKeyshape VRECT_L: ink extremes (6, 2, 42, 46).'
+"""Joined the circular skull to a continuous neck and rebuilt the shoulder as a smooth arc at an exact node.
+Symbol plan: Circular skull and smooth quarter-circle shoulder; continuous neck remains anatomical. Human user.svg informs circular skull and rounded shoulder. No detached head.
+Final reduction: No essential parts omitted.
+References: human_ref/user.svg: circular head and smooth shoulder.
+Keyshape reason: Upright human profile; continuous anatomical neck, no detached head gap applies.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '81b8e41d-b09d-4c1f-8f67-d8dbdac1f6ff'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_07/body skeleton_81b8e41d-b09d-4c1f-8f67-d8dbdac1f6ff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'right-facing-human-profile'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('person', 'profile', 'head', 'bust', 'human', 'portrait', 'face')
+class Drawing(Solo48):
+    icon_id='right-facing-human-profile'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('right', 'facing', 'human', 'profile')
     def build(self):
 
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for i,step in enumerate(steps):
+                m=f"{n}-{i}"
+                if len(step)==2:
+                    self.add_line(m,p,step);p=step
+                else:
+                    end,rx,ry,sweep=step
+                    self.add_arc(m,p,end,radius_x=rx,radius_y=ry,sweep=sweep);p=end
+                members.append(m)
+            self.add_contour(n,*members,closed=closed)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        arc('skull-left',(24,28),(24,4),12)
-        arc('skull-top',(24,4),(36,16),12)
-        poly('face',(36,16),(40,22),(34,24),(34,32),(28,32))
-        line('neck',(24,28),(24,44))
-        bez('shoulder',(8,44),((8,40),(14,38),(24,38)))
-        con('profile','skull-left','skull-top',*['face-'+str(i) for i in range(1,5)])
-        self.relate('connect','shoulder','neck')
-        # Only genuine shared endpoints are automatically declared as contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+            path(n,(x-r,y),[((x,y-r),r,r,True),((x+r,y),r,r,True),((x,y+r),r,r,True),((x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        path('profile',(24,44),[(24,32),(24,28),((12,16),12,12,True),((24,4),12,12,True),((36,16),12,12,True),(40,22),(34,24),(34,32),(32,32)])
+        path('shoulder',(8,44),[((24,32),16,12,True)]);join('profile','shoulder')

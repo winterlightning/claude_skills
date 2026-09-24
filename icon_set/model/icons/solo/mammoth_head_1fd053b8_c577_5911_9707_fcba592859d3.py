@@ -1,37 +1,35 @@
-"""Square envelope; widened the forehead for the eye and broadened the curved trunk; tusk retained.
-
-SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
-No useful exact local Lucide match; retained the inspected parent silhouette.
-"""
-# Independent revision; parent models preserved.
+'Mammoth profile: high domed head, upturned crescent tusk and downward curling trunk. Bounds 6,6 to42,42.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1fd053b8-c577-5911-9707-fcba592859d3'
 SOURCE_PATH = 'pictographic-primitives/animals/mammoth elephant_1fd053b8-c577-5911-9707-fcba592859d3.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'No useful local mammoth match; source crescent tusk and domed head.'
+OMISSIONS = 'Eye omitted as absent in reference.'
 
-class MammothHead(Solo48):
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
+
+class Drawing(Solo48):
     icon_id = 'mammoth-head'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ()
-    keywords = ('mammoth', 'head', 'animal')
-
-    def build(self) -> None:
-        self.add_arc('crown', (23, 19), (33, 6), radius_x=10, radius_y=13, sweep=True)
-        self.add_arc('head-back', (33, 6), (42, 17), radius_x=9, radius_y=11, sweep=True)
-        self.add_line('neck', (42, 17), (42, 42))
-        self.add_contour('head', 'crown', 'head-back', 'neck', closed=False)
-        self.add_arc('tusk-low', (6, 24), (29, 27), radius_x=20, radius_y=13, sweep=False)
-        self.add_line('tusk-root', (29, 27), (23, 19))
-        self.add_arc('tusk-top', (23, 19), (6, 24), radius_x=19, radius_y=11, sweep=True)
-        self.add_contour('tusk', 'tusk-low', 'tusk-root', 'tusk-top', closed=True)
-        self.relate('connect', 'tusk', 'head')
-        self.add_arc('trunk-outer', (29, 27), (18, 42), radius_x=18, radius_y=18, sweep=True)
-        self.add_line('trunk-tip', (18, 42), (8, 37))
-        self.add_arc('trunk-inner', (8, 37), (17, 29), radius_x=12, radius_y=12, sweep=False)
-        self.add_contour('trunk', 'trunk-outer', 'trunk-tip', 'trunk-inner', closed=False)
-        self.relate('connect', 'trunk', 'tusk')
-        self.add_dot('eye', (33, 18))
+    keywords = ('mammoth', 'elephant')
+    def build(self):
+        path(self,'head',(20,25),[('C',(22,13),(25,6),(32,6)),('C',(38,6),(42,12),(42,20)),('L',(42,42))])
+        path(self,'tusk',(6,20),[('C',(6,29),(13,34),(22,33)),('C',(25,32),(28,28),(30,24)),('C',(27,23),(23,25),(20,25)),('C',(14,26),(9,24),(6,20))],True)
+        path(self,'trunk',(30,24),[('C',(31,30),(28,38),(21,42)),('L',(14,38)),('C',(20,36),(21,34),(22,33))])
+        self.relate('connect','tusk','trunk')
+        self.relate('connect','head','tusk')

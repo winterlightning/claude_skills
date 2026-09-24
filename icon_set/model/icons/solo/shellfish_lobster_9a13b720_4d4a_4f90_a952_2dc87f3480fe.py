@@ -1,45 +1,43 @@
+"""An elongated lobster body, paired curling claws and two rounded tail lobes. Shared mirror axis x24; SQUARE centerlines (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9a13b720-4d4a-4f90-a952-2dc87f3480fe'
 SOURCE_PATH = 'pictographic-primitives/animals/shellfish lobster_9a13b720-4d4a-4f90-a952-2dc87f3480fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+CONSTRUCTION_REFERENCE='shrimp: coherent crustacean body; supplied lobster establishes mirrored claws'
+DESIGN_PLAN='An elongated lobster body, paired curling claws and two rounded tail lobes. Shared mirror axis x24; SQUARE centerlines (6,6)-(42,42).'
+OMISSIONS='Small auxiliary legs reduced; main claws, body division and tail retained.'
+class Drawing(Solo48):
+    icon_id='lobster'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='animals/marine'
+    aliases=()
+    keywords=('lobster',)
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,(kind,end,*args) in enumerate(commands):
+            member=f'{name}-{i}'
+            if kind=='L': self.add_line(member,start,end)
+            elif kind=='A': self.add_arc(member,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(member,start,(args[0],args[1],end))
+            members.append(member); start=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,cx,cy,r):
+        self.path(name,(cx-r,cy),[('A',(cx,cy-r),r,r,True),('A',(cx+r,cy),r,r,True),('A',(cx,cy+r),r,r,True),('A',(cx-r,cy),r,r,True)],True)
 
 
-class Lobster(Solo48):
-    icon_id = 'lobster'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "animals/marine"
-    aliases = ()
-    keywords = ('lobster', 'crayfish', 'shellfish', 'claws', 'seafood', 'sea', 'marine', 'antennae')
 
-    def build(self) -> None:
-        self.add_arc('body-top', (18, 26), (30, 26), radius_x=6, radius_y=12, sweep=True, large_arc=False)
-        self.add_arc('body-bottom', (30, 26), (18, 26), radius_x=6, radius_y=12, sweep=True, large_arc=False)
-        self.add_contour('body', 'body-top', 'body-bottom', closed=True)
-        self.add_bezier('left-antenna', (24, 14), *(((22.52280598, 8.95896372), (18.44587176, 6), (14, 6)),))
-        self.relate("connect", 'left-antenna', 'body')
-        self.add_arc('left-claw-outer', (6, 13), (7, 29), radius_x=5, radius_y=16, sweep=True, large_arc=False)
-        self.add_arc('left-claw-inner', (7, 29), (12, 13), radius_x=5, radius_y=16, sweep=True, large_arc=False)
-        self.add_contour('left-claw', 'left-claw-outer', 'left-claw-inner', closed=False)
-        self.add_line('left-arm', (7, 29), (18, 26))
-        self.relate("connect", 'left-arm', 'left-claw')
-        self.relate("connect", 'left-arm', 'body')
-        self.add_line('left-tail-1', (24, 38), (14, 42))
-        self.add_line('left-tail-2', (14, 42), (14, 38))
-        self.add_contour('left-tail', 'left-tail-1', 'left-tail-2', closed=False)
-        self.relate("connect", 'left-tail', 'body')
-        self.add_bezier('right-antenna', (24, 14), *(((25.47719402, 8.95896372), (29.55412824, 6), (34, 6)),))
-        self.relate("connect", 'right-antenna', 'body')
-        self.add_arc('right-claw-outer', (42, 13), (41, 29), radius_x=5, radius_y=16, sweep=False, large_arc=False)
-        self.add_arc('right-claw-inner', (41, 29), (36, 13), radius_x=5, radius_y=16, sweep=False, large_arc=False)
-        self.add_contour('right-claw', 'right-claw-outer', 'right-claw-inner', closed=False)
-        self.add_line('right-arm', (41, 29), (30, 26))
-        self.relate("connect", 'right-arm', 'right-claw')
-        self.relate("connect", 'right-arm', 'body')
-        self.add_line('right-tail-1', (24, 38), (34, 42))
-        self.add_line('right-tail-2', (34, 42), (34, 38))
-        self.add_contour('right-tail', 'right-tail-1', 'right-tail-2', closed=False)
-        self.relate("connect", 'right-tail', 'body')
+    def build(self):
+        self.path('body',(24,12),[('C',(18,24),(20,15),(18,19)),('C',(20,34),(18,28),(19,32)),('C',(24,38),(21,36),(22,37)),('C',(28,34),(26,37),(27,36)),('C',(30,24),(29,32),(30,28)),('C',(24,12),(30,19),(28,15))],True)
+        for side in (-1,1):
+            p=lambda x,y:(24+side*(x-24),y)
+            n=f'claw-{side}'
+            self.path(n,p(14,13),[('C',p(16,9),p(17,12),p(17,11)),('C',p(12,6),p(16,7),p(14,6)),('C',p(6,12),p(9,6),p(6,8)),('C',p(12,24),p(6,18),p(10,22)),('L',p(18,24))]);self.relate('connect',n,'body')
+            t=f'tail-{side}'
+            self.path(t,p(20,34),[('C',p(14,42),p(13,36),p(11,42)),('C',(24,38),p(18,42),p(22,40))]);self.relate('connect',t,'body')
+        self.relate('connect','tail--1','tail-1')
+        self.add_line('division',(18,24),(30,24));self.relate('connect','body','division')
+        for side in (-1,1):self.relate('connect',f'claw-{side}','division')

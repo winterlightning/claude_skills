@@ -1,19 +1,23 @@
-'Coughing Person Profile.\nPlan and review: Retained right-facing head, mouth opening and three cough marks; omitted inner ear. Profile asymmetry follows the reference.\nKeyshape: VRECT_L, exact SOLO48 envelope selected for this subject.\nConstruction reference: human_ref/user.svg guides round cranium; source profile, mouth and cough rays retained.'
+"""coughing-person-profile.
+Plan: Continuous anatomical head and neck profile with a round skull, nose, chin and cough rays. Human user reference informs smooth head curvature; this is an attached profile, not a detached stick figure.
+Keyshape: HRECT_L, exact SOLO48 inset envelope.
+Reference construction: No useful Lucide subject match.
+Omissions: Ear detail; three cough rays reduced to two.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '70068075-fcbd-43f7-8047-bd45057d5d00'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_22/head side cough_70068075-fcbd-43f7-8047-bd45057d5d00.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'coughing-person-profile'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('coughing', 'person', 'profile')
+    keywords = ('head', 'side', 'cough')
 
     def build(self):
 
@@ -35,8 +39,9 @@ class Drawing(Solo48):
         def curve(name,start,*segments):
             self.add_bezier(name,start,*segments)
 
-        path('back',(8,44),[(8,36)])
-        curve('head',(8,36),((14,30),(8,28),(8,18)),((8,10),(12,4),(20,4)),((28,4),(30,10),(28,18)))
-        self.relate('connect','back','head')
-        path('face',(28,18),[(32,24),(24,24),(24,30),(20,30),(20,44)]);self.relate('connect','head','face')
-        for n,(a,b) in enumerate((((40,22),(40,24)),((36,32),(40,32)),((34,40),(36,42)))):self.add_line(f'cough-{n}',a,b)
+        curve('back',(8,40),((8,36),(10,33),(8,29)),((5,24),(4,22),(4,19)),((4,12),(9,8),(16,8)),((23,8),(28,12),(28,19)))
+        path('face',(28,19),[(32,25),(26,25),(26,31),((22,35),4,4,True),(22,40)])
+        self.relate('connect','back','face')
+        self.add_dot('eye',(18,20))
+        self.add_line('cough-mid',(38,31),(44,31))
+        self.add_line('cough-low',(35,40),(40,40))

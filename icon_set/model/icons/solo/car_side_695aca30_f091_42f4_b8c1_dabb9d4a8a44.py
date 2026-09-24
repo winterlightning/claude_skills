@@ -1,53 +1,40 @@
-"""Replace the front-facing windshield with a recognizable asymmetric side profile.
-Plan: side-facing roof and hood, two equal wheels sharing the body baseline.
-HRECT_L centerline extremes (4,8)-(44,40).
-Lucide: car; geometric contour construction adapted to SOLO48.
-Independent variant; original preserved."""
+"""Restore equal circular wheels, soft cabin shoulders and rounded body corners for the side-view car.
+Construction: Lucide car: shared wheel radius and smooth shell construction.
+Omissions: None
+Keyshape HRECT_M: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '695aca30-f091-42f4-b8c1-dabb9d4a8a44'
 SOURCE_PATH = 'pictographic-primitives/symbol/car side_695aca30-f091-42f4-b8c1-dabb9d4a8a44.svg'
 AUTHOR = 'gpt-6'
-
-class CarSide(Solo48):
+class Drawing(Solo48):
     icon_id = 'car-side'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-side')
-
+    keywords = ('car', 'side')
     def build(self):
 
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, (kind, end, *args) in enumerate(commands):
-                name = f'{n}-{j}'
-                if kind == 'L':
-                    self.add_line(name, here, end)
-                elif kind == 'A':
-                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C':
-                    self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        def circle(n, x, y, r):
-            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        dot = self.add_dot
-        join = lambda a, b: self.relate('connect', a, b)
-        path('body', (8, 36), [('L', (4, 32)), ('L', (4, 20)), ('L', (12, 8)), ('L', (24, 8)), ('L', (32, 20)), ('L', (40, 20)), ('A', (44, 24), 4, 4, True), ('L', (44, 32)), ('L', (40, 36))])
-        circle('rear-wheel', 12, 36, 4)
-        circle('front-wheel', 36, 36, 4)
-        line('sill', (16, 36), (32, 36))
-        join('sill', 'rear-wheel')
-        join('sill', 'front-wheel')
-        join('body', 'rear-wheel')
-        join('body', 'front-wheel')
-        line('window-base', (4, 20), (32, 20))
-        join('window-base', 'body')
+        path('body',(7,33),[('A',(4,30),3,3,True),('L',(4,27)),('A',(10,21),6,6,True),('L',(38,21)),('A',(44,27),6,6,True),('L',(44,30)),('A',(41,33),3,3,True)])
+        path('roof',(10,21),[('L',(17,12)),('C',(21,10),(18,10),(19,10)),('L',(27,10)),('C',(31,12),(29,10),(30,10)),('L',(38,21))]);join('roof','body')
+
+        for x in (12,36):circle(f'wheel-{x}',x,33,5)
+        line('sill',(17,33),(31,33));join('sill','wheel-12');join('sill','wheel-36')
+        join('body','wheel-12');join('body','wheel-36')

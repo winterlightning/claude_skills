@@ -1,42 +1,36 @@
-'Left-facing plain head silhouette with projecting nose, chin and neck. Source-driven asymmetry; no invented eye.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape VRECT_L uses exact SOLO48 contract bounds. No useful exact Lucide reference unless noted.'
+"""Smooth circular cranium, rounded chin and continuous neck; retain source facing direction and open neck base.
+Construction: Human reference user.svg: circular head vocabulary; continuous-neck source profile, no detached gap.
+Omissions: Fine lip serrations omitted to avoid crowded strokes.
+Keyshape VRECT_L: authored to exact SOLO48 extremes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0da0f78f-cd68-48d5-8070-b71070bed549'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_06/bipolar disorder symptoms 2_0da0f78f-cd68-48d5-8070-b71070bed549.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'plain-human-head-in-left-profile'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('plain', 'human', 'head', 'in', 'left', 'profile')
     def build(self):
 
-        def path(name,start,steps,closed=False):
-            members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                here=end;members.append(ident)
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
-            if rad==0:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),(l,t)); return
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b):self.add_line(name,a,b)
+        def poly(name,*pts,closed=False):self.add_polyline(name,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
 
-        def bez(name,start,*segments): self.add_bezier(name,start,*segments)
-
-        bez('skull',(32,44),((30,39),(29,35),(33,29)),((37,24),(40,22),(40,17)),((40,9),(33,4),(25,4)),((16,4),(12,10),(12,18)))
-        poly('face',(12,18),(8,25),(14,26),(14,34),(22,34),(22,44))
-        join('skull','face')
-
-        line('mouth',(14,26),(18,26));join('mouth','face')
+        def p(x,y):return (48-x,y) if False else (x,y)
+        path('profile',p(32,44),[('C',p(34,30),p(29,37),p(32,34)),('C',p(40,18),p(38,25),p(40,23)),('A',p(26,4),14,14,False),('A',p(12,18),14,14,False),('L',p(8,26)),('L',p(13,27)),('L',p(13,32)),('A',p(18,37),5,5,False),('L',p(23,37)),('L',p(23,44))])

@@ -1,32 +1,36 @@
-"""Red blood cell strem 1 (health), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""A tilted red blood cell with a smooth outer disc and a central depression.
+Symbol plan: shared parameters and coherent contours.
+Construction: No useful exact Lucide match; tangent quarter-circle construction.
+Omissions: None
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b0a49c99-174d-4d2d-ac7c-9636f2302170'
 SOURCE_PATH = 'pictographic-primitives/health/red blood cell strem 1_b0a49c99-174d-4d2d-ac7c-9636f2302170.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class RedBloodCellStrem1(Solo48):
-    icon_id = 'red-blood-cell-strem-1'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'health'
-    aliases = ()
-    keywords = ('red', 'blood', 'cell', 'strem', 'health')
+class Drawing(Solo48):
+    icon_id='red-blood-cell-strem-1'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="health"
+    aliases=()
+    keywords=('red', 'blood', 'cell', 'strem', '1')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_arc('e0-1', (13, 15), (6, 30), radius_x=22, radius_y=22, large_arc=False, sweep=False)
-        self.add_arc('e0-2', (6, 30), (18, 42), radius_x=12, radius_y=12, large_arc=False, sweep=False)
-        self.add_arc('e0-3', (18, 42), (42, 18), radius_x=26, radius_y=26, large_arc=False, sweep=False)
-        self.add_arc('e0-4', (42, 18), (30, 6), radius_x=12, radius_y=12, large_arc=False, sweep=False)
-        self.add_arc('e0-5', (30, 6), (13, 15), radius_x=25, radius_y=25, large_arc=False, sweep=False)
-        self.add_arc('e1-1', (23, 18), (15, 27), radius_x=19, radius_y=19, large_arc=False, sweep=False)
-        self.add_arc('e1-2', (15, 27), (17, 33), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('e1-3', (17, 33), (32, 21), radius_x=18, radius_y=18, large_arc=False, sweep=False)
-        self.add_arc('e1-4', (32, 21), (30, 16), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('e1-5', (30, 16), (23, 18), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_contour('c0', *('e0-1', 'e0-2', 'e0-3', 'e0-4', 'e0-5'), closed=True)
-        self.add_contour('c1', *('e1-1', 'e1-2', 'e1-3', 'e1-4', 'e1-5'), closed=True)
+    def path(self,name,start,commands,closed=False):
+        members=[]; here=start
+        for i,cmd in enumerate(commands):
+            kind,end,*args=cmd; ident=f'{name}-{i}'
+            if kind=='L': self.add_line(ident,here,end)
+            else: self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            members.append(ident); here=end
+        self.add_contour(name,*members,closed=closed)
+    def oval(self,name,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+
+    def build(self):
+        # Alternating quarter circles are tangent at all four joins; diagonal mass is intentional.
+        self.path('cell',(6,30),[('A',(18,42),12,12,False),('A',(42,18),24,24,False),('A',(30,6),12,12,False),('A',(6,30),24,24,False)],True)
+        self.path('depression',(16,27),[('A',(21,32),5,5,False),('A',(32,21),11,11,False),('A',(27,16),5,5,False),('A',(16,27),11,11,False)],True)

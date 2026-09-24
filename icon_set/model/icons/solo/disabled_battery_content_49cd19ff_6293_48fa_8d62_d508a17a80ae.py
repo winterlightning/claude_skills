@@ -1,30 +1,41 @@
-"""Disabled Battery Symbol.
-Symbol plan: Battery and diagonal disable stroke. Interrupted enclosure avoids cramped wedges.
-User explicitly requested the complete combined subject on SOLO48.
-References: supplied source render; local Lucide original and atomic geometry sheet
-(triangle-alert, user-round-plus, file-up, battery-charging, plug-zap, scan-face,
-clapperboard, badge-check, paw-print, car, wrench, shirt, chart-pie, delete).
-Human subjects follow icon_set/references/human_ref/user.svg.
-"""
+"""Complete battery outline with a right terminal and one diagonal disabling slash, without arrow-like corners.
+Keyshape HRECT_M: exact SOLO48 contract envelope.
+Construction: battery: continuous outline and right terminal
+Omissions: None.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
-from ._container_content_batch import path, cross, contacts, bust, car, bolt
-
 SOURCE_ICON_ID = '49cd19ff-6293-48fa-8d62-d508a17a80ae'
 SOURCE_PATH = 'icon_set/dist/gallery/combination-originals/49cd19ff-6293-48fa-8d62-d508a17a80ae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+
 class Drawing(Solo48):
-    icon_id = 'disabled-battery-content'
-    keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('disabled battery symbol',)
+    icon_id='disabled-battery-content'
+    keyshape=Keyshape.HRECT_M
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/interface-essential'
+    aliases=()
+    keywords=('disabled', 'battery', 'content')
     def build(self):
-        path(self,'body-top',(4,27),('L',(4,12)),('A',(8,8),4,4,True),('L',(32,8)),('A',(36,12),4,4,True),('L',(36,16)))
-        path(self,'body-bottom',(36,28),('L',(36,36)),('A',(32,40),4,4,True),('L',(8,40)),('A',(4,36),4,4,True))
-        self.add_line('terminal',(44,20),(44,28))
-        self.add_line('slash',(4,40),(36,8))
-        self.relate('connect','body-top','slash')
-        self.relate('connect','body-bottom','slash')
-        contacts(self)
+
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('battery',(4,38),[('L',(4,14)),('A',(8,10),4,4,True),('L',(36,10)),('L',(36,34)),('A',(32,38),4,4,True),('L',(4,38))],True)
+        line('slash',(4,38),(36,10));join('slash','battery')
+        poly('terminal',(36,22),(44,22),(44,30),(36,30));join('terminal','battery')

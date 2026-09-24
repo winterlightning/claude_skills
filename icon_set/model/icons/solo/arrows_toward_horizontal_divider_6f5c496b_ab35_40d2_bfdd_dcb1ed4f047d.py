@@ -1,32 +1,44 @@
-"""Arrows toward Horizontal Divider.
-Plan: Two arrows reflected across y24 stop 8 units from the divider; ink (4,4)-(44,44).
-Reference construction: move.
-Reduction: Keep the defining source features.
-"""
+"""Two vertically mirrored arrows point toward a detached horizontal guide. Longer shafts preserve reference proportions.
+Keyshape SQUARE: exact SOLO48 contract envelope.
+Construction: arrow-down-right and chevron-down: common arrow vertices; align-vertical-justify-center: central guide spacing
+Omissions: None.
+Feedback: Bad stroke drawn. Fresh reference-based revision."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6f5c496b-ab35-40d2-bfdd-dcb1ed4f047d'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/shrink vertical_6f5c496b-ab35-40d2-bfdd-dcb1ed4f047d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+
 class Drawing(Solo48):
-    icon_id = 'arrows-toward-horizontal-divider'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/interface-essential'
-    aliases = ()
-    keywords = ('arrows', 'toward', 'horizontal', 'divider')
+    icon_id='arrows-toward-horizontal-divider'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/interface-essential'
+    aliases=()
+    keywords=('arrows', 'toward', 'horizontal', 'divider')
     def build(self):
 
-        def circle(name,cx,cy,r):
-            pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
-            for j,(a,b) in enumerate(zip(pts,pts[1:])):
-                self.add_arc(f'{name}-{j}',a,b,radius_x=r)
-            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
+        def path(name, start, steps, closed=False):
+            members=[]; here=start
+            for i,step in enumerate(steps):
+                tag=f'{name}-{i}'; kind,end,*args=step
+                if kind=='L': self.add_line(tag,here,end)
+                elif kind=='A': self.add_arc(tag,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(tag,here,(args[0],args[1],end))
+                here=end;members.append(tag)
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        self.add_line('divider',(6,24),(42,24))
-        for label,sgn in [('upper',-1),('lower',1)]:
-            tip=(24,24+sgn*8)
-            self.add_line(label+'-shaft',(24,24+sgn*18),tip)
-            self.add_polyline(label+'-head',(18,24+sgn*14),tip,(30,24+sgn*14))
-            self.relate('connect',label+'-shaft',label+'-head')
+        line('guide',(6,24),(42,24))
+        for side in (-1,1):
+         y=lambda d:24+side*d
+         name=f'arrow-{side}'
+         poly(name,(17,y(15)),(24,y(8)),(31,y(15)))
+         line(name+'-shaft',(24,y(18)),(24,y(8)));join(name,name+'-shaft')

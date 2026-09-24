@@ -1,41 +1,43 @@
-'Rounded Camping Caravan\nPlan: Rounded caravan body, single wheel, window and tall door; attached tow bar.\nReference: Lucide caravan: outline broken at wheel and right-hand tow bar.\nReduction: Window simplified to one line; door remains a tall opening.\nKeyshape: HRECT_L; exact SOLO48 contract envelope.'
+"""Rebuilt a rounded caravan shell, restored the wheel size and separated the window from the doorway.
+Symbol plan: Rounded caravan with upright doorway, window opening, one wheel and tow bar. Lucide caravan informs continuous shell broken at the wheel.
+Final reduction: Small window represented by one clear horizontal mark.
+References: Lucide caravan original and atomic-debug: shell broken at the wheel.
+Keyshape reason: Wide caravan with tow bar.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'acc99c2a-b641-4443-9ca0-dcf2ffd052d3'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_10/caravan_acc99c2a-b641-4443-9ca0-dcf2ffd052d3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'rounded-camping-caravan'
-    keyshape = Keyshape.HRECT_L
-    category = "objects"
-    keywords = ('rounded', 'camping', 'caravan')
-
+    icon_id='rounded-camping-caravan'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('rounded', 'camping', 'caravan')
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for i,step in enumerate(steps):
+                m=f"{n}-{i}"
+                if len(step)==2:
+                    self.add_line(m,p,step);p=step
                 else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-
-        path('body',(13,37),[(4,35),(4,18),((14,8),10,10,True),(30,8),((38,16),8,8,True),(38,35),(19,37)])
-        circle('wheel',16,37,3);self.relate('connect','wheel','body')
-        self.add_polyline('door',(27,35),(27,19),(38,19));self.relate('connect','door','body')
-        self.add_line('window',(13,19),(18,19))
-        self.add_polyline('tow',(38,35),(44,35));self.relate('connect','tow','body')
+                    end,rx,ry,sweep=step
+                    self.add_arc(m,p,end,radius_x=rx,radius_y=ry,sweep=sweep);p=end
+                members.append(m)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[((x,y-r),r,r,True),((x+r,y),r,r,True),((x,y+r),r,r,True),((x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        path('shell',(11,35),[(4,35),(4,20),((16,8),12,12,True),(28,8),((40,20),12,12,True),(40,35),(28,35),(21,35)])
+        circle('wheel',16,35,5);join('shell','wheel')
+        poly('door',(28,35),(28,20),(40,20));join('door','shell')
+        line('window',(13,19),(19,19))
+        line('tow',(40,35),(44,35));join('tow','shell')

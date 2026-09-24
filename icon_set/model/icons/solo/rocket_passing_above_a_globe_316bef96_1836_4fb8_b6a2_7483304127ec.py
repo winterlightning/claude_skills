@@ -1,44 +1,45 @@
-"""Rocket Launch Over Globe.
-
-Plan: Diagonal rocket over partial globe; bounds6,6,42,42. One exhaust stroke and one continent seam.
-Construction reference: Lucide rocket diagonal nose and fin construction
+"""Rebuilt the diagonal rocket, separated its exhaust, and restored globe grid detail below it.
+Symbol plan: Diagonal pointed rocket with two fins above a curved globe, short exhaust and continent seam. Lucide rocket informs coherent pointed fuselage.
+Final reduction: Fins reduced to projecting strokes; one exhaust retained; geography represented by latitude and meridian.
+References: Lucide rocket original and atomic-debug: pointed fuselage and fins.
+Keyshape reason: Diagonal rocket and lower globe occupy a square.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '316bef96-1836-4fb8-b6a2-7483304127ec'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_33/rocket attack global_316bef96-1836-4fb8-b6a2-7483304127ec.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'rocket-passing-above-a-globe'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('rocket', 'passing', 'above', 'a', 'globe')
-
+    icon_id='rocket-passing-above-a-globe'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('rocket', 'passing', 'above', 'a', 'globe')
     def build(self):
 
-        def path(name, start, commands, closed=False):
-            here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
-                member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def path(n,start,steps,closed=False):
+            p=start; members=[]
+            for i,step in enumerate(steps):
+                m=f"{n}-{i}"
+                if len(step)==2:
+                    self.add_line(m,p,step);p=step
+                else:
+                    end,rx,ry,sweep=step
+                    self.add_arc(m,p,end,radius_x=rx,radius_y=ry,sweep=sweep);p=end
+                members.append(m)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[((x,y-r),r,r,True),((x+r,y),r,r,True),((x,y+r),r,r,True),((x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
         def join(a,b): self.relate('connect',a,b)
-
-        poly('rocket',(18,20),(30,8),(42,6),(40,18),(28,30),closed=True)
-        line('fin',(18,20),(8,20));join('fin','rocket')
-        line('exhaust',(6,32),(10,28))
-        path('globe',(16,34),[('C',(30,42),(18,40),(24,42)),('C',(42,30),(38,42),(42,36))])
+        path('rocket',(16,18),[(28,8),(42,6),(40,12),(30,22),(26,25),(16,18)],True)
+        line('fin-left',(16,18),(6,18));join('fin-left','rocket')
+        line('fin-right',(30,22),(34,24));join('fin-right','rocket')
+        line('exhaust',(6,34),(8,30))
+        path('globe',(16,29),[((17,34),13,13,False),((29,42),13,13,False),((41,34),13,13,False),((42,29),13,13,False)])
+        poly('latitude',(17,34),(29,34),(41,34));join('latitude','globe')
+        line('meridian',(29,34),(29,42));join('meridian','globe');join('meridian','latitude')

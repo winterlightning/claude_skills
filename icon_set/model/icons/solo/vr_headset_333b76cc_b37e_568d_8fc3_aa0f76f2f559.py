@@ -1,55 +1,37 @@
-"""vr-headset: Smooth headset profile; earlier revisions preserved."""
+"""A right-facing human head wearing a rounded VR visor and horizontal strap. Bounds (8,4)-(40,44). Continuous neck, circular crown and separately rounded visor.
+Construction reference: Lucide headset: rounded equipment housing; human user reference for rounded head silhouette.
+Omissions: Small nose step simplified."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '333b76cc-b37e-568d-8fc3-aa0f76f2f559'
 SOURCE_PATH = 'pictographic-primitives/video-games/vr headset_333b76cc-b37e-568d-8fc3-aa0f76f2f559.svg'
-AUTHOR = 'gpt-6'
+AUTHOR="gpt-6"
 
-class VrHeadset(Solo48):
-    icon_id = 'vr-headset'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'video-games'
-    aliases = ()
-    keywords = ('solo-ai-full-set', 'vr-headset')
-
+class Drawing(Solo48):
+    icon_id='vr-headset'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="video-games"
+    aliases=()
+    keywords=('vr', 'headset')
     def build(self):
-        # Plan: Human reference: user.svg and full_body_ref.png. Preserve the continuous neck, visor and shared strap. Every connection is split at an exact endpoint.
-        # Reference: Lucide headset: original and atomic-debug geometry.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
-            here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L" and tuple(end) == tuple(here):
-                    continue
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('head',(15,44),[('L',(15,37)),('C',(8,20),(11,32),(8,27)),('A',(24,4),16,16,True),('C',(35,12),(30,4),(34,8))])
-        path('visor',(28,12),[('L',(35,12)),('L',(40,12)),('L',(40,24)),('L',(35,24)),('L',(28,24)),('A',(22,18),6,6,True),('A',(28,12),6,6,True)],True);join('head','visor')
-        path('strap',(8,20),[('L',(22,18))]);join('strap','head');join('strap','visor')
-        path('profile',(35,24),[('L',(37,32)),('L',(32,32)),('L',(32,37)),('L',(25,39)),('L',(25,44))]);join('profile','visor')
+        def path(name,start,commands,closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+        path('profile',(16,44),[('L',(16,37)),('C',(8,22),(10,30),(8,26)),('L',(8,19)),('A',(23,4),15,15,True),('C',(34,12),(29,4),(32,8))])
+        path('visor',(30,12),[('L',(34,12)),('L',(37,12)),('A',(40,15),3,3,True),('L',(40,23)),('A',(37,26),3,3,True),('L',(30,26)),('A',(23,19),7,7,True),('A',(30,12),7,7,True)],True)
+        join('profile','visor')
+        line('strap',(8,19),(23,19));join('strap','profile');join('strap','visor')
+        path('face',(36,26),[('L',(38,34)),('L',(32,34)),('L',(32,36)),('A',(28,40),4,4,True),('L',(25,40)),('L',(25,44))]);join('face','visor')

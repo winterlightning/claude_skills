@@ -1,44 +1,52 @@
-"""Simple donkey head profile.
-
-Plan: Left-facing long muzzle, two tall ears and angled neck retained. Omitted the tight nose seam. Keyshape VRECT_L uses its exact SOLO48 bounds; mirrored geometry only where the source supports it.
-Construction reference: No useful exact Lucide match; source-specific construction.
+"""donkey-head-with-tall-pointed-ears.
+Plan: Donkey profile with two tall leaf-like ears, elongated rounded muzzle and open neck strokes. Ear endpoints share actual head nodes.
+Keyshape: SQUARE, exact SOLO48 inset envelope.
+Reference construction: No useful Lucide subject match.
+Omissions: Small muzzle separation line omitted.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3d0a94ba-875d-4615-a403-463589aa7bee'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/donkey_3d0a94ba-875d-4615-a403-463589aa7bee.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'donkey-head-with-tall-pointed-ears'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('donkey', 'head', 'with', 'tall', 'pointed', 'ears')
+    keywords = ('donkey',)
 
     def build(self):
 
-        def path(name, start, commands, closed=False):
-            here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
+        def path(name, start, steps, closed=False):
+            members=[]; point=start
+            for index, step in enumerate(steps):
                 member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
+                if len(step)==2:
+                    self.add_line(member,point,step); point=step
+                else:
+                    end,rx,ry,sweep=step
+                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
+                members.append(member)
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
+            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+        def curve(name,start,*segments):
+            self.add_bezier(name,start,*segments)
 
-        path('head',(16,20),[('C',(10,30),(14,25),(10,26)),('C',(8,35),(8,32),(8,33)),('C',(15,40),(8,39),(11,40)),('L',(25,36)),('L',(31,44))])
-        path('back',(25,36),[('C',(30,26),(29,35),(30,30)),('L',(40,35))]);join('head','back')
-        path('ear-right',(16,20),[('C',(28,4),(17,12),(24,6)),('C',(28,20),(31,11),(30,16)),('L',(40,35))]);join('ear-right','head');join('ear-right','back')
-        path('ear-left',(16,20),[('C',(10,4),(10,16),(10,10)),('C',(21,11),(16,5),(19,8))]);join('ear-left','head');join('ear-left','ear-right')
+        curve('face',(6,34),((6,32),(8,30),(10,28)),((12,25),(15,22),(18,20)),((20,19),(22,18),(24,18)),((27,18),(31,19),(34,20)),((37,24),(40,29),(42,32)))
+        curve('muzzle',(6,34),((6,39),(9,42),(14,42)),((16,42),(17,41),(18,40)),((20,38),(22,37),(24,36)),((29,35),(32,34),(32,28)))
+        self.relate('connect','face','muzzle')
+        curve('ear-left',(18,20),((12,18),(12,10),(12,6)),((20,8),(24,12),(24,18)))
+        curve('ear-right',(24,18),((24,12),(29,7),(34,6)),((36,12),(35,17),(34,20)))
+        for n in ('ear-left','ear-right'):self.relate('connect',n,'face')
+        self.relate('connect','ear-left','ear-right')
+        self.add_line('neck',(24,36),(32,42));self.relate('connect','neck','muzzle')
+
+        curve('muzzle-divider',(10,28),((16,30),(18,35),(18,40)))
+        self.relate('connect','muzzle-divider','face');self.relate('connect','muzzle-divider','muzzle')

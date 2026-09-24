@@ -1,7 +1,7 @@
-"""Circular Arrow with Round Tail.
-Plan: Round-ended rotation stroke sweeps around the lower circle and turns into an upper-left arrowhead. Radial envelope22.
-Reference construction: rotate-ccw.
-Reduction: Use the round stroke cap as the round tail terminal, omitting its separate ring.
+"""volume down. Revision of reviewer feedback: Bad stroke drawn.
+Plan: Circular rotation arrow with an outlined round terminal. Square extremes 6,6,42,42.
+Construction reference: Lucide rotate-cw: smooth circular sweep and a shared tip; supplied reference owns terminal ring.
+Omissions: None
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -10,23 +10,63 @@ SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictogr
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'circular-arrow-with-round-tail'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/interface-essential'
     aliases = ()
-    keywords = ('circular', 'arrow', 'with', 'round', 'tail')
+    keywords = ('volume', 'down')
     def build(self):
 
-        def circle(name,cx,cy,r):
-            pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
-            for j,(a,b) in enumerate(zip(pts,pts[1:])):
-                self.add_arc(f'{name}-{j}',a,b,radius_x=r)
-            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        bez = self.add_bezier
+        def arc(n,a,b,r,ry=None,sweep=True,large=False):
+            self.add_arc(n,a,b,radius_x=r,radius_y=r if ry is None else ry,sweep=sweep,large_arc=large)
+        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def oval(n,x,y,rx,ry=None):
+            ry = rx if ry is None else ry
+            pts=[(x,y-ry),(x+rx,y),(x,y+ry),(x-rx,y)]
+            for j in range(4): arc(n+str(j),pts[j],pts[(j+1)%4],rx,ry)
+            contour(n,*(n+str(j) for j in range(4)),closed=True)
+        def box(n,l,t,r,b,rad=4):
+            pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+            members=[]
+            for j in range(8):
+                a,bp=pts[j],pts[(j+1)%8]
+                if a==bp: continue
+                name=n+str(j);members.append(name)
+                if j%2: arc(name,a,bp,rad)
+                else: line(name,a,bp)
+            contour(n,*members,closed=True)
 
-        self.add_arc('left',(12,8),(4,24),radius_x=20,sweep=False)
-        self.add_arc('bottom',(4,24),(44,24),radius_x=20,sweep=False)
-        self.add_bezier('turn',(44,24),((44,18),(40,14),(36,12)))
-        self.add_contour('rotation','left','bottom','turn')
-        self.add_polyline('arrow',(34,18),(36,12),(41,14))
-        self.relate('connect','arrow','rotation')
+        oval('terminal',22,9,3)
+        bez('lead',(19,9),((11,11),(6,17),(6,24)))
+        arc('bottom',(6,24),(42,24),18,sweep=False)
+        bez('turn',(42,24),((42,18),(40,14),(36,10)))
+        contour('sweep','lead','bottom','turn')
+        poly('head',(36,18),(36,10),(42,10))
+
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        ends={q for p in self.primitives for q in (p.start,p.end)}
+        rebuilt=[]; replacements={}
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in ends if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
+                    ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        n=p.element_id+'-joint-'+str(j);rebuilt.append(Line(n,u,v));ids.append(n)
+                    replacements[p.element_id]=ids
+                    continue
+            rebuilt.append(p)
+        self.primitives[:]=rebuilt
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)

@@ -1,45 +1,41 @@
-"Playing Card Suits.\nSymbol plan: Four outlined suits remain separate, with compact lobes and shared stems.\nConstruction: Lucide original and atomic-debug: bath, truck, notebook, piano, orbit, sprout and pill-bottle; coherent arcs, shared joins and repeated dimensions.\nKeyshape SQUARE: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+"""Four card suits in a two-by-two grid: diamond, club, spade and heart. Extrema 6,6,42,42.
+Construction: club, spade and heart: continuous outlines with explicit stems
+Reduction: Fine lobe curvature simplified to circular/elliptical arcs.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6c01ed88-1571-4e62-904d-509e18f64c7d'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_10/card game symbols_6c01ed88-1571-4e62-904d-509e18f64c7d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'four-playing-card-suits'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('cards', 'suits', 'diamond', 'club', 'spade', 'heart', 'game')
+class Drawing(Solo48):
+    icon_id='four-playing-card-suits'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('four', 'playing', 'card', 'suits')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        def path(name,start,steps,closed=False):
+            here=start;members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                elif kind=='C': self.add_bezier(m,here,(args[0],args[1],end))
+                else:self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m);here=end
+            self.add_contour(name,*members,closed=closed)
+        def line(n,a,b):self.add_line(n,a,b)
+        def poly(n,*pts,closed=False):self.add_polyline(n,*pts,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
         poly('diamond',(13,6),(20,13),(13,20),(6,13),closed=True)
-        # Four suit symbols occupy four distinct quadrants; no modifier relationship.
-        bez('heart',(35,42),((30,38),(28,35),(29,32)),((29,28),(33,27),(35,31)),((38,27),(42,28),(42,32)),((42,36),(38,39),(35,42)))
-        bez('spade',(13,29),((10,32),(6,34),(6,37)),((6,41),(10,41),(13,38)),((16,41),(20,41),(20,37)),((20,34),(16,32),(13,29)))
-        line('spadestem',(13,38),(13,42))
-        bez('club',(32,13),((28,8),(32,6),(35,6)),((40,6),(40,10),(38,13)),((42,10),(42,14),(42,16)),((42,20),(38,20),(35,17)),((32,20),(28,20),(28,16)),((28,13),(30,12),(32,13)))
-        line('clubstem',(35,17),(35,20))
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        path('club',(32,10),[('A',(38,10),3,4,True),('A',(42,15),4,5,True),('A',(35,17),4,4,True),('A',(28,15),4,4,True),('A',(32,10),4,5,True)],True)
+        line('club-stem',(35,17),(35,21));join('club-stem','club')
+        path('spade',(13,29),[('L',(7,35)),('A',(13,38),4,4,False),('A',(19,35),4,4,False),('L',(13,29))],True)
+        line('spade-stem',(13,38),(13,42));join('spade-stem','spade')
+        path('heart',(35,32),[('A',(28,33),4,4,False),('L',(35,42)),('L',(42,33)),('A',(35,32),4,4,False)],True)
