@@ -1,43 +1,53 @@
+"""A diagonal phone receiver inside a rounded square.
+Plan: SQUARE preserves the enclosing sign and nine-unit content margins.
+Reduction: Earpiece notches reduced to shallow shoulders; receiver band widened.
+Construction: Lucide phone: outer curved sweep, inner return and flared end pads.
+Layout: Receiver has deliberate diagonal orientation matching the reference despite the hangup filename."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '48b58407-6e7b-4cf9-b629-9742f8a963af'
-SOURCE_PATH = 'icon_set/work/todo-references/square phone hangup_48b58407-6e7b-4cf9-b629-9742f8a963af.svg'
-AUTHOR = 'gpt-6'
-# Plan: Rounded square with a curved telephone handset; handset orientation follows the source.
-# References: phone: continuous curved handset with shaped grips. The hangup source has no slash.
-# Reduction: No defining parts omitted.
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square phone hangup_48b58407-6e7b-4cf9-b629-9742f8a963af.svg'
+AUTHOR = "gpt-6"
 
-class AuthoredIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'square-phone-hangup'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/signage'
     aliases = ()
     keywords = ('square', 'phone', 'hangup')
 
     def build(self):
-        self.box("frame",6,6,42,42,4)
-        self.add_bezier('handset',(17,15),
-            ((19,13),(20,15),(21,18)),
-            ((23,21),(20,21),(19,24)),
-            ((20,27),(24,30),(27,29)),
-            ((29,26),(29,25),(32,27)),
-            ((34,28),(34,29),(33,32)),
-            ((29,37),(18,29),(15,22)),
-            ((13,18),(15,16),(17,15)))
+        self.frame()
+        # Rounded outer sweep with flared earpieces and a broad inner return.
+        for j,(a,b) in enumerate(zip([(15,15),(23,15),(25,17)],[(23,15),(25,17),(24,18)])): self.add_line(f'upper-ear-{j}',a,b)
+        self.add_bezier('inner-bend',(24,18),((25,21),(27,23),(30,24)))
+        for j,(a,b) in enumerate(zip([(30,24),(31,23),(33,25)],[(31,23),(33,25),(33,33)])): self.add_line(f'lower-ear-{j}',a,b)
+        self.add_arc('outer-bend',(33,33),(15,15),radius_x=18,sweep=True)
+        self.add_contour('handset','upper-ear-0','upper-ear-1','upper-ear-2','inner-bend','lower-ear-0','lower-ear-1','lower-ear-2','outer-bend',closed=True)
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def circle(self, name, x, y, r):
+        self.add_arc(name+'-a', (x-r,y), (x+r,y), radius_x=r)
+        self.add_arc(name+'-b', (x+r,y), (x-r,y), radius_x=r)
+        self.add_contour(name, name+'-a', name+'-b', closed=True)
 
-    def box(self,n,l,t,r,b,q=4):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+    def frame(self):
+        # SQUARE extremes: centerlines (6,6)-(42,42), ink (4,4)-(44,44).
+        # Shared quarter-circle corners give a tangent-continuous square.
+        lo, hi, r = 6, 42, 4
+        nodes = [(lo+r,lo),(hi-r,lo),(hi,lo+r),(hi,hi-r),
+                 (hi-r,hi),(lo+r,hi),(lo,hi-r),(lo,lo+r)]
+        members=[]
+        for i,a in enumerate(nodes):
+            b=nodes[(i+1)%8]; name=f'frame-{i}'; members.append(name)
+            if i%2: self.add_arc(name,a,b,radius_x=r)
+            else: self.add_line(name,a,b)
+        self.add_contour('frame',*members,closed=True)
+
+    def up_arrow(self, name, x, top, bottom, half):
+        tip=(x,top)
+        self.add_polyline(name+'-head',(x-half,top+half),tip,(x+half,top+half))
+        self.add_line(name+'-shaft',(x,bottom),tip)
+        self.relate('connect',name+'-head',name+'-shaft')
+

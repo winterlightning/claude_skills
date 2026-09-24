@@ -1,13 +1,13 @@
-"""An open head with an oval thought layer floating above it.
-Symbol plan: Oval halo, open circular jaw and broad shoulder curve share a vertical axis. Ink extremes (6,2)-(42,46).
-Construction: user-round: broad smooth shoulders; supplied source owns the open-head and oval-layer arrangement.
-Human construction: human-reference.md and human_ref/user.svg: circular jaw radius12, lower jaw36, shoulder top40, giving zero ink gap with a scoped touching-bust connection. No detached stick figure is present.
-"""
+"""An open head with a floating oval thought layer.
+Plan: VRECT_L reserves vertical room for the thought layer, jaw and shoulders.
+Reduction: No defining component removed; replaced shallow shoulder Beziers with one centered elliptical arc.
+Construction: Shared human-reference.md and human_ref/user.svg: circular jaw and broad smooth shoulders.
+Layout: Touching bust construction, not a detached stick figure: circular jaw radius12 ends at y36; shoulder apex y40 is four centerline units below, giving zero visible ink gap. Scoped actual touching contact retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fc8e8b95-766a-4f15-a80b-5e30979a5fc8'
-SOURCE_PATH = 'icon_set/work/todo-references/psycho analysis 5_fc8e8b95-766a-4f15-a80b-5e30979a5fc8.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/psycho analysis 5_fc8e8b95-766a-4f15-a80b-5e30979a5fc8.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'psycho-analysis-5'
@@ -27,7 +27,7 @@ class Drawing(Solo48):
         self.add_line('head-left',(14,20),(12,24))
         self.add_line('head-right',(34,20),(36,24))
         for n in ('head-left','head-right'):self.relate('connect',n,'head-bowl')
-        self.add_bezier('shoulders',(8,44),((12,41),(18,40),(24,40)),((30,40),(36,41),(40,44)))
+        self.add_arc('shoulders',(8,44),(40,44),radius_x=16,radius_y=4)
         self.relate('connect','head-bowl','shoulders')
 
     def circle(self,name,cx,cy,rx,ry=None):

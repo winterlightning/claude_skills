@@ -1,16 +1,15 @@
-"""An outlined pound sterling currency glyph.
-
-Symbol plan: pound-sterling: hooked upper stem, crossbar and baseline; outlined treatment retained from input.
-Envelope: VRECT_M. The narrow upright glyph uses the 28-by-40 centerline envelope, (10,4)–(38,44).
-Reduction: No defining features omitted.
-"""
+"""An outlined pound sterling glyph.
+Plan: VRECT_M supplies the narrow upright (10,4)-(38,44) centerline envelope.
+Reduction: No defining glyph component removed; hook, crossbar and foot bands rebalanced.
+Construction: Supplied reference owns outlined lettering; Lucide pound-sterling reviewed for hook, bar and baseline hierarchy.
+Layout: Directional glyph asymmetry preserved; outlined treatment retained."""
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4b4714a5-9ccb-46f5-aa7c-3672e3f9cac9'
-SOURCE_PATH = 'icon_set/work/todo-references/pound_4b4714a5-9ccb-46f5-aa7c-3672e3f9cac9.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/pound_4b4714a5-9ccb-46f5-aa7c-3672e3f9cac9.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pound'
@@ -23,21 +22,21 @@ class Drawing(Solo48):
     ink_extremes = keyshape.bounds_for(Profile.SOLO48)
 
     def build(self):
-        self.add_bezier('outer-hook',(38,14),((38,7),(34,4),(27,4)),((16,4),(14,11),(17,22)))
-        self.add_line('bar-left-1',(17,22),(10,22))
-        self.add_line('bar-left-2',(10,22),(10,30))
-        self.add_line('bar-left-3',(10,30),(18,30))
-        self.add_bezier('lower-stem',(18,30),((19,36),(15,39),(12,40)))
-        self.add_line('foot-1',(12,40),(12,44))
+        self.add_bezier('outer-hook',(38,12),((38,7),(34,4),(27,4)),((17,4),(16,11),(18,20)))
+        self.add_line('bar-left-1',(18,20),(10,20))
+        self.add_line('bar-left-2',(10,20),(10,28))
+        self.add_line('bar-left-3',(10,28),(18,28))
+        self.add_bezier('lower-stem',(18,28),((18,33),(14,36),(12,36)))
+        self.add_line('foot-1',(12,36),(12,44))
         self.add_line('foot-2',(12,44),(38,44))
         self.add_line('foot-3',(38,44),(38,36))
-        self.add_line('foot-4',(38,36),(24,36))
-        self.add_bezier('inner-stem',(24,36),((27,32),(26,30),(26,30)))
-        self.add_line('bar-right-1',(26,30),(32,30))
-        self.add_line('bar-right-2',(32,30),(32,22))
-        self.add_line('bar-right-3',(32,22),(25,22))
-        self.add_bezier('inner-hook',(25,22),((23,15),(22,12),(27,12)),((29,12),(30,12),(30,14)))
-        self.add_line('mouth',(30,14),(38,14))
+        self.add_line('foot-4',(38,36),(28,36))
+        self.add_bezier('inner-stem',(28,36),((29,33),(28,30),(28,28)))
+        self.add_line('bar-right-1',(28,28),(32,28))
+        self.add_line('bar-right-2',(32,28),(32,20))
+        self.add_line('bar-right-3',(32,20),(27,20))
+        self.add_bezier('inner-hook',(27,20),((26,16),(25,12),(28,12)),((29,12),(30,12),(30,12)))
+        self.add_line('mouth',(30,12),(38,12))
         self.add_contour('pound','outer-hook','bar-left-1','bar-left-2','bar-left-3','lower-stem','foot-1','foot-2','foot-3','foot-4','inner-stem','bar-right-1','bar-right-2','bar-right-3','inner-hook','mouth',closed=True)
 
     def circle(self, name, cx, cy, r):

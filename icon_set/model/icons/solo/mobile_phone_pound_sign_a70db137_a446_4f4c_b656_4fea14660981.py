@@ -1,10 +1,10 @@
-"""A mobile phone displaying pound sign icon.
-Construction reference: smartphone.
+"""mobile phone pound sign: complete SOLO48 repair.
+Rebuilt the sterling sign with a round hook, explicit crossbar junction and level baseline. Removed the lower phone divider.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a70db137-a446-4f4c-b656-4fea14660981'
-SOURCE_PATH = 'icon_set/work/todo-references/mobile phone pound sign_a70db137-a446-4f4c-b656-4fea14660981.svg'
+SOURCE_PATH = 'pictographic-primitives/other/mobile phone pound sign_a70db137-a446-4f4c-b656-4fea14660981.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'mobile-phone-pound-sign'
@@ -16,10 +16,6 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('mobile', 'phone', 'pound', 'sign')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
     def rect(self,name,x,y,w,h,r=2):
         pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
         names=[]
@@ -31,15 +27,12 @@ class Drawing(Solo48):
         self.add_contour(name,*names,closed=True)
 
     def build(self):
-
-        # Plan: rounded upright phone and lower band; content owns its own geometry.
         self.rect('phone',8,4,32,40)
-        self.add_line('separator',(8,36),(40,36))
-        self.relate('connect','phone','separator')
-
-        # Pound sign: cap flows to a stem and leftward foot, crossed once.
-        self.add_bezier('pound',(30,16),((29,10),(21,11),(21,18)),((21,24),(23,27),(18,28)))
-        self.add_line('foot',(18,28),(31,28))
-        self.add_line('bar',(18,20),(27,20))
-        self.relate('connect','pound','foot')
+        self.add_arc('hook',(30,17),(22,17),radius_x=4,sweep=False)
+        self.add_line('upper',(22,17),(22,23))
+        self.add_line('lower',(22,23),(22,32))
+        self.add_contour('pound','hook','upper','lower')
+        self.add_polyline('bar',(17,23),(22,23),(28,23))
+        self.add_polyline('foot',(17,32),(22,32),(31,32))
         self.relate('connect','pound','bar')
+        self.relate('connect','pound','foot')

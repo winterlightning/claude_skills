@@ -1,16 +1,15 @@
-"""Two cupped hands holding angle brackets and a code slash.
-
-Symbol plan: code: matching opposing chevrons; hand: coherent palm/finger outlines; human reference consulted.
-Envelope: SQUARE. The complete composition has a square overall envelope and uses the (6,6)–(42,42) centerline extremes.
-Reduction: Small thumb creases omitted; code punctuation and both hands retained.
-"""
+"""Two cupped hands supporting code brackets and slash.
+Plan: SQUARE separates the code row from mirrored hands below.
+Reduction: Omitted small thumb creases; simplified each hand to a smooth continuous outline.
+Construction: Shared human-reference.md inspected; Lucide hand principles from the earlier batch support rounded fingers and coherent palms.
+Layout: Hands mirror around x24; no head or detached head-body spacing applies."""
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f5badc78-84c0-4392-89e1-d9fa0712f0cb'
-SOURCE_PATH = 'icon_set/work/todo-references/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'programming-hold-code-2'
@@ -29,10 +28,12 @@ class Drawing(Solo48):
         self.add_line('code-slash',(26,6),(22,18))
         for side,sign in [('left',1),('right',-1)]:
             def p(x,y): return (axis+sign*(x-axis),y)
-            self.add_bezier('hand-'+side,p(12,42),(p(12,38),p(6,36),p(6,33)),(p(6,31),p(6,30),p(6,29)),(p(6,26),p(10,26),p(10,29)))
-            self.add_line('finger-'+side,p(10,29),p(10,34))
-            self.add_bezier('palm-'+side,p(10,34),(p(10,31),p(12,30),p(14,32)),(p(16,34),p(20,36),p(20,39)),(p(20,40),p(20,41),p(20,42)))
-            self.add_contour('cupped-'+side,'hand-'+side,'finger-'+side,'palm-'+side)
+            self.add_bezier('hand-'+side,p(10,42),(p(10,38),p(6,37),p(6,32)))
+            self.add_line('outer-'+side,p(6,32),p(6,30))
+            self.add_arc('tip-'+side,p(6,30),p(14,30),radius_x=4,sweep=sign==1)
+            self.add_line('finger-'+side,p(14,30),p(14,32))
+            self.add_bezier('palm-'+side,p(14,32),(p(16,33),p(20,35),p(20,39)),(p(20,40),p(20,41),p(20,42)))
+            self.add_contour('cupped-'+side,'hand-'+side,'outer-'+side,'tip-'+side,'finger-'+side,'palm-'+side)
 
     def circle(self, name, cx, cy, r):
         points = [(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

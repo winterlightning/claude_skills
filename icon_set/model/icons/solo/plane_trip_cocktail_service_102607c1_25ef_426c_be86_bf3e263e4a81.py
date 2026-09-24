@@ -1,12 +1,13 @@
+"""Aircraft above a cocktail glass and citrus garnish.
+Plan: VRECT_L preserves the vertical aircraft/service arrangement.
+Reduction: Divider omitted; aircraft outline reduced to fuselage, wings and tail strokes; garnish reduced to an open semicircle.
+Construction: plane: fuselage/wing/tail hierarchy; martini: bowl, stem and foot with actual joins. Source round bowl retained. Aircraft remains directional.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='102607c1-25ef-426c-be86-bf3e263e4a81'
-SOURCE_PATH='icon_set/work/todo-references/plane trip cocktail service_102607c1-25ef-426c-be86-bf3e263e4a81.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/plane trip cocktail service_102607c1-25ef-426c-be86-bf3e263e4a81.svg'
 AUTHOR='gpt-6'
-PLAN='Oblique airplane above a divider, cocktail bowl, stem and citrus garnish below. All service elements remain together.'
-CONSTRUCTION_REFERENCES='Lucide plane: coherent wing contour; martini: stem and foot construction, while preserving source’s round bowl.'
-OMISSIONS='Minor aircraft edge rounding simplified; garnish retained.'
-KEYSHAPE_INK_BOUNDS=(6, 2, 42, 46)
 
 class Drawing(Solo48):
     icon_id='plane-trip-cocktail-service'
@@ -52,13 +53,15 @@ class Drawing(Solo48):
         self.add_contour(name,name+'-dome',name+'-right',name+'-left',closed=True)
 
     def build(self):
-        # Aircraft is a single outline using explicit continuous segments.
-        self.add_polyline('aircraft',(8,12),(12,11),(17,13),(23,11),(16,6),(20,4),(29,8),(36,6),(40,8),(39,11),(31,13),(27,20),(23,20),(25,15),(13,18),closed=True)
-        self.add_line('divider',(8,26),(40,26))
-        self.add_arc('bowl',(15,32),(29,32),radius_x=7,radius_y=6,sweep=False)
-        self.add_line('rim',(15,32),(29,32));self.relate('connect','bowl','rim')
-        self.add_line('stem',(22,38),(22,44));self.relate('connect','bowl','stem')
-        self.add_polyline('foot',(18,44),(22,44),(26,44));self.relate('connect','stem','foot')
-        self.add_arc('citrus',(29,28),(29,34),radius_x=3)
-
-KEYSHAPE_REASON='The upright complete composition uses centerline extremes (8,4)–(40,44).'
+        # Rising aircraft skeleton: fuselage, long wings and a smaller tail; service below.
+        self.add_polyline('aircraft',(8,16),(14,14),(20,12),(26,10),(32,8),(40,8))
+        self.add_polyline('wings',(16,4),(26,10),(22,18));self.relate('connect','aircraft','wings')
+        self.add_polyline('tail',(10,8),(14,14),(10,18));self.relate('connect','aircraft','tail')
+        self.add_arc('bowl-left',(14,26),(23,35),radius_x=9,sweep=False)
+        self.add_arc('bowl-right',(23,35),(32,26),radius_x=9,sweep=False)
+        self.add_contour('bowl','bowl-left','bowl-right')
+        self.add_line('rim',(14,26),(32,26));self.relate('connect','rim','bowl')
+        self.add_line('stem',(23,35),(23,44));self.relate('connect','stem','bowl')
+        self.add_polyline('foot',(17,44),(23,44),(29,44));self.relate('connect','stem','foot')
+        self.add_arc('citrus',(32,26),(40,26),radius_x=4)
+        self.relate('connect','citrus','rim');self.relate('connect','citrus','bowl')

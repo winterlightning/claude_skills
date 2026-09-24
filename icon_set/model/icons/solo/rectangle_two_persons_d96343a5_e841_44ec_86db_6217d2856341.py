@@ -1,12 +1,14 @@
+"""rectangle two persons: standalone batch 17 repair.
+Retained two equal people and the panel. Reduced both heads and shoulder arches together. Head centers (16,19) and (32,19), radius 2; shoulder apex y29, exactly four units of visible detached clearance.
+"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID='d96343a5-e841-44ec-86db-6217d2856341'
-SOURCE_PATH='icon_set/work/todo-references/rectangle two persons_d96343a5-e841-44ec-86db-6217d2856341.svg'
-AUTHOR='gpt-6'
-PLAN='Two equivalent portrait busts inside a wide rounded panel. Shared head radius, shoulder widths and vertical positions preserve equality.'
-CONSTRUCTION_REFERENCES='Shared human-reference.md/user.svg: equal circular heads and smooth shoulders; Lucide rectangle-ellipsis: frame.'
-OMISSIONS='None; both people retained.'
-KEYSHAPE_INK_BOUNDS=(2, 6, 46, 42)
+SOURCE_ICON_ID = 'd96343a5-e841-44ec-86db-6217d2856341'
+SOURCE_PATH = 'pictographic-primitives/other/rectangle two persons_d96343a5-e841-44ec-86db-6217d2856341.svg'
+AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'users'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 class Drawing(Solo48):
     icon_id='rectangle-two-persons'
@@ -37,23 +39,9 @@ class Drawing(Solo48):
         apex=cy+r+8;end_y=apex+shoulder_height
         self.add_arc(name+'-shoulders',(cx-shoulder_half_width,end_y),(cx+shoulder_half_width,end_y),radius_x=shoulder_half_width,radius_y=shoulder_height)
 
-    def cross(self,name,cx,cy,half):
-        self.add_polyline(name+'-a',(cx-half,cy-half),(cx,cy),(cx+half,cy+half))
-        self.add_polyline(name+'-b',(cx+half,cy-half),(cx,cy),(cx-half,cy+half))
-        self.relate('connect',name+'-a',name+'-b')
 
-    def reflection(self,direction):
-        # Triangles mirror around the axis; only arrowhead direction changes.
-        self.add_line('axis',(24,18),(24,42))
-        for name,x,tip in (('left',6,16),('right',42,32)):
-            self.add_polyline(name,(x,20),(tip,31),(x,42),closed=True)
-        self.add_arc('arrow-arc',(14,16),(34,16),radius_x=10)
-        x=14 if direction=='left' else 34
-        self.add_polyline('arrowhead',(x-4,12),(x,16),(x+4,12))
-        self.relate('connect','arrow-arc','arrowhead')
 
     def build(self):
         self.box('panel',4,8,40,32,4)
-        for name,cx in (('left',15),('right',33)):self.bust(name,cx,18,3,7,4)
+        for name,cx in (('left',16),('right',32)):self.bust(name,cx,19,2,3,2)
 
-KEYSHAPE_REASON='The wide composition uses centerline extremes (4,8)–(44,40).'

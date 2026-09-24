@@ -1,6 +1,9 @@
-"""Anatomical head with brain intrinsic to skull. Broad SQUARE skull leaves room for visible lobes and short descending brain stem. Human_ref informs smooth silhouette; Lucide brain informs lobe junctions.
-Redraw authorized 2026-09-22. Source interpretation follows visible composition.
-Earlier draft, if any, is preserved. Shared parameters own repeated geometry.
+"""neuropathologist: standalone SOLO48 repair.
+Plan: Right-facing anatomical head containing a lobed brain.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Broadened lobes and removed the crowded internal fold; simplified brain now reads as a lobed mass.
+Lucide originals and atomic-debug construction reference: brain.
+human_ref/user.svg informs smooth head proportions. Profile has a continuous neck; no detached head.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -29,6 +32,5 @@ class Drawing(Solo48):
         def pl(n,*pts): poly(n,*[p(*v) for v in pts])
         b('skull',(36,42),((32,35),(42,32),(42,23)),((42,13),(35,6),(26,6)),((16,6),(10,12),(10,21)))
         pl('face',(10,21),(6,28),(8,28),(8,36),(22,36),(22,42));join('skull','face')
-        b('brain',(22,27),((18,27),(18,21),(21,20)),((20,14),(25,13),(27,17)),((31,14),(33,20),(31,23)),((33,27),(31,30),(28,29)),((27,25),(24,27),(22,27)))
-        b('brain-fold',(27,17),((24,18),(24,21),(26,22)))
-        join('brain','brain-fold')
+        # Two broad lobes and one open fold retain the brain's folded reading.
+        b('brain',(20,26),((18,26),(18,20),(20,19)),((19,14),(26,13),(27,17)),((33,15),(34,23),(30,26)),((27,28),(23,27),(20,26)))

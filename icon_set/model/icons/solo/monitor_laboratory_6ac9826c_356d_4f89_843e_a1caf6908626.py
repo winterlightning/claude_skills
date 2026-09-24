@@ -1,10 +1,10 @@
-"""monitor laboratory, complete SOLO48 composition.
-Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
+"""monitor laboratory: complete SOLO48 repair.
+Kept the monitor, stand, flask neck and flared flask body. Removed the crowded liquid-level line.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6ac9826c-356d-4f89-843e-a1caf6908626'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor laboratory_6ac9826c-356d-4f89-843e-a1caf6908626.svg'
+SOURCE_PATH = 'pictographic-primitives/other/monitor laboratory_6ac9826c-356d-4f89-843e-a1caf6908626.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -16,18 +16,7 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('monitor laboratory',)
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'a',n+'b',closed=True)
 
-    def rounded(self,n,x,y,w,h,r):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        for i in range(8):
-            a,b=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(n+str(i),a,b,radius_x=r)
-            else:self.add_line(n+str(i),a,b)
-        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
 
     def monitor(self):
         # Symmetric rounded screen, split bottom edge at actual stand attachment.
@@ -46,17 +35,8 @@ class Drawing(Solo48):
         self.relate('connect','screen','stand')
         self.relate('connect','stand','foot')
 
-    def banknote(self):
-        self.add_polyline('note',(4,8),(44,8),(44,40),(4,40),closed=True)
-        # Paired eight-unit corner quadrants meet the note edges.
-        arcs=[((12,8),(4,16)),((44,16),(36,8)),((4,32),(12,40)),((36,40),(44,32))]
-        for i,(a,b) in enumerate(arcs):
-            self.add_arc('corner-'+str(i),a,b,radius_x=8)
-            self.relate('connect','note','corner-'+str(i))
 
     def build(self):
         # Flask with a narrow neck, sloping walls and a liquid-level bar.
         self.monitor()
-        self.add_polyline('flask',(20,14),(28,14),(28,20),(32,28),(16,28),(20,20),closed=True)
-        self.add_line('liquid',(18,24),(30,24))
-        self.relate('connect','flask','liquid')
+        self.add_polyline('flask',(20,15),(28,15),(28,18),(32,25),(16,25),(20,18),closed=True)

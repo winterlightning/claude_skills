@@ -1,14 +1,16 @@
-'Spoked Ferris Wheel with Round Cabins\nPlan: Five round cabins physically join the circular wheel at shared cardinal points; spokes meet at one hub.\nReference: Lucide ferris-wheel: radial members and triangular stand.\nReduction: Retain all five cabins; wheel rebuilt with coherent shared nodes.\nKeyshape: VRECT_L; exact SOLO48 contract envelope.'
+'A Ferris wheel with five round cabins and a triangular stand.\nPlan: VRECT_L accommodates the top cabin and lower stand.\nReduction: Reduced five spokes to three; retained all five cabins. Moved the stand junction below the wheel to remove small enclosed pockets.\nConstruction: Lucide ferris-wheel: radial members and a distinct triangular support.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '504a0510-ec03-4633-a8b4-a32a2b49ce54'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_03/amusement park ferris wheel 1_504a0510-ec03-4633-a8b4-a32a2b49ce54.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/amusement park ferris wheel 1_504a0510-ec03-4633-a8b4-a32a2b49ce54.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'spoked-ferris-wheel-with-round-cabins'
     keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = "objects"
     keywords = ('spoked', 'ferris', 'wheel', 'with', 'round', 'cabins')
 
@@ -34,16 +36,19 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
-        self.add_bezier('wheel-upper-left',(24,10),((19,10),(14,11),(14,16)))
-        self.add_bezier('wheel-left',(14,16),((14,20),(14,24),(14,28)))
-        self.add_bezier('wheel-bottom',(14,28),((14,33),(34,33),(34,28)))
-        self.add_bezier('wheel-right',(34,28),((34,24),(34,20),(34,16)))
-        self.add_bezier('wheel-upper-right',(34,16),((34,11),(29,10),(24,10)))
-        self.add_contour('wheel','wheel-upper-left','wheel-left','wheel-bottom','wheel-right','wheel-upper-right',closed=True)
-        for k,(x,y) in enumerate([(24,7),(11,16),(37,16),(11,28),(37,28)]):
+        self.add_bezier('wheel-upper-left',(24,10),((19,10),(14,11),(14,13)))
+        self.add_line('wheel-left-top',(14,13),(14,22))
+        self.add_line('wheel-left',(14,22),(14,28))
+        self.add_arc('wheel-bottom-left',(14,28),(24,34),radius_x=10,radius_y=6,sweep=False)
+        self.add_arc('wheel-bottom',(24,34),(34,28),radius_x=10,radius_y=6,sweep=False)
+        self.add_line('wheel-right-bottom',(34,28),(34,22))
+        self.add_line('wheel-right',(34,22),(34,13))
+        self.add_bezier('wheel-upper-right',(34,13),((34,11),(29,10),(24,10)))
+        self.add_contour('wheel','wheel-upper-left','wheel-left-top','wheel-left','wheel-bottom-left','wheel-bottom','wheel-right-bottom','wheel-right','wheel-upper-right',closed=True)
+        for k,(x,y) in enumerate([(24,7),(11,13),(37,13),(11,28),(37,28)]):
             circle(f'cabin-{k}',x,y,3); self.relate('connect',f'cabin-{k}','wheel')
-        for k,p in enumerate([(24,10),(14,16),(34,16),(14,28),(34,28)]):
+        for k,p in enumerate([(24,10),(14,22),(34,22)]):
             self.add_line(f'spoke-{k}',(24,22),p); self.relate('connect',f'spoke-{k}','wheel')
             for j in range(k):self.relate('connect',f'spoke-{k}',f'spoke-{j}')
-        self.add_polyline('stand',(24,22),(8,44),(40,44),(24,22));self.relate('connect','stand','wheel')
-        for k in range(5):self.relate('connect','stand',f'spoke-{k}')
+        self.add_polyline('stand',(24,34),(8,44),(40,44),closed=True);self.relate('connect','stand','wheel')
+

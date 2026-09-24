@@ -1,16 +1,17 @@
+"""A freestanding scoreboard showing two and zero.
+Plan: HRECT_L gives the wide panel centerlines (4,8)-(44,40), including the two short posts.
+Reduction: Omitted the colon separator; made zero a small complete circle and enlarged the display relative to the posts.
+Construction: Lucide monitor: rounded panel; source reference supplies the score and two posts.
+Layout: Panel corners share radius3; the score remains intentionally asymmetric. Posts have explicit attachment nodes."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='26cfbb23-55d5-4b36-b8ee-026317013752'
-SOURCE_PATH='icon_set/work/todo-references/scoreboard_26cfbb23-55d5-4b36-b8ee-026317013752.svg'
-AUTHOR='gpt-6'
-PLAN='Standing scoreboard with the full 2:0 score above two supporting posts. Score glyphs share the first scoreboard construction.'
-CONSTRUCTION_REFERENCES='Lucide monitor: panel; source defines freestanding posts.'
-OMISSIONS='None.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
+SOURCE_PATH = 'pictographic-primitives/sports/scoreboard_26cfbb23-55d5-4b36-b8ee-026317013752.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id='scoreboard-26cfbb23'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
@@ -28,6 +29,9 @@ class Drawing(Solo48):
         for i,a in enumerate(pts):
             b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
             if i%2:self.add_arc(part,a,b,radius_x=r)
+            elif i==4:
+                self.add_line(part+'a',a,(35,y+h));self.add_line(part+'b',(35,y+h),(13,y+h));self.add_line(part+'c',(13,y+h),b)
+                members.pop();members.extend([part+'a',part+'b',part+'c'])
             else:self.add_line(part,a,b)
         self.add_contour(name,*members,closed=True)
 
@@ -59,10 +63,11 @@ class Drawing(Solo48):
         self.relate('connect','head','shaft')
 
     def build(self):
-        self.box('panel',6,6,36,26,3)
+        self.box('panel',4,8,40,30,3)
         for i,x in enumerate((13,35)):
-         self.add_line(f'post-{i}',(x,32),(x,42));self.relate('connect','panel',f'post-{i}')
-        self.score(14)
+            self.add_line(f'post-{i}',(x,38),(x,40));self.relate('connect','panel',f'post-{i}')
+        self.add_bezier('two-top',(13,19),((13,15),(20,15),(20,20)))
+        self.add_polyline('two',(20,20),(13,29),(20,29));self.relate('connect','two-top','two')
+        self.circle('zero',32,23,3)
 
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='None.'
+

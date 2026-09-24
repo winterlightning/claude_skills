@@ -1,10 +1,14 @@
-'Capped Carpenter Beside a Hand Saw\nPlan: Occupational portrait and separate physical saw; keep as draft if the interpretation is ambiguous.\nReference: Shared human user.svg: circular jaw; no useful exact Lucide occupational reference.\nReduction: Keep saw and capped head; no reinterpretation as a generic avatar.\nKeyshape: HRECT_L; exact SOLO48 contract envelope.'
+"""A capped carpenter beside a hand saw.
+Plan: HRECT_L fits the saw alongside the circular head.
+Reduction: Saw has fewer broad teeth; fine handle division and doubled cap band omitted.
+Construction: Shared human user.svg for circular head; no useful exact Lucide match for the combined occupational portrait.
+Layout: Saw is intentionally placed to the left of the head; no torso or detached head-body gap applies."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0a473297-da88-4e1f-8691-703bcbdef5cb'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_05/avatar carpenter_0a473297-da88-4e1f-8691-703bcbdef5cb.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_05/avatar carpenter_0a473297-da88-4e1f-8691-703bcbdef5cb.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'capped-carpenter-beside-a-hand-saw'
@@ -39,4 +43,4 @@ class Drawing(Solo48):
         path('head',(24,18),[(24,24),((44,24),10,10,False),(44,18)])
         path('cap',(24,18),[((44,18),10,10,True),(24,18)],True)
         self.relate('connect','cap','head')
-        self.add_polyline('saw',(4,40),(4,8),(12,8),(8,16),(12,24),(8,32),(12,40),(4,40),closed=True)
+        self.add_polyline('saw',(4,40),(4,8),(14,8),(12,16),(14,24),(12,32),(14,40),(4,40),closed=True)

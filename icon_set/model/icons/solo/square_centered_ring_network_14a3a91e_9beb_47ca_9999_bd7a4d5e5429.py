@@ -1,10 +1,10 @@
 # Final repair: Use tangent straight leads at node endpoints so exact8-unit separation is analytically certifiable.
-'Square-Centered Ring Network\nPlan: Ring network with centered square; four main nodes replace six to preserve spacing.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Reduce six hollow nodes to four point junctions; retain ring and central square.\nKeyshape: CIRCLE; exact SOLO48 contract envelope.'
+'Square-Centered Ring Network\nPlan: Ring network with centered square; four main nodes replace six to preserve spacing.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Reduce six hollow nodes to four hollow nodes; retain ring and central square.\nKeyshape: CIRCLE; exact SOLO48 contract envelope.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '14a3a91e-9beb-47ca-9999-bd7a4d5e5429'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_02/amazon mq_14a3a91e-9beb-47ca-9999-bd7a4d5e5429.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon mq_14a3a91e-9beb-47ca-9999-bd7a4d5e5429.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -29,7 +29,10 @@ class Drawing(Solo48):
                     self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
                     point = end
                 members.append(member)
-            self.add_contour(name, *members, closed=closed)
+            if name.startswith('ring-'):
+                for a,b in zip(members,members[1:]): self.relate('connect',a,b)
+            else:
+                self.add_contour(name, *members, closed=closed)
         def ellipse(name,x,y,rx,ry):
             path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
         def circle(name,x,y,r):
@@ -46,4 +49,4 @@ class Drawing(Solo48):
             x,y=p(24,8);circle(f'node-{j}',x,y,4)
             path(f'ring-{j}',p(28,8),[p(30,8),(p(40,18),10,10,True),p(40,20)])
         for j in range(4):
-            self.relate('connect',f'ring-{j}',f'node-{j}');self.relate('connect',f'ring-{j}',f'node-{(j+1)%4}')
+            self.relate('connect',f'ring-{j}-0',f'node-{j}');self.relate('connect',f'ring-{j}-2',f'node-{(j+1)%4}')

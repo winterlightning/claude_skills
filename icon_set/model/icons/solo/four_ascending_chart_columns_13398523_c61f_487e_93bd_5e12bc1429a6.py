@@ -1,14 +1,18 @@
-'Four Ascending Chart Columns\nPlan: Four ascending outlined columns with equal widths and gaps; no filled-bar substitution.\nReference: Lucide chart-no-axes-column-increasing: regular ascending series.\nReduction: Retain the defining silhouette and visible parts.\nKeyshape: HRECT_L; exact SOLO48 contract envelope.'
+"""Four evenly spaced ascending chart bars.
+Plan: SQUARE fits four bars with a shared baseline and 12-unit spacing.
+Reduction: Outlined columns reduced to single strokes, retaining all four bars and ascending order.
+Construction: chart-no-axes-column-increasing: equal-spaced vertical strokes with a shared baseline.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '13398523-c61f-487e-93bd-5e12bc1429a6'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_14/daytum logo_13398523-c61f-487e-93bd-5e12bc1429a6.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_14/daytum logo_13398523-c61f-487e-93bd-5e12bc1429a6.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'four-ascending-chart-columns'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     category = "objects"
     keywords = ('four', 'ascending', 'chart', 'columns')
 
@@ -34,6 +38,8 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
+        # Four equal-spaced ascending bars retain the logo's count and order.
+        # Narrow doubled outlines reduce to a single stroke per bar.
         for k in range(4):
-            x=4+11*k;t=29-7*k
-            self.add_polyline(f'column-{k}',(x,40),(x,t),(x+7,t),(x+7,40),(x,40))
+            x=6+12*k
+            self.add_line(f'column-{k}',(x,30-8*k),(x,42))

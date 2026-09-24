@@ -1,16 +1,17 @@
+"""Traveler carrying a bag, with a small aircraft at upper right.
+Plan: SQUARE opens the bag-to-body gap while fitting the aircraft.
+Reduction: Outlined body reduced to stick-figure construction; head radius reduced to three, arms reposed and aircraft wings rebalanced.
+Construction: human_ref/full_body_ref.png: circular head and coherent limbs. Head center (22,9), radius 3; upper torso starts (22,20), aligned vertically. Nearest centerline gap = 20-(9+3)=8, giving exactly 4 units ink clearance. mark_human_figure records the pair. Plane: main wings and tail at separate nodes.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='5ba1d1e1-9400-4baf-a55c-e0c11aabf158'
-SOURCE_PATH='icon_set/work/todo-references/plane trip person_5ba1d1e1-9400-4baf-a55c-e0c11aabf158.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/plane trip person_5ba1d1e1-9400-4baf-a55c-e0c11aabf158.svg'
 AUTHOR='gpt-6'
-PLAN='Walking traveler carrying a rectangular bag, with a small aircraft upper right. Head follows upper torso axis.'
-CONSTRUCTION_REFERENCES='Shared human-reference.md/full_body_ref.png: circular head and coherent limbs; Lucide plane: directional wing branches.'
-OMISSIONS='Outlined limbs reduced to the shared stick-figure vocabulary. Bag and aircraft retained.'
-KEYSHAPE_INK_BOUNDS=(6, 2, 42, 46)
 
 class Drawing(Solo48):
     icon_id='plane-trip-person'
-    keyshape=Keyshape.VRECT_L
+    keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
@@ -52,16 +53,14 @@ class Drawing(Solo48):
         self.add_contour(name,name+'-dome',name+'-right',name+'-left',closed=True)
 
     def build(self):
-        self.circle('head',22,9,5)
-        self.add_line('torso',(22,22),(22,32))
-        self.add_polyline('arm-right',(22,22),(29,28),(32,28));self.relate('connect','torso','arm-right')
-        self.add_polyline('arm-left',(22,22),(12,25),(12,28));self.relate('connect','torso','arm-left')
-        self.box('bag',8,28,8,10,2);self.relate('connect','bag','arm-left')
-        self.add_polyline('legs',(16,44),(22,32),(34,44));self.relate('connect','torso','legs')
+        # Shared human reference: upright torso and outlined circular head, exact 4-unit ink gap.
+        self.circle('head',22,9,3)
+        self.add_line('torso',(22,20),(22,32))
+        self.add_line('arm-right',(22,20),(28,26));self.relate('connect','torso','arm-right')
+        self.add_line('arm-left',(22,20),(14,28));self.relate('connect','torso','arm-left');self.relate('connect','arm-left','arm-right')
+        self.box('bag',6,26,8,10,2);self.relate('connect','bag','arm-left')
+        self.add_polyline('legs',(22,42),(22,32),(34,42));self.relate('connect','torso','legs')
         self.mark_human_figure('traveler',head='head',torso='torso',torso_junction='start')
-        # Exact detached-head gap: head bottom 14, upper torso junction 22.
-        self.add_polyline('plane-spine',(36,4),(36,10),(36,18))
-        self.add_polyline('wings',(35,12),(36,10),(40,12));self.relate('connect','plane-spine','wings')
-        self.add_polyline('tail',(34,20),(36,18),(38,20));self.relate('connect','plane-spine','tail')
-
-KEYSHAPE_REASON='The upright complete composition uses centerline extremes (8,4)–(40,44).'
+        self.add_polyline('plane-spine',(38,6),(38,8),(38,18))
+        self.add_polyline('wings',(34,10),(38,8),(42,10));self.relate('connect','plane-spine','wings')
+        self.add_polyline('tail',(36,20),(38,18),(40,20));self.relate('connect','plane-spine','tail')

@@ -1,13 +1,13 @@
-"""Compact Pickup Side View
-Plan: Low pickup with paired wheels and right-side raised cab.
-Keyshape: HRECT_M; exact inset SOLO48 envelope.
-Construction: Lucide truck: body terminates at wheel rims.
-Reduction: None."""
+"""Compact pickup with raised cabin, bed and paired wheels.
+Plan: HRECT_M matches the low vehicle silhouette.
+Reduction: Wheels reduced to radius three; body terminates at wheel rims. Cabin, bed and both wheels retained.
+Construction: car: body terminates at wheel cardinal points; shared wheel radius and baseline. Asymmetric cabin/bed arrangement retained.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'dd459eaf-90a6-4872-a777-772bcbc71cdf'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -38,7 +38,10 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('body',(6,32),[('L',(4,32)),('L',(4,22)),('L',(22,22)),('L',(22,10)),('L',(31,10)),('L',(38,22)),('L',(42,22)),('A',(44,24),2,2,True),('L',(44,32)),('L',(42,32))])
-        for x in (12,36):circle(f'wheel-{x}',x,32,6);self.relate('connect','body',f'wheel-{x}')
-        self.add_line('base',(18,32),(30,32))
-        for x in (12,36):self.relate('connect','base',f'wheel-{x}')
+        # Paired wheels share radius/baseline; body ends on wheel cardinal nodes.
+        path('body',(9,35),[('L',(8,35)),('A',(4,31),4,4,True),('L',(4,18)),('L',(22,18)),('L',(22,10)),('L',(30,10)),('L',(38,18)),('L',(44,18)),('L',(44,31)),('A',(40,35),4,4,True),('L',(39,35))])
+        self.add_line('cabin-base',(22,18),(38,18));self.relate('connect','cabin-base','body')
+        self.add_line('base',(15,35),(33,35))
+        for x in (12,36):
+            circle(f'wheel-{x}',x,35,3)
+            self.relate('connect','base',f'wheel-{x}');self.relate('connect','body',f'wheel-{x}')

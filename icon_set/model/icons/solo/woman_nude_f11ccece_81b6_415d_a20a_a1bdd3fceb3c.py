@@ -1,10 +1,12 @@
-"""Woman nude, preserving its complete supplied composition.
-Symbol plan: coherent contours, nested identifying symbols and parameterized repeats.
-"""
+"""A framed nonsexual female torso.
+Symbol plan and construction: human_ref/user.svg and full_body_ref.png: paired human contours; source supplies headless torso and frame.
+Keyshape: SQUARE balances the surrounding frame and mirrored anatomy.
+Omissions: Nipple and navel dots removed to open the anatomical contours.
+Review: Approved: paired chest and waist contours remain visible in both themes. Lower ends moved up one unit for frame clearance. Headless torso: no detached head/body gap applies."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='f11ccece-81b6-415d-a20a-a1bdd3fceb3c'
-SOURCE_PATH='icon_set/work/todo-references/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg'
+SOURCE_PATH = 'pictographic-primitives/other/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -19,25 +21,19 @@ class Drawing(Solo48):
     # Visible extrema (4, 4, 44, 44); centerline extremes (6, 6, 42, 42).
     # For CIRCLE the envelope is radial: center (24,24), centerline radius 20.
     def build(self):
-        # Nonsexual frontal female torso, preserving the chest, waist and navel.
+        # Nonsexual frontal female torso, preserving the chest and waist.
         # Shared human guidance owns smooth paired anatomy; the source has no head.
         self.rect('frame',6,6,42,42,3)
         for side in (-1,1):
             def p(x,y): return (24+side*x,y)
             n='torso-'+str(side)
             self.add_bezier(n,p(8,15),(p(9,17),p(10,20),p(9,22)),
-                (p(8,25),p(5,27),p(6,29)),(p(6,31),p(7,32),p(8,34)))
+                (p(8,25),p(5,27),p(6,29)),(p(6,31),p(7,32),p(8,33)))
         self.add_bezier('chest',(15,22),((15,27),(20,27),(24,25)),((28,27),(33,27),(33,22)))
         self.relate('connect','chest','torso--1')
         self.relate('connect','chest','torso-1')
-        for i,x in enumerate((20,28)): self.add_dot(f'nipple-{i}',(x,21))
-        self.add_dot('navel',(24,31))
 
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
 
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
@@ -60,9 +56,3 @@ class Drawing(Solo48):
         seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
         seg += [('L',(l,t+k)),('A',(l+k,t),k)]
         self.path(n,(l+k,t),seg,True)
-
-    def shoulders(self,n,l,x,r,top,bottom):
-        self.add_arc(n+'-left',(l,bottom),(x,top),radius_x=x-l,radius_y=bottom-top)
-        self.add_arc(n+'-right',(x,top),(r,bottom),radius_x=r-x,radius_y=bottom-top)
-        self.add_contour(n,n+'-left',n+'-right')
-

@@ -1,12 +1,13 @@
-"""Two equal toothed gears on a rising diagonal.
-Symbol plan: cog: repeated radial teeth and circular hubs, generated from shared quarter geometry.
-Reduction: None; the eight teeth and center hole of each gear are retained.
+"""Two diagonal toothed gears with open centers.
+Plan: SQUARE balances equal gears on a rising diagonal.
+Reduction: Eight narrow teeth reduced to four broad teeth per gear; separate inner hub contour omitted, leaving one large central opening.
+Construction: settings: repeated toothed silhouette and open center. Shared quarter construction and identical sizes.
 """
 from ._base import Solo48
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='82c1163c-aaf6-4c80-9120-18bf38090361'
-SOURCE_PATH='icon_set/work/todo-references/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_12/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='cog-double-1'
@@ -18,15 +19,15 @@ class Drawing(Solo48):
     keywords=('cog', 'double', '1')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        quarter=[(-2,-9),(2,-9),(2,-7),(4,-6),(6,-7),(7,-6),(6,-4),(7,-2)]
-        for i,(cx,cy) in enumerate(((15,33),(33,15))):
+        # Shared four broad teeth; enlarged open hub is the negative space inside each contour.
+        quarter=[(-4,-8),(4,-8),(4,-6),(6,-4),(8,-4)]
+        for i,(cx,cy) in enumerate(((14,34),(34,14))):
             pts=[]
             for turn in range(4):
-                for x,y in quarter:
+                for x,y in quarter[:-1]:
                     for _ in range(turn):x,y=-y,x
                     pts.append((cx+x,cy+y))
             self.add_polyline(f'gear-{i}',*pts,closed=True)
-            self.circle(f'hub-{i}',cx,cy,3)
 
     def circle(self,name,cx,cy,r):
         pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

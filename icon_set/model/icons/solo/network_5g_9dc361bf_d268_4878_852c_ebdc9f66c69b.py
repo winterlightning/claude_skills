@@ -1,12 +1,13 @@
-"""5G lettering is framed by paired network brackets and side ticks.
-Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
-SOLO48 SQUARE; omissions: None; hand-authored 5 and G plus all framing marks retained.
-"""
+"""The text 5G surrounded by network framing marks.
+Plan: SQUARE fits the complete lettering with paired upper and lower frame marks.
+Reduction: Removed four side ticks; simplified the lower brackets to horizontal strokes and made 5G angular.
+Construction: Lucide scan: separated framing corners; source owns the hand-authored lettering.
+Layout: Outer frame marks mirror around x24; unequal 5 and G shapes preserve readable typography."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='9dc361bf-d268-4878-852c-ebdc9f66c69b'
-SOURCE_PATH='icon_set/work/todo-references/network 5g_9dc361bf-d268-4878-852c-ebdc9f66c69b.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/technology/network 5g_9dc361bf-d268-4878-852c-ebdc9f66c69b.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='network-5g'
     keyshape=Keyshape.SQUARE
@@ -31,19 +32,14 @@ class Drawing(Solo48):
         self.add_contour(n,*ids,closed=True)
 
     def build(self):
-
         for side in (-1,1):
             def p(x,y):return (24+side*x,y)
-            self.add_polyline('top-'+str(side),p(18,6),p(10,6),p(6,10))
-            self.add_polyline('bottom-'+str(side),p(18,42),p(10,42),p(6,38))
-            for y in (16,32):self.add_line('tick-'+str(side)+'-'+str(y),p(18,y),p(14,y))
-        self.add_polyline('five-top',(20,18),(12,18),(12,25))
-        self.add_bezier('five-bowl',(12,25),((24,19),(24,34),(12,30)))
-        self.relate('connect','five-top','five-bowl')
-        self.add_bezier('g',(36,20),((27,13),(25,33),(33,32)),((36,32),(36,29),(36,26)))
-        self.add_line('g-bar',(36,26),(32,26));self.relate('connect','g','g-bar')
+            self.add_polyline('top-'+str(side),p(18,6),p(10,6),p(8,8))
+            self.add_line('bottom-'+str(side),p(18,42),p(10,42))
+        self.add_polyline('five-top',(20,17),(10,17),(10,25),(15,25))
+        self.add_arc('five-bowl',(15,25),(15,33),radius_x=4)
+        self.add_line('five-foot',(15,33),(10,33))
+        self.relate('connect','five-top','five-bowl');self.relate('connect','five-bowl','five-foot')
+        self.add_polyline('g',(39,17),(29,17),(29,33),(39,33),(39,25),(35,25))
 
-# Final visible bounds: (4, 4, 44, 44)
-# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
-# Final reductions: None; hand-authored 5 and G plus all framing marks retained.
-# Visual review: 5G and surrounding brackets remain recognizable, but ticks merge into letters at native size. Letter/frame and interletter MIC failures retained; not approved.
+

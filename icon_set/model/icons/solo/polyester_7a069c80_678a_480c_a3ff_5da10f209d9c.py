@@ -1,16 +1,15 @@
-"""A folded sheet with a woven polyester grid.
-
-Symbol plan: grid-3x3: repeated orthogonal strands; exact shared crossing nodes.
-Envelope: SQUARE. The complete composition has a square overall envelope and uses the (6,6)–(42,42) centerline extremes.
-Reduction: No defining features omitted.
-"""
+"""A polyester sheet with a woven grid.
+Plan: SQUARE fits the clipped-corner sheet and centered grid.
+Reduction: Reduced three strands per direction to two; omitted the crowded inner fold crease while retaining the clipped corner.
+Construction: Lucide file-text: one clear sheet outline around sparse content.
+Layout: Orthogonal grid uses shared strand spacing and actual crossing nodes; clipped corner is intentionally asymmetric."""
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7a069c80-678a-480c-a3ff-5da10f209d9c'
-SOURCE_PATH = 'icon_set/work/todo-references/polyester_7a069c80-678a-480c-a3ff-5da10f209d9c.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/polyester_7a069c80-678a-480c-a3ff-5da10f209d9c.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'polyester'
@@ -24,13 +23,11 @@ class Drawing(Solo48):
 
     def build(self):
         self.add_polyline('sheet',(30,6),(10,6),(6,10),(6,38),(10,42),(38,42),(42,38),(42,18),(30,6))
-        self.add_polyline('fold',(30,6),(30,14),(34,18),(42,18))
-        self.relate('connect','sheet','fold')
-        xs=(15,23,31); ys=(18,26,34)
-        for i,x in enumerate(xs): self.add_polyline(f'vertical-{i}',(x,16),*((x,y) for y in ys),(x,36))
+        xs=(16,26); ys=(22,32)
+        for i,x in enumerate(xs): self.add_polyline(f'vertical-{i}',(x,20),*((x,y) for y in ys),(x,34))
         for j,y in enumerate(ys):
-            self.add_polyline(f'horizontal-{j}',(13,y),*((x,y) for x in xs),(33,y))
-            for i in range(3): self.relate('connect',f'vertical-{i}',f'horizontal-{j}')
+            self.add_polyline(f'horizontal-{j}',(14,y),*((x,y) for x in xs),(32,y))
+            for i in range(2): self.relate('connect',f'vertical-{i}',f'horizontal-{j}')
 
     def circle(self, name, cx, cy, r):
         points = [(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

@@ -1,10 +1,12 @@
-"""head lock content movement, re-authored as one complete SOLO48 composition.
-Symbol plan is recorded in build(); paired shapes share dimensions.
-"""
+"""A tilted content panel near a head with a curved turning arrow.
+Plan: SQUARE separates the upper-left panel, lower-right head and upper-right turn arrow.
+Reduction: Removed the lower motion ray and shortened the upper ray; moved the turning arrow away from the panel and head.
+Construction: Supplied reference governs the composition; human-reference guidance inspected for the isolated head.
+Layout: Deliberate diagonal arrangement. There is no torso, so no detached head-to-body gap applies."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6'
-SOURCE_PATH = 'icon_set/work/todo-references/head lock content movement_f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6.svg'
+SOURCE_PATH = 'pictographic-primitives/technology/head lock content movement_f9cd92b5-81e6-4ebc-aa40-c2db3af7fac6.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -40,13 +42,11 @@ class Drawing(Solo48):
         self.add_contour('heart','left-lobe','left-shoulder','point-1','point-2','right-shoulder','right-lobe',closed=True)
 
     def build(self):
-        # Tilted content slab above a separate head, with curved turn arrow.
-        self.add_polyline('content',(6,22),(22,6),(28,12),(12,28),(6,22))
+        self.add_polyline('content',(6,23),(20,9),(26,15),(12,29),closed=True)
         self.circle('head',34,34,8)
-        self.add_line('ray-left',(6,6),(11,11))
-        self.add_line('ray-right',(22,24),(25,27))
-        self.add_arc('turn',(42,22),(30,10),radius_x=12,sweep=False)
-        self.add_polyline('arrow',(34,6),(30,10),(34,14))
+        self.add_line('ray-left',(6,6),(8,8))
+        self.add_arc('turn',(42,18),(34,10),radius_x=8,sweep=False)
+        self.add_polyline('arrow',(38,6),(34,10),(38,14))
         self.relate('connect','turn','arrow')
 
-# Declared visible keyshape extremes: (4, 4, 44, 44).
+

@@ -1,9 +1,14 @@
+"""A medical truck with a cross and two wheels.
+Plan: HRECT_L fits the long cargo box and right-side cab.
+Reduction: Window detail omitted and outlined cross reduced to centerlines. Lower body edges taper to wheel-top junctions.
+Construction: Lucide truck: cargo/cab hierarchy, two circles and interrupted lower chassis.
+Layout: Cross is centered in the cargo area; cab deliberately extends right. Both wheels retain equal radii."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='c14f0462-1a4f-4fce-8591-b63fddf2fa6d'
-SOURCE_PATH='icon_set/work/todo-references/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg'
+AUTHOR = "gpt-6"
 PLAN='Medical truck with two wheels, right-side cab and a centerline medical cross.'
 CONSTRUCTION_REFERENCE='truck and ambulance: circular wheels, interrupted lower chassis and cab profile'
 
@@ -74,13 +79,13 @@ class Drawing(Solo48):
 
     def build(self):
         # One centerline medical cross preserves the medical mark at SOLO48.
-        self.add_polyline('cargo',(8,36),(4,36),(4,8),(28,8),(28,16),(28,26))
-        self.add_polyline('cab',(28,16),(36,16),(44,26),(44,36),(40,36))
+        self.add_polyline('cargo',(12,32),(4,24),(4,8),(28,8),(28,16),(28,26))
+        self.add_polyline('cab',(28,16),(36,16),(44,24),(44,28),(36,32))
         self.circle('wheel-left',12,36,4)
         self.circle('wheel-right',36,36,4)
         self.add_line('chassis',(16,36),(32,36))
         self.relate('connect','cargo','wheel-left')
         self.relate('connect','cab','wheel-right')
         self.relate('connect','cargo','cab')
-        self.relate('connect','chassis','wheel-left','wheel-right')
+        self.relate('connect','chassis','wheel-left');self.relate('connect','chassis','wheel-right')
         self.cross('medical-cross',16,20,4)

@@ -1,9 +1,10 @@
-"""A frontal person beneath three ranking stars.
+"""male star: standalone repair of supplied reference.
 
-Plan: a centered circular head sits exactly eight centerline units above a
-mirrored shoulder arc. Three compact stars form a symmetric upper series.
-Human user.svg owns the bust proportions; Lucide user-round and star informed
-the circle/shoulder and five-tip constructions.
+Plan: Three-star row above centered person. Keyshape HRECT_L.
+Reduction: Replaced closed five-point outlines with open five-ray stars; reduced head to radius 3.
+Construction references: local Lucide originals and atomic-debug: star.
+human_ref/user.svg: head center (24,27), radius 3; shoulder apex y=38 yields exactly 8 centerline / 4 ink gap. Symmetric about x=24.
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -14,8 +15,8 @@ AUTHOR = "gpt-6"
 
 
 class PersonWithThreeStars(Solo48):
-    icon_id = "person-with-three-stars"
-    keyshape = Keyshape.SQUARE
+    icon_id = 'person-with-three-stars'
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "people/recognition"
@@ -23,12 +24,16 @@ class PersonWithThreeStars(Solo48):
     keywords = ("person", "stars", "rating", "recognition")
 
     def build(self) -> None:
-        for index, cx in enumerate((9, 24, 39)):
-            self.add_polyline(f"star-{index}", (cx, 6), (cx+1, 8),
-                              (cx+3, 8), (cx+1, 10), (cx+2, 12),
-                              (cx, 11), (cx-2, 12), (cx-1, 10),
-                              (cx-3, 8), (cx-1, 8), closed=True)
-        self.add_arc("head-upper", (19, 25), (29, 25), radius_x=5, sweep=True)
-        self.add_arc("head-lower", (29, 25), (19, 25), radius_x=5, sweep=True)
+        # Three open five-ray stars preserve count without microscopic pockets.
+        for index, cx in enumerate((8, 24, 40)):
+            ends = ((cx, 8), (cx+4, 11), (cx+3, 16), (cx-3, 16), (cx-4, 11))
+            names=[]
+            for j, end in enumerate(ends):
+                name=f"star-{index}-ray-{j}"
+                self.add_line(name, (cx, 12), end)
+                names.append(name)
+            self.relate("connect", *names)
+        self.add_arc("head-upper", (21, 27), (27, 27), radius_x=3, sweep=True)
+        self.add_arc("head-lower", (27, 27), (21, 27), radius_x=3, sweep=True)
         self.add_contour("head", "head-upper", "head-lower", closed=True)
-        self.add_arc("shoulders", (8, 42), (40, 42), radius_x=16, radius_y=4, sweep=True)
+        self.add_arc("shoulders", (8, 40), (40, 40), radius_x=16, radius_y=2, sweep=True)

@@ -1,9 +1,13 @@
-'Arched Facade with Upper Arcade\nPlan: Wide rounded facade with two upper arch openings and central lower entrance. Width budget is 8+8+8+8+8.\nReference: Lucide landmark: regular architectural rhythm.\nReduction: Two upper arches replace three to maintain spacing.\nKeyshape: HRECT_L; exact SOLO48 contract envelope.'
+"""Cloister facade with upper arches and a lower arched doorway.
+Plan: HRECT_L supplies width for two upper arches.
+Reduction: Three source windows reduced to two; lower doorway opens through the baseline and is shallower.
+Construction: landmark: repeated architectural rhythm; mirrored openings and facade.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '19554f1f-19e3-4b9e-87c9-d610d1b7dcb6'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_11/cloister_19554f1f-19e3-4b9e-87c9-d610d1b7dcb6.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/cloister_19554f1f-19e3-4b9e-87c9-d610d1b7dcb6.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -34,10 +38,12 @@ class Drawing(Solo48):
         def box(name,l,t,r,b,rad=4):
             path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
 
-        box('facade',4,8,44,40,4)
-        self.add_line('floor',(4,24),(44,24));self.relate('connect','floor','facade')
-        for k,x in enumerate([16,32]):
-            path(f'window-{k}',(x-4,24),[(x-4,20),((x+4,20),4,4,True),(x+4,24)])
+        # Open doorway replaces the baseline through the opening; mirrored upper arches share the floor.
+        path('facade',(20,40),[(8,40),((4,36),4,4,True),(4,28),(4,12),((8,8),4,4,True),(40,8),((44,12),4,4,True),(44,28),(44,36),((40,40),4,4,True),(28,40)])
+        self.add_polyline('floor',(4,28),(12,28),(20,28),(28,28),(36,28),(44,28))
+        self.relate('connect','floor','facade')
+        for k,x in enumerate((16,32)):
+            path(f'window-{k}',(x-4,28),[(x-4,20),((x+4,20),4,4,True),(x+4,28)])
             self.relate('connect',f'window-{k}','floor')
-        path('door',(18,40),[(18,37),((30,37),6,5,True),(30,40)])
+        path('door',(20,40),[((28,40),4,4,True)])
         self.relate('connect','door','facade')

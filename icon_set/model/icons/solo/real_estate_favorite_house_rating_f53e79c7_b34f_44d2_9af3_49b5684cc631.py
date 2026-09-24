@@ -1,17 +1,17 @@
-"""A house beneath a large central rating star and two smaller stars.
-Symbol plan: Three five-point stars sit above a symmetric pitched-roof house. Ink extremes (4,4)-(44,44).
-Construction: star: five-point outline; house: mirrored roof and doorway.
-Human construction: Not applicable.
-"""
+"""A house with a large rating star and two smaller sparkles.
+Plan: VRECT_L fits a full closed house below the rating group.
+Reduction: Omitted doorway; replaced the tiny outlined side stars with two-stroke sparkles.
+Construction: Lucide house and star: recognizable closed house silhouette and centered five-point main star.
+Layout: Main star and house share x24; smaller sparkles form a mirrored pair. House enlarged after native-size review."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f53e79c7-b34f-44d2-9af3-49b5684cc631'
-SOURCE_PATH = 'icon_set/work/todo-references/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'real-estate-favorite-house-rating'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -19,18 +19,13 @@ class Drawing(Solo48):
     keywords = ('real', 'estate', 'favorite', 'house', 'rating')
 
     def build(self):
-        self.add_polyline('main-star',(24,6),(27,12),(33,12),(29,16),(30,22),(24,19),(18,22),(19,16),(15,12),(21,12),closed=True)
-        for i,cx in enumerate((10,38)):
-            self.add_polyline(f'star-{i}',(cx,16),(cx+1,19),(cx+4,19),(cx+2,22),(cx+3,25),(cx,23),(cx-3,25),(cx-2,22),(cx-4,19),(cx-1,19),closed=True)
-        self.add_polyline('roof',(12,32),(24,24),(36,32))
-        self.add_line('walls-1',(14, 34),(14, 42))
-        self.add_line('walls-2',(14, 42),(21, 42))
-        self.add_line('walls-3',(21, 42),(21, 38))
-        self.add_arc('door',(21,38),(27,38),radius_x=3)
-        self.add_line('walls-right-1',(27, 38),(27, 42))
-        self.add_line('walls-right-2',(27, 42),(34, 42))
-        self.add_line('walls-right-3',(34, 42),(34, 34))
-        self.add_contour('house','walls-1','walls-2','walls-3','door','walls-right-1','walls-right-2','walls-right-3')
+        # VRECT_L (8,4)-(40,44); full house, one rating star and two sparkles.
+        self.add_polyline('main-star',(24,4),(27,10),(32,10),(28,14),(29,20),(24,16),(19,20),(20,14),(16,10),(21,10),closed=True)
+        for x in (10,38):
+            self.add_polyline(f'star-h-{x}',(x-2,24),(x,24),(x+2,24))
+            self.add_polyline(f'star-v-{x}',(x,22),(x,24),(x,26))
+            self.relate('connect',f'star-h-{x}',f'star-v-{x}')
+        self.add_polyline('house',(8,36),(24,28),(40,36),(40,44),(8,44),closed=True)
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

@@ -1,13 +1,13 @@
-"""An open male symbol with two floating circles and a triangle.
-Symbol plan: mars: open round body and attached diagonal arrow.
-Reduction: The two floating circles use an equal radius instead of the slight source size difference; ring, arrow and triangle retained.
-Keyshape: SQUARE; exact bounds are obtained from the model.
+"""Open male symbol with two circles and a triangle.
+Plan: SQUARE accommodates the diagonal arrow and three detached marks.
+Reduction: Triangle enlarged and ring shortened; none of the four component types omitted.
+Construction: circle: coherent quarter arcs. Directional arrow and detached marks intentionally asymmetric.
 """
 from ._base import Solo48
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0'
-SOURCE_PATH='icon_set/work/todo-references/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='breeding-gender-symbols'
@@ -19,12 +19,12 @@ class Drawing(Solo48):
     keywords=('breeding', 'gender', 'symbols')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.add_bezier('open-ring',(16,12),((19,10),(22,10),(24,10)),((28,10),(32,11),(34,14)),((37,17),(38,20),(38,24)),((38,32),(32,38),(24,38)))
+        self.add_bezier('open-ring',(16,12),((19,10),(22,10),(24,10)),((28,10),(32,11),(34,14)),((37,17),(38,20),(38,24)),((38,31),(34,38),(28,38)))
         self.add_line('shaft',(34,14),(42,6))
         self.add_polyline('arrowhead',(34,6),(42,6),(42,14));self.relate('connect','shaft','open-ring');self.relate('connect','shaft','arrowhead')
         self.circle('small-circle',9,22,3)
         self.circle('large-circle',24,24,3)
-        self.add_polyline('triangle',(10,34),(16,42),(6,42),closed=True)
+        self.add_polyline('triangle',(12,33),(20,42),(6,42),closed=True)
     def circle(self,name,cx,cy,r):
         pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
         members=[]

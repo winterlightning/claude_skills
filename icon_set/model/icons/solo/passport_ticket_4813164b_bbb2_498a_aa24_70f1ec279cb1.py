@@ -1,15 +1,16 @@
+"""Passport booklet overlapping a notched travel ticket.
+Plan: SQUARE fits the complete overlap and exposed ticket edge.
+Reduction: Ticket straightened; notch moved to the exposed side; writing lines and small globe grid omitted, leaving a circular cover seal.
+Construction: ticket: open semicircular notch; supplied reference: front passport and rear ticket arrangement. Deliberate overlap asymmetry.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4813164b-bbb2-498a-aa24-70f1ec279cb1'
-SOURCE_PATH = 'icon_set/work/todo-references/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    """A passport in front of a travel ticket.
-    Plan: Foreground passport with a globe; tilted notched ticket behind it, with two writing rules.
-    Reference: ticket: notched perimeter; supplied source owns the overlapping arrangement.
-    """
     icon_id = 'passport-ticket'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
@@ -49,16 +50,11 @@ class Drawing(Solo48):
         self.add_arc(n+'-shoulders',(x-width,body_y),(x+width,body_y),radius_x=width,radius_y=body_ry)
 
     def build(self):
-
-        self.rounded('passport',6,18,26,42,3)
-        self.add_line('ticket-left-1',(20, 18),(23, 6))
-        self.add_line('ticket-left-2',(23, 6),(30, 8))
-        self.add_arc('notch',(30,8),(36,10),radius_x=3,sweep=False)
-        self.add_line('ticket-right-1',(36, 10),(42, 12))
-        self.add_line('ticket-right-2',(42, 12),(36, 42))
-        self.add_line('ticket-right-3',(36, 42),(26, 40))
-        self.add_contour('ticket','ticket-left-1','ticket-left-2','notch','ticket-right-1','ticket-right-2','ticket-right-3')
-        self.circle('globe',16,29,6)
-        self.add_line('equator',(10,29),(22,29));self.relate('connect','equator','globe')
-        self.circle('meridian',16,29,2,6);self.relate('connect','meridian','globe');self.relate('connect','equator','meridian')
-        for i,y in enumerate((20,28)):self.add_line(f'ticket-text-{i}',(30,y),(35,y+1))
+        # Passport cover and occluded ticket share two exact overlap nodes.
+        self.add_polyline('passport',(6,14),(22,14),(30,14),(30,38),(30,42),(6,42),closed=True)
+        self.add_polyline('ticket-upper',(22,14),(22,6),(42,6),(42,18))
+        self.add_arc('ticket-notch',(42,18),(42,26),radius_x=4,sweep=False)
+        self.add_polyline('ticket-lower',(42,26),(42,38),(30,38))
+        self.relate('connect','passport','ticket-upper');self.relate('connect','passport','ticket-lower')
+        self.relate('connect','ticket-upper','ticket-notch');self.relate('connect','ticket-lower','ticket-notch')
+        self.circle('globe',18,28,3)

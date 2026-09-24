@@ -1,6 +1,7 @@
-"""Abstract interlocking rounded cloud; Lucide cloud informs broad smooth lobes. HRECT_L broad cloud envelope.
-Redraw authorized 2026-09-22. Source interpretation follows visible composition.
-Earlier draft, if any, is preserved. Shared parameters own repeated geometry.
+"""Interlocking graffiti cloud.
+Plan: HRECT_L fits the broad multi-lobed silhouette. Shortened seam clears the lower lobe; irregular cloud is deliberately asymmetric and legible in both themes.
+Reduction: Minor internal seams omitted; one defining curled seam retained.
+Construction references: Lucide cloud original and atomic-debug: coherent rounded lobes; source supplies interlocking arrangement.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -25,5 +26,5 @@ class Drawing(Solo48):
             self.add_contour(n,n+'-a',n+'-b',closed=True)
         def join(*n): self.relate('connect',*n)
         curve('cloud',(12,24),((6,20),(5,8),(14,8)),((19,8),(20,11),(22,14)),((23,6),(32,6),(32,16)),((41,10),(44,18),(38,24)),((42,24),(44,25),(44,29)),((44,33),(40,34),(36,34)),((38,38),(35,40),(31,40)),((28,40),(26,38),(26,34)),((25,38),(23,40),(20,40)),((16,40),(14,38),(14,34)),((5,39),(4,34),(4,30)),((4,26),(8,24),(12,24)))
-        curve('seam',(14,34),((23,32),(24,25),(20,21)))
+        curve('seam',(14,34),((20,31),(23,27),(20,21)))
         join('cloud','seam')

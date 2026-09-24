@@ -1,13 +1,13 @@
-"""A trophy sits above a branching tournament diagram.
-Plan: A symmetric cup owns paired handles and a central stem; two capsule nodes repeat below.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/trophy.svg and atomic-debug/trophy.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
-"""
+"""A trophy above a branching tournament diagram.
+Plan: SQUARE fits paired cup handles and the two lower bracket endpoints.
+Reduction: Capsule nodes reduced to small round nodes; cup shortened to open the stem and bracket gaps.
+Construction: Lucide trophy: symmetric handles, rounded cup and centered stem.
+Layout: Cup and bracket mirror about x24; equal node circles and explicit top attachments retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6d731820-468b-5c38-b10b-859f24a8eab3'
-SOURCE_PATH = 'icon_set/work/todo-references/tournament bracket_6d731820-468b-5c38-b10b-859f24a8eab3.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/sports/tournament bracket_6d731820-468b-5c38-b10b-859f24a8eab3.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'tournament-bracket'
     keyshape = Keyshape.SQUARE
@@ -34,7 +34,7 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=closed)
 
     def circle(self,name,x,y,r):
-        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        self.path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
 
     def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
         ops=[]
@@ -70,12 +70,13 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.path('cup',(14,6),[('L',(34,6)),('L',(34,10)),('L',(34,18)),('A',(24,28),10,10,True),('A',(14,18),10,10,True),('L',(14,10))],True)
-        self.path('handle-left',(14,10),[('L',(10,10)),('A',(6,14),4,4,False),('A',(10,18),4,4,False),('L',(14,18))])
-        self.path('handle-right',(34,10),[('L',(38,10)),('A',(42,14),4,4,True),('A',(38,18),4,4,True),('L',(34,18))])
+        self.path('cup',(16,6),[('L',(32,6)),('L',(32,10)),('L',(32,14)),('A',(24,22),8,8,True),('A',(16,14),8,8,True),('L',(16,10))],True)
+        self.path('handle-left',(16,6),[('L',(10,6)),('A',(6,10),4,4,False),('A',(10,14),4,4,False),('L',(16,14))])
+        self.path('handle-right',(32,6),[('L',(38,6)),('A',(42,10),4,4,True),('A',(38,14),4,4,True),('L',(32,14))])
         self.join('cup','handle-left');self.join('cup','handle-right')
-        self.add_line('stem',(24,28),(24,32));self.join('cup','stem')
-        self.add_polyline('bracket',(12,34),(12,32),(24,32),(36,32),(36,34));self.join('stem','bracket')
-        for name,x in [('node-left',6),('node-right',30)]:
-            self.rect(name,x,34,12,8,4,split_x=(x+6,));self.join(name,'bracket')
+        self.add_line('stem',(24,22),(24,30));self.join('cup','stem')
+        self.add_polyline('bracket',(12,38),(12,30),(24,30),(36,30),(36,38));self.join('stem','bracket')
+        for name,x in [('node-left',12),('node-right',36)]:
+            self.circle(name,x,40,2)
+            self.join(name,'bracket')
+

@@ -1,18 +1,18 @@
-"""Station Wagon
-Plan: Long station wagon, two wheels and raised glazed cabin.
-Keyshape: HRECT_M; exact inset SOLO48 envelope.
-Construction: Lucide package/truck construction principles; windows share body seams.
-Reduction: Three window sections reduced to two."""
+"""A station wagon in side view.
+Plan: HRECT_L fits the horizontal car silhouette.
+Reduction: Newest existing repair verified; no new geometry edits. Window panes and body details remain simplified.
+Construction: Source wagon and Lucide car construction already reflected by the passing model.
+Layout: Paired wheels and upright window divider remain clear; front hood is intentionally offset."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '11bcc694-f1a4-49f8-94dc-9d171a957687'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'station-wagon-reference-11bcc694'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'objects'
@@ -38,9 +38,11 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('body',(6,32),[('L',(4,32)),('L',(4,22)),('L',(12,10)),('L',(28,10)),('L',(36,22)),('L',(40,22)),('A',(44,26),4,4,True),('L',(44,32)),('L',(42,32))])
-        for x in (12,36):circle(f'wheel-{x}',x,32,6);self.relate('connect',f'wheel-{x}','body')
-        self.add_line('chassis',(18,32),(30,32))
-        for x in (12,36):self.relate('connect','chassis',f'wheel-{x}')
-        self.add_line('windows',(4,22),(36,22));self.relate('connect','windows','body')
-        self.add_line('pillar',(22,10),(22,22));self.relate('connect','pillar','body');self.relate('connect','pillar','windows')
+        # Roof and chassis bands give the wheel contacts generous clearance.
+        path('body',(12,30),[('L',(4,30)),('L',(4,18)),('L',(10,8)),('L',(30,8)),('L',(36,18)),('L',(40,18)),('A',(44,22),4,4,True),('L',(44,30)),('L',(36,30))])
+        self.add_line('chassis',(12,30),(36,30));self.relate('connect','chassis','body')
+        for x in (12,36):
+            circle(f'wheel-{x}',x,35,5)
+            self.relate('connect','chassis',f'wheel-{x}');self.relate('connect','body',f'wheel-{x}')
+        self.add_line('windows',(4,18),(36,18));self.relate('connect','windows','body')
+        self.add_line('pillar',(20,8),(20,18));self.relate('connect','pillar','body');self.relate('connect','pillar','windows')

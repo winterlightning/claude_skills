@@ -1,16 +1,21 @@
+"""A rifle stock and barrel in front of a shooting target.
+Plan: HRECT_L gives the rifle a projecting stock and barrel around a smaller round target.
+Reduction: Omitted the inner target ring, trigger and lower sight tick; interrupted the target behind the stock.
+Construction: No useful exact Lucide rifle match; quarter-circle target construction and the supplied rifle silhouette.
+Layout: Rifle is intentionally left-heavy; stock and barrel share real junctions with the visible target."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4ed91cc5-870d-4844-a54d-8cf25bededb3'
-SOURCE_PATH = 'icon_set/work/todo-references/shooting rifle aim_4ed91cc5-870d-4844-a54d-8cf25bededb3.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/sports/shooting rifle aim_4ed91cc5-870d-4844-a54d-8cf25bededb3.svg'
+AUTHOR = "gpt-6"
 # Plan: Rifle silhouette crosses a concentric target with vertical sight marks.
 # Construction references: No useful exact local Lucide rifle match; concentric circles and straight sight axes.
 # Reduction: Reduced target to two rings; retained stock, barrel, trigger and crosshair.
 
 class AuthoredIcon(Solo48):
     icon_id = 'shooting-rifle-aim'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/general"
@@ -18,14 +23,18 @@ class AuthoredIcon(Solo48):
     keywords = ('shooting', 'rifle', 'aim')
 
     def build(self):
-        self.circle('target',24,24,18)
-        self.circle('inner',24,24,10)
-        self.add_polyline('rifle',(6,24),(24,24),(28,23),(42,23))
-        self.add_polyline('stock',(6,24),(6,32),(18,28),(28,28),(30,23))
+        # Rifle interrupts the lower-left target ring instead of crossing it.
+        self.add_arc('target-ul',(10,24),(26,8),radius_x=16)
+        self.add_arc('target-ur',(26,8),(42,24),radius_x=16)
+        self.add_contour('target-upper','target-ul','target-ur')
+        self.add_arc('target-lower',(42,24),(26,40),radius_x=16)
+        self.add_polyline('rifle',(4,24),(10,24),(26,24),(42,24),(44,24))
+        self.add_polyline('stock',(4,24),(4,34),(16,34),(26,24))
         self.relate('connect','rifle','stock')
-        self.add_arc('trigger',(19,28),(23,28),radius_x=2,sweep=False);self.relate('connect','trigger','stock')
-        self.add_line('sight-top',(24,6),(24,16));self.add_line('sight-bottom',(24,33),(24,42))
-        self.relate('connect','sight-top','target');self.relate('connect','sight-top','inner');self.relate('connect','sight-bottom','target');self.relate('connect','sight-bottom','inner')
+        self.relate('connect','rifle','target-upper');self.relate('connect','rifle','target-lower')
+        self.add_line('sight-top',(26,8),(26,15))
+        self.relate('connect','sight-top','target-upper')
+
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

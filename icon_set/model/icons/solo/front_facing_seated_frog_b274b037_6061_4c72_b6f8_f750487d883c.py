@@ -1,13 +1,9 @@
-"""Front-Facing Seated Frog
-Plan: Eye bulges, upright belly and paired folded hind legs.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Foreleg lines omitted to preserve belly opening."""
+'A front-facing seated frog with raised eye bumps, haunches and forelegs.\nPlan: SQUARE balances the broad head and paired haunches.\nReduction: Merged the body/haunch exterior to remove grazing duplicate belly curves; retained short forelegs.\nConstruction: No useful exact Lucide match; supplied frog reference governs the silhouette.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b274b037-6061-4c72-b6f8-f750487d883c'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_03/amphibian frog body_b274b037-6061-4c72-b6f8-f750487d883c.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/amphibian frog body_b274b037-6061-4c72-b6f8-f750487d883c.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -38,8 +34,16 @@ class Drawing(Solo48):
                 self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
             else:
                 path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('frog',(12,20),[('C',(12,11),(9,17),(10,13)),('A',(24,11),6,5,True),('A',(36,11),6,5,True),('C',(36,20),(38,13),(39,17)),('C',(34,27),(35,22),(34,24)),('C',(24,42),(38,37),(33,42)),('C',(14,27),(15,42),(10,37)),('C',(12,20),(14,24),(13,22))],True)
-        path('left-haunch',(14,29),[('C',(6,28),(8,21),(6,24)),('C',(10,39),(6,33),(8,36)),('L',(6,42))])
-        path('right-haunch',(34,29),[('C',(42,28),(40,21),(42,24)),('C',(38,39),(42,33),(40,36)),('L',(42,42))])
-        self.relate('connect','frog','left-haunch');self.relate('connect','frog','right-haunch')
+        # Plan: eye bumps and haunches share one exterior contour, avoiding
+        # grazing duplicate belly edges. Two short forelegs join the baseline.
+        path('frog',(12,20),[
+            ('C',(12,11),(9,17),(10,13)),('A',(24,11),6,5,True),
+            ('A',(36,11),6,5,True),('C',(36,20),(38,13),(39,17)),
+            ('L',(34,26)),('C',(42,30),(42,20),(42,25)),
+            ('L',(42,38)),('A',(38,42),4,4,True),
+            ('L',(32,42)),('L',(16,42)),('L',(10,42)),
+            ('A',(6,38),4,4,True),('L',(6,30)),
+            ('C',(14,26),(6,25),(6,20)),('L',(12,20))],True)
+        for side,x in [('left',16),('right',32)]:
+            self.add_line(side+'-foreleg',(x,32),(x,42))
+            self.relate('connect','frog',side+'-foreleg')

@@ -1,10 +1,13 @@
-"""A smartwatch pound symbol reconstructed on the SOLO48 grid. Source silhouette and internal mark are retained; matching paired elements share coordinates. Lucide geometric construction informs the outer device or enclosure."""
+"""smart watch circle pound sign: standalone batch 17 repair.
+Retained the circular watch case, paired straps and pound mark. Open strap ends, rebuilt sterling hook, shorter crossbar and eight-unit baseline spacing.
+"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f2d45871-ff3d-44d5-84a8-774df3bd6ba3'
 SOURCE_PATH = 'pictographic-primitives/other/smart watch circle pound sign_f2d45871-ff3d-44d5-84a8-774df3bd6ba3.svg'
 AUTHOR = 'gpt-6'
+CONSTRUCTION_REFERENCE = 'pound-sterling'
 
 class Drawing(Solo48):
     icon_id = 'smartwatch-pound-symbol'
@@ -15,22 +18,7 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('smartwatch', 'pound', 'symbol')
 
-    def rounded(self, name, left, top, right, bottom, radius=4):
-        p = [(left+radius,top),(right-radius,top),(right,top+radius),
-             (right,bottom-radius),(right-radius,bottom),(left+radius,bottom),
-             (left,bottom-radius),(left,top+radius),(left+radius,top)]
-        ids=[]
-        for j,(a,b) in enumerate(zip(p,p[1:]),1):
-            elem=f"{name}-{j}"
-            if j%2: self.add_line(elem,a,b)
-            else: self.add_arc(elem,a,b,radius_x=radius)
-            ids.append(elem)
-        self.add_contour(name,*ids,closed=True)
 
-    def circle(self,name,x,y,r):
-        self.add_arc(name+'-upper',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-lower',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-upper',name+'-lower',closed=True)
 
     def build(self) -> None:
 
@@ -46,16 +34,15 @@ class Drawing(Solo48):
         for j,(a,c1,c2,b) in enumerate(curves,1):
             self.add_bezier(f"face-{j}",a,(c1,c2,b))
         self.add_contour('face',*(f"face-{j}" for j in range(1,7)),closed=True)
-        self.add_polyline('upper-band',(16,10),(17,4),(31,4),(32,10))
-        self.add_polyline('lower-band',(16,38),(17,44),(31,44),(32,38))
-        self.relate('connect','face','upper-band')
-        self.relate('connect','face','lower-band')
+        self.add_line('upper-left',(16,10),(17,4))
+        self.add_line('upper-right',(32,10),(31,4))
+        self.add_line('lower-left',(16,38),(17,44))
+        self.add_line('lower-right',(32,38),(31,44))
+        for n in ['upper-left','upper-right','lower-left','lower-right']:self.relate('connect','face',n)
 
-        self.add_bezier('pound-bow',(28,19),((22,16),(19,19),(21,22)))
-        self.add_line('pound-descender',(21,22),(21,31))
-        self.add_line('pound-bar',(19,22),(28,22))
-        self.add_line('pound-base',(20,31),(28,31))
-        self.relate('connect','pound-bow','pound-descender')
-        self.relate('connect','pound-descender','pound-bar')
-        self.relate('connect','pound-descender','pound-base')
+        self.add_arc('pound-hook',(28,20),(22,20),radius_x=3,sweep=False)
+        self.add_polyline('pound-stem',(22,20),(22,23),(22,31))
+        self.add_polyline('pound-bar',(18,23),(22,23),(24,23))
+        self.add_polyline('pound-base',(20,31),(22,31),(27,31))
+        self.relate('connect','pound-hook','pound-stem');self.relate('connect','pound-stem','pound-bar');self.relate('connect','pound-stem','pound-base')
 

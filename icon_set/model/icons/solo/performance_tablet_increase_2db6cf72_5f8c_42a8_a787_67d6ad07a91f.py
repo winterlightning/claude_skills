@@ -1,15 +1,16 @@
+"""Hand holding a tablet showing an upward trend arrow.
+Plan: SQUARE fits tablet, hand and chart arrow.
+Reduction: Three small bars omitted; the defining trend arrow remains. Hand and thumb spacing rebalanced.
+Construction: tablet: coherent device boundary; trending-up: rising arrow. Intentional right-hand occlusion.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2db6cf72-5f8c-42a8-a787-67d6ad07a91f'
-SOURCE_PATH = 'icon_set/work/todo-references/performance tablet increase_2db6cf72-5f8c-42a8-a787-67d6ad07a91f.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/performance tablet increase_2db6cf72-5f8c-42a8-a787-67d6ad07a91f.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    """A hand holding a tablet displaying a rising chart.
-    Plan: Open tablet boundary accommodates the gripping thumb; separate trend and bars inside.
-    Reference: monitor: clean display perimeter; pencil: coherent diagonal stroke for trend.
-    """
     icon_id = 'performance-tablet-increase'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
@@ -50,10 +51,10 @@ class Drawing(Solo48):
         self.add_arc(n+'-shoulders',(x-width,body_y),(x+width,body_y),radius_x=width,radius_y=body_ry)
 
     def build(self):
-
-        self.add_polyline('tablet',(30,42),(6,42),(6,6),(34,6),(34,26))
-        self.add_polyline('trend',(14,24),(26,12));self.add_polyline('arrow',(18,12),(26,12),(26,20));self.relate('connect','trend','arrow')
-        for i,x in enumerate((14,22,30)):self.add_line(f'bar-{i}',(x,34-i*3),(x,38))
-        self.add_polyline('hand',(34,20),(40,28),(40,34),(42,42))
+        # Tablet and hand share exact occlusion nodes; the rising arrow is the chart's dominant mark.
+        self.add_polyline('tablet',(24,42),(6,42),(6,6),(34,6),(34,20),(34,26))
+        self.add_line('trend',(14,26),(26,14))
+        self.add_polyline('arrow',(18,14),(26,14),(26,21));self.relate('connect','trend','arrow')
+        self.add_polyline('hand',(34,20),(40,28),(40,34),(42,42));self.relate('connect','hand','tablet')
         self.add_arc('thumb-top',(30,30),(34,26),radius_x=4)
-        self.add_polyline('thumb',(30,30),(34,36),(34,40),(38,42));self.relate('connect','thumb','thumb-top')
+        self.add_polyline('thumb',(30,30),(32,36),(32,40),(34,42));self.relate('connect','thumb','thumb-top');self.relate('connect','thumb-top','tablet')

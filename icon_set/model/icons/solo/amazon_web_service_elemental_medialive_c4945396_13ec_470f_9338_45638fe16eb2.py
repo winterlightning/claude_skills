@@ -1,26 +1,29 @@
-"""AWS MediaLive play triangle with three media nodes and scan marks."""
+'A play triangle surrounded by three media nodes and three scan marks.\nPlan: VRECT_L provides room for the top node and lower pair.\nReduction: Simplified the hexagonal nodes to equal small circles and shortened scan arrow arms; no node or scan position omitted.\nConstruction: No useful direct Lucide match; supplied reference governs the three-way composition.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = "c4945396-13ec-470f-9338-45638fe16eb2"
-SOURCE_PATH = "icon_set/work/todo-references/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg"
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg'
+AUTHOR = 'gpt-6'
 
 
 class AmazonElementalMediaLive(Solo48):
-    icon_id = "amazon-elemental-medialive"
-    keyshape = Keyshape.SQUARE
+    icon_id = 'amazon-elemental-medialive'
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "technology/media"
     aliases = ("aws-medialive",)
     keywords = ("amazon", "aws", "media", "live", "play", "stream")
 
-    def build(self) -> None:
-        # The central play sign is flanked by three repeated hexagonal nodes.
-        self.add_polyline("play", (19, 17), (33, 24), (19, 31), closed=True)
-        for name, cx, cy in (("top", 24, 9), ("lower-left", 10, 38), ("lower-right", 38, 38)):
-            self.add_polyline(name, (cx, cy-4), (cx+4, cy-2), (cx+4, cy+2), (cx, cy+4), (cx-4, cy+2), (cx-4, cy-2), closed=True)
-        self.add_polyline("scan-left", (6, 18), (6, 14), (12, 11))
-        self.add_polyline("scan-right", (42, 18), (42, 14), (36, 11))
-        self.add_polyline("scan-bottom", (19, 40), (24, 44), (29, 40))
+    def build(self):
+        # Plan: central play triangle, three repeated media nodes and scan arrows.
+        # VRECT_L centerline extremes (8,4)-(40,44). Small hexagons simplified to circles.
+        self.add_polyline('play',(18,18),(30,25),(18,32),closed=True)
+        for name,cx,cy in [('top',24,7),('left',11,41),('right',37,41)]:
+            self.add_arc(name+'-upper',(cx-3,cy),(cx+3,cy),radius_x=3)
+            self.add_arc(name+'-lower',(cx+3,cy),(cx-3,cy),radius_x=3)
+            self.add_contour(name,name+'-upper',name+'-lower',closed=True)
+        self.add_polyline('scan-left',(8,24),(8,18),(10,16))
+        self.add_polyline('scan-right',(40,24),(40,18),(38,16))
+        self.add_polyline('scan-bottom',(22,42),(24,44),(26,42))

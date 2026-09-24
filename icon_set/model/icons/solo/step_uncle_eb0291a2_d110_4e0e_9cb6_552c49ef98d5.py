@@ -1,9 +1,14 @@
+"""A bust with a circular lower-right relationship badge.
+Plan: SQUARE fits the large detached head, shoulders and badge.
+Reduction: Neck detail omitted; lower hem shortened to leave clear space beside the badge.
+Construction: human_ref/user.svg: round head and broad shoulders.
+Layout: Head bottom centerline y22 and shoulder top y30 provide exactly four units of ink clearance. Badge deliberately occludes the right shoulder."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'eb0291a2-d110-4e0e-9cb6-552c49ef98d5'
-SOURCE_PATH = 'icon_set/work/todo-references/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg'
+AUTHOR = "gpt-6"
 PLAN = 'Bald male bust with circular lower-right relationship badge.'
 CONSTRUCTION_REFERENCE = 'human_ref/user.svg: round head, broad shoulders, detached 4-unit ink gap'
 
@@ -46,10 +51,9 @@ class Drawing(Solo48):
         self.add_line('shoulder-top',(16,30),(24,30))
         self.add_arc('shoulder-right',(24,30),(30,36),radius_x=6)
         self.add_contour('shoulders','body-left','shoulder-left','shoulder-top','shoulder-right')
-        self.add_line('hem',(6,42),(36,42))
+        self.add_line('hem',(6,42),(21,42))
         self.circle('badge',36,36,6)
         self.relate('connect','hem','body-left')
-        self.relate('connect','hem','badge-lower')
         self.relate('connect','shoulder-right','badge-upper','badge-lower')
 
     def build(self):

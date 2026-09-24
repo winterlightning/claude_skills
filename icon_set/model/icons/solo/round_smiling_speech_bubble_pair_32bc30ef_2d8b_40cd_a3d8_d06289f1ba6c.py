@@ -1,45 +1,34 @@
-"""Round Smiling Speech Bubble Pair
-Plan: Smiling round conversation bubble with smaller foreground reply bubble.
-Keyshape: SQUARE; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Eye strokes reduced to dots; face treated as intrinsic character."""
+"""conversation smile type 1. Plan: SQUARE extremes (6,6)-(42,42); smaller foreground reply shares two exact occlusion nodes with large smiling bubble. Lucide messages-square informs coherent overlap. Eye dots omitted to retain the defining smile and both tails."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '32bc30ef-2d8b-40cd-a3d8-d06289f1ba6c'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_12/conversation smile type 1_32bc30ef-2d8b-40cd-a3d8-d06289f1ba6c.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_12/conversation smile type 1_32bc30ef-2d8b-40cd-a3d8-d06289f1ba6c.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'round-smiling-speech-bubble-pair'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects/general"
     aliases = ()
-    keywords = ('chat', 'bubbles', 'smile', 'speech', 'conversation', 'message', 'round')
-
-    def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+    keywords = ('conversation', 'smile', 'type', '1')
+    def path(self,n,start,steps,closed=False):
+        here=start;members=[]
+        for k,step in enumerate(steps):
+            ident=f'{n}-{k}';members.append(ident)
+            if len(step)==2:
+                self.add_line(ident,here,step);here=step
             else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('back',(29,29),[('C',(14,32),(26,33),(19,34)),('L',(6,37)),('L',(9,27)),('A',(6,19),14,14,True),('A',(20,6),14,13,True),('A',(34,20),14,14,True)])
-        path('front',(42,42),[('L',(34,38)),('A',(24,29),10,9,True),('A',(42,29),9,9,True),('L',(39,35)),('L',(42,42))],True)
-        for x in (16,24):self.add_dot(f'eye-{x}',(x,16))
-        path('smile',(16,24),[('C',(24,24),(18,27),(22,27))])
+                end,rx,ry,sweep=step
+                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep);here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,q=0):
+        if q==0:self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True)
+        else:self.path(n,(l+q,t),[(r-q,t),((r,t+q),q,q,True),(r,b-q),((r-q,b),q,q,True),(l+q,b),((l,b-q),q,q,True),(l,t+q),((l+q,t),q,q,True)],True)
+    def build(self):
+        self.path('back',(34,26),[(34,20),((20,6),14,14,False),((6,20),14,14,False),((10,29),14,14,False),(6,38),(16,33),(20,34),(26,34)])
+        self.path('front',(34,26),[((42,34),8,8,True),(39,37),(42,42),(34,40),((26,34),8,6,True),((34,26),8,8,True)],True)
         self.relate('connect','back','front')
+        self.add_arc('smile',(15,18),(25,18),radius_x=5,radius_y=4,sweep=False)

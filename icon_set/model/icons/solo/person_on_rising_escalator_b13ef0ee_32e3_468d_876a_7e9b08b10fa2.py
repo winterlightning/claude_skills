@@ -1,12 +1,10 @@
-"""A person rides an escalator rising right, with a direction arrow below.
+"""moving walkway: standalone repair of supplied reference.
 
-Symbol plan: one round detached head aligns with the vertical upper torso;
-the torso and arms meet exact nodes on the sloped rail. The escalator is a
-single thick diagonal band and the detached arrow points right. Human style
-references: human_ref/full_body_ref.png and human_ref/user.svg; the head
-radius is 4 at (20,10), and torso starts at (20,22), giving exactly 8 units
-centerline and 4 units ink head-to-body clearance. Lucide arrow-right informed
-the direction mark. The escalator rise is intentional asymmetry.
+Plan: Person on rising escalator with right arrow. Keyshape SQUARE.
+Reduction: Omitted both arms to remove enclosed arm pockets; retained detached head, torso, rising belt and right arrow.
+Construction references: local Lucide originals and atomic-debug: none.
+human_ref/full_body_ref.png: head center (20,10), radius 4; torso starts (20,22), exactly 8 centerline / 4 ink gap. Head and torso share x=20.
+All geometry is authored for SOLO48; earlier runs remain unchanged.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -17,7 +15,7 @@ AUTHOR = "gpt-6"
 
 
 class PersonOnRisingEscalator(Solo48):
-    icon_id = "person-on-rising-escalator"
+    icon_id = 'person-on-rising-escalator'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
@@ -30,12 +28,7 @@ class PersonOnRisingEscalator(Solo48):
         self.add_arc("head-left", (20, 14), (20, 6), radius_x=4, sweep=True)
         self.add_contour("head", "head-right", "head-left", closed=True)
         self.add_line("torso", (20, 22), (20, 29))
-        self.add_line("shoulder-left", (20, 22), (15, 22))
-        self.add_polyline("left-arm", (15, 22), (12, 25), (12, 33))
-        self.add_line("right-arm", (20, 22), (28, 23))
-        self.relate("connect", "torso", "shoulder-left")
-        self.relate("connect", "torso", "right-arm")
-        self.relate("connect", "shoulder-left", "left-arm-1")
+        # Single torso with one reaching arm; omit the enclosing rear arm pocket.
         self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")
 
         self.add_line("rail-landing", (6, 33), (12, 33))
@@ -51,10 +44,6 @@ class PersonOnRisingEscalator(Solo48):
         self.add_contour("escalator", "rail-landing", "rail-upper-left", "rail-upper-middle", "rail-upper-right", "rail-top", "rail-round", "rail-right", "rail-lower", "rail-bottom", "rail-left", closed=True)
         self.relate("connect", "torso", "rail-upper-left")
         self.relate("connect", "torso", "rail-upper-middle")
-        self.relate("connect", "right-arm", "rail-upper-middle")
-        self.relate("connect", "right-arm", "rail-upper-right")
-        self.relate("connect", "left-arm-2", "rail-landing")
-        self.relate("connect", "left-arm-2", "rail-upper-left")
 
         self.add_line("direction-shaft", (35, 40), (42, 40))
         self.add_polyline("direction-head", (38, 38), (42, 40), (38, 42))

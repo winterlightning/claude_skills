@@ -1,13 +1,13 @@
-"""A notched faction banner hangs from a crossbar beside a vertical pole.
-Plan: Ball finial, crossbar and header share real nodes; the swallowtail is centered in the hanging cloth.
-Keyshape SQUARE: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-References: Supplied SVG rendered and inspected. Lucide original/flag.svg and atomic-debug/flag.svg: coherent contours, repeated radii and explicit shared junctions, freshly authored for SOLO48.
-"""
+"""A notched faction banner on a pole with a round finial.
+Plan: SQUARE fits the pole and hanging banner beneath the crossbar.
+Reduction: Shifted the cloth away from the finial and narrowed it; no defining component omitted.
+Construction: Lucide flag: coherent cloth outline and explicit pole attachment; source supplies the swallowtail form.
+Layout: Pole and finial create intentional asymmetry; paired notch slopes were rebalanced around the narrower cloth."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c0fef2f7-6c93-5a77-973b-346d07d1e626'
-SOURCE_PATH = 'icon_set/work/todo-references/war banner guild faction_c0fef2f7-6c93-5a77-973b-346d07d1e626.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/video-games/batch-12/war banner guild faction_c0fef2f7-6c93-5a77-973b-346d07d1e626.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'war-banner-guild-faction'
     keyshape = Keyshape.SQUARE
@@ -72,7 +72,7 @@ class Drawing(Solo48):
     def build(self):
 
         self.circle('finial',9,10,3)
-        self.add_polyline('crossbar',(12,10),(18,10),(34,10),(42,10));self.join('finial','crossbar')
+        self.add_polyline('crossbar',(12,10),(21,10),(34,10),(42,10));self.join('finial','crossbar')
         self.add_polyline('pole',(42,6),(42,10),(42,42));self.join('pole','crossbar')
-        self.add_polyline('banner',(18,10),(18,18),(18,38),(26,30),(34,38),(34,18),(34,10));self.join('banner','crossbar')
-        self.add_line('header',(18,18),(34,18));self.join('banner','header')
+        self.add_polyline('banner',(21,10),(21,18),(21,38),(27,30),(34,38),(34,18),(34,10));self.join('banner','crossbar')
+        self.add_line('header',(21,18),(34,18));self.join('banner','header')

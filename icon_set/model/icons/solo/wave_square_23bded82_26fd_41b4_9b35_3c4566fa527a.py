@@ -1,10 +1,12 @@
-"""Wave square, preserving its complete supplied composition.
-Symbol plan: coherent contours, nested identifying symbols and parameterized repeats.
-"""
+"""A breaking wave inside a rounded square.
+Symbol plan and construction: square: equal rounded corners; supplied reference: rising wave and curled crest.
+Keyshape: SQUARE preserves the enclosure and leaves a broad wave opening.
+Omissions: None.
+Review: The crest is an intentional point; the rebalanced outer rise and inner curl separate cleanly. Wave asymmetry follows the source direction."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='23bded82-26fd-41b4-9b35-3c4566fa527a'
-SOURCE_PATH='icon_set/work/todo-references/wave square_23bded82-26fd-41b4-9b35-3c4566fa527a.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/wave square_23bded82-26fd-41b4-9b35-3c4566fa527a.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -21,16 +23,12 @@ class Drawing(Solo48):
     def build(self):
         # One connected breaking-wave stroke inside a rounded square.
         self.rect('frame',6,6,42,42,4,left=(29,),right=(31,))
-        self.add_bezier('wave-rise',(6,29),((14,29),(14,17),(24,16)),((28,15),(30,15),(32,18)))
-        self.add_bezier('wave-curl',(32,18),((19,15),(20,31),(30,32)),((34,33),(38,32),(42,31)))
+        self.add_bezier('wave-rise',(6,29),((14,29),(13,15),(22,15)),((26,15),(29,15),(32,20)))
+        self.add_bezier('wave-curl',(32,20),((20,19),(20,31),(30,32)),((34,33),(38,32),(42,31)))
         self.add_contour('wave','wave-rise','wave-curl')
         self.relate('connect','frame','wave')
 
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
 
     def path(self,n,start,segments,closed=False):
         at=start; members=[]
@@ -53,9 +51,3 @@ class Drawing(Solo48):
         seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
         seg += [('L',(l,t+k)),('A',(l+k,t),k)]
         self.path(n,(l+k,t),seg,True)
-
-    def shoulders(self,n,l,x,r,top,bottom):
-        self.add_arc(n+'-left',(l,bottom),(x,top),radius_x=x-l,radius_y=bottom-top)
-        self.add_arc(n+'-right',(x,top),(r,bottom),radius_x=r-x,radius_y=bottom-top)
-        self.add_contour(n,n+'-left',n+'-right')
-

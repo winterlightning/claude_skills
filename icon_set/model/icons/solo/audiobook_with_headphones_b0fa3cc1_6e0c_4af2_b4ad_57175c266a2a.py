@@ -1,9 +1,14 @@
+"""An open book surrounded by headphones.
+Plan: HRECT_L balances the headphone arch and central book.
+Reduction: Removed the inner earcup closure seams to open spacing around the book.
+Construction: Lucide headphones: arch and paired cups; book-open: central fold and paired pages.
+Layout: Mirrored earcups and book pages."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/audio book headphones_b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'audiobook-with-headphones'
@@ -32,14 +37,12 @@ class Drawing(Solo48):
         self.add_contour(name,*ids,closed=True)
 
     def build(self):
-        # Plan: HRECT_L extremes 4,8 to 44,40; central open book nested under a round headphone arch and mirrored outward earcups.
-        axis=24
-        self.add_arc('headband',(10,22),(38,22),radius_x=14)
-        for side,x,sweep in [('left',10,False),('right',38,True)]:
-            self.add_arc(side+'-cup',(x,22),(x,38),radius_x=6,radius_y=8,sweep=sweep)
-            self.add_line(side+'-inner',(x,38),(x,22))
-            self.add_contour(side+'-ear',side+'-cup',side+'-inner',closed=True)
-            self.relate('connect','headband',side+'-ear')
-        self.add_polyline('book',(15,23),(24,27),(33,23),(33,36),(24,40),(15,36),closed=True)
-        self.add_line('fold',(24,27),(24,40))
+        # HRECT_L extremes (4,8)-(44,40). Shared book axis; open ear pads
+        # remove the crowded inner seams while retaining headphones around book.
+        self.add_arc('headband',(6,26),(42,26),radius_x=18)
+        for side,x,sweep in [('left',6,False),('right',42,True)]:
+            self.add_arc(side+'-cup',(x,26),(x,38),radius_x=2,radius_y=6,sweep=sweep)
+            self.relate('connect','headband',side+'-cup')
+        self.add_polyline('book',(15,25),(24,29),(33,25),(33,36),(24,40),(15,36),closed=True)
+        self.add_line('fold',(24,29),(24,40))
         self.relate('connect','book','fold')

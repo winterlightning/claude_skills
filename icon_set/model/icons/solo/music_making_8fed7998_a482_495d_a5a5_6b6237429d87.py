@@ -1,11 +1,14 @@
-"""A person gestures toward a pair of musical notes.
-Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
-SOLO48 SQUARE; omissions: Outlined torso reduced to the shared human line vocabulary; both notes retained.
+"""music making: standalone SOLO48 repair.
+Plan: Person at left gestures toward paired notes at right.
+Keyshape: SQUARE; shared dimensions and nodes own repeated elements.
+Reduction: Shifted the figure left and spaced the notes; outlined torso reduced to coherent strokes.
+Lucide originals and atomic-debug construction reference: music.
+human_ref/full_body_ref.png: head center (14,12), radius 6, torso starts (14,26); 26-(12+6)=8 centerline units and 4 ink units. Torso and head share x=14; figure flag recorded.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='8fed7998-a482-495d-a5a5-6b6237429d87'
-SOURCE_PATH='icon_set/work/todo-references/music making_8fed7998-a482-495d-a5a5-6b6237429d87.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/music making_8fed7998-a482-495d-a5a5-6b6237429d87.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='music-making'
@@ -32,17 +35,13 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.circle('head',16,12,6)
-        self.add_line('torso',(16,26),(16,42))
-        self.add_bezier('left-shoulder',(6,42),((6,30),(6,26),(16,26)))
-        self.add_polyline('arm',(16,26),(26,32),(42,32))
+        self.circle('head',14,12,6)
+        self.add_line('torso',(14,26),(14,42))
+        self.add_bezier('left-shoulder',(6,42),((6,30),(6,26),(14,26)))
+        self.add_polyline('arm',(14,26),(26,34),(42,34))
         self.relate('connect','torso','left-shoulder');self.relate('connect','torso','arm')
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-        self.circle('note-left',32,18,2);self.circle('note-right',40,16,2)
-        self.add_polyline('beam',(34,18),(34,8),(42,6),(42,16))
+        self.circle('note-left',28,20,2);self.circle('note-right',40,20,2)
+        self.add_polyline('beam',(30,20),(30,8),(42,6),(42,20))
         self.relate('connect','beam','note-left');self.relate('connect','beam','note-right')
 
-# Final visible bounds: (4, 4, 44, 44)
-# Construction: Shared human references supplied round heads, broad shoulders and coherent pose construction. Analytical head/body spacing is recorded in the visual review. Lucide music supplied paired notehead/stem construction.
-# Final reductions: Outlined torso reduced to the shared human line vocabulary; both notes retained.
-# Visual review: Gesture and two notes remain identifiable. Head center(16,12), radius6 ends at18; torso begins(16,26), so26-18-4=4 visible ink gap. Head aligns with torso axis. Human figure flag is recorded.

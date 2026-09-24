@@ -1,56 +1,41 @@
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '12af7a01-21fd-509d-9eae-c7bfcfdaedd2'
-SOURCE_PATH = 'icon_set/work/todo-references/oxygen tank timer_12af7a01-21fd-509d-9eae-c7bfcfdaedd2.svg'
-AUTHOR = 'gpt-6'
-PLAN = 'Oxygen cylinder with valve and connected circular timer. Preserve timer at upper right.'
-CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; capsule cylinder and clock constructed from shared centers.'
-OMISSIONS = 'Clock minute subdivisions omitted; hands retained.'
-
+SOURCE_ICON_ID='12af7a01-21fd-509d-9eae-c7bfcfdaedd2'
+SOURCE_PATH='pictographic-primitives/health/oxygen tank timer_12af7a01-21fd-509d-9eae-c7bfcfdaedd2.svg'
+AUTHOR='gpt-6'
+PLAN='Capsule tank lower left with two-to-one height, simplified valve stem; hose joins circular timer at left cardinal point. Lucide clock. Valve housing and ticks omitted to retain breathing space.'
 class Drawing(Solo48):
-    icon_id = 'oxygen-tank-timer'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('oxygen', 'tank', 'timer')
-
-    def circle(self, name, cx, cy, r, ry=None):
-        ry = r if ry is None else ry
-        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r, radius_y=ry)
-        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r, radius_y=ry)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def box(self, name, x, y, w, h, r=3):
-        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,a in enumerate(points):
-            b=points[(i+1)%8]; part=f'{name}-{i}'; members.append(part)
-            if i%2: self.add_arc(part,a,b,radius_x=r)
-            else: self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
-
-    def letter_p(self, name, x, y, w, h):
-        # Stem and semicircular bowl share explicit shoulder nodes.
-        mid=y+h//2; rr=h//4
-        self.add_polyline(name+'-stem',(x,y+h),(x,mid),(x,y),(x+w-rr,y))
-        self.add_arc(name+'-bowl',(x+w-rr,y),(x+w-rr,mid),radius_x=rr)
-        self.add_line(name+'-return',(x+w-rr,mid),(x,mid))
-        self.relate('connect',name+'-stem',name+'-bowl')
-        self.relate('connect',name+'-bowl',name+'-return')
-        self.relate('connect',name+'-return',name+'-stem')
-
+    icon_id='oxygen-tank-timer'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('oxygen', 'tank', 'timer')
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.box('tank',6,20,15,22,6)
-        self.add_polyline('valve',(10,20),(10,13),(17,13),(17,20))
-        self.relate('connect','tank','valve')
-        self.add_polyline('valve-top',(8,6),(14,6),(20,6))
-        self.add_line('valve-neck',(14,6),(14,13));self.relate('connect','valve-top','valve-neck');self.relate('connect','valve','valve-neck')
-        self.circle('timer',33,16,9)
-        self.add_polyline('hands',(33,11),(33,16),(37,16))
-        self.add_line('hose',(17,13),(24,13));self.relate('connect','hose','valve')
+        self.path('tank',(10,26),[('A',(14,30),4,4,True),('L',(14,38)),('A',(10,42),4,4,True),('A',(6,38),4,4,True),('L',(6,30)),('A',(10,26),4,4,True)],True)
+        self.add_polyline('valve',(10,6),(10,17),(10,26))
+        self.add_polyline('valve-top',(6,6),(10,6),(16,6))
+        self.circle('timer',31,17,11)
+        self.add_line('hose',(10,17),(20,17))
+        self.add_polyline('hands',(31,15),(31,17),(33,17))
+        for a,b in [('valve','tank'),('valve','valve-top'),('hose','valve'),('hose','timer')]:self.relate('connect',a,b)
 
-KEYSHAPE_INK_BOUNDS = (4, 4, 44, 44)
-KEYSHAPE_REASON = 'The full composition is approximately square and uses the 36×36 centerline envelope.'
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,ops,closed=False):
+        at=start;members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';kind,end,*args=op
+            if end==at:continue
+            if kind=='L':self.add_line(eid,at,end)
+            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='B':self.add_bezier(eid,at,(*args,end))
+            at=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,q=4):
+        self.path(n,(l+q,t),[('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True)],True)

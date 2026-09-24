@@ -1,9 +1,13 @@
-'Cyclist on a Fully Framed Bicycle.\nSymbol plan: A round-headed rider leans forward with both arms reaching toward the handlebar. A triangular bicycle frame joins two large round wheels beneath the bent seated leg and straight front fork.\nConstruction: Human full_body_ref.png: circular heads, coherent torso/limbs, exact 8u centerline / 4u ink head-to-neck clearance. Lucide bike: circular wheels and bent cycling pose.\nReduction: Smaller wheels leave room for the bent pedaling leg and forward fork; retain the complete rider/bicycle subject.\nKeyshape SQUARE.'
+"""A rider pedaling a bicycle.
+Plan: SQUARE leaves upper space for the rider and lower space for paired wheels.
+Reduction: Removed duplicate triangular frame tubes and crowded upper bar; retained open frame rails, front fork, bent leg, and both wheels.
+Construction: Shared full_body_ref.png for round head and coherent limbs; Lucide bike for cycling pose and round wheels.
+Layout: Forward-facing asymmetric pose. Head center (26,10), radius4; actual torso start (26,22): 22-(10+4)=8 centerline, exactly4 visible ink gap; torso is vertical at the neck and head is on that axis."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '816c0a6d-a6b1-4041-9b3e-aa2bb963535f'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_06/bicycle person_816c0a6d-a6b1-4041-9b3e-aa2bb963535f.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_06/bicycle person_816c0a6d-a6b1-4041-9b3e-aa2bb963535f.svg'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'cyclist-on-a-fully-framed-bicycle'
@@ -33,9 +37,9 @@ class BatchIcon(Solo48):
                 else: line(n+str(j),ps[j],ps[(j+1)%8])
             con(n,*(n+str(j) for j in range(8)),closed=True)
         circle('head',26,10,4);line('torso',(26,22),(26,24));line('lower-torso',(26,24),(20,28))
-        poly('arms',(26,22),(36,24),(42,22));poly('leg',(20,28),(24,32),(24,38))
-        circle('rear',10,38,4);circle('front',38,38,4);line('fork',(36,24),(38,34));self.relate('connect','fork','front');self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-        poly('frame',(10,34),(20,28),(24,38),(10,34));line('bar',(24,30),(37,29));self.relate('connect','frame','rear');self.relate('connect','frame','leg');self.relate('connect','bar','frame');self.relate('connect','bar','fork')
+        poly('arms',(26,22),(36,23),(42,22));poly('leg',(20,28),(24,32),(24,38))
+        circle('rear',10,38,4);circle('front',38,38,4);line('fork',(36,23),(38,34));self.relate('connect','fork','front');self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        poly('frame',(10,34),(20,28),(38,34));self.relate('connect','frame','rear');self.relate('connect','frame','front');self.relate('connect','frame','leg');self.relate('connect','frame','fork')
         # Declare only real, shared endpoints as automatic contacts.
         for i,a in enumerate(self.primitives):
             for b in self.primitives[i+1:]:

@@ -1,16 +1,21 @@
+"""A house inside a broken circular market chart.
+Plan: CIRCLE uses center (24,24), radius20 centerline / radius22 ink to open the central space.
+Reduction: Omitted the undersized doorway; preserved the broken ring and thick upper-right quadrant.
+Construction: Lucide house: closed roof-and-wall outline; supplied source owns the surrounding chart.
+Layout: House deliberately sits slightly left and low to clear the emphasized upper-right segment."""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='1228a3cf-b0ac-41b8-a4db-2d272fbe1241'
-SOURCE_PATH='icon_set/work/todo-references/real estate market house_1228a3cf-b0ac-41b8-a4db-2d272fbe1241.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate market house_1228a3cf-b0ac-41b8-a4db-2d272fbe1241.svg'
+AUTHOR = "gpt-6"
 PLAN='A house sits inside an open circular market ring with a thick upper-right segment.'
-OMISSIONS='Door retained; ring segment reduced to a clean double arc.'
+OMISSIONS='Omitted the undersized doorway; preserved the broken ring and thick upper-right quadrant.'
 LUCIDE_REFERENCE='house'
 HUMAN_REFERENCE=None
 FULL_BODY_REFERENCE=None
 class Drawing(Solo48):
     icon_id='real-estate-market-house'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects'
@@ -43,13 +48,11 @@ class Drawing(Solo48):
         # Exact detached gap: (y+r+8) - (y+r) = 8 centerline / 4 ink.
 
     def build(self):
-        # A house sits inside an open circular market ring with a thick upper-right segment.
-
-        self.add_arc('ring',(24,6),(42,24),radius_x=18,large_arc=True,sweep=False)
-        self.add_arc('segment-outer',(24,6),(42,24),radius_x=18)
-        self.add_arc('segment-inner',(34,24),(24,14),radius_x=10,sweep=False)
-        self.add_line('segment-end',(42,24),(34,24));self.add_line('segment-start',(24,14),(24,6))
+        # CIRCLE radius20 centerline: broken market ring, thick quadrant, house.
+        # The doorway is omitted to leave a clear central house opening.
+        self.add_arc('ring',(12,8),(40,36),radius_x=20,large_arc=True,sweep=False)
+        self.add_arc('segment-outer',(24,4),(44,24),radius_x=20)
+        self.add_arc('segment-inner',(36,24),(24,12),radius_x=12,sweep=False)
+        self.add_line('segment-end',(44,24),(36,24));self.add_line('segment-start',(24,12),(24,4))
         self.add_contour('segment','segment-outer','segment-end','segment-inner','segment-start',closed=True)
-        self.house('house',15,20,18,13)
-        self.add_polyline('door',(21,33),(21,27),(27,27),(27,33));self.relate('connect','door','house')
-
+        self.add_polyline('house',(16,26),(22,22),(28,26),(28,32),(16,32),closed=True)

@@ -1,34 +1,22 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = 'd0d6406a-6c7c-431f-a9b8-ee87990c2cf2'
-SOURCE_PATH = 'icon_set/work/todo-references/side road angle left 2_d0d6406a-6c7c-431f-a9b8-ee87990c2cf2.svg'
-AUTHOR = 'gpt-6'
-# Plan: Diamond road sign with a curved rightward branch rising from the lower left.
-# Construction references: No exact local Lucide match; joined arrow contour within a symmetric diamond.
-# Reduction: No parts omitted; arrow direction follows source despite filename.
-
-class AuthoredIcon(Solo48):
-    icon_id = 'side-road-angle-left-2'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('side', 'road', 'angle', 'left', '2')
-
-    def build(self):
-        self.add_polyline('diamond',(24,6),(42,24),(24,42),(6,24),closed=True)
-        self.add_line('stem',(18,30),(18,26))
-        self.add_arc('turn',(18,26),(24,20),radius_x=6)
-        self.add_line('shaft',(24,20),(30,20));self.add_contour('road','stem','turn','shaft')
-        self.add_polyline('head',(26,16),(30,20),(26,24));self.relate('connect','road','head')
+SOURCE_ICON_ID='d0d6406a-6c7c-431f-a9b8-ee87990c2cf2'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/side road angle left 2_d0d6406a-6c7c-431f-a9b8-ee87990c2cf2.svg'
+AUTHOR='gpt-6'
+PLAN='Complete diamond sign and curved rightward arrow follow reference direction despite filename. Radial CIRCLE envelope reaches20 at four vertices. Rebalanced arrow; no defining parts omitted.'
+class Drawing(Solo48):
+    icon_id='side-road-angle-left-2'
+    keyshape=Keyshape.CIRCLE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-
     def box(self,n,l,t,r,b,q=3):
         pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
         ids=[]
@@ -38,11 +26,9 @@ class AuthoredIcon(Solo48):
             else:self.add_line(ident,pts[k],pts[(k+1)%8])
         self.add_contour(n,*ids,closed=True)
 
-    def shield(self):
-        self.add_bezier('crown-left',(8,12),((15,12),(21,7),(24,4)))
-        self.add_bezier('crown-right',(24,4),((27,7),(33,12),(40,12)))
-        self.add_line('wall-right',(40,12),(40,23))
-        self.add_bezier('base-right',(40,23),((40,33),(33,40),(24,44)))
-        self.add_bezier('base-left',(24,44),((15,40),(8,33),(8,23)))
-        self.add_line('wall-left',(8,23),(8,12))
-        self.add_contour('shield','crown-left','crown-right','wall-right','base-right','base-left','wall-left',closed=True)
+    def build(self):
+        self.add_polyline('diamond',(24,4),(44,24),(24,44),(4,24),closed=True)
+        self.add_line('stem',(20,28),(20,27))
+        self.add_arc('turn',(20,27),(26,21),radius_x=6)
+        self.add_line('shaft',(26,21),(29,21));self.add_contour('road','stem','turn','shaft')
+        self.add_polyline('head',(25,17),(29,21),(25,25));self.relate('connect','road','head')

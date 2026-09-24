@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ac8740e0-9a7e-4e67-901d-18b0353d7000'
-SOURCE_PATH = 'icon_set/work/todo-references/dial finger_ac8740e0-9a7e-4e67-901d-18b0353d7000.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/dial finger_ac8740e0-9a7e-4e67-901d-18b0353d7000.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -41,7 +41,7 @@ class Drawing(Solo48):
         self.add_line('finger-right',(36,20),(36,28))
         self.add_bezier('palm-top',(36,28),((36,30),(42,30),(42,33)))
         self.add_line('palm-right',(42,33),(40,42))
-        self.add_line('palm-left',(24,42),(18,31))
-        self.add_bezier('thumb',(18,31),((15,25),(21,23),(24,28)))
-        self.add_line('thumb-return',(24,28),(28,32))
+        self.add_line('palm-left',(22,42),(14,31))
+        self.add_bezier('thumb',(14,31),((10,25),(18,22),(22,27)))
+        self.add_line('thumb-return',(22,27),(28,32))
         self.add_contour('hand','palm-left','thumb','thumb-return','finger-left','tip','finger-right','palm-top','palm-right')
