@@ -1007,9 +1007,20 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
              "Only attempts without a saved result remain eligible for automatic retry. "
              "If retrieval fails or no TODO icon remains, report that result and stop.",
              "A file counts as done once its run folder holds an authored Python module and "
-             "a result.json with that source_uuid. Validation failures, warnings, and failed "
-             "exports still count as attempts; do not retry them automatically. Write "
-             "result.json last, including failures."),
+             "a result.json with that source_uuid. Write result.json last."),
+            # Otherwise keep icon-solo's own wording: its solo definition, and step 7's
+            # visual judgement in place of Thuan's keep-the-failure instructions.
+            ("Every input stays in `RESULT_DIR/`, subclasses `Solo48`, and uses "
+             "`semantic_role = \"MAIN\"`, `semantic_kind = \"noun\"`. Keep the complete "
+             "composition on the 48×48 canvas; do not reroute it to another family or "
+             "enlarge the canvas.\n\n",
+             re.search(r"A \*\*solo\*\* icon[^\n]*\n\n", render("solo")).group(0)),
+            ("   Retain invalid candidates with their failure findings; do not claim\n"
+             "   they passed. If validation or rendering raises, retain the source and\n"
+             "   save the error in this same folder. No library build is needed.\n\n",
+             "   No library build is needed.\n\n"
+             "   Open the PNG and judge it at 48 pixels. Numeric success is not\n"
+             "   visual approval; if two candidates are close, render both and keep the stronger.\n\n"),
             ("   Preserve the helper's concept, source UUID, reference path, category,\n"
              "   and optional brief as `concept`, `source_uuid`, `reference_path`,\n"
              "   `category`, and `brief` (null when absent). Keep the exact strings,\n"

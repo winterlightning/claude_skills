@@ -12,7 +12,7 @@ Run from the repository containing `icon_set/`. The arguments are one or more re
 
 For each file, the brief is the file itself: its filename is `<concept>_<source-uuid>.svg`. The **source UUID** is the UUID at the end of the filename, the **concept** is the text before it, and the **reference path** is the file path as given. Render and inspect the reference, then follow the full authoring workflow below. Skip a file whose `icon_set/work/primitive-make-ray/<source-uuid>/*/result.json` already exists and report it as already done. If a file is missing or has no UUID in its name, report that and continue with the next file. After the last file, report every file's result.
 
-**Folder-only output:** create a fresh result directory at `icon_set/work/primitive-make-ray/<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, exports, reference renders, previews, input metadata and findings there, including unsuccessful attempts. Never overwrite an earlier run. Do not write to `published/`, the registered icon folders, metadata catalogs, galleries, queues or runtime state. Do not run build, finish-icon, publish, release or gallery update commands. This output rule overrides output and registration advice in shared guides. A file counts as done once its run folder holds an authored Python module and a result.json with that source_uuid. Validation failures, warnings, and failed exports still count as attempts; do not retry them automatically. Write result.json last, including failures.
+**Folder-only output:** create a fresh result directory at `icon_set/work/primitive-make-ray/<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, exports, reference renders, previews, input metadata and findings there, including unsuccessful attempts. Never overwrite an earlier run. Do not write to `published/`, the registered icon folders, metadata catalogs, galleries, queues or runtime state. Do not run build, finish-icon, publish, release or gallery update commands. This output rule overrides output and registration advice in shared guides. A file counts as done once its run folder holds an authored Python module and a result.json with that source_uuid. Write result.json last.
 
 **Generate every input:** author the complete given reference as one SOLO48 icon. Do not skip, split into component briefs, or hand off because it contains text, digits, a logo, a symbol, an avatar, an enclosure or a combination. Preserve its defining features and arrangement.
 
@@ -33,7 +33,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
 | Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abacus-two-rods-four-beads`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo` |
 
-Every input stays in `RESULT_DIR/`, subclasses `Solo48`, and uses `semantic_role = "MAIN"`, `semantic_kind = "noun"`. Keep the complete composition on the 48×48 canvas; do not reroute it to another family or enlarge the canvas.
+A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
 ## Visual priorities
 
@@ -189,9 +189,10 @@ Inspect the complete reference before reduction. Treat its text, enclosure, main
    enlarged size, all inside RESULT_DIR. Inspect both themes. Save a
    `result.json` containing source UUID/path, icon ID, author, validation
    status, visual-review findings, omissions and artifact filenames.
-   Retain invalid candidates with their failure findings; do not claim
-   they passed. If validation or rendering raises, retain the source and
-   save the error in this same folder. No library build is needed.
+   No library build is needed.
+
+   Open the PNG and judge it at 48 pixels. Numeric success is not
+   visual approval; if two candidates are close, render both and keep the stronger.
 
 8. **Report.** Say what the subject is, which keyshape and why, what you dropped
    and why, which references you used and what you took from each, and the
