@@ -298,6 +298,24 @@ errors, invalid schema, a canvas that does not match its family/profile or non-4
 accepted this way. The strict `fix_icon_sub.py check` command continues to report
 the automatic result, so acceptance is never confused with a strict geometry pass.
 
+## Side component review and editing
+
+Main icons and Sub icons offer **Edit icon**, **Approve**, and **Approve as
+exception** on each drawing. The popup reuses Browser Edit, Manual Edit, and
+Pick from the review gallery. Save an edit, then pick that saved version to
+approve and display it. For an intentional validation failure, save with
+**Force pass (human reviewed)** before picking the browser edit.
+
+**Approve as exception** accepts the original drawing with its current SVG
+hash. It preserves the automatic findings and requires the same family canvas
+and 4px strokes as authored exceptions. This approval lives in the production
+artwork database, survives pulls and restarts, and expires when the original
+SVG changes. Live side pages show saved artwork and approvals immediately;
+accepted failed originals are also available in the live icon catalog.
+
+Deploy this feature by pulling the published assets and restarting the Python
+server once. Later edits and approvals need no rebuild or restart.
+
 ## Side combination 64 (combine run → Experiment → review)
 
 **Combine all side pairs** (Progression › Side pairs) runs `refresh_combination_pairs --previews`.

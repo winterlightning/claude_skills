@@ -209,6 +209,22 @@ class ArtworkStore(StrokeEditStore):
                       revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
         if not upload_only:
             result.update(selected_by=user, selected_at=now)
+        if data.get('approve_exception') is True:
+            if mode != 'use_org' or upload_only:
+                raise ValueError('Approve the original as an exception, or use the editor’s human-reviewed save for edits.')
+            from types import SimpleNamespace
+            from icon_set.validation.icon_exception import apply_exception
+            document = icon_from_graph(icon).to_svg()
+            approval = {'reason': 'Visually approved from the side component gallery',
+                        'approved_by': user, 'approved_on': now, 'svg_sha256': icon['svg_sha256']}
+            validation = icon.get('validation') or {}
+            row = apply_exception(SimpleNamespace(exception=approval), {
+                'family': icon['family'], 'profile': icon['profile'], '_svg': document,
+                'svg_sha256': sha(document), 'status': validation.get('status', icon.get('status', 'fail')),
+                'errors': []})
+            if row.get('exception') != approval:
+                raise ValueError('This drawing cannot be approved as an exception: ' + '; '.join(row['errors']))
+            result['original_exception'] = approval
         if mode == 'use_upload' and not upload_only:
             result['selected_upload'] = deepcopy(result['uploaded'])
             result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,

@@ -318,6 +318,19 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
     return catalog
 
 
+def failed_editor_graph(factory, failure):
+    """Ship editable geometry only when it reproduces the failed export exactly."""
+    import hashlib
+    try:
+        icon = factory()
+        if hashlib.sha256(icon.to_svg().encode()).hexdigest() == failure.get('svg_sha256'):
+            return icon.to_record()
+    except Exception:
+        # A broken original remains reviewable, but cannot provide an editor graph.
+        pass
+    return {}
+
+
 def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=None) -> Path:
     if only is not None:
         from .targeted_gallery import stage_targeted_gallery
@@ -375,7 +388,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
             if key in exported_keys:
                 continue
             failed_records.append({
-                **failure, 'key': key, 'name': icon_id, 'build_failed': True,
+                **failed_editor_graph(factory, failure), **failure, 'key': key, 'name': icon_id, 'build_failed': True,
                 'author': getattr(sys.modules[factory.__module__], 'AUTHOR', ''),
                 'category': getattr(factory, 'category', ''),
                 'categories': list(getattr(factory, 'categories', ()) or [getattr(factory, 'category', '')]),
@@ -419,6 +432,12 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
     for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "side-combination-popup.js", "side-layout-editor.js", "side-repair-flags.js", "side-combination-progress.js", "icons.html", "approved-icons.js", "reference-picker.js",
                   "primitives.html", "progression-combinations.js", "side-pairs-grid.js", "symbols-needed.html", "side-mains.html", "side-subs.html", "side-components.js", "side-components.css", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js", "work.html", "work.css", "work.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
+    editor_source = (Path(__file__).with_name('templates') / 'gallery.html').read_text()
+    editor_panel = editor_source.split('<section id="editingPanel"', 1)[1].split('</section></div></dialog>', 1)[0]
+    editor_panel = '<section id="editingPanel"' + editor_panel + '</section>'
+    for name in ('side-mains.html', 'side-subs.html'):
+        page = target / name
+        page.write_text(page.read_text().replace('<!-- shared-icon-editor -->', editor_panel))
     side_review = REPO_ROOT / 'icon_set/work/side-combinations-passing-sub'
     if (side_review / 'index.html').is_file():
         shutil.copytree(side_review, target / 'side-combinations-passing-sub', dirs_exist_ok=True,

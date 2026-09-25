@@ -560,10 +560,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def catalog(self, *, include_failed=False):
         data = self.catalog_data()
-        rows = data['icons'] + (data.get('failed_icons', []) if include_failed else [])
+        rows = data['icons'] + data.get('failed_icons', [])
         fixes = self.work_fixes()
         with self.server.artwork.snapshot():
-            return {item['key']: self.artwork_record(item, fixes) for item in rows}
+            current = [self.artwork_record(item, fixes) for item in rows]
+            return {item['key']: item for item in current if include_failed or not item.get('build_failed')}
 
     def catalog_icon(self, key):
         data = self.catalog_data()
@@ -658,6 +659,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             result['validation'] = {'status': 'original'}
         if choice or record.get('artwork_source', 'use_org') != 'use_org':
             result['preview_url'] = '../api/icon-artwork/svg?icon='+quote(record['key'], safe='')+'&v='+result['svg_sha256']
+        approval = choice.get('original_exception')
+        if (result.get('artwork_source') == 'use_org' and approval
+                and approval.get('svg_sha256') == result['svg_sha256']):
+            previous = result.get('validation') or {}
+            result['validation'] = dict(previous, status='human-selected', exception=approval,
+                                        automatic_status=previous.get('automatic_status', previous.get('status', record.get('status'))))
+        if result.get('validation', {}).get('status') in ('valid', 'human-selected'):
+            result['build_failed'] = False
         result['artwork_revision'] = (choice or {}).get('revision', 0)
         return result
 
@@ -787,6 +796,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 with self.server.artwork.snapshot():
                     for field in ('icons', 'failed_icons'):
                         data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
+                data['icons'].extend(row for row in data['failed_icons'] if not row.get('build_failed'))
+                data['failed_icons'] = [row for row in data['failed_icons'] if row.get('build_failed')]
                 return self.json_response(data)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
@@ -974,12 +985,27 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'categories': state_db.category_progress(connection)})
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Category progress is temporarily unavailable'}, 503)
-        if parsed.path == '/api/side-components':
+        if parsed.path in ('/api/side-components', '/gallery/side-components.json'):
             try:
                 with self.mirror('side_components') as connection:
                     data = state_db.load_side_components(connection)
                 if data is None:
                     return self.json_response({'error': 'side-components.json is not built yet. Run the gallery build.'}, 404)
+                from icon_set.scripts.side_components import _drawing
+                catalog = self.catalog(include_failed=True)
+                for role in ('mains', 'subs'):
+                    for item in data[role]:
+                        item['drawings'] = [(_drawing(catalog[d['key']], bool(catalog[d['key']].get('build_failed')))
+                                             if d['key'] in catalog else d) for d in item['drawings']]
+                        item['status'] = ('done' if any(d['status'] == 'pass' for d in item['drawings'])
+                                          else 'failing' if item['drawings'] else 'missing')
+                        item['failing_variants'] = sum(d['status'] != 'pass' for d in item['drawings'])
+                    counts = data['counts'].setdefault('main' if role == 'mains' else 'sub', {})
+                    counts.update({status: sum(item['status'] == status for item in data[role])
+                                   for status in ('done', 'failing', 'missing')})
+                    counts.update(total=len(data[role]),
+                                  done_with_failing_variants=sum(item['status'] == 'done' and item['failing_variants'] > 0 for item in data[role]),
+                                  blocked_pairs=sum(item.get('uses', 0) for item in data[role] if item['status'] != 'done'))
                 return self.json_response(data)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Side components are temporarily unavailable'}, 503)
@@ -1402,7 +1428,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 status = 'pending'
             elif status not in ('ready', 'pending', 're-generated', 'approve', 'rejected'):
                 raise ValueError()
-            icon = self.catalog(include_failed=route == '/api/feedback').get(key)
+            icon = self.catalog(include_failed=True).get(key)
             if icon is None:
                 return self.json_response({'error': 'Unknown icon'}, 404)
             sha = icon.get('svg_sha256') or ''
@@ -1901,6 +1927,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 icon = self.catalog_icon(data.get('icon'))
                 if not icon:
                     return self.json_response({'error': 'Icon not found.'}, 404)
+                if data.get('approve_exception') is True and icon.get('artwork_source', 'use_org') != 'use_org':
+                    return self.json_response({'error': 'This is selected artwork. Approve that saved version in the editor instead of approving the original.'}, 409)
                 if data.get('action') == 'upload':
                     self.server.artwork.save(icon, data, user, self.stroke_edits)
                     return self.json_response(self.artwork_response(icon))
@@ -2308,7 +2336,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def brief_action(self, route, data, user):
         try:
-            catalog = self.catalog()
+            catalog = self.catalog(include_failed=route == '/api/reject-combination/restore')
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                 if route == '/api/pending-briefs/complete':
                     brief_id = data.get('brief_id')

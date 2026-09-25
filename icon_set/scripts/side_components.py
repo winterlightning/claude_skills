@@ -37,7 +37,9 @@ def _source_ids(record: dict) -> set[str]:
 
 def _drawing(record: dict, failed: bool) -> dict:
     validation = record.get('validation') or {}
-    if failed or validation.get('status') == 'fail' or record.get('model_validation') == 'fail':
+    if validation.get('status') == 'human-selected':
+        status = 'pass'
+    elif failed or validation.get('status') == 'fail' or record.get('model_validation') == 'fail':
         status = 'fail'
     elif validation.get('status') == 'valid' or record.get('model_validation') == 'pass':
         status = 'pass'
@@ -48,7 +50,7 @@ def _drawing(record: dict, failed: bool) -> dict:
         errors = [validation['provenance']]
     return {'icon_id': record['icon_id'], 'key': record.get('key') or f"{record['family']}/{record['icon_id']}",
             'family': record['family'], 'status': status, 'preview_url': record.get('preview_url'),
-            'exception': validation.get('exception'),
+            'exception': validation.get('exception') or (validation if validation.get('status') == 'human-selected' else None),
             'python_source': (record.get('python_source') or {}).get('path'), 'svg_sha256': record.get('svg_sha256'),
             'errors': errors[:4], 'profile': record.get('profile'),
             'canvas_width': record.get('canvas_width'), 'canvas_height': record.get('canvas_height')}

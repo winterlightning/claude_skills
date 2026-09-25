@@ -57,6 +57,8 @@ def stage_targeted_gallery(staged: Path, published: Path, folders, only) -> Path
                            python_source=authoring.get(icon_id),
                            author=getattr(sys.modules[factory.__module__], 'AUTHOR', ''))
                 if is_failed:
+                    from .gallery import failed_editor_graph
+                    row = {**failed_editor_graph(factory, row), **row}
                     row.update(name=icon_id, build_failed=True,
                                category=getattr(factory, 'category', ''), keywords=list(getattr(factory, 'keywords', ())))
                 else:

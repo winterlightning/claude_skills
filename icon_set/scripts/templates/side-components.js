@@ -56,9 +56,52 @@ function drawingFigure(item,d){
   fig.append(a,node('figcaption','',`${d.profile==='TEXT_NATIVE_V2'?'Typeface v2 · native size · gap 4':d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.exception?'pass · exception':d.status}`));
   if(reviews[d.key]==='pending')fig.classList.add('flagged');
   if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
-  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256){fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
+  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256){fig.append(reviewActions(item,d));fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
   return fig;
 }
+// The shared editor stores drafts separately; Pick approves the saved version for use.
+async function api(url,body){
+  const response=await fetch(url,body===undefined?{cache:'no-store'}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save.');return data;
+}
+async function reloadDrawings(){
+  const [data,review]=await Promise.all([api('/api/side-components'),api('/api/reviews')]);
+  items=ROLE==='sub'?data.subs:data.mains;reviews=review;items.forEach(restatus);selected.clear();svgCache.clear();render();
+}
+async function restoreRejected(d){
+  if(reviews[d.key]==='rejected')await api('/api/reject-combination/restore',{icon:d.key,svg_sha256:d.svg_sha256});
+}
+function reviewActions(item,d){
+  const wrap=node('div','sc-review-actions login-only'),edit=node('button','','Edit icon'),approve=node('button','primary',d.status==='pass'?'Approve':'Approve as exception'),msg=node('span');
+  edit.type=approve.type='button';msg.setAttribute('role','status');
+  approve.disabled=reviews[d.key]==='approve'&&d.status==='pass';
+  if(approve.disabled)approve.textContent=d.exception?'Approved · exception':'Approved';
+  edit.onclick=async()=>{
+    edit.disabled=true;msg.textContent='Opening editor…';
+    try{
+      const data=await api('/api/icon-artwork?icon='+encodeURIComponent(d.key));
+      $('editorTitle').textContent=item.concept;
+      window.StrokeEditor.open(data.record);window.IconArtwork.open(data.record);
+      $('detail').showModal();$('editingTab').click();msg.textContent='';
+    }catch(error){msg.textContent=error.message;}finally{edit.disabled=false;}
+  };
+  approve.onclick=async()=>{
+    approve.disabled=true;msg.textContent='Saving approval…';
+    try{
+      const data=await api('/api/icon-artwork?icon='+encodeURIComponent(d.key));
+      if(data.record.svg_sha256!==d.svg_sha256)throw Error('This drawing changed. Reload the page before approving it.');
+      await restoreRejected(d);
+      if(d.status==='pass')await api('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'approve'});
+      else await api('/api/icon-artwork',{icon:d.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision||0,source_mode:'use_org',approve_exception:true});
+      await reloadDrawings();
+    }catch(error){msg.textContent=error.message;approve.disabled=false;}
+  };
+  wrap.append(edit,approve,msg);return wrap;
+}
+window.beforeIconArtworkApprove=async icon=>{const current=await api('/api/reviews');if(current[icon.key]==='rejected')await api('/api/reject-combination/restore',{icon:icon.key,svg_sha256:icon.svg_sha256});};
+$('closeEditor').onclick=()=>$('detail').close();
+$('detail').addEventListener('close',()=>reloadDrawings().catch(error=>{$('copyNote').textContent=error.message;}));
+window.addEventListener('icon-artwork-saved',()=>reloadDrawings().catch(error=>{$('copyNote').textContent='Approval saved. Reload to refresh: '+error.message;}));
 // Centerline: each drawing is inlined as its artwork plus a thin copy of the same paths (CSS .sc-cl).
 const svgCache=new Map();
 const loadSVG=url=>{if(!svgCache.has(url))svgCache.set(url,fetch(url).then(r=>{if(!r.ok)throw Error();return r.text();}));return svgCache.get(url);};

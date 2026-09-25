@@ -60,6 +60,8 @@
     try{
       if(!uploadOnly && window.flushIconFeedback && !await window.flushIconFeedback())throw Error('Finish saving feedback before picking this version.');
       if(request!==token)return;
+      if(!uploadOnly && window.beforeIconArtworkApprove)await window.beforeIconArtworkApprove(icon);
+      if(request!==token)return;
       const body={icon:icon.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision || 0,source_mode:mode,edit_revision:data.edit_revision};
       if(uploadOnly){body.action='upload';body.svg=await file.text();body.filename=file.name;}
       if(request!==token)return;
