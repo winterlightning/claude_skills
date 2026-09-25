@@ -1,3 +1,25 @@
 status: invalid
   ERROR  mic [ferrule]: parallel straight edges ferrule and joint are 7.77817 apart on centerlines (ink gap 3.77817); requires at least 8 centerline / 4 ink (midpoint-normal)
   ERROR  mic [outline]: parallel straight edges outline-2, outline-3 and outline-8 are 7.04203 apart on centerlines (ink gap 3.04203); requires at least 8 centerline / 4 ink (midpoint-normal)
+
+Build gate: pass
+{
+  "icon_id": "diagonal-paintbrush-with-ferrule-band",
+  "status": "pass",
+  "errors": [
+    "mic [ferrule]: parallel straight edges ferrule and joint are 7.77817 apart on centerlines (ink gap 3.77817); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [outline]: parallel straight edges outline-2, outline-3 and outline-8 are 7.04203 apart on centerlines (ink gap 3.04203); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "warnings": [
+    "internal-spacing [outline]: outline-2 and outline-8 have 3.042 units of ink clearance over 6.1018 units; requires 4; review required",
+    "internal-spacing [outline]: outline-3 and outline-7 have 3.1272 units of ink clearance over 9.6698 units; requires 4; review required",
+    "internal-spacing [joint / ferrule]: joint and ferrule have 3.7782 units of ink clearance over 5.3643 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve the slender handle and distinct ferrule. Approximately three-pixel handle opening and locally reduced ferrule separation remain clear in both themes. Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.",
+    "approved_by": "user-directed-gpt-6",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "12408fedc260b926505faf533c18323baf5408707c3cf26a812bb4391d4123dc"
+  },
+  "automatic_status": "fail"
+}

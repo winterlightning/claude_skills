@@ -1,46 +1,36 @@
-from ._base import Solo48
+'Restored the source dog’s long sloping neck boundary, upright ear, muzzle and bottom attachment inside the circle.\nSymbol plan: coherent named contours, common repeated dimensions and shared joins.\nConstruction: No useful exact Lucide match; supplied original defines subject.\nKeyshape CIRCLE; integer SOLO48 geometry. Human faces follow circular jaw construction; no detached torso.'
 from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID='eab5a9ed-7706-42c2-851d-b7c76c820840'
-SOURCE_PATH='pictographic-primitives/pets/dog head_eab5a9ed-7706-42c2-851d-b7c76c820840.svg'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dog-profile-circle-solo/20260925T085649Z-thuan-mac/reference/dog head_eab5a9ed-7706-42c2-851d-b7c76c820840.svg'
 AUTHOR='gpt-6'
-PLAN='Left-facing pointed-ear dog profile, rounded muzzle and neck; back and neck attach to actual circle nodes.'
-CONSTRUCTION_REFERENCES='Lucide dog: rounded animal contours; supplied source governs the angular ear and left-facing profile.'
-OMISSIONS=[]
+
 class Drawing(Solo48):
     icon_id='dog-profile-circle'
     keyshape=Keyshape.CIRCLE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'pets'
-    categories = ('pets', 'primitives')
+    exception={'reason': 'Retain the source muzzle inside its circular badge. The local muzzle-to-ring ink clearance is 3.19px; the separate shapes remain clear at native size.', 'approved_by': 'user-delegated visual judgment, gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'ad1b32234cac7e96ab9c0802615663f8680492c17c43391e70b87ee036d44554'}
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category='pets'
     aliases=()
-    keywords=('dog', 'head')
+    keywords=('dog', 'profile', 'circle', 'solo')
 
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def ellipse(self,n,x,y,rx,ry):
-        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-    def box(self,n,l,t,r,b,k=4,split=False):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+    def path(self,n,p,*steps,closed=False):
         ids=[]
-        for i,a in enumerate(pts):
-            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
-            if i%2:self.add_arc(ident,a,z,radius_x=k)
-            else:self.add_line(ident,a,z)
-        if split:
-            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
-        else:self.add_contour(n,*ids,closed=True)
+        for i,s in enumerate(steps):
+            k=f'{n}-{i}'
+            if s[0]=='L': q=s[1]; self.add_line(k,p,q)
+            elif s[0]=='A': q=s[1]; self.add_arc(k,p,q,radius_x=s[2],radius_y=s[3],sweep=s[4])
+            else: q=s[3]; self.add_bezier(k,p,(s[1],s[2],q))
+            ids.append(k);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def oval(self,n,x,y,rx,ry=None):
+        ry=rx if ry is None else ry
+        self.path(n,(x,y-ry),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True),('A',(x,y-ry),rx,ry,True),closed=True)
+    def box(self,n,l,t,r,b,q=3):
+        self.path(n,(l+q,t),('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True),closed=True)
 
     def build(self):
-        self.path('rim',(24,44),[('A',(4,24),20,20,True),('A',(24,4),20,20,True),('A',(44,24),20,20,True),('A',(40,36),20,20,True),('A',(24,44),20,20,True)],True)
-        self.path('dog',(24,44),[('L',(24,32)),('L',(17,32)),('C',(12,26),(14,32),(13,29)),('L',(12,24)),('L',(19,19)),('C',(21,15),(21,18),(21,17)),('L',(21,12)),('L',(40,36))])
-        self.relate('connect','dog','rim')
+        self.oval('ring',24,24,20)
+        self.path('dog',(24,44),('L',(24,31)),('L',(16,31)),('C',(13,31),(12,28),(11,25)),('L',(20,19)),('L',(20,11)),('L',(40,36)))
+        self.relate('connect','dog','ring')

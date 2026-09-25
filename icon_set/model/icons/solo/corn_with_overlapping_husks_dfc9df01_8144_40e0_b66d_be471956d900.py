@@ -1,48 +1,63 @@
-from ._base import Solo48
+"""An ear of corn rises behind two overlapping husks. Restore the tall rounded cob and smooth asymmetric overlap while sharing leaf attachment nodes.
+Construction: Source-specific corn silhouette; no useful exact Lucide match.
+Fresh SOLO48 revision; original preserved.
+"""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='dfc9df01-8144-40e0-b66d-be471956d900'
-SOURCE_PATH='pictographic-primitives/food/corn_dfc9df01-8144-40e0-b66d-be471956d900.svg'
-AUTHOR='gpt-6'
-PLAN='Long upright rounded cob above two tapering curved husks, with the right husk overlapping the left.'
-CONSTRUCTION_REFERENCES='Lucide wheat: leaf curve construction only; source has a smooth cob with no kernel grid.'
-OMISSIONS=[]
-class Drawing(Solo48):
-    icon_id='corn-with-overlapping-husks'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'food'
-    categories = ('food', 'other', 'primitives-generate')
-    aliases=()
-    keywords=('corn',)
+from ._base import Solo48
+SOURCE_ICON_ID = 'dfc9df01-8144-40e0-b66d-be471956d900'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__corn/20260925T083047Z-thuan-mac/reference/corn_dfc9df01-8144-40e0-b66d-be471956d900.svg'
+AUTHOR = 'gpt-6'
 
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def ellipse(self,n,x,y,rx,ry):
-        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-    def box(self,n,l,t,r,b,k=4,split=False):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        ids=[]
-        for i,a in enumerate(pts):
-            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
-            if i%2:self.add_arc(ident,a,z,radius_x=k)
-            else:self.add_line(ident,a,z)
-        if split:
-            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
-        else:self.add_contour(n,*ids,closed=True)
+class Drawing(Solo48):
+    icon_id = 'corn-with-overlapping-husks'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('corn',)
+
+    exception = {'reason': 'Retain the overlapping corn husks and tall cob. Local three-unit visible gaps at the leaf attachments remain clear at native 48px in both themes; no stroke or canvas change.', 'approved_by': 'user delegated visual-exception judgment to gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'c0ac47e15122ee001ce0661bc5ebd26a67fa0587c52fa35bcd04ab9389702692'}
 
     def build(self):
 
-        self.path('cob',(16,24),[('L',(16,12)),('A',(24,4),8,8,True),('A',(32,12),8,8,True),('L',(32,24))])
-        self.path('left-leaf',(8,22),[('C',(16,24),(11,22),(14,23)),('C',(24,36),(20,27),(22,31)),('C',(22,44),(22,39),(22,42)),('C',(8,22),(8,44),(8,30))],True)
-        self.path('right-leaf',(22,44),[('C',(32,24),(22,34),(28,26)),('C',(40,22),(34,23),(37,22)),('C',(22,44),(40,30),(40,44))],True)
-        self.relate('connect','cob','left-leaf');self.relate('connect','cob','right-leaf');self.relate('connect','left-leaf','right-leaf')
+        def path(name, start, commands, closed=False):
+            here, members = start, []
+            for j, (kind, end, *a) in enumerate(commands):
+                ident = f'{name}-{j}'
+                if kind == 'L': self.add_line(ident, here, end)
+                elif kind == 'A': self.add_arc(ident, here, end, radius_x=a[0], radius_y=a[1], sweep=a[2], large_arc=a[3] if len(a)>3 else False)
+                elif kind == 'C': self.add_bezier(ident, here, (a[0], a[1], end))
+                here = end
+                members.append(ident)
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, x, y, r):
+            path(name, (x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)], True)
+        def rect(name, l,t,r,b,rad):
+            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate('connect',a,b)
+
+        path('cob',(16,27),[('L',(16,12)),('A',(24,4),8,8,True),('A',(32,12),8,8,True),('L',(32,27))])
+        path('husks',(24,44),[('C',(8,23),(12,44),(10,38)),('C',(16,27),(11,23),(14,25)),('C',(24,34),(20,29),(23,32)),('C',(32,27),(26,31),(29,29)),('C',(40,23),(35,25),(38,23)),('C',(24,44),(37,32),(40,44))],True);join('cob','husks')
+        path('overlap',(24,34),[('C',(24,44),(23,37),(23,41))]);join('overlap','husks')
+
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        endpoints={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        replacements,rebuilt={},[]
+        for primitive in self.primitives:
+            if isinstance(primitive,Line) and primitive.start!=primitive.end:
+                a,b=primitive.start,primitive.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in endpoints if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b];names=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        name=f'{primitive.element_id}-node-{j}';rebuilt.append(Line(name,u,v));names.append(name)
+                    replacements[primitive.element_id]=names
+                    if not any(primitive.element_id in c.members for c in self.contours):self.add_contour(primitive.element_id,*names)
+                    continue
+            rebuilt.append(primitive)
+        if replacements:
+            self.primitives[:]=rebuilt
+            self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]

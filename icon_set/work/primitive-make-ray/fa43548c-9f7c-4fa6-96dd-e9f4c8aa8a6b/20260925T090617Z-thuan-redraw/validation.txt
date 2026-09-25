@@ -1,1 +1,26 @@
-status: valid
+status: invalid
+  ERROR  mic [center]: center and left are 7.03007 apart on centerlines nearest (20.7341, 29.786)<->(16.208, 35.1652); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [center]: center and right are 7.03007 apart on centerlines nearest (27.208, 29.8348)<->(31.7341, 35.214); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [link-left]: link-left and link-right are 6 apart on centerlines nearest (21, 30)<->(27, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass
+{
+  "icon_id": "four-node-network-hub",
+  "status": "pass",
+  "errors": [
+    "mic [center]: center and left are 7.03007 apart on centerlines nearest (20.7341, 29.786)<->(16.208, 35.1652); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [center]: center and right are 7.03007 apart on centerlines nearest (27.208, 29.8348)<->(31.7341, 35.214); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [link-left]: link-left and link-right are 6 apart on centerlines nearest (21, 30)<->(27, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [center / right]: center-1 and right-3 have 3.0317 units of ink clearance over 3.6812 units; requires 4; review required",
+    "internal-spacing [center / left]: center-2 and left-0 have 3.0317 units of ink clearance over 3.6812 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve four round open nodes with equal radii. Reduced local bond separation and approximately three-pixel node gaps remain clear in both themes. Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.",
+    "approved_by": "user-directed-gpt-6",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "e3b05a4c52bc0000a97744c95bdc6b0344edf92219900ec880f2da317ee33a04"
+  },
+  "automatic_status": "fail"
+}

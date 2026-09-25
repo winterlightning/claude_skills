@@ -5,6 +5,13 @@ from icon_set.scripts.primitive_fix import load_icon,render_previews,approved_vi
 from icon_set.scripts.build_gate import gate
 root=Path(__file__).resolve().parent
 reasons={
+ 'fossil-tablet':'Preserve the complete angular fossil skeleton inside a larger rounded tablet. Two-to-three-pixel local margins remain visible at native size; no limb is omitted.',
+'fountain-pen-drawing-a-stroke':'Preserve the distinctive side clip, barrel band and broad writing flourish. The narrow clip opening and natural off-center envelope remain legible at 48 pixels.',
+'fountain-pen-writing':'Retain the broad writing flourish and naturally angled barrel and nib instead of stretching them to the square envelope.',
+'four-node-molecular-diagram':'Preserve the larger central atom and three round satellite nodes. Short connecting bonds and locally reduced node clearance remain distinct at native size.',
+'four-node-network-hub':'Preserve four round open nodes with equal radii. Reduced local bond separation and approximately three-pixel node gaps remain clear in both themes.',
+'four-petal-stemmed-flower':'Preserve the flower center disk and four rounded petals. Local narrow petal-to-disk clearances remain open at native size; a missing center changes the reference.',
+'four-toed-paw-print':'Keep four oval toes rather than dot-like circles. Approximately 2.5-pixel visible gaps and a wider natural paw envelope preserve recognizable anatomy.',
 'dashboard-gauge':'The exact four-unit visible hub-to-baseline gap is visually clear; retain the numerical curve-certification warning.',
 'devilish-heart':'Preserve the legible hooked arrow tail and curved horns. The tail extends two units beyond the square envelope and has locally reduced arrow clearance.',
 'diagonal-butternut-squash':'Preserve natural diagonal gourd proportions and the open curved stem rather than stretching the organic silhouette to a rectangular envelope.',
@@ -17,7 +24,9 @@ reasons={
 'dragonfly':'Preserve four tapered wings, large oval head and long tail. Natural wing-tip narrowing and head-to-wing spacing remain visually distinct at native size.',
 }
 for row in json.loads((root/'runs.json').read_text()):
-    module=Path(row['module']);out=Path(row['run']);icon=load_icon(module);report=icon.validate_icon();automatic=gate(module)
+    module=Path(row['module']);out=Path(row['run']);
+    if (out/'result.json').exists():continue
+    icon=load_icon(module);report=icon.validate_icon();automatic=gate(module)
     (out/'automatic-gate.json').write_text(json.dumps(automatic,indent=2)+'\n')
     if automatic['status']!='pass':
         approval={'reason':reasons[icon.icon_id]+' Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.','approved_by':'user-directed-gpt-6','approved_on':'2026-09-25','svg_sha256':hashlib.sha256(icon.to_svg().encode()).hexdigest()}

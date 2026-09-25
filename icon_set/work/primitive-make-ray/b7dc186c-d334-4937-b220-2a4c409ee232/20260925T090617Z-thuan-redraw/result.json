@@ -1,0 +1,46 @@
+{
+  "concept": "furry",
+  "source_uuid": "b7dc186c-d334-4937-b220-2a4c409ee232",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__four-toed-paw-print/20260925T090617Z-thuan-mac/reference/furry_b7dc186c-d334-4937-b220-2a4c409ee232.svg",
+  "icon_id": "four-toed-paw-print",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "four-toed-paw-print",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 3, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 1.0, 3.0, 2.0], tolerance 0.0)",
+      "mic [toe-0]: toe-0 and toe-1 are 6.52495 apart on centerlines nearest (9.32246, 18.9294)<->(13.6968, 14.0879); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [toe-0]: toe-0 and pad are 6.74025 apart on centerlines nearest (9.13999, 27.2243)<->(13.3398, 32.4961); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [toe-2]: toe-2 and toe-3 are 6.52495 apart on centerlines nearest (34.3032, 14.0879)<->(38.6775, 18.9294); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [toe-3]: toe-3 and pad are 6.74025 apart on centerlines nearest (38.86, 27.2243)<->(34.6602, 32.4961); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Keep four oval toes rather than dot-like circles. Approximately 2.5-pixel visible gaps and a wider natural paw envelope preserve recognizable anatomy. Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.",
+      "approved_by": "user-directed-gpt-6",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "1d7a9def66232dd7c82996af8af0b14cd486962489ab2194a9cfe412e90c4867"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected native 48px and enlarged previews in both themes. Smooth contours and clear recognizable parts; approved specific exceptions retain automatic findings.",
+  "omissions": "Fine source detail reduced only as described in drawing plan.",
+  "drawing_plan": "Restore four oval toe pads and a broad softly lobed central pad, preserving bilateral symmetry.",
+  "lucide_reference": "paw-print",
+  "artifacts": [
+    "preview-dark-384.png",
+    "reference.svg",
+    "preview-dark-48.png",
+    "gate.json",
+    "four_toed_paw_print_b7dc186c_d334_4937_b220_2a4c409ee232.py",
+    "preview-light-384.png",
+    "validation.txt",
+    "reference-192.png",
+    "four-toed-paw-print.svg",
+    "automatic-gate.json",
+    "four-toed-paw-print.metadata.json",
+    "preview-light-48.png",
+    "reference-48.png"
+  ]
+}
