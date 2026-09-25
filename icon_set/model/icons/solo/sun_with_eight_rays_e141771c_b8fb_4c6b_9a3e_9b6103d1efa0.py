@@ -11,7 +11,7 @@ class SunWithEightRays(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "video"
     aliases = ()
     keywords = ('sun', 'brightness', 'light', 'rays', 'day', 'sunshine', 'weather')
 

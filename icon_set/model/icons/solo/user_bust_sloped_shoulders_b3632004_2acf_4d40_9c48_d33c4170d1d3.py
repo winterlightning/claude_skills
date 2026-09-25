@@ -14,7 +14,7 @@ class UserBustSlopedShoulders(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/symbols"
+    category = "symbol"
     aliases=()
     keywords=('user', 'person', 'profile', 'account', 'avatar', 'member', 'contact', 'people')
 

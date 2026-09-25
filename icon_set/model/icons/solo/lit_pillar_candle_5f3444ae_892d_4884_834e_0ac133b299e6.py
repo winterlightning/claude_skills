@@ -10,7 +10,7 @@ class Drawing(Solo48):
     icon_id = 'lit-pillar-candle-5f3444ae-892d-4884-834e-0ac133b299e6'
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/lighting"
+    category = "lights"
     aliases = ()
     keywords = ('candle', 'flame', 'wick', 'wax', 'light', 'pillar')
     keyshape = Keyshape.VRECT_L

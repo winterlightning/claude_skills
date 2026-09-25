@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "shopping"
     aliases = ()
     keywords = ('shopping cart',)
     def build(self):
@@ -45,7 +45,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'shopping-cart-large-open-wheels'
-    category = 'objects/shopping'
+    category = 'shopping'
     aliases = ()
     keywords = ('cart', 'shopping', 'trolley', 'basket', 'wheels', 'retail', 'supermarket')
     semantic_role = 'MAIN'

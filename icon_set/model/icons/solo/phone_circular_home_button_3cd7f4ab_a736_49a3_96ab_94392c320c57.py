@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ('Smartphone with Home Button',)
     keywords = ('phone','smartphone','screen','mobile','device','button')
     def build(self):

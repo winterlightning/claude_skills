@@ -16,7 +16,7 @@ class LightningBoltSub(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/mark"
+    category = "state"
     aliases = ()
     keywords = ('lightning', 'bolt', 'tall', 'outlined', 'follows', 'sharp', 'zigzag', 'between')
 

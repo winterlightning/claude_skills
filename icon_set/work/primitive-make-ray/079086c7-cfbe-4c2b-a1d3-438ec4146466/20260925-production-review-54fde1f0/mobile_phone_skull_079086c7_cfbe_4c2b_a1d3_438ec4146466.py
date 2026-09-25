@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: Tiny central tooth omitted; both jaw edges and reference eye dots retained.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '079086c7-cfbe-4c2b-a1d3-438ec4146466'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone skull_079086c7-cfbe-4c2b-a1d3-438ec4146466.svg'
 AUTHOR = 'gpt-6'

@@ -15,7 +15,7 @@ class ThreeHouseNeighbourhood(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/real-estate"
+    category = "real-estate"
     aliases = ()
     keywords = ('three', 'house', 'neighbourhood')
 

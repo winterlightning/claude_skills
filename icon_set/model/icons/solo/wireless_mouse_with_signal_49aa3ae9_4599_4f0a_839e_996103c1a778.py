@@ -16,7 +16,7 @@ class WirelessMouseWithSignal(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/device"
+    category = "computers"
     aliases = ('remote mouse',)
     keywords = ("mouse", "wireless", "scroll wheel", "computer", "peripheral")
 

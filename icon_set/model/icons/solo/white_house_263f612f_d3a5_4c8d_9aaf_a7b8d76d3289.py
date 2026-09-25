@@ -11,7 +11,7 @@ class WhiteHouse(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('white house', 'washington', 'usa', 'president', 'government', 'mansion', 'landmark', 'flag')
 

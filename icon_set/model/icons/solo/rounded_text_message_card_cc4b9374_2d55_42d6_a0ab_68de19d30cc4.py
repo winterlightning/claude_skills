@@ -17,7 +17,7 @@ class RoundedTextMessageCard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/messages"
+    category = "primitives-generate"
     aliases = ("message logo", "text card")
     keywords = ("chat", "writing", "lines", "note")
 

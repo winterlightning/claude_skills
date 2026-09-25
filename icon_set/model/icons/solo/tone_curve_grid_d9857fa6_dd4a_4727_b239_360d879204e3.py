@@ -11,7 +11,7 @@ class ToneCurveGrid(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('curves', 'histogram', 'tone curve', 'grid', 'edit', 'adjust', 'photo', 'graph')
 

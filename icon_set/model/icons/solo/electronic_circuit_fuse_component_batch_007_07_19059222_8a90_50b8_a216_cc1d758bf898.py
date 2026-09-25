@@ -16,7 +16,7 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-007"
+    category = "electronics"
     aliases = ()
     keywords = ('electronic', 'circuit', 'fuse', 'component')
 

@@ -10,7 +10,7 @@ class MessageIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/messages'
+    category = 'messages'
     aliases = ()
     keywords = ('speech-bubble', 'message', 'chat', 'comment', 'conversation', 'talk', 'empty')
 

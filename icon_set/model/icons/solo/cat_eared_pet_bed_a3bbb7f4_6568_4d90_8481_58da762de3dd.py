@@ -15,7 +15,7 @@ class CatEaredPetBed(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
     aliases = ()
     keywords = ('cat-bed', 'bed', 'cave', 'cushion', 'cat', 'pet', 'sleep', 'furniture')
 

@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('phone', 'vertical')
 
@@ -49,7 +49,7 @@ class Drawing(Solo48):
         self.add_contour('receiver','back','bottom','lower-tip','lower-slant','lower-return','lower-grip','grip','upper-grip','upper-return','upper-slant','upper-tip','top',closed=True)
 
     icon_id = 'vertical-telephone-handset-batch-032'
-    category = 'objects/other'
+    category = 'primitives-generate'
     aliases = ('vertical-telephone-handset',)
     keywords = ('batch-032',)
     semantic_role = 'MAIN'

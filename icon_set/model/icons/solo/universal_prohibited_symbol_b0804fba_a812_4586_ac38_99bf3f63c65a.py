@@ -9,7 +9,7 @@ class UniversalProhibitedSymbol(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/status"
+    category = "primitives-generate"
     aliases = ("no symbol", "ban")
     keywords = ("prohibited", "forbidden", "slash")
 

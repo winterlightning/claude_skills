@@ -17,7 +17,7 @@ class QuestionAndAnswerSpeechBubbles(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/chat"
+    category = "primitives-generate"
     aliases = ("counseling", "question answered")
     keywords = ("question", "check", "answer", "conversation")
 

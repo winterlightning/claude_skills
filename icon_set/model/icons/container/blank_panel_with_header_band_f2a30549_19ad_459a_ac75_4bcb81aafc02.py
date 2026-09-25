@@ -17,7 +17,7 @@ class Drawing(Container64):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "primitives-generate"
     aliases = ("Application Window with Top Header",)
     keywords = ("panel", "header", "card", "frame", "blank", "layout")
 

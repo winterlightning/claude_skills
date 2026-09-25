@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class TrophyCupContainer(Container64):
     icon_id = 'trophy-cup-container'
+    category = 'business'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('trophy', 'cup', 'container')

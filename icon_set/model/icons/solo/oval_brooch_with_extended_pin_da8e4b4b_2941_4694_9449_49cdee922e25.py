@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Decorative Round Jewelry Brooch',)
     keywords = ('decorative', 'round', 'jewelry', 'brooch')
     def build(self):

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'three-rising-rounded-bars'
     keyshape = Keyshape.HRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('three', 'rising', 'rounded', 'bars')
 
     def build(self):

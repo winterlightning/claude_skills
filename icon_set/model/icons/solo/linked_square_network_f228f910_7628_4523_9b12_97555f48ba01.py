@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('network', 'blocks', 'nodes', 'connections', 'blockchain', 'squares', 'diagram')
 

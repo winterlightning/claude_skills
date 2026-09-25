@@ -11,7 +11,7 @@ class CombinationPliers(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('pliers', 'combination pliers', 'grip', 'jaws', 'hardware', 'repair', 'electrician', 'tool')
 

@@ -4,9 +4,9 @@
    A unit is what moves as one piece: a connected element by default, or a single path once split. */
 (()=>{
   const ns='http://www.w3.org/2000/svg',STROKE=4,HANDLE=1.6,EDGE=1e-9;
-  // Main size presets every 4 units from 32 to 56: the main's SOLO48 keyshape grows or shrinks
+  // Main size presets every 4 units from 32 to 64: the main's SOLO48 keyshape grows or shrinks
   // by the same amount on both axes (48 is the automatic size).
-  const MAIN_PRESETS=Array.from({length:7},(_v,i)=>32+4*i),PADDING=2;
+  const MAIN_PRESETS=Array.from({length:9},(_v,i)=>32+4*i),PADDING=2;
   const ANCHORS={br:[1,1],bl:[0,1],tr:[1,0],tl:[0,0],ri:[1,.5],le:[0,.5],bo:[.5,1],to:[.5,0]};
   const style=document.createElement('style');style.textContent=`
   .side-layout{width:min(1080px,96vw);max-height:96vh;border:1px solid #a7b8be;border-radius:14px;padding:22px;color:#20302d;background:#fff}.side-layout::backdrop{background:#101b24a8}
@@ -18,6 +18,14 @@
   .side-layout .side-layout-shape{display:grid;grid-template-columns:22px auto;grid-template-rows:auto auto;column-gap:6px;align-items:center;text-align:left;padding:5px 9px}.side-layout-shape svg{grid-row:1/3}.side-layout-shape span{font-size:12px;font-weight:600}.side-layout-shape small{font-size:11px}
   .side-layout-output{display:flex;gap:14px;align-items:flex-end;margin-top:12px;padding:10px;border:1px solid #d5dfdc;border-radius:8px;background:#fff}
   .side-layout-output figure{display:grid;justify-items:center;gap:4px;margin:0}.side-layout-output img{display:block;image-rendering:auto}.side-layout-output figcaption{margin:0;font:11px system-ui;color:#5b6b67}
+  .side-layout-apply{margin-top:14px;border:1px solid #d5dfdc;border-radius:10px;padding:10px 14px;font:13px system-ui}.side-layout-apply summary{cursor:pointer;font-weight:600}
+  .side-layout-apply h4{font:600 12px system-ui;text-transform:uppercase;letter-spacing:.03em;color:#5b6b67;margin:12px 0 6px}
+  .side-layout-apply .targets{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px;max-height:260px;overflow:auto}
+  .side-layout-apply .target{display:grid;grid-template-columns:auto 40px 1fr;gap:8px;align-items:center;padding:5px;border:1px solid #e3e9e6;border-radius:8px;cursor:pointer;min-width:0}
+  .side-layout-apply .target img,.side-layout-apply .target .none{width:40px;height:40px;background:#fbfdfb;box-shadow:inset 0 0 0 1px #d5dfdc}.side-layout-apply .target span{overflow-wrap:anywhere;line-height:1.3}
+  .side-layout-apply .target small{display:block;color:#5b6b67;font-size:11px}.side-layout-apply .badge{display:inline-block;font-size:10px;font-weight:600;border-radius:999px;padding:1px 6px;margin:2px 4px 0 0;background:#eef2ee;color:#5b6b67}.side-layout-apply .badge.warn{background:#fff3d6;color:#7a5200}
+  .side-layout-apply .ok{color:#25653a;font-weight:600}.side-layout-apply .fail{color:#b91c1c}
+  .side-layout-apply .actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
   .side-layout-canvas .size-label{font:600 2.3px system-ui;fill:#1f5f36;paint-order:stroke;stroke:#fff;stroke-width:.7px;stroke-linejoin:round;pointer-events:none;font-variant-numeric:tabular-nums}
   .side-layout-canvas .guide{stroke:#7c3aed;stroke-width:.3;stroke-dasharray:1.2 .8;pointer-events:none}
   .side-layout-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 10px;font:13px system-ui}.side-layout-bar .spacer{flex:1}.side-layout-bar label{display:flex;gap:5px;align-items:center}
@@ -43,7 +51,8 @@
   const el=(name,attrs={})=>{const e=document.createElementNS(ns,name);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e;};
   const html=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
   const fmt=n=>String(Math.round(n*100)/100);
-  let dialog,ctx,centerline=true;
+  let dialog,ctx,centerline=true,config={};
+  const SIDES={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
   try{centerline=localStorage.getItem('side-layout-centerline')!=='off';}catch{}
 
   // A unit maps its source box onto (x, y, w, h). A flat axis (a straight rule) has no scale of its own.
@@ -72,8 +81,9 @@
       <figure><div class="side-layout-preview"></div><figcaption>Combined result (the sub erases the main where they meet).</figcaption>
       <div class="side-layout-output" aria-label="Output SVG at 32, 48 and 64 pixels"></div></figure>
       <div class="side-layout-list" aria-label="Elements"></div></div>
+      <details class="side-layout-apply"></details>
       <p class="side-layout-readout" role="status"></p>
-      <p class="side-layout-hint">Main size 32–56 (every 4) and a keyshape snap the main onto that keyshape at that size (purple dashes) — 48 on its own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
+      <p class="side-layout-hint">Main size 32–64 (every 4) and a keyshape snap the main onto that keyshape at that size (purple dashes) — 48 on its own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
       <p class="side-layout-error" role="alert"></p>`;
     document.body.append(dialog);
     const q=s=>dialog.querySelector(s);
@@ -116,7 +126,57 @@
       ctx.roles[role]={markup:c.markup,names:c.names,sources:c.sources,units:c.groups.map(g=>{const b=g.box;return {paths:g.paths,src:g.source,x:b[0],y:b[1],w:b[2]-b[0],h:b[3]-b[1]};})};
       if(saved?.[role])ctx.dirty.add(role);
     }
-    preview(data);draw();
+    preview(data);draw();drawApply();
+  }
+
+  // Other side pairs using this main: choose which ones get this layout too.
+  function drawApply(){
+    const box=dialog.querySelector('.side-layout-apply'),pairs=config.pairsWithMain?.(ctx.main.icon,ctx.pair.id)||[];
+    box.replaceChildren();box.hidden=!pairs.length;if(!pairs.length)return;
+    ctx.targets??=new Set(pairs.filter(p=>p.position===ctx.pair.position).map(p=>p.id));
+    const same=pairs.filter(p=>p.position===ctx.pair.position),other=pairs.filter(p=>p.position!==ctx.pair.position);
+    const summary=html('summary','',`Also apply to pairs using this main (${pairs.length})`);box.append(summary);
+    box.append(html('p','',`Main and sub carry over. Other sides are re-anchored: main and sub keep their size and edits, each in its own corner. A different sub keeps its own shape, fitted to the edited sub's box.`));
+    for(const [title,list] of [[`Same side · ${SIDES[ctx.pair.position]||ctx.pair.position} (${same.length})`,same],[`Other sides (${other.length})`,other]]){
+      if(!list.length)continue;box.append(html('h4','',title));const grid=html('div','targets');
+      for(const p of list){
+        const label=html('label','target'),check=html('input');check.type='checkbox';check.checked=ctx.targets.has(p.id);
+        check.onchange=()=>{check.checked?ctx.targets.add(p.id):ctx.targets.delete(p.id);updateApply();};
+        let thumb;if(p.preview){thumb=html('img');thumb.src=p.preview;thumb.alt='';thumb.loading='lazy';}else thumb=html('span','none');
+        const text=html('span','',p.concept),meta=html('small','',`${SIDES[p.position]||p.position} · ${p.sub}`);text.append(meta);
+        if(p.sub!==ctx.sub.icon)text.append(html('span','badge','different sub'));
+        if(p.adjusted)text.append(Object.assign(html('span','badge warn','adjusted'),{title:'This pair has its own saved layout; applying replaces it.'}));
+        const state=ctx.applyResults?.[p.id];if(state)text.append(html('small',state.ok?'ok':'fail',state.ok?'✓ applied':'✕ '+state.error));
+        label.append(check,thumb,text);grid.append(label);
+      }
+      box.append(grid);
+    }
+    const actions=html('div','actions'),all=html('button','','Select all'),none=html('button','','Select none'),apply=html('button','side-layout-save apply-go');
+    all.type=none.type=apply.type='button';
+    all.onclick=()=>{pairs.forEach(p=>ctx.targets.add(p.id));drawApply();};none.onclick=()=>{ctx.targets.clear();drawApply();};
+    apply.onclick=applyToTargets;actions.append(all,none,apply,html('small','apply-note',''));box.append(actions);
+    if(ctx.applyOpen!==false)box.open=true;box.ontoggle=()=>{ctx.applyOpen=box.open;};
+    updateApply();
+  }
+  function updateApply(){
+    const button=dialog.querySelector('.apply-go');if(!button)return;const n=ctx.targets?.size||0;
+    button.textContent=`Save + apply to ${n} pair${n===1?'':'s'}`;
+    button.disabled=ctx.busy||!n||!layout()||anyOutside();
+    dialog.querySelector('.apply-note').textContent=layout()?'':'Adjust this pair first; its layout is what gets applied.';
+  }
+  async function applyToTargets(){
+    const l=layout(),pairs=config.pairsWithMain?.(ctx.main.icon,ctx.pair.id)||[];if(!l)return;
+    const targets=pairs.filter(p=>ctx.targets.has(p.id)).map(p=>({pair_id:p.id,sub:p.sub}));
+    ctx.busy=true;status();updateApply();error('');readout(`Applying to ${targets.length} pairs…`);
+    let message='';
+    try{
+      const r=await fetch('/api/combinations/side/layout/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pair_id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon,layout:l,targets})});
+      const data=await r.json().catch(()=>({error:'Unexpected response.'}));if(!r.ok||data.error)throw Error(data.error||'Could not apply the layout.');
+      ctx.onSaved?.(data.source);ctx.saved=data.source.layout.layout;preview(data.source.result);
+      ctx.applyResults=Object.fromEntries(data.results.map(x=>[x.pair_id,x]));config.applied?.(data.results);
+      const ok=data.results.filter(x=>x.ok).length;message=`Saved. Applied to ${ok} of ${data.results.length} pairs${ok<data.results.length?' — see the list for the ones that could not take it':''}.`;
+    }catch(e){error(e.message);}
+    finally{ctx.busy=false;status();drawApply();if(message)readout(message);}
   }
 
   // The first edit of a role snaps every one of its units onto the grid (edges, so touching units stay touching).
@@ -334,6 +394,7 @@
     actions.append(splitButton,none);box.append(actions);
   }
   function status(){
+    updateApply();
     const bad=anyOutside();
     dialog.querySelector('[data-save]').disabled=ctx.busy||bad||!ctx.dirty.size;
     dialog.querySelector('[data-reset]').disabled=ctx.busy||!ctx.saved;
@@ -485,5 +546,7 @@
     b.title='Move and resize the main, the sub or chosen elements, snapped to the grid';
     b.onclick=()=>open(pair,main,sub,onSaved,saved);return b;
   }
-  window.SideLayoutEditor={open,button};
+  // The page supplies the pairs sharing a main and refreshes them after an apply.
+  function configure(options){config={...config,...options};}
+  window.SideLayoutEditor={open,button,configure};
 })();

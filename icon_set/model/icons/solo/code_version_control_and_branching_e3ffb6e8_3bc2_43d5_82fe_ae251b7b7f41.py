@@ -14,7 +14,7 @@ class CodeVersionControlAndBranching(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/development"
+    category = "primitives-generate"
     aliases = ("code-commit", "version-control-code-panel")
     keywords = ("code", "git", "branch", "commit", "revision", "panel")
 

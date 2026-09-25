@@ -12,7 +12,7 @@ class CarFrontFlaredBody(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('car', 'front', 'vehicle', 'automobile', 'headlights', 'sedan', 'driving', 'head-on')
 

@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'rating'
     keywords = ('first', 'place', 'winner', 'podium')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {name:4 for name in ('base','left-bottom','left-side','left-corner','left-top','center-left','center-tl','center-top','center-tr','center-right','right-top','right-corner','right-side','right-bottom')}

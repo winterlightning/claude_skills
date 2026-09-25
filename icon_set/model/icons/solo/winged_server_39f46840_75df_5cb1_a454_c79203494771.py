@@ -10,7 +10,7 @@ class WingedServer(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'websites'
     aliases = ()
     keywords = ('server', 'wings', 'migration', 'flying', 'hardware', 'device', 'transfer')
 

@@ -15,7 +15,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     keywords = ('text', 'search', 'magnifying', 'glass')
     TYPEFACE_GLYPH_IDS = ('letter-t-uppercase',)
 

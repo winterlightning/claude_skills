@@ -16,7 +16,7 @@ class Batch02Icon6(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/can"
+    category = "container"
     aliases = ('cylindrical-tin-can',)
     keywords = ('cylindrical', 'tin', 'can')
 

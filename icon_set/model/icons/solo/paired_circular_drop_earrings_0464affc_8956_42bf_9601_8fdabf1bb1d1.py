@@ -11,7 +11,7 @@ class PairedCircularDropEarrings(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('paired', 'circular', 'drop', 'earrings')
 

@@ -10,7 +10,7 @@ class BulletTrainFront(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('bullet train', 'metro', 'train', 'front', 'railway', 'high speed', 'rail', 'subway')
 

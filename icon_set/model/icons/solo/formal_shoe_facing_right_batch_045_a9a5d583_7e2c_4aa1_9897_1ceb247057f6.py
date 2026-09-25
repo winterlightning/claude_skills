@@ -11,7 +11,7 @@ class Batch045Icon3(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('shoe', 'formal', 'footwear', 'heel', 'toe', 'clothing', 'dress')
     # Reference: No useful local shoe match; source establishes toe and heel.

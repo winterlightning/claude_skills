@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "Uncategorized"
     keywords = ('city', 'tower', 'beside', 'tree')
 
     def build(self):

@@ -14,7 +14,7 @@ class UnequalBalanceScale(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/work'
+    category = 'work'
     aliases = ()
     keywords = ('scale', 'balance', 'unequal', 'justice', 'weighing', 'legal')
 

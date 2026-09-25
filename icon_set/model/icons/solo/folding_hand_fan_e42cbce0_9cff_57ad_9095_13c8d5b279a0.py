@@ -10,7 +10,7 @@ class FoldingHandFan(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/objects'
+    category = 'culture'
     aliases = ()
     keywords = ('fan', 'folding fan', 'hand fan', 'japanese', 'asian', 'accessory', 'cooling', 'traditional')
 

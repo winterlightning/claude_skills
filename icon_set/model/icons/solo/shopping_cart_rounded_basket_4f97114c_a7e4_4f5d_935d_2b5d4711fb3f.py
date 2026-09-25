@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'shopping'
     aliases = ()
     keywords = ('cart',)
 
@@ -39,7 +39,7 @@ class Drawing(Solo48):
             self.relate('connect','support',f'wheel-{x}')
 
     icon_id = 'shopping-cart-rounded-basket'
-    category = 'objects/shopping'
+    category = 'shopping'
     aliases = ()
     keywords = ('cart', 'shopping', 'trolley', 'basket', 'wheels', 'retail', 'supermarket')
     semantic_role = 'MAIN'

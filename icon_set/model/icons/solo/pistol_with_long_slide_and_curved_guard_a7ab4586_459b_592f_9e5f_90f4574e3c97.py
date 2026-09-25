@@ -17,7 +17,7 @@ class PistolWithLongSlideAndCurvedGuard(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/crime"
+    category = "crime"
     aliases = ()
     keywords = ('pistol', 'with', 'long', 'slide', 'and', 'curved', 'guard')
 

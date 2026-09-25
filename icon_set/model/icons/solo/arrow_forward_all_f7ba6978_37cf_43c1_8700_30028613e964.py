@@ -12,7 +12,7 @@ class ArrowForwardAll(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('forward-all', 'forward', 'arrow', 'share', 'email', 'send', 'reply-all', 'redirect')
 

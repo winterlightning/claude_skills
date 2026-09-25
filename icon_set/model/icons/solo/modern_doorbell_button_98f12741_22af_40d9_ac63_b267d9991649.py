@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('doorbell',)
     def build(self):
@@ -43,7 +43,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'modern-doorbell-button'
-    category = 'objects/reference'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('modern', 'doorbell', 'button')
     semantic_role = 'MAIN'

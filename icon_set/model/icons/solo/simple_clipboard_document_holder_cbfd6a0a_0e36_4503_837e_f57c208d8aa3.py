@@ -12,7 +12,7 @@ class SimpleClipboardDocumentHolder(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/office"
+    category = "primitives-generate"
     aliases = ("empty clipboard", "document holder")
     keywords = ("paper", "clip", "stationery", "board")
 

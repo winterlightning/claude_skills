@@ -15,7 +15,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'money'
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.add_polyline('won',(2,2),(9,30),(16,2),(23,30),(30,2))

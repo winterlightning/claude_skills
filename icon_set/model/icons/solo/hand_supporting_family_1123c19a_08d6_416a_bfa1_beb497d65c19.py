@@ -13,7 +13,7 @@ class HandSupportingFamily(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'care/family'
+    category = 'primitives-generate'
     aliases = ('Hand Supporting Family',)
     keywords = tuple('hand supporting family'.split())
 

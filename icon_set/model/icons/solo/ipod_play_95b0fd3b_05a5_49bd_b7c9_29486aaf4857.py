@@ -12,7 +12,7 @@ class Drawing(Solo48):
     # Visible ink extremes: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'music'
     aliases = ()
     keywords = ('ipod', 'play')
 

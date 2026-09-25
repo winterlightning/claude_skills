@@ -15,7 +15,7 @@ class OrkutLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('orkut', 'social', 'ring', 'logo', 'brand', 'google', 'network')
 

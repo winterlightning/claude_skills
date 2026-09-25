@@ -12,7 +12,7 @@ class SlidingPenguin(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('penguin', 'slide', 'sliding', 'snow', 'slope', 'ice', 'antarctic', 'motion')
 

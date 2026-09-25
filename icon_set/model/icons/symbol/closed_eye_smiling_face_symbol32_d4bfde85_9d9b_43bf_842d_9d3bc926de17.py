@@ -16,7 +16,7 @@ class Drawing(Symbol32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'symbol'
     aliases = ('Smiling Face with Closed Eyes',)
     keywords = ('symbol', 'container content')
 

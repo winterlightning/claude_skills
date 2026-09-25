@@ -10,7 +10,7 @@ class DiscourseLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('discourse', 'forum', 'chat', 'logo', 'brand', 'community', 'discussion')
 

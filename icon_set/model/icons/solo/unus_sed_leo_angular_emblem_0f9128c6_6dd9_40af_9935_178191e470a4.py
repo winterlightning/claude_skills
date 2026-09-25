@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/finance'
+    category = 'finance'
     aliases = ()
     keywords = ('unus sed leo', 'cryptocurrency', 'logo', 'emblem', 'angular', 'hexagon', 'finance')
 

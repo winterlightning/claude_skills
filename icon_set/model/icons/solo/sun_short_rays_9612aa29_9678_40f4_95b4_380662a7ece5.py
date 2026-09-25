@@ -15,7 +15,7 @@ class SunShortRays(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/weather"
+    category = "weather"
     aliases = ()
     keywords = ('sun', 'sunshine', 'daylight', 'weather', 'solar', 'sky')
 

@@ -16,7 +16,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'interface/controls'
+    category = 'interface-essential'
     aliases = ()
     keywords = ('workflow', 'connections', 'with', 'cross', 'endpoint')
 

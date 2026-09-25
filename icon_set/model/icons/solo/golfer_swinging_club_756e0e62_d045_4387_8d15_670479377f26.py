@@ -13,7 +13,7 @@ class GolferSwingingClub(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('golf', 'golfer', 'club', 'swing', 'athlete', 'sport')
 

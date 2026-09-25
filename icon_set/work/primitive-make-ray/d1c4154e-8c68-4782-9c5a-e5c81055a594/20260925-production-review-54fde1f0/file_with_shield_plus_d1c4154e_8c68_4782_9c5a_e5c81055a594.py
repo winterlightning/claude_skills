@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: No defining omissions. Three nested detail levels cannot all retain a4u ink gap at48; report the exact measurements.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd1c4154e-8c68-4782-9c5a-e5c81055a594'
 SOURCE_PATH = 'pictographic-primitives/other/file with shield plus_d1c4154e-8c68-4782-9c5a-e5c81055a594.svg'
 AUTHOR = 'gpt-6'

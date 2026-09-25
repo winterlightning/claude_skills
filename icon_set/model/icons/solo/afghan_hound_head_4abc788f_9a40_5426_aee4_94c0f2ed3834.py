@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/pets'
+    category = 'pets'
     aliases = ()
     keywords = ('afghan hound',)
     # Plan: Afghan hound in three-quarter view: a long muzzle framed by a large flowing asymmetric coat arch and one eye.

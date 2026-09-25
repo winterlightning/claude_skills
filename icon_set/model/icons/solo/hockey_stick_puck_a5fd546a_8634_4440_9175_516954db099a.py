@@ -13,7 +13,7 @@ class HockeyStickPuck(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('hockey', 'stick', 'puck', 'equipment', 'sport', 'ice')
 

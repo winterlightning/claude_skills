@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'animals'
     aliases = ()
     keywords = ('tiger',)
 
@@ -39,7 +39,7 @@ class Drawing(Solo48):
         self.relate('connect','stripe-right','head')
 
     icon_id = 'bear-muzzle-face'
-    category = 'nature/animals'
+    category = 'animals'
     aliases = ()
     keywords = ('bear', 'face', 'head', 'muzzle', 'nose', 'animal', 'cute', 'wildlife')
     semantic_role = 'MAIN'

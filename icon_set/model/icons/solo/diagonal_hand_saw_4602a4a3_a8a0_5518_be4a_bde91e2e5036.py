@@ -11,7 +11,7 @@ class DiagonalHandSaw(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('saw', 'hand saw', 'wood', 'cutting', 'carpentry', 'teeth', 'blade', 'tool')
 

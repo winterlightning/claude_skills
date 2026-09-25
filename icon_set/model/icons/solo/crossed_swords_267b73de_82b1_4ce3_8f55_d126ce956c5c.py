@@ -10,7 +10,7 @@ class CrossedSwords(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('sword', 'crossed', 'blade', 'fencing', 'combat', 'equipment')
     def build(self) -> None:

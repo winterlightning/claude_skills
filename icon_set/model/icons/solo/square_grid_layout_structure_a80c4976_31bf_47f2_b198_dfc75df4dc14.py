@@ -9,7 +9,7 @@ class SquareGridLayoutStructure(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/layout"
+    category = "primitives-generate"
     aliases = ("framework", "grid layout")
     keywords = ("square", "four panels", "center")
 

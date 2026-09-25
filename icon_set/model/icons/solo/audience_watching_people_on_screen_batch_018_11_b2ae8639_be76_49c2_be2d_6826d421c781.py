@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "movies"
     keywords = ('audience', 'screen', 'cinema', 'viewers', 'people', 'movie', 'theater', 'group')
 
     def build(self):

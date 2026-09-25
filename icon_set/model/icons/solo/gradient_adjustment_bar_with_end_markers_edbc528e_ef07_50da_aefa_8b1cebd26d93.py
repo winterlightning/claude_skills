@@ -11,7 +11,7 @@ class GradientAdjustmentBarWithEndMarkers(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
     aliases = ()
     keywords = ('gradient', 'bar', 'slider', 'markers', 'stops', 'color', 'adjustment', 'control')
 

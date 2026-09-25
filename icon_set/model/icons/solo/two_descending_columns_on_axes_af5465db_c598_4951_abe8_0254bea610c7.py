@@ -14,7 +14,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ["Decreasing Bar Chart Statistics"]
     keywords = ["chart", "bars", "columns", "descending", "statistics", "axes", "graph"]
     def build(self):

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'building-enveloped-by-flame'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('building', 'enveloped', 'by', 'flame')
 
     def build(self):

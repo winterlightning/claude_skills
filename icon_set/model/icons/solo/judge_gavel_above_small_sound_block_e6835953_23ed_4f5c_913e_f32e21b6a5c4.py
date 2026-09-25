@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'judge-gavel-above-small-sound-block'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

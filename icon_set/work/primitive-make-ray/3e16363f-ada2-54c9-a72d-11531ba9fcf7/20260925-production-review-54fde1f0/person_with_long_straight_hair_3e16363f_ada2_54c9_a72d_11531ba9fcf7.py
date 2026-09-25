@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: Neck seams and shirt collar omitted to protect the exact detached face-to-body gap; hairstyle retained.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '3e16363f-ada2-54c9-a72d-11531ba9fcf7'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_3e16363f-ada2-54c9-a72d-11531ba9fcf7.svg'
 AUTHOR = 'gpt-6'

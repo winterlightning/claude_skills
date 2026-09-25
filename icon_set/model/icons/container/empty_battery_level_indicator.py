@@ -17,7 +17,7 @@ class EmptyBatteryLevelIndicator(Container64):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('empty-battery', 'battery-container')
     keywords = ('battery', 'charge', 'empty', 'power')
 

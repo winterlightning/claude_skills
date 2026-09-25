@@ -11,7 +11,7 @@ class RatingThumbsDown(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/rating"
+    category = "rating"
     aliases = ()
     keywords = ('dislike', 'thumbs-down', 'hand', 'disapprove', 'negative', 'feedback', 'rating', 'vote')
 

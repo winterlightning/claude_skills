@@ -197,7 +197,7 @@ FAMILY_TEXT = {
         ),
         "default_role": "MAIN",
         "default_kind": "noun",
-        "default_category": "containers",
+        "default_category": "container",
         "job": (
             "A **container** is an explicitly requested wrapper component or the outer half of a "
             "`CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the "

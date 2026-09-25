@@ -11,7 +11,7 @@ class KhandaSymbol(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
     aliases = ()
     keywords = ('khanda', 'sikhism', 'sword', 'ring', 'emblem', 'symbol', 'religion')
 

@@ -20,7 +20,7 @@ class DiagonalSlashState255Variant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('diagonal', 'slash', 'long', 'line', 'descends', 'upper', 'left', 'lower')
     keyshape = Keyshape.SQUARE

@@ -11,7 +11,7 @@ class PeelingSticker(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('sticker', 'self adhesive', 'label', 'peel', 'adhesive', 'decal', 'note', 'tag')
 

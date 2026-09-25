@@ -14,7 +14,7 @@ class MovieCameraReels(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/symbols"
+    category = "symbol"
     aliases=()
     keywords=('movie', 'camera', 'film', 'cinema', 'video', 'record', 'reels', 'production')
 

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'two-seat-swing-carousel'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('two', 'seat', 'swing', 'carousel')
 
     def build(self):

@@ -14,7 +14,7 @@ class TwoFingerSwipeRight(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
     aliases = ("two-finger flip right",)
     keywords = ("hand", "spread fingers", "right arrow")
 

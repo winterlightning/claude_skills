@@ -10,7 +10,7 @@ class Ascot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_04'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('ascot', '_uncategorized_04', 'solo-ai-first50')
 

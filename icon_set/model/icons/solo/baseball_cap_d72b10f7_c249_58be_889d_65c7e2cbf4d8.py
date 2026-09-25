@@ -10,7 +10,7 @@ class BaseballCap(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
     aliases = ()
     keywords = ('cap', 'baseball cap', 'hat', 'peak', 'brim', 'sports', 'headwear', 'clothing')
 

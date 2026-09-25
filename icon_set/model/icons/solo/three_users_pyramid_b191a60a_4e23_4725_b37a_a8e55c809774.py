@@ -12,7 +12,7 @@ class ThreeUsersPyramid(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/groups"
+    category = "users"
     aliases = ()
     keywords = ('users', 'group', 'three', 'team', 'people', 'network', 'hierarchy', 'community')
 

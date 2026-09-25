@@ -3,7 +3,7 @@ Keyshape SQUARE: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'fa84ff77-a565-4df3-9360-0b7e9c3de772'
 SOURCE_PATH = 'pictographic-primitives/other/cog dollar_fa84ff77-a565-4df3-9360-0b7e9c3de772.svg'
 AUTHOR = 'gpt-6'
@@ -75,13 +75,13 @@ class Drawing(Solo48):
 
     def build(self):
 
-        quarter=[('C',(27,6),(23,6),(25,6)),('C',(30,9),(29,6),(28,9)),('C',(35,10),(32,9),(33,9)),('C',(38,13),(36,10),(38,12)),('C',(39,18),(39,15),(39,16)),('C',(42,21),(39,20),(42,19))]
+        quarter=[('C',(30,11),(27,6),(27,10)),('C',(37,11),(33,12),(35,9)),('C',(37,18),(39,13),(36,15)),('C',(42,24),(38,21),(42,21))]
         def rot(p,k):
             x,y=p[0]-24,p[1]-24
             for _ in range(k):x,y=-y,x
             return x+24,y+24
         commands=[('C',rot(c[1],k),rot(c[2],k),rot(c[3],k)) for k in range(4) for c in quarter]
-        self.path('gear',(21,6),commands,True)
+        self.path('gear',(24,6),commands,True)
         self.dollar()
 
         self.contacts()

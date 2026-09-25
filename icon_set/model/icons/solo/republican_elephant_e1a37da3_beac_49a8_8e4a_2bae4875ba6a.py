@@ -12,7 +12,7 @@ class RepublicanElephant(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "society/elections"
+    category = "school-learning"
     aliases = ()
     keywords = ('elephant', 'republican', 'election', 'animal', 'politics', 'symbol')
 

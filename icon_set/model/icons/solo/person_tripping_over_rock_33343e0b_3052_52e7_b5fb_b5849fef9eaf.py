@@ -16,7 +16,7 @@ class PersonTrippingOverRock(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('tripping', 'person', 'rock', 'hazard', 'fall', 'safety')
 

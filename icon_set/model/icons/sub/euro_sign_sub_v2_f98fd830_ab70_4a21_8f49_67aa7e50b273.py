@@ -17,7 +17,7 @@ class EuroSignSubVariant2(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('euro', 'sign', 'large', 'c', 'shaped', 'currency', 'curve', 'crossed')
 

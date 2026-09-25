@@ -10,7 +10,7 @@ class MinimalFuelPump(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
     aliases = ()
     keywords = ('fuel pump', 'low fuel', 'petrol', 'gas station', 'refuel', 'fuel', 'dashboard', 'car')
 

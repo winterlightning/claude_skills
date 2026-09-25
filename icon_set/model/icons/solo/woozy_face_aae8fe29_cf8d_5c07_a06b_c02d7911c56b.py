@@ -12,7 +12,7 @@ class WoozyFace(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
     aliases = ()
     keywords = ('woozy', 'dizzy', 'ill', 'unwell', 'face', 'emoji')
 

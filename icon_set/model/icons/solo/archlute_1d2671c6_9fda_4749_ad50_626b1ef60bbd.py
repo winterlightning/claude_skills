@@ -11,7 +11,7 @@ class Archlute(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
     aliases = ()
     keywords = ('archlute', 'lute', 'string', 'instrument', 'baroque', 'music', 'plucked')
 

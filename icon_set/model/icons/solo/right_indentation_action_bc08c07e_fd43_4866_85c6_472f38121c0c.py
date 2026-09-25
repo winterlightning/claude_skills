@@ -14,7 +14,7 @@ class RightIndentationAction(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/alignment"
+    category = "primitives-generate"
     aliases = ("rightward-object-indentation", "indent-right")
     keywords = ("indent", "align", "right", "arrow", "bars", "layout")
 

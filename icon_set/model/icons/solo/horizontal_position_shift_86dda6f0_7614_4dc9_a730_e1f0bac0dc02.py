@@ -14,7 +14,7 @@ class HorizontalPositionShift(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/alignment"
+    category = "primitives-generate"
     aliases = ("move-horizontal-bars", "opposing-horizontal-shift")
     keywords = ("move", "horizontal", "shift", "bars", "arrows")
 

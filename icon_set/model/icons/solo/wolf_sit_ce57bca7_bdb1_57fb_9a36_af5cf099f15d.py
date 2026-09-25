@@ -12,7 +12,7 @@ class SittingWolf(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/animals"
+    category = "animals"
     aliases = ()
     keywords = ('wolf', 'sitting', 'tail', 'profile', 'canine', 'dog', 'wild', 'guard')
 

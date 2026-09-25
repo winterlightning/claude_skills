@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'symbol'
     aliases = ()
     keywords = ('se (text)',)
 
@@ -35,7 +35,7 @@ class Drawing(Solo48):
         self.add_line('e-middle',(28,24),(40,24));self.relate('connect','e','e-middle')
 
     icon_id = 'se-text'
-    category = 'objects/symbols'
+    category = 'symbol'
     aliases = ()
     keywords = ('se', 'letters', 'text', 'abbreviation', 'typography', 'label', 'language')
     semantic_role = 'MAIN'

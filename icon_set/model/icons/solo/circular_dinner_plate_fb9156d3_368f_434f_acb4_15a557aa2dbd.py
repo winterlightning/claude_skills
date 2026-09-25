@@ -15,7 +15,7 @@ class CircularDinnerPlate(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/food'
+    category = 'food'
     aliases = ()
     keywords = ('circular', 'dinner', 'plate')
 

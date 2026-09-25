@@ -12,7 +12,7 @@ class BinaryDataDocument(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/document"
+    category = "primitives-generate"
     aliases = ("binary file", "digital data file")
     keywords = ("binary", "data", "code", "file")
 

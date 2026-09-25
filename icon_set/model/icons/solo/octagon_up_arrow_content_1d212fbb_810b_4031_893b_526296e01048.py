@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'octagon-up-arrow-content'
     keyshape = Keyshape.VRECT_L
-    category = 'objects/interface-essential'
+    category = 'symbol'
     tags = ('sub icon',)
     keywords = ('octagon with upward arrow',)
     def build(self):

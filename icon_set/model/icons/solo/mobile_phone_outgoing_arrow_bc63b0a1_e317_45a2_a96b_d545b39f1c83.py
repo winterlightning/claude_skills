@@ -18,7 +18,7 @@ class MobilePhoneOutgoingArrow(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/mobile"
+    category = "primitives-generate"
     aliases = ("phone forwarding out", "mobile call outgoing")
     keywords = ("phone", "transfer", "send", "right")
 

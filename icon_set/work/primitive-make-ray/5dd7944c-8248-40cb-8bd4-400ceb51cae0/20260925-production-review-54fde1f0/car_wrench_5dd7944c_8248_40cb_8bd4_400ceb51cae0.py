@@ -1,13 +1,13 @@
-"""Car Repair and Maintenance. Smooth mirrored car silhouette with round wheel arches and an open double-ended wrench.
+"""Car Repair and Maintenance. Smaller wrench inside the same car; stroke remains4, as requested even if compact jaws fail.
 Keyshape HRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '5dd7944c-8248-40cb-8bd4-400ceb51cae0'
 SOURCE_PATH = 'pictographic-primitives/other/car wrench_5dd7944c-8248-40cb-8bd4-400ceb51cae0.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Smooth mirrored car silhouette with round wheel arches and an open double-ended wrench.'
+PLAN = 'Smaller wrench inside the same car; stroke remains4, as requested even if compact jaws fail.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['car-front']
 PARENT_MODULE = 'icon_set/model/icons/solo/car_wrench_5dd7944c_8248_40cb_8bd4_400ceb51cae0.py'
@@ -76,8 +76,8 @@ class Drawing(Solo48):
     def build(self):
 
         self.path('car',(10,20),[('C',(18,8),(14,12),(15,8)),('L',(30,8)),('C',(38,20),(33,8),(34,12)),('C',(44,26),(42,20),(44,22)),('L',(44,32)),('L',(40,32)),('C',(34,40),(40,37),(38,40)),('C',(28,34),(30,40),(28,37)),('L',(20,34)),('C',(14,40),(20,37),(18,40)),('C',(8,32),(10,40),(8,37)),('L',(4,32)),('L',(4,26)),('C',(10,20),(4,22),(6,20))],True)
-        self.path('left-jaw',(16,18),[('A',(20,22),4,4,True),('A',(16,26),4,4,True)])
-        self.path('right-jaw',(32,18),[('A',(28,22),4,4,False),('A',(32,26),4,4,False)])
+        self.path('left-jaw',(17,19),[('A',(20,22),3,3,True),('A',(17,25),3,3,True)])
+        self.path('right-jaw',(31,19),[('A',(28,22),3,3,False),('A',(31,25),3,3,False)])
         self.add_line('wrench-shaft',(20,22),(28,22))
 
         self.contacts()

@@ -28,7 +28,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface-essential"
+    category = "interface-essential"
     aliases = ()
     keywords = ('arrows', 'inward', 'shrink', 'resize', 'square', 'corners')
     def build(self):

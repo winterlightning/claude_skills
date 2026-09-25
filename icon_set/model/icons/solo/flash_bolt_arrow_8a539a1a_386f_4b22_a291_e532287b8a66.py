@@ -11,7 +11,7 @@ class FlashBoltArrow(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('flash', 'lightning', 'bolt', 'camera flash', 'auto flash', 'electric', 'power', 'arrow')
 

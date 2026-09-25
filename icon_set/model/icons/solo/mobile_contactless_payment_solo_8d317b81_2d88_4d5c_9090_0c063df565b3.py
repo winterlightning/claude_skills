@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/finance' 
+    category = 'primitives-generate'
     tags=('sub icon',)
     keywords=('sub icon', 'mobile contactless payment')
     def build(self):

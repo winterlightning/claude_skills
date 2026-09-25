@@ -15,7 +15,7 @@ class LineageosLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('lineageos', 'android', 'operating-system', 'logo', 'brand', 'open-source', 'rom')
 

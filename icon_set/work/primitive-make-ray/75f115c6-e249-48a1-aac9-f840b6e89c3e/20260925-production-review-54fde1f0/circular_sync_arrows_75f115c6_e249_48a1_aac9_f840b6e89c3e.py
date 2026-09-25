@@ -3,7 +3,7 @@ Keyshape SQUARE: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '75f115c6-e249-48a1-aac9-f840b6e89c3e'
 SOURCE_PATH = 'pictographic-primitives/other/sync arrow_75f115c6-e249-48a1-aac9-f840b6e89c3e.svg'
 AUTHOR = 'gpt-6'

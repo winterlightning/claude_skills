@@ -11,7 +11,7 @@ class UbuntuLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('ubuntu', 'linux', 'operating-system', 'circle-of-friends', 'logo', 'brand', 'open-source')
 

@@ -15,7 +15,7 @@ class DreamcatcherWithFeather(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/hobbies'
+    category = 'hobbies'
     aliases = ()
     keywords = ('dreamcatcher', 'with', 'feather')
 

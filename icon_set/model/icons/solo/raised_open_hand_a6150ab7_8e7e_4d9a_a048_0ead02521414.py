@@ -16,7 +16,7 @@ class Batch04Icon10(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/hand"
+    category = "container"
     aliases = ('raised-open-hand',)
     keywords = ('raised', 'open', 'hand')
 

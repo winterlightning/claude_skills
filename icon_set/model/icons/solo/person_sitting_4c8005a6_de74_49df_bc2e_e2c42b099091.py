@@ -12,7 +12,7 @@ class PersonSitting(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('sitting', 'person', 'seat', 'rest', 'posture', 'figure', 'accessible', 'chair')
 

@@ -11,7 +11,7 @@ class BrickTrowel(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('trowel', 'palette knife', 'masonry', 'mortar', 'brick', 'plaster', 'construction', 'tool')
 

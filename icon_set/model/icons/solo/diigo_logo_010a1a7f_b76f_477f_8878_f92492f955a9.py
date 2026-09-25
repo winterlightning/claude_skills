@@ -10,7 +10,7 @@ class DiigoLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('diigo', 'bookmark', 'letter-d', 'logo', 'brand', 'research', 'annotation')
 

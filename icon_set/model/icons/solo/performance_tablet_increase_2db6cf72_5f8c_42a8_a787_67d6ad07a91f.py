@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('performance', 'tablet', 'increase')
     # Shared human_ref/user.svg reviewed; this is a hand and does not have a head/body gap.

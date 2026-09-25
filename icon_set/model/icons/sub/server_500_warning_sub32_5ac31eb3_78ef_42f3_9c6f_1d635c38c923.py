@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     keywords = ('internal', 'server', 'error', 'warning')
     TYPEFACE_GLYPH_IDS = ('digit-5', 'digit-0', 'digit-0')
 

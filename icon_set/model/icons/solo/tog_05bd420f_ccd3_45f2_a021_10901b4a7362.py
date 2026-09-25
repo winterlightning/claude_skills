@@ -11,7 +11,7 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/home'
+    category = 'primitives-generate'
     aliases = ('duvet warmth','thermal insulation')
     keywords = ('tog','duvet','warmth','insulation','rating')
     def build(self):

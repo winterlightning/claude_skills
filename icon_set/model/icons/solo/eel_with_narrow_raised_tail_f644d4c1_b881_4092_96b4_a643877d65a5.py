@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/aquatic'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('eel','fish','tail')
     def build(self):

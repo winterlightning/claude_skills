@@ -11,7 +11,7 @@ class MacosXLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('osx', 'macos', 'apple', 'letter-x', 'logo', 'brand', 'operating-system')
 

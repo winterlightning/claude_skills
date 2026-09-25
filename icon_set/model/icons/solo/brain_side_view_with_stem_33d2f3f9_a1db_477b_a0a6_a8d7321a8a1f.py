@@ -10,7 +10,7 @@ class BrainSideViewWithStem(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('brain', 'study', 'mind', 'neuroscience', 'thinking', 'learning', 'anatomy')
 

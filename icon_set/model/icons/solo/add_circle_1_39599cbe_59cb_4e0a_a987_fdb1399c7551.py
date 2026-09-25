@@ -12,7 +12,7 @@ class AddCircle1(Solo48):
     icon_id = 'add-circle-1'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_01'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('add', 'circle', '_uncategorized_01')
     keyshape = Keyshape.CIRCLE

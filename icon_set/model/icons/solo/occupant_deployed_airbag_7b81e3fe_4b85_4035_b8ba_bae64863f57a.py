@@ -10,7 +10,7 @@ class OccupantDeployedAirbag(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
     aliases = ()
     keywords = ('airbag', 'front airbag', 'safety', 'occupant', 'car', 'dashboard', 'passenger', 'srs')
 

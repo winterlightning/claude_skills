@@ -16,7 +16,7 @@ class CloudSpeechBubble(Container64):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('cloud-shaped-speech-bubble',)
     keywords = ('cloud', 'speech', 'bubble')
 

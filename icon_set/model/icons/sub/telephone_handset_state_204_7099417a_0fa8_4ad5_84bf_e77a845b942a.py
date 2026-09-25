@@ -16,7 +16,7 @@ class TelephoneHandsetState204(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('telephone', 'handset', 'curved', 'runs', 'upper', 'left', 'lower', 'right')
 

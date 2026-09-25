@@ -10,7 +10,7 @@ class MerlionStatue(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('merlion', 'singapore', 'statue', 'lion', 'fish', 'landmark', 'monument', 'mascot')
 

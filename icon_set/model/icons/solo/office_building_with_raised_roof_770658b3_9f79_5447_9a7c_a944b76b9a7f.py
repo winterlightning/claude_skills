@@ -12,7 +12,7 @@ class OfficeBuildingWithRaisedRoof(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/office"
+    category = "office"
     aliases = ()
     keywords = ('building', 'office', 'roof', 'windows', 'architecture', 'workplace')
 

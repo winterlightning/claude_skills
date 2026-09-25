@@ -11,7 +11,7 @@ class OrchidInShallowPlanter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/decoration'
+    category = 'decoration'
     aliases = ()
     keywords = ('orchid', 'flowers', 'blossoms', 'planter', 'leaves', 'stems', 'plant')
 

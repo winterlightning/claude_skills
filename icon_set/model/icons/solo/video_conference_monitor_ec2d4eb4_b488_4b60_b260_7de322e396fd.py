@@ -12,7 +12,7 @@ class VideoConferenceMonitor(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/device"
+    category = "primitives-generate"
     aliases = ("monitor person", "video call screen")
     keywords = ("desktop", "conference", "meeting", "webcam", "profile")
 

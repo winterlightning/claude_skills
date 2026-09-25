@@ -264,6 +264,32 @@ def placement_transform(item, placed):
     return scale, box['x']+2-x0*scale, box['y']+2-y0*scale
 
 
+def pair_canvas(row, sub=None, padding=2):
+    """64, or larger when the pair's native text sub needs it."""
+    native_sub=next((s for s in row['subs'] if s['icon']==(sub or row['subs'][0]['icon'])),None)
+    if native_sub and native_sub.get('sizing_mode')=='typeface-native':
+        return max(64,math.ceil(max(native_sub['canvas_width'],native_sub['canvas_height'])+2*padding-1e-8))
+    return 64
+
+
+def default_groups(row, main=None, sub=None, padding=2):
+    """The automatic placement's connected element groups, without running the combine engine.
+
+    Returns (canvas, {role: [{paths, source, box}]}) for applying one pair's layout to another.
+    """
+    ax,ay=POSITIONS[row['position']]
+    canvas=pair_canvas(row,sub,padding)
+    requests=[]
+    for role,group,size,anchor,icon in [('main','mains',48,(1-ax,1-ay),main),('sub','subs',32,(ax,ay),sub)]:
+        item=next((i for i in row[group] if i['icon']==(icon or row[group][0]['icon'])),None)
+        if item is None:
+            raise ValueError(f'The {role} does not belong to this pair.')
+        p=placement(item,size,anchor,(0,0),padding,size_lock='auto' if role=='sub' else 'none',canvas=canvas)
+        scale,tx,ty=placement_transform(item,p)
+        requests.append({'role':role,'document':item.get('engine_document',item['document']),'scale':scale,'tx':tx,'ty':ty,'layout':None})
+    return canvas,{role:c['elements'] for role,c in layout_components(requests,canvas).items()}
+
+
 def render(data, row=None):
     if row is None:
         rows = json.loads(DATA.read_text())['rows']
@@ -280,8 +306,7 @@ def render(data, row=None):
         raise ValueError('Canvas padding must be between 0 and 8.')
     if margin < 0:
         raise ValueError('Erasure margin must be between 0 and 64.')
-    native_sub=next((s for s in row['subs'] if s['icon']==(data.get('sub') or row['subs'][0]['icon'])),None)
-    canvas=max(64,math.ceil(max(native_sub['canvas_width'],native_sub['canvas_height'])+2*padding-1e-8)) if native_sub and native_sub.get('sizing_mode')=='typeface-native' else 64
+    canvas=pair_canvas(row,data.get('sub'),padding)
     layout=check_layout(data.get('layout'))
     chosen=[]
     for role,group,size,anchor in [('main','mains',48,(1-ax,1-ay)),('sub','subs',32,(ax,ay))]:

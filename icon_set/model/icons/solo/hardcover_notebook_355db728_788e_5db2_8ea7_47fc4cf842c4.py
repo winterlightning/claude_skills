@@ -13,7 +13,7 @@ class Batch05Icon14(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/notebook"
+    category = "content"
     aliases = ('hardcover-notebook',)
     keywords = ('hardcover', 'notebook')
     def build(self):

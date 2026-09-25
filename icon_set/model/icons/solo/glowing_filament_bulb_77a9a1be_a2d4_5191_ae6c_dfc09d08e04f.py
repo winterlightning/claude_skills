@@ -12,7 +12,7 @@ class GlowingFilamentBulb(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "education/school"
+    category = "school-learning"
     aliases = ()
     keywords = ('bulb', 'filament', 'light', 'idea', 'lamp', 'glow')
 

@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'science'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('polyp', 'biology', 'organism', 'lobes', 'folds', 'organic')
 

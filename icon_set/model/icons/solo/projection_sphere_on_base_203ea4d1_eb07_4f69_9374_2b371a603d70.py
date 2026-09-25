@@ -14,7 +14,7 @@ class ProjectionSphereOnBase(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('projection', 'sphere', 'base', 'display', 'device', 'science')
 

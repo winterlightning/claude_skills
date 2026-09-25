@@ -10,7 +10,7 @@ class PeacockWithSpreadTail(Solo48):
     icon_id = 'peacock-with-spread-tail'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
     aliases = ()
     keywords = ('peacock', 'with', 'spread', 'tail')
     keyshape = Keyshape.FREE

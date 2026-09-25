@@ -11,7 +11,7 @@ class Batch045Icon12(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('rope', 'jump', 'skipping', 'fitness', 'exercise', 'handles', 'sport')
     # Reference: No useful local rope match; repeated capsule handles and continuous rope.

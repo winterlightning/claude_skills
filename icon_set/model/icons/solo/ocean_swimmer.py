@@ -21,7 +21,7 @@ class OceanSwimmer(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/sports"
+    category = "sports"
     aliases = ("open-water-swimmer",)
     keywords = ("athlete", "swimming", "freestyle", "ocean", "sea", "sport", "human")
 

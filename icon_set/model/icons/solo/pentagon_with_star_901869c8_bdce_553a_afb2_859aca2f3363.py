@@ -10,7 +10,7 @@ class PentagonWithStar(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('pentagon', 'usa', 'defence', 'military', 'star', 'badge', 'government', 'emblem')
 

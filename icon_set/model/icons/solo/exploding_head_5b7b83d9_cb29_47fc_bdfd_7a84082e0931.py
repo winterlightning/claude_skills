@@ -12,7 +12,7 @@ class ExplodingHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
     aliases = ()
     keywords = ('exploding', 'head', 'shocked', 'burst', 'face', 'emoji')
 

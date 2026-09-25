@@ -12,7 +12,7 @@ class KoalaWithBranch(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('koala', 'branch', 'eucalyptus', 'holding', 'marsupial', 'australia', 'animal', 'sitting')
 

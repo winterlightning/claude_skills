@@ -14,7 +14,7 @@ class FossilizedBugInAmber(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/fossils"
+    category = "primitives-generate"
     aliases = ("beetle-embedded-in-amber", "amber-fossil")
     keywords = ("amber", "beetle", "insect", "fossil", "resin", "legs")
 

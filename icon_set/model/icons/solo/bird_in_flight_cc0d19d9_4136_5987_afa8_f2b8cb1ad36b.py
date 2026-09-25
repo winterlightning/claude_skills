@@ -11,7 +11,7 @@ class BirdInFlight(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
     aliases = ()
     keywords = ('bird', 'flight', 'wings', 'hunting', 'swoop', 'sky', 'raptor', 'soar')
 

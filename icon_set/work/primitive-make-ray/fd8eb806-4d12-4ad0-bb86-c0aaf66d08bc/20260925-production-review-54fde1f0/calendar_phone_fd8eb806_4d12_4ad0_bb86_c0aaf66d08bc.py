@@ -1,14 +1,14 @@
-"""Calendar with Telephone Handset. Calendar with smooth diagonal receiver and rounded frame.
+"""Calendar with Telephone Handset. Calendar with a recognizable curved telephone receiver and angled earpieces.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: None.
+Omissions: Tiny earpiece panel seams omitted; retain full receiver silhouette.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'
 SOURCE_PATH = 'pictographic-primitives/other/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Calendar with smooth diagonal receiver and rounded frame.'
-OMISSIONS = 'None.'
+PLAN = 'Calendar with a recognizable curved telephone receiver and angled earpieces.'
+OMISSIONS = 'Tiny earpiece panel seams omitted; retain full receiver silhouette.'
 CONSTRUCTION_REFERENCES = ['calendar-check', 'phone']
 PARENT_MODULE = 'icon_set/model/icons/solo/calendar_phone_fd8eb806_4d12_4ad0_bb86_c0aaf66d08bc.py'
 
@@ -74,8 +74,9 @@ class Drawing(Solo48):
                 if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
 
     def build(self):
-
         self.calendar()
-        self.handset(24,30)
+
+        def pt(x,v):return (x+1,v+9)
+        self.path('receiver',pt(17,12),[('L',pt(20,12)),('A',pt(22,14),2,2,True),('L',pt(22,16)),('L',pt(21,18)),('C',pt(25,22),pt(22,20),pt(23,21)),('L',pt(27,21)),('L',pt(29,21)),('A',pt(31,23),2,2,True),('L',pt(31,26)),('A',pt(29,28),2,2,True),('C',pt(15,14),pt(21,28),pt(15,22)),('A',pt(17,12),2,2,True)],True)
 
         self.contacts()

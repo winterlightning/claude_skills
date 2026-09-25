@@ -15,7 +15,7 @@ class Batch30Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/finance"
+    category = "finance"
     aliases = ()
     keywords = ('open', 'snap', 'wallet')
 

@@ -12,7 +12,7 @@ class EngineVentLines(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('engine', 'motor', 'engine block', 'car', 'mechanic', 'service', 'dashboard', 'automotive')
 

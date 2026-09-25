@@ -10,7 +10,7 @@ class VirtualCubesThroughHeadset(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('virtual', 'cubes', 'headset', 'vr', '3d', 'objects', 'immersive')
 

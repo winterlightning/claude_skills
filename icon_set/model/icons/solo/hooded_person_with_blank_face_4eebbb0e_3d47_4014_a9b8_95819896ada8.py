@@ -19,7 +19,7 @@ class Drawing(Solo48):
     icon_id = 'hooded-person-with-blank-face'
     keyshape = Keyshape.VRECT_L
     human_construction = 'bust'
-    category = 'objects'
+    category = 'primitives-generate'
     keywords = ('hooded', 'person', 'with', 'blank', 'face')
 
     def build(self):

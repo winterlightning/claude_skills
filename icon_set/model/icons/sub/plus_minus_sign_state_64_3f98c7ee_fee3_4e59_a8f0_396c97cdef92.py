@@ -16,7 +16,7 @@ class PlusMinusSignState64(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('plus', 'minus', 'sign', 'stands', 'directly', 'detached', 'horizontal', 'both')
 

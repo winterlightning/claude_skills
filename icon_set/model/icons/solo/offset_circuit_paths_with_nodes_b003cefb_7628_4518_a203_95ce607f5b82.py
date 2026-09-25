@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Offset Circuit Paths with Nodes',)
     keywords = ('circuit', 'nodes', 'paths', 'electronics', 'connections', 'diagram', 'technology')
     def build(self):

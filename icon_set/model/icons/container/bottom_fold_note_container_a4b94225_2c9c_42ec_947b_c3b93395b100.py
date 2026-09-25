@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class BottomFoldNoteContainer(Container64):
     icon_id = 'bottom-fold-note-container'
+    category = 'content'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

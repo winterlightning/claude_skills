@@ -1,14 +1,14 @@
-"""Mobile Phone Airplane Mode. Phone with a clean rising airplane-mode motif, restored lower band and readable nose.
+"""Mobile Phone Airplane Mode. Airplane mode shown by a clear rising fuselage, wide swept wings and tailplane inside the phone.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: The source is a minimalist rising plane stroke; no full airplane silhouette added.
+Omissions: Replaced ambiguous source-like stroke with recognizable airplane silhouette at user request.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '0a850f90-2953-422f-b95d-65062508b5a1'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone plane_0a850f90-2953-422f-b95d-65062508b5a1.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Phone with a clean rising airplane-mode motif, restored lower band and readable nose.'
-OMISSIONS = 'The source is a minimalist rising plane stroke; no full airplane silhouette added.'
+PLAN = 'Airplane mode shown by a clear rising fuselage, wide swept wings and tailplane inside the phone.'
+OMISSIONS = 'Replaced ambiguous source-like stroke with recognizable airplane silhouette at user request.'
 CONSTRUCTION_REFERENCES = ['smartphone']
 PARENT_MODULE = 'icon_set/model/icons/solo/mobile_phone_plane_0a850f90_2953_422f_b95d_65062508b5a1.py'
 
@@ -76,7 +76,8 @@ class Drawing(Solo48):
     def build(self):
 
         self.phone()
-        self.path('plane-body',(16,26),[('C',(21,27),(18,27),(19,28)),('L',(27,24)),('L',(31,21)),('C',(32,17),(32,20),(32,18))])
-        self.add_polyline('wing',(18,16),(27,24))
+        self.add_polyline('fuselage',(19,25),(25,19),(31,13))
+        self.add_polyline('wings',(16,15),(25,19),(29,28))
+        self.add_polyline('tail',(16,22),(19,25),(22,28))
 
         self.contacts()

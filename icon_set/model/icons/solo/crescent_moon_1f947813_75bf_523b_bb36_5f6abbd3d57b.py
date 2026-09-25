@@ -10,7 +10,7 @@ class CrescentMoon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ()
     keywords = ('moon', 'crescent', 'lunar', 'night', 'astrology', 'symbol', 'sky', 'phase')
 

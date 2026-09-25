@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class BlankReceiptContainer(Container64):
     icon_id = 'blank-receipt-container'
+    category = 'shopping'
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('blank', 'receipt', 'container')

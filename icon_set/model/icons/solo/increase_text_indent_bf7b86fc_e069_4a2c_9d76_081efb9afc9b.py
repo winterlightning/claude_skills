@@ -9,7 +9,7 @@ class IncreaseTextIndent(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/text"
+    category = "primitives-generate"
     aliases = ("indent right",)
     keywords = ("lines", "paragraph", "triangle")
 

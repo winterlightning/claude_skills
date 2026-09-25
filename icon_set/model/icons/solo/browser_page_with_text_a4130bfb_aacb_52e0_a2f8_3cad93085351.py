@@ -12,7 +12,7 @@ class BrowserPageWithText(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface"
+    category = "websites"
     aliases = ()
     keywords = ('browser', 'page', 'text', 'window', 'website', 'interface', 'document')
 

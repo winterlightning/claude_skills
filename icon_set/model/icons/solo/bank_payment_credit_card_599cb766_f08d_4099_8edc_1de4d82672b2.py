@@ -17,7 +17,7 @@ class BankPaymentCreditCard(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "finance/payment"
+    category = "primitives-generate"
     aliases = ("credit card", "bank card")
     keywords = ("payment", "stripe", "account", "debit")
 

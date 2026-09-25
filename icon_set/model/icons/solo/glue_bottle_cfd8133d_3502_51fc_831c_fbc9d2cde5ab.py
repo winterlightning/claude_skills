@@ -11,7 +11,7 @@ class GlueBottle(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
     aliases=()
     keywords=('glue', 'bottle', 'adhesive', 'nozzle', 'stationery', 'office')
 

@@ -16,7 +16,7 @@ class CursorRight(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/mark"
+    category = "state"
     aliases = ()
     keywords = ('cursor', 'right', 'wide', 'outlined', 'points', 'long', 'sloping', 'sides')
 

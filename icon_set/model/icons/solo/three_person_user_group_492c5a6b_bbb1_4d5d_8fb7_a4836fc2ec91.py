@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('people',)
     def path(self,n,start,commands,closed=False):
@@ -67,7 +67,7 @@ class Drawing(Solo48):
             self.relate('connect',n+'-body','front-body');self.relate('connect',n+'-head',n+'-body')
 
     icon_id = 'three-person-user-group'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('three', 'person', 'user', 'group')
     semantic_role = 'MAIN'

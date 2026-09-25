@@ -13,7 +13,7 @@ class Batch05Icon5(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/jar"
+    category = "container"
     aliases = ('storage-jar',)
     keywords = ('storage', 'jar')
     def build(self):

@@ -12,7 +12,7 @@ class CrescentMoonWide(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('moon', 'crescent', 'night', 'sleep', 'dark-mode', 'sky', 'lunar', 'evening', 'sub icon')
 

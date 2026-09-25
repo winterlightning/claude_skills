@@ -16,7 +16,7 @@ class Batch25Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/entertainment"
+    category = "events"
     aliases = ()
     keywords = ('donkey', 'shaped', 'piñata')
 

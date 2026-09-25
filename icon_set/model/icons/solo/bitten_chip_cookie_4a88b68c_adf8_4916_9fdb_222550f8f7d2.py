@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'food'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('cookie', 'biscuit', 'bite', 'chips', 'snack', 'food')
 

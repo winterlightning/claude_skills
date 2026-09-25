@@ -11,7 +11,7 @@ class TwoBlossomVase(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
     aliases = ()
     keywords = ('vase', 'blossom', 'flowers', 'stems', 'cherry', 'bouquet', 'decor')
 

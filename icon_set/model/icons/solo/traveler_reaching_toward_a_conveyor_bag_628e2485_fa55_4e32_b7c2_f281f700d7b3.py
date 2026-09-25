@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'traveler-reaching-toward-a-conveyor-bag'
     keyshape = Keyshape.SQUARE
-    category = "Uncategorized"
+    category = "primitives-generate"
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ["Luggage Drop-off"]

@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/anatomy'
+    category = 'artificial-intelligence'
     aliases = ()
     keywords = ('human', 'brain', 'hemispheres')
     def build(self):

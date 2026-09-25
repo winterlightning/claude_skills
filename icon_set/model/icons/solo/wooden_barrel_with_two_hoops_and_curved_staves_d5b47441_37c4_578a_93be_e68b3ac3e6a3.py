@@ -7,7 +7,7 @@ SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-
 class Drawing(Solo48):
     icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
     keyshape=Keyshape.VRECT_L
-    category='objects/drink'
+    category = 'drinks'
     semantic_role='MAIN'
     semantic_kind='noun'
     aliases=()
@@ -31,7 +31,7 @@ class Drawing(Solo48):
             for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect','hoop-'+str(y),part)
 
     icon_id = 'wooden-barrel-with-two-hoops-and-curved-staves'
-    category = 'objects/drink'
+    category = 'drinks'
     aliases = ()
     keywords = ('barrel', 'wood', 'storage', 'staves', 'hoops', 'cask', 'container', 'drink')
     semantic_role = 'MAIN'

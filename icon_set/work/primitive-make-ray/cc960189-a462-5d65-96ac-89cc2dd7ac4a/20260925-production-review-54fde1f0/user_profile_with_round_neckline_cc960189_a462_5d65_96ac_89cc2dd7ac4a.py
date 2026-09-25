@@ -1,14 +1,14 @@
-"""Human User Profile Icon. Enlarge circular head, balance shoulders and retain the shirt neckline; exact4u detached head gap.
+"""Human User Profile Icon. Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: None.
+Omissions: No new costume details; retain skullcap or original neckline.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'cc960189-a462-5d65-96ac-89cc2dd7ac4a'
 SOURCE_PATH = 'pictographic-primitives/images/man_cc960189-a462-5d65-96ac-89cc2dd7ac4a.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Enlarge circular head, balance shoulders and retain the shirt neckline; exact4u detached head gap.'
-OMISSIONS = 'None.'
+PLAN = 'Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.'
+OMISSIONS = 'No new costume details; retain skullcap or original neckline.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']
 PARENT_MODULE = 'icon_set/model/icons/solo/user_profile_with_round_neckline_cc960189_a462_5d65_96ac_89cc2dd7ac4a.py'
 
@@ -17,7 +17,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'avatars'
     aliases = ()
     keywords = ('man',)
 
@@ -76,7 +76,9 @@ class Drawing(Solo48):
     def build(self):
 
         self.circle('head',24,14,10)
-        self.path('body',(8,44),[('A',(20,32),12,12,True),('L',(28,32)),('A',(40,44),12,12,True)])
+        self.path('body',(8,44),[('L',(8,40)),('A',(20,28),12,12,True),('L',(28,28)),('A',(40,40),12,12,True),('L',(40,44))])
         self.path('neckline',(20,40),[('A',(28,40),4,4,False)])
+
+        self.relate('connect','head','body')
 
         self.contacts()

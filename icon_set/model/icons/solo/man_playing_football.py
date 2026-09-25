@@ -23,7 +23,7 @@ class ManPlayingFootball(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ("man-playing-soccer", "soccer-player-kicking")
     keywords = ("man", "football", "soccer", "sports", "player", "kick", "ball")
 

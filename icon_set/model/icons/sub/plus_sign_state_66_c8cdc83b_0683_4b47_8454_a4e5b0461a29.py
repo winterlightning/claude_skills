@@ -16,7 +16,7 @@ class PlusSignState66(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('plus', 'sign', 'straight', 'upright', 'stroke', 'crosses', 'equal', 'horizontal')
 

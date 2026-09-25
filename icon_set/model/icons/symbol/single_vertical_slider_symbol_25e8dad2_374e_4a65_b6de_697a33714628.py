@@ -15,7 +15,7 @@ class SingleVerticalSliderSymbol(Symbol32):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('single', 'vertical', 'slider', 'symbol')
 

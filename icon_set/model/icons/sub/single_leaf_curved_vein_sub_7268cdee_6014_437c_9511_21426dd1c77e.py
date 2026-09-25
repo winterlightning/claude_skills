@@ -15,7 +15,7 @@ class SingleLeafCurvedVeinSub(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('single', 'leaf', 'curved', 'vein', 'sub')
 

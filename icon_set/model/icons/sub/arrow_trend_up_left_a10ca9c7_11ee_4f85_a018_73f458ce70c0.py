@@ -16,7 +16,7 @@ class ArrowTrendUpLeft(Sub32):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('arrow', 'trend', 'up', 'left', 'angular', 'zigzag', 'descends', 'upper')
 

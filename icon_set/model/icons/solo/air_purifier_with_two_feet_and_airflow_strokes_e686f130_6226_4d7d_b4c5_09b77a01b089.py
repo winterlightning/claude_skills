@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'ecology'
     aliases = ()
     keywords = ('air', 'purifier')
 
@@ -42,7 +42,7 @@ class Drawing(Solo48):
             self.relate('connect',f'foot-{i}','body')
 
     icon_id = 'air-purifier-with-two-feet-and-airflow-strokes'
-    category = 'objects/ecology'
+    category = 'ecology'
     aliases = ()
     keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'feet', 'home', 'ecology')
     semantic_role = 'MAIN'

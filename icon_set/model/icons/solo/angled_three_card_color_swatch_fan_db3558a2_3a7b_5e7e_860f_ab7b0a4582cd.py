@@ -11,7 +11,7 @@ class AngledThreeCardColorSwatchFan(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
     aliases = ()
     keywords = ('swatches', 'fan', 'color', 'cards', 'palette', 'pivot', 'samples', 'design')
 

@@ -11,7 +11,7 @@ class ToySteamLocomotive(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('steam locomotive', 'train', 'toy train', 'locomotive', 'railway', 'vintage', 'engine', 'wheels')
 

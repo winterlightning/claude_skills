@@ -13,7 +13,7 @@ class Batch05Icon3(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/flash"
+    category = "container"
     aliases = ('smartphone-with-flash',)
     keywords = ('smartphone', 'with', 'flash')
     def build(self):

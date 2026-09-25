@@ -18,7 +18,7 @@ class PlainLiddedStorageJar(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/food"
+    category = "food"
     aliases = ()
     keywords = ('plain', 'lidded', 'storage', 'jar')
 

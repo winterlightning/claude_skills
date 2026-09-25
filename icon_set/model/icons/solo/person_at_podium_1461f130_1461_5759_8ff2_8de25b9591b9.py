@@ -12,7 +12,7 @@ class PersonAtPodium(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/users"
+    category = "users"
     aliases = ()
     keywords = ('person', 'podium', 'lectern', 'speaker', 'presentation', 'speech', 'talk', 'conference')
 

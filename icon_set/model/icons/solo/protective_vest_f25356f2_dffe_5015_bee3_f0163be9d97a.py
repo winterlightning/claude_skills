@@ -12,7 +12,7 @@ class ProtectionIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/protection"
+    category = "protection"
     aliases = ()
     keywords = ('vest', 'body armour', 'bulletproof', 'protective', 'garment', 'police', 'safety', 'tactical')
 

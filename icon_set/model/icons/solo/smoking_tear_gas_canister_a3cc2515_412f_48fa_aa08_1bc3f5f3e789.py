@@ -12,7 +12,7 @@ class SmokingTearGasCanister(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('canister', 'tear gas', 'smoke', 'gas', 'protest', 'container')
 

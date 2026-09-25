@@ -10,7 +10,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/reference"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('mouse', 'computer', 'device', 'oval', 'input', 'desktop')
     def build(self):

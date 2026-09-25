@@ -11,7 +11,7 @@ class VolleyballPanelBall(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('volleyball', 'panel', 'ball', 'sport')
 

@@ -11,7 +11,7 @@ class TrustedShopsLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('trusted-shops', 'trustmark', 'e-commerce', 'letter-e', 'logo', 'brand', 'shopping')
 

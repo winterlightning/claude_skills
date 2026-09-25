@@ -20,7 +20,7 @@ class GridAlignedSubContainerSymbol(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/recreation'
+    category = 'entertainment'
 
     def build(self):
         self.add_arc('outer-0', (16, 2), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)

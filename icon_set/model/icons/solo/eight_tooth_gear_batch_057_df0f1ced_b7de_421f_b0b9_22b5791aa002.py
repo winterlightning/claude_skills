@@ -11,7 +11,7 @@ class Result(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/tools'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('gear', 'cog', 'settings', 'mechanism', 'wheel', 'machine')
 

@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'video'
     aliases=()
     keywords=('video', 'edit', 'split')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

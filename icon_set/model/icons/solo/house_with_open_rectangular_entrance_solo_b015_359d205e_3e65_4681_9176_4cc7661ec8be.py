@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/controls"
+    category = "interface-essential"
     aliases=()
     keywords=('house', 'with', 'open', 'rectangular', 'entrance')
     def build(self):

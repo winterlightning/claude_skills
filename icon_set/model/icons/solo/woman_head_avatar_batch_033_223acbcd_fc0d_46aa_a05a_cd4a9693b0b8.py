@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('women',)
     def path(self,n,start,commands,closed=False):
@@ -60,7 +60,7 @@ class Drawing(Solo48):
         self.path('face',(16,21),[('C',(24,15),(20,21),(22,15)),('C',(32,21),(26,15),(28,21)),('L',(32,25)),('A',(24,33),8,8,True),('A',(16,25),8,8,True),('L',(16,21))],True)
 
     icon_id = 'woman-head-avatar-batch-033'
-    category = 'objects/other'
+    category = 'primitives-generate'
     aliases = ('woman-head-avatar',)
     keywords = ('batch-033',)
     semantic_role = 'MAIN'

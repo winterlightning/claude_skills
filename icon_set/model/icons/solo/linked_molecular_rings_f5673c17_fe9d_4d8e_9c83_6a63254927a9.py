@@ -14,7 +14,7 @@ class LinkedMolecularRings(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('molecule', 'ring', 'bond', 'atom', 'chemistry', 'structure')
 

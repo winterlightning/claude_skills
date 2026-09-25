@@ -10,7 +10,7 @@ class WhiskeredSeal(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/marine'
+    category = 'animals'
     aliases = ()
     keywords = ('seal', 'whiskers', 'marine', 'flippers', 'animal', 'ocean', 'sea', 'front')
 

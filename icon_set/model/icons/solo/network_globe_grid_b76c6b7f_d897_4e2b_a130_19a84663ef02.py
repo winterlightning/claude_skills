@@ -11,7 +11,7 @@ class NetworkGlobeGrid(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/technology"
+    category = "websites"
     aliases = ()
     keywords = ('globe', 'network', 'world', 'internet', 'sphere', 'grid', 'web')
 

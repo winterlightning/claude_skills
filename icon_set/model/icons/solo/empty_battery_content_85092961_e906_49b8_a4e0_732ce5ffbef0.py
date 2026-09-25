@@ -11,7 +11,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'empty-battery-content'
     keyshape = Keyshape.HRECT_M
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('empty battery symbol',)
     def build(self):

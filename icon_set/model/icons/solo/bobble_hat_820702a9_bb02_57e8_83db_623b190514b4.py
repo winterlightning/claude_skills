@@ -11,7 +11,7 @@ class BobbleHat(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
     aliases = ()
     keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cap', 'clothing')
 

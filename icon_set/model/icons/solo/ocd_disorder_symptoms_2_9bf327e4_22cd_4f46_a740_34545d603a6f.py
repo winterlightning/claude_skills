@@ -19,7 +19,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('ocd', 'disorder', 'symptoms', '2')
     # human_ref/user.svg inspected for contour economy. This is a connected head/neck profile, not a detached stick figure; no detached-head gap applies.

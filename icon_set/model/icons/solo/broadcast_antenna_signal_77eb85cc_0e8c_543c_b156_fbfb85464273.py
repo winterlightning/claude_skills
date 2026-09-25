@@ -11,7 +11,7 @@ class BroadcastAntennaSignal(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "tv"
     aliases = ()
     keywords = ('antenna', 'signal', 'broadcast', 'wireless', 'radio', 'transmitter', 'wifi', 'hotspot')
 

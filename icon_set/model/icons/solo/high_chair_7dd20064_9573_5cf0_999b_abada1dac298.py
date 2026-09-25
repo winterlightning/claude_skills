@@ -10,7 +10,7 @@ class HighChair(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/baby-care"
+    category = "babies"
     aliases = ()
     keywords = ('highchair', 'chair', 'feeding', 'baby', 'mealtime', 'infant', 'furniture', 'toddler')
 

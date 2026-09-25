@@ -15,7 +15,7 @@ class TwoWifiArcsSymbol(Symbol32):
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('two', 'wifi', 'arcs', 'symbol')
 

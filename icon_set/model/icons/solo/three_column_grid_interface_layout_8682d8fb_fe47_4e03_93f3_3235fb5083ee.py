@@ -16,7 +16,7 @@ class ThreeColumnGridInterfaceLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "design/layouts"
+    category = "primitives-generate"
     aliases = ("three column interface", "page grid")
     keywords = ("columns", "rows", "layout", "webpage")
 

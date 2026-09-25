@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('mobile phone dollar sign',)
 
@@ -37,7 +37,7 @@ class Drawing(Solo48):
         self.relate('connect','dollar','currency-top');self.relate('connect','dollar','currency-bottom')
 
     icon_id = 'mobile-phone-dollar-sign'
-    category = 'objects/device'
+    category = 'primitives-generate'
     aliases = ('payment phone', 'dollar smartphone')
     keywords = ('mobile', 'money', 'commerce', 'payment')
     semantic_role = 'MAIN'

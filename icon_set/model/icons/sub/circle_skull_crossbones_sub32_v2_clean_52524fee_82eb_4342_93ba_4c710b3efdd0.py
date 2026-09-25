@@ -16,7 +16,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     TYPEFACE_GLYPH_IDS = ()
 
     def build(self):

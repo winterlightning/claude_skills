@@ -11,7 +11,7 @@ class OperaHouseShellsOnWater(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('sydney opera house', 'australia', 'shells', 'sails', 'harbour', 'water', 'landmark', 'cloud')
 

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'ascending-staircase-side-outline'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('ascending', 'staircase', 'side', 'outline')
 
     def build(self):

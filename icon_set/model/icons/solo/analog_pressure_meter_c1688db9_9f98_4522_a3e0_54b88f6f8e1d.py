@@ -11,7 +11,7 @@ class AnalogPressureMeter(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('pressure', 'gauge', 'meter', 'measure', 'needle', 'instrument', 'equipment', 'device')
 

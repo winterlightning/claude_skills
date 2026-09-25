@@ -12,7 +12,7 @@ class Crosshair(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('crosshair', 'target', 'focus', 'aim', 'locate', 'gps', 'precision', 'scope')
 

@@ -10,7 +10,7 @@ class RearFogLamp(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('rear fog lamp', 'fog light', 'lamp', 'car', 'dashboard', 'lighting', 'indicator', 'fog')
 

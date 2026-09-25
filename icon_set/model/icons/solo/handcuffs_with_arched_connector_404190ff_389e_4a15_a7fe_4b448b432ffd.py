@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/crime'
+    category = 'crime'
     aliases = ()
     keywords = ('handcuffs',)
     # Plan: Two broad closed cuffs with narrow lock housings and an arched chain; mirrored about x=24.

@@ -11,7 +11,7 @@ class Revision(Solo48):
     exception = {'reason': 'User authorized judgment-based exceptions. Two short internal spacings preserve the natural taper and split bristle tips of the sweeping broom; the silhouette and dust puff remain distinct at native 48px in light and dark themes. Uniform 4px stroke and SOLO48 canvas retained.', 'approved_by': 'user (delegated visual judgment in primitive-fix-thuan request)', 'approved_on': '2026-09-25', 'svg_sha256': 'dd6467b87dd8c2a2f212a07eed8bf0469524cbe4ab2f55225d735884e68544ad'}
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('broom sweep 2',)
 

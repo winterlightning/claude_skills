@@ -38,7 +38,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "health"
     aliases = ()
     keywords = ('monitoring', 'heart', 'beat', 'hand')
 

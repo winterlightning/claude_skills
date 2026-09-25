@@ -10,7 +10,7 @@ class CircleWithThreeBlades(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('propeller', 'blades', 'testflight', 'beta', 'app', 'circle', 'fan')
 

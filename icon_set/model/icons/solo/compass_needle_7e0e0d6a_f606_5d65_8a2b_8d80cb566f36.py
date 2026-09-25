@@ -14,7 +14,7 @@ class Compass(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/navigation"
+    category = "navigation"
     aliases = ()
     keywords = ('compass', 'navigation', 'needle', 'direction', 'heading', 'orientation', 'travel')
 

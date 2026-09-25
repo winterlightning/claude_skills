@@ -12,7 +12,7 @@ class ProtectionIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/products"
+    category = "products"
     aliases = ()
     keywords = ('magic', 'rabbit', 'top-hat', 'magician', 'trick', 'bunny', 'illusion', 'surprise')
 

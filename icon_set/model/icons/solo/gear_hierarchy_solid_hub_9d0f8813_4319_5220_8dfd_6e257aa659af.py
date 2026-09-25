@@ -13,7 +13,7 @@ class GearHierarchySolidHub(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/programming"
+    category = "programing"
     aliases = ()
     keywords = ('gear', 'hierarchy', 'tree', 'settings', 'operations', 'nodes', 'automation', 'structure')
 

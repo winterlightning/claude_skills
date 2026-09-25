@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class BlankCalendarContainer(Container64):
     icon_id = 'blank-calendar-container'
+    category = 'interface-essential'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('blank', 'calendar', 'container')

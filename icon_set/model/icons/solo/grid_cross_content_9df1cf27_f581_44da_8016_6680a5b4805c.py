@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'grid-cross-content'
     keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('grid with cross mark',)
     def build(self):

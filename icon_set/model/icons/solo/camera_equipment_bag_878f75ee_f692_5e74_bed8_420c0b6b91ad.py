@@ -11,7 +11,7 @@ class CameraEquipmentBag(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('bag', 'camera bag', 'equipment', 'case', 'briefcase', 'photography', 'travel', 'gear')
 

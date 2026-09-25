@@ -17,7 +17,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/ecology"
+    category = "ecology"
     aliases = ()
     keywords = ('plug', 'leaf', 'cord', 'power', 'energy', 'electric', 'green', 'ecology')
 

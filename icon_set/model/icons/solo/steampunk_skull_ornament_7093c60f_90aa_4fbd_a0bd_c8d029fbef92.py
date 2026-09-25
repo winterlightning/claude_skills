@@ -10,7 +10,7 @@ class SteampunkSkullOrnament(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/decoration'
+    category = 'decoration'
     aliases = ()
     keywords = ('skull', 'steampunk', 'ornament', 'teeth', 'eyes', 'dia de los muertos', 'decor')
 

@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/batch-subjects'
+    category = 'hobbies'
     aliases = ()
     keywords = ('chess', 'rook', 'batch', '013', '07')
     def build(self):

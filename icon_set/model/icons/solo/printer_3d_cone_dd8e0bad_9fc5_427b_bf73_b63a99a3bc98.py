@@ -10,7 +10,7 @@ class Printer3DCone(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('3d-printing', 'printer', 'cone', 'nozzle', 'fabrication', 'maker', 'model')
 

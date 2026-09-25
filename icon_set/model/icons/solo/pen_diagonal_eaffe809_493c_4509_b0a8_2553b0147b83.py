@@ -12,7 +12,7 @@ class PenDiagonal(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('pen', 'write', 'edit', 'ballpoint', 'stationery', 'sign', 'draw', 'note')
 

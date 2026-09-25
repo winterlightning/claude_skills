@@ -12,7 +12,7 @@ class PearShapedVase(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
     aliases = ()
     keywords = ('vase', 'bottle', 'ceramic', 'vessel', 'decor', 'flared lip', 'pear shape')
 

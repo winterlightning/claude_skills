@@ -14,7 +14,7 @@ class SheepHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/farm'
+    category = 'animals'
     aliases = ()
     keywords = ('sheep', 'head', 'face', 'ears', 'lamb', 'farm', 'minimal', 'animal')
 

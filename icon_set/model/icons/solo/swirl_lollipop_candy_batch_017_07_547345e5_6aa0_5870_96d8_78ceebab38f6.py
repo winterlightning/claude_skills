@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "kids"
     keywords = ('candy', 'sweet', 'lollipop', 'spiral', 'swirl', 'stick', 'treat', 'confectionery')
 
     def build(self):

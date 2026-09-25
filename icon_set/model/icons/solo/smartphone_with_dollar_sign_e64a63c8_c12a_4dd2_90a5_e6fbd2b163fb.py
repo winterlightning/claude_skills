@@ -19,7 +19,7 @@ class SmartphoneWithDollarSign(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "finance/mobile"
+    category = "primitives-generate"
     aliases = ("monetization tablet", "phone payment")
     keywords = ("dollar", "money", "smartphone", "earning")
 

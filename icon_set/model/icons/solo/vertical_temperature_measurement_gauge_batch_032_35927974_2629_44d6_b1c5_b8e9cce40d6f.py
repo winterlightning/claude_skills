@@ -12,7 +12,7 @@ class Batch032Icon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
     aliases = ('vertical-temperature-measurement-gauge',)
     keywords = ('batch-032',)
 

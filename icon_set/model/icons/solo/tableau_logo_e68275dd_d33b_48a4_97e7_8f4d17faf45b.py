@@ -11,7 +11,7 @@ class TableauLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('tableau', 'analytics', 'visualization', 'plus', 'logo', 'brand', 'data')
 

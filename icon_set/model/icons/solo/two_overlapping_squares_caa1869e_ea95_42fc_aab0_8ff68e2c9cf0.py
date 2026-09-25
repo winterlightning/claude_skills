@@ -17,7 +17,7 @@ class TwoOverlappingSquares(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/geometry"
+    category = "primitives-generate"
     aliases = ("stacked squares", "duplicate squares")
     keywords = ("overlap", "copy", "rounded", "shapes")
 

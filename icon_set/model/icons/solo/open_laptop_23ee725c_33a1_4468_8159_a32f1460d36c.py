@@ -11,7 +11,7 @@ class OpenLaptop(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
     aliases = ('notebook-computer', 'laptop')
     keywords = ('laptop', 'computer', 'portable', 'screen', 'notebook')
 

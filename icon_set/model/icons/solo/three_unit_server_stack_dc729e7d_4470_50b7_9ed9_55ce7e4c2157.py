@@ -11,7 +11,7 @@ class ThreeUnitServerStack(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/computing"
+    category = "servers"
     aliases = ()
     keywords = ('server', 'rack', 'hardware', 'storage', 'network', 'stack', 'indicator')
 

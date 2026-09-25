@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class RibbonBookmarkContainer(Container64):
     icon_id = 'ribbon-bookmark-container'
+    category = 'interface-essential'
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('ribbon', 'bookmark', 'container')

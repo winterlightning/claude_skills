@@ -19,7 +19,7 @@ class DrawingVariant3(Sub32):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/lighting'
+    category = 'lights'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

@@ -10,7 +10,7 @@ class WoollySheep(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/farm'
+    category = 'animals'
     aliases = ()
     keywords = ('sheep', 'wool', 'fluffy', 'farm', 'lamb', 'ewe', 'livestock', 'animal')
 

@@ -10,7 +10,7 @@ class VolcanoMushroomPlume(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/weather'
+    category = 'weather'
     aliases = ()
     keywords = ('volcano', 'smoke', 'plume', 'eruption', 'mountain', 'ash')
 

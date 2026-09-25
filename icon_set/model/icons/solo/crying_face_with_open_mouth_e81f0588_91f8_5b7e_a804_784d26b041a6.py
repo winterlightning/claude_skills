@@ -12,7 +12,7 @@ class CryingFaceWithOpenMouth(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
     aliases = ()
     keywords = ('crying', 'tear', 'sad', 'distressed', 'face', 'emoji')
 

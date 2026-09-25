@@ -18,7 +18,7 @@ class Drawing(Solo48):
     human_construction = 'bust'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('real', 'estate', 'message', 'couple', 'building')
 

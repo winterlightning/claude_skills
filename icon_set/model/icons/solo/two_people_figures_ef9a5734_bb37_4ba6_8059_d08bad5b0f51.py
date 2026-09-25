@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/container-components'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('sub icon', 'two', 'people', 'figures')
     def build(self):

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'cloven-hoof-print'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('cloven', 'hoof', 'print')
 
     def build(self):

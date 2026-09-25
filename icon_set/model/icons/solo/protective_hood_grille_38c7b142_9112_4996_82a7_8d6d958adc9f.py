@@ -13,7 +13,7 @@ class ProtectiveHoodGrille(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('mask', 'hood', 'helmet', 'grille', 'protection', 'sport')
 

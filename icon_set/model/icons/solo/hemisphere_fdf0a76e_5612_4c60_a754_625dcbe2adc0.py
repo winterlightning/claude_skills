@@ -14,7 +14,7 @@ class Hemisphere(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('hemisphere', '_uncategorized')
 

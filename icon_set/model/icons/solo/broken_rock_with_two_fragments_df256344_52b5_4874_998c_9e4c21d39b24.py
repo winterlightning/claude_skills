@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'broken-rock-with-two-fragments'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('broken', 'rock', 'with', 'two', 'fragments')
 
     def build(self):

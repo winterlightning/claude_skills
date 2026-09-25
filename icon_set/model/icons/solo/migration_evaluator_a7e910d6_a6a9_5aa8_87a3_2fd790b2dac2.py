@@ -12,7 +12,7 @@ class Drawing(Solo48):
     # Visible ink extrema: (4, 4, 44, 44).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'programing'
     aliases = ()
     keywords = ('migration', 'evaluator')
 

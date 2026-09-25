@@ -16,7 +16,7 @@ class LocationPinSubState210(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('location', 'pin', 'rounded', 'map', 'tapers', 'pointed', 'lower', 'tip')
 

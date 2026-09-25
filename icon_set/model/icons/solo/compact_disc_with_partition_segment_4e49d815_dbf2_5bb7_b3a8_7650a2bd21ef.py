@@ -10,7 +10,7 @@ class CompactDiscWithPartitionSegment(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
     aliases = ()
     keywords = ('cd', 'disc', 'partition', 'segment', 'storage', 'disk', 'sector', 'media')
 

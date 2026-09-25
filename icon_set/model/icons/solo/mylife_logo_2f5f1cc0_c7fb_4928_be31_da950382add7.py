@@ -15,7 +15,7 @@ class MylifeLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('mylife', 'person', 'horizon', 'logo', 'brand', 'people-search', 'arc')
 

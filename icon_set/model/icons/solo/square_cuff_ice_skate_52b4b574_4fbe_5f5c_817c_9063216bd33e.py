@@ -10,7 +10,7 @@ class SquareCuffIceSkate(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('ice', 'skate', 'boot', 'blade', 'skating', 'winter')
     def build(self) -> None:

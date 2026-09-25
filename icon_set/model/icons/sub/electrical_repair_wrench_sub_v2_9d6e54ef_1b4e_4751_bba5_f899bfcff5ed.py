@@ -13,7 +13,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
 
     def build(self):
         # Exact 45-degree shaft, jaw lips and lightning legs; retain both breaks.

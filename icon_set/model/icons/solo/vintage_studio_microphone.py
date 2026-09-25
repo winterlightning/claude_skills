@@ -14,7 +14,7 @@ AUTHOR = 'gpt-6'
 class VintageStudioMicrophone(Solo48):
     icon_id = 'vintage-studio-microphone'
     keyshape = Keyshape.VRECT_L
-    category = 'objects/media'
+    category = 'audio'
     aliases = ('vintage-microphone', 'studio-microphone', 'broadcast-microphone')
     keywords = ('microphone', 'mic', 'podcast', 'audio', 'recording', 'broadcast', 'voice', 'studio', 'radio')
 

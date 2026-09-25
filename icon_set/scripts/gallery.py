@@ -12,6 +12,17 @@ from urllib.parse import quote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+# Authored model categories that name a catalog category another way.
+CATEGORY_ALIASES = {
+    'objects/clothing': 'clothes', 'objects/drink': 'drinks',
+    'nature/animals': 'animals', 'animals/mammals': 'animals',
+    'objects/sports': 'sports', 'people/sports': 'sports',
+    'objects/tool': 'tools', 'objects/organization': 'business',
+    'objects/communication': 'messages', 'objects/transport': 'transportation',
+    'objects/baby': 'babies', 'places/landmarks': 'landmarks',
+    'objects/nature': 'nature', 'people/users': 'users',
+    'people/occupations': 'avatars', 'objects/media': 'audio',
+}
 
 
 def stage_review_facets(records: list[dict], staged: Path, published: Path, target: Path) -> None:
@@ -277,16 +288,7 @@ def remap_categories(records: list[dict], catalog: dict) -> None:
     for row in catalog['rows']:
         for icon_id in row.get('models', []):
             categories.setdefault(icon_id, set()).add(row['category'])
-    aliases = {
-        'objects/clothing': 'clothes', 'objects/drink': 'drinks',
-        'nature/animals': 'animals', 'animals/mammals': 'animals',
-        'objects/sports': 'sports', 'people/sports': 'sports',
-        'objects/tool': 'tools', 'objects/organization': 'business',
-        'objects/communication': 'messages', 'objects/transport': 'transportation',
-        'objects/baby': 'babies', 'places/landmarks': 'landmarks',
-        'objects/nature': 'nature', 'people/users': 'users',
-        'people/occupations': 'avatars', 'objects/media': 'audio',
-    }
+    aliases = CATEGORY_ALIASES
     valid = set(catalog['categories'])
     for record in records:
         candidates = categories.get(record['icon_id'])

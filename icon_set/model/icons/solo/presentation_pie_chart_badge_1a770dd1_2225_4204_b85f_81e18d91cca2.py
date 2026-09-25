@@ -19,7 +19,7 @@ class PresentationPieChartBadge(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/logos"
+    category = "primitives-generate"
     aliases = ("powerpoint logo", "presentation badge")
     keywords = ("pie", "chart", "letter p", "slides")
 

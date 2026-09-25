@@ -11,7 +11,7 @@ class Batch045Icon9(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('truck', 'fire', 'engine', 'ladder', 'emergency', 'vehicle', 'beacon')
     # Reference: truck: cab/body hierarchy and paired wheel baseline.

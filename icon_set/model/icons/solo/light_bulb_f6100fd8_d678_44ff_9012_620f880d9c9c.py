@@ -10,7 +10,7 @@ class Drawing(Solo48):
     icon_id = 'light-bulb-f6100fd8-d678-44ff-9012-620f880d9c9c'
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/lighting"
+    category = "lights"
     aliases = ()
     keywords = ('bulb', 'light', 'lamp', 'electric', 'glass', 'base')
     keyshape = Keyshape.SQUARE

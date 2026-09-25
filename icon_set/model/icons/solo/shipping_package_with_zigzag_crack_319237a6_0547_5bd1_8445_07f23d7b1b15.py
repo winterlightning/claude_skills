@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/delivery"
+    category = "delivery"
     aliases = ()
     keywords = ('package', 'box', 'shipping', 'crack', 'damage', 'tape', 'parcel', 'delivery')
 

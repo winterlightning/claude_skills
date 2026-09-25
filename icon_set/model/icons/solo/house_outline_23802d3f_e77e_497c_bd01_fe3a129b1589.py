@@ -18,7 +18,7 @@ class HouseOutline(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('house', 'home', 'building', 'residence', 'property', 'real-estate', 'main', 'dwelling')
 

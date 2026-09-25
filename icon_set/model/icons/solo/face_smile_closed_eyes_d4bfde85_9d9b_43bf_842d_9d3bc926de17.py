@@ -12,7 +12,7 @@ class FaceSmileClosedEyes(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('smile', 'face', 'happy', 'emoji', 'content', 'relaxed', 'satisfied', 'emotion')
 

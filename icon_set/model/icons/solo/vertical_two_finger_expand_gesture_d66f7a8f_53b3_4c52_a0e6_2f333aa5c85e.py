@@ -9,7 +9,7 @@ class VerticalTwoFingerExpandGesture(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
     aliases = ("two finger expand", "spread up")
     keywords = ("fingers", "arrows", "vertical")
 

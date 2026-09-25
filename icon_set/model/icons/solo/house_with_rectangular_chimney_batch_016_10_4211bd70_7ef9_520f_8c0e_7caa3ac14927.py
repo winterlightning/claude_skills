@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "interface-essential"
     keywords = ('house', 'home', 'chimney', 'roof', 'door', 'building')
 
     def build(self):

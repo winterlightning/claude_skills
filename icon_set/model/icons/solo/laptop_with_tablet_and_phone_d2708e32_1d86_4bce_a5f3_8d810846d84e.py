@@ -11,7 +11,7 @@ class LaptopWithTabletAndPhone(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/technology"
+    category = "websites"
     aliases = ()
     keywords = ('laptop', 'tablet', 'phone', 'responsive', 'devices', 'computer', 'display')
 

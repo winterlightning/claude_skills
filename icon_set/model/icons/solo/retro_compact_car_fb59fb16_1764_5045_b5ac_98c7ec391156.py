@@ -12,7 +12,7 @@ class RetroCompactCar(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('car', 'retro', 'compact', 'beetle', 'vintage', 'vehicle', 'side view', 'automobile')
 

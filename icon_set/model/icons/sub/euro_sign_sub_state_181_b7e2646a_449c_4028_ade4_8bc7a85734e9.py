@@ -16,7 +16,7 @@ class EuroSignSubState181(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('euro', 'sign', 'broad', 'c', 'shaped', 'curve', 'opens', 'right')
 

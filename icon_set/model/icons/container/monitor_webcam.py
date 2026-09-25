@@ -9,7 +9,7 @@ class MonitorWebcam(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'container'
     aliases = ('computer-monitor-with-webcam',)
     keywords = ('monitor', 'webcam')
 

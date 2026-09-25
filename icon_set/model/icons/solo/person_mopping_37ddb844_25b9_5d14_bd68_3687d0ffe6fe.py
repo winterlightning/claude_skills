@@ -20,7 +20,7 @@ class PersonMopping(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('person', 'mop', 'mopping', 'cleaning', 'floor', 'housework')
 

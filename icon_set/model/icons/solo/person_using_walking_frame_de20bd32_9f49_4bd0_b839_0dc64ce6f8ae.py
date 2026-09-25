@@ -11,7 +11,7 @@ class PersonUsingWalkingFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('walker', 'frame', 'person', 'walking', 'mobility', 'accessibility')
 

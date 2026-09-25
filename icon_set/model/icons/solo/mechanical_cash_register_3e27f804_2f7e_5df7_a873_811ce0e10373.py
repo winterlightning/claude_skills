@@ -11,7 +11,7 @@ class MechanicalCashRegister(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shopping"
+    category = "shopping"
     aliases = ()
     keywords = ('register', 'cash', 'mechanical', 'crank', 'keys', 'retail', 'checkout')
 

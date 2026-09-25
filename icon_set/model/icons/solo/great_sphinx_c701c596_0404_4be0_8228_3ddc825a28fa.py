@@ -16,7 +16,7 @@ class GreatSphinx(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/objects'
+    category = 'culture'
     aliases = ()
     keywords = ('sphinx', 'egyptian', 'giza', 'pharaoh', 'lion', 'monument', 'ancient', 'mythology')
 

@@ -14,7 +14,7 @@ class SpeakerAtPodium(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/social'
+    category = 'social'
     aliases = ()
     keywords = ('speaker', 'podium', 'microphone', 'speech', 'person', 'address')
 

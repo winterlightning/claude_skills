@@ -11,7 +11,7 @@ class BoxcarOnRails(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('boxcar', 'freight wagon', 'cargo train', 'railway', 'wagon', 'rail', 'goods', 'train')
 

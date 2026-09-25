@@ -23,7 +23,7 @@ class ReaderBesideOpenBook(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ('reader-profile',)
     keywords = ('reader', 'person', 'book', 'reading', 'profile', 'pages')
 

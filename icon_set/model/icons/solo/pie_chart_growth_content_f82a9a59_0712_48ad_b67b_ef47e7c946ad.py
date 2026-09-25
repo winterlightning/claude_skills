@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'pie-chart-growth-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'business'
     tags = ('sub icon',)
     keywords = ('pie chart and growth arrow',)
     def build(self):

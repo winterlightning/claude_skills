@@ -3,7 +3,7 @@ Keyshape CIRCLE: extremes authored from its SOLO48 centerline box.
 Omissions: No omitted defining features; narrow currency bars are reported if they cannot meet spacing.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '8fbdf83e-7f75-5f64-b826-fc7b55c55a27'
 SOURCE_PATH = 'pictographic-primitives/money/crypto currency bitcoin_8fbdf83e-7f75-5f64-b826-fc7b55c55a27.svg'
 AUTHOR = 'gpt-6'

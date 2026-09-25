@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class RoundedGearContainer(Container64):
     icon_id = 'rounded-gear-container'
+    category = 'interface-essential'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('rounded', 'gear', 'container')

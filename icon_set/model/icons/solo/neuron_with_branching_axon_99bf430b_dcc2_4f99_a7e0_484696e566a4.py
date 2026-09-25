@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'science'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('neuron', 'nerve', 'cell', 'biology', 'axon', 'science')
 

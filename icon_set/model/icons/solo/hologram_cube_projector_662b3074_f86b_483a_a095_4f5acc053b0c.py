@@ -10,7 +10,7 @@ class HologramCubeProjector(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('hologram', 'projector', 'cube', 'virtual', '3d', 'projection', 'object')
 

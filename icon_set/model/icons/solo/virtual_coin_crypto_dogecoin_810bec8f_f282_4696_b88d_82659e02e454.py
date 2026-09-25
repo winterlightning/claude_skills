@@ -12,7 +12,7 @@ class ShibaInuFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('dog', 'shiba inu', 'doge', 'face', 'head', 'pet', 'canine', 'breed')
 

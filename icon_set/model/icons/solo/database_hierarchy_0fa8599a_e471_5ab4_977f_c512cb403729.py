@@ -13,7 +13,7 @@ class DatabaseHierarchy(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('database', 'hierarchy', 'tree', 'structure', 'data', 'schema', 'nodes', 'storage')
 

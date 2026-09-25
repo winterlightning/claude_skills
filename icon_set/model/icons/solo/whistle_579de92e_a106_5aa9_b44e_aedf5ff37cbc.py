@@ -15,7 +15,7 @@ class Whistle(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
     aliases = ()
     keywords = ('whistle', 'coach', 'sport', 'sound', 'referee', 'signal')
 

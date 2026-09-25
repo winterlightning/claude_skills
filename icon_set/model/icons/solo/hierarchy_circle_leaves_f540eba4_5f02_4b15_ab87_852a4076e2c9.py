@@ -13,7 +13,7 @@ class HierarchyCircleLeaves(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('hierarchy', 'tree', 'parent', 'nodes', 'circles', 'structure', 'diagram', 'organization')
 

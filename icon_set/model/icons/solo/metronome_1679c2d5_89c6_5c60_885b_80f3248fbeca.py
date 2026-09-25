@@ -10,7 +10,7 @@ class Metronome(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
     aliases=()
     keywords=('metronome', 'tempo', 'rhythm', 'beat', 'timing', 'practice', 'music')
 

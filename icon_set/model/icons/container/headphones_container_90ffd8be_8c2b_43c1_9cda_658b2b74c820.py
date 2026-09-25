@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class HeadphonesContainer(Container64):
     icon_id = 'headphones-container'
+    category = 'audio'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('headphones', 'container')

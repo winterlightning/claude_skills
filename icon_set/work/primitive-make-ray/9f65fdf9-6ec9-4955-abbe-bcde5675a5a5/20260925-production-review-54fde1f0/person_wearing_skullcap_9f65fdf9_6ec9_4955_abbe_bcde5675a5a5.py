@@ -1,14 +1,14 @@
-"""Person Wearing Skullcap. Circular head with gently bowed skullcap seam; detached head gap exactly4 ink units.
+"""Person Wearing Skullcap. Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: None.
+Omissions: No new costume details; retain skullcap or original neckline.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '9f65fdf9-6ec9-4955-abbe-bcde5675a5a5'
 SOURCE_PATH = 'pictographic-primitives/other/person_9f65fdf9-6ec9-4955-abbe-bcde5675a5a5.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Circular head with gently bowed skullcap seam; detached head gap exactly4 ink units.'
-OMISSIONS = 'None.'
+PLAN = 'Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.'
+OMISSIONS = 'No new costume details; retain skullcap or original neckline.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']
 PARENT_MODULE = 'icon_set/model/icons/solo/person_wearing_skullcap_9f65fdf9_6ec9_4955_abbe_bcde5675a5a5.py'
 
@@ -17,7 +17,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'avatars'
     aliases = ()
     keywords = ('person',)
 
@@ -77,6 +77,8 @@ class Drawing(Solo48):
 
         self.circle('head',24,14,10)
         self.path('cap',(14,14),[('C',(34,14),(20,16),(28,16))])
-        self.path('shoulders',(8,44),[('A',(20,32),12,12,True),('L',(28,32)),('A',(40,44),12,12,True)])
+        self.path('shoulders',(8,44),[('L',(8,40)),('A',(20,28),12,12,True),('L',(28,28)),('A',(40,40),12,12,True),('L',(40,44))])
+
+        self.relate('connect','head','shoulders')
 
         self.contacts()

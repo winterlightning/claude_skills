@@ -18,7 +18,7 @@ class ThreePersonGroupIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     human_construction = "bust"
-    category = "people/groups"
+    category = "primitives-generate"
     aliases = ("family contact", "group profile")
     keywords = ("three", "people", "users", "team")
 

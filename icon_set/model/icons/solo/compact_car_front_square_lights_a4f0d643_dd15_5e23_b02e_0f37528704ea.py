@@ -12,7 +12,7 @@ class CompactCarFrontSquareLights(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('car', 'front', 'compact', 'smart car', 'headlights', 'vehicle', 'city car', 'head-on')
 

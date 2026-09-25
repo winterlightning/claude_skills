@@ -12,7 +12,7 @@ class RoundLeafPottedPlant(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/plants"
+    category = "decoration"
     aliases = ()
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 

@@ -18,7 +18,7 @@ class SourceMain(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ('telephone-handset-diagonal',)
     keywords = ('telephone', 'handset', 'diagonal')
 

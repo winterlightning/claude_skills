@@ -10,7 +10,7 @@ class XylophoneWithMallet(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
     aliases=()
     keywords=('xylophone', 'glockenspiel', 'mallet', 'percussion', 'instrument', 'bars', 'music')
 

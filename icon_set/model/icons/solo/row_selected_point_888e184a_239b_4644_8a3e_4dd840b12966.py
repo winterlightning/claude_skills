@@ -13,7 +13,7 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "interface-essential"
     aliases = ()
     keywords = ('row', 'selected', 'point')
 

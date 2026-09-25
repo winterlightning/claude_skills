@@ -10,7 +10,7 @@ class RoboticExoskeletonLeg(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('exoskeleton', 'leg', 'robotic', 'prosthetic', 'joint', 'wearable', 'mobility')
 

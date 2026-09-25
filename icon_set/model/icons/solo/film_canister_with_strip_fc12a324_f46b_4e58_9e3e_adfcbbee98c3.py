@@ -11,7 +11,7 @@ class FilmCanisterWithStrip(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('film', 'canister', 'roll', '35mm', 'retro', 'analog', 'photography', 'negative')
 

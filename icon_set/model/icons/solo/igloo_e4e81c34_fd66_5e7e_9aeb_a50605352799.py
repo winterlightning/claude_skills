@@ -12,7 +12,7 @@ class Igloo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('igloo', 'snow', 'arctic', 'shelter', 'dome', 'winter', 'eskimo', 'ice')
 

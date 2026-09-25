@@ -49,7 +49,7 @@ class Container64(FamilyIcon):
     keyshape: Keyshape = Keyshape.CIRCLE
     semantic_role: str = "MAIN"
     semantic_kind: str = "noun"
-    category: str = "containers"
+    category: str = "container"
     aliases: tuple[str, ...] = ()
     keywords: tuple[str, ...] = ()
 

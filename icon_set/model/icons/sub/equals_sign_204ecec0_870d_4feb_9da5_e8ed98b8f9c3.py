@@ -16,7 +16,7 @@ class EqualsSign(Sub32):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('equals', 'sign', 'straight', 'horizontal', 'lines', 'equal', 'length', 'sit')
 

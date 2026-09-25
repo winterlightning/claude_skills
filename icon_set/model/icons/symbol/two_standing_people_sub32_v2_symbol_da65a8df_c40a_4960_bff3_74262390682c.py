@@ -12,6 +12,7 @@ AUTHOR = 'gpt-6'
 
 class DrawingVariant2ContainerSymbol(Sub32):
     icon_id = 'two-standing-people-sub32-v2-symbol'
+    category = 'users'
     related_origin_icon_id = 'two-standing-people-sub32-v2'
     variant_label = 'Independent container symbol'
     usage_category = 'symbol'

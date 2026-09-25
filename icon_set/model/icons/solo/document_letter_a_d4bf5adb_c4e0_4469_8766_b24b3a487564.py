@@ -12,7 +12,7 @@ class DocumentLetterA(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/document"
+    category = "primitives-generate"
     aliases = ("a text file", "letter a document")
     keywords = ("file", "text", "alphabet", "typography")
 

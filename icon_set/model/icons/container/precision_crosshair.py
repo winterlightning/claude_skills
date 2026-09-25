@@ -17,7 +17,7 @@ class PrecisionCrosshair(Container64):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('circular-target-symbol', 'circular-precision-target-crosshair',)
     keywords = ('precision', 'crosshair')
 

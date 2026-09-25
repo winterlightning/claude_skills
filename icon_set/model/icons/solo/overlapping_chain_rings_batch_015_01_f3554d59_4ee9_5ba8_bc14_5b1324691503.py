@@ -22,7 +22,7 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "interface-essential"
     aliases = ()
     keywords = ('chain', 'rings', 'link', 'attachment', 'connection', 'diagonal')
 

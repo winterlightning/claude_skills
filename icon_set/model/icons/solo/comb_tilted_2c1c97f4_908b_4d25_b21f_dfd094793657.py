@@ -18,7 +18,7 @@ class CombTilted(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('comb', 'hair', 'grooming', 'barber', 'beauty', 'brush', 'salon', 'care')
 

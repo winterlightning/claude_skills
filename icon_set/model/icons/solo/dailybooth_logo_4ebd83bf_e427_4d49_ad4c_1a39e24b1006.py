@@ -11,7 +11,7 @@ class DailyboothLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('dailybooth', 'camera', 'photo', 'logo', 'brand', 'social', 'speech-bubble')
 

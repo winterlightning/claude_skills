@@ -14,7 +14,7 @@ class DeathStarEquatorialTrench(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('death star', 'space station', 'sphere', 'trench', 'dish', 'fiction')
 

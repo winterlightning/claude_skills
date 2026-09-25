@@ -1,14 +1,14 @@
-"""Chemical Molecular Structure. Hexagonal molecule with equal open circular atoms and exact shared bond endpoints.
+"""Chemical Molecular Structure. Simplified molecular structure: four open atoms and three clear connecting bonds.
 Keyshape SQUARE: extremes authored from its SOLO48 centerline box.
-Omissions: Very short outer right twig and lower twig bend omitted; all six atom nodes retained.
+Omissions: Removed ring skeleton, secondary atom nodes and short terminal twigs at the user’s request.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'e1fa397a-aca0-4f59-875f-b0f6abeb1a51'
 SOURCE_PATH = 'pictographic-primitives/health/chemical hexagon_e1fa397a-aca0-4f59-875f-b0f6abeb1a51.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Hexagonal molecule with equal open circular atoms and exact shared bond endpoints.'
-OMISSIONS = 'Very short outer right twig and lower twig bend omitted; all six atom nodes retained.'
+PLAN = 'Simplified molecular structure: four open atoms and three clear connecting bonds.'
+OMISSIONS = 'Removed ring skeleton, secondary atom nodes and short terminal twigs at the user’s request.'
 CONSTRUCTION_REFERENCES = ['hexagon']
 PARENT_MODULE = 'icon_set/model/icons/solo/chemical_molecule_linked_atoms_e1fa397a_aca0_4f59_875f_b0f6abeb1a51.py'
 
@@ -75,14 +75,12 @@ class Drawing(Solo48):
 
     def build(self):
 
-        for name,x,y in [('top',22,9),('left-top',9,17),('left-bottom',9,31),('bottom',23,36),('right',29,23),('terminal',39,13)]:self.circle(name,x,y,3)
-        self.add_line('upper-left',(12,17),(19,9))
-        self.add_line('upper-right',(25,9),(29,20))
-        self.add_line('left-edge',(9,20),(9,28))
-        self.add_line('lower-left',(12,31),(20,36))
-        self.add_polyline('lower-right',(29,26),(29,32),(26,36))
-        self.add_line('side-chain',(32,23),(36,13))
-        self.add_line('terminal-stem',(39,10),(39,6))
-        self.add_line('lower-stem',(23,39),(23,42))
+        self.circle('center',24,24,4)
+        self.circle('left',10,10,4)
+        self.circle('right',38,10,4)
+        self.circle('bottom',24,38,4)
+        self.add_line('left-bond',(14,10),(20,24))
+        self.add_line('right-bond',(34,10),(28,24))
+        self.add_line('bottom-bond',(24,28),(24,34))
 
         self.contacts()

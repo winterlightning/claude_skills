@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="people/anatomy"
+    category = "primitives-generate"
     aliases=()
     keywords=('human', 'head', 'side', 'profile', 'solo')
     def build(self):

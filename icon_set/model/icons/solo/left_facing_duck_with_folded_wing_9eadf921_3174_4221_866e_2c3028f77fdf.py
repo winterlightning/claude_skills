@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ['Left Facing Duck with Folded Wing']
     keywords = ['duck', 'bird', 'bill', 'wing', 'waterfowl', 'animal', 'tail']
     def build(self):

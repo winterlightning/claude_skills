@@ -5,5 +5,6 @@ SOURCE_PATH = 'pictographic-primitives/other/attached file_55bd9f6e-12a9-4d3a-96
 AUTHOR = 'gpt-6'
 class InterlockingChainLink(_LinkDrawing):
     icon_id = 'interlocking-chain-link-symbol-solo'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('sub icon','chain','link')

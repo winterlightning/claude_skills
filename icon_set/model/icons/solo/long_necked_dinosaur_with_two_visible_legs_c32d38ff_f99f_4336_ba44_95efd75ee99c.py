@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'long-necked-dinosaur-with-two-visible-legs'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
         def path(name,start,steps,closed=False):

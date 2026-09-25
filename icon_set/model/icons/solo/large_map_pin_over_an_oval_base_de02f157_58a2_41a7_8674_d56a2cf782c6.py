@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'large-map-pin-over-an-oval-base'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
         def path(name,start,steps,closed=False):

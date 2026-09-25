@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'cable-car-cabin-hanging-from-wire'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('cable', 'car', 'cabin', 'hanging', 'from', 'wire')
 
     def build(self):

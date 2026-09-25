@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "logos"
     keywords = ('audio', 'equalizer', 'bars', 'sound', 'levels', 'waveform', 'music', 'stitcher')
 
     def build(self):

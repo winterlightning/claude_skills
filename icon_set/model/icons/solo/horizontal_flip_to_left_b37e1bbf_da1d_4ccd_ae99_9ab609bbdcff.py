@@ -9,7 +9,7 @@ class HorizontalFlipToLeft(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/transform"
+    category = "primitives-generate"
     aliases = ("flip left", "mirror horizontally")
     keywords = ("flip", "reflect", "left", "panels")
 

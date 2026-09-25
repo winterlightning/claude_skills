@@ -16,7 +16,7 @@ class DividedCapsule(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('divided', 'capsule', 'upright', 'rounded', 'equal', 'upper', 'lower', 'halves')
 

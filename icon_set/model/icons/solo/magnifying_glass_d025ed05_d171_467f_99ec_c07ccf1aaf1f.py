@@ -16,7 +16,7 @@ class Batch04Icon0(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/search"
+    category = "container"
     aliases = ('magnifying-glass',)
     keywords = ('magnifying', 'glass')
 

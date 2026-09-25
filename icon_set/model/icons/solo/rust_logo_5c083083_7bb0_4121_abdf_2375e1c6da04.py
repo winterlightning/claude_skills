@@ -11,7 +11,7 @@ class RustLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('rust', 'programming', 'language', 'gear', 'logo', 'brand', 'developer')
 

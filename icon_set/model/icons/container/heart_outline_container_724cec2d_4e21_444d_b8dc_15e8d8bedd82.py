@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class HeartOutlineContainer(Container64):
     icon_id = 'heart-outline-container'
+    category = 'romance'
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('heart', 'outline', 'container')

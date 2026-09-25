@@ -9,7 +9,7 @@ class SnowCappedMountainWithSun(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('mountain', 'volcano', 'fuji', 'peak', 'snow', 'sun', 'landscape', 'nature', 'landmark')
 

@@ -11,7 +11,7 @@ class SlenderToriiGate(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('torii', 'gate', 'shrine', 'japan', 'shinto', 'temple', 'landmark', 'religion')
 

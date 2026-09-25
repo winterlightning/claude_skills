@@ -14,7 +14,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'smiling-striped-cat-head'
     keyshape = Keyshape.SQUARE
-    category = "Uncategorized"
+    category = "primitives-generate"
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ("Happy Striped Cat Face",)

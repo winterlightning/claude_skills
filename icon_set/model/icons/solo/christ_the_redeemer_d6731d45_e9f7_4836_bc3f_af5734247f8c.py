@@ -11,7 +11,7 @@ class ChristTheRedeemer(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('christ the redeemer', 'rio', 'brazil', 'statue', 'monument', 'figure', 'landmark', 'religion')
 

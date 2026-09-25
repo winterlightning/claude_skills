@@ -10,7 +10,7 @@ class PregnancyTest(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/maternity'
+    category = 'babies'
     aliases = ('pregnancy-test-stick',)
     keywords = ('pregnancy', 'test', 'stick', 'result', 'fertility', 'maternity', 'medical', 'expecting')
 

@@ -17,7 +17,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/ecology"
+    category = "ecology"
     aliases = ()
     keywords = ('bottle', 'plastic', 'crushed', 'folds', 'waste', 'recycling', 'cap', 'ecology')
 

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'notched-artist-palette-with-paint-wells'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('notched', 'artist', 'palette', 'with', 'paint', 'wells')
 
     def build(self):

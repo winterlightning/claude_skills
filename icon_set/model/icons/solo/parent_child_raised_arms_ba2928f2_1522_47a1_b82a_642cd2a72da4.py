@@ -15,7 +15,7 @@ class Batch27Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/family"
+    category = "family"
     aliases = ()
     keywords = ('parent', 'and', 'child')
 

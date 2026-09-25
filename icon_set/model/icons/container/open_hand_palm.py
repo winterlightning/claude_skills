@@ -23,7 +23,7 @@ class OpenHandPalm(Container64):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ("raised-hand", "hand-palm-container")
     keywords = ("hand", "palm", "human", "greeting", "stop", "attention")
 

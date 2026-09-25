@@ -14,7 +14,7 @@ class ElectronicAnkleTrackingDevice(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/wearables"
+    category = "primitives-generate"
     aliases = ("ankle-tracker-with-radio-waves", "ankle-monitor")
     keywords = ("tracker", "ankle", "foot", "wearable", "signal", "monitor")
 

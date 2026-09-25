@@ -10,7 +10,7 @@ class ActionCameraOnMount(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/photography'
+    category = 'photography'
     aliases = ()
     keywords = ('action camera', 'gopro', 'camera', 'mount', 'video', 'sports', 'adventure', 'lens')
 

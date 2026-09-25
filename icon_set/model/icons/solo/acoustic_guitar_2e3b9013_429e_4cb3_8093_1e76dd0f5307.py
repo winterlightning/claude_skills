@@ -11,7 +11,7 @@ class AcousticGuitar(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
     aliases = ()
     keywords = ('guitar', 'acoustic', 'string', 'instrument', 'folk', 'music', 'strum')
 

@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'exclamation-point-warning-triangle-solo'
     keyshape = Keyshape.VRECT_L
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('exclamation point warning triangle',)
     def build(self):

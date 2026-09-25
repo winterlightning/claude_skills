@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'symbol'
     keywords = ('css', 'web', 'styling', 'symbol')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {}

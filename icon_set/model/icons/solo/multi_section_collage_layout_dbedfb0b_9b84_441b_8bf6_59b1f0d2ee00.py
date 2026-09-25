@@ -16,7 +16,7 @@ class MultiSectionCollageLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "design/layouts"
+    category = "primitives-generate"
     aliases = ("collage grid", "composition layout")
     keywords = ("panels", "mosaic", "sections", "grid")
 

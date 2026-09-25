@@ -18,7 +18,7 @@ class ContactlessCardPaymentYuan(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/payments'
+    category = 'payments'
     aliases = ()
     keywords = ('contactless','payment','card','hand','nfc','yuan')
 

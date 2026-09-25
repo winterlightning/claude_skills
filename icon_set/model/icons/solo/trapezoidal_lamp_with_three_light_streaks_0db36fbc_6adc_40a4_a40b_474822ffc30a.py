@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'trapezoidal-lamp-with-three-light-streaks'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('trapezoidal', 'lamp', 'with', 'three', 'light', 'streaks')
 
     def build(self):

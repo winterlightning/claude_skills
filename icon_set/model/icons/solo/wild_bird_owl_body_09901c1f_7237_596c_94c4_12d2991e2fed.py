@@ -10,7 +10,7 @@ class StandingOwl(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
     aliases = ()
     keywords = ('owl', 'standing', 'wise', 'bird', 'night', 'feathers', 'nocturnal', 'perch')
 

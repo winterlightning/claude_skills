@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="people/users"
+    category = "users"
     aliases=()
     keywords=('woman', 'half')
     human_construction="bust"

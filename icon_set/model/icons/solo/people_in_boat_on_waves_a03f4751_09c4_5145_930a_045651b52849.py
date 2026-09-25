@@ -16,7 +16,7 @@ class PeopleInBoatOnWaves(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
     aliases = ()
     keywords = ('refugee', 'immigration', 'boat', 'sea', 'family', 'people', 'waves', 'migration')
 

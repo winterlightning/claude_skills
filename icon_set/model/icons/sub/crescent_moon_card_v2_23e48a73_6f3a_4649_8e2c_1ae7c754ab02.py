@@ -17,7 +17,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/symbol"
+    category = "primitives-generate"
     aliases = ("moon-card",)
     keywords = ("crescent", "moon", "card", "night")
 

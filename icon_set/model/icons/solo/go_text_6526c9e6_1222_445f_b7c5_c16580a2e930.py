@@ -12,7 +12,7 @@ class GoText(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'symbols/labels'
+    category = 'symbol'
     aliases = ()
     keywords = ('go', 'start', 'begin', 'text', 'action', 'proceed', 'letters')
 

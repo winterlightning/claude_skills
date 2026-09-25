@@ -10,7 +10,7 @@ class CymbalOnStand(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
     aliases=()
     keywords=('cymbal', 'drum-kit', 'percussion', 'stand', 'instrument', 'band', 'music')
 

@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class PhotoCameraContainer(Container64):
     icon_id = 'photo-camera-container'
+    category = 'photography'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

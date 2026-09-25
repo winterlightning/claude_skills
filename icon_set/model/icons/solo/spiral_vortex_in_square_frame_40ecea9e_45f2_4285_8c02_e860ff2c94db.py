@@ -9,7 +9,7 @@ class SpiralVortexInSquareFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/logo"
+    category = "primitives-generate"
     aliases = ("Houdini spiral", "vortex frame")
     keywords = ("spiral", "square", "curl")
 

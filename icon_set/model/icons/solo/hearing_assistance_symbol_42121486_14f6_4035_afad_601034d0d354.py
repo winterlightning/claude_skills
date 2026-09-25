@@ -16,7 +16,7 @@ class HearingAssistanceSymbol(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "accessibility/hearing"
+    category = "primitives-generate"
     aliases = ("ear with sound arc", "hearing aid symbol")
     keywords = ("auditory", "ear", "sound", "accessibility")
 

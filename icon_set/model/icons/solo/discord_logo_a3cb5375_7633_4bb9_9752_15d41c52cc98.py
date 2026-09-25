@@ -10,7 +10,7 @@ class DiscordLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('discord', 'chat', 'gaming', 'logo', 'brand', 'community', 'voice')
 

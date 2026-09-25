@@ -30,7 +30,7 @@ class AdblueFluidLevelWave(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/uncategorized"
+    category = "primitives-generate"
     aliases = ("AdBlue indicator wave", "fluid-level wave")
     keywords = ("adblue", "fluid", "level", "indicator", "wave", "liquid")
 

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'looped-rope-with-two-wraps'
     keyshape = Keyshape.VRECT_M
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
         def path(name,start,steps,closed=False):

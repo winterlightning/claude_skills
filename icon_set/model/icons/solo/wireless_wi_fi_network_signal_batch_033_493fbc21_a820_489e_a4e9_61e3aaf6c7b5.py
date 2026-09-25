@@ -10,7 +10,7 @@ class Batch033Icon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
     aliases = ('wireless-wi-fi-network-signal',)
     keywords = ('batch-033',)
 

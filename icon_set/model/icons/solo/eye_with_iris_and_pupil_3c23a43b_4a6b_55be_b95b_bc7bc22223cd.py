@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "health"
     aliases = ()
     keywords = ('specialty eye',)
 
@@ -45,7 +45,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'eye-with-iris-and-pupil'
-    category = 'objects/health'
+    category = 'health'
     aliases = ()
     keywords = ('eye', 'with', 'iris', 'and', 'pupil')
     semantic_role = 'MAIN'

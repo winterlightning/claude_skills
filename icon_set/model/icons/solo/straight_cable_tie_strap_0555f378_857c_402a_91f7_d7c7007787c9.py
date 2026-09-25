@@ -16,7 +16,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/tools'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('adjustable', 'plastic', 'cable', 'tie')
 

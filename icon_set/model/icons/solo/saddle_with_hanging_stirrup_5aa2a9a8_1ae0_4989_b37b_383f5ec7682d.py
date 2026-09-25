@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'saddle-with-hanging-stirrup'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

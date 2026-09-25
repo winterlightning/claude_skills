@@ -16,7 +16,7 @@ class Batch03Icon7(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/phone"
+    category = "container"
     aliases = ('hand-holding-smartphone',)
     keywords = ('hand', 'holding', 'smartphone')
 

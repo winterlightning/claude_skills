@@ -11,7 +11,7 @@ class ToiletBrushSplash(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('toilet brush', 'brush', 'cleaning', 'scrub', 'bathroom', 'hygiene', 'splash', 'housekeeping')
 

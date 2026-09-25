@@ -19,7 +19,7 @@ class CoupleInBedWithHearts(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/relationships"
+    category = "primitives-generate"
     aliases = ("romantic-bed",)
     keywords = ("couple", "bed", "love", "hearts", "sleep")
 

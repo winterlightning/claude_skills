@@ -17,7 +17,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/recreation'
+    category = 'recreation'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

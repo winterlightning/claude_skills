@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.CIRCLE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'interface-essential'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'verified scalloped seal badge')
     def build(self):

@@ -16,7 +16,7 @@ class Batch04Icon12(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/flask"
+    category = "container"
     aliases = ('round-bottom-flask',)
     keywords = ('round', 'bottom', 'flask')
 

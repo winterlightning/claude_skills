@@ -172,4 +172,36 @@ class CombinationLayoutTests(unittest.TestCase):
         self.assertIsNone(active(LAYOUT_ROW, {**entry, 'sub': {'icon': 'cloud', 'sha256': 'changed'}}))
         self.assertIsNone(active(LAYOUT_ROW, None))
 
+
+class LayoutTransferTests(unittest.TestCase):
+    """Applying one pair's layout to another pair that uses the same main."""
+    LAYOUT = {'main': [{'paths': [0, 1, 2], 'x': 4, 'y': 20, 'w': 40, 'h': 40}, {'paths': [3, 4], 'x': 16, 'y': 30, 'w': 16, 'h': 14}],
+              'sub': [{'paths': [0], 'x': 32, 'y': 4, 'w': 28, 'h': 20}]}
+
+    def transfer(self, *args, **kwargs):
+        from icon_set.scripts.combination_layouts import transfer
+        return transfer(self.LAYOUT, 'tr', 'cloud', *args, **kwargs)
+
+    def test_same_side_same_sub_copies_exactly(self):
+        self.assertEqual(self.transfer('tr', 'cloud', 64), self.LAYOUT)
+
+    def test_other_side_reanchors_keeping_sizes(self):
+        moved = self.transfer('br', 'cloud', 64)
+        main, sub = moved['main'], moved['sub']
+        # Sub pushed bottom-right (painted edge at 62), main top-left (painted edge at 2).
+        self.assertEqual((sub[0]['x'] + sub[0]['w'] + 2, sub[0]['y'] + sub[0]['h'] + 2), (62, 62))
+        self.assertEqual((main[0]['x'] - 2, main[0]['y'] - 2), (2, 2))
+        self.assertEqual([(g['w'], g['h']) for g in main], [(40, 40), (16, 14)])
+        # Internal edits move with the main: the arrow keeps its offset inside the screen.
+        self.assertEqual((main[1]['x'] - main[0]['x'], main[1]['y'] - main[0]['y']), (12, 10))
+
+    def test_different_sub_fits_the_edited_box_with_its_own_proportions(self):
+        groups = [{'paths': [0, 1], 'box': [40, 40, 56, 60]}, {'paths': [2], 'box': [56, 44, 60, 56]}]   # 20×20 own sub
+        sub = self.transfer('tr', 'arrow', 64, groups)['sub']
+        x0, y0 = min(g['x'] for g in sub), min(g['y'] for g in sub)
+        x1, y1 = max(g['x'] + g['w'] for g in sub), max(g['y'] + g['h'] for g in sub)
+        self.assertEqual((x1 - x0, y1 - y0), (20, 20))          # square keeps square: min(28/20, 20/20)
+        self.assertEqual((x1, y0), (60, 4))                       # pushed into the top-right corner of the edited box
+        self.assertTrue(all(isinstance(g[k], int) for g in sub for k in 'xywh'))
+
 if __name__=='__main__':unittest.main()

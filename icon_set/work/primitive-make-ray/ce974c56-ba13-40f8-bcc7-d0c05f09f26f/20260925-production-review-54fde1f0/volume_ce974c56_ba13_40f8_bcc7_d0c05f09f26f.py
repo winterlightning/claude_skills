@@ -3,7 +3,7 @@ Keyshape HRECT_M: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'ce974c56-ba13-40f8-bcc7-d0c05f09f26f'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/volume_ce974c56-ba13-40f8-bcc7-d0c05f09f26f.svg'
 AUTHOR = 'gpt-6'

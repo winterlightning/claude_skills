@@ -12,7 +12,7 @@ class GolfBallTee(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('golf', 'ball', 'tee', 'sport', 'course', 'club', 'game', 'dimples')
 

@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'circle-heartbeat-content'
     keyshape = Keyshape.CIRCLE
-    category = 'objects/interface-essential'
+    category = 'symbol'
     tags = ('sub icon',)
     keywords = ('heartbeat pulse activity circle',)
     def build(self):

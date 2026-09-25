@@ -11,7 +11,7 @@ class SeatedElectricScooter(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('e-scooter', 'electric scooter', 'seated scooter', 'scooter', 'micromobility', 'ride', 'two wheels', 'commute')
 

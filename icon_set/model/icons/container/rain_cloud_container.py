@@ -18,7 +18,7 @@ class RainCloudContainer(Container64):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('cloud-with-falling-rain', 'rainy-weather-cloud')
     keywords = ('rain', 'cloud', 'container')
 

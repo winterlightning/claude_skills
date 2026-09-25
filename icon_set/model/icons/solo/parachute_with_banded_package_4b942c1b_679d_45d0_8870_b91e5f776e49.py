@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/delivery"
+    category = "delivery"
     aliases = ()
     keywords = ('parachute', 'package', 'parcel', 'canopy', 'delivery', 'airdrop', 'band', 'cargo')
 

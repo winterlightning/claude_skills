@@ -29,7 +29,7 @@ class Batch071Icon10(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('open', 'treasure', 'chest', 'reference', '26320a3f')
 

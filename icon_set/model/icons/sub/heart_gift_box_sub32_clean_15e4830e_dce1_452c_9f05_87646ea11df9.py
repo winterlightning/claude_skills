@@ -15,7 +15,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'romance'
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.box('box',2,11,30,30,1)

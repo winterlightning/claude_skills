@@ -9,7 +9,7 @@ class HandGestureVerticalSwipeDown(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
     aliases = ("down swipe hand",)
     keywords = ("pointing", "thumb", "curved arrow")
 

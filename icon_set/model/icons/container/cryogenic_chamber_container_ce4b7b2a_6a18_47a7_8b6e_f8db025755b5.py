@@ -34,7 +34,7 @@ class CryogenicChamberContainer(Container64):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'science'
     aliases = ()
     keywords = ('cryogenic', 'chamber', 'container')
 

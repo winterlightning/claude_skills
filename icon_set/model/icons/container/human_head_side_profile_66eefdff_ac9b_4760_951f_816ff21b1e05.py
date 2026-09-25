@@ -18,7 +18,7 @@ AUTHOR = 'gpt-6'
 class HumanHeadSideProfile(Container64):
     icon_id = 'human-head-side-profile'
     keyshape = Keyshape.VRECT_XL
-    category = 'containers'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('human', 'head', 'side', 'profile', 'mind')
 

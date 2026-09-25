@@ -10,7 +10,7 @@ class PeercoinLettermark(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="symbols/finance"
+    category = "money"
     aliases=()
     keywords=('peercoin', 'lettermark', 'crypto', 'currency', 'symbol', 'p')
 

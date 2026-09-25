@@ -12,7 +12,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/batch-010'
+    category = 'food'
     aliases = ()
     keywords = ('butternut', 'squash', 'vegetable', 'batch', '010', '11')
     def build(self):

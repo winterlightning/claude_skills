@@ -13,7 +13,7 @@ class LongDrinkingStraw(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ('Bent Drinking Straw',)
     keywords = ('straw','drink','bend','tube','beverage','utensil')
     def build(self):

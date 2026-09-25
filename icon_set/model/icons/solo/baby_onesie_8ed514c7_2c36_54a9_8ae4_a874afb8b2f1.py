@@ -10,7 +10,7 @@ class BabyOnesie(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/baby-care'
+    category = 'babies'
     aliases = ()
     keywords = ('onesie', 'bodysuit', 'baby', 'clothes', 'romper', 'garment', 'infant', 'laundry')
 

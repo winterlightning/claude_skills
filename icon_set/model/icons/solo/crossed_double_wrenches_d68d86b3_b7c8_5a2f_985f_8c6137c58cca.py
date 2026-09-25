@@ -11,7 +11,7 @@ class Revision(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/tools'
+    category = 'tools'
     aliases = ()
     keywords = ('tools', 'wrench')
     def build(self):

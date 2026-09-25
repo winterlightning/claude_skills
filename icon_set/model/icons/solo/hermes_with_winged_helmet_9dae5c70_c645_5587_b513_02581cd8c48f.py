@@ -12,7 +12,7 @@ class HermesWithWingedHelmet(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/religion'
+    category = 'religion'
     aliases = ()
     keywords = ('hermes', 'helmet', 'wing', 'head', 'greek', 'mythology', 'portrait')
 

@@ -17,7 +17,7 @@ class WhistleWithSoundRays(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/crime"
+    category = "crime"
     aliases = ()
     keywords = ('whistle', 'with', 'sound', 'rays')
 

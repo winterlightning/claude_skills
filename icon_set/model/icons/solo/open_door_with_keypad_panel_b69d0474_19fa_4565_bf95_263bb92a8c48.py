@@ -10,7 +10,7 @@ class OpenDoorWithKeypadPanel(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('door', 'open', 'keypad', 'unlock', 'access', 'entry', 'smart-lock')
 

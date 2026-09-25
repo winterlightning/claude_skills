@@ -13,7 +13,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'four-ascending-chart-columns'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('four', 'ascending', 'chart', 'columns')
 
     def build(self):

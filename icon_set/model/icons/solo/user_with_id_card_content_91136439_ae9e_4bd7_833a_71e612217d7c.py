@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'user-with-id-card-content'
     keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('user profile with id card',)
     def build(self):

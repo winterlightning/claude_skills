@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/everyday"
+    category = "primitives-generate"
     aliases=()
     keywords=('captive', 'bead', 'piercing', 'ring')
     def build(self):

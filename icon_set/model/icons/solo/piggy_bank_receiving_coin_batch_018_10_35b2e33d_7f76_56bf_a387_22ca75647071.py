@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "money"
     keywords = ('piggy', 'bank', 'coin', 'saving', 'money', 'deposit', 'pig', 'finance')
 
     def build(self):

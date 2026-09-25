@@ -15,7 +15,7 @@ class DrawingVariant3(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
 
     def build(self):
         self.add_arc('head-top', (12, 6), (20, 6), radius_x=4)

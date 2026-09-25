@@ -20,7 +20,7 @@ class DrawingContainerSymbol(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/interface-essential'
+    category = 'state'
     tags = ('sub icon',)
     keywords = ('sub icon', 'grid fitted', 'circular alert warning icon')
 

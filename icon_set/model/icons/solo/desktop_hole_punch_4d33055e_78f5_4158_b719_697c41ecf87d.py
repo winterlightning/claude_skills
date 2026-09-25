@@ -11,7 +11,7 @@ class DesktopHolePunch(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
     aliases=()
     keywords=('hole punch', 'puncher', 'paper', 'stationery', 'desktop', 'office')
 

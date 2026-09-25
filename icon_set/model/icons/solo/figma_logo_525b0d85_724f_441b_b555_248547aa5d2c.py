@@ -10,7 +10,7 @@ class FigmaLogo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('figma', 'design', 'prototype', 'logo', 'brand', 'ui', 'collaboration')
 

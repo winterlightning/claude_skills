@@ -12,7 +12,7 @@ class BellSubState187Variant3(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('bell', 'rounded', 'crown', 'small', 'top', 'knob', 'widening', 'sides')
     keyshape = Keyshape.SQUARE

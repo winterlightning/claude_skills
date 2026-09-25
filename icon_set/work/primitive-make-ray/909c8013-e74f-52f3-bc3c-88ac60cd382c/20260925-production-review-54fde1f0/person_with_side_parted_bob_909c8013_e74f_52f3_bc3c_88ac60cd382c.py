@@ -1,14 +1,14 @@
-"""Female User Profile Avatar. Expand the circular face and preserve side-parted bob hair; coherent circular jaw and broad shoulders.
+"""Female User Profile Avatar. Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: Neck seams and shirt collar omitted to protect the exact detached face-to-body gap; hairstyle retained.
+Omissions: Tiny neck seams omitted; original hairstyle and open bust retained.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '909c8013-e74f-52f3-bc3c-88ac60cd382c'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_909c8013-e74f-52f3-bc3c-88ac60cd382c.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Expand the circular face and preserve side-parted bob hair; coherent circular jaw and broad shoulders.'
-OMISSIONS = 'Neck seams and shirt collar omitted to protect the exact detached face-to-body gap; hairstyle retained.'
+PLAN = 'Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.'
+OMISSIONS = 'Tiny neck seams omitted; original hairstyle and open bust retained.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']
 PARENT_MODULE = 'icon_set/model/icons/solo/person_with_side_parted_bob_909c8013_e74f_52f3_bc3c_88ac60cd382c.py'
 
@@ -17,7 +17,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'avatars'
     aliases = ()
     keywords = ('woman',)
 
@@ -74,11 +74,13 @@ class Drawing(Solo48):
                 if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
 
     def build(self):
-        self.path('hair',(8,27),[('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,27))])
+        self.path('hair',(8,26),[('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,26))])
 
-        # Shared human vocabulary: radius8 circular jaw; bottom28, shoulders36 => 4u ink gap.
+        # Circular jaw bottom28; shoulder top32 yields zero ink gap at stroke4.
         self.path('fringe',(16,20),[('C',(27,14),(21,19),(25,17)),('C',(32,20),(28,17),(30,19))])
         self.path('jaw',(32,20),[('A',(24,28),8,8,True),('A',(16,20),8,8,True)])
-        self.path('shoulders',(8,44),[('A',(16,36),8,8,True),('L',(32,36)),('A',(40,44),8,8,True)])
+        self.path('shoulders',(8,44),[('L',(8,40)),('A',(16,32),8,8,True),('L',(32,32)),('A',(40,40),8,8,True),('L',(40,44))])
+
+        self.relate('connect','jaw','shoulders')
 
         self.contacts()

@@ -13,7 +13,7 @@ class HandsHoldingPuzzlePiece(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('puzzle', 'hands', 'module', 'piece', 'solution', 'integration', 'support', 'teamwork')
 

@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('doctor',)
 
@@ -46,7 +46,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'doctor-wearing-medical-cap-batch-021-15'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('doctor', 'wearing', 'medical', 'cap')
     semantic_role = 'MAIN'

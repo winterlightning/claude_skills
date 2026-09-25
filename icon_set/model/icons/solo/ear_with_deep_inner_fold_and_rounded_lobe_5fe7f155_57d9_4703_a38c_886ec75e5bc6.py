@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'ear-with-deep-inner-fold-and-rounded-lobe'
     keyshape = Keyshape.VRECT_M
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('ear', 'with', 'deep', 'inner', 'fold', 'and', 'rounded', 'lobe')
 
     def build(self):

@@ -12,7 +12,7 @@ class HeartPulse(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('heart', 'pulse', 'heartbeat', 'health', 'cardio', 'medical', 'rate', 'life', 'sub icon')
 

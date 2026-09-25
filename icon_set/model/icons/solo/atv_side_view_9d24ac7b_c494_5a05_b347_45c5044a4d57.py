@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "transportation"
     aliases = ()
     keywords = ('car',)
     def build(self):
@@ -45,7 +45,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'atv-side-view'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('atv', 'quad', 'quad bike', 'off-road', 'vehicle', 'four wheeler', 'offroad', 'side view')
     semantic_role = 'MAIN'

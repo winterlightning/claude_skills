@@ -10,7 +10,7 @@ class DPad(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/gaming'
+    category = 'video-games'
     aliases = ()
     keywords = ('d-pad', 'directional pad', 'dpad', 'controller', 'gamepad', 'arrows', 'input', 'gaming')
 

@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'add-user-profile-content'
     keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
+    category = 'symbol'
     tags = ('sub icon',)
     keywords = ('add new user profile',)
     def build(self):

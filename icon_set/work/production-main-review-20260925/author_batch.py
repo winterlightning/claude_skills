@@ -162,13 +162,13 @@ design(19,'VRECT_L','Clipboard with true curved dollar sign and exposed vertical
         self.dollar(24,28)
 ''',['clipboard'])
 design(20,'SQUARE','Eight smoothly repeated gear teeth surround a taller curved dollar sign.', '''
-        quarter=[('C',(27,6),(23,6),(25,6)),('C',(30,9),(29,6),(28,9)),('C',(35,10),(32,9),(33,9)),('C',(38,13),(36,10),(38,12)),('C',(39,18),(39,15),(39,16)),('C',(42,21),(39,20),(42,19))]
+        quarter=[('C',(30,11),(27,6),(27,10)),('C',(37,11),(33,12),(35,9)),('C',(37,18),(39,13),(36,15)),('C',(42,24),(38,21),(42,21))]
         def rot(p,k):
             x,y=p[0]-24,p[1]-24
             for _ in range(k):x,y=-y,x
             return x+24,y+24
         commands=[('C',rot(c[1],k),rot(c[2],k),rot(c[3],k)) for k in range(4) for c in quarter]
-        self.path('gear',(21,6),commands,True)
+        self.path('gear',(24,6),commands,True)
         self.dollar()
 ''',['settings'])
 design(21,'SQUARE','Pipette with consistent diagonal shaft width, rounded bulb and smooth tapered nozzle.', '''
@@ -259,6 +259,60 @@ gcode="""
 for i,code in text_codes.items():
     design(i,'HRECT_M','Typeface v2 letter construction re-authored on integer SOLO48 coordinates with shared cap height and baseline.',code+(gcode if i!=2 else ''),['typeface/glyphs-v2.json'], 'Tiny source corner fragments simplified into coherent joins; retained typeface v2 glyph shape.')
 
+# User review corrections, 2026-09-25. Keep approved geometry unchanged.
+AVATARS={6,22,24,32,35,36}
+DESIGNS[5]=DESIGNS[4]
+for i in (6,24,35):
+    key,plan,code,refs,omissions=DESIGNS[i]
+    code=code.replace("self.path('shoulders',(8,44),[('A',(20,32),12,12,True),('L',(28,32)),('A',(40,44),12,12,True)])", "self.path('shoulders',(8,44),[('L',(8,40)),('A',(20,28),12,12,True),('L',(28,28)),('A',(40,40),12,12,True),('L',(40,44))])")
+    code=code.replace("self.path('body',(8,44),[('A',(20,32),12,12,True),('L',(28,32)),('A',(40,44),12,12,True)])", "self.path('body',(8,44),[('L',(8,40)),('A',(20,28),12,12,True),('L',(28,28)),('A',(40,40),12,12,True),('L',(40,44))])")
+    code+="\n        self.relate('connect','head',"+repr('shoulders' if i==6 else 'body')+")\n"
+    DESIGNS[i]=(key,'Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.',code,refs,'No new costume details; retain skullcap or original neckline.')
+for i in (22,32,36):
+    key,plan,code,refs,omissions=DESIGNS[i]
+    code=code.replace("self.path('shoulders',(8,44),[('A',(16,36),8,8,True),('L',(32,36)),('A',(40,44),8,8,True)])", "self.path('shoulders',(8,44),[('L',(8,40)),('A',(16,32),8,8,True),('L',(32,32)),('A',(40,40),8,8,True),('L',(40,44))])")
+    code=code.replace('# Shared human vocabulary: radius8 circular jaw; bottom28, shoulders36 => 4u ink gap.','# Circular jaw bottom28; shoulder top32 yields zero ink gap at stroke4.')
+    if i==22: code=code.replace('(8,27)','(8,26)').replace('(40,27)','(40,26)')
+    if i==36:
+        code=code.replace('(8,30)','(8,40)').replace('(40,30)','(40,40)')
+        code+="\n        self.relate('connect','hair','shoulders')\n"
+    code+="\n        self.relate('connect','jaw','shoulders')\n"
+    DESIGNS[i]=(key,'Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.',code,refs,'Tiny neck seams omitted; original hairstyle and open bust retained.')
+design(14,'VRECT_L','Hardbound book with a square front cover, curved spine and recessed page edge. Portrait torso joins the cover edge.', """
+        self.path('cover',(8,40),[('L',(8,8)),('A',(12,4),4,4,True),('L',(40,4)),('L',(40,36)),('L',(12,36)),('A',(8,40),4,4,False)])
+        self.path('pages',(8,40),[('A',(12,44),4,4,False),('L',(40,44)),('C',(40,36),(38,42),(38,38))])
+        self.circle('head',24,16,4)
+        self.path('arms',(16,25),[('C',(22,28),(18,27),(20,28)),('L',(24,28)),('L',(26,28)),('C',(32,25),(28,28),(30,27))])
+        self.add_line('torso',(24,28),(24,36))
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+""",['book-user','human_ref/user.svg'])
+# Shared telephone receiver: diagonal earpieces and one coherent closed curved silhouette.
+def receiver(y):
+    return f"""
+        def pt(x,v):return (x+1,v+{y})
+        self.path('receiver',pt(17,12),[('L',pt(20,12)),('A',pt(22,14),2,2,True),('L',pt(22,16)),('L',pt(21,18)),('C',pt(25,22),pt(22,20),pt(23,21)),('L',pt(27,21)),('L',pt(29,21)),('A',pt(31,23),2,2,True),('L',pt(31,26)),('A',pt(29,28),2,2,True),('C',pt(15,14),pt(21,28),pt(15,22)),('A',pt(17,12),2,2,True)],True)
+"""
+design(16,'VRECT_L','Calendar with a recognizable curved telephone receiver and angled earpieces.',"        self.calendar()\n"+receiver(9),['calendar-check','phone'],'Tiny earpiece panel seams omitted; retain full receiver silhouette.')
+design(33,'VRECT_L','Phone with a recognizable curved telephone receiver and angled earpieces.',"        self.phone()\n"+receiver(0),['smartphone','phone'],'Tiny earpiece panel seams omitted; retain full receiver silhouette.')
+k,p,c,r,o=DESIGNS[17]
+c=c.replace("(16,18),[('A',(20,22),4,4,True),('A',(16,26),4,4,True)]", "(17,19),[('A',(20,22),3,3,True),('A',(17,25),3,3,True)]").replace("(32,18),[('A',(28,22),4,4,False),('A',(32,26),4,4,False)]", "(31,19),[('A',(28,22),3,3,False),('A',(31,25),3,3,False)]")
+DESIGNS[17]=(k,'Smaller wrench inside the same car; stroke remains4, as requested even if compact jaws fail.',c,r,o)
+design(18,'SQUARE','Simplified molecular structure: four open atoms and three clear connecting bonds.',"""
+        self.circle('center',24,24,4)
+        self.circle('left',10,10,4)
+        self.circle('right',38,10,4)
+        self.circle('bottom',24,38,4)
+        self.add_line('left-bond',(14,10),(20,24))
+        self.add_line('right-bond',(34,10),(28,24))
+        self.add_line('bottom-bond',(24,28),(24,34))
+""",['hexagon'],'Removed ring skeleton, secondary atom nodes and short terminal twigs at the user’s request.')
+design(26,'VRECT_L','Airplane mode shown by a clear rising fuselage, wide swept wings and tailplane inside the phone.',"""
+        self.phone()
+        self.add_polyline('fuselage',(19,25),(25,19),(31,13))
+        self.add_polyline('wings',(16,15),(25,19),(29,28))
+        self.add_polyline('tail',(16,22),(19,25),(22,28))
+""",['smartphone'],'Replaced ambiguous source-like stroke with recognizable airplane silhouette at user request.')
+
 def main():
     for i,row in enumerate(ROWS,1):
         SOURCE_ICON_ID=row['id'];SOURCE_PATH=row['source_path']
@@ -268,7 +322,7 @@ Keyshape {key}: extremes authored from its SOLO48 centerline box.
 Omissions: {omissions}
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = {SOURCE_ICON_ID!r}
 SOURCE_PATH = {SOURCE_PATH!r}
 AUTHOR = {AUTHOR!r}
@@ -282,7 +336,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.{key}
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = {('avatars' if i in AVATARS else 'objects/general')!r}
     aliases = ()
     keywords = {tuple(row['concept_input'].split())!r}
 '''

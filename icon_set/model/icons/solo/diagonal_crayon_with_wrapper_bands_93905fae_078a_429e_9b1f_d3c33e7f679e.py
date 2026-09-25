@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Diagonal Wax Crayon',)
     keywords = ('crayon', 'wax', 'drawing', 'color', 'art', 'wrapper', 'stationery')
     def build(self):

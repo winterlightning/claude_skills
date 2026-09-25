@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.HRECT_XL
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'primitives-generate'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'yuan currency money bill')
     def build(self):

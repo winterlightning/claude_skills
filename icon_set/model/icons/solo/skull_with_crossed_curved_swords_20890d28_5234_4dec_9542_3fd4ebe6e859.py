@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "crime"
     aliases = ()
     keywords = ('skull', 'swords', 'pirate', 'piracy', 'emblem', 'blade', 'crossed', 'bones')
 

@@ -10,7 +10,7 @@ class Skateboard(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('skateboard', 'skating', 'board', 'wheel', 'equipment', 'sport')
     def build(self) -> None:

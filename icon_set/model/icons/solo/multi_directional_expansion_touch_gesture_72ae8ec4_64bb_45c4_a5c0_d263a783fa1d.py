@@ -9,7 +9,7 @@ class MultiDirectionalExpansionTouchGesture(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
     aliases = ("four-way expand", "spread gesture")
     keywords = ("finger", "arrows", "directions")
 

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'tiered-file-folders-in-a-tray'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('tiered', 'file', 'folders', 'in', 'a', 'tray')
 
     def build(self):

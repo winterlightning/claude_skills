@@ -14,7 +14,7 @@ class PersonWithSpiritualEnlightenmentSymbols(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/spirituality"
+    category = "primitives-generate"
     aliases = ("person-with-aura", "spiritual-enlightenment")
     keywords = ("person", "aura", "enlightenment", "spiritual", "meditation")
     human_construction = "bust"

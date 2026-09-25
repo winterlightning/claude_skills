@@ -21,7 +21,7 @@ class ZoomInMagnifyingGlassWithPlusBadge(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ("magnifying-glass-with-plus-badge",)
     keywords = ("zoom", "magnify", "enlarge", "search", "lens", "plus")
 

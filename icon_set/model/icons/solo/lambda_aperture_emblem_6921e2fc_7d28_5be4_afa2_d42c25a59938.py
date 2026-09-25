@@ -10,7 +10,7 @@ class LambdaApertureEmblem(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="symbols/finance"
+    category = "money"
     aliases=()
     keywords=('lambda', 'aperture', 'emblem', 'crypto', 'blade', 'circle')
 

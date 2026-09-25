@@ -16,7 +16,7 @@ class ComputerMonitorDisplayScreen(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/displays"
+    category = "primitives-generate"
     aliases = ("desktop monitor", "computer screen")
     keywords = ("desktop", "display", "screen", "computer")
 

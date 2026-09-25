@@ -11,7 +11,7 @@ class HangingChineseLanterns(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/objects'
+    category = 'culture'
     aliases = ()
     keywords = ('lantern', 'chinese', 'festival', 'lunar new year', 'hanging', 'bunting', 'celebration', 'asian')
 

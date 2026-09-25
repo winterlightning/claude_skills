@@ -16,7 +16,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'makeup-brush-touching-a-cheek'
     keyshape = Keyshape.SQUARE
-    category = "Uncategorized"
+    category = "primitives-generate"
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ["Makeup Brush and Facial Cream"]

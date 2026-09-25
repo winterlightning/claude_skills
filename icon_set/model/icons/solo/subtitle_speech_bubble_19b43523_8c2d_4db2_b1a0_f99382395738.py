@@ -11,7 +11,7 @@ class SubtitleSpeechBubble(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "video"
     aliases = ()
     keywords = ('subtitle', 'speech', 'bubble', 'text', 'caption', 'dialogue', 'language')
 

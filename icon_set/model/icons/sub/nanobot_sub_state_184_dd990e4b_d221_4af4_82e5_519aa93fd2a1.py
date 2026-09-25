@@ -16,7 +16,7 @@ class NanobotSubState184(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('nanobot', 'tall', 'hexagonal', 'body', 'gently', 'rounded', 'corners', 'round')
 

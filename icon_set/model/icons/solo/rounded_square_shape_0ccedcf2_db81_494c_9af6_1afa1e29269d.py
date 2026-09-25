@@ -16,7 +16,7 @@ class RoundedSquareShape(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/geometry"
+    category = "primitives-generate"
     aliases = ("round-corner square", "plain square")
     keywords = ("shape", "outline", "rectangle", "frame")
 

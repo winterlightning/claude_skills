@@ -10,7 +10,7 @@ class LifeguardChair(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('lifeguard', 'chair', 'pool', 'water', 'safety', 'swimming')
     def build(self) -> None:

@@ -11,7 +11,7 @@ class LeaningTowerOfPisa(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'places/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('pisa', 'tower', 'italy', 'leaning', 'landmark', 'campanile', 'travel', 'architecture')
 

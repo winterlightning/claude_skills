@@ -16,7 +16,7 @@ class Batch02Icon5(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/jar"
+    category = "container"
     aliases = ('cosmetic-cream-jar',)
     keywords = ('cosmetic', 'cream', 'jar')
 

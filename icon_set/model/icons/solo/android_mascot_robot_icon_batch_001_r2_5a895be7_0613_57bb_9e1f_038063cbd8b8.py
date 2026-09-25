@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'apps'
     aliases = ()
     keywords = ('android',)
 
@@ -53,7 +53,7 @@ class Drawing(Solo48):
             self.add_line('antenna-'+n,(x,8),(tip,4));self.relate('connect','antenna-'+n,'outline')
 
     icon_id = 'android-mascot-robot-icon-batch-001-r2'
-    category = 'objects/interface'
+    category = 'apps'
     aliases = ()
     keywords = ('android', 'mascot', 'robot', 'icon')
     semantic_role = 'MAIN'

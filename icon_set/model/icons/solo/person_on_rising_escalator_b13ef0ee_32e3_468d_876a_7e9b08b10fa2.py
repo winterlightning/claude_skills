@@ -19,7 +19,7 @@ class PersonOnRisingEscalator(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "transport/escalators"
+    category = "primitives-generate"
     aliases = ("moving walkway rider", "person riding escalator")
     keywords = ("person", "up", "stairs", "direction")
 

@@ -11,7 +11,7 @@ class Lute(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
     aliases = ()
     keywords = ('lute', 'string', 'instrument', 'renaissance', 'mandolin', 'music', 'plucked')
 

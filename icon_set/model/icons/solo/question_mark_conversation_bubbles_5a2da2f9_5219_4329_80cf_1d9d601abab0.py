@@ -17,7 +17,7 @@ class QuestionMarkConversationBubbles(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/chat"
+    category = "primitives-generate"
     aliases = ("question chat", "help conversation")
     keywords = ("question", "reply", "bubbles", "support")
 

@@ -14,7 +14,7 @@ class ArrowsMaximize(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_04'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('arrows', 'maximize', '_uncategorized_04')
 

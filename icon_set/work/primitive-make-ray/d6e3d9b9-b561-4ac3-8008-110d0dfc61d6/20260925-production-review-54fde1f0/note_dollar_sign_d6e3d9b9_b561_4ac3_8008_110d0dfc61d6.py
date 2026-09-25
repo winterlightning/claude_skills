@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd6e3d9b9-b561-4ac3-8008-110d0dfc61d6'
 SOURCE_PATH = 'pictographic-primitives/other/note dollar sign_d6e3d9b9-b561-4ac3-8008-110d0dfc61d6.svg'
 AUTHOR = 'gpt-6'

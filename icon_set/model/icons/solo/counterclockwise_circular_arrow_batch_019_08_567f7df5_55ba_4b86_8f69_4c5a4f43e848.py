@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/other'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('counterclockwise', 'circular', 'arrow', 'batch', '019', '08')
     def build(self):

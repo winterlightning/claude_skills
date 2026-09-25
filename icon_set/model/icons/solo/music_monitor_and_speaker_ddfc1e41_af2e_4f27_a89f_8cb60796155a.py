@@ -19,7 +19,7 @@ class MusicMonitorAndSpeaker(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/media"
+    category = "primitives-generate"
     aliases = ("modern music monitor speaker", "music desktop speakers")
     keywords = ("audio", "computer", "speaker", "notes")
 

@@ -10,7 +10,7 @@ class GoogleAdManagerLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('google-ad-manager', 'google', 'ads', 'logo', 'brand', 'advertising', 'publisher')
 

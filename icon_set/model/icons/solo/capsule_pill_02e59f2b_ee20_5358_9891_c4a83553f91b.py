@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "health"
     aliases = ()
     keywords = ('pill',)
 
@@ -44,7 +44,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'capsule-pill-02e59f2b'
-    category = 'objects/health'
+    category = 'health'
     aliases = ()
     keywords = ('capsule', 'pill')
     semantic_role = 'MAIN'

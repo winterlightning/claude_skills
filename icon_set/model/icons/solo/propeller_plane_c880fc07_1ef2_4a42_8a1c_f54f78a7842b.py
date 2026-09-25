@@ -10,7 +10,7 @@ class PropellerPlane(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('propeller plane', 'airplane', 'aircraft', 'plane', 'aviation', 'flight', 'light aircraft', 'propeller')
 

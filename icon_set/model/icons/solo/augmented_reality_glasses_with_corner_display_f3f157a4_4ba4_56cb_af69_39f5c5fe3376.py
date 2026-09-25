@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'devices'
     aliases = ()
     keywords = ('device', 'google', 'glass')
 
@@ -50,7 +50,7 @@ class Drawing(Solo48):
         self.relate('connect','display','frame')
 
     icon_id = 'augmented-reality-glasses-with-corner-display'
-    category = 'objects/devices'
+    category = 'devices'
     aliases = ()
     keywords = ('smart', 'augmented', 'reality', 'glasses')
     semantic_role = 'MAIN'

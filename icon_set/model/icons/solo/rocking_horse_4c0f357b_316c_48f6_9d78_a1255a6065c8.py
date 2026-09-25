@@ -15,7 +15,7 @@ class RockingHorse(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/baby'
+    category = 'babies'
     aliases = ()
     keywords = ('rocking', 'horse', 'baby', 'nursery', 'toy')
 

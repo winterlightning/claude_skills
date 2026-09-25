@@ -21,7 +21,7 @@ class LaptopStorefront(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/ecommerce'
+    category = 'ecommerce'
     aliases = ('online-store-laptop',)
     keywords = ('laptop', 'storefront', 'awning', 'shop', 'online', 'commerce')
 

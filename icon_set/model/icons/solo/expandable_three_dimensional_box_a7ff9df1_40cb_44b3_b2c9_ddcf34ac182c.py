@@ -23,7 +23,7 @@ class ExpandableThreeDimensionalBox(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/uncategorized"
+    category = "primitives-generate"
     aliases = ("expandable 3D box", "expand cube")
     keywords = ("box", "cube", "3d", "expand", "resize", "corners", "outward")
 

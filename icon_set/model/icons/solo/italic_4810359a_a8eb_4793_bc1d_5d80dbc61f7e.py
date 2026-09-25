@@ -14,7 +14,7 @@ class Italic(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('italic', '_uncategorized')
 

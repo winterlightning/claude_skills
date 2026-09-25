@@ -14,7 +14,7 @@ class YipYipMartian(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('yip yip', 'martian', 'alien', 'antenna', 'eyes', 'puppet')
 

@@ -11,7 +11,7 @@ class Result(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'people/body'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('hair', 'root', 'strand', 'follicle', 'body', 'care')
 

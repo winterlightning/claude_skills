@@ -20,7 +20,7 @@ class CubeSubVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('cube', 'shown', 'diamond', 'shaped', 'top', 'upright', 'side', 'faces')
     keyshape = Keyshape.SQUARE

@@ -12,7 +12,7 @@ class LeapingSwordfish(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "animals/marine"
+    category = "animals"
     aliases = ()
     keywords = ('swordfish', 'marlin', 'jump', 'leap', 'droplets', 'sea', 'fishing', 'sport')
 

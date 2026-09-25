@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='architecture'
+    category = 'primitives-generate'
     aliases=('farm windmill',)
     keywords=('windmill','mill','sails','building','farm','wind')
     def build(self):

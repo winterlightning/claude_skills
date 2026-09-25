@@ -11,7 +11,7 @@ class StarAboveRankedFigures(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/rating"
+    category = "rating"
     aliases = ()
     keywords = ('ranking', 'star', 'top', 'winner', 'people', 'leaderboard', 'best', 'competition')
 

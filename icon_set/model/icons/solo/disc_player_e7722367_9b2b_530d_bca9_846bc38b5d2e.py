@@ -10,7 +10,7 @@ class DiscPlayer(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/media'
+    category = 'video'
     aliases = ()
     keywords = ('disc', 'player', 'dvd', 'cd', 'media', 'device', 'video')
 

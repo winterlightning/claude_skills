@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'spinal-column-with-three-paired-processes'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

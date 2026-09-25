@@ -13,7 +13,7 @@ class CrackedDatabase(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('database', 'broken', 'crack', 'breach', 'data', 'failure', 'storage', 'damaged')
 

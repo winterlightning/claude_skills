@@ -16,7 +16,7 @@ class GavelBlockSubState126(Sub32):
     keyshape = Keyshape.HRECT_S
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('gavel', 'block', 'low', 'wide', 'rectangular', 'gently', 'rounded', 'corners')
 

@@ -15,7 +15,7 @@ class LivejournalLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('livejournal', 'blog', 'pencil', 'journal', 'logo', 'brand', 'writing')
 

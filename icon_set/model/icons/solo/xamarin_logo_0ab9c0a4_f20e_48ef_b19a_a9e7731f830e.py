@@ -11,7 +11,7 @@ class XamarinLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('xamarin', 'microsoft', 'mobile', 'hexagon', 'letter-x', 'logo', 'brand')
 

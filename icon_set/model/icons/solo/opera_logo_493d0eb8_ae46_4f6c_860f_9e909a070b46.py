@@ -15,7 +15,7 @@ class OperaLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('opera', 'browser', 'letter-o', 'logo', 'brand', 'web', 'internet')
 

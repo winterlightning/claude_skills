@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'lower-leg-resting-in-a-support'
     keyshape = Keyshape.SQUARE
-    category = "Uncategorized"
+    category = "primitives-generate"
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ["Leg in Medical Traction"]

@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'rewards'
     aliases = ()
     keywords = ('flag',)
 
@@ -59,7 +59,7 @@ class Drawing(Solo48):
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
 
     icon_id = 'wheelchair-user-holding-a-flag'
-    category = 'objects/award'
+    category = 'rewards'
     aliases = ()
     keywords = ('award', 'reward', 'wheelchair-user-holding-a-flag')
     semantic_role = 'MAIN'

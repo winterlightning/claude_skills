@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'office'
     aliases=()
     keywords=('co', 'working', 'space', 'plug', 'users')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

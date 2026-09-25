@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/toys"
+    category = "kids"
     aliases=()
     keywords=('traditional', 'spinning', 'top')
     def build(self):

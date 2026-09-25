@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ['Human Brain in Open Head']
     keywords = ['brain','head','anatomy','mind','open','skull','human']
     def build(self):

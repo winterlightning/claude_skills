@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('babe',)
     def path(self,n,start,steps,closed=False):

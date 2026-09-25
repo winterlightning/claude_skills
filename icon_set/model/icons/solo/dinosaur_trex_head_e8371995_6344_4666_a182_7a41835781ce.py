@@ -12,7 +12,7 @@ class TrexHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'animals/prehistoric'
+    category = 'animals'
     aliases = ()
     keywords = ('trex', 'tyrannosaurus', 'dinosaur', 'head', 'jaws', 'teeth', 'prehistoric', 'roar')
 

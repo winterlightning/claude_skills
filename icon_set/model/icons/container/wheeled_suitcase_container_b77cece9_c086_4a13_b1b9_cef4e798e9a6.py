@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class WheeledSuitcaseContainer(Container64):
     icon_id = 'wheeled-suitcase-container'
+    category = 'travel'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('wheeled', 'suitcase', 'container')

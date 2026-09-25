@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'health'
     aliases=()
     keywords=('medical', 'file')
 
@@ -49,7 +49,7 @@ class Drawing(Solo48):
         self.add_polyline('cross',(20,18),(28,18),(28,22),(32,22),(32,30),(28,30),(28,34),(20,34),(20,30),(16,30),(16,22),(20,22),closed=True)
 
     icon_id = 'medical-record-document'
-    category = 'health/records'
+    category = 'health'
     aliases = ('medical file', 'health document')
     keywords = ('patient', 'record', 'cross', 'medical')
     semantic_role = 'MAIN'

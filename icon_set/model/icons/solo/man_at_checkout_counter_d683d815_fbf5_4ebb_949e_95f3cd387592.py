@@ -10,7 +10,7 @@ class ManAtCheckoutCounter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shopping"
+    category = "shopping"
     aliases = ()
     keywords = ('cashier', 'man', 'counter', 'checkout', 'tie', 'staff', 'retail')
 

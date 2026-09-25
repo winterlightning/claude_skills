@@ -10,7 +10,7 @@ class GamepadWithDpad(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('controller', 'gamepad', 'game', 'gaming', 'joypad', 'console', 'play')
 

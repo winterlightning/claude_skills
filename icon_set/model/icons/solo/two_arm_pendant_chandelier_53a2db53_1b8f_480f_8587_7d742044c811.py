@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ['Two Arm Pendant Chandelier']
     keywords = ['chandelier', 'lighting', 'bulbs', 'pendant', 'ceiling', 'arms', 'fixture']
     def build(self):

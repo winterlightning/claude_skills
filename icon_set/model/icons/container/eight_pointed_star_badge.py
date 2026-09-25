@@ -18,7 +18,7 @@ class EightPointedStarBadge(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('eight-point-badge',)
     keywords = ('badge', 'star', 'emblem', 'outline')
 

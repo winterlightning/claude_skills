@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/everyday"
+    category = "money"
     aliases=()
     keywords=('clasp', 'coin', 'purse')
     def build(self):

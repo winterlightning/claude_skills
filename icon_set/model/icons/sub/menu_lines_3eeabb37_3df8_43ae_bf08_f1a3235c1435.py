@@ -16,7 +16,7 @@ class MenuLines(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('menu', 'lines', 'long', 'horizontal', 'strokes', 'are', 'stacked', 'equal')
 

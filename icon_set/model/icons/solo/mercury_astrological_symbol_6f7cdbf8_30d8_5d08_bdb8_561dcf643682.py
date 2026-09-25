@@ -14,7 +14,7 @@ class MercuryAstrologicalSymbol(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ()
     keywords = ('mercury', 'astrology', 'planet', 'horns', 'symbol', 'horoscope', 'glyph', 'hermes')
 

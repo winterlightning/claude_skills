@@ -17,7 +17,7 @@ class CircularArrowSubVariant2(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('circular', 'arrow', 'long', 'curved', 'follows', 'most', 'clockwise', 'circle')
 

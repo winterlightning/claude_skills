@@ -20,7 +20,7 @@ class DrawingVariant2(Solo48):
     variant_of = 'disabled-battery-content'
     variant_label = 'Complete disabled battery'
     keyshape = Keyshape.HRECT_M
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('disabled battery symbol',)
 

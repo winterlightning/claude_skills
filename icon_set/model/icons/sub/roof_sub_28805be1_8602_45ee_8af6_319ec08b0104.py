@@ -16,7 +16,7 @@ class RoofSub(Sub32):
     keyshape = Keyshape.HRECT_S
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/mark"
+    category = "state"
     aliases = ()
     keywords = ('roof', 'long', 'diagonal', 'strokes', 'meet', 'shallow', 'central', 'peak')
 

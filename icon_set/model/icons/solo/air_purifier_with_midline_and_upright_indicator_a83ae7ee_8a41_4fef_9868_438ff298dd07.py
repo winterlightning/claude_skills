@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "ecology"
     aliases = ()
     keywords = ('air purifier 1',)
     def build(self):
@@ -46,7 +46,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'air-purifier-with-midline-and-upright-indicator'
-    category = 'objects/ecology'
+    category = 'ecology'
     aliases = ()
     keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'seam', 'home', 'ecology')
     semantic_role = 'MAIN'

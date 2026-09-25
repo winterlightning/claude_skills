@@ -11,7 +11,7 @@ class Batch045Icon2(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('camera', 'movie', 'cinema', 'reels', 'lens', 'film', 'equipment')
     # Reference: video: rounded body and projecting lens; source provides twin reels.

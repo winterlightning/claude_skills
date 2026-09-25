@@ -16,7 +16,7 @@ class DollarSignSubState180(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('dollar', 'sign', 's', 'shaped', 'curve', 'short', 'upright', 'stem')
 

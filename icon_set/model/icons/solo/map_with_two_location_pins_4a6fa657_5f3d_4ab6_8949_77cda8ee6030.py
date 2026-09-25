@@ -19,7 +19,7 @@ class MapWithTwoLocationPins(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/maps"
+    category = "primitives-generate"
     aliases = ("map-marks",)
     keywords = ("map", "pins", "locations", "route")
 

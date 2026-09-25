@@ -11,7 +11,7 @@ class YahooSearchLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('yahoo', 'search', 'wordmark', 'web', 'logo', 'brand', 'portal')
 

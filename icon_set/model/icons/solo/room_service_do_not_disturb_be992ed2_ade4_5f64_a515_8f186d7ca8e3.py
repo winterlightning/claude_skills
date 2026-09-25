@@ -13,7 +13,7 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "hotels"
     aliases = ()
     keywords = ('room', 'service', 'do', 'not', 'disturb')
 

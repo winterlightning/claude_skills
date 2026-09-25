@@ -14,7 +14,7 @@ class AspectRatio(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_04'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('aspect', 'ratio', '_uncategorized_04')
 

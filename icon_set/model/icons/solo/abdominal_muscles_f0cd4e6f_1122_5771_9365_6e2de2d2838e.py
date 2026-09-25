@@ -14,7 +14,7 @@ class AbdominalMuscles(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('abdomen', 'muscle', 'fitness', 'torso', 'strength', 'core')
 

@@ -11,7 +11,7 @@ class HandsCuppingSphere(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
     aliases = ()
     keywords = ('hand', 'sphere', 'holding', 'cupped', 'palm', 'orb')
 

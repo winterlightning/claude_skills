@@ -12,7 +12,7 @@ class LitExplosiveStick(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('explosive', 'dynamite', 'fuse', 'spark', 'stick', 'fire')
 

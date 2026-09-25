@@ -12,7 +12,7 @@ class Landmark(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('revolution monument', 'mexico city', 'monument', 'dome', 'arch', 'landmark', 'memorial', 'architecture')
 

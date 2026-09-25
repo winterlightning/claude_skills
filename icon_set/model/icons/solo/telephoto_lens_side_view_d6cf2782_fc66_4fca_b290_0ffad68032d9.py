@@ -11,7 +11,7 @@ class TelephotoLensSideView(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('lens', 'telephoto', 'zoom', 'camera lens', 'optics', 'photography', 'barrel', 'side view')
 

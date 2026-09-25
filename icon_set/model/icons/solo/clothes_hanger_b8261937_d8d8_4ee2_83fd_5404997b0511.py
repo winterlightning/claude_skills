@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('hanger',)
 
@@ -35,7 +35,7 @@ class Drawing(Solo48):
         self.relate('connect','hook','frame')
 
     icon_id = 'clothes-hanger'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('clothes', 'hanger')
     semantic_role = 'MAIN'

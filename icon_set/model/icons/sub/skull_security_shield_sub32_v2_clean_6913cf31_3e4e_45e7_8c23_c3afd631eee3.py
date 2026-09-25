@@ -15,7 +15,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'war'
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.add_bezier('shield',(2,5),((10,1),(22,1),(30,5)),((30,11),(30,16),(29,20)),((27,25),(21,28),(16,30)),((11,28),(5,25),(3,20)),((2,16),(2,11),(2,5)))

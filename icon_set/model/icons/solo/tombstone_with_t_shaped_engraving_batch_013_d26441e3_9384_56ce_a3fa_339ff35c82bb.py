@@ -16,7 +16,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'culture/festivals'
+    category = 'holidays'
     aliases = ()
     keywords = ('tombstone', 'with', 't', 'shaped', 'engraving')
 

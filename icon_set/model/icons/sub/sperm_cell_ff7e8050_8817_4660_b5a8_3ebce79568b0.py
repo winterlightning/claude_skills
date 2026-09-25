@@ -16,7 +16,7 @@ class SpermCell(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('sperm', 'cell', 'irregular', 'oval', 'head', 'joins', 'long', 'undulating')
 

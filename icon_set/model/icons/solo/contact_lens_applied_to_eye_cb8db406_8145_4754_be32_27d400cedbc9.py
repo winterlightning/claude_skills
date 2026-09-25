@@ -12,7 +12,7 @@ class ContactLensAppliedToEye(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/health"
+    category = "health"
     aliases = ()
     keywords = ('applying', 'contact', 'lens', 'to', 'eye')
 

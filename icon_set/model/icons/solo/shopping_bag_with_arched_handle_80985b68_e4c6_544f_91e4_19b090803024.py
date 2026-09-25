@@ -11,7 +11,7 @@ class ShoppingBagWithArchedHandle(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
     aliases = ()
     keywords = ('shopping', 'bag', 'with', 'arched', 'handle', 'sub icon')
 

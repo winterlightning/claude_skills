@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'plain-dishwasher-with-upper-panel-division'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
         def path(name,start,steps,closed=False):

@@ -10,7 +10,7 @@ class FourSquareGrid(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_01'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('four', 'square', 'grid', '_uncategorized_01')
 

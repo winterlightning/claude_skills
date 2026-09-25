@@ -16,7 +16,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     TYPEFACE_GLYPH_IDS = ('letter-a-uppercase', 'letter-d-uppercase')
 
     def build(self):

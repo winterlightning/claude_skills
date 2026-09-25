@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('women',)
 
@@ -50,7 +50,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'woman-with-bob-hair-batch-022-15'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('woman', 'with', 'bob', 'hair')
     semantic_role = 'MAIN'

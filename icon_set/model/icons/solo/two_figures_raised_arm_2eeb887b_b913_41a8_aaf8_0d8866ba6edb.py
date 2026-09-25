@@ -12,7 +12,7 @@ class TwoFiguresRaisedArm(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/users'
+    category = 'users'
     aliases = ()
     keywords = ('people', 'two', 'figures', 'friends', 'together', 'pass', 'gesture', 'pair')
 

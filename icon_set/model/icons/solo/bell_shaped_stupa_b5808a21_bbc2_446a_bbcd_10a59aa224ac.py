@@ -14,7 +14,7 @@ class BellShapedStupa(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('wat phra kaew', 'stupa', 'chedi', 'thailand', 'temple', 'buddhist', 'landmark', 'religion')
 

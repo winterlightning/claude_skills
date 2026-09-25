@@ -14,7 +14,7 @@ class AuthoredFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ('Double Square Frame',)
     keywords = ('square', 'frame', 'outline', 'border')
     def build(self):

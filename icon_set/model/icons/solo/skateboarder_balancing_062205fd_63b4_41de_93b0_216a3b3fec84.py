@@ -10,7 +10,7 @@ class SkateboarderBalancing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('skateboard', 'rider', 'skating', 'balance', 'athlete', 'sport')
     def build(self) -> None:

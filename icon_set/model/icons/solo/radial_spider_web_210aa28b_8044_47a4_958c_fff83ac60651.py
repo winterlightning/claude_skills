@@ -12,7 +12,7 @@ class RadialSpiderWeb(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/invertebrates"
+    category = "websites"
     aliases = ()
     keywords = ('web', 'spider', 'radial', 'strands', 'cobweb', 'nature', 'network')
 

@@ -11,7 +11,7 @@ class OnePieceSwimmingSuit(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('one', 'piece', 'swimming', 'suit')
 

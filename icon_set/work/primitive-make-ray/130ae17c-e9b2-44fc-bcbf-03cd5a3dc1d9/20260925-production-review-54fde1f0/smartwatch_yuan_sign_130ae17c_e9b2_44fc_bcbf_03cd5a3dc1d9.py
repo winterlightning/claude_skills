@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9'
 SOURCE_PATH = 'pictographic-primitives/combination/smart watch square yuan sign_130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9.svg'
 AUTHOR = 'gpt-6'

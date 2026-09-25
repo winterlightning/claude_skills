@@ -1,13 +1,13 @@
-"""Book with Person Symbol. Book cover and page band with a larger outlined head and coherent upward arms; exact4u detached gap.
+"""Book with Person Symbol. Hardbound book with a square front cover, curved spine and recessed page edge. Portrait torso joins the cover edge.
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '8ed961c5-a996-4c78-a7d6-d1d6baa41755'
 SOURCE_PATH = 'pictographic-primitives/other/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Book cover and page band with a larger outlined head and coherent upward arms; exact4u detached gap.'
+PLAN = 'Hardbound book with a square front cover, curved spine and recessed page edge. Portrait torso joins the cover edge.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['book-user', 'human_ref/user.svg']
 PARENT_MODULE = 'icon_set/model/icons/solo/book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py'
@@ -75,11 +75,11 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.box('book',8,4,40,44,4)
-        self.add_line('pages',(8,36),(40,36))
+        self.path('cover',(8,40),[('L',(8,8)),('A',(12,4),4,4,True),('L',(40,4)),('L',(40,36)),('L',(12,36)),('A',(8,40),4,4,False)])
+        self.path('pages',(8,40),[('A',(12,44),4,4,False),('L',(40,44)),('C',(40,36),(38,42),(38,38))])
         self.circle('head',24,16,4)
         self.path('arms',(16,25),[('C',(22,28),(18,27),(20,28)),('L',(24,28)),('L',(26,28)),('C',(32,25),(28,28),(30,27))])
-        self.add_line('torso',(24,28),(24,32))
+        self.add_line('torso',(24,28),(24,36))
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
 
         self.contacts()

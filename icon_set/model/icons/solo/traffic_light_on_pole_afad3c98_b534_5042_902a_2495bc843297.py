@@ -11,7 +11,7 @@ class TrafficLightOnPole(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('traffic light', 'signal', 'stoplight', 'pole', 'road', 'intersection', 'traffic', 'junction')
 

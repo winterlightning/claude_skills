@@ -10,7 +10,7 @@ class DamSpillwayWater(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('dam', 'spillway', 'water', 'hydro', 'energy', 'flow', 'waterfall', 'renewable', 'power')
 

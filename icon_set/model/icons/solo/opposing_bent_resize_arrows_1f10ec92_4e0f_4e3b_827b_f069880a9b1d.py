@@ -11,7 +11,7 @@ class OpposingBentResizeArrows(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
     aliases = ()
     keywords = ('arrows', 'resize', 'expand', 'bent', 'directions', 'opposing', 'transform', 'layout')
 

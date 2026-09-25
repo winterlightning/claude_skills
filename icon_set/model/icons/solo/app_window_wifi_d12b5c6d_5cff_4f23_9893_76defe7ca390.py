@@ -14,7 +14,7 @@ class AppWindowWifi(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/interface"
+    category = "primitives-generate"
     aliases = ("wireless-app-window",)
     keywords = ("application", "window", "browser", "wifi", "wireless")
 

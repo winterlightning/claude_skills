@@ -11,7 +11,7 @@ class VideoTripodPanHandle(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('tripod', 'video tripod', 'pan handle', 'stand', 'camera', 'filming', 'photography', 'equipment')
 

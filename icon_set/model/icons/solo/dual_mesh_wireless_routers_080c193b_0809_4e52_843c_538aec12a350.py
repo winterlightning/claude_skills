@@ -17,7 +17,7 @@ class DualMeshWirelessRouters(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/network"
+    category = "primitives-generate"
     aliases = ("mesh wifi router", "twin routers")
     keywords = ("wireless", "signal", "network", "pair")
 

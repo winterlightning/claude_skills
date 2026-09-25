@@ -14,7 +14,7 @@ class SlothFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
     aliases = ()
     keywords = ('sloth', 'face', 'head', 'eyes', 'animal', 'slow', 'cute', 'wildlife')
 

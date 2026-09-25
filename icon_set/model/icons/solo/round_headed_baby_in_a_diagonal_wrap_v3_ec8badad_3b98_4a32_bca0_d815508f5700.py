@@ -14,7 +14,7 @@ class IndependentSolo(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/babies'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('round', 'headed', 'baby', 'in', 'a', 'diagonal', 'wrap')
 

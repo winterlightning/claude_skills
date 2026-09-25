@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("House with Windows and Door",)
     keywords = ("house", "home", "roof", "windows", "door", "building")
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

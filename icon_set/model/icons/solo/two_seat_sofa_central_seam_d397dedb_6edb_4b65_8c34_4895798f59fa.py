@@ -12,7 +12,7 @@ class TwoSeatSofaCentralSeam(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/furniture"
+    category = "furnitures"
     aliases = ()
     keywords = ('two', 'seater', 'living', 'room', 'sofa')
 

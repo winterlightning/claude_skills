@@ -11,7 +11,7 @@ class PerchingBird(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
     aliases = ()
     keywords = ('bird', 'perching', 'songbird', 'wing', 'beak', 'tail', 'garden', 'wildlife')
 

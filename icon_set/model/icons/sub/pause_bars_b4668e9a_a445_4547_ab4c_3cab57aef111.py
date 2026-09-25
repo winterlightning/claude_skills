@@ -16,7 +16,7 @@ class PauseBars(Sub32):
     keyshape = Keyshape.VRECT_S
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('pause', 'bars', 'separate', 'equal', 'vertical', 'strokes', 'stand', 'parallel')
 

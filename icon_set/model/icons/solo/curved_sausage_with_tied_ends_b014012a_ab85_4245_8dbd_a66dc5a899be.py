@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ["Curved Bratwurst Sausage"]
     keywords = ["sausage", "bratwurst", "food", "meat", "casing", "curved", "cooking"]
     def build(self):

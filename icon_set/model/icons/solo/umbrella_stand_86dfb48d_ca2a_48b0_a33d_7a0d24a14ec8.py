@@ -14,7 +14,7 @@ class UmbrellaStand(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/weather'
+    category = 'weather'
     aliases = ()
     keywords = ('umbrella', 'stand', 'holder', 'rain', 'storage', 'entrance')
 

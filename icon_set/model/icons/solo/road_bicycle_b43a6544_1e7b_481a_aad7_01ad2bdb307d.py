@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'transportation'
     aliases = ()
     keywords = ('bicycle',)
 
@@ -39,7 +39,7 @@ class Drawing(Solo48):
         for a,b in [('rear','rear-stay'),('front','fork'),('rear-stay','front-frame'),('rear-stay','seatpost'),('front-frame','fork'),('seatpost','seat'),('fork','bar')]:self.relate('connect',a,b)
 
     icon_id = 'road-bicycle'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('bicycle', 'bike', 'road bike', 'racing', 'cycling', 'drop handlebar', 'pedal', 'sport')
     semantic_role = 'MAIN'

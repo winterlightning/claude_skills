@@ -22,7 +22,7 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "food"
     aliases = ()
     keywords = ('croissant', 'pastry', 'bread', 'breakfast', 'food', 'bakery')
 

@@ -16,7 +16,7 @@ class UsbPlugState289(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('usb', 'plug', 'narrow', 'rectangular', 'metal', 'connector', 'projects', 'wider')
 

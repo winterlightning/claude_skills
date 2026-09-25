@@ -12,7 +12,7 @@ class DocumentWithBarChart(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/document"
+    category = "primitives-generate"
     aliases = ("bar graph file", "data bars document")
     keywords = ("chart", "analytics", "data", "bars")
 

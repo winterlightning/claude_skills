@@ -15,7 +15,7 @@ class BraidedYarnSkein(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/hobbies'
+    category = 'hobbies'
     aliases = ()
     keywords = ('braided', 'yarn', 'skein')
 

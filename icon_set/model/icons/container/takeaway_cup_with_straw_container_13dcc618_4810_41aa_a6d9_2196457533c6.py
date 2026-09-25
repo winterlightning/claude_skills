@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class TakeawayCupWithStrawContainer(Container64):
     icon_id = 'takeaway-cup-with-straw-container'
+    category = 'drinks'
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ()

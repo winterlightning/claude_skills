@@ -15,7 +15,7 @@ class SeedlingInTaperedPot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-02"
+    category = "nature"
     aliases = ()
     keywords = ('seedling', 'sprout', 'pot', 'plant', 'potted', 'growth', 'houseplant', 'leaves')
 

@@ -16,7 +16,7 @@ class Batch04Icon6(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/gas"
+    category = "container"
     aliases = ('propane-cylinder',)
     keywords = ('propane', 'cylinder')
 

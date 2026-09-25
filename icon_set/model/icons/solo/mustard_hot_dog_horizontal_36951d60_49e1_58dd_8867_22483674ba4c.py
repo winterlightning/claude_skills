@@ -15,7 +15,7 @@ class MustardHotDogHorizontal(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/food'
+    category = 'food'
     aliases = ()
     keywords = ('mustard', 'hot', 'dog', 'horizontal')
 

@@ -11,7 +11,7 @@ class BrightnessHalfDiscSun(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('brightness', 'contrast', 'sun', 'adjust', 'display', 'setting', 'photo', 'exposure')
 

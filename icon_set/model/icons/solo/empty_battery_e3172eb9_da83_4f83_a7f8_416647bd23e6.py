@@ -10,7 +10,7 @@ class Revision(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'photography'
     aliases = ()
     keywords = ('battery',)
 

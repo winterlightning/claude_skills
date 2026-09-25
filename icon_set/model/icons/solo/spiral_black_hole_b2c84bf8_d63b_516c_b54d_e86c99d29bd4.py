@@ -14,7 +14,7 @@ class SpiralBlackHole(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('black hole', 'spiral', 'vortex', 'astronomy', 'space', 'swirl')
 

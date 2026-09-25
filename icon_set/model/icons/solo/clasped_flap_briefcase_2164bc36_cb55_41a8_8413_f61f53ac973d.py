@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'clasped-flap-briefcase'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('clasped', 'flap', 'briefcase')
 
     def build(self):

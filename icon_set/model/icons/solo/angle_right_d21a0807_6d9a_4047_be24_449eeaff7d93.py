@@ -12,7 +12,7 @@ class AngleRight(Solo48):
     icon_id = 'angle-right'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_03'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('angle', 'right', '_uncategorized_03')
     keyshape = Keyshape.HRECT_L

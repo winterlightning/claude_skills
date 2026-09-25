@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/finance'
+    category = 'finance'
     aliases = ()
     keywords = ('wallet', 'pocket', 'money', 'tab', 'leather', 'accessory', 'closed')
 

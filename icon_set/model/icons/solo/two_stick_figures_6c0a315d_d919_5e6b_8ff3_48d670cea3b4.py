@@ -11,7 +11,7 @@ class TwoStickFigures(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ()
     keywords = ('stick figure', 'people', 'primitive', 'cave art', 'pair', 'symbols', 'human', 'ancient')
 

@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('mobile phone qr code',)
 
@@ -47,7 +47,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'mobile-phone-qr-code-scanner'
-    category = 'objects/device'
+    category = 'primitives-generate'
     aliases = ('qr phone', 'mobile qr code')
     keywords = ('smartphone', 'qr', 'scan', 'payment')
     semantic_role = 'MAIN'

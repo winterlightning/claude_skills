@@ -14,7 +14,7 @@ class HandSmartphoneHeart(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'care/donation'
+    category = 'primitives-generate'
     aliases = ('Hand Holding Smartphone With Heart',)
     keywords = tuple('hand holding smartphone with heart'.split())
 

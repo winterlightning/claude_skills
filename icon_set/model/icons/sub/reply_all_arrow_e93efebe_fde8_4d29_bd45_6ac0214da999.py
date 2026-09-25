@@ -16,7 +16,7 @@ class ReplyAllArrow(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('reply', 'all', 'arrow', 'curved', 'rises', 'lower', 'right', 'left')
 

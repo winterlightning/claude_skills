@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'sports'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('bow', 'arrow', 'archery', 'curve', 'shaft', 'point', 'sport')
 

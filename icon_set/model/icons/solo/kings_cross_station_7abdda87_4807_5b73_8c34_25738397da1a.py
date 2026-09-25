@@ -12,7 +12,7 @@ class KingsCrossStation(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('kings cross', 'london', 'station', 'railway', 'clock', 'arch', 'landmark', 'travel')
 

@@ -14,7 +14,7 @@ class PineForest(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-04"
+    category = "nature"
     aliases = ()
     keywords = ('pine', 'forest', 'trees', 'woods', 'evergreen', 'wild', 'nature', 'outdoors')
 

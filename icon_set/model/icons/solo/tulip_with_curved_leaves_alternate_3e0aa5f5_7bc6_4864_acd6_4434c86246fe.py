@@ -15,7 +15,7 @@ class TulipWithCurvedLeavesAlternate(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-01"
+    category = "nature"
     aliases = ()
     keywords = ('tulip', 'flower', 'bloom', 'stem', 'leaves', 'spring', 'garden', 'nature')
 

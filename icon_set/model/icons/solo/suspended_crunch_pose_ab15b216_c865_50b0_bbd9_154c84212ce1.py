@@ -15,7 +15,7 @@ class SuspendedCrunchPose(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('crunch', 'suspension', 'exercise', 'fitness', 'core', 'pose')
 

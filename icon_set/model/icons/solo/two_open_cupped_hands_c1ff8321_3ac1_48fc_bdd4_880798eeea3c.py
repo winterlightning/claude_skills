@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('hand', 'holding')
 
@@ -48,7 +48,7 @@ class Drawing(Solo48):
             self.relate('connect',n+'-outer',n+'-thumb-palm')
 
     icon_id = 'two-open-cupped-hands'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('two', 'open', 'cupped', 'hands')
     semantic_role = 'MAIN'

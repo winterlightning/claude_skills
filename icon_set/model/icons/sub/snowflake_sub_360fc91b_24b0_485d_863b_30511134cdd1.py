@@ -16,7 +16,7 @@ class SnowflakeSub(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('snowflake', 'vertical', 'horizontal', 'axis', 'cross', 'centre', 'carrying', 'short')
 

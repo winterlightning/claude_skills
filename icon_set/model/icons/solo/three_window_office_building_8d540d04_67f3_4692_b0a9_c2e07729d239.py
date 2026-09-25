@@ -11,7 +11,7 @@ class ThreeWindowOfficeBuilding(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
     aliases=()
     keywords=('building', 'office', 'windows', 'door', 'architecture', 'workplace')
 

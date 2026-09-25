@@ -11,7 +11,7 @@ class FigureWithOutstretchedLimbs(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ()
     keywords = ('figure', 'warrior', 'human', 'action', 'pose', 'dance', 'movement', 'person')
 

@@ -13,7 +13,7 @@ class Batch05Icon0(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/bag"
+    category = "container"
     aliases = ('shopping-bag',)
     keywords = ('shopping', 'bag')
     def build(self):

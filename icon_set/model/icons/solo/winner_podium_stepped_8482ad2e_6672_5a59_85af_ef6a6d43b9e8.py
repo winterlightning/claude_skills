@@ -11,7 +11,7 @@ class WinnerPodiumStepped(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/rating"
+    category = "rating"
     aliases = ()
     keywords = ('podium', 'winner', 'ranking', 'first', 'competition', 'leaderboard', 'award', 'victory')
 

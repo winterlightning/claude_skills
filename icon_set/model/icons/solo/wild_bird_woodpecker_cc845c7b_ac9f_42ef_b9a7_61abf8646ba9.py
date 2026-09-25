@@ -16,7 +16,7 @@ class WoodpeckerOnTrunk(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "animals/birds"
+    category = "animals"
     aliases = ()
     keywords = ('woodpecker', 'tree', 'trunk', 'bird', 'peck', 'forest', 'beak', 'climbing')
 

@@ -10,7 +10,7 @@ class Result(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transport'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('glider', 'aircraft', 'plane', 'wings', 'flight', 'transport')
 

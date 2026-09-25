@@ -10,7 +10,7 @@ class ControllerFaceButtons(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/gaming'
+    category = 'video-games'
     aliases = ()
     keywords = ('buttons', 'face buttons', 'controller', 'gamepad', 'input', 'action buttons', 'gaming', 'grid')
 

@@ -13,7 +13,7 @@ class IotHubNodes(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('iot', 'hub', 'nodes', 'network', 'branches', 'devices', 'analytics', 'connection')
 

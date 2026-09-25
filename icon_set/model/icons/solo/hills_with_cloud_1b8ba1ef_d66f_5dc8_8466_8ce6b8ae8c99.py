@@ -15,7 +15,7 @@ class HillsWithCloud(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-01"
+    category = "nature"
     aliases = ()
     keywords = ('mountain', 'hills', 'cloud', 'peak', 'landscape', 'outdoors', 'nature', 'snow')
 

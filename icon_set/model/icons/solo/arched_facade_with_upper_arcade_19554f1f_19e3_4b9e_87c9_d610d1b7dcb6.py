@@ -13,7 +13,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'arched-facade-with-upper-arcade'
     keyshape = Keyshape.HRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('arched', 'facade', 'with', 'upper', 'arcade')
 
     def build(self):

@@ -12,7 +12,7 @@ class EmptyBrowserWindowSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface"
+    category = "websites"
     aliases = ()
     keywords = ('browser', 'window', 'empty', 'template', 'website', 'toolbar', 'interface')
 

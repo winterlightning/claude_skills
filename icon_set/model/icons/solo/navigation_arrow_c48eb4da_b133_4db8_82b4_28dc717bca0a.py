@@ -14,7 +14,7 @@ class NavigationArrow(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/navigation"
+    category = "navigation"
     aliases = ()
     keywords = ('navigation', 'arrow', 'direction', 'pointer', 'location', 'heading', 'travel')
 

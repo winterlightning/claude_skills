@@ -1,0 +1,56 @@
+{
+  "source_uuid": "909c8013-e74f-52f3-bc3c-88ac60cd382c",
+  "reference_path": "pictographic-primitives/avatars/woman_909c8013-e74f-52f3-bc3c-88ac60cd382c.svg",
+  "concept": "woman",
+  "display_concept": "Female User Profile Avatar",
+  "icon_id": "person-with-side-parted-bob",
+  "author": "gpt-6",
+  "parent_module": "icon_set/model/icons/solo/person_with_side_parted_bob_909c8013_e74f_52f3_bc3c_88ac60cd382c.py",
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "Tall frame or upright figure uses the 32-by-40 centerline envelope.",
+  "plan": "Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.",
+  "construction_references": [
+    "human_ref/user.svg"
+  ],
+  "reference_use": "Local Lucide references informed smooth corners, coherent arcs and joins; human_ref/user.svg informed circular heads and shoulders; typeface v2 informed the text series, where listed.",
+  "validation_status": "review",
+  "full_qa_status": "review",
+  "errors": [],
+  "warnings": [
+    "mic [hair]: hair and fringe are 7.99985 apart on centerlines nearest (8.0003, 19.9509)<->(16, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [jaw / shoulders]: jaw-0 and shoulders-2 have 0.0327 units of ink clearance over 6 units; requires 4; review required",
+    "internal-spacing [jaw / shoulders]: jaw-1 and shoulders-2 have 0.0327 units of ink clearance over 6.25 units; requires 4; review required"
+  ],
+  "avatar_contact_verification": {
+    "ink_gap": 0,
+    "centerline_gap": 4,
+    "circular_face_arcs": true
+  },
+  "visual_review": {
+    "native_48_light": true,
+    "native_48_dark": true,
+    "enlarged_light": true,
+    "enlarged_dark": true,
+    "findings": "Rebuilt with icon-avatar: circular jaw, side-parted bob and zero visible head/body gap. Hair ends clear the raised shoulders."
+  },
+  "omissions": "Tiny neck seams omitted; original hairstyle and open bust retained.",
+  "visual_approval": "pending",
+  "exception_approved": false,
+  "user_revision": true,
+  "publication_status": "standalone review draft; user approvals recorded locally; not published",
+  "artifacts": {
+    "python": "person_with_side_parted_bob_909c8013_e74f_52f3_bc3c_88ac60cd382c.py",
+    "svg": "person-with-side-parted-bob.svg",
+    "metadata": "person-with-side-parted-bob.metadata.json",
+    "reference": "reference.svg",
+    "before": "before.svg",
+    "validation": "validation.txt",
+    "full_qa": "qa.json",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-192.png",
+      "dark-192.png"
+    ]
+  }
+}

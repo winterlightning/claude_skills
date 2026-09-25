@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'hotels'
     aliases = ()
     keywords = ('hotel', 'single', 'bed')
 
@@ -61,7 +61,7 @@ class Drawing(Solo48):
         self.relate('connect','front','base')
 
     icon_id = 'single-bed-with-pillow'
-    category = 'objects/hotels'
+    category = 'hotels'
     aliases = ()
     keywords = ('single', 'bed', 'with', 'pillow')
     semantic_role = 'MAIN'

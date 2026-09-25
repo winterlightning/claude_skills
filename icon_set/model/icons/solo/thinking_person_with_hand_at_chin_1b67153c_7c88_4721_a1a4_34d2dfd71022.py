@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="avatars"
+    category = "primitives-generate"
     aliases=("Thinking and Pondering Person",)
     keywords=("person","thinking","chin","hand","pose","portrait","pondering")
     def build(self):

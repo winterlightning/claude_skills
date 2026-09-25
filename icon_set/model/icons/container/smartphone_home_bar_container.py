@@ -17,6 +17,7 @@ AUTHOR = 'gpt-6'
 
 class SmartphoneHomeBarContainer(Container64):
     icon_id = 'smartphone-home-bar-container'
+    category = 'phones'
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('smartphone', 'home', 'bar', 'container')

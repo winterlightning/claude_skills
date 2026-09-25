@@ -10,7 +10,7 @@ class PeaceSignHand(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/social"
+    category = "social"
     aliases = ()
     keywords = ('hand', 'peace', 'victory', 'finger', 'gesture', 'palm')
 

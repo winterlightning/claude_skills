@@ -11,7 +11,7 @@ class Batch045Icon11(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('fish', 'skeleton', 'bone', 'spine', 'ribs', 'tail', 'animal')
     # Reference: fish: head/spine/tail hierarchy, reduced to skeleton.

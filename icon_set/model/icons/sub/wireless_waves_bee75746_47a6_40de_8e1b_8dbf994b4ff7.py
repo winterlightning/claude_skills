@@ -16,7 +16,7 @@ class WirelessWaves(Sub32):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('wireless', 'waves', 'broad', 'curved', 'sit', 'other')
 

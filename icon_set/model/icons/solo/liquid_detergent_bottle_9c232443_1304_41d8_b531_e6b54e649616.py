@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category = 'wayfinding'
     aliases=()
     keywords=('liquid detergent',)
 
@@ -35,7 +35,7 @@ class Drawing(Solo48):
         self.path('label',(24,25),[('C',(18,31),(21,25),(18,28)),('L',(18,32)),('A',(21,35),3,3,False),('L',(27,35)),('A',(30,32),3,3,False),('L',(30,31)),('C',(24,25),(30,28),(27,25))],True)
 
     icon_id = 'liquid-detergent-bottle'
-    category = 'objects'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('liquid', 'detergent', 'bottle')
     semantic_role = 'MAIN'

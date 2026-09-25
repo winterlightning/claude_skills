@@ -17,7 +17,7 @@ class ChatBubbleTwoTypingDots(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/messages"
+    category = "primitives-generate"
     aliases = ("two-dot message", "cloud bubble typing")
     keywords = ("chat", "speech", "ellipsis", "lobed")
 

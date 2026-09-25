@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'avatars'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('smiling', 'short', 'hair', 'boy', 'bust')
 

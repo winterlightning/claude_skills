@@ -10,7 +10,7 @@ class FuelFilterDrip(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('fuel filter', 'filter', 'fuel', 'drip', 'warning', 'diesel', 'dashboard', 'car')
 

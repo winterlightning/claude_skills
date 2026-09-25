@@ -10,7 +10,7 @@ class ProjectorVideoHouse(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('virtual-home', 'projector', 'house', 'video', 'play', 'hologram', 'smart-home')
 

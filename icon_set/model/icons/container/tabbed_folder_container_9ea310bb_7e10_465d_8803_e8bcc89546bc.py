@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class TabbedFolderContainer(Container64):
     icon_id = 'tabbed-folder-container'
+    category = 'folders'
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('tabbed', 'folder', 'container')

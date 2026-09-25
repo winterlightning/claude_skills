@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'computers'
     aliases=()
     keywords=('mouse',)
     def path(self,n,start,commands,closed=False):

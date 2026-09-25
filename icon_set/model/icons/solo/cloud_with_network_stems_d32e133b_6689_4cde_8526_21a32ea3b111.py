@@ -15,7 +15,7 @@ class CloudWithNetworkStems(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'programing'
     aliases = ()
     keywords = ('cloud', 'with', 'network', 'stems')
 

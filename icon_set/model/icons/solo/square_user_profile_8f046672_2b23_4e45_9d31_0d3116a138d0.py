@@ -12,7 +12,7 @@ class SquareUserProfile(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/profile"
+    category = "primitives-generate"
     aliases = ("user avatar frame", "square person")
     keywords = ("profile", "account", "portrait", "user")
 

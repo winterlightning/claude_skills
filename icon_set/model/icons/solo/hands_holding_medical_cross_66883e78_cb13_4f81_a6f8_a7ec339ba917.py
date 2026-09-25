@@ -16,7 +16,7 @@ class HandsHoldingMedicalCross(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "health/care"
+    category = "primitives-generate"
     aliases = ("health insurance hands", "medical protection")
     keywords = ("hands", "medical", "cross", "health", "care")
 

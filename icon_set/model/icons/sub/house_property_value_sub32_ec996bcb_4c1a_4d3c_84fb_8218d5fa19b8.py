@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.SQUARE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'symbol'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'house property value')
     def build(self):

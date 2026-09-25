@@ -11,7 +11,7 @@ class LensFrontWithGlare(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('lens', 'camera lens', 'glass', 'optics', 'glare', 'reflection', 'photography', 'front')
 

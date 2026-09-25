@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ['Beer Pong Cups and Ball']
     keywords = ['beer pong', 'cups', 'ball', 'game', 'party', 'throw', 'trajectory']
 

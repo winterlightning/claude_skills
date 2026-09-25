@@ -11,7 +11,7 @@ class ReactLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('react', 'react-native', 'atom', 'javascript', 'logo', 'brand', 'developer')
 

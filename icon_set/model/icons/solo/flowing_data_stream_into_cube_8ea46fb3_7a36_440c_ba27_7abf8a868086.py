@@ -14,7 +14,7 @@ class FlowingDataStreamIntoCube(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/data"
+    category = "primitives-generate"
     aliases = ("data-stream-cube", "stream-to-storage")
     keywords = ("data", "stream", "flow", "cube", "storage", "kinesis")
 

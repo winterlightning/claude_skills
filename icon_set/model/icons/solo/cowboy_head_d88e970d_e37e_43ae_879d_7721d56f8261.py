@@ -15,7 +15,7 @@ class CowboyHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
     aliases = ()
     keywords = ('cowboy', 'hat', 'western', 'head', 'face', 'emoji')
 

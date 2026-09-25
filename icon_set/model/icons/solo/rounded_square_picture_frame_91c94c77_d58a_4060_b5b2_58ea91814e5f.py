@@ -9,7 +9,7 @@ class RoundedSquarePictureFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decor"
+    category = "primitives-generate"
     aliases = ("square frame", "photo frame")
     keywords = ("picture", "border", "rounded")
 

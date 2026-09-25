@@ -10,7 +10,7 @@ class FacebookGamingLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('facebook-gaming', 'gaming', 'letter-g', 'logo', 'brand', 'streaming', 'meta')
 

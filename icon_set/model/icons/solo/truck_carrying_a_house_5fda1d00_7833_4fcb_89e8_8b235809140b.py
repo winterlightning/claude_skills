@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("House Relocation Truck",)
     keywords = ("truck", "house", "moving", "transport", "flatbed", "vehicle")
-    category = "transport"
+    category = "primitives-generate"
     def build(self):
 
 

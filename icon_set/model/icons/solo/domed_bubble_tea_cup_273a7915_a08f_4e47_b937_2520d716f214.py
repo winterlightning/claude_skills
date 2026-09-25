@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'domed-bubble-tea-cup'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('domed', 'bubble', 'tea', 'cup')
 
     def build(self):

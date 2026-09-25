@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.HRECT_M
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/controls"
+    category = "interface-essential"
     aliases=()
     keywords=('capsule', 'switch', 'with', 'two', 'strokes')
     def build(self):

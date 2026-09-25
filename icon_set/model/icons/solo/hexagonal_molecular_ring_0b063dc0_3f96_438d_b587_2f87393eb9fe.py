@@ -16,7 +16,7 @@ class Batch03Icon9(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/molecule"
+    category = "container"
     aliases = ('hexagonal-molecular-ring',)
     keywords = ('hexagonal', 'molecular', 'ring')
 

@@ -16,7 +16,7 @@ class SuitcaseSubState151(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('suitcase', 'upright', 'broad', 'body', 'rounded', 'corners', 'short', 'rectangular')
 

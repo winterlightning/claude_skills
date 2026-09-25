@@ -13,7 +13,7 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/toys"
+    category = "kids"
     aliases=()
     keywords=('tree', 'with', 'hanging', 'swing')
     def build(self):

@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('chess', 'knight', 'horse', 'piece', 'game', 'strategy', 'board', 'pedestal')
 
     def build(self):

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'arrow-embedded-in-a-circular-target'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('arrow', 'embedded', 'in', 'a', 'circular', 'target')
 
     def build(self):

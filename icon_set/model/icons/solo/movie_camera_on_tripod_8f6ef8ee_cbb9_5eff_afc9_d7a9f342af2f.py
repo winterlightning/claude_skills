@@ -11,7 +11,7 @@ class MovieCameraOnTripod(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/media'
+    category = 'movies'
     aliases = ()
     keywords = ('camera', 'movie', 'film', 'tripod', 'lens', 'production')
 

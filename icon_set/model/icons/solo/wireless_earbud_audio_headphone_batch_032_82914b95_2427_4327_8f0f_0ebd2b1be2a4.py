@@ -12,7 +12,7 @@ class Batch032Icon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
     aliases = ('wireless-earbud-audio-headphone',)
     keywords = ('batch-032',)
 

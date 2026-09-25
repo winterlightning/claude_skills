@@ -14,7 +14,7 @@ class LeftDoubleClickMouse(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/device"
+    category = "computers"
     aliases = ()
     keywords = ('mouse', 'double click', 'left click', 'cursor', 'pointer', 'input', 'peripheral', 'computer')
 

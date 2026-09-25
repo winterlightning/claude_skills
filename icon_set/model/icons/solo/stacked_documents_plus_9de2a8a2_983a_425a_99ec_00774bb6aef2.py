@@ -17,7 +17,7 @@ class StackedDocumentsPlus(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "documents/actions"
+    category = "primitives-generate"
     aliases = ("merge pdf", "add documents")
     keywords = ("files", "pages", "plus", "merge")
 

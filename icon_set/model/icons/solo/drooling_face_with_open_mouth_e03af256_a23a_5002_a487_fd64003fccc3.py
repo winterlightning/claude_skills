@@ -12,7 +12,7 @@ class DroolingFaceWithOpenMouth(Solo48):
     icon_id = 'drooling-face-with-open-mouth'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/emotions'
+    category = 'smileys'
     aliases = ()
     keywords = ('drooling', 'drool', 'mouth', 'hungry', 'face', 'emoji')
     keyshape = Keyshape.CIRCLE

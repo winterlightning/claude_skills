@@ -10,7 +10,7 @@ class PersonBustWithStrap(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/groups'
+    category = 'users'
     aliases = ()
     keywords = ('person', 'bust', 'user', 'strap', 'avatar', 'profile', 'account', 'neutral')
 

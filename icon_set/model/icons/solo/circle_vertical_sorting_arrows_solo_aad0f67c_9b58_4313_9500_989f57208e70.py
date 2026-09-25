@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/interface-essential"
+    category = "primitives-generate"
     aliases=()
     keywords=()
 

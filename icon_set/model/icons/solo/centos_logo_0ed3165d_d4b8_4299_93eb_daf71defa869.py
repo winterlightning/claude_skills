@@ -11,7 +11,7 @@ class CentosLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('centos', 'linux', 'logo', 'brand', 'operating-system', 'server', 'star')
 

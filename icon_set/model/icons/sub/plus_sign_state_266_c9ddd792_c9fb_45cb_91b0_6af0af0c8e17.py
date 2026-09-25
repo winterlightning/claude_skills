@@ -16,7 +16,7 @@ class PlusSignState266(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('plus', 'sign', 'vertical', 'horizontal', 'stroke', 'cross', 'centres', 'forming')
 

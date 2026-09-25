@@ -9,7 +9,7 @@ class HouseWithHurricaneStorm(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "weather/storm"
+    category = "primitives-generate"
     aliases = ("house tornado",)
     keywords = ("home", "hurricane", "wind")
 

@@ -17,7 +17,7 @@ class StripedHeart(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/romance"
+    category = "romance"
     aliases = ()
     keywords = ('heart', 'stripe', 'lgbt', 'pride', 'love', 'romance')
 

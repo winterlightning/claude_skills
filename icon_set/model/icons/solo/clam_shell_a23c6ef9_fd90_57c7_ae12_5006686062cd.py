@@ -14,7 +14,7 @@ class ClamShell(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/marine'
+    category = 'animals'
     aliases = ()
     keywords = ('shell', 'clam', 'mussel', 'oyster', 'sea', 'beach', 'bivalve', 'marine')
 

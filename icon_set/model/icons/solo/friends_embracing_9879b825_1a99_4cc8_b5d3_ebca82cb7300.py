@@ -12,7 +12,7 @@ class FriendsEmbracing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/users"
+    category = "users"
     aliases = ()
     keywords = ('friends', 'embrace', 'hug', 'people', 'two', 'together', 'support', 'users')
 

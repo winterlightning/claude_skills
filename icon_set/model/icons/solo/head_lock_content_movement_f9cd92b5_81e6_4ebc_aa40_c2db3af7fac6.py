@@ -14,7 +14,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "technology"
     aliases = ()
     keywords = ('head lock content movement',)
 

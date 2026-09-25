@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/ecology"
+    category = "ecology"
     aliases=()
     keywords=('tied', 'garbage', 'bag', 'beside', 'filled', 'trash', 'bin')
     def build(self):

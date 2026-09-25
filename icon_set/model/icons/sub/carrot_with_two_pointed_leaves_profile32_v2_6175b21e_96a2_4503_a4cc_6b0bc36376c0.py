@@ -18,7 +18,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/food'
+    category = 'food'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

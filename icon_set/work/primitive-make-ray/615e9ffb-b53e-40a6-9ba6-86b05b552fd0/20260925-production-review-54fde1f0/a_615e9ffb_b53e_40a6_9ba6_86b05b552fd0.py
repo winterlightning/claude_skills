@@ -3,7 +3,7 @@ Keyshape VRECT_M: extremes authored from its SOLO48 centerline box.
 Omissions: Typeface v2 has no lowercase a; preserved the supplied single-storey letter rather than substituting uppercase A.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '615e9ffb-b53e-40a6-9ba6-86b05b552fd0'
 SOURCE_PATH = 'pictographic-primitives/typeface/a_615e9ffb-b53e-40a6-9ba6-86b05b552fd0.svg'
 AUTHOR = 'gpt-6'

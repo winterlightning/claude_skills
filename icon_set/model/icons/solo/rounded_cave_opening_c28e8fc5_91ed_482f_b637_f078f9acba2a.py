@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'rounded-cave-opening'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('rounded', 'cave', 'opening')
 
     def build(self):

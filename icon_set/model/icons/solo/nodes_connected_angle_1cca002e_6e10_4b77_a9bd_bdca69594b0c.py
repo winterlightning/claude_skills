@@ -18,7 +18,7 @@ class NodesConnectedAngle(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('nodes', 'vector', 'share', 'network', 'connection', 'graph', 'design', 'points')
 

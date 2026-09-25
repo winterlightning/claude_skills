@@ -15,7 +15,7 @@ class PersonKickedThroughDoorway(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
     aliases = ()
     keywords = ('person', 'door', 'kick', 'leaving', 'dismissal', 'worker')
 

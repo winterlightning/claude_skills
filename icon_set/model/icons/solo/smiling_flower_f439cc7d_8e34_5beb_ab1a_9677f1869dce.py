@@ -15,7 +15,7 @@ class SmilingFlower(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-01"
+    category = "nature"
     aliases = ()
     keywords = ('flower', 'smile', 'happy', 'face', 'petals', 'cheerful', 'kids', 'nature')
 

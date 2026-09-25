@@ -18,7 +18,7 @@ class DialSingleHand(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('dial', 'gauge', 'disc', 'meter', 'timer', 'speed', 'clock', 'indicator')
 

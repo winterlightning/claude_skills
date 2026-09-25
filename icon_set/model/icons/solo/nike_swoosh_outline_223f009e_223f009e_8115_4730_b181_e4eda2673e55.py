@@ -10,7 +10,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/reference"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('nike', 'swoosh', 'logo', 'brand', 'curve', 'symbol')
     def build(self):

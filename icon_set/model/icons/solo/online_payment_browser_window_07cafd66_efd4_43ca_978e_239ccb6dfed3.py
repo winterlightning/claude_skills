@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('browser dollar sign',)
 
@@ -49,7 +49,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'online-payment-browser-window'
-    category = 'objects/finance'
+    category = 'primitives-generate'
     aliases = ('browser dollar', 'online payment')
     keywords = ('web', 'money', 'payment', 'commerce')
     semantic_role = 'MAIN'

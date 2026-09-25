@@ -10,7 +10,7 @@ class AnxiousFaceWithSweat(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/emotions'
+    category = 'smileys'
     aliases = ()
     keywords = ('anxious', 'sweat', 'worried', 'nervous', 'face', 'emoji')
 

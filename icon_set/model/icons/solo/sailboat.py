@@ -11,7 +11,7 @@ class Sailboat(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transport'
+    category = 'transportation'
     aliases = ('sailing-boat', 'sailing-boat-with-single-sail')
     keywords = ('boat', 'sailboat', 'sail', 'sailing', 'ship', 'nautical', 'travel', 'sea')
 

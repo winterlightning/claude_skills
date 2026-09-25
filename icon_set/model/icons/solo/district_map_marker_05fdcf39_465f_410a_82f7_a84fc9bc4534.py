@@ -14,7 +14,7 @@ class DistrictMapMarker(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'maps/locations'
+    category = 'primitives-generate'
     aliases = ('Map Layout with Location Marker',)
     keywords = tuple('map layout with location marker'.split())
 

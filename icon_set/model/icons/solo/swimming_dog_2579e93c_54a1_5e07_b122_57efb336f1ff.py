@@ -15,7 +15,7 @@ class SwimmingDog(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
     aliases = ()
     keywords = ('dog', 'swimming', 'water', 'waves', 'pet', 'summer', 'paddle')
 

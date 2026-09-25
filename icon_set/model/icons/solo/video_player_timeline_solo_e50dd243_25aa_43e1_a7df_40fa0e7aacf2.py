@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'video'
     aliases=()
     keywords=('video', 'player', 'adjust')
     def path(self,n,start,commands,closed=False):
@@ -63,7 +63,7 @@ class Drawing(Solo48):
         self.relate('connect','timeline','scrubber')
 
     icon_id = 'video-player-timeline-solo-e50dd243'
-    category = 'objects'
+    category = 'video'
     aliases = ('video-player-timeline',)
     keywords = ('video', 'player', 'timeline')
     semantic_role = 'MAIN'

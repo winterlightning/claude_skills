@@ -18,7 +18,7 @@ class EmbassyBuilding(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('embassy', 'building', 'office', 'government', 'consulate', 'city', 'architecture', 'tower')
 

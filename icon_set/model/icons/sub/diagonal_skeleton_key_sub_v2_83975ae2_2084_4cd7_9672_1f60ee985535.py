@@ -13,7 +13,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
 
     def build(self):
         # One true radius-8 bow; shaft and both teeth use exact 45-degree axes.

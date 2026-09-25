@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'membership-symbol-content'
     keyshape = Keyshape.VRECT_M
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('element of mathematical symbol',)
     def build(self):

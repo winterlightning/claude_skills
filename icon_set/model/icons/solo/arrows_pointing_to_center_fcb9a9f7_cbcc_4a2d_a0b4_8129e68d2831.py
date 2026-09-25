@@ -18,7 +18,7 @@ class ArrowsPointingToCenter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('collapse', 'minimize', 'shrink', 'arrows', 'center', 'compress', 'exit-fullscreen', 'inward')
 

@@ -11,7 +11,7 @@ class CameraWithCarryStrap(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('camera', 'strap', 'carry', 'photo', 'photography', 'travel', 'lens', 'tourist')
 

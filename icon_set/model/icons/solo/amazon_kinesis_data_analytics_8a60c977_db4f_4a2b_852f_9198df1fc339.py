@@ -12,7 +12,7 @@ class AmazonKinesisDataAnalytics(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/cloud"
+    category = "primitives-generate"
     aliases = ("kinesis-analytics",)
     keywords = ("amazon", "aws", "kinesis", "analytics", "stream", "flow")
 

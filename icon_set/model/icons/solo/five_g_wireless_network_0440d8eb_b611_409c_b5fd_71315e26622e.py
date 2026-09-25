@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'other'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('5G', 'wireless', 'network')
 

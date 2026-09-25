@@ -18,7 +18,7 @@ class ArrowsCircularSync(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('sync', 'refresh', 'reload', 'rotate', 'circular', 'arrows', 'repeat', 'update')
 

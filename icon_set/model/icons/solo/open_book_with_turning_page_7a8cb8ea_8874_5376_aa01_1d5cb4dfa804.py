@@ -12,7 +12,7 @@ class Batch06Icon4(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/stationery"
+    category = "content"
     aliases = ()
     keywords = ('open', 'book', 'with', 'turning', 'page')
     def build(self):

@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('asymmetrical', 'panel', 'layout', 'square', 'frame', 'split', 'columns', 'staggered')
     def build(self):

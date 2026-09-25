@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class OpenHandleShoppingBasket(Container64):
     icon_id = 'open-handle-shopping-basket'
+    category = 'shopping'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

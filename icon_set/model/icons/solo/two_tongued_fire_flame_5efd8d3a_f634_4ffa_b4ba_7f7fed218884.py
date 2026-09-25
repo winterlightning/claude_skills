@@ -16,7 +16,7 @@ class Batch02Icon14(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/fire"
+    category = "container"
     aliases = ('two-tongued-fire-flame',)
     keywords = ('two', 'tongued', 'fire', 'flame')
 

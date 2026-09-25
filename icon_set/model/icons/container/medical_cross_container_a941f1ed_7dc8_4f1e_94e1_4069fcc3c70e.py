@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class MedicalCrossContainer(Container64):
     icon_id = 'medical-cross-container'
+    category = 'health'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('medical', 'cross', 'container')

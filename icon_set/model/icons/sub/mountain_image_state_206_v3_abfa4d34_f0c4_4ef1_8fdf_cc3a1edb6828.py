@@ -15,7 +15,7 @@ class MountainImageState206Variant3(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('mountain', 'image', 'unequal', 'peaks', 'form', 'continuous', 'zigzag', 'taller')
     keyshape = Keyshape.SQUARE

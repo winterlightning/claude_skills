@@ -9,7 +9,7 @@ class HandSwipingUpGesture(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
     aliases = ("tap swipe up",)
     keywords = ("pointing hand", "contact arc", "up arrow")
 

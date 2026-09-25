@@ -22,7 +22,7 @@ class DrawingVariant2ContainerSymbol(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'nature/batch-03'
+    category = 'nature'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

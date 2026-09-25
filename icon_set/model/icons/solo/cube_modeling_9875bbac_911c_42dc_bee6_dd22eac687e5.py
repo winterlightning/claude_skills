@@ -26,7 +26,7 @@ class CubeModeling(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/uncategorized"
+    category = "primitives-generate"
     aliases = ("3D cube modeling", "draw cube", "3D design")
     keywords = ("cube", "box", "modeling", "3d", "pencil", "drawing", "design")
 

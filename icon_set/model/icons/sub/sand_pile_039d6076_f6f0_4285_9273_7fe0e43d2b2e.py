@@ -16,7 +16,7 @@ class SandPile(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('sand', 'pile', 'sloping', 'sides', 'meet', 'softly', 'rounded', 'peak')
 

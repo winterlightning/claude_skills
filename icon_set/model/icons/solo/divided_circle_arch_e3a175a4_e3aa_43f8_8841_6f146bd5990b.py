@@ -18,7 +18,7 @@ class DividedCircleArch(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('circle', 'divided', 'symbol', 'peace', 'face', 'split', 'emblem', 'sign')
 

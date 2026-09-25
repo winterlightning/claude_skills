@@ -17,7 +17,7 @@ class IncreaseTextIndent(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/text"
+    category = "primitives-generate"
     aliases = ("text lines arrow right", "insert below")
     keywords = ("text", "lines", "arrow", "right", "indent")
 

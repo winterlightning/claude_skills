@@ -19,7 +19,7 @@ class OutlinedCapitalM(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/letters"
+    category = "primitives-generate"
     aliases = ("capital m", "maya logo")
     keywords = ("letter", "alphabet", "uppercase", "outlined")
 

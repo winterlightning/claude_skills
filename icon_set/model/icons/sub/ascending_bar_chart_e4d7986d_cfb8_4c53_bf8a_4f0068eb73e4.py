@@ -16,7 +16,7 @@ class AscendingBarChart(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('ascending', 'bar', 'chart', 'vertical', 'bars', 'rise', 'shared', 'horizontal')
 

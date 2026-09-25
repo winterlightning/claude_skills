@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("Lemon with Small Leaf",)
     keywords = ("lemon", "citrus", "fruit", "leaf", "food", "produce", "oval")
-    category = "Uncategorized"
+    category = "primitives-generate"
     def build(self):
 
 

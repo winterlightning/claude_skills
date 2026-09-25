@@ -12,7 +12,7 @@ class PencilMarkingBallot(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "society/elections"
+    category = "school-learning"
     aliases = ()
     keywords = ('pencil', 'ballot', 'vote', 'cross', 'election', 'marking')
 

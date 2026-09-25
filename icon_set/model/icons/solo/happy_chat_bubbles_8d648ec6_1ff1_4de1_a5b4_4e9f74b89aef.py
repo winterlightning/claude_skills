@@ -17,7 +17,7 @@ class HappyChatBubbles(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/chat"
+    category = "primitives-generate"
     aliases = ("smiling speech bubble pair", "happy conversation")
     keywords = ("smile", "messages", "reply", "face")
 

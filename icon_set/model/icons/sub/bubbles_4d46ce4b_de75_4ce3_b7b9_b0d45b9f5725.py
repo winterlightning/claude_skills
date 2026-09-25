@@ -16,7 +16,7 @@ class Bubbles(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('bubbles', 'large', 'circular', 'bubble', 'touches', 'smaller', 'circle', 'upper')
 

@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Three-Hole Round Power Socket',)
     keywords = ('socket', 'outlet', 'electrical', 'power', 'plug', 'wall')
     def build(self):

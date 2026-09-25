@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('people', 'conflict', '1')
     # Shared human_ref/user.svg reviewed for head scale. Continuous head/neck silhouettes have no detached head-body gap.

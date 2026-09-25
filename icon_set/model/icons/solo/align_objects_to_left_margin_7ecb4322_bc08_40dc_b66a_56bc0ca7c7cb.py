@@ -14,7 +14,7 @@ class AlignObjectsToLeftMargin(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/alignment"
+    category = "primitives-generate"
     aliases = ("align-left", "left-align-move")
     keywords = ("align", "left", "margin", "bars", "arrows")
 

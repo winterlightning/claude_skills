@@ -11,7 +11,7 @@ class MorningSun(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/weather"
+    category = "weather"
     aliases = ()
     keywords = ('morning', 'sun', 'daylight', 'horizon', 'dawn', 'weather')
 

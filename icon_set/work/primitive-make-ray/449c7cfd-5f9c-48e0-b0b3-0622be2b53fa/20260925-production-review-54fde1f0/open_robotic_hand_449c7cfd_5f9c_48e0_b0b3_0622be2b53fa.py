@@ -3,7 +3,7 @@ Keyshape HRECT_M: extremes authored from its SOLO48 centerline box.
 Omissions: Mechanical panel seams omitted; the palm, wrist, thumb and extended finger remain.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '449c7cfd-5f9c-48e0-b0b3-0622be2b53fa'
 SOURCE_PATH = 'pictographic-primitives/other/robot hand_449c7cfd-5f9c-48e0-b0b3-0622be2b53fa.svg'
 AUTHOR = 'gpt-6'

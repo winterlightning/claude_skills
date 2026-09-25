@@ -11,7 +11,7 @@ class RoundedStaggeredTaskBars(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = 'Uncategorized'
     aliases = ()
     keywords = ('rounded', 'staggered', 'task', 'bars')
 

@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'no-stain-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'symbol'
     tags = ('sub icon',)
     keywords = ('no stain symbol',)
     def build(self):

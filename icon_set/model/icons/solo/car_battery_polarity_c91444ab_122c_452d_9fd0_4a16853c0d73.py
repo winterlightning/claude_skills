@@ -12,7 +12,7 @@ class CarBatteryPolarity(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('battery', 'car battery', 'polarity', 'plus', 'minus', 'charge', 'electric', 'vehicle')
 

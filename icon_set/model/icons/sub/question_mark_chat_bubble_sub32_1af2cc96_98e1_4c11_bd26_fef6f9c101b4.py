@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.VRECT_XL
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'symbol'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'question mark chat bubble')
     def build(self):

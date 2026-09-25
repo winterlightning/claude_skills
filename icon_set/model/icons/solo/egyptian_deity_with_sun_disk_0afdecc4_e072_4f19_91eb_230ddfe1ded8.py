@@ -12,7 +12,7 @@ class EgyptianDeityWithSunDisk(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
     aliases = ()
     keywords = ('egyptian', 'deity', 'sun', 'disk', 'head', 'mythology', 'serpent')
 

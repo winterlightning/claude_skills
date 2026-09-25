@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/family'
+    category = 'avatars'
     aliases = ()
     keywords = ('mother', 'daughter', 'headscarf', 'hijab', 'family')
     def build(self):

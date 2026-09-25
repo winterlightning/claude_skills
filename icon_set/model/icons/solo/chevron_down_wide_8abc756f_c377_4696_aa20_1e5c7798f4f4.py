@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Wide Downward Chevron',)
     keywords = ('chevron', 'down', 'direction', 'angle', 'lines', 'symbol', 'navigation')
     def build(self):

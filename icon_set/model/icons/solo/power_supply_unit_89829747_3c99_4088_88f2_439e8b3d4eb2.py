@@ -10,7 +10,7 @@ class PowerSupplyUnit(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
     aliases = ()
     keywords = ('power supply', 'psu', 'computer', 'fan', 'hardware', 'socket', 'electricity', 'component')
 

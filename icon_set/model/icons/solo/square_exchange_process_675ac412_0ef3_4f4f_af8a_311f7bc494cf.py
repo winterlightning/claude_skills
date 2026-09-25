@@ -24,7 +24,7 @@ class SquareExchangeProcess(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/uncategorized"
+    category = "primitives-generate"
     aliases = ("square exchange", "exchange process", "swap squares")
     keywords = ("exchange", "process", "squares", "swap", "transfer", "arrows")
 

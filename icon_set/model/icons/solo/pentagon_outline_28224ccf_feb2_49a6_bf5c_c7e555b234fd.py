@@ -14,7 +14,7 @@ class PentagonOutline(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'shapes/polygons'
+    category = 'primitives-generate'
     aliases = ('Pentagon Geometric Shape',)
     keywords = tuple('pentagon geometric shape'.split())
 

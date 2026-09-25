@@ -17,7 +17,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/drink"
+    category = "drinks"
     aliases = ()
     keywords = ('wine', 'table', 'chairs', 'dining', 'bottle', 'glass', 'furniture', 'restaurant')
 

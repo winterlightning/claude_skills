@@ -12,7 +12,7 @@ class GirlHeadProfile(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/identity"
+    category = "users"
     aliases = ()
     keywords = ('girl', 'woman', 'head', 'profile', 'face', 'hair', 'female', 'person')
 

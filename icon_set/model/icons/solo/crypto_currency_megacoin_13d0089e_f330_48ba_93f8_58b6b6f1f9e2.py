@@ -14,7 +14,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'money'
     aliases=()
     keywords=('crypto', 'currency', 'megacoin')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

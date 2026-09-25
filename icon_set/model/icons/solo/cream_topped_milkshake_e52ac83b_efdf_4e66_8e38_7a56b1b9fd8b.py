@@ -10,7 +10,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/reference"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('milkshake', 'cream', 'cup', 'straw', 'drink', 'dessert', 'beverage')
     def build(self):

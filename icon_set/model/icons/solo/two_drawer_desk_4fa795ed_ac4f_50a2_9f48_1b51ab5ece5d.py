@@ -11,7 +11,7 @@ class TwoDrawerDesk(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
     aliases=()
     keywords=('desk', 'drawers', 'furniture', 'office', 'table', 'workplace')
 

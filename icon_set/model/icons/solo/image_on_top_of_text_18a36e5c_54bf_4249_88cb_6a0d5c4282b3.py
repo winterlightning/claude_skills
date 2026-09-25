@@ -17,7 +17,7 @@ class ImageOnTopOfText(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/layout"
+    category = "primitives-generate"
     aliases = ("insert image top", "image above text")
     keywords = ("image", "placeholder", "text", "layout", "top")
 

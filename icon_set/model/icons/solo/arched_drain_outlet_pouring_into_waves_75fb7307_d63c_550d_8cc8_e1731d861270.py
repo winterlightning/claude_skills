@@ -14,7 +14,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/ecology"
+    category = "ecology"
     aliases = ()
     keywords = ('drain', 'pipe', 'water', 'discharge', 'stream', 'pollution', 'outlet', 'ecology')
     def build(self):

@@ -16,7 +16,7 @@ class SummationSign(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/mark"
+    category = "state"
     aliases = ()
     keywords = ('summation', 'sign', 'large', 'uppercase', 'sigma', 'long', 'horizontal', 'top')
 

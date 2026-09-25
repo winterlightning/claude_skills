@@ -19,7 +19,7 @@ class PostageStampWithFaceProfile(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/emails"
+    category = "emails"
     aliases = ()
     keywords = ('postage', 'stamp', 'with', 'face', 'profile')
 

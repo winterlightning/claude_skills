@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class DeliveryVanContainer(Container64):
     icon_id = 'delivery-van-container'
+    category = 'transportation'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

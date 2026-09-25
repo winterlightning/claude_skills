@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'food'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('cereal', 'bowl', 'breakfast', 'food', 'dish', 'meal', 'kitchen')
 

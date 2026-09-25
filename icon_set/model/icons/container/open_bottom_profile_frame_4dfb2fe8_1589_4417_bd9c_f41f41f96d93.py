@@ -16,7 +16,7 @@ class OpenBottomProfileFrame(Container64):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('open', 'bottom', 'profile', 'frame')
 

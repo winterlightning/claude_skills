@@ -21,7 +21,7 @@ class GeneratedIcon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     keywords = ('exclamation', 'mark', 'solo')
 
     def build(self):

@@ -11,7 +11,7 @@ class StackedDatabaseCylinder(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/computing"
+    category = "servers"
     aliases = ()
     keywords = ('database', 'storage', 'data', 'cylinder', 'stack', 'server', 'disk')
 

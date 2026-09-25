@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "pets"
     aliases = ()
     keywords = ('dog',)
     def build(self):
@@ -45,7 +45,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'sitting-dog-tucked-paw'
-    category = 'objects/pets'
+    category = 'pets'
     aliases = ()
     keywords = ('dog', 'sitting', 'profile', 'silhouette', 'pet', 'paw', 'obedient')
     semantic_role = 'MAIN'

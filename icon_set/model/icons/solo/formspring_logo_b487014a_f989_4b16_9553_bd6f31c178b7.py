@@ -10,7 +10,7 @@ class FormspringLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('formspring', 'questions', 'chat', 'logo', 'brand', 'social', 'speech-bubble')
 

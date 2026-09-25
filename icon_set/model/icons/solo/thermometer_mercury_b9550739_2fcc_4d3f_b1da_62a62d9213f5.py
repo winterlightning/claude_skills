@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'symbol'
     aliases = ()
     keywords = ('thermometer',)
 
@@ -34,7 +34,7 @@ class Drawing(Solo48):
         self.add_line('mercury',(24,14),(24,25));self.add_dot('bulb-dot',(24,35))
 
     icon_id = 'thermometer-mercury'
-    category = 'objects/symbols'
+    category = 'symbol'
     aliases = ()
     keywords = ('thermometer', 'temperature', 'weather', 'heat', 'fever', 'measure', 'climate', 'hot')
     semantic_role = 'MAIN'

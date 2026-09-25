@@ -10,7 +10,7 @@ class AlienHeadSlantedEyes(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/science'
+    category = 'science'
     aliases = ()
     keywords = ('alien', 'head', 'face', 'extraterrestrial', 'eyes', 'space')
 

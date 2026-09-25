@@ -10,7 +10,7 @@ class ComputerWithErrorFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'websites'
     aliases = ()
     keywords = ('computer', 'error', 'face', 'monitor', 'crash', 'tongue', 'desktop')
 

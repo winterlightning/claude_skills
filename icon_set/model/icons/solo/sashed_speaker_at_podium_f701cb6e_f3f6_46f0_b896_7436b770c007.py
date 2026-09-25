@@ -14,7 +14,7 @@ class SashedSpeakerAtPodium(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/social'
+    category = 'social'
     aliases = ()
     keywords = ('person', 'speaker', 'podium', 'sash', 'politician', 'election')
 

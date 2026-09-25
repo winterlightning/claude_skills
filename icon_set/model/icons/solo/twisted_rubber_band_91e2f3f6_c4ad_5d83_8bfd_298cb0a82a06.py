@@ -11,7 +11,7 @@ class TwistedRubberBand(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('elastic band', 'rubber band', 'elastic', 'stretch', 'loop', 'band', 'office', 'flexible')
 

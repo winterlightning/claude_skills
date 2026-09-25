@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Wide Multimedia Projector',)
     keywords = ('projector', 'lens', 'multimedia', 'device', 'video', 'equipment')
     def build(self):

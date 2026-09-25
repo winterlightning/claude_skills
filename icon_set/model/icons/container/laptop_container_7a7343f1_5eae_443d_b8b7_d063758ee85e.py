@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class LaptopContainer(Container64):
     icon_id = 'laptop-container'
+    category = 'computers'
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('laptop', 'container')

@@ -11,7 +11,7 @@ class YelpLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('yelp', 'reviews', 'restaurants', 'burst', 'logo', 'brand', 'local')
 

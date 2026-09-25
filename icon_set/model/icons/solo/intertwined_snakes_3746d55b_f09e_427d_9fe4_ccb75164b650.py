@@ -14,7 +14,7 @@ class IntertwinedSnakes(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
     aliases = ()
     keywords = ('snake', 'serpent', 'intertwined', 'caduceus', 'mythology', 'coil', 'reptile', 'symbol')
 

@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.CIRCLE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'primitives-generate'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'circular minus symbol')
     def build(self):

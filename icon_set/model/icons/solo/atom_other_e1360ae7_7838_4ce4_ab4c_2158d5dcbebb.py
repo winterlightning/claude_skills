@@ -10,7 +10,7 @@ class AtomOther(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'other'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'atom-other')
 

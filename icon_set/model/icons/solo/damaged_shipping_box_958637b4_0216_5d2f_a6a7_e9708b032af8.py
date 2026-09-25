@@ -11,7 +11,7 @@ class DamagedShippingBox(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shipping"
+    category = "shipping"
     aliases = ()
     keywords = ('box', 'parcel', 'damage', 'tear', 'shipping', 'package')
 

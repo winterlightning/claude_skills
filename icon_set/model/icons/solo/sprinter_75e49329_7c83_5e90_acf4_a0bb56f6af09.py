@@ -10,7 +10,7 @@ class Sprinter(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('sprint', 'runner', 'running', 'athlete', 'speed', 'sport')
     def build(self) -> None:

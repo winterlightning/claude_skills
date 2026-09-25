@@ -15,7 +15,7 @@ class PersonWorkingWithBaby(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
     aliases = ()
     keywords = ('person', 'baby', 'laptop', 'parent', 'work', 'childcare')
 

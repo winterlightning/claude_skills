@@ -10,7 +10,7 @@ class GenieOilLamp(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/objects'
+    category = 'culture'
     aliases = ()
     keywords = ('lamp', 'genie', 'oil lamp', 'aladdin', 'wish', 'magic', 'arabian', 'antique')
 

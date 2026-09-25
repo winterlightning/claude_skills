@@ -17,7 +17,7 @@ class Batch064Icon6(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('upright', 'open', 'end', 'wrench')
 

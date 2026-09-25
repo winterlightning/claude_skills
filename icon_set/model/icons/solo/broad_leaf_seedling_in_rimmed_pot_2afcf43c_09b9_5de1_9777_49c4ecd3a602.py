@@ -10,7 +10,7 @@ class BroadLeafSeedlingInRimmedPot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/plants'
+    category = 'decoration'
     aliases = ()
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 

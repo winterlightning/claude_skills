@@ -11,7 +11,7 @@ class ScribdLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('scribd', 'documents', 'reading', 'letter-s', 'logo', 'brand', 'books')
 

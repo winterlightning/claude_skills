@@ -16,7 +16,7 @@ class ConstructionWorkerWithWrench(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/occupations"
+    category = "primitives-generate"
     aliases = ("labor worker", "mechanic")
     keywords = ("worker", "helmet", "hard hat", "wrench", "construction")
 

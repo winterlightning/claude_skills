@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("Human Eye Symbol",)
     keywords = ("eye", "iris", "pupil", "vision", "anatomy", "sight")
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

@@ -17,7 +17,7 @@ class BringLayerToFront(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "editing/layers"
+    category = "primitives-generate"
     aliases = ("move to top", "raise layer")
     keywords = ("arrow", "square", "front", "order")
 

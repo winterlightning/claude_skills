@@ -16,7 +16,7 @@ class UpwardArrowInASquare(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/navigation"
+    category = "primitives-generate"
     aliases = ("maximize-up",)
     keywords = ("arrow", "up", "square", "maximize")
 

@@ -10,7 +10,7 @@ class UserWithGear(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/users'
+    category = 'users'
     aliases = ()
     keywords = ('user', 'settings', 'gear', 'account', 'configuration', 'preferences', 'profile', 'admin')
 

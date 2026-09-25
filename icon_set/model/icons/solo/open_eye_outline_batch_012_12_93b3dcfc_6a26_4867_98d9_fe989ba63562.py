@@ -22,7 +22,7 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "health"
     aliases = ()
     keywords = ('eye', 'outline', 'almond', 'vision', 'shape', 'open')
 

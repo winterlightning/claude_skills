@@ -17,7 +17,7 @@ class DoubleConcentricCircles(Container64):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('two-concentric-circles', 'double-concentric-ring-symbol', 'double-ring', 'target-bullseye-symbol')
     keywords = ('circle', 'ring', 'concentric', 'target')
 

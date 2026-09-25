@@ -11,7 +11,7 @@ class DholakBarrelDrum(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
     aliases = ()
     keywords = ('dholak', 'drum', 'barrel', 'percussion', 'indian', 'instrument', 'folk', 'music')
 

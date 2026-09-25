@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ['Six Converging Stream Lines', 'Horizontal Converging Data Stream']
     keywords = ['stream', 'flow', 'curves', 'convergence', 'data', 'parallel', 'lines']
     def build(self):

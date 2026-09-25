@@ -10,7 +10,7 @@ class UnusSedLeoEmblem(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="symbols/finance"
+    category = "money"
     aliases=()
     keywords=('unus sed leo', 'leo', 'crypto', 'emblem', 'swirl', 'interlock')
 

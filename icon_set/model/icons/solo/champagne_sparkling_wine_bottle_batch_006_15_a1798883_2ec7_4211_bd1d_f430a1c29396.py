@@ -16,7 +16,7 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-006"
+    category = "drinks"
     aliases = ()
     keywords = ('champagne', 'sparkling', 'wine', 'bottle')
 

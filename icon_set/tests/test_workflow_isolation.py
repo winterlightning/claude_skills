@@ -110,6 +110,8 @@ class ProductionTests(IconUploadTests):
         self.assertEqual(self.call('GET', '/api/combinations/side/layouts'), (200, {}))
         status, body = self.call('POST', '/api/combinations/side/layout', {'pair_id': 'x', 'layout': None})
         self.assertEqual(status, 401)
+        status, body = self.call('POST', '/api/combinations/side/layout/apply', {'pair_id': 'x', 'layout': {}, 'targets': []})
+        self.assertEqual(status, 401)
 
     def test_manual_choice_survives_replacement_of_original(self):
         self.login()

@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('half', 'globe')
 
@@ -46,7 +46,7 @@ class Drawing(Solo48):
         for a,b in [('outer','meridian'),('outer','equator'),('meridian','equator')]:self.relate('connect',a,b)
 
     icon_id = 'hemisphere-globe-batch-024-12'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('hemisphere', 'globe')
     semantic_role = 'MAIN'

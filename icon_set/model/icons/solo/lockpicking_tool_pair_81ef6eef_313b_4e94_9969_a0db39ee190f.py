@@ -12,7 +12,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/crime'
+    category = 'crime'
     aliases=()
     keywords=('lockpicking', 'tool', 'pair')
     def path(self, name, start, commands, closed=False):

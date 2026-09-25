@@ -17,7 +17,7 @@ class PirateHatWithRoundEmblem(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/crime"
+    category = "crime"
     aliases = ()
     keywords = ('pirate', 'hat', 'with', 'round', 'emblem')
 

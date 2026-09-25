@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface-essential'
+    category = 'interface-essential'
     aliases = ()
     keywords = ('dashboard', 'gauge')
     def build(self):

@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'transportation'
     keywords = ('hospital', 'symbol', 'in', 'circle')
     TYPEFACE_GLYPH_IDS = ('letter-h-uppercase',)
 

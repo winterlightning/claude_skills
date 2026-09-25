@@ -12,7 +12,7 @@ class StationWagon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('station wagon', 'estate car', 'car', 'wagon', 'family car', 'vehicle', 'side view', 'automobile')
 

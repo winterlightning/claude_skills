@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'woman-news-display-content'
     keyshape = Keyshape.HRECT_L
-    category = 'objects/interface-essential'
+    category = 'users'
     tags = ('sub icon',)
     keywords = ('woman profile and news display',)
     def build(self):

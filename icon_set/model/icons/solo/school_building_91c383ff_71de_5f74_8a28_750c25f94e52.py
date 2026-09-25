@@ -12,7 +12,7 @@ class SchoolBuilding(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "education/school"
+    category = "school-learning"
     aliases = ()
     keywords = ('school', 'building', 'flag', 'education', 'campus', 'entrance')
 

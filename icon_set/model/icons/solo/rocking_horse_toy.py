@@ -11,7 +11,7 @@ class RockingHorseToy(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/baby'
+    category = 'babies'
     aliases = ('rocking-horse',)
     keywords = ('horse', 'rocker', 'toy', 'nursery', 'play')
 

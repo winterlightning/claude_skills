@@ -10,7 +10,7 @@ class DashedWindowWithOrnamentBar(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('window', 'ornament', 'toolbar', 'dashed', 'spatial', 'interface', 'placeholder')
 

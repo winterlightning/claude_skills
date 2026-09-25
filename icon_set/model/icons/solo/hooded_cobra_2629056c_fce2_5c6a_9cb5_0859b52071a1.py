@@ -10,7 +10,7 @@ class HoodedCobra(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/reptiles'
+    category = 'animals'
     aliases = ()
     keywords = ('cobra', 'snake', 'hood', 'reptile', 'serpent', 'coil', 'venom', 'rear')
 

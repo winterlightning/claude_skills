@@ -19,7 +19,7 @@ class UserBustSubState202ContainerSymbol(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('user', 'bust', 'detached', 'round', 'head', 'sits', 'broad', 'curved')
 

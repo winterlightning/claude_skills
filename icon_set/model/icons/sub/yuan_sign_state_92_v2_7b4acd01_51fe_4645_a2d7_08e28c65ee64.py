@@ -20,7 +20,7 @@ class YuanSignState92Variant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('yuan', 'sign', 'y', 'shaped', 'currency', 'glyph', 'diagonal', 'upper')
     keyshape = Keyshape.SQUARE

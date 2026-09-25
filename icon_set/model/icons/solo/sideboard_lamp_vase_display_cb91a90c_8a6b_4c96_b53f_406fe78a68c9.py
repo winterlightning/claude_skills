@@ -12,7 +12,7 @@ class SideboardLampVaseDisplay(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/furniture"
+    category = "furnitures"
     aliases = ()
     keywords = ('sideboard', 'with', 'lamp', 'and', 'vase')
 

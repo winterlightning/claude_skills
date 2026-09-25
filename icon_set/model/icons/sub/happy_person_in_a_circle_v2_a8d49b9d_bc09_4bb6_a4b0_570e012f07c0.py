@@ -17,7 +17,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives/person"
+    category = "primitives-generate"
     aliases = ("happy-user-circle",)
     keywords = ("person", "user", "happy", "circle")
 

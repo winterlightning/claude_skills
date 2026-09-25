@@ -12,7 +12,7 @@ class ThreePersonSquad(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('squad', 'group', 'people', 'team', 'military', 'person')
 

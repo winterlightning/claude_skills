@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'shopping'
     aliases = ()
     keywords = ('cart',)
 
@@ -36,7 +36,7 @@ class Drawing(Solo48):
         self.relate('connect','basket','handle')
 
     icon_id = 'shopping-cart-open-wheels'
-    category = 'objects/shopping'
+    category = 'shopping'
     aliases = ()
     keywords = ('cart', 'shopping', 'trolley', 'basket', 'wheels', 'retail', 'supermarket')
     semantic_role = 'MAIN'

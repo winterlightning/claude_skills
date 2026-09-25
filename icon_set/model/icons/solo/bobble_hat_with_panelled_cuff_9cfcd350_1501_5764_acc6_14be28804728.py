@@ -10,7 +10,7 @@ class BobbleHatWithPanelledCuff(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
     aliases = ()
     keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cuff', 'clothing')
 

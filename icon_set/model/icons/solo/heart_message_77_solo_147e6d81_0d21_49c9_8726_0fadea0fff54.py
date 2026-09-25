@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "symbol"
     aliases = ()
     keywords = ('messages bubble with heart',)
     def build(self):
@@ -43,7 +43,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'heart-message-77-solo'
-    category = 'objects/interface-essential'
+    category = 'symbol'
     aliases = ()
     keywords = ('sub icon', 'message bubble with heart')
     semantic_role = 'MAIN'

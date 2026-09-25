@@ -12,7 +12,7 @@ class CheetahFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('cheetah', 'leopard', 'face', 'head', 'big cat', 'tear marks', 'feline', 'wildlife')
 

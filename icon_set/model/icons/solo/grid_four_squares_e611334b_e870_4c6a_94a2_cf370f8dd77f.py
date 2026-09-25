@@ -12,7 +12,7 @@ class GridFourSquares(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('grid', 'squares', 'apps', 'dashboard', 'layout', 'menu', 'category', 'tiles')
 

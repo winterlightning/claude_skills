@@ -11,7 +11,7 @@ class CrawlingBaby(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/babies'
+    category = 'babies'
     aliases = ()
     keywords = ('crawling', 'baby', 'infant', 'nursery')
 

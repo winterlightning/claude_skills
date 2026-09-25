@@ -17,7 +17,7 @@ class Batch064Icon12(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('bowl', 'of', 'dip', 'with', 'chip')
 

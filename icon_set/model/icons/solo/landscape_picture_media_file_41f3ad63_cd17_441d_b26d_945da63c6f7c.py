@@ -12,7 +12,7 @@ class LandscapePictureMediaFile(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "files"
     aliases = ("image file", "picture document")
     keywords = ("photo", "landscape", "mountain", "file")
 

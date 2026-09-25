@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     keywords = ('square', 'advertisement', 'icon')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {'frame': 4}

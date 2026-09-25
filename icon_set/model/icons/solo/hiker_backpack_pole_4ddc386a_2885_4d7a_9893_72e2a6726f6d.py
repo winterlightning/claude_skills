@@ -18,7 +18,7 @@ class HikerBackpackPole(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/symbols'
+    category = 'symbol'
     aliases = ()
     keywords = ('hiking', 'trekking', 'hiker', 'backpack', 'walking', 'outdoors', 'mountain', 'adventure')
 

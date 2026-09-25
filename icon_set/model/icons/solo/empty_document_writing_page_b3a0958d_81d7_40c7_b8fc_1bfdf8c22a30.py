@@ -16,7 +16,7 @@ class EmptyDocumentWritingPage(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "files/documents"
+    category = "primitives-generate"
     aliases = ("blank page", "write document")
     keywords = ("empty", "paper", "writing", "open")
 

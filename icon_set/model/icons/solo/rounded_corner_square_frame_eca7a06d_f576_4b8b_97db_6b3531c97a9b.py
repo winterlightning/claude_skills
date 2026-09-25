@@ -12,7 +12,7 @@ class RoundedCornerSquareFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/frame"
+    category = "primitives-generate"
     aliases = ("rounded square", "empty frame")
     keywords = ("square", "border", "frame", "shape")
 

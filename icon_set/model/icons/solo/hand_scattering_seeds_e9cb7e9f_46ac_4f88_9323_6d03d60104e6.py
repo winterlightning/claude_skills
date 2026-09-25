@@ -15,7 +15,7 @@ class Batch28Icon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/agriculture"
+    category = "farming"
     aliases = ()
     keywords = ('hand', 'sowing', 'seeds')
 

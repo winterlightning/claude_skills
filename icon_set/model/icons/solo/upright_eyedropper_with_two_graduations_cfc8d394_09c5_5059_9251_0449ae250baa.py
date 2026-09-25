@@ -11,7 +11,7 @@ class UprightEyedropperWithTwoGraduations(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
     aliases = ()
     keywords = ('eyedropper', 'dropper', 'pipette', 'liquid', 'color', 'graduations', 'tool', 'sampler')
 

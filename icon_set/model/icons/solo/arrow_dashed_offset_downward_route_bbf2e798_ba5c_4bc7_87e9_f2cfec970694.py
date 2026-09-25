@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
     aliases = ['Arrow Dashed Offset Downward Route']
     keywords = ['arrow', 'dashed', 'down', 'offset', 'route', 'path', 'bend']
     def build(self):

@@ -17,7 +17,7 @@ class DoubleSpeechBubblesConversation(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/chat"
+    category = "primitives-generate"
     aliases = ("conversation bubbles", "messages")
     keywords = ("dialogue", "speech", "two", "reply")
 

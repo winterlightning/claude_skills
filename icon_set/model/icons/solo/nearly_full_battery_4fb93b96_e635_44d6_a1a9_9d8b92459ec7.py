@@ -11,7 +11,7 @@ class MobileIcon(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/mobile"
+    category = "mobile"
     aliases = ()
     keywords = ('battery', 'charge', 'level', 'nearly-full', 'power', 'energy', 'indicator')
 

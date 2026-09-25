@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'curved-straw-broom-sweeping-dust'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('curved', 'straw', 'broom', 'sweeping', 'dust')
 
     def build(self):

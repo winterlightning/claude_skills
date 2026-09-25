@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class BillboardContainer(Container64):
     icon_id = 'billboard-container'
+    category = 'business'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('billboard', 'container')

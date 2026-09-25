@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('wheat', 'awn', 'circle', 'exclamation')
     ink_extremes = keyshape.bounds_for(Profile.SOLO48)

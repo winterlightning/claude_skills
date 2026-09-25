@@ -12,7 +12,7 @@ class ScaredFace(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
     aliases = ()
     keywords = ('scared', 'fear', 'afraid', 'worried', 'face', 'emoji')
 

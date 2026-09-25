@@ -17,7 +17,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/batch-subjects'
+    category = 'holidays'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

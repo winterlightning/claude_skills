@@ -1232,7 +1232,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/combinations/side/preview', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/combinations/side/layout/apply', '/api/combinations/side/preview', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1337,6 +1337,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.keep_side_sub(data, user)
             if route == '/api/combinations/side/layout':
                 return self.save_side_layout(data, user)
+            if route == '/api/combinations/side/layout/apply':
+                return self.apply_side_layout(data, user)
             if route == '/api/combinations/side/preview':
                 return self.preview_side_layout(data)
             if route == '/api/feedback-db/sync':
@@ -2000,6 +2002,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         except (ValueError, OSError) as error:
             return self.json_response({'error': str(error)}, 422)
 
+    def _save_side_layout(self, row, main, sub, layout, user):
+        """Render one pair with `layout`, then save it (development also republishes the preview)."""
+        from icon_set.scripts import combination_layouts
+        from icon_set.scripts.combination_experiment import render
+        result = render({'id': row['id'], 'main': main, 'sub': sub, 'layout': layout}, row=row)
+        entry = combination_layouts.save(row, main, sub, result['layout'], result, user or '')
+        if getattr(self.server, 'production', False):
+            return {'layout': entry, 'url': None, 'result': entry['result']}
+        from icon_set.scripts.build_combination_previews import build_one
+        return {'layout': entry, **build_one(row['id'], result)}
+
     def save_side_layout(self, data, user):
         """Save or reset a side pair's hand-adjusted layout in this server's state.
 
@@ -2009,7 +2022,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         and the page shows them over the released previews.
         """
         from icon_set.scripts import combination_layouts
-        from icon_set.scripts.combination_experiment import DATA, render
+        from icon_set.scripts.combination_experiment import DATA
         production = getattr(self.server, 'production', False)
         if production and user == 'system':
             return self.json_response({'error': 'Log in to save layouts.'}, 401)
@@ -2029,14 +2042,56 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'layout': None, **build_one(pair_id)})
                 main = data.get('main') or row['mains'][0]['icon']
                 sub = data.get('sub') or row['subs'][0]['icon']
-                result = render({'id': pair_id, 'main': main, 'sub': sub, 'layout': data['layout']}, row=row)
-                entry = combination_layouts.save(row, main, sub, result['layout'], result, user or '')
-                if production:
-                    return self.json_response({'layout': entry, 'url': None, 'result': entry['result']})
-                from icon_set.scripts.build_combination_previews import build_one
-                return self.json_response({'layout': entry, **build_one(pair_id, result)})
+                return self.json_response(self._save_side_layout(row, main, sub, data['layout'], user))
             except (ValueError, OSError) as error:
                 return self.json_response({'error': str(error) or 'Could not save the layout.'}, 422)
+
+    def apply_side_layout(self, data, user):
+        """Save a pair's layout, then apply it to other side pairs that use the same main.
+
+        Accepts {pair_id, main, sub, layout, targets: [{pair_id, sub}]}. Each target keeps its own
+        sub; a target on another side is re-anchored (see combination_layouts.transfer). A target
+        that cannot take the layout is reported and skipped; the others still apply.
+        """
+        from icon_set.scripts import combination_layouts
+        from icon_set.scripts.combination_experiment import DATA, default_groups
+        if getattr(self.server, 'production', False) and user == 'system':
+            return self.json_response({'error': 'Log in to save layouts.'}, 401)
+        targets = data.get('targets')
+        if not isinstance(data.get('pair_id'), str) or not isinstance(targets, list) or len(targets) > 200 \
+                or any(not isinstance(t, dict) or not isinstance(t.get('pair_id'), str) for t in targets):
+            return self.json_response({'error': 'Choose a side pair and the pairs to apply it to.'}, 400)
+        with SIDE_LAYOUT_LOCK:
+            try:
+                rows = {r['id']: r for r in json.loads(DATA.read_text())['rows']}
+                row = rows.get(data['pair_id'])
+                if row is None or data.get('layout') is None:
+                    return self.json_response({'error': 'Choose an available icon pair and a layout.'}, 404)
+                main = data.get('main') or row['mains'][0]['icon']
+                sub = data.get('sub') or row['subs'][0]['icon']
+                source = self._save_side_layout(row, main, sub, data['layout'], user)
+            except (ValueError, OSError) as error:
+                return self.json_response({'error': str(error) or 'Could not save the layout.'}, 422)
+            layout, results = source['layout']['layout'], []
+            for target in targets:
+                pair_id = target['pair_id']
+                try:
+                    trow = rows.get(pair_id)
+                    if trow is None or pair_id == row['id']:
+                        raise ValueError('Not an available side pair.')
+                    if not any(m['icon'] == main for m in trow['mains']):
+                        raise ValueError('This pair does not use the same main.')
+                    tsub = target.get('sub') or trow['subs'][0]['icon']
+                    if not any(s['icon'] == tsub for s in trow['subs']):
+                        raise ValueError('The sub does not belong to this pair.')
+                    canvas, groups = default_groups(trow, main, tsub)
+                    moved = combination_layouts.transfer(layout, row['position'], sub, trow['position'], tsub, canvas, groups.get('sub'))
+                    if not moved:
+                        raise ValueError('Nothing to apply.')
+                    results.append({'pair_id': pair_id, 'ok': True, **self._save_side_layout(trow, main, tsub, moved, user)})
+                except (ValueError, OSError) as error:
+                    results.append({'pair_id': pair_id, 'ok': False, 'error': str(error) or 'Could not apply the layout.'})
+        return self.json_response({'source': source, 'results': results})
 
     def keep_side_sub(self, data, user):
         """Keep one sub for a side pair; reject and discard its alternatives everywhere they are used.

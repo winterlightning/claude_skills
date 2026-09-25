@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/work'
+    category = 'work'
     aliases = ()
     keywords = ('workflow teamwork hand gather',)
     # Plan: Overlapping palms entered by visible wrists replace the angular central knot.

@@ -20,7 +20,7 @@ class UnequalVerticalLinesVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('unequal', 'vertical', 'lines', 'detached', 'upright', 'strokes', 'share', 'top')
     keyshape = Keyshape.SQUARE

@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface-essential'
+    category = 'content'
     tags = ('sub icon',)
     keywords = ('sub icon', 'news article page')
     def build(self):

@@ -14,7 +14,7 @@ class DiagonalSlashedCircleNotch(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'symbols/prohibition'
+    category = 'primitives-generate'
     aliases = ('Diagonal Slashed Circle with Notch',)
     keywords = tuple('diagonal slashed circle with notch'.split())
 

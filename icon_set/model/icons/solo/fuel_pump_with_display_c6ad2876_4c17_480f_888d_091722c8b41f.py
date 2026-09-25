@@ -16,7 +16,7 @@ class Batch03Icon6(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/dispenser"
+    category = "container"
     aliases = ('fuel-pump-with-display',)
     keywords = ('fuel', 'pump', 'with', 'display')
 

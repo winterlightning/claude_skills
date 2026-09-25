@@ -12,7 +12,7 @@ class NorthDirectionMarker(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/navigation"
+    category = "navigation"
     aliases = ()
     keywords = ('north', 'direction', 'compass', 'navigation', 'arrow', 'orientation', 'marker')
 

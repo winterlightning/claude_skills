@@ -7,7 +7,7 @@ const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-
 // One plain status per pair. Waiting: main and sub are drawn but not in the combine data yet.
 const SIDE_STATES={ready:'Ready',fix:'Fix sub',waiting:'Waiting',main:'Needs main',sub:'Needs sub',textsub:'Needs text sub'};
 const SIDE_STATE_HINTS={ready:'Main and sub are drawn and can be combined.',fix:'The sub fails a check. Fix it before combining.',waiting:'Main and sub are drawn but not combined yet.',main:'No 48×48 solo main icon yet.',sub:'No 32×32 sub icon yet.',textsub:'The sub is text or a number and is not drawn yet. It is generated separately.'};
-const SIDE_FILTERS={'':'All',...SIDE_STATES,text:'Text sub',multi:'2+ subs'};
+const SIDE_FILTERS={'':'All',...SIDE_STATES,uncombined:'Not combined',text:'Text sub',multi:'2+ subs'};
 const sideParams=new URLSearchParams(location.search);
 // Main / sub status per source UUID from side-components.json, the same data as the Main icons and Sub icons pages.
 let sideComponentStatus={main:new Map(),sub:new Map()},sideComponents=null;
@@ -100,7 +100,9 @@ function sideKey(row){
 function sideCategory(row){
   const pair=sidePairs.get(row.id),key=sideKey(row);
   const both=key.startsWith('both');
-  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
+  // Not combined: main and sub are both drawn, but the last Combine all run made no icon for the pair.
+  const uncombined=!['main','sub','textsub'].includes(key)&&!both&&!sideReleased[row.id];
+  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),uncombined,multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
 }
 
 function sideCombined(pair,sub){
@@ -267,6 +269,23 @@ function sideRow(row){
   }
   return card;
 }
+
+/* The layout editor lists the other ready pairs that use the same main, so one fix can be
+   applied to several of them; after applying, their previews update here. */
+window.SideLayoutEditor?.configure({
+  pairsWithMain(icon,exceptId){
+    if(!sidePairs)return [];
+    return [...sidePairs.values()].filter(p=>p.id!==exceptId&&!p.mapped_native&&p.subs.length&&p.mains.some(m=>m.icon===icon)).map(p=>{
+      const sub=sideCurrentSub(p),found=sideCombined(p,sub);
+      return {id:p.id,concept:p.concept,position:p.position,sub:sub.icon,adjusted:!!sideAdjusted(p,sub),
+        preview:found?.url||(found?.result?.svg?sideDataURL(found.result.svg):null)};
+    });
+  },
+  applied(results){
+    for(const r of results){if(!r.ok)continue;sidePreviews[r.pair_id]={fingerprint:r.fingerprint,url:r.url||null,result:r.result};for(const k of [...sideRendered.keys()])if(k.startsWith(r.pair_id+'|'))sideRendered.delete(k);}
+    renderCombinations();
+  }
+});
 
 /* Clicking a main or sub opens it large on its own grid with its stroke centerline. */
 const SIDE_NS='http://www.w3.org/2000/svg';

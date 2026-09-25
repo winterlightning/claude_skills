@@ -12,7 +12,7 @@ class CircularRadarSweep(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('radar', 'sweep', 'circle', 'dial', 'surveillance', 'scan')
 

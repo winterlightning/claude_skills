@@ -11,7 +11,7 @@ class WheelchairUserAtRamp(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('wheelchair', 'ramp', 'person', 'accessibility', 'mobility', 'slope')
 

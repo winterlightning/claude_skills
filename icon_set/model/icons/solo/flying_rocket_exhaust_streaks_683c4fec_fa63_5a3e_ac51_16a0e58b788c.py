@@ -14,7 +14,7 @@ class FlyingRocketExhaustStreaks(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('rocket', 'flight', 'exhaust', 'porthole', 'fin', 'space')
 

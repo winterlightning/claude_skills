@@ -16,7 +16,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='symbols/sport'
+    category = 'primitives-generate'
     aliases=('olympic rings',)
     keywords=('olympics','five','rings','sport')
     def build(self):

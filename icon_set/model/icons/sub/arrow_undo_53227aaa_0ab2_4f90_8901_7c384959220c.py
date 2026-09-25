@@ -16,7 +16,7 @@ class ArrowUndo(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "primitives/mark"
+    category = "state"
     aliases = ()
     keywords = ('arrow', 'undo', 'curved', 'rises', 'around', 'broad', 'right', 'hand')
 

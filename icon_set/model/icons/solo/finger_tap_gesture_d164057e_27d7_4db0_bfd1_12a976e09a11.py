@@ -11,7 +11,7 @@ class MobileIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/mobile'
+    category = 'mobile'
     aliases = ()
     keywords = ('finger', 'tap', 'hand', 'touch', 'gesture', 'press', 'interaction')
 

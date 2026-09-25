@@ -15,7 +15,7 @@ class LogmeinLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('logmein', 'remote-access', 'ln', 'logo', 'brand', 'support', 'circle')
 

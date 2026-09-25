@@ -14,7 +14,7 @@ class TetheredAstronaut(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('astronaut', 'spacesuit', 'tether', 'space', 'helmet', 'orbit')
 

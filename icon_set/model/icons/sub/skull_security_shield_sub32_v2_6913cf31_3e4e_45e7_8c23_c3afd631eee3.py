@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'war'
     keywords = ('skull', 'security', 'protection', 'shield')
 
     def build(self):

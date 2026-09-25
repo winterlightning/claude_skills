@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'om-symbol-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'state'
     tags = ('sub icon',)
     keywords = ('hindu om symbol',)
     def build(self):

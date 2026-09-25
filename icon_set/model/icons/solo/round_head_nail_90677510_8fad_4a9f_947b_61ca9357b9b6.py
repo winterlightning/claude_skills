@@ -10,7 +10,7 @@ class RoundHeadNail(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/tools'
+    category = 'tools'
     aliases = ()
     keywords = ('nail', 'round head', 'hardware', 'fastener', 'pin', 'construction', 'carpentry', 'metal')
 

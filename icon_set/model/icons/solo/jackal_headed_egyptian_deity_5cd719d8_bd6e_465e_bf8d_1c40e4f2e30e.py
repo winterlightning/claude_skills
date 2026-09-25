@@ -12,7 +12,7 @@ class JackalHeadedEgyptianDeity(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
     aliases = ()
     keywords = ('egyptian', 'deity', 'jackal', 'head', 'headdress', 'mythology', 'profile')
 

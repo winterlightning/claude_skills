@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/construction'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('masonry', 'blocks', 'stonework', 'wall', 'brick', 'construction')
 

@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category = 'health'
     aliases=()
     keywords=('condom',)
 
@@ -34,7 +34,7 @@ class Drawing(Solo48):
         self.relate('connect','rim','body')
 
     icon_id = 'condom-reference'
-    category = 'objects/health'
+    category = 'health'
     aliases = ()
     keywords = ('condom',)
     semantic_role = 'MAIN'

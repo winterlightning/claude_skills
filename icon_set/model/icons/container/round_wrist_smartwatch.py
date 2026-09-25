@@ -16,7 +16,7 @@ class RoundWristSmartwatch(Container64):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ()
     keywords = ('round', 'wrist', 'smartwatch')
 

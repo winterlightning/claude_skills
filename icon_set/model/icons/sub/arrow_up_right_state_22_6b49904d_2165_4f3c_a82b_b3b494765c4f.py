@@ -16,7 +16,7 @@ class ArrowUpRightState22(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('arrow', 'up', 'right', 'long', 'diagonal', 'shaft', 'rises', 'lower')
 

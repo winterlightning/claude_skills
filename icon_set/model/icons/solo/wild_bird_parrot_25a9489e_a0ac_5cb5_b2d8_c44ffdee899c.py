@@ -10,7 +10,7 @@ class Toucan(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
     aliases = ()
     keywords = ('toucan', 'bird', 'beak', 'tropical', 'rainforest', 'perch', 'parrot', 'exotic')
 

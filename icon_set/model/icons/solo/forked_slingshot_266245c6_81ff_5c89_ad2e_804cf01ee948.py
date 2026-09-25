@@ -12,7 +12,7 @@ class ForkedSlingshot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('slingshot', 'sling', 'fork', 'band', 'pouch', 'weapon')
 

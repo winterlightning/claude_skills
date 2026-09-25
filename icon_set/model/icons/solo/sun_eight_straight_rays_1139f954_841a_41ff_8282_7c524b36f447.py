@@ -15,7 +15,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'nature'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('sun', 'rays', 'daylight', 'weather', 'light', 'circle')
 

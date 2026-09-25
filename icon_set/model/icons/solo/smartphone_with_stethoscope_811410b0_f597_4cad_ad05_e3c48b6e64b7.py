@@ -19,7 +19,7 @@ class SmartphoneWithStethoscope(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "medical/devices"
+    category = "primitives-generate"
     aliases = ("medical app smartphone", "phone stethoscope")
     keywords = ("health", "telemedicine", "listen", "phone")
 

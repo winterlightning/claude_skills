@@ -10,7 +10,7 @@ class SatelliteGroundStation(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('ground-station', 'satellite-dish', 'antenna', 'signal', 'receiver', 'broadcast', 'communication')
 

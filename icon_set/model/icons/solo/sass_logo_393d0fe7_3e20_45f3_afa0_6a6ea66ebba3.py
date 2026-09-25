@@ -11,7 +11,7 @@ class SassLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('sass', 'css', 'script', 'wordmark', 'logo', 'brand', 'developer')
 

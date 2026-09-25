@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('ui webpage bank',)
     def build(self):
@@ -47,7 +47,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'browser-header-window-solo-dd2e4d0c'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ('browser-header-window',)
     keywords = ('browser', 'header', 'window')
     semantic_role = 'MAIN'

@@ -15,7 +15,7 @@ class Pteranodon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/prehistoric'
+    category = 'animals'
     aliases = ()
     keywords = ('pteranodon', 'pterodactyl', 'dinosaur', 'flying', 'wings', 'prehistoric', 'reptile', 'jurassic')
 

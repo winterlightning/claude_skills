@@ -14,7 +14,7 @@ class Drawing(Solo48):
     # Visible ink extremes: (2, 8, 46, 40).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'transportation'
     aliases = ()
     keywords = ('kiss', 'and', 'ride')
 

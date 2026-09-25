@@ -19,7 +19,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ["Litter Box with Scoop"]
     keywords = ["litter", "tray", "scoop", "cat", "pet", "cleaning", "slotted"]
-    category = "Uncategorized"
+    category = "primitives-generate"
     def build(self):
 
         def path(name,start,steps,closed=False):

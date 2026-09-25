@@ -16,7 +16,7 @@ class VideoCameraSubState295(Sub32):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('video', 'camera', 'rectangular', 'body', 'joins', 'flared', 'right', 'facing')
 

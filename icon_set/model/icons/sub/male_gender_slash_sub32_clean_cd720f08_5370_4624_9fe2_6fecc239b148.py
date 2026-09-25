@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'pets'
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.circle('circle',12,20,10)

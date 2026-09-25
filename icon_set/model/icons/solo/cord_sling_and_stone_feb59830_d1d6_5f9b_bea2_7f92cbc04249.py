@@ -12,7 +12,7 @@ class CordSlingAndStone(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
     keywords = ('sling', 'stone', 'cord', 'pouch', 'loop', 'weapon')
 

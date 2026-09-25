@@ -16,7 +16,7 @@ class Batch02Icon10(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/factory"
+    category = "container"
     aliases = ('factory-with-twin-chimneys',)
     keywords = ('factory', 'with', 'twin', 'chimneys', 'sub icon')
 

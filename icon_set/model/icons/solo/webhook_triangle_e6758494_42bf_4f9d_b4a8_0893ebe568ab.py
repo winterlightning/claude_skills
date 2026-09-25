@@ -13,7 +13,7 @@ class WebhookTriangle(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('webhook', 'hook', 'api', 'integration', 'callback', 'triangle', 'link', 'event')
 

@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'health'
     aliases=()
     keywords=('hearing', 'aid', 'ear')
 
@@ -48,7 +48,7 @@ class Drawing(Solo48):
         self.relate('connect','ear','aid');self.relate('connect','bowl','canal')
 
     icon_id = 'ear-with-hearing-aid-reference'
-    category = 'objects/health'
+    category = 'health'
     aliases = ()
     keywords = ('ear', 'with', 'hearing', 'aid')
     semantic_role = 'MAIN'

@@ -12,7 +12,7 @@ class PersonWithBindle(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/users'
+    category = 'users'
     aliases = ()
     keywords = ('homeless', 'bindle', 'walking', 'traveller', 'person', 'bundle', 'poverty', 'wanderer')
 

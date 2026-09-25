@@ -15,7 +15,7 @@ class ZeroVariant3(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('zero', 'tall', 'oval', 'forms', 'single', 'closed', 'loop', 'empty')
     keyshape = Keyshape.SQUARE

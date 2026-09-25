@@ -15,7 +15,7 @@ class EruptingVolcano(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
     aliases = ()
     keywords = ('volcano', 'eruption', 'lava', 'crater', 'mountain', 'nature', 'disaster', 'landscape')
 

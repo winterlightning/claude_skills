@@ -12,7 +12,7 @@ class SabreToothHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('sabre tooth', 'tiger', 'fang', 'head', 'profile', 'prehistoric', 'big cat', 'extinct')
 

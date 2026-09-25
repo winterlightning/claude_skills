@@ -11,7 +11,7 @@ class Batch045Icon5(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('arrow', 'right', 'curved', 'forward', 'direction', 'turn', 'navigation')
     # Reference: undo-2: tangent quarter-turn and shared arrow junction.

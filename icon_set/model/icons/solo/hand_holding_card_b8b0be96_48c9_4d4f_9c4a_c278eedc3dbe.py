@@ -14,7 +14,7 @@ class HandHoldingCard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/payments'
+    category = 'payments'
     aliases = ()
     keywords = ('credit-card', 'card', 'hand', 'holding', 'scan', 'payment', 'pay', 'purchase')
 

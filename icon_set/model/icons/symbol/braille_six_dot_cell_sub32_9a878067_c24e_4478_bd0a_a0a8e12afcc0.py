@@ -17,7 +17,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

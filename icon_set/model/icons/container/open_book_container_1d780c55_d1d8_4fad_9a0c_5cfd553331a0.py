@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class OpenBookContainer(Container64):
     icon_id = 'open-book-container'
+    category = 'content'
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ()

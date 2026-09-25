@@ -18,7 +18,7 @@ class RoyalCrownWithOrb(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/award'
+    category = 'rewards'
     aliases = ('orb-crown',)
     keywords = ('crown', 'royal', 'orb', 'monarch', 'vip', 'king', 'headwear')
 

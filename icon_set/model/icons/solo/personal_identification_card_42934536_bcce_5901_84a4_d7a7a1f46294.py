@@ -13,7 +13,7 @@ class PersonalIdentificationCard(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     human_construction = "bust"
-    category = "objects/office"
+    category = "office"
     aliases = ("business card", "contact card")
     keywords = ("identification", "profile", "person", "contact")
 

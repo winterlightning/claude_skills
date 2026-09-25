@@ -14,7 +14,7 @@ class OutlinedLambda(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('lambda', 'greek', 'letter', 'physics', 'mathematics', 'symbol')
 

@@ -10,7 +10,7 @@ class SkibobRider(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('skibob', 'ski', 'bike', 'rider', 'snow', 'winter')
     def build(self) -> None:

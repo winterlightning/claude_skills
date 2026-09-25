@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/payments'
+    category = 'payments'
     aliases = ()
     keywords = ('contactless payment',)
     # Plan: A payment card with contactless radio waves instead of an ambiguous touching hand.

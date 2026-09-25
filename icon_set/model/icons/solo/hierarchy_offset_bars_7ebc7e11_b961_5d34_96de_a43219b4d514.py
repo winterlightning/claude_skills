@@ -13,7 +13,7 @@ class HierarchyOffsetBars(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
     aliases=()
     keywords=('hierarchy', 'flow', 'steps', 'tree', 'connector', 'bars', 'structure', 'diagram')
 

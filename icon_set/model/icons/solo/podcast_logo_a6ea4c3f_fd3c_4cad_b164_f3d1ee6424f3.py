@@ -11,7 +11,7 @@ class PodcastLogo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('podcast', 'apple-podcasts', 'broadcast', 'microphone', 'logo', 'brand', 'audio')
 

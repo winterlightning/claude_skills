@@ -11,7 +11,7 @@ class WateredPlanter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/decoration'
+    category = 'decoration'
     aliases = ()
     keywords = ('planter', 'water', 'droplet', 'leaves', 'plant', 'bowl', 'gardening')
 

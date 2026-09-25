@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = "Uncategorized"
+    category = "primitives-generate"
     aliases = ('Rounded Horizontal Minus Sign',)
     keywords = ('rounded', 'horizontal', 'subtraction', 'mark')
     def build(self):

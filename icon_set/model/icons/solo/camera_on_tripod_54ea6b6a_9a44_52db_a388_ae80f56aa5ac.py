@@ -11,7 +11,7 @@ class CameraOnTripod(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('camera', 'tripod', 'stand', 'photo', 'photography', 'studio', 'mount', 'lens')
 

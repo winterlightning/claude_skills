@@ -14,7 +14,7 @@ class Drawing(Solo48):
     semantic_kind='noun'
     aliases=()
     keywords=('device', 'wearable', 'vr', 'goggles')
-    category='objects/general'
+    category = 'devices'
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)

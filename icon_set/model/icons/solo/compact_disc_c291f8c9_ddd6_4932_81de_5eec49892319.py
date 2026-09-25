@@ -11,7 +11,7 @@ class CompactDisc(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
     aliases = ()
     keywords = ('compact', 'disc')
 

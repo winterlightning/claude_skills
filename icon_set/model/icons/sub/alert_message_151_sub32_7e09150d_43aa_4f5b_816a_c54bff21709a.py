@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape=Keyshape.SQUARE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'messages'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'message alert bubble')
     def build(self):

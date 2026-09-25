@@ -12,7 +12,7 @@ class MobileUserProfile(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/device"
+    category = "primitives-generate"
     aliases = ("phone profile", "mobile user")
     keywords = ("smartphone", "account", "avatar", "person")
 

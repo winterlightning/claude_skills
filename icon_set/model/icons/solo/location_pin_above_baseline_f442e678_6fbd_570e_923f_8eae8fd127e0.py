@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'interface-essential'
     aliases = ()
     keywords = ('pin',)
 
@@ -34,7 +34,7 @@ class Drawing(Solo48):
         self.add_line('baseline',(12,44),(36,44))
 
     icon_id = 'location-pin-above-baseline'
-    category = 'objects/interface-essential'
+    category = 'interface-essential'
     aliases = ()
     keywords = ('pin', 'map', 'location', 'marker', 'place', 'navigation')
     semantic_role = 'MAIN'

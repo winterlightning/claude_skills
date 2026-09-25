@@ -11,7 +11,7 @@ class LensWithPetalHood(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('lens', 'lens hood', 'petal hood', 'shade', 'camera lens', 'optics', 'photography', 'zoom')
 

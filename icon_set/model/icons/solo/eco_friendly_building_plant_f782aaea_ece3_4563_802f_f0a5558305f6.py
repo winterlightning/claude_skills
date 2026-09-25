@@ -13,7 +13,7 @@ class EcoFriendlyBuildingPlant(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'buildings/ecology'
+    category = 'primitives-generate'
     aliases = ('Eco Friendly Building with Plant',)
     keywords = tuple('eco friendly building with plant'.split())
 

@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category = 'technology'
     aliases=()
     keywords=('hyperloop',)
 
@@ -34,7 +34,7 @@ class Drawing(Solo48):
         self.add_line('mark-top',(14,20),(17,20));self.add_line('mark-bottom',(14,28),(16,28))
 
     icon_id = 'hyperloop-pod'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('hyperloop', 'pod', 'train', 'capsule', 'transport', 'vehicle', 'travel')
     semantic_role = 'MAIN'

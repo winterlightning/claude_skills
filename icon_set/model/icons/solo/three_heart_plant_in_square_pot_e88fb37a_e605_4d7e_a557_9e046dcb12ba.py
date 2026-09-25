@@ -15,7 +15,7 @@ class ThreeHeartPlantInSquarePot(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/romance'
+    category = 'romance'
     aliases = ()
     keywords = ('heart', 'plant', 'pot', 'branch', 'flower', 'romance')
 

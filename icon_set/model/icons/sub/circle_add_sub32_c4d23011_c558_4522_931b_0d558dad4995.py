@@ -16,7 +16,7 @@ class GridAlignedSub(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'other'
+    category = 'primitives-generate'
 
     def build(self):
         self.add_arc('sym-e0', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)

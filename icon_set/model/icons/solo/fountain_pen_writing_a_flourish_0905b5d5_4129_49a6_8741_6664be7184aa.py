@@ -13,7 +13,7 @@ class Batch05Icon13(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pen"
+    category = "content"
     aliases = ('fountain-pen-writing-a-flourish',)
     keywords = ('fountain', 'pen', 'writing', 'a', 'flourish')
     def build(self):

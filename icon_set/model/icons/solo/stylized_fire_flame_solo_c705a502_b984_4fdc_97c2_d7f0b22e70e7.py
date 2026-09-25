@@ -10,7 +10,7 @@ class StylizedFireFlameSolo(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/social"
+    category = "social"
     aliases = ()
     keywords = ('fire', 'flame', 'heat', 'burning', 'blaze', 'hot')
 

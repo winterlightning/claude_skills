@@ -18,7 +18,7 @@ class ClockSeven(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('clock', 'time', 'hour', 'watch', 'schedule', 'minutes', 'wall-clock')
 

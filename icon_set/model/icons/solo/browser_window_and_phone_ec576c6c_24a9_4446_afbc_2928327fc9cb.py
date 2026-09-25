@@ -11,7 +11,7 @@ class BrowserWindowAndPhone(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/technology"
+    category = "websites"
     aliases = ()
     keywords = ('responsive', 'browser', 'phone', 'devices', 'window', 'mobile', 'web')
 

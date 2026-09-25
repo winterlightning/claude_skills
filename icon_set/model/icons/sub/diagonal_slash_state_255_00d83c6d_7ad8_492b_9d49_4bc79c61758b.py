@@ -16,7 +16,7 @@ class DiagonalSlashState255(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('diagonal', 'slash', 'long', 'line', 'descends', 'upper', 'left', 'lower')
 

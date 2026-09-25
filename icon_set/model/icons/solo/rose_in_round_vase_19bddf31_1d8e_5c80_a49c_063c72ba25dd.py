@@ -17,7 +17,7 @@ class RoseInRoundVase(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/romance"
+    category = "romance"
     aliases = ()
     keywords = ('rose', 'vase', 'flower', 'stem', 'romance', 'decoration')
 

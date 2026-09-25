@@ -16,7 +16,7 @@ class SingleSpiceCloveBud(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "food/spices"
+    category = "primitives-generate"
     aliases = ("clove", "clove silhouette")
     keywords = ("spice", "bud", "stalk")
 

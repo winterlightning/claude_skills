@@ -47,7 +47,7 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'other'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('medical', 'consultation', 'chat')
 

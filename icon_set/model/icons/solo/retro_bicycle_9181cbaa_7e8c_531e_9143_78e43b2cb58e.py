@@ -10,7 +10,7 @@ class RetroBicycle(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('bicycle', 'bike', 'retro', 'cycling', 'vintage', 'pedal', 'transport', 'two wheels')
 

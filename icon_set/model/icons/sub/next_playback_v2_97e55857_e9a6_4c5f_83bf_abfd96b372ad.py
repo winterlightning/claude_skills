@@ -20,7 +20,7 @@ class NextPlaybackVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('next', 'playback', 'outlined', 'right', 'pointing', 'triangle', 'followed', 'detached')
     keyshape = Keyshape.SQUARE

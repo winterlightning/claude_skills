@@ -18,7 +18,7 @@ class DeepfakeFace(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('deepfake', 'face', 'ai', 'fake', 'identity', 'synthetic', 'mask', 'recognition')
 

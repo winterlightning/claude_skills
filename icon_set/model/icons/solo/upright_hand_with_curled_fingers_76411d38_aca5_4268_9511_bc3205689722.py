@@ -13,7 +13,7 @@ AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'upright-hand-with-curled-fingers'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "Uncategorized"
     keywords = ('upright', 'hand', 'with', 'curled', 'fingers')
 
     def build(self):

@@ -11,7 +11,7 @@ class EmergencyValveWheel(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('valve', 'handwheel', 'emergency', 'shutoff', 'wheel', 'gear', 'pipe', 'industrial')
 

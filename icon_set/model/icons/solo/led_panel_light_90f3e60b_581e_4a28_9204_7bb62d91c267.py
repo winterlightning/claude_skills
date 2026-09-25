@@ -11,7 +11,7 @@ class LedPanelLight(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('led', 'panel', 'light', 'studio', 'lighting', 'video light', 'photography', 'equipment')
 

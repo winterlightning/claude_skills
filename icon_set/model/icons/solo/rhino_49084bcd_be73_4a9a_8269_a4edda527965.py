@@ -12,7 +12,7 @@ class RhinoHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
     aliases = ()
     keywords = ('rhino', 'rhinoceros', 'head', 'horn', 'ear', 'profile', 'animal', 'wildlife')
 

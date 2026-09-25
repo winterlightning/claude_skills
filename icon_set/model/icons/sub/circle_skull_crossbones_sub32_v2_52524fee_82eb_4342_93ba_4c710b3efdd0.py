@@ -14,7 +14,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     keywords = ('skull', 'and', 'crossbones', 'danger', 'circle')
 
     def build(self):

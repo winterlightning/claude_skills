@@ -11,7 +11,7 @@ class OrganizationalHierarchyCube(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/organization'
+    category = 'business'
     aliases = ('hierarchy-cube', 'organization-chart', 'org-chart')
     keywords = ('hierarchy', 'organization', 'structure', 'node', 'tree', 'distribute', 'cube', 'network')
 

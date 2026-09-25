@@ -12,7 +12,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/content"
+    category = "content"
     aliases=()
     keywords=('content', 'pen')
     def build(self):

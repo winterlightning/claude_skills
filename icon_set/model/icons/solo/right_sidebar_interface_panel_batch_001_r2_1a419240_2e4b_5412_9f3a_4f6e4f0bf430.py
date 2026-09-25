@@ -14,7 +14,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface'
+    category = 'apps'
     aliases = ()
     keywords = ('right', 'sidebar', 'interface', 'panel')
     def build(self):

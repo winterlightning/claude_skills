@@ -18,7 +18,7 @@ class ArrowsCircularChevron(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('sync', 'refresh', 'repeat', 'loop', 'circular', 'arrows', 'reload', 'exchange')
 

@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'transportation'
     aliases=()
     keywords=('e', 'scooter')
 
@@ -49,7 +49,7 @@ class Drawing(Solo48):
         self.add_line('platform',(20,30),(26,30))
 
     icon_id = 'electric-kick-scooter'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('e-scooter', 'kick scooter', 'scooter', 'electric', 'micromobility', 'ride', 'transport', 'side view')
     semantic_role = 'MAIN'

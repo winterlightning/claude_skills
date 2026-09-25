@@ -11,7 +11,7 @@ class SkipForwardSolo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "video"
     aliases = ()
     keywords = ('skip', 'next', 'forward', 'media', 'playback', 'control', 'track')
 

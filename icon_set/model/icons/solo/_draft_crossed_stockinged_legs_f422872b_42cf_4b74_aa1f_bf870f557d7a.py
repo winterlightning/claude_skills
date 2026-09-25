@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'crossed-stockinged-legs'
     keyshape = Keyshape.VRECT_M
-    category = "objects"
+    category = "primitives-generate"
     def build(self):
 
 

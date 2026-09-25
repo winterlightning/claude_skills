@@ -15,7 +15,7 @@ class CircularEmblemWithBanner(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/award'
+    category = 'rewards'
     aliases=()
     keywords=('award', 'reward', 'circular-emblem-with-banner')
     def build(self) -> None:

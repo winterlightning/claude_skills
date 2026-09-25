@@ -12,7 +12,7 @@ class StylizedRamHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'animals/wildlife'
+    category = 'animals'
     aliases = ()
     keywords = ('ram', 'sheep', 'horn', 'curl', 'head', 'profile', 'abstract', 'animal')
 

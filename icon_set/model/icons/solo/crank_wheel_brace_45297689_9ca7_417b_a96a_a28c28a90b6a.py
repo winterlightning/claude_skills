@@ -11,7 +11,7 @@ class CrankWheelBrace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('wheel brace', 'lug wrench', 'crank', 'unscrew', 'tire', 'car', 'socket', 'tool')
 

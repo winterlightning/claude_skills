@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('bike',)
 
@@ -38,7 +38,7 @@ class Drawing(Solo48):
         for a,b in [('rear','rear-fork'),('front','front-fork'),('rear-fork','seat'),('rear-fork','crossbar'),('front-fork','crossbar')]:self.relate('connect',a,b)
 
     icon_id = 'bicycle-reference-25-solo'
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('sub icon', 'simple bicycle')
     semantic_role = 'MAIN'

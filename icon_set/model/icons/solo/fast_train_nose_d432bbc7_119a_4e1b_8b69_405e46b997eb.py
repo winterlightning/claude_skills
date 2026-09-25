@@ -11,7 +11,7 @@ class FastTrainNose(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('fast train', 'high speed rail', 'bullet train', 'train', 'railway', 'rail', 'express', 'transport')
 

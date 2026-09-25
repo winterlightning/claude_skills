@@ -14,7 +14,7 @@ class VotingChoiceBallotBox(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'civic/voting'
+    category = 'primitives-generate'
     aliases = ('Voting Choice Ballot Box',)
     keywords = tuple('voting choice ballot box'.split())
 

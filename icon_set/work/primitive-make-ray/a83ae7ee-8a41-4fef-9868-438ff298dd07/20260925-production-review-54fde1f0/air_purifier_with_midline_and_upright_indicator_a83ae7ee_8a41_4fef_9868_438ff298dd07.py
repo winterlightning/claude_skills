@@ -3,7 +3,7 @@ Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'a83ae7ee-8a41-4fef-9868-438ff298dd07'
 SOURCE_PATH = 'pictographic-primitives/ecology/air purifier 1_a83ae7ee-8a41-4fef-9868-438ff298dd07.svg'
 AUTHOR = 'gpt-6'

@@ -11,7 +11,7 @@ class TelevisionOnMediaStand(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "tv"
     aliases = ()
     keywords = ('television', 'tv', 'stand', 'cabinet', 'home', 'movies', 'entertainment', 'living-room', 'furniture')
 

@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class SquareFrontSmartwatchContainer(Container64):
     icon_id = 'square-front-smartwatch-container'
+    category = 'devices'
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('square', 'front', 'smartwatch', 'container')

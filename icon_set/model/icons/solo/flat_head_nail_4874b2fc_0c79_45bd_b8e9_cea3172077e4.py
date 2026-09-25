@@ -11,7 +11,7 @@ class FlatHeadNail(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('nail', 'flat head', 'hardware', 'fastener', 'spike', 'construction', 'carpentry', 'metal')
 

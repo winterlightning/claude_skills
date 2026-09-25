@@ -10,7 +10,7 @@ class MailboxArched(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/symbols'
+    category = 'symbol'
     aliases = ()
     keywords = ('mailbox', 'mail', 'post', 'letter', 'postbox', 'delivery', 'inbox', 'postal')
 

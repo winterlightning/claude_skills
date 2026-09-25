@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('book', 'closed', 'spine', 'pages', 'reading', 'horizontal', 'library', 'publication')
 
     def build(self):

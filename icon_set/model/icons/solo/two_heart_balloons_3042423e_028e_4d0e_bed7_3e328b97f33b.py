@@ -12,7 +12,7 @@ class TwoHeartBalloons(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/romance"
+    category = "romance"
     aliases = ()
     keywords = ('heart', 'balloons', 'pair', 'party', 'romance', 'celebration')
 

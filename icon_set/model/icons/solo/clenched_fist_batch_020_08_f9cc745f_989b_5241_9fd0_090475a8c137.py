@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('hand', 'fist', 'clenched', 'gesture', 'knuckles', 'fingers', 'arm', 'bump')
 
     def build(self):

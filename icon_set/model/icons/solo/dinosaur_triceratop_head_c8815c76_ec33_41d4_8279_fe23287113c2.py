@@ -12,7 +12,7 @@ class TriceratopsFrillHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'animals/prehistoric'
+    category = 'animals'
     aliases = ()
     keywords = ('triceratops', 'dinosaur', 'head', 'frill', 'spikes', 'prehistoric', 'reptile', 'silhouette')
 

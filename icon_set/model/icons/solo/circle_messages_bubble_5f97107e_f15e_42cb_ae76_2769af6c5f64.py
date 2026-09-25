@@ -14,7 +14,7 @@ class CircleMessagesBubble(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'other'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('circle', 'messages', 'bubble', 'other')
 

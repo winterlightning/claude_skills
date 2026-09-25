@@ -10,7 +10,7 @@ class GoalkeeperGlove(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('goalkeeper', 'glove', 'soccer', 'football', 'hand', 'protection')
     def build(self) -> None:

@@ -14,7 +14,7 @@ class HorizontalDistributeSpacing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/alignment"
+    category = "primitives-generate"
     aliases = ("distribute-horizontal", "space-left-right")
     keywords = ("align", "distribute", "spacing", "rails", "chevrons")
 

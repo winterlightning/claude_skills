@@ -11,7 +11,7 @@ class CushionedHandlePliers(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('pliers', 'cutters', 'grip', 'jaws', 'handles', 'hardware', 'repair', 'tool')
 

@@ -17,7 +17,7 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = "SUB"
     semantic_kind = "state"
-    category = "primitives/state"
+    category = "state"
     aliases = ("dislike-circle", "thumbs-down-circle")
     keywords = ("thumb", "down", "dislike", "negative")
 

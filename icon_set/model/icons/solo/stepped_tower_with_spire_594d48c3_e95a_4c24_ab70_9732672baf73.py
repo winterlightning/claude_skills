@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'stepped-tower-with-spire'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('stepped', 'tower', 'with', 'spire')
 
     def build(self):

@@ -12,7 +12,7 @@ class ClipboardTaskCheckmarks(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/office"
+    category = "interface-essential"
     aliases = ("task checklist", "completed task list")
     keywords = ("clipboard", "checks", "tasks", "list")
 

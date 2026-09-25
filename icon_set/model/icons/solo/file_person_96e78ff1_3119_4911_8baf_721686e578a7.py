@@ -14,7 +14,7 @@ class Drawing(Solo48):
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category = 'primitives-generate'
     aliases=()
     keywords=('file-person',)
     def build(self):

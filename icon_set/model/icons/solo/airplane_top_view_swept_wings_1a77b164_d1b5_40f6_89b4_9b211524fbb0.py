@@ -10,7 +10,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'travel'
     aliases = ()
     keywords = ('plane',)
 
@@ -35,7 +35,7 @@ class Drawing(Solo48):
         self.path('plane',points[0],[('L',p) for p in points[1:]]+[('A',points[0],5,5,True)],True)
 
     icon_id = 'airplane-top-view-swept-wings'
-    category = 'objects/travel'
+    category = 'travel'
     aliases = ()
     keywords = ('airplane', 'plane', 'aircraft', 'top-view', 'flight', 'aviation', 'airport', 'travel')
     semantic_role = 'MAIN'

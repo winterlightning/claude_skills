@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'avatars'
+    category = 'primitives-generate'
     aliases = ['Uniformed Police Officer Avatar']
     keywords = []
     def build(self):

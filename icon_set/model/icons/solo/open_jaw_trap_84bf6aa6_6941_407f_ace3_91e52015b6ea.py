@@ -11,7 +11,7 @@ class OpenJawTrap(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('trap', 'bear trap', 'jaws', 'teeth', 'snare', 'hunting', 'danger', 'game')
 

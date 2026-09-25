@@ -12,7 +12,7 @@ class AmazonEmr(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/cloud"
+    category = "primitives-generate"
     aliases = ("elastic-mapreduce",)
     keywords = ("amazon", "aws", "emr", "data", "cluster", "nodes")
 

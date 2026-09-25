@@ -16,7 +16,7 @@ class Batch04Icon9(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/rain"
+    category = "container"
     aliases = ('rain-cloud',)
     keywords = ('rain', 'cloud')
 

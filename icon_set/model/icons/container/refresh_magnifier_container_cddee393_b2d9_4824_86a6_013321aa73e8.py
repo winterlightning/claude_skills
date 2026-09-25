@@ -19,6 +19,7 @@ AUTHOR = 'gpt-6'
 
 class RefreshMagnifierContainer(Container64):
     icon_id = 'refresh-magnifier-container'
+    category = 'business'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('refresh', 'magnifier', 'container')

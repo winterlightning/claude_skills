@@ -11,7 +11,7 @@ class ClawHammerAndNail(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
     aliases = ()
     keywords = ('hammer', 'claw hammer', 'nail', 'hardware', 'construction', 'carpentry', 'build', 'tool')
 

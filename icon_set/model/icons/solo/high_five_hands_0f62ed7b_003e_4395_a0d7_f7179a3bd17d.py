@@ -15,7 +15,7 @@ class HighFiveHands(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
     aliases = ()
     keywords = ('hands', 'highfive', 'greeting', 'celebration', 'contact', 'teamwork')
 

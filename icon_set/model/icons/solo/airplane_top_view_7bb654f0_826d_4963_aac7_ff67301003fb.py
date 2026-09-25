@@ -11,7 +11,7 @@ class MobileIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/mobile"
+    category = "mobile"
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'wings', 'aircraft', 'aviation', 'top-view')
 

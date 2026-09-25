@@ -10,7 +10,7 @@ class GlobeOverNodeInOpenRing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
     aliases = ()
     keywords = ('globe', 'world', 'region', 'network', 'cloud', 'delivery', 'node', 'data')
 

@@ -21,7 +21,7 @@ class ClosedHardcoverBook(Container64):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
     aliases = ('closed-hardcover-book-icon',)
     keywords = ('closed', 'hardcover', 'book')
 

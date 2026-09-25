@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('samosa',)
 
@@ -35,7 +35,7 @@ class Drawing(Solo48):
         self.relate('connect','front','rear');self.relate('connect','front','plate');self.relate('connect','rear','plate')
 
     icon_id = 'samosas-on-a-plate'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('samosas', 'on', 'a', 'plate')
     semantic_role = 'MAIN'

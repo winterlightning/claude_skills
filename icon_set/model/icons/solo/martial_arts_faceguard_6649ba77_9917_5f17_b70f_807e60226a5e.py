@@ -13,7 +13,7 @@ class MartialArtsFaceguard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/sports"
+    category = "sports"
     aliases = ()
     keywords = ('mask', 'helmet', 'martial', 'fencing', 'protection', 'headgear')
 

@@ -13,7 +13,7 @@ class BreakingFloodWave(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/weather'
+    category = 'weather'
     aliases = ()
     keywords = ('flood', 'wave', 'water', 'sea', 'swell', 'disaster')
 

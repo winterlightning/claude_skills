@@ -12,7 +12,7 @@ class SeatedCinemaViewerWithDrink(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/media'
+    category = 'movies'
     aliases = ()
     keywords = ('cinema', 'viewer', 'seat', 'drink', 'screen', 'movie')
 

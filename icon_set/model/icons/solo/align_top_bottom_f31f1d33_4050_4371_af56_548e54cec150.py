@@ -12,7 +12,7 @@ class AlignTopBottom(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "actions/alignment"
+    category = "primitives-generate"
     aliases = ("vertical-spacing",)
     keywords = ("align", "top", "bottom", "move", "distribute")
 

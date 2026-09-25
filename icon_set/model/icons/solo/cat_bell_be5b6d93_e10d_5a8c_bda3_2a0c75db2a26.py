@@ -15,7 +15,7 @@ class CatBell(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
     aliases = ()
     keywords = ('bell', 'cat', 'collar', 'jingle', 'pet', 'accessory', 'sound')
 

@@ -11,7 +11,7 @@ class FastMotion(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "video"
     aliases = ()
     keywords = ('motion', 'fast', 'speed', 'trail', 'movement', 'circle', 'velocity')
 

@@ -12,7 +12,7 @@ class SnowboardJump(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/sports'
+    category = 'sports'
     aliases = ()
     keywords = ('snowboard', 'jump', 'board', 'snow', 'winter', 'athlete')
 

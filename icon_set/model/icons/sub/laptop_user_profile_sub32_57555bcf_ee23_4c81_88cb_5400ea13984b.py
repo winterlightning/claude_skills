@@ -12,7 +12,7 @@ class Drawing(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'symbol'
     keywords = ('laptop', 'user', 'profile')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {'screen': 4, 'base': 4}

@@ -11,7 +11,7 @@ class PairedQuestionMarks(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('question', 'help', 'information', 'punctuation', 'query', 'marks')
 

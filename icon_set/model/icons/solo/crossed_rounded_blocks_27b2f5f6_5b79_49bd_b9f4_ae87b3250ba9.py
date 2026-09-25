@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'crossed-rounded-blocks'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "Uncategorized"
     def build(self):
 
         def path(name,start,steps,closed=False):

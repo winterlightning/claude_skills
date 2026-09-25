@@ -20,7 +20,7 @@ class DrawingVariant2(Solo48):
     variant_of = 'charging-battery-104-solo'
     variant_label = 'Horizontal enclosed battery'
     keyshape = Keyshape.HRECT_M
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
     tags = ('sub icon',)
     keywords = ('battery with charging flash symbol',)
 

@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('two', 'users', 'woman')
     human_construction='bust'
@@ -65,7 +65,7 @@ class Drawing(Solo48):
         self.relate('connect','front-head','front-body');self.relate('connect','back-head','back-body');self.relate('connect','front-body','back-body')
 
     icon_id = 'woman-and-person-profile-icons-batch-033'
-    category = 'objects/other'
+    category = 'primitives-generate'
     aliases = ('woman-and-person-profile-icons',)
     keywords = ('batch-033',)
     semantic_role = 'MAIN'

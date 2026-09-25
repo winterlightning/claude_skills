@@ -12,7 +12,7 @@ class BoatPropeller(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('propeller', 'boat', 'marine', 'engine', 'blade', 'screw', 'ship', 'nautical')
 

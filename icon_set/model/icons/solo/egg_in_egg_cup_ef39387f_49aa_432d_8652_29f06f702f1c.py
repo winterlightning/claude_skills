@@ -16,7 +16,7 @@ class Batch02Icon9(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/egg"
+    category = "container"
     aliases = ('egg-in-egg-cup',)
     keywords = ('egg', 'in', 'egg', 'cup')
 

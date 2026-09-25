@@ -19,7 +19,7 @@ class MastodonSocialNetworkIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/social"
+    category = "primitives-generate"
     aliases = ("mastodon-m-logo",)
     keywords = ("mastodon", "social", "letter-m", "logo")
 

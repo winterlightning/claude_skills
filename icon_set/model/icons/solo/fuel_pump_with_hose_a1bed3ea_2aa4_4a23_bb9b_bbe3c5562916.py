@@ -10,7 +10,7 @@ class FuelPumpWithHose(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
     aliases = ()
     keywords = ('fuel pump', 'gas station', 'petrol', 'gas pump', 'refuel', 'hose', 'fuel', 'car')
 

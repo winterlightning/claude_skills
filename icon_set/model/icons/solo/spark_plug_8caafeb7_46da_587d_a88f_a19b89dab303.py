@@ -12,7 +12,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_M
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/transportation"
+    category = "transportation"
     aliases=()
     keywords=('car', 'tool', 'spark', 'plug')
     def build(self):

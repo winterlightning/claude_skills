@@ -11,7 +11,7 @@ class ShipsAnchor(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/nautical'
+    category = 'landmarks'
     aliases = ('anchor', 'ship-anchor')
     keywords = ('ship', 'nautical', 'marine', 'harbour', 'port', 'sailing', 'sea', 'maritime')
 

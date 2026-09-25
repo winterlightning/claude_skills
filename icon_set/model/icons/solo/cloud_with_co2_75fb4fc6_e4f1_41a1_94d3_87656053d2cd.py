@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'primitives-generate'
     aliases=()
     keywords=('cloud', 'with', 'co2')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

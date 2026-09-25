@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('laptop dollar sign',)
 
@@ -38,7 +38,7 @@ class Drawing(Solo48):
         self.relate('connect','dollar','currency-top');self.relate('connect','dollar','currency-bottom')
 
     icon_id = 'laptop-dollar-symbol'
-    category = 'objects/device'
+    category = 'primitives-generate'
     aliases = ('payment laptop', 'ecommerce laptop')
     keywords = ('computer', 'dollar', 'money', 'online shopping')
     semantic_role = 'MAIN'

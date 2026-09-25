@@ -16,7 +16,7 @@ class Batch025Icon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
     aliases = ()
     keywords = ('alert', 'bell')
 

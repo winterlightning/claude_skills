@@ -16,7 +16,7 @@ class LowerLeftCorner(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/geometry"
+    category = "primitives-generate"
     aliases = ("rounded lower left corner", "bottom left border")
     keywords = ("angle", "outline", "border", "elbow")
 

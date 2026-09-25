@@ -10,7 +10,7 @@ class EclipseIdeLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('eclipse', 'ide', 'java', 'logo', 'brand', 'developer', 'editor')
 

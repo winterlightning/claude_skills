@@ -11,7 +11,7 @@ class Kaaba(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
     aliases = ()
     keywords = ('kaaba', 'islam', 'building', 'mecca', 'cube', 'shrine')
 

@@ -13,7 +13,7 @@ class WorldGlobeSphere(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/geography"
+    category = "container"
     aliases = ("globe", "world sphere")
     keywords = ("earth", "latitude", "longitude", "network")
 

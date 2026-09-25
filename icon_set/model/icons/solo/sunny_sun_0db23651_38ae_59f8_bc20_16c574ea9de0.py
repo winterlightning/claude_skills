@@ -11,7 +11,7 @@ class SunnySun(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('sun', 'sunny', 'weather', 'daylight', 'brightness', 'light', 'day', 'white balance')
 

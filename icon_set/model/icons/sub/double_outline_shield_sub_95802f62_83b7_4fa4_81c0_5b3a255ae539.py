@@ -15,7 +15,7 @@ class DoubleOutlineShieldSub(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('double', 'outline', 'shield', 'sub')
 

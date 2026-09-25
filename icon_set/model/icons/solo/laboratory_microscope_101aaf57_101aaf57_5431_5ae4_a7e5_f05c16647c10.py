@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'health'
     aliases = ()
     keywords = ('laboratory', 'microscope', '101aaf57')
     def path(self, name, start, commands, closed=False):

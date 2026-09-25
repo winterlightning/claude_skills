@@ -10,7 +10,7 @@ class FreestyleSwimmer(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('swimmer', 'swimming', 'water', 'stroke', 'pool', 'sport')
     def build(self) -> None:

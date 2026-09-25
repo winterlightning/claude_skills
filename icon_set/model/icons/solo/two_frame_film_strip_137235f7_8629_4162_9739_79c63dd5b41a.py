@@ -11,7 +11,7 @@ class TwoFrameFilmStrip(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/media'
+    category = 'movies'
     aliases = ()
     keywords = ('film', 'strip', 'frames', 'cinema', 'movie', 'perforations')
 

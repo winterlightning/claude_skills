@@ -12,7 +12,7 @@ class RearWindowDefrost(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
     aliases = ()
     keywords = ('rear window', 'defrost', 'demist', 'windscreen', 'airflow', 'car', 'dashboard', 'heating')
 

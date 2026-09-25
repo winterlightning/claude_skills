@@ -12,7 +12,7 @@ class ListWithScrollControls(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface"
+    category = "websites"
     aliases = ()
     keywords = ('list', 'scroll', 'controls', 'chevrons', 'menu', 'interface', 'form')
 

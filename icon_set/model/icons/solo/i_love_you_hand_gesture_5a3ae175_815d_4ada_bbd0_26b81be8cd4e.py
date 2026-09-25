@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('i', 'love', 'you', 'hand', 'gesture')
 

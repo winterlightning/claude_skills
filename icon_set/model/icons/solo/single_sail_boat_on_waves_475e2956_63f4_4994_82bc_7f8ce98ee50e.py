@@ -15,7 +15,7 @@ class SingleSailBoatOnWaves(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/recreation"
+    category = "recreation"
     aliases = ()
     keywords = ('single', 'sail', 'boat', 'on', 'waves')
 

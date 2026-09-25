@@ -10,7 +10,7 @@ class FitbitLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('fitbit', 'fitness', 'dots', 'logo', 'brand', 'wearable', 'health')
 

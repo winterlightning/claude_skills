@@ -13,7 +13,7 @@ AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'snarling-face-with-two-fangs'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('snarling', 'face', 'with', 'two', 'fangs')
 
     def build(self):

@@ -9,6 +9,7 @@ AUTHOR = 'gpt-6'
 
 class SedanProfileContainer(Container64):
     icon_id = 'sedan-profile-container'
+    category = 'transportation'
     keyshape = Keyshape.HRECT_L
     aliases = ()
     keywords = ('sedan', 'profile', 'container')

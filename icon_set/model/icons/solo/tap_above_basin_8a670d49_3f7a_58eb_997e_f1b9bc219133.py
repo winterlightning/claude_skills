@@ -11,7 +11,7 @@ class TapAboveBasin(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
     aliases = ()
     keywords = ('tap', 'basin', 'sink', 'water', 'drop', 'plumbing')
 

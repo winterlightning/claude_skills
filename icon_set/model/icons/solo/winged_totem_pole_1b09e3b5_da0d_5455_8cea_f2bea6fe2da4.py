@@ -11,7 +11,7 @@ class WingedTotemPole(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
     aliases = ()
     keywords = ('totem', 'pole', 'carving', 'wings', 'indigenous', 'monument', 'tribal', 'landmark')
 

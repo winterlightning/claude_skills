@@ -10,7 +10,7 @@ class LaneKeepingArrow(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
     aliases = ()
     keywords = ('lane assist', 'lane keeping', 'lane departure', 'road', 'arrow', 'driving', 'dashboard', 'safety')
 

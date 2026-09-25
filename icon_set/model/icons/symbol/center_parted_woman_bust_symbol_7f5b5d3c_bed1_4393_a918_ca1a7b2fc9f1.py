@@ -15,7 +15,7 @@ class CenterPartedWomanBustSymbol(Symbol32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
     aliases = ()
     keywords = ('center', 'parted', 'woman', 'bust', 'symbol')
 

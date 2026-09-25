@@ -16,7 +16,7 @@ class Dress(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/clothing'
+    category = 'clothes'
     aliases = ('sleeveless-dress', 'a-line-dress', 'sleeveless-woman-dress')
     keywords = ('dress', 'clothing', 'fashion', 'garment', 'apparel', 'womenswear', 'skirt', 'sleeveless')
 

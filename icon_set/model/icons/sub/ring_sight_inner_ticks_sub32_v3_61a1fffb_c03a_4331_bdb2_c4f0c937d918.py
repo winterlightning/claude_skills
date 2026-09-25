@@ -18,7 +18,7 @@ class DrawingVariant3(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/war'
+    category = 'war'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

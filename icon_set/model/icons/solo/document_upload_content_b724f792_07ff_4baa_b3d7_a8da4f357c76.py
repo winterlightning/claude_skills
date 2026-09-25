@@ -17,7 +17,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'document-upload-content'
     keyshape = Keyshape.VRECT_L
-    category = 'objects/interface-essential'
+    category = 'state'
     tags = ('sub icon',)
     keywords = ('document upload arrow',)
     def build(self):

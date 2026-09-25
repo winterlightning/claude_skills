@@ -18,7 +18,7 @@ class DrawingVariant2(Sub32):
     keyshape=Keyshape.CIRCLE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'primitives-generate'
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'circular question mark symbol')
     def build(self):

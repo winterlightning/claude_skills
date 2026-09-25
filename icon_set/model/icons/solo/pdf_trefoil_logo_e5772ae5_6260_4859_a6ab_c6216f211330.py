@@ -18,7 +18,7 @@ class PdfTrefoilLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('pdf', 'acrobat', 'document', 'logo', 'trefoil', 'reader', 'file', 'brand')
 

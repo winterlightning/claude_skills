@@ -11,7 +11,7 @@ class ZapierLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('zapier', 'automation', 'asterisk', 'workflow', 'logo', 'brand', 'integration')
 

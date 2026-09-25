@@ -11,7 +11,7 @@ class PortableMusicPlayerWithEarphones(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
     aliases = ()
     keywords = ('ipod', 'music-player', 'earphones', 'portable', 'audio', 'device', 'mp3', 'listening')
 

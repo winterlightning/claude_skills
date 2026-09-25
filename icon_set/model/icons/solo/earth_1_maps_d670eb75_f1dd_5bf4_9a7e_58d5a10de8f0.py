@@ -13,7 +13,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'maps'
     aliases = ()
     keywords = ('earth', '1', 'maps')
     def build(self):

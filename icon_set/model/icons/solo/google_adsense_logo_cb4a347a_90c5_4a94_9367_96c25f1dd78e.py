@@ -10,7 +10,7 @@ class GoogleAdsenseLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
     aliases = ()
     keywords = ('google-adsense', 'google', 'ads', 'logo', 'brand', 'publisher', 'revenue')
 

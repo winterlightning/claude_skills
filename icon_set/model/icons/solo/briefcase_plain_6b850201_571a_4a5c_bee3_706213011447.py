@@ -18,7 +18,7 @@ class BriefcasePlain(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
     aliases = ()
     keywords = ('briefcase', 'case', 'bag', 'work', 'business', 'job', 'portfolio', 'luggage')
 

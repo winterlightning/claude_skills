@@ -13,7 +13,7 @@ class WoozyFaceFloatingStar(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'emoji/faces'
+    category = 'primitives-generate'
     aliases = ('Woozy Face with Floating Star',)
     keywords = tuple('woozy face with floating star'.split())
 

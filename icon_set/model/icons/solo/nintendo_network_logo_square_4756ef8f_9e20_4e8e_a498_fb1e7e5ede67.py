@@ -15,7 +15,7 @@ class NintendoNetworkLogoSquare(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
     aliases = ()
     keywords = ('nintendo-network', 'nintendo', 'gaming', 'online', 'logo', 'brand', 'signal')
 

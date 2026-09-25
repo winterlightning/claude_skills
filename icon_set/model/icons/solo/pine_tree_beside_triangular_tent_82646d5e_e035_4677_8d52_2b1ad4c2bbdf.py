@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'pine-tree-beside-triangular-tent'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('pine', 'tree', 'beside', 'triangular', 'tent')
 
     def build(self):

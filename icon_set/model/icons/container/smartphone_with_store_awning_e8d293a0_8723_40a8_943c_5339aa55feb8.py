@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 class SmartphoneWithStoreAwning(Container64):
     icon_id = 'smartphone-with-store-awning'
     keyshape = Keyshape.VRECT_XL
-    category = 'containers'
+    category = 'container'
     aliases = ()
     keywords = ('smartphone', 'store', 'awning', 'shopping')
 

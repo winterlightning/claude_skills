@@ -11,7 +11,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "astronomy"
+    category = "primitives-generate"
     aliases = ("Jupiter Planet with Great Red Spot",)
     keywords = ("planet", "jupiter", "bands", "spot", "astronomy", "space", "sphere")
     def build(self):

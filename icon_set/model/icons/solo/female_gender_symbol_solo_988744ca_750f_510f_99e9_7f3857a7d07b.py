@@ -12,7 +12,7 @@ class FemaleGenderSymbolSolo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/identity"
+    category = "users"
     aliases = ()
     keywords = ('female', 'gender', 'venus', 'woman', 'symbol', 'sex', 'feminine')
 

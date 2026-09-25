@@ -24,7 +24,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'health'
     aliases = ()
     keywords = ('oxygen', 'mask', 'head', 'side')
     def build(self):

@@ -12,7 +12,7 @@ class MusicNoteInRoundedSquare(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "primitives-generate"
     aliases = ("music note square", "audio tile")
     keywords = ("song", "playlist", "music", "sound")
 

@@ -9,7 +9,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "travel"
     aliases = ()
     keywords = ('crafts model plane',)
     def build(self):
@@ -41,7 +41,7 @@ class Drawing(Solo48):
         self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
 
     icon_id = 'slender-airliner-diagonal'
-    category = 'objects/travel'
+    category = 'travel'
     aliases = ()
     keywords = ('airplane', 'plane', 'airliner', 'aircraft', 'flight', 'aviation', 'model', 'travel')
     semantic_role = 'MAIN'

@@ -16,7 +16,7 @@ class AirplaneTopViewRoundedWings(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
     aliases = ()
     keywords = ('airplane', 'plane', 'aircraft', 'top-view', 'flight', 'mode', 'aviation', 'travel')
 

@@ -11,6 +11,7 @@ AUTHOR = 'gpt-6'
 
 class AwningStorefrontContainer(Container64):
     icon_id = 'awning-storefront-container'
+    category = 'shopping'
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

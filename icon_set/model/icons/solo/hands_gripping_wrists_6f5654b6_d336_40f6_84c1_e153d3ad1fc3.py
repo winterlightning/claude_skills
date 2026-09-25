@@ -15,7 +15,7 @@ class HandsGrippingWrists(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
     aliases = ()
     keywords = ('hands', 'wrist', 'grip', 'teamwork', 'unity', 'cooperation')
 

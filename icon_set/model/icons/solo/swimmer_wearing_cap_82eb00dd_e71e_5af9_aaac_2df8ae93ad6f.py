@@ -10,7 +10,7 @@ class SwimmerWearingCap(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
     aliases=()
     keywords=('swimming', 'cap', 'swimmer', 'head', 'face', 'sport')
     def build(self) -> None:

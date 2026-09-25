@@ -17,7 +17,7 @@ class SpeechBubbleWithCheckAndCross(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/decisions"
+    category = "primitives-generate"
     aliases = ("criteria true false", "yes no chat")
     keywords = ("check", "cross", "approval", "choice")
 

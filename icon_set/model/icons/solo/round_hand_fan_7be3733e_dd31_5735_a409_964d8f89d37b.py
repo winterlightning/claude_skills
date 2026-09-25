@@ -10,7 +10,7 @@ class RoundHandFan(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/household'
+    category = 'animals'
     aliases = ()
     keywords = ('fan', 'hand fan', 'uchiwa', 'handle', 'cooling', 'japanese', 'round', 'paddle')
 

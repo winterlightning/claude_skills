@@ -11,7 +11,7 @@ class RetroCameraWithHandle(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('camera', 'retro', 'vintage', 'handle', 'photo', 'photography', 'lens', 'snapshot')
 

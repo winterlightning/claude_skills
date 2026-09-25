@@ -19,7 +19,7 @@ class InternetExplorerE(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/logos"
+    category = "primitives-generate"
     aliases = ("internet explorer logo", "lowercase e outline")
     keywords = ("browser", "internet", "letter", "e")
 

@@ -11,7 +11,7 @@ class OpenEndMaintenanceWrench(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/tool'
+    category = 'tools'
     aliases = ('open-end-wrench', 'wrench', 'spanner')
     keywords = ('wrench', 'spanner', 'tool', 'maintenance', 'repair', 'settings', 'fix')
 

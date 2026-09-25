@@ -1,20 +1,20 @@
-"""Calendar with Checkmark. Tall calendar gives the checkmark a full diagonal ascent rather than a flattened chevron.
-Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
+"""Calendar with Checkmark. Rounded calendar with taller rising check; equal top binding strokes.
+Keyshape SQUARE: extremes authored from its SOLO48 centerline box.
 Omissions: None.
 """
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd38332cc-ed3e-4e29-835b-f24fbd23eb07'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/calendar check_d38332cc-ed3e-4e29-835b-f24fbd23eb07.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Tall calendar gives the checkmark a full diagonal ascent rather than a flattened chevron.'
+PLAN = 'Rounded calendar with taller rising check; equal top binding strokes.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['calendar-check']
 PARENT_MODULE = 'icon_set/model/icons/solo/calendar_with_checkmark_d38332cc_ed3e_4e29_835b_f24fbd23eb07.py'
 
 class Drawing(Solo48):
     icon_id = 'calendar-with-checkmark'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/general'
@@ -75,7 +75,7 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.calendar()
-        self.add_polyline('check',(16,30),(22,35),(31,26))
+        self.calendar(wide=True)
+        self.add_polyline('check',(16,29),(21,33),(32,26))
 
         self.contacts()

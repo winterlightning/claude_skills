@@ -15,7 +15,7 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
     keywords = ('cursor', 'pointer', 'arrow', 'mouse', 'computer', 'select', 'diagonal', 'interface')
 
     def build(self):

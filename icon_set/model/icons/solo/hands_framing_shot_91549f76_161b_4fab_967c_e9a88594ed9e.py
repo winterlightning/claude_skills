@@ -11,7 +11,7 @@ class HandsFramingShot(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
     aliases = ()
     keywords = ('hands', 'frame', 'framing', 'gesture', 'composition', 'director', 'photography', 'shot')
 

@@ -19,7 +19,7 @@ class FireplaceWithBurningFlame(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/home"
+    category = "primitives-generate"
     aliases = ("mantel-fireplace",)
     keywords = ("fireplace", "hearth", "flame", "mantel")
 

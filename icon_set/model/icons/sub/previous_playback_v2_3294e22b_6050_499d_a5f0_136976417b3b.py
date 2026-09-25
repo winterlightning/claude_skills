@@ -20,7 +20,7 @@ class PreviousPlaybackVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
     aliases = ()
     keywords = ('previous', 'playback', 'left', 'pointing', 'outlined', 'triangle', 'sits', 'beside')
     keyshape = Keyshape.SQUARE

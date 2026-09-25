@@ -14,7 +14,7 @@ class ThreeLeggedSpaceCapsule(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
     aliases = ()
     keywords = ('capsule', 'lander', 'space', 'leg', 'window', 'landing')
 

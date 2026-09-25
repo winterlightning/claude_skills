@@ -10,7 +10,7 @@ class BabyBottle(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/baby-care'
+    category = 'babies'
     aliases = ()
     keywords = ('bottle', 'baby', 'milk', 'feeding', 'teat', 'infant', 'formula', 'nursing')
 

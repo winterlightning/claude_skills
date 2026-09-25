@@ -15,7 +15,7 @@ class HouseSubVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
     aliases = ()
     keywords = ('house', 'pointed', 'gable', 'roof', 'short', 'projecting', 'eaves', 'rectangular')
     keyshape = Keyshape.SQUARE

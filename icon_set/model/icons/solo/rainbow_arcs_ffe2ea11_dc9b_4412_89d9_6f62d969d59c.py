@@ -15,7 +15,7 @@ class RainbowArcs(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
     aliases = ()
     keywords = ('rainbow', 'arcs', 'weather', 'colors', 'pride', 'hope', 'sky', 'spectrum')
 
