@@ -65,6 +65,16 @@ class FixUncategorizedArtworkTests(unittest.TestCase):
                                    'grid-upload-3': 'Uncategorized', 'odd-upload-4': 'Uncategorized'})
         self.assertEqual(len(list(self.database.parent.glob('feedback.before-categories-*.sqlite3'))), 1)
 
+    def test_stale_category_is_fixed_only_with_stale(self):
+        with sqlite3.connect(self.database) as connection:
+            connection.execute('UPDATE icon_artwork SET document = ?', (json.dumps(edit_document('objects/tools')),))
+        fix.main(['--database', str(self.database), '--gallery', str(self.gallery), '--apply'])
+        self.assertEqual(self.rows()[0]['edited_graph']['category'], 'objects/tools')
+        fix.main(['--database', str(self.database), '--gallery', str(self.gallery), '--stale', '--apply'])
+        edit = self.rows()[0]
+        self.assertEqual(edit['edited_graph']['category'], 'primitives-generate')
+        self.assertEqual(effective_validation_status(edit), 'pass')
+
     def test_unaccepted_edit_stays_unaccepted(self):
         document = edit_document('Uncategorized')
         document['edited']['validation']['graph_sha256'] = 'stale'

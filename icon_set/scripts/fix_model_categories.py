@@ -202,7 +202,8 @@ def run(root: Path, records: dict[str, list[str]], valid: set[str], report: Path
         uuid = source.group(1).lower() if source else ''
         currents = [m['value'] for m in CATEGORY_LINE.finditer(text)]
         category, categories, how = resolve(uuid, currents[0] if currents else None, records, valid, by_concept)
-        status, metadata_changed = 'unresolved', False
+        # A model with no source and no category line inherits its family default.
+        status, metadata_changed = ('unresolved' if currents else 'inherits family default'), False
         if category is not None:
             new_text = rewrite(text, category, categories)
             if new_text == text:

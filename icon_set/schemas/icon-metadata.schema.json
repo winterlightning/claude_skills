@@ -52,7 +52,17 @@
       "uniqueItems": true
     },
     "category": {
-      "type": "string"
+      "type": "string",
+      "description": "The primary category pages group by."
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "description": "Every category the icon belongs to (the source pictoicon record's tokens). Optional: a file without it reads as [category]."
     },
     "keywords": {
       "type": "array",

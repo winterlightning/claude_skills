@@ -19,6 +19,9 @@ cannot recategorize them:
   _uncategorized folder (the upload itself was uncategorized), then the most common.
 
 Only records whose category is Uncategorized in the requested families are changed.
+With --stale, accepted edits whose saved category differs from the build's category at
+all (an old ``objects/...`` or ``containers`` spelling, say) are brought in line too, so
+recategorized models show their new category on a server with saved edits.
 --apply writes a backup next to the database first.
 """
 from __future__ import annotations
@@ -88,14 +91,17 @@ def recategorize_edit(document: dict, category: str) -> None:
         raise ValueError(f"{document.get('icon')}: acceptance changed from {before}")
 
 
-def plan(connection, built: dict, by_uuid: dict, by_name: dict, families: set[str]) -> list[dict]:
+def plan(connection, built: dict, by_uuid: dict, by_name: dict, families: set[str],
+         stale: bool = False) -> list[dict]:
     changes = []
-    for icon, text in connection.execute(
-            "SELECT icon, document FROM icon_artwork WHERE json_extract(document, '$.edited.edited_graph.category') = ?",
-            (UNCATEGORIZED,)).fetchall():
+    for icon, text, saved in connection.execute(
+            "SELECT icon, document, json_extract(document, '$.edited.edited_graph.category') FROM icon_artwork "
+            "WHERE json_extract(document, '$.edited.edited_graph.category') IS NOT NULL").fetchall():
         family = icon.split('/', 1)[0]
         category = built.get(icon)
-        if family in families:
+        if family not in families or saved == category:
+            continue
+        if saved == UNCATEGORIZED or (stale and category and category != UNCATEGORIZED):
             changes.append(dict(kind='edit', key=icon, table='icon_artwork', id=icon, text=text,
                                 category=category if category and category != UNCATEGORIZED else None))
     for rowid, text in connection.execute(
@@ -131,6 +137,8 @@ def main(argv=None) -> int:
     parser.add_argument('--gallery', type=Path, default=DEFAULT_DIST / 'gallery',
                         help='the built gallery this database is served with (icons.json + primitives.json)')
     parser.add_argument('--family', action='append', dest='families', help='family to fix (repeatable; default solo)')
+    parser.add_argument('--stale', action='store_true',
+                        help="also fix accepted edits whose category differs from the build's (not only Uncategorized)")
     parser.add_argument('--apply', action='store_true', help='write the changes (default: dry run)')
     args = parser.parse_args(argv)
     families = set(args.families or ['solo'])
@@ -139,7 +147,7 @@ def main(argv=None) -> int:
     built, by_uuid, by_name = load_gallery(args.gallery)
     connection = sqlite3.connect(args.database, timeout=30)
     try:
-        changes = plan(connection, built, by_uuid, by_name, families)
+        changes = plan(connection, built, by_uuid, by_name, families, stale=args.stale)
         for change in changes:
             print(f"{change['kind']:6} {change['key']} -> {change['category'] or 'SKIP (no category found)'}")
         counts = collections.Counter((c['kind'], bool(c['category'])) for c in changes)

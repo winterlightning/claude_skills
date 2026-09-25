@@ -137,6 +137,25 @@ Malformed JSON, mismatched identity, blank names, and invalid tag lists fail
 with the filename. Reading a draft without a file uses model defaults without
 writing to disk.
 
+### Categories
+
+An icon can belong to several categories. A model sets `category` (the primary one
+pages group by) and `categories` (every token of its `SOURCE_ICON_ID` pictoicon
+record, e.g. `('health', 'state', 'primitives')`); the metadata file carries both.
+Keep them correct with one script, then rebuild:
+
+```bash
+python3 -m icon_set.scripts.fix_model_categories --check   # detect; exit 1 if anything is off
+python3 -m icon_set.scripts.fix_model_categories --apply   # fix models + metadata
+python3 -m icon_set.scripts.fix_model_categories --set <uuid>=<category> --apply
+```
+
+It reads `pictoicons.fixed.json` (else `pictoicons.json`) at the repo root. A record
+with no topic is listed as "needs a concept category": choose one from the concept
+name and record it with `--set`; choices live in `data/concept-categories.json`, which
+the primitives catalog also reads. `python3 -m icon_set.scripts.fix_pictoicon_categories`
+gives every pictoicon record a type token (`other` also gets `primitives-generate`).
+
 `to_record()` and JSON graph exports include the current search fields. Builds
 do not seed missing source files; they refresh metadata on reused records and publish
 `<icon_id>.metadata.json` beside each successful or failed SVG. Family manifests
