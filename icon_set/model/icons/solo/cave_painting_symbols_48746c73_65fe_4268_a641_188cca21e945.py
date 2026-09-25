@@ -12,6 +12,7 @@ class CavePaintingSymbols(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('cave painting', 'petroglyph', 'rune', 'prehistoric', 'symbols', 'marks', 'ancient', 'rock art')
 

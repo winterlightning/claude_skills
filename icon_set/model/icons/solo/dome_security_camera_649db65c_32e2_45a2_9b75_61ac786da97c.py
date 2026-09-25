@@ -13,6 +13,7 @@ class ProtectionIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "protection"
+    categories = ("protection", "primitives")
     aliases = ()
     keywords = ('dome camera', 'security', 'surveillance', 'cctv', 'ceiling', 'camera', 'monitoring', 'video')
 

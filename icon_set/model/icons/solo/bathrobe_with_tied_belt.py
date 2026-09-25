@@ -12,6 +12,7 @@ class BathrobeWithTiedBelt(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
+    categories = ('clothes',)
     aliases = ('bathrobe', 'robe', 'dressing-gown')
     keywords = ('bathrobe', 'robe', 'spa', 'bath', 'hotel', 'garment', 'clothing', 'belt')
 

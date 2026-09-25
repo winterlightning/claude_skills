@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'no-stain-content'
     keyshape = Keyshape.SQUARE
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('no stain symbol',)
     def build(self):

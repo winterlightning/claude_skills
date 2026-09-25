@@ -51,6 +51,7 @@ class PersonConnectedToSixNodes(Solo48):
     icon_id = 'person-connected-to-six-nodes'
     keyshape = Keyshape.FREE
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

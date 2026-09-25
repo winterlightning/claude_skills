@@ -12,6 +12,7 @@ class PawPrintSmallOuterToes(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
 

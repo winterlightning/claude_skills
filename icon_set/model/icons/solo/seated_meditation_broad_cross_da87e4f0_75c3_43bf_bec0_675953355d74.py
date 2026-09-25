@@ -12,6 +12,7 @@ class SeatedMeditationBroadCross(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('seated', 'meditation', 'broad', 'cross', 'yoga', 'exercise')
 

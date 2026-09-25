@@ -11,6 +11,7 @@ class PersonVrHeadsetHeadphones(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('vr', 'headset', 'headphones', 'person', 'user', 'audio', 'virtual-reality')
 

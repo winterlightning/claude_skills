@@ -11,6 +11,7 @@ class Acorn(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('acorn', 'food', 'solo-ai-first50')
 

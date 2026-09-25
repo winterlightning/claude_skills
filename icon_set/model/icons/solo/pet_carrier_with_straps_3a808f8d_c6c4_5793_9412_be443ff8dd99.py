@@ -16,6 +16,7 @@ class PetCarrierWithStraps(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('pet-carrier', 'carrier', 'crate', 'travel', 'cat', 'basket', 'transport')
 

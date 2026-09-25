@@ -13,6 +13,7 @@ class ChatBubbleSmile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('chat', 'smile', 'bubble', 'happy', 'emoji', 'message', 'feedback', 'friendly')
 

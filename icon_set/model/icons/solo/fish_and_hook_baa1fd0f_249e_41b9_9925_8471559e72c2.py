@@ -13,6 +13,7 @@ class FishAndHook(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('fishing', 'fish', 'hook', 'angling', 'sea', 'catch', 'hobby', 'line')
 

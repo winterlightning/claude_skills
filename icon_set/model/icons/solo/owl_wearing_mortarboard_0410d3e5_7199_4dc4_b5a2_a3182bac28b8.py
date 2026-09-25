@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'school-learning'
+    categories = ('school-learning', 'primitives')
     aliases = ()
     keywords = ('study owl',)
     # Plan: Owl face with two large circular eyes and a pointed beak beneath its mortarboard.

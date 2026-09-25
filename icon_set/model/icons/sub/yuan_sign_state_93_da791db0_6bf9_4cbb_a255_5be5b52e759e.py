@@ -17,6 +17,7 @@ class YuanSignState93(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('yuan', 'sign', 'broad', 'diagonal', 'arms', 'converge', 'vertical', 'stem')
 

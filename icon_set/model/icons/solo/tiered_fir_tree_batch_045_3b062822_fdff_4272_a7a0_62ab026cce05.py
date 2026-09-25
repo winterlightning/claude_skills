@@ -12,6 +12,7 @@ class Batch045Icon7(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('tree', 'fir', 'evergreen', 'pine', 'forest', 'branches', 'nature')
     # Reference: trees: mirrored tier silhouette and central trunk.

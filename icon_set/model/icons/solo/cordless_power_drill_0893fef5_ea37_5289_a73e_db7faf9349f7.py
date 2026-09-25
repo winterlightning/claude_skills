@@ -11,6 +11,7 @@ class CordlessPowerDrill(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('drill', 'power drill', 'cordless', 'power tool', 'battery', 'bit', 'construction', 'tool')
 

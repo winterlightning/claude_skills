@@ -12,6 +12,7 @@ class WearOsLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('wear-os', 'google', 'smartwatch', 'wearable', 'logo', 'brand', 'android')
 

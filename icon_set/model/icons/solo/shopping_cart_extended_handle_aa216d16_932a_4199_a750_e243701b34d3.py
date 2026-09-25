@@ -12,6 +12,7 @@ class ShoppingCartExtendedHandle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('cart', 'shopping', 'trolley', 'basket', 'wheels', 'retail', 'supermarket')
 

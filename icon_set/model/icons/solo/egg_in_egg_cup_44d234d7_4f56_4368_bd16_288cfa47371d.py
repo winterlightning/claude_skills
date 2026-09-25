@@ -17,6 +17,7 @@ class Batch02Icon8(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('egg-in-egg-cup',)
     keywords = ('egg', 'in', 'egg', 'cup')
 

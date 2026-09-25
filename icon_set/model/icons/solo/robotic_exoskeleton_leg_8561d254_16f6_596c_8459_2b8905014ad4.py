@@ -11,6 +11,7 @@ class RoboticExoskeletonLeg(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('exoskeleton', 'leg', 'robotic', 'prosthetic', 'joint', 'wearable', 'mobility')
 

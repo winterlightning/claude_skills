@@ -18,6 +18,7 @@ class PresentationBoardOnStand(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('presentation', 'board', 'on', 'stand')
 

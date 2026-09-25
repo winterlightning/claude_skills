@@ -16,6 +16,7 @@ class TwoWifiArcsSymbol(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('two', 'wifi', 'arcs', 'symbol')
 

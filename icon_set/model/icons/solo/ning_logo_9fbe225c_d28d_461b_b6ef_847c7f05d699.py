@@ -16,6 +16,7 @@ class NingLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('ning', 'social-network', 'nodes', 'logo', 'brand', 'community', 'network')
 

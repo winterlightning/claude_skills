@@ -12,6 +12,7 @@ class CombinationPliers(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('pliers', 'combination pliers', 'grip', 'jaws', 'hardware', 'repair', 'electrician', 'tool')
 

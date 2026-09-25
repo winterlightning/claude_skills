@@ -15,6 +15,7 @@ class HandPointingUp(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('hand', 'pointing', 'up', 'index', 'finger', 'gesture')
 

@@ -13,6 +13,7 @@ class SabreToothHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('sabre tooth', 'tiger', 'fang', 'head', 'profile', 'prehistoric', 'big cat', 'extinct')
 

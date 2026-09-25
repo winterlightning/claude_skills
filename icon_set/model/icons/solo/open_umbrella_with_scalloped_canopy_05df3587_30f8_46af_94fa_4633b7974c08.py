@@ -12,6 +12,7 @@ class OpenUmbrellaWithScallopedCanopy(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('accessories', 'state')
     aliases = ()
     keywords = ('open', 'umbrella', 'with', 'scalloped', 'canopy')
 

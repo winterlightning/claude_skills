@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_M
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="interface-essential"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases=()
     keywords=('graph', 'stats', 'descend')
 

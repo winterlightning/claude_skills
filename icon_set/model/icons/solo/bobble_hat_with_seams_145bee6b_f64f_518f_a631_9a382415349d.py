@@ -11,6 +11,7 @@ class BobbleHatWithSeams(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cap', 'clothing')
 

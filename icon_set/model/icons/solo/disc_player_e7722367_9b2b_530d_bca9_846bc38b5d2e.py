@@ -11,6 +11,7 @@ class DiscPlayer(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video'
+    categories = ('video', 'primitives')
     aliases = ()
     keywords = ('disc', 'player', 'dvd', 'cd', 'media', 'device', 'video')
 

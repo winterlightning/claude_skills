@@ -21,6 +21,7 @@ class WirelessWavesVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('wireless', 'waves', 'broad', 'curved', 'sit', 'other')
     keyshape = Keyshape.SQUARE

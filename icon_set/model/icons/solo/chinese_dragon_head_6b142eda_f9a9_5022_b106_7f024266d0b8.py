@@ -12,6 +12,7 @@ class ChineseDragonHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('dragon', 'chinese', 'mythology', 'lunar new year', 'beast', 'mask', 'asian', 'legend')
 

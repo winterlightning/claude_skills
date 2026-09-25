@@ -12,6 +12,7 @@ class ReceiptPrinter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('receipt', 'printer', 'paper', 'checkout', 'retail', 'printing', 'device')
 

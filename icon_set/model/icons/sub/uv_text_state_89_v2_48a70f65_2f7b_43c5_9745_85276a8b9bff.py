@@ -21,6 +21,7 @@ class UvTextState89Variant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('uv', 'text', 'uppercase', 'u', 'rounded', 'bottom', 'stands', 'beside')
     keyshape = Keyshape.SQUARE

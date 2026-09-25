@@ -13,6 +13,7 @@ class FluffySheep(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('sheep', 'wool', 'fluffy', 'lamb', 'farm', 'livestock', 'ewe', 'animal')
 

@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "beauty"
+    categories = ("beauty", "primitive", "primitives")
     keywords = ('curled', 'handlebar', 'mustache')
 
     def build(self):

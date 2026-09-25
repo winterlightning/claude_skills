@@ -19,6 +19,7 @@ class FramedWomanUserProfile(Solo48):
     semantic_kind = "noun"
     human_construction = "bust"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("woman portrait", "female profile card")
     keywords = ("user", "avatar", "frame", "hair")
 

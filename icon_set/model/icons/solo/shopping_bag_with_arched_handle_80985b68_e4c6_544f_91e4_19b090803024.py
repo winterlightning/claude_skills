@@ -12,6 +12,7 @@ class ShoppingBagWithArchedHandle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('shopping', 'bag', 'with', 'arched', 'handle', 'sub icon')
 

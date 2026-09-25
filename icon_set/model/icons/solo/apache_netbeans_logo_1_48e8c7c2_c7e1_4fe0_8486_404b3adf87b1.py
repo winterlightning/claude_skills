@@ -11,6 +11,7 @@ class ApacheNetbeansLogo1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('apache', 'netbeans', 'logo', '_uncategorized_03')
 

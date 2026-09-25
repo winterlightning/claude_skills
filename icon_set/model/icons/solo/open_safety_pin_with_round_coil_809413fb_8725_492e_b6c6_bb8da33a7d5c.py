@@ -18,6 +18,7 @@ class OpenSafetyPinWithRoundCoil(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     aliases = ()
     keywords = ('open', 'safety', 'pin', 'with', 'round', 'coil')
 

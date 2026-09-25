@@ -14,6 +14,7 @@ class IssueOpenedAlert(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('issue', 'alert', 'exclamation', 'warning', 'open', 'bug', 'report', 'attention')
 

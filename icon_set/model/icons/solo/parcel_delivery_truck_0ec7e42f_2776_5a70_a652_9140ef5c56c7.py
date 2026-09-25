@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases=()
     keywords=('truck',)
 
@@ -50,6 +51,7 @@ class Drawing(Solo48):
 
     icon_id = 'parcel-delivery-truck'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('delivery truck', 'parcel', 'package', 'shipping', 'courier', 'logistics', 'truck', 'box')
     semantic_role = 'MAIN'

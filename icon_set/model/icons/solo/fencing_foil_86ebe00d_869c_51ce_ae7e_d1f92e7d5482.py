@@ -11,6 +11,7 @@ class FencingFoil(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('fencing', 'foil', 'sword', 'blade', 'guard', 'equipment')
     def build(self) -> None:

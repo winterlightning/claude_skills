@@ -13,6 +13,7 @@ class HornCurled(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('horn', 'instrument', 'music', 'brass', 'curled', 'bugle', 'sound', 'wind')
 

@@ -16,6 +16,7 @@ class SingleLeafCurvedVeinSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('single', 'leaf', 'curved', 'vein', 'sub')
 

@@ -13,6 +13,7 @@ class HeterosexualSymbol(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('heterosexual', 'gender', 'male', 'female', 'symbol', 'couple', 'venus', 'mars')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('specialty eye',)
 
@@ -46,6 +47,7 @@ class Drawing(Solo48):
 
     icon_id = 'eye-with-iris-and-pupil'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('eye', 'with', 'iris', 'and', 'pupil')
     semantic_role = 'MAIN'

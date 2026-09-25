@@ -15,6 +15,7 @@ class ThreeLeggedSpaceCapsule(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('capsule', 'lander', 'space', 'leg', 'window', 'landing')
 

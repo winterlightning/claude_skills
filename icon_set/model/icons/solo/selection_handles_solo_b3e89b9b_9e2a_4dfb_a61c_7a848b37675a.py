@@ -19,6 +19,7 @@ class SourceMain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
+    categories = ('container',)
     aliases = ('selection-handles',)
     keywords = ('selection', 'handles')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog',)
 
@@ -52,6 +53,7 @@ class Drawing(Solo48):
 
     icon_id = 'bulldog-face'
     category = 'pets'
+    categories = ('pets', 'primitives')
     aliases = ()
     keywords = ('dog', 'bulldog', 'face', 'breed', 'jowls', 'pet', 'english-bulldog')
     semantic_role = 'MAIN'

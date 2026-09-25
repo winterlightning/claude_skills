@@ -16,6 +16,7 @@ class KikLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('kik', 'messenger', 'chat', 'letter-k', 'logo', 'brand', 'speech-bubble')
 

@@ -15,6 +15,7 @@ class WalletClasp(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('wallet', 'money', 'payment', 'finance', 'cash', 'purse', 'billfold', 'savings')
 

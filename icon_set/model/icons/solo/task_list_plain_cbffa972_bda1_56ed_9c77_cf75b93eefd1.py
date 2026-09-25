@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('task', 'list', 'plain')
     def build(self):

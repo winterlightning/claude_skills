@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'files'
+    categories = ('files', 'other', 'primitives-generate')
     aliases=()
     keywords=('image', 'file')
 

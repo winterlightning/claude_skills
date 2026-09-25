@@ -18,6 +18,7 @@ class MobilePhoneLongOutgoingArrow(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("phone call forwarding", "long outgoing call arrow")
     keywords = ("phone", "transfer", "forward", "right")
 

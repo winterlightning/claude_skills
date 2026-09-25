@@ -15,6 +15,7 @@ class TreeStump(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('stump', 'tree', 'wood', 'trunk', 'forestry', 'deforestation', 'nature', 'log')
 

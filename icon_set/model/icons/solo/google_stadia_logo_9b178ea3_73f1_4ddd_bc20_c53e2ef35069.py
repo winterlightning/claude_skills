@@ -19,6 +19,7 @@ class GoogleStadiaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-stadia', 'stadia', 'gaming', 'google', 'logo', 'brand', 'cloud-gaming')
 

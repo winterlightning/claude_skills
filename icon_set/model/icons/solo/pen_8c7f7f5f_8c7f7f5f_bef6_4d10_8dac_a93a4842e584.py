@@ -11,6 +11,7 @@ class Pen8c7f7f5f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'pen-8c7f7f5f')
 

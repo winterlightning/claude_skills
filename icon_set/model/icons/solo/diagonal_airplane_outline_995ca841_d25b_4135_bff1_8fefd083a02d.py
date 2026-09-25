@@ -17,6 +17,7 @@ class DiagonalAirplaneOutline(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "other", "primitives-generate")
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'aircraft', 'outline', 'aviation', 'airport', 'travel')
 

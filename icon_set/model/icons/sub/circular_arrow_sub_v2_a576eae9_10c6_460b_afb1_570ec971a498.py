@@ -18,6 +18,7 @@ class CircularArrowSubVariant2(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('circular', 'arrow', 'long', 'curved', 'follows', 'most', 'clockwise', 'circle')
 

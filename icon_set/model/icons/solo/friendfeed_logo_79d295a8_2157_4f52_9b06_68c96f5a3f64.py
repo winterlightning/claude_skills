@@ -11,6 +11,7 @@ class FriendfeedLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('friendfeed', 'letters', 'ff', 'logo', 'brand', 'social', 'feed')
 

@@ -18,6 +18,7 @@ class IconShabbatCandlesAndOpenBook(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('shabbat', 'candles', 'and', 'open', 'book')
 

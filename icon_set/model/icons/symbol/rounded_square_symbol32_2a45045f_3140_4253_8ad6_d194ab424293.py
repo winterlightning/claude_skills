@@ -17,6 +17,7 @@ class Drawing(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ('Simple Rounded Square Frame',)
     keywords = ('symbol', 'container content')
 

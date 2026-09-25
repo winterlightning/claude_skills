@@ -15,6 +15,7 @@ class CircleArrowLeft(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'state')
     aliases = ()
     keywords = ('circle', 'arrow', 'left', 'arrows')
 

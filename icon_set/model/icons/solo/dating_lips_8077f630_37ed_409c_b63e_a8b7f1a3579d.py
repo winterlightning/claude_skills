@@ -11,6 +11,7 @@ class DatingLips(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('dating', 'lips', 'romance', 'solo-ai-next100')
 

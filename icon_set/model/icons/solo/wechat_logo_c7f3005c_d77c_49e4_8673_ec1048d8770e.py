@@ -12,6 +12,7 @@ class WechatLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('wechat', 'chat', 'messenger', 'speech-bubbles', 'logo', 'brand', 'chinese')
 

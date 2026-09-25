@@ -12,6 +12,7 @@ class UploadedLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('uploaded', 'file-hosting', 'hook', 'upload', 'logo', 'brand', 'cloud')
 

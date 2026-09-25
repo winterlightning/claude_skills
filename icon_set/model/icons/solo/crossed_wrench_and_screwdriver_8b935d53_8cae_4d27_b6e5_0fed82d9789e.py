@@ -12,6 +12,7 @@ class CrossedWrenchAndScrewdriver(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('wrench', 'screwdriver', 'tools', 'repair', 'settings', 'maintenance', 'service', 'fix')
 

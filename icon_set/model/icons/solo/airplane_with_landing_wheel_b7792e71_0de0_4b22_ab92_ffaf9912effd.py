@@ -11,6 +11,7 @@ class AirplaneWithLandingWheel(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
+    categories = ('travel', 'primitives')
     aliases = ()
     keywords = ('airplane', 'landing-gear', 'wheel', 'flight', 'aircraft', 'plane', 'aviation', 'travel')
 

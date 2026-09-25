@@ -12,6 +12,7 @@ class OpenEndMaintenanceWrench(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('tools',)
     aliases = ('open-end-wrench', 'wrench', 'spanner')
     keywords = ('wrench', 'spanner', 'tool', 'maintenance', 'repair', 'settings', 'fix')
 

@@ -11,6 +11,7 @@ class BurjAlArab(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('burj al arab', 'dubai', 'uae', 'hotel', 'tower', 'sail', 'skyscraper', 'landmark', 'architecture')
 

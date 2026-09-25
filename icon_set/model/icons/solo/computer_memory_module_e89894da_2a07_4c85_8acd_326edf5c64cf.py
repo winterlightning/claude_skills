@@ -12,6 +12,7 @@ class ComputerMemoryModule(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('ram', 'memory', 'module', 'dimm', 'chip', 'hardware', 'computer', 'storage')
 

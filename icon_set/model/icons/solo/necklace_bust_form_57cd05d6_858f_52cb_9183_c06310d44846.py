@@ -12,6 +12,7 @@ class NecklaceBustForm(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('necklace', 'bust', 'form', 'display', 'mannequin', 'jewellery', 'jewelry', 'torso', 'stand')
 

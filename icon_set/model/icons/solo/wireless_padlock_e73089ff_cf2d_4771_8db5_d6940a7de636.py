@@ -11,6 +11,7 @@ class WirelessPadlock(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('padlock', 'lock', 'wireless', 'smart-lock', 'security', 'signal', 'connected')
 

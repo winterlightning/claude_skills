@@ -17,6 +17,7 @@ class TwoTextLines(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('text', 'lines', 'horizontal', 'share', 'left', 'edge', 'upper', 'line')
 

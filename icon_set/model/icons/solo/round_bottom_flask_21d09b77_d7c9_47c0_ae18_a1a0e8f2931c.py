@@ -20,6 +20,7 @@ class RoundBottomFlask(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'combination'
+    categories = ('combination', 'primitives')
     aliases = ()
     keywords = ('round-bottom', 'flask')
 

@@ -15,6 +15,7 @@ class Drawing(Solo48):
     aliases=()
     keywords=('door', 'left', 'hand', 'closed')
     category = 'building'
+    categories = ('building', 'other', 'primitives-generate')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)

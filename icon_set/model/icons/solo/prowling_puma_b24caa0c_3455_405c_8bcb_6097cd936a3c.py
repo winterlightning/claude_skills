@@ -11,6 +11,7 @@ class ProwlingPuma(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('cougar', 'mountain-lion')
     keywords = ('puma', 'cougar', 'mountain lion', 'prowl', 'big cat', 'feline', 'stalk', 'wildlife')
 

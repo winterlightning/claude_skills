@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     TYPEFACE_GLYPH_IDS = ('letter-t-uppercase',)
     def build(self):
         self.circle('frame',15,15,13)

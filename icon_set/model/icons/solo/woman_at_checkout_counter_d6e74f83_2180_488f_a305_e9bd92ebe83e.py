@@ -11,6 +11,7 @@ class WomanAtCheckoutCounter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('cashier', 'woman', 'counter', 'checkout', 'hair', 'staff', 'retail')
 

@@ -13,6 +13,7 @@ class PouchVideoGames(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('video-games', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('pouch', 'video-games')
     keyshape = Keyshape.VRECT_L

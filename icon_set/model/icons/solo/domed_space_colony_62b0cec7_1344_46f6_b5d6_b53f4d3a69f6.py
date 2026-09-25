@@ -15,6 +15,7 @@ class DomedSpaceColony(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('colony', 'dome', 'building', 'space', 'habitat', 'settlement')
 

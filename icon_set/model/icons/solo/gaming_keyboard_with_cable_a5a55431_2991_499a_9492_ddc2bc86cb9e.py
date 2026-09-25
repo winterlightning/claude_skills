@@ -12,6 +12,7 @@ class GamingKeyboardWithCable(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('keyboard', 'gaming', 'cable', 'typing', 'input', 'peripheral', 'computer', 'wired')
 

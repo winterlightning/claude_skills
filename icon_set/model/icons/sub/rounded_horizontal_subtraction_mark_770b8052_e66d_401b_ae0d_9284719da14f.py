@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Rounded Horizontal Minus Sign',)
     keywords = ('rounded', 'horizontal', 'subtraction', 'mark')
     def build(self):

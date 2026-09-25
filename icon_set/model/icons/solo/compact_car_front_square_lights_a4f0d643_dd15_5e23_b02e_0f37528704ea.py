@@ -13,6 +13,7 @@ class CompactCarFrontSquareLights(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('car', 'front', 'compact', 'smart car', 'headlights', 'vehicle', 'city car', 'head-on')
 

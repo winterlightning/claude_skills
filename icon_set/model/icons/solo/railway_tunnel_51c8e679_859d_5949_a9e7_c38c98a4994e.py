@@ -12,6 +12,7 @@ class RailwayTunnel(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('railway tunnel', 'tunnel', 'rail', 'track', 'train', 'arch', 'underground', 'infrastructure')
 

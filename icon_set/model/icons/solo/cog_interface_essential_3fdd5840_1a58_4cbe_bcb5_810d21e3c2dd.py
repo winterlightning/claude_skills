@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases=()
     keywords=('cog',)
 
@@ -35,6 +36,7 @@ class Drawing(Solo48):
 
     icon_id = 'cog-interface-essential'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('cog', 'interface-essential')
     semantic_role = 'MAIN'

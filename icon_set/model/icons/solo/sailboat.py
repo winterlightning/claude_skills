@@ -12,6 +12,7 @@ class Sailboat(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation',)
     aliases = ('sailing-boat', 'sailing-boat-with-single-sail')
     keywords = ('boat', 'sailboat', 'sail', 'sailing', 'ship', 'nautical', 'travel', 'sea')
 

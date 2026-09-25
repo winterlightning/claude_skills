@@ -15,6 +15,7 @@ class TextDocumentSquare(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('text', 'document', 'note', 'page', 'file', 'content', 'paragraph', 'notes')
 

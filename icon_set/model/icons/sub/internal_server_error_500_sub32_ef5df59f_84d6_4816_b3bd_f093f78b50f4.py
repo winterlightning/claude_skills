@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
+    categories = ('symbol', 'state')
     keywords = ('five', 'hundred', 'internal', 'server', 'error')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {}

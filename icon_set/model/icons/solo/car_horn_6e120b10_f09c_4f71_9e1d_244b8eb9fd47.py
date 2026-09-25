@@ -11,6 +11,7 @@ class CarHorn(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('horn', 'car horn', 'sound', 'honk', 'dashboard', 'trumpet', 'alert', 'vehicle')
 

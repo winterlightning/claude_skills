@@ -13,6 +13,7 @@ class PetIdTag(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('dog tag', 'pet', 'id', 'tag', 'collar', 'identification', 'label', 'name')
 

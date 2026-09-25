@@ -11,6 +11,7 @@ class PortableCassettePlayer(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('walkman', 'cassette', 'player', 'portable', 'retro', 'tape', 'audio', 'music')
 

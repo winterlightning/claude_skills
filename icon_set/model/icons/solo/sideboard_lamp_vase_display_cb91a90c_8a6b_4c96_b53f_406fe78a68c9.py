@@ -13,6 +13,7 @@ class SideboardLampVaseDisplay(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "furnitures"
+    categories = ("furnitures", "primitives")
     aliases = ()
     keywords = ('sideboard', 'with', 'lamp', 'and', 'vase')
 

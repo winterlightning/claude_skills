@@ -11,6 +11,7 @@ class DPad(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('d-pad', 'directional pad', 'dpad', 'controller', 'gamepad', 'arrows', 'input', 'gaming')
 

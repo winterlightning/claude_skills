@@ -11,6 +11,7 @@ class Wave(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-full-set', 'wave')
 

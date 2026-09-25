@@ -12,6 +12,7 @@ class LensWithPetalHood(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('lens', 'lens hood', 'petal hood', 'shade', 'camera lens', 'optics', 'photography', 'zoom')
 

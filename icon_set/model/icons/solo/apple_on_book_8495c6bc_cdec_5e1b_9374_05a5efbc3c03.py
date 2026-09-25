@@ -13,6 +13,7 @@ class AppleOnBook(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('apple', 'book', 'school', 'education', 'reading', 'fruit')
 

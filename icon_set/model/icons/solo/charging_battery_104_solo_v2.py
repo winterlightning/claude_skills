@@ -21,6 +21,7 @@ class DrawingVariant2(Solo48):
     variant_label = 'Horizontal enclosed battery'
     keyshape = Keyshape.HRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('battery with charging flash symbol',)
 

@@ -11,6 +11,7 @@ class PregnantBellyWithHeart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ('pregnancy-hug', 'baby-bump')
     keywords = ('pregnancy', 'belly', 'bump', 'expecting', 'heart', 'maternity', 'mother', 'prenatal')
 

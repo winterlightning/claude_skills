@@ -12,6 +12,7 @@ class ExtendedTapeMeasure(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('tape measure', 'measure', 'measuring tape', 'ruler', 'length', 'construction', 'tape', 'tool')
 

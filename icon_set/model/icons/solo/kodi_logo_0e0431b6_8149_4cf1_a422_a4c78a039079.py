@@ -16,6 +16,7 @@ class KodiLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('kodi', 'media-center', 'player', 'logo', 'brand', 'open-source', 'tv')
 

@@ -15,6 +15,7 @@ class TeamThreePeople(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords = ('team', 'group', 'people', 'users', 'community', 'members', 'staff', 'crowd', 'sub icon')
 

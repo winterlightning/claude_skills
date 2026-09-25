@@ -17,6 +17,7 @@ class Batch04Icon11(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('reply-speech-bubble-frame',)
     keywords = ('reply', 'speech', 'bubble', 'frame')
 

@@ -12,6 +12,7 @@ class UluleLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('ulule', 'crowdfunding', 'owl', 'logo', 'brand', 'campaign', 'eyes')
 

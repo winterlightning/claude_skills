@@ -19,6 +19,7 @@ class EightPointedStarBadge(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('eight-point-badge',)
     keywords = ('badge', 'star', 'emblem', 'outline')
 

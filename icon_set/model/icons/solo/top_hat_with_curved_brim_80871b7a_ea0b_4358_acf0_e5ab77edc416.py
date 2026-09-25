@@ -12,6 +12,7 @@ class TopHatWithCurvedBrim(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('hat', 'top hat', 'formal', 'brim', 'gentleman', 'magic', 'headwear', 'vintage')
 

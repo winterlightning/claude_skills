@@ -16,6 +16,7 @@ class BirdhouseOnTree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('birdhouse', 'tree', 'bird', 'outdoors', 'garden', 'branches', 'nature', 'nest')
 

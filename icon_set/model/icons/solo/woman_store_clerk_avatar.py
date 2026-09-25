@@ -21,6 +21,7 @@ class WomanStoreClerkAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('avatar', 'woman', 'store', 'clerk', 'bust', 'body', 'portrait')
 

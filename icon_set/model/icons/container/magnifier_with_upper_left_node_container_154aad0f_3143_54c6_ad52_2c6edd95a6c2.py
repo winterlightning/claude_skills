@@ -17,6 +17,7 @@ class MagnifierWithUpperLeftNodeContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('magnifier', 'with', 'upper', 'left', 'node', 'container')
 

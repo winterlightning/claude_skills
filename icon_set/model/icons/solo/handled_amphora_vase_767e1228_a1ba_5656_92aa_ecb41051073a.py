@@ -12,6 +12,7 @@ class HandledAmphoraVase(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('vase', 'amphora', 'greek', 'pottery', 'handles', 'ceramic', 'vessel', 'antique')
 

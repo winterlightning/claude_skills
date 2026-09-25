@@ -14,6 +14,7 @@ class LowPlankPose(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('low', 'plank', 'pose', 'yoga', 'exercise')
 

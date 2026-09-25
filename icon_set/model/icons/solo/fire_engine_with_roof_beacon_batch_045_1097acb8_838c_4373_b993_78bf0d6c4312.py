@@ -12,6 +12,7 @@ class Batch045Icon9(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('truck', 'fire', 'engine', 'ladder', 'emergency', 'vehicle', 'beacon')
     # Reference: truck: cab/body hierarchy and paired wheel baseline.

@@ -12,6 +12,7 @@ class ChristTheRedeemer(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('christ the redeemer', 'rio', 'brazil', 'statue', 'monument', 'figure', 'landmark', 'religion')
 

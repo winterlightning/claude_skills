@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     keywords = ('square', 'advertisement', 'icon')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {'frame': 4}

@@ -17,6 +17,7 @@ class Batch03Icon6(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('fuel-pump-with-display',)
     keywords = ('fuel', 'pump', 'with', 'display')
 

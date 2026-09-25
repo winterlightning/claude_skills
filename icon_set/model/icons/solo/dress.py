@@ -17,6 +17,7 @@ class Dress(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
+    categories = ('clothes',)
     aliases = ('sleeveless-dress', 'a-line-dress', 'sleeveless-woman-dress')
     keywords = ('dress', 'clothing', 'fashion', 'garment', 'apparel', 'womenswear', 'skirt', 'sleeveless')
 

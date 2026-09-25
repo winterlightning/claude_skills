@@ -15,6 +15,7 @@ class DoubleHeartSpeechBubbles(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Double Speech Bubbles with Heart',)
     keywords = tuple('double speech bubbles with heart'.split())
 

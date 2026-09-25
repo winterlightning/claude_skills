@@ -13,6 +13,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     aliases=()
     keywords=('virtual', 'reality', 'headset', 'solo')
 

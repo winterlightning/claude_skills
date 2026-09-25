@@ -14,7 +14,8 @@ class Batch078Icon(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "arrows"
+    categories = ("arrows", "primitive", "primitives")
     aliases = ()
     keywords = ('upward', 'pointing', 'chevron')
 

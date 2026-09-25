@@ -13,6 +13,7 @@ class PersonSilhouetteOutline(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('person', 'user', 'silhouette', 'profile', 'avatar', 'anonymous', 'account', 'member')
 

@@ -15,6 +15,7 @@ class Icon(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'files'
+    categories = ('files', 'primitives')
     aliases = ('Add New Duplicate Copy',)
     keywords = ('add', 'new', 'duplicate', 'copy')
     def build(self):

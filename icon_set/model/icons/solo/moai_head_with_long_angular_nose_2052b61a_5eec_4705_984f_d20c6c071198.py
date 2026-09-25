@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases=('moai statue','Easter Island statue')
     keywords=('moai','statue','head','stone','nose','sculpture','monument')
     def build(self):

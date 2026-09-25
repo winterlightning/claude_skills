@@ -14,6 +14,7 @@ class Batch05Icon9(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "content"
+    categories = ("primitives", "content")
     aliases = ('book-with-upper-bookmark',)
     keywords = ('book', 'with', 'upper', 'bookmark')
     def build(self):

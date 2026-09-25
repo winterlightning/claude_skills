@@ -14,6 +14,7 @@ class Blind(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('blind', 'interface-essential')
 

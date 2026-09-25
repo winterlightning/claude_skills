@@ -13,6 +13,7 @@ class VintageJeep(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('jeep', 'vintage', 'off-road', '4x4', 'car', 'classic', 'vehicle', 'side view')
 

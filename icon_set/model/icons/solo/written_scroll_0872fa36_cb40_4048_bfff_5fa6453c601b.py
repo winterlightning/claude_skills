@@ -12,6 +12,7 @@ class WrittenScroll(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('scroll', 'parchment', 'manuscript', 'script', 'ancient', 'document', 'writing', 'papyrus')
 

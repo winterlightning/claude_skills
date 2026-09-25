@@ -16,6 +16,7 @@ class DachshundFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'dachshund', 'face', 'breed', 'floppy-ears', 'sausage-dog', 'pet')
 

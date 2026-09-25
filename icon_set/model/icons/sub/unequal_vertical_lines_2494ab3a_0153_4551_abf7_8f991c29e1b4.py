@@ -17,6 +17,7 @@ class UnequalVerticalLines(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('unequal', 'vertical', 'lines', 'detached', 'upright', 'strokes', 'share', 'top')
 

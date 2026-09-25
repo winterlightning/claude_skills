@@ -13,6 +13,7 @@ class SimplePaperDocument(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("container", "other", "primitives-generate")
     aliases = ("blank file", "paper sheet")
     keywords = ("document", "file", "page")
 

@@ -16,6 +16,7 @@ class LanceLeafPlantInRoundedPot(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('lance', 'leaf', 'plant', 'in', 'rounded', 'pot')
 

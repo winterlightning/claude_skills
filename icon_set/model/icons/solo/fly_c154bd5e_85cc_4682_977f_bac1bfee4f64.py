@@ -13,6 +13,7 @@ class HangGliderWithHarness(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "state")
     aliases = ()
     keywords = ('hang', 'glider', 'with', 'harness')
 

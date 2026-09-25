@@ -12,6 +12,7 @@ class ManagedServiceSearchPrograming(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('managed', 'service', 'search', 'programing')
 

@@ -16,6 +16,7 @@ class CatBell(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('bell', 'cat', 'collar', 'jingle', 'pet', 'accessory', 'sound')
 

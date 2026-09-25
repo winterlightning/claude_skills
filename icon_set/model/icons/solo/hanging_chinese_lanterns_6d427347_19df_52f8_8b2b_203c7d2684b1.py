@@ -12,6 +12,7 @@ class HangingChineseLanterns(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('lantern', 'chinese', 'festival', 'lunar new year', 'hanging', 'bunting', 'celebration', 'asian')
 

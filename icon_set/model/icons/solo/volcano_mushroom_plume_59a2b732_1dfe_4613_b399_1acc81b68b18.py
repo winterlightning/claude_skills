@@ -11,6 +11,7 @@ class VolcanoMushroomPlume(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'weather'
+    categories = ('weather', 'primitives')
     aliases = ()
     keywords = ('volcano', 'smoke', 'plume', 'eruption', 'mountain', 'ash')
 

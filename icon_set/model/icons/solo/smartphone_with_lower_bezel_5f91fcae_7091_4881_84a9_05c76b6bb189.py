@@ -12,6 +12,7 @@ class SmartphoneWithLowerBezel5F91Fcae(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('smartphone', 'phone', 'screen', 'bezel', 'earpiece', 'mobile')
 

@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases=()
     keywords=('woman',)
     def path(self,n,start,commands,closed=False):
@@ -66,6 +67,7 @@ class Drawing(Solo48):
 
     icon_id = 'person-with-flared-bob'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('person', 'with', 'flared', 'bob')
     semantic_role = 'MAIN'

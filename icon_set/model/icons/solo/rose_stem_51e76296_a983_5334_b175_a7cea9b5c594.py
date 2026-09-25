@@ -18,6 +18,7 @@ class RoseStem(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('rose', 'flower', 'stem', 'petal', 'leaf', 'romance')
 

@@ -13,6 +13,7 @@ class Gold(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('gold', 'science')
     keyshape = Keyshape.HRECT_L

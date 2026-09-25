@@ -11,6 +11,7 @@ class ComputerChip(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'electronics'
+    categories = ('electronics', 'primitives')
     aliases = ()
     keywords = ('computer', 'chip', 'electronics', 'solo-ai-next100')
 

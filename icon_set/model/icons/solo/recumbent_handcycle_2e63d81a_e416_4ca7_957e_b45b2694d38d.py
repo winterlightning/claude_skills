@@ -12,6 +12,7 @@ class RecumbentHandcycle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('handcycle', 'recumbent', 'cycle', 'racing', 'mobility', 'wheels')
 

@@ -11,6 +11,7 @@ class PersonDetectedByMotionSensor(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('motion-sensor', 'person', 'running', 'detection', 'school', 'learning', 'sensor')
 

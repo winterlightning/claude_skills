@@ -16,6 +16,7 @@ class CloudWithNetworkStems(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('cloud', 'with', 'network', 'stems')
 

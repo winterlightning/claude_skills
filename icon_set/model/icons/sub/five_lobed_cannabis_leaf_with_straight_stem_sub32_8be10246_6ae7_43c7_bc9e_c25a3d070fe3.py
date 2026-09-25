@@ -14,7 +14,8 @@ class Drawing(Sub32):
     keyshape=Keyshape.SQUARE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='cannabis'
+    category = 'cannabis'
+    categories = ('primitives', 'cannabis')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'cannabis plant leaf symbol')
     def build(self):

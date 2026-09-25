@@ -13,6 +13,7 @@ class Helmet97a9265b(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('helmet', 'protection')
     keyshape = Keyshape.HRECT_L

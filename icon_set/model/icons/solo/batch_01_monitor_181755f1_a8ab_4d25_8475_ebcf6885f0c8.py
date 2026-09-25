@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "computers"
+    categories = ("computers", "other", "primitives-generate")
     aliases = ()
     keywords = ('monitor',)
     def build(self):
@@ -45,6 +46,7 @@ class Drawing(Solo48):
 
     icon_id = 'batch-01-monitor'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('batch', 'monitor', 'computers')
     semantic_role = 'MAIN'

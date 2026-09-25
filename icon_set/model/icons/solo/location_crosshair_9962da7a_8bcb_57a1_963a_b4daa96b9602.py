@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "maps"
+    categories = ("maps", "primitives")
     aliases = ()
     keywords = ('crosshair', 'target', 'location', 'gps', 'locate', 'aim', 'center', 'map')
 

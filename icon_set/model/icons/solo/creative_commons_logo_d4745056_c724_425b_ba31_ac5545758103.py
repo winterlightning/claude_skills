@@ -12,6 +12,7 @@ class CreativeCommonsLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('creative-commons', 'cc', 'license', 'logo', 'brand', 'copyright', 'open')
 

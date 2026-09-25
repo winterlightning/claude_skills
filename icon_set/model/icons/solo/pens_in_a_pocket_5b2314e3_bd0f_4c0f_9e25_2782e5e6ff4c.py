@@ -13,6 +13,7 @@ class Batch06Icon8(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "content"
+    categories = ("primitives", "content")
     aliases = ()
     keywords = ('pens', 'in', 'a', 'pocket')
     def build(self):

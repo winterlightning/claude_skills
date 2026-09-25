@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "maps"
+    categories = ("maps", "primitives")
     aliases = ()
     keywords = ('globe', 'desk globe', 'earth', 'world', 'geography', 'school', 'stand', 'map')
 

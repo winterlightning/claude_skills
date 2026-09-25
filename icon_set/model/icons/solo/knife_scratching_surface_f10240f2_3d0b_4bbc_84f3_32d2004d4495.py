@@ -12,6 +12,7 @@ class KnifeScratchingSurface(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('scratch', 'resistance', 'knife', 'surface', 'durability', 'hardness', 'test', 'blade')
 

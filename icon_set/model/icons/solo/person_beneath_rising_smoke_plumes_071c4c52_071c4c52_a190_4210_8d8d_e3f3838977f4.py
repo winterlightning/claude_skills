@@ -12,6 +12,7 @@ class BatchIcon(Solo48):
     semantic_kind = "noun"
     human_construction = "bust"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('person', 'smoke', 'plumes', 'curves', 'bust', 'rising', 'figure')
     def build(self):

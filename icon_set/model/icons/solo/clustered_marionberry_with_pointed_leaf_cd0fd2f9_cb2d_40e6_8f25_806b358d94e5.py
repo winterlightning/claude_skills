@@ -19,6 +19,7 @@ class Drawing(Solo48):
     aliases = ("marionberry",)
     keywords = ("berry", "fruit", "leaf", "cluster")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

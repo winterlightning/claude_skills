@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases = ()
     keywords = ('binary',)
     # Bounds are supplied by the contract; geometry below is authored to them.

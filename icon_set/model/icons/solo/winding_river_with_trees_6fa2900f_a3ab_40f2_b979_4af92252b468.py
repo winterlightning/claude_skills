@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Winding River with Trees']
     keywords = ['river', 'stream', 'trees', 'landscape', 'water', 'bank', 'nature']
 

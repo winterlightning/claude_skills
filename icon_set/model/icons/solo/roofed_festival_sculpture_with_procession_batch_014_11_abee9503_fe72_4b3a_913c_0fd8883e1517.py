@@ -23,6 +23,7 @@ class GeneratedSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('honensai', 'festival', 'sculpture', 'roof', 'procession', 'people')
 

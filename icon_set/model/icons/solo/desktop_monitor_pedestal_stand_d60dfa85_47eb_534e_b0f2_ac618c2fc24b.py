@@ -12,6 +12,7 @@ class DesktopMonitorPedestalStand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ('desktop-display',)
     keywords = ('computer', 'screen', 'device', 'lucide-monitor')
 

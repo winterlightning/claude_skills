@@ -12,6 +12,7 @@ class GoldenTemple(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('golden temple', 'amritsar', 'india', 'sikh', 'gurdwara', 'dome', 'landmark', 'religion')
 

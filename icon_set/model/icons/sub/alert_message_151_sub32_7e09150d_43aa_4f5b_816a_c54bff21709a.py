@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role='SUB'
     semantic_kind='modifier'
     category = 'messages'
+    categories = ('messages', 'primitives')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'message alert bubble')
     def build(self):

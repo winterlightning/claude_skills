@@ -10,6 +10,7 @@ class VerticalSwipeGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("finger vertical swipe",)
     keywords = ("finger", "up", "down", "arrows")
 

@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('laptop dollar sign',)
 
@@ -39,6 +40,7 @@ class Drawing(Solo48):
 
     icon_id = 'laptop-dollar-symbol'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('payment laptop', 'ecommerce laptop')
     keywords = ('computer', 'dollar', 'money', 'online shopping')
     semantic_role = 'MAIN'

@@ -16,6 +16,7 @@ class ThreePersonMeeting(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('people', 'meeting', 'team', 'group', 'circle', 'collaboration')
 

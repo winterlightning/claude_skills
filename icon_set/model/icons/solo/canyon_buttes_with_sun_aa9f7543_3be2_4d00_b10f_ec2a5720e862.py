@@ -15,6 +15,7 @@ class CanyonButtesWithSun(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('canyon', 'butte', 'mesa', 'rock', 'desert', 'usa', 'landscape', 'nature', 'sun')
 

@@ -16,6 +16,7 @@ class MicrosoftYammerLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('yammer', 'microsoft', 'social', 'office', 'logo', 'brand', 'letter-y')
 

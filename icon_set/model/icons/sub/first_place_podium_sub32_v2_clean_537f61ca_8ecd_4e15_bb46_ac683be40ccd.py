@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'rating'
+    categories = ('rating', 'state', 'other', 'primitives-generate')
     TYPEFACE_GLYPH_IDS = ('digit-1',)
     def build(self):
         self.add_polyline('outline',(2,28),(2,14),(8,14),(8,4),(24,4),(24,16),(30,16),(30,28),closed=True)

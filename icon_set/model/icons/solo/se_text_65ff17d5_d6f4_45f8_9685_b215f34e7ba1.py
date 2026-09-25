@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('se (text)',)
 
@@ -36,6 +37,7 @@ class Drawing(Solo48):
 
     icon_id = 'se-text'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('se', 'letters', 'text', 'abbreviation', 'typography', 'label', 'language')
     semantic_role = 'MAIN'

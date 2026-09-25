@@ -15,6 +15,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "ecology"
+    categories = ("primitives", "ecology")
     aliases = ()
     keywords = ('tree', 'pine', 'falling', 'stump', 'broken', 'logging', 'forest', 'ecology')
     def build(self):

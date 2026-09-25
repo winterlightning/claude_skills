@@ -15,6 +15,7 @@ class ThreePetalBudUpright(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('bud', 'plant', 'petals', 'lotus', 'flower', 'growth', 'nature', 'botanical')
 

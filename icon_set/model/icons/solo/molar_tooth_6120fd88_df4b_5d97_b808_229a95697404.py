@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases=()
     keywords=('tooth',)
 
@@ -35,6 +36,7 @@ class Drawing(Solo48):
 
     icon_id = 'molar-tooth-6120fd88'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ('molar-tooth',)
     keywords = ('molar', 'tooth')
     semantic_role = 'MAIN'

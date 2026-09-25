@@ -15,6 +15,7 @@ class BowlingPinsRow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('bowling', 'pins', 'skittles', 'sport', 'game', 'alley', 'strike', 'leisure')
 

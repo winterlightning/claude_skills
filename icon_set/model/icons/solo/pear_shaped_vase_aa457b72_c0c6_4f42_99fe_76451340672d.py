@@ -13,6 +13,7 @@ class PearShapedVase(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "decoration"
+    categories = ("decoration", "other", "primitives-generate")
     aliases = ()
     keywords = ('vase', 'bottle', 'ceramic', 'vessel', 'decor', 'flared lip', 'pear shape')
 

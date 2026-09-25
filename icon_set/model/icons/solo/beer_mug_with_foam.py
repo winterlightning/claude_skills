@@ -12,6 +12,7 @@ class BeerMugWithFoam(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks',)
     aliases = ('beer-mug', 'beer-stein', 'stein')
     keywords = ('beer', 'mug', 'stein', 'drink', 'pub', 'bar', 'alcohol', 'foam')
 

@@ -15,6 +15,7 @@ class FlashInterfaceEssential(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('flash', 'interface-essential')
 

@@ -12,6 +12,7 @@ class WateredPlanter(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('planter', 'water', 'droplet', 'leaves', 'plant', 'bowl', 'gardening')
 

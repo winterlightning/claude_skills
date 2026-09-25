@@ -12,6 +12,7 @@ class Revision(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('multiple', 'man', 'woman', '1')
     def build(self):

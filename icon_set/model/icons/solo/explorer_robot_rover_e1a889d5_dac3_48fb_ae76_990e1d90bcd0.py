@@ -11,6 +11,7 @@ class ExplorerRobotRover(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('rover', 'robot', 'explorer', 'space', 'vehicle', 'wheels', 'robotic-arm')
 

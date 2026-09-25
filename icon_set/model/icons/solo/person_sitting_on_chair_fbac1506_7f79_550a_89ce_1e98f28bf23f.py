@@ -12,6 +12,7 @@ class PersonSittingOnChair(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('person', 'sitting', 'chair', 'seat', 'rest', 'posture')
 

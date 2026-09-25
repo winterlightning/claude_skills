@@ -12,6 +12,7 @@ class ChamferedFilmStripFrame(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('film', 'film strip', 'frame', 'movie', 'photography', 'negative', 'cinema', 'reel')
 

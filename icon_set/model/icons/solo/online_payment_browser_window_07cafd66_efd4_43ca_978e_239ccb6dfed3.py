@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('browser dollar sign',)
 
@@ -50,6 +51,7 @@ class Drawing(Solo48):
 
     icon_id = 'online-payment-browser-window'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('browser dollar', 'online payment')
     keywords = ('web', 'money', 'payment', 'commerce')
     semantic_role = 'MAIN'

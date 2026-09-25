@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     keywords = ('tiktok', 'logo', 'note', 'music', 'social', 'media', 'stem', 'flag')
 
     def build(self):

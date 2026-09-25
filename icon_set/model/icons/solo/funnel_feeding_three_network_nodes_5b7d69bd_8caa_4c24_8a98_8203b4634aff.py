@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Funnel and Branching Network Nodes']
     keywords = ['funnel', 'filter', 'network', 'nodes', 'branch', 'data', 'distribution']
     def build(self):

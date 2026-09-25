@@ -12,6 +12,7 @@ class TimeoutHandGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('timeout', 'hands', 'gesture', 'sport', 'pause', 'fingers')
 

@@ -14,6 +14,7 @@ class Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'files'
+    categories = ('files', 'primitives')
     aliases = ('Document Compression Symbol',)
     keywords = ('document', 'compression', 'symbol')
     def build(self):

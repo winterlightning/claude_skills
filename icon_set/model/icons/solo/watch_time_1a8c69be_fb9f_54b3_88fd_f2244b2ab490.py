@@ -15,6 +15,7 @@ class WatchTime(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('watch', 'time', 'interface-essential')
 

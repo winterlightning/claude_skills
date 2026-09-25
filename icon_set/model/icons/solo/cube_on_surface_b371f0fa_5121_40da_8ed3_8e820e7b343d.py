@@ -11,6 +11,7 @@ class CubeOnSurface(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('cube', '3d', 'object', 'surface', 'placement', 'reality-composer', 'model')
 

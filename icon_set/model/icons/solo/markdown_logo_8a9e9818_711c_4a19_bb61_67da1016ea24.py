@@ -16,6 +16,7 @@ class MarkdownLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('markdown', 'md', 'text', 'format', 'logo', 'brand', 'circle')
 

@@ -16,6 +16,7 @@ class OperaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('opera', 'browser', 'letter-o', 'logo', 'brand', 'web', 'internet')
 

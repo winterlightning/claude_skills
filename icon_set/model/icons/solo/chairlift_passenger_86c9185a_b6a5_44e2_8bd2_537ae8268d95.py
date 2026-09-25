@@ -11,6 +11,7 @@ class ChairliftPassenger(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('chairlift', 'passenger', 'lift', 'cable', 'ski', 'winter')
 

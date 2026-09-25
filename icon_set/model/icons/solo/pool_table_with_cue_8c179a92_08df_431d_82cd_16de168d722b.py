@@ -11,6 +11,7 @@ class PoolTableWithCue(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('pool', 'table', 'with', 'cue')
     def build(self) -> None:

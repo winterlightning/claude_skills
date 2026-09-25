@@ -13,6 +13,7 @@ class FriendsArmOnShoulder(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('friends', 'people', 'two', 'shoulder', 'support', 'together', 'pair', 'users')
 

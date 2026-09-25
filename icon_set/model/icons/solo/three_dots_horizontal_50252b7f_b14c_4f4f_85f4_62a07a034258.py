@@ -13,6 +13,7 @@ class ThreeDotsHorizontal(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('three', 'dots', 'horizontal', 'state')
     keyshape = Keyshape.HRECT_L

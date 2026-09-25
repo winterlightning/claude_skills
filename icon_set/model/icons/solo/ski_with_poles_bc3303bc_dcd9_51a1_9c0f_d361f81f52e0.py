@@ -11,6 +11,7 @@ class SkiWithPoles(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('ski', 'pole', 'snow', 'winter', 'equipment', 'skiing')
     def build(self) -> None:

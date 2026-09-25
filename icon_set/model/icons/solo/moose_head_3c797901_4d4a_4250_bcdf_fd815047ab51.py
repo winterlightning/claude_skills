@@ -12,6 +12,7 @@ class MooseHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('moose', 'elk', 'antlers', 'animal', 'wildlife', 'nordic', 'head', 'hunting')
 

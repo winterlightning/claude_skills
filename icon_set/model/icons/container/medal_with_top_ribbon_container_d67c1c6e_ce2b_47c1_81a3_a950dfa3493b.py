@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class MedalWithTopRibbonContainer(Container64):
     icon_id = 'medal-with-top-ribbon-container'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('medal', 'with', 'top', 'ribbon', 'container')

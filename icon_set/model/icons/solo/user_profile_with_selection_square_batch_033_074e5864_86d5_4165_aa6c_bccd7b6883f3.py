@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'user-profile-with-selection-square-batch-033'
     keyshape = Keyshape.HRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('user profile with selection square',)
     def build(self):

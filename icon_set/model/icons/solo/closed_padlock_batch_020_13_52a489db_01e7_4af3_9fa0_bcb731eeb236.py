@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     keywords = ('padlock', 'lock', 'closed', 'security', 'shackle', 'protection', 'safe', 'access')
 
     def build(self):

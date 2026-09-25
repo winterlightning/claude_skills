@@ -20,6 +20,7 @@ class RepairVariant(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'video'
+    categories = ('video', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

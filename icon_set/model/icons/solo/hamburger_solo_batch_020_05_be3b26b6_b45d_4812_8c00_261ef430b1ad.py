@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     keywords = ('hamburger', 'burger', 'bun', 'food', 'sandwich', 'meal', 'snack', 'fast-food')
 
     def build(self):

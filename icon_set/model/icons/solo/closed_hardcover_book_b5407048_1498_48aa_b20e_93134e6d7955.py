@@ -17,6 +17,7 @@ class Batch02Icon2(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('closed-hardcover-book',)
     keywords = ('closed', 'hardcover', 'book')
 

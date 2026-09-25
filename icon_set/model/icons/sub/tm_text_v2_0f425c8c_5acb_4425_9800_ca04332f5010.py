@@ -21,6 +21,7 @@ class TmTextVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('tm', 'text', 'uppercase', 'letters', 'sit', 'side', 'broad', 'crossbar')
     keyshape = Keyshape.SQUARE

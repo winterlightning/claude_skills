@@ -13,6 +13,7 @@ class StandingTriceratops(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('triceratops', 'dinosaur', 'standing', 'horns', 'prehistoric', 'jurassic', 'reptile', 'extinct')
 

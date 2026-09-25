@@ -15,6 +15,7 @@ class TrashCan(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords=('trash', 'delete', 'bin', 'garbage', 'waste', 'remove', 'rubbish', 'discard')
 

@@ -13,6 +13,7 @@ class TwistingBonsaiTree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('bonsai', 'tree', 'plant', 'planter', 'foliage', 'garden', 'decor')
 

@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('tiger',)
 
@@ -40,6 +41,7 @@ class Drawing(Solo48):
 
     icon_id = 'bear-muzzle-face'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('bear', 'face', 'head', 'muzzle', 'nose', 'animal', 'cute', 'wildlife')
     semantic_role = 'MAIN'

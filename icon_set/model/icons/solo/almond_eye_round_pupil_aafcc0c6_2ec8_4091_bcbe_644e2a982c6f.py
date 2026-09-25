@@ -14,6 +14,7 @@ class Drawing(Solo48):
     aliases = ("Human Eye Symbol",)
     keywords = ("eye", "iris", "pupil", "vision", "anatomy", "sight")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

@@ -16,6 +16,7 @@ class CompleteReferenceRedraw(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     def build(self):
         self.add_line('frame-0-0', (10, 5), (5, 5))
         self.add_arc('frame-0-1', (5, 5), (2, 8), radius_x=3, radius_y=3, large_arc=False, sweep=False)

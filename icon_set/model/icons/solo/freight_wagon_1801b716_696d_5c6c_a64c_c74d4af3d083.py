@@ -11,6 +11,7 @@ class FreightWagon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('freight', 'goods train', 'wagon', 'railway', 'cargo', 'container', 'train', 'rail')
 

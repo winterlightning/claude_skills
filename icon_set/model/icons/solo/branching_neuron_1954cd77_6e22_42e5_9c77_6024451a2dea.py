@@ -15,6 +15,7 @@ class BranchingNeuron(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('neuron', 'nerve', 'cell', 'branch', 'biology', 'network')
 

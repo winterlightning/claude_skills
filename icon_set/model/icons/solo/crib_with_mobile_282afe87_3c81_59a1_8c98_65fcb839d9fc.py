@@ -13,6 +13,7 @@ class CribWithMobile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "babies"
+    categories = ("babies", "primitives")
     aliases = ()
     keywords = ('crib', 'with', 'mobile', 'baby', 'nursery', 'toy')
 

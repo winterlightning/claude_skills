@@ -11,6 +11,7 @@ class BookBookPages(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('primitives', 'content')
     aliases = ()
     keywords = ('book', 'pages', 'content', 'solo-ai-next50')
 

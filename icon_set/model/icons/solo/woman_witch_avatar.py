@@ -19,6 +19,7 @@ class WomanWitchAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars',)
     aliases = ()
     keywords = ('woman', 'witch', 'portrait', 'bust')
     def build(self):

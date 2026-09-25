@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "food"
+    categories = ("food", "state")
     aliases=()
     keywords=('kitchen', 'chef', 'knife')
     def build(self):

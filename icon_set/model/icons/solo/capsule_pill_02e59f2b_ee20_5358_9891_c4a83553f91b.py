@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('pill',)
 
@@ -45,6 +46,7 @@ class Drawing(Solo48):
 
     icon_id = 'capsule-pill-02e59f2b'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('capsule', 'pill')
     semantic_role = 'MAIN'

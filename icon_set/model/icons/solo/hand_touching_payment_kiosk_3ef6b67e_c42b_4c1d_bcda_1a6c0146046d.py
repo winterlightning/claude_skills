@@ -15,6 +15,7 @@ class HandTouchingPaymentKiosk(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases=()
     keywords=('self-service', 'kiosk', 'touch', 'payment', 'screen', 'hand', 'checkout', 'dollar')
     def build(self):

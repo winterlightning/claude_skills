@@ -19,6 +19,7 @@ class ThreeFlameStoveBurner(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "food"
+    categories = ("primitives", "food")
     aliases = ()
     keywords = ('three', 'flame', 'stove', 'burner')
 

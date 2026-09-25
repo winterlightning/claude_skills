@@ -13,6 +13,7 @@ class PlaygroundPark(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('park', 'playground', 'amusement', 'ferris-wheel', 'fun', 'kids', 'recreation', 'fair')
 

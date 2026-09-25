@@ -21,6 +21,7 @@ class PadlockState167Variant2(SourceFaithfulSideSub):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('padlock', 'rounded', 'rectangular', 'lock', 'body', 'supports', 'tall', 'arched')
     keyshape = Keyshape.SQUARE

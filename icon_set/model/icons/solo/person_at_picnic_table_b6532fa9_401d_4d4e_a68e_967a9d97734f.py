@@ -13,6 +13,7 @@ class PersonAtPicnicTable(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('picnic', 'bench', 'table', 'sitting', 'person', 'park', 'rest', 'outdoors', 'outdoors-batch-02')
 

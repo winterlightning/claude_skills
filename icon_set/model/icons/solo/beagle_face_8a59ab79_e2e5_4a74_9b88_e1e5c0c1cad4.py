@@ -16,6 +16,7 @@ class BeagleFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'beagle', 'face', 'breed', 'floppy-ears', 'tongue', 'pet', 'puppy')
 

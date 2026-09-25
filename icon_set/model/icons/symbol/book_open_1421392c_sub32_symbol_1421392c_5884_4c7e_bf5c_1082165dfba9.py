@@ -23,6 +23,7 @@ class DrawingContainerSymbol(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'content'
+    categories = ('content', 'state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

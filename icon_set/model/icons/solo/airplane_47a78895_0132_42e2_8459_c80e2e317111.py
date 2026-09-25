@@ -11,6 +11,7 @@ class Airplane(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'airplane')
 

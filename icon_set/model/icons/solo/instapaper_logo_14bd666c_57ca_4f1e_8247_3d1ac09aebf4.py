@@ -19,6 +19,7 @@ class InstapaperLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('instapaper', 'reading', 'letter-i', 'logo', 'brand', 'read-later', 'articles')
 

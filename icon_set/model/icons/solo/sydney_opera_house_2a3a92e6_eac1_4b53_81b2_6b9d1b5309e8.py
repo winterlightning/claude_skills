@@ -12,6 +12,7 @@ class SydneyOperaHouse(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('sydney opera house', 'australia', 'opera', 'shells', 'sails', 'landmark', 'architecture', 'harbour')
 

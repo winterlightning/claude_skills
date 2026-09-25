@@ -11,6 +11,7 @@ class StackedCubePyramid(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('cubes', 'blocks', '3d', 'stack', 'objects', 'reality-kit', 'geometry')
 

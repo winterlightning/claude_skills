@@ -11,6 +11,7 @@ class FDroidLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('f-droid', 'android', 'robot', 'app-store', 'logo', 'brand', 'open-source')
 

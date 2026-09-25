@@ -11,6 +11,7 @@ class PersonPointingAtMapBoard(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('map', 'trekking', 'route', 'board', 'briefing', 'person', 'guide', 'planning', 'outdoors-batch-03')
 

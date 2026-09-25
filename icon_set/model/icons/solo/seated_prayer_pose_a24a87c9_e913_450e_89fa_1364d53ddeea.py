@@ -18,6 +18,7 @@ class SeatedPrayerPose(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('seated', 'prayer', 'pose', 'yoga', 'exercise')
 

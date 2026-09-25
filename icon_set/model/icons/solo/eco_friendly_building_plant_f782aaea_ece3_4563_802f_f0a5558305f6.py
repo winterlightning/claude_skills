@@ -14,6 +14,7 @@ class EcoFriendlyBuildingPlant(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Eco Friendly Building with Plant',)
     keywords = tuple('eco friendly building with plant'.split())
 

@@ -11,6 +11,7 @@ class RearFogLamp(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('rear fog lamp', 'fog light', 'lamp', 'car', 'dashboard', 'lighting', 'indicator', 'fog')
 

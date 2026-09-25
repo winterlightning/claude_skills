@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'primitives')
     tags = ('sub icon',)
     keywords = ('sub icon', 'sending mail envelope')
     def build(self):

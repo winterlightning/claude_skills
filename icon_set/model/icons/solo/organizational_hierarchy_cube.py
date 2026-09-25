@@ -12,6 +12,7 @@ class OrganizationalHierarchyCube(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
+    categories = ('business',)
     aliases = ('hierarchy-cube', 'organization-chart', 'org-chart')
     keywords = ('hierarchy', 'organization', 'structure', 'node', 'tree', 'distribute', 'cube', 'network')
 

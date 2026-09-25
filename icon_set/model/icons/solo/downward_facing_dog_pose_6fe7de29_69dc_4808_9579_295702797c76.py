@@ -12,6 +12,7 @@ class DownwardFacingDogPose(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('downward', 'facing', 'dog', 'pose', 'yoga', 'exercise')
 

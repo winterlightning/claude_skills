@@ -12,6 +12,7 @@ class PersonVNeck(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "other", "primitives-generate")
     aliases = ()
     keywords = ('person', 'user', 'man', 'avatar', 'profile', 'account', 'portrait', 'bust')
 

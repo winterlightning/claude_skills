@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     keywords = ('two', 'meter', 'distance', 'arrow')
     TYPEFACE_GLYPH_IDS = ('digit-2', 'letter-m-uppercase')
 

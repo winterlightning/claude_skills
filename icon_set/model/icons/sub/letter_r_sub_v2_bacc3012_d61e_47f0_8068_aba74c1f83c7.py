@@ -16,6 +16,7 @@ class LetterRSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('letter', 'r', 'uppercase', 'combines', 'straight', 'upright', 'stem', 'rounded')
     keyshape = Keyshape.SQUARE

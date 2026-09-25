@@ -11,6 +11,7 @@ class CartE7cacb27(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'state')
     aliases = ()
     keywords = ('cart', 'shopping', 'solo-ai-next100')
 

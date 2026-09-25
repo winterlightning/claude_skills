@@ -17,6 +17,7 @@ class LetterCSubState218(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('letter', 'c', 'tall', 'uppercase', 'rounded', 'top', 'bottom', 'curves')
 

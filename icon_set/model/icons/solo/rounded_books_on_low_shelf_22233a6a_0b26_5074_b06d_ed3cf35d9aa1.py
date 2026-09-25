@@ -15,6 +15,7 @@ class RoundedBooksOnLowShelf(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases = ()
     keywords = ('rounded', 'books', 'on', 'a', 'shelf')
 

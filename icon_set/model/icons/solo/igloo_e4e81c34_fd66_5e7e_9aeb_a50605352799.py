@@ -13,6 +13,7 @@ class Igloo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('igloo', 'snow', 'arctic', 'shelter', 'dome', 'winter', 'eskimo', 'ice')
 

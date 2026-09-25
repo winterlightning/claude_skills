@@ -14,6 +14,7 @@ class AlignLeft(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('align', 'left', '_uncategorized_01')
 

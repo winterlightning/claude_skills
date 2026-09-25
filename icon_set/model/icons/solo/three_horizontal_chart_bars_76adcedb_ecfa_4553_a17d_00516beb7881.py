@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'three-horizontal-chart-bars'
     keyshape = Keyshape.HRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

@@ -15,6 +15,7 @@ class DiamondDropEarring(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('earring', 'diamond', 'gem', 'jewel', 'jewellery', 'jewelry', 'stud', 'drop', 'accessory')
 

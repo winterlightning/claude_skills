@@ -13,6 +13,7 @@ class StandingPenguin(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('penguin', 'standing', 'bird', 'antarctic', 'flipper', 'beak', 'ice', 'simple')
 

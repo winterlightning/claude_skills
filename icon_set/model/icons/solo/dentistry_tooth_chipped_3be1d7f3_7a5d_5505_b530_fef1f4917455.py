@@ -11,6 +11,7 @@ class DentistryToothChipped(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('dentistry', 'tooth', 'chipped', 'health', 'solo-ai-next100')
 

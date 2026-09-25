@@ -16,6 +16,7 @@ class MicrosoftAccessLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('microsoft-access', 'microsoft', 'database', 'office', 'logo', 'brand', 'letter-a')
 

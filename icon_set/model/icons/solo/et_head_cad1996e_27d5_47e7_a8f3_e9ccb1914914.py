@@ -15,6 +15,7 @@ class EtHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('et', 'alien', 'head', 'face', 'extraterrestrial', 'fiction')
 

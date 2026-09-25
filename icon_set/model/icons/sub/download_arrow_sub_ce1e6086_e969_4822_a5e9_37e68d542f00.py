@@ -17,6 +17,7 @@ class DownloadArrowSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('download', 'arrow', 'vertical', 'downward', 'points', 'shallow', 'u', 'shaped')
 

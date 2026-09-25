@@ -19,6 +19,7 @@ class GroovesharkLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('grooveshark', 'music', 'wave', 'logo', 'brand', 'streaming', 'audio')
 

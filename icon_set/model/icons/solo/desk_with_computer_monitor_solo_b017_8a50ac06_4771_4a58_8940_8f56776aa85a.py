@@ -14,6 +14,7 @@ class BatchIcon(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('desk', 'with', 'computer', 'monitor')
     def build(self):

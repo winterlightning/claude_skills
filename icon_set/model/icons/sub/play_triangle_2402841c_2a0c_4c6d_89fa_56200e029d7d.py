@@ -17,6 +17,7 @@ class PlayTriangle(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('play', 'triangle', 'outlined', 'points', 'right', 'vertical', 'left', 'edge')
 

@@ -15,6 +15,7 @@ class SelectionSquareHandles(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords=('selection', 'square', 'vector', 'shape', 'transform', 'design', 'bounding-box', 'handles')
 

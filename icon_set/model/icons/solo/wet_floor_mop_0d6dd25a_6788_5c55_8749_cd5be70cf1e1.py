@@ -11,6 +11,7 @@ class WetFloorMop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('mop', 'floor', 'cleaning', 'wet', 'wash', 'janitor', 'housekeeping', 'chores')
 

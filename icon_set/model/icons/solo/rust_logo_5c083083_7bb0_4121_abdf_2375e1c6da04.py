@@ -12,6 +12,7 @@ class RustLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('rust', 'programming', 'language', 'gear', 'logo', 'brand', 'developer')
 

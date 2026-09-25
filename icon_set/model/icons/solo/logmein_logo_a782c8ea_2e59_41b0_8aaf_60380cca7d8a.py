@@ -16,6 +16,7 @@ class LogmeinLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('logmein', 'remote-access', 'ln', 'logo', 'brand', 'support', 'circle')
 

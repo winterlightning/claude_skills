@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('phone', 'vertical')
 
@@ -50,6 +51,7 @@ class Drawing(Solo48):
 
     icon_id = 'vertical-telephone-handset-batch-032'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ('vertical-telephone-handset',)
     keywords = ('batch-032',)
     semantic_role = 'MAIN'

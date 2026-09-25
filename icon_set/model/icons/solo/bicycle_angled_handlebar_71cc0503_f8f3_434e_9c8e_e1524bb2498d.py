@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('bicycle',)
     def build(self):
@@ -48,6 +49,7 @@ class Drawing(Solo48):
 
     icon_id = 'bicycle-angled-handlebar'
     category = 'transportation'
+    categories = ('transportation', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('bicycle', 'bike', 'cycling', 'pedal', 'transport', 'two wheels', 'ride', 'city bike')
     semantic_role = 'MAIN'

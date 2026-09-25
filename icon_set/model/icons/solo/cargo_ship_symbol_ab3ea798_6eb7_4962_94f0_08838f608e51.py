@@ -11,6 +11,7 @@ class CargoShipSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('cargo', 'ship', 'symbol', 'solo-ai-next100')
 

@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "furnitures"
+    categories = ("furnitures", "primitive", "primitives")
     aliases = ['Chair behind Broad Desk']
     keywords = ['desk', 'chair', 'furniture', 'office', 'table', 'seat', 'workspace']
     def build(self):

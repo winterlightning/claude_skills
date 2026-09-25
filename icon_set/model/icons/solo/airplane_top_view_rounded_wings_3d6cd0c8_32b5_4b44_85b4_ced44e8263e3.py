@@ -17,6 +17,7 @@ class AirplaneTopViewRoundedWings(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('airplane', 'plane', 'aircraft', 'top-view', 'flight', 'mode', 'aviation', 'travel')
 

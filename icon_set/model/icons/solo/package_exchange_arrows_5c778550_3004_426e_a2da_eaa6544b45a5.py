@@ -14,6 +14,7 @@ class PackageExchangeArrows(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('exchange', 'data', 'package', 'cube', 'transfer', 'swap', 'arrows', 'sync')
 

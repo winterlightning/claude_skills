@@ -15,6 +15,7 @@ class UsersTwoRounded(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('users', 'group', 'people', 'team', 'members', 'friends', 'contacts', 'community')
 

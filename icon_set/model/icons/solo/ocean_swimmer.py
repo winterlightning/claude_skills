@@ -22,6 +22,7 @@ class OceanSwimmer(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports",)
     aliases = ("open-water-swimmer",)
     keywords = ("athlete", "swimming", "freestyle", "ocean", "sea", "sport", "human")
 

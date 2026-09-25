@@ -16,6 +16,7 @@ class ShepherdsCrook(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('crook', 'cane', 'staff', 'shepherd', 'hook', 'stick', 'symbol', 'pastoral')
 

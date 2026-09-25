@@ -13,6 +13,7 @@ class ObeliskMonument(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('obelisk', 'monument', 'landmark', 'memorial', 'tower', 'stone', 'historic', 'outdoors-batch-02')
 

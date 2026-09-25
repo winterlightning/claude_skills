@@ -17,6 +17,7 @@ class UvTextState89(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('uv', 'text', 'uppercase', 'u', 'rounded', 'bottom', 'stands', 'beside')
 

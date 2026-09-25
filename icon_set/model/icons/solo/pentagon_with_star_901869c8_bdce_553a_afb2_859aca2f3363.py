@@ -11,6 +11,7 @@ class PentagonWithStar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('pentagon', 'usa', 'defence', 'military', 'star', 'badge', 'government', 'emblem')
 

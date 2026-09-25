@@ -15,6 +15,7 @@ class PersonWithSpiritualEnlightenmentSymbols(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("person-with-aura", "spiritual-enlightenment")
     keywords = ("person", "aura", "enlightenment", "spiritual", "meditation")
     human_construction = "bust"

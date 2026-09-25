@@ -12,6 +12,7 @@ class WoocommerceLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('woocommerce', 'wordpress', 'e-commerce', 'speech-bubble', 'logo', 'brand', 'shop')
 

@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ["Manual Wheelchair Accessibility Icon"]
     keywords = ["wheelchair", "mobility", "wheels", "seat", "footrest", "accessibility", "chair"]
     def build(self):

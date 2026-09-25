@@ -11,6 +11,7 @@ class Crab(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('crab', 'claws', 'shellfish', 'sea', 'beach', 'seafood', 'cancer', 'marine')
 

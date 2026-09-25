@@ -18,6 +18,7 @@ class WeddingDress(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('dress', 'wedding', 'gown', 'bridal', 'garment', 'skirt')
 

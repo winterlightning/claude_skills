@@ -11,6 +11,7 @@ class DockerLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('docker', 'containers', 'whale', 'logo', 'brand', 'devops', 'developer')
 

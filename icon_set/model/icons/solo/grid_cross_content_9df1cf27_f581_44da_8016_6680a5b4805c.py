@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'grid-cross-content'
     keyshape = Keyshape.HRECT_L
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('grid with cross mark',)
     def build(self):

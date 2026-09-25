@@ -12,6 +12,7 @@ AUTHOR = 'gpt-6'
 class CargoDeliveryTruckContainer(Container64):
     icon_id = 'cargo-delivery-truck-container'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

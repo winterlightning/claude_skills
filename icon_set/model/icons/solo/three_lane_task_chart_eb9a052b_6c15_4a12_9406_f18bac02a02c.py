@@ -69,6 +69,7 @@ class ThreeLaneTaskChart(Solo48):
     icon_id = 'three-lane-task-chart'
     keyshape = Keyshape.HRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

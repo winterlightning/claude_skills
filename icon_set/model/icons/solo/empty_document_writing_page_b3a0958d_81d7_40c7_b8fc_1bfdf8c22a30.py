@@ -17,6 +17,7 @@ class EmptyDocumentWritingPage(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("blank page", "write document")
     keywords = ("empty", "paper", "writing", "open")
 

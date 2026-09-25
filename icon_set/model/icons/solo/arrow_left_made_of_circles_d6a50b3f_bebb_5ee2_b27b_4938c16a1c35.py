@@ -20,6 +20,7 @@ class ArrowLeftMadeOfCircles(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('arrow', 'left', 'made', 'of', 'circles')
 

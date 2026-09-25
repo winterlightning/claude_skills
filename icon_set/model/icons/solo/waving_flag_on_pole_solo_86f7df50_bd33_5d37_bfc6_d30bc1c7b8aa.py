@@ -12,6 +12,7 @@ class WavingFlagOnPoleSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "social"
+    categories = ("social", "primitives")
     aliases = ()
     keywords = ('flag', 'pole', 'banner', 'pennant', 'waving', 'standard')
 

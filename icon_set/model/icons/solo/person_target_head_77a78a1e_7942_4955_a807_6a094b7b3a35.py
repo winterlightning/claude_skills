@@ -13,6 +13,7 @@ class PersonTargetHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('target', 'person', 'tracking', 'face-detection', 'focus', 'user', 'aim', 'surveillance')
 

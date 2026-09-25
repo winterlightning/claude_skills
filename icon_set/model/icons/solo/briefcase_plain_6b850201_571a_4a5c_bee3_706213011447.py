@@ -19,6 +19,7 @@ class BriefcasePlain(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('briefcase', 'case', 'bag', 'work', 'business', 'job', 'portfolio', 'luggage')
 

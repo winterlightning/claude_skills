@@ -11,6 +11,7 @@ class SlideRight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('slide', 'right', 'arrows')
 

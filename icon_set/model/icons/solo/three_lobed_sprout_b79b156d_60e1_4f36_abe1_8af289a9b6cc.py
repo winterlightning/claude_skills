@@ -15,6 +15,7 @@ class ThreeLobedSprout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "state")
     aliases = ()
     keywords = ('sprout', 'leaf', 'plant', 'wheat', 'growth', 'seedling', 'nature', 'agriculture')
 

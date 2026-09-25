@@ -16,6 +16,7 @@ class ChamomileFlower(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('chamomile', 'daisy', 'flower', 'petals', 'bloom', 'herbal', 'nature', 'botanical')
 

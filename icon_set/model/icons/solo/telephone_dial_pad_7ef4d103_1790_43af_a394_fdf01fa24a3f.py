@@ -12,6 +12,7 @@ class TelephoneDialPad(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('telephone', 'dial', 'keypad', 'receiver', 'call', 'keys')
 

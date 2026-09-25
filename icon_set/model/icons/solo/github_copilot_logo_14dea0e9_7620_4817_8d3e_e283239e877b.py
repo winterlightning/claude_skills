@@ -11,6 +11,7 @@ class GithubCopilotLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('github-copilot', 'copilot', 'ai', 'logo', 'brand', 'developer', 'assistant')
 

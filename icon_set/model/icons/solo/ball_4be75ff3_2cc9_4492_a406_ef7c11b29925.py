@@ -11,6 +11,7 @@ class Ball(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'state')
     aliases = ()
     keywords = ('ball', 'sports', 'solo-ai-first50')
 

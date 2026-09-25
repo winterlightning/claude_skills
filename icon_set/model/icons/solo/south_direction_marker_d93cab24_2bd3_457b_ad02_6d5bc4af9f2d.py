@@ -15,6 +15,7 @@ class SouthDirectionMarker(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "navigation"
+    categories = ("navigation", "primitives")
     aliases = ()
     keywords = ('south', 'direction', 'compass', 'navigation', 'triangle', 'orientation', 'marker')
 

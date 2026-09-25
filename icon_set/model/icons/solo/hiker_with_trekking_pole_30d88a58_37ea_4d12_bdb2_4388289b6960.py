@@ -11,6 +11,7 @@ class HikerWithTrekkingPole(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('hiking', 'trekking', 'hiker', 'backpack', 'pole', 'walking', 'outdoors', 'outdoors-batch-03')
 

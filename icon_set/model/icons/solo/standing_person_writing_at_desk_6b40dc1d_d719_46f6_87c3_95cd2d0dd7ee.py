@@ -15,6 +15,7 @@ class StandingPersonWritingAtDesk(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('person', 'writing', 'standing', 'desk', 'document', 'office')
 

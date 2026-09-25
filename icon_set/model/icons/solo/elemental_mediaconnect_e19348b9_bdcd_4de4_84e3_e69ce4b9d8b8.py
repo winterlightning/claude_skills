@@ -12,6 +12,7 @@ class ElementalMediaconnect(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'apps'
+    categories = ('apps', 'primitives')
     aliases = ()
     keywords = ('elemental', 'mediaconnect', 'apps')
 

@@ -11,6 +11,7 @@ class MapPinStem(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('map', 'pin', 'location', 'marker', 'place', 'gps', 'destination', 'point')
 

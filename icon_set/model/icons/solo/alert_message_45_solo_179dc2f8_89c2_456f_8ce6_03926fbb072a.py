@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     tags = ('sub icon',)
     keywords = ('sub icon', 'alert speech bubble')
     def build(self):

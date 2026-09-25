@@ -12,6 +12,7 @@ class MilestoneMarker(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('milestone', 'marker', 'road', 'stone', 'distance', 'wayfinding')
 

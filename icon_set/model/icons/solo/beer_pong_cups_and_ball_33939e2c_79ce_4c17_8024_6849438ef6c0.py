@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Beer Pong Cups and Ball']
     keywords = ['beer pong', 'cups', 'ball', 'game', 'party', 'throw', 'trajectory']
 

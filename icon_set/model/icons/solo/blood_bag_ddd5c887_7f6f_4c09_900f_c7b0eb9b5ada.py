@@ -11,6 +11,7 @@ class BloodBag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('blood', 'bag', 'health', 'solo-ai-next50')
 

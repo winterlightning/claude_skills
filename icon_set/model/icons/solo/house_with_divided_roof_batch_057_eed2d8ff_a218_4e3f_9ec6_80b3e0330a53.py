@@ -11,6 +11,7 @@ class Result(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('house', 'home', 'building', 'roof', 'dwelling', 'architecture')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('double images',)
     def build(self):
@@ -44,6 +45,7 @@ class Drawing(Solo48):
 
     icon_id = 'stacked-landscape-photo-gallery'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('stacked', 'landscape', 'photo', 'gallery')
     semantic_role = 'MAIN'

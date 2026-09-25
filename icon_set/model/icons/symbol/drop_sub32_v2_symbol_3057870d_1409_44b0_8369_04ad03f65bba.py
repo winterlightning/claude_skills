@@ -23,6 +23,7 @@ class DrawingVariant2ContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'smileys'
+    categories = ('smileys', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

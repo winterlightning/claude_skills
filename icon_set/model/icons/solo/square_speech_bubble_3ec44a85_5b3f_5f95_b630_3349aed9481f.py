@@ -11,6 +11,7 @@ class MessageIcon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'messages'
+    categories = ('messages', 'primitives')
     aliases = ()
     keywords = ('speech-bubble', 'message', 'chat', 'comment', 'conversation', 'talk', 'empty')
 

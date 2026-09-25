@@ -13,6 +13,7 @@ class FishAndKnife(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('fish', 'knife', 'seafood', 'cooking', 'kitchen', 'fillet', 'food', 'butcher')
 

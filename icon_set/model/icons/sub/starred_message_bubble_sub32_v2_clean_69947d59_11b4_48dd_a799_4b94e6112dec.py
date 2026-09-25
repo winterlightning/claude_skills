@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'messages'
+    categories = ('messages', 'state')
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.message()

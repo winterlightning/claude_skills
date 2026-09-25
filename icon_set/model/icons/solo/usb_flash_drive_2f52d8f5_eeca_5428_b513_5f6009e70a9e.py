@@ -16,6 +16,7 @@ class UsbFlashDrive(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('usb', 'flash drive', 'memory stick', 'thumb drive', 'storage', 'portable', 'data', 'hardware')
 

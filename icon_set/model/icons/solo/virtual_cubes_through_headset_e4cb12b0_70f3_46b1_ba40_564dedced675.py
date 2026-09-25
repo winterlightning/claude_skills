@@ -11,6 +11,7 @@ class VirtualCubesThroughHeadset(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('virtual', 'cubes', 'headset', 'vr', '3d', 'objects', 'immersive')
 

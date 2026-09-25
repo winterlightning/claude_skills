@@ -18,6 +18,7 @@ class BankCreditCard(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("credit card with chip", "payment card")
     keywords = ("bank", "chip", "stripe", "debit")
 

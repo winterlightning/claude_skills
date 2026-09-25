@@ -17,6 +17,7 @@ class StraightCanopyArchContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('straight', 'canopy', 'arch', 'container')
 

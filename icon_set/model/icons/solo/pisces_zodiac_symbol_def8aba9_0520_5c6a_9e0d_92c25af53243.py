@@ -12,6 +12,7 @@ class PiscesZodiacSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('pisces', 'zodiac', 'astrology', 'fish', 'horoscope', 'star sign', 'symbol', 'water')
 

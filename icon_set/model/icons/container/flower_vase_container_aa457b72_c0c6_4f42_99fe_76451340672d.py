@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class FlowerVaseContainer(Container64):
     icon_id = 'flower-vase-container'
     category = 'decoration'
+    categories = ('decoration', 'other', 'primitives-generate')
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('flower', 'vase', 'container')

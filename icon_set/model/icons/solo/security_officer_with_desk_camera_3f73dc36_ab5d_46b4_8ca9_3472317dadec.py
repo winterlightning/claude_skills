@@ -17,6 +17,7 @@ class SecurityOfficerWithDeskCamera(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('security', 'officer', 'camera', 'checkpoint', 'guard', 'airport', 'desk', 'surveillance')
 

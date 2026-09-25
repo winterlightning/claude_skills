@@ -12,6 +12,7 @@ class MobileIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "mobile"
+    categories = ("mobile", "primitives")
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'wings', 'aircraft', 'aviation', 'top-view')
 

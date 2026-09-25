@@ -12,6 +12,7 @@ class PercentSymbolCompactCircles(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('percent', 'discount', 'sale', 'percentage', 'rate', 'offer', 'symbol')
 

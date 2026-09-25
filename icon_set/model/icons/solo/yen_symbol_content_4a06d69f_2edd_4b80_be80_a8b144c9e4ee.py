@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'yen-symbol-content'
     keyshape = Keyshape.VRECT_L
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('japanese yen currency symbol',)
     def build(self):

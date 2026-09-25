@@ -15,6 +15,7 @@ class DrawingVariant2(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
 
     def build(self):
         # User explicitly permits head/body contact. Use one genuine head/shoulder junction at (16,10).

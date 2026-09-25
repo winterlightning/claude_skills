@@ -18,6 +18,7 @@ class CandleWithHeartFlame(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('candle', 'heart', 'flame', 'wax', 'holder', 'romance')
 

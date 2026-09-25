@@ -19,6 +19,7 @@ class SourceMain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('seated-curled-person',)
     keywords = ('seated', 'curled', 'person')
 

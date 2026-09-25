@@ -15,6 +15,7 @@ class PentagonOutline(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Pentagon Geometric Shape',)
     keywords = tuple('pentagon geometric shape'.split())
 

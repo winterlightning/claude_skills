@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'crime'
+    categories = ('crime', 'primitives')
     aliases = ()
     keywords = ('handcuffs',)
     # Plan: Two broad closed cuffs with narrow lock housings and an arched chain; mirrored about x=24.

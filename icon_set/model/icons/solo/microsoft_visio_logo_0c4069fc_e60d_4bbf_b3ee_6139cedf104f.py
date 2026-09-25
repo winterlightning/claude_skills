@@ -16,6 +16,7 @@ class MicrosoftVisioLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('visio', 'microsoft', 'diagram', 'office', 'logo', 'brand', 'letter-v')
 

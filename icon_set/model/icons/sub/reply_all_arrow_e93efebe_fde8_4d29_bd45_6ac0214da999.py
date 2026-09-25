@@ -17,6 +17,7 @@ class ReplyAllArrow(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('reply', 'all', 'arrow', 'curved', 'rises', 'lower', 'right', 'left')
 

@@ -11,6 +11,7 @@ class AbdominalTorso(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('abdomen', 'torso', 'muscle', 'core', 'fitness', 'strength')
     def build(self) -> None:

@@ -15,6 +15,7 @@ class RocketArchedCockpit(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "state")
     aliases = ()
     keywords = ('rocket', 'cockpit', 'fin', 'space', 'launch', 'spacecraft')
 

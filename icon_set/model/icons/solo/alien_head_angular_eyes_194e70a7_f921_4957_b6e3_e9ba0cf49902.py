@@ -11,6 +11,7 @@ class AlienHeadAngularEyes(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('alien', 'face', 'head', 'eyes', 'extraterrestrial', 'fiction')
 

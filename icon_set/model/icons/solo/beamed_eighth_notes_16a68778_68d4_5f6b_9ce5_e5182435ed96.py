@@ -11,6 +11,7 @@ class BeamedEighthNotes(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("music", "state", "other", "primitives-generate")
     aliases=()
     keywords=('notes', 'eighth-notes', 'beamed', 'music', 'melody', 'notation', 'song')
 

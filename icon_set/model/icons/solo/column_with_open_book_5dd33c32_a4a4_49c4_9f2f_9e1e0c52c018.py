@@ -12,6 +12,7 @@ class ColumnWithOpenBook(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('mythology', 'column', 'book', 'classical', 'greek', 'study', 'literature', 'architecture')
 

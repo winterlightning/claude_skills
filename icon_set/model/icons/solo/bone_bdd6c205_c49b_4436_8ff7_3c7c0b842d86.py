@@ -11,6 +11,7 @@ class Bone(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('bone', 'symbol', 'solo-ai-next50')
 

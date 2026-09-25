@@ -13,6 +13,7 @@ class WideTongueSmilingFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('tongue', 'smiling', 'playful', 'silly', 'face', 'emoji')
 

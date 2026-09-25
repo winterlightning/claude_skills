@@ -13,6 +13,7 @@ class TwoHeartBalloons(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('heart', 'balloons', 'pair', 'party', 'romance', 'celebration')
 

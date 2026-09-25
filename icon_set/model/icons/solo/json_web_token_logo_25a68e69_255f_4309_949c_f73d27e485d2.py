@@ -19,6 +19,7 @@ class JsonWebTokenLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('jwt', 'json-web-token', 'authentication', 'starburst', 'logo', 'brand', 'security')
 

@@ -11,6 +11,7 @@ class DinosaurFootprint(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('dinosaur', 'footprint', 'track', 'claw', 'three-toed', 'prehistoric', 'trace', 'fossil')
 

@@ -17,6 +17,7 @@ class ConcertStageWithSinger(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("concert microphone", "stage with microphone")
     keywords = ("bunting", "tripod", "stand", "pennants")
 

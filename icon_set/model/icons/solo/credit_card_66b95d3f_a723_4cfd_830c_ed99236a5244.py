@@ -12,6 +12,7 @@ class CreditCard(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('payments', 'state')
     aliases = ()
     keywords = ('credit', 'card', 'payments')
 

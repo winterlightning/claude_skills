@@ -15,6 +15,7 @@ class SmartphonePayingAtRegister(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases=()
     keywords=('wireless', 'payment', 'smartphone', 'register', 'checkout', 'nfc', 'dollar', 'pos')
     def build(self):

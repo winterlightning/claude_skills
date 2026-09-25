@@ -17,6 +17,7 @@ class SnowAndLightning(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('snow', 'lightning', 'open', 'zigzag', 'stands', 'between', 'scattered', 'short')
 

@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="internet"
+    category = "internet"
+    categories = ("internet", "primitives")
     aliases=()
     keywords=('proton', 'preview')
 

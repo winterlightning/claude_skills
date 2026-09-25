@@ -13,6 +13,7 @@ class ShibaInuFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('dog', 'shiba inu', 'doge', 'face', 'head', 'pet', 'canine', 'breed')
 

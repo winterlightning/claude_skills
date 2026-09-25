@@ -16,6 +16,7 @@ class LinuxFoundationLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('linux-foundation', 'linux', 'open-source', 'square', 'logo', 'brand', 'foundation')
 

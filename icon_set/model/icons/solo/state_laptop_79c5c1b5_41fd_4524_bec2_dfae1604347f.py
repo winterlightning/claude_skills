@@ -10,6 +10,7 @@ class StateLaptop(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("symbol", "state", "other", "primitives-generate")
     aliases = ("laptop", "notebook computer")
     keywords = ("computer", "screen")
     def build(self):

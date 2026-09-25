@@ -16,6 +16,7 @@ class DoubleOutlineShieldSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('double', 'outline', 'shield', 'sub')
 

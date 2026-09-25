@@ -11,6 +11,7 @@ class HangingShopSignSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('sign', 'shop', 'hanging', 'board', 'cord', 'blank', 'retail')
 

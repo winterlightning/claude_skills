@@ -17,6 +17,7 @@ class CurvedRibbonBannerContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases = ()
     keywords = ('curved', 'ribbon', 'banner', 'container')
 

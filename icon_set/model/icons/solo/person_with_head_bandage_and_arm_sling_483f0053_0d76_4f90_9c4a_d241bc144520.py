@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'person-with-head-bandage-and-arm-sling'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     human_construction = "bust"
     def build(self):
 

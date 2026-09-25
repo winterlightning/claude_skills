@@ -16,6 +16,7 @@ class Whistle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('whistle', 'coach', 'sport', 'sound', 'referee', 'signal')
 

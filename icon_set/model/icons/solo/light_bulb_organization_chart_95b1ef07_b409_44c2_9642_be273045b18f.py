@@ -11,6 +11,7 @@ class LightBulbOrganizationChart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('bulb', 'organization', 'chart', 'strategy', 'idea', 'hierarchy')
 

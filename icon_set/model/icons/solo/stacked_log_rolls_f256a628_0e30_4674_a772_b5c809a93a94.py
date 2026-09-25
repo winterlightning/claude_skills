@@ -14,6 +14,7 @@ class StackedLogRolls(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('logs', 'stack', 'rolls', 'records', 'storage', 'authentication', 'layers', 'data')
 

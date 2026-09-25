@@ -19,6 +19,7 @@ class RepairVariant(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'state', 'other')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

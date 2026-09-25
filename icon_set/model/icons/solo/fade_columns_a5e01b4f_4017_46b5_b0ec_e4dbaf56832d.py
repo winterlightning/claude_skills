@@ -12,6 +12,7 @@ class FadeColumns(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('fade', 'columns', 'photo', 'filter', 'edit', 'effect', 'transition', 'opacity')
 

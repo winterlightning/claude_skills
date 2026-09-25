@@ -20,6 +20,7 @@ class CircularArrowsContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('circular', 'arrows', 'broad', 'curved', 'follow', 'opposite', 'halves', 'path')
 

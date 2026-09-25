@@ -12,6 +12,7 @@ class BalanceScales(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('scales', 'balance', 'justice', 'legal', 'weighing', 'office')
 

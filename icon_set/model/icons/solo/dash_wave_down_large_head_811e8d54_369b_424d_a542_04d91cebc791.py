@@ -11,6 +11,7 @@ class DashWaveDownLargeHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('dash', 'wave', 'down', 'large', 'head', 'arrows')
 

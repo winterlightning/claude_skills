@@ -12,6 +12,7 @@ class OpenJawTrap(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('trap', 'bear trap', 'jaws', 'teeth', 'snare', 'hunting', 'danger', 'game')
 

@@ -12,6 +12,7 @@ class Batch045Icon8(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('flame', 'fire', 'heat', 'burning', 'tongue', 'energy', 'blaze')
     # Reference: flame: asymmetric outer tongues and rounded base.

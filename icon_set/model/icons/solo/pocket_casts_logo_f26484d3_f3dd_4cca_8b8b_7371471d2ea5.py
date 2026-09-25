@@ -12,6 +12,7 @@ class PocketCastsLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('pocket-casts', 'podcast', 'spiral', 'logo', 'brand', 'audio', 'player')
 

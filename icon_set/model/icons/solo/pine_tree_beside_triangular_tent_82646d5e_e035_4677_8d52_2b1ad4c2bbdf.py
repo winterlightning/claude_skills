@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'pine-tree-beside-triangular-tent'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('pine', 'tree', 'beside', 'triangular', 'tent')
 
     def build(self):

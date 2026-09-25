@@ -36,6 +36,7 @@ class HumanHeadSideProfileScanBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "artificial-intelligence"
+    categories = ("artificial-intelligence", "primitives")
     aliases = ("head-profile-scan", "deepfake-side")
     keywords = ("head", "profile", "scan", "face", "human", "identity", "deepfake")
 

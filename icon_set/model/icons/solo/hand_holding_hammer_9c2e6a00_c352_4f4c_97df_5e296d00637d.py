@@ -12,6 +12,7 @@ class HandHoldingHammer(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('hammer', 'hand', 'holding', 'grip', 'construction', 'carpentry', 'build', 'tool')
 

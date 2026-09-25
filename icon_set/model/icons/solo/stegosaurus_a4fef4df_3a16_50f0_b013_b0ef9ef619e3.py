@@ -11,6 +11,7 @@ class Stegosaurus(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('stegosaurus', 'dinosaur', 'plates', 'spikes', 'prehistoric', 'jurassic', 'reptile', 'extinct')
 

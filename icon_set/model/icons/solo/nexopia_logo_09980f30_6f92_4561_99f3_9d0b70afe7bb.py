@@ -16,6 +16,7 @@ class NexopiaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('nexopia', 'social', 'letter-n', 'logo', 'brand', 'community', 'panels')
 

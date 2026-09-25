@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Triple Curved Arcs Symbol',)
     keywords = ('arcs','bands','curves','symbol','nested','abstract','mark')
     def build(self):

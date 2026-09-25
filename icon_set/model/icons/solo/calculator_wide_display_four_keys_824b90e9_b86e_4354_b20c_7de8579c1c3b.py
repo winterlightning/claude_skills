@@ -16,6 +16,7 @@ class Batch30Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "finance"
+    categories = ("finance", "other", "primitives-generate")
     aliases = ()
     keywords = ('simple', 'digital', 'calculator')
 

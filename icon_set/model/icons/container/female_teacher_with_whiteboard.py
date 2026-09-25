@@ -19,6 +19,7 @@ class FemaleTeacherWithWhiteboard(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('teacher-whiteboard',)
     keywords = ('teacher', 'woman', 'board', 'education')
 

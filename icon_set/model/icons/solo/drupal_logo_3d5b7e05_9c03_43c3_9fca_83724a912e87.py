@@ -11,6 +11,7 @@ class DrupalLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('drupal', 'cms', 'drop', 'logo', 'brand', 'web', 'open-source')
 

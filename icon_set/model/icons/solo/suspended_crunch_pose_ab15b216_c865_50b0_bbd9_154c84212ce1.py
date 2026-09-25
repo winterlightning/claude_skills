@@ -16,6 +16,7 @@ class SuspendedCrunchPose(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('crunch', 'suspension', 'exercise', 'fitness', 'core', 'pose')
 

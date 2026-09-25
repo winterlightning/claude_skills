@@ -12,6 +12,7 @@ class TwoRoundWashers(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('washer', 'washers', 'ring', 'hardware', 'fastener', 'round', 'nut', 'metal')
 

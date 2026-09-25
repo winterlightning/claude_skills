@@ -14,6 +14,7 @@ class GolfCart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('golf', 'cart', 'vehicle', 'transport', 'course', 'equipment')
 

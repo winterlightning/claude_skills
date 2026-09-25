@@ -13,6 +13,7 @@ class TwoPersonBusts(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('people', 'users', 'busts', 'two', 'group', 'team', 'contacts', 'accounts')
 

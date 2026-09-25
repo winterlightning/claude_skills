@@ -11,6 +11,7 @@ class CurvedMonitor(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('monitor', 'curved', 'screen', 'display', 'widescreen', 'gaming', 'computer', 'ultrawide')
 

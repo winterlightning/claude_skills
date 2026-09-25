@@ -14,6 +14,7 @@ class AmazonElasticKubernetesService(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('amazon', 'elastic', 'kubernetes', 'service', '_uncategorized_02')
 

@@ -16,6 +16,7 @@ class BatchSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('stick', 'figure', 'with', 'raised', 'arms')
 

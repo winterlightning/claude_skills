@@ -17,6 +17,7 @@ class WindGustsSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('wind', 'gusts', 'horizontal', 'strokes', 'extend', 'left', 'curl', 'rounded')
 

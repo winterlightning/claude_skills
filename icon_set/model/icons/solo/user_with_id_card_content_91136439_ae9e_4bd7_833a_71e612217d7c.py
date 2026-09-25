@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'user-with-id-card-content'
     keyshape = Keyshape.HRECT_L
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('user profile with id card',)
     def build(self):

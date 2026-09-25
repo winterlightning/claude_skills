@@ -19,6 +19,7 @@ class UserHairBunsAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars',)
     aliases = ()
     keywords = ('user', 'hair', 'buns', 'portrait', 'bust')
     def build(self):

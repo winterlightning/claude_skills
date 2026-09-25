@@ -13,6 +13,7 @@ class WomanAtPodium(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('woman', 'podium', 'lectern', 'speaker', 'presentation', 'speech', 'female', 'talk')
 

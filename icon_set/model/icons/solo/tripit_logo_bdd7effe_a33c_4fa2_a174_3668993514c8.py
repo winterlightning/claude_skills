@@ -12,6 +12,7 @@ class TripitLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tripit', 'travel', 'itinerary', 'network', 'logo', 'brand', 'nodes')
 

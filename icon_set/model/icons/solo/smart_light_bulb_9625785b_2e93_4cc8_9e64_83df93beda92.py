@@ -19,6 +19,7 @@ class SmartLightBulb(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('smart-bulb', 'light', 'bulb', 'wireless', 'iot', 'smart-home', 'lamp', 'connected')
 

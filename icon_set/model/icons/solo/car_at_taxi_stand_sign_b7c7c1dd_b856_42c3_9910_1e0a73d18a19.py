@@ -11,6 +11,7 @@ class CarAtTaxiStandSign(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('taxi stand', 'taxi rank', 'taxi station', 'car', 'sign', 'pick up', 'parking', 'transport')
 

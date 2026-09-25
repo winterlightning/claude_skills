@@ -12,6 +12,7 @@ class SealBalancingBall(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('seal', 'ball', 'balance', 'circus', 'sea lion', 'trick', 'show', 'marine')
 

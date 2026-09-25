@@ -20,6 +20,7 @@ class DrawingVariant3(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

@@ -13,6 +13,7 @@ class SecurityOfficerHoldingPassport(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
+    categories = ('travel', 'primitives')
     aliases = ()
     keywords = ('security', 'officer', 'passport', 'document', 'checkpoint', 'immigration', 'guard', 'airport')
 

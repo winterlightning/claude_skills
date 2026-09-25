@@ -17,6 +17,7 @@ class DollarSignSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'state')
     aliases = ()
     keywords = ('dollar', 'sign', 'large', 's', 'shaped', 'curve', 'crossed', 'continuous')
 

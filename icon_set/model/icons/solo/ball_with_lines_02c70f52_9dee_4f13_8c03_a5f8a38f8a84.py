@@ -11,6 +11,7 @@ class BallWithLines(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'ball-with-lines')
 

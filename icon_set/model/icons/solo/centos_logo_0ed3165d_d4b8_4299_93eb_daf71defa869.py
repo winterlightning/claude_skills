@@ -12,6 +12,7 @@ class CentosLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('centos', 'linux', 'logo', 'brand', 'operating-system', 'server', 'star')
 

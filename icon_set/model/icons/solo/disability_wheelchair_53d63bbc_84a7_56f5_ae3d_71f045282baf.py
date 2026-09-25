@@ -12,6 +12,7 @@ class DisabilityWheelchair(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'state')
     aliases = ()
     keywords = ('disability', 'wheelchair', 'wayfinding')
 

@@ -18,6 +18,7 @@ class PoolJump(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('pool', 'jump', 'swimmer', 'water', 'diving', 'sport')
 

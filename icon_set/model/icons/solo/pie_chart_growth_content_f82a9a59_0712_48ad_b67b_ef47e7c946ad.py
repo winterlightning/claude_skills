@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'pie-chart-growth-content'
     keyshape = Keyshape.SQUARE
     category = 'business'
+    categories = ('primitives', 'business')
     tags = ('sub icon',)
     keywords = ('pie chart and growth arrow',)
     def build(self):

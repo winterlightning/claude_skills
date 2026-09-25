@@ -19,6 +19,7 @@ class ArrowsPointingToCenter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('collapse', 'minimize', 'shrink', 'arrows', 'center', 'compress', 'exit-fullscreen', 'inward')
 

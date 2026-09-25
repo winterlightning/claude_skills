@@ -13,6 +13,7 @@ class FrogHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('frog', 'amphibian', 'head', 'face', 'toad', 'animal', 'pond', 'nature')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'camera-with-shaking-lines'
     keyshape = Keyshape.HRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('camera', 'with', 'shaking', 'lines')
 
     def build(self):

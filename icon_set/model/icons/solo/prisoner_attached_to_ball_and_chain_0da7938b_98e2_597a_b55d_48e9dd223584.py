@@ -18,6 +18,7 @@ class PrisonerAttachedToBallAndChain(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('prisoner', 'attached', 'to', 'ball', 'and', 'chain')
 

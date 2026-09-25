@@ -13,6 +13,7 @@ class BinaryDataDocument(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("binary file", "digital data file")
     keywords = ("binary", "data", "code", "file")
 

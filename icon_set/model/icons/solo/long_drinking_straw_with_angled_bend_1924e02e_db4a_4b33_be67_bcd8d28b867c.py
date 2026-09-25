@@ -14,6 +14,7 @@ class LongDrinkingStraw(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Bent Drinking Straw',)
     keywords = ('straw','drink','bend','tube','beverage','utensil')
     def build(self):

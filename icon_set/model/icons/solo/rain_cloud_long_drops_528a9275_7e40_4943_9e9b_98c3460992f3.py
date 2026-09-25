@@ -16,6 +16,7 @@ class RainCloudLongDrops(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('rain', 'cloud', 'weather', 'heavy-rain', 'shower', 'storm', 'forecast', 'downpour')
 

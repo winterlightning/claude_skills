@@ -12,6 +12,7 @@ class SkypeLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('skype', 'microsoft', 'video-call', 'letter-s', 'logo', 'brand', 'chat')
 

@@ -17,6 +17,7 @@ class WoodpeckerOnTrunk(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('woodpecker', 'tree', 'trunk', 'bird', 'peck', 'forest', 'beak', 'climbing')
 

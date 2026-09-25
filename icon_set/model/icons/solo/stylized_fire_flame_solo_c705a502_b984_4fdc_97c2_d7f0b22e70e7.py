@@ -11,6 +11,7 @@ class StylizedFireFlameSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "social"
+    categories = ("social", "primitives")
     aliases = ()
     keywords = ('fire', 'flame', 'heat', 'burning', 'blaze', 'hot')
 

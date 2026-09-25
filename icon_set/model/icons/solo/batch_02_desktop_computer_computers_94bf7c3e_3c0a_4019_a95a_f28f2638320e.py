@@ -16,6 +16,7 @@ class Batch02DesktopComputerComputers(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'state')
     aliases = ()
     keywords = ('batch', 'desktop', 'computer', 'computers')
     keyshape = Keyshape.HRECT_L

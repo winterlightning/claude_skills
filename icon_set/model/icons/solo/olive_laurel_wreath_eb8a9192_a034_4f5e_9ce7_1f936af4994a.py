@@ -12,6 +12,7 @@ class OliveLaurelWreath(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('wreath', 'laurel', 'olive', 'victory', 'greek', 'award', 'olympic', 'honour')
 

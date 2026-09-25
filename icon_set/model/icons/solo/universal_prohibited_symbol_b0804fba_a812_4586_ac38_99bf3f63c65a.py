@@ -10,6 +10,7 @@ class UniversalProhibitedSymbol(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("no symbol", "ban")
     keywords = ("prohibited", "forbidden", "slash")
 

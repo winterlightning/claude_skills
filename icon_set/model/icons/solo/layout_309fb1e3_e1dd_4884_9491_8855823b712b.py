@@ -15,6 +15,7 @@ class Layout(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('layout', 'interface-essential')
 

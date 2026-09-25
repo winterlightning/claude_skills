@@ -20,6 +20,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('nun',)
     # human_ref/user.svg inspected. Face bottom centerline y=28, shoulder top y=36: centerline gap 8, ink gap 4. Face radius 7; symmetrical shoulders.

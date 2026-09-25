@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'large-map-pin-over-an-oval-base'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

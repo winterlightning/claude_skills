@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'membership-symbol-content'
     keyshape = Keyshape.VRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('element of mathematical symbol',)
     def build(self):

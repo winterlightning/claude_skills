@@ -14,6 +14,7 @@ class OrganizationChartThreeNodes(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('organization', 'chart', 'hierarchy', 'tree', 'structure', 'team', 'nodes', 'diagram')
 

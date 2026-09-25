@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases=()
     keywords=('cloud', 'with', 'co2')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

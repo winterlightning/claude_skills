@@ -12,6 +12,7 @@ class WhatsappLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('whatsapp', 'chat', 'phone', 'messenger', 'logo', 'brand', 'call')
 

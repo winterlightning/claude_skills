@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="health"
+    category = "health"
+    categories = ("health", "primitives")
     aliases=()
     keywords=('red', 'blood', 'cell', 'three')
 

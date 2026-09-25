@@ -14,6 +14,7 @@ class CoupleBrokenHeart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('broken-heart', 'couple', 'breakup', 'divorce', 'heartbreak', 'relationship', 'people', 'sad')
 

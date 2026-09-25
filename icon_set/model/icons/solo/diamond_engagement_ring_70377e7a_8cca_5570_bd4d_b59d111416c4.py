@@ -18,6 +18,7 @@ class DiamondEngagementRing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('diamond', 'ring', 'engagement', 'jewelry', 'gem', 'wedding')
 

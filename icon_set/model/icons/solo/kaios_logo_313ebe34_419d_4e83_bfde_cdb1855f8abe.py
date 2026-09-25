@@ -16,6 +16,7 @@ class KaiosLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('kaios', 'mobile', 'letter-k', 'operating-system', 'logo', 'brand', 'feature-phone')
 

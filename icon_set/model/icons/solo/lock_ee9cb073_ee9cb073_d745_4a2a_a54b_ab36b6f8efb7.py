@@ -16,6 +16,7 @@ class LockEe9cb073(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('lock', 'interface-essential')
     keyshape = Keyshape.VRECT_L

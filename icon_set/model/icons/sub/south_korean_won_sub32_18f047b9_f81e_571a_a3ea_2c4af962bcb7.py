@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'money'
+    categories = ('money', 'state', 'other', 'primitives-generate')
     keywords = ('south', 'korean', 'won', 'symbol')
 
 

@@ -17,6 +17,7 @@ class StylizedNumberFiveWithCross(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("500px logo", "five with cross")
     keywords = ("5", "five", "cross", "circle", "logo")
 

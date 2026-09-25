@@ -12,6 +12,7 @@ class AuthoredIcon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('duvet warmth','thermal insulation')
     keywords = ('tog','duvet','warmth','insulation','rating')
     def build(self):

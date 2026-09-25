@@ -15,6 +15,7 @@ class DeepfakeRotate(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('deepfake', 'rotate', 'artificial-intelligence')
 

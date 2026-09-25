@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog',)
     def build(self):
@@ -45,6 +46,7 @@ class Drawing(Solo48):
 
     icon_id = 'sitting-dog-with-ground-line'
     category = 'pets'
+    categories = ('pets', 'primitives')
     aliases = ()
     keywords = ('dog', 'sitting', 'profile', 'silhouette', 'pet', 'obedient', 'ground')
     semantic_role = 'MAIN'

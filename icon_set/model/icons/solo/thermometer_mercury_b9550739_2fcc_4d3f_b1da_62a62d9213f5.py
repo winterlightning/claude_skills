@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('thermometer',)
 
@@ -35,6 +36,7 @@ class Drawing(Solo48):
 
     icon_id = 'thermometer-mercury'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('thermometer', 'temperature', 'weather', 'heat', 'fever', 'measure', 'climate', 'hot')
     semantic_role = 'MAIN'

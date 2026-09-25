@@ -11,6 +11,7 @@ class HighChair(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "babies"
+    categories = ("babies", "primitives")
     aliases = ()
     keywords = ('highchair', 'chair', 'feeding', 'baby', 'mealtime', 'infant', 'furniture', 'toddler')
 

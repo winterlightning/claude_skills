@@ -20,6 +20,7 @@ class MastodonSocialNetworkIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("mastodon-m-logo",)
     keywords = ("mastodon", "social", "letter-m", "logo")
 

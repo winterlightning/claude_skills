@@ -13,6 +13,7 @@ class Textbox(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('textbox', 'interface-essential')
     keyshape = Keyshape.HRECT_L

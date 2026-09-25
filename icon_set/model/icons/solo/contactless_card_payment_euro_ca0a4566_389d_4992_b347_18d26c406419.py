@@ -19,6 +19,7 @@ class ContactlessCardPaymentEuro(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('contactless','payment','card','hand','nfc','euro')
 

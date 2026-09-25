@@ -12,6 +12,7 @@ class ExpandedDropdownMenu(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('dropdown', 'menu', 'form', 'options', 'interface', 'chevron', 'selection')
 

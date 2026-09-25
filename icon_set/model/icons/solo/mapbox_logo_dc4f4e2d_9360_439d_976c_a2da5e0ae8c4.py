@@ -16,6 +16,7 @@ class MapboxLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('mapbox', 'maps', 'location', 'pin', 'logo', 'brand', 'navigation')
 

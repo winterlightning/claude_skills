@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'home-information-content'
     keyshape = Keyshape.VRECT_L
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('home property information',)
     def build(self):

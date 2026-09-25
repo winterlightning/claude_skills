@@ -13,6 +13,7 @@ class MicrosoftOnedriveLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('onedrive', 'microsoft', 'cloud', 'storage', 'logo', 'brand', 'sync')
     keyshape = Keyshape.HRECT_L

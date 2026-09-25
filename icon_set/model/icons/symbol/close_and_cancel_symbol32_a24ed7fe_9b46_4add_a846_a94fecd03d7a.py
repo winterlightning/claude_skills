@@ -17,6 +17,7 @@ class Drawing(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     aliases = ('Close and Cancel Symbol',)
     keywords = ('symbol', 'container content')
 

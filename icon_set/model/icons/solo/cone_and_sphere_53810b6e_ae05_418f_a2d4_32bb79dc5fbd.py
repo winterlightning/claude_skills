@@ -11,6 +11,7 @@ class ConeAndSphere(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('shapes', 'cone', 'sphere', '3d', 'geometry', 'reality', 'objects')
 

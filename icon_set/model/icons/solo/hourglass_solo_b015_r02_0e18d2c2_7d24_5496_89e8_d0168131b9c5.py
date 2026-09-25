@@ -14,6 +14,7 @@ class BatchIcon(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases=()
     keywords=('hourglass',)
     def build(self):

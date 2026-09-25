@@ -11,6 +11,7 @@ class AxeWithWoodChips(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('axe', 'woodchopping', 'chips', 'firewood', 'hatchet', 'camping', 'lumber', 'outdoors-batch-03')
 

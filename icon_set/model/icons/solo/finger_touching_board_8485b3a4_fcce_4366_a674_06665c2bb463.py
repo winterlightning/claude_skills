@@ -13,6 +13,7 @@ class FingerTouchingBoard(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('touch', 'finger', 'hand', 'board', 'touchscreen', 'virtual', 'interaction')
 

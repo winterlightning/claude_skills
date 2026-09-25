@@ -16,6 +16,7 @@ class IceSkateBoot(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('ice-skate', 'skating', 'winter', 'sport', 'blade', 'rink', 'boot', 'figure-skating')
 

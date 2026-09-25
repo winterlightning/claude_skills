@@ -20,6 +20,7 @@ class Drawing(Solo48):
     aliases = ["Litter Box with Scoop"]
     keywords = ["litter", "tray", "scoop", "cat", "pet", "cleaning", "slotted"]
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

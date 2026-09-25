@@ -16,6 +16,7 @@ class Snowmobile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('snowmobile', 'snow', 'scooter', 'winter', 'vehicle', 'sled', 'ride', 'mountain')
 

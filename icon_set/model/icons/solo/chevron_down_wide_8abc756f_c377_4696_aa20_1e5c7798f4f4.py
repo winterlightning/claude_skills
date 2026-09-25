@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Wide Downward Chevron',)
     keywords = ('chevron', 'down', 'direction', 'angle', 'lines', 'symbol', 'navigation')
     def build(self):

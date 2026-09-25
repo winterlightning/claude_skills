@@ -16,6 +16,7 @@ class JapaneseBentoMeal(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('japanese', 'bento', 'meal')
 

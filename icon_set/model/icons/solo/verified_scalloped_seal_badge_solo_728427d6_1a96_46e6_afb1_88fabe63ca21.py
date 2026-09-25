@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state')
     tags = ('sub icon',)
     keywords = ('sub icon', 'verified scalloped seal badge')
     def build(self):

@@ -11,6 +11,7 @@ class SwimmingGoggles(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('swimming', 'goggles', 'lens', 'eyewear', 'protection', 'equipment')
     def build(self) -> None:

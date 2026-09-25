@@ -17,6 +17,7 @@ class HearingAssistanceSymbol(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("ear with sound arc", "hearing aid symbol")
     keywords = ("auditory", "ear", "sound", "accessibility")
 

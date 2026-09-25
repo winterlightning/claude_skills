@@ -17,6 +17,7 @@ class ArrowTrendDown(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'trend', 'down', 'zigzag', 'line', 'descends', 'overall', 'upper')
 

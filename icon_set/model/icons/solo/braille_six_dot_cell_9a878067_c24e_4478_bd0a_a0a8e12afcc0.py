@@ -12,6 +12,7 @@ class Drawing(Solo48):
     icon_id = 'braille-six-dot-cell'
     keyshape = Keyshape.VRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('braille alphabet dot pattern',)
     def build(self):

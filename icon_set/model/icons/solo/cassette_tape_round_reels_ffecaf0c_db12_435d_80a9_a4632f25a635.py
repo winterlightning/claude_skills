@@ -11,6 +11,7 @@ class CassetteTapeRoundReels(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('cassette', 'tape', 'reels', 'audio', 'retro', 'walkman', 'music')
 

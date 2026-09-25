@@ -13,6 +13,7 @@ class CowHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "other", "primitives-generate")
     aliases = ()
     keywords = ('cow', 'cattle', 'head', 'ears', 'muzzle', 'farm', 'bovine', 'dairy')
 

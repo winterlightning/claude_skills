@@ -12,6 +12,7 @@ class Lifebuoy(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('lifebuoy', 'life', 'ring', 'rescue', 'water', 'safety')
 

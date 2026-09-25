@@ -13,6 +13,7 @@ class FastRunner(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('running', 'sprint', 'runner', 'speed', 'athlete', 'fitness')
 

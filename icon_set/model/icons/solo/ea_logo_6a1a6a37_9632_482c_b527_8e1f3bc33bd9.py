@@ -11,6 +11,7 @@ class EaLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('ea', 'electronic-arts', 'gaming', 'logo', 'brand', 'letters', 'publisher')
 

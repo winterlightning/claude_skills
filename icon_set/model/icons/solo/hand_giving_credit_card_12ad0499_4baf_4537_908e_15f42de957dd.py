@@ -13,6 +13,7 @@ class HandGivingCreditCard(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('credit-card', 'hand', 'give', 'payment', 'card', 'offer', 'pay', 'purchase')
 

@@ -12,6 +12,7 @@ class ArchedHandleFlapHandbag(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('handbag', 'purse', 'bag', 'handle', 'clasp', 'fashion', 'accessory')
 

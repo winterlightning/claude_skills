@@ -32,6 +32,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases = ()
     keywords = ('infinity', 'loop', 'endless', 'continuous', 'symbol', 'interface')
     def build(self):

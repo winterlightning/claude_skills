@@ -17,6 +17,7 @@ class UniversalProhibitedSymbol(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('universal', 'prohibited', 'symbol')
 

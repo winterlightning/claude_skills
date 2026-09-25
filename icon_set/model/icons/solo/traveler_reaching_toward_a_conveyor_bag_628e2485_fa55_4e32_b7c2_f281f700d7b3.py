@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'traveler-reaching-toward-a-conveyor-bag'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ["Luggage Drop-off"]

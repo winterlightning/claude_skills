@@ -20,6 +20,7 @@ class MusicMonitorAndSpeaker(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("modern music monitor speaker", "music desktop speakers")
     keywords = ("audio", "computer", "speaker", "notes")
 

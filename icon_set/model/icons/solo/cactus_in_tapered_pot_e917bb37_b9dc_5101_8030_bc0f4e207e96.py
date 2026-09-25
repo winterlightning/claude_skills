@@ -16,6 +16,7 @@ class CactusInTaperedPot(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('cactus', 'succulent', 'pot', 'plant', 'desert', 'houseplant', 'potted', 'nature')
 

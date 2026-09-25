@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="transportation"
+    category = "transportation"
+    categories = ("transportation", "primitives")
     aliases=()
     keywords=('adaptive', 'light', '1')
     def build(self):

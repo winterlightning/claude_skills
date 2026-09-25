@@ -13,6 +13,7 @@ class PasswordInputField(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("password box", "masked text field")
     keywords = ("password", "authentication", "dots", "entry")
 

@@ -13,6 +13,7 @@ class GoText(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('go', 'start', 'begin', 'text', 'action', 'proceed', 'letters')
 

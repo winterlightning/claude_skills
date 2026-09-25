@@ -11,6 +11,7 @@ class ControllerFaceButtons(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('buttons', 'face buttons', 'controller', 'gamepad', 'input', 'action buttons', 'gaming', 'grid')
 

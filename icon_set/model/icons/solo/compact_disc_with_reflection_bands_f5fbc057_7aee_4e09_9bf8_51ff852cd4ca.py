@@ -12,6 +12,7 @@ class CompactDiscWithReflectionBands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('cd', 'compact-disc', 'disc', 'music', 'playing', 'media', 'audio', 'album')
 

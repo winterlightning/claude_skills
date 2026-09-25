@@ -12,6 +12,7 @@ class TajMahal(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('taj mahal', 'india', 'agra', 'mausoleum', 'dome', 'minaret', 'landmark', 'heritage')
 

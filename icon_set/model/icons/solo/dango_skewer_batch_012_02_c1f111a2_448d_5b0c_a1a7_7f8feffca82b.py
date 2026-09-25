@@ -21,6 +21,7 @@ class GeneratedSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "food"
+    categories = ("primitives", "food")
     aliases = ()
     keywords = ('dango', 'skewer', 'dumpling', 'sweet', 'japanese', 'food')
 

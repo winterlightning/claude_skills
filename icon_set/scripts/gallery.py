@@ -378,6 +378,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
                 **failure, 'key': key, 'name': icon_id, 'build_failed': True,
                 'author': getattr(sys.modules[factory.__module__], 'AUTHOR', ''),
                 'category': getattr(factory, 'category', ''),
+                'categories': list(getattr(factory, 'categories', ()) or [getattr(factory, 'category', '')]),
                 'keywords': getattr(factory, 'keywords', ()),
                 'preview_url': '../failed/' + quote(folder, safe='') + '/' + quote(failure.get('svg') or icon_id + '.svg', safe=''),
                 'original_sources': copy_originals(sources.get(icon_id, []), target),

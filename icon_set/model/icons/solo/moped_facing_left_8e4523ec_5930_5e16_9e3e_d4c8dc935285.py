@@ -12,6 +12,7 @@ class MopedFacingLeft(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('moped', 'scooter', 'motor scooter', 'vehicle', 'two wheels', 'side view', 'commute', 'delivery')
 

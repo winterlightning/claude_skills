@@ -15,6 +15,7 @@ class AlignObjectsToBottom(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("align-bottom", "bottom-align-move")
     keywords = ("align", "bottom", "bars", "arrows", "baseline")
 

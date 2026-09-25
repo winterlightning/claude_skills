@@ -13,6 +13,7 @@ class Butterfly(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('butterfly', 'insect', 'wings', 'antennae', 'nature', 'spring', 'moth', 'symmetry')
 

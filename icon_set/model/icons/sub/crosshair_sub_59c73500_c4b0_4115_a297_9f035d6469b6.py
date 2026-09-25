@@ -17,6 +17,7 @@ class CrosshairSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('crosshair', 'circle', 'crossed', 'centrally', 'long', 'horizontal', 'vertical', 'lines')
 

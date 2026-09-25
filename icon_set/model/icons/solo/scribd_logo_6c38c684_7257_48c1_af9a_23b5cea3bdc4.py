@@ -12,6 +12,7 @@ class ScribdLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('scribd', 'documents', 'reading', 'letter-s', 'logo', 'brand', 'books')
 

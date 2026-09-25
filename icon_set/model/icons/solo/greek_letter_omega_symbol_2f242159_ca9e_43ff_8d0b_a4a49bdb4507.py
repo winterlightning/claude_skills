@@ -16,6 +16,7 @@ class Symbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ('Greek Letter Omega Symbol',)
     keywords = ('greek', 'letter', 'omega', 'symbol')
 

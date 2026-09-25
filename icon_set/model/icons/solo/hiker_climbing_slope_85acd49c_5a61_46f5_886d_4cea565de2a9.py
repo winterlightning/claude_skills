@@ -11,6 +11,7 @@ class HikerClimbingSlope(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('hiking', 'trekking', 'mountain', 'climb', 'backpack', 'pole', 'uphill', 'outdoors-batch-03')
 

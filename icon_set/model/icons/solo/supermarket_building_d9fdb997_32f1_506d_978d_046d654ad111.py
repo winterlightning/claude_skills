@@ -11,6 +11,7 @@ class SupermarketBuilding(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('supermarket', 'building', 'store', 'entrance', 'flag', 'retail', 'shop')
 

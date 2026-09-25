@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'devices'
+    categories = ('primitives', 'devices')
     aliases = ()
     keywords = ('device', 'google', 'glass')
 
@@ -51,6 +52,7 @@ class Drawing(Solo48):
 
     icon_id = 'augmented-reality-glasses-with-corner-display'
     category = 'devices'
+    categories = ('primitives', 'devices')
     aliases = ()
     keywords = ('smart', 'augmented', 'reality', 'glasses')
     semantic_role = 'MAIN'

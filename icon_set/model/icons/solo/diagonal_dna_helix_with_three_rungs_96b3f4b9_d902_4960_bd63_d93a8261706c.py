@@ -18,6 +18,7 @@ class DiagonalDnaHelixWithThreeRungs(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('dna', 'helix', 'genetics', 'biology', 'chromosome', 'molecule', 'science', 'heredity')
 

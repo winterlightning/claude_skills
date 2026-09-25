@@ -14,6 +14,7 @@ class RoundedHorizontalStrip(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Diagonal Patterned Horizontal Bar',)
     keywords = ('strip','band','stripes','diagonal','rectangle','pattern')
     def build(self):

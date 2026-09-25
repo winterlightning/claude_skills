@@ -11,6 +11,7 @@ class Trumpet(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('trumpet', 'brass', 'instrument', 'horn', 'jazz', 'band', 'fanfare', 'music')
 

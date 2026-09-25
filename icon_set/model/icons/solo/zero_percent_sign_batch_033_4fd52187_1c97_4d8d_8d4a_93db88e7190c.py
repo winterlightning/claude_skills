@@ -11,6 +11,7 @@ class Batch033Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ('zero-percent-sign',)
     keywords = ('batch-033',)
 

@@ -25,6 +25,7 @@ class ClipboardContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
+    categories = ('container',)
     aliases = ('blank-clipboard', 'blank-document-clipboard', 'blank-office-clipboard', 'rounded-office-clipboard', 'semicircular-clip-board')
     keywords = ('board', 'clip', 'blank', 'page', 'semicircle')
 

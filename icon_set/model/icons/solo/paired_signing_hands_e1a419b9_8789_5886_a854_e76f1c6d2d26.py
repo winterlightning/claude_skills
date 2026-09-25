@@ -12,6 +12,7 @@ class PairedSigningHands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('hands', 'signing', 'language', 'gesture', 'fingers', 'communication')
 

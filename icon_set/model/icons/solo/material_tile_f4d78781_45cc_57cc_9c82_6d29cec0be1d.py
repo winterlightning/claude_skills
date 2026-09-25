@@ -16,6 +16,7 @@ class MaterialTile(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('material', 'tile', 'construction')
     keyshape = Keyshape.SQUARE

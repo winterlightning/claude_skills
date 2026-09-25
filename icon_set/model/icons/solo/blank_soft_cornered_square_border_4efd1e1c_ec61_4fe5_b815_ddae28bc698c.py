@@ -15,6 +15,7 @@ class AuthoredFrame(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Simple Rounded Square Shape',)
     keywords = ('square', 'frame', 'outline', 'border')
     def build(self):

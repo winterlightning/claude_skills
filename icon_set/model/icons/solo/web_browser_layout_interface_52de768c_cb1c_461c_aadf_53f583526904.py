@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('web', 'browser', 'layout', 'interface', 'window', 'panel', 'grid', 'panels')
     def build(self):

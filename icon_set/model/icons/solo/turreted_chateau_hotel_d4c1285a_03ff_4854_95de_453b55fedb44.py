@@ -15,6 +15,7 @@ class Landmark(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('chateau', 'hotel', 'castle', 'turret', 'quebec', 'canada', 'landmark', 'architecture', 'building')
 

@@ -13,6 +13,7 @@ class NineSquareGridLayout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("three by three grid", "nine cell layout")
     keywords = ("grid", "collage", "tiles", "layout")
 

@@ -12,6 +12,7 @@ class WindscreenAirflow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('windscreen', 'windshield', 'defrost', 'demist', 'airflow', 'air conditioning', 'car', 'dashboard')
 

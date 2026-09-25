@@ -11,6 +11,7 @@ class Airmail(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('airmail', '_uncategorized_01')
 

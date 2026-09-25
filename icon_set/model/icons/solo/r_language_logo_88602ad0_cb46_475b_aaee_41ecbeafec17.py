@@ -12,6 +12,7 @@ class RLanguageLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('r', 'r-language', 'statistics', 'programming', 'logo', 'brand', 'data')
 

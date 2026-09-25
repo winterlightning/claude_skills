@@ -11,6 +11,7 @@ class BaristaAtCashRegister(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('barista', 'register', 'counter', 'cap', 'apron', 'cafe', 'worker')
 

@@ -13,6 +13,7 @@ class RadarDialOuterTicks(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('radar', 'dial', 'sweep', 'circle', 'surveillance', 'target')
 

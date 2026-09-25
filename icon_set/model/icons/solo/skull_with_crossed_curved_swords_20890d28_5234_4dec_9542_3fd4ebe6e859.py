@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('skull', 'swords', 'pirate', 'piracy', 'emblem', 'blade', 'crossed', 'bones')
 

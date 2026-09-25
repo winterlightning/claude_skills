@@ -12,6 +12,7 @@ class HeraHoldingScepter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('hera', 'goddess', 'scepter', 'greek', 'mythology', 'figure')
 

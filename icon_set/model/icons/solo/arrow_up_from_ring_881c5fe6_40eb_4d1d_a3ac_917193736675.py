@@ -15,6 +15,7 @@ class ArrowUpFromRing(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords=('up', 'arrow', 'rise', 'lift', 'upload', 'increase', 'level', 'elevate')
 

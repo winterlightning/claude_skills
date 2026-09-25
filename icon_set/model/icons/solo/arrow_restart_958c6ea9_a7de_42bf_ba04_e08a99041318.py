@@ -16,6 +16,7 @@ class ArrowRestart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('restart', 'reset', 'reload', 'refresh', 'rotate', 'power', 'undo', 'arrow')
 

@@ -19,6 +19,7 @@ class GoogleVoiceSearchMicrophone(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('microphone', 'voice-search', 'google', 'mic', 'logo', 'brand', 'speech')
 

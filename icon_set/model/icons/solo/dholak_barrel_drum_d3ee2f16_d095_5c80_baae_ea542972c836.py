@@ -12,6 +12,7 @@ class DholakBarrelDrum(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('dholak', 'drum', 'barrel', 'percussion', 'indian', 'instrument', 'folk', 'music')
 

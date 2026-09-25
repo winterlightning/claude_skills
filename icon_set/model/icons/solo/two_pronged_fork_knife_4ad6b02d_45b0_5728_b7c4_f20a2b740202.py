@@ -11,6 +11,7 @@ class TwoProngedForkKnife(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('solo-ai-full-set', 'two-pronged-fork-knife')
 

@@ -11,6 +11,7 @@ class PersonInExoskeletonSuit(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('exoskeleton', 'suit', 'person', 'robotic', 'wearable', 'power-armor', 'assist')
 

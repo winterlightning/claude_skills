@@ -12,6 +12,7 @@ class ThreeBlossomVase(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('vase', 'flowers', 'blossoms', 'bouquet', 'leaf', 'plant', 'decor')
 

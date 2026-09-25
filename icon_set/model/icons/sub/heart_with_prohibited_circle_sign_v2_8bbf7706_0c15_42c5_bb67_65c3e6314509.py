@@ -18,6 +18,7 @@ class DrawingVariant2(Sub32):
     semantic_role = "SUB"
     semantic_kind = "state"
     category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ("no-heart", "heart-prohibited")
     keywords = ("heart", "prohibited", "ban", "slash", "no")
 

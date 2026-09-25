@@ -12,6 +12,7 @@ class WaterCoolerWithPottedPlant(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('water cooler', 'plant', 'pot', 'dispenser', 'workplace', 'office')
 

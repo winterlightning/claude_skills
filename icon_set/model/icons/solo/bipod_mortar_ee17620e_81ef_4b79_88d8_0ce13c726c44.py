@@ -13,6 +13,7 @@ class BipodMortar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('mortar', 'bipod', 'tube', 'artillery', 'baseplate', 'weapon')
 

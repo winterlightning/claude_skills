@@ -16,6 +16,7 @@ class OriginLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('origin', 'ea', 'gaming', 'swirl', 'logo', 'brand', 'store')
 

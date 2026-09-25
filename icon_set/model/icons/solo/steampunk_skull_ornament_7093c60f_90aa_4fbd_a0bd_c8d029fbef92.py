@@ -11,6 +11,7 @@ class SteampunkSkullOrnament(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('skull', 'steampunk', 'ornament', 'teeth', 'eyes', 'dia de los muertos', 'decor')
 

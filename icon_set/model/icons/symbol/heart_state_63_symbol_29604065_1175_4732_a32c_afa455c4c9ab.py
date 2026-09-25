@@ -20,6 +20,7 @@ class HeartState63ContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('heart', 'symmetrical', 'rounded', 'upper', 'lobes', 'central', 'notch', 'sides')
 

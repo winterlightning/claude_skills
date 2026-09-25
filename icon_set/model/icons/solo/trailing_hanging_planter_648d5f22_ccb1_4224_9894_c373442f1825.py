@@ -11,6 +11,7 @@ class TrailingHangingPlanter(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('planter', 'hanging', 'trailing', 'vine', 'leaves', 'cord', 'plant')
 

@@ -14,6 +14,7 @@ class BridgePose(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('bridge', 'pose', 'yoga', 'exercise')
 

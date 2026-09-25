@@ -16,6 +16,7 @@ class Batch29Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "farming"
+    categories = ("farming", "primitives")
     aliases = ()
     keywords = ('trigger', 'spray', 'bottle')
 

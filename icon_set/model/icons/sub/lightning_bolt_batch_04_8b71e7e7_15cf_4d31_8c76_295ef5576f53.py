@@ -10,6 +10,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('lightning', 'bolt')
     def build(self):

@@ -13,6 +13,7 @@ class RoundedDashedSelectionBox(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("container", "other", "primitives-generate")
     aliases = ("dashed square", "selection marquee")
     keywords = ("crop", "boundary", "outline", "dotted")
 

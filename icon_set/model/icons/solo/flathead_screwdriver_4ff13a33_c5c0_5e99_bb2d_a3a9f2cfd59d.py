@@ -12,6 +12,7 @@ class FlatheadScrewdriver(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('screwdriver', 'flathead', 'screw', 'hardware', 'repair', 'fix', 'shaft', 'tool')
 

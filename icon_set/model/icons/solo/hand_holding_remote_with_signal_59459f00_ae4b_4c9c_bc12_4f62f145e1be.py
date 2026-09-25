@@ -11,6 +11,7 @@ class HandHoldingRemoteWithSignal(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tv'
+    categories = ('tv', 'primitives')
     aliases = ()
     keywords = ('remote', 'hand', 'tv', 'control', 'signal', 'wireless', 'channel', 'holding')
 

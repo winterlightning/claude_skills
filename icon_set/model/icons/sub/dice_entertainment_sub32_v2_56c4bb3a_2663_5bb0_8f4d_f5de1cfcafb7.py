@@ -19,6 +19,7 @@ class DrawingVariant2(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'entertainment'
+    categories = ('entertainment', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

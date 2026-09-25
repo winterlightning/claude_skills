@@ -21,6 +21,7 @@ class UserBustSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('user', 'bust', 'circular', 'head', 'sits', 'open', 'semicircular', 'shoulder')
     keyshape = Keyshape.SQUARE

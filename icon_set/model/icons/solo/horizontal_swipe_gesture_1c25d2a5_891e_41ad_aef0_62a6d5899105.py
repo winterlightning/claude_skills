@@ -10,6 +10,7 @@ class HorizontalSwipeGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("horizontal drag",)
     keywords = ("touch", "capsule", "left", "right")
 

@@ -13,6 +13,7 @@ class GmoFoodLabBag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('gmo', 'food', 'lab', 'bag', 'science')
     keyshape = Keyshape.VRECT_L

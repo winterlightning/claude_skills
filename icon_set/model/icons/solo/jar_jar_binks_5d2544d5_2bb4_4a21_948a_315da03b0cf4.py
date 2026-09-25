@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "video"
+    categories = ("video", "primitives")
     aliases=()
     keywords=('jar', 'jar', 'binks', 'gungan')
 

@@ -17,6 +17,7 @@ class LetterLSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('letter', 'l', 'uppercase', 'consists', 'long', 'vertical', 'stem', 'joined')
 

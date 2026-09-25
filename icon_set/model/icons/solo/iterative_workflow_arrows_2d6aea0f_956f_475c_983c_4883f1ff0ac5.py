@@ -69,6 +69,7 @@ class IterativeWorkflowArrows(Solo48):
     icon_id = 'iterative-workflow-arrows'
     keyshape = Keyshape.VRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

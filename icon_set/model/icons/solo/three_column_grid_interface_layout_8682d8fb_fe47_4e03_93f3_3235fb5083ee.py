@@ -17,6 +17,7 @@ class ThreeColumnGridInterfaceLayout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("three column interface", "page grid")
     keywords = ("columns", "rows", "layout", "webpage")
 

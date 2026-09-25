@@ -14,6 +14,7 @@ class GolfClubFlaggedHole(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('golf', 'club', 'ball', 'hole', 'flag', 'putting')
 

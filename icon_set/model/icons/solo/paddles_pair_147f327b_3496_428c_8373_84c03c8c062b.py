@@ -19,6 +19,7 @@ class PaddlesPair(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('paddles', 'table-tennis', 'ping-pong', 'rackets', 'maracas', 'sport', 'game', 'pair')
 

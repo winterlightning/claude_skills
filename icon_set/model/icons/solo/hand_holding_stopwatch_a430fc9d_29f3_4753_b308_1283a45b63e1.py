@@ -16,6 +16,7 @@ class HandHoldingStopwatch(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('hand', 'stopwatch', 'timer', 'time', 'holding', 'coaching')
 

@@ -19,7 +19,8 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = "Uncategorized"
+    category = "arrows"
+    categories = ("arrows", "primitive", "primitives")
     aliases = ("Double Downward Chevron",)
     keywords = ("chevron", "down", "double", "direction", "angle", "stack", "pointer")
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'puzzle-piece-with-right-tab'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

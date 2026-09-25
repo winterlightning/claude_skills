@@ -11,6 +11,7 @@ class PersonCranePoseWithBird(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('balance', 'pose', 'person', 'martial-arts', 'crane', 'beach', 'bird', 'exercise', 'outdoors-batch-03')
 

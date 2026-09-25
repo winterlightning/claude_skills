@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases=()
     keywords=('hyperloop',)
 
@@ -35,6 +36,7 @@ class Drawing(Solo48):
 
     icon_id = 'hyperloop-pod'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('hyperloop', 'pod', 'train', 'capsule', 'transport', 'vehicle', 'travel')
     semantic_role = 'MAIN'

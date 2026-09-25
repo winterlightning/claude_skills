@@ -13,6 +13,7 @@ class AbText(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('a','b','letters','text')
     def build(self):

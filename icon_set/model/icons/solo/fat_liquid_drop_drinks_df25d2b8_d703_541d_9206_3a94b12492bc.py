@@ -13,6 +13,7 @@ class FatLiquidDropDrinks(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('fat', 'liquid', 'drop', 'drinks')
     keyshape = Keyshape.VRECT_L

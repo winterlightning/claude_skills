@@ -18,6 +18,7 @@ class DrawingVariant2(Sub32):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ("happy-user-circle",)
     keywords = ("person", "user", "happy", "circle")
 

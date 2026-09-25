@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'bowler-hat-portrait'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     human_construction = "bust"
     def build(self):
 

@@ -13,6 +13,7 @@ class ExplodingHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('exploding', 'head', 'shocked', 'burst', 'face', 'emoji')
 

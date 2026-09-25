@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases=()
     keywords=('e', 'scooter')
 
@@ -50,6 +51,7 @@ class Drawing(Solo48):
 
     icon_id = 'electric-kick-scooter'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('e-scooter', 'kick scooter', 'scooter', 'electric', 'micromobility', 'ride', 'transport', 'side view')
     semantic_role = 'MAIN'

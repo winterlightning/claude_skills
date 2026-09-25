@@ -9,6 +9,7 @@ class TntDetonatorPlunger(Container64):
     icon_id = 'tnt-detonator-plunger'
     keyshape = Keyshape.SQUARE
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('tnt', 'detonator', 'plunger', 'explosive')
 

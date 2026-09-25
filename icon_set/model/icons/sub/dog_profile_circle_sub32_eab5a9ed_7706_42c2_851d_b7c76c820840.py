@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role='SUB'
     semantic_kind='modifier'
     category = 'pets'
+    categories = ('pets', 'primitives')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'dog profile circle')
     def build(self):

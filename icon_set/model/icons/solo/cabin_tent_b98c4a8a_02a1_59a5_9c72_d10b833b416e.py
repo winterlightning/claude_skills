@@ -13,6 +13,7 @@ class CabinTent(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('tent', 'camping', 'cabin-tent', 'shelter', 'campsite', 'outdoors', 'door', 'outdoors-batch-01')
 

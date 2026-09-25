@@ -11,6 +11,7 @@ class TwoPersonBobsled(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('bobsled', 'sled', 'rider', 'snow', 'winter', 'racing')
     def build(self) -> None:

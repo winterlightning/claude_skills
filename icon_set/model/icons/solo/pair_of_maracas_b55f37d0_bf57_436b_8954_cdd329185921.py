@@ -12,6 +12,7 @@ class PairOfMaracas(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('maracas', 'percussion', 'shaker', 'instrument', 'latin', 'rhythm', 'music')
 

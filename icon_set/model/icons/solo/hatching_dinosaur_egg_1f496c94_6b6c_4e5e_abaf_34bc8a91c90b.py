@@ -11,6 +11,7 @@ class HatchingDinosaurEgg(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('dinosaur', 'egg', 'hatch', 'baby', 'shell', 'prehistoric', 'birth', 'jurassic')
 

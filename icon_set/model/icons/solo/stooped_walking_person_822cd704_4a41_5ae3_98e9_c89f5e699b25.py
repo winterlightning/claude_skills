@@ -17,6 +17,7 @@ class StoopedWalkingPerson(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('person', 'walking', 'stooped', 'posture', 'pedestrian', 'figure')
 

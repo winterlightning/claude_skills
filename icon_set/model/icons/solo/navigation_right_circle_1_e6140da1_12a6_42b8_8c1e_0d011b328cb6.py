@@ -15,6 +15,7 @@ class NavigationRightCircle1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('navigation', 'right', 'circle', 'interface-essential')
 

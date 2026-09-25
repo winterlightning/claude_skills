@@ -14,7 +14,8 @@ class Drawing(Solo48):
     semantic_kind='noun'
     aliases=()
     keywords=('woman', 'nurse')
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)

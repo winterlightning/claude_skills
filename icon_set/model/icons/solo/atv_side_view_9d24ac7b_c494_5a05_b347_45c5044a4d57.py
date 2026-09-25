@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('car',)
     def build(self):
@@ -46,6 +47,7 @@ class Drawing(Solo48):
 
     icon_id = 'atv-side-view'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('atv', 'quad', 'quad bike', 'off-road', 'vehicle', 'four wheeler', 'offroad', 'side view')
     semantic_role = 'MAIN'

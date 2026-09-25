@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'woman-news-display-content'
     keyshape = Keyshape.HRECT_L
     category = 'users'
+    categories = ('users', 'primitives')
     tags = ('sub icon',)
     keywords = ('woman profile and news display',)
     def build(self):

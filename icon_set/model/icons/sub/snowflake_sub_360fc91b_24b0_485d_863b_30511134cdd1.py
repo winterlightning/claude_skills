@@ -17,6 +17,7 @@ class SnowflakeSub(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('snowflake', 'vertical', 'horizontal', 'axis', 'cross', 'centre', 'carrying', 'short')
 

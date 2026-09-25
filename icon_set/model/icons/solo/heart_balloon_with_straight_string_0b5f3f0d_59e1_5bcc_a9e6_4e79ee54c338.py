@@ -18,6 +18,7 @@ class HeartBalloonWithStraightString(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('heart', 'balloon', 'string', 'party', 'romance', 'celebration')
 

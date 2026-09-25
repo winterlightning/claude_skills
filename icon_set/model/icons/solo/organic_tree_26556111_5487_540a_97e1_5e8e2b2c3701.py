@@ -15,6 +15,7 @@ class OrganicTreeEcology(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecology'
+    categories = ('primitives', 'ecology')
     aliases = ()
     keywords = ('organic', 'tree', 'ecology')
 

@@ -11,6 +11,7 @@ class DrillOnSupportArm(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('drill', 'robot-arm', 'power-tool', 'industrial', 'machine', 'automation', 'tool')
 

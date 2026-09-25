@@ -12,6 +12,7 @@ class TensorflowLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tensorflow', 'machine-learning', 'ai', 'letter-t', 'logo', 'brand', 'google')
 

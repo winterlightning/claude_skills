@@ -16,7 +16,8 @@ class FourSquareGridLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "design"
+    categories = ("design", "primitive", "primitives")
     aliases = ()
     keywords = ("layout", "grid", "interface", "panels")
 

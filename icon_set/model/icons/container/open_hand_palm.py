@@ -24,6 +24,7 @@ class OpenHandPalm(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ("raised-hand", "hand-palm-container")
     keywords = ("hand", "palm", "human", "greeting", "stop", "attention")
 

@@ -19,6 +19,7 @@ class HyvesLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('hyves', 'social', 'letter-h', 'logo', 'brand', 'network', 'dutch')
 

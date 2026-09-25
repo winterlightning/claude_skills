@@ -16,6 +16,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     keywords = ('square', 'advertisement', 'icon')
     TYPEFACE_GLYPH_IDS = ('letter-a-uppercase', 'letter-d-uppercase')
 

@@ -12,6 +12,7 @@ class HandsCuppingSphere(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('hand', 'sphere', 'holding', 'cupped', 'palm', 'orb')
 

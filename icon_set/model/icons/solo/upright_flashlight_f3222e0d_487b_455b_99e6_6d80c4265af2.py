@@ -11,6 +11,7 @@ class UprightFlashlight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('flashlight', 'torch', 'light', 'lamp', 'battery', 'handheld', 'portable', 'tool')
 

@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class FivePointStarContainer(Container64):
     icon_id = 'five-point-star-container'
     category = 'holidays'
+    categories = ('holidays', 'other', 'primitives-generate')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('five', 'point', 'star', 'container')

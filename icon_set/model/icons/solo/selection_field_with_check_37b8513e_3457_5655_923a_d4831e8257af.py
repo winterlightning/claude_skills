@@ -13,6 +13,7 @@ class SelectionFieldWithCheck(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('field', 'form', 'selection', 'check', 'input', 'interface', 'control')
 

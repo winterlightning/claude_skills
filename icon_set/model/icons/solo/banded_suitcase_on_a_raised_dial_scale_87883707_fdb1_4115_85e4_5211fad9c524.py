@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'banded-suitcase-on-a-raised-dial-scale'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

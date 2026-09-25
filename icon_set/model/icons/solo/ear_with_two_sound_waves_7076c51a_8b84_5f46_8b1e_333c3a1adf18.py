@@ -17,6 +17,7 @@ class EarWithTwoSoundWaves(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'audio'
+    categories = ('audio', 'primitives')
     aliases = ()
     keywords = ('ear', 'hearing', 'sound', 'listening', 'audio', 'wave', 'acoustic', 'anatomy')
 

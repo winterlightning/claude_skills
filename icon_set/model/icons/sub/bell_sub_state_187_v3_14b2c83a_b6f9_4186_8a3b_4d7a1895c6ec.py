@@ -13,6 +13,7 @@ class BellSubState187Variant3(SourceFaithfulSideSub):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('bell', 'rounded', 'crown', 'small', 'top', 'knob', 'widening', 'sides')
     keyshape = Keyshape.SQUARE

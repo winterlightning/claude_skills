@@ -13,6 +13,7 @@ class KickstarterLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('kickstarter', 'logo', 'logos')
     keyshape = Keyshape.VRECT_L

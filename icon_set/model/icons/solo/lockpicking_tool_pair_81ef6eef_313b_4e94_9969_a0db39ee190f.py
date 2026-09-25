@@ -13,6 +13,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'crime'
+    categories = ('crime', 'primitives')
     aliases=()
     keywords=('lockpicking', 'tool', 'pair')
     def path(self, name, start, commands, closed=False):

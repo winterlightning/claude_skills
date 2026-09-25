@@ -11,6 +11,7 @@ class Batch033Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "other", "primitives-generate")
     aliases = ('shipping-delivery-truck',)
     keywords = ('batch-033',)
 

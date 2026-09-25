@@ -17,6 +17,7 @@ class RotateLeft45(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('rotate', '45', 'degrees', 'left', 'anticlockwise', 'angle', 'turn', 'arrow')
 

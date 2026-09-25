@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "primitives-generate"
+    categories = ("combination", "other", "primitives-generate")
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)

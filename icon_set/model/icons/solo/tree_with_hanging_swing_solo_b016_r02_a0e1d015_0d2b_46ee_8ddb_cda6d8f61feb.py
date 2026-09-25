@@ -14,6 +14,7 @@ class BatchIcon(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "kids"
+    categories = ("primitives", "kids")
     aliases=()
     keywords=('tree', 'with', 'hanging', 'swing')
     def build(self):

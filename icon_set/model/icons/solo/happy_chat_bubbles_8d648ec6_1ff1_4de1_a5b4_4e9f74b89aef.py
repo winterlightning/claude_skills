@@ -18,6 +18,7 @@ class HappyChatBubbles(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("smiling speech bubble pair", "happy conversation")
     keywords = ("smile", "messages", "reply", "face")
 

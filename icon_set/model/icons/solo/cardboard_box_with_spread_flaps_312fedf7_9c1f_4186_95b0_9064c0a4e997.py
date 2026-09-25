@@ -11,6 +11,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('box', 'cardboard', 'open', 'flaps', 'package', 'packing', 'container')
     def build(self):

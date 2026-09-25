@@ -14,6 +14,7 @@ class BatchIcon(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "movies"
+    categories = ("primitives", "movies")
     aliases=()
     keywords=('audience', 'watching', 'people', 'on', 'screen')
     def build(self):

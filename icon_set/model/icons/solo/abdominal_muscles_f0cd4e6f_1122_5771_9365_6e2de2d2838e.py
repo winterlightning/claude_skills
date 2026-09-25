@@ -15,6 +15,7 @@ class AbdominalMuscles(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('abdomen', 'muscle', 'fitness', 'torso', 'strength', 'core')
 

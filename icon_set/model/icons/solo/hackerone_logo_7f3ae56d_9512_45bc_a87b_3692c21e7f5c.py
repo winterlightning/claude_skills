@@ -19,6 +19,7 @@ class HackeroneLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('hackerone', 'security', 'bug-bounty', 'h1', 'logo', 'brand', 'hacker')
 

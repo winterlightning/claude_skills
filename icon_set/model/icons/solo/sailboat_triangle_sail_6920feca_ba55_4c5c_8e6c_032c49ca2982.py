@@ -11,6 +11,7 @@ class SailboatTriangleSail(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'state')
     aliases = ()
     keywords = ('sailboat', 'sail', 'boat', 'sailing', 'sea', 'water', 'yacht', 'outdoors-batch-03')
 

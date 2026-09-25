@@ -54,6 +54,7 @@ class RazorBladeWithThreePartSlot(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'beauty'
+    categories = ('primitives', 'beauty')
     aliases = ()
     keywords = ('razor', 'blade', 'with', 'three-part', 'slot')
 

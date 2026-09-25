@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Director Chair Beneath Large Megaphone']
     keywords = ['director', 'chair', 'megaphone', 'film', 'folding', 'seat', 'equipment']
     def build(self):

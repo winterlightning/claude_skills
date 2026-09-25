@@ -12,6 +12,7 @@ class TechnoratiLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('technorati', 'blog', 'search', 'speech-bubble', 'logo', 'brand', 'directory')
 

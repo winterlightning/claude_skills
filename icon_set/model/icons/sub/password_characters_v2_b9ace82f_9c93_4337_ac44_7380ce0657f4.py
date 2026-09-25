@@ -21,6 +21,7 @@ class PasswordCharactersVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('password', 'characters', 'x', 'shaped', 'marks', 'appear', 'beside', 'short')
     keyshape = Keyshape.SQUARE

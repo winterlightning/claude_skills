@@ -27,6 +27,7 @@ class UniversalAccessibility(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("A11Y", "universal access", "accessibility symbol")
     keywords = ("accessibility", "a11y", "universal", "access", "inclusive", "person")
 

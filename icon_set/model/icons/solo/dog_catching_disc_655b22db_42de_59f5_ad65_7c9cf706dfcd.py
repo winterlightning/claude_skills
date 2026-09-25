@@ -16,6 +16,7 @@ class DogCatchingDisc(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'disc', 'frisbee', 'fetch', 'play', 'catch', 'pet')
 

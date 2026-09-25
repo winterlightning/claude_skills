@@ -13,6 +13,7 @@ class PinA0e2619f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('pin', 'interface-essential')
     keyshape = Keyshape.VRECT_L

@@ -12,6 +12,7 @@ class Batch045Icon5(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('arrow', 'right', 'curved', 'forward', 'direction', 'turn', 'navigation')
     # Reference: undo-2: tangent quarter-turn and shared arrow junction.

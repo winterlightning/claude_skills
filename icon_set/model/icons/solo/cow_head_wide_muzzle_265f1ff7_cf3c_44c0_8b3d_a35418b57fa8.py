@@ -12,6 +12,7 @@ class Revision(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'farming'
+    categories = ('farming', 'primitives')
     aliases = ()
     keywords = ('milk', 'cow')
     def build(self):

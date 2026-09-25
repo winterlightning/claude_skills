@@ -12,6 +12,7 @@ class BrightnessWithCurvedRays(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "video"
+    categories = ("video", "primitives")
     aliases = ()
     keywords = ('brightness', 'light', 'circle', 'arcs', 'exposure', 'video', 'adjustment')
 

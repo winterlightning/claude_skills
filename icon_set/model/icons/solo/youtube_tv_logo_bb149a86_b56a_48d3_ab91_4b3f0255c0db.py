@@ -12,6 +12,7 @@ class YoutubeTvLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('youtube-tv', 'youtube', 'television', 'play', 'streaming', 'logo', 'brand')
 

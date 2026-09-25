@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'two-seat-swing-carousel'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('two', 'seat', 'swing', 'carousel')
 
     def build(self):

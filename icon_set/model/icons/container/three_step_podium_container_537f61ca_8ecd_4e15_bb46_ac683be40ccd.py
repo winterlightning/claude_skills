@@ -17,6 +17,7 @@ class ThreeStepPodiumContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'rating'
+    categories = ('rating', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('three', 'step', 'podium', 'container')
 

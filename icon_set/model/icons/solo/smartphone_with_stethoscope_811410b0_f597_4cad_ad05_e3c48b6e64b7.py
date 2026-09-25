@@ -20,6 +20,7 @@ class SmartphoneWithStethoscope(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("medical app smartphone", "phone stethoscope")
     keywords = ("health", "telemedicine", "listen", "phone")
 

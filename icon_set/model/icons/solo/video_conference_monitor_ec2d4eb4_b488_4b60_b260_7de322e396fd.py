@@ -13,6 +13,7 @@ class VideoConferenceMonitor(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("monitor person", "video call screen")
     keywords = ("desktop", "conference", "meeting", "webcam", "profile")
 

@@ -12,6 +12,7 @@ class ContrastStarBadge(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('contrast', 'brightness', 'dark mode', 'light mode', 'badge', 'display', 'setting', 'half')
 

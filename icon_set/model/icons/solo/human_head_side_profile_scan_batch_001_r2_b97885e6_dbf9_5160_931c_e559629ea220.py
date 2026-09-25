@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('human', 'head', 'side', 'profile', 'scan')
     def build(self):

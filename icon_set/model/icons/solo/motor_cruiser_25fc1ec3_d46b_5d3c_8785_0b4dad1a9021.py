@@ -12,6 +12,7 @@ class MotorCruiser(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('cruiser', 'motor yacht', 'boat', 'ship', 'ferry', 'marine', 'nautical', 'side view')
 

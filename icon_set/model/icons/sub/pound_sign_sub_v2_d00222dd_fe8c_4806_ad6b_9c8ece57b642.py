@@ -21,6 +21,7 @@ class PoundSignSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('pound', 'sign', 'curved', 'upper', 'hook', 'upright', 'stem', 'middle')
     keyshape = Keyshape.SQUARE

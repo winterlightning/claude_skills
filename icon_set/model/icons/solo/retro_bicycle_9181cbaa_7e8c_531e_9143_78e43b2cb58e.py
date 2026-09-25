@@ -11,6 +11,7 @@ class RetroBicycle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bicycle', 'bike', 'retro', 'cycling', 'vintage', 'pedal', 'transport', 'two wheels')
 

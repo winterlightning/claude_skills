@@ -15,6 +15,7 @@ class SparklesStarPlus(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords=('sparkles', 'magic', 'shine', 'ai', 'new', 'clean', 'twinkle', 'effects')
 

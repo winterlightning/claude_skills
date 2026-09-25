@@ -15,6 +15,7 @@ class TitanicBelfastMuseum(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('titanic quarter', 'belfast', 'museum', 'building', 'angular', 'landmark', 'architecture', 'modern')
 

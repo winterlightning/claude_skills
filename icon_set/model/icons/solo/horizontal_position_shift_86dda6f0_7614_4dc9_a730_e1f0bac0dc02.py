@@ -15,6 +15,7 @@ class HorizontalPositionShift(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("move-horizontal-bars", "opposing-horizontal-shift")
     keywords = ("move", "horizontal", "shift", "bars", "arrows")
 

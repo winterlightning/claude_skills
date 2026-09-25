@@ -16,6 +16,7 @@ class MongodbLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('mongodb', 'database', 'leaf', 'shield', 'logo', 'brand', 'developer')
 

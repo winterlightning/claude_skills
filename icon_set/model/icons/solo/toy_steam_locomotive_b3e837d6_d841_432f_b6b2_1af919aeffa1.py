@@ -12,6 +12,7 @@ class ToySteamLocomotive(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('steam locomotive', 'train', 'toy train', 'locomotive', 'railway', 'vintage', 'engine', 'wheels')
 

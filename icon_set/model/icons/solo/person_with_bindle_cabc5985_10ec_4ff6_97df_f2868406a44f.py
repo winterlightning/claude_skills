@@ -13,6 +13,7 @@ class PersonWithBindle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('homeless', 'bindle', 'walking', 'traveller', 'person', 'bundle', 'poverty', 'wanderer')
 

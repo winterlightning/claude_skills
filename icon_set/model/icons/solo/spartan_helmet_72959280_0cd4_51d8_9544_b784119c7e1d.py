@@ -12,6 +12,7 @@ class SpartanHelmet(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('helmet', 'spartan', 'corinthian', 'greek', 'warrior', 'crest', 'armour', 'soldier')
 

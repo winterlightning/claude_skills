@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "interface-essential"
+    categories = ("interface-essential", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('volume',)
     def build(self):
@@ -45,6 +46,7 @@ class Drawing(Solo48):
 
     icon_id = 'volume-interface-essential'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('volume', 'interface-essential')
     semantic_role = 'MAIN'

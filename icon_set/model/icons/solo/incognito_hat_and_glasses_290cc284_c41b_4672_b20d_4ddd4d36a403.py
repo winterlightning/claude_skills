@@ -12,6 +12,7 @@ class IncognitoHatAndGlasses(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('incognito', 'hat', 'glasses', 'disguise', 'private', 'spectacles', 'anonymous')
 

@@ -12,6 +12,7 @@ class PocketMultitoolAwl(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('swiss army knife', 'multitool', 'awl', 'pocket knife', 'camping', 'outdoor', 'punch', 'tool')
 

@@ -17,6 +17,7 @@ class LetterRSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('letter', 'r', 'uppercase', 'combines', 'straight', 'upright', 'stem', 'rounded')
 

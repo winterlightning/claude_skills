@@ -12,6 +12,7 @@ class PycharmLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('pycharm', 'jetbrains', 'python', 'ide', 'logo', 'brand', 'developer')
 

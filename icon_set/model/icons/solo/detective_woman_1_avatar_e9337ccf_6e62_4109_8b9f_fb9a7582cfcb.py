@@ -10,7 +10,8 @@ PLAN='Round cap, smooth bob flips, circular jaw and broad curved V-neck shoulder
 class DetectiveWoman1Avatar(Solo48):
     icon_id='detective-woman-1-avatar'
     keyshape=Keyshape.VRECT_L
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role='MAIN'
     semantic_kind='noun'
     aliases=()

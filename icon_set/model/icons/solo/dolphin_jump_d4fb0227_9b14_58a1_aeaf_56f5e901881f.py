@@ -13,6 +13,7 @@ class DolphinThroughHoop(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('dolphin', 'hoop', 'jump', 'circus', 'trick', 'marine', 'show', 'sea')
 

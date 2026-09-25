@@ -16,6 +16,7 @@ class SmilingCatHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "other", "combination", "primitives-generate")
     aliases = ()
     keywords = ('cat', 'head', 'face', 'smile', 'happy', 'feline', 'pet')
 

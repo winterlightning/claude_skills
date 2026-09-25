@@ -13,6 +13,7 @@ class TransitGateway(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('transit', 'gateway', 'programing')
     keyshape = Keyshape.HRECT_L

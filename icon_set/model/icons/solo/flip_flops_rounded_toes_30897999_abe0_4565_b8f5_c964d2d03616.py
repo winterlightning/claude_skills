@@ -15,6 +15,7 @@ class FlipFlopsRoundedToes(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'footwear'
+    categories = ('primitives', 'footwear')
     aliases = ()
     keywords = ('pair', 'of', 'flip', 'flops')
 

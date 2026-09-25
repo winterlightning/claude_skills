@@ -17,6 +17,7 @@ class ElectricityPylonWithUpperCrossarms(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('power line', 'pylon', 'electricity', 'pole', 'transmission', 'infrastructure', 'energy', 'utility')
 

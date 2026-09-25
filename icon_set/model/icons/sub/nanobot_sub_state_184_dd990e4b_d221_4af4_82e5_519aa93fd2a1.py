@@ -17,6 +17,7 @@ class NanobotSubState184(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('nanobot', 'tall', 'hexagonal', 'body', 'gently', 'rounded', 'corners', 'round')
 

@@ -53,6 +53,7 @@ class PersonWithLongStraightHair(Solo48):
     icon_id = 'person-with-long-straight-hair'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('avatars', 'other', 'primitives-generate')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

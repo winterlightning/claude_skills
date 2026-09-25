@@ -19,6 +19,7 @@ class WeddingCakeWithCoupleTopper(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('cake', 'wedding', 'couple', 'topper', 'icing', 'celebration')
 

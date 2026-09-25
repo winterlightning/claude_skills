@@ -12,6 +12,7 @@ class WarriorPoseExtendedArms(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('warrior', 'pose', 'extended', 'arms', 'yoga', 'exercise')
 

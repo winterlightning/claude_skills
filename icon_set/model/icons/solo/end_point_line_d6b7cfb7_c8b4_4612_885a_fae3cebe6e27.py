@@ -15,6 +15,7 @@ class EndPointLine(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'devices'
+    categories = ('primitives', 'devices')
     aliases = ()
     keywords = ('end', 'point', 'line', 'devices')
 

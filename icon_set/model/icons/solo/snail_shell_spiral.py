@@ -11,6 +11,7 @@ class SnailShellSpiral(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl', 'sub icon')
 

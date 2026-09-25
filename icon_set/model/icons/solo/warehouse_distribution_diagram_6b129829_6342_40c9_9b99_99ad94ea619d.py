@@ -12,6 +12,7 @@ class WarehouseDistributionDiagram(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('warehouse', 'distribution', 'parcel', 'network', 'shipping', 'logistics')
 

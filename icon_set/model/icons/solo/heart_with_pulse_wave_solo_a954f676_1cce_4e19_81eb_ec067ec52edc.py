@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'state', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('sub icon', 'heart with pulse wave')
     def build(self):

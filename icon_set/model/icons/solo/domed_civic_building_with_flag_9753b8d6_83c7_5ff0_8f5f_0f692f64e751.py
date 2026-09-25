@@ -12,6 +12,7 @@ class DomedCivicBuildingWithFlag(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('embassy', 'government', 'dome', 'civic', 'flag', 'building', 'official', 'architecture')
 

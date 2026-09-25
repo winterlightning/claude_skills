@@ -19,6 +19,7 @@ class UserReference(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users",)
     aliases = ()
     keywords = ("human", "user", "person", "account", "avatar")
 

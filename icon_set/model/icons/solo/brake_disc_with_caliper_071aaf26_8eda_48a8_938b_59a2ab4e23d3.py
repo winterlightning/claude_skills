@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'brake-disc-with-caliper'
     keyshape = Keyshape.CIRCLE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('brake', 'disc', 'with', 'caliper')
 
     def build(self):

@@ -17,6 +17,7 @@ class AudioWaveform(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "state"
+    categories = ("state",)
     aliases = ()
     keywords = ('audio', 'waveform', 'five', 'separate', 'vertical', 'bars', 'form', 'uneven')
 

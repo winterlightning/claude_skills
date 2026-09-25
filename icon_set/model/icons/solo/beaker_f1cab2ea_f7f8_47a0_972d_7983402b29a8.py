@@ -11,6 +11,7 @@ class Beaker(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('beaker', 'symbol', 'solo-ai-first50')
 

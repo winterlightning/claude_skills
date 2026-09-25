@@ -15,6 +15,7 @@ class CurrencyDollar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'money'
+    categories = ('money', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('currency', 'dollar', 'money')
 

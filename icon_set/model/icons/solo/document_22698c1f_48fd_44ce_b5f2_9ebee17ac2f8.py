@@ -12,6 +12,7 @@ class Document(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('content', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('document', 'content')
 

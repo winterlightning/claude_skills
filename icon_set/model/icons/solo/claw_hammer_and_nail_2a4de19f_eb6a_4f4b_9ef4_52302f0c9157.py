@@ -12,6 +12,7 @@ class ClawHammerAndNail(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('hammer', 'claw hammer', 'nail', 'hardware', 'construction', 'carpentry', 'build', 'tool')
 

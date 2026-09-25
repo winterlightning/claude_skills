@@ -12,6 +12,7 @@ class DaytimeRunningLight(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('daytime running light', 'drl', 'headlight', 'lamp', 'car', 'dashboard', 'lighting', 'indicator')
 

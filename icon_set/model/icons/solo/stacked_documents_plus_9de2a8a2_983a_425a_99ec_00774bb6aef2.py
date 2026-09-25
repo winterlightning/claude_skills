@@ -18,6 +18,7 @@ class StackedDocumentsPlus(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("merge pdf", "add documents")
     keywords = ("files", "pages", "plus", "merge")
 

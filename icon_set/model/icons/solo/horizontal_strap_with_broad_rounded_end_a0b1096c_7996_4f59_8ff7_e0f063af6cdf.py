@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'horizontal-strap-with-broad-rounded-end'
     keyshape = Keyshape.HRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

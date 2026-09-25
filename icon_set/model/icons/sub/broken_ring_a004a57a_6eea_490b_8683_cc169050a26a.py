@@ -17,6 +17,7 @@ class BrokenRing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('broken', 'ring', 'separated', 'curved', 'segments', 'suggest', 'inner', 'circular')
 

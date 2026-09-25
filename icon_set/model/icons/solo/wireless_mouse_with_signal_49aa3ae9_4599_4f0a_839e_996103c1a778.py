@@ -17,6 +17,7 @@ class WirelessMouseWithSignal(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "computers"
+    categories = ("computers", "primitives")
     aliases = ('remote mouse',)
     keywords = ("mouse", "wireless", "scroll wheel", "computer", "peripheral")
 

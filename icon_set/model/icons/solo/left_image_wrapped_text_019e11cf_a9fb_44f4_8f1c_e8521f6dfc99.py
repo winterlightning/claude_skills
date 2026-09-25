@@ -11,7 +11,8 @@ class LeftImageWrappedText(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'Uncategorized'
+    category = 'content'
+    categories = ('content', 'primitive', 'primitives')
     aliases = ()
     keywords = ('left', 'image', 'wrapped', 'text')
 

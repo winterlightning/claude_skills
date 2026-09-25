@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('mobile phone qr code',)
 
@@ -48,6 +49,7 @@ class Drawing(Solo48):
 
     icon_id = 'mobile-phone-qr-code-scanner'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('qr phone', 'mobile qr code')
     keywords = ('smartphone', 'qr', 'scan', 'payment')
     semantic_role = 'MAIN'

@@ -16,6 +16,7 @@ class Pteranodon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('pteranodon', 'pterodactyl', 'dinosaur', 'flying', 'wings', 'prehistoric', 'reptile', 'jurassic')
 

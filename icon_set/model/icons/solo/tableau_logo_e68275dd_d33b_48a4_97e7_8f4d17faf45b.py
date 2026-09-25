@@ -12,6 +12,7 @@ class TableauLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tableau', 'analytics', 'visualization', 'plus', 'logo', 'brand', 'data')
 

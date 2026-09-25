@@ -13,6 +13,7 @@ class RoundBug(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "state")
     aliases = ('beetle',)
     keywords = ('bug', 'insect', 'beetle', 'small', 'antennae', 'legs', 'pest', 'nature')
 

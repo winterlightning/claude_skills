@@ -14,6 +14,7 @@ class HierarchyBracketList(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('hierarchy', 'list', 'tree', 'structure', 'spine', 'bars', 'outline', 'diagram')
 

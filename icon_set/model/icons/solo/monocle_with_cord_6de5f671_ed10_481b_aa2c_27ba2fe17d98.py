@@ -12,6 +12,7 @@ class MonocleWithCord(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('monocle', 'glasses', 'lens', 'eyeglass', 'cord', 'vintage', 'eyewear', 'accessory')
 

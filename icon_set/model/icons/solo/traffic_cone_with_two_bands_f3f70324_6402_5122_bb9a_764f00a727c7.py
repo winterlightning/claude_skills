@@ -18,6 +18,7 @@ class TrafficConeWithTwoBands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('traffic', 'cone', 'with', 'two', 'bands')
 

@@ -19,6 +19,7 @@ class ArrowLeftCurved(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('arrow', 'left', 'curved', 'back', 'return', 'undo', 'reply', 'direction')
 

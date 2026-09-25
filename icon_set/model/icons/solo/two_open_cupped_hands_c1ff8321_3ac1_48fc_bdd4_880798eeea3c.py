@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases=()
     keywords=('hand', 'holding')
 
@@ -49,6 +50,7 @@ class Drawing(Solo48):
 
     icon_id = 'two-open-cupped-hands'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('two', 'open', 'cupped', 'hands')
     semantic_role = 'MAIN'

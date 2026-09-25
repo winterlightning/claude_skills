@@ -12,6 +12,7 @@ class PersonEnjoyingSunnyDay(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('person', 'sun', 'cloud', 'day', 'weather', 'outdoors', 'environment', 'relax')
 

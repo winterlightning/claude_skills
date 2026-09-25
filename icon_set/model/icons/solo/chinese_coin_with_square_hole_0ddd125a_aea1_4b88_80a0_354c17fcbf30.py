@@ -13,6 +13,7 @@ class ChineseCoinWithSquareHole(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('coin', 'chinese', 'cash', 'money', 'square', 'hole', 'currency')
 

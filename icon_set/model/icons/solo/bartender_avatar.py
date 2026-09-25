@@ -22,6 +22,7 @@ class BartenderAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('bartainder', 'bust', 'body', 'portrait')
 

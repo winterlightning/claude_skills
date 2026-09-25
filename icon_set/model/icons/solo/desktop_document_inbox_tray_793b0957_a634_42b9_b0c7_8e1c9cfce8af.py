@@ -10,6 +10,7 @@ class DesktopDocumentInboxTray(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("inbox tray", "desk in-tray")
     keywords = ("documents", "paper", "notch")
 

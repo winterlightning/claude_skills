@@ -13,6 +13,7 @@ class PaintBucketSpill(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('paint', 'bucket', 'spill', 'fill', 'color', 'drip', 'decorate', 'design')
 

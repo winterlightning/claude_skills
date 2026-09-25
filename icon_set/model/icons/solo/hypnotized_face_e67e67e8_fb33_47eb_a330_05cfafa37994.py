@@ -13,6 +13,7 @@ class HypnotizedFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('hypnotized', 'spiral', 'dizzy', 'trance', 'face', 'emoji')
 

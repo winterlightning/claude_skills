@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases=()
     keywords=('force', 'touch', 'press')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

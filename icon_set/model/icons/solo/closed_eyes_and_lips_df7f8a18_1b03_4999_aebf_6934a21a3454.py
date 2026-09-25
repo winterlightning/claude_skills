@@ -18,6 +18,7 @@ class ClosedEyesAndLips(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'beauty'
+    categories = ('primitives', 'beauty')
     aliases = ()
     keywords = ('closed eyes', 'face', 'eyes', 'lips', 'expression', 'beauty', 'features', 'mouth', 'portrait')
 

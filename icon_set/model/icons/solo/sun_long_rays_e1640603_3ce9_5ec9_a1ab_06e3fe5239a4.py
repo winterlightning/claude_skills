@@ -16,6 +16,7 @@ class SunLongRays(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "state")
     aliases = ()
     keywords = ('sun', 'sunshine', 'daylight', 'weather', 'solar', 'sky')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('laptop',)
     # Plan: One laptop: rounded upright screen and a broad flared keyboard base; extremes (4,8)-(44,40).

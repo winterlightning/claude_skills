@@ -13,6 +13,7 @@ class CameraVideo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video'
+    categories = ('video', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('camera', 'video')
     keyshape = Keyshape.HRECT_L

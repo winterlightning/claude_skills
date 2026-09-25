@@ -17,6 +17,7 @@ class Batch03Icon9(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('hexagonal-molecular-ring',)
     keywords = ('hexagonal', 'molecular', 'ring')
 

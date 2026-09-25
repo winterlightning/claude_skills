@@ -12,6 +12,7 @@ class RacingWheelchairAthlete(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('racing', 'wheelchair', 'athlete', 'sport', 'mobility', 'accessibility')
 

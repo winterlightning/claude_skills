@@ -26,6 +26,7 @@ class Icon(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'files'
+    categories = ('files', 'other', 'primitives-generate')
     aliases = ('Landscape Picture Media File',)
     keywords = ('landscape', 'picture', 'media', 'file')
     def build(self):

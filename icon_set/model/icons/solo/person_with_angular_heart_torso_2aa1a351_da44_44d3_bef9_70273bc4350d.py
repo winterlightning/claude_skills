@@ -18,6 +18,7 @@ class PersonWithAngularHeartTorso(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('person', 'heart', 'love', 'care', 'wellbeing', 'romance')
 

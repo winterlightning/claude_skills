@@ -11,6 +11,7 @@ class SilhouetteShootingTarget(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('shooting', 'target', 'silhouette', 'bullseye', 'practice', 'sport')
     def build(self) -> None:

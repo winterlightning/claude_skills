@@ -11,6 +11,7 @@ class BaseballCap(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('cap', 'baseball cap', 'hat', 'peak', 'brim', 'sports', 'headwear', 'clothing')
 

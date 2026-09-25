@@ -12,6 +12,7 @@ class WheelchairUserAtRamp(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('wheelchair', 'ramp', 'person', 'accessibility', 'mobility', 'slope')
 

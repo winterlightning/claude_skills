@@ -12,6 +12,7 @@ class RoadTrapezoid(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('road', 'straight road', 'highway', 'lane', 'street', 'perspective', 'route', 'driving')
 

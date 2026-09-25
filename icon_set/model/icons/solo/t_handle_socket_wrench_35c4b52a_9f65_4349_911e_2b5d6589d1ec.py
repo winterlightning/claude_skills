@@ -12,6 +12,7 @@ class THandleSocketWrench(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('t-handle', 'socket wrench', 'wrench', 'key', 'gasket', 'spanner', 'hardware', 'tool')
 

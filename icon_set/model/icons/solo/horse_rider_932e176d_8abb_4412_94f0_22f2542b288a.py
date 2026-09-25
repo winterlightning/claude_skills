@@ -20,6 +20,7 @@ class HorseRider(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('horse', 'rider', 'equestrian', 'helmet', 'animal', 'sport')
 

@@ -15,6 +15,7 @@ class TwoFingerSwipeRight(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("two-finger flip right",)
     keywords = ("hand", "spread fingers", "right arrow")
 

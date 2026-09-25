@@ -12,6 +12,7 @@ class TrelloLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('trello', 'atlassian', 'kanban', 'board', 'logo', 'brand', 'project-management')
 

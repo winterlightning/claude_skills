@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'bent-hex-key'
     keyshape = Keyshape.VRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

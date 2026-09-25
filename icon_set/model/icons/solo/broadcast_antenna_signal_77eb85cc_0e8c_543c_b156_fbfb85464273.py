@@ -12,6 +12,7 @@ class BroadcastAntennaSignal(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tv"
+    categories = ("tv", "primitives")
     aliases = ()
     keywords = ('antenna', 'signal', 'broadcast', 'wireless', 'radio', 'transmitter', 'wifi', 'hotspot')
 

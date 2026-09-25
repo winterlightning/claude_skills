@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'other')
     aliases = ()
     keywords = ('tape', 'measure')
 
@@ -37,6 +38,7 @@ class Drawing(Solo48):
 
     icon_id = 'retractable-tape-measure'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'other')
     aliases = ()
     keywords = ('retractable', 'tape', 'measure')
     semantic_role = 'MAIN'

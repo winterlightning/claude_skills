@@ -14,6 +14,7 @@ class ApiCodeBrackets(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases = ()
     keywords = ('api', 'code', 'brackets', 'gateway', 'developer', 'programming', 'endpoint', 'html')
 

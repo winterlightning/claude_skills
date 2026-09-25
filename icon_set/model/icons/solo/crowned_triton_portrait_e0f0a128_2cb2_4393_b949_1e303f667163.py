@@ -12,6 +12,7 @@ class CrownedTritonPortrait(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('triton', 'crown', 'beard', 'portrait', 'king', 'mythology')
 

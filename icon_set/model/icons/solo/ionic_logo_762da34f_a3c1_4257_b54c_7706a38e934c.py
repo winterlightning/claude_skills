@@ -16,6 +16,7 @@ class IonicLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('ionic', 'framework', 'mobile', 'rings', 'logo', 'brand', 'developer')
 

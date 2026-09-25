@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'servers'
+    categories = ('servers', 'primitive', 'primitives')
     aliases = ('Live Video Encoding Server',)
     keywords = ('live', 'video', 'encoding', 'server')
     def build(self):

@@ -13,6 +13,7 @@ class SchoolBell(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('bell', 'school', 'ring', 'clapper', 'sound', 'signal')
 

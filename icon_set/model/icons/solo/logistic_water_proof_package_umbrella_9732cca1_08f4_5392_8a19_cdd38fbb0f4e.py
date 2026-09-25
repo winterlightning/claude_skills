@@ -11,6 +11,7 @@ class LogisticWaterProofPackageUmbrella(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('primitives', 'shipping')
     aliases = ()
     keywords = ('logistic', 'water', 'proof', 'package', 'umbrella', 'shipping')
 

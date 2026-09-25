@@ -16,6 +16,7 @@ class ZeroVariant3(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('zero', 'tall', 'oval', 'forms', 'single', 'closed', 'loop', 'empty')
     keyshape = Keyshape.SQUARE

@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases=()
     keywords=('credit', 'card', 'payment')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

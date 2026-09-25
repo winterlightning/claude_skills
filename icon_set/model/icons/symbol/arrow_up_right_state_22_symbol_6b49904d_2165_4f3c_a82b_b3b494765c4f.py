@@ -20,6 +20,7 @@ class ArrowUpRightState22ContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'up', 'right', 'long', 'diagonal', 'shaft', 'rises', 'lower')
 

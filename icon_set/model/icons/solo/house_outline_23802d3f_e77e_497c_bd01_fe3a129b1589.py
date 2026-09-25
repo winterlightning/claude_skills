@@ -19,6 +19,7 @@ class HouseOutline(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('house', 'home', 'building', 'residence', 'property', 'real-estate', 'main', 'dwelling')
 

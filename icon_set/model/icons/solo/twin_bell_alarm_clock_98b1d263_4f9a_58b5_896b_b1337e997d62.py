@@ -11,6 +11,7 @@ class TwinBellAlarmClock(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('clock', 'alarm', 'bells', 'time', 'retro', 'round', 'feet')
 

@@ -69,6 +69,7 @@ class WorkflowWithWindingConnector(Solo48):
     icon_id = 'workflow-with-winding-connector'
     keyshape = Keyshape.HRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

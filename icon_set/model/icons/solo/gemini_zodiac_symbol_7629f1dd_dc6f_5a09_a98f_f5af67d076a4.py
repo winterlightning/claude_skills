@@ -12,6 +12,7 @@ class GeminiZodiacSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('gemini', 'zodiac', 'astrology', 'twins', 'horoscope', 'star sign', 'symbol', 'air')
 

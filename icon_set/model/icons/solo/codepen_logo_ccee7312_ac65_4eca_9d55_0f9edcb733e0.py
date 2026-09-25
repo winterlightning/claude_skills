@@ -12,6 +12,7 @@ class CodepenLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('codepen', 'cube', 'logo', 'brand', 'developer', 'editor', 'frontend')
 

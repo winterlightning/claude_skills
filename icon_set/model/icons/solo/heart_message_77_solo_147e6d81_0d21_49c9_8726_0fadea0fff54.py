@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('messages bubble with heart',)
     def build(self):
@@ -44,6 +45,7 @@ class Drawing(Solo48):
 
     icon_id = 'heart-message-77-solo'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('sub icon', 'message bubble with heart')
     semantic_role = 'MAIN'

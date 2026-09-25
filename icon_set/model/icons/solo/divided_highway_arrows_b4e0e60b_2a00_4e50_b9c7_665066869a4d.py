@@ -11,6 +11,7 @@ class DividedHighwayArrows(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('divided highway', 'dual carriageway', 'two way', 'traffic', 'arrows', 'road sign', 'lanes', 'median')
 

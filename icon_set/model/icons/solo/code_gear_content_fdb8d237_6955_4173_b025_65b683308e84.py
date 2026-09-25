@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'code-gear-content'
     keyshape = Keyshape.HRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('code programming gear settings',)
     def build(self):

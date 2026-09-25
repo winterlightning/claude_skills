@@ -11,6 +11,7 @@ class AbyssinianCatFace(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'pets'
+    categories = ('pets', 'primitives')
     aliases = ()
     keywords = ('cat', 'abyssinian', 'face', 'breed', 'whiskers', 'pet', 'feline', 'kitten')
 

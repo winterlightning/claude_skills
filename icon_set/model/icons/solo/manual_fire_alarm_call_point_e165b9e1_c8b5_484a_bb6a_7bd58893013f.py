@@ -12,6 +12,7 @@ class ManualFireAlarmCallPoint(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('fire', 'alarm', 'button', 'panel', 'emergency', 'safety')
 

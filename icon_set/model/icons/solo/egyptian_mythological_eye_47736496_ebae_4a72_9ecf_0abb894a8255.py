@@ -13,6 +13,7 @@ class EgyptianMythologicalEye(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('eye', 'egyptian', 'mythology', 'iris', 'pupil', 'eyebrow', 'symbol')
 

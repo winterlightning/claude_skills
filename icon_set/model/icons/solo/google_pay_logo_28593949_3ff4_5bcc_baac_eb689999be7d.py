@@ -19,6 +19,7 @@ class GooglePayLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-pay', 'google', 'payment', 'wallet', 'logo', 'brand', 'wordmark')
 

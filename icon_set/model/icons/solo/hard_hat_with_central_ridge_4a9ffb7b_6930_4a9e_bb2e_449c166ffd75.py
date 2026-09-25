@@ -18,6 +18,7 @@ class HardHatWithCentralRidge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('hard hat', 'safety', 'helmet', 'construction', 'protection', 'workwear', 'equipment', 'headgear')
 

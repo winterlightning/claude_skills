@@ -11,6 +11,7 @@ class GraphVLines(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('solo-ai-full-set', 'graph-v-lines')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'lower-leg-resting-in-a-support'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ["Leg in Medical Traction"]

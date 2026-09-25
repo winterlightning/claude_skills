@@ -23,6 +23,7 @@ class HorizontalFlipRightArrow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ('flip-right-panel',)
     keywords = ('horizontal', 'flip', 'right', 'arrow', 'panel', 'design')
 

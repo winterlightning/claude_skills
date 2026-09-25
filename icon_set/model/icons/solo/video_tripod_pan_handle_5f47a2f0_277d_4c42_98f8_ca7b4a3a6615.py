@@ -12,6 +12,7 @@ class VideoTripodPanHandle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('tripod', 'video tripod', 'pan handle', 'stand', 'camera', 'filming', 'photography', 'equipment')
 

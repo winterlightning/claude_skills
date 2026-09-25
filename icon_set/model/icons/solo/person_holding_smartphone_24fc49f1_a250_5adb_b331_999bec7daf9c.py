@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('meeting smartphone hold',)
     # Plan: A person with a clearly separate upright smartphone supported by a bent arm.

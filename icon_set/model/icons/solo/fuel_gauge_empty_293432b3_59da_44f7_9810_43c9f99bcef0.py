@@ -13,6 +13,7 @@ class FuelGaugeEmpty(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('fuel gauge', 'empty', 'fuel', 'gauge', 'dashboard', 'car', 'petrol', 'low fuel')
 

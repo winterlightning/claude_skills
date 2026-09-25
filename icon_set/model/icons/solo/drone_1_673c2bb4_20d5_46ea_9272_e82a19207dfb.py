@@ -12,6 +12,7 @@ class Drone1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('technology', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('drone', 'technology')
 

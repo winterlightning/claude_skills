@@ -20,6 +20,7 @@ class AwardRibbonContainer(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('circular-award-medal-ribbon', 'circular-award-ribbon-badge')
     keywords = ('award', 'ribbon', 'container')
 

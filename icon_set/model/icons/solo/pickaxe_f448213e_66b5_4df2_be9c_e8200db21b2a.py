@@ -12,6 +12,7 @@ class Pickaxe(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('pickaxe', 'pick', 'mining', 'dig', 'excavate', 'construction', 'miner', 'tool')
 

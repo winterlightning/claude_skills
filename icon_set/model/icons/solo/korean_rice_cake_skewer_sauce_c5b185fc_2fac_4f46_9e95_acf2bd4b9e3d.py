@@ -16,6 +16,7 @@ class KoreanRiceCakeSkewerSauce(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('korean', 'rice', 'cake', 'skewer', 'sauce')
 

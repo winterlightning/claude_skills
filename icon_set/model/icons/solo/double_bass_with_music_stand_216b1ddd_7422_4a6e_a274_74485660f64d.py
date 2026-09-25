@@ -12,6 +12,7 @@ class DoubleBassWithMusicStand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('contrabass', 'double-bass', 'music-stand', 'orchestra', 'string', 'instrument', 'sheet-music')
 

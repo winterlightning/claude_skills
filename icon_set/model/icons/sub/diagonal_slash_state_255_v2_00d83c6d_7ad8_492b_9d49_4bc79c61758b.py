@@ -21,6 +21,7 @@ class DiagonalSlashState255Variant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('diagonal', 'slash', 'long', 'line', 'descends', 'upper', 'left', 'lower')
     keyshape = Keyshape.SQUARE

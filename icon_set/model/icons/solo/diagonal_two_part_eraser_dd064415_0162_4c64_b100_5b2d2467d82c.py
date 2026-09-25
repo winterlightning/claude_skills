@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'diagonal-two-part-eraser'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('diagonal', 'two', 'part', 'eraser')
 
     def build(self):

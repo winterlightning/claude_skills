@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'capped-bottle-and-drinking-glass'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

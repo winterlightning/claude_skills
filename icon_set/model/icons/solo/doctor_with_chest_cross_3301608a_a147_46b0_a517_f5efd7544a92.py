@@ -18,6 +18,7 @@ class DoctorWithChestCross(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'combination'
+    categories = ('combination', 'primitives')
     aliases = ()
     keywords = ('doctor', 'nurse', 'medical', 'healthcare', 'person', 'profession', 'clinic', 'portrait')
 

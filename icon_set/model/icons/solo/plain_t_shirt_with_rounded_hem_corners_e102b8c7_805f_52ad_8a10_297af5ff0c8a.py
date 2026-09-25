@@ -54,6 +54,7 @@ class PlainTShirtWithRoundedHemCorners(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     aliases = ()
     keywords = ('plain', 't-shirt', 'with', 'rounded', 'hem', 'corners')
 

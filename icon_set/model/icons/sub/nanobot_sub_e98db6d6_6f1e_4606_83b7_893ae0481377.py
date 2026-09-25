@@ -17,6 +17,7 @@ class NanobotSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('nanobot', 'hexagonal', 'robot', 'body', 'tiny', 'central', 'dot', 'curved')
 

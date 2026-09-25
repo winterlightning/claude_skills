@@ -11,6 +11,7 @@ class PanFlute(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('pan-flute', 'panpipes', 'wind', 'instrument', 'folk', 'music', 'pipes')
 

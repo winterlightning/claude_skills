@@ -17,6 +17,7 @@ class PlusSignState249(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('plus', 'sign', 'equal', 'straight', 'strokes', 'intersect', 'centres', 'form')
 

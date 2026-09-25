@@ -15,6 +15,7 @@ class DistrictMapMarker(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Map Layout with Location Marker',)
     keywords = tuple('map layout with location marker'.split())
 

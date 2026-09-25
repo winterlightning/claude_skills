@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     tags = ('sub icon',)
     keywords = ('sub icon', 'wifi connection error warning')
     def build(self):

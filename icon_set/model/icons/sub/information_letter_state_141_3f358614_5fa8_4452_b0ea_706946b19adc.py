@@ -17,6 +17,7 @@ class InformationLetterState141(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('information', 'letter', 'lowercase', 'i', 'tiny', 'detached', 'dot', 'vertical')
 

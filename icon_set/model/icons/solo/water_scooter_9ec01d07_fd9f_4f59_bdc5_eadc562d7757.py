@@ -19,6 +19,7 @@ class WaterScooter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('jet-ski', 'water-scooter', 'watercraft', 'waves', 'sea', 'sport', 'vehicle', 'summer')
 

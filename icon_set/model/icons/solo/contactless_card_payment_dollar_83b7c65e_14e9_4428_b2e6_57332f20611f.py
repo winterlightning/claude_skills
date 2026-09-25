@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('contactless payment',)
     # Plan: A payment card with contactless radio waves instead of an ambiguous touching hand.

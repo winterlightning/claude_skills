@@ -17,6 +17,7 @@ class EqualsSign(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('equals', 'sign', 'straight', 'horizontal', 'lines', 'equal', 'length', 'sit')
 

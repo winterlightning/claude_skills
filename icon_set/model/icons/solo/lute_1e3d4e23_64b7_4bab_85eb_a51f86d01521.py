@@ -12,6 +12,7 @@ class Lute(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('lute', 'string', 'instrument', 'renaissance', 'mandolin', 'music', 'plucked')
 

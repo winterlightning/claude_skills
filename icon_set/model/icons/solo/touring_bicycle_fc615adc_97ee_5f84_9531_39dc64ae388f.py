@@ -13,6 +13,7 @@ class TouringBicycle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('touring bike', 'bicycle', 'bike', 'cycling', 'travel', 'road bike', 'pedal', 'transport')
 

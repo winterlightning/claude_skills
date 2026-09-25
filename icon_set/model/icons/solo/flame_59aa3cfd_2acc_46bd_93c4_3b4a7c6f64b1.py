@@ -15,6 +15,7 @@ class Flame59aa3cfd(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'products'
+    categories = ('primitives', 'products')
     aliases = ()
     keywords = ('flame', 'products')
 

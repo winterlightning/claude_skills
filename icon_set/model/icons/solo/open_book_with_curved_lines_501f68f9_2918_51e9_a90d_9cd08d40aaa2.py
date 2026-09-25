@@ -13,6 +13,7 @@ class Batch06Icon2(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "content"
+    categories = ("primitives", "content")
     aliases = ()
     keywords = ('open', 'book', 'with', 'curved', 'lines')
     def build(self):

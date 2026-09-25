@@ -12,6 +12,7 @@ class Drawing(Solo48):
     icon_id = 'person-height-measurement-content'
     keyshape = Keyshape.SQUARE
     category = 'state'
+    categories = ('state',)
     tags = ('sub icon',)
     keywords = ('person height measurement',)
     def build(self):

@@ -12,6 +12,7 @@ class WechatSpeechBubbleLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('wechat', 'chat', 'message', 'speech-bubble', 'logo', 'brand', 'text')
 

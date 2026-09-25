@@ -16,6 +16,7 @@ class CowHeadWithHorns(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cow', 'cattle', 'head', 'horns', 'muzzle', 'farm', 'bovine', 'dairy')
 

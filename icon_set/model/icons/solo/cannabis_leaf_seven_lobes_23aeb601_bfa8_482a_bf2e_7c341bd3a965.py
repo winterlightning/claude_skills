@@ -13,6 +13,7 @@ class CannabisLeafSevenLobes(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "state")
     aliases = ()
     keywords = ('cannabis', 'marijuana', 'leaf')
 

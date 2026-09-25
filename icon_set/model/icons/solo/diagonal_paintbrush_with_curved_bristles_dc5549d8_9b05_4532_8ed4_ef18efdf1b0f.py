@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "design"
+    categories = ("design", "primitives")
     aliases = ()
     keywords = ('brush', 'paintbrush', 'bristles', 'handle', 'art', 'artist', 'painting', 'tool', 'sub icon')
 

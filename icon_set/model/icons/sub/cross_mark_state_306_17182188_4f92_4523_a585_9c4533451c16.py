@@ -17,6 +17,7 @@ class CrossMarkState306(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('cross', 'mark', 'diagonal', 'strokes', 'intersect', 'centrally', 'form', 'evenly')
 

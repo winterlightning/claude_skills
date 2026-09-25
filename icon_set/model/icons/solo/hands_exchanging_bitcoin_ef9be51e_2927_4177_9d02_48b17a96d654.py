@@ -15,6 +15,7 @@ class HandsExchangingBitcoin(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases=()
     keywords=('crypto', 'bitcoin', 'trade', 'exchange', 'coin', 'hands', 'currency', 'blockchain')
     def build(self):

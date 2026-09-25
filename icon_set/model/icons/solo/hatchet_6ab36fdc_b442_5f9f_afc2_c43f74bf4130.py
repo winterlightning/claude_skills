@@ -12,6 +12,7 @@ class Hatchet(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('axe', 'hatchet', 'chop', 'wood', 'lumberjack', 'camping', 'blade', 'tool')
 

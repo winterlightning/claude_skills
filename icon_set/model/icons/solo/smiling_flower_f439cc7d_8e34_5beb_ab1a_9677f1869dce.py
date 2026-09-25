@@ -16,6 +16,7 @@ class SmilingFlower(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('flower', 'smile', 'happy', 'face', 'petals', 'cheerful', 'kids', 'nature')
 

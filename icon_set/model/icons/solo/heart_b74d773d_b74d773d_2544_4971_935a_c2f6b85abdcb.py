@@ -11,6 +11,7 @@ class HeartB74d773d(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('solo-ai-full-set', 'heart-b74d773d')
 

@@ -13,6 +13,7 @@ class DocumentWithPlayButton(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("video file", "play document")
     keywords = ("video", "file", "media", "play")
 

@@ -21,6 +21,7 @@ class NextPlaybackVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('next', 'playback', 'outlined', 'right', 'pointing', 'triangle', 'followed', 'detached')
     keyshape = Keyshape.SQUARE

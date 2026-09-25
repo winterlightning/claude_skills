@@ -11,6 +11,7 @@ class BatEmblem(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('batman', 'bat', 'emblem', 'superhero', 'logo', 'comic', 'hero', 'dc')
 

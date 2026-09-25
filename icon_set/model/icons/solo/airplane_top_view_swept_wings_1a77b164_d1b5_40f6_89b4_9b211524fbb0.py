@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
+    categories = ('travel', 'primitives')
     aliases = ()
     keywords = ('plane',)
 
@@ -36,6 +37,7 @@ class Drawing(Solo48):
 
     icon_id = 'airplane-top-view-swept-wings'
     category = 'travel'
+    categories = ('travel', 'primitives')
     aliases = ()
     keywords = ('airplane', 'plane', 'aircraft', 'top-view', 'flight', 'aviation', 'airport', 'travel')
     semantic_role = 'MAIN'

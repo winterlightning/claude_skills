@@ -13,6 +13,7 @@ class Ladybug(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('ladybug', 'ladybird', 'beetle', 'insect', 'bug', 'spots', 'garden', 'luck')
 

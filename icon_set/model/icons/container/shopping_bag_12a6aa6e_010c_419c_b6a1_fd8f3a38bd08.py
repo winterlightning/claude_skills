@@ -15,6 +15,7 @@ SOURCE_PATH = 'icon_set/model/icons/container/shopping_bag.py'
 class ShoppingBag(Container64):
     icon_id = 'shopping-bag'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('shopping', 'bag')

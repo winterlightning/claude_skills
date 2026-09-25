@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('ui webpage bank',)
     def build(self):
@@ -48,6 +49,7 @@ class Drawing(Solo48):
 
     icon_id = 'browser-header-window-solo-dd2e4d0c'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('browser-header-window',)
     keywords = ('browser', 'header', 'window')
     semantic_role = 'MAIN'

@@ -19,6 +19,7 @@ class JoomlaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('joomla', 'cms', 'knot', 'logo', 'brand', 'web', 'open-source')
 

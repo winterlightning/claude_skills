@@ -17,6 +17,7 @@ class ConstructionWorkerWithWrench(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("labor worker", "mechanic")
     keywords = ("worker", "helmet", "hard hat", "wrench", "construction")
 

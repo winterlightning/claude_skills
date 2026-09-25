@@ -15,6 +15,7 @@ class StarHolidays(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'holidays'
+    categories = ('holidays', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('star', 'holidays')
 

@@ -12,6 +12,7 @@ class SquarePlayButton(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'medias'
+    categories = ('medias', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('square', 'play', 'button', 'medias')
 

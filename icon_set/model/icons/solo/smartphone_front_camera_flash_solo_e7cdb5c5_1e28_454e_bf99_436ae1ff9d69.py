@@ -12,6 +12,7 @@ class SmartphoneFrontCameraFlashSolo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('smartphone', 'camera', 'selfie', 'flash', 'phone', 'screen')
 

@@ -16,6 +16,7 @@ class DreamcatcherWithFeather(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hobbies'
+    categories = ('primitives', 'hobbies')
     aliases = ()
     keywords = ('dreamcatcher', 'with', 'feather')
 

@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('hotel', 'single', 'bed')
 
@@ -62,6 +63,7 @@ class Drawing(Solo48):
 
     icon_id = 'single-bed-with-pillow'
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('single', 'bed', 'with', 'pillow')
     semantic_role = 'MAIN'

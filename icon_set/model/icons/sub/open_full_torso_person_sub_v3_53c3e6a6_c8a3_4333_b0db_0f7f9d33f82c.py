@@ -16,6 +16,7 @@ class DrawingVariant3(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
 
     def build(self):
         self.add_arc('head-top', (12, 6), (20, 6), radius_x=4)

@@ -13,6 +13,7 @@ class MinimalBicycle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bicycle', 'bike', 'cycling', 'simple', 'pedal', 'transport', 'two wheels', 'ride')
 

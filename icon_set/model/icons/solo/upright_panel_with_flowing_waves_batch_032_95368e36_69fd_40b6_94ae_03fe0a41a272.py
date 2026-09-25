@@ -13,6 +13,7 @@ class Batch032Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ('upright-panel-with-flowing-waves',)
     keywords = ('batch-032',)
 

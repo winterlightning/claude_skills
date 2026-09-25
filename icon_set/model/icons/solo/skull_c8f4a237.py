@@ -11,6 +11,7 @@ class SkullC8f4a237(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('skull', 'interface-essential')
 

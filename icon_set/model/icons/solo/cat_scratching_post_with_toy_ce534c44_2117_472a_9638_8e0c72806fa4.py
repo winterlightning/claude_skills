@@ -16,6 +16,7 @@ class CatScratchingPostWithToy(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('cat-tree', 'scratcher', 'scratching-post', 'cat', 'furniture', 'toy', 'pet')
 

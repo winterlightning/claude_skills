@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ["Data Flow Right Arrow"]
     keywords = ["arrow", "right", "data", "flow", "rows", "diagram", "connection"]
     def build(self):

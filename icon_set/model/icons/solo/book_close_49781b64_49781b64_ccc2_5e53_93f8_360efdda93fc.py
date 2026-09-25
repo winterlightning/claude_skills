@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('content', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('book', 'close')
 
@@ -36,6 +37,7 @@ class Drawing(Solo48):
 
     icon_id = 'book-close-49781b64'
     category = 'content'
+    categories = ('content', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('book', 'close', 'content', 'solo-ai-next50')
     semantic_role = 'MAIN'

@@ -13,6 +13,7 @@ class HermesWithWingedHelmet(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'religion'
+    categories = ('primitives', 'religion')
     aliases = ()
     keywords = ('hermes', 'helmet', 'wing', 'head', 'greek', 'mythology', 'portrait')
 

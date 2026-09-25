@@ -19,6 +19,7 @@ class BarChartLines(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('bar-chart', 'chart', 'statistics', 'graph', 'analytics', 'data', 'report', 'bars')
 

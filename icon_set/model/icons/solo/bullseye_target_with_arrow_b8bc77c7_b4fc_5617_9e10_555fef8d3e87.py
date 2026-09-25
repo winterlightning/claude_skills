@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'business'
+    categories = ('primitives', 'business')
     aliases=()
     keywords=('target', 'center')
     def path(self,n,start,commands,closed=False):
@@ -65,6 +66,7 @@ class Drawing(Solo48):
 
     icon_id = 'bullseye-target-with-arrow'
     category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('bullseye', 'target', 'with', 'arrow')
     semantic_role = 'MAIN'

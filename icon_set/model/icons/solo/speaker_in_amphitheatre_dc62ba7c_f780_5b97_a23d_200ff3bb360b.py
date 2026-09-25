@@ -12,6 +12,7 @@ class SpeakerInAmphitheatre(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('speaker', 'amphitheatre', 'presentation', 'person', 'auditorium', 'office')
 

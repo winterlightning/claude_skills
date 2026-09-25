@@ -12,6 +12,7 @@ class RockingHorseToy(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies',)
     aliases = ('rocking-horse',)
     keywords = ('horse', 'rocker', 'toy', 'nursery', 'play')
 

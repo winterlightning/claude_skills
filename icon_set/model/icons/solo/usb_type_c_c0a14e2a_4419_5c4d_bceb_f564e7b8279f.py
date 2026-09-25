@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'electronics'
+    categories = ('electronics', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('usb', 'type', 'c')
 
@@ -43,6 +44,7 @@ class Drawing(Solo48):
 
     icon_id = 'usb-type-c'
     category = 'electronics'
+    categories = ('electronics', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('usb', 'type', 'c', 'electronics')
     semantic_role = 'MAIN'

@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases=()
     keywords=('people',)
     def path(self,n,start,commands,closed=False):
@@ -68,6 +69,7 @@ class Drawing(Solo48):
 
     icon_id = 'three-person-user-group'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('three', 'person', 'user', 'group')
     semantic_role = 'MAIN'

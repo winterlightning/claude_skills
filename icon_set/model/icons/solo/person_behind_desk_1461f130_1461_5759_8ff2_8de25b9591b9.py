@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases=()
     keywords=('neutral', 'podium')
     def circle(self,n,x,y,r):

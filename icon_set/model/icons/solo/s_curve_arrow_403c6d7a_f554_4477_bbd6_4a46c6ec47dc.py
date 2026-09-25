@@ -11,6 +11,7 @@ class SCurveArrow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('curve', 'road', 'arrow', 'bend', 'winding', 'direction', 'traffic', 'right curve')
 

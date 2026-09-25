@@ -17,6 +17,7 @@ class MultiSectionCollageLayout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("collage grid", "composition layout")
     keywords = ("panels", "mosaic", "sections", "grid")
 

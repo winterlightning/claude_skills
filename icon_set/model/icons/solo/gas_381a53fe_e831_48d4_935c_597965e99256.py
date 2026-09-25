@@ -16,6 +16,7 @@ class Gas(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('gas', '_uncategorized')
     keyshape = Keyshape.VRECT_L

@@ -69,6 +69,7 @@ class PartlyOpenZipper(Solo48):
     icon_id = 'partly-open-zipper'
     keyshape = Keyshape.VRECT_L
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Dental Molar Tooth Symbol',)
     keywords = ('molar','tooth','dental','roots','crown','teeth','anatomy')
     def build(self):

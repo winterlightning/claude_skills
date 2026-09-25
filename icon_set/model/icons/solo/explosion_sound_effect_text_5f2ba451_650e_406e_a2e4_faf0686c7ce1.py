@@ -11,6 +11,7 @@ class ExplosionSoundEffectText(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('solo-ai-full-set', 'explosion-sound-effect-text')
 

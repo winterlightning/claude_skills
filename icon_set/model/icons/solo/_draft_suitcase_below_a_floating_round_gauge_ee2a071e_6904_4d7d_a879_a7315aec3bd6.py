@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'suitcase-below-a-floating-round-gauge'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

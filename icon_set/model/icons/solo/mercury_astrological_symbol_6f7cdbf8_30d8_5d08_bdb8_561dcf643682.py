@@ -15,6 +15,7 @@ class MercuryAstrologicalSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('mercury', 'astrology', 'planet', 'horns', 'symbol', 'horoscope', 'glyph', 'hermes')
 

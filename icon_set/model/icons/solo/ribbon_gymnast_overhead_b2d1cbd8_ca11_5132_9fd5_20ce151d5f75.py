@@ -11,6 +11,7 @@ class RibbonGymnastOverhead(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('ribbon', 'gymnast', 'overhead')
     def build(self) -> None:

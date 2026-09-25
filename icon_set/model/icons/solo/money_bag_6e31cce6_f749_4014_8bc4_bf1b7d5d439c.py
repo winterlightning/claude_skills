@@ -13,6 +13,7 @@ class MoneyBag(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('money-bag', 'money', 'dollar', 'savings', 'wealth', 'cash', 'finance', 'bank')
 

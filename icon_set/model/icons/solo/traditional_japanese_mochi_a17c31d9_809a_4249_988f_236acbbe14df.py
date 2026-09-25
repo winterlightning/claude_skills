@@ -18,6 +18,7 @@ class TraditionalJapaneseMochi(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("mochi", "rounded rice cake")
     keywords = ("rice", "cake", "filling", "japanese")
 

@@ -19,6 +19,7 @@ class ClockSeven(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('clock', 'time', 'hour', 'watch', 'schedule', 'minutes', 'wall-clock')
 

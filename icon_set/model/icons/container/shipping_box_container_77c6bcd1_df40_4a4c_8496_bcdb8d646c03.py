@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class ShippingBoxContainer(Container64):
     icon_id = 'shipping-box-container'
     category = 'shipping'
+    categories = ('shipping', 'other', 'primitives-generate')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('shipping', 'box', 'container')

@@ -13,6 +13,7 @@ class PoliceBadge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('police', 'badge', 'symbol')
     keyshape = Keyshape.VRECT_L

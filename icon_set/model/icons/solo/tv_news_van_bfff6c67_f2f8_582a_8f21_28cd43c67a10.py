@@ -12,6 +12,7 @@ class TvNewsVan(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tv"
+    categories = ("tv", "primitives")
     aliases = ()
     keywords = ('van', 'tv', 'broadcast', 'news', 'satellite', 'dish', 'vehicle', 'media', 'outside-broadcast')
 

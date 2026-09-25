@@ -16,6 +16,7 @@ class BonsaiInShallowPot(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('bonsai', 'tree', 'pot', 'plant', 'miniature', 'japanese', 'garden', 'houseplant')
 

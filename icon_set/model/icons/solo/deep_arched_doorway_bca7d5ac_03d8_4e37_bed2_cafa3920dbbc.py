@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'deep-arched-doorway'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('deep', 'arched', 'doorway')
 
     def build(self):

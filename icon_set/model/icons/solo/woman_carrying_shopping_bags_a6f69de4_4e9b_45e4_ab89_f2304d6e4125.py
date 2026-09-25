@@ -11,6 +11,7 @@ class WomanCarryingShoppingBags(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('woman', 'shopper', 'bags', 'shopping', 'carry', 'retail', 'purchase')
 

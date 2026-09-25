@@ -12,6 +12,7 @@ class TypescriptLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('typescript', 'ts', 'programming', 'language', 'logo', 'brand', 'developer')
 

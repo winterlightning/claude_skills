@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'add-user-right-content'
     keyshape = Keyshape.HRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('add new user profile',)
     def build(self):

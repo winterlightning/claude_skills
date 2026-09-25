@@ -12,6 +12,7 @@ class ShipsAnchor(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'state')
     aliases = ('anchor', 'ship-anchor')
     keywords = ('ship', 'nautical', 'marine', 'harbour', 'port', 'sailing', 'sea', 'maritime')
 

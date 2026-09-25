@@ -15,6 +15,7 @@ class FacehuggerCreature(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('facehugger', 'alien', 'creature', 'tail', 'legs', 'fiction')
 

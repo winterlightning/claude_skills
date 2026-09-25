@@ -21,6 +21,7 @@ class ReplyAllArrowVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('reply', 'all', 'arrow', 'curved', 'rises', 'lower', 'right', 'left')
     keyshape = Keyshape.SQUARE

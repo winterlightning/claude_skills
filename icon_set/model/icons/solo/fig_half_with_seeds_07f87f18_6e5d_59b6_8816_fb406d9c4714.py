@@ -19,6 +19,7 @@ class FigHalfWithSeeds(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "food"
+    categories = ("primitives", "food")
     aliases = ()
     keywords = ('fig', 'half', 'with', 'seeds')
 

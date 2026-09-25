@@ -15,6 +15,7 @@ class HouseA2ba7093(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('house', 'interface-essential')
 

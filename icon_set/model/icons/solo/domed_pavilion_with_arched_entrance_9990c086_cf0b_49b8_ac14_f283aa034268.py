@@ -17,6 +17,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Domed Building with Arched Entrance', 'atrium')
     keywords = ('pavilion','dome','arch','entrance','building','architecture','plinth')
 

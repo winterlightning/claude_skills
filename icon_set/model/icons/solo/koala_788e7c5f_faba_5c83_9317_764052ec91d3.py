@@ -13,6 +13,7 @@ class KoalaHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('koala', 'face', 'head', 'ears', 'nose', 'marsupial', 'australia', 'cute')
 

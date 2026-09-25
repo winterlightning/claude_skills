@@ -20,6 +20,7 @@ class DrawingVariant4(SideSub32Exception):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
     canvas_width = 44
     canvas_height = 32

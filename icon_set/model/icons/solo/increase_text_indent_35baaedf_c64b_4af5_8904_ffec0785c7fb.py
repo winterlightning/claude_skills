@@ -18,6 +18,7 @@ class IncreaseTextIndent(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("text lines arrow right", "insert below")
     keywords = ("text", "lines", "arrow", "right", "indent")
 

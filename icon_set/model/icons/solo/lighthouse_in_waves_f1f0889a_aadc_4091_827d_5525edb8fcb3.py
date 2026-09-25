@@ -13,6 +13,7 @@ class LighthouseInWaves(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('lighthouse', 'beacon', 'sea', 'waves', 'coast', 'navigation', 'maritime', 'tower')
 

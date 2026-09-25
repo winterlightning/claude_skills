@@ -18,6 +18,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "drinks"
+    categories = ("drinks", "primitives")
     aliases = ()
     keywords = ('wine', 'table', 'chairs', 'dining', 'bottle', 'glass', 'furniture', 'restaurant')
 

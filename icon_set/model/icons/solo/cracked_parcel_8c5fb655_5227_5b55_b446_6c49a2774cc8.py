@@ -12,6 +12,7 @@ class CrackedParcel(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('parcel', 'box', 'crack', 'damage', 'shipping', 'broken')
 

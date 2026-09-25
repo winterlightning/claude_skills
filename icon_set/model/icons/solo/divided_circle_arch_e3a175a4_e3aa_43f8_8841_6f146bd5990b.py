@@ -19,6 +19,7 @@ class DividedCircleArch(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('circle', 'divided', 'symbol', 'peace', 'face', 'split', 'emblem', 'sign')
 

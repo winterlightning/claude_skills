@@ -19,6 +19,7 @@ class SourceMain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('radar-concentric-screen',)
     keywords = ('radar', 'concentric', 'screen')
 

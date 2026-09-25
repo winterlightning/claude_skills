@@ -13,6 +13,7 @@ class SparkleClusterRoundedGlints(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases=()
     keywords=('reward','celebration','sparkle-cluster-rounded-glints')
     def build(self) -> None:

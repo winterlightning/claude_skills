@@ -13,6 +13,7 @@ class LeapingHammerhead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('hammerhead', 'shark', 'jump', 'leap', 'sea', 'splash', 'ocean', 'marine')
 

@@ -11,6 +11,7 @@ class CrossedSwords(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('sword', 'crossed', 'blade', 'fencing', 'combat', 'equipment')
     def build(self) -> None:

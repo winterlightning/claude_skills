@@ -24,7 +24,9 @@ TODO/SKIP decisions are not stored here; they live in the gallery database
 
 Uncategorized primitives can be given a topic category without moving their
 artwork: data/primitive-categories.json (written by primitive_categories.py) maps
-uuid -> category, and a listed row takes that category with no batch.
+uuid -> category, and a listed row takes that category with no batch. Primitives whose
+pictoicon record has no topic at all are categorized by concept name in
+data/concept-categories.json (hand-kept, so primitive_categories.py build cannot wipe it).
 
 Primitives that are the same drawing (data/primitive-aliases.json, written by
 primitive_duplicates.py) fold into one row: the canonical keeps its identity and
@@ -59,6 +61,7 @@ ROOT_ENV = 'PICTOGRAPHIC_PRIMITIVES'
 UNCATEGORIZED = 'Uncategorized'
 ALIASES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-aliases.json'
 CATEGORIES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-categories.json'
+CONCEPT_CATEGORIES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'concept-categories.json'
 WORK_ROOT = REPO_ROOT / 'icon_set' / 'work'
 WORK_SKILLS = ('primitive-make-ray', 'side-main-make-thuan', 'side-sub-make-thuan')
 _VIEWBOX = re.compile(r'viewBox="([^"]+)"')
@@ -324,7 +327,10 @@ def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = No
     ``category_overrides`` maps uuid -> category for Uncategorized rows (load_category_overrides()).
     """
     aliases = load_aliases() if aliases is None else aliases
-    overrides = load_category_overrides() if category_overrides is None else category_overrides
+    if category_overrides is None:
+        overrides = {**load_category_overrides(CONCEPT_CATEGORIES_PATH), **load_category_overrides()}
+    else:
+        overrides = category_overrides
     rows = apply_category_overrides(scan(root), overrides)
     rows.sort(key=lambda r: (r['category'].lower(), r['batch'], r['concept'].lower(), r['path']))
     rows = fold_aliases(rows, aliases)

@@ -12,6 +12,7 @@ class StackedSealedParcels(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('parcel', 'stack', 'box', 'shipping', 'package', 'freight')
 

@@ -20,6 +20,7 @@ class PlusMinusSignState64ContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('plus', 'minus', 'sign', 'stands', 'directly', 'detached', 'horizontal', 'both')
 

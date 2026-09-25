@@ -11,6 +11,7 @@ class ThreeComputerMonitors(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'networks'
+    categories = ('primitives', 'networks')
     aliases=()
     keywords=('three', 'computer', 'monitors', 'network')
 

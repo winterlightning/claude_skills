@@ -11,6 +11,7 @@ class GermanShepherd(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'pets'
+    categories = ('pets', 'primitives')
     aliases = ()
     keywords = ('german', 'shepherd', 'pets')
 

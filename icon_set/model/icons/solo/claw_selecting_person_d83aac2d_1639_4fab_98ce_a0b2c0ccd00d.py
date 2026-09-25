@@ -16,6 +16,7 @@ class ClawSelectingPerson(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('claw', 'person', 'recruiting', 'selection', 'team', 'employee')
 

@@ -20,6 +20,7 @@ class SmilingFaceSubContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('smiling', 'face', 'round', 'contains', 'short', 'vertical', 'eyes', 'broad')
 

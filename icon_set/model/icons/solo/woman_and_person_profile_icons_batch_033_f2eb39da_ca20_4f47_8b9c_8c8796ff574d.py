@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases=()
     keywords=('two', 'users', 'woman')
     human_construction='bust'
@@ -66,6 +67,7 @@ class Drawing(Solo48):
 
     icon_id = 'woman-and-person-profile-icons-batch-033'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('woman-and-person-profile-icons',)
     keywords = ('batch-033',)
     semantic_role = 'MAIN'

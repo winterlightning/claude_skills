@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'rating'
+    categories = ('rating', 'state', 'other', 'primitives-generate')
     keywords = ('first', 'place', 'winner', 'podium')
     STROKE_WIDTH = 4
     PATH_STROKE_WIDTHS = {name:4 for name in ('base','left-bottom','left-side','left-corner','left-top','center-left','center-tl','center-top','center-tr','center-right','right-top','right-corner','right-side','right-bottom')}

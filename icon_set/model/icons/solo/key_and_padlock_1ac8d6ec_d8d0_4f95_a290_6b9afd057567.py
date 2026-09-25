@@ -13,6 +13,7 @@ class KeyAndPadlock(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('key', 'padlock', 'lock', 'security', 'access', 'password', 'unlock', 'privacy')
 

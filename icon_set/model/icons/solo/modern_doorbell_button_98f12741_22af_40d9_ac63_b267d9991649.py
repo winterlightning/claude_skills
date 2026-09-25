@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('doorbell',)
     def build(self):
@@ -44,6 +45,7 @@ class Drawing(Solo48):
 
     icon_id = 'modern-doorbell-button'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('modern', 'doorbell', 'button')
     semantic_role = 'MAIN'

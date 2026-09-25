@@ -11,6 +11,7 @@ class OverpassBridge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('overpass', 'bridge', 'highway', 'road', 'flyover', 'motorway', 'junction', 'infrastructure')
 

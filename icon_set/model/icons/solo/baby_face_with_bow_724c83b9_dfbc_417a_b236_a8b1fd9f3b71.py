@@ -13,6 +13,7 @@ class BabyFaceWithBow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies', 'state')
     aliases = ()
     keywords = ('baby', 'face', 'with', 'bow')
 

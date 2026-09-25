@@ -13,6 +13,7 @@ class BusFront(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('bus', 'front', 'public transport', 'coach', 'vehicle', 'transit', 'commute', 'head-on')
 

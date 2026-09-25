@@ -11,6 +11,7 @@ class FlyingBird(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('bird', 'flying', 'wings', 'dove', 'flight', 'sky', 'freedom', 'soar')
 

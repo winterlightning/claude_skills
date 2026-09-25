@@ -11,6 +11,7 @@ class Camera(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video'
+    categories = ('video', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('camera', 'photography', 'lens', 'photo', 'device', 'optics', 'snapshot')
 

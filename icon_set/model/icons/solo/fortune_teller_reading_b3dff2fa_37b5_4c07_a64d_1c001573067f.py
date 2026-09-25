@@ -22,6 +22,7 @@ class FortuneTellerReading(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('fortune teller', 'crystal ball', 'divination', 'psychic', 'reading', 'mystic', 'seance', 'future')
 

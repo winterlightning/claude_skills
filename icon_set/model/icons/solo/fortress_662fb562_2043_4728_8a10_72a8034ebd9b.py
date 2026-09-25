@@ -12,6 +12,7 @@ class Fortress(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'primitives')
     aliases = ()
     keywords = ('fortress', 'protection')
 

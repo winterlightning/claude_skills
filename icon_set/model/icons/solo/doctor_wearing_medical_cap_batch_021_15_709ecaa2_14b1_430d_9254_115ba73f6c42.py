@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives-generate", "other")
     aliases = ()
     keywords = ('doctor',)
 
@@ -47,6 +48,7 @@ class Drawing(Solo48):
 
     icon_id = 'doctor-wearing-medical-cap-batch-021-15'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'other')
     aliases = ()
     keywords = ('doctor', 'wearing', 'medical', 'cap')
     semantic_role = 'MAIN'

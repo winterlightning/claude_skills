@@ -17,6 +17,7 @@ class SummationSign(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "state"
+    categories = ("state",)
     aliases = ()
     keywords = ('summation', 'sign', 'large', 'uppercase', 'sigma', 'long', 'horizontal', 'top')
 

@@ -12,6 +12,7 @@ class CatPawPrint(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals',)
     aliases = ('feline paw print',)
     keywords = ('cat', 'paw', 'pet', 'kitten', 'footprint', 'animal')
 

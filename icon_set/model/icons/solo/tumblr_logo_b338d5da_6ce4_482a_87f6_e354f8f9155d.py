@@ -12,6 +12,7 @@ class TumblrLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tumblr', 'blog', 'letter-t', 'social', 'logo', 'brand', 'microblog')
 

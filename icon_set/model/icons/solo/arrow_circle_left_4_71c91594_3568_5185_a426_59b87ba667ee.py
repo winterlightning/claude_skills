@@ -11,6 +11,7 @@ class ArrowCircleLeft4(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'arrow-circle-left-4')
 

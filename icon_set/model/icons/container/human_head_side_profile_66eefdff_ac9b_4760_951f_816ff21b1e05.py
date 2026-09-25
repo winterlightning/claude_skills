@@ -19,6 +19,7 @@ class HumanHeadSideProfile(Container64):
     icon_id = 'human-head-side-profile'
     keyshape = Keyshape.VRECT_XL
     category = 'primitives-generate'
+    categories = ('container', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('human', 'head', 'side', 'profile', 'mind')
 

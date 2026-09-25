@@ -13,6 +13,7 @@ class YawningFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('yawn', 'yawning', 'tired', 'sleepy', 'face', 'emoji')
 

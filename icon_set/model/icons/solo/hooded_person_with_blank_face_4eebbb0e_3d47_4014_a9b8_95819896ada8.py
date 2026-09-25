@@ -20,6 +20,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     human_construction = 'bust'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     keywords = ('hooded', 'person', 'with', 'blank', 'face')
 
     def build(self):

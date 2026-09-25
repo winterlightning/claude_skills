@@ -6,5 +6,6 @@ AUTHOR = 'gpt-6'
 class InterlockingChainLink(_LinkDrawing):
     icon_id = 'interlocking-chain-link-symbol-solo'
     category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('sub icon','chain','link')

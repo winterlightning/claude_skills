@@ -11,6 +11,7 @@ class HologramCubeProjector(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('hologram', 'projector', 'cube', 'virtual', '3d', 'projection', 'object')
 

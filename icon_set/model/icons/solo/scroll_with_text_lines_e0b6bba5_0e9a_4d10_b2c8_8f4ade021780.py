@@ -14,6 +14,7 @@ class ScrollWithTextLines(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('scroll', 'script', 'code', 'document', 'paper', 'language', 'text', 'programming')
 

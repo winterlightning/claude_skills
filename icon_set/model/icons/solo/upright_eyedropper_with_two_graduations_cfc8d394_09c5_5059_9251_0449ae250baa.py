@@ -12,6 +12,7 @@ class UprightEyedropperWithTwoGraduations(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('eyedropper', 'dropper', 'pipette', 'liquid', 'color', 'graduations', 'tool', 'sampler')
 

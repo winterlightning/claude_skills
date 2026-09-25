@@ -16,6 +16,7 @@ class HighFiveHands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('hands', 'highfive', 'greeting', 'celebration', 'contact', 'teamwork')
 

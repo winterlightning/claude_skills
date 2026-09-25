@@ -12,6 +12,7 @@ class DownwardArrowAboveTwoBaselines(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('arrow', 'down', 'flatten', 'layers', 'baseline', 'merge', 'direction', 'design')
 

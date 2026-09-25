@@ -14,6 +14,7 @@ class CubeHierarchyRoundNodes(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('cube', 'hierarchy', 'organization', 'tree', 'nodes', 'structure', 'accounts', 'network')
 

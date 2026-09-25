@@ -11,6 +11,7 @@ class CameraDroneFront(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('drone', 'camera', 'quadcopter', 'aerial', 'photography', 'gimbal', 'uav')
 

@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
+    categories = ('maps', 'primitives')
     aliases = ()
     keywords = ('earth', '1')
     def build(self):

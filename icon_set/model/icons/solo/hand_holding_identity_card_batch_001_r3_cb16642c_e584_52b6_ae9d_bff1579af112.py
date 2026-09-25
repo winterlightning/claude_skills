@@ -39,6 +39,7 @@ class HandHoldingIdentityCardBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("digital-policies-data-breach-user", "show-id-card")
     keywords = ("hand", "identity", "card", "id", "badge", "user", "verification", "holding")
 

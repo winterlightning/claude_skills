@@ -12,6 +12,7 @@ class BlankBoardOnEasel(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('easel', 'board', 'drawing', 'canvas', 'stand', 'office')
 

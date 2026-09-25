@@ -16,6 +16,7 @@ class RainCloudSlanted(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('rain', 'cloud', 'weather', 'rainy', 'shower', 'storm', 'forecast', 'drizzle')
 

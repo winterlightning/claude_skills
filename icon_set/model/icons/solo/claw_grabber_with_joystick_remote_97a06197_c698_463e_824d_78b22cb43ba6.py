@@ -11,6 +11,7 @@ class ClawGrabberWithJoystickRemote(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('claw', 'gripper', 'joystick', 'remote', 'robotics', 'control', 'vice', 'wireless')
 

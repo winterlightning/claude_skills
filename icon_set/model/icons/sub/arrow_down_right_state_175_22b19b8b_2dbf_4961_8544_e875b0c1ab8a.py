@@ -17,6 +17,7 @@ class ArrowDownRightState175(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'down', 'right', 'long', 'diagonal', 'points', 'lower', 'ending')
 

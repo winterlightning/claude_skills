@@ -19,6 +19,7 @@ class ColonCurrencySign(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('colon', 'currency', 'money', 'costa-rica', 'sign', 'finance', 'symbol', 'crc')
 

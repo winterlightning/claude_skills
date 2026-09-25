@@ -13,6 +13,7 @@ class DropBottle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('drop', 'bottle', 'symbol')
     keyshape = Keyshape.VRECT_L

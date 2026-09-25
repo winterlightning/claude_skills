@@ -12,6 +12,7 @@ class Cinema4DLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('cinema-4d', 'maxon', '3d', 'logo', 'brand', 'modeling', 'animation')
 

@@ -12,6 +12,7 @@ class PersonOnPrayerMat(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('person', 'headscarf', 'prayer', 'mat', 'kneeling', 'worship')
 

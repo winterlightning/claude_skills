@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Ear of Wheat Grain']
     keywords = ['stem','leaves','plant','spelt','foliage','sprig']
     def build(self):

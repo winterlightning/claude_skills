@@ -11,6 +11,7 @@ class ProjectorVideoHouse(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('virtual-home', 'projector', 'house', 'video', 'play', 'hologram', 'smart-home')
 

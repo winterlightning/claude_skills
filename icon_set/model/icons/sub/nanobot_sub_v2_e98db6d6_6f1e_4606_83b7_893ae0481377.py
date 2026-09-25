@@ -21,6 +21,7 @@ class NanobotSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('nanobot', 'hexagonal', 'robot', 'body', 'tiny', 'central', 'dot', 'curved')
     keyshape = Keyshape.SQUARE

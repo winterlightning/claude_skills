@@ -11,6 +11,7 @@ class GlobeOverNodeInOpenRing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology', 'networks')
     aliases = ()
     keywords = ('globe', 'world', 'region', 'network', 'cloud', 'delivery', 'node', 'data')
 

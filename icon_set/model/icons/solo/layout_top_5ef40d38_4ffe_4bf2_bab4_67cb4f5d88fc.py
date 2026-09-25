@@ -13,6 +13,7 @@ class LayoutTop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('layout', 'top', 'interface-essential')
     keyshape = Keyshape.SQUARE

@@ -16,6 +16,7 @@ class CloudsWavyMist(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('cloud', 'mist', 'haze', 'overcast', 'weather', 'atmosphere')
 

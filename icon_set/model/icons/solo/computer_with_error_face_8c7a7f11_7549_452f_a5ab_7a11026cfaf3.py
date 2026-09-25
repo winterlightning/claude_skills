@@ -11,6 +11,7 @@ class ComputerWithErrorFace(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('computer', 'error', 'face', 'monitor', 'crash', 'tongue', 'desktop')
 

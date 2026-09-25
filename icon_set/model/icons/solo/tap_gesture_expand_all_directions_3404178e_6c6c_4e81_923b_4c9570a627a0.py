@@ -10,6 +10,7 @@ class TapGestureExpandAllDirections(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("four-way tap expand",)
     keywords = ("finger", "arrows", "spread")
 

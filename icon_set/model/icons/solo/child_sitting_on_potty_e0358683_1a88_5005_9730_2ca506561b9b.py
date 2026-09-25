@@ -12,6 +12,7 @@ class ChildSittingOnPotty(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('child', 'potty', 'toilet', 'seated', 'baby', 'bathroom')
 

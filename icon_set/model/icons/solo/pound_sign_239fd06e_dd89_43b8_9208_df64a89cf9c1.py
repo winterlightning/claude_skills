@@ -14,6 +14,7 @@ class PoundSign(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('pound', 'sterling', 'gbp', 'currency', 'money', 'uk', 'finance', 'sign')
 

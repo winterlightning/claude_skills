@@ -11,7 +11,8 @@ class ManDoctorAvatar(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases=()
     keywords=('man doctor',)
 

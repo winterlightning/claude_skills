@@ -12,6 +12,7 @@ class BatchIcon(Solo48):
     semantic_kind = "noun"
     human_construction = "bust"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('driver', 'person', 'steering', 'wheel', 'car', 'driving', 'bust')
     def build(self):

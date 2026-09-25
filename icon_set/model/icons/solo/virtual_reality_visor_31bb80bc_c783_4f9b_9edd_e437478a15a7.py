@@ -55,6 +55,7 @@ class VirtualRealityVisor(Solo48):
     icon_id = 'virtual-reality-visor'
     keyshape = Keyshape.HRECT_L
     category = 'combination'
+    categories = ('combination', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

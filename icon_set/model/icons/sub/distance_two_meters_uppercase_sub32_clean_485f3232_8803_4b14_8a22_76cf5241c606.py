@@ -16,6 +16,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     TYPEFACE_GLYPH_IDS = ('digit-2', 'letter-m-uppercase')
 
     def build(self):

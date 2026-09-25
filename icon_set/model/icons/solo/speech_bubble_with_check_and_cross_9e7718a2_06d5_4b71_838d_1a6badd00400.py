@@ -18,6 +18,7 @@ class SpeechBubbleWithCheckAndCross(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("criteria true false", "yes no chat")
     keywords = ("check", "cross", "approval", "choice")
 

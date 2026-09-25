@@ -16,6 +16,7 @@ class MysticalEyeAndSparkleSymbol(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('mystical', 'eye', 'and', 'sparkle', 'symbol')
 

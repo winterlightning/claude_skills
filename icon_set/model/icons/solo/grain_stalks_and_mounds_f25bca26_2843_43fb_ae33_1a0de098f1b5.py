@@ -15,6 +15,7 @@ class GrainStalksAndMounds(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('firstfruits', 'grain', 'barley', 'harvest', 'stalks', 'feast', 'agriculture', 'offering')
 

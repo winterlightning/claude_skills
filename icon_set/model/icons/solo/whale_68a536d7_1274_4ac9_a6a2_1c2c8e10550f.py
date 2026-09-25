@@ -19,6 +19,7 @@ class RoundWhale(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('whale', 'round', 'spout', 'sea', 'ocean', 'marine', 'cute', 'mammal')
 

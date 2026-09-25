@@ -16,6 +16,7 @@ class PetHairBrush(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('brush', 'hair-brush', 'grooming', 'comb', 'fur', 'pet', 'bristles')
 

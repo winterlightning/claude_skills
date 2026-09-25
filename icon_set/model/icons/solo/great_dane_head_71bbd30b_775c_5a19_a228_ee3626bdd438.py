@@ -16,6 +16,7 @@ class GreatDaneHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'great-dane', 'head', 'breed', 'ears', 'large-dog', 'pet')
 

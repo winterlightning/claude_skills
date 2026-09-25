@@ -11,6 +11,7 @@ class MicrosoftEdgeLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('edge', 'microsoft', 'browser', 'logo', 'brand', 'web', 'wave')
 

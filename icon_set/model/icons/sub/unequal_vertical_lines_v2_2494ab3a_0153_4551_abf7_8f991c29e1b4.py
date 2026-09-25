@@ -21,6 +21,7 @@ class UnequalVerticalLinesVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('unequal', 'vertical', 'lines', 'detached', 'upright', 'strokes', 'share', 'top')
     keyshape = Keyshape.SQUARE

@@ -17,6 +17,7 @@ class Batch03Icon12(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('lidded-trash-bin',)
     keywords = ('lidded', 'trash', 'bin')
 

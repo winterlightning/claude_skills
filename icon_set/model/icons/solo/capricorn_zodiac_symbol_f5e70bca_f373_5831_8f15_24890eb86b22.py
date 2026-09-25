@@ -11,6 +11,7 @@ class CapricornZodiacSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('capricorn', 'zodiac', 'astrology', 'goat', 'sea goat', 'horoscope', 'star sign', 'symbol')
 

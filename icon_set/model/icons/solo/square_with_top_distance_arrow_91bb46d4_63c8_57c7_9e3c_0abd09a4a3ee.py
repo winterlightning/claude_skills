@@ -12,6 +12,7 @@ class SquareWithTopDistanceArrow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('square', 'arrow', 'top', 'distance', 'boundary', 'spacing', 'layout', 'diagram')
 

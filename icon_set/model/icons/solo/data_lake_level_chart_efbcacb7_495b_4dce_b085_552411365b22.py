@@ -14,6 +14,7 @@ class DataLakeLevelChart(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('data', 'lake', 'chart', 'bars', 'database', 'water', 'level', 'analytics')
 

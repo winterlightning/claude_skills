@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='drinks'
+    category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases=()
     keywords=('water', 'bottle')
 

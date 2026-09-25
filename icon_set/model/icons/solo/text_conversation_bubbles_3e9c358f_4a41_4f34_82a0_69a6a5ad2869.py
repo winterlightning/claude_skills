@@ -18,6 +18,7 @@ class TextConversationBubbles(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("text chat", "message exchange")
     keywords = ("text", "messages", "reply", "conversation")
 

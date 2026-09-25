@@ -14,6 +14,7 @@ class Drawing(Solo48):
     aliases = ("House Relocation Truck",)
     keywords = ("truck", "house", "moving", "transport", "flatbed", "vehicle")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

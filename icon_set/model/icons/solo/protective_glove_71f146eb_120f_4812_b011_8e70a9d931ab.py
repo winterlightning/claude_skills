@@ -12,6 +12,7 @@ class ProtectiveGlove(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('glove', 'hand', 'protection', 'cleaning', 'fingers', 'cuff')
 

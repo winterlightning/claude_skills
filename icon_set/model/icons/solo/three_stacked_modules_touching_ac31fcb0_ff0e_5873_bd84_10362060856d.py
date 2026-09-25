@@ -14,6 +14,7 @@ class ThreeStackedModulesTouching(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('modules', 'blocks', 'stack', 'components', 'squares', 'building', 'structure', 'three')
 

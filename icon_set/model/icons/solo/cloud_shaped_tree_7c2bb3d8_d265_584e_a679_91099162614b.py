@@ -15,6 +15,7 @@ class CloudShapedTree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('tree', 'canopy', 'cloud', 'park', 'nature', 'outdoors', 'forest', 'shade')
 

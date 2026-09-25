@@ -12,6 +12,7 @@ class RingInPresentationBox(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('ring', 'engagement ring', 'box', 'case', 'proposal', 'jewellery', 'jewelry', 'diamond', 'gift')
 

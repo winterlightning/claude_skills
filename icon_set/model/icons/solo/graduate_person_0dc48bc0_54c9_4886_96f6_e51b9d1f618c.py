@@ -11,6 +11,7 @@ class GraduatePerson(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('graduate', 'student', 'person', 'education', 'mortarboard', 'school', 'degree', 'alumni')
 

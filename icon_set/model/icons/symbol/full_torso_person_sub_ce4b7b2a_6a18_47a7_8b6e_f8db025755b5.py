@@ -34,6 +34,7 @@ class FullTorsoPersonSub(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('full', 'torso', 'person', 'sub')
 

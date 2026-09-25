@@ -12,6 +12,7 @@ class Shovel(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('shovel', 'spade', 'dig', 'garden', 'construction', 'earth', 'digging', 'tool')
 

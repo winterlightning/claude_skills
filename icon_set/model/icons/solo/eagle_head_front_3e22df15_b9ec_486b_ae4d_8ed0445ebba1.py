@@ -15,6 +15,7 @@ class EagleHeadFront(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('eagle', 'head', 'front', 'beak', 'feathers', 'raptor', 'bird', 'wildlife')
 

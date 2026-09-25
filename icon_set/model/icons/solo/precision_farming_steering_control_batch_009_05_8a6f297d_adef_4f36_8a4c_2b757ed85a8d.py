@@ -17,6 +17,7 @@ class GeneratedSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "farming"
+    categories = ("farming", "primitives")
     aliases = ()
     keywords = ('precision', 'farming', 'steering', 'control')
 

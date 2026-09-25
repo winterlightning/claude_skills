@@ -15,6 +15,7 @@ class HandSmartphoneHeart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Hand Holding Smartphone With Heart',)
     keywords = tuple('hand holding smartphone with heart'.split())
 

@@ -11,6 +11,7 @@ class SimpleGabledShack(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'state')
     aliases = ()
     keywords = ('shack', 'house', 'home', 'shanty', 'hut', 'dwelling', 'shelter', 'gable')
 

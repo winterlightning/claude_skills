@@ -16,6 +16,7 @@ class ScottishFoldCatFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('cat', 'scottish-fold', 'face', 'breed', 'folded-ears', 'whiskers', 'feline')
 

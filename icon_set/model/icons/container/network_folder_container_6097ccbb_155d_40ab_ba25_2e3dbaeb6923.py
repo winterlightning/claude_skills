@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class NetworkFolderContainer(Container64):
     icon_id = 'network-folder-container'
     category = 'folders'
+    categories = ('folders', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('network', 'folder', 'container')

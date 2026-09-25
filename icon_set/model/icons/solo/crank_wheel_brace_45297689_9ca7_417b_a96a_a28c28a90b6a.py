@@ -12,6 +12,7 @@ class CrankWheelBrace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('wheel brace', 'lug wrench', 'crank', 'unscrew', 'tire', 'car', 'socket', 'tool')
 

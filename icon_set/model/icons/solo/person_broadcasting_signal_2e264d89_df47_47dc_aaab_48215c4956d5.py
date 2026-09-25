@@ -11,6 +11,7 @@ class PersonBroadcastingSignal(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('signal', 'person', 'node', '5g', 'broadcast', 'wireless', 'user')
 

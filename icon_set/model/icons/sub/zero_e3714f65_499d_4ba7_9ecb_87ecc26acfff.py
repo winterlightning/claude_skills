@@ -17,6 +17,7 @@ class Zero(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('zero', 'tall', 'oval', 'forms', 'single', 'closed', 'loop', 'empty')
 

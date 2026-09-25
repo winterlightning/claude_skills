@@ -13,6 +13,7 @@ class ClipboardTaskChecklist(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "office"
+    categories = ("office", "other", "primitives-generate")
     aliases = ("task clipboard", "list board")
     keywords = ("tasks", "checklist", "notes", "clipboard")
 

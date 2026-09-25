@@ -16,6 +16,7 @@ class ThreeHeartPlantInShallowPot(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('heart', 'plant', 'pot', 'flower', 'romance', 'growth')
 

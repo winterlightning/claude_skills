@@ -12,6 +12,7 @@ class BoxcarOnRails(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('boxcar', 'freight wagon', 'cargo train', 'railway', 'wagon', 'rail', 'goods', 'train')
 

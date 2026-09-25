@@ -21,6 +21,7 @@ class RoundedBeardWithMoustache(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'beauty'
+    categories = ('primitives', 'beauty')
     aliases = ()
     keywords = ('rounded', 'beard', 'with', 'moustache')
 

@@ -11,6 +11,7 @@ class PlaylistWithMusicNote(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('playlist', 'songs', 'list', 'note', 'tracks', 'queue', 'music')
 

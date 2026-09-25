@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'broken-rock-with-two-fragments'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('broken', 'rock', 'with', 'two', 'fragments')
 
     def build(self):

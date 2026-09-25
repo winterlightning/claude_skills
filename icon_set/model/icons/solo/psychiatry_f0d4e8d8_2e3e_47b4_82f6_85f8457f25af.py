@@ -13,6 +13,7 @@ class Psychiatry(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('psychiatry', 'health')
     keyshape = Keyshape.SQUARE

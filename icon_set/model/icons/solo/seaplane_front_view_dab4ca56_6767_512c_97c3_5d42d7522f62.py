@@ -13,6 +13,7 @@ class SeaplaneFrontView(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('seaplane', 'water plane', 'floatplane', 'aircraft', 'plane', 'water', 'aviation', 'front view')
 

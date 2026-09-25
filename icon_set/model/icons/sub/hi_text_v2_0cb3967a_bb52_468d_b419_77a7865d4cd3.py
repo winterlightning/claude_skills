@@ -21,6 +21,7 @@ class HiTextVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('hi', 'text', 'uppercase', 'letters', 'stand', 'side', 'uprights', 'joined')
     keyshape = Keyshape.SQUARE

@@ -13,6 +13,7 @@ class SpeedLimiterGauge(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('speed limiter', 'gauge', 'speedometer', 'cruise control', 'limit', 'dashboard', 'car', 'dial')
 

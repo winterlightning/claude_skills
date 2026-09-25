@@ -11,6 +11,7 @@ class RightTurnArrow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('right turn', 'turn', 'arrow', 'direction', 'road', 'navigation', 'curve', 'traffic')
 

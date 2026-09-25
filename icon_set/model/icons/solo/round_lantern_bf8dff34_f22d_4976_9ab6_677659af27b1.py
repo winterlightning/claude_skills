@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category = "Uncategorized"
+    category = "lamps"
+    categories = ("lamps", "primitive", "primitives")
     aliases=()
     keywords=('round', 'lantern')
     def build(self):

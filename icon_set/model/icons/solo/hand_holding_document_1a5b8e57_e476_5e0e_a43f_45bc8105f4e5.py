@@ -11,6 +11,7 @@ class HandHoldingDocument(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('hand', 'document', 'paper', 'grip', 'policy', 'file', 'holding')
 

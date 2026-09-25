@@ -16,6 +16,7 @@ class ElectricPetTrimmer(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('trimmer', 'clipper', 'grooming', 'electric', 'shaver', 'pet', 'fur')
 

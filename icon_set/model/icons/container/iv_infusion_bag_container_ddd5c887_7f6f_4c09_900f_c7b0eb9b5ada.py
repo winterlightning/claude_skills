@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class IvInfusionBagContainer(Container64):
     icon_id = 'iv-infusion-bag-container'
     category = 'health'
+    categories = ('health', 'primitives')
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('iv', 'infusion', 'bag', 'container')

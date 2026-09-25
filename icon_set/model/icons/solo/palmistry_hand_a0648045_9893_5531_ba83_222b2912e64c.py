@@ -12,6 +12,7 @@ class PalmistryHand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('palmistry', 'palm reading', 'hand', 'fortune', 'divination', 'fate', 'lines', 'mystic')
 

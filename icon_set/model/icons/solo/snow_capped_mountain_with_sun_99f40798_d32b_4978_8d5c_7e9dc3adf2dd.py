@@ -10,6 +10,7 @@ class SnowCappedMountainWithSun(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('mountain', 'volcano', 'fuji', 'peak', 'snow', 'sun', 'landscape', 'nature', 'landmark')
 

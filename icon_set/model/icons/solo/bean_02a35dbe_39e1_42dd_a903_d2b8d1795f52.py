@@ -11,6 +11,7 @@ class Bean(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('bean', 'peanut', 'legume', 'seed', 'food', 'vegan', 'nut', 'coffee')
 

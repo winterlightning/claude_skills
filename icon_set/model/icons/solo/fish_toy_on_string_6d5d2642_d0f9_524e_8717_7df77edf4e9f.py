@@ -16,6 +16,7 @@ class FishToyOnString(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('fish', 'toy', 'cat-toy', 'string', 'play', 'pet', 'teaser')
 

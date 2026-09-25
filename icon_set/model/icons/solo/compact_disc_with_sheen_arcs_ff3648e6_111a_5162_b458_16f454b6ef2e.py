@@ -11,6 +11,7 @@ class CompactDiscWithSheenArcs(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cd', 'disc', 'dvd', 'media', 'storage', 'music', 'shine', 'disk')
 

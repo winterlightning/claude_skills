@@ -21,6 +21,7 @@ class CubeSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('cube', 'shown', 'diamond', 'shaped', 'top', 'upright', 'side', 'faces')
     keyshape = Keyshape.SQUARE

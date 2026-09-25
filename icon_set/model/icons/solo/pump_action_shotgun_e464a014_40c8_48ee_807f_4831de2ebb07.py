@@ -13,6 +13,7 @@ class PumpActionShotgun(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('shotgun', 'pump', 'barrel', 'grip', 'trigger', 'weapon')
 

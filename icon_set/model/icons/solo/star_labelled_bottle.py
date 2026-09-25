@@ -11,6 +11,7 @@ class StarLabelledBottle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
 
     def build(self) -> None:

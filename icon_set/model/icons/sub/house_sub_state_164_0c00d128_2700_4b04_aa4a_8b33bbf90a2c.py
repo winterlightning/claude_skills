@@ -17,6 +17,7 @@ class HouseSubState164(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('house', 'pointed', 'roof', 'projecting', 'eaves', 'compact', 'body', 'whose')
 

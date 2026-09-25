@@ -19,6 +19,7 @@ class SourceMain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('container', 'other', 'primitives-generate')
     aliases = ('document-curved-fold',)
     keywords = ('document', 'curved', 'fold')
 

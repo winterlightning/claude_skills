@@ -12,6 +12,7 @@ class DiagonalEyedropperOverSampleTray(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('eyedropper', 'pipette', 'sample', 'tray', 'color', 'liquid', 'tool', 'dropper')
 

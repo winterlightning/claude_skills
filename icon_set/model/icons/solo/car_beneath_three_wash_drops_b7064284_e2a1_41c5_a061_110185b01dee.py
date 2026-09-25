@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'car-beneath-three-wash-drops'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('car', 'beneath', 'three', 'wash', 'drops')
 
     def build(self):

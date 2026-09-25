@@ -13,6 +13,7 @@ class ShipsWheel(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('ship wheel', 'helm', 'steering', 'nautical', 'boat', 'captain', 'sailing', 'marine', 'sub icon')
 

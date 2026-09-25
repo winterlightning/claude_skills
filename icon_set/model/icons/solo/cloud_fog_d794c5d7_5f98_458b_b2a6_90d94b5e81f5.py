@@ -16,6 +16,7 @@ class CloudFog(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('cloud', 'fog', 'mist', 'haze', 'weather', 'atmosphere')
 

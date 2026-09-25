@@ -17,6 +17,7 @@ class DiagonalSlashState255(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('diagonal', 'slash', 'long', 'line', 'descends', 'upper', 'left', 'lower')
 

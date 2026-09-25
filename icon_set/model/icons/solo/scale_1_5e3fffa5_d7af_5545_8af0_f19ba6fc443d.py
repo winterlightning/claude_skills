@@ -12,6 +12,7 @@ class Scale1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'products'
+    categories = ('products', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('scale', 'products')
 

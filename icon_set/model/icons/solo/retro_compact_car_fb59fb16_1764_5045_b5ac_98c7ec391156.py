@@ -13,6 +13,7 @@ class RetroCompactCar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('car', 'retro', 'compact', 'beetle', 'vintage', 'vehicle', 'side view', 'automobile')
 

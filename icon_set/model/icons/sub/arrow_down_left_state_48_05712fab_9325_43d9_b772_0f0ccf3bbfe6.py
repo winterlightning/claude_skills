@@ -17,6 +17,7 @@ class ArrowDownLeftState48(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'down', 'left', 'diagonal', 'points', 'short', 'diverging', 'arms')
 

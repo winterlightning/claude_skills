@@ -12,6 +12,7 @@ class ShippingContainerShutter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('container', 'shutter', 'freight', 'storage', 'door', 'panel')
 

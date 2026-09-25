@@ -18,6 +18,7 @@ class EmptyRoundedRectangle(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('empty-rounded-square-shape', 'rounded-rectangle-container')
     keywords = ('frame', 'rectangle', 'rounded', 'border')
 

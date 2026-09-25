@@ -11,6 +11,7 @@ class Shop4c6a59d7(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'shop-4c6a59d7')
 

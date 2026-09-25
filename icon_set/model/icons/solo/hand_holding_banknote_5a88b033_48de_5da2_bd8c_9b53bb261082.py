@@ -13,6 +13,7 @@ class HandHoldingBanknote(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('cash', 'banknote', 'money', 'hand', 'payment', 'bill', 'holding', 'currency')
 

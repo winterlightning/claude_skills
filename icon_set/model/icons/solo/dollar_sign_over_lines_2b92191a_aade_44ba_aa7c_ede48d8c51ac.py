@@ -19,6 +19,7 @@ class DollarSignOverLines(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('dollar', 'money', 'price', 'amount', 'finance', 'payment', 'currency', 'total')
 

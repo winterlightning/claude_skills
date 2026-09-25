@@ -12,6 +12,7 @@ class BrightnessWithStraightRays(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "video"
+    categories = ("video", "primitives")
     aliases = ()
     keywords = ('brightness', 'light', 'circle', 'rays', 'exposure', 'video', 'adjustment')
 

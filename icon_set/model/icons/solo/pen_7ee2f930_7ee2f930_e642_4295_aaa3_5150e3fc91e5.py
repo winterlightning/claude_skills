@@ -11,6 +11,7 @@ class Pen7ee2f930(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'state')
     aliases = ()
     keywords = ('pen', 'design')
 

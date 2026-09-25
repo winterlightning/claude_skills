@@ -12,6 +12,7 @@ class SwiftBirdLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('swift', 'apple', 'programming', 'language', 'bird', 'logo', 'brand')
 

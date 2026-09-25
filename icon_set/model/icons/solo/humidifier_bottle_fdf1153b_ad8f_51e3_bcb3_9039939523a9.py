@@ -11,6 +11,7 @@ class HumidifierBottle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('humidifier', 'mist', 'water', 'vessel', 'air', 'appliance', 'moisture')
 

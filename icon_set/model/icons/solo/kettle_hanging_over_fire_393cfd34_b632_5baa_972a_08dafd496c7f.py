@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases = ()
     keywords = ('kettle', 'hanging', 'over', 'fire')
     def path(self, name, start, commands, closed=False):

@@ -13,6 +13,7 @@ class PersonDirectingBoxCarrier(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('person', 'box', 'worker', 'leaving', 'dismissal', 'carrying')
 

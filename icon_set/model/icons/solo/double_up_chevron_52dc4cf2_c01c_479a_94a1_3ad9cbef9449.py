@@ -11,7 +11,8 @@ class DoubleUpChevron(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "arrows"
+    categories = ("arrows", "primitive", "primitives")
     aliases = ["Double Up Chevron"]
     keywords = ["chevron", "double", "up", "upward", "direction", "navigation"]
     def build(self):

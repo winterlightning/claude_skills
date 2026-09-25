@@ -12,6 +12,7 @@ class WingedTotemPole(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('totem', 'pole', 'carving', 'wings', 'indigenous', 'monument', 'tribal', 'landmark')
 

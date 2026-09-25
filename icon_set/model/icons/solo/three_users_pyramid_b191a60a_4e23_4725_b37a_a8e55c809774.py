@@ -13,6 +13,7 @@ class ThreeUsersPyramid(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('users', 'group', 'three', 'team', 'people', 'network', 'hierarchy', 'community')
 

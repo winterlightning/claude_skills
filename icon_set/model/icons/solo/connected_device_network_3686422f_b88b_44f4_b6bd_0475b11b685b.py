@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'internet'
+    categories = ('internet', 'primitives')
     aliases = ()
     keywords = ('connected', 'device', 'network')
 

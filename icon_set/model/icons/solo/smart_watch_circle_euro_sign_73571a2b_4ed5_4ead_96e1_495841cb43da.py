@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases=()
     keywords=('smart', 'watch', 'circle', 'euro', 'sign')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

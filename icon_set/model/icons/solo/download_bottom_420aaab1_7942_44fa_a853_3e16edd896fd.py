@@ -12,6 +12,7 @@ class DownloadBottom(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'internet'
+    categories = ('internet', 'primitives')
     aliases = ()
     keywords = ('download', 'bottom', 'internet')
 

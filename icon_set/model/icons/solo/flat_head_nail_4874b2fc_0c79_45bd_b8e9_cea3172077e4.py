@@ -12,6 +12,7 @@ class FlatHeadNail(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('nail', 'flat head', 'hardware', 'fastener', 'spike', 'construction', 'carpentry', 'metal')
 

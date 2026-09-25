@@ -15,6 +15,7 @@ class FishInAnAquariumTank(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("fish-swimming-in-a-tank", "aquarium-fish")
     keywords = ("aquarium", "fish", "tank", "water", "pet", "swimming")
 

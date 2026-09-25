@@ -12,6 +12,7 @@ class PrivacyChoiceSymbol(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('privacy', 'choice', 'consent', 'opt-out', 'check', 'cross', 'ccpa')
 

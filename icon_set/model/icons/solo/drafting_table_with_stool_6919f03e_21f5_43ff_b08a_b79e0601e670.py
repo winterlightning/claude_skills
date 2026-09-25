@@ -13,6 +13,7 @@ class DraftingTableWithStool(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases = ()
     keywords = ('drafting', 'table', 'stool', 'drawing', 'board', 'office')
 

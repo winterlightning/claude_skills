@@ -12,6 +12,7 @@ class MovingServerStack(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('server', 'stack', 'migration', 'motion', 'hardware', 'data', 'hosting')
 

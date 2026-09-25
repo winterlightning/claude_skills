@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('horizontal', 'double', 'ended', 'wrench')
     def build(self):

@@ -13,6 +13,7 @@ class EmptyBrowserWindowSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "other", "primitives-generate")
     aliases = ()
     keywords = ('browser', 'window', 'empty', 'template', 'website', 'toolbar', 'interface')
 

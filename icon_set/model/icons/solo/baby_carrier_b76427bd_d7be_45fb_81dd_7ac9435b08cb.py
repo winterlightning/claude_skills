@@ -11,6 +11,7 @@ class BabyCarrier(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "babies"
+    categories = ("babies", "primitives")
     aliases = ()
     keywords = ('carrier', 'sling', 'baby', 'harness', 'papoose', 'straps', 'infant', 'gear')
 

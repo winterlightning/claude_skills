@@ -55,6 +55,8 @@ class Icon:
     #: modifier, and the validator enforces exactly that pairing.
     semantic_kind: str = "modifier"
     category: str = "primitives"
+    #: Every category the icon belongs to; ``category`` is the primary one.
+    categories: tuple[str, ...] = ()
     aliases: tuple[str, ...] = ()
     composition_class: str = "SOLO"
     keywords: tuple[str, ...] = ()

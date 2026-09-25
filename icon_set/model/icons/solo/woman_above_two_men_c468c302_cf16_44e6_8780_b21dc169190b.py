@@ -13,6 +13,7 @@ class WomanAboveTwoMen(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('group', 'team', 'woman', 'men', 'users', 'people', 'leader', 'mixed')
 

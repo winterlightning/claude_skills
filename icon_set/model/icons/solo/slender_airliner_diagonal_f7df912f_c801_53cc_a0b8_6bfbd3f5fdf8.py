@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('crafts model plane',)
     def build(self):
@@ -42,6 +43,7 @@ class Drawing(Solo48):
 
     icon_id = 'slender-airliner-diagonal'
     category = 'travel'
+    categories = ('travel', 'primitives')
     aliases = ()
     keywords = ('airplane', 'plane', 'airliner', 'aircraft', 'flight', 'aviation', 'model', 'travel')
     semantic_role = 'MAIN'

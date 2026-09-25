@@ -15,6 +15,7 @@ class LeftDoubleClickMouse(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "computers"
+    categories = ("computers", "primitives")
     aliases = ()
     keywords = ('mouse', 'double click', 'left click', 'cursor', 'pointer', 'input', 'peripheral', 'computer')
 

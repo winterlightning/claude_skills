@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'chat'
+    categories = ('primitives', 'chat')
     aliases = ()
     keywords = ('hand', 'gesture', 'palm', 'fingers', 'communication', 'touch', 'human', 'greeting')
 

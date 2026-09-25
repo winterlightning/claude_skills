@@ -16,6 +16,7 @@ class TornadoBands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('tornado', 'hurricane', 'cyclone', 'wind', 'funnel', 'storm')
 

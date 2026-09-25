@@ -17,6 +17,7 @@ class TiltingCementMixerOnStand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('cement mixer', 'concrete', 'mixing', 'construction', 'drum', 'equipment', 'machinery', 'building')
 

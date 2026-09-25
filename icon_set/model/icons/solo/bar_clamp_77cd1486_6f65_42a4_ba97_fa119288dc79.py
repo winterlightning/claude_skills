@@ -12,6 +12,7 @@ class BarClamp(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('clamp', 'bar clamp', 'quick clamp', 'hold', 'woodworking', 'workshop', 'jaws', 'tool')
 

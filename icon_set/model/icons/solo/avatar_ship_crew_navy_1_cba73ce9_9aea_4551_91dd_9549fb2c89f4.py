@@ -23,6 +23,7 @@ class AvatarShipCrewNavy1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('avatar', 'ship', 'crew', 'navy', '1', 'bust', 'body', 'portrait')
 

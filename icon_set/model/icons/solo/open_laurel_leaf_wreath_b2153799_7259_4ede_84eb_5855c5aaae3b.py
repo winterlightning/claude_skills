@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature"
+    category = "rewards"
+    categories = ("rewards", "primitive", "primitives")
     aliases = ("Victory Laurel Wreath",)
     keywords = ("laurel", "wreath", "leaves", "victory", "foliage", "award")
     def build(self):

@@ -10,7 +10,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "office"
+    categories = ("office", "primitive", "primitives")
     aliases = ()
     keywords = ('glue', 'stick', 'adhesive', 'stationery', 'cap', 'label')
     def build(self):

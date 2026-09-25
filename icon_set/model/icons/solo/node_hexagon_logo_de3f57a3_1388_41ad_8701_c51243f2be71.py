@@ -16,6 +16,7 @@ class NodeHexagonLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('nodejs', 'node', 'hexagon', 'javascript', 'logo', 'brand', 'network')
 

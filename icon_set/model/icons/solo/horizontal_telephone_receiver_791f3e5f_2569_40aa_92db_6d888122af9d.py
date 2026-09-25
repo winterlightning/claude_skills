@@ -12,6 +12,7 @@ class HorizontalTelephoneReceiver(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'state')
     aliases = ()
     keywords = ('telephone', 'receiver', 'handset', 'horizontal', 'call', 'communication')
 

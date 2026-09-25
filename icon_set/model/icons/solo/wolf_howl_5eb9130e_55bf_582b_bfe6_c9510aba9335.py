@@ -13,6 +13,7 @@ class HowlingWolfHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('wolf', 'howl', 'head', 'profile', 'muzzle', 'night', 'canine', 'wild')
 

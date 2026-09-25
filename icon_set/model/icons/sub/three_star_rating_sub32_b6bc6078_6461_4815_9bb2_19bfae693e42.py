@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ()
     keywords = ('three', 'star', 'rating', 'symbol')
 

@@ -18,6 +18,7 @@ class IconWomanInDrapedAttire(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ()
     keywords = ('woman', 'in', 'draped', 'attire')
     human_construction = "bust"

@@ -17,6 +17,7 @@ class CheckMarkState240(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('check', 'mark', 'short', 'descending', 'arm', 'meets', 'longer', 'rising')
 

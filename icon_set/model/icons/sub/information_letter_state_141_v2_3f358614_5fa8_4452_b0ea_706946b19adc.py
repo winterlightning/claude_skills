@@ -16,6 +16,7 @@ class InformationLetterState141Variant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('information', 'letter', 'lowercase', 'i', 'tiny', 'detached', 'dot', 'vertical')
     keyshape = Keyshape.SQUARE

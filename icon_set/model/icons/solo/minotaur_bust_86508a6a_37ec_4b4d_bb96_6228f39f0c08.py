@@ -12,6 +12,7 @@ class MinotaurBust(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('minotaur', 'bull', 'mythology', 'greek', 'horns', 'beast', 'labyrinth', 'legend')
 

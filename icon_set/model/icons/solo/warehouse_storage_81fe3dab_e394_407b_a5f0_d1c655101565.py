@@ -11,6 +11,7 @@ class WarehouseStorage(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('shipping', 'state')
     aliases = ()
     keywords = ('warehouse', 'storage', 'shipping')
 

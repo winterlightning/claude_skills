@@ -17,6 +17,7 @@ class Leaf(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('leaf', 'broad', 'lies', 'horizontally', 'rounded', 'left', 'base', 'pointed')
 

@@ -18,6 +18,7 @@ class DrawingVariant2(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ("moon-card",)
     keywords = ("crescent", "moon", "card", "night")
 

@@ -11,6 +11,7 @@ class FuelFilterDrip(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('fuel filter', 'filter', 'fuel', 'drip', 'warning', 'diesel', 'dashboard', 'car')
 

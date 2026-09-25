@@ -12,6 +12,7 @@ class TowTruck(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('tow truck', 'breakdown', 'recovery', 'truck', 'hook', 'roadside assistance', 'repair', 'vehicle')
 

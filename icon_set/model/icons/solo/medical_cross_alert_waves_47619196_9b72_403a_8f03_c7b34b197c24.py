@@ -11,6 +11,7 @@ class MedicalCrossAlertWaves(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('medical', 'emergency', 'cross', 'health', 'alert', 'signal', 'alarm', 'first-aid')
 

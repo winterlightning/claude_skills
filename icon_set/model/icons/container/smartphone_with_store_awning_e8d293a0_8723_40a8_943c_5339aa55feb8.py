@@ -9,6 +9,7 @@ class SmartphoneWithStoreAwning(Container64):
     icon_id = 'smartphone-with-store-awning'
     keyshape = Keyshape.VRECT_XL
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('smartphone', 'store', 'awning', 'shopping')
 

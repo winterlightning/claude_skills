@@ -11,6 +11,7 @@ class CarEaa7f06c(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-eaa7f06c')
 

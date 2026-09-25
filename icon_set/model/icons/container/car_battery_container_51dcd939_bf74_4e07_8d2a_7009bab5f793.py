@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class CarBatteryContainer(Container64):
     icon_id = 'car-battery-container'
     category = 'transportation'
+    categories = ('transportation', 'other', 'primitives-generate')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('car', 'battery', 'container')

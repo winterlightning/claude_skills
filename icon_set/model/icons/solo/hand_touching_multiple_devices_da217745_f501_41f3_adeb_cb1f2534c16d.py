@@ -11,6 +11,7 @@ class HandTouchingMultipleDevices(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('responsive', 'devices', 'hand', 'touch', 'phone', 'browser', 'screen')
 

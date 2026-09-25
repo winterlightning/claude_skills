@@ -11,6 +11,7 @@ class PersonBustWithStrap(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('person', 'bust', 'user', 'strap', 'avatar', 'profile', 'account', 'neutral')
 

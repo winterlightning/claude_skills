@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases=()
     keywords=('half', 'globe')
 
@@ -47,6 +48,7 @@ class Drawing(Solo48):
 
     icon_id = 'hemisphere-globe-batch-024-12'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('hemisphere', 'globe')
     semantic_role = 'MAIN'

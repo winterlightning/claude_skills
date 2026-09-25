@@ -12,6 +12,7 @@ class YoutubeGamingLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('youtube-gaming', 'youtube', 'gaming', 'controller', 'heart', 'logo', 'brand')
 

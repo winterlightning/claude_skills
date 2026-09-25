@@ -16,6 +16,7 @@ class WorkflowDiagram(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('workflow', 'diagram', 'flowchart', 'node', 'connection', 'process')
 

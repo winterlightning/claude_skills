@@ -18,6 +18,7 @@ class RectangularSignboardOnAPole(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('rectangular', 'signboard', 'on', 'a', 'pole')
 

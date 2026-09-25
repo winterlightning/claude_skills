@@ -21,6 +21,7 @@ class YuanSignState92Variant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('yuan', 'sign', 'y', 'shaped', 'currency', 'glyph', 'diagonal', 'upper')
     keyshape = Keyshape.SQUARE

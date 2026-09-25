@@ -17,6 +17,7 @@ class DollarSignSubState219(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('dollar', 'sign', 'broad', 's', 'shaped', 'curve', 'short', 'upright')
 

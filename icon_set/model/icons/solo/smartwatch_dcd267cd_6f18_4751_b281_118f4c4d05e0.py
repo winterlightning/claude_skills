@@ -12,6 +12,7 @@ class Smartwatch(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ('watch', 'wearable', 'smart-watch')
     keywords = ('watch', 'wearable', 'device', 'strap', 'band', 'time')
 

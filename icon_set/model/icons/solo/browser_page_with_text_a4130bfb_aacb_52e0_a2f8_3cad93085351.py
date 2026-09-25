@@ -13,6 +13,7 @@ class BrowserPageWithText(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('browser', 'page', 'text', 'window', 'website', 'interface', 'document')
 

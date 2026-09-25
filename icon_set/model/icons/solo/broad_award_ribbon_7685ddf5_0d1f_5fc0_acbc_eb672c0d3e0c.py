@@ -18,6 +18,7 @@ class BroadAwardRibbon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases = ()
     keywords = ('award', 'prize', 'recognition', 'broad-award-ribbon')
 

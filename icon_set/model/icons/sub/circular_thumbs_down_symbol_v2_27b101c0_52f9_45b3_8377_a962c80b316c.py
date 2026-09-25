@@ -18,6 +18,7 @@ class DrawingVariant2(Sub32):
     semantic_role = "SUB"
     semantic_kind = "state"
     category = "state"
+    categories = ("state",)
     aliases = ("dislike-circle", "thumbs-down-circle")
     keywords = ("thumb", "down", "dislike", "negative")
 

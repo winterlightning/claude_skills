@@ -12,6 +12,7 @@ class Batch045Icon6(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('fire', 'extinguisher', 'safety', 'emergency', 'cylinder', 'nozzle', 'equipment')
     # Reference: fire-extinguisher: domed bottle, valve and outlet hierarchy.

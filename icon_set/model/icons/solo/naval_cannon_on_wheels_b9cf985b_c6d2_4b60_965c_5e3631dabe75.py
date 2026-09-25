@@ -13,6 +13,7 @@ class NavalCannonOnWheels(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('cannon', 'naval', 'pirate', 'carriage', 'wheel', 'barrel')
 

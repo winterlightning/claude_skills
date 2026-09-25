@@ -16,6 +16,7 @@ class TwoCuppedHandsSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('two', 'cupped', 'hands', 'sub')
 

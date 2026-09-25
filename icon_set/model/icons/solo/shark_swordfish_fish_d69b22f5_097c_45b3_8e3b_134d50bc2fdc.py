@@ -13,6 +13,7 @@ class LeapingSwordfish(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('swordfish', 'marlin', 'jump', 'leap', 'droplets', 'sea', 'fishing', 'sport')
 

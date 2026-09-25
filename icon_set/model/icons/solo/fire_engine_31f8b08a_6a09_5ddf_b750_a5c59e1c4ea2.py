@@ -11,6 +11,7 @@ class FireEngine(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('fire engine', 'fire truck', 'firefighter', 'emergency', 'ladder', 'truck', 'rescue', 'vehicle')
 

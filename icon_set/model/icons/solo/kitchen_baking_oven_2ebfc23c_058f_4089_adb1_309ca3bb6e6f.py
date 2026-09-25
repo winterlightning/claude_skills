@@ -16,6 +16,7 @@ class KitchenBakingOven(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('food', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('kitchen', 'baking', 'oven')
 

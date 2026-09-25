@@ -12,6 +12,7 @@ class TwistedRubberBand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('elastic band', 'rubber band', 'elastic', 'stretch', 'loop', 'band', 'office', 'flexible')
 

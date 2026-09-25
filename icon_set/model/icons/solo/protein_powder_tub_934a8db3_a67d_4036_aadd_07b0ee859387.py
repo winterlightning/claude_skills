@@ -11,6 +11,7 @@ class ProteinPowderTub(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('protein', 'powder', 'tub')
     def build(self) -> None:

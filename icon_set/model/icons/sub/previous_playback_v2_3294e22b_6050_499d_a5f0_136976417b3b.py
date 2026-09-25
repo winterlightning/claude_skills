@@ -21,6 +21,7 @@ class PreviousPlaybackVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('previous', 'playback', 'left', 'pointing', 'outlined', 'triangle', 'sits', 'beside')
     keyshape = Keyshape.SQUARE

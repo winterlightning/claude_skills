@@ -20,6 +20,7 @@ class HouseWithSideAnnexAndCellar(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('house', 'with', 'side', 'annex', 'and', 'cellar')
 

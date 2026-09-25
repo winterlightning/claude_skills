@@ -12,6 +12,7 @@ class CurvedVectorPathWithBranchingHandle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('vector', 'curve', 'path', 'nodes', 'handles', 'branch', 'editing', 'bezier')
 

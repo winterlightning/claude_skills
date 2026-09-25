@@ -12,6 +12,7 @@ class TieredWaterFountain(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('fountain', 'water', 'park', 'plaza', 'jet', 'basin', 'garden', 'landmark')
 

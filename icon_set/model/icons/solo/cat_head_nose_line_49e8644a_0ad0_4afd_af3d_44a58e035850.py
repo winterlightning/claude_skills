@@ -16,6 +16,7 @@ class CatHeadNoseLine(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('cat', 'head', 'face', 'feline', 'pet', 'kitten', 'ears')
 

@@ -17,6 +17,7 @@ class PoundSignSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('pound', 'sign', 'curved', 'upper', 'hook', 'upright', 'stem', 'middle')
 

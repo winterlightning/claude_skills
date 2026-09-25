@@ -13,6 +13,7 @@ class EmployeeBehindLaptop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('employee', 'laptop', 'person', 'computer', 'work', 'office')
 

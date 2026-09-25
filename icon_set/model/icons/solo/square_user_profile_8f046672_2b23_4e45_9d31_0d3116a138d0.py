@@ -13,6 +13,7 @@ class SquareUserProfile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("user avatar frame", "square person")
     keywords = ("profile", "account", "portrait", "user")
 

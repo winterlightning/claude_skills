@@ -13,6 +13,7 @@ class Decision(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('decision', 'design')
     keyshape = Keyshape.HRECT_L

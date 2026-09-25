@@ -11,6 +11,7 @@ class RoundSmartLockAlternate(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('technology', 'state')
     aliases = ()
     keywords = ('smart-lock', 'lock', 'door', 'knob', 'lever', 'security', 'home')
 

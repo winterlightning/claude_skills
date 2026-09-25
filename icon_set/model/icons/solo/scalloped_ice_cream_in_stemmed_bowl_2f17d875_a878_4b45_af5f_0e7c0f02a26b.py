@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'scalloped-ice-cream-in-stemmed-bowl'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

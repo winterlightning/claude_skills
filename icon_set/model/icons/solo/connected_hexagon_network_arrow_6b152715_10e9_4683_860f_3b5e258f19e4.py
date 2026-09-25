@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "networks"
+    categories = ("networks", "primitive", "primitives")
     aliases = ()
     keywords = ('elemental', 'mediaconnect', '1')
     def path(self,n,start,steps,closed=False):

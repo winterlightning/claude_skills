@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ["Decreasing Bar Chart Statistics"]
     keywords = ["chart", "bars", "columns", "descending", "statistics", "axes", "graph"]
     def build(self):

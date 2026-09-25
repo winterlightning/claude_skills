@@ -14,6 +14,7 @@ class AuthoredIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('shipping', 'logistic', 'estimate', 'time', 'arrival', '2')
 

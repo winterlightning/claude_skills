@@ -13,6 +13,7 @@ class HatchingChick(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('chick', 'egg', 'hatch', 'shell', 'birth', 'easter', 'bird', 'new')
 

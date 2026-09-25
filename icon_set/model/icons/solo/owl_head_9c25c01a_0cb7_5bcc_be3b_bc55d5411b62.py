@@ -16,6 +16,7 @@ class OwlHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('owl', 'head', 'horned', 'ears', 'beak', 'night', 'bird', 'minimal')
 

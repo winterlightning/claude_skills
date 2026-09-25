@@ -11,6 +11,7 @@ class AthleteRunningRight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('athlete', 'running', 'right')
 

@@ -11,6 +11,7 @@ class Batch033Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ('wireless-wi-fi-network-signal',)
     keywords = ('batch-033',)
 

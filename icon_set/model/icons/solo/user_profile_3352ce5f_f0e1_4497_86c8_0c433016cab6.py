@@ -14,6 +14,7 @@ class UserProfile(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('user', 'profile', 'person', 'account', 'avatar', 'member', 'contact', 'people')
 

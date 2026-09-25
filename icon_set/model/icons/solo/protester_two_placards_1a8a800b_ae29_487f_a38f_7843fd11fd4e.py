@@ -13,6 +13,7 @@ class ProtesterTwoPlacards(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('protester', 'placard', 'sign', 'person', 'demonstration', 'rally')
 

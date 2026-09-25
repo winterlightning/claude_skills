@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'amphitheater-seating-and-round-stage'
     keyshape = Keyshape.HRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('amphitheater', 'seating', 'and', 'round', 'stage')
 
     def build(self):

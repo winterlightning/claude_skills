@@ -18,6 +18,7 @@ class AdultAndChildWalkingInPark(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('adult', 'child', 'family', 'walking', 'park', 'tree')
 

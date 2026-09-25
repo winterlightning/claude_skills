@@ -17,6 +17,7 @@ class SmilingFaceSubState172(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('smiling', 'face', 'short', 'vertical', 'eyes', 'sit', 'broad', 'upward')
 

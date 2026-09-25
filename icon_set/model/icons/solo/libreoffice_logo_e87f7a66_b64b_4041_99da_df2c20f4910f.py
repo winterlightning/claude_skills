@@ -15,6 +15,7 @@ class LibreofficeLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('libreoffice', 'logo', 'logos')
 

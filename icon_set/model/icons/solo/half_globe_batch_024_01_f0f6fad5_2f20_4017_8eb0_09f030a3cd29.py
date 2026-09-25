@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('a half of earth',)
 
@@ -46,6 +47,7 @@ class Drawing(Solo48):
 
     icon_id = 'half-globe-batch-024-01'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('half', 'globe')
     semantic_role = 'MAIN'

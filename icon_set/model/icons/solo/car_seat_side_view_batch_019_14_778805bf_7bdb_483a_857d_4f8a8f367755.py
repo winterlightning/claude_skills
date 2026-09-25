@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     keywords = ('seat', 'car', 'chair', 'cushion', 'backrest', 'vehicle', 'interior', 'seating')
 
     def build(self):

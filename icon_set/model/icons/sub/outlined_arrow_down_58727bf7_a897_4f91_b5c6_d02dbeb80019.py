@@ -17,6 +17,7 @@ class OutlinedArrowDown(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "state"
+    categories = ("state",)
     aliases = ()
     keywords = ('outlined', 'arrow', 'down', 'broad', 'downward', 'tall', 'rectangular', 'shaft')
 

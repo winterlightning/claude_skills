@@ -20,6 +20,7 @@ class SquareState264ContainerSymbol(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('square', 'upright', 'outline', 'four', 'straight', 'equal', 'sides', 'empty')
 

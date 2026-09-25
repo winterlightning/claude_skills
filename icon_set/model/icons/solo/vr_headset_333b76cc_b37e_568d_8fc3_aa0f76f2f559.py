@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="video-games"
+    category = "video-games"
+    categories = ("primitives", "video-games")
     aliases=()
     keywords=('vr', 'headset')
     def build(self):

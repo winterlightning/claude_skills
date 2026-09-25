@@ -24,6 +24,7 @@ class UpwardPointingArrowBadgeBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "arrows"
+    categories = ("arrows", "primitives")
     aliases = ("arrow-badge-top", "upgrade-badge")
     keywords = ("arrow", "up", "badge", "chevron", "upgrade", "rank", "promote")
 

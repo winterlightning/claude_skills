@@ -12,6 +12,7 @@ class LocomotiveFrontGrille(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('locomotive', 'train', 'front', 'railway', 'diesel', 'rail', 'engine', 'transport')
 

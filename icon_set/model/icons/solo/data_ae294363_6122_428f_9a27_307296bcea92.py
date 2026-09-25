@@ -11,6 +11,7 @@ class Data(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'diagrams'
+    categories = ('diagrams', 'primitives')
     aliases = ()
     keywords = ('data', 'diagrams', 'solo-ai-next100')
 

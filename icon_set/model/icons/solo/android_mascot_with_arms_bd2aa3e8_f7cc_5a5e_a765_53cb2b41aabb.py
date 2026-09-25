@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'apps'
+    categories = ('apps', 'primitives')
     aliases = ()
     keywords = ('android',)
 
@@ -52,6 +53,7 @@ class Drawing(Solo48):
 
     icon_id = 'android-mascot-with-arms'
     category = 'apps'
+    categories = ('apps', 'primitives')
     aliases = ()
     keywords = ('android', 'mascot', 'with', 'arms')
     semantic_role = 'MAIN'

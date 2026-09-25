@@ -15,6 +15,7 @@ class WardrobeTwoDoors(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases = ()
     keywords = ('double', 'door', 'wardrobe', 'cabinet')
 

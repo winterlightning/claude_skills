@@ -12,6 +12,7 @@ class ReactLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('react', 'react-native', 'atom', 'javascript', 'logo', 'brand', 'developer')
 

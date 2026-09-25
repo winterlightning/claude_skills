@@ -12,6 +12,7 @@ class DiagonalHorseshoeMagnetWithTipBands(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('magnet', 'horseshoe', 'poles', 'magnetic', 'tool', 'attraction', 'physics', 'metal')
 

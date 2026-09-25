@@ -16,6 +16,7 @@ class MiniaturePinscherFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'miniature-pinscher', 'pinscher', 'face', 'breed', 'ears', 'pet')
 

@@ -12,6 +12,7 @@ class PodcastLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('podcast', 'apple-podcasts', 'broadcast', 'microphone', 'logo', 'brand', 'audio')
 

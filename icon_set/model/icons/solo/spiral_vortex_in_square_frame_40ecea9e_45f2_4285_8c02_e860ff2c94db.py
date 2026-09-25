@@ -10,6 +10,7 @@ class SpiralVortexInSquareFrame(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("Houdini spiral", "vortex frame")
     keywords = ("spiral", "square", "curl")
 

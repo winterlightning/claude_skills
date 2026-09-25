@@ -19,6 +19,7 @@ class IwiwLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('iwiw', 'social', 'letter-c', 'logo', 'brand', 'network', 'hungarian')
 

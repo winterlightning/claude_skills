@@ -12,6 +12,7 @@ class OrchidInShallowPlanter(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('orchid', 'flowers', 'blossoms', 'planter', 'leaves', 'stems', 'plant')
 

@@ -17,6 +17,7 @@ class CodeBracketsState57(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('code', 'brackets', 'broad', 'angle', 'face', 'outward', 'either', 'side')
 

@@ -15,6 +15,7 @@ class GearSettings(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('gear', 'settings', 'cog', 'preferences', 'configuration', 'options', 'system', 'tools')
 

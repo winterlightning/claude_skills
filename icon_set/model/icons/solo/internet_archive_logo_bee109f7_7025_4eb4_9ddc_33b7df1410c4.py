@@ -19,6 +19,7 @@ class InternetArchiveLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('internet-archive', 'archive', 'library', 'columns', 'logo', 'brand', 'wayback')
 

@@ -15,6 +15,7 @@ class ChristmasTree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('christmas', 'tree', 'fir', 'pine', 'holiday', 'evergreen', 'winter', 'festive')
 

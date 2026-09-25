@@ -12,6 +12,7 @@ class VlcLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('vlc', 'media-player', 'traffic-cone', 'videolan', 'logo', 'brand', 'video')
 

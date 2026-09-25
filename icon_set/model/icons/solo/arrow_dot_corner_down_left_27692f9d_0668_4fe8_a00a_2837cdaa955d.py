@@ -15,6 +15,7 @@ class ArrowDotCornerDownLeft(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('arrow', 'dot', 'corner', 'down', 'left', 'arrows')
 

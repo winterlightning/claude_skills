@@ -13,6 +13,7 @@ class ObeliskWithCloud(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('obelisk', 'monument', 'memorial', 'tower', 'landmark', 'cloud', 'washington', 'pillar')
 

@@ -12,6 +12,7 @@ class TiktokLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tiktok', 'video', 'music-note', 'social', 'logo', 'brand', 'short-video')
 

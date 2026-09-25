@@ -12,6 +12,7 @@ class Archlute(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('archlute', 'lute', 'string', 'instrument', 'baroque', 'music', 'plucked')
 

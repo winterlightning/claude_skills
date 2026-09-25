@@ -12,6 +12,7 @@ class RaisedHands(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('hands', 'raised', 'palms', 'gesture', 'celebration', 'praise')
 

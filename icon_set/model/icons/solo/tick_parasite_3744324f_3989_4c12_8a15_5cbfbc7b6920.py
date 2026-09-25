@@ -16,6 +16,7 @@ class TickParasite(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('tick', 'parasite', 'flea', 'insect', 'pest', 'pet-health', 'bug')
 

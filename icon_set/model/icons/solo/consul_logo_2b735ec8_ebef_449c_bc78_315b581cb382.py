@@ -12,6 +12,7 @@ class ConsulLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('consul', 'hashicorp', 'logo', 'brand', 'service-mesh', 'devops', 'network')
 

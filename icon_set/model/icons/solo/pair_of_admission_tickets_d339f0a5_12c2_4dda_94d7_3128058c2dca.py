@@ -12,6 +12,7 @@ class PairOfAdmissionTickets(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('ticket', 'admission', 'pair', 'pass', 'event', 'entry')
 

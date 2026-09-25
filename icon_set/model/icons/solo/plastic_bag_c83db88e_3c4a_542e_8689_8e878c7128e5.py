@@ -13,6 +13,7 @@ class PlasticBag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecology'
+    categories = ('primitives', 'ecology')
     aliases = ()
     keywords = ('plastic', 'bag', 'ecology')
     keyshape = Keyshape.VRECT_L

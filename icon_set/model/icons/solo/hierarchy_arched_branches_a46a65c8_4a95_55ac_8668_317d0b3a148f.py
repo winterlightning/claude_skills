@@ -14,6 +14,7 @@ class HierarchyArchedBranches(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('hierarchy', 'tree', 'branches', 'structure', 'nodes', 'diagram', 'organization', 'network')
 

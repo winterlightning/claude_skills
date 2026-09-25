@@ -13,6 +13,7 @@ class BoarHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('boar', 'pig', 'head', 'ears', 'silhouette', 'face', 'wild', 'animal')
 

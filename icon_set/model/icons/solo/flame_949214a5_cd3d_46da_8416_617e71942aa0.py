@@ -11,6 +11,7 @@ class Flame(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'fire'
+    categories = ('fire', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'flame')
 

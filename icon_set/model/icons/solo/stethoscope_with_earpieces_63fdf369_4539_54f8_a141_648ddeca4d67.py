@@ -16,6 +16,7 @@ class StethoscopeWithEarpieces(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('stethoscope', 'with', 'earpieces')
 

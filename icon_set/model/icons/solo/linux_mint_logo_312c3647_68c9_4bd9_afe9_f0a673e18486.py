@@ -18,6 +18,7 @@ class LinuxMintLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('linux-mint', 'linux', 'operating-system', 'lm', 'logo', 'brand', 'open-source')
 

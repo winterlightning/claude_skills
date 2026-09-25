@@ -14,6 +14,7 @@ class TriangleBurstEmblem(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('triangles', 'video', 'interactive', 'emblem', 'play', 'burst', 'media', 'abstract')
 

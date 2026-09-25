@@ -15,6 +15,7 @@ class WalletOpenFlap(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('wallet', 'open', 'flap', 'folder', 'card-holder', 'money', 'purse', 'finance')
 

@@ -11,6 +11,7 @@ class MilestoneMarkerDivided(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('milestone', 'marker', 'stone', 'roadside', 'distance', 'landmark', 'waypoint', 'monument')
 

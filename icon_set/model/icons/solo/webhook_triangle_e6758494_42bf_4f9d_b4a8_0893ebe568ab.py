@@ -14,6 +14,7 @@ class WebhookTriangle(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('webhook', 'hook', 'api', 'integration', 'callback', 'triangle', 'link', 'event')
 

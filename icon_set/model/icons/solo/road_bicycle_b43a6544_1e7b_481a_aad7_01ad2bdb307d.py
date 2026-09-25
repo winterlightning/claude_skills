@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bicycle',)
 
@@ -40,6 +41,7 @@ class Drawing(Solo48):
 
     icon_id = 'road-bicycle'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bicycle', 'bike', 'road bike', 'racing', 'cycling', 'drop handlebar', 'pedal', 'sport')
     semantic_role = 'MAIN'

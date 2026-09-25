@@ -15,6 +15,7 @@ class PineTreeAlternate(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "other", "primitives-generate")
     aliases = ()
     keywords = ('pine', 'tree', 'fir', 'evergreen', 'forest', 'conifer', 'nature', 'woods')
 

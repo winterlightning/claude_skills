@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'outer-ear-with-curved-folds'
     keyshape = Keyshape.VRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

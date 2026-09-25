@@ -12,6 +12,7 @@ class SunWithCrescentMoon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('sun', 'moon', 'day', 'night', 'dark mode', 'light mode', 'theme', 'toggle')
 

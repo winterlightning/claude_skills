@@ -24,6 +24,7 @@ class Drawing(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'primitives')
     aliases = ('banded vertical media frame',)
     keywords = ('mailbox','with','play','button')
 

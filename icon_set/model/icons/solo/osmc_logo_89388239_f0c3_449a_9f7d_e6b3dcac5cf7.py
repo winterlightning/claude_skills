@@ -12,6 +12,7 @@ class OsmcLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('osmc', 'media-center', 'bowtie', 'logo', 'brand', 'kodi', 'open-source')
 

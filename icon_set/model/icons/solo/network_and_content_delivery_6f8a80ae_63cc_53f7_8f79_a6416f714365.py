@@ -11,6 +11,7 @@ class NetworkAndContentDelivery(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'network-and-content-delivery')
 

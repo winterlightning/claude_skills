@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases=()
     keywords=('hearing', 'aid', 'ear')
 
@@ -49,6 +50,7 @@ class Drawing(Solo48):
 
     icon_id = 'ear-with-hearing-aid-reference'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('ear', 'with', 'hearing', 'aid')
     semantic_role = 'MAIN'

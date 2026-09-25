@@ -17,6 +17,7 @@ class DiagonalAirplanePointedWings(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'aircraft', 'jet', 'aviation', 'airport', 'travel')
 

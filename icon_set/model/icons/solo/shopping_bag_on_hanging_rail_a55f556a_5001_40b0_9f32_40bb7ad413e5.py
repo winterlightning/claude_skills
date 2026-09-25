@@ -11,6 +11,7 @@ class ShoppingBagOnHangingRail(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('bag', 'hanging', 'rail', 'straps', 'shopping', 'carry', 'retail')
 

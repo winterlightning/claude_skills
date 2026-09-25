@@ -12,6 +12,7 @@ class FourTaskGanttChart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('four', 'task', 'gantt', 'chart')
 

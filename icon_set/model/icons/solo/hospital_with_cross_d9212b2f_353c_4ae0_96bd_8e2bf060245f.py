@@ -15,6 +15,7 @@ class Drawing(Solo48):
     aliases=()
     keywords=('hospital', '1')
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)

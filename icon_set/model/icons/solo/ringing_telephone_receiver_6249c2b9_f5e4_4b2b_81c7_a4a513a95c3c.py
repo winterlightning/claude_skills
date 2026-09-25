@@ -12,6 +12,7 @@ class RingingTelephoneReceiver(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('telephone', 'receiver', 'ringing', 'call', 'sound', 'handset')
 

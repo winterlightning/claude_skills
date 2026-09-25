@@ -13,6 +13,7 @@ class PartyingFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('party', 'celebrate', 'hat', 'blower', 'face', 'emoji')
 

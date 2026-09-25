@@ -15,6 +15,7 @@ class ChiliPeppersTwo(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('chili', 'pepper', 'spicy', 'hot', 'food', 'mexican', 'cooking', 'vegetable')
 

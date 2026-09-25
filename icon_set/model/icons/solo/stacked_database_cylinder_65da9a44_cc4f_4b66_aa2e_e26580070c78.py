@@ -12,6 +12,7 @@ class StackedDatabaseCylinder(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "servers"
+    categories = ("primitives", "servers")
     aliases = ()
     keywords = ('database', 'storage', 'data', 'cylinder', 'stack', 'server', 'disk')
 

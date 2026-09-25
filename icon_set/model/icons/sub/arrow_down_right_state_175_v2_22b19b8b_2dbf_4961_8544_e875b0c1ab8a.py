@@ -16,6 +16,7 @@ class CompleteReferenceRedraw(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     def build(self):
         self.add_line('arrow-0-0', (2, 2), (16, 16))
         self.add_line('arrow-1-0', (8, 16), (16, 16))

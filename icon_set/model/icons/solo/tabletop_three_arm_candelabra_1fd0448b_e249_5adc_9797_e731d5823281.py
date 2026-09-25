@@ -13,6 +13,7 @@ class TabletopThreeArmCandelabra(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('candelabra', 'candles', 'flames', 'table', 'holder', 'decor', 'lighting')
 

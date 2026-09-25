@@ -17,6 +17,7 @@ class NextPlayback(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('next', 'playback', 'outlined', 'right', 'pointing', 'triangle', 'followed', 'detached')
 

@@ -20,6 +20,7 @@ class RingTargetContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('ring', 'target', 'concentric', 'circular', 'outlines', 'share', 'centre', 'broad')
 

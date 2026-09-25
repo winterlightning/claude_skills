@@ -21,6 +21,7 @@ class TextLinesVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('text', 'lines', 'horizontal', 'are', 'stacked', 'space', 'between', 'them')
     keyshape = Keyshape.SQUARE

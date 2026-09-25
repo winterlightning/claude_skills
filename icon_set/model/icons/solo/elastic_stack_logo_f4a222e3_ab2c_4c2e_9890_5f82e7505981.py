@@ -11,6 +11,7 @@ class ElasticStackLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('elastic-stack', 'elk', 'elastic', 'logo', 'brand', 'stack', 'data')
 

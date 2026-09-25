@@ -15,6 +15,7 @@ class HorizontalDistributeSpacing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("distribute-horizontal", "space-left-right")
     keywords = ("align", "distribute", "spacing", "rails", "chevrons")
 

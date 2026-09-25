@@ -18,6 +18,7 @@ class IconPersonUnderShowerSpray(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('person', 'under', 'shower', 'spray')
 

@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class WavyFlagContainer(Container64):
     icon_id = 'wavy-flag-container'
     category = 'social'
+    categories = ('social', 'primitives')
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('wavy', 'flag', 'container')

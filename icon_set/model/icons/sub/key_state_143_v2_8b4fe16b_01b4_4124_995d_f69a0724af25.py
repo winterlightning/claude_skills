@@ -20,6 +20,7 @@ class KeyState143Variant2(SourceFaithfulSideSub):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('key', 'round', 'bow', 'sits', 'right', 'horizontal', 'shaft', 'short')
     keyshape = Keyshape.SQUARE

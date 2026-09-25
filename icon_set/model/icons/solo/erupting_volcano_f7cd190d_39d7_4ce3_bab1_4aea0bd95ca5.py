@@ -16,6 +16,7 @@ class EruptingVolcano(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('volcano', 'eruption', 'lava', 'crater', 'mountain', 'nature', 'disaster', 'landscape')
 

@@ -12,6 +12,7 @@ class DesktopMonitorCentrePostStand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('desktop-monitor', 'monitor-on-stand')
     keywords = ('monitor', 'display', 'screen', 'computer', 'stand')
 

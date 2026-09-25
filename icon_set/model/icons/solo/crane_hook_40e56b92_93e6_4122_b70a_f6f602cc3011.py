@@ -11,6 +11,7 @@ class CraneHook(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('primitives', 'shipping')
     aliases = ()
     keywords = ('crane', 'hook', 'shipping', 'solo-ai-next100')
 

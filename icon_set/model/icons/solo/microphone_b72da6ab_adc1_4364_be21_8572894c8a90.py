@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="audio"
+    category = "audio"
+    categories = ("audio", "primitives")
     aliases=()
     keywords=('microphone', 'b72da6ab')
 

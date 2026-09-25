@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role='SUB'
     semantic_kind='modifier'
     category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'medical consultation chat bubble')
     def build(self):

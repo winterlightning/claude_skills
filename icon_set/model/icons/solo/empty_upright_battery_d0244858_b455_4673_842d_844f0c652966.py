@@ -12,6 +12,7 @@ class EmptyUprightBattery(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('battery', 'empty', 'power', 'charge', 'energy', 'low battery', 'cell', 'camera')
 

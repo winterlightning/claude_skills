@@ -13,6 +13,7 @@ class SimpleClipboardDocumentHolder(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("empty clipboard", "document holder")
     keywords = ("paper", "clip", "stationery", "board")
 

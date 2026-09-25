@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'clasped-flap-briefcase'
     keyshape = Keyshape.HRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('clasped', 'flap', 'briefcase')
 
     def build(self):

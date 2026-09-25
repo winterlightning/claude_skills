@@ -17,6 +17,7 @@ class PauseBars(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('pause', 'bars', 'separate', 'equal', 'vertical', 'strokes', 'stand', 'parallel')
 

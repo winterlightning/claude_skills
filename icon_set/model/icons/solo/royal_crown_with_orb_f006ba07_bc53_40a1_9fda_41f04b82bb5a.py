@@ -19,6 +19,7 @@ class RoyalCrownWithOrb(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases = ('orb-crown',)
     keywords = ('crown', 'royal', 'orb', 'monarch', 'vip', 'king', 'headwear')
 

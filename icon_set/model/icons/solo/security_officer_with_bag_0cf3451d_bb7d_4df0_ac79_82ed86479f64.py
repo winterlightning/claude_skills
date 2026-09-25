@@ -17,6 +17,7 @@ class SecurityOfficerWithBag(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('security', 'officer', 'luggage', 'bag', 'checkpoint', 'airport', 'guard', 'inspection')
 

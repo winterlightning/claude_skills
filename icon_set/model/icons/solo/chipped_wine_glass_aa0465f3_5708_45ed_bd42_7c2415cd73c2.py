@@ -12,6 +12,7 @@ class ChippedWineGlass(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('glass', 'wine', 'fragile', 'chip', 'broken', 'stemware')
 

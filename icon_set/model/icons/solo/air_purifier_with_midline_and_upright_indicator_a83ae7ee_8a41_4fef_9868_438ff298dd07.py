@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "ecology"
+    categories = ("ecology", "other", "primitives-generate")
     aliases = ()
     keywords = ('air purifier 1',)
     def build(self):
@@ -47,6 +48,7 @@ class Drawing(Solo48):
 
     icon_id = 'air-purifier-with-midline-and-upright-indicator'
     category = 'ecology'
+    categories = ('ecology', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'seam', 'home', 'ecology')
     semantic_role = 'MAIN'

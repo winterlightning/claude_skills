@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('pin',)
 
@@ -35,6 +36,7 @@ class Drawing(Solo48):
 
     icon_id = 'location-pin-above-baseline'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('pin', 'map', 'location', 'marker', 'place', 'navigation')
     semantic_role = 'MAIN'

@@ -11,6 +11,7 @@ class Cub(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('cub', '_uncategorized', 'solo-ai-next100')
 

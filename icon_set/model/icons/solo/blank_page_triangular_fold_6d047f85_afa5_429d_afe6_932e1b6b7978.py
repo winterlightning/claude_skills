@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Blank Page with Triangular Fold',)
     keywords = ('page', 'document', 'paper', 'fold', 'blank', 'sheet')
     def build(self):

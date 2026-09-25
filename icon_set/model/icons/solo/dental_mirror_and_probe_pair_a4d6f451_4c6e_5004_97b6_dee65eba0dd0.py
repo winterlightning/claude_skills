@@ -13,6 +13,7 @@ class DentalMirrorAndProbePair(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('dental', 'mirror', 'and', 'probe')
 

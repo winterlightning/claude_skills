@@ -16,6 +16,7 @@ class PottedFlower(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('flower', 'pot', 'potted', 'plant', 'bloom', 'houseplant', 'garden', 'decor')
 

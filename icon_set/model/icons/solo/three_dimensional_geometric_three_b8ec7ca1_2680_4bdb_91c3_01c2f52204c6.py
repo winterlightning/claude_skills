@@ -18,6 +18,7 @@ class ThreeDimensionalGeometricThree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("3ds max logo", "folded three")
     keywords = ("three", "3", "geometric", "3d", "folded", "logo")
 

@@ -20,6 +20,7 @@ class PostageStampWithFaceProfile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "emails"
+    categories = ("emails", "primitives")
     aliases = ()
     keywords = ('postage', 'stamp', 'with', 'face', 'profile')
 

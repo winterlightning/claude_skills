@@ -11,6 +11,7 @@ class DoorLeverKeypadLock(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('door-lock', 'lever', 'handle', 'keypad', 'password', 'security', 'door', 'smart-lock')
 

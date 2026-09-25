@@ -18,6 +18,7 @@ class RoundChamberWaterPipe(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('round', 'chamber', 'water', 'pipe')
 

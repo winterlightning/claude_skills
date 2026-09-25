@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'low-oval-bread-loaf'
     keyshape = Keyshape.HRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

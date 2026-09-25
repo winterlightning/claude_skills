@@ -15,6 +15,7 @@ class StarOfDavidHexagram(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('star-of-david', 'judaism', 'jewish', 'hexagram', 'religion', 'israel', 'faith', 'symbol')
 

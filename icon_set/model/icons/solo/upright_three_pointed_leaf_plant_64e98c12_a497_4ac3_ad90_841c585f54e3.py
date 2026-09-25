@@ -13,6 +13,7 @@ class UprightThreePointedLeafPlant(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "decoration"
+    categories = ("decoration", "state")
     aliases = ()
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 

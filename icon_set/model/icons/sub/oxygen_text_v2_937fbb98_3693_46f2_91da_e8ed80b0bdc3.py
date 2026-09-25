@@ -21,6 +21,7 @@ class OxygenTextVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('oxygen', 'text', 'large', 'uppercase', 'o', 'followed', 'lower', 'right')
     keyshape = Keyshape.SQUARE

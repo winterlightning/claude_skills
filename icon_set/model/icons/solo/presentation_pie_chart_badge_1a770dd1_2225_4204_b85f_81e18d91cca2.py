@@ -20,6 +20,7 @@ class PresentationPieChartBadge(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("powerpoint logo", "presentation badge")
     keywords = ("pie", "chart", "letter p", "slides")
 

@@ -17,6 +17,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Small Square Inside Larger Square',)
     keywords = ('room', 'plan', 'square', 'inset', 'layout', 'outline')
 

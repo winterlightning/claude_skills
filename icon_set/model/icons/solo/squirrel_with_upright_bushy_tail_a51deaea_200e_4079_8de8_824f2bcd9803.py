@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Squirrel with Upright Bushy Tail',)
     keywords = ('squirrel', 'rodent', 'tail', 'seated', 'animal', 'wildlife', 'mammal')
     def build(self):

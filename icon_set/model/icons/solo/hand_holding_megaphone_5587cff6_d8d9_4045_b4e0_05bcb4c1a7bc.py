@@ -16,6 +16,7 @@ class HandHoldingMegaphone(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('megaphone', 'hand', 'announcement', 'speaker', 'holding', 'labor')
 

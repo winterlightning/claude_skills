@@ -11,6 +11,7 @@ class Bag1e030fe3(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'bag-1e030fe3')
 

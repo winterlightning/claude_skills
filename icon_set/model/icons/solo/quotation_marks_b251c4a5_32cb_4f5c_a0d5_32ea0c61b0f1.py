@@ -16,6 +16,7 @@ class QuotationMarks(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('quote', 'quotation', 'marks', 'citation', 'testimonial', 'speech', 'text', 'blockquote')
 

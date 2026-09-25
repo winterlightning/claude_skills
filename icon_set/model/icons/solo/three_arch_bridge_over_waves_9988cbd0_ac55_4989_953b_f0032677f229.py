@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'three-arch-bridge-over-waves'
     keyshape = Keyshape.HRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('three', 'arch', 'bridge', 'over', 'waves')
 
     def build(self):

@@ -19,6 +19,7 @@ class IrcGalleriaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('irc-galleria', 'infinity', 'social', 'logo', 'brand', 'community', 'loop')
 

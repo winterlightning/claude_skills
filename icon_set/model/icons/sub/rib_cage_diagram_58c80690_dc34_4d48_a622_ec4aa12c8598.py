@@ -17,6 +17,7 @@ class RibCageDiagram(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('rib', 'cage', 'diagram', 'central', 'upright', 'line', 'joins', 'wide')
 

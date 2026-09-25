@@ -13,6 +13,7 @@ class MusicNoteInRoundedSquare(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("combination", "other", "primitives-generate")
     aliases = ("music note square", "audio tile")
     keywords = ("song", "playlist", "music", "sound")
 

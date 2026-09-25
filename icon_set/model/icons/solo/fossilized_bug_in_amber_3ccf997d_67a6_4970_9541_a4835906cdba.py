@@ -15,6 +15,7 @@ class FossilizedBugInAmber(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("beetle-embedded-in-amber", "amber-fossil")
     keywords = ("amber", "beetle", "insect", "fossil", "resin", "legs")
 

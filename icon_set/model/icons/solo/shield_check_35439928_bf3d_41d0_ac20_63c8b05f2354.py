@@ -12,6 +12,7 @@ class ShieldCheck(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'apps'
+    categories = ('apps', 'state')
     aliases = ()
     keywords = ('shield', 'check', 'apps')
 

@@ -16,6 +16,7 @@ class ChiselWithWoodShaving(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hobbies'
+    categories = ('primitives', 'hobbies')
     aliases = ()
     keywords = ('chisel', 'with', 'wood', 'shaving')
 

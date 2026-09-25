@@ -11,6 +11,7 @@ class RetroGameController(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('technology', 'state')
     aliases = ()
     keywords = ('controller', 'gamepad', 'retro', 'game', 'gaming', 'console', 'joypad')
 

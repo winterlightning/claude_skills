@@ -16,6 +16,7 @@ class UsbSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('usb-trident',)
     keywords = ('usb', 'port', 'symbol', 'connector', 'trident', 'data', 'plug', 'computer')
 

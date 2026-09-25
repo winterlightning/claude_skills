@@ -53,6 +53,7 @@ class StackOfTwoLogs(Solo48):
     icon_id = 'stack-of-two-logs'
     keyshape = Keyshape.HRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'document-upload-content'
     keyshape = Keyshape.VRECT_L
     category = 'state'
+    categories = ('state',)
     tags = ('sub icon',)
     keywords = ('document upload arrow',)
     def build(self):

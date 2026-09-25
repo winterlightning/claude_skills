@@ -13,6 +13,7 @@ class GirlHeadProfile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('girl', 'woman', 'head', 'profile', 'face', 'hair', 'female', 'person')
 

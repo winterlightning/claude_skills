@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Offset Circuit Paths with Nodes',)
     keywords = ('circuit', 'nodes', 'paths', 'electronics', 'connections', 'diagram', 'technology')
     def build(self):

@@ -11,6 +11,7 @@ class FilmReelWithHangingTail(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'movies'
+    categories = ('primitives', 'movies')
     aliases = ()
     keywords = ('film', 'reel', 'spool', 'cinema', 'movie', 'tail')
 

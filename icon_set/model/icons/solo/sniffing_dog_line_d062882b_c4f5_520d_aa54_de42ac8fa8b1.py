@@ -16,6 +16,7 @@ class SniffingDogLine(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'sniffing', 'smelling', 'nose', 'line-art', 'pet', 'scent')
 

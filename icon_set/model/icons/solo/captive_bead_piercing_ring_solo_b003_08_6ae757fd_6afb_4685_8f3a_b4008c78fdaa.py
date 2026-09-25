@@ -50,6 +50,7 @@ class GeneratedSolo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('captive', 'bead', 'piercing', 'ring')
 

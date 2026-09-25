@@ -21,6 +21,7 @@ class DrawingVariant2(Solo48):
     variant_label = 'Complete disabled battery'
     keyshape = Keyshape.HRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('disabled battery symbol',)
 

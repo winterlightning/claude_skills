@@ -18,6 +18,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "ecology"
+    categories = ("primitives", "ecology")
     aliases = ()
     keywords = ('bottle', 'plastic', 'crushed', 'crease', 'waste', 'recycling', 'cap', 'ecology')
 

@@ -12,6 +12,7 @@ class PairOfWeddingRings(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('ring', 'rings', 'wedding', 'engagement', 'couple', 'marriage', 'jewellery', 'jewelry', 'gem')
 

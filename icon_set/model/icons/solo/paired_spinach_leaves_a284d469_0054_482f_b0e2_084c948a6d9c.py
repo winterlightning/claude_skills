@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('spinach', 'leaf', 'greens', 'vegetable', 'vein', 'produce', 'food')
 

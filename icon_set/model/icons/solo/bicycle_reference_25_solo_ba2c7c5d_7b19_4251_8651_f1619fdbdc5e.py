@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('bike',)
 
@@ -39,6 +40,7 @@ class Drawing(Solo48):
 
     icon_id = 'bicycle-reference-25-solo'
     category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('sub icon', 'simple bicycle')
     semantic_role = 'MAIN'

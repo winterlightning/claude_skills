@@ -16,6 +16,7 @@ class Symbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ('Om Symbol with Crescent Moon',)
     keywords = ('om','symbol','crescent','moon','maha shivaratri')
 

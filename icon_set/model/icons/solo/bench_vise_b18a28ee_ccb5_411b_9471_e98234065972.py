@@ -11,6 +11,7 @@ class BenchVise(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('vise', 'bench vise', 'clamp', 'press', 'jaws', 'workshop', 'hold', 'tool')
 

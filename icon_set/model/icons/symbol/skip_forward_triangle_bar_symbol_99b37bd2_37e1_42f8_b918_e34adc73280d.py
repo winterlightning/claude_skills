@@ -16,6 +16,7 @@ class SkipForwardTriangleBarSymbol(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('skip', 'forward', 'triangle', 'bar', 'symbol')
 

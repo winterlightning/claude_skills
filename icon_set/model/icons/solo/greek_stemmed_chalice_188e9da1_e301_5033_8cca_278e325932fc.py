@@ -12,6 +12,7 @@ class StemmedChalice(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('chalice', 'grail', 'cup', 'goblet', 'stem', 'vessel')
 

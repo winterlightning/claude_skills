@@ -13,6 +13,7 @@ class SlippingFigure(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('slippery', 'slip', 'fall', 'figure', 'warning', 'wet floor', 'caution', 'person')
 

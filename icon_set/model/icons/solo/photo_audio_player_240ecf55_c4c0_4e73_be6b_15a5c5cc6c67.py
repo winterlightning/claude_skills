@@ -13,6 +13,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'medias'
+    categories = ('primitives', 'medias')
     aliases=()
     keywords=('photo', 'audio', 'player')
 

@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'romance'
+    categories = ('primitives', 'romance')
     keywords = ('heart', 'gift', 'box')
 
 

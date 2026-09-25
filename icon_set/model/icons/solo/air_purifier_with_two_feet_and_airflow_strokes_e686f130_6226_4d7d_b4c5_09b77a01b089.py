@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecology'
+    categories = ('ecology', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('air', 'purifier')
 
@@ -43,6 +44,7 @@ class Drawing(Solo48):
 
     icon_id = 'air-purifier-with-two-feet-and-airflow-strokes'
     category = 'ecology'
+    categories = ('ecology', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'feet', 'home', 'ecology')
     semantic_role = 'MAIN'

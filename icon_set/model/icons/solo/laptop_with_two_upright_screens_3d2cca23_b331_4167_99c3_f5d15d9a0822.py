@@ -12,6 +12,7 @@ class LaptopWithTwoUprightScreens(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('laptop', 'screens', 'responsive', 'devices', 'computer', 'display', 'mobile')
 

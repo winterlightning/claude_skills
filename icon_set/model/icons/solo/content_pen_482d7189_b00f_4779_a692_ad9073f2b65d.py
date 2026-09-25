@@ -11,6 +11,7 @@ class ContentPen(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('content', 'state')
     aliases = ()
     keywords = ('content', 'pen', 'solo-ai-next100')
 

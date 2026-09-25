@@ -12,6 +12,7 @@ class MastodonLogo1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('mastodon', 'logo', 'logos')
 

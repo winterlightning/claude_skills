@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Arrow Pointing Up Right',)
     keywords = ('arrow', 'up', 'right', 'diagonal', 'direction', 'pointer', 'line')
 

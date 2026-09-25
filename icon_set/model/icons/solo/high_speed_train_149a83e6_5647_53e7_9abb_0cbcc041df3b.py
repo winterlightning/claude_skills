@@ -11,6 +11,7 @@ class HighSpeedTrain(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "other", "primitives-generate")
     aliases = ()
     keywords = ('high speed train', 'bullet train', 'shinkansen', 'train', 'railway', 'rail', 'fast', 'transport')
 

@@ -16,6 +16,7 @@ class CatGrassInPot(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('cat-grass', 'grass', 'pot', 'plant', 'cat', 'pet', 'greens')
 

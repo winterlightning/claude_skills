@@ -13,6 +13,7 @@ class MobileUserProfile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("combination", "other", "primitives-generate")
     aliases = ("phone profile", "mobile user")
     keywords = ("smartphone", "account", "avatar", "person")
 

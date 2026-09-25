@@ -55,6 +55,7 @@ class LacedCorsetWithCups(Solo48):
     icon_id = 'laced-corset-with-cups'
     keyshape = Keyshape.VRECT_L
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

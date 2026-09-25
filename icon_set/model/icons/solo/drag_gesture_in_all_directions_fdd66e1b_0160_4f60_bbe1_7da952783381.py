@@ -10,6 +10,7 @@ class DragGestureInAllDirections(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("four-way drag",)
     keywords = ("finger", "nail", "arrows")
 

@@ -12,6 +12,7 @@ class OvercastLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('overcast', 'podcast', 'radio-tower', 'broadcast', 'logo', 'brand', 'audio')
 

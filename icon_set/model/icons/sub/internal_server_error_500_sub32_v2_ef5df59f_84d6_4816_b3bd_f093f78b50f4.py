@@ -16,6 +16,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'symbol'
+    categories = ('symbol', 'state')
     keywords = ('five', 'hundred', 'internal', 'server', 'error')
     TYPEFACE_GLYPH_IDS = ('digit-5', 'digit-0', 'digit-0', 'letter-e-uppercase', 'letter-r-uppercase', 'letter-r-uppercase', 'letter-o-uppercase', 'letter-r-uppercase')
 

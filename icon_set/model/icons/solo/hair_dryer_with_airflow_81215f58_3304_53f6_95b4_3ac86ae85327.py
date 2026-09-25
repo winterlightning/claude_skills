@@ -18,6 +18,7 @@ class IconHairDryerWithAirflow(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('hair', 'dryer', 'with', 'airflow')
 

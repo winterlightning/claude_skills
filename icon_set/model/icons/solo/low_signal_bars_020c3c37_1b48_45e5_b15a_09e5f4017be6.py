@@ -12,6 +12,7 @@ class MobileIcon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases = ()
     keywords = ('signal', 'low', 'bars', 'reception', 'cellular', 'network', 'strength')
 

@@ -13,6 +13,7 @@ class TransgenderSymbolSource559Ed38A(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "other", "primitives-generate")
     aliases = ()
     keywords = ('transgender', 'gender', 'symbol', 'identity', 'pride', 'trans', 'arrows')
 

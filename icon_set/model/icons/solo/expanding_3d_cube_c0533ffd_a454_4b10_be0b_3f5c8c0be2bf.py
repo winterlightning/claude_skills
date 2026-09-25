@@ -20,6 +20,7 @@ class Expanding3DCube(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("expanding cube", "3D box expand")
     keywords = ("cube", "expand", "scale", "3d", "outward", "arrows")
 

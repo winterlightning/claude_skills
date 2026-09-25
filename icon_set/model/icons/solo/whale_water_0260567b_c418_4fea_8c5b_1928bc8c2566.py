@@ -13,6 +13,7 @@ class WhaleTailWithSpout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('whale', 'tail', 'spout', 'water', 'sea', 'ocean', 'marine', 'minimal')
 

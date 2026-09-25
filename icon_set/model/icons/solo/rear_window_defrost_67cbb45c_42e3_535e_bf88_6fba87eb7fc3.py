@@ -13,6 +13,7 @@ class RearWindowDefrost(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('rear window', 'defrost', 'demist', 'windscreen', 'airflow', 'car', 'dashboard', 'heating')
 

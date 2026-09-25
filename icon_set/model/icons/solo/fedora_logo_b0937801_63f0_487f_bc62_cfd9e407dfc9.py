@@ -11,6 +11,7 @@ class FedoraLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('fedora', 'linux', 'letter-f', 'logo', 'brand', 'operating-system', 'open-source')
 

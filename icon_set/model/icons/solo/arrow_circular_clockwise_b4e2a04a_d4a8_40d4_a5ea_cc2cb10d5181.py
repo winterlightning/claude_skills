@@ -19,6 +19,7 @@ class ArrowCircularClockwise(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('refresh', 'redo', 'reload', 'rotate', 'clockwise', 'arrow', 'circle', 'repeat')
 

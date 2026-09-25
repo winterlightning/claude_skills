@@ -16,6 +16,7 @@ class SproutingSeedling(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('seedling', 'sprout', 'plant', 'growth', 'leaves', 'ground', 'garden', 'ecology')
 

@@ -11,6 +11,7 @@ class DribbbleLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('dribbble', 'basketball', 'design', 'logo', 'brand', 'portfolio', 'creative')
 

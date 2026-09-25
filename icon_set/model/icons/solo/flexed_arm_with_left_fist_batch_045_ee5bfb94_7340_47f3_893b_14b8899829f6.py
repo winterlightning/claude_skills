@@ -12,6 +12,7 @@ class Batch045Icon15(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('arm', 'muscle', 'bicep', 'flex', 'fist', 'strength', 'body')
     # Reference: biceps-flexed: fist, forearm and bicep silhouette. Human full_body_ref.png inspected for continuous rounded limb vocabulary.

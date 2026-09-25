@@ -19,6 +19,7 @@ class Drawing(Solo48):
     aliases = ("heart key",)
     keywords = ("key", "heart", "romance")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

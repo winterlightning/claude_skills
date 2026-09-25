@@ -12,6 +12,7 @@ class PeelingSticker(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('sticker', 'self adhesive', 'label', 'peel', 'adhesive', 'decal', 'note', 'tag')
 

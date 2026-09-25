@@ -11,6 +11,7 @@ class FilamentSpoolWithStrand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('filament', 'spool', 'reel', '3d-printing', 'strand', 'material', 'maker')
 

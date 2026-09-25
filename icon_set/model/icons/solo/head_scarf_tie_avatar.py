@@ -21,6 +21,7 @@ class HeadScarfTieAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('head', 'scarf', 'tie', 'portrait', 'bust')
 

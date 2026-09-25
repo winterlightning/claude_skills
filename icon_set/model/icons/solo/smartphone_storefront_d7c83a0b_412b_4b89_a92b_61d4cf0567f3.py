@@ -14,6 +14,7 @@ class Batch05Icon1(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('smartphone-storefront',)
     keywords = ('smartphone', 'storefront')
     def build(self):

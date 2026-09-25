@@ -12,6 +12,7 @@ class PocketMultitoolScissors(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('swiss army knife', 'multitool', 'scissors', 'pocket knife', 'camping', 'outdoor', 'blade', 'tool')
 

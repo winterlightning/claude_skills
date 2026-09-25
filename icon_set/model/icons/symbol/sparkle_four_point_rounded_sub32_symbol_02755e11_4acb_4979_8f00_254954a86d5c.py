@@ -21,6 +21,7 @@ class GridAlignedSubContainerSymbol(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
 
     def build(self):
         self.add_arc('side-0', (16, 2), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=False)

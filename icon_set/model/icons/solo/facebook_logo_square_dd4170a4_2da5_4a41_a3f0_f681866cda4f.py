@@ -11,6 +11,7 @@ class FacebookLogoSquare(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('facebook', 'social', 'letter-f', 'logo', 'brand', 'meta', 'square')
 

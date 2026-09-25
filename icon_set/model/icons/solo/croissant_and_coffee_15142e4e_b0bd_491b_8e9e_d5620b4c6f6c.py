@@ -19,6 +19,7 @@ class CroissantAndCoffee(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('croissant', 'coffee', 'breakfast', 'bakery', 'cafe', 'pastry', 'food', 'morning')
 

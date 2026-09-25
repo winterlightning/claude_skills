@@ -17,6 +17,7 @@ class ArrowRightState49(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'right', 'horizontal', 'shaft', 'ends', 'diagonal', 'arms', 'that')
 

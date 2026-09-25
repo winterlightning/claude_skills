@@ -11,6 +11,7 @@ class DjHandOnRecord(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('dj', 'turntable', 'record', 'scratch', 'hand', 'vinyl', 'mixing', 'music')
 

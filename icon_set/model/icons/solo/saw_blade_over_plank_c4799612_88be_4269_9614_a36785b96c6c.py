@@ -12,6 +12,7 @@ class SawBladeOverPlank(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('saw', 'blade', 'wood', 'plank', 'cutter', 'planer', 'woodworking', 'power tool')
 

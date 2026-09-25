@@ -17,6 +17,7 @@ class Batch04Icon0(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('magnifying-glass',)
     keywords = ('magnifying', 'glass')
 

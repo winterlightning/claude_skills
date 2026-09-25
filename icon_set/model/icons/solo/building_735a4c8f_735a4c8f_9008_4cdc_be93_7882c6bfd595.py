@@ -11,6 +11,7 @@ class Building735a4c8f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('building', 'solo-ai-next50')
 

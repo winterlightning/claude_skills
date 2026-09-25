@@ -13,6 +13,7 @@ class CampaignBus(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('bus', 'campaign', 'flag', 'election', 'vehicle', 'transport')
 

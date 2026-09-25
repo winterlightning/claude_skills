@@ -12,6 +12,7 @@ class FigureWithOutstretchedLimbs(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('figure', 'warrior', 'human', 'action', 'pose', 'dance', 'movement', 'person')
 

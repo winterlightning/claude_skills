@@ -12,6 +12,7 @@ class WideOpenAperture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('aperture', 'shutter', 'iris', 'lens', 'open', 'f-stop', 'camera', 'photography')
 

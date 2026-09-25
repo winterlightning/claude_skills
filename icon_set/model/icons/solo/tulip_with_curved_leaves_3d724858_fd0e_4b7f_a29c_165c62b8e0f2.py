@@ -16,6 +16,7 @@ class TulipWithCurvedLeaves(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('tulip', 'flower', 'bloom', 'stem', 'leaves', 'spring', 'garden', 'nature')
 

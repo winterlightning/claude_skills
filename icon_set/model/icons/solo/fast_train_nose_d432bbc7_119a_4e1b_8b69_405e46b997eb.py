@@ -12,6 +12,7 @@ class FastTrainNose(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('fast train', 'high speed rail', 'bullet train', 'train', 'railway', 'rail', 'express', 'transport')
 

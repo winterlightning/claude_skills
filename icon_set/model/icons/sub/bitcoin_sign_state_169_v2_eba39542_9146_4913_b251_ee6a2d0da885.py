@@ -20,6 +20,7 @@ class BitcoinSignState169Variant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('bitcoin', 'sign', 'uppercase', 'b', 'rounded', 'bowls', 'short', 'parallel')
     keyshape = Keyshape.SQUARE

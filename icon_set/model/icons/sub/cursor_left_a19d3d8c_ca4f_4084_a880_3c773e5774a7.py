@@ -17,6 +17,7 @@ class CursorLeft(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = "state"
+    categories = ("state",)
     aliases = ()
     keywords = ('cursor', 'left', 'broad', 'outlined', 'pointer', 'faces', 'horizontally', 'long')
 

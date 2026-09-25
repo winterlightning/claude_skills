@@ -11,6 +11,7 @@ class CeilingLampDouble(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'lamps'
+    categories = ('lamps', 'primitives')
     aliases = ()
     keywords = ('ceiling', 'lamp', 'double', 'lamps', 'solo-ai-next100')
 

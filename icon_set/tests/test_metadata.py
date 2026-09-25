@@ -30,6 +30,17 @@ class MetadataTests(unittest.TestCase):
         self.assertEqual(metadata.load_metadata(self.icon, create=True), original)
         self.assertEqual(metadata.record_metadata(self.icon)['description'], 'Custom description')
 
+    def test_categories_default_to_the_model_and_fill_old_sidecars(self):
+        self.assertEqual(metadata.defaults(self.icon)['categories'], ['objects'])
+        many = SimpleNamespace(**{**vars(self.icon), 'category': 'health', 'categories': ('health', 'state')})
+        self.assertEqual(metadata.defaults(many)['categories'], ['health', 'state'])
+        document = metadata.load_metadata(self.icon, create=True)
+        del document['categories']
+        document['category'] = 'food'
+        metadata.metadata_path(self.icon).write_text(json.dumps(document))
+        self.assertEqual(metadata.load_metadata(self.icon)['categories'], ['food'])
+        self.assertEqual(metadata.record_metadata(self.icon)['categories'], ['food'])
+
     def test_read_does_not_write(self):
         metadata.load_metadata(self.icon)
         self.assertFalse(self.root.exists())
@@ -38,7 +49,7 @@ class MetadataTests(unittest.TestCase):
         valid = metadata.load_metadata(self.icon, create=True)
         path = metadata.metadata_path(self.icon)
         for changes in ({'icon_id': 'wrong'}, {'tags': 'sample'}, {'tags': [{}]},
-                        {'tags': ['same', 'same']}, {'name': ' '}, {'schema_version': True}):
+                        {'tags': ['same', 'same']}, {'categories': 'food'}, {'name': ' '}, {'schema_version': True}):
             with self.subTest(changes=changes):
                 path.write_text(json.dumps({**valid, **changes}))
                 with self.assertRaisesRegex(ValueError, 'sample-icon.json'):

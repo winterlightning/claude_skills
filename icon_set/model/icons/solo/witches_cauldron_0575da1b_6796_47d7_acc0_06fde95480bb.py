@@ -12,6 +12,7 @@ class WitchesCauldron(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('cauldron', 'witch', 'pot', 'potion', 'brew', 'magic', 'halloween', 'spell')
 

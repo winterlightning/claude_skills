@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('temperature snowflake 1',)
     # Plan: Six crystalline arms with a fork on every arm, shared center and mirrored branch definitions.

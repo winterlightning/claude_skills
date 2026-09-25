@@ -13,6 +13,7 @@ class MoveChevrons(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('move', 'drag', 'pan', 'chevrons', 'directions', 'arrows', 'position', 'navigate')
 

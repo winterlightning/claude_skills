@@ -15,6 +15,7 @@ class DiagonalSlashedCircleNotch(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Diagonal Slashed Circle with Notch',)
     keywords = tuple('diagonal slashed circle with notch'.split())
 

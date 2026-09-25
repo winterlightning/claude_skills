@@ -11,6 +11,7 @@ class FormspringLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('formspring', 'questions', 'chat', 'logo', 'brand', 'social', 'speech-bubble')
 

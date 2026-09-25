@@ -13,6 +13,7 @@ class TigerFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('tiger', 'face', 'head', 'stripes', 'big cat', 'feline', 'bengal', 'wildlife')
 

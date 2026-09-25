@@ -15,6 +15,7 @@ class CobraHeadFriendly(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals',)
     aliases = ('cobra-head',)
     keywords = ('cobra', 'snake', 'reptile', 'hood', 'head', 'friendly')
 

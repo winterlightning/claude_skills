@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class ClockwiseRefreshContainer(Container64):
     icon_id = 'clockwise-refresh-container'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     keyshape = Keyshape.CIRCLE
     aliases = ()
     keywords = ('clockwise', 'refresh', 'container')

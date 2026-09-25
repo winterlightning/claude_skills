@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'building-enveloped-by-flame'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('building', 'enveloped', 'by', 'flame')
 
     def build(self):

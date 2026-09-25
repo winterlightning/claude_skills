@@ -15,6 +15,7 @@ class TulipsInPlanter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('tulips', 'flowers', 'planter', 'window box', 'garden', 'spring', 'roses', 'potted')
 

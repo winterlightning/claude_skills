@@ -20,6 +20,7 @@ class BitcoinSignState169ContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('bitcoin', 'sign', 'uppercase', 'b', 'rounded', 'bowls', 'short', 'parallel')
 

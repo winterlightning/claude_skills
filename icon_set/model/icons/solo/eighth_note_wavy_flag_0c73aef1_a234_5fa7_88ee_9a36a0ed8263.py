@@ -11,6 +11,7 @@ class EighthNoteWavyFlag(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("music", "state")
     aliases=()
     keywords=('note', 'eighth-note', 'quaver', 'music', 'melody', 'notation', 'sound')
 

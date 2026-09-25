@@ -18,6 +18,7 @@ class PistolWithLongSlideAndCurvedGuard(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('pistol', 'with', 'long', 'slide', 'and', 'curved', 'guard')
 

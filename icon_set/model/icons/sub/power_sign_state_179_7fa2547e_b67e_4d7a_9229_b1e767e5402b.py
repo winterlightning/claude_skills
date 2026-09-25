@@ -17,6 +17,7 @@ class PowerSignState179(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('power', 'sign', 'circular', 'arc', 'remains', 'open', 'top', 'where')
 

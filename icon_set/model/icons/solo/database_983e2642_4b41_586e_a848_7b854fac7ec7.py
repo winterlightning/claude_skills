@@ -11,6 +11,7 @@ class Database(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'diagrams'
+    categories = ('diagrams', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('database', 'diagrams', 'solo-ai-next100')
 

@@ -16,6 +16,7 @@ class Batch29Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "files"
+    categories = ("files", "primitives")
     aliases = ()
     keywords = ('compressed', 'zip', 'archive', 'file')
 

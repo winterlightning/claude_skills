@@ -11,6 +11,7 @@ class DataServers(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'servers'
+    categories = ('servers', 'state')
     aliases = ()
     keywords = ('data', 'servers', 'solo-ai-next100')
 

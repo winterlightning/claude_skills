@@ -19,6 +19,7 @@ class InkscapeLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('inkscape', 'vector', 'drawing', 'logo', 'brand', 'open-source', 'mountain')
 

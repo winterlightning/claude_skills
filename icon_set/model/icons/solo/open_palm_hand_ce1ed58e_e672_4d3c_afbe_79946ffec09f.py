@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('hand',)
     def build(self):
@@ -53,6 +54,7 @@ class Drawing(Solo48):
 
     icon_id = 'open-palm-hand-ce1ed58e-e672-4d3c-afbe-79946ffec09f'
     category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ()
     keywords = ('open', 'palm', 'hand')
     semantic_role = 'MAIN'

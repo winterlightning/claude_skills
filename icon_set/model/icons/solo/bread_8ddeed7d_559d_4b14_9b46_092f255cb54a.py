@@ -11,6 +11,7 @@ class Bread(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('solo-ai-next50-refine', 'solo-ai-next50', 'bread')
 

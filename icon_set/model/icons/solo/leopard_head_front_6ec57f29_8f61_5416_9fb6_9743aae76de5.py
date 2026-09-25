@@ -13,6 +13,7 @@ class CheetahFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('cheetah', 'leopard', 'face', 'head', 'big cat', 'tear marks', 'feline', 'wildlife')
 

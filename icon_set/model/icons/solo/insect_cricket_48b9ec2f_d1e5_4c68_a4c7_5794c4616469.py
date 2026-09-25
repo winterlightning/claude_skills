@@ -13,6 +13,7 @@ class InsectHeadWithAntennae(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('insect', 'head', 'antennae', 'eyes', 'bug', 'cricket', 'face', 'nature')
 

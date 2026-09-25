@@ -15,6 +15,7 @@ class SixNodeMolecularRing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('molecule', 'ring', 'node', 'bond', 'chemistry', 'structure')
 

@@ -12,6 +12,7 @@ class TedLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('ted', 'talks', 'conference', 'wordmark', 'logo', 'brand', 'ideas')
 

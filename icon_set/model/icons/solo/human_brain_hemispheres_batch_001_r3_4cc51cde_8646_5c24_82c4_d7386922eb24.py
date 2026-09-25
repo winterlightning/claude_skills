@@ -48,6 +48,7 @@ class HumanBrainHemispheresBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "artificial-intelligence"
+    categories = ("artificial-intelligence", "primitives")
     aliases = ("brain-hemispheres", "brain")
     keywords = ("brain", "mind", "hemisphere", "anatomy", "intelligence", "neural")
 

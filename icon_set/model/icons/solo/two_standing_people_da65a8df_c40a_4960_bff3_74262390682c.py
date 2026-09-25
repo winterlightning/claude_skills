@@ -13,6 +13,7 @@ class TwoStandingPeople(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('people', 'two', 'users', 'pair', 'men', 'figures', 'group', 'team', 'sub icon')
 

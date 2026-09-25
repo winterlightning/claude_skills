@@ -10,7 +10,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "social"
+    categories = ("social", "primitive", "primitives")
     aliases = ()
     keywords = ('people', 'banner', 'protest', 'group', 'sign', 'figures')
     def build(self):

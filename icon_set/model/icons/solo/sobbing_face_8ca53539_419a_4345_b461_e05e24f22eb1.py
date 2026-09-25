@@ -16,6 +16,7 @@ class SobbingFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('sobbing', 'crying', 'tears', 'wailing', 'face', 'emoji')
 

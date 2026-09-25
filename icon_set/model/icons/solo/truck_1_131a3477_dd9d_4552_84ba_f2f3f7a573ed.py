@@ -11,6 +11,7 @@ class Truck1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'truck-1')
 

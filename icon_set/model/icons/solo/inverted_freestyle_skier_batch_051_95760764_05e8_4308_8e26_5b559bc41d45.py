@@ -29,7 +29,8 @@ class Batch051Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "sports"
+    categories = ("sports", "primitive", "primitives")
     aliases = ()
     keywords = ('skier', 'skiing', 'inverted', 'freestyle', 'skis', 'pole', 'sport')
 

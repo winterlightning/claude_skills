@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'arrow-horizontal-with-two-open-heads'
     keyshape = Keyshape.HRECT_M
-    category = "Uncategorized"
+    category = "arrows"
+    categories = ("arrows", "primitive", "primitives")
     def build(self):
 
         def path(name,start,steps,closed=False):

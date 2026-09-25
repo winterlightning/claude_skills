@@ -14,6 +14,7 @@ class DatabaseCylinderLabel(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('database', 'cylinder', 'storage', 'data', 'server', 'table', 'record', 'sql')
 

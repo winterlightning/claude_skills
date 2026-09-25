@@ -13,6 +13,7 @@ class ThumbsUpHand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('thumb', 'hand', 'approval', 'gesture', 'hand sign')
 

@@ -11,6 +11,7 @@ class BrainSideViewWithStem(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('brain', 'study', 'mind', 'neuroscience', 'thinking', 'learning', 'anatomy')
 

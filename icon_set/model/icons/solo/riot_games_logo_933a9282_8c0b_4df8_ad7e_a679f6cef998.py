@@ -12,6 +12,7 @@ class RiotGamesLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('riot-games', 'fist', 'gaming', 'logo', 'brand', 'publisher', 'league')
 

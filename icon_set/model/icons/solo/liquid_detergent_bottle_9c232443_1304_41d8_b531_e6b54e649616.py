@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases=()
     keywords=('liquid detergent',)
 
@@ -36,6 +37,7 @@ class Drawing(Solo48):
 
     icon_id = 'liquid-detergent-bottle'
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('liquid', 'detergent', 'bottle')
     semantic_role = 'MAIN'

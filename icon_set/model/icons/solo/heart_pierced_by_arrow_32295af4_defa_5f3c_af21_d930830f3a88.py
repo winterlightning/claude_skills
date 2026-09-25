@@ -16,6 +16,7 @@ class HeartPiercedByArrow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('heart', 'arrow', 'cupid', 'love', 'romance', 'pierced')
 

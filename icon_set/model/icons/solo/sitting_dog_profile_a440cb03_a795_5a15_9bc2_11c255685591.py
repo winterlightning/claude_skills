@@ -16,6 +16,7 @@ class SittingDogProfile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'sit', 'sitting', 'profile', 'training', 'pet', 'obedient')
 

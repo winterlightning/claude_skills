@@ -12,6 +12,7 @@ class SkipForwardSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "video"
+    categories = ("video", "primitives")
     aliases = ()
     keywords = ('skip', 'next', 'forward', 'media', 'playback', 'control', 'track')
 

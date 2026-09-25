@@ -12,6 +12,7 @@ class SpinrillaLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('spinrilla', 'music', 'mixtapes', 'spin', 'logo', 'brand', 'hip-hop')
 

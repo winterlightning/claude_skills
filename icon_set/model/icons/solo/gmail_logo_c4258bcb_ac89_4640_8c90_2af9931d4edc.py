@@ -11,6 +11,7 @@ class GmailLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('gmail', 'google', 'email', 'mail', 'letter-m', 'logo', 'brand')
 

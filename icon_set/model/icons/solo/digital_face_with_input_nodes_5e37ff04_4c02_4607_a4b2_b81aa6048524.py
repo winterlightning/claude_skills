@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('deepfake', 'face')
 
@@ -62,6 +63,7 @@ class Drawing(Solo48):
 
     icon_id = 'digital-face-with-input-nodes'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('head', 'neural network', 'intelligence', 'connection', 'thinking', 'technology', 'brain', 'artificial intelligence')
     semantic_role = 'MAIN'

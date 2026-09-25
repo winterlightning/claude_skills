@@ -13,6 +13,7 @@ class Headphones(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('headphones', 'headset', 'audio', 'music', 'listen', 'sound', 'support', 'earphones')
     keyshape = Keyshape.HRECT_L

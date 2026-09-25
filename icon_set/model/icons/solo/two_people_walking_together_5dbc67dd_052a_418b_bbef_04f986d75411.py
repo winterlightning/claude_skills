@@ -17,6 +17,7 @@ class TwoPeopleWalkingTogether(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('refugee', 'immigration', 'walking', 'people', 'migration', 'journey', 'pair')
 

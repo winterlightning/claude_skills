@@ -15,6 +15,7 @@ class HotGlueGun(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('glue gun', 'hot glue', 'glue', 'adhesive', 'craft', 'diy', 'nozzle', 'tool')
 

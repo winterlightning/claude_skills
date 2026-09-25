@@ -12,6 +12,7 @@ class SmugmugLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('smugmug', 'photos', 'smile', 'face', 'logo', 'brand', 'hosting')
 

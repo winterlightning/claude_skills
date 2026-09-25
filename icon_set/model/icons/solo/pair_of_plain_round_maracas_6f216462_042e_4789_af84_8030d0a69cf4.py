@@ -10,7 +10,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "music"
+    categories = ("music", "primitive", "primitives")
     aliases = ()
     keywords = ('maracas', 'shakers', 'percussion', 'music', 'instrument', 'handles', 'pair')
     def build(self):

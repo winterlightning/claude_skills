@@ -11,6 +11,7 @@ class GithubLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('github', 'octocat', 'git', 'logo', 'brand', 'developer', 'code')
 

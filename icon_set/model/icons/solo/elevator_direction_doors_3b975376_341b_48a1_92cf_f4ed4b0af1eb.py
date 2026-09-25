@@ -12,6 +12,7 @@ class Drawing(Solo48):
     icon_id = 'elevator-direction-doors'
     keyshape = Keyshape.HRECT_L
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('elevator doors with directional arrows',)
     def build(self):

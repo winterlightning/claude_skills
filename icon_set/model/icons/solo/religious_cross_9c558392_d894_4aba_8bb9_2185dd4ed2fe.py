@@ -15,6 +15,7 @@ class ReligiousCross(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'religion'
+    categories = ('religion', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('religious', 'cross', 'religion')
 

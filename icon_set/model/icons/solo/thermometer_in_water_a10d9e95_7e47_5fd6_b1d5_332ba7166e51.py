@@ -13,6 +13,7 @@ class ThermometerInWater(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('thermometer', 'coolant', 'temperature', 'water', 'warning', 'engine', 'dashboard', 'gauge')
 

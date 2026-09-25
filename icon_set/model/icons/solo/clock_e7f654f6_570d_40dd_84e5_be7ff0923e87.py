@@ -12,6 +12,7 @@ class ClockE7f654f6(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('clock', 'office')
 

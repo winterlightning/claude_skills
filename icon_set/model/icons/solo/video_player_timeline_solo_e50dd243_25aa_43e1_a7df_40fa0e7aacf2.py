@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'video'
+    categories = ('video', 'primitives')
     aliases=()
     keywords=('video', 'player', 'adjust')
     def path(self,n,start,commands,closed=False):
@@ -64,6 +65,7 @@ class Drawing(Solo48):
 
     icon_id = 'video-player-timeline-solo-e50dd243'
     category = 'video'
+    categories = ('video', 'primitives')
     aliases = ('video-player-timeline',)
     keywords = ('video', 'player', 'timeline')
     semantic_role = 'MAIN'

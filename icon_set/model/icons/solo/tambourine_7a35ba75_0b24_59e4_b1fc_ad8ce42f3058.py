@@ -11,6 +11,7 @@ class Tambourine(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('tambourine', 'percussion', 'jingles', 'instrument', 'rhythm', 'folk', 'music')
 

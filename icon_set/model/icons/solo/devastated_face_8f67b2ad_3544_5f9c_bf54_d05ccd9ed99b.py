@@ -16,6 +16,7 @@ class DevastatedFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('devastated', 'distressed', 'wailing', 'sad', 'face', 'emoji')
 

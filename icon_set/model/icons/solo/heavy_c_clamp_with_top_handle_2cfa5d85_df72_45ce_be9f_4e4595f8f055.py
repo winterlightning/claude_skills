@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'heavy-c-clamp-with-top-handle'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

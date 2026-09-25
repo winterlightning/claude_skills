@@ -15,6 +15,7 @@ class GenderMaleUsers(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('gender', 'male', 'users')
 

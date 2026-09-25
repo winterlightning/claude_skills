@@ -11,6 +11,7 @@ class ActionCameraOnMount(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'photography'
+    categories = ('photography', 'primitives')
     aliases = ()
     keywords = ('action camera', 'gopro', 'camera', 'mount', 'video', 'sports', 'adventure', 'lens')
 

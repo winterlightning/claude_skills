@@ -16,6 +16,7 @@ class RoundHeadMapPinSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('round', 'head', 'map', 'pin', 'sub')
 

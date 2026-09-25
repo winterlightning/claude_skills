@@ -12,6 +12,7 @@ class ArchedTapRunningWater(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('tap', 'faucet', 'water', 'stream', 'plumbing', 'lever')
 

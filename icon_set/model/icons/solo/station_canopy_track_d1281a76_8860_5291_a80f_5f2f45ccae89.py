@@ -11,6 +11,7 @@ class StationCanopyTrack(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('railway station', 'station', 'platform', 'canopy', 'track', 'train station', 'tunnel', 'rail')
 

@@ -15,6 +15,7 @@ class HammeredDulcimer(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Hammered Dulcimer Musical Instrument',)
     keywords = tuple('hammered dulcimer musical instrument'.split())
 

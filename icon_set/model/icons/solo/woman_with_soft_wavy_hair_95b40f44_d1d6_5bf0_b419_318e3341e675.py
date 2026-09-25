@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases=()
     keywords=('woman',)
     def path(self,n,start,commands,closed=False):

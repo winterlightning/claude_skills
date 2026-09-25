@@ -12,6 +12,7 @@ class DocumentCarryingTube(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('document', 'tube', 'carrier', 'strap', 'drawing', 'office')
 

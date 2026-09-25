@@ -13,6 +13,7 @@ class PersonStandingBody(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('person', 'body', 'standing', 'user', 'figure', 'human', 'member', 'people')
 

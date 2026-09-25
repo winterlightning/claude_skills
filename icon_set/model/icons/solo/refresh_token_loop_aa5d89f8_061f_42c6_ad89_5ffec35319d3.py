@@ -14,6 +14,7 @@ class RefreshTokenLoop(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('refresh', 'token', 'loading', 'coin', 'authentication', 'cycle', 'progress', 'renew')
 

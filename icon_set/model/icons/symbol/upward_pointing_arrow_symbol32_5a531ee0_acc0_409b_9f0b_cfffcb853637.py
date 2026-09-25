@@ -17,6 +17,7 @@ class Drawing(Symbol32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'state', 'primitives-generate')
     aliases = ('Upward Pointing Directional Arrow',)
     keywords = ('symbol', 'container content')
 

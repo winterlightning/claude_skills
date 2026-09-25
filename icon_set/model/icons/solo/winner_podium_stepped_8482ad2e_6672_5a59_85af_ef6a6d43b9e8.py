@@ -12,6 +12,7 @@ class WinnerPodiumStepped(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "rating"
+    categories = ("rating", "primitives")
     aliases = ()
     keywords = ('podium', 'winner', 'ranking', 'first', 'competition', 'leaderboard', 'award', 'victory')
 

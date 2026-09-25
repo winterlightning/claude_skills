@@ -19,6 +19,7 @@ class WheelSixSpokes(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('wheel', 'spokes', 'circle', 'dharma', 'wagon', 'symbol', 'cycle', 'rim')
 

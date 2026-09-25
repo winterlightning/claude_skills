@@ -16,6 +16,7 @@ class WirelessMouse(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('cordless mouse',)
     keywords = ('mouse', 'wireless', 'scroll wheel', 'computer', 'peripheral')
 

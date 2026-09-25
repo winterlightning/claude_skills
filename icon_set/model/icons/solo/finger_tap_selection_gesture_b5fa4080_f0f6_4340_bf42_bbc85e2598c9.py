@@ -15,6 +15,7 @@ class FingerTapSelectionGesture(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Finger Tap Selection Gesture',)
     keywords = tuple('finger tap selection gesture'.split())
 

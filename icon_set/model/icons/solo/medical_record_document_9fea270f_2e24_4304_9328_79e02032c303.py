@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases=()
     keywords=('medical', 'file')
 
@@ -50,6 +51,7 @@ class Drawing(Solo48):
 
     icon_id = 'medical-record-document'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ('medical file', 'health document')
     keywords = ('patient', 'record', 'cross', 'medical')
     semantic_role = 'MAIN'

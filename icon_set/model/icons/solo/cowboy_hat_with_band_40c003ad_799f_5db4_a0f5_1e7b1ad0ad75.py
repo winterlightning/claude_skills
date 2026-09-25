@@ -11,6 +11,7 @@ class CowboyHatWithBand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('hat', 'cowboy hat', 'western', 'stetson', 'hatband', 'brim', 'ranch', 'headwear')
 

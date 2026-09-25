@@ -19,6 +19,7 @@ class FringedAreaRug(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
+    categories = ('container',)
     aliases = ('fringed-rug', 'area-rug')
     keywords = ('rug', 'mat', 'textile', 'fringe')
 

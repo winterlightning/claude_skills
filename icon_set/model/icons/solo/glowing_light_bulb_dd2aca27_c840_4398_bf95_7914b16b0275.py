@@ -15,6 +15,7 @@ class GlowingLightBulb(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('bulb', 'light', 'glow', 'idea', 'lamp', 'illumination')
 

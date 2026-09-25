@@ -15,6 +15,7 @@ class TrainFront(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases=()
     keywords=('train', 'railway', 'metro', 'subway', 'transport', 'tram', 'station', 'transit')
 

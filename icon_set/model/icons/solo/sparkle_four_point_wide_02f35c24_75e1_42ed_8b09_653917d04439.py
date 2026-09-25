@@ -15,6 +15,7 @@ class SparkleFourPointWide(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('sparkle', 'star', 'shine', 'magic', 'ai', 'new', 'twinkle', 'highlight')
 

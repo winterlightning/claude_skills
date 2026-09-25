@@ -16,6 +16,7 @@ class AudioWaveformVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('audio', 'waveform', 'five', 'separate', 'vertical', 'bars', 'form', 'uneven')
     keyshape = Keyshape.SQUARE

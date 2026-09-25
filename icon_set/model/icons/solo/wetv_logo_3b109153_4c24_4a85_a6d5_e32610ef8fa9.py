@@ -12,6 +12,7 @@ class WetvLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('wetv', 'tencent', 'streaming', 'play', 'logo', 'brand', 'video')
 

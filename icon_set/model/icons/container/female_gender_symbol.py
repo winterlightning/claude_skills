@@ -20,6 +20,7 @@ class FemaleGenderSymbol(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ("venus-container", "female-symbol-container")
     keywords = ("female", "gender", "venus", "woman", "circle")
 

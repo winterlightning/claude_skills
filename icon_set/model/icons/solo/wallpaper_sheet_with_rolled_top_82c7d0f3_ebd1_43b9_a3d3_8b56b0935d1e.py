@@ -55,6 +55,7 @@ class WallpaperSheetWithRolledTop(Solo48):
     icon_id = 'wallpaper-sheet-with-rolled-top'
     keyshape = Keyshape.SQUARE
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

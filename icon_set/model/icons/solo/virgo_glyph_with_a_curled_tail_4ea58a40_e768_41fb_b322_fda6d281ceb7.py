@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Virgo Zodiac Sign']
     keywords = ['virgo', 'zodiac', 'astrology', 'glyph', 'arches', 'tail', 'symbol']
     def build(self):

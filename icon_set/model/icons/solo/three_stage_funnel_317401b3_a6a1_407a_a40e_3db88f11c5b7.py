@@ -53,6 +53,7 @@ class ThreeStageFunnel(Solo48):
     icon_id = 'three-stage-funnel'
     keyshape = Keyshape.VRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

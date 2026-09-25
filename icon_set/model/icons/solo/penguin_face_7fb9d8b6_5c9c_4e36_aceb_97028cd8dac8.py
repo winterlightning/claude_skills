@@ -15,6 +15,7 @@ class PenguinFace(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('penguin', 'bird', 'face', 'head', 'beak', 'chick', 'animal', 'minimal')
 

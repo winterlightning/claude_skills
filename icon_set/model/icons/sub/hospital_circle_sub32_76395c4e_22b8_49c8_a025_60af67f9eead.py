@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     keywords = ('hospital', 'symbol', 'in', 'circle')
     TYPEFACE_GLYPH_IDS = ('letter-h-uppercase',)
 

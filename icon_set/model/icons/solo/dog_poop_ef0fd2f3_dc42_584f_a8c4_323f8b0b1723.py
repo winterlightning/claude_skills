@@ -16,6 +16,7 @@ class DogPoop(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('poop', 'dog', 'waste', 'mess', 'pet', 'clean-up', 'smell')
 

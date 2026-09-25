@@ -12,6 +12,7 @@ class LaptopWithFlatBaseLip(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('notebook',)
     keywords = ('computer', 'screen', 'device', 'lucide-laptop')
 

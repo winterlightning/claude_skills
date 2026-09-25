@@ -12,6 +12,7 @@ class Batch045Icon11(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('fish', 'skeleton', 'bone', 'spine', 'ribs', 'tail', 'animal')
     # Reference: fish: head/spine/tail hierarchy, reduced to skeleton.

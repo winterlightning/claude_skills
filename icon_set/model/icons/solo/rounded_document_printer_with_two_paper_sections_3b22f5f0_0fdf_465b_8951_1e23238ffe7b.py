@@ -17,6 +17,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'devices'
+    categories = ('devices', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('document', 'printer', 'with', 'paper', 'sheet')
 

@@ -12,6 +12,7 @@ class VisaLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('visa', 'payment', 'credit-card', 'wordmark', 'logo', 'brand', 'finance')
 

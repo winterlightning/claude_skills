@@ -14,6 +14,7 @@ class DrawingVariant2(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
 
     def build(self):
         # One true radius-8 bow; shaft and both teeth use exact 45-degree axes.

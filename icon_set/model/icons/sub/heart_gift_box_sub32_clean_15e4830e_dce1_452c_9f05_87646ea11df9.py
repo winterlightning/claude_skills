@@ -16,6 +16,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'romance'
+    categories = ('primitives', 'romance')
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.box('box',2,11,30,30,1)

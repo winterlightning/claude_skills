@@ -16,6 +16,7 @@ class OpenbadgesLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('openbadges', 'badges', 'cube', 'logo', 'brand', 'credentials', 'education')
 

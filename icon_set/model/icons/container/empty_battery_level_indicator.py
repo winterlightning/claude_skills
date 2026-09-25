@@ -18,6 +18,7 @@ class EmptyBatteryLevelIndicator(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('empty-battery', 'battery-container')
     keywords = ('battery', 'charge', 'empty', 'power')
 

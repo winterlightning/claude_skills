@@ -11,6 +11,7 @@ class BookOpenB5768591(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('primitives', 'content')
     aliases = ()
     keywords = ('book', 'open', 'content', 'solo-ai-next50')
 

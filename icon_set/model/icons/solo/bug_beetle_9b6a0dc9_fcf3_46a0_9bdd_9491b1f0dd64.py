@@ -16,6 +16,7 @@ class BugBeetle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('bug', 'beetle', 'insect', 'debug', 'error', 'software', 'pest', 'virus', 'sub icon')
 

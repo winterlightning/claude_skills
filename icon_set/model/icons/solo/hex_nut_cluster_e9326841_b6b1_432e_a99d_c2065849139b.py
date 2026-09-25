@@ -14,6 +14,7 @@ class HexNutCluster(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('nuts', 'hexagon', 'tools', 'hardware', 'settings', 'bolts', 'architecture', 'engineering')
 

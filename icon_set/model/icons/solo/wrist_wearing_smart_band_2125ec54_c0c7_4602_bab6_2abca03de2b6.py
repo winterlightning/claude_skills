@@ -44,6 +44,7 @@ class WristWearingSmartBand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'combination'
+    categories = ('combination', 'primitives')
     aliases = ()
     keywords = ('wrist', 'wearing', 'smart', 'band')
 

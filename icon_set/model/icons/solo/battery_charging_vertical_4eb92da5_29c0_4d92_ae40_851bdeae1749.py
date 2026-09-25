@@ -13,6 +13,7 @@ class BatteryChargingVertical(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('battery', 'charging', 'power', 'energy', 'charge', 'electric', 'level', 'device')
 

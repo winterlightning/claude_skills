@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role='SUB'
     semantic_kind='modifier'
     category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'wireless beacon remote signal')
     def build(self):

@@ -11,6 +11,7 @@ class LabBottleExperiment(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('lab', 'bottle', 'experiment', 'science')
 

@@ -16,6 +16,7 @@ class HexagonShapeDesign(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('hexagon', 'shape', 'design')
     keyshape = Keyshape.VRECT_L

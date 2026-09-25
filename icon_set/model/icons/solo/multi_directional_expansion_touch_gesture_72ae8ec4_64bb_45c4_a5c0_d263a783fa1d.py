@@ -10,6 +10,7 @@ class MultiDirectionalExpansionTouchGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("four-way expand", "spread gesture")
     keywords = ("finger", "arrows", "directions")
 

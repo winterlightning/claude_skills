@@ -16,6 +16,7 @@ class TargetedUserProfileSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('targeted', 'user', 'profile', 'sub')
 

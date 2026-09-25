@@ -16,6 +16,7 @@ class MicrosoftSharepointLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('sharepoint', 'microsoft', 'collaboration', 'office', 'logo', 'brand', 'letter-s')
 

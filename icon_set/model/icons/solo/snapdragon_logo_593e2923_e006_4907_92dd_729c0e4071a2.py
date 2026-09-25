@@ -12,6 +12,7 @@ class SnapdragonLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('snapdragon', 'qualcomm', 'processor', 'chip', 'logo', 'brand', 'mobile')
 

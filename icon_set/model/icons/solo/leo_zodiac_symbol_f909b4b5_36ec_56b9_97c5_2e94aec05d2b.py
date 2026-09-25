@@ -12,6 +12,7 @@ class LeoZodiacSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('leo', 'zodiac', 'astrology', 'lion', 'mane', 'horoscope', 'star sign', 'symbol')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'clock-with-four-marks-and-round-hub'
     keyshape = Keyshape.CIRCLE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('clock', 'with', 'four', 'marks', 'and', 'round', 'hub')
 
     def build(self):

@@ -11,6 +11,7 @@ class SatelliteGroundStation(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('ground-station', 'satellite-dish', 'antenna', 'signal', 'receiver', 'broadcast', 'communication')
 

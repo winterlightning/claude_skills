@@ -12,6 +12,7 @@ class ClawGripperMachine(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('claw', 'gripper', 'crane', 'machine', 'grab', 'robotic', 'clamp', 'industrial')
 

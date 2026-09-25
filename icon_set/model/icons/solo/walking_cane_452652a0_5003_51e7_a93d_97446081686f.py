@@ -16,6 +16,7 @@ class WalkingCane(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('cane', 'walking stick', 'crook', 'stick', 'handle', 'accessory', 'mobility', 'hook')
 

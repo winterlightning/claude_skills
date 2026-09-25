@@ -18,6 +18,7 @@ class StripedHeart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('heart', 'stripe', 'lgbt', 'pride', 'love', 'romance')
 

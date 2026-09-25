@@ -15,6 +15,7 @@ class UnequalBalanceScale(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('scale', 'balance', 'unequal', 'justice', 'weighing', 'legal')
 

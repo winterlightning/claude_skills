@@ -13,7 +13,8 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "logos"
+    categories = ("logos", "primitive", "primitives")
     aliases = ()
     keywords = ('spotify', 'logo', '1')
 

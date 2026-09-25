@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'messages'
+    categories = ('messages', 'state')
     keywords = ('starred', 'message', 'bubble')
 
 

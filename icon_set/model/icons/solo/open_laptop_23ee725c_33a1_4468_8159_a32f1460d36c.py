@@ -12,6 +12,7 @@ class OpenLaptop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('notebook-computer', 'laptop')
     keywords = ('laptop', 'computer', 'portable', 'screen', 'notebook')
 

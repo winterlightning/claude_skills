@@ -16,6 +16,7 @@ class RectangleRemoveState(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('rectangle', 'remove', 'state')
     keyshape = Keyshape.HRECT_L

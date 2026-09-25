@@ -19,6 +19,7 @@ class SourceMain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'primitives')
     aliases = ('portrait-business-card',)
     keywords = ('portrait', 'business', 'card')
 

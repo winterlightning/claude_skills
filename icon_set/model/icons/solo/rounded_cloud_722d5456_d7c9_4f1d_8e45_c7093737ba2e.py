@@ -17,6 +17,7 @@ class Batch02Icon3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('rounded-cloud',)
     keywords = ('rounded', 'cloud')
 

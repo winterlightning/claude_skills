@@ -12,6 +12,7 @@ class ChildPlayingBall(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('child', 'ball', 'play', 'kicking', 'sport', 'person')
 

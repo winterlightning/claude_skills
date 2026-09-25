@@ -12,6 +12,7 @@ class StripeLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('stripe', 'payments', 'letter-s', 'logo', 'brand', 'finance', 'checkout')
 

@@ -11,6 +11,7 @@ class GoogleAdManagerLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('google-ad-manager', 'google', 'ads', 'logo', 'brand', 'advertising', 'publisher')
 

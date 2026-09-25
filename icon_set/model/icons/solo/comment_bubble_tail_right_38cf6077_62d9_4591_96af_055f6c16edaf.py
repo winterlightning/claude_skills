@@ -19,6 +19,7 @@ class CommentBubbleTailRight(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('comment', 'chat', 'message', 'bubble', 'speech', 'text', 'conversation', 'reply')
 

@@ -15,6 +15,7 @@ class BarcodeE7b1e1e5(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('barcode', 'shopping')
 

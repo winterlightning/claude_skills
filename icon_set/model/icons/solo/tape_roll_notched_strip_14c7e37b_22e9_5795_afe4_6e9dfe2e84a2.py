@@ -12,6 +12,7 @@ class TapeRollNotchedStrip(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('tape', 'duct tape', 'roll', 'adhesive', 'sticky', 'strip', 'repair', 'packing')
 

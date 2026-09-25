@@ -15,6 +15,7 @@ class StackedLogs(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('logs', 'firewood', 'wood', 'timber', 'stack', 'lumber', 'forestry', 'fuel')
 

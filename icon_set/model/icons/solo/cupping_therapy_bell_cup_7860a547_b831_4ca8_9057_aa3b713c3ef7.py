@@ -13,6 +13,7 @@ class CuppingTherapyBellCup(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('cupping', 'therapy', 'massage', 'tool')
 

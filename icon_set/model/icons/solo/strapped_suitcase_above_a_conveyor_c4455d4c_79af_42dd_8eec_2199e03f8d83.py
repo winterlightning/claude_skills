@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'strapped-suitcase-above-a-conveyor'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

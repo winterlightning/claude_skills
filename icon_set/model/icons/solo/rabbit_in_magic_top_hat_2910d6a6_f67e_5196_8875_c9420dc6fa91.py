@@ -13,6 +13,7 @@ class ProtectionIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "products"
+    categories = ("primitives", "products")
     aliases = ()
     keywords = ('magic', 'rabbit', 'top-hat', 'magician', 'trick', 'bunny', 'illusion', 'surprise')
 

@@ -19,6 +19,7 @@ class ChevronDownHollow(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('chevron', 'down', 'arrow', 'expand', 'hollow', 'dropdown', 'direction', 'button')
 

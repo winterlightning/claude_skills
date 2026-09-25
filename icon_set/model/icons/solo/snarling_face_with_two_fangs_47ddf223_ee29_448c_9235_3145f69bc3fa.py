@@ -14,6 +14,7 @@ class Drawing(Solo48):
     icon_id = 'snarling-face-with-two-fangs'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('snarling', 'face', 'with', 'two', 'fangs')
 
     def build(self):

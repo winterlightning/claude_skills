@@ -11,6 +11,7 @@ class HockeyPlayer(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('hockey', 'player', 'stick', 'puck', 'athlete', 'sport')
     def build(self) -> None:

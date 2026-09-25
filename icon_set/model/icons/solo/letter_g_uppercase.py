@@ -17,6 +17,7 @@ class LetterGUppercase(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'typeface'
+    categories = ('typeface',)
     typeface = {'character': 'G', 'kind': 'uppercase'}
     aliases = ()
     keywords = ('G', 'uppercase', 'capital', 'typeface')

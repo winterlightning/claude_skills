@@ -11,6 +11,7 @@ class Printer3DCone(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('3d-printing', 'printer', 'cone', 'nozzle', 'fabrication', 'maker', 'model')
 

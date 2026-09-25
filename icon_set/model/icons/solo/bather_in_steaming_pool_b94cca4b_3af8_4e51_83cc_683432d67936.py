@@ -12,6 +12,7 @@ class BatherInSteamingPool(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "spas"
+    categories = ("primitives", "spas")
     aliases = ()
     keywords = ('spa', 'wellness', 'bather-in-steaming-pool')
 

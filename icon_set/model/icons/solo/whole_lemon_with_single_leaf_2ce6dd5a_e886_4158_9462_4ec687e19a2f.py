@@ -14,6 +14,7 @@ class Drawing(Solo48):
     aliases = ("Lemon with Small Leaf",)
     keywords = ("lemon", "citrus", "fruit", "leaf", "food", "produce", "oval")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

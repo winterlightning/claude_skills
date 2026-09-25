@@ -12,6 +12,7 @@ class SimpleCamera(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "other", "primitives-generate")
     aliases = ()
     keywords = ('camera', 'photo', 'photography', 'picture', 'lens', 'snapshot', 'capture', 'image')
 

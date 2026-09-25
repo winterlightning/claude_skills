@@ -18,6 +18,7 @@ class TwoOverlappingSquares(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("stacked squares", "duplicate squares")
     keywords = ("overlap", "copy", "rounded", "shapes")
 

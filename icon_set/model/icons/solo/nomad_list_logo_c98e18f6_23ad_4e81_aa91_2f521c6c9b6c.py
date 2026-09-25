@@ -16,6 +16,7 @@ class NomadListLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('nomad-list', 'travel', 'map', 'remote-work', 'logo', 'brand', 'circle')
 

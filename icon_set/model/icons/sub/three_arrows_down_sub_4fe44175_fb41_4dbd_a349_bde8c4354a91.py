@@ -17,6 +17,7 @@ class ThreeArrowsDownSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrows', 'down', 'straight', 'point', 'downward', 'central', 'arrow', 'positioned')
 

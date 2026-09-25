@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'pointed-maple-leaf-with-central-vein'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

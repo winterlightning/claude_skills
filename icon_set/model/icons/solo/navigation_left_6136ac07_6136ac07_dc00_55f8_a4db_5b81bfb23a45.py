@@ -11,6 +11,7 @@ class NavigationLeft6136ac07(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'navigation-left-6136ac07')
 

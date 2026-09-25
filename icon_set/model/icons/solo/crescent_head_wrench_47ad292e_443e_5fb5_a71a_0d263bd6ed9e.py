@@ -12,6 +12,7 @@ class CrescentHeadWrench(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('wrench', 'crescent wrench', 'spanner', 'adjustable', 'repair', 'mechanic', 'hardware', 'tool')
 

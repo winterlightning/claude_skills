@@ -15,6 +15,7 @@ class Drawing(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "farming"
+    categories = ("farming", "primitives")
     aliases=()
     keywords=('tractor', 'trailing', 'plow', 'blade')
     def build(self):

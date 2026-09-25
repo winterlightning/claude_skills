@@ -13,6 +13,7 @@ class HyenaHeadFront(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('hyena', 'head', 'face', 'front', 'ears', 'muzzle', 'animal', 'wildlife')
 

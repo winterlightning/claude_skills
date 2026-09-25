@@ -12,6 +12,7 @@ class StackingRingToy(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ()
     keywords = ('stacking', 'ring', 'toy', 'infant', 'nursery')
 

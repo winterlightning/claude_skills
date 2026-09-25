@@ -15,6 +15,7 @@ class Unlock90a6ff07(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('unlock', 'symbol')
 

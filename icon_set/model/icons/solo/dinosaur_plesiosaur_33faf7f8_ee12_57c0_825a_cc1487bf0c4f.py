@@ -13,6 +13,7 @@ class Plesiosaur(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('plesiosaur', 'dinosaur', 'marine', 'swimming', 'prehistoric', 'reptile', 'sea', 'extinct')
 

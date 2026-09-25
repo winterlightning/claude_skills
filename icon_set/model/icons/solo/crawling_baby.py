@@ -12,6 +12,7 @@ class CrawlingBaby(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ()
     keywords = ('crawling', 'baby', 'infant', 'nursery')
 

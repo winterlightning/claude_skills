@@ -12,6 +12,7 @@ class PointingTrowel(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('trowel', 'pointing trowel', 'masonry', 'mortar', 'brick', 'flattener', 'construction', 'tool')
 

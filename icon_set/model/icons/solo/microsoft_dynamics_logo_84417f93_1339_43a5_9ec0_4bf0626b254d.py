@@ -17,6 +17,7 @@ class MicrosoftDynamicsLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('microsoft-dynamics', 'dynamics', 'microsoft', 'crm', 'logo', 'brand', 'business')
 

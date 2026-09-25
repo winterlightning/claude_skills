@@ -15,6 +15,7 @@ class IncompleteDeathStar(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('death star', 'space station', 'framework', 'sphere', 'construction', 'fiction')
 

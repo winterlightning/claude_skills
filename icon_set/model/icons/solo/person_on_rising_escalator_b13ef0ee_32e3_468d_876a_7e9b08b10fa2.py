@@ -20,6 +20,7 @@ class PersonOnRisingEscalator(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("moving walkway rider", "person riding escalator")
     keywords = ("person", "up", "stairs", "direction")
 

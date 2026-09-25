@@ -11,6 +11,7 @@ class BasketShopping(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('basket', 'shopping', 'cart', 'store', 'buy', 'ecommerce', 'groceries', 'market')
 

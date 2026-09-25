@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('women',)
 
@@ -51,6 +52,7 @@ class Drawing(Solo48):
 
     icon_id = 'woman-with-bob-hair-batch-022-15'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('woman', 'with', 'bob', 'hair')
     semantic_role = 'MAIN'

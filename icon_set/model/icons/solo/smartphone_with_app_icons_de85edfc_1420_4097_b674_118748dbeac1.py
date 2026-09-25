@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('mobile phone small squares',)
     def build(self):
@@ -44,6 +45,7 @@ class Drawing(Solo48):
 
     icon_id = 'smartphone-with-app-icons'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('smartphone', 'with', 'app', 'icons')
     semantic_role = 'MAIN'

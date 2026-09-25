@@ -12,6 +12,7 @@ class TidalLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tidal', 'music', 'streaming', 'diamonds', 'logo', 'brand', 'audio')
 

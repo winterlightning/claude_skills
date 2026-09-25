@@ -16,6 +16,7 @@ class SpiralingTornado(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "state")
     aliases = ()
     keywords = ('tornado', 'hurricane', 'cyclone', 'wind', 'storm', 'funnel')
 

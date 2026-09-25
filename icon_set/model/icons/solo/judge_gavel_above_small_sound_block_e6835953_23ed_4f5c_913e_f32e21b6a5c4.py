@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'judge-gavel-above-small-sound-block'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

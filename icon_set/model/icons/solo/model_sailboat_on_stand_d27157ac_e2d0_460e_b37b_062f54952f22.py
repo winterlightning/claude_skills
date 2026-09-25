@@ -15,6 +15,7 @@ class ModelSailboatOnStand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "hobbies"
+    categories = ("primitives", "hobbies")
     aliases = ()
     keywords = ('model', 'sailboat', 'on', 'stand')
 

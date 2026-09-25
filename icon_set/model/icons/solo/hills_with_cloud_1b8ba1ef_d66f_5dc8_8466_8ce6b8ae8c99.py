@@ -16,6 +16,7 @@ class HillsWithCloud(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('mountain', 'hills', 'cloud', 'peak', 'landscape', 'outdoors', 'nature', 'snow')
 

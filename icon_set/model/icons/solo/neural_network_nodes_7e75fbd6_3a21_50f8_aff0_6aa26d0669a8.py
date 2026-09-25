@@ -14,6 +14,7 @@ class NeuralNetworkNodes(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('neural', 'network', 'nodes', 'deep-learning', 'ai', 'graph', 'layers', 'model')
 

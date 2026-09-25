@@ -11,6 +11,7 @@ class FlipboardLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('flipboard', 'news', 'letter-f', 'logo', 'brand', 'magazine', 'reading')
 

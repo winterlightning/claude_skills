@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='furnitures'
+    category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases=()
     keywords=('magnetic', 'knife', 'rack', 'three', 'knives')
     def path(self, name, start, commands, closed=False):

@@ -12,6 +12,7 @@ class Drawing(Solo48):
     icon_id = 'empty-battery-content'
     keyshape = Keyshape.HRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('empty battery symbol',)
     def build(self):

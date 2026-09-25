@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'backspace-key-content'
     keyshape = Keyshape.HRECT_M
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('keyboard backspace key symbol',)
     def build(self):

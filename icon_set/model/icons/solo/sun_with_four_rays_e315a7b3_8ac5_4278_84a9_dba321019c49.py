@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'sun-with-four-rays'
     keyshape = Keyshape.CIRCLE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('sun', 'with', 'four', 'rays')
 
     def build(self):

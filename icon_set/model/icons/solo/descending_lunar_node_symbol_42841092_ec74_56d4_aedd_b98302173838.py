@@ -12,6 +12,7 @@ class DescendingLunarNodeSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('lunar node', 'astrology', 'descending', 'south node', 'symbol', 'horoscope', 'glyph', 'moon')
 

@@ -11,6 +11,7 @@ class CarpentersSquare(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('square', 'carpenter square', 'ruler', 'measure', 'angle', 'right angle', 'carpentry', 'tool')
 

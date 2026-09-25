@@ -17,6 +17,7 @@ class WirelessArcsState297(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('wireless', 'arcs', 'nested', 'curved', 'strokes', 'spread', 'upward', 'common')
 

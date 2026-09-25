@@ -20,6 +20,7 @@ class TwoCannabisLeavesOnStems(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'cannabis'
+    categories = ('primitives', 'cannabis')
     aliases = ()
     keywords = ('two', 'cannabis', 'leaves', 'on', 'stems')
 

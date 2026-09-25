@@ -53,6 +53,7 @@ class PersonWithHairBun(Solo48):
     icon_id = 'person-with-hair-bun'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

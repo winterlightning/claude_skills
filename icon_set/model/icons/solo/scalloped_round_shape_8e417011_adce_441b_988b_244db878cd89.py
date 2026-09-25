@@ -15,6 +15,7 @@ class ScallopedRoundShape(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Scalloped Round Shape',)
     keywords = tuple('scalloped round shape'.split())
 

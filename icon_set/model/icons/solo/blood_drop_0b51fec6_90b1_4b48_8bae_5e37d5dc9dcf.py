@@ -16,6 +16,7 @@ class BloodDrop(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('drop', 'blood', 'liquid', 'water', 'donation', 'teardrop', 'fluid', 'nature')
 

@@ -14,6 +14,7 @@ class DrawingVariant2(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
 
     def build(self):
         # Exact 45-degree shaft, jaw lips and lightning legs; retain both breaks.

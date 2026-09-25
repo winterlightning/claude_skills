@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'front-view-car-with-sensor-waves'
     keyshape = Keyshape.HRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('front', 'view', 'car', 'with', 'sensor', 'waves')
 
     def build(self):

@@ -16,6 +16,7 @@ class Sunrise(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('sunrise', 'sun', 'dawn', 'horizon', 'water', 'morning')
 

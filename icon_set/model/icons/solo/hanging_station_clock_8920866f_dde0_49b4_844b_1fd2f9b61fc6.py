@@ -12,6 +12,7 @@ class HangingStationClock(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('station clock', 'clock', 'railway', 'time', 'hanging clock', 'platform', 'schedule', 'station')
 

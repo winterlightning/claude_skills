@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Rounded Tree with One Branch']
     keywords = ['tree', 'birch', 'trunk', 'branch', 'crown', 'nature', 'plant']
     def build(self):

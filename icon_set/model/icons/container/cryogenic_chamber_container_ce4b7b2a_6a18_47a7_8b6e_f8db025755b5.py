@@ -35,6 +35,7 @@ class CryogenicChamberContainer(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('cryogenic', 'chamber', 'container')
 

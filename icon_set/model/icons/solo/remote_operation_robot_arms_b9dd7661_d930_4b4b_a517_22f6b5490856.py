@@ -11,6 +11,7 @@ class RemoteOperationRobotArms(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('robot', 'surgery', 'remote', 'robotic-arms', 'operation', 'wireless', 'medical')
 

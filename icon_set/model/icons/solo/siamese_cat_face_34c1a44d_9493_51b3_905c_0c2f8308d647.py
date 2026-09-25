@@ -16,6 +16,7 @@ class SiameseCatFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('cat', 'siamese', 'face', 'breed', 'whiskers', 'feline', 'pet')
 

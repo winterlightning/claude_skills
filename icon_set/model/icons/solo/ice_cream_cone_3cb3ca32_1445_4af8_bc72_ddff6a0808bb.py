@@ -11,6 +11,7 @@ class IceCreamCone(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('ice-cream', 'cone', 'dessert', 'sweet', 'summer', 'treat', 'gelato', 'food')
 

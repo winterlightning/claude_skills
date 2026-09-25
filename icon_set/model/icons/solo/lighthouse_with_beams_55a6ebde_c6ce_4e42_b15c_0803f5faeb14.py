@@ -13,6 +13,7 @@ class LighthouseWithBeams(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('lighthouse', 'beacon', 'light', 'beam', 'coast', 'navigation', 'maritime', 'tower')
 

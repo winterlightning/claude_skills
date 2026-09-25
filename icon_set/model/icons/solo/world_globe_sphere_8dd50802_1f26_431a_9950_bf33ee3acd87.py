@@ -14,6 +14,7 @@ class WorldGlobeSphere(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ("globe", "world sphere")
     keywords = ("earth", "latitude", "longitude", "network")
 

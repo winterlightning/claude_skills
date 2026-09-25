@@ -12,6 +12,7 @@ class BrokenSmartphoneWithLowerBezel(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('phone', 'broken', 'damage', 'crack', 'smartphone', 'repair')
 

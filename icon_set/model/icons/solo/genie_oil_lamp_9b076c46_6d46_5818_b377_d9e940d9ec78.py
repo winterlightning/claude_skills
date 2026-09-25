@@ -11,6 +11,7 @@ class GenieOilLamp(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('lamp', 'genie', 'oil lamp', 'aladdin', 'wish', 'magic', 'arabian', 'antique')
 

@@ -15,6 +15,7 @@ class CrytoDecentralizedBlockchain(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('cryto', 'decentralized', 'blockchain', 'arrows')
 

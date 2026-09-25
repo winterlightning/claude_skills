@@ -13,6 +13,7 @@ class Trouble(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'smileys'
+    categories = ('smileys', 'primitives')
     aliases = ()
     keywords = ('trouble', 'smileys')
     keyshape = Keyshape.CIRCLE

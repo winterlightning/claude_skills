@@ -17,6 +17,7 @@ class SadFaceSub(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('sad', 'face', 'short', 'upright', 'eyes', 'stand', 'broad', 'downturned')
 

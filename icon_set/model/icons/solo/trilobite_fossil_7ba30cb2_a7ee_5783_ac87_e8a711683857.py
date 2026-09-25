@@ -12,6 +12,7 @@ class TrilobiteFossil(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('trilobite', 'fossil', 'prehistoric', 'palaeontology', 'shell', 'arthropod', 'ancient', 'museum')
 

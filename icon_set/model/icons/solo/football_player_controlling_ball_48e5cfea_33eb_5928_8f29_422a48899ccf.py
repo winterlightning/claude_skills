@@ -14,6 +14,7 @@ class FootballPlayerControllingBall(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('football', 'soccer', 'player', 'ball', 'control', 'sport')
 

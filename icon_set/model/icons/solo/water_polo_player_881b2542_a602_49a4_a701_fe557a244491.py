@@ -11,6 +11,7 @@ class WaterPoloPlayer(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('water', 'polo', 'player', 'ball', 'swimming', 'sport')
     def build(self) -> None:

@@ -53,6 +53,7 @@ class PersonWithShortBob(Solo48):
     icon_id = 'person-with-short-bob'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

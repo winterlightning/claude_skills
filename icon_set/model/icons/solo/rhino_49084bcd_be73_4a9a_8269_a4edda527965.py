@@ -13,6 +13,7 @@ class RhinoHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('rhino', 'rhinoceros', 'head', 'horn', 'ear', 'profile', 'animal', 'wildlife')
 

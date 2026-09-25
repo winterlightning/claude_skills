@@ -16,6 +16,7 @@ class BerneseMountainDogFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'bernese', 'mountain-dog', 'face', 'breed', 'pet', 'floppy-ears')
 

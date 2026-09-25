@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases=()
     keywords=('mouse',)
     def path(self,n,start,commands,closed=False):

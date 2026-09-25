@@ -13,6 +13,7 @@ class ThreeWomenPyramid(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('women', 'group', 'three', 'team', 'female', 'users', 'people', 'community')
 

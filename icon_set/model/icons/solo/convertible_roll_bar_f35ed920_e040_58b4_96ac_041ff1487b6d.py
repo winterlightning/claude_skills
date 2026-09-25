@@ -11,6 +11,7 @@ class ConvertibleRollBar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('convertible', 'sports car', 'roadster', 'cabriolet', 'car', 'open top', 'vehicle', 'side view')
 

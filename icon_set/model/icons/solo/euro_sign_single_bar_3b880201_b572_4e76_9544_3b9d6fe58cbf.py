@@ -17,6 +17,7 @@ class EuroSignSingleBar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('euro', 'currency', 'money', 'sign', 'eur', 'finance', 'symbol', 'cent')
 

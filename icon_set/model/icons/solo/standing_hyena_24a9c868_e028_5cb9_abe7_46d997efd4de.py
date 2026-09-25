@@ -11,6 +11,7 @@ class StandingHyena(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('hyena', 'standing', 'body', 'profile', 'animal', 'wildlife', 'africa', 'scavenger')
 

@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class DentalFlossContainerMain(Container64):
     icon_id = 'dental-floss-container-main'
     category = 'health'
+    categories = ('health', 'primitives')
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('dental', 'floss', 'container', 'main')

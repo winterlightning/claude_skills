@@ -12,6 +12,7 @@ class ZoomLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('zoom', 'video-call', 'camera', 'meeting', 'logo', 'brand', 'conference')
 

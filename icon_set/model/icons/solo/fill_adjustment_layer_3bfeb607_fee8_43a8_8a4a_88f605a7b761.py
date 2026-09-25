@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases=()
     keywords=('fill', 'adjustment', 'layer')
     def path(self,n,start,commands,closed=False):
@@ -41,6 +42,7 @@ class Drawing(Solo48):
 
     icon_id = 'fill-adjustment-layer'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('fill', 'adjustment', 'layer', 'design')
     semantic_role = 'MAIN'

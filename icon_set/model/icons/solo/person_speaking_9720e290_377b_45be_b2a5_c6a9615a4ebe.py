@@ -16,6 +16,7 @@ class PersonSpeaking(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('person', 'speaking', 'speech', 'presentation', 'chat', 'conversation')
 

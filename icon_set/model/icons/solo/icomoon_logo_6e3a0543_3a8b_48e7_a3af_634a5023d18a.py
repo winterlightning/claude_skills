@@ -19,6 +19,7 @@ class IcomoonLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('icomoon', 'icons', 'eye', 'logo', 'brand', 'icon-font', 'design')
 

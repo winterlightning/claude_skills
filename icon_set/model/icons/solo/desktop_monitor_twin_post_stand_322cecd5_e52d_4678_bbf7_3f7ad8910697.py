@@ -12,6 +12,7 @@ class DesktopMonitorTwinPostStand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ('desktop-display',)
     keywords = ('computer', 'screen', 'device', 'lucide-monitor')
 

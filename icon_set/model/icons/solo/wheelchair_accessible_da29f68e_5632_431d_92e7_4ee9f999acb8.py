@@ -15,6 +15,7 @@ class WheelchairAccessible(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('wheelchair', 'accessibility', 'disabled', 'handicap', 'access', 'mobility', 'parking', 'inclusive')
 

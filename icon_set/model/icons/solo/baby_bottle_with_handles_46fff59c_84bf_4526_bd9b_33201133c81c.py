@@ -10,6 +10,7 @@ class BabyBottleWithHandles(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ()
     keywords = ('bottle', 'handles', 'baby', 'milk', 'feeding', 'sippy', 'teat', 'infant')
 

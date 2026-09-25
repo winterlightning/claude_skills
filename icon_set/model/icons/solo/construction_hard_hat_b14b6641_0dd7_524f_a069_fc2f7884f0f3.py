@@ -11,6 +11,7 @@ class ConstructionHardHat(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('hard hat', 'helmet', 'construction', 'safety', 'builder', 'architect', 'worker', 'headwear')
 

@@ -14,6 +14,7 @@ class SkiGogglesWithBrowBand(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "accessories"
+    categories = ("primitives", "accessories")
     aliases = ()
     keywords = ('goggles', 'ski goggles', 'snow', 'ski', 'eyewear', 'winter', 'sports', 'snowboard')
 

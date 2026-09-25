@@ -13,6 +13,7 @@ class BeeWithRoundedWings(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('bee', 'honeybee', 'insect', 'wings', 'stripes', 'honey', 'bug', 'symmetry')
 

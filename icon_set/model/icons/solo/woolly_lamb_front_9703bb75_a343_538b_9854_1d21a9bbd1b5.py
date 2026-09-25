@@ -12,6 +12,7 @@ class WoollyLambFront(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('lamb', 'sheep', 'wool', 'fluffy', 'face', 'farm', 'livestock', 'front')
 

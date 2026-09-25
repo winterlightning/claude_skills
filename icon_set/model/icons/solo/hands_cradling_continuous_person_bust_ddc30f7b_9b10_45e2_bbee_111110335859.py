@@ -17,6 +17,7 @@ class HandsCradlingContinuousPersonBust(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('care', 'hands', 'person', 'support', 'protection', 'community', 'help', 'compassion')
 

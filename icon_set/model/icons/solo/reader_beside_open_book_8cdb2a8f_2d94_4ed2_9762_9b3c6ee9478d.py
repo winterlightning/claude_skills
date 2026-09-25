@@ -24,6 +24,7 @@ class ReaderBesideOpenBook(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ('reader-profile',)
     keywords = ('reader', 'person', 'book', 'reading', 'profile', 'pages')
 

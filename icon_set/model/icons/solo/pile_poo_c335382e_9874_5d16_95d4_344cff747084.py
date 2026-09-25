@@ -11,6 +11,7 @@ class PilePoo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'smileys'
+    categories = ('smileys', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'pile-poo')
 

@@ -13,6 +13,7 @@ class TyreTreadPressureGauge(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('tyre pressure', 'tire pressure', 'gauge', 'tread', 'tyre', 'inflation', 'car', 'dashboard')
 

@@ -15,6 +15,7 @@ class StrategyPlay(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('strategy', 'plan', 'tactics', 'route', 'game-plan', 'path', 'goal', 'sports')
 

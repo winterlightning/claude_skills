@@ -21,6 +21,7 @@ class HorizontalSlidersVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('horizontal', 'sliders', 'tracks', 'carry', 'circular', 'knob', 'positioned', 'left')
     keyshape = Keyshape.SQUARE

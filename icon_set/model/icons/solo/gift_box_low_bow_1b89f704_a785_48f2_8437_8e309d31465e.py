@@ -16,6 +16,7 @@ class GiftBoxLowBow(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases=()
     keywords=('award', 'reward', 'gift-box-low-bow')
     def build(self) -> None:

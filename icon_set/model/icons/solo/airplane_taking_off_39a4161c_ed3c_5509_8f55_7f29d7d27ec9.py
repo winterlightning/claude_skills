@@ -17,6 +17,7 @@ class AirplaneTakingOff(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'takeoff', 'departure', 'runway', 'flight', 'plane', 'airport', 'travel')
 

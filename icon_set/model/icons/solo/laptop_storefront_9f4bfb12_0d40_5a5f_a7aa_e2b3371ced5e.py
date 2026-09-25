@@ -22,6 +22,7 @@ class LaptopStorefront(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecommerce'
+    categories = ('primitives', 'ecommerce')
     aliases = ('online-store-laptop',)
     keywords = ('laptop', 'storefront', 'awning', 'shop', 'online', 'commerce')
 

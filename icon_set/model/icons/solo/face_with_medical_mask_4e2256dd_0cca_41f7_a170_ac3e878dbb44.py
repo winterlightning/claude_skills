@@ -13,6 +13,7 @@ class FaceWithMedicalMask(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('mask', 'medical', 'sick', 'ill', 'face', 'emoji')
 

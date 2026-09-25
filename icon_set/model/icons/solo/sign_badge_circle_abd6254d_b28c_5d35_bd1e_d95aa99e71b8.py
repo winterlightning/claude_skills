@@ -15,6 +15,7 @@ class SignBadgeCircle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
+    categories = ('maps', 'primitives')
     aliases = ()
     keywords = ('sign', 'badge', 'circle', 'maps')
 

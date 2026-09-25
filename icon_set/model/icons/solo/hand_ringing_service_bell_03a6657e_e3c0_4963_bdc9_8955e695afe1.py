@@ -18,6 +18,7 @@ class IconHandRingingServiceBell(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('hand', 'ringing', 'service', 'bell')
 

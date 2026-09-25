@@ -11,6 +11,7 @@ class ShieldC3034182(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'primitives')
     aliases = ()
     keywords = ('shield', 'protection')
 

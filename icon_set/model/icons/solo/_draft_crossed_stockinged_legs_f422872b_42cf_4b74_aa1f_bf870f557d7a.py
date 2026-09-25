@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'crossed-stockinged-legs'
     keyshape = Keyshape.VRECT_M
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

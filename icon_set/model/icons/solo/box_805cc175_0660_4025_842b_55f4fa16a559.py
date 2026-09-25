@@ -11,6 +11,7 @@ class Revision(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("shipping", "other", "primitives-generate")
     aliases = ()
     keywords = ('box',)
 

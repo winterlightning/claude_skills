@@ -12,6 +12,7 @@ class HandHoldingSmartphoneWithHomeBar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('hand', 'holding', 'smartphone', 'phone', 'grip', 'mobile')
 

@@ -12,6 +12,7 @@ class RetroFilmCamera(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('camera', 'retro', 'film camera', 'vintage', 'photo', 'photography', 'lens', 'analog')
 

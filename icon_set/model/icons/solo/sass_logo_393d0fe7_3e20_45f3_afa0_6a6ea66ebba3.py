@@ -12,6 +12,7 @@ class SassLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('sass', 'css', 'script', 'wordmark', 'logo', 'brand', 'developer')
 

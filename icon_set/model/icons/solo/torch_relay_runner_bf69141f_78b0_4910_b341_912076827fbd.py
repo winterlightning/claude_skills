@@ -14,6 +14,7 @@ class TorchRelayRunner(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('torch', 'relay', 'runner', 'flame', 'athletics', 'sport')
 

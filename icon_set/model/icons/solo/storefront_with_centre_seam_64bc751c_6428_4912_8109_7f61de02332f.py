@@ -11,6 +11,7 @@ class StorefrontWithCentreSeam(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('shop', 'storefront', 'store', 'awning', 'retail', 'building', 'market')
 

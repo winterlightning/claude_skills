@@ -17,6 +17,7 @@ class Drawing(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'files'
+    categories = ('files', 'primitives')
     aliases = ()
     keywords = ('document', 'size', 'comparison')
 

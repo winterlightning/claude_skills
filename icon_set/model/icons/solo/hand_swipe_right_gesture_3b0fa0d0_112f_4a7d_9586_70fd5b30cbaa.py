@@ -15,6 +15,7 @@ class HandSwipeRightGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("tap swipe right",)
     keywords = ("hand", "contact arc", "right arrow")
 

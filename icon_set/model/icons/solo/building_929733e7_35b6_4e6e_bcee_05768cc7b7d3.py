@@ -12,6 +12,7 @@ class Building929733e7(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('building',)
 

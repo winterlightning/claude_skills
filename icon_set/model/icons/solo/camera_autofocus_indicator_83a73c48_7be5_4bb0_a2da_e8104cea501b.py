@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'photography'
+    categories = ('photography', 'primitives')
     aliases = ()
     keywords = ('camera', 'autofocus', 'indicator', 'square', 'frame', 'circle', 'between', 'tall')
     def build(self):

@@ -13,6 +13,7 @@ class BillWithDollarSign(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('bill', 'invoice', 'dollar', 'document', 'accounting', 'payment', 'money', 'receipt')
 

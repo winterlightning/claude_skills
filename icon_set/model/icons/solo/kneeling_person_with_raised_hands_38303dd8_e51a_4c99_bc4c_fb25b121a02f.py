@@ -15,6 +15,7 @@ class KneelingPersonWithRaisedHands(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'religion'
+    categories = ('primitives', 'religion')
     aliases = ()
     keywords = ('person', 'kneeling', 'prayer', 'hand', 'gesture', 'worship')
 

@@ -14,6 +14,7 @@ class WoozyFaceFloatingStar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Woozy Face with Floating Star',)
     keywords = tuple('woozy face with floating star'.split())
 

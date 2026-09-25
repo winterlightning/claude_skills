@@ -12,6 +12,7 @@ class ArtboardWithDiagonalGuide(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('artboard', 'guide', 'diagonal', 'crop', 'corner', 'layout', 'design', 'geometry')
 

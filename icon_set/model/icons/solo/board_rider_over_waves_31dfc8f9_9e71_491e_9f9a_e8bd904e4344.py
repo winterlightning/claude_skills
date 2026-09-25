@@ -11,6 +11,7 @@ class BoardRiderOverWaves(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('board', 'rider', 'wave', 'water', 'balance', 'sport')
 

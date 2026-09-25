@@ -12,6 +12,7 @@ class MacosXLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('osx', 'macos', 'apple', 'letter-x', 'logo', 'brand', 'operating-system')
 

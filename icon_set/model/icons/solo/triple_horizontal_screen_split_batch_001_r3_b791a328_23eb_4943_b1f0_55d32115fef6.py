@@ -25,6 +25,7 @@ class TripleHorizontalScreenSplitBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("ui-screen-split", "three-row-layout")
     keywords = ("screen", "split", "rows", "bands", "drawer", "tab", "layout", "interface")
 

@@ -12,6 +12,7 @@ class LeftClickMouse(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "computers"
+    categories = ("computers", "primitives")
     aliases = ()
     keywords = ('mouse', 'click', 'left click', 'cursor', 'pointer', 'input', 'peripheral', 'computer')
 

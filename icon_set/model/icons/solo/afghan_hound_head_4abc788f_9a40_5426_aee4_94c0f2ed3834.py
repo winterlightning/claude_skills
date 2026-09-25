@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'pets'
+    categories = ('pets', 'primitives')
     aliases = ()
     keywords = ('afghan hound',)
     # Plan: Afghan hound in three-quarter view: a long muzzle framed by a large flowing asymmetric coat arch and one eye.

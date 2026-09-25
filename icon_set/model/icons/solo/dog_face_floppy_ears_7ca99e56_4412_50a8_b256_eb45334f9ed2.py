@@ -16,6 +16,7 @@ class DogFaceFloppyEars(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'face', 'puppy', 'floppy-ears', 'pet', 'friendly', 'head')
 

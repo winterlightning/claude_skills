@@ -15,6 +15,7 @@ class RightIndentationAction(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("rightward-object-indentation", "indent-right")
     keywords = ("indent", "align", "right", "arrow", "bars", "layout")
 

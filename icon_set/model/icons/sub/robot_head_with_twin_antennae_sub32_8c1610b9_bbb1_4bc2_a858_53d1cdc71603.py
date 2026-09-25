@@ -19,6 +19,7 @@ class RobotHeadSub32(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
 
     def build(self):
         nodes = [(2,10),(10,10),(22,10),(30,10),(30,20)]

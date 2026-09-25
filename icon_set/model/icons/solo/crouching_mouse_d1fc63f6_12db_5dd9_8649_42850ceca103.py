@@ -13,6 +13,7 @@ class CrouchingMouse(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('crouching', 'mouse')
 

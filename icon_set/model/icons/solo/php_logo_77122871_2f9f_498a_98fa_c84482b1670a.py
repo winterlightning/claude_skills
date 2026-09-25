@@ -12,6 +12,7 @@ class PhpLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('php', 'programming', 'language', 'wordmark', 'logo', 'brand', 'web')
 

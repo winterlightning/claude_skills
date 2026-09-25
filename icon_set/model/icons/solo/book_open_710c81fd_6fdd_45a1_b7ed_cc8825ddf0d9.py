@@ -12,6 +12,7 @@ class BookOpen710c81fd(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'content'
+    categories = ('content', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('book', 'open', 'content')
 

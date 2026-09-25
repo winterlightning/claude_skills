@@ -13,6 +13,7 @@ class VentedSchoolLockers(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('locker', 'school', 'storage', 'door', 'vent', 'cabinet')
 

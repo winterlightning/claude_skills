@@ -16,6 +16,7 @@ class MicrosoftWordLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('microsoft-word', 'word', 'microsoft', 'document', 'office', 'logo', 'brand')
 

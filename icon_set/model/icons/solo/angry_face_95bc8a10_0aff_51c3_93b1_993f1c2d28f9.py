@@ -16,6 +16,7 @@ class AngryFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('angry', 'scowl', 'frown', 'rage', 'face', 'emoji')
 

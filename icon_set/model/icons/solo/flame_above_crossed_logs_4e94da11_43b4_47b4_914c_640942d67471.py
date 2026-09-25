@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'flame-above-crossed-logs'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('flame', 'above', 'crossed', 'logs')
 
     def build(self):

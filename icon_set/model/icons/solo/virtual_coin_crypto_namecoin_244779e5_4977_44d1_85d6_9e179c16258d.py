@@ -15,6 +15,7 @@ class VirtualCoinCryptoNamecoin(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'money'
+    categories = ('primitives', 'money')
     aliases = ()
     keywords = ('virtual', 'coin', 'crypto', 'namecoin', 'money')
 

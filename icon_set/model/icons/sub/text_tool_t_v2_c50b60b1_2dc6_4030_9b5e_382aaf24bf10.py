@@ -16,6 +16,7 @@ class TextToolTVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('text', 'tool', 't', 'uppercase', 'serif', 'broad', 'horizontal', 'top')
     keyshape = Keyshape.SQUARE

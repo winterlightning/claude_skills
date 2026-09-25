@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'shirt-width-content'
     keyshape = Keyshape.HRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('adjustable t-shirt width arrows',)
     def build(self):

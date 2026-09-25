@@ -11,6 +11,7 @@ class FigmaLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('figma', 'design', 'prototype', 'logo', 'brand', 'ui', 'collaboration')
 

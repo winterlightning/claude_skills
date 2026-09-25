@@ -54,6 +54,7 @@ class HardHatWithWideCurvedBrim(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('hard', 'hat', 'with', 'wide', 'curved', 'brim')
 

@@ -17,6 +17,7 @@ class SoundWaves(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('sound', 'waves', 'detached', 'curved', 'expand', 'toward', 'right')
 

@@ -69,6 +69,7 @@ class ProjectTimelineWithTaskBranches(Solo48):
     icon_id = 'project-timeline-with-task-branches'
     keyshape = Keyshape.HRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

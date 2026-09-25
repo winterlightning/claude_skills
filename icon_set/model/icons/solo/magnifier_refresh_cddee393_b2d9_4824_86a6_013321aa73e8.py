@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='business'
+    category = 'business'
+    categories = ('business', 'other', 'primitives-generate')
     aliases=()
     keywords=('magnifier', 'refresh')
     def path(self, name, start, commands, closed=False):

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Eight Spoked Support Wheel']
     keywords = ['wheel', 'spokes', 'sectors', 'circle', 'radial', 'support', 'symmetry']
     def build(self):

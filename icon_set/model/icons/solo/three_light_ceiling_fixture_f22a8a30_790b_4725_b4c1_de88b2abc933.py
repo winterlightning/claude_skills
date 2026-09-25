@@ -15,6 +15,7 @@ class ThreeLightCeilingFixture(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'lamps'
+    categories = ('lamps', 'primitives')
     aliases = ()
     keywords = ('lamp', 'ceiling', 'fixture', 'spotlight', 'three', 'lighting')
 

@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "lights"
+    categories = ("lights", "state")
     aliases = ()
     keywords = ('bulb', 'light', 'glowing', 'rays', 'lamp', 'electric')
     keyshape = Keyshape.SQUARE

@@ -12,6 +12,7 @@ class RoundedTopBookcase(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('bookcase', 'books', 'shelves', 'storage', 'furniture', 'office')
 

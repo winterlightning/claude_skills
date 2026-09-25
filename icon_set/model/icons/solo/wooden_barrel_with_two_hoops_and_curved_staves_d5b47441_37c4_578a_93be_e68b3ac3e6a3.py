@@ -8,6 +8,7 @@ class Drawing(Solo48):
     icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
     keyshape=Keyshape.VRECT_L
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     semantic_role='MAIN'
     semantic_kind='noun'
     aliases=()
@@ -32,6 +33,7 @@ class Drawing(Solo48):
 
     icon_id = 'wooden-barrel-with-two-hoops-and-curved-staves'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('barrel', 'wood', 'storage', 'staves', 'hoops', 'cask', 'container', 'drink')
     semantic_role = 'MAIN'

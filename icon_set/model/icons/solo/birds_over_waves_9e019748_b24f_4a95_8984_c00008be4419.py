@@ -16,6 +16,7 @@ class BirdsOverWaves(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('birds', 'sea', 'waves', 'water', 'ocean', 'seagull', 'outdoors', 'coast')
 

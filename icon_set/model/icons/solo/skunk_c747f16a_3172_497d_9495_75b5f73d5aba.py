@@ -12,6 +12,7 @@ class Skunk(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('skunk', 'tail', 'bushy', 'stripe', 'animal', 'wildlife', 'spray', 'nocturnal')
 

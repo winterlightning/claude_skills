@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('man', 'doctor')
 
@@ -70,6 +71,7 @@ class Drawing(Solo48):
 
     icon_id = 'doctor-with-stethoscope'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('doctor', 'with', 'stethoscope')
     semantic_role = 'MAIN'

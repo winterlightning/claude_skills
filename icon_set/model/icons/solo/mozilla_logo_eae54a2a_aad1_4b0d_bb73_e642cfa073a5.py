@@ -16,6 +16,7 @@ class MozillaLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('mozilla', 'firefox', 'letter-m', 'logo', 'brand', 'open-source', 'web')
 

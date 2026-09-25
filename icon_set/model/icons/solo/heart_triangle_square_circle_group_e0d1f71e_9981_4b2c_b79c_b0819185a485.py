@@ -12,6 +12,7 @@ class HeartTriangleSquareCircleGroup(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('shapes', 'heart', 'triangle', 'square', 'circle', 'geometry', 'forms', 'design')
 

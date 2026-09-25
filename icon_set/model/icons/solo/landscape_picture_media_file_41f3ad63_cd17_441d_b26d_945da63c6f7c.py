@@ -13,6 +13,7 @@ class LandscapePictureMediaFile(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "files"
+    categories = ("files", "other", "primitives-generate")
     aliases = ("image file", "picture document")
     keywords = ("photo", "landscape", "mountain", "file")
 

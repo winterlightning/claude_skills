@@ -18,6 +18,7 @@ class Drawing(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("Application Window with Top Header",)
     keywords = ("panel", "header", "card", "frame", "blank", "layout")
 

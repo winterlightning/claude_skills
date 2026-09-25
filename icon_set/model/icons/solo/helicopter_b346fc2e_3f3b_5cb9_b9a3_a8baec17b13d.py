@@ -13,6 +13,7 @@ class Helicopter(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('helicopter', 'chopper', 'aircraft', 'rotor', 'flight', 'aviation', 'air transport', 'side view')
 

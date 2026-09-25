@@ -15,6 +15,7 @@ class SheepHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('sheep', 'head', 'face', 'ears', 'lamb', 'farm', 'minimal', 'animal')
 

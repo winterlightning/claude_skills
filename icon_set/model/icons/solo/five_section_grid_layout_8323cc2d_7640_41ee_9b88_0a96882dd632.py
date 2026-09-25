@@ -18,6 +18,7 @@ class FiveSectionGridLayout(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("five-panel-layout",)
     keywords = ("grid", "interface", "columns", "panels")
 

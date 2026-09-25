@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('people', 'conflict', '1')
     # Shared human_ref/user.svg reviewed for head scale. Continuous head/neck silhouettes have no detached head-body gap.

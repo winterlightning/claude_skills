@@ -16,6 +16,7 @@ class SkiJumping(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('ski-jumping', 'skiing', 'winter', 'sport', 'jump', 'snow', 'flight', 'olympics')
 

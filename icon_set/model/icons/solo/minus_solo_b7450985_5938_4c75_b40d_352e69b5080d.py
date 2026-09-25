@@ -13,6 +13,7 @@ class MinusSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('minus', 'subtract', 'remove', 'dash', 'less', 'negative', 'collapse', 'line')
 

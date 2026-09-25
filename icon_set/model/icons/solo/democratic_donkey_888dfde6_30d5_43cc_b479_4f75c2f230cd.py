@@ -11,6 +11,7 @@ class DemocraticDonkey(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('donkey', 'democrat', 'election', 'politics', 'party', 'vote', 'animal')
 

@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Plus Sign Above Separate Minus Bar',)
     keywords = ('plus', 'above', 'minus')
     def build(self):

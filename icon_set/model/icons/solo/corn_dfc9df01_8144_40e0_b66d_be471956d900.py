@@ -11,6 +11,7 @@ class Corn(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('food', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-shapes-refine', 'solo-ai-next100', 'corn')
 

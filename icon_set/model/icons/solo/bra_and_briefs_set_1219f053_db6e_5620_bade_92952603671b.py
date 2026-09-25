@@ -55,6 +55,7 @@ class BraAndBriefsSet(Solo48):
     icon_id = 'bra-and-briefs-set'
     keyshape = Keyshape.SQUARE
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

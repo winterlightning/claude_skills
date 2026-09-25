@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'clapperboard-play-content'
     keyshape = Keyshape.VRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('movie play clapperboard',)
     def build(self):

@@ -13,6 +13,7 @@ class CircleArrowRightFullReference(Sub32):
     semantic_role='SUB'
     semantic_kind='modifier'
     category = 'state'
+    categories = ('state',)
     aliases=()
     keywords=('complete-reference','state','circle')
     def build(self):

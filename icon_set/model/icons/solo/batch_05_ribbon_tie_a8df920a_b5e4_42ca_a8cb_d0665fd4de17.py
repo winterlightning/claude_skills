@@ -11,6 +11,7 @@ class Batch05RibbonTie(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('batch', 'ribbon', 'tie', 'accessories', 'solo-ai-first50')
 

@@ -15,6 +15,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'pets'
+    categories = ('pets', 'primitives')
     TYPEFACE_GLYPH_IDS = ()
     def build(self):
         self.circle('circle',12,20,10)

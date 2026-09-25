@@ -8,7 +8,8 @@ AUTHOR = 'gpt-6'
 class PersonWithBobAndVNeckShirt(Solo48):
     icon_id='person-with-bob-and-v-neck-shirt'
     keyshape=Keyshape.VRECT_L
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role='MAIN'
     semantic_kind='noun'
     aliases=()

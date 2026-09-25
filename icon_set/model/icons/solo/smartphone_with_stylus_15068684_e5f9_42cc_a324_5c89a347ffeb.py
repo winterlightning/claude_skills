@@ -12,6 +12,7 @@ class SmartphoneWithStylus(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('smartphone', 'stylus', 'pen', 'mobile', 'phone', 'device')
 

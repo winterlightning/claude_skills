@@ -18,6 +18,7 @@ class Batch064Icon12(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('bowl', 'of', 'dip', 'with', 'chip')
 

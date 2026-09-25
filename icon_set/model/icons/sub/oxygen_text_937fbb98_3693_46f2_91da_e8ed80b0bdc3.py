@@ -17,6 +17,7 @@ class OxygenText(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('oxygen', 'text', 'large', 'uppercase', 'o', 'followed', 'lower', 'right')
 

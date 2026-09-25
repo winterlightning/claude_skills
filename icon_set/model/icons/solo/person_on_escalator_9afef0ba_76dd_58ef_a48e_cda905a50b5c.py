@@ -12,6 +12,7 @@ class PersonOnEscalator(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('escalator', 'person', 'transport', 'stairs', 'moving', 'wayfinding')
 

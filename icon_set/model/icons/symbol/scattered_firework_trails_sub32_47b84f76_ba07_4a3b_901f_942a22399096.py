@@ -18,6 +18,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'events'
+    categories = ('primitives', 'events')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

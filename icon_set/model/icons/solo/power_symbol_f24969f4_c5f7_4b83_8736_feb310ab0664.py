@@ -14,6 +14,7 @@ class PowerSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('power', 'on-off', 'shutdown', 'switch', 'button', 'standby', 'turn-off', 'energy')
 

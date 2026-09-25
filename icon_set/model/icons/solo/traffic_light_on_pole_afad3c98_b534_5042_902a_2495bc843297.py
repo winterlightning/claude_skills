@@ -12,6 +12,7 @@ class TrafficLightOnPole(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('traffic light', 'signal', 'stoplight', 'pole', 'road', 'intersection', 'traffic', 'junction')
 

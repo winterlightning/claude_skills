@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class HeartOutlineContainer(Container64):
     icon_id = 'heart-outline-container'
     category = 'romance'
+    categories = ('romance', 'other', 'primitives-generate')
     keyshape = Keyshape.HRECT_XL
     aliases = ()
     keywords = ('heart', 'outline', 'container')

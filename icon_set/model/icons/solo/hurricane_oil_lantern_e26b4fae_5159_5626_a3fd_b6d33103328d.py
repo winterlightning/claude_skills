@@ -13,6 +13,7 @@ class HurricaneOilLantern(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('lantern', 'oil-lamp', 'hurricane', 'flame', 'camping', 'light', 'outdoors', 'outdoors-batch-02')
 

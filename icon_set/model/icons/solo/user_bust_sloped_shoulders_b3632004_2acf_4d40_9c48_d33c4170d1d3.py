@@ -15,6 +15,7 @@ class UserBustSlopedShoulders(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('user', 'person', 'profile', 'account', 'avatar', 'member', 'contact', 'people')
 

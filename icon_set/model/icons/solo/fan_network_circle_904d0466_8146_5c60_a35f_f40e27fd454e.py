@@ -14,6 +14,7 @@ class FanNetworkCircle(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('network', 'nodes', 'fan', 'graph', 'analytics', 'iot', 'connections', 'circle')
 

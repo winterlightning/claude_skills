@@ -12,6 +12,7 @@ class LoadedPlatformCart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('cart', 'parcel', 'package', 'warehouse', 'trolley', 'transport')
 

@@ -11,6 +11,7 @@ class SquareCuffIceSkate(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('ice', 'skate', 'boot', 'blade', 'skating', 'winter')
     def build(self) -> None:

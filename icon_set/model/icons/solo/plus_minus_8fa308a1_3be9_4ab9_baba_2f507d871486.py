@@ -15,6 +15,7 @@ class PlusMinus(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'state')
     aliases = ()
     keywords = ('plus', 'minus', 'state')
 

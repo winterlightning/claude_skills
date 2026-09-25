@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'Uncategorized'
+    category = 'animals'
+    categories = ('animals', 'primitive', 'primitives')
     aliases = ()
     keywords = ('leopard',)
 

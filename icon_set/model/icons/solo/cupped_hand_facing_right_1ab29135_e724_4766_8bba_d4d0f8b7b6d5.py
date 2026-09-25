@@ -21,6 +21,7 @@ class CuppedHandFacingRight(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'business'
+    categories = ('business', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cupped', 'hand', 'facing', 'right')
 

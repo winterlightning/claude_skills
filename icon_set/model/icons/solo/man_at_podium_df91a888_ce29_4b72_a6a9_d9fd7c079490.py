@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('man podium',)
     def build(self):
@@ -52,6 +53,7 @@ class Drawing(Solo48):
 
     icon_id = 'man-at-podium'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('man', 'podium', 'lectern', 'speaker', 'presentation', 'speech', 'person', 'talk')
     semantic_role = 'MAIN'

@@ -16,6 +16,7 @@ class ArcheryBowAndArrow(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('archery', 'bow', 'and', 'arrow')
 

@@ -12,6 +12,7 @@ class CapitolDomeBuilding(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('capitol', 'washington', 'government', 'dome', 'congress', 'landmark', 'building', 'civic')
 

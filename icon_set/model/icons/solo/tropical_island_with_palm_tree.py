@@ -12,6 +12,7 @@ class TropicalIslandWithPalmTree(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature'
+    categories = ('nature',)
     aliases = ('tropical-island', 'palm-tree-island', 'island-palm')
     keywords = ('island', 'palm', 'tree', 'beach', 'tropical', 'vacation', 'holiday', 'sea', 'sand', 'water')
 

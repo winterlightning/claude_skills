@@ -53,6 +53,7 @@ class PersonWithLongCenterPartedHair(Solo48):
     icon_id = 'person-with-long-center-parted-hair'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

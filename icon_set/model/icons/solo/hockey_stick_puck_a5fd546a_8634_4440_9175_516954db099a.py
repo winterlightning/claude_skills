@@ -14,6 +14,7 @@ class HockeyStickPuck(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "sports"
+    categories = ("sports", "primitives")
     aliases = ()
     keywords = ('hockey', 'stick', 'puck', 'equipment', 'sport', 'ice')
 

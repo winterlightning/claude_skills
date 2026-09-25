@@ -17,6 +17,7 @@ class CameraScanningShoppingBasket(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('camera','shopping','basket','scanning','checkout','cashless')
 

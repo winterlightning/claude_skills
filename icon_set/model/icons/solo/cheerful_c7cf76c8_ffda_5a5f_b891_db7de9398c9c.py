@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="smileys"
+    category = "smileys"
+    categories = ("smileys", "primitives")
     aliases=()
     keywords=('cheerful',)
 

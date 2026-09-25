@@ -27,6 +27,7 @@ class CubeModeling(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("3D cube modeling", "draw cube", "3D design")
     keywords = ("cube", "box", "modeling", "3d", "pencil", "drawing", "design")
 

@@ -53,6 +53,7 @@ class StackOfThreeLogs(Solo48):
     icon_id = 'stack-of-three-logs'
     keyshape = Keyshape.SQUARE
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -11,6 +11,7 @@ class RoundedItemizedReceipt(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('receipt', 'slip', 'paper', 'invoice', 'purchase', 'checkout', 'itemized')
 

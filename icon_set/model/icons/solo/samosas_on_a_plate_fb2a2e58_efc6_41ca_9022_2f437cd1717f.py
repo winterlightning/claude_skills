@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('samosa',)
 
@@ -36,6 +37,7 @@ class Drawing(Solo48):
 
     icon_id = 'samosas-on-a-plate'
     category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('samosas', 'on', 'a', 'plate')
     semantic_role = 'MAIN'

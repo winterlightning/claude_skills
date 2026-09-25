@@ -18,6 +18,7 @@ class GlassBottleWithFlaredCork(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('glass', 'bottle', 'with', 'flared', 'cork')
 

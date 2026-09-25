@@ -11,6 +11,7 @@ class TwoLinkedWifiRouters(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('mesh', 'wifi', 'router', 'network', 'wireless', 'antenna', 'connection')
 

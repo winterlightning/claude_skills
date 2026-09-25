@@ -14,6 +14,7 @@ class HierarchyTwoSquareNodes(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "state")
     aliases=()
     keywords=('hierarchy', 'tree', 'parent', 'child', 'nodes', 'structure', 'diagram', 'organization')
 

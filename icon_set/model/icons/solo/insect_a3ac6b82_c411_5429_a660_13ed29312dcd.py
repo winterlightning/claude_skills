@@ -13,6 +13,7 @@ class RhinocerosBeetle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('beetle', 'rhinoceros beetle', 'horn', 'insect', 'bug', 'shell', 'legs', 'nature')
 

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("combination", "other", "primitives-generate")
     aliases = ()
     keywords = ('technology device smart band',)
     def build(self):
@@ -48,6 +49,7 @@ class Drawing(Solo48):
 
     icon_id = 'fitness-band-on-wrist'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('fitness', 'band', 'on', 'wrist')
     semantic_role = 'MAIN'

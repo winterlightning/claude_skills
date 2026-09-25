@@ -13,6 +13,7 @@ class Batch032Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ('vertical-level-indicator',)
     keywords = ('batch-032',)
 

@@ -12,6 +12,7 @@ class PharaohNemesMask(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('pharaoh', 'mask', 'tutankhamun', 'egyptian', 'nemes', 'ancient', 'tomb', 'gold')
 

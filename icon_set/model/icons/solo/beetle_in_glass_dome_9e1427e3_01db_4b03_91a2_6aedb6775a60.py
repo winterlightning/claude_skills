@@ -20,6 +20,7 @@ class BeetleInGlassDome(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("insectarium", "beetle display")
     keywords = ("beetle", "bug", "dome", "glass", "specimen")
 

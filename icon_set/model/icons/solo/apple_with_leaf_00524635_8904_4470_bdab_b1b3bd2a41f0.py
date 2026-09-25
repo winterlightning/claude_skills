@@ -15,6 +15,7 @@ class Drawing(Solo48):
     aliases=()
     keywords=('apple', 'whole')
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)

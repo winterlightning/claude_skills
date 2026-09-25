@@ -13,6 +13,7 @@ class CatFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "combination", "primitives")
     aliases = ()
     keywords = ('cat', 'kitten', 'face', 'head', 'feline', 'pet', 'ears', 'whiskers')
 

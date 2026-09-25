@@ -11,6 +11,7 @@ class ExternalHardDrive(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('hard drive', 'hdd', 'storage', 'external', 'disk', 'backup', 'hardware', 'computer')
 

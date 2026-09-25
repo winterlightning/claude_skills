@@ -13,6 +13,7 @@ class GlowingFilamentBulb(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "other", "primitives-generate")
     aliases = ()
     keywords = ('bulb', 'filament', 'light', 'idea', 'lamp', 'glow')
 

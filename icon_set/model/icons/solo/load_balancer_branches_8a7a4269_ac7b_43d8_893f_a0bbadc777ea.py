@@ -14,6 +14,7 @@ class LoadBalancerBranches(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('load-balancer', 'distribute', 'traffic', 'arrows', 'servers', 'network', 'routing', 'split')
 

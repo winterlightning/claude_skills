@@ -15,6 +15,7 @@ class PiMathSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('pi', 'math', 'symbol', 'interface-essential')
 

@@ -21,6 +21,7 @@ class AngryFaceSubVariant2(SourceFaithfulSideSub):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'primitives-generate'
+    categories = ('primitives-generate', 'state')
     aliases = ()
     keywords = ('angry', 'face', 'circular', 'sharply', 'inward', 'slanting', 'eyebrows', 'tiny')
     keyshape = Keyshape.SQUARE

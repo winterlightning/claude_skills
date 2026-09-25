@@ -16,6 +16,7 @@ class MatryoshkaDoll(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('matryoshka', 'babushka', 'nesting doll', 'russian', 'doll', 'toy', 'folk', 'souvenir')
 

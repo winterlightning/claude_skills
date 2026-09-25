@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases=()
     keywords=('mouse',)
     def path(self,n,start,commands,closed=False):
@@ -64,6 +65,7 @@ class Drawing(Solo48):
 
     icon_id = 'corded-computer-mouse'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('mouse', 'corded', 'wired', 'cable', 'click', 'input', 'peripheral', 'computer')
     semantic_role = 'MAIN'

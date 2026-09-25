@@ -11,6 +11,7 @@ class CeilingBallChandelierRetro(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'lamps'
+    categories = ('lamps', 'primitives')
     aliases = ()
     keywords = ('ceiling', 'ball', 'chandelier', 'retro', 'lamps', 'solo-ai-next100')
 

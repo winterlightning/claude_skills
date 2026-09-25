@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'ascending-staircase-side-outline'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('ascending', 'staircase', 'side', 'outline')
 
     def build(self):

@@ -11,6 +11,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "lights"
+    categories = ("lights", "primitives")
     aliases = ()
     keywords = ('candle', 'flame', 'wick', 'wax', 'light', 'pillar')
     keyshape = Keyshape.VRECT_L

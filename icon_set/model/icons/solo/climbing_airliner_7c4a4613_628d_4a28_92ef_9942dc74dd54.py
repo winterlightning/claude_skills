@@ -17,6 +17,7 @@ class ClimbingAirliner(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'plane', 'takeoff', 'flight', 'climbing', 'aviation', 'departure', 'travel')
 

@@ -17,6 +17,7 @@ class ArrowUpState270(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('arrow', 'up', 'straight', 'upright', 'shaft', 'ends', 'open', 'pointed')
 

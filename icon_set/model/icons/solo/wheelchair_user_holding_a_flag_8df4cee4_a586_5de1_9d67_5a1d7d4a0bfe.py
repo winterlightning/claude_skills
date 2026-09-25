@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases = ()
     keywords = ('flag',)
 
@@ -60,6 +61,7 @@ class Drawing(Solo48):
 
     icon_id = 'wheelchair-user-holding-a-flag'
     category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases = ()
     keywords = ('award', 'reward', 'wheelchair-user-holding-a-flag')
     semantic_role = 'MAIN'

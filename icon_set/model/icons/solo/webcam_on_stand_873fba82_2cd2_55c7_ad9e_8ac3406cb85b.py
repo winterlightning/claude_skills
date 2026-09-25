@@ -11,6 +11,7 @@ class WebcamOnStand(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('webcam', 'camera', 'video-call', 'lens', 'stand', 'stream', 'device')
 

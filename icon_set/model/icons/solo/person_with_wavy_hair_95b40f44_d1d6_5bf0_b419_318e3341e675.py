@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='avatars'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases=()
     keywords=('woman',)
     def path(self,n,start,commands,closed=False):
@@ -64,6 +65,7 @@ class Drawing(Solo48):
 
     icon_id = 'person-with-wavy-hair'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('person', 'with', 'wavy', 'hair')
     semantic_role = 'MAIN'

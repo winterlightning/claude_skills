@@ -12,6 +12,7 @@ class ThreeUnitServerStack(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "servers"
+    categories = ("servers", "other", "primitives-generate")
     aliases = ()
     keywords = ('server', 'rack', 'hardware', 'storage', 'network', 'stack', 'indicator')
 

@@ -13,6 +13,7 @@ class CrackedHouseWithChimney(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('house', 'home', 'damage', 'crack', 'poverty', 'housing', 'shelter', 'chimney', 'repair')
 

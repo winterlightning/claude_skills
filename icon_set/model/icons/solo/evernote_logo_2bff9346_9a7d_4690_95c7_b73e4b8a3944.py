@@ -11,6 +11,7 @@ class EvernoteLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('evernote', 'notes', 'elephant', 'logo', 'brand', 'productivity', 'memory')
 

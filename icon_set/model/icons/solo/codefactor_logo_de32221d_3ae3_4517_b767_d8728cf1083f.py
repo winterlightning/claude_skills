@@ -12,6 +12,7 @@ class CodefactorLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('codefactor', 'code-review', 'logo', 'brand', 'developer', 'list', 'quality')
 

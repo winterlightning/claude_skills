@@ -25,6 +25,7 @@ class SquareExchangeProcess(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("square exchange", "exchange process", "swap squares")
     keywords = ("exchange", "process", "squares", "swap", "transfer", "arrows")
 

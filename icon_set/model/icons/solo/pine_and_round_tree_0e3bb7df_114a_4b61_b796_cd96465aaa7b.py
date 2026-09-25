@@ -15,6 +15,7 @@ class PineAndRoundTree(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('trees', 'pine', 'forest', 'park', 'woods', 'nature', 'outdoors', 'ecology')
 

@@ -11,6 +11,7 @@ class BagPhotography(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'photography'
+    categories = ('photography', 'primitives')
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'bag-photography')
 

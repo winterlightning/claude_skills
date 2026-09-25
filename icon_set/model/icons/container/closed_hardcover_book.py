@@ -22,6 +22,7 @@ class ClosedHardcoverBook(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('closed-hardcover-book-icon',)
     keywords = ('closed', 'hardcover', 'book')
 

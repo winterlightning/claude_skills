@@ -12,6 +12,7 @@ class RetweetLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('retweet', 'repost', 'share', 'arrows', 'logo', 'brand', 'twitter')
 

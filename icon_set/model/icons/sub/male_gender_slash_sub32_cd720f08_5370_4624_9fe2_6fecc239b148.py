@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'pets'
+    categories = ('pets', 'primitives')
     keywords = ('male', 'gender', 'symbol', 'with', 'slash')
 
 

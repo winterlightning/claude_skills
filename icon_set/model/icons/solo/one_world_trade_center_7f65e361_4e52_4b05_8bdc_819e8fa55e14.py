@@ -13,6 +13,7 @@ class OneWorldTradeCenter(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('one world trade center', 'new york', 'skyscraper', 'tower', 'freedom tower', 'landmark', 'building', 'usa')
 

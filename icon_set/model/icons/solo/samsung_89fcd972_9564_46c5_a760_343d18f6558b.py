@@ -11,6 +11,7 @@ class Samsung(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('samsung', 'phones')
 

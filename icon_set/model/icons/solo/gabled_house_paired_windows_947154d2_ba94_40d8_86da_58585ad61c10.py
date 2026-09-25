@@ -14,6 +14,7 @@ class Drawing(Solo48):
     aliases = ("House with Windows and Door",)
     keywords = ("house", "home", "roof", "windows", "door", "building")
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

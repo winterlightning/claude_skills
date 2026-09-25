@@ -19,6 +19,7 @@ class CombTilted(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('comb', 'hair', 'grooming', 'barber', 'beauty', 'brush', 'salon', 'care')
 

@@ -15,6 +15,7 @@ class AmazonWebServicesLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('amazon', 'web', 'services', 'logo', '_uncategorized_03')
 

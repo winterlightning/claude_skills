@@ -16,6 +16,7 @@ class TrashEa5cd0b4(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('trash', 'symbol')
     keyshape = Keyshape.VRECT_L

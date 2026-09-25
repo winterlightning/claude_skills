@@ -11,6 +11,7 @@ class DivingPlatform(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('diving', 'platform', 'tower', 'pool', 'swimming', 'equipment')
     def build(self) -> None:

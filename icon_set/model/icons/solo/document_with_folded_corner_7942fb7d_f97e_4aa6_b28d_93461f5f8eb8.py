@@ -15,6 +15,7 @@ class DocumentWithFoldedCorner(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Document with Folded Corner',)
     keywords = tuple('document with folded corner'.split())
 

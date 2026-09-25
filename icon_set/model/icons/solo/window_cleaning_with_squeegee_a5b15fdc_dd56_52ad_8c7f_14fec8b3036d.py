@@ -12,6 +12,7 @@ class WindowCleaningWithSqueegee(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('window', 'squeegee', 'cleaning', 'glass', 'wiper', 'tool')
 

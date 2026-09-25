@@ -11,6 +11,7 @@ class AircraftReleasingBomb(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('aircraft', 'bomb', 'flight', 'military', 'wing', 'release')
 

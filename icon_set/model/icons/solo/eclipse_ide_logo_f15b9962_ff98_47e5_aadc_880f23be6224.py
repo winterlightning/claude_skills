@@ -11,6 +11,7 @@ class EclipseIdeLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('eclipse', 'ide', 'java', 'logo', 'brand', 'developer', 'editor')
 

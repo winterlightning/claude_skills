@@ -16,6 +16,7 @@ class GamerWithController(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "recreation"
+    categories = ("primitives", "recreation")
     aliases = ()
     keywords = ('gamer', 'with', 'controller')
 

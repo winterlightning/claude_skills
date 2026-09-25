@@ -11,6 +11,7 @@ class PowerSupplyUnit(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('power supply', 'psu', 'computer', 'fan', 'hardware', 'socket', 'electricity', 'component')
 

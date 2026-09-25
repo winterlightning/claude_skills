@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "furnitures"
+    categories = ("furnitures", "primitives")
     aliases = ()
     keywords = ('chair',)
     def build(self):
@@ -46,6 +47,7 @@ class Drawing(Solo48):
 
     icon_id = 'lounge-chair-side-profile'
     category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases = ()
     keywords = ('modern', 'lounge', 'chair', 'profile')
     semantic_role = 'MAIN'

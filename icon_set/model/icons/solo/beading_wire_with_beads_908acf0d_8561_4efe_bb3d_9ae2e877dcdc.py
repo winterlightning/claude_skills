@@ -13,6 +13,7 @@ class BeadingWireWithBeads(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('beading', 'wire', 'with', 'beads')
 

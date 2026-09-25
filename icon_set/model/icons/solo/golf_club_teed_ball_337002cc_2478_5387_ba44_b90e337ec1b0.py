@@ -11,6 +11,7 @@ class GolfClubTeedBall(Solo48):
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('golf', 'club', 'ball', 'tee', 'equipment', 'sport')
     def build(self) -> None:

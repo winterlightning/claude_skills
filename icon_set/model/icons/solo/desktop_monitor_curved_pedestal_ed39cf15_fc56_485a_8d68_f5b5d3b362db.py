@@ -12,6 +12,7 @@ class DesktopMonitorCurvedPedestal(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('monitor', 'display', 'screen', 'desktop', 'computer', 'stand', 'pedestal', 'device')
 

@@ -11,6 +11,7 @@ class DippedBeamHeadlight(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('dipped beam', 'low beam', 'headlight', 'lamp', 'car', 'dashboard', 'lighting', 'indicator')
 

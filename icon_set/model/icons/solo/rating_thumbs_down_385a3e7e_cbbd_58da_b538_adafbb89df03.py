@@ -12,6 +12,7 @@ class RatingThumbsDown(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "rating"
+    categories = ("rating", "primitives")
     aliases = ()
     keywords = ('dislike', 'thumbs-down', 'hand', 'disapprove', 'negative', 'feedback', 'rating', 'vote')
 

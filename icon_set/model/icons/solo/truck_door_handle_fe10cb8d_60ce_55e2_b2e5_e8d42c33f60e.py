@@ -13,6 +13,7 @@ class TruckDoorHandle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "other", "primitives-generate")
     aliases = ()
     keywords = ('truck', 'delivery', 'lorry', 'cargo', 'moving', 'logistics', 'transport', 'vehicle')
 

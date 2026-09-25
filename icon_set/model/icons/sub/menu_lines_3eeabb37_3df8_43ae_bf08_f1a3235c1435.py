@@ -17,6 +17,7 @@ class MenuLines(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('menu', 'lines', 'long', 'horizontal', 'strokes', 'are', 'stacked', 'equal')
 

@@ -16,6 +16,7 @@ class BatchIcon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "interface-essential"
+    categories = ("interface-essential", "other", "primitives-generate")
     keywords = ('house', 'home', 'roof', 'door', 'building', 'entrance')
 
     def build(self):

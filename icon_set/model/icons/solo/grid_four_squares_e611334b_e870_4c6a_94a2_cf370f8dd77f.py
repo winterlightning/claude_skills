@@ -13,6 +13,7 @@ class GridFourSquares(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('grid', 'squares', 'apps', 'dashboard', 'layout', 'menu', 'category', 'tiles')
 

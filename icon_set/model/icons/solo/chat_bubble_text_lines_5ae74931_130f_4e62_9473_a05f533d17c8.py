@@ -19,6 +19,7 @@ class ChatBubbleTextLines(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('chat', 'message', 'bubble', 'comment', 'text', 'conversation', 'speech', 'talk')
 

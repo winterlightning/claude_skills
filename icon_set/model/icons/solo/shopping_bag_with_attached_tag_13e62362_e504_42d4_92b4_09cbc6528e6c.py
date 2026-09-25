@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('shopping', 'bag', 'with', 'attached', 'tag')
 

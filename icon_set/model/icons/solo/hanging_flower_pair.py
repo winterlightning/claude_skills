@@ -12,6 +12,7 @@ class HangingFlowerPair(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'decoration'
+    categories = ('primitives', 'decoration')
     aliases = ()
     keywords = ('flower', 'hanging', 'petals', 'stem', 'leaf', 'botanical', 'decor')
 

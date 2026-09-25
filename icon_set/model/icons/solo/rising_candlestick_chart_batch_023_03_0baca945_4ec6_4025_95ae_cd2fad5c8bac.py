@@ -22,6 +22,7 @@ class GeneratedIcon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     keywords = ('rising', 'candlestick', 'chart')
 
     def build(self):

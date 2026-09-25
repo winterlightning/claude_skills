@@ -15,6 +15,7 @@ class Zigzag9f41fad4(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('zigzag', 'interface-essential')
 

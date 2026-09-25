@@ -18,6 +18,7 @@ class DoubleConcentricCircles(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ('two-concentric-circles', 'double-concentric-ring-symbol', 'double-ring', 'target-bullseye-symbol')
     keywords = ('circle', 'ring', 'concentric', 'target')
 

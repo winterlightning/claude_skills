@@ -11,6 +11,7 @@ class FourRouterMeshNetwork(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('mesh', 'wifi', 'routers', 'network', 'wireless', 'nodes', 'connection')
 

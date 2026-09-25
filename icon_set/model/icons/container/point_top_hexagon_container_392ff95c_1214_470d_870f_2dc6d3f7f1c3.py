@@ -20,6 +20,7 @@ AUTHOR = 'gpt-6'
 class PointTopHexagonContainer(Container64):
     icon_id = 'point-top-hexagon-container'
     category = 'design'
+    categories = ('design', 'primitives')
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('point', 'top', 'hexagon', 'container')

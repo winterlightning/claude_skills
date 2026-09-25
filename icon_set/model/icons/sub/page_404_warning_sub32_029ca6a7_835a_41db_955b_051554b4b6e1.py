@@ -13,6 +13,7 @@ class Drawing(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     keywords = ('404', 'page', 'not', 'found', 'warning')
     TYPEFACE_GLYPH_IDS = ('digit-4', 'digit-0', 'digit-4')
 

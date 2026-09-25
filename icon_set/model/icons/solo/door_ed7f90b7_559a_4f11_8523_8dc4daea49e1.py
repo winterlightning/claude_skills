@@ -12,6 +12,7 @@ class Door(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'state')
     aliases = ()
     keywords = ('door', 'furnitures')
 

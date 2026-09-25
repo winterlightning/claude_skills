@@ -15,6 +15,7 @@ class BatchSolo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'audio'
+    categories = ('audio', 'state')
     aliases = ()
     keywords = ('headphones', 'with', 'flat', 'inner', 'pads')
 

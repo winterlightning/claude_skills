@@ -13,6 +13,7 @@ class DowncastCrestfallenFace(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('crestfallen', 'sad', 'frown', 'disappointed', 'face', 'emoji')
 

@@ -55,6 +55,7 @@ class PersonWearingWideBrimHat(Solo48):
     icon_id = 'person-wearing-wide-brim-hat'
     keyshape = Keyshape.SQUARE
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

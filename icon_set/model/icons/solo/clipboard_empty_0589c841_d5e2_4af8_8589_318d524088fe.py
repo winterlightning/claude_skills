@@ -19,6 +19,7 @@ class ClipboardEmpty(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('clipboard', 'board', 'notes', 'document', 'list', 'paper', 'office', 'task')
 

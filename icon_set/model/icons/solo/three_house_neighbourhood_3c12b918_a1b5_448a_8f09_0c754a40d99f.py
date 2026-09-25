@@ -16,6 +16,7 @@ class ThreeHouseNeighbourhood(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "real-estate"
+    categories = ("real-estate", "primitives")
     aliases = ()
     keywords = ('three', 'house', 'neighbourhood')
 

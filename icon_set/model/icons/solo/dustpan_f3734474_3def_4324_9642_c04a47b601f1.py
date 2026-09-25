@@ -12,6 +12,7 @@ class Dustpan(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('dustpan', 'cleaning', 'sweep', 'dirt', 'housekeeping', 'scoop', 'janitor', 'chores')
 

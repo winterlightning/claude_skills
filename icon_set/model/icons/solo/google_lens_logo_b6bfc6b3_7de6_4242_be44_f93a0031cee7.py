@@ -19,6 +19,7 @@ class GoogleLensLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-lens', 'google', 'camera', 'visual-search', 'logo', 'brand', 'scan')
 

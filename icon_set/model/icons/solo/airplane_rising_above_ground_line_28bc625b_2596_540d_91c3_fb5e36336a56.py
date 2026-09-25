@@ -17,6 +17,7 @@ class AirplaneRisingAboveGroundLine(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'runway', 'flight', 'landing', 'aviation', 'plane', 'ground', 'travel')
 

@@ -13,6 +13,7 @@ class Eraser(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('eraser', 'rubber', 'stationery', 'school', 'correction', 'drawing')
 

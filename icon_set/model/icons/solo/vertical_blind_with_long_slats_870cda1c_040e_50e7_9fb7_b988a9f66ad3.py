@@ -20,6 +20,7 @@ class VerticalBlindWithLongSlats(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('vertical', 'blind', 'with', 'long', 'slats')
 

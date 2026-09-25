@@ -12,6 +12,7 @@ class Batch045Icon10(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('fish', 'fishing', 'hook', 'line', 'float', 'water', 'angling')
     # Reference: fish: closed lens body and attached forked tail.

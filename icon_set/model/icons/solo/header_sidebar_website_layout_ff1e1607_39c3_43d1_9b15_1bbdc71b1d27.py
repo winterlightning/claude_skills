@@ -16,7 +16,8 @@ class HeaderSidebarWebsiteLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "websites"
+    categories = ("websites", "primitive", "primitives")
     aliases = ()
     keywords = ("layout", "grid", "interface", "panels")
 

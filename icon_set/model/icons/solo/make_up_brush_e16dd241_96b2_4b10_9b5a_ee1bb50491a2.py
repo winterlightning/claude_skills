@@ -15,6 +15,7 @@ class MakeUpBrush(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'beauty'
+    categories = ('beauty', 'state')
     aliases = ()
     keywords = ('make', 'up', 'brush', 'beauty')
 

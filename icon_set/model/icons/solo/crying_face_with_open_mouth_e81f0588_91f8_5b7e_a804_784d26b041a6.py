@@ -13,6 +13,7 @@ class CryingFaceWithOpenMouth(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('crying', 'tear', 'sad', 'distressed', 'face', 'emoji')
 

@@ -15,6 +15,7 @@ class Icon(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'farming'
+    categories = ('farming', 'primitives')
     aliases = ('Plant Seed Packet',)
     keywords = ('plant', 'seed', 'packet')
     def build(self):

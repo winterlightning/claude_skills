@@ -16,6 +16,7 @@ class CompleteReferenceRedraw(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     def build(self):
         self.add_bezier('frame-0-0', (16, 30), ((11.0, 25.0), (6.0, 20.0), (6, 12)))
         self.add_bezier('frame-0-1', (6, 12), ((6.0, 6.0), (10.0, 2.0), (16, 2)))

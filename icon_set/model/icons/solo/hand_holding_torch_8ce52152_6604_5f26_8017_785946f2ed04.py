@@ -12,6 +12,7 @@ class HandHoldingTorch(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('hand', 'holding', 'torch', 'grip', 'handheld', 'fist', 'blowtorch', 'tool')
 

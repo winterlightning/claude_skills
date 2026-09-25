@@ -15,6 +15,7 @@ class LogWithSproutingBranch(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('log', 'wood', 'timber', 'tree', 'rings', 'firewood', 'forestry', 'nature')
 

@@ -13,6 +13,7 @@ class HeadWithDrinkingStraw(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('head', 'profile', 'straw', 'drink', 'creativity', 'thinking')
 

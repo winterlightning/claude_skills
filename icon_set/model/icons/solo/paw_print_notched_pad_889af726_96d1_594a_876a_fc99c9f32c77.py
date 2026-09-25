@@ -16,6 +16,7 @@ class PawPrintNotchedPad(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('paw', 'paw-print', 'pet', 'footprint', 'animal', 'track', 'dog')
 

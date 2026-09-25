@@ -15,6 +15,7 @@ class RoundJoin(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('round', 'join', 'design')
 

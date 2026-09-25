@@ -11,6 +11,7 @@ class StellarEmblem(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "money"
+    categories = ("primitives", "money")
     aliases=()
     keywords=('stellar', 'crypto', 'emblem', 'ring', 'diagonal', 'currency')
 

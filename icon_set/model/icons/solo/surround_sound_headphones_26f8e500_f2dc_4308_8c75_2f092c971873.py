@@ -11,6 +11,7 @@ class SurroundSoundHeadphones(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('headphones', 'spatial-audio', 'surround', 'sound', 'audio', 'music', 'waves')
 

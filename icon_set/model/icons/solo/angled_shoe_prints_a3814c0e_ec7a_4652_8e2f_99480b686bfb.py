@@ -18,6 +18,7 @@ class AngledShoePrints(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('angled', 'shoe', 'prints')
 

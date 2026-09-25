@@ -18,6 +18,7 @@ class Drawing(Solo48):
     icon_id = 'veterinary-paw-content'
     keyshape = Keyshape.SQUARE
     category = 'state'
+    categories = ('state',)
     tags = ('sub icon',)
     keywords = ('veterinary care paw print',)
     def build(self):

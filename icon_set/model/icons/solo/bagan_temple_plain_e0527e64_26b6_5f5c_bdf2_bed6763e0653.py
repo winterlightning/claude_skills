@@ -12,6 +12,7 @@ class BaganTemplePlain(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('bagan', 'myanmar', 'temple', 'pagoda', 'stupa', 'balloon', 'landmark', 'travel', 'skyline')
 

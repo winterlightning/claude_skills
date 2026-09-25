@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'notched-artist-palette-with-paint-wells'
     keyshape = Keyshape.SQUARE
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('notched', 'artist', 'palette', 'with', 'paint', 'wells')
 
     def build(self):

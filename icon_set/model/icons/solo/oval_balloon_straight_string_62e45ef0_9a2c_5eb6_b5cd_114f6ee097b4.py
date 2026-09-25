@@ -17,6 +17,7 @@ class Batch26Icon(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "events"
+    categories = ("primitives", "events")
     aliases = ()
     keywords = ('oval', 'party', 'celebration', 'balloon')
 

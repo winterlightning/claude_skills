@@ -13,6 +13,7 @@ class KingsCrossStation(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('kings cross', 'london', 'station', 'railway', 'clock', 'arch', 'landmark', 'travel')
 

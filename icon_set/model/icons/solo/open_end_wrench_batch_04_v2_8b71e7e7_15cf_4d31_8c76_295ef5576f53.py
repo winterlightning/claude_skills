@@ -15,6 +15,7 @@ class IndependentSolo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('open', 'end', 'wrench', 'batch', '04')
 

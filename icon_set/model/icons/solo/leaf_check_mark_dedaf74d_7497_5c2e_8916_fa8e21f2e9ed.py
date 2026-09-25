@@ -13,6 +13,7 @@ class LeafCheckMark(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "food"
+    categories = ("primitives", "food")
     aliases = ("vegetarian-leaf-check",)
     keywords = ("leaf", "check", "vegetarian", "plant", "foliage")
 

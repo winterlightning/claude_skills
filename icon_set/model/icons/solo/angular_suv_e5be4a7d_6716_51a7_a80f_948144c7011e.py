@@ -13,6 +13,7 @@ class AngularSuv(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('suv', 'car', 'crossover', 'vehicle', 'side view', 'automobile', '4x4', 'driving')
 

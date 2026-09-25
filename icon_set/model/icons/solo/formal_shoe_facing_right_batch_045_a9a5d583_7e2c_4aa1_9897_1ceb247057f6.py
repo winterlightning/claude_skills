@@ -12,6 +12,7 @@ class Batch045Icon3(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('shoe', 'formal', 'footwear', 'heel', 'toe', 'clothing', 'dress')
     # Reference: No useful local shoe match; source establishes toe and heel.

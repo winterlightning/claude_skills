@@ -10,6 +10,7 @@ class HandSwipingUpGesture(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("tap swipe up",)
     keywords = ("pointing hand", "contact arc", "up arrow")
 

@@ -15,6 +15,7 @@ class SunIconWithSmallCircle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("sun-with-particle", "ray-circle-with-dot")
     keywords = ("sun", "rays", "circle", "particle", "status")
 

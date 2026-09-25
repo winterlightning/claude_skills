@@ -11,6 +11,7 @@ class GrandPiano(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('piano', 'grand-piano', 'instrument', 'classical', 'concert', 'keyboard', 'music')
 

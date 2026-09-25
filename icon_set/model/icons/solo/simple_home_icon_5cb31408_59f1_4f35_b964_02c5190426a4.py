@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitive', 'primitives')
     aliases = ()
     keywords = ('simple', 'home', 'icon')
     def build(self):

@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'spinal-column-with-three-paired-processes'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

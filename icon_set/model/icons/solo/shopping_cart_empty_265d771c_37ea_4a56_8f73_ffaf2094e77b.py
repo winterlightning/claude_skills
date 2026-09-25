@@ -10,6 +10,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "shopping"
+    categories = ("shopping", "other", "primitives-generate")
     aliases = ()
     keywords = ('shopping cart empty',)
 
@@ -45,6 +46,7 @@ class Drawing(Solo48):
 
     icon_id = 'shopping-cart-empty'
     category = 'shopping'
+    categories = ('shopping', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('shopping', 'cart', 'empty')
     semantic_role = 'MAIN'

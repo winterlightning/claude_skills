@@ -12,6 +12,7 @@ class VoicemailSymbolA0009082(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('voicemail', 'message', 'audio', 'recording', 'loops', 'telephone')
 

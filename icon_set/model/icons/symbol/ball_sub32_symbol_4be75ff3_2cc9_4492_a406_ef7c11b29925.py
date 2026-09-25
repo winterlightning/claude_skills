@@ -21,6 +21,7 @@ class GridAlignedSubContainerSymbol(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'sports'
+    categories = ('sports', 'state')
 
     def build(self):
         self.add_arc('outline-0', (2, 16), (16, 2), radius_x=14, radius_y=14, large_arc=False, sweep=True)

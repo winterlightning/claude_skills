@@ -15,6 +15,7 @@ class FlagC753cf19(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'social'
+    categories = ('social', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('flag', 'social')
 

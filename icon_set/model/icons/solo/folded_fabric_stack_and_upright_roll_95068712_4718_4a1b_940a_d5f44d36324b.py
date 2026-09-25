@@ -17,6 +17,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('folded', 'fabric', 'stack', 'and', 'upright', 'roll')
 

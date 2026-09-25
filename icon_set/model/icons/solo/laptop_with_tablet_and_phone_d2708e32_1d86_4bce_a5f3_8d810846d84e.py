@@ -12,6 +12,7 @@ class LaptopWithTabletAndPhone(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('laptop', 'tablet', 'phone', 'responsive', 'devices', 'computer', 'display')
 

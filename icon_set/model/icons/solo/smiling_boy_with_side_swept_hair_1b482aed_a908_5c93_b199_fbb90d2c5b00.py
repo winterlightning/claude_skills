@@ -20,6 +20,7 @@ class SmilingBoyWithSideSweptHair(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('smiling', 'boy', 'with', 'side-swept', 'hair')
     HUMAN_REFERENCE = "icon_set/references/human_ref/user.svg"

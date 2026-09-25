@@ -10,6 +10,7 @@ class Drawing(Solo48):
     icon_id = 'rounded-birthday-cake-with-one-candle'
     keyshape = Keyshape.VRECT_L
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('rounded', 'birthday', 'cake', 'with', 'one', 'candle')
 
     def build(self):

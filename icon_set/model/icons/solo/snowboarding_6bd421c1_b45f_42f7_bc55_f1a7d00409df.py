@@ -15,6 +15,7 @@ class Snowboarding(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('snowboarding', 'snowboard', 'winter', 'sport', 'snow', 'mountain', 'ride', 'extreme')
 

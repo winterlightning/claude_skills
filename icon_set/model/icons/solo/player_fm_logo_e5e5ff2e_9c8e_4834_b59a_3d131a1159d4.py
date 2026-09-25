@@ -12,6 +12,7 @@ class PlayerFmLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('player-fm', 'podcast', 'rings', 'logo', 'brand', 'audio', 'player')
 

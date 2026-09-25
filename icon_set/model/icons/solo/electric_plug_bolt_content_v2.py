@@ -21,6 +21,7 @@ class DrawingVariant2(Solo48):
     variant_label = 'Embedded lightning'
     keyshape = Keyshape.VRECT_L
     category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('electric plug with lightning bolt',)
 

@@ -11,6 +11,7 @@ class DesignBumpLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('design-bump', 'arrows', 'upvote', 'logo', 'brand', 'design', 'community')
 

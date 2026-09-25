@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('mobile phone dollar sign',)
 
@@ -38,6 +39,7 @@ class Drawing(Solo48):
 
     icon_id = 'mobile-phone-dollar-sign'
     category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ('payment phone', 'dollar smartphone')
     keywords = ('mobile', 'money', 'commerce', 'payment')
     semantic_role = 'MAIN'

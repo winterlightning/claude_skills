@@ -12,6 +12,7 @@ class TripadvisorLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tripadvisor', 'owl', 'travel', 'reviews', 'logo', 'brand', 'eyes')
 

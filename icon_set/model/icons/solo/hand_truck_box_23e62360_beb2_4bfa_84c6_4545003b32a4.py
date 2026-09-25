@@ -13,6 +13,7 @@ class HandTruckBox(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('hand-truck', 'dolly', 'logistics', 'delivery', 'box', 'moving', 'cargo', 'warehouse')
 

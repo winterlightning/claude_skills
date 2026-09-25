@@ -22,6 +22,7 @@ class ZoomInMagnifyingGlassWithPlusBadge(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "container"
+    categories = ("container",)
     aliases = ("magnifying-glass-with-plus-badge",)
     keywords = ("zoom", "magnify", "enlarge", "search", "lens", "plus")
 

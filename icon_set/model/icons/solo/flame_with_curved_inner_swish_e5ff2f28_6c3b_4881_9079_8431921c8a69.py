@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'fire'
+    categories = ('fire', 'primitives')
     aliases = ()
     keywords = ('fire', 'flame', 'swish', 'burning', 'heat', 'logo', 'blaze')
 

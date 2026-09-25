@@ -16,6 +16,7 @@ class MicrosoftExcelLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('microsoft-excel', 'excel', 'microsoft', 'spreadsheet', 'office', 'logo', 'brand')
 

@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="construction"
+    category = "construction"
+    categories = ("construction", "primitives")
     aliases=()
     keywords=('rotating', 'valve', 'handle')
     def build(self):

@@ -20,6 +20,7 @@ class SmartphoneWithDollarSign(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("monetization tablet", "phone payment")
     keywords = ("dollar", "money", "smartphone", "earning")
 

@@ -12,6 +12,7 @@ class FlashlightWithRays(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('flashlight', 'torch', 'light', 'beam', 'rays', 'lamp', 'handheld', 'illumination')
 

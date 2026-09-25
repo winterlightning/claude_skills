@@ -11,6 +11,7 @@ class DirectionSignpost(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('signpost', 'direction', 'crossroad', 'wayfinding', 'sign', 'road', 'junction', 'navigation')
 

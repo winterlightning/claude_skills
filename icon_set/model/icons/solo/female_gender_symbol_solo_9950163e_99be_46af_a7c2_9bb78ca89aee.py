@@ -13,6 +13,7 @@ class FemaleGenderSymbolSoloSource9950163E(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('female', 'gender', 'venus', 'woman', 'symbol', 'sex', 'feminine')
 

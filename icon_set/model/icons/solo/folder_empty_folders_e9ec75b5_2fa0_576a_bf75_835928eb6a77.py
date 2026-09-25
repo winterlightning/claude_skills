@@ -11,6 +11,7 @@ class FolderEmptyFolders(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'folders'
+    categories = ('folders', 'primitives')
     aliases = ()
     keywords = ('folder', 'empty', 'folders')
 

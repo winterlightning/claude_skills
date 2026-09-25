@@ -15,6 +15,7 @@ class PriceTag(Solo48):
     semantic_role="MAIN"
     semantic_kind="noun"
     category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('tag', 'price', 'label', 'sale', 'discount', 'shopping', 'offer', 'store')
 

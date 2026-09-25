@@ -12,6 +12,7 @@ class DeerHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'state')
     aliases = ()
     keywords = ('deer', 'head', 'antlers', 'stag', 'face', 'muzzle', 'wildlife', 'buck')
 

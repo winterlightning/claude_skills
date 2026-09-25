@@ -12,6 +12,7 @@ class CarEngineE3a63ee0(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'state')
     aliases = ()
     keywords = ('car', 'engine', 'transportation')
 

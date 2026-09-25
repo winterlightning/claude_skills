@@ -20,6 +20,7 @@ class HouseAboveTwoStepCellar(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('house', 'above', 'two-step', 'cellar')
 

@@ -13,6 +13,7 @@ class DocumentWithBarChart(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("bar graph file", "data bars document")
     keywords = ("chart", "analytics", "data", "bars")
 

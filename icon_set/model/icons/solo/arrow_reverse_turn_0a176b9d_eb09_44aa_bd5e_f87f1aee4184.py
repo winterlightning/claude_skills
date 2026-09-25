@@ -11,7 +11,8 @@ class ArrowReverseTurn(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'Uncategorized'
+    category = 'arrows'
+    categories = ('arrows', 'primitive', 'primitives')
     aliases = ()
     keywords = ('arrow', 'reverse', 'turn')
 

@@ -11,6 +11,7 @@ class MegaphoneB6916faa(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('megaphone', 'interface-essential')
 

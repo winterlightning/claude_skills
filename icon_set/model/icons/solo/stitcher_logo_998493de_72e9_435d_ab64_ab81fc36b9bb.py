@@ -12,6 +12,7 @@ class StitcherLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('stitcher', 'podcast', 'bars', 'audio', 'logo', 'brand', 'radio')
 
