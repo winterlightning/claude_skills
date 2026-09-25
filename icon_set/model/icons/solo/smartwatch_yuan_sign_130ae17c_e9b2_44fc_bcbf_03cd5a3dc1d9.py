@@ -83,3 +83,5 @@ class Drawing(Solo48):
         self.add_polyline('yuan-bar',(20,27),(24,27),(28,27))
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': 'b990569401d520f5989f9fa57af6d121ec9e1e4b52562bf024b68cbe2c87173b', 'source_uuid': '130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9'}

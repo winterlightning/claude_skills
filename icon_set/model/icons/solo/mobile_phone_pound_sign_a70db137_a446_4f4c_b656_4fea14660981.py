@@ -81,3 +81,5 @@ class Drawing(Solo48):
         self.add_polyline('pound-base',(17,28),(18,28),(31,28))
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': '3113ce995e9ef4bac36009826bece7ca5ac5cfd8b2cb0d54479a369c116455aa', 'source_uuid': 'a70db137-a446-4f4c-b656-4fea14660981'}

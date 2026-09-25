@@ -9,3 +9,7 @@ The ten explicit approvals from the numbered review were retained. Seven require
 Publication contains 22 passing entries (15 automatic passes and 7 approved exceptions) and 14 failed-build entries with their exact SVGs and findings. The full library has pre-existing failures; these were not silently cleared.
 
 Checks: all 36 exports match their registered Python source; 05 matches 04 geometry; all seven revised avatar faces use circular arcs and zero visible head/body gap. The earlier global avatar/profile suite reported 40 failures and 10 errors in existing library icons, documented in tests.txt. No validation implementation was changed. Workspace doctor reports zero tracked runtime files.
+
+## All-icon approval
+
+The user subsequently approved all 36 drawings and explicitly authorized exceptions for every remaining failure. All 21 drawings with automatic findings have drawing-bound exceptions; the other 15 pass automatically. Original findings remain available. Production review flags are also reconciled against matching SVG hashes.

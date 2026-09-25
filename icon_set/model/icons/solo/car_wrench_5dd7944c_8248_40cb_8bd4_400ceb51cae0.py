@@ -81,3 +81,5 @@ class Drawing(Solo48):
         self.add_line('wrench-shaft',(20,22),(28,22))
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': 'b3c7a66ab0d123ceded88bd082e8065e31cad2568f6955ec3207cf93ae1c8fce', 'source_uuid': '5dd7944c-8248-40cb-8bd4-400ceb51cae0'}

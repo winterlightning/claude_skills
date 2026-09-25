@@ -84,3 +84,5 @@ class Drawing(Solo48):
         self.relate('connect','jaw','shoulders')
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': 'b5bf44b56b502418fdda2253ab3d74ddf037b67ca85cc4449af0dabc4255cd8e', 'source_uuid': '3daffd35-7113-5e05-9b42-ebb7b4db0338'}

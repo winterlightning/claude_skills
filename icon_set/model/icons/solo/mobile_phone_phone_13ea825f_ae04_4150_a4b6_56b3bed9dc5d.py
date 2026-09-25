@@ -80,3 +80,5 @@ class Drawing(Solo48):
         self.path('receiver',pt(17,12),[('L',pt(20,12)),('A',pt(22,14),2,2,True),('L',pt(22,16)),('L',pt(21,18)),('C',pt(25,22),pt(22,20),pt(23,21)),('L',pt(27,21)),('L',pt(29,21)),('A',pt(31,23),2,2,True),('L',pt(31,26)),('A',pt(29,28),2,2,True),('C',pt(15,14),pt(21,28),pt(15,22)),('A',pt(17,12),2,2,True)],True)
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': '84c6c01c72475ec2566dcf995e9379e84af786e52d8918b7cdb226ddf1961eb2', 'source_uuid': '13ea825f-ae04-4150-a4b6-56b3bed9dc5d'}

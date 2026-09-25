@@ -83,3 +83,5 @@ class Drawing(Solo48):
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
 
         self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': '2a260bb730a27c378ed90a023aa6eac4888d1efeeb65c96911fb4bab77be118f', 'source_uuid': '8ed961c5-a996-4c78-a7d6-d1d6baa41755'}
