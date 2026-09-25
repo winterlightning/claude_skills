@@ -1,0 +1,62 @@
+{
+  "source_key": "solo/damaged-shipping-box",
+  "icon_id": "damaged-shipping-box",
+  "svg_sha256": "50c03456e2df9ec02274cba2eab7aae603f8ac55ae13e31f4cd9db926d22e204",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore the jagged torn seam and diagonal top tape seam on the perspective parcel. Drawing-specific visual exception authorized by user; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/958637b4-0216-5d2f-a6a7-e9708b032af8/20260925T083122-thuan-fix",
+  "module": "icon_set/work/primitive-make-ray/958637b4-0216-5d2f-a6a7-e9708b032af8/20260925T083122-thuan-fix/damaged_shipping_box_958637b4_0216_5d2f_a6a7_e9708b032af8.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [tape]: parallel straight edges tape and lid-1 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/damaged_shipping_box_958637b4_0216_5d2f_a6a7_e9708b032af8.py",
+    "validation.txt",
+    "after/damaged-shipping-box.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-25T08:43:53.647597+00:00",
+  "build_gate": {
+    "icon_id": "damaged-shipping-box",
+    "status": "pass",
+    "errors": [
+      "mic [tape]: parallel straight edges tape and lid-1 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)"
+    ],
+    "warnings": [
+      "internal-spacing [lid / tape]: lid-1 and tape have 3.1554 units of ink clearance over 13.6649 units; requires 4; review required",
+      "internal-spacing [lid / tear]: lid-2 and tear-2 have 1.6224 units of ink clearance over 2.2361 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Retain the diagonal tape and visible jagged torn seam that identify a damaged package. The tape has 3.16px ink clearance and a short local tear/lid gap is below the 4px target; these remain distinct at 48px. The tear end stays visibly separate from the bottom edge.",
+      "approved_by": "user-delegated-to-gpt-6",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "dd435467b89b80deac960b11f0bdde51caaf71b6e89acab20839f3cd65be0842"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-25T08:43:52.891856+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__damaged-shipping-box/20260925T083122Z-thuan-mac/after/damaged_shipping_box_958637b4_0216_5d2f_a6a7_e9708b032af8.py",
+    "note": "Restore the jagged torn seam and diagonal top tape seam on the perspective parcel. Drawing-specific visual exception authorized by user; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore the jagged torn seam and diagonal top tape seam on the perspective parcel. Drawing-specific visual exception authorized by user; automatic findings retained.",
+    "claimed_at": "2026-09-25T08:31:19.303068+00:00",
+    "updated_at": "2026-09-25T08:43:53.631173+00:00",
+    "svg_sha256": "50c03456e2df9ec02274cba2eab7aae603f8ac55ae13e31f4cd9db926d22e204"
+  },
+  "review_status": "ready"
+}

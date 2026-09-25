@@ -8,6 +8,14 @@ line deletes that task. Don't edit or invent (tp:xxxxxxxx) tags.
 
 ## Done
 
+- [x] $primitive-fix-thuan 20 --offset 0 --disapprove-status manual-fix-request --worker thuan-mac (tp:eb22d367)
+  If you think an icon needs to be exceptional, make it an exception, but make sure
+  the icon quality is still good for UI/UX.
+
+- [x] $primitive-fix-thuan 20 --offset 0 --disapprove-status manual-fix-request --worker thuan-mac (tp:a1aafe09)
+  If you think an icon needs to be exceptional, make it an exception, but make sure
+  the icon quality is still good for UI/UX.
+
 - [x] $primitive-fix-thuan 20 --offset 0 --disapprove-status manual-fix-request --worker thuan-mac (tp:28ba17fb)
   If you think an icon needs to be exceptional, make it an exception, but make sure
   the icon quality is still good for UI/UX.

@@ -17,6 +17,8 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('crossed', 'blade', 'scissors')
 
+    exception = {'reason': 'Retain outlined scissor blades and circular finger loops. The intentional front-over-back arrangement leaves a small but visible gap near the right loop; blade faces and eight-unit loop openings remain clear at 48px.', 'approved_by': 'user delegated visual-exception judgment to gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '466dbc69be79bf8ceae6b5c4807a064f8cd10b73f774ab9fe6d41693cf0d3b29'}
+
     def build(self):
 
         def path(name, start, commands, closed=False):

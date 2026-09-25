@@ -132,7 +132,9 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
             preview = previews.get(row['id'], {})
             if kind == 'side' and preview.get('result', {}).get('svg'):
                 row['generated'].append({'icon_id': row['id'], 'preview_url': preview['url'], 'kind': 'side experiment'})
-            seen = set()
+            # One combined icon per pair: a native text pair's composition is the same icon as its
+            # side preview, not a second one.
+            seen = {'side-text-v2-' + row['id']} if row['generated'] else set()
             for main in main_artwork:
                 for sub in references[row['sub_id']]['generated']:
                     for result in compositions.get((kind, main['icon_id'], sub['icon_id']), []):

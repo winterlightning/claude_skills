@@ -17,6 +17,8 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('corn',)
 
+    exception = {'reason': 'Retain the overlapping corn husks and tall cob. Local three-unit visible gaps at the leaf attachments remain clear at native 48px in both themes; no stroke or canvas change.', 'approved_by': 'user delegated visual-exception judgment to gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'c0ac47e15122ee001ce0661bc5ebd26a67fa0587c52fa35bcd04ab9389702692'}
+
     def build(self):
 
         def path(name, start, commands, closed=False):

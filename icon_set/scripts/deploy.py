@@ -13,6 +13,7 @@ from contextlib import closing
 from datetime import datetime, timezone
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+import io
 import json
 import hashlib
 import secrets
@@ -1223,6 +1224,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 candidate.suffix.lower() not in {'.html', '.json', '.svg', '.png', '.css', '.js'}):
             self.send_error(404)
             return None
+        # One combined icon per side pair: a saved layout replaces every served copy of it.
+        if parts[:1] in (('gallery',), ('compositions',)) and candidate.suffix.lower() in ('.svg', '.json'):
+            from icon_set.scripts.combination_layouts import served
+            override = served(self.root / 'gallery', path)
+            if override:
+                body, content_type = override
+                self.send_response(200)
+                self.send_header('Content-Type', content_type + ('; charset=utf-8' if content_type.endswith('json') else ''))
+                self.send_header('Content-Length', str(len(body)))
+                self.end_headers()
+                return io.BytesIO(body)
         self.static_file = True
         return super().send_head()
 
@@ -2037,7 +2049,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if data.get('layout') is None:
                     combination_layouts.clear(pair_id)
                     if production:
-                        return self.json_response({'layout': None})
+                        # The released icon is the automatic one again; hand it back for the page.
+                        from icon_set.scripts.combination_experiment import render
+                        return self.json_response({'layout': None, 'url': None, 'result': render({'id': pair_id}, row=row)})
                     from icon_set.scripts.build_combination_previews import build_one
                     return self.json_response({'layout': None, **build_one(pair_id)})
                 main = data.get('main') or row['mains'][0]['icon']

@@ -17,6 +17,8 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('crowned', 'chess', 'queen')
 
+    exception = {'reason': 'Retain the chess-piece collar, stem, finial and rounded foot. Two-unit slots in the collar and base remain open in both themes and preserve the source tiered silhouette.', 'approved_by': 'user delegated visual-exception judgment to gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'a7e599b43ae94ae5c4b141ed9a508118d483c920d4cea838934e8482d45cd26f'}
+
     def build(self):
 
         def path(name, start, commands, closed=False):

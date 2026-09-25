@@ -148,3 +148,79 @@ def transfer(layout, source_position, source_sub, target_position, target_sub, t
             x, y = _corner(w, h, anchor, target_canvas)
             out[role] = [dict(g, paths=list(g['paths']), x=g['x'] + x - box[0], y=g['y'] + y - box[1]) for g in groups]
     return out or None
+
+
+# ---- one combined icon per pair: the served files follow the saved layout ----
+#
+# A saved layout is the pair's combined icon everywhere, not a second icon beside it. The server
+# answers every URL of a pair's combined icon (the side preview and, for native text pairs, the
+# composition), and the two lists that point at them, with the saved result. Development also
+# republishes the files (build_one); production serves them from its own state the same way.
+
+_overlay_cache = {}
+
+
+def overlay(gallery):
+    """{pair_id: (version, result)} for saved layouts that still match the served pairs."""
+    import hashlib
+    rows_file = Path(gallery) / 'experiment-combination.json'
+    try:
+        key = (path().stat().st_mtime_ns, rows_file.stat().st_mtime_ns)
+    except FileNotFoundError:
+        return {}
+    cached = _overlay_cache.get(str(gallery))
+    if cached and cached[0] == key:
+        return cached[1]
+    layouts, active_results = load(), {}
+    if layouts:
+        rows = {r['id']: r for r in json.loads(rows_file.read_text())['rows']}
+        for pair_id, entry in layouts.items():
+            row = rows.get(pair_id)
+            if row and entry.get('result', {}).get('svg') and active(row, entry):
+                version = hashlib.sha256((json.dumps(entry['layout'], sort_keys=True) + entry.get('updated_at', '')).encode()).hexdigest()[:12]
+                active_results[pair_id] = (version, entry['result'])
+    _overlay_cache[str(gallery)] = (key, active_results)
+    return active_results
+
+
+def _merged(gallery, name, mutate):
+    """A served list with the saved results merged in, cached until either file changes."""
+    file = Path(gallery) / name
+    adjusted = overlay(gallery)
+    key = (file.stat().st_mtime_ns, _overlay_cache[str(gallery)][0])
+    cached = _overlay_cache.get((str(gallery), name))
+    if cached and cached[0] == key:
+        return cached[1]
+    data = json.loads(file.read_text())
+    mutate(data, adjusted)
+    body = json.dumps(data, ensure_ascii=False).encode()
+    _overlay_cache[(str(gallery), name)] = (key, body)
+    return body
+
+
+def served(gallery, request_path):
+    """(body, content type) of a combined icon or list that a saved layout overrides, else None."""
+    gallery = Path(gallery)
+    adjusted = overlay(gallery)
+    if not adjusted:
+        return None
+    # The composition copy of a native text pair sits beside the gallery (/compositions/…).
+    name = request_path.removeprefix('/gallery/').removeprefix('/')
+    if name.startswith(('combination-previews/', 'compositions/side-text-v2-')) and name.endswith('.svg'):
+        pair_id = Path(name).stem.removeprefix('side-text-v2-')
+        if pair_id in adjusted:
+            return adjusted[pair_id][1]['svg'].encode(), 'image/svg+xml'
+        return None
+    url = lambda pair_id: f'combination-previews/{pair_id}.svg?v={adjusted[pair_id][0]}'
+    if name == 'experiment-combination-results.json':
+        def mutate(data, adjusted):
+            for pair_id, (_version, result) in adjusted.items():
+                data['results'][pair_id] = {**data['results'].get(pair_id, {}), 'url': url(pair_id), 'result': result}
+        return _merged(gallery, name, mutate), 'application/json'
+    if name == 'preview-combination-icons.json':
+        def mutate(data, adjusted):
+            for icon in data.get('icons', []):
+                if icon.get('icon_id') in adjusted:
+                    icon['preview_url'] = url(icon['icon_id'])
+        return _merged(gallery, name, mutate), 'application/json'
+    return None

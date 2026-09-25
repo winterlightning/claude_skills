@@ -17,6 +17,8 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('cupcake', 'with', 'dripping', 'frosting')
 
+    exception = {'reason': 'Retain the uneven rounded icing drips. The two-unit internal drip opening is readable at 48px in both themes and preserves the source frosting pattern.', 'approved_by': 'user delegated visual-exception judgment to gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'd6acc8cbfb29e9a2548d3779de27a8e37f318de020d3d5c7ab56f646b60bbf59'}
+
     def build(self):
 
         def path(name, start, commands, closed=False):

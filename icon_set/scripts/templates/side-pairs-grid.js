@@ -1,6 +1,6 @@
 /* Side pairs as rows of Original → Main → Sub → Combined, optionally grouped by a shared
    main or sub. Subs are shown on the 32×32 system; a pair with several subs keeps one. */
-let sidePairs=null, sidePreviews={}, sideReleased={}, sideStatuses={}, sideLoading=false, sideError='', sideStatus='';
+let sidePairs=null, sidePreviews={}, sideStatuses={}, sideLoading=false, sideError='', sideStatus='';
 const sidePreviewSub=new Map(), sideRendered=new Map(), sideRenderTargets=new Map(), sideQueue=[], sideFixItems=new WeakMap();
 let sideActiveRenders=0;
 const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
@@ -25,6 +25,7 @@ async function loadSidePairs(){
     // Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count.
     const reviews=await fetch('/api/reviews',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
     sideReviews=reviews;
+    if(Object.keys(reviews).length)window.SideRepairFlags?.setReviews(reviews);
     sideRun=await fetch('side-combination64.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
     const usable=d=>d.status==='pass'&&!['pending','rejected'].includes(reviews[d.key]);
     for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
@@ -33,9 +34,6 @@ async function loadSidePairs(){
     // sub by source UUID/key, then reuse the already generated native SVG.
     const native=await fetch('side-text-v2.json',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
     sideMapNativeText(native,components,usable);
-    // This server's own hand-adjusted layouts (production keeps its own) show over the released previews.
-    const layouts=await fetch('/api/combinations/side/layouts',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
-    sideApplyLayouts(layouts);
     // Text / number marks are optional: without them the filter falls back to text-drawn subs.
     try{const r=await fetch('/api/primitives/status',{cache:'no-store'});if(r.ok)sideStatuses=await r.json();}catch{}
   }catch(error){sideError=error.message;}
@@ -59,14 +57,6 @@ function sideMapNativeText(report,components,usable){
     sidePreviews[row.id]={url:result.preview_url,native_text:true,main:main.icon_id,sub:sub.icon_id};
   }
 }
-// A saved layout counts only while the pair still has the exact main and sub drawings it was made for.
-function sideApplyLayouts(layouts){
-  sideReleased={...sidePreviews};
-  for(const [id,entry] of Object.entries(layouts||{})){
-    const pair=sidePairs.get(id),same=(items,pin)=>items?.some(i=>i.icon===pin?.icon&&(!i.sha256||i.sha256===pin.sha256));
-    if(pair&&entry.result&&same(pair.mains,entry.main)&&same(pair.subs,entry.sub))sidePreviews[id]={url:null,result:entry.result};
-  }
-}
 const sideSubKey=s=>s.model_key||s.family+'/'+s.icon;
 const sideDataURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 const sideRound=n=>Math.round(n*10)/10;
@@ -77,7 +67,7 @@ function sideSubProblems(s){
   if(s.model_validation&&s.model_validation!=='pass')problems.push('Model validation: '+s.model_validation);
   if(['needs_redraw','needs_review'].includes(s.sub32_status))problems.push(s.sub32_reason||'Needs a SUB32 redraw');
   if(!s.native_text&&(w>32.01||h>32.01))problems.push(`Ink ${sideRound(w)}×${sideRound(h)} exceeds 32×32`);
-  if(window.SideRepairFlags?.flagged(s))problems.push('Flagged for repair');
+  if(window.SideRepairFlags?.flagged(s))problems.push('Disapproved — needs fix');
   return problems;
 }
 const sideCurrentSub=pair=>pair.subs.find(s=>s.icon===sidePreviewSub.get(pair.id))||pair.subs[0];
@@ -101,7 +91,7 @@ function sideCategory(row){
   const pair=sidePairs.get(row.id),key=sideKey(row);
   const both=key.startsWith('both');
   // Not combined: main and sub are both drawn, but the last Combine all run made no icon for the pair.
-  const uncombined=!['main','sub','textsub'].includes(key)&&!both&&!sideReleased[row.id];
+  const uncombined=!['main','sub','textsub'].includes(key)&&!both&&!sidePreviews[row.id];
   return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),uncombined,multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
 }
 
@@ -248,9 +238,9 @@ function sideRow(row){
   // Editing the layout sits right under the combined icon it changes.
   // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
   if(parts.ready&&window.SideLayoutEditor&&!pair.mapped_native)combinedStep.append(SideLayoutEditor.button(pair,main,sub,data=>{
-    // Show the saved layout (or, after a reset, the automatic result) here without a reload.
+    // Show the saved layout (or, after a reset, the automatic result) here without a reload. The server
+    // serves the same icon to every other page (Experiment, Preview) from now on.
     if(data.result)sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url||null,result:data.result};
-    else if(sideReleased[pair.id])sidePreviews[pair.id]=sideReleased[pair.id];else delete sidePreviews[pair.id];
     sideRendered.delete(pair.id+'|'+sub.icon);
     if(card.isConnected)card.replaceWith(sideRow(row));
   },sideAdjusted(pair,sub)));

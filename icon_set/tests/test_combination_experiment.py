@@ -205,4 +205,44 @@ class LayoutTransferTests(unittest.TestCase):
         self.assertEqual((x1, y0), (60, 4))                       # pushed into the top-right corner of the edited box
         self.assertTrue(all(isinstance(g[k], int) for g in sub for k in 'xywh'))
 
+
+class OneCombinedIconTests(unittest.TestCase):
+    """A saved layout is the pair's one combined icon: every served copy and list follows it."""
+    def setUp(self):
+        import os, tempfile
+        from pathlib import Path
+        self.dir = Path(tempfile.mkdtemp())
+        self.gallery = self.dir / 'gallery'
+        (self.gallery / 'combination-previews').mkdir(parents=True)
+        row = dict(LAYOUT_ROW, position='tr')
+        (self.gallery / 'experiment-combination.json').write_text(json.dumps({'rows': [row]}))
+        (self.gallery / 'experiment-combination-results.json').write_text(json.dumps({'results': {row['id']: {'url': 'combination-previews/layout-test.svg', 'result': {'svg': '<svg>auto</svg>'}}}}))
+        (self.gallery / 'preview-combination-icons.json').write_text(json.dumps({'icons': [{'icon_id': row['id'], 'preview_url': 'combination-previews/layout-test.svg'}]}))
+        self.env = os.environ.get('PICTOGRAPHIC_COMBINATION_LAYOUTS')
+        os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = str(self.dir / 'layouts.json')
+        self.row = row
+
+    def tearDown(self):
+        import os, shutil
+        if self.env is None:
+            os.environ.pop('PICTOGRAPHIC_COMBINATION_LAYOUTS', None)
+        else:
+            os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = self.env
+        shutil.rmtree(self.dir)
+
+    def test_every_copy_serves_the_saved_icon(self):
+        from icon_set.scripts import combination_layouts as layouts
+        self.assertIsNone(layouts.served(self.gallery, '/gallery/combination-previews/layout-test.svg'))
+        layouts.save(self.row, 'monitor-upload', 'cloud', {'sub': []}, {'svg': '<svg>saved</svg>', 'layout': {'sub': []}})
+        for path in ('/gallery/combination-previews/layout-test.svg', '/compositions/side-text-v2-layout-test.svg'):
+            self.assertEqual(layouts.served(self.gallery, path), (b'<svg>saved</svg>', 'image/svg+xml'))
+        results = json.loads(layouts.served(self.gallery, '/gallery/experiment-combination-results.json')[0])['results']['layout-test']
+        self.assertEqual(results['result']['svg'], '<svg>saved</svg>')
+        self.assertIn('?v=', results['url'])
+        icons = json.loads(layouts.served(self.gallery, '/gallery/preview-combination-icons.json')[0])['icons']
+        self.assertEqual(icons[0]['preview_url'], results['url'])
+        # A changed drawing makes the saved layout stale: the released icon is served again.
+        layouts.save(dict(self.row, subs=[dict(self.row['subs'][0], sha256='changed')]), 'monitor-upload', 'cloud', {'sub': []}, {'svg': '<svg>x</svg>'})
+        self.assertIsNone(layouts.served(self.gallery, '/gallery/combination-previews/layout-test.svg'))
+
 if __name__=='__main__':unittest.main()

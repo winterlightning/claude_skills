@@ -1,3 +1,22 @@
 status: invalid
   ERROR  canvas/keyshape bounds: visible ink (2, 6, 46, 44) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)
   WARN   mic [roll]: roll and hub are 7.99927 apart on centerlines nearest (31.0407, 25.8987)<->(23.6194, 22.9134); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full gate:
+{
+  "icon_id": "desktop-tape-dispenser",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 6, 46, 44) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)"
+  ],
+  "warnings": [
+    "mic [roll]: roll and hub are 7.99927 apart on centerlines nearest (31.0407, 25.8987)<->(23.6194, 22.9134); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "exception": {
+    "reason": "Allow the base to extend 2 units below HRECT_L to preserve clearance beneath the tape roll. Concentric radii 13 and 5 analytically give 4px ink clearance; the sampled checker reports 7.99927 centerline units. The large open hub and stepped cutter remain clear at native size.",
+    "approved_by": "user-delegated-to-gpt-6",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "00446f7f43b308297965e326e5c12e9bf69c33a1050c12d92bcf880ad3f72870"
+  },
+  "automatic_status": "fail"
+}

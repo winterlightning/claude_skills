@@ -1,6 +1,6 @@
 {
   "icon_id": "crystal-ball-on-stand",
-  "status": "fail",
+  "status": "pass",
   "errors": [
     "mic [upper-stand]: parallel straight edges upper-stand-2 and base-0, base-1, base-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
     "mic [base]: parallel straight edges base-0, base-1, base-2 and base-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
@@ -8,5 +8,12 @@
   "warnings": [
     "internal-spacing [upper-stand / base]: upper-stand-2 and base-1 have 3 units of ink clearance over 17 units; requires 4; review required",
     "internal-spacing [base]: base-1 and base-4 have 2 units of ink clearance over 23 units; requires 4; review required"
-  ]
+  ],
+  "exception": {
+    "reason": "Retain both rounded pedestal tiers beneath the orb. The stand has visible three-unit and two-unit interior bands at 48px; merging the tiers would lose the source pedestal.",
+    "approved_by": "user delegated visual-exception judgment to gpt-6",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "9cc048719688876f8818eb2fc30a6050f7bcb072e46ec8872279db00d8f35872"
+  },
+  "automatic_status": "fail"
 }
