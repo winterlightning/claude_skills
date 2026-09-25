@@ -159,6 +159,66 @@ def stage_preview_combinations(target: Path) -> int:
              for row in rows if row['id'] in results]
     (target / 'preview-combination-icons.json').write_text(
         json.dumps({'icons': icons}, ensure_ascii=False) + '\n', encoding='utf-8')
+    stage_side_combination64(target)
+    return len(icons)
+
+
+SIDE_COMBINATION_FAMILY = 'side_combination64'
+
+
+def stage_side_combination64(target: Path) -> int:
+    """The combined side icons as review records: the "Side combination 64" family.
+
+    Rewritten whole from the current side-pair results, so each combine run
+    replaces the previous set and `count` is the number of combined icons that
+    actually exist. deploy.py merges these records into the review catalog;
+    reviews key on (key, svg_sha256), so a changed drawing is a new revision.
+    """
+    import hashlib
+    from datetime import datetime, timezone
+    pairs, previews = target / 'experiment-combination.json', target / 'experiment-combination-results.json'
+    rows = json.loads(pairs.read_text())['rows'] if pairs.is_file() else []
+    results = json.loads(previews.read_text())['results'] if previews.is_file() else {}
+    output = target / 'side-combination64.json'
+    previous = json.loads(output.read_text()) if output.is_file() else {}
+    known = {r['key']: r for r in previous.get('icons', [])}
+    catalog = target / 'combinations.json'
+    references = json.loads(catalog.read_text()).get('references', {}) if catalog.is_file() else {}
+    now = datetime.now(timezone.utc).isoformat()
+    icons = []
+    for row in rows:
+        item = results.get(row['id'])
+        if not item or 'error' in item:
+            continue
+        url = (item.get('url') or 'combination-previews/' + row['id'] + '.svg').split('?', 1)[0]
+        svg = item.get('result', {}).get('svg')
+        path = target / url
+        if svg is None and path.is_file():
+            svg = path.read_text()
+        if not svg:
+            continue
+        sha = hashlib.sha256(svg.encode()).hexdigest()
+        key = SIDE_COMBINATION_FAMILY + '/' + row['id']
+        old = known.get(key, {})
+        placed = {p.get('role'): p.get('icon') for p in item.get('result', {}).get('placements', [])}
+        reference = references.get(row['id'], {}).get('reference_url')
+        icons.append({
+            'key': key, 'icon_id': row['id'], 'name': row['concept'], 'family': SIDE_COMBINATION_FAMILY,
+            'profile': 'SIDE_COMBINATION64', 'canvas_size': int(item.get('result', {}).get('canvas') or 64),
+            'category': POSITION_LABELS.get(row.get('position'), row.get('position') or 'Side'),
+            'position': row.get('position'), 'native_text': bool(row.get('native_text') or item.get('native_text')),
+            'main_icon': placed.get('main') or item.get('main') or (row.get('mains') or [{}])[0].get('icon'),
+            'sub_icon': placed.get('sub') or item.get('sub') or (row.get('subs') or [{}])[0].get('icon'),
+            'tags': [], 'keywords': [], 'aliases': [], 'description': '',
+            'svg_sha256': sha, 'preview_url': url + '?v=' + sha[:12],
+            'validation': {'status': 'valid', 'automatic_status': 'pass', 'errors': []},
+            'original_sources': [{'url': reference, 'format': 'SVG', 'source_path': reference}] if reference else [],
+            'python_source': None,
+            'created_at': old['created_at'] if old.get('svg_sha256') == sha and old.get('created_at') else now,
+            'created_at_source': 'side-combination-run',
+        })
+    output.write_text(json.dumps({'generated_at': now, 'count': len(icons), 'icons': icons},
+                                 ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
     return len(icons)
 
 
@@ -219,8 +279,15 @@ def stage_experiments(target: Path) -> None:
         preview_dir.mkdir(exist_ok=True)
         for key, item in results.items():
             (preview_dir / (key + '.svg')).write_text(item['result']['svg'])
+        for stale in preview_dir.glob('*.svg'):
+            if stale.stem not in results:
+                stale.unlink()
         (target / 'experiment-combination-results.json').write_text(json.dumps({'results': results}))
         stage_preview_combinations(target)
+    manifest = target / 'side-combination64.json'
+    if manifest.is_file():
+        # The tab counts combined icons, not candidate pairs.
+        counts['combination'] = json.loads(manifest.read_text())['count']
 
     template = (Path(__file__).with_name('templates') / 'experiment.html').read_text()
     # Embed this small collection so the user's local-file experiment works offline.

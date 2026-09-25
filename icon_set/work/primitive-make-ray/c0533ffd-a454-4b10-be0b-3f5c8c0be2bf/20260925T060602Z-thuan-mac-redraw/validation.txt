@@ -1,0 +1,28 @@
+status: invalid
+  ERROR  mic [cube]: parallel straight edges cube-1 and cube-top-2 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [cube-top]: parallel straight edges cube-top-2 and cube-4 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [cube]: parallel straight edges cube-2 and cube-top-1 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [cube-top]: parallel straight edges cube-top-1 and cube-5 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)
+{
+  "icon_id": "expanding-3d-cube",
+  "status": "pass",
+  "errors": [
+    "mic [cube]: parallel straight edges cube-1 and cube-top-2 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [cube-top]: parallel straight edges cube-top-2 and cube-4 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [cube]: parallel straight edges cube-2 and cube-top-1 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [cube-top]: parallel straight edges cube-top-1 and cube-5 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "warnings": [
+    "internal-spacing [cube / cube-top]: cube-1 and cube-top-2 have 3.1554 units of ink clearance over 2.4845 units; requires 4; review required",
+    "internal-spacing [cube / cube-top]: cube-2 and cube-top-1 have 3.1554 units of ink clearance over 2.4845 units; requires 4; review required",
+    "internal-spacing [cube / cube-top]: cube-4 and cube-top-2 have 3.1554 units of ink clearance over 4.4721 units; requires 4; review required",
+    "internal-spacing [cube / cube-top]: cube-5 and cube-top-1 have 3.1554 units of ink clearance over 4.4721 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve the cube and all three complete outward arrows. Cube faces retain 3.16px visible clearance; the reduced cube and detached arrows remain clear at 48px in both themes.",
+    "approved_by": "user: delegated visual exception judgment in this request",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "d9ae0f9b2ff2b7f22fbefc67fc7b64f86fe80dae486ba3117d0882be150a6dc7"
+  },
+  "automatic_status": "fail"
+}

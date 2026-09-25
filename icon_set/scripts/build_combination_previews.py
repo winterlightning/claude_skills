@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from .combination_experiment import DATA, ROOT, render
 from . import combination_layouts
-from .experiment_gallery import stage_preview_combinations
+from .experiment_gallery import stage_preview_combinations, stage_side_combination64
 
 if __package__:
     from .workspace import build_dist
@@ -57,6 +57,8 @@ def build_one(pair_id, result=None):
             results=data.get('results',data) if path.name.startswith('experiment') else data
             results[pair_id]=item
             path.write_text(json.dumps({'results':results} if path.name.startswith('experiment') else results))
+        # The review record follows the re-rendered drawing (a new svg_sha256 is a new revision).
+        stage_side_combination64(build_dist(ROOT.parent) / 'gallery')
     return item
 
 
@@ -131,8 +133,16 @@ def build(*, force=False):
     folder.mkdir(parents=True,exist_ok=True)
     for key,item in results.items():
         (folder/(key+'.svg')).write_text(item['result']['svg'])
-    (build_dist(ROOT.parent) / 'gallery/experiment-combination-results.json').write_text(json.dumps({'results':results}))
-    stage_preview_combinations(build_dist(ROOT.parent) / 'gallery')
+    # Each run replaces the previous set: previews of pairs no longer combined are removed.
+    for stale in folder.glob('*.svg'):
+        if stale.stem not in results:stale.unlink()
+    gallery=build_dist(ROOT.parent) / 'gallery'
+    (gallery/'experiment-combination-results.json').write_text(json.dumps({'results':results}))
+    stage_preview_combinations(gallery)
+    totals_path=gallery/'experiments.json'
+    totals=json.loads(totals_path.read_text()) if totals_path.exists() else {}
+    totals['combination']=len(results)
+    totals_path.write_text(json.dumps(totals))
     print(f'Published {len(results)} combined icons.',flush=True)
 
 if __name__=='__main__':build()

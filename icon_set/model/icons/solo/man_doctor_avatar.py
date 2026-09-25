@@ -1,53 +1,43 @@
-"""man-doctor: coat fastening with reference hair/headwear.
-Plan: SOLO48 VRECT_L, ink (6,2)-(42,46); circular face x24,
-head bottom 30, shoulders 34, zero painted gap. Shared human_ref/user.svg
-supplies curved shoulders; Lucide user-round original and atomic-debug guide
-cardinal arcs. Fine trim omitted at 48. Body cue: coat fastening.
-"""
+'Rebalanced onto VRECT_L (centerline bounds 8,4 to 40,44): taller portrait, circular head and cap band, curved shoulders, chest medical cross and offset coat fastening. Head bottom20 and shoulder top24 give zero visible ink gap. Cross and fastening retain full 4-unit ink clearance. Fine collar detail omitted. Full QA passes without exceptions. References: human_ref/user.svg and Lucide user-round.'
 from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = '7c323144-b65a-558b-a01d-ac1899c73509'
-SOURCE_PATH = 'pictographic-primitives/avatars/man doctor_7c323144-b65a-558b-a01d-ac1899c73509.svg'
-SOURCE_HEAD_ICON_ID = 'man-doctor'
-AUTHOR = 'gpt-6'
-HEAD_BOTTOM = 30
+from ._base import Solo48
+SOURCE_ICON_ID='7c323144-b65a-558b-a01d-ac1899c73509'
+SOURCE_PATH='pictographic-primitives/avatars/man doctor_7c323144-b65a-558b-a01d-ac1899c73509.svg'
+SOURCE_HEAD_ICON_ID='man-doctor'
+AUTHOR='gpt-6'
+PARENT_MODULE='icon_set/model/icons/solo/man_doctor_avatar.py'
 class ManDoctorAvatar(Solo48):
-    icon_id = 'man-doctor-avatar'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'avatars'
-    aliases = ()
-    keywords = ('man', 'doctor', 'portrait', 'bust')
-    def build(self):
-        self.add_line('cap-left',(10,20),(10,8))
-        self.add_arc('cap-corner-left',(10,8),(14,4),radius_x=4)
-        self.add_line('cap-top',(14,4),(34,4))
-        self.add_arc('cap-corner-right',(34,4),(38,8),radius_x=4)
-        self.add_line('cap-rest-1',(38,8),(38,20))
-        self.add_line('cap-rest-2',(38,20),(10,20))
-        self.add_contour('cap','cap-left','cap-corner-left','cap-top','cap-corner-right','cap-rest-1','cap-rest-2',closed=True)
-        self.add_line('cross-h',(20,12),(28,12))
-        self.add_line('cross-v',(24,8),(24,16))
-        self.relate('connect','cross-h','cross-v')
-        self.relate('connect','cross-v','cap')
-        self.add_arc('face',(34,20),(14,20),radius_x=10)
-        self.relate('connect','face','cap')
-        top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
-        self.add_line('body-left-side',(8,44),(8,42))
-        self.add_arc('body-left-shoulder',(8,42),(18,top),radius_x=10,radius_y=42-top)
-        self.add_contour('body-left','body-left-side','body-left-shoulder')
-        self.add_line('body-top',(18,top),(24,top))
-        self.add_line('body-top-right',(24,top),(30,top))
-        self.add_arc('body-right-shoulder',(30,top),(40,42),radius_x=10,radius_y=42-top)
-        self.add_line('body-right-side',(40,42),(40,44))
-        self.add_contour('body-right','body-right-shoulder','body-right-side')
-        self.relate('connect','body-left','body-top')
-        self.relate('connect','body-top','body-top-right')
-        self.relate('connect','body-top-right','body-right')
-        self.add_line('body-fastening',(24,top),(24,44))
-        self.relate('connect','body-fastening','body-top')
-        self.relate('connect','body-fastening','body-top-right')
+    icon_id='man-doctor-avatar'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='avatars'
+    aliases=()
+    keywords=('man doctor',)
 
-        self.relate('connect','face','body-top')
-        self.relate('connect','face','body-top-right')
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def build(self):
+        self.circle('head',24,12,8)
+        self.add_line('cap-band',(16,12),(32,12));self.relate('connect','head','cap-band')
+        self.add_line('body-left-side',(8,44),(8,36))
+        self.add_arc('body-left-shoulder',(8,36),(16,24),radius_x=8,radius_y=12)
+        self.add_line('body-top',(16,24),(32,24))
+        self.add_arc('body-right-shoulder',(32,24),(40,36),radius_x=8,radius_y=12)
+        self.add_line('body-right-side',(40,36),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','body-top','body-right-shoulder','body-right-side')
+        self.relate('connect','head','body')
+        self.add_line('fastening',(29,24),(29,44));self.relate('connect','fastening','body')
+        self.add_polyline('cross-h',(17,38),(19,38),(21,38));self.add_polyline('cross-v',(19,36),(19,38),(19,40));self.relate('connect','cross-h','cross-v')

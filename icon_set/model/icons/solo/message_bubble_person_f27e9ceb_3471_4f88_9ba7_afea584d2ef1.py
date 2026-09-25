@@ -1,54 +1,73 @@
+from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from ...keyshapes import Keyshape
-from ._base import Solo48
-
-SOURCE_ICON_ID = 'f27e9ceb-3471-4f88-9ba7-afea584d2ef1'
-SOURCE_PATH = 'icon_set/work/todo-references/message bubble person_f27e9ceb-3471-4f88-9ba7-afea584d2ef1.svg'
-AUTHOR = 'gpt-6'
-SUBJECT = 'A rectangular speech bubble containing a small person portrait.'
-CONSTRUCTION_PLAN = 'Rounded enclosure includes a lower-left tail. A circular head and shared-axis elliptical shoulders follow human_ref/user.svg with exactly four ink units of detached clearance.'
-KEYSHAPE_CENTERLINE_BOUNDS = [8, 4, 40, 44]
-
-def circle(icon,name,cx,cy,r):
-    icon.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-    icon.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-    icon.add_contour(name,name+'-a',name+'-b',closed=True)
-
-def rounded_rect(icon,name,left,top,right,bottom,r=4,split_y=None):
-    points=[(left+r,top),(right-r,top),(right,top+r)]
-    if split_y is not None: points.append((right,split_y))
-    points += [(right,bottom-r),(right-r,bottom),(left+r,bottom),(left,bottom-r)]
-    if split_y is not None: points.append((left,split_y))
-    points += [(left,top+r)]
-    members=[]
-    for i,start in enumerate(points):
-        end=points[(i+1)%len(points)];n=f'{name}-{i}';members.append(n)
-        if start[0]!=end[0] and start[1]!=end[1]: icon.add_arc(n,start,end,radius_x=r)
-        else:icon.add_line(n,start,end)
-    icon.add_contour(name,*members,closed=True)
-
+SOURCE_ICON_ID='f27e9ceb-3471-4f88-9ba7-afea584d2ef1'
+SOURCE_PATH='pictographic-primitives/other/message bubble person_f27e9ceb-3471-4f88-9ba7-afea584d2ef1.svg'
+AUTHOR='gpt-6'
+PLAN = 'Rounded speech bubble with a lower-left tail and a larger circular portrait on curved touching shoulders.'
+CONSTRUCTION_REFERENCES='Lucide message-circle: smooth bubble outline; human_ref/user.svg and icon-avatar: circular head and touching shoulder construction.'
+OMISSIONS = []
 class Drawing(Solo48):
-    icon_id = 'message-bubble-person'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('message', 'bubble', 'person')
+    icon_id='speech-bubble-with-user'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('message', 'bubble', 'person')
+    human_construction='bust'
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
 
+    def avatar_body(self,top=32):
+        self.add_line('body-left-side',(8,44),(8,top+8))
+        self.add_arc('body-left-shoulder',(8,top+8),(16,top),radius_x=8)
+        self.add_line('body-top',(16,top),(24,top))
+        self.add_line('body-top-right',(24,top),(32,top))
+        self.add_arc('body-right-shoulder',(32,top),(40,top+8),radius_x=8)
+        self.add_line('body-right-side',(40,top+8),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','body-top','body-top-right','body-right-shoulder','body-right-side')
+    def portrait_head(self):
+        self.add_line('root-left',(14,18),(14,14))
+        self.add_arc('crown',(14,14),(34,14),radius_x=10)
+        self.add_line('root-right',(34,14),(34,18))
+        self.add_arc('jaw',(34,18),(14,18),radius_x=10)
+        self.add_contour('head','root-left','crown','root-right','jaw',closed=True)
+        self.add_bezier('fringe',(14,18),((20,18),(22,13),(24,13)),((26,13),(28,18),(34,18)))
+        self.relate('connect','head','fringe')
     def build(self):
-        self.add_line('top',(12,4),(36,4))
-        self.add_arc('top-right',(36,4),(40,8),radius_x=4)
-        self.add_line('right',(40,8),(40,34))
-        self.add_arc('bottom-right',(40,34),(36,38),radius_x=4)
-        tail_nodes=[(36,38),(24,38),(16,44),(16,38),(12,38)]
-        for i,(start,end) in enumerate(zip(tail_nodes,tail_nodes[1:]),1):
-            self.add_line(f'tail-{i}',start,end)
-        self.add_arc('bottom-left',(12,38),(8,34),radius_x=4)
-        self.add_line('left',(8,34),(8,8))
-        self.add_arc('top-left',(8,8),(12,4),radius_x=4)
-        self.add_contour('bubble','top','top-right','right','bottom-right',*[f'tail-{i}' for i in range(1,5)],'bottom-left','left','top-left',closed=True)
-        circle(self,'head',24,16,3)
-        self.add_arc('shoulders',(17,29),(31,29),radius_x=7,radius_y=2)
-        # Head bottom 19; shoulders apex 27 => 8 centreline / 4 ink gap.
+        self.add_line('bubble-top',(12,4),(36,4))
+        self.add_arc('bubble-tr',(36,4),(40,8),radius_x=4)
+        self.add_line('bubble-right',(40,8),(40,33))
+        self.add_arc('bubble-br',(40,33),(36,37),radius_x=4)
+        self.add_polyline('bubble-tail',(36,37),(24,37),(16,44),(16,37),(12,37))
+        self.add_arc('bubble-bl',(12,37),(8,33),radius_x=4)
+        self.add_line('bubble-left',(8,33),(8,8))
+        self.add_arc('bubble-tl',(8,8),(12,4),radius_x=4)
+        parts=['bubble-top','bubble-tr','bubble-right','bubble-br','bubble-tail','bubble-bl','bubble-left','bubble-tl']
+        for a,b in zip(parts,parts[1:]+parts[:1]):self.relate('connect',a,b)
+        self.circle('head',24,16,4)
+        self.path('body',(17,28),[('A',(24,24),7,4,True),('A',(31,28),7,4,True)])
+        self.relate('connect','head','body')
 
-HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
+HUMAN_CONSTRUCTION_REVIEW = {'head_bottoms': [20], 'shoulder_tops': [24], 'reference': 'icon_set/references/human_ref/user.svg', 'specialization': 'icon-avatar', 'centerline_gap': 4, 'visible_ink_gap': 0, 'proof': 'Each shoulder apex is four centerline units below its own circular head or jaw bottom. With stroke width four, the ink edges touch. Avatar specialization requested by user.'}

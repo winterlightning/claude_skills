@@ -4,7 +4,7 @@
 const ROLE=document.body.dataset.role, PAGE_SIZE=48, $=id=>document.getElementById(id);
 const BUCKETS=ROLE==='sub'
   ?[['done','Generated','Passes checks or has an approved exception'],['text','Text','Text or a number · generated separately'],['failing','Needs fix','Fails validation or marked needs fix · /fix-icon-sub'],['missing','Not generated','No 32×32 drawing yet · /icon-sub'],['variants','Extra versions failing','Generated, but other versions fail or need fix'],['all','All sub icons','']]
-  :[['done','Generated','A 48×48 solo drawing passes'],['missing','Not generated','No 48×48 solo drawing yet · /icon-solo'],['failing','Needs fix','Fails validation or marked needs fix'],['all','All main icons','']];
+  :[['done','Generated','A 48×48 solo drawing passes or has an approved exception'],['missing','Not generated','No 48×48 solo drawing yet · /icon-solo'],['failing','Needs fix','Fails validation or marked needs fix'],['all','All main icons','']];
 const HANDOFF={missing:ROLE==='sub'?'Generate each as a SUB32 sub icon with /icon-sub from its source reference.':'Generate each as a SOLO48 main icon with /icon-solo from its source reference.',
   failing:ROLE==='sub'?'Repair each with /fix-icon-sub: keep the reference meaning, produce a variant that passes the SUB32 gate.':'Repair each drawing so it passes validation, keeping the reference meaning.',
   text:'Each sub is readable text or a number. Generate as a text sub, not a pictogram.',variants:'These subs already pass; their extra variants fail. Fix or discard the failing variants.',done:'Reference list only.',all:'Reference list only.'};

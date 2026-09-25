@@ -8,6 +8,7 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 from icon_set.model.icons.sub._base import Sub32
+from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 
 class ExceptionFixture(Sub32):
@@ -21,6 +22,17 @@ class ExceptionFixture(Sub32):
 def small_hole_icon():
     return ExceptionFixture()
 
+
+class SoloExceptionFixture(Solo48):
+    icon_id = 'solo-exception-fixture'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+
+    def build(self):
+        self.add_polyline('frame', (6, 6), (42, 6), (42, 42), (6, 42), closed=True)
+        self.add_polyline('tiny', (20, 20), (21, 20), (21, 21), (20, 21), closed=True)
+
 from icon_set.validation import library_qa as qa
 from icon_set.scripts import build as builder
 
@@ -33,6 +45,22 @@ def approve(icon):
 
 
 class IconExceptionTests(unittest.TestCase):
+    def test_solo_acceptance_retains_failures_and_expires_on_change(self):
+        icon = approve(SoloExceptionFixture())
+        row = qa.inspect_icon(icon)
+        self.assertEqual(row['status'], 'pass')
+        self.assertEqual(row['automatic_status'], 'fail')
+        self.assertTrue(row['errors'])
+        icon.add_line('change', (28, 20), (28, 22))
+        self.assertEqual(qa.inspect_icon(icon)['status'], 'fail')
+
+    def test_solo_wrong_canvas_cannot_be_accepted(self):
+        icon = SoloExceptionFixture()
+        svg = icon.to_svg().replace('viewBox="0 0 48 48"', 'viewBox="0 0 60 48"')
+        with patch.object(icon, 'to_svg', return_value=svg):
+            approve(icon)
+            self.assertNotEqual(qa.inspect_icon(icon)['status'], 'pass')
+
     def test_acceptance_retains_actual_failures(self):
         icon = approve(small_hole_icon())
         row = qa.inspect_icon(icon)

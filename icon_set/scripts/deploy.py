@@ -535,8 +535,27 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         with closing(sqlite3.connect(self.database, timeout=10)) as connection:
             uploads = [dict(json.loads(record), uploaded_svg=svg)
                        for record, svg in connection.execute('SELECT record, svg FROM uploaded_icons')]
-        data['icons'] = data['icons'] + uploads
+        data['icons'] = data['icons'] + self.side_combination_icons() + uploads
         return data
+
+    def side_combination_icons(self):
+        """The "Side combination 64" family: the latest Combine all side pairs run, kept outside icons.json."""
+        path = self.root / 'gallery/side-combination64.json'
+        try:
+            stat = path.stat()
+        except OSError:
+            return []
+        stamp = (stat.st_mtime_ns, stat.st_size)
+        cached = getattr(self.server, 'side_combination_cache', None)
+        if not cached or cached[0] != stamp:
+            try:
+                icons = json.loads(path.read_text(encoding='utf-8')).get('icons', [])
+            except ValueError:
+                icons = []  # Mid-write; the next request rereads it.
+                stamp = None
+            cached = (stamp, icons)
+            self.server.side_combination_cache = cached
+        return cached[1]
 
     def catalog(self, *, include_failed=False):
         data = self.catalog_data()
@@ -704,7 +723,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if not getattr(getattr(self, 'server', None), 'production', False):
             return False
         return (route.startswith('/api/generation') or route.startswith('/api/ai-feedback')
-                or route in ('/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/feedback-db/sync',
+                or route in ('/api/icons/discard', '/api/combinations/side/keep-sub', '/api/feedback-db/sync',
                              '/api/combination-refresh', '/api/combination-experiment',
                              '/api/symbols/copy-from-sub'))
 
@@ -716,6 +735,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                                        'can_generate': not production, 'can_edit': True, 'can_upload': True,
                                        # Where work claims live: this server in production, its sync source in development.
                                        'production_api': '' if production else self.work_origin()})
+        if parsed.path == '/api/combinations/side/layouts':
+            # This server's own hand-adjusted layouts, with the results rendered from them.
+            from icon_set.scripts import combination_layouts
+            return self.json_response(combination_layouts.load())
         # Primitive progress has one authority, just like the shared work queue.
         if (not getattr(self.server, 'production', False) and parsed.path in (
                 '/gallery/primitives.json', '/api/primitives', '/api/primitives/status',
@@ -1209,7 +1232,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/combinations/side/preview', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1314,6 +1337,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.keep_side_sub(data, user)
             if route == '/api/combinations/side/layout':
                 return self.save_side_layout(data, user)
+            if route == '/api/combinations/side/preview':
+                return self.preview_side_layout(data)
             if route == '/api/feedback-db/sync':
                 return self.sync_feedback(data, user)
             if (not getattr(self.server, 'production', False) and route in (
@@ -1963,15 +1988,31 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
+    def preview_side_layout(self, data):
+        """Render one side pair with an optional layout for the layout editor (both workspaces).
+
+        Accepts {id, main, sub, layout, elements} only: no uploads or engine settings.
+        """
+        from icon_set.scripts.combination_experiment import render
+        try:
+            request = {k: data[k] for k in ('id', 'main', 'sub', 'layout', 'elements') if k in data}
+            return self.json_response(render(request))
+        except (ValueError, OSError) as error:
+            return self.json_response({'error': str(error)}, 422)
+
     def save_side_layout(self, data, user):
-        """Save or reset a side pair's hand-adjusted layout and republish its combined preview.
+        """Save or reset a side pair's hand-adjusted layout in this server's state.
 
         Accepts {pair_id, main, sub, layout}; a null layout returns the pair to automatic placement.
-        The layout is rendered first, so one the engine rejects is never saved.
+        The layout is rendered first, so one the engine rejects is never saved. Development also
+        republishes the pair's combined preview; production keeps its layouts in its own state
+        and the page shows them over the released previews.
         """
         from icon_set.scripts import combination_layouts
-        from icon_set.scripts.build_combination_previews import build_one
         from icon_set.scripts.combination_experiment import DATA, render
+        production = getattr(self.server, 'production', False)
+        if production and user == 'system':
+            return self.json_response({'error': 'Log in to save layouts.'}, 401)
         pair_id = data.get('pair_id')
         if not isinstance(pair_id, str):
             return self.json_response({'error': 'Choose a side pair.'}, 400)
@@ -1982,11 +2023,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Choose an available icon pair.'}, 404)
                 if data.get('layout') is None:
                     combination_layouts.clear(pair_id)
+                    if production:
+                        return self.json_response({'layout': None})
+                    from icon_set.scripts.build_combination_previews import build_one
                     return self.json_response({'layout': None, **build_one(pair_id)})
                 main = data.get('main') or row['mains'][0]['icon']
                 sub = data.get('sub') or row['subs'][0]['icon']
                 result = render({'id': pair_id, 'main': main, 'sub': sub, 'layout': data['layout']}, row=row)
-                entry = combination_layouts.save(row, main, sub, result['layout'], user or '')
+                entry = combination_layouts.save(row, main, sub, result['layout'], result, user or '')
+                if production:
+                    return self.json_response({'layout': entry, 'url': None, 'result': entry['result']})
+                from icon_set.scripts.build_combination_previews import build_one
                 return self.json_response({'layout': entry, **build_one(pair_id, result)})
             except (ValueError, OSError) as error:
                 return self.json_response({'error': str(error) or 'Could not save the layout.'}, 422)
@@ -2276,6 +2323,8 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         state_db.refresh_catalog(connection, dist / 'gallery')
     server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
     server.production = production
+    # Each server keeps its own side-pair layouts beside its database; the combine jobs it starts inherit this.
+    os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = str(database.parent / 'combination-layouts.json')
     server.live_release_root = live_release_root
     server.references = ReferenceStore(database.parent / 'reference-images', database)
     server.artwork = ArtworkStore(database)

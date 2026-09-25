@@ -1,0 +1,30 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+AUTHOR='gpt-6'
+SOURCE_ICON_ID='d5b47441-37c4-578a-93be-e68b3ac3e6a3'
+SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
+class Drawing(Solo48):
+    icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
+    keyshape=Keyshape.SQUARE
+    category='objects/drink'
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=()
+    def build(self):
+        # Mirrored convex walls and two bowed stave seams, split at both hoops.
+        self.add_line('top',(12,6),(36,6))
+        self.add_bezier('right-upper',(36,6),((39,10),(42,17),(42,24)))
+        self.add_bezier('right-lower',(42,24),((42,31),(39,38),(36,42)))
+        self.add_line('bottom',(36,42),(12,42))
+        self.add_bezier('left-lower',(12,42),((9,38),(6,31),(6,24)))
+        self.add_bezier('left-upper',(6,24),((6,17),(9,10),(12,6)))
+        self.add_contour('body','top','right-upper','right-lower','bottom','left-lower','left-upper',closed=True)
+        for side,x in [('left',16),('right',32)]:
+            start=18 if side=='left' else 30
+            self.add_bezier('stave-'+side,(start,6),((x-2 if side=='left' else x+2,18),(x-2 if side=='left' else x+2,30),(start,42)))
+            self.relate('connect','stave-'+side,'body')
+        for y in (16,32):
+            self.add_line('hoop-'+str(y),(8,y),(40,y))
+            self.relate('connect','hoop-'+str(y),'body')
+            for side in ('left','right'):self.relate('connect','hoop-'+str(y),'stave-'+side)

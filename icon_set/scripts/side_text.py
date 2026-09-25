@@ -126,7 +126,15 @@ def generate(dist, reviews=None):
         engine_row=engine_pair(mainfile.read_text(),subfile.read_text(),pair['position'],main['icon_id'],sub['icon_id'],pair['id'],pair['concept'])
         for item, record, path in ((engine_row['mains'][0], main, mainfile), (engine_row['subs'][0], sub, subfile)):
             item.update(family=record['family'], model_key=record['key'], svg=path.relative_to(REPO_ROOT).as_posix(), export_url=record['preview_url'])
-        result=render({'id':pair['id']},row=engine_row)
+        # A layout adjusted by hand on the side pairs page survives this rebuild.
+        from .combination_layouts import active, load as load_layouts
+        adjusted=active(engine_row,load_layouts().get(pair['id']))
+        try:
+            result=render({'id':pair['id'],**(adjusted or {})},row=engine_row)
+        except ValueError:
+            if not adjusted:
+                raise
+            result=render({'id':pair['id']},row=engine_row)
         document=result['svg']+'\n';w=h=result['canvas']
         engine_row.update(canvas_width=w,canvas_height=h)
         engine_rows.append(engine_row)

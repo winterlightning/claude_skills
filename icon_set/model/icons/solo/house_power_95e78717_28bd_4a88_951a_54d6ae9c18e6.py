@@ -1,51 +1,43 @@
-"""An open power ring and vertical switch mark sit inside a house.
-Plan: one enclosing symbol and one content symbol; symmetry and repeated parts share parameters.
-SOLO48 SQUARE; use Keyshape.bounds_for for visible envelope. Curved nodes are authored on the integer grid.
-Lucide house: coherent roof/wall contour with tangent lower corner arcs.
-Omissions: Upper ring shoulders simplified into vertical tangents.
-"""
-from ...keyshapes import Keyshape
+"""Mirrored house outline enclosing an open curved power ring and separate vertical switch stroke."""
 from ._base import Solo48
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID='95e78717-28bd-4a88-951a-54d6ae9c18e6'
-SOURCE_PATH='icon_set/work/todo-references/house power_95e78717-28bd-4a88-951a-54d6ae9c18e6.svg'
+SOURCE_PATH='pictographic-primitives/other/house power_95e78717-28bd-4a88-951a-54d6ae9c18e6.svg'
 AUTHOR='gpt-6'
+PLAN='An open continuous curved ring replaces the squared-off U ends; the centered stem and rounded lower house corners have clear spacing. The ring is slightly flattened to fit below the roof.'
+CONSTRUCTION_REFERENCE='house and power originals; power atomic-debug informs a continuous open ring.'
+OMISSIONS='No defining features omitted.'
 class Drawing(Solo48):
     icon_id='house-power'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/buildings'
     aliases=()
     keywords=('house', 'power')
+    category='objects/general'
 
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
 
-    def house(self):
-        # One mirrored envelope, x=24 axis; centerline extremes 6,6,42,42.
-        self.add_line('roof-1',(6,18),(24,6))
-        self.add_line('roof-2',(24,6),(42,18))
-        self.add_line('wall-right',(42,18),(42,40))
-        self.add_arc('corner-right',(42,40),(40,42),radius_x=2)
-        self.add_line('floor',(40,42),(8,42))
-        self.add_arc('corner-left',(8,42),(6,40),radius_x=2)
-        self.add_line('wall-left',(6,40),(6,18))
-        self.add_contour('house','roof-1','roof-2','wall-right','corner-right','floor','corner-left','wall-left',closed=True)
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
 
-    def lock_body(self):
-        # Shared shackle nodes are vertices in the top rail.
-        self.add_polyline('lock-body',(17,26),(19,26),(29,26),(31,26),(31,34),(17,34),closed=True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
 
     def build(self):
-
-        self.house()
-        self.add_line('ring-left',(15,22),(15,24))
-        self.add_arc('ring-bottom',(15,24),(33,24),radius_x=9,sweep=False)
-        self.add_line('ring-right',(33,24),(33,22))
-        self.add_contour('power-ring','ring-left','ring-bottom','ring-right')
-        self.add_line('power-stem',(24,18),(24,24))
-
-# Final visible envelope: (4,4)-(44,44)
-# Visual review: Power mark remains clear, centered and symmetric. The lower semicircle meets its vertical sides tangentially.
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4,4,True),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,18))],True)
+        self.add_arc('power-ring',(16,23),(32,23),radius_x=9,radius_y=6,large_arc=True,sweep=False)
+        self.add_line('power-stem',(24,16),(24,20))

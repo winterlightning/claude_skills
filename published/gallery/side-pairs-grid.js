@@ -1,6 +1,6 @@
 /* Side pairs as rows of Original → Main → Sub → Combined, optionally grouped by a shared
    main or sub. Subs are shown on the 32×32 system; a pair with several subs keeps one. */
-let sidePairs=null, sidePreviews={}, sideStatuses={}, sideLoading=false, sideError='', sideStatus='';
+let sidePairs=null, sidePreviews={}, sideReleased={}, sideStatuses={}, sideLoading=false, sideError='', sideStatus='';
 const sidePreviewSub=new Map(), sideRendered=new Map(), sideRenderTargets=new Map(), sideQueue=[], sideFixItems=new WeakMap();
 let sideActiveRenders=0;
 const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
@@ -11,6 +11,8 @@ const SIDE_FILTERS={'':'All',...SIDE_STATES,text:'Text sub',multi:'2+ subs'};
 const sideParams=new URLSearchParams(location.search);
 // Main / sub status per source UUID from side-components.json, the same data as the Main icons and Sub icons pages.
 let sideComponentStatus={main:new Map(),sub:new Map()},sideComponents=null;
+// The latest Combine all side pairs run (side-combination64.json) and review states, shared with Experiment and Icon review.
+let sideRun=null,sideReviews={};
 let sideFilter=SIDE_FILTERS[sideParams.get('side')]?sideParams.get('side'):'', sidePageSize=[24,48,96].includes(Number(sideParams.get('size')))?Number(sideParams.get('size')):24;
 
 async function loadSidePairs(){
@@ -22,6 +24,8 @@ async function loadSidePairs(){
     sideComponents=components;
     // Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count.
     const reviews=await fetch('/api/reviews',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
+    sideReviews=reviews;
+    sideRun=await fetch('side-combination64.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
     const usable=d=>d.status==='pass'&&!['pending','rejected'].includes(reviews[d.key]);
     for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
     for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of item.source_ids)sideComponentStatus[role].set(id,item.status);
@@ -29,6 +33,9 @@ async function loadSidePairs(){
     // sub by source UUID/key, then reuse the already generated native SVG.
     const native=await fetch('side-text-v2.json',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
     sideMapNativeText(native,components,usable);
+    // This server's own hand-adjusted layouts (production keeps its own) show over the released previews.
+    const layouts=await fetch('/api/combinations/side/layouts',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
+    sideApplyLayouts(layouts);
     // Text / number marks are optional: without them the filter falls back to text-drawn subs.
     try{const r=await fetch('/api/primitives/status',{cache:'no-store'});if(r.ok)sideStatuses=await r.json();}catch{}
   }catch(error){sideError=error.message;}
@@ -45,11 +52,19 @@ function sideMapNativeText(report,components,usable){
     const sub=source?.drawings.find(d=>d.profile==='TEXT_NATIVE_V2'&&usable(d));
     if(!main||!sub)continue;
     const item=d=>({...d,icon:d.icon_id,model_key:d.key,model_validation:'pass'});
-    const pair={...row,native_text:true,canvas_width:result.canvas_width||64,canvas_height:result.canvas_height||64,
+    const pair={...row,native_text:true,mapped_native:true,canvas_width:result.canvas_width||64,canvas_height:result.canvas_height||64,
       mains:[item(main)],subs:[{...item(sub),sizing_kind:'text',native_text:true,
         bounds:[2,2,sub.canvas_width-2,sub.canvas_height-2]}]};
     sidePairs.set(row.id,pair);
     sidePreviews[row.id]={url:result.preview_url,native_text:true,main:main.icon_id,sub:sub.icon_id};
+  }
+}
+// A saved layout counts only while the pair still has the exact main and sub drawings it was made for.
+function sideApplyLayouts(layouts){
+  sideReleased={...sidePreviews};
+  for(const [id,entry] of Object.entries(layouts||{})){
+    const pair=sidePairs.get(id),same=(items,pin)=>items?.some(i=>i.icon===pin?.icon&&(!i.sha256||i.sha256===pin.sha256));
+    if(pair&&entry.result&&same(pair.mains,entry.main)&&same(pair.subs,entry.sub))sidePreviews[id]={url:null,result:entry.result};
   }
 }
 const sideSubKey=s=>s.model_key||s.family+'/'+s.icon;
@@ -227,7 +242,17 @@ function sideRow(row){
   const steps=node('div','side-steps');
   const mainPart=sidePart('Main',main,48,false),subPart=sidePart('Sub',sub,32,true);
   if(main)sideInspectable(mainPart,'Main',main,48,row.concept);if(sub)sideInspectable(subPart,'Sub',sub,32,row.concept);
-  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,sub?.icon),sideStep(pair?.native_text?'Combined · native':'Combined · 64',media));
+  const combinedStep=sideStep(pair?.native_text?'Combined · native':'Combined · 64',media);
+  // Editing the layout sits right under the combined icon it changes.
+  // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
+  if(parts.ready&&window.SideLayoutEditor&&!pair.mapped_native)combinedStep.append(SideLayoutEditor.button(pair,main,sub,data=>{
+    // Show the saved layout (or, after a reset, the automatic result) here without a reload.
+    if(data.result)sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url||null,result:data.result};
+    else if(sideReleased[pair.id])sidePreviews[pair.id]=sideReleased[pair.id];else delete sidePreviews[pair.id];
+    sideRendered.delete(pair.id+'|'+sub.icon);
+    if(card.isConnected)card.replaceWith(sideRow(row));
+  },sideAdjusted(pair,sub)));
+  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,sub?.icon),combinedStep);
   card.append(steps);
   if(pair?.subs.length>1){
     const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
@@ -235,13 +260,9 @@ function sideRow(row){
   }
   if(parts.ready){
     const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
-    if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
+    const href=found?.url||(found?.result?.svg&&sideDataURL(found.result.svg));
+    if(href){const a=node('a');a.href=href;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
     if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
-    if(window.SideLayoutEditor&&!pair.native_text)actions.append(SideLayoutEditor.button(pair,main,sub,data=>{
-      // The saved (or reset) layout is republished; show it here without a reload.
-      sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url,result:data.result};sideRendered.delete(pair.id+'|'+sub.icon);
-      if(card.isConnected)card.replaceWith(sideRow(row));
-    },sideAdjusted(pair,sub)));
     if(actions.childElementCount)card.append(actions);
   }
   return card;
@@ -341,7 +362,7 @@ let sideCombine={status:'idle',message:''},sideCombinePolling=false,sideCombineC
 function sideCombineShow(){
   const button=document.getElementById('sideCombineAll'),status=document.getElementById('sideCombineStatus');
   if(button)button.disabled=sideCombine.status==='running';
-  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+' You can retry.':'Main + chosen sub for every side pair. Results appear on Experiment › Side combination.';
+  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+' You can retry.':'Main + chosen sub for every drawn side pair. Each run replaces the previous set'+(sideRun?` · last run ${new Date(sideRun.generated_at).toLocaleString()}: ${sideRun.count.toLocaleString()} combined icons`:'')+'.';
 }
 async function sideCombineRequest(method){
   const init=method==='POST'?{method,headers:{'Content-Type':'application/json'},body:'{}'}:{method,cache:'no-store'};
@@ -393,6 +414,17 @@ function sideIconSummary(pairCount){
   wrap.append(
     group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),
     group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]));
+  if(sideRun){
+    // Combined icons: the count links to Experiment, the review cells to Icon review's Side combination 64 family.
+    const state=icon=>({approve:'approve','re-generated':'ready',disapprove:'pending',claimed:'pending'})[sideReviews[icon.key]]||sideReviews[icon.key]||'ready';
+    const reviewed=s=>sideRun.icons.filter(i=>state(i)===s).length,review='index.html?family=side_combination64';
+    const box=group('Combined · 64',sideRun.count,'experiment.html?type=combination',[]),cells=box.querySelector('.side-icon-cells');
+    box.querySelector('.side-icon-head span').textContent=sideRun.count.toLocaleString()+' combined icons →';
+    for(const [label,value,status,tone] of [['Approved',reviewed('approve'),'approve','ok'],['To review',reviewed('ready'),'ready','todo'],['Needs fix',reviewed('pending'),'pending','fix']]){
+      const a=node('a','side-icon-cell '+tone);a.href=review+'&status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));cells.append(a);
+    }
+    wrap.append(box);
+  }
   return wrap;
 }
 function renderSideGrid(host,all,summary){

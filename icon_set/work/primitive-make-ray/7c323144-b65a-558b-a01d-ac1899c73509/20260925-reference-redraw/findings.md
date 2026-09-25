@@ -1,0 +1,1 @@
+Rebalanced onto VRECT_L (centerline bounds 8,4 to 40,44): taller portrait, circular head and cap band, curved shoulders, chest medical cross and offset coat fastening. Head bottom20 and shoulder top24 give zero visible ink gap. Cross and fastening retain full 4-unit ink clearance. Fine collar detail omitted. Full QA passes without exceptions.

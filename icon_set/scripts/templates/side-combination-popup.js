@@ -5,9 +5,11 @@
   const dialog=document.createElement('dialog');dialog.className='side-inspect';dialog.innerHTML='<header><h2></h2><button type="button" aria-label="Close preview">Close</button></header><div class="side-stage"></div><div class="side-component-controls"><button data-role="main">Main bounds</button><button data-role="sub">Sub bounds</button><a download>Download SVG</a></div><p class="side-grid-description">64×64 canvas · one-unit grid · heavier lines every 8 units. Hover the main or sub icon to inspect its painted bounds. Orange: main; blue: sub.</p><p class="side-dimensions"></p>';document.body.append(dialog);dialog.querySelector('header button').onclick=()=>dialog.close();dialog.onclick=e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}};
   function element(name,attrs){const e=document.createElementNS(ns,name);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e;}
   function bounds(svg,result){for(const p of result.placements){const b=p.painted_box;svg.append(element('rect',{x:b.x,y:b.y,width:b.w,height:b.h,class:'side-bound side-bound-'+p.role}));}}
-  function addSubCenterline(svg){
-    const group=svg.querySelector('[id="state-icon"]');if(!group)return;
-    const trace=group.cloneNode(true);trace.setAttribute('data-sub-centerline','true');trace.setAttribute('pointer-events','none');trace.setAttribute('aria-hidden','true');
+  function addSubCenterline(svg){addCenterline(svg,'state-icon');}
+  // Traces one placed group's paths as a thin red centerline on top of the artwork.
+  function addCenterline(svg,id){
+    const group=svg.querySelector('[id="'+id+'"]');if(!group)return;
+    const trace=group.cloneNode(true);trace.setAttribute('data-'+(id==='state-icon'?'sub':'main')+'-centerline','true');trace.setAttribute('pointer-events','none');trace.setAttribute('aria-hidden','true');
     // Canvas-relative line width, preserving the original curves and placement transform.
     const scale=Math.abs(Number((group.getAttribute('transform')||'').match(/scale\(([-+.\deE]+)/)?.[1]||1));
     for(const e of [trace,...trace.querySelectorAll('*')]){e.removeAttribute('id');e.setAttribute('stroke','#ef4444');e.setAttribute('stroke-width',String(.45/scale));e.setAttribute('fill','none');e.removeAttribute('vector-effect');}
@@ -15,7 +17,7 @@
   }
   function open(name,result){
     const canvas=result.canvas||64;const svg=new DOMParser().parseFromString(result.svg,'image/svg+xml').documentElement;svg.setAttribute('class','side-canvas');svg.setAttribute('viewBox',`0 0 ${canvas} ${canvas}`);svg.removeAttribute('width');svg.removeAttribute('height');svg.setAttribute('role','img');svg.setAttribute('aria-label',name+` on a ${canvas} by ${canvas} grid`);
-    const grid=element('g',{'aria-hidden':'true','pointer-events':'none'});for(let i=0;i<=canvas;i++){const a={stroke:i%8===0?'#9eb3bd':'#dae4e9','stroke-width':i%8===0?.13:.055};grid.append(element('line',{x1:i,y1:0,x2:i,y2:canvas,...a}),element('line',{x1:0,y1:i,x2:canvas,y2:i,...a}));}svg.prepend(grid);addSubCenterline(svg);bounds(svg,result);
+    const grid=element('g',{'aria-hidden':'true','pointer-events':'none'});for(let i=0;i<=canvas;i++){const a={stroke:i%8===0?'#9eb3bd':'#dae4e9','stroke-width':i%8===0?.13:.055};grid.append(element('line',{x1:i,y1:0,x2:i,y2:canvas,...a}),element('line',{x1:0,y1:i,x2:canvas,y2:i,...a}));}svg.prepend(grid);addCenterline(svg,'main-icon-clipped');addCenterline(svg,'state-icon');bounds(svg,result);
     for(const [role,id]of [['main','main-icon-clipped'],['sub','state-icon']]){const g=svg.querySelector('[id="'+id+'"]');if(g){g.addEventListener('pointerenter',()=>svg.dataset.active=role);g.addEventListener('pointerleave',()=>delete svg.dataset.active);}}
     dialog.querySelector('.side-grid-description').textContent=`${canvas}×${canvas} canvas · one-unit grid · heavier lines every 8 units. Hover to inspect bounds. Orange: main; blue: sub.`;dialog.querySelector('h2').textContent=name;dialog.querySelector('.side-stage').replaceChildren(svg);dialog.querySelector('.side-dimensions').textContent=result.placements.map(p=>`${p.role}: ${p.painted_box.w.toFixed(2)} × ${p.painted_box.h.toFixed(2)} at (${p.painted_box.x.toFixed(2)}, ${p.painted_box.y.toFixed(2)})`).join(' · ');
     for(const b of dialog.querySelectorAll('[data-role]')){b.onmouseenter=b.onfocus=()=>svg.dataset.active=b.dataset.role;b.onmouseleave=b.onblur=()=>delete svg.dataset.active;b.onclick=()=>svg.dataset.active=b.dataset.role;}

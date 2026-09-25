@@ -241,6 +241,17 @@ def check_ray_run(ray_run, run):
     return ray_run
 
 
+def approved_visual_exception(report, gate):
+    """The full QA gate verified the exact SVG approval; structural errors still block."""
+    if not (gate.get('status') == 'pass' and gate.get('exception')
+            and gate.get('automatic_status') in ('pass', 'review', 'fail')):
+        return False
+    visual_checks = ('mic ', 'canvas/keyshape bounds:')
+    return (report.status in ('valid', 'review', 'invalid')
+            and all(message.startswith(visual_checks)
+                    for message in list(report.errors) + list(report.warnings)))
+
+
 def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=None):
     if outcome not in ('done', 'cannot-fix'):
         raise SystemExit('error: --outcome must be done or cannot-fix')
@@ -276,9 +287,13 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['validation_warnings'] = list(getattr(report, 'warnings', []) or [])
         # validate_icon() misses the build's hole/pinch, internal-spacing and symmetry gates; run them too.
         findings['build_gate'] = build_gate.gate(module_path)
+        findings['accepted_exception'] = approved_visual_exception(report, findings['build_gate'])
         validation_path = run / 'validation.txt'
         gate_lines = [f"build gate: {findings['build_gate']['status']}"] + [
             f'  {message}' for message in findings['build_gate']['errors'] + findings['build_gate']['warnings']]
+        if findings['accepted_exception']:
+            gate_lines += ['Accepted drawing-bound visual exception; automatic findings retained.',
+                           json.dumps(findings['build_gate']['exception'], ensure_ascii=False)]
         validation_path.write_text(report.describe() + '\n\n' + '\n'.join(gate_lines) + '\n', encoding='utf-8')
         findings['artifacts'].append('validation.txt')
         svg = icon.to_svg()
@@ -297,8 +312,9 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['error'] = f'{type(error).__name__}: {error}'
         (run / 'finish-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
     gate_status = (findings.get('build_gate') or {}).get('status')
-    clean = (findings['validation_status'] == 'valid' and not findings['validation_warnings'] and gate_status == 'pass'
-             and 'error' not in findings)
+    clean = ('error' not in findings and gate_status == 'pass' and (
+        findings.get('accepted_exception') or (
+            findings['validation_status'] == 'valid' and not findings['validation_warnings'])))
     if outcome == 'done' and not clean:
         findings['outcome'] = 'refused'
         (run / 'result.json.refused').write_text(json.dumps(findings, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')

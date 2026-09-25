@@ -1,0 +1,33 @@
+{
+  "reference_path": "pictographic-primitives/avatars/man_991b8ae3-461f-513b-aacf-3e86a2bc7b73.svg",
+  "source_uuid": "991b8ae3-461f-513b-aacf-3e86a2bc7b73",
+  "concept": "man",
+  "parent": "icon_set/model/icons/solo/man_wearing_bow_tie_991b8ae3_461f_513b_aacf_3e86a2bc7b73.py",
+  "run": "icon_set/work/primitive-make-ray/991b8ae3-461f-513b-aacf-3e86a2bc7b73/20260925-avatar-bow-tie-exception",
+  "module": "icon_set/work/primitive-make-ray/991b8ae3-461f-513b-aacf-3e86a2bc7b73/20260925-avatar-bow-tie-exception/man_wearing_bow_tie_991b8ae3_461f_513b_aacf_3e86a2bc7b73.py",
+  "icon_id": "man-wearing-bow-tie",
+  "keyshape": "Keyshape.VRECT_L",
+  "status": "approved-exception",
+  "qa_status": "pass",
+  "plan": "Rebuilt with icon-avatar: centered circular head radius9, broad elliptical shoulders, short sides and open bottom. Head bottom22 and shoulder top26 give zero visible ink gap. VRECT_L preserves the upright portrait. Bow tie retained under the user-approved exception for its small openings and shoulder clearance. References: human_ref/user.svg and Lucide user-round.",
+  "construction_reference": "user-round and shared human_ref/user.svg",
+  "automatic_qa_status": "fail",
+  "author": "gpt-6",
+  "exception": {
+    "reason": "User approved an exception for the bow-tie area: compact triangular openings and bow-to-shoulder clearance. Circular head, touching head/body ink, curved open-bottom shoulders, 48x48 canvas and stroke 4 remain standard.",
+    "approved_by": "user",
+    "svg_sha256": "8cf5a6db3285534de62822a9a372ea1267023453824eafd759ed50e923c8a763"
+  },
+  "head_body_ink_gap": 0,
+  "validation_status": "invalid",
+  "full_qa_status": "pass",
+  "automatic_full_qa_status": "fail",
+  "errors": [
+    "mic [body]: body and bow-right are 5.57612 apart on centerlines nearest (35.3719, 29.5589)<->(32, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 2 undersized holes; 0 pinches"
+  ],
+  "warnings": [],
+  "svg_sha256": "8cf5a6db3285534de62822a9a372ea1267023453824eafd759ed50e923c8a763",
+  "visual_review": "Reviewed native 48px and enlarged in light and dark themes; circular face, broad smooth shoulders, zero ink gap, readable bow and open bottom.",
+  "verification": "Targeted geometric checks pass. Full avatar suite has existing failures plus this explicitly excepted bow spacing; it also assumes named flat shoulder geometry. No validation rules changed."
+}

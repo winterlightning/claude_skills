@@ -1,0 +1,31 @@
+{
+  "approved_by": "user",
+  "approved_on": "2026-09-25",
+  "source_request": "other unresolve could make as eception",
+  "recording": "Local exception under the earlier session instruction; raw QA remains unchanged and this is not a strict pass.",
+  "svg_sha256": "36ccb648c1a80e29a38e56bf3d603e601fb7649b1286c0fe64a215905eede11a",
+  "reason": "The exact four-unit head/body ink gap is proved analytically, but the checker cannot certify the diagonal arc/shoulder minimum.",
+  "scope": [
+    "jaw/left-shoulder curved-distance review; reported 8.00043 centerline distance."
+  ],
+  "analytical_proof": {
+    "reference": "icon_set/references/human_ref/user.svg",
+    "jaw_center": [
+      24,
+      18
+    ],
+    "jaw_radius": 12,
+    "body_nearest_points": [
+      [
+        12,
+        34
+      ],
+      [
+        36,
+        34
+      ]
+    ],
+    "head_to_body_ink_gap": 4,
+    "proof": "sqrt(12^2+16^2)-12-4=4. Nearest jaw points are (16.8,27.6) and (31.2,27.6). Shoulder curves approach these endpoints from outside the offset circle; each collar line moves away from it. The checker reports review for the curved pair, not a strict pass."
+  }
+}

@@ -203,7 +203,10 @@ def layout_placement(bounds, canvas=64):
 
 
 def check_layout(layout):
-    """{main: [{paths, x, y, size}], sub: [...]}; each role optional; whole grid units only."""
+    """{main: [{paths, x, y, w, h}], sub: [...]}; each role optional; whole grid units only.
+
+    (x, y, w, h) is a group's centerline box on the canvas; width and height scale independently.
+    """
     if layout is None:
         return None
     if not isinstance(layout,dict) or not set(layout) <= {'main','sub'}:
@@ -220,12 +223,13 @@ def check_layout(layout):
                     or any(type(i) is not int or i<0 for i in g['paths']):
                 raise ValueError(f'Each {role} group needs its element numbers.')
             values={}
-            for key in ('x','y','size'):
+            for key in ('x','y','w','h'):
                 v=g.get(key)
                 if isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or v!=int(v):
                     raise ValueError(f'{role} {key} must snap to a whole grid unit.')
                 values[key]=int(v)
-            if not -64<=values['x']<=128 or not -64<=values['y']<=128 or not 0<=values['size']<=64:
+            # Native text can need a canvas larger than 64.
+            if not -64<=values['x']<=256 or not -64<=values['y']<=256 or not 0<=values['w']<=256 or not 0<=values['h']<=256:
                 raise ValueError(f'The {role} layout is outside the canvas.')
             clean[role].append({'paths':list(g['paths']),**values})
     return clean or None
@@ -244,6 +248,12 @@ def layout_components(components, canvas):
     if proc.returncode or out.get('error'):
         raise ValueError(out.get('error') or 'Could not measure the connected elements.')
     return {c['role']:c for c in out['components']}
+
+
+def solo48_keyshapes():
+    """SOLO48 keyshape centerline bounds from the locked keyshape contract."""
+    contract=json.loads((ROOT/'model/contracts/keyshapes.v1.json').read_text())
+    return {name:k['centerline_bounds'] for name,k in contract['resolved']['SOLO48'].items()}
 
 
 def placement_transform(item, placed):
@@ -291,7 +301,8 @@ def render(data, row=None):
         requests=[]
         for role,_size,item,p in chosen:
             scale,tx,ty=placement_transform(item,p)
-            requests.append({'role':role,'document':item['document'],'scale':scale,'tx':tx,'ty':ty,
+            # Native text positions its glyphs with transforms; its engine copy has them baked in.
+            requests.append({'role':role,'document':item.get('engine_document',item['document']),'scale':scale,'tx':tx,'ty':ty,
                              'layout':(layout or {}).get(role)})
         try:
             measured=layout_components(requests,canvas)
@@ -310,7 +321,7 @@ def render(data, row=None):
                     raise ValueError(f'The adjusted {role} extends beyond the {canvas}×{canvas} canvas.')
                 entry[2:]=[item,p]
         if measured:
-            elements={role:{'markup':c['markup'],'groups':c['elements']} for role,c in measured.items()}
+            elements={role:{'markup':c['markup'],'names':c['names'],'sources':c['sources'],'groups':c['elements']} for role,c in measured.items()}
     placements=[]; selected_sub=None
     with tempfile.TemporaryDirectory(prefix='pictographic-combination-') as temp:
         out = Path(temp); items=[]
@@ -352,6 +363,8 @@ def render(data, row=None):
         result['layout']=layout
     if elements is not None and data.get('elements'):
         result['elements']=elements
+        # The editor's main size presets grow the main's SOLO48 keyshape onto a larger canvas.
+        result['keyshapes']=solo48_keyshapes()
     if elements_error:
         result['elements_error']=elements_error
     return result

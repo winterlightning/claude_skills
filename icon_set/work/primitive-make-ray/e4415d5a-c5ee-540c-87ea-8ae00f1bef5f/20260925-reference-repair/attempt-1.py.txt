@@ -1,0 +1,32 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+AUTHOR='gpt-6'
+SOURCE_ICON_ID='e4415d5a-c5ee-540c-87ea-8ae00f1bef5f'
+SOURCE_PATH='pictographic-primitives/avatars/woman_e4415d5a-c5ee-540c-87ea-8ae00f1bef5f.svg'
+class Drawing(Solo48):
+    icon_id='person-with-bob-and-v-neck-shirt'
+    keyshape=Keyshape.VRECT_L
+    category='avatars'
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=()
+    def build(self):
+        # Long bob frames a larger circular jaw; side-parted fringe and open V neck.
+        self.add_arc('hair-crown-left',(8,20),(24,4),radius_x=16)
+        self.add_arc('hair-crown-right',(24,4),(40,20),radius_x=16)
+        self.add_line('hair-left',(8,28),(8,20))
+        self.add_line('hair-right',(40,20),(40,28))
+        self.add_arc('hair-tip-left',(14,34),(8,28),radius_x=6)
+        self.add_arc('hair-tip-right',(40,28),(34,34),radius_x=6)
+        self.add_contour('hair','hair-tip-left','hair-left','hair-crown-left','hair-crown-right','hair-right','hair-tip-right')
+        self.add_bezier('fringe-left',(16,20),((20,18),(22,15),(24,12)))
+        self.add_bezier('fringe-right',(24,12),((26,15),(28,18),(32,20)))
+        self.add_arc('jaw',(32,20),(16,20),radius_x=8)
+        self.add_contour('face','fringe-left','fringe-right','jaw',closed=True)
+        self.add_line('body-left-side',(8,44),(8,40))
+        self.add_arc('body-left-shoulder',(8,40),(14,32),radius_x=6,radius_y=8)
+        self.add_polyline('neck',(14,32),(24,44),(34,32))
+        self.add_arc('body-right-shoulder',(34,32),(40,40),radius_x=6,radius_y=8)
+        self.add_line('body-right-side',(40,40),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','neck-1','neck-2','body-right-shoulder','body-right-side')

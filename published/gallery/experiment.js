@@ -85,5 +85,5 @@
   function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';typefaceVersion=p.get('version')==='v2'?'v2':'v1';$('typefaceVersion').value=typefaceVersion;selectType(['fill','duotone','typeface','combination','container','animation'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
   window.addEventListener('popstate',restore);restore();
   if(cache.has('container'))$('containerCount').textContent=cache.get('container').length;
-  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation']){const key=kind==='typeface'&&typefaceVersion==='v2'?'typeface-v2':kind;if(key in data)$(kind+'Count').textContent=data[key];}}).catch(()=>{});
+  fetch('experiments.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation','combination']){const key=kind==='typeface'&&typefaceVersion==='v2'?'typeface-v2':kind;if(key in data&&!(kind==='combination'&&$(kind+'Count').textContent))$(kind+'Count').textContent=data[key];}}).catch(()=>{});
 })();

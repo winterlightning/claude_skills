@@ -1,79 +1,33 @@
-"""Person with Bob and V-Neck Shirt.
-Plan: Circular face centered (24,22), radius7; bottom29, shoulder top33, zero ink gap. Hair outline follows the source length and part. Whole bounds (8,4)-(40,44).
-References: human_ref/user.svg circular jaw and smooth shoulders; Lucide user open rounded bust.
-Reduction: Facial microdetails and neck seams omitted; source hairstyle retained.
-"""
+'Lowered the shoulder top from31 to35 and restored a parted fringe. Longer bob sides reach28, leaving clear room above the lower shoulders. Circular jaw radius7 at (24,24) ends31; shoulder top35 gives zero visible gap. VRECT_L retains the upright silhouette. V-neck omitted to keep the shorter torso open.'
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'e4415d5a-c5ee-540c-87ea-8ae00f1bef5f'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_e4415d5a-c5ee-540c-87ea-8ae00f1bef5f.svg'
 AUTHOR = 'gpt-6'
 
-def path(icon, name, start, *steps, closed=False):
-    """Emit one coherent stroke; each knot belongs to its owning shape."""
-    members = []
-    point = start
-    for index, step in enumerate(steps):
-        member = f"{name}-{index + 1}"
-        kind, end, *args = step
-        if kind == "L":
-            icon.add_line(member, point, end)
-        elif kind == "A":
-            rx, ry, sweep = args
-            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-        elif kind == "B":
-            icon.add_bezier(member, point, (args[0], args[1], end))
-        members.append(member)
-        point = end
-    icon.add_contour(name, *members, closed=closed)
-
-
-def circle(icon, name, cx, cy, radius):
-    path(icon, name, (cx-radius, cy),
-         ("A", (cx, cy-radius), radius, radius, True),
-         ("A", (cx+radius, cy), radius, radius, True),
-         ("A", (cx, cy+radius), radius, radius, True),
-         ("A", (cx-radius, cy), radius, radius, True), closed=True)
-
-
-def symmetric(icon, name, start, left_steps, axis=24):
-    """One half owns the whole outline; reflect and reverse its traversal."""
-    flip = lambda p: (2*axis-p[0], p[1])
-    prior = start
-    reverse = []
-    for kind, end, *args in left_steps:
-        if kind == 'B':
-            reverse.append((kind, flip(prior), flip(args[1]), flip(args[0])))
-        else:
-            reverse.append((kind, flip(prior), *args))
-        prior = end
-    path(icon, name, start, *left_steps, *reversed(reverse), closed=True)
-
 class PersonWithBobAndVNeckShirt(Solo48):
-    icon_id = 'person-with-bob-and-v-neck-shirt'
-    keyshape = Keyshape.VRECT_L
-    category = 'avatars'
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    aliases = ()
-    keywords = ('person', 'with', 'bob', 'and', 'v-neck', 'shirt')
+    icon_id='person-with-bob-and-v-neck-shirt'
+    keyshape=Keyshape.VRECT_L
+    category='avatars'
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=('woman','bob','portrait')
     def build(self):
-        path(self,'hair',(8,24),('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,24)))
-        path(self,'fringe',(17,22),('B',(24, 15),(20,21),(22,18)),('B',(31,22),(26,18),(28,21)))
-        self.add_arc('face',(31,22),(17,22),radius_x=7)
-        self.relate('connect','fringe','face')
-
-        body_top=29+HEAD_BODY_CENTERLINE_GAP
-        path(self,'body',(8,44),('L',(8,body_top+8)),('A',(12,body_top),4,8,True))
-        self.add_line('body-top',(12,body_top),(24,body_top))
-        self.add_line('body-top-right',(24,body_top),(36,body_top))
-        path(self,'body-right',(36,body_top),('A',(40,body_top+8),4,8,True),('L',(40,44)))
-        self.relate('connect','body','body-top')
-        self.relate('connect','body-top','body-top-right')
-        self.relate('connect','body-top-right','body-right')
-        self.relate('connect','face','body-top')
-        self.relate('connect','face','body-top-right')
-        self.add_polyline('body-neckline',(12,body_top),(24,44),(36,body_top))
-        self.relate('connect','body-top','body-neckline')
-        self.relate('connect','body-top-right','body-neckline')
-
+        # Circular face within the bob; broad smooth open-bottom avatar bust.
+        self.add_bezier('fringe-left',(17,24),((20,23),(22,20),(24,16)))
+        self.add_bezier('fringe-right',(24,16),((26,20),(28,23),(31,24)))
+        self.add_arc('jaw',(31,24),(17,24),radius_x=7)
+        self.add_contour('head','fringe-left','fringe-right','jaw',closed=True)
+        self.add_line('hair-left',(8,28),(8,20))
+        self.add_arc('hair-crown-left',(8,20),(24,4),radius_x=16)
+        self.add_arc('hair-crown-right',(24,4),(40,20),radius_x=16)
+        self.add_line('hair-right',(40,20),(40,28))
+        self.add_contour('hair','hair-left','hair-crown-left','hair-crown-right','hair-right')
+        top=24+7+HEAD_BODY_CENTERLINE_GAP
+        self.add_line('body-left-side',(8,44),(8,43))
+        self.add_arc('body-left-shoulder',(8,43),(24,top),radius_x=16,radius_y=8)
+        self.add_arc('body-right-shoulder',(24,top),(40,43),radius_x=16,radius_y=8)
+        self.add_line('body-right-side',(40,43),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','body-right-shoulder','body-right-side')
+        self.relate('connect','head','body')

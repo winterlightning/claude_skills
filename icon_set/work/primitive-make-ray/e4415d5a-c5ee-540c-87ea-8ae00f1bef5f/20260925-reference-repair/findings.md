@@ -1,0 +1,1 @@
+Lowered the shoulder top from31 to35 and restored a parted fringe. Longer bob sides reach28, leaving clear room above the lower shoulders. Circular jaw radius7 at (24,24) ends31; shoulder top35 gives zero visible gap. VRECT_L retains the upright silhouette. V-neck omitted to keep the shorter torso open.

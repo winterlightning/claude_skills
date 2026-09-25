@@ -1,0 +1,1 @@
+Restored a fuller curved barrel on VRECT_L: narrower top and bottom, bowed walls and staves, and hoops moved toward the ends to expose the long central curves. Centerline bounds remain (8,4)–(40,44). All curve joins have aligned tangents. Full QA passes without exceptions.

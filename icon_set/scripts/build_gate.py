@@ -31,7 +31,12 @@ def gate(module_path: Path, debug_dir: Path | None = None) -> dict:
     if len(classes) != 1:
         return {'status': 'error', 'errors': [f'expected one icon class in {module_path}, found {len(classes)}'], 'warnings': []}
     qa = inspect_icon(classes[0](), debug_dir=debug_dir)
-    return {'icon_id': qa['icon_id'], 'status': qa['status'], 'errors': qa['errors'], 'warnings': qa['warnings']}
+    result = {'icon_id': qa['icon_id'], 'status': qa['status'], 'errors': qa['errors'], 'warnings': qa['warnings']}
+    # Keep the approval and automatic verdict together; findings are never erased.
+    for key in ('exception', 'automatic_status'):
+        if key in qa:
+            result[key] = qa[key]
+    return result
 
 
 def main(argv: list[str] | None = None) -> int:

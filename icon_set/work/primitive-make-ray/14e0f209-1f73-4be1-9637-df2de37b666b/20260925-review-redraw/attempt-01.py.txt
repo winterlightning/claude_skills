@@ -1,0 +1,40 @@
+"""Restore long fingers and upright palm instead of horizontal mitten. Native SOLO48 redraw, preserving all defining source features."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '14e0f209-1f73-4be1-9637-df2de37b666b'
+SOURCE_PATH = 'pictographic-primitives/holidays/hand_14e0f209-1f73-4be1-9637-df2de37b666b.svg'
+AUTHOR = 'gpt-6'
+PARENT_MODULE = 'icon_set/model/icons/solo/open_palm_hand_14e0f209_1f73_4be1_9637_df2de37b666b.py'
+class Drawing(Solo48):
+    icon_id = 'open-palm-hand'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('hand',)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def build(self):
+        # Tall fingers keep source hand anatomy; shared four-unit tip radii.
+        first=10;step=8;r=4;heights=(14,10,14,20)
+        cmds=[]
+        for i,y in enumerate(heights):
+            x=first+i*step;cmds += [('L',(x,y)),('A',(x+step,y),r,r,True)]
+        cmds += [('L',(42,30)),('C',(30,42),(42,37),(37,42)),('L',(24,42)),('C',(14,37),(19,42),(16,40)),('L',(6,28)),('C',(10,24),(2,23),(6,19)),('L',(10,27))]
+        self.path('hand',(10,27),cmds,True)
+        for i in range(3):
+            x=first+(i+1)*step;y=max(heights[i],heights[i+1]);self.add_line(f'crease-{i}',(x,y),(x,26));self.relate('connect','hand',f'crease-{i}')

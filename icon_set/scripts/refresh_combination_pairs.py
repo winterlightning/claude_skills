@@ -144,10 +144,7 @@ def refresh():
     DATA.write_text(json.dumps({'rows': rows, 'failures': failures, 'state_skips': state_skips}))
     (ROOT / 'data/combination-sub32.json').write_text(json.dumps(export_manifest, indent=2)+'\n')
     (build_dist(ROOT.parent) / 'gallery/experiment-combination.json').write_text(DATA.read_text())
-    catalog = build_dist(ROOT.parent) / 'gallery/experiments.json'
-    totals = json.loads(catalog.read_text())
-    totals['combination'] = len(rows)
-    catalog.write_text(json.dumps(totals))
+    # experiments.json counts combined icons, so build_combination_previews sets it after rendering.
     from .deduplicate_subs import run as deduplicate_subs
     deduplicate_subs()
     print(f'Available: {len(rows)} side pairs; {len(export_manifest)} reusable 32px exports; {len(failures)} failures; grid: {len(old)} → {len(rows)}', flush=True)

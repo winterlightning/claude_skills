@@ -1,6 +1,6 @@
 """Drawing-bound, user-approved exceptions to the publication gate.
 
-This does not modify geometry checks or their findings. SUB32 canvas/stroke
+This does not modify geometry checks or their findings. Family canvas/stroke
 requirements and checker errors remain blocking.
 """
 import xml.etree.ElementTree as ET
@@ -20,10 +20,12 @@ def apply_exception(icon, row):
         return row
     root = ET.fromstring(row['_svg'])
     widths = {e.get('stroke-width') for e in root.iter() if e.get('stroke-width') is not None}
-    if (row['profile'] != 'SUB32' or row['family'] != 'sub'
-            or (root.get('width'), root.get('height'), root.get('viewBox')) != ('32', '32', '0 0 32 32')
+    canvas = {('sub', 'SUB32'): '32', ('solo', 'SOLO48'): '48'}.get(
+        (row['family'], row['profile']))
+    if (canvas is None
+            or (root.get('width'), root.get('height'), root.get('viewBox')) != (canvas, canvas, f'0 0 {canvas} {canvas}')
             or widths != {'4'}):
-        row['errors'].append('exception: requires plain SUB32, 32x32, and uniform 4px strokes')
+        row['errors'].append('exception: requires plain SUB32 32x32 or SOLO48 48x48, and uniform 4px strokes')
         row['status'] = 'fail'
         return row
     row['automatic_status'] = row['status']

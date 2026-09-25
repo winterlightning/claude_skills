@@ -112,7 +112,7 @@ class CombinationLayoutTests(unittest.TestCase):
     @staticmethod
     def snapped(result):
         return {role: [{'paths': g['paths'], 'x': round(g['box'][0]), 'y': round(g['box'][1]),
-                        'size': round(max(g['box'][2]-g['box'][0], g['box'][3]-g['box'][1]))} for g in c['groups']]
+                        'w': round(g['box'][2]-g['box'][0]), 'h': round(g['box'][3]-g['box'][1])} for g in c['groups']]
                 for role, c in result['elements'].items()}
 
     def test_connected_elements(self):
@@ -120,6 +120,12 @@ class CombinationLayoutTests(unittest.TestCase):
         self.assertEqual([g['paths'] for g in elements['main']['groups']], [[0, 1, 2], [3, 4]])
         self.assertEqual([g['paths'] for g in elements['sub']['groups']], [[0]])
         self.assertEqual(len(elements['main']['markup']), 5)
+
+    def test_editor_gets_solo48_keyshapes(self):
+        # Main size presets grow the main's keyshape; the monitor sits exactly on SQUARE.
+        keyshapes = self.default()['keyshapes']
+        self.assertEqual(keyshapes['SQUARE'], [6, 6, 42, 42])
+        self.assertEqual(keyshapes['CIRCLE'], [4, 4, 44, 44])
 
     def test_identity_layout_keeps_the_combination(self):
         import re
@@ -132,13 +138,14 @@ class CombinationLayoutTests(unittest.TestCase):
 
     def test_resized_element_snaps_and_keeps_stroke(self):
         layout = self.snapped(self.default())
-        layout['main'][1] = {'paths': [3, 4], 'x': 14, 'y': 29, 'size': 8}
+        # Width and height are independent: the arrow is squashed to 8×5.
+        layout['main'][1] = {'paths': [3, 4], 'x': 14, 'y': 29, 'w': 8, 'h': 5}
         layout['sub'][0]['x'] += 2
         result = render({'id': 'layout-test', 'layout': layout, 'elements': True}, row=LAYOUT_ROW)
+        self.assertEqual(result['elements']['main']['names'], ['screen', 'stand', 'foot', 'arrowhead', 'shaft'])
         arrow = result['elements']['main']['groups'][1]['box']
-        self.assertAlmostEqual(arrow[0], 14)
-        self.assertAlmostEqual(arrow[1], 29)
-        self.assertAlmostEqual(max(arrow[2]-arrow[0], arrow[3]-arrow[1]), 8)
+        for actual, expected in zip(arrow, (14, 29, 22, 34)):
+            self.assertAlmostEqual(actual, expected)
         sub = result['placements'][1]['painted_box']
         self.assertEqual((sub['x'], sub['w']), (32, 32))
         root = ET.fromstring(result['svg'])
@@ -151,7 +158,8 @@ class CombinationLayoutTests(unittest.TestCase):
         cases = [{'main': [dict(good['main'][0], x=2.5), good['main'][1]]},
                  {'main': [good['main'][0]]},
                  {'main': [good['main'][0], good['main'][0]]},
-                 {'main': [{'paths': [0, 1, 2, 3, 4], 'x': 40, 'y': 22, 'size': 36}]},
+                 {'main': [{'paths': [0, 1, 2, 3, 4], 'x': 40, 'y': 22, 'w': 36, 'h': 36}]},
+                 {'main': [dict(good['main'][0], w=0), good['main'][1]]},
                  {'other': []}]
         for layout in cases:
             with self.subTest(layout=layout), self.assertRaises(ValueError):

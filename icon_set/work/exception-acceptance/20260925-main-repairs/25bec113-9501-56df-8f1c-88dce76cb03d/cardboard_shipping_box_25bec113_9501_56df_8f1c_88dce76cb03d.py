@@ -1,0 +1,48 @@
+"""Rounded square carton with a closed top edge and centered rectangular tape tab."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID='25bec113-9501-56df-8f1c-88dce76cb03d'
+SOURCE_PATH='pictographic-primitives/shipping/box_25bec113-9501-56df-8f1c-88dce76cb03d.svg'
+AUTHOR='gpt-6'
+PLAN='Top edge now runs continuously across the attached tape tab. Tab is closed and centered, with matching rounded carton corners.'
+CONSTRUCTION_REFERENCE='panels-top-left original and atomic-debug: rounded rectangle and attached interior partition; package original inspected but its perspective is not used.'
+OMISSIONS='No omissions.'
+
+class Drawing(Solo48):
+    icon_id='cardboard-shipping-box'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('box',)
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+
+    def build(self):
+        self.box('carton',6,6,42,42)
+        axis=24;half=5
+        self.add_polyline('tape',(axis-half,6),(axis-half,17),(axis+half,17),(axis+half,6))
+        self.relate('connect','carton','tape')
+
+# Explicit user approval for this exact SVG; changes invalidate the exception.
+Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': '446694011124649ec9a97494204c2d977ccfc3652f0c641783da042220ba5343', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '25bec113-9501-56df-8f1c-88dce76cb03d'}

@@ -282,9 +282,9 @@ text expands the composition canvas rather than shrinking the letters. The
 report in `published/gallery/side-text-v2.json` records generated pairs and
 references blocked by unavailable mains or non-text symbols.
 
-## Explicit SUB32 visual exceptions
+## Explicit SUB32 and SOLO48 visual exceptions
 
-A user may accept a complete 32×32 drawing that retains 4px strokes despite
+A user may accept a complete SUB32 32×32 or SOLO48 48×48 drawing that retains 4px strokes despite
 visual spacing, grid, keyshape or small-opening findings. Set the Python icon
 class parameter `exception` to a dictionary containing `reason`, `approved_by`
 and `svg_sha256` (the SHA-256 of `icon.to_svg().encode("utf-8")`). Optional
@@ -294,6 +294,19 @@ changing its drawing invalidates the exception. Remove the parameter to revoke i
 The build still runs all checks, preserves errors, warnings and the
 `automatic_status`, and exports the approved drawing with its `exception`
 metadata. The side-component gallery labels it **pass · exception**. Checker
-errors, invalid schema, a different canvas/profile or non-4px strokes cannot be
+errors, invalid schema, a canvas that does not match its family/profile or non-4px strokes cannot be
 accepted this way. The strict `fix_icon_sub.py check` command continues to report
 the automatic result, so acceptance is never confused with a strict geometry pass.
+
+## Side combination 64 (combine run → Experiment → review)
+
+**Combine all side pairs** (Progression › Side pairs) runs `refresh_combination_pairs --previews`.
+Each run replaces the previous set of combined icons. `build_combination_previews.build()` deletes
+previews of pairs that are no longer combined. `experiment_gallery.stage_side_combination64()` then
+rewrites `published/gallery/side-combination64.json`, which lists only the pairs that actually rendered.
+Its `count` is the number shown on the Experiment tab, in the Experiment grid, and in Progression's
+**Combined · 64** summary. The same records are merged into the review catalog by `deploy.py`
+(`catalog_data`), not into `icons.json`, as the **Side combination 64** family
+(`side_combination64/<pair id>`). Reviews key on the combined SVG's sha, so a pair whose drawing changes
+comes back for review. Disapproved combinations stay out of the default fix queue: they are fixed through
+their main and sub.
