@@ -258,7 +258,7 @@ function sideRow(row){
   const steps=node('div','side-steps');
   const display=(role,item)=>{
     const drawing=sideEditableDrawing(row,role,item);
-    if(item&&drawing&&!drawing.preview_url?.includes('/api/icon-artwork/'))return item;
+    if(item&&drawing&&item.sha256===drawing.svg_sha256&&!drawing.preview_url?.includes('/api/icon-artwork/'))return item;
     return drawing?{...item,icon:drawing.icon_id,key:drawing.key,model_key:drawing.key,family:drawing.family,
       preview_url:drawing.preview_url,document:null,pending:item?.pending??true}:item;
   };
@@ -303,7 +303,11 @@ function sideRow(row){
     const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
     const href=found?.url||(found?.result?.svg&&sideDataURL(found.result.svg));
     if(href){const a=node('a');a.href=href;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
-    if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
+    const reviewItem=(role,item)=>{
+      const drawing=sideEditableDrawing(row,role,item);
+      return drawing?{...item,model_key:drawing.key,sha256:drawing.svg_sha256}:item;
+    };
+    if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',reviewItem('main',main),pair),SideRepairFlags.button('sub',reviewItem('sub',sub),pair));
     if(actions.childElementCount)card.append(actions);
   }
   return card;
