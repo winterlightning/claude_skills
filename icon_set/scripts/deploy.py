@@ -30,7 +30,7 @@ import tempfile
 import zipfile
 import urllib.error
 import urllib.request
-from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit, urlencode
 import webbrowser
 
 if __package__:
@@ -1246,7 +1246,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return None
         # No directory listings, hidden build stages, traversal or symlink escapes.
         if (any(part.startswith('.') for part in parts) or
-                not candidate.is_relative_to(self.root) or not candidate.is_file() or
+                not candidate.is_relative_to(self.root) or
                 candidate.suffix.lower() not in {'.html', '.json', '.svg', '.png', '.css', '.js'}):
             self.send_error(404)
             return None
@@ -1261,6 +1261,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 self.send_header('Content-Length', str(len(body)))
                 self.end_headers()
                 return io.BytesIO(body)
+        if not candidate.is_file():
+            self.send_error(404)
+            return None
         self.static_file = True
         return super().send_head()
 
@@ -1270,7 +1273,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/combinations/side/layout/apply', '/api/combinations/side/preview', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/recombine', '/api/combinations/side/layout', '/api/combinations/side/layout/apply', '/api/combinations/side/preview', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1373,6 +1376,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.work_action(route, data, user)
             if route == '/api/combinations/side/keep-sub':
                 return self.keep_side_sub(data, user)
+            if route == '/api/combinations/side/recombine':
+                return self.recombine_side_pair(data, user)
             if route == '/api/combinations/side/layout':
                 return self.save_side_layout(data, user)
             if route == '/api/combinations/side/layout/apply':
@@ -2041,6 +2046,39 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response(render(request))
         except (ValueError, OSError) as error:
             return self.json_response({'error': str(error)}, 422)
+
+    def side_current_document(self, item):
+        """Use the same selected drawing as the component editor and gallery."""
+        key = item.get('model_key') or item.get('key') or f"{item.get('family', '')}/{item['icon']}"
+        if item.get('native_text'):
+            return item['document']
+        icon = self.catalog_icon(key)
+        if not icon:
+            raise ValueError('The current drawing is unavailable: ' + key)
+        if icon.get('artwork_source') == 'work_fix':
+            if getattr(self.server, 'production', False):
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    result = work_claims.load_result(connection, key, icon['svg_sha256'], 'after')
+                if not result:
+                    raise ValueError('The saved fix is unavailable: ' + key)
+                return result['svg']
+            query = urlencode({'icon': key, 'svg_sha256': icon['svg_sha256'], 'stage': 'after', 'part': 'svg'})
+            with urllib.request.urlopen(self.work_origin() + '/api/work/result?' + query, timeout=30) as response:
+                return response.read().decode('utf-8')
+        selected = resolve_artwork(icon, self.server.artwork.get(key))
+        return selected['svg'] if selected else icon_from_graph(baseline(icon)).to_svg()
+
+    def recombine_side_pair(self, data, user):
+        """Rebuild just one pair from current saved components, in server runtime state."""
+        from icon_set.scripts.side_recombine import recombine
+        if user == 'system':
+            return self.json_response({'error': 'Log in to recombine an icon.'}, 401)
+        with SIDE_LAYOUT_LOCK:
+            try:
+                result = recombine(self.root / 'gallery', data, self.side_current_document, user)
+                return self.json_response(result)
+            except (ValueError, OSError, KeyError, TypeError) as error:
+                return self.json_response({'error': str(error) or 'Could not recombine this icon.'}, 422)
 
     def _save_side_layout(self, row, main, sub, layout, user):
         """Render one pair with `layout`, then save it (development also republishes the preview)."""

@@ -177,7 +177,7 @@ def overlay(gallery):
         for pair_id, entry in layouts.items():
             row = rows.get(pair_id)
             if row and entry.get('result', {}).get('svg') and active(row, entry):
-                version = hashlib.sha256((json.dumps(entry['layout'], sort_keys=True) + entry.get('updated_at', '')).encode()).hexdigest()[:12]
+                version = hashlib.sha256((json.dumps(entry['layout'], sort_keys=True) + entry.get('updated_at', '') + entry['result']['svg']).encode()).hexdigest()[:12]
                 active_results[pair_id] = (version, entry['result'])
     _overlay_cache[str(gallery)] = (key, active_results)
     return active_results

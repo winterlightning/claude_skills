@@ -266,6 +266,21 @@ function sideRow(row){
   const mainPart=sidePart('Main',shownMain,48,false),subPart=sidePart('Sub',shownSub,32,true);
   if(shownMain)sideInspectable(mainPart,'Main',shownMain,48,row.concept);if(shownSub)sideInspectable(subPart,'Sub',shownSub,32,row.concept);
   const combinedStep=sideStep(pair?.native_text?'Combined · native':'Combined · 64',media);
+  if(parts.ready&&!pair.mapped_native){
+    const wrap=node('div','requires-login'),button=node('button','side-edit-component','Recombine this icon'),message=node('p','side-editor-message');
+    button.type='button';button.title='Use the latest saved main and sub with automatic placement';message.setAttribute('role','status');
+    button.onclick=async()=>{
+      button.disabled=true;button.textContent='Recombining…';message.textContent='';
+      try{
+        const response=await fetch('/api/combinations/side/recombine',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pair_id:pair.id,main:main.icon,sub:sub.icon})});
+        const data=await response.json();if(!response.ok||data.error)throw Error(data.error||'Could not recombine this icon.');
+        sidePreviews[pair.id]={url:data.url||null,result:data.result};sideRendered.delete(pair.id+'|'+sub.icon);
+        if(card.isConnected)card.replaceWith(sideRow(row));
+      }catch(error){message.textContent=error.message;}
+      finally{button.disabled=false;button.textContent='Recombine this icon';}
+    };
+    wrap.append(button,message);combinedStep.append(wrap);
+  }
   // Editing the layout sits right under the combined icon it changes.
   // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
   if(parts.ready&&window.SideLayoutEditor&&!pair.mapped_native)combinedStep.append(SideLayoutEditor.button(pair,main,sub,data=>{
