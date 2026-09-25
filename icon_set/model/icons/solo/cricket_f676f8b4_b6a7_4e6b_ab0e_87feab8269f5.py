@@ -1,29 +1,41 @@
-"""Left-facing cricket with deeper wing/body opening, raised folded hind leg and separated feet. HRECT_L centerline bounds (4,8)-(44,40). Lucide bug informed sparse attached limbs; preserve asymmetric profile."""
+"""cricket: A side-view cricket retains the long wing, curved antenna, two low feet and tall folded jumping leg. Natural directional asymmetry is preserved.
+Lucide construction: bug; original and atomic-debug inspected.
+Omissions: Small wing seam and extra antenna omitted for readable separation.
+Keyshape HRECT_L: exact contract envelope; 4-unit stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f676f8b4-b6a7-4e6b-ab0e-87feab8269f5'
 SOURCE_PATH = 'pictographic-primitives/animals/insect cricket body_f676f8b4-b6a7-4e6b-ab0e-87feab8269f5.svg'
 AUTHOR = 'gpt-6'
-
-class Cricket(Solo48):
+class Drawing(Solo48):
     icon_id = 'cricket'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ()
-    keywords = ('cricket', 'grasshopper', 'insect', 'locust', 'bug', 'jump', 'legs', 'chirp')
-
+    keywords = ('cricket',)
     def build(self):
-        self.add_line('wing-1', (4, 20), (20, 20))
-        self.add_line('wing-2', (20, 20), (30, 24))
-        self.add_arc('wing-bottom', (30, 24), (24, 32), radius_x=6, radius_y=8)
-        self.add_line('belly', (24, 32), (16, 32))
-        self.add_arc('chest', (16, 32), (4, 20), radius_x=12, radius_y=12)
-        self.add_contour('body', 'wing-1', 'wing-2', 'wing-bottom', 'belly', 'chest', closed=True)
-        self.add_polyline('hind-leg', (20, 20), (34, 8), (44, 40))
-        self.add_polyline('front-leg', (16, 32), (8, 40), (4, 40))
-        self.add_polyline('middle-leg', (24, 32), (24, 40), (16, 40))
-        self.add_line('antenna', (4, 20), (4, 8))
-        for part in ('hind-leg', 'front-leg', 'middle-leg', 'antenna'):
-            self.relate('connect', 'body', part)
+
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('body',(12,18),[('L',(20,20)),('L',(40,26)),('C',(28,32),(38,31),(34,32)),('C',(16,30),(22,32),(19,32)),('C',(12,18),(12,28),(10,23))],True)
+        path('antenna',(12,18),[('C',(4,8),(6,16),(4,14))]);join('antenna','body')
+        poly('hind-leg',(20,20),(34,8),(44,40));join('hind-leg','body')
+        poly('front-leg',(16,30),(12,40),(4,40));poly('middle-leg',(28,32),(32,40),(24,40));join('front-leg','body');join('middle-leg','body')

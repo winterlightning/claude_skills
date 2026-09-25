@@ -1,7 +1,7 @@
-"""Downward Reflection Diagram.
-Plan: Two mirrored triangles face a horizontal reflection axis; a right-hand curved arrow points down. Ink (2,6)-(46,42).
-Reference construction: flip-vertical-2.
-Reduction: Use compact triangles and a single continuous reflection axis.
+"""downward-reflection-diagram: Mirrored open triangles face a horizontal axis; a semicircular arrow expresses downward reflection.
+Lucide construction: flip-vertical-2; original and atomic-debug inspected.
+Omissions: None
+Keyshape HRECT_L: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,13 +18,25 @@ class Drawing(Solo48):
     keywords = ('downward', 'reflection', 'diagram')
     def build(self):
 
-        def circle(name,cx,cy,r):
-            pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
-            for j,(a,b) in enumerate(zip(pts,pts[1:])): self.add_arc(f'{name}-{j}',a,b,radius_x=r)
-            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        self.add_polyline('upper',(6,8),(26,8),(16,16),closed=True)
-        self.add_polyline('lower',(6,40),(26,40),(16,32),closed=True)
-        self.add_line('axis',(4,24),(28,24))
-        self.add_bezier('turn',(36,12),((44,12),(44,20),(44,24)),((44,28),(40,34),(36,36)))
-        self.add_polyline('head',(36,28),(36,36),(44,36));self.relate('connect','head','turn')
+        poly('upper',(4,8),(24,8),(14,16),closed=True)
+        poly('lower',(4,40),(24,40),(14,32),closed=True)
+        line('axis',(4,24),(24,24))
+        path('turn',(34,12),[('A',(44,24),10,12,True),('A',(34,36),10,12,True)])
+        poly('head',(34,28),(34,36),(42,36));join('head','turn')

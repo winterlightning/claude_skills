@@ -1,42 +1,36 @@
-"Left-Facing Person Sneezing.\nSymbol plan: A person's head faces left with a closed curved eye and an open mouth. Three short lines spread outward from the mouth, while the back of the head flows into the neck and shoulder.\nConstruction: Human full_body_ref.png: circular heads, coherent torso/limbs, exact 8u centerline / 4u ink head-to-neck clearance. Continuous profile neck; no detached-head construction.\nReduction: Omit the eye; preserve nose, open mouth and three exhalation marks.\nKeyshape SQUARE."
+'Continuous face profile with rounded skull, clear nose and mouth opening, smooth neck and three exhalation strokes.\nPlan: SQUARE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: human_ref/user.svg: head/shoulder proportions; source retains its continuous profile neck, so detached-head gap does not apply.\nOmissions: Small eye omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f2e9b73a-cb3b-4ba3-9a35-136a976c9aec'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_34/sneeze_f2e9b73a-cb3b-4ba3-9a35-136a976c9aec.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'left-facing-person-sneezing'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('sneeze', 'person', 'head', 'profile', 'breath', 'face')
+class Drawing(Solo48):
+    icon_id='left-facing-person-sneezing'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('left', 'facing', 'person', 'sneezing')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        bez('head-back',(42,42),((34,32),(32,28),(36,22)),((46,6),(32,6),(28,6)),((20,6),(18,12),(18,18)))
-        poly('nose',(18,18),(14,24),(20,24));bez('mouth',(20,24),((28,26),(28,32),(20,32)))
-        poly('neck',(20,32),(24,34),(26,42))
-        line('breath-a',(6,22),(6,22));line('breath-b',(6,32),(10,32));line('breath-c',(6,42),(10,42))
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        path('profile',(42,42),[('C',(34,29),(38,36),(31,34)),('C',(40,17),(36,24),(40,23)),('C',(28,6),(40,10),(35,6)),('C',(18,17),(21,6),(18,10)),('L',(14,24)),('L',(20,24)),('C',(20,32),(26,24),(26,32)),('L',(20,35)),('C',(25,42),(20,38),(23,39))])
+        line('breath-upper',(6,22),(6,22))
+        line('breath-middle',(6,32),(10,32))
+        line('breath-lower',(6,42),(10,40))

@@ -1,54 +1,35 @@
-"""graph-line-spline: Smooth two-series graph; earlier revisions preserved."""
+'Two smooth data curves above a straight horizontal axis and beside a straight vertical axis.\nPlan: HRECT_L exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: chart-spline: coherent rising and falling cubic sections with horizontal tangents at extrema.\nOmissions: No series omitted; shallow troughs preserve spacing.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8f4acbb4-799c-5a89-97d6-f6dbcb05930f'
 SOURCE_PATH = 'pictographic-primitives/business/graph line spline_8f4acbb4-799c-5a89-97d6-f6dbcb05930f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class GraphLineSpline(Solo48):
-    icon_id = 'graph-line-spline'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'business'
-    aliases = ()
-    keywords = ('solo-ai-full-set', 'graph-line-spline')
-
+class Drawing(Solo48):
+    icon_id='graph-line-spline'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="business"
+    aliases=()
+    keywords=('graph', 'line', 'spline')
     def build(self):
-        # Plan: Preserve both chart series and axes. Repeat a shallow coherent wave at a twelve-unit offset and start clear of the vertical axis.
-        # Reference: Original subject; preserve the distinctive silhouette and proportions.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
-            here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L" and tuple(end) == tuple(here):
-                    continue
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        poly('axis',(4,8),(4,40),(44,40))
-        path('upper',(13,16),[('C',(28,12),(19,8),(22,12)),('C',(44,8),(34,14),(39,13))])
-        path('lower',(13,28),[('C',(28,24),(19,20),(22,24)),('C',(44,20),(34,26),(39,25))])
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        poly('axes',(4,8),(4,40),(44,40))
+        path('upper',(13,17),[('C',(22,8),(16,17),(16,8)),('C',(34,14),(28,8),(28,14)),('C',(44,8),(40,14),(42,12))])
+        path('lower',(13,31),[('C',(22,26),(17,28),(18,26)),('C',(34,28),(28,26),(28,28)),('C',(44,21),(40,28),(42,25))])

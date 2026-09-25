@@ -1,4 +1,6 @@
-'Room with Door and Window.\nPlan and review: Retained door, four-pane window, ceiling and floor. Omitted vertical room sidewalls and door knob; enlarged panes to keep all four openings clear.\nKeyshape: SQUARE, exact SOLO48 envelope.\nConstruction reference: Source render; no useful exact local Lucide match.'
+"""Interior wall with doorway and four-pane window. Lucide door-closed: continuous frame and floor. Shared grid for equal window panes; omit sidewalls and knob to retain usable openings.
+Keyshape SQUARE: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -11,32 +13,37 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = 'objects'
     aliases = ()
     keywords = ('interior', 'wall', 'with', 'door', 'and', 'window')
 
     def build(self):
+        self.add_line('ceiling',(6,6),(42,6))
+        self.add_polyline('floor',(6,42),(16,42),(42,42))
+        self.path('door',(6,42),[(6,18),((8,16),2,2,True),(14,16),((16,18),2,2,True),(16,42)])
+        self.relate('connect','door','floor')
+        self.add_polyline('window',(26,16),(34,16),(42,16),(42,24),(42,32),(34,32),(26,32),(26,24),closed=True)
+        self.add_polyline('mullion',(34,16),(34,24),(34,32))
+        self.add_polyline('transom',(26,24),(34,24),(42,24))
+        for a,b in [('window','mullion'),('window','transom'),('mullion','transom')]:self.relate('connect',a,b)
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        self.add_line('ceiling',(6,6),(42,6));self.add_line('floor',(6,42),(42,42))
-        path('door',(6,42),[(6,20),(16,20),(16,42)]);self.relate('connect','door','floor')
-        path('window',(26,16),[(42,16),(42,32),(26,32),(26,16)],True)
-        self.add_line('mullion',(34,16),(34,32));self.add_line('window-bar',(26,24),(42,24))
-        self.relate('connect','window','mullion');self.relate('connect','window','window-bar');self.relate('connect','mullion','window-bar')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

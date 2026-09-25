@@ -1,43 +1,35 @@
-"""Standing Hook Beaked Vulture
-Plan: Upright vulture with heavy hooked beak and long pointed folded wing.
-Keyshape: VRECT_L; exact inset SOLO48 envelope.
-Construction: No useful exact Lucide match; coherent curves and shared geometric parameters.
-Reduction: Inner wing/tail notch simplified after spacing review; long wing silhouette and hooked head retained.
-"""
+'Standing vulture with rounded head, heavy hooked beak, long tapering wing and two feet.\nPlan: VRECT_L exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: bird: continuous rounded head and pointed folded wing.\nOmissions: Eye and feather lines omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3ca9c99f-67fa-4938-86d8-fb6ec5827812'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_08/buzzard_3ca9c99f-67fa-4938-86d8-fb6ec5827812.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'standing-hook-beaked-vulture'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('vulture', 'bird', 'beak', 'wing', 'scavenger', 'wildlife', 'standing')
-
+    icon_id='standing-hook-beaked-vulture'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('standing', 'hook', 'beaked', 'vulture')
     def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        path('vulture',(8,38),[('C',(17,22),(9,31),(12,25)),('L',(18,14)),('C',(28,4),(15,7),(20,4)),('C',(40,14),(36,4),(39,8)),('L',(31,12)),('C',(32,28),(28,15),(36,22)),('L',(22,40)),('L',(14,40)),('L',(8,38))],True)
-        self.add_polyline('leg',(27,34),(30,44),(37,44));self.relate('connect','leg','vulture')
+
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        path('bird',(8,38),[('C',(18,20),(9,30),(13,24)),('L',(18,14)),('C',(28,4),(18,7),(21,4)),('C',(40,13),(35,4),(40,6)),('L',(40,16)),('L',(32,13)),('C',(32,28),(28,18),(35,22)),('L',(28,32)),('L',(22,38)),('L',(18,38)),('L',(8,38))],True)
+        poly('front-leg',(28,32),(31,44),(38,44));join('front-leg','bird')
+        poly('rear-leg',(18,38),(14,44));join('rear-leg','bird')

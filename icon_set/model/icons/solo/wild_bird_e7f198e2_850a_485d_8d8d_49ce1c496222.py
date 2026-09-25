@@ -1,28 +1,36 @@
-'Kiwi: round low body, small head and long curved bill; preserve its asymmetric outline with a clear eye.'
+"""Kiwi bird with rounded body, small head, long downcurved beak and two feet. Lucide bird informs simple legs and smooth body. Omit tiny eye and lower beak outline; retain distinctive long bill and directional profile.
+Keyshape HRECT_L: exact SOLO48 envelope; 4px stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e7f198e2-850a-485d-8d8d-49ce1c496222'
 SOURCE_PATH = 'pictographic-primitives/animals/wild bird_e7f198e2-850a-485d-8d8d-49ce1c496222.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='kiwi-bird'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/animals"
+    aliases=()
+    keywords=('kiwi', 'bird')
 
-class KiwiBird(Solo48):
-    icon_id = 'kiwi-bird'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/animals"
-    aliases = ()
-    keywords = ('kiwi', 'bird', 'beak', 'new zealand', 'flightless', 'round', 'long beak', 'wildlife')
+    def build(self):
+        self.path('bird',(26,8),[('A',(34,16),8,8,True),('C',(28,26),(34,20),(28,20)),('C',(24,32),(28,29),(26,32)),('C',(16,32),(22,32),(18,32)),('C',(4,24),(8,32),(4,30)),('C',(18,14),(4,18),(10,14)),('C',(26,8),(22,14),(22,8))],True)
+        self.add_bezier('beak',(34,16),((38,18),(42,23),(44,28)));self.relate('connect','bird','beak')
+        self.add_polyline('left-foot',(16,32),(14,40),(8,40));self.relate('connect','bird','left-foot')
+        self.add_polyline('right-foot',(24,32),(28,40),(34,40));self.relate('connect','bird','right-foot')
 
-    def build(self) -> None:
-        self.add_bezier('back',(4,25),((4,16),(10,12),(18,12)),((22,12),(24,8),(24,8)))
-        self.add_bezier('head',(24,8),((30,8),(33,12),(31,17)))
-        self.add_bezier('neck',(31,17),((25,20),(27,27),(22,31)),((21,32),(21,32),(20,32)),((18,34),(15,35),(12,34)),((7,34),(4,30),(4,25)))
-        self.add_contour('bird','back','head','neck',closed=True)
-        self.add_bezier('beak',(31,17),((37,20),(41,25),(44,30)));self.relate('connect','beak','bird')
-        self.add_polyline('leg-left',(12,34),(10,40),(6,40))
-        self.add_polyline('leg-right',(20,32),(22,40),(27,40))
-        self.relate('connect','leg-left','bird');self.relate('connect','leg-right','bird')
-        self.add_dot('eye',(18,22))
+    def path(self,name,start,commands,closed=False):
+        members=[];here=start
+        for j,(kind,end,*args) in enumerate(commands):
+            eid=f'{name}-{j}'
+            if kind=='L':self.add_line(eid,here,end)
+            elif kind=='A':self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C':self.add_bezier(eid,here,(args[0],args[1],end))
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

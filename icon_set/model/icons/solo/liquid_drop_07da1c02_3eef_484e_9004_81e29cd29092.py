@@ -1,36 +1,39 @@
-"""Liquid Drop.
-Plan: (8,4)-(40,44). Pointed drop tip above circular lower bowl. One short inner reflection.
-References: supplied original source; Lucide droplet: pointed apex and coherent rounded bowl.
-Human guidance: human_ref/user.svg and full_body_ref.png where applicable.
+"""liquid-drop-07da1c02: Symmetric pointed drop with tangent shoulders flowing into a circular lower bowl; short reflection retained.
+Lucide construction: droplet; original and atomic-debug inspected.
+Omissions: None
+Keyshape VRECT_L: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '07da1c02-3eef-484e-9004-81e29cd29092'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/blood drop_07da1c02-3eef-484e-9004-81e29cd29092.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'liquid-drop-07da1c02'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "health"
-    aliases = ('liquid-drop',)
-    keywords = ('liquid', 'drop')
-
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'health'
+    aliases = ()
+    keywords = ('liquid', 'drop', '07da1c02')
     def build(self):
 
-        def stroke(name, start, segments, closed=False):
+        def path(name, start, commands, closed=False):
             members=[]
-            for j,s in enumerate(segments):
-                member=f"{name}-{j}"
-                if len(s)==1: self.add_line(member,start,s[0])
-                else: self.add_arc(member,start,s[0],radius_x=s[1],radius_y=s[2],sweep=s[3],large_arc=s[4] if len(s)>4 else False)
-                members.append(member);start=s[0]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
             self.add_contour(name,*members,closed=closed)
-        def circle(name,cx,cy,r):
-            stroke(name,(cx-r,cy),[((cx+r,cy),r,r,True),((cx-r,cy),r,r,True)],True)
-        stroke("drop",(24,4),[((37,23),),((40,28),16,16,True),((24,44),16,16,True),((8,28),16,16,True),((11,23),16,16,True),((24,4),)],True)
-        self.add_line("reflection",(29,32),(26,35))
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
+        path('drop',(24,4),[('C',(40,28),(30,13),(40,21)),('A',(24,44),16,16,True),('A',(8,28),16,16,True),('C',(24,4),(8,21),(18,13))],True)
+        line('reflection',(29,32),(26,35))

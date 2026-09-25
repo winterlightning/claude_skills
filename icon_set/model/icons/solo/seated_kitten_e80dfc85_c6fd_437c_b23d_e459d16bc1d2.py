@@ -1,4 +1,6 @@
-'Sitting Pet Cat.\nPlan: Seated kitten with pointed ears, broad haunches, a tail integrated into the outer silhouette and one foreleg division. Face details omitted.\nReference: Lucide cat: pointed ears and rounded cheeks; source seated body and tail retained.\nKeyshape: VRECT_L, exact SOLO48 envelope.'
+"""Seated kitten with pointed ears, rounded cheeks, smooth haunches and left curling tail. Lucide cat informs curved cheeks and pointed ears. Omit face marks; retain sitting forelegs.
+Keyshape VRECT_L: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,31 +18,28 @@ class Drawing(Solo48):
     keywords = ('seated', 'kitten')
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        # One outer contour owns both the haunches and the curling tail; no overlapping outlines.
+        self.path('cat',(14,4),[(21,9),((29,9),14,14,True),(36,4),(36,15),((31,25),11,11,True),((40,38),16,16,True),(40,40),((36,44),4,4,True),(26,44),(16,44),((8,36),8,8,True),((18,26),10,10,True),(18,25),((14,15),11,11,True),(14,4)],True)
+        self.add_line('tail-crease',(16,36),(16,44));self.relate('connect','tail-crease','cat')
+        self.add_line('legs',(26,34),(26,44));self.relate('connect','legs','cat')
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
 
-        path('cat',(12,4),[(22,10),(26,10),(36,4),(36,18),(32,26),(40,36),(40,40),((36,44),4,4,True),(24,44),(16,44),((8,36),8,8,True),(8,30),(18,26),(12,18),(12,4)],True)
-        
-        self.add_line('forelegs',(24,34),(24,44));self.relate('connect','forelegs','cat')
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

@@ -1,38 +1,46 @@
-# Refinement: Add the final unit of clearance above the central hand.
-# Refinement: Open the wrist-to-knuckle gap while preserving the shared grip endpoint.
-# Repair: Move the upper wrist outward to clear the central knuckles.
-"""Three hands reach in from above and the lower sides to overlap at the center. Parallel finger lines cross the topmost hand, while the forearms spread outward in three directions.
-Lucide hand construction; no exact three-hand stack match. Three pairs of forearm edges meet a broad overlapping hand. Finger creases omitted. Three-direction composition remains intentionally asymmetric.
-SQUARE: centerline extremes (6,6)-(42,42); freshly authored on SOLO48.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ca2e907d-e297-46ef-946a-c08a49756d52'
 SOURCE_PATH = 'pictographic-primitives/work/workflow teamwork hand gather_ca2e907d-e297-46ef-946a-c08a49756d52.svg'
 AUTHOR = 'gpt-6'
 
-class StackedHands(Solo48):
+class Drawing(Solo48):
     icon_id = 'stacked-hands'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/work'
     aliases = ()
-    keywords = ('hands', 'stack', 'teamwork', 'group', 'together', 'cooperation')
+    keywords = ('workflow teamwork hand gather',)
+    # Plan: Overlapping palms entered by visible wrists replace the angular central knot.
+    # Construction references: Original stacked hands: an upper wrist and a diagonally crossing palm; Lucide hand: rounded finger turn.
+    # Omissions: Finger seams reduced to preserve the overlapping-hand reading.
+    def build(self):
+        # A top wrist enters from above; a second palm approaches diagonally from right.
+        self.path('lower-hand',(14,6),[(14,20),((6,28),8,8,False),((14,36),8,8,False),(16,42)])
+        self.path('upper-wrist',(28,6),[(28,15),(34,21)])
+        self.path('top-hand',(42,42),[(34,34),(22,22),((16,28),5,5,False),(24,36),(18,36),(6,42)])
+        self.add_polyline('fingers',(34,21),(42,29))
+        self.relate('connect','fingers','upper-wrist')
 
-    def build(self) -> None:
-        self.add_polyline('central-hand', (14, 22), (22, 16), (38, 26), (30, 34), (22, 34), closed=True)
-        self.add_polyline('top-left', (18, 6), (18, 16), (14, 22), closed=False)
-        self.add_polyline('top-right', (34, 6), (34, 14), (41, 18), (38, 26), closed=False)
-        self.add_polyline('left-upper', (6, 26), (14, 22), closed=False)
-        self.add_polyline('left-lower', (6, 42), (14, 36), (22, 34), closed=False)
-        self.add_line('right-upper', (42, 24), (38, 26))
-        self.add_polyline('right-lower', (42, 42), (34, 36), (30, 34), closed=False)
-        self.relate('connect', 'top-left', 'central-hand')
-        self.relate('connect', 'top-right', 'central-hand')
-        self.relate('connect', 'left-upper', 'central-hand')
-        self.relate('connect', 'left-lower', 'central-hand')
-        self.relate('connect', 'right-upper', 'central-hand')
-        self.relate('connect', 'right-lower', 'central-hand')
-        self.relate('connect', 'top-left', 'left-upper')
-        self.relate('connect', 'top-right', 'right-upper')
+    def path(self, name, start, steps, closed=False):
+        current = start
+        ids = []
+        for index, step in enumerate(steps):
+            ident = f"{name}-{index}"
+            if len(step) == 2:
+                self.add_line(ident, current, step)
+                current = step
+            else:
+                end, rx, ry, sweep = step
+                self.add_arc(ident, current, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                current = end
+            ids.append(ident)
+        self.add_contour(name, *ids, closed=closed)
+
+    def circle(self, name, cx, cy, r):
+        self.path(name, (cx-r,cy), [((cx+r,cy),r,r,True),((cx-r,cy),r,r,True)], True)
+
+    def box(self, name, x, y, w, h, r=3):
+        self.path(name,(x+r,y),[(x+w-r,y),((x+w,y+r),r,r,True),(x+w,y+h-r),
+            ((x+w-r,y+h),r,r,True),(x+r,y+h),((x,y+h-r),r,r,True),(x,y+r),((x+r,y),r,r,True)],True)

@@ -1,43 +1,36 @@
-'Laughing Face with Smiling Eyes.\n\nSymbol plan: Round face with widely spaced expression strokes; open mouth reduced to one smooth smile to retain clear interior.\nKeyshape: CIRCLE; authored on SOLO48, not scaled from source.\nLucide: no useful subject match; reference-informed geometric construction.'
+"""Laughing face with intentionally uneven eye arches and open mouth. Circle construction and one coherent asymmetric eye curve remove stray nodes. Source right eye is flatter; this deliberate asymmetry remains. No useful exact Lucide expression match.
+Keyshape CIRCLE: exact SOLO48 envelope; 4px stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd877bd07-3417-42d3-9a2d-75cd734b3def'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_17/face laugh wink_d877bd07-3417-42d3-9a2d-75cd734b3def.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class LaughingFaceWithUnevenEyeArches(Solo48):
-    icon_id = 'laughing-face-with-uneven-eye-arches'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects/reference'
-    aliases = ()
-    keywords = ('laughing', 'face', 'with', 'uneven', 'eye', 'arches')
+class Drawing(Solo48):
+    icon_id='laughing-face-with-uneven-eye-arches'
+    keyshape=Keyshape.CIRCLE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('laughing', 'face', 'with', 'uneven', 'eye', 'arches')
 
     def build(self):
-        # Round face with widely spaced expression strokes; open mouth reduced to one smooth smile to retain clear interior.
-        axis_x = 24
-        p_4_24 = (4, 24)
-        p_14_19 = (14, 19)
-        p_15_16 = (15, 16)
-        p_15_29 = (15, 29)
-        p_17_16 = (17, 16)
-        p_18_37 = (18, 37)
-        p_19_19 = (19, 19)
-        p_29_19 = (2 * axis_x - p_19_19[0], p_19_19[1])
-        p_30_37 = (2 * axis_x - p_18_37[0], p_18_37[1])
-        p_31_16 = (2 * axis_x - p_17_16[0], p_17_16[1])
-        p_33_19 = (33, 19)
-        p_33_29 = (2 * axis_x - p_15_29[0], p_15_29[1])
-        p_34_19 = (2 * axis_x - p_14_19[0], p_14_19[1])
-        p_44_24 = (2 * axis_x - p_4_24[0], p_4_24[1])
-        self.add_arc('face-1', p_4_24, p_44_24, radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('face-2', p_44_24, p_4_24, radius_x=20, radius_y=20, sweep=True)
-        self.add_contour('face', 'face-1', 'face-2', closed=True)
-        self.add_bezier('left-eye-1', p_14_19, (p_15_16, p_17_16, p_19_19))
-        self.add_contour('left-eye', 'left-eye-1', closed=False)
-        self.add_bezier('right-eye-1', p_29_19, (p_31_16, p_33_19, p_34_19))
-        self.add_contour('right-eye', 'right-eye-1', closed=False)
-        self.add_bezier('smile-1', p_15_29, (p_18_37, p_30_37, p_33_29))
-        self.add_contour('smile', 'smile-1', closed=False)
+        self.circle('face',24,24,20)
+        self.add_arc('left-eye',(15,17),(19,17),radius_x=2,sweep=True)
+        self.add_bezier('right-eye',(28,17),((29,15),(31,15),(33,17)))
+        self.path('mouth',(15,26),[('L',(33,26)),('A',(15,26),9,9,True)],True)
+
+    def path(self,name,start,commands,closed=False):
+        members=[];here=start
+        for j,(kind,end,*args) in enumerate(commands):
+            eid=f'{name}-{j}'
+            if kind=='L':self.add_line(eid,here,end)
+            elif kind=='A':self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C':self.add_bezier(eid,here,(args[0],args[1],end))
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

@@ -1,49 +1,43 @@
-'Geisha bust.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.\nHuman construction: icon_set/references/human_ref/full_body_ref.png and\nicon_set/references/human_ref/user.svg. Circular head radius 9,\nwith exactly 8 units of centerline head-to-body separation (4 visible units).'
+"""Geisha bust with radius-8 circular jaw, round bun, symmetric hairpins, and a curved kimono with diagonal lapel. Shared human-reference user.svg informs circular jaw and shoulders; explicit bust contact is zero ink gap (jaw bottom 26, shoulder top 30).
+Omissions: Small hairline and secondary kimono lapel omitted.
+Construction references: no useful direct Lucide match.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8294bb7e-b135-54c0-9464-4ea256245719'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/geisha_8294bb7e-b135-54c0-9464-4ea256245719.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class GeishaBust(Solo48):
-    icon_id = 'geisha-bust'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'culture/objects'
-    aliases = ()
-    keywords = ('geisha', 'japanese', 'kimono', 'hairpin', 'traditional', 'woman', 'culture', 'asian')
+class Drawing(Solo48):
+    human_construction="bust"
+    icon_id='geisha-bust'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="culture/objects"
+    aliases=()
+    keywords=('geisha',)
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_15_21 = (15, 21)
-        p_24_12 = (24, 12)
-        p_33_21 = (33, 21)
-        p_20_8 = (20, 8)
-        p_28_8 = (28, 8)
-        p_8_4 = (8, 4)
-        p_40_4 = (40, 4)
-        p_8_44 = (8, 44)
-        p_14_38 = (14, 38)
-        p_34_38 = (34, 38)
-        p_40_44 = (40, 44)
-        self.add_arc('head-tl', p_15_21, p_24_12, radius_x=9, radius_y=9, sweep=True, large_arc=False)
-        self.add_arc('head-tr', p_24_12, p_33_21, radius_x=9, radius_y=9, sweep=True, large_arc=False)
-        self.add_arc('head-bottom', p_33_21, p_15_21, radius_x=9, radius_y=9, sweep=True, large_arc=False)
-        self.add_arc('bun-top', p_20_8, p_28_8, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('bun-bottom', p_28_8, p_20_8, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('pin-left', p_8_4, p_24_12)
-        self.add_line('pin-right', p_40_4, p_24_12)
-        self.add_arc('shoulder-left', p_8_44, p_14_38, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_line('shoulders', p_14_38, p_34_38)
-        self.add_arc('shoulder-right', p_34_38, p_40_44, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('head', 'head-tl', 'head-tr', 'head-bottom', closed=True)
-        self.add_contour('bun', 'bun-top', 'bun-bottom', closed=True)
-        self.add_contour('garment', 'shoulder-left', 'shoulders', 'shoulder-right', closed=False)
-        self.relate('connect', 'head', 'bun')
-        self.relate('connect', 'head', 'pin-left')
-        self.relate('connect', 'head', 'pin-right')
-        self.relate('connect', 'bun', 'pin-left')
-        self.relate('connect', 'bun', 'pin-right')
-        self.relate('connect', 'pin-left', 'pin-right')
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+
+    def build(self):
+        # Circular jaw touching curved shoulders: extrema are exactly 4 apart.
+        self.path('head',(24,10),[('A',(32,18),8,8,True),('A',(24,26),8,8,True),('A',(16,18),8,8,True),('A',(24,10),8,8,True)],True)
+        self.path('bun',(24,10),[('A',(24,4),3,3,True),('A',(24,10),3,3,True)],True)
+        self.add_line('pin-left',(8,4),(16,18));self.add_line('pin-right',(40,4),(32,18))
+        for a,b in [('head','bun'),('head','pin-left'),('head','pin-right')]:self.relate('connect',a,b)
+        self.path('kimono',(8,44),[('A',(24,30),16,14,True),('A',(40,44),16,14,True),('L',(16,44)),('L',(8,44))],True)
+        self.relate('connect','head','kimono')
+        self.add_line('lapel',(24,30),(16,44));self.relate('connect','lapel','kimono')

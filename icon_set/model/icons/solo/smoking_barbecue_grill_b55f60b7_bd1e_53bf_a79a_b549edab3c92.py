@@ -1,42 +1,39 @@
-"""Smoking Barbecue Grill."""
+"""A smooth semicircular grill bowl on matching splayed legs under three gentle smoke curves.
+Omissions: Lower leg brace omitted to preserve open space.
+Construction references: ['soup'].
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b55f60b7-bd1e-53bf-a79a-b549edab3c92'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/barbecue grill_b55f60b7-bd1e-53bf-a79a-b549edab3c92.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'smoking-barbecue-grill'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "food"
-    aliases = ()
-    keywords = ('smoking', 'barbecue', 'grill')
+    icon_id='smoking-barbecue-grill'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="food"
+    aliases=()
+    keywords=('barbecue', 'grill')
+
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        # Plan: Barbecue bowl on two splayed legs with three rising smoke wisps. Shared leg nodes and repeated smoke definition. Crossbar omitted to preserve clearance below the bowl; Lucide soup informs the open bowl.
-        # Envelope: SQUARE; visible ink (4, 4, 44, 44) on SOLO48.
-
-        def path(name, start, commands, closed=False):
-            members=[]
-            here=start
-            for i,(kind,end,*args) in enumerate(commands):
-                ident=f"{name}-{i}"
-                if kind=='L': self.add_line(ident,here,end)
-                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
-                members.append(ident);here=end
-            self.add_contour(name,*members,closed=closed)
-        def oval(name,cx,cy,rx,ry):
-            path(name,(cx-rx,cy),[('A',(cx+rx,cy),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
-        def rounded(name,x0,y0,x1,y1,r):
-            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
-        line=self.add_line
-        poly=self.add_polyline
-        join=lambda a,b:self.relate('connect',a,b)
-
-        path('bowl',(6,20),[('L',(42,20)),('C',(32,30),(42,24),(37,29)),('C',(24,32),(29,32),(27,32)),('C',(16,30),(21,32),(19,32)),('C',(6,20),(11,29),(6,24))],True)
-        line('leg-left',(16,30),(10,42));line('leg-right',(32,30),(38,42));join('leg-left','bowl');join('leg-right','bowl')
-        for j,x in enumerate((14,24,34)):path('smoke-'+str(j),(x,6),[('C',(x,12),(x-2,8),(x+2,10))])
+        self.path('bowl',(6,22),[('L',(42,22)),('C',(33,32),(42,27),(37,30)),('C',(24,34),(29,34),(27,34)),('C',(15,32),(21,34),(19,34)),('C',(6,22),(11,30),(6,27))],True)
+        for n,x,z in [('left',15,10),('right',33,38)]:
+            self.add_line('leg-'+n,(x,32),(z,42));self.relate('connect','leg-'+n,'bowl')
+        for j,x in enumerate((14,24,34)):
+            self.path('smoke-'+str(j),(x,6),[('C',(x,13),(x-3,8),(x+3,11))])

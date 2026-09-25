@@ -1,60 +1,41 @@
-"""Baguette and Loaf of Bread.
-
-Plan: Bread basket with tall baguette and round loaf; omit scoring lines in the small loaves.
-Construction reference: No useful exact Lucide match; geometric arc construction.
-Keyshape SQUARE: whole subject uses the exact SOLO48 inset envelope.
+"""Diagonal baguette sits behind a rounded loaf in a basket. Loaf top deliberately receives the baguette at28,20; this is a visible overlap, not a squeezed gap.
+Construction: No useful exact Lucide match; source arrangement and geometric primitives.
+Omissions: Scoring omitted. Baguette is partly hidden by the round loaf, matching the source overlap.
+Keyshape SQUARE: exact contract extremes, stroke 4.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8c71bf77-2ef0-42a0-ab5c-2fba761c31e4'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/bread baguette_8c71bf77-2ef0-42a0-ab5c-2fba761c31e4.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'baguette-and-loaf-in-basket'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/misc'
-    aliases = ()
-    keywords = ('baguette', 'and', 'loaf', 'of', 'bread')
-
+    icon_id='baguette-and-loaf-in-basket'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/misc"
+    aliases=()
+    keywords=('baguette', 'and', 'loaf', 'in', 'basket')
     def build(self):
+        self.path('baguette',(6,28),[('L',(19,10)),('C',(26,6),(22,6),(23,6)),('C',(31,17),(34,6),(36,12)),('L',(28,20))])
+        self.path('loaf',(24,28),[('C',(28,20),(24,24),(24,20)),('L',(34,20)),('C',(42,28),(38,20),(42,24))])
+        self.path('basket',(6,28),[('L',(24,28)),('L',(42,28)),('C',(24,42),(42,37),(34,42)),('C',(6,28),(14,42),(6,37))],True)
+        self.join('basket','baguette');self.join('basket','loaf');self.join('baguette','loaf')
 
-        self.path('baguette',[(6,28),(6,12)])
-        self.arc('bread-top',(6,12),(18,12),6)
-        self.add_line('bread-side',(18,12),(18,28))
-        # Merge the temporary runs into one continuous contour.
-        self.contours = [c for c in self.contours if not set(c.members).issubset({'bread-side', 'bread-top', 'baguette-1'})]
-        self.add_contour('long-loaf','baguette-1','bread-top','bread-side')
-        self.arc('round-loaf',(28,28),(42,28),7)
-        self.add_line('rim',(6,28),(42,28))
-        self.arc('basket',(42,28),(6,28),18,14)
-        # Merge the temporary runs into one continuous contour.
-        self.contours = [c for c in self.contours if not set(c.members).issubset({'basket', 'rim'})]
-        self.add_contour('basket-body','rim','basket',closed=True)
-        self.relate('connect','basket-body','long-loaf');self.relate('connect','basket-body','round-loaf')
-
-    def circle(self, name, x, y, r, ry=None):
-        ry = r if ry is None else ry
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r, radius_y=ry)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r, radius_y=ry)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def path(self, name, points, closed=False):
-        self.add_polyline(name, *points, closed=closed)
-
-    def arc(self, name, a, b, r, ry=None, sweep=True):
-        self.add_arc(name, a, b, radius_x=r, radius_y=r if ry is None else ry, sweep=sweep)
-
-    def rect(self, name, x, y, w, h, r=4):
-        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+    def path(self,n,p,steps,closed=False):
         ids=[]
-        for i,a in enumerate(points):
-            b=points[(i+1)%8]; part=f'{name}-{i}'; ids.append(part)
-            if i%2: self.arc(part,a,b,r)
-            elif a != b: self.add_line(part,a,b)
-            else: ids.pop()
-        self.add_contour(name,*ids,closed=True)
+        for j,step in enumerate(steps):
+            k,q,*v=step; uid=f'{n}-{j}'
+            if k=='L': self.add_line(uid,p,q)
+            elif k=='A': self.add_arc(uid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif k=='C': self.add_bezier(uid,p,(v[0],v[1],q))
+            ids.append(uid);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=2):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def line(self,n,a,b): self.add_line(n,a,b)
+    def poly(self,n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+    def join(self,a,b): self.relate('connect',a,b)

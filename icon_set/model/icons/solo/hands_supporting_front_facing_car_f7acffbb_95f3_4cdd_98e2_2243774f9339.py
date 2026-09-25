@@ -1,4 +1,6 @@
-'Hands Supporting Front Facing Car\nPlan: Front car above cupped hands; hands mirror about vertical center.\nReference: No useful exact Lucide match; supplied reference governs the subject.\nReduction: Hands retain cupped gesture; car lamps and tires omitted. Human reference reviewed; no detached head.\nKeyshape: SQUARE; exact SOLO48 contract envelope.'
+"""Front car above mirrored cupped hands. Lucide car-front: trapezoidal windshield and rounded body. Omit lamps and mirrors for clearance.
+Keyshape SQUARE: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,36 +11,36 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'hands-supporting-front-facing-car'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = 'objects'
+    aliases = ()
     keywords = ('hands', 'supporting', 'front', 'facing', 'car')
 
     def build(self):
+        self.path('car',(14,14),[(17,6),(31,6),(34,14),(34,20),((32,22),2,2,True),(16,22),((14,20),2,2,True),(14,14)],True)
+        self.add_line('windshield',(14,14),(34,14));self.relate('connect','car','windshield')
+        for n,x in [('left',20),('right',28)]:
+            self.add_line(n+'-tire',(x,22),(x,24));self.relate('connect','car',n+'-tire')
+        self.cups()
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-        def ellipse(name,x,y,rx,ry):
-            path(name,(x-rx,y),[((x+rx,y),rx,ry,True),((x-rx,y),rx,ry,True)],True)
-        def circle(name,x,y,r):
-            ellipse(name,x,y,r,r)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        self.add_polyline('car',(14,14),(17,6),(31,6),(34,14),(34,22),(14,22),(14,14))
-        self.add_line('windshield',(14,14),(34,14));self.relate('connect','windshield','car')
-        for i,x in enumerate([18,30]):self.add_line(f'tire-{i}',(x,22),(x,26));self.relate('connect',f'tire-{i}','car')
-        for side in [-1,1]:
-         x=lambda a:24+side*a
-         self.add_bezier(f'hand-{side}',(x(8),42),((x(8),37),(x(18),38),(x(18),33)),((x(18),29),(x(18),24),(x(18),24)))
-         self.add_bezier(f'fingers-{side}',(x(18),33),((x(17),31),(x(16),32),(x(14),34)))
-         self.relate('connect',f'hand-{side}',f'fingers-{side}')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Mirrored hands about x24; equal fingertip radii and tangent S-curves into the wrists.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(10,42),[(p(6,34),10,10,s>0),p(6,33),(p(14,33),4,4,s>0),(p(16,35),2,2,s<0),(p(18,37),2,2,s>0),p(18,42)])

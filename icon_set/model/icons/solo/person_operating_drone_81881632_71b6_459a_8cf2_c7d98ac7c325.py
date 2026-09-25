@@ -1,41 +1,46 @@
-'Person Operating a Drone.\nSymbol plan: A small person stands at the lower right with both hands meeting around a controller. A larger drone floats above and left, with two raised rotors, a rounded body, and a lower camera housing.\nConstruction: Human full_body_ref.png: circular heads, coherent torso/limbs, exact 8u centerline / 4u ink head-to-neck clearance.\nReduction: Drone with two rotors and camera remains above a cropped operator with hands at the controller.\nKeyshape SQUARE.'
+"""Drone at upper left and operator at lower right. Shared rotor dimensions and horizontal capsule. Human full_body_ref.png: head center(36,26), r4, actual torso(36,38) leaves exact 4 ink gap. Lucide drone informs repeated arms. Cropped operator has curved arms meeting a controller.
+Keyshape SQUARE; clean centerlines revision. Shared symbol parameters own paired geometry."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '81881632-71b6-459a-8cf2-c7d98ac7c325'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_31/play drone_81881632-71b6-459a-8cf2-c7d98ac7c325.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'person-operating-drone'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('drone', 'operator', 'person', 'controller', 'rotors', 'flight')
+class Drawing(Solo48):
+    icon_id='person-operating-drone'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('person', 'operating', 'drone')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident); here=end
+            self.add_contour(n,*members,closed=closed)
         def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        rect('drone',10,14,16,8,4);line('left-boom',(14,6),(14,14));line('right-boom',(22,6),(22,14));self.relate('connect','left-boom','drone');self.relate('connect','right-boom','drone')
-        line('rotor-left',(6,6),(14,6));line('rotor-right',(22,6),(30,6));line('camera',(18,22),(18,26));self.relate('connect','camera','drone')
-        circle('head',38,26,4);line('torso',(38,38),(38,42));line('arms',(30,38),(42,38));self.relate('connect','arms','torso');self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,k=2):
+            path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        def join(a,b): self.relate('connect',a,b)
+
+        path('drone',(12,14),[('L',(22,14)),('A',(22,22),4,4,True),('L',(12,22)),('A',(12,14),4,4,True)],True)
+        for side,x in [('left',12),('right',22)]:
+            line(side+'-boom',(x,6),(x,14));join(side+'-boom','drone')
+        poly('rotor-left',(6,6),(12,6),(14,6));poly('rotor-right',(22,6),(26,6),(30,6))
+        join('rotor-left','left-boom');join('rotor-right','right-boom')
+        line('camera',(17,22),(17,25));join('camera','drone')
+        circle('head',36,26,4)
+        line('torso',(36,38),(36,42))
+        path('arms',(28,42),[('C',(36,38),(28,38),(32,38)),('C',(42,42),(40,38),(42,38))])
+        join('torso','arms')
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')

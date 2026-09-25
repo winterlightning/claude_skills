@@ -1,25 +1,23 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '32c98c89-6e46-4737-9aa5-e927668b865d'
-SOURCE_PATH = 'icon_set/work/todo-references/square v_32c98c89-6e46-4737-9aa5-e927668b865d.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-v/20260925T034659Z-thuan-mac/reference/square v_32c98c89-6e46-4737-9aa5-e927668b865d.svg'
 AUTHOR = 'gpt-6'
-# Plan: Rounded square with a check mark, matching the supplied square-v artwork.
-# References: Joined two-segment check with deliberate asymmetry.
-# Reduction: No parts omitted; source is a check rather than a letter V.
-
+# Plan: Symmetric capital V, replacing asymmetric check mark.
+# Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
+# Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.
 class AuthoredIcon(Solo48):
     icon_id = 'square-v'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
     aliases = ()
     keywords = ('square', 'v')
-
     def build(self):
-        self.box("frame",6,6,42,42,4)
-        self.add_polyline('check',(15,24),(22,31),(33,17))
+        self.box('frame',6,6,42,42)
+        axis=24
+        self.add_polyline('letter',(axis-9,15),(axis,33),(axis+9,15))
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

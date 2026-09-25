@@ -1,7 +1,5 @@
-"""Simple Farm Chicken Hen.
-
-Plan: Right-facing hen, small beak, raised left tail and one foot retained. Small crest/wattle details simplified into the head silhouette. Keyshape HRECT_L uses its exact SOLO48 bounds; mirrored geometry only where the source supports it.
-Construction reference: No useful exact Lucide match; source-specific construction.
+"""Standing hen with raised tail and right-facing beak. Lucide bird informs round breast and head. Preserve tail, beak and foot; omit tiny comb/wattle. Smooth arc sequence replaces uneven curves.
+Keyshape HRECT_L: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -20,23 +18,26 @@ class Drawing(Solo48):
     keywords = ('standing', 'hen', 'with', 'raised', 'tail')
 
     def build(self):
+        self.path('hen',(4,12),[((18,22),15,15,False),(22,22),((28,16),6,6,False),(28,14),((34,8),6,6,True),((40,14),6,6,True),(44,18),(40,20),(40,22),((30,32),10,10,True),(18,32),((4,24),14,8,True),(4,12)],True)
+        self.add_polyline('foot',(24,32),(24,40),(31,40));self.relate('connect','foot','hen')
 
-        def path(name, start, commands, closed=False):
-            here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
-                member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        path('hen',(36,8),[('C',(28,15),(30,8),(28,10)),('C',(19,22),(28,20),(24,22)),('C',(4,12),(12,22),(7,12)),('L',(6,26)),('C',(23,32),(6,31),(14,32)),('C',(40,24),(35,32),(40,30)),('L',(40,20)),('L',(44,17)),('L',(40,14)),('C',(36,8),(42,10),(40,8))],True)
-        poly('foot',(23,32),(23,40),(30,40));join('foot','hen')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

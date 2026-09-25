@@ -1,26 +1,43 @@
-"""batch-01-laptop-computers: approved original model.
-
-Construction: Wide laptop screen with a base that tapers inward to a flat, softly rounded front edge.
-Keyshape: HRECT_L; exact SOLO48 envelope.
-Construction reference: laptop from the previously inspected Lucide original and atomic-debug library.
-Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 SOURCE_ICON_ID = '4679969c-dfb9-4a03-ab57-4d2eded56e5a'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-01/laptop_4679969c-dfb9-4a03-ab57-4d2eded56e5a.svg'
 AUTHOR = 'gpt-6'
 
-class Batch01LaptopComputers(Solo48):
+class Drawing(Solo48):
     icon_id = 'batch-01-laptop-computers'
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
     aliases = ()
-    keywords = ('batch', 'laptop', 'computers')
-    keyshape = Keyshape.HRECT_L
-
+    keywords = ('laptop',)
+    # Plan: One laptop: rounded upright screen and a broad flared keyboard base; extremes (4,8)-(44,40).
+    # Construction references: Lucide laptop: screen and flared base with shared hinge.
+    # Omissions: Keyboard keys omitted at 48px.
     def build(self):
-        path(self, 'screen', (4, 30), ('L', (4, 12)), ('A', 4, 4, True, (8, 8)), ('L', (40, 8)), ('A', 4, 4, True, (44, 12)), ('L', (44, 30)))
-        path(self, 'base', (4, 30), ('L', (44, 30)), ('C', (42, 36), (41, 40), (36, 40)), ('L', (12, 40)), ('C', (7, 40), (6, 36), (4, 30)), closed=True)
-        contacts(self)
+        self.path('body',(8,30),[(8,12),((12,8),4,4,True),(36,8),((40,12),4,4,True),(40,30),(44,40),(4,40),(8,30)],True)
+        self.add_line('hinge',(8,30),(40,30))
+        self.relate('connect','body','hinge')
+
+    def path(self, name, start, steps, closed=False):
+        current = start
+        ids = []
+        for index, step in enumerate(steps):
+            ident = f"{name}-{index}"
+            if len(step) == 2:
+                self.add_line(ident, current, step)
+                current = step
+            else:
+                end, rx, ry, sweep = step
+                self.add_arc(ident, current, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                current = end
+            ids.append(ident)
+        self.add_contour(name, *ids, closed=closed)
+
+    def circle(self, name, cx, cy, r):
+        self.path(name, (cx-r,cy), [((cx+r,cy),r,r,True),((cx-r,cy),r,r,True)], True)
+
+    def box(self, name, x, y, w, h, r=3):
+        self.path(name,(x+r,y),[(x+w-r,y),((x+w,y+r),r,r,True),(x+w,y+h-r),
+            ((x+w-r,y+h),r,r,True),(x+r,y+h),((x,y+h-r),r,r,True),(x,y+r),((x+r,y),r,r,True)],True)

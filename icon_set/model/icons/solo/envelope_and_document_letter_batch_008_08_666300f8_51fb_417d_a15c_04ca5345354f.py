@@ -1,84 +1,41 @@
-"""Envelope and Document Letter.
-Plan: Letter protrudes from postcard-like envelope; one writing line and stamp retained.
-Construction reference: Lucide mail; independently solved SOLO48 geometry.
-Source copy inspected: work/brief-exports/20260917-all-todo-batches-15/batches/batch-008/references/read email letter_666300f8-51fb-417d-a15c-04ca5345354f.svg
+"""envelope-and-document-letter-batch-008-08: Rectangular envelope with an emerging folded-corner letter, one address line, and detached stamp; all contact points explicit.
+Lucide construction: mail; original and atomic-debug inspected.
+Omissions: Second address line and letter text omitted for spacing; square postal stamp retained.
+Keyshape SQUARE: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '666300f8-51fb-417d-a15c-04ca5345354f'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/emails/read email letter_666300f8-51fb-417d-a15c-04ca5345354f.svg'
 AUTHOR = 'gpt-6'
-
-
-class GeneratedSolo(Solo48):
+class Drawing(Solo48):
     icon_id = 'envelope-and-document-letter-batch-008-08'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/batch-008"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/batch-008'
     aliases = ()
-    keywords = ('envelope', 'and', 'document', 'letter')
-
+    keywords = ('envelope', 'and', 'document', 'letter', 'batch', '008', '08')
     def build(self):
 
-        def line(name, start, end):
-            self.add_line(name, start, end)
-        def arc(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx, radius_y=ry, sweep=sweep)
-        def curve(name, start, *segments):
-            self.add_bezier(name, start, *segments)
-        def path(name, *points, closed=False):
-            self.add_polyline(name, *points, closed=closed)
-        def circle(name, x, y, r, ry=None):
-            ry = r if ry is None else ry
-            points = [(x-r,y),(x,y-ry),(x+r,y),(x,y+ry)]
-            for j in range(4): arc(f'{name}-{j}',points[j],points[(j+1)%4],r,ry)
-            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                path(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                 (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(f'{name}-{j}',pts[j],pts[(j+1)%8],r)
-                else: line(f'{name}-{j}',pts[j],pts[(j+1)%8])
-            self.add_contour(name,*(f'{name}-{j}' for j in range(8)),closed=True)
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-        rect('envelope',6,24,36,18,2)
-        path('letter',(12,16),(12,6),(29,6),(36,13),(36,24))
-        line('letter-text',(20,15),(26,15))
-        line('address',(15,33),(23,33))
-        rect('stamp',32,24,10,9)
-
-        # Connect only actual shared endpoints, including contour junctions.
-        # Split receiving straight runs at attachment nodes to preserve topology.
-        from ...primitives import Line, Point
-        endpoints = {p.start for p in self.primitives} | {p.end for p in self.primitives}
-        replacements = {}
-        rebuilt = []
-        for primitive in self.primitives:
-            if isinstance(primitive, Line) and primitive.start != primitive.end:
-                a, b = primitive.start, primitive.end
-                dx, dy = b.x-a.x, b.y-a.y
-                cuts = [q for q in endpoints if q not in (a,b)
-                        and (q.x-a.x)*dy == (q.y-a.y)*dx
-                        and 0 < (q.x-a.x)*dx+(q.y-a.y)*dy < dx*dx+dy*dy]
-                if cuts:
-                    nodes = [a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
-                    ids=[]
-                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
-                        ident=f'{primitive.element_id}-join-{j}'
-                        rebuilt.append(Line(ident,u,v)); ids.append(ident)
-                    replacements[primitive.element_id]=ids
-                    continue
-            rebuilt.append(primitive)
-        if replacements:
-            from dataclasses import replace
-            self.primitives[:] = rebuilt
-            self.contours[:] = [replace(c, members=tuple(k for m in c.members for k in replacements.get(m,[m]))) for c in self.contours]
-        for i, a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end} & {b.start,b.end}:
-                    self.relate('connect',a.element_id,b.element_id)
+        poly('envelope',(6,18),(12,18),(36,18),(42,18),(42,42),(6,42),closed=True)
+        poly('letter',(12,18),(12,6),(28,6),(36,14),(36,18));join('letter','envelope')
+        line('address',(14,30),(18,30))
+        poly('stamp',(26,26),(34,26),(34,34),(26,34),closed=True)

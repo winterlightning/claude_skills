@@ -1,0 +1,49 @@
+{
+  "concept": "workflow teamwork handshake",
+  "source_uuid": "135d01ca-c11c-4e70-a645-04b5dbcd9502",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__diagonal-handshake/20260924T181031Z-thuan-mac/reference/workflow teamwork handshake_135d01ca-c11c-4e70-a645-04b5dbcd9502.svg",
+  "icon_id": "diagonal-handshake",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "diagonal-handshake",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 6, 46, 43.256) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 0.0, 0.0, 1.256], tolerance 0.0)",
+      "mic [finger-1]: parallel straight edges finger-1 and finger-2 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [finger-2]: parallel straight edges finger-2 and outer-8 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)"
+    ],
+    "warnings": [
+      "internal-spacing [outer / finger-2]: outer-8 and finger-2 have 3.0711 units of ink clearance over 3.2444 units; requires 4; review required",
+      "internal-spacing [finger-1 / finger-2]: finger-1 and finger-2 have 3.0711 units of ink clearance over 5.9896 units; requires 4; review required"
+    ]
+  },
+  "keyshape": "HRECT_L",
+  "visual_review": "Cannot preserve the requested two thumbs and four separate rounded diagonal fingers within SOLO48 spacing. Even the reduced two-seam attempt has only 7.071 centerline units between finger-1/finger-2 and finger-2/outer palm, below 8; rounded lower fingers also exceed the keyshape. Adding the specified fingers would worsen this; further deletion loses the requested clasp anatomy.",
+  "description": "Two hands meet diagonally, with a curved clasping thumb and rounded finger edge.",
+  "construction_references": "Lucide handshake: two opposing palms, inset thumb and scalloped fingers.",
+  "omissions": "Fourth finger and second visible thumb require additional room; tested in the repair loop.",
+  "artifacts": [
+    "diagonal_handshake_135d01ca_c11c_4e70_a645_04b5dbcd9502.py",
+    "diagonal-handshake.svg",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png",
+    "diagonal-handshake.metadata.json",
+    "reference-48.png",
+    "reference-384.png",
+    "validation.txt"
+  ],
+  "reviewer_feedback": "Does not convey the intended meaning\n\nTwo overlapping palms.\nTwo visible thumbs crossing near the center.\nFour separate rounded fingers arranged diagonally along the lower-left edge.\nCurved knuckle and palm contours.",
+  "visual_review_sizes": [
+    48,
+    384
+  ],
+  "visual_review_themes": [
+    "light",
+    "dark"
+  ],
+  "outcome": "cannot-fix",
+  "note": "Cannot preserve the requested two thumbs and four separate rounded diagonal fingers within SOLO48 spacing. Even the reduced two-seam attempt has only 7.071 centerline units between finger-1/finger-2 and finger-2/outer palm, below 8; rounded lower fingers also exceed the keyshape. Adding the specified fingers would worsen this; further deletion loses the requested clasp anatomy."
+}

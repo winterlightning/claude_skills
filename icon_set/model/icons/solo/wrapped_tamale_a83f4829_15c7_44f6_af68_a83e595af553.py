@@ -1,47 +1,34 @@
-'Traditional Corn Husk Tamale.\nPlan: Wrapped upright tamale with two pointed upper husk leaves and a front fold.\nConstruction reference: No useful exact local Lucide match; geometric arcs and coherent contours preserve the supplied subject.\nReduction: Keep the defining silhouette and essential parts.\nKeyshape: VRECT_L; use exact SOLO48 centerline extremes from the contract.'
+'An upright wrapped tamale with three open husk tips, a rounded packet and a smooth curved fold.\nPlan: VRECT_L exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: candy: rounded wrapper corners; source supplies the distinctive husk tips.\nOmissions: Small wrapper creases omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a83f4829-15c7-44f6-af68-a83e595af553'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_37/tamale_a83f4829-15c7-44f6-af68-a83e595af553.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'wrapped-tamale'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('wrapped', 'tamale')
-
+    icon_id='wrapped-tamale'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('wrapped', 'tamale')
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('wrap',(16,18),[(8,6),(18,10),((24,4),6,6,True),((30,10),6,6,True),(40,6),(32,18),((38,26),6,8,True),(38,38),((32,44),6,6,True),(16,44),((10,38),6,6,True),(10,26),((16,18),6,8,True)],True)
-        path('fold',(28,18),[((24,44),30,30,True)]);self.relate('connect','fold','wrap')
+        path('wrap',(16,18),[('L',(8,6)),('L',(18,10)),('A',(30,10),6,6,True),('L',(40,6)),('L',(32,18)),('C',(38,26),(38,18),(38,22)),('L',(38,38)),('A',(32,44),6,6,True),('L',(24,44)),('L',(16,44)),('A',(10,38),6,6,True),('L',(10,26)),('C',(16,18),(10,22),(10,18))],True)
+        path('fold',(28,18),[('C',(24,44),(32,27),(28,38))]);join('fold','wrap')

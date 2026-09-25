@@ -1,38 +1,37 @@
-'Partly Cloudy Weather Icon.\n\nSymbol plan: Low cloud and separated exposed sun arc. Reduce rays to one clean mark; preserve the partly cloudy reading.\nKeyshape: SQUARE; authored on SOLO48, not scaled from source.\nLucide: cloud-sun.'
-from ...keyshapes import Keyshape
+"""Sun behind a broad cloud with tangent-continuous rounded lobes.
+Plan: Sun behind a broad cloud with tangent-continuous rounded lobes.
+Construction: Lucide cloud-sun: separate sun arc and soft cloud lobes.
+Omissions: Reduced ray count to one diagonal ray for required spacing."""
 from ._base import Solo48
-
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID = '20eefefc-3f3c-4bb4-97c0-4d668355ba60'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_36/sun cloud_20eefefc-3f3c-4bb4-97c0-4d668355ba60.svg'
-AUTHOR = 'gpt-6'
-
-class SunBehindCloud(Solo48):
-    icon_id = 'sun-behind-cloud'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects/reference'
-    aliases = ()
-    keywords = ('sun', 'behind', 'cloud')
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='sun-behind-cloud'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('sun', 'behind', 'cloud')
 
     def build(self):
-        # Low cloud and separated exposed sun arc. Reduce rays to one clean mark; preserve the partly cloudy reading.
-        axis_x = 24
-        p_6_14 = (6, 14)
-        p_14_26 = (14, 26)
-        p_14_42 = (14, 42)
-        p_17_22 = (17, 22)
-        p_22_14 = (22, 14)
-        p_31_22 = (2 * axis_x - p_17_22[0], p_17_22[1])
-        p_34_8 = (34, 8)
-        p_34_26 = (2 * axis_x - p_14_26[0], p_14_26[1])
-        p_34_42 = (2 * axis_x - p_14_42[0], p_14_42[1])
-        self.add_arc('cloud-1', p_14_42, p_14_26, radius_x=8, radius_y=8, sweep=True)
-        self.add_bezier('cloud-2', p_14_26, (p_17_22, p_31_22, p_34_26))
-        self.add_arc('cloud-3', p_34_26, p_34_42, radius_x=8, radius_y=8, sweep=True)
-        self.add_line('cloud-4', p_34_42, p_14_42)
-        self.add_contour('cloud', 'cloud-1', 'cloud-2', 'cloud-3', 'cloud-4', closed=True)
-        self.add_arc('sun-1', p_6_14, p_22_14, radius_x=8, radius_y=8, sweep=True)
-        self.add_contour('sun', 'sun-1', closed=False)
-        self.add_line('ray-1', p_34_8, p_34_8)
-        self.add_contour('ray', 'ray-1', closed=False)
+        def path(name,start,steps,closed=False):
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
+            self.add_contour(name,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        path('cloud',(14,42),[('A',(6,34),8,8,True),('A',(14,26),8,8,True),('C',(24,22),(18,26),(16,22)),('C',(34,26),(32,22),(30,26)),('A',(42,34),8,8,True),('A',(34,42),8,8,True),('L',(14,42))],True)
+        path('sun',(6,14),[('A',(22,14),8,8,True)])
+        line('ray',(34,8),(36,6))

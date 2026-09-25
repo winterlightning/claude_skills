@@ -1,7 +1,6 @@
-'Soap bar with foam. Plan and review: Perspective soap bar and broad rounded suds retained. Fine lower cube edges are hidden by the foam; joined boundaries avoid narrow trapped pockets. Keyshape SQUARE centerline envelope (6,6)-(42,42). Chosen to fit the complete subject silhouette. Reference: Lucide cloud original and atomic-debug informs round overlapping foam lobes.'
+'Perspective soap bar behind a broad foam outline. Straight box edges and circular lather lobes. Bounds (6,6)-(42,42).\nConstruction: Lucide cloud: coherent rounded foam lobes.\nOmissions: Lower soap edges hidden behind foam.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a98c4793-33e4-4b74-83d2-353f5158652b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/wayfinding/sponge soap_a98c4793-33e4-4b74-83d2-353f5158652b.svg'
 AUTHOR = 'gpt-6'
@@ -9,34 +8,32 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'soap-bar-with-foam'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
     aliases = ()
     keywords = ('soap', 'bar', 'with', 'foam')
 
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
-
-        path('bar',(6,28),[(6,14),(22,6),(42,6),(42,28),(34,34)])
-        path('top',(6,14),[(30,14),(42,6)]);self.relate('connect','bar','top')
-        self.add_line('side',(30,14),(30,30));self.relate('connect','side','top')
-        curve('foam',(6,28),((9,24),(13,24),(16,28)),((20,22),(28,24),(30,30)),((38,28),(42,34),(38,38)),((34,42),(30,42),(24,42)),((14,42),(6,42),(6,36)),((6,32),(6,30),(6,28)))
-        self.relate('connect','bar','foam');self.relate('connect','side','foam')
+        def path(n,p,steps,closed=False):
+            members=[]
+            for i,s in enumerate(steps):
+                k,q,*a=s; m=f'{n}-{i}'
+                if k=='L': self.add_line(m,p,q)
+                elif k=='A': self.add_arc(m,p,q,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif k=='C': self.add_bezier(m,p,(a[0],a[1],q))
+                members.append(m);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        poly('bar',(6,30),(6,16),(22,6),(42,6),(42,28),(36,32))
+        poly('top',(6,16),(28,16),(42,6));join('top','bar')
+        line('edge',(28,16),(28,28));join('edge','top')
+        path('foam',(6,30),[('A',(14,22),8,8,True),('A',(22,30),8,8,True),('A',(28,28),6,6,True),('A',(36,32),8,6,True),('A',(42,37),6,5,True),('A',(24,42),18,5,True),('A',(6,37),18,5,True),('L',(6,30))],True)
+        join('foam','bar');join('foam','edge')

@@ -1,32 +1,36 @@
-"""A symmetrical peaked shield with straight shoulders, tapering lower sides and a check. Shield reaches (8,4)-(40,44); the check remains clear of its outline.
-Construction references: Lucide shield-check: coherent outline and angular check, retaining the source peaked crown."""
+"""Mirrored shield shoulders and flowing sides, with a crisp check mark.
+Omissions: None
+Construction references: ['shield-check'].
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '4b6ec7ff-fa5a-4489-9bab-e1e940ac236f'
-SOURCE_PATH = 'icon_set/work/todo-references/file shield_4b6ec7ff-fa5a-4489-9bab-e1e940ac236f.svg'
-AUTHOR = "gpt-6"
+SOURCE_ICON_ID='4b6ec7ff-fa5a-4489-9bab-e1e940ac236f'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__file-shield/20260924T171046Z-thuan-mac/reference/file shield_4b6ec7ff-fa5a-4489-9bab-e1e940ac236f.svg'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'file-shield'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'security'
-    aliases = ()
-    keywords = ('file', 'shield', 'security')
+    icon_id='file-shield'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('file', 'shield')
 
-    def page(self):
-        self.add_line("page-top",(12,4),(28,4)); self.add_line("page-fold-edge",(28,4),(40,16)); self.add_line("page-right",(40,16),(40,40))
-        self.add_arc("page-br",(40,40),(36,44),radius_x=4); self.add_line("page-bottom",(36,44),(12,44)); self.add_arc("page-bl",(12,44),(8,40),radius_x=4)
-        self.add_line("page-left",(8,40),(8,8)); self.add_arc("page-tl",(8,8),(12,4),radius_x=4)
-        self.add_contour("page","page-top","page-fold-edge","page-right","page-br","page-bottom","page-bl","page-left","page-tl",closed=True)
-        self.add_polyline("fold-crease",(28,4),(28,16),(40,16)); self.relate("connect","page","fold-crease")
-
-    def circle(self,name,x,y,r):
-        self.add_arc(name+"-upper",(x-r,y),(x+r,y),radius_x=r,sweep=False); self.add_arc(name+"-lower",(x+r,y),(x-r,y),radius_x=r,sweep=False)
-        self.add_contour(name,name+"-upper",name+"-lower",closed=True)
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        self.add_polyline("shield",(24,4),(30,10),(40,10),(40,20),(36,30),(24,44),(12,30),(8,20),(8,10),(18,10),(24,4),closed=True)
-        self.add_polyline("check",(19,23),(23,28),(31,18))
+        self.path('shield',(24,4),[('C',(40,10),(30,8),(34,10)),('L',(40,19)),('C',(24,44),(40,30),(33,38)),('C',(8,19),(15,38),(8,30)),('L',(8,10)),('C',(24,4),(14,10),(18,8))],True)
+        self.add_polyline('check',(18,24),(23,29),(31,19))

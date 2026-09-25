@@ -1,48 +1,39 @@
-'Natural horse-and-carriage scene, not a modifier combination. Reduce spokes but retain horse neck, legs, seat and wheel; no useful exact Lucide match.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape HRECT_M uses exact SOLO48 contract bounds. No useful exact Lucide reference unless noted.'
-from ...keyshapes import Keyshape
+"""Horse pulling a small carriage with smooth neck and back, paired legs and round wheel.
+Plan: Horse pulling a small carriage with smooth neck and back, paired legs and round wheel.
+Construction: Lucide bird fluid animal contours and truck wheel construction; original horse/carriage arrangement retained.
+Omissions: Wheel spokes and far-side legs omitted for clear spacing."""
 from ._base import Solo48
-
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID = '589093c2-50d1-4d6e-b46e-2aef2795cea3'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/carriage_589093c2-50d1-4d6e-b46e-2aef2795cea3.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'horse-pulling-small-carriage'
-    keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    aliases = ["Horse Drawn Carriage"]
-    keywords = ["horse", "carriage", "wheel", "transport", "animal", "spokes", "vehicle"]
-    category = "Uncategorized"
+    icon_id='horse-pulling-small-carriage'
+    keyshape=Keyshape.HRECT_M
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='Uncategorized'
+    aliases=()
+    keywords=('horse', 'pulling', 'small', 'carriage')
+
     def build(self):
-
-
         def path(name,start,steps,closed=False):
-            members=[]; point=start
-            for j,step in enumerate(steps):
-                member=f'{name}-{j}'
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
             self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad=4):
-            if rad==0:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),(l,t)); return
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points): self.add_polyline(name,*points)
-        def join(*names): self.relate('connect',*names)
-
-        def bez(name,start,*segments): self.add_bezier(name,start,*segments)
-
-        poly('horse',(4,20),(8,10),(16,18),(20,18),(20,22),(20,30),(16,38))
-        poly('foreleg',(10,22),(10,30),(6,38))
-        line('back',(10,30),(20,30));join('back','foreleg');join('back','horse')
-        path('seat',(28,22),[(28,14),((32,10),4,4,True),(40,10),(40,22)])
-        path('wheel',(36,22),[((36,38),8,8,True),((36,22),8,8,True)],True)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        path('horse',(4,20),[('L',(8,10)),('C',(16,18),(12,10),(12,18)),('L',(17,18)),('A',(20,21),3,3,True),('L',(20,22)),('L',(20,30)),('L',(16,38))])
+        path('foreleg',(10,22),[('L',(10,30)),('L',(6,38))]);line('belly',(10,30),(20,30));join('belly','foreleg');join('belly','horse')
+        path('seat',(28,22),[('L',(28,14)),('A',(32,10),4,4,True),('L',(38,10)),('A',(40,12),2,2,True),('L',(40,22))])
+        circle('wheel',36,30,8)
         poly('shaft',(20,22),(28,22),(36,22));join('shaft','horse');join('shaft','seat');join('shaft','wheel')

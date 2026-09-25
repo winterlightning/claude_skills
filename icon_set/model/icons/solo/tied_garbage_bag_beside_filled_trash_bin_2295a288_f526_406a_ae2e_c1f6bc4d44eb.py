@@ -1,53 +1,36 @@
-"""Trash Can and Garbage Bag.
-Symbol plan: Tied bag overlaps the lower left of a tall bin with protruding rubbish.
-Reference construction: trash.
-SQUARE visible extremes: (4, 4, 44, 44); centerlines inset 2.
-"""
+'Rounded tied bag beside a tapered bin with a protruding piece of rubbish; clean symmetrical bag and straight bin edges.\nPlan: SQUARE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: droplet: smooth rounded bag base; source-specific bin arrangement.\nOmissions: Small garbage details omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2295a288-f526-406a-ae2e-c1f6bc4d44eb'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/ecology/garbage_2295a288-f526-406a-ae2e-c1f6bc4d44eb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'tied-garbage-bag-beside-filled-trash-bin'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/ecology"
-    aliases = ()
-    keywords = ('trash', 'bin', 'bag', 'garbage', 'waste', 'rubbish', 'disposal', 'ecology')
+class Drawing(Solo48):
+    icon_id='tied-garbage-bag-beside-filled-trash-bin'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/ecology"
+    aliases=()
+    keywords=('tied', 'garbage', 'bag', 'beside', 'filled', 'trash', 'bin')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry,sweep=sweep)
-        def contour(n,*parts,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members) & set(parts)]
-            self.add_contour(n,*parts,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r)
-            arc(n+'b',(x+r,y),(x-r,y),r)
-            contour(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r:
-                poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for i in range(8):
-                a,b=pts[i],pts[(i+1)%8]
-                if i%2: arc(n+str(i),a,b,r)
-                else: line(n+str(i),a,b)
-            contour(n,*(n+str(i) for i in range(8)),closed=True)
-        poly('bin',(26,16),(42,16),(39,42),(16,42))
-        poly('rubbish',(26,16),(29,6),(39,8),(38,16))
-        arc('bag-left',(16,26),(6,36),10,sweep=False)
-        arc('bag-base-left',(6,36),(16,42),10,6,sweep=False)
-        arc('bag-base-right',(16,42),(26,36),10,6,sweep=False)
-        arc('bag-right',(26,36),(16,26),10,sweep=False)
-        contour('bag','bag-left','bag-base-left','bag-base-right','bag-right',closed=True)
-        poly('tie',(16,26),(8,16),(20,16),(16,26))
-        # Declare only exact shared-endpoint contacts, not mere proximity.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end} & {b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        poly('bin',(30,16),(40,16),(42,16),(39,42),(16,42))
+        poly('rubbish',(30,16),(30,6),(42,8),(40,16));join('bin','rubbish')
+        path('bag',(16,26),[('C',(6,36),(10,26),(6,31)),('C',(16,42),(6,40),(10,42)),('C',(26,36),(22,42),(26,40)),('C',(16,26),(26,31),(22,26))],True)
+        poly('tie',(16,26),(10,16),(22,16),(16,26));join('tie','bag');join('bag','bin')

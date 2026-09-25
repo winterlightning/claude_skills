@@ -1,11 +1,12 @@
-'Hands Protecting Safety Helmet.\n\nSymbol plan: Domed helmet and brim above mirrored cupped hand strokes. Crown rib and cuff details omitted to preserve spacing.\nConstruction reference: Lucide hard-hat: dome and broad brim; human_ref/user.svg informs rounded human construction.\nOriginal reference: SOURCE_PATH below.\n'
+"""Hard hat above supporting palms. Lucide hard-hat: circular dome and straight brim. Hands mirror x24. Omit small crown ribs and cuffs.
+Keyshape SQUARE: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '20214d85-2a10-45f3-974e-7a15e7241f74'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_24/labor hands action_20214d85-2a10-45f3-974e-7a15e7241f74.svg'
 AUTHOR = 'gpt-6'
-
 
 class Drawing(Solo48):
     icon_id = 'hands-supporting-hard-hat'
@@ -17,34 +18,27 @@ class Drawing(Solo48):
     keywords = ('hands', 'supporting', 'hard', 'hat')
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        self.path('helmet',(12,20),[(12,18),((24,6),12,12,True),((36,18),12,12,True),(36,20)])
+        self.add_polyline('brim',(10,20),(12,20),(36,20),(38,20));self.relate('connect','helmet','brim')
+        self.cups()
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
 
-        path('helmet',(14,22),[((24,6),10,16,True),((34,22),10,16,True)])
-        self.add_polyline('brim',(10,22),(14,22),(34,22),(38,22))
-        self.relate('connect','helmet','brim')
-        for j,sgn in enumerate((-1,1)):
-            x=24+sgn*18; inner=24+sgn*7
-            path(f'hand-{j}',(x,30),[(x,34),((inner,42),11,8,sgn<0)])
+    def cups(self):
+        # Mirrored hands about x24; equal fingertip radii and tangent S-curves into the wrists.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(10,42),[(p(6,34),10,10,s>0),p(6,33),(p(14,33),4,4,s>0),(p(16,35),2,2,s<0),(p(18,37),2,2,s>0),p(18,42)])

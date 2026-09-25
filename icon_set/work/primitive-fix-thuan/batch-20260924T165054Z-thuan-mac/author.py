@@ -1,10 +1,10 @@
 from pathlib import Path
 import json,textwrap
-SOURCE_ICON_ID = 'batch-see-per-icon-metadata'
-SOURCE_PATH = 'batch.json'
 AUTHOR = 'gpt-6'
 ROOT=Path(__file__).resolve().parent
 ROWS=json.loads((ROOT/'batch.json').read_text())
+SOURCE_ICON_ID = tuple(row['source_uuid'] for row in ROWS)
+SOURCE_PATH = tuple(row['reference_path'] for row in ROWS)
 HELPERS='''
         def path(name, start, commands, closed=False):
             members=[]
@@ -29,7 +29,7 @@ def put(key,shape,reference,plan,code,omissions='None'):
 put('curve-rise-dash-large-head','HRECT_L','move-up-right','Three coherent dashed curves lead to a vertical arrow; intentionally asymmetric winding trajectory.', '''
 path('start',(4,12),[('C',(12,14),(7,10),(10,11))])
 path('middle',(17,23),[('C',(18,31),(17,25),(17,28))])
-path('bend',(25,39),[('C',(38,30),(32,43),(38,38))])
+path('bend',(25,39),[('C',(29,40),(26,40),(27,40)),('C',(38,30),(35,40),(38,36))])
 line('shaft',(38,21),(38,8))
 poly('head',(32,14),(38,8),(44,14));join('shaft','head')
 ''','Short dash count reduced to preserve clean visible gaps.')
@@ -66,17 +66,16 @@ line('lower-beam',(20,20),(40,14))
 join('left-note','beam');join('right-note','beam');join('lower-beam','beam')
 ''')
 put('eggplant','HRECT_L','sprout','One broad curved fruit body joins an asymmetric leaf cap and diagonal stalk with shared nodes.', '''
-path('body',(28,14),[('C',(14,22),(24,19),(21,22)),('C',(4,31),(8,22),(4,25)),('C',(15,40),(4,37),(9,40)),('C',(39,25),(24,40),(34,32))])
+path('body',(28,14),[('C',(14,22),(24,19),(21,22)),('C',(4,31),(8,22),(4,25)),('C',(15,40),(4,37),(9,40)),('C',(40,26),(24,40),(34,32))])
 path('cap',(28,14),[('C',(40,10),(28,8),(36,8)),('C',(40,26),(45,13),(43,20)),('C',(34,16),(36,24),(34,20)),('C',(28,14),(31,17),(29,16))],True)
 line('stalk',(40,10),(44,8));join('stalk','cap');join('body','cap')
 ''')
-put('envelope-and-document-letter-batch-008-08','SQUARE','mail','Rounded envelope with an emerging folded-corner letter, one address line, and detached stamp; all contact points explicit.', '''
-path('envelope',(12,24),[('L',(36,24)),('L',(39,24)),('A',(42,27),3,3,True),('L',(42,39)),('A',(39,42),3,3,True),('L',(9,42)),('A',(6,39),3,3,True),('L',(6,27)),('A',(9,24),3,3,True),('L',(12,24))],True)
-poly('letter',(12,24),(12,6),(28,6),(36,14),(36,24));join('letter','envelope')
-line('letter-text',(20,15),(26,15));line('address',(15,33),(22,33))
-# A small circular seal keeps the stamp distinct at 48px.
-oval('stamp',33,33,3,3)
-''','Second address line omitted; stamp reduced to a circular postal seal for legibility.')
+put('envelope-and-document-letter-batch-008-08','SQUARE','mail','Rectangular envelope with an emerging folded-corner letter, one address line, and detached stamp; all contact points explicit.', '''
+poly('envelope',(6,18),(12,18),(36,18),(42,18),(42,42),(6,42),closed=True)
+poly('letter',(12,18),(12,6),(28,6),(36,14),(36,18));join('letter','envelope')
+line('address',(14,30),(18,30))
+poly('stamp',(26,26),(34,26),(34,34),(26,34),closed=True)
+''','Second address line and letter text omitted for spacing; square postal stamp retained.')
 put('equalizer-audio','HRECT_L','sliders-vertical','Three equally sized circular controls on perfectly straight columns; same radius and shared cardinal joins.', '''
 for name,x,y in [('left',8,22),('middle',24,32),('right',40,16)]:
     oval(name,x,y,4,4)

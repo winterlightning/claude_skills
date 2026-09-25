@@ -1,46 +1,37 @@
-'Car Wheel Fender.\nPlan: Right-facing front car section with curved roof and attached circular wheel; hood lifted for clearance. Hub omitted. Bounds4,8..44,40.\nReference: Lucide car: smooth hood and attached circular wheel; deliberate cropped section follows source.\nKeyshape: HRECT_L, exact SOLO48 envelope.'
-from ...keyshapes import Keyshape
+"""Front car section with a flowing roof-to-hood transition and circular wheel.
+Plan: Front car section with a flowing roof-to-hood transition and circular wheel.
+Construction: Lucide truck: tangential round corners and circular wheel; source gives cropped front section.
+Omissions: Hub circle omitted."""
 from ._base import Solo48
-
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID = '3db3961f-b690-449d-b4da-3a42295c5b5d'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/fender_3db3961f-b690-449d-b4da-3a42295c5b5d.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'front-car-section-with-wheel'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('front', 'car', 'section', 'with', 'wheel')
+    icon_id='front-car-section-with-wheel'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('front', 'car', 'section', 'with', 'wheel')
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
-
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
+        def path(name,start,steps,closed=False):
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
+            self.add_contour(name,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
         circle('wheel',30,34,6)
-        path('upper-body',(4,8),[(14,8),((26,18),12,10,True),(40,18),((44,22),4,4,True),(44,26),(36,34)]);self.relate('connect','upper-body','wheel')
-        path('lower-body',(4,20),[(4,30),((8,34),4,4,False),(24,34)]);self.relate('connect','lower-body','wheel')
+        path('upper-body',(4,8),[('L',(13,8)),('C',(29,18),(21,8),(23,18)),('L',(38,18)),('A',(44,24),6,6,True),('L',(44,28)),('C',(36,34),(44,32),(40,34))]);join('upper-body','wheel')
+        path('lower-body',(4,20),[('L',(4,30)),('A',(8,34),4,4,False),('L',(24,34))]);join('lower-body','wheel')

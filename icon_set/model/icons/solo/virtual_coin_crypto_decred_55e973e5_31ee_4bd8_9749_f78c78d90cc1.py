@@ -1,29 +1,38 @@
-'Decred coin: two opposing curved marks retain their hooked ends with a wider central gap and clear coin margins.'
-from ...keyshapes import Keyshape
+"""Decred coin with a circular rim and balanced opposing curved logo strokes.
+Plan: Decred coin with a circular rim and balanced opposing curved logo strokes.
+Construction: No useful exact local Lucide match; source silhouette rebuilt from coherent curves.
+Omissions: No symbol component omitted; opposing strokes share one rotated definition."""
 from ._base import Solo48
-
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID = '55e973e5-31ee-4bd8-9749-f78c78d90cc1'
 SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto decred_55e973e5-31ee-4bd8-9749-f78c78d90cc1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='virtual-coin-crypto-decred'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='money'
+    aliases=()
+    keywords=('virtual', 'coin', 'crypto', 'decred')
 
-class VirtualCoinCryptoDecred(Solo48):
-    icon_id = 'virtual-coin-crypto-decred'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'money'
-    aliases = ()
-    keywords = ('virtual', 'coin', 'crypto', 'decred', 'money')
-
-    def build(self) -> None:
-        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
-        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
-        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
-
-        # Two opposing curved marks retain the Decred-like counterturn and stay distinct.
-        self.add_polyline('left-tip',(16,16),(18,19),(15,19))
-        self.add_bezier('left-bowl',(15,19),((13,20),(13,22),(13,24)),((13,28),(16,30),(19,29)))
-        self.relate('connect','left-tip','left-bowl')
-        self.add_bezier('right-bowl',(29,19),((32,18),(35,20),(35,24)),((35,26),(35,28),(33,29)))
-        self.add_polyline('right-tip',(33,29),(30,29),(32,32))
-        self.relate('connect','right-tip','right-bowl')
+    def build(self):
+        def path(name,start,steps,closed=False):
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
+            self.add_contour(name,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        circle('rim',24,24,20)
+        for n,side in [('left',1),('right',-1)]:
+         p=lambda x,y:(24+side*(x-24),24+side*(y-24))
+         path(n,p(16,16),[('L',p(20,20)),('L',p(17,20)),('C',p(13,24),p(13,20),p(13,22)),('C',p(19,30),p(13,28),p(15,30))])

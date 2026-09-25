@@ -1,0 +1,1 @@
+The conventional forward slash through P failed holes/pinches (2 undersized holes, 1 pinch) and bowl/slash internal spacing. A descending slash reduced those conflicts but still reads like R; its frame/slash pair also remains an uncertified 8-unit MIC warning. No clear, passing no-parking revision achieved.

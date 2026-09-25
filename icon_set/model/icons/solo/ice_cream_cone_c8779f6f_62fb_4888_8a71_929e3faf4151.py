@@ -1,12 +1,6 @@
-"""Ice Cream Cone
-Plan: Rounded scoop with scalloped lower lip above tapered cone.
-Keyshape: VRECT_L; exact inset SOLO48 envelope.
-Construction: Lucide ice-cream-cone: scoop sits over tapering cone.
-Reduction: Scalloped lower scoop simplified to a straight supported lip.
-"""
+'Ice cream scoop above a tapered cone. Circular dome, mirrored lip lobes and straight cone sides. Bounds (8,4)-(40,44).\nConstruction: Lucide ice-cream-cone: coherent scoop and tapered cone.\nOmissions: Small lower scallops simplified into the scoop lip.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c8779f6f-62fb-4888-8a71-929e3faf4151'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_23/ice cream_c8779f6f-62fb-4888-8a71-929e3faf4151.svg'
 AUTHOR = 'gpt-6'
@@ -16,29 +10,27 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('icecream', 'cone', 'scoop', 'dessert', 'frozen', 'food', 'treat')
+    keywords = ('rounded', 'scoop', 'ice', 'cream', 'cone')
 
     def build(self):
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        # Shared x12 axis owns both sides of the pin, neck width and bulbous base.
-        path('scoop',(12,20),[('A',(24,4),12,16,True),('A',(36,20),12,16,True),('A',(40,24),4,4,True),('A',(36,28),4,4,True),('L',(12,28)),('A',(8,24),4,4,True),('A',(12,20),4,4,True)],True)
-        path('cone',(14,28),[('L',(22,42)),('A',(26,42),2,2,False),('L',(34,28))]);self.relate('connect','cone','scoop')
+
+        def path(n,p,steps,closed=False):
+            members=[]
+            for i,s in enumerate(steps):
+                k,q,*a=s; m=f'{n}-{i}'
+                if k=='L': self.add_line(m,p,q)
+                elif k=='A': self.add_arc(m,p,q,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif k=='C': self.add_bezier(m,p,(a[0],a[1],q))
+                members.append(m);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        path('scoop',(12,16),[('A',(24,4),12,12,True),('A',(36,16),12,12,True),('C',(40,21),(36,19),(40,18)),('A',(35,26),5,5,True),('L',(13,26)),('A',(8,21),5,5,True),('C',(12,16),(8,18),(12,19))],True)
+        poly('cone',(13,26),(24,44),(35,26));join('cone','scoop')

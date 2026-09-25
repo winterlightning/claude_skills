@@ -1,49 +1,41 @@
-'Heavy Construction Excavator Machine.\nPlan: Left-facing excavator with cabin, continuous track and articulated open scoop.\nConstruction reference: No useful exact local Lucide match; geometric arcs and coherent contours preserve the supplied subject.\nReduction: Track rollers and cabin window removed; open scoop avoids a narrow boom/bucket pocket.\nKeyshape: HRECT_L; use exact SOLO48 centerline extremes from the contract.'
+"""Excavator has a rounded cab and track, articulated straight boom and smooth scooping bucket. Track is a capsule with true semicircular ends.
+Construction: No useful exact Lucide match; source arrangement and geometric primitives.
+Omissions: Track rollers, glazing division and narrow double boom omitted.
+Keyshape HRECT_L: exact contract extremes, stroke 4.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9bc0c97b-66cb-4cc5-b2e7-1d858df40775'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_17/excavator 1_9bc0c97b-66cb-4cc5-b2e7-1d858df40775.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'tracked-excavator-facing-left'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('tracked', 'excavator', 'facing', 'left')
-
+    icon_id='tracked-excavator-facing-left'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('tracked', 'excavator', 'facing', 'left')
     def build(self):
+        self.path('track',(26,32),[('L',(40,32)),('A',(40,40),4,4,True),('L',(26,40)),('A',(26,32),4,4,True)],True)
+        self.path('cab',(26,32),[('L',(26,24)),('L',(26,10)),('A',(28,8),2,2,True),('L',(36,8)),('A',(38,10),2,2,True),('L',(38,32))]);self.join('cab','track')
+        self.poly('boom',(26,24),(16,14),(8,18));self.join('boom','cab')
+        self.path('bucket',(8,18),[('L',(5,24)),('C',(4,27),(4,26),(4,26)),('C',(13,31),(4,31),(10,31))]);self.join('bucket','boom')
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        box('track',22,32,44,40,4)
-        self.add_polyline('cab',(26,32),(26,24),(26,8),(38,8),(38,32));self.relate('connect','cab','track')
-        self.add_polyline('boom',(26,24),(16,14),(8,18));self.relate('connect','boom','cab')
-        path('bucket',(8,18),[(4,26),((12,30),8,4,False)]);self.relate('connect','bucket','boom')
+    def path(self,n,p,steps,closed=False):
+        ids=[]
+        for j,step in enumerate(steps):
+            k,q,*v=step; uid=f'{n}-{j}'
+            if k=='L': self.add_line(uid,p,q)
+            elif k=='A': self.add_arc(uid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif k=='C': self.add_bezier(uid,p,(v[0],v[1],q))
+            ids.append(uid);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=2):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def line(self,n,a,b): self.add_line(n,a,b)
+    def poly(self,n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+    def join(self,a,b): self.relate('connect',a,b)

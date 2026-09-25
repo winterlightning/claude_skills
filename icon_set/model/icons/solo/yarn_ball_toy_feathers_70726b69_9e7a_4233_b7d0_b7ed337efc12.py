@@ -1,35 +1,35 @@
-"""Yarn Ball Toy with Feathers.
-
-Plan: Lower-left yarn ball with one curved winding band and two open leaf-shaped feather strokes above-right. Motion dashes omitted.
-Centerline extremes: (6,6)-(42,42).
-"""
+'A round yarn toy with an interior winding and two broad curved feather tips.\nPlan: SQUARE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: shell: round toy construction; source-specific feather silhouettes.\nOmissions: Fine thread lines and motion marks omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '70726b69-9e7a-4233-b7d0-b7ed337efc12'
 SOURCE_PATH = 'pictographic-primitives/pets/cat yarn toy_70726b69-9e7a-4233-b7d0-b7ed337efc12.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class YarnBallToyFeathers(Solo48):
-    icon_id = 'yarn-ball-toy-feathers'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/pets"
-    aliases = ()
-    keywords = ('yarn', 'ball', 'cat-toy', 'feathers', 'play', 'motion', 'pet')
-
+class Drawing(Solo48):
+    icon_id='yarn-ball-toy-feathers'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/pets"
+    aliases=()
+    keywords=('yarn', 'ball', 'toy', 'feathers')
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        arc('ball-upper',(6,28),(30,28),12)
-        arc('ball-lower',(30,28),(6,28),12,14)
-        contour('ball','ball-upper','ball-lower',closed=True)
-        arc('winding',(6,28),(18,42),12,14)
-        self.relate('connect','winding','ball')
-        arc('feather-back',(18,16),(24,6),10,8,False)
-        arc('feather-tip',(24,6),(36,18),12)
-        arc('feather-front',(36,18),(42,8),10,12,False)
-        contour('feathers','feather-back','feather-tip','feather-front')
-        self.relate('connect','ball','feathers')
+
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+
+        circle('ball',18,30,12)
+        line('winding',(6,30),(30,30));join('winding','ball')
+        path('feathers',(18,18),[('C',(18,6),(24,14),(22,10)),('C',(30,20),(26,6),(34,12)),('C',(42,10),(36,20),(41,15)),('C',(30,30),(42,26),(38,30))]);join('feathers','ball')

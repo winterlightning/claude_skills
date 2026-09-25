@@ -1,45 +1,41 @@
-"""Gungan head with tall eyes, broad muzzle and long side ears; no useful Lucide character match; ear stripes, pupils and lower mouth mark omitted."""
+"""Gungan head: symmetric raised eye stalks, rounded muzzle, long curved ears and a small smile.
+Omissions: Pupils and ear stripes omitted at 48px.
+Construction references: no useful direct Lucide match.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5d2544d5-2bb4-4a21-948a-315da03b0cf4'
 SOURCE_PATH = 'pictographic-primitives/video/jar jar binks gungan_5d2544d5-2bb4-4a21-948a-315da03b0cf4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class JarJarBinks(Solo48):
-    icon_id = 'jar-jar-binks'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/media"
-    aliases = ()
-    keywords = ('jar jar binks', 'gungan', 'character', 'face', 'alien', 'ears', 'star wars')
+class Drawing(Solo48):
+    icon_id='jar-jar-binks'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/media"
+    aliases=()
+    keywords=('jar', 'jar', 'binks', 'gungan')
 
-    def circle(self, name, cx, cy, r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def rounded(self, name, x, y, w, h, r):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i,a in enumerate(pts):
-            b=pts[(i+1)%8]; ident=name+'-'+str(i);ids.append(ident)
-            if i%2:self.add_arc(ident,a,b,radius_x=r)
-            else:self.add_line(ident,a,b)
-        self.add_contour(name,*ids,closed=True)
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        # Gungan head with tall eyes, broad muzzle and long side ears; no useful Lucide character match; ear stripes, pupils and lower mouth mark omitted.
-        self.add_arc('eye-left',(12,16),(22,16),radius_x=5,radius_y=10)
-        self.add_arc('brow',(22,16),(26,16),radius_x=3,sweep=True)
-        self.add_arc('eye-right',(26,16),(36,16),radius_x=5,radius_y=10)
-        self.add_arc('cheek-right',(36,16),(32,38),radius_x=22)
-        self.add_arc('chin',(32,38),(16,38),radius_x=10)
-        self.add_arc('cheek-left',(16,38),(12,16),radius_x=22)
-        self.add_contour('face','eye-left','brow','eye-right','cheek-right','chin','cheek-left',closed=True)
-        self.add_polyline('left-ear',(12,16),(6,42),(14,42))
-        self.add_polyline('right-ear',(36,16),(42,42),(34,42))
-        self.relate('connect','left-ear','eye-left');self.relate('connect','left-ear','cheek-left')
-        self.relate('connect','right-ear','eye-right');self.relate('connect','right-ear','cheek-right')
-        self.add_arc('smile',(21,28),(27,28),radius_x=4,sweep=False)
+        # Shared eye-stalk dimensions mirror about x=24; circularly rounded stalk caps.
+        self.path('face',(12,17),[('C',(16,6),(11,10),(12,6)),('C',(20,16),(20,6),(20,11)),('L',(28,16)),('C',(32,6),(28,11),(28,6)),('C',(36,17),(36,6),(37,10)),('C',(24,38),(37,31),(31,38)),('C',(12,17),(17,38),(11,31))],True)
+        for name,sgn in [('left',-1),('right',1)]:
+            def p(x,y):return (24+sgn*x,y)
+            self.path(name,p(12,17),[('C',p(18,42),p(17,26),p(18,35)),('L',p(10,42))])
+            self.relate('connect',name,'face')
+        self.path('smile',(21,26),[('C',(27,26),(21,29),(27,29))])

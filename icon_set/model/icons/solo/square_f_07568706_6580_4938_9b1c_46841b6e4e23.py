@@ -1,66 +1,35 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='07568706-6580-4938-9b1c-46841b6e4e23'
-SOURCE_PATH='icon_set/work/todo-references/square f_07568706-6580-4938-9b1c-46841b6e4e23.svg'
-AUTHOR='gpt-6'
-PLAN='Square frame containing an empty speech bubble with a lower-left tail.'
-CONSTRUCTION_REFERENCES='Lucide message-square: coherent outline and integrated tail.'
-OMISSIONS='Rounded inner corners reduced to round joins; source bubble retained despite letter filename.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
+SOURCE_ICON_ID = '07568706-6580-4938-9b1c-46841b6e4e23'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-f/20260925T034349Z-thuan-mac/reference/square f_07568706-6580-4938-9b1c-46841b6e4e23.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
-    icon_id='square-f'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
-    aliases=()
-    keywords=('square', 'f')
-
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def box(self,name,x,y,w,h,r=3):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,a in enumerate(pts):
-            b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
-            if i%2:self.add_arc(part,a,b,radius_x=r)
-            else:self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
-
-    def magnifier(self):
-        # The handle node (30,33) is exactly radius 15 from (21,21).
-        pts=[(6,21),(21,6),(36,21),(30,33),(6,21)]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):self.add_arc(f'lens-{i}',a,b,radius_x=15)
-        self.add_contour('lens',*(f'lens-{i}' for i in range(4)),closed=True)
-        self.add_line('handle',(30,33),(42,42));self.relate('connect','lens','handle')
-
-    def score(self,y):
-        self.add_arc('two-top',(12,y+4),(20,y+4),radius_x=4)
-        self.add_polyline('two-bottom',(20,y+4),(12,y+12),(20,y+12));self.relate('connect','two-top','two-bottom')
-        for i,cy in enumerate((y+3,y+11)):self.add_dot(f'colon-{i}',(25,cy))
-        self.box('zero',31,y,8,12,4)
-
-    def terminal(self):
-        self.box('screen',6,6,36,28,3)
-        self.add_line('stand',(24,34),(24,42));self.relate('connect','screen','stand')
-        self.add_polyline('foot',(16,42),(24,42),(32,42));self.relate('connect','stand','foot')
-        for i,y in enumerate((18,26)):self.add_line(f'equals-{i}',(31,y),(35,y))
-
-    def send(self,direction):
-        self.box('panel',6,6,36,36,4)
-        if direction=='left':
-            self.add_polyline('head',(23,17),(16,24),(23,31));self.add_line('shaft',(16,24),(33,24))
-        else:
-            self.add_polyline('head',(25,17),(32,24),(25,31));self.add_line('shaft',(32,24),(15,24))
-        self.relate('connect','head','shaft')
-
+    icon_id = 'square-f'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('meaning-revision',)
     def build(self):
-        self.box('frame',6,6,36,36,4)
-        self.add_polyline('bubble',(15,15),(33,15),(33,29),(24,29),(19,33),(19,29),(15,29),closed=True)
-
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='Rounded inner corners reduced to round joins; source bubble retained despite letter filename.'
+        # Square frame enclosing the conventional symbol named by the concept; misleading reference content replaced.
+        def line(n,a,b): self.add_line(n,a,b)
+        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def contour(n,*p,closed=False): self.add_contour(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            arc(n+'a',(x-r,y),(x+r,y),r)
+            arc(n+'b',(x+r,y),(x-r,y),r)
+            contour(n,n+'a',n+'b',closed=True)
+        def box(n,l,t,r,b,k=4):
+            line(n+'t',(l+k,t),(r-k,t));arc(n+'tr',(r-k,t),(r,t+k),k)
+            line(n+'r',(r,t+k),(r,b-k));arc(n+'br',(r,b-k),(r-k,b),k)
+            line(n+'b',(r-k,b),(l+k,b));arc(n+'bl',(l+k,b),(l,b-k),k)
+            line(n+'l',(l,b-k),(l,t+k));arc(n+'tl',(l,t+k),(l+k,t),k)
+            contour(n,*[n+x for x in ['t','tr','r','br','b','bl','l','tl']],closed=True)
+        box('frame',6,6,42,42)
+        poly('letter',(18,33),(18,15),(31,15))
+        line('middle',(18,24),(28,24))
+        join('letter','middle')

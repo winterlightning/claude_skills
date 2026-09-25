@@ -1,48 +1,43 @@
-"""Crossing crop corners with opposing rotation arrows.
-Symbol plan: crop: shared crossing nodes; rotate-ccw: quarter arcs with compact corner arrowheads.
-Reduction: Chevron arrowheads changed to right-angle arrowheads; both rotation arrows retained.
-Keyshape: SQUARE; model supplies exact ink extremes.
+"""crop-rotate: Two crossing crop corners retain exact right angles; opposite quarter-turn arrows use matched arcs and open chevrons.
+Lucide construction: crop; original and atomic-debug inspected.
+Omissions: None
+Keyshape SQUARE: exact contract envelope; 4-unit stroke.
 """
-from ._base import Solo48
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
-SOURCE_ICON_ID='b05e7a98-e0c7-5855-a771-4dc4b12ff639'
-SOURCE_PATH='icon_set/work/todo-references/crop rotate_b05e7a98-e0c7-5855-a771-4dc4b12ff639.svg'
-AUTHOR='gpt-6'
+from ._base import Solo48
+SOURCE_ICON_ID = 'b05e7a98-e0c7-5855-a771-4dc4b12ff639'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crop-rotate/20260924T172457Z-thuan-mac/reference/crop rotate_b05e7a98-e0c7-5855-a771-4dc4b12ff639.svg'
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
-    icon_id='crop-rotate'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
-    aliases=()
-    keywords=('crop', 'rotate')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+    icon_id = 'crop-rotate'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('crop', 'rotate')
     def build(self):
-        self.add_polyline('crop-left',(18,6),(18,18),(18,30),(30,30),(42,30))
-        self.add_polyline('crop-right',(6,18),(18,18),(30,18),(30,30),(30,42));self.relate('connect','crop-left','crop-right')
-        self.add_arc('rotate-top',(42,18),(30,6),radius_x=12,sweep=False)
-        self.add_polyline('arrow-top',(34,6),(30,6),(30,10));self.relate('connect','rotate-top','arrow-top')
-        self.add_arc('rotate-bottom',(6,30),(18,42),radius_x=12,sweep=False)
-        self.add_polyline('arrow-bottom',(14,42),(18,42),(18,38));self.relate('connect','rotate-bottom','arrow-bottom')
 
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
+        poly('crop-left',(20,6),(20,20),(20,28),(28,28),(42,28))
+        poly('crop-right',(6,20),(20,20),(28,20),(28,28),(28,42));join('crop-left','crop-right')
+        path('top',(42,18),[('A',(30,10),12,8,False)])
+        poly('top-head',(34,6),(30,10),(34,14));join('top','top-head')
+        path('bottom',(6,30),[('A',(18,38),12,8,False)])
+        poly('bottom-head',(14,34),(18,38),(14,42));join('bottom','bottom-head')

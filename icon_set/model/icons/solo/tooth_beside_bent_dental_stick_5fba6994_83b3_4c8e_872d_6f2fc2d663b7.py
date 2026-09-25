@@ -1,23 +1,36 @@
-"A two-rooted molar stands beside a hooked dental pick. Square 6..42 accommodates tool diagonal and upright tooth. Tooth owns a continuous broad crown and two roots; pick is separate physical equipment. Source supplies overlapping dental scene; no useful Lucide tooth match. Separate rather than overlap the pick and tooth; omit tool handle outline to retain spacing.\n\nEditorial reference brief:\n# Tooth Beside Bent Dental Stick\n\n- source: `pictographic-primitives/_uncategorized_14/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.svg`\n- render: `png/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.png` (look at this first)\n- native 48px: `png/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7@48.png`\n- tags: tooth, dental, stick, pick, teeth, hygiene, tool\n- family: solo — author with `$icon-solo`\n- proposed icon_id: `tooth-beside-bent-dental-stick`\n\n- source UUID: `5fba6994-83b3-4c8e-872d-6f2fc2d663b7`\n\n## Description\n\nA broad two rooted tooth stands behind a long diagonal dental stick. The stick has a rounded lower end and a short hooked upper tip that bends back toward the tooth.\n\n## To author\n\nRun `$icon-solo`, which reads `icon_set/skills/icon-design/SKILL.md`, then the reference-backed\nintake. Look at the render before choosing anything: name the subject in\none sentence, keep only what survives at native size, choose the keyshape,\nand design backwards from its four extreme coordinates.\n\nThe reference sets the subject, not the grid, the stroke or the\nproportions. Fit the result to the requested profile.\n\nYou can try modifying a copy of the SVG reference to fit the icon design rules,\nor generate a new icon that matches the icon name. Either approach must follow\nthe requested family's design rules and preserve the named subject's identity.\nKeep the original reference unchanged and produce the family skill's required deliverables.\n\n## Fit the icon design rules\n\nThis reference is drawn at illustration scale — thin strokes and more\ndetail than a 48px canvas can hold. Adapt or regenerate it to fit:\nfewer parts, the profile's stroke weight, larger gaps, geometry rebuilt on\nthe grid. Keep the meaning intact — the silhouette it is recognized by and\nthe parts that make it this subject and not a neighbouring one. Simplify\nthe drawing, never the meaning."
-from ._base import Solo48
+"""Tooth with mirrored flowing crown and roots, beside a dental pick with a round bent tip.
+Omissions: Double wall of dental pick reduced to a consistent single centerline.
+Construction references: no useful direct Lucide match.
+"""
 from ...keyshapes import Keyshape
-
+from ._base import Solo48
 SOURCE_ICON_ID = '5fba6994-83b3-4c8e-872d-6f2fc2d663b7'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_14/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.svg'
-AUTHOR = "gpt-6-astra"
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'tooth-beside-bent-dental-stick'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'Uncategorized'
-    aliases = ['Tooth and Dental Pick']
-    keywords = ['tooth', 'beside', 'bent', 'dental', 'stick']
+    icon_id='tooth-beside-bent-dental-stick'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="Uncategorized"
+    aliases=()
+    keywords=('dental', 'stick', 'tooth')
+
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        self.add_bezier("crown-left",(30,8),((27,8),(27,6),(24,6)),((20,6),(18,10),(18,14)),((18,19),(21,21),(21,25)))
-        self.add_bezier("roots",(21,25),((21,29),(21,34),(24,34)),((27,34),(27,24),(30,24)),((33,24),(33,34),(36,34)),((39,34),(39,29),(39,25)))
-        self.add_bezier("crown-right",(39,25),((39,21),(42,19),(42,14)),((42,10),(40,6),(36,6)),((33,6),(33,8),(30,8)))
-        self.add_contour("tooth","crown-left","roots","crown-right",closed=True)
-        self.add_polyline("dental-pick",(10,12),(6,16),(6,26),(16,42))
+        self.path('tooth',(30,9),[('C',(24,6),(27,9),(27,6)),('C',(18,14),(20,6),(18,10)),('C',(21,25),(18,19),(21,21)),('C',(24,35),(21,30),(21,35)),('C',(30,25),(27,35),(27,25)),('C',(36,35),(33,25),(33,35)),('C',(39,25),(39,35),(39,30)),('C',(42,14),(39,21),(42,19)),('C',(36,6),(42,10),(40,6)),('C',(30,9),(33,6),(33,9))],True)
+        self.path('pick',(10,12),[('L',(8,15)),('C',(6,20),(6,17),(6,18)),('C',(9,26),(6,22),(7,24)),('L',(16,42))])

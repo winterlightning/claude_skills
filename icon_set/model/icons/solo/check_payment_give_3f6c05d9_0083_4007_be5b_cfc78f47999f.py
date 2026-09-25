@@ -1,49 +1,41 @@
+"""check-payment-give: A check above a pointing hand, with rounded check corners and a single coherent hand outline; source hand pose retained. Shared human-reference guidance reviewed; no detached figure.
+Lucide construction: hand; original and atomic-debug inspected.
+Omissions: Secondary writing lines and small folded fingers simplified; index finger and check retained.
+Keyshape SQUARE: exact contract envelope; 4-unit stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3f6c05d9-0083-4007-be5b-cfc78f47999f'
-SOURCE_PATH = 'icon_set/work/todo-references/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__check-payment-give/20260924T172457Z-thuan-mac/reference/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg'
 AUTHOR = 'gpt-6'
-
-PLAN = 'Check above a pointing hand; lower the fingertip and enlarge the gap in the occluded check edge.'
-PARENT_RESULT = 'icon_set/work/primitive-make-ray/3f6c05d9-0083-4007-be5b-cfc78f47999f/20260922T222946-af8b23/result.json'
-
 class Drawing(Solo48):
     icon_id = 'check-payment-give'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'objects'
     aliases = ()
-    keywords = ('hand', 'selecting', 'bank', 'check')
-
+    keywords = ('check', 'payment', 'give')
     def build(self):
-        # Bank check with two writing marks and amount field, selected by a hand rising into its lower edge. Check outline interrupted at finger. Square visible(4,4)-(44,44); rounded fingertip and palm are separate shared symbols.
-        def circle(n,x,y,r):
-            self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-            self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-            self.add_contour(n,n+'-a',n+'-b',closed=True)
-        def rect(n,l,t,r,b):
-            self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True)
-        def rounded(n,l,t,r,b,k):
-            self.add_line(n+'-t',(l+k,t),(r-k,t))
-            self.add_arc(n+'-tr',(r-k,t),(r,t+k),radius_x=k)
-            self.add_line(n+'-r',(r,t+k),(r,b-k))
-            self.add_arc(n+'-br',(r,b-k),(r-k,b),radius_x=k)
-            self.add_line(n+'-b',(r-k,b),(l+k,b))
-            self.add_arc(n+'-bl',(l+k,b),(l,b-k),radius_x=k)
-            self.add_line(n+'-l',(l,b-k),(l,t+k))
-            self.add_arc(n+'-tl',(l,t+k),(l+k,t),radius_x=k)
-            self.add_contour(n,*[n+'-'+s for s in ['t','tr','r','br','b','bl','l','tl']],closed=True)
-        self.add_polyline('check',(12,26),(6,26),(6,6),(42,6),(42,26),(40,26))
-        self.add_line('writing',(14,15),(22,15))
-        self.add_line('amount',(30,15),(34,15))
-        self.add_line('finger-left',(24,34),(24,28))
-        self.add_arc('tip',(24,28),(32,28),radius_x=4)
-        self.add_polyline('finger-right',(32,28),(32,34),(36,34),(36,36))
-        self.add_arc('palm-bottom-right',(36,36),(30,42),radius_x=6)
-        self.add_line('palm-bottom',(30,42),(22,42))
-        self.add_arc('palm-bottom-left',(22,42),(16,36),radius_x=6)
-        self.add_polyline('palm-left',(16,36),(16,34),(24,28))
-        for a,b in [('finger-left','tip'),('tip','finger-right'),('finger-right','palm-bottom-right'),('palm-bottom-right','palm-bottom'),('palm-bottom','palm-bottom-left'),('palm-bottom-left','palm-left'),('palm-left','tip')]:
-            self.relate('connect',a,b)
+
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('check',(12,26),[('L',(9,26)),('A',(6,23),3,3,True),('L',(6,9)),('A',(9,6),3,3,True),('L',(39,6)),('A',(42,9),3,3,True),('L',(42,23))])
+        line('writing',(15,15),(22,15));line('amount',(31,15),(33,15))
+        path('hand',(24,28),[('A',(32,28),4,4,True),('L',(32,34)),('L',(36,34)),('L',(36,36)),('A',(30,42),6,6,True),('L',(22,42)),('A',(16,36),6,6,True),('L',(16,34)),('L',(24,28))],True)
+        line('finger',(24,28),(24,34));join('finger','hand')

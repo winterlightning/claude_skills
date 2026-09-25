@@ -1,45 +1,39 @@
-'Drinking Glass with Water.\nPlan: Tapered drinking glass and single wavy water surface. Bounds8,4..40,44.\nReference: Lucide glass-water: tapered walls and shared wavy surface.\nKeyshape: VRECT_L, exact SOLO48 envelope.'
+"""Mirror-symmetric tapered glass with tangent bottom rounding. Water is a single gentle cubic wave, avoiding the old kink between half ellipses.
+Construction: Lucide glass-water original/atomic-debug: tapered walls and a coherent water surface.
+Omissions: No defining feature omitted.
+Keyshape VRECT_L: exact contract extremes, stroke 4.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '34a460c1-99e1-4757-9b55-ce2bf85e1d92'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_21/glass water_34a460c1-99e1-4757-9b55-ce2bf85e1d92.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'tapered-glass-of-water'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('tapered', 'glass', 'of', 'water')
-
+    icon_id='tapered-glass-of-water'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('tapered', 'glass', 'of', 'water')
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        self.path('glass',(8,4),[('L',(40,4)),('L',(38,20)),('L',(36,36)),('C',(30,44),(35,44),(34,44)),('L',(18,44)),('C',(12,36),(14,44),(13,44)),('L',(10,20)),('L',(8,4))],True)
+        self.path('water',(10,20),[('C',(38,20),(19,15),(29,25))]);self.join('glass','water')
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
-
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('glass',(8,4),[(40,4),(38,18),(34,40),((30,44),4,4,True),(18,44),((14,40),4,4,True),(10,18),(8,4)],True)
-        path('water',(10,18),[((24,18),7,2,False),((38,18),7,2,True)]);self.relate('connect','glass','water')
+    def path(self,n,p,steps,closed=False):
+        ids=[]
+        for j,step in enumerate(steps):
+            k,q,*v=step; uid=f'{n}-{j}'
+            if k=='L': self.add_line(uid,p,q)
+            elif k=='A': self.add_arc(uid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif k=='C': self.add_bezier(uid,p,(v[0],v[1],q))
+            ids.append(uid);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=2):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def line(self,n,a,b): self.add_line(n,a,b)
+    def poly(self,n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+    def join(self,a,b): self.relate('connect',a,b)

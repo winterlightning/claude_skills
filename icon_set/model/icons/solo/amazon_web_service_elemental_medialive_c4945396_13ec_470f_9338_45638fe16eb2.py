@@ -1,29 +1,38 @@
-'A play triangle surrounded by three media nodes and three scan marks.\nPlan: VRECT_L provides room for the top node and lower pair.\nReduction: Simplified the hexagonal nodes to equal small circles and shortened scan arrow arms; no node or scan position omitted.\nConstruction: No useful direct Lucide match; supplied reference governs the three-way composition.'
+"""amazon-elemental-medialive. Reconstructed clean centerlines from the original reference.
+Construction reference: no useful exact Lucide match; reference three-way layout. Keyshape SQUARE chosen for the composition.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
+SOURCE_ICON_ID='c4945396-13ec-470f-9338-45638fe16eb2'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__amazon-elemental-medialive/20260925T034142Z-thuan-mac/reference/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg'
+AUTHOR='gpt-6'
 
-SOURCE_ICON_ID = "c4945396-13ec-470f-9338-45638fe16eb2"
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg'
-AUTHOR = 'gpt-6'
-
-
-class AmazonElementalMediaLive(Solo48):
-    icon_id = "amazon-elemental-medialive"
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "technology/media"
-    aliases = ("aws-medialive",)
-    keywords = ("amazon", "aws", "media", "live", "play", "stream")
-
+class Drawing(Solo48):
+    icon_id='amazon-elemental-medialive'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
+    aliases=()
+    keywords=('amazon', 'elemental', 'medialive')
     def build(self):
-        # Plan: central play triangle, three repeated media nodes and scan arrows.
-        # VRECT_L centerline extremes (8,4)-(40,44). Small hexagons simplified to circles.
-        self.add_polyline('play',(18,18),(30,25),(18,32),closed=True)
-        for name,cx,cy in [('top',24,7),('left',11,41),('right',37,41)]:
-            self.add_arc(name+'-upper',(cx-3,cy),(cx+3,cy),radius_x=3)
-            self.add_arc(name+'-lower',(cx+3,cy),(cx-3,cy),radius_x=3)
-            self.add_contour(name,name+'-upper',name+'-lower',closed=True)
-        self.add_polyline('scan-left',(8,24),(8,18),(10,16))
-        self.add_polyline('scan-right',(40,24),(40,18),(38,16))
-        self.add_polyline('scan-bottom',(22,42),(24,44),(26,42))
+        # Equal circular media nodes replace hexagonal corners at this scale.
+        # Centerline envelope (6,6)-(42,42), symmetric upper scan chevrons.
+        self.add_polyline('play',(18,20),(30,26),(18,32),closed=True)
+        for n,x,y in [('top',24,9),('left',9,39),('right',39,39)]:self.circle(n,x,y,3)
+        self.add_polyline('scan-left',(9,15),(6,18),(9,21))
+        self.add_polyline('scan-right',(39,15),(42,18),(39,21))
+        self.add_polyline('scan-bottom',(22,40),(24,42),(26,40))
+
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,(kind,q,*v) in enumerate(ops):
+            eid=f'{n}-{i}'
+            if kind=='L': self.add_line(eid,p,q)
+            elif kind=='A': self.add_arc(eid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif kind=='C': self.add_bezier(eid,p,(v[0],v[1],q))
+            members.append(eid);p=q
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def join(self,a,b): self.relate('connect',a,b)

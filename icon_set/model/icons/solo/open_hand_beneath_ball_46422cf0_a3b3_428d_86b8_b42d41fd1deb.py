@@ -1,9 +1,5 @@
-"""Hand Catching Ball.
-
-Plan: SQUARE, centerline extremes (6, 6, 42, 42); 48 x 48, stroke 4.
-The open palm and separate round ball remain clear. Small finger divisions are omitted.
-Repeated circles, arcs and equal series use shared helper definitions and parameters.
-Construction reference: hand-helping.
+"""Open palm beneath a ball. Lucide hand-helping: long palm and curled thumb. Smooth round finger cap, larger round ball, intentional directional asymmetry. Minor finger seams omitted.
+Keyshape SQUARE: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -17,29 +13,33 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = 'objects'
     aliases = ()
     keywords = ('open', 'hand', 'beneath', 'ball')
 
     def build(self):
+        self.circle('ball',26,11,5)
+        self.path('thumb',(6,31),[(13,26),((19,24),10,10,True),(23,24),((23,32),4,4,True),(18,32)])
+        self.path('palm',(6,42),[(27,42),(40,32),((34,24),5,5,False),(23,32)])
+        self.relate('connect','thumb','palm')
 
-        def path(name, start, commands, closed=False):
-            here=start; members=[]
-            for index,(kind,end,*args) in enumerate(commands):
-                member=f"{name}-{index}"
-                if kind=='L': self.add_line(member,here,end)
-                elif kind=='A': self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(member,here,(args[0],args[1],end))
-                here=end; members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def rect(name,x,y,w,h,r=4):
-            path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name,a,b): self.add_line(name,a,b)
-        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        path('thumb',(6,30),[('L',(14,24)),('L',(20,24)),('L',(24,24)),('A',(24,32),4,4,True),('L',(18,32))])
-        path('palm',(6,42),[('L',(26,42)),('L',(36,34)),('A',(36,22),6,6,False),('L',(24,32))]);join('thumb','palm')
-        circle('ball',26,10,4)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

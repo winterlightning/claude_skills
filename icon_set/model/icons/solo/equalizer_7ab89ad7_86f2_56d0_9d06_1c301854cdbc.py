@@ -1,12 +1,14 @@
-'Equalizer: equal-size control knobs with exact stem attachments and balanced column spacing.'
+"""equalizer-audio: Three equally sized circular controls on perfectly straight columns; same radius and shared cardinal joins.
+Lucide construction: sliders-vertical; original and atomic-debug inspected.
+Omissions: None
+Keyshape HRECT_L: exact contract envelope; 4-unit stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7ab89ad7-86f2-56d0-9d06-1c301854cdbc'
 SOURCE_PATH = 'pictographic-primitives/audio/equalizer_7ab89ad7-86f2-56d0-9d06-1c301854cdbc.svg'
 AUTHOR = 'gpt-6'
-
-class EqualizerAudio(Solo48):
+class Drawing(Solo48):
     icon_id = 'equalizer-audio'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
@@ -14,13 +16,26 @@ class EqualizerAudio(Solo48):
     category = 'audio'
     aliases = ()
     keywords = ('equalizer', 'audio')
+    def build(self):
 
-    def build(self) -> None:
-        # Equal controls on three parallel stems; nodes and stem endpoints share coordinates.
-        for name,x,y in (('left',9,22),('middle',24,31),('right',39,16)):
-            self.add_arc(name+'-a',(x-5,y),(x+5,y),radius_x=5,radius_y=4)
-            self.add_arc(name+'-b',(x+5,y),(x-5,y),radius_x=5,radius_y=4)
-            self.add_contour(name,name+'-a',name+'-b',closed=True)
-            self.add_line(name+'-upper',(x,8),(x,y-4))
-            self.add_line(name+'-lower',(x,y+4),(x,40))
-            self.relate('connect',name,name+'-upper');self.relate('connect',name,name+'-lower')
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        for name,x,y in [('left',8,22),('middle',24,32),('right',40,16)]:
+            oval(name,x,y,4,4)
+            line(name+'-top',(x,8),(x,y-4));line(name+'-bottom',(x,y+4),(x,40))
+            join(name,name+'-top');join(name,name+'-bottom')

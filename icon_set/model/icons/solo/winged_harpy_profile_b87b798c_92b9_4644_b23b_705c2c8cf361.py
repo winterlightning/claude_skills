@@ -1,47 +1,41 @@
-'Mythological Harpy Creature.\nPlan: Round human head above broad spread bird wings and two angular legs. Hair, feathers and claw tips omitted. Head radius4 at30,10; torso starts30,22, exact4 ink gap. Bounds6..42.\nReference: human_ref/full_body_ref.png: circular detached head aligned with upper torso, exact4-unit ink gap. Source spread wings retained; no useful local Lucide harpy match.\nKeyshape: SQUARE, exact SOLO48 envelope.'
+'Harpy with a human head, feather-shaped outstretched wings, a torso and splayed birdlike legs.\nPlan: SQUARE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: human_ref/full_body_ref.png: circular detached head and coherent torso; bird: tapered wings.\nOmissions: Hair, face detail and individual feathers reduced; asymmetric legs preserve the profile pose.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b87b798c-92b9-4644-b23b-705c2c8cf361'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_22/harpy_b87b798c-92b9-4644-b23b-705c2c8cf361.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'winged-harpy-profile'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('winged', 'harpy', 'profile')
-
+    icon_id='winged-harpy-profile'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('winged', 'harpy', 'profile')
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        circle('head',30,10,4)
-        self.add_line('torso',(30,22),(30,26));self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
-        self.add_polyline('harpy',(6,18),(30,26),(42,18),(42,32),(30,38),(20,36),(6,30),closed=True);self.relate('connect','torso','harpy')
-        self.add_line('leg-left',(20,36),(16,42));self.add_line('leg-right',(30,38),(36,42));self.relate('connect','leg-left','harpy');self.relate('connect','leg-right','harpy')
+        circle('head',24,10,4)
+        poly('torso',(24,22),(24,24),(24,34),(24,36))
+        self.mark_human_figure('harpy',head='head',torso='torso-1',torso_junction='start')
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         path(f'wing-{side}',(24,24),[('C',(x(18),17),(x(7),23),(x(14),20)),('C',(x(12),34),(x(18),28),(x(18),34)),('C',(24,34),(x(8),34),(x(4),34))])
+         join(f'wing-{side}','torso')
+        poly('leg-left',(24,36),(18,42),(14,42));join('leg-left','torso')
+        poly('leg-right',(24,36),(32,42),(36,42));join('leg-right','torso');join('leg-left','leg-right')

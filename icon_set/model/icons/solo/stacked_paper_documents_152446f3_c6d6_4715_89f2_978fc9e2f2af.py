@@ -1,58 +1,39 @@
-"""Two overlapping paper documents.
-
-SOLO48 VRECT_L; Lucide reference: files: staggered document outlines.
-Symbol plan: source composition reduced to named outlines and shared geometry.
+"""stacked-paper-documents-solo: Two staggered sheets with straight diagonal cut corners and matching rounded outer corners; rear outline stops at the front sheet.
+Lucide construction: files; original and atomic-debug inspected.
+Omissions: None
+Keyshape VRECT_L: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '152446f3-c6d6-4715-89f2-978fc9e2f2af'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/files_152446f3-c6d6-4715-89f2-978fc9e2f2af.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stacked-paper-documents-solo/20260924T171114Z-thuan-mac/reference/files_152446f3-c6d6-4715-89f2-978fc9e2f2af.svg'
 AUTHOR = 'gpt-6'
-
-class StackedPaperDocuments(Solo48):
+class Drawing(Solo48):
     icon_id = 'stacked-paper-documents-solo'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/documents'
-    aliases = ('Stacked Paper Documents',)
-    keywords = tuple('stacked paper documents'.split())
+    category = 'objects'
+    aliases = ()
+    keywords = ('stacked', 'paper', 'documents', 'solo')
+    def build(self):
 
-    def ring(self, name, x, y, r):
-        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
-        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
-        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
-        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
 
-    def box(self, name, x1, y1, x2, y2):
-        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
-
-    def round_box(self, name, x1, y1, x2, y2, r):
-        parts=[]
-        def line(s,a,b):
-            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
-        def arc(s,a,b):
-            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
-        line('top',(x1+r,y1),(x2-r,y1))
-        arc('ne',(x2-r,y1),(x2,y1+r))
-        line('right',(x2,y1+r),(x2,y2-r))
-        arc('se',(x2,y2-r),(x2-r,y2))
-        line('bottom',(x2-r,y2),(x1+r,y2))
-        arc('sw',(x1+r,y2),(x1,y2-r))
-        line('left',(x1,y2-r),(x1,y1+r))
-        arc('nw',(x1,y1+r),(x1+r,y1))
-        self.add_contour(name,*parts,closed=True)
-
-    def heart(self,name,x,y):
-        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
-        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
-        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
-        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
-        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
-        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
-
-    def build(self) -> None:
-        self.add_polyline('back',(16,4),(31,4),(40,13),(40,35),(32,35))
-        self.add_polyline('front',(8,14),(25,14),(32,21),(32,44),(8,44),closed=True)
+        path('front',(11,14),[('L',(24,14)),('L',(32,22)),('L',(32,34)),('L',(32,41)),('A',(29,44),3,3,True),('L',(11,44)),('A',(8,41),3,3,True),('L',(8,17)),('A',(11,14),3,3,True)],True)
+        path('back',(16,14),[('L',(16,7)),('A',(19,4),3,3,True),('L',(31,4)),('L',(40,13)),('L',(40,31)),('A',(37,34),3,3,True),('L',(32,34))]);join('front','back')

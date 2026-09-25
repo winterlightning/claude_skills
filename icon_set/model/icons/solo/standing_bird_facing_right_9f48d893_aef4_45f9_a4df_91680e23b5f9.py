@@ -1,46 +1,42 @@
-'Simple Standing Bird.\nPlan and review: Retained right-facing bird with down-left tail, curved wing, small beak and two legs on a shared baseline. Enlarged body around the wing and used shared tail/wing attachment to preserve wing identity with clear spacing.\nKeyshape: SQUARE, exact SOLO48 envelope.\nConstruction reference: Lucide bird: continuous head/breast, pointed tail and one wing seam; intentional right-facing asymmetry.'
+"""Right-facing bird has a round head, continuous back and breast, pointed tail, curved wing and paired feet. All belly attachments are explicit.
+Construction: Lucide bird original/atomic-debug: flowing breast, pointed tail and single wing curve.
+Omissions: Eye and feather hatching omitted; rightward asymmetry follows the source.
+Keyshape SQUARE: exact contract extremes, stroke 4.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9f48d893-aef4-45f9-a4df-91680e23b5f9'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_19/fowl_9f48d893-aef4-45f9-a4df-91680e23b5f9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'standing-bird-facing-right'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('standing', 'bird', 'facing', 'right')
-
+    icon_id='standing-bird-facing-right'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('standing', 'bird', 'facing', 'right')
     def build(self):
+        self.path('outline',(6,36),[('L',(14,28)),('L',(21,21)),('C',(25,13),(23,19),(25,17)),('A',(32,6),7,7,True),('A',(39,13),7,7,True),('L',(42,15)),('L',(39,17)),('C',(30,33),(39,26),(36,33)),('L',(20,33)),('C',(6,36),(16,33),(12,36))],True)
+        self.path('wing',(14,28),[('C',(27,18),(25,28),(30,24))]);self.join('outline','wing')
+        for j,x in enumerate((20,30)):
+         self.line('leg'+str(j),(x,33),(x+2,42));self.join('leg'+str(j),'outline')
+         self.line('foot'+str(j),(x-1,42),(x+5,42));self.join('leg'+str(j),'foot'+str(j))
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
-
-        curve('upper',(6,36),((8,32),(12,27),(14,24)),((18,21),(20,20),(20,18)),((20,8),(24,6),(30,6)),((38,6),(38,8),(38,10)))
-        path('beak',(38,10),[(42,14),(38,18)]);self.relate('connect','upper','beak')
-        curve('lower',(38,18),((40,28),(34,33),(26,33)),((18,30),(14,36),(6,36)))
-        self.relate('connect','lower','upper');self.relate('connect','lower','beak')
-        curve('wing',(14,24),((24,24),(30,22),(28,16)));self.relate('connect','wing','upper')
-        for j,x in enumerate((22,32)):
-         self.add_line(f'leg-{j}',(x,33),(x+2,42));self.relate('connect',f'leg-{j}','lower')
-        self.add_line('ground',(20,42),(38,42))
-        for j in range(2):self.relate('connect',f'leg-{j}','ground')
+    def path(self,n,p,steps,closed=False):
+        ids=[]
+        for j,step in enumerate(steps):
+            k,q,*v=step; uid=f'{n}-{j}'
+            if k=='L': self.add_line(uid,p,q)
+            elif k=='A': self.add_arc(uid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif k=='C': self.add_bezier(uid,p,(v[0],v[1],q))
+            ids.append(uid);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=2):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def line(self,n,a,b): self.add_line(n,a,b)
+    def poly(self,n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+    def join(self,a,b): self.relate('connect',a,b)

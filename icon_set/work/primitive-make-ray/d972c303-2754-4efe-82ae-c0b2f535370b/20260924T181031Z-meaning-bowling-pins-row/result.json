@@ -1,0 +1,60 @@
+{
+  "concept": "three bowlings",
+  "source_uuid": "d972c303-2754-4efe-82ae-c0b2f535370b",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__bowling-pins-row/20260924T181031Z-thuan-mac/reference/three bowlings_d972c303-2754-4efe-82ae-c0b2f535370b.svg",
+  "icon_id": "bowling-pins-row",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "bowling-pins-row",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1.96648, 6, 46.0335, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0335, 0.0, 0.0335, 0.0], tolerance 0.0)",
+      "mic [pin-2]: parallel straight edges pin-2-2 and pin-2-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-1]: parallel straight edges pin-1-2 and pin-1-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-0]: parallel straight edges pin-0-2 and pin-0-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-0]: pin-0 and pin-1 are 7.93296 apart on centerlines nearest (12.0335, 28.9648)<->(19.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [pin-1]: pin-1 and pin-2 are 7.93296 apart on centerlines nearest (28.0335, 28.9648)<->(35.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 3 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [pin-0]: pin-0-1 and pin-0-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-0]: pin-0-2 and pin-0-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-0]: pin-0-4 and pin-0-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-1 and pin-1-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-2 and pin-1-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-4 and pin-1-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-1 and pin-2-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-2 and pin-2-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-4 and pin-2-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required"
+    ]
+  },
+  "keyshape": "HRECT_L",
+  "visual_review": "Cannot fit the required three continuous pin silhouettes in HRECT_L: 40 centerline units minus two 8-unit inter-pin gaps leaves 8 units per pin. A legal 8-unit neck leaves no room for a wider belly. The retained attempt fails MIC on the 4-unit necks and the hole/internal-spacing gate; touching head/body loops were not reused.",
+  "description": "Three continuous bowling-pin outlines: rounded crown, narrow neck, lower belly, flat base; shared shape and spacing.",
+  "construction_references": "Original three bowling pins: continuous pin silhouettes; no useful local Lucide bowling-pin match.",
+  "omissions": "Neck stripes omitted; neck width is the anticipated blocking constraint.",
+  "artifacts": [
+    "bowling_pins_row_d972c303_2754_4efe_82ae_c0b2f535370b.py",
+    "bowling-pins-row.svg",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png",
+    "bowling-pins-row.metadata.json",
+    "reference-48.png",
+    "reference-384.png",
+    "validation.txt"
+  ],
+  "reviewer_feedback": "Does not convey the intended meaning\n\nRepair \u2014 intended concept: three bowling pins in a row. Concept match is weak. At native size in both themes, the drawing resembles three loop-bodied figures or beads stacked above elongated rings. Repetition suggests a group of upright objects, but the circular heads, point contacts and oval bodies lack bowling pins\u2019 continuous necks, swelling lower bodies and stable bases. Enlargement confirms these are separate touching loops. The reference supports a continuous pin silhouette rather than this stacked construction.\n\nPreserve the three upright repeats, equal spacing and centered arrangement. Whole-row symmetry about x=24 and local symmetry about x=8, 24 and 40 are appropriate and look consistent; there is no apparent asymmetry to correct. The main defect is construction and proportion, not alignment.\n\nReplace each head/body pair (head-0/body-0 through head-2/body-2) with one continuous closed pin outline. Use a rounded crown flowing into a short, narrower neck, smooth shoulders expanding to a belly below mid-height, then taper toward a short, nearly flat base with rounded corners. Remove the separate circular head holes and pointed oval interiors. Derive all three pins from one shared definition with mirrored sides and tangent joins. Omit neck stripes unless they can fit without crowding; silhouette should carry recognition.\n\nRetain SOLO48 HRECT_L: its 44\u00d736 painted envelope, bounds (2,6)\u2013(46,42), suits this horizontal group. Its 40\u00d732 centerline box accommodates three approximately 12-unit-wide painted pins on 16-unit centers, leaving 4 units between neighboring bellies. Keep the 4-unit stroke, round caps/joins and integer grid. Budget the neck opening explicitly: do not obtain a narrow neck by collapsing opposing strokes. Maintain readable interior space and at least 4 units of ink clearance between distinct pins. This is a proposed reconstruction, not a validated improvement.\n\nThe selected SVG hash matches the Python SVG and evidence. QA reports an overall pass and vertical symmetry pass, but its underlying spacing result is raw fail: all three head/body pairs have zero ink clearance, exempted through declared connect relationships. Those separate closed loops only touch in paint; the current construction guidance calls for genuine joined topology rather than exempting touching loops. Small head holes also pass through explicit circular-hole exceptions, not an unrestricted measurement pass.\n\nAcceptance: compare the reconstructed candidate at 48px in both themes for a clear bowling-pin reading, continuous neck-to-body flow, balanced lower bellies and stable bases. Recheck exact keyshape fit, openings, inter-pin clearance and symmetry without relying on the current head/body contact exemptions.",
+  "visual_review_sizes": [
+    48,
+    384
+  ],
+  "visual_review_themes": [
+    "light",
+    "dark"
+  ],
+  "outcome": "cannot-fix",
+  "note": "Cannot fit the required three continuous pin silhouettes in HRECT_L: 40 centerline units minus two 8-unit inter-pin gaps leaves 8 units per pin. A legal 8-unit neck leaves no room for a wider belly. The retained attempt fails MIC on the 4-unit necks and the hole/internal-spacing gate; touching head/body loops were not reused."
+}

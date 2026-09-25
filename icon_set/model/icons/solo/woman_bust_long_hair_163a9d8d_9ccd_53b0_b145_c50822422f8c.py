@@ -1,26 +1,40 @@
-'woman-bust-long-hair: independent smooth-curve repair.\n\nConstruction: Long-haired portrait on the tall envelope: circular head (24,25), radius 7; smooth shoulder crown y36 is exactly 4 centerline units below the jaw y32. Hair and shoulders share their ends.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/human_ref/user.svg (human proportions).\nOriginal source and parent geometry preserved.'
+"""Woman bust with a radius-7 circular jaw, smoothly joined center-parted hair, and curved shoulders. Shared human_ref/user.svg informs circular anatomy. Bust contact has zero ink gap: jaw bottom 29 and shoulder top 33 are exactly four centerline units apart.
+Omissions: Hairline is reduced to one symmetric part; facial details omitted.
+Construction references: ['user-round'].
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '163a9d8d-9ccd-53b0-b145-c50822422f8c'
 SOURCE_PATH = 'pictographic-primitives/users/woman half_163a9d8d-9ccd-53b0-b145-c50822422f8c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='woman-bust-long-hair'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="people/users"
+    aliases=()
+    keywords=('woman', 'half')
+    human_construction="bust"
 
-class WomanBustLongHair(Solo48):
-    icon_id = 'woman-bust-long-hair'
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'people/users'
-    aliases = ()
-    keywords = ('woman', 'female', 'bust', 'long hair', 'user', 'avatar', 'profile', 'person')
-    keyshape = Keyshape.VRECT_L
-    human_construction = 'bust'
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        ellipse(self,'head',24,25,7)
-        path(self,'hair',(8,44),('L',(8,24)),('A',16,20,True,(24,4)),('A',16,20,True,(40,24)),('L',(40,44)))
-        path(self,'shoulders',(8,44),('A',16,8,True,(24,36)),('A',16,8,True,(40,44)))
-        self.relate('connect','head','shoulders')
-        contacts(self)
+        self.path('hair',(8,28),[('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,28))])
+        self.path('face',(17,20),[('C',(24,13),(17,17),(21,16)),('C',(31,20),(27,16),(31,17)),('L',(31,22)),('A',(17,22),7,7,True),('L',(17,20))],True)
+        self.path('shoulders',(8,44),[('A',(24,33),16,11,True),('A',(40,44),16,11,True)])
+        self.relate('connect','face','shoulders')
+        self.add_line('base',(8,44),(40,44));self.relate('connect','base','shoulders')

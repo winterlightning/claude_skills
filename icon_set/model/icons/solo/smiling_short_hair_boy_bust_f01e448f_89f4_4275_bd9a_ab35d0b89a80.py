@@ -1,8 +1,5 @@
-"""Smiling Young Boy Avatar.
-
-Plan: Avatar centered x24, circular jaw radius12 cy16, jaw bottom28, shoulder top32: exact0 ink gap. Bounds (8,4)-(40,44).
-Construction: Shared human_ref/user.svg: circular face, broad curved shoulders; avatar contact uses the current zero ink gap rule.
-Reduction: Fine eyes and clothing lines omitted; smile and identifying hair retained.
+"""Smiling short-haired boy bust. Shared user.svg head/shoulder proportions: circular jaw radius12 at24,16, shoulder top36; exact4 visible detached gap. Hair drawn as a smoothly parted crown; no cramped enclosed fringe band, smile as circular arc. Eyes omitted for spacing.
+Keyshape VRECT_L: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -11,45 +8,40 @@ SOURCE_ICON_ID = 'f01e448f-89f4-4275-bd9a-ab35d0b89a80'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-013/references/45-f01e448f-89f4-4275-bd9a-ab35d0b89a80.svg'
 AUTHOR = 'gpt-6'
 
-
 class Drawing(Solo48):
     icon_id = 'smiling-short-hair-boy-bust'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "avatars"
+    category = 'avatars'
     aliases = ()
     keywords = ('smiling', 'short', 'hair', 'boy', 'bust')
 
     def build(self):
+        # Circular jaw r12, center24,16; jaw bottom28 and shoulder top36: exact4 visible gap.
+        self.add_arc('jaw',(12,16),(36,16),radius_x=12,sweep=False)
+        self.add_bezier('hair',(12,16),((12,9),(16,4),(22,4)),((25,4),(27,8),(30,8)),((33,8),(36,11),(36,16)))
+        self.relate('connect','hair','jaw')
+        self.add_arc('smile',(21,18),(27,18),radius_x=5,sweep=False)
+        self.path('shoulders',(8,44),[((16,36),8,8,True),(32,36),((40,44),8,8,True)])
 
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name, (x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
             else:
-                path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name, a, b): self.add_line(name,a,b)
-        def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
-        self.add_arc('face',(12,16),(36,16),radius_x=12,radius_y=12,sweep=False)
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        path('hair',(12,16),[('C',(20,4),(13,8),(16,4)),('L',(28,6)),('L',(31,5)),('C',(36,16),(34,8),(35,12))]);join('face','hair')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
 
-        path('smile',(21,16),[('C',(27,16),(22,19),(26,19))])
-        self.add_arc('body-left',(8,44),(20,32),radius_x=12,radius_y=12,sweep=True)
-        line('body-top',(20,32),(28,32))
-        self.add_arc('body-right',(28,32),(40,44),radius_x=12,radius_y=12,sweep=True)
-        join('body-top','body-left');join('body-top','body-right');join('face','body-top')
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

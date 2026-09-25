@@ -1,7 +1,6 @@
-'Sunset Over Ocean Waves.\nPlan: Semicircular sun on the first of three shallow parallel water waves.\nConstruction reference: Lucide sunrise and waves: shallow water arcs and a half-disc sun.\nReduction: All three wave lines retained.\nKeyshape: HRECT_L; use exact SOLO48 centerline extremes from the contract.'
+'Sun setting over three horizontal water waves. All waves share one smooth cubic pattern and a 10-unit vertical step. Bounds (4,8)-(44,40).\nConstruction: No useful exact Lucide match; shared geometric construction.\nOmissions: None; wave amplitude kept shallow for spacing.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bf610dd4-85f9-4ff5-a1ea-5e00943043fc'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_18/fen_bf610dd4-85f9-4ff5-a1ea-5e00943043fc.svg'
 AUTHOR = 'gpt-6'
@@ -11,39 +10,28 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
     keywords = ('sun', 'setting', 'behind', 'waves')
 
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members, point = [], start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-
-        def ellipse(name, x, y, rx, ry):
-            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
-
-        def circle(name, x, y, radius):
-            ellipse(name,x,y,radius,radius)
-
-        def box(name, left, top, right, bottom, radius=4):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('sun',(14,19),[((24,8),10,11,True),((34,19),10,11,True)])
-        for j,y in enumerate((19,29,39)):
-         path(f'water-{j}',(4,y),[((24,y),10,1,False),((44,y),10,1,True)])
-        self.relate('connect','sun','water-0')
+        def path(n,p,steps,closed=False):
+            members=[]
+            for i,s in enumerate(steps):
+                k,q,*a=s; m=f'{n}-{i}'
+                if k=='L': self.add_line(m,p,q)
+                elif k=='A': self.add_arc(m,p,q,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif k=='C': self.add_bezier(m,p,(a[0],a[1],q))
+                members.append(m);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        for i,y in enumerate((20,30,40)):
+         path(f'wave-{i}',(4,y),[('C',(14,y-2),(8,y),(8,y-2)),('C',(24,y),(20,y-2),(20,y)),('C',(34,y-2),(28,y),(28,y-2)),('C',(44,y),(40,y-2),(40,y))])
+        path('sun',(14,18),[('A',(24,8),10,10,True),('A',(34,18),10,10,True)]);join('sun','wave-0')

@@ -1,46 +1,37 @@
-'Security Access Key Symbol.\nSymbol plan: Circular left bow with beveled right shoulder joins broad toothed shaft. One prominent tooth replaces the small repeated notches; hole radius3 at(16,24).\nConstruction reference: Lucide key-round: integrated bow and shaft silhouette with an isolated hole.\nOriginal reference: SOURCE_PATH below.'
+"""Security key with circular left bow, smooth rounded shoulders and notched shaft. Lucide key-round informs integrated bow and shaft. Mirror bow shoulders around y24; key tooth intentionally asymmetric. One large tooth replaces small repeated teeth.
+Reviewer: clean centerlines and consistent stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4ea86669-dd94-4c67-81eb-5997c3e0caf5'
 SOURCE_PATH = 'pictographic-primitives/other/crypto encryption key_4ea86669-dd94-4c67-81eb-5997c3e0caf5.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'security-key-with-notched-shaft'
-    keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('security', 'key', 'with', 'notched', 'shaft')
+    icon_id='security-key-with-notched-shaft'
+    keyshape=Keyshape.HRECT_M
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('security', 'key', 'with', 'notched', 'shaft')
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        self.path('key',(30,16),[((18,10),12,6,False),((4,24),14,14,False),((18,38),14,14,False),((30,32),12,6,False),(34,32),(34,24),(40,24),(44,20),(40,16),(30,16)],True)
+        self.circle('hole',16,24,3)
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
 
-        path('key',(30,16),[(18,10),((4,24),14,14,False),((18,38),14,14,False),(30,32),(34,32),(34,24),(40,24),(44,20),(40,16),(30,16)],True)
-        circle('hole',16,24,3)

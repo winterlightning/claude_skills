@@ -1,47 +1,41 @@
-'Off-Road Vehicle.\n\nSymbol plan: Side-view off-road vehicle with raised trapezoid cab and two oversized wheels; omit small hubs.\nKeyshape: HRECT_L; authored on SOLO48, not scaled from source.\nLucide: no useful subject match; reference-informed geometric construction.'
+"""Equal large wheels share y34 and radius6. Body corners use matched quarter arcs, cab roof is rounded and straight edges stay straight.
+Construction: Lucide tractor: circular wheels and simplified raised cab.
+Omissions: Wheel hubs and window divisions omitted.
+Keyshape HRECT_L: exact contract extremes, stroke 4.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '87fdb6c4-b392-445f-b29f-1ee390cf87cd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_23/jeep_87fdb6c4-b392-445f-b29f-1ee390cf87cd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class SimpleOffRoadVehicle(Solo48):
-    icon_id = 'simple-off-road-vehicle'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects/reference'
-    aliases = ()
-    keywords = ('simple', 'off', 'road', 'vehicle')
-
+class Drawing(Solo48):
+    icon_id='simple-off-road-vehicle'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('simple', 'off', 'road', 'vehicle')
     def build(self):
-        # Side-view off-road vehicle with raised trapezoid cab and two oversized wheels; omit small hubs.
-        axis_x = 24
-        p_4_20 = (4, 20)
-        p_4_34 = (4, 34)
-        p_15_20 = (15, 20)
-        p_16_34 = (16, 34)
-        p_18_8 = (18, 8)
-        p_32_34 = (2 * axis_x - p_16_34[0], p_16_34[1])
-        p_34_8 = (34, 8)
-        p_34_20 = (34, 20)
-        p_44_20 = (2 * axis_x - p_4_20[0], p_4_20[1])
-        p_44_34 = (2 * axis_x - p_4_34[0], p_4_34[1])
-        self.add_arc('rear-wheel-1', p_4_34, p_16_34, radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('rear-wheel-2', p_16_34, p_4_34, radius_x=6, radius_y=6, sweep=True)
-        self.add_contour('rear-wheel', 'rear-wheel-1', 'rear-wheel-2', closed=True)
-        self.add_arc('front-wheel-1', p_32_34, p_44_34, radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('front-wheel-2', p_44_34, p_32_34, radius_x=6, radius_y=6, sweep=True)
-        self.add_contour('front-wheel', 'front-wheel-1', 'front-wheel-2', closed=True)
-        self.add_line('body-1', p_4_34, p_4_20)
-        self.add_line('body-2', p_4_20, p_44_20)
-        self.add_line('body-3', p_44_20, p_44_34)
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', closed=False)
-        self.relate("connect", 'body', 'rear-wheel')
-        self.relate("connect", 'body', 'front-wheel')
-        self.add_line('cab-1', p_15_20, p_18_8)
-        self.add_line('cab-2', p_18_8, p_34_8)
-        self.add_line('cab-3', p_34_8, p_34_20)
-        self.add_contour('cab', 'cab-1', 'cab-2', 'cab-3', closed=False)
-        self.relate("connect", 'body', 'cab')
+        for n,x in [('rear-wheel',10),('front-wheel',38)]: self.circle(n,x,34,6)
+        self.path('body',(4,34),[('L',(4,22)),('A',(6,20),2,2,True),('L',(16,20)),('L',(34,20)),('L',(42,20)),('A',(44,22),2,2,True),('L',(44,34))])
+        self.path('cab',(16,20),[('L',(18,10)),('C',(20,8),(18.4,8),(19,8)),('L',(32,8)),('A',(34,10),2,2,True),('L',(34,20))])
+        for n in ['rear-wheel','front-wheel','cab']:self.join('body',n)
+
+    def path(self,n,p,steps,closed=False):
+        ids=[]
+        for j,step in enumerate(steps):
+            k,q,*v=step; uid=f'{n}-{j}'
+            if k=='L': self.add_line(uid,p,q)
+            elif k=='A': self.add_arc(uid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif k=='C': self.add_bezier(uid,p,(v[0],v[1],q))
+            ids.append(uid);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=2):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def line(self,n,a,b): self.add_line(n,a,b)
+    def poly(self,n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+    def join(self,a,b): self.relate('connect',a,b)

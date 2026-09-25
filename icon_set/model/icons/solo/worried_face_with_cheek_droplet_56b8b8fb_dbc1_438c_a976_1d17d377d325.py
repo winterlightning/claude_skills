@@ -1,45 +1,38 @@
-'Sad Face with Sweat Drop.\nPlan and review: Retained raised brows, short eyes, frown and right cheek droplet. Simplified droplet to round bulb and attached eye track; shifted small frown left. Existing complete-circle diameter4 exception only.\nKeyshape: CIRCLE, exact SOLO48 envelope.\nConstruction reference: Source face and tear; Lucide circular-face vocabulary.'
+'A round worried face with inward-raised brows, simple eyes, an arched frown and a cheek droplet.\nPlan: CIRCLE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: user-round: circular head; source-specific facial arrangement.\nOmissions: Tiny eye marks merged into worried eye/brow strokes; the round droplet retains a straight upper tip and open center.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '56b8b8fb-dbc1-438c-a976-1d17d377d325'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_18/face sad sweat_56b8b8fb-dbc1-438c-a976-1d17d377d325.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
-    icon_id = 'worried-face-with-cheek-droplet'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
-    aliases = ()
-    keywords = ('worried', 'face', 'with', 'cheek', 'droplet')
-
+    icon_id='worried-face-with-cheek-droplet'
+    keyshape=Keyshape.CIRCLE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('worried', 'face', 'with', 'cheek', 'droplet')
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
             self.add_contour(name,*members,closed=closed)
         def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
         circle('head',24,24,20)
-        self.add_line('brow-left',(18,15),(20,14));self.add_line('brow-right',(28,14),(30,15))
-        self.add_line('eye-left',(18,23),(20,23));self.add_line('eye-right',(28,23),(30,23))
-        self.add_arc('frown',(17,33),(21,33),radius_x=2,radius_y=2,sweep=True)
-        path('tear',(30,26),[((30,30),2,2,True),((30,26),2,2,True)],True)
-        self.add_line('tear-tip',(30,23),(30,26));self.relate('connect','tear-tip','tear')
-        self.relate('connect','eye-right','tear')
-        self.relate('connect','tear-tip','eye-right')
+        path('brow-left',(16,18),[('C',(20,16),(18,18),(20,17))])
+        path('brow-right',(28,16),[('C',(32,18),(28,17),(30,18))])
+        path('frown',(17,33),[('A',(23,33),3,3,True)])
+        circle('droplet',32,25,3)
+        line('drop-tip',(32,18),(32,22));join('drop-tip','droplet');join('drop-tip','brow-right')

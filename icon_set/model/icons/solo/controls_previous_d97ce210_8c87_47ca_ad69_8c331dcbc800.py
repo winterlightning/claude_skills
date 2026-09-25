@@ -1,28 +1,34 @@
-"""Controls previous (video), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Previous video control: left stop bar and left-pointing triangle. Lucide skip-back informs a single coherent triangle and straight bar. Mirror triangle vertically about y24; no omissions.
+Keyshape VRECT_L: exact SOLO48 envelope; 4px stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd97ce210-8c87-47ca-ad69-8c331dcbc800'
 SOURCE_PATH = 'pictographic-primitives/video/controls previous_d97ce210-8c87-47ca-ad69-8c331dcbc800.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+AUTHOR='gpt-6'
 
-class ControlsPreviousVideo(Solo48):
-    icon_id = 'controls-previous-video'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'video'
-    aliases = ()
-    keywords = ('controls', 'previous', 'video')
+class Drawing(Solo48):
+    icon_id='controls-previous-video'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="video"
+    aliases=()
+    keywords=('controls', 'previous', 'video')
 
     def build(self):
-        self.add_line('e0', (8, 4), (8, 44))
-        self.add_line('e1', (40, 5), (40, 43))
-        self.add_line('e2', (40, 43), (17, 26))
-        self.add_line('e3', (17, 26), (16, 24))
-        self.add_line('e4', (16, 24), (40, 5))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e2', 'e3', 'e4', closed=True)
+        self.add_line('bar',(8,4),(8,44))
+        self.add_polyline('triangle',(40,4),(40,44),(18,24),closed=True)
+
+    def path(self,name,start,commands,closed=False):
+        members=[];here=start
+        for j,(kind,end,*args) in enumerate(commands):
+            eid=f'{name}-{j}'
+            if kind=='L':self.add_line(eid,here,end)
+            elif kind=='A':self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C':self.add_bezier(eid,here,(args[0],args[1],end))
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

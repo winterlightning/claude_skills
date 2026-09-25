@@ -1,38 +1,40 @@
+"""proximity-alert-sensor-strokes: The source contains only three separated sensor marks; reconstruct those as exact straight runs with the same directions and arrangement.
+Lucide construction: radar; original and atomic-debug inspected.
+Omissions: None; intentionally sparse reference preserved.
+Keyshape HRECT_M: exact contract envelope; 4-unit stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '728da2ab-00cc-46d2-940b-827c80426d11'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__proximity-alert-sensor-strokes/20260924T171114Z-thuan-mac/reference/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
     icon_id = 'proximity-alert-sensor-strokes'
     keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
     aliases = ()
     keywords = ('proximity', 'alert', 'sensor', 'strokes')
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def box(self, name, x, y, w, h, r=0):
-        if not r:
-            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            return
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i in range(8):
-            part=f'{name}-{i}'; ids.append(part)
-            if i%2: self.add_arc(part,pts[i],pts[(i+1)%8],radius_x=r)
-            else: self.add_line(part,pts[i],pts[(i+1)%8])
-        self.add_contour(name,*ids,closed=True)
-
     def build(self):
-        # Plan: HRECT_M extremes 4,10 to 44,38; three separate strokes preserve the visible left, upper-middle and right arrangement.
-        self.add_line('left-sensor',(4,16),(4,38))
-        self.add_line('upper-signal',(20,10),(26,10))
-        self.add_line('right-signal',(38,22),(44,27))
+
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        line('left',(4,14),(4,38))
+        line('top',(22,10),(28,10))
+        line('right',(38,21),(44,25))

@@ -1,51 +1,41 @@
-"""layer style, complete SOLO48 composition.
-Symbol plan is recorded in build(). Visible keyshape extremes: (4, 4, 44, 44).
+"""layer-style: Italic f with smooth terminal transitions and a separate symmetric x; crossing halves reuse one node.
+Lucide construction: none; original and atomic-debug inspected.
+Omissions: None
+Keyshape SQUARE: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '745775ce-c7ef-5366-a215-5d6b54307c4c'
-SOURCE_PATH = 'icon_set/work/todo-references/layer style_745775ce-c7ef-5366-a215-5d6b54307c4c.svg'
-AUTHOR = "gpt-6"
-
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__layer-style/20260924T171114Z-thuan-mac/reference/layer style_745775ce-c7ef-5366-a215-5d6b54307c4c.svg'
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'layer-style'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
     aliases = ()
-    keywords = ('layer style',)
-
-    def rounded(self,n,x,y,w,h,r):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        for i in range(8):
-            a,b=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(n+str(i),a,b,radius_x=r)
-            else:self.add_line(n+str(i),a,b)
-        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
-
-    def laptop(self):
-        # Screen and base own shared hinge endpoints; repeated corner radius 4.
-        self.add_line('screen-left',(8,32),(8,12))
-        self.add_arc('screen-tl',(8,12),(12,8),radius_x=4)
-        self.add_line('screen-top',(12,8),(36,8))
-        self.add_arc('screen-tr',(36,8),(40,12),radius_x=4)
-        self.add_line('screen-right',(40,12),(40,32))
-        self.add_line('hinge',(40,32),(8,32))
-        self.add_contour('screen','screen-left','screen-tl','screen-top','screen-tr','screen-right','hinge',closed=True)
-        self.add_polyline('base',(8,32),(4,40),(44,40),(40,32))
-        self.relate('connect','screen','base')
-
+    keywords = ('layer', 'style')
     def build(self):
-        # A slanted lower-case f with curved terminals and a separate x.
-        self.add_arc('f-foot',(6,42),(14,34),radius_x=8,sweep=False)
-        self.add_line('f-stem',(14,34),(20,18))
-        self.add_line('f-neck',(20,18),(20,14))
-        self.add_arc('f-hook',(20,14),(28,6),radius_x=8)
-        self.add_line('f-terminal',(28,6),(30,6))
-        self.add_contour('f','f-foot','f-stem','f-neck','f-hook','f-terminal')
-        self.add_polyline('f-bar',(12,18),(20,18),(22,18))
-        self.relate('connect','f','f-bar')
-        self.add_line('x-down',(30,22),(42,38))
-        self.add_line('x-up',(30,38),(42,22))
-        self.relate('connect','x-down','x-up')
+
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('f',(6,42),[('C',(14,34),(11,42),(13,39)),('L',(18,18)),('L',(19,14)),('C',(28,6),(20,8),(23,6)),('L',(30,6))])
+        poly('bar',(12,18),(18,18),(23,18));join('bar','f')
+        # The f stem is split at its actual bar junction below.
+        poly('x-down',(30,22),(36,30),(42,38));poly('x-up',(30,38),(36,30),(42,22));join('x-down','x-up')

@@ -1,48 +1,41 @@
-"""A question bubble with a smaller exclamation reply.
-
-HRECT_L extrema (4,8)-(44,40). Two attached bubble outlines share a top
-node. Lucide messages-square informs opposing tails and round corners.
+"""question-and-exclamation-speech-bubbles: Two overlapping rectangular speech bubbles retain an open question hook and a vertical warning mark, with clean round joins and exact spacing.
+Lucide construction: messages-square; original and atomic-debug inspected.
+Omissions: Separate punctuation dots omitted, matching the supplied thin-line marks.
+Keyshape HRECT_L: exact contract envelope; 4-unit stroke.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = "46e03166-e81b-449b-9574-b852a8046251"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_12/conversation question warning_46e03166-e81b-449b-9574-b852a8046251.svg"
-AUTHOR = "gpt-6"
-
-
-class QuestionAndExclamationSpeechBubbles(Solo48):
-    icon_id = "question-and-exclamation-speech-bubbles"
+SOURCE_ICON_ID = '46e03166-e81b-449b-9574-b852a8046251'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__question-and-exclamation-speech-bubbles/20260924T171114Z-thuan-mac/reference/conversation question warning_46e03166-e81b-449b-9574-b852a8046251.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'question-and-exclamation-speech-bubbles'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "communication/chat"
-    aliases = ("question warning chat", "uncertain conversation")
-    keywords = ("question", "exclamation", "reply", "speech")
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('question', 'and', 'exclamation', 'speech', 'bubbles')
+    def build(self):
 
-    def build(self) -> None:
-        self.add_line("back-right",(30,14),(30,12))
-        self.add_arc("back-ne",(30,12),(26,8),radius_x=4,radius_y=4,sweep=False)
-        self.add_line("back-top",(26,8),(8,8))
-        self.add_arc("back-nw",(8,8),(4,12),radius_x=4,radius_y=4,sweep=False)
-        self.add_line("back-left",(4,12),(4,26))
-        self.add_arc("back-sw",(4,26),(8,30),radius_x=4,radius_y=4,sweep=False)
-        self.add_line("back-bottom",(8,30),(10,30))
-        self.add_line("back-tail-down",(10,30),(10,36))
-        self.add_line("back-tail-up",(10,36),(16,30))
-        self.add_contour("back","back-right","back-ne","back-top","back-nw","back-left","back-sw","back-bottom","back-tail-down","back-tail-up")
-        self.add_bezier("question",(13,20),((13,18),(14,17),(16,17)),((18,17),(18,19),(16,20)),((15,20),(15,20),(15,21)))
-        self.add_line("front-top",(30,14),(40,14))
-        self.add_arc("front-ne",(40,14),(44,18),radius_x=4,radius_y=4,sweep=True)
-        self.add_line("front-right",(44,18),(44,32))
-        self.add_arc("front-se",(44,32),(40,36),radius_x=4,radius_y=4,sweep=True)
-        self.add_line("front-bottom-right",(40,36),(38,36))
-        self.add_line("front-tail-down",(38,36),(38,40))
-        self.add_line("front-tail-up",(38,40),(34,36))
-        self.add_line("front-bottom-left",(34,36),(30,36))
-        self.add_arc("front-sw",(30,36),(26,32),radius_x=4,radius_y=4,sweep=True)
-        self.add_line("front-left",(26,32),(26,18))
-        self.add_arc("front-nw",(26,18),(30,14),radius_x=4,radius_y=4,sweep=True)
-        self.add_contour("front","front-top","front-ne","front-right","front-se","front-bottom-right","front-tail-down","front-tail-up","front-bottom-left","front-sw","front-left","front-nw",closed=True)
-        self.add_line("exclamation",(35,23),(35,27))
-        self.relate("connect","back","front")
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        poly('back',(32,20),(32,8),(4,8),(4,32),(10,32),(10,38),(18,32))
+        poly('front',(28,20),(32,20),(44,20),(44,38),(38,38),(38,40),(36,38),(28,38),closed=True);join('back','front')
+        path('question',(13,20),[('A',(19,20),3,3,True),('C',(17,24),(19,22),(17,22))])
+        line('exclamation',(36,28),(36,30))

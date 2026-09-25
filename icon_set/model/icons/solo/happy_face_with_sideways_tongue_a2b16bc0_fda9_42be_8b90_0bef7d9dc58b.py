@@ -1,8 +1,5 @@
-"""Squinting Face with Tongue Out.
-
-Plan: Happy arched eyes and right-sided tongue inside round face; radius20 centered24.
-Construction: No useful direct Lucide match; coherent arcs and shared endpoints.
-Reduction: Lower face rim opened where the tongue protrudes; Eye arches shortened to leave room for the sideways tongue.
+"""Happy face with tongue to the right. Circular face, arched eyes, curved smile and rounded tongue. No useful exact Lucide match. Open lower rim for the protruding tongue; keep deliberate tongue asymmetry.
+Keyshape CIRCLE: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -11,40 +8,40 @@ SOURCE_ICON_ID = 'a2b16bc0-fda9-42be-8b90-0bef7d9dc58b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-014/references/18-a2b16bc0-fda9-42be-8b90-0bef7d9dc58b.svg'
 AUTHOR = 'gpt-6'
 
-
 class Drawing(Solo48):
     icon_id = 'happy-face-with-sideways-tongue'
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = 'objects'
     aliases = ()
     keywords = ('happy', 'face', 'with', 'sideways', 'tongue')
 
     def build(self):
+        self.add_arc('face',(8,36),(40,36),radius_x=20,large_arc=True,sweep=True)
+        for n,x in [('left',17),('right',31)]:
+            self.add_arc(n+'-eye',(x-2,18),(x+2,18),radius_x=2,sweep=True)
+        self.path('smile',(13,27),[((23,30),12,12,False),(31,27)])
+        self.path('tongue',(23,30),[(23,38),((31,38),4,4,False),(31,27)])
+        self.relate('connect','smile','tongue')
 
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name, (x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
             else:
-                path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name, a, b): self.add_line(name,a,b)
-        def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
-        self.add_arc('face',(8,36),(40,36),radius_x=20,radius_y=20,sweep=True,large_arc=True)
-        path('eye-left',(16,18),[('A',(20,18),2,2,True)]);path('eye-right',(28,18),[('A',(32,18),2,2,True)])
-        path('smile',(14,27),[('C',(22,28),(16,29),(20,29)),('L',(30,27))])
-        path('tongue',(22,28),[('L',(22,38)),('A',(30,38),4,4,False),('L',(30,27))]);join('smile','tongue')
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

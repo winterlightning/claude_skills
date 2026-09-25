@@ -1,7 +1,6 @@
-'Simple Hot Beverage Cup.\nPlan and review: Retained broad rounded cup, straight rim and right loop handle. No steam or contents invented.\nKeyshape: HRECT_M, exact SOLO48 envelope.\nConstruction reference: Lucide coffee: attached loop handle, open interior and simple cup body.'
+'Teacup with flat rim, rounded bowl and right loop handle. Bowl sides tangent to quarter circles. Bounds (4,10)-(44,38).\nConstruction: Lucide coffee: quarter-circle bowl and continuous external handle.\nOmissions: None'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '87cc134f-642b-4561-bbf1-a36a28323ca8'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_37/tea_87cc134f-642b-4561-bbf1-a36a28323ca8.svg'
 AUTHOR = 'gpt-6'
@@ -17,23 +16,21 @@ class Drawing(Solo48):
 
     def build(self):
 
-        def path(name, start, steps, closed=False):
-            members=[]; point=start
-            for index, step in enumerate(steps):
-                member=f"{name}-{index}"
-                if len(step)==2:
-                    self.add_line(member,point,step); point=step
-                else:
-                    end,rx,ry,sweep=step
-                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
-                members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
-        def box(name,l,t,r,b,rad):
-            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
-        def curve(name,start,*segments):
-            self.add_bezier(name,start,*segments)
-
-        path('cup',(4,10),[(32,10),(32,24),((18,38),14,14,True),((4,24),14,14,True),(4,10)],True)
-        path('handle',(32,14),[((32,30),12,8,True)]);self.relate('connect','handle','cup')
+        def path(n,p,steps,closed=False):
+            members=[]
+            for i,s in enumerate(steps):
+                k,q,*a=s; m=f'{n}-{i}'
+                if k=='L': self.add_line(m,p,q)
+                elif k=='A': self.add_arc(m,p,q,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif k=='C': self.add_bezier(m,p,(a[0],a[1],q))
+                members.append(m);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        path('cup',(4,10),[('L',(32,10)),('L',(32,14)),('L',(32,28)),('A',(18,38),14,10,True),('A',(4,28),14,10,True),('L',(4,10))],True)
+        path('handle',(32,14),[('A',(44,21),12,7,True),('A',(32,28),12,7,True)]);join('handle','cup')

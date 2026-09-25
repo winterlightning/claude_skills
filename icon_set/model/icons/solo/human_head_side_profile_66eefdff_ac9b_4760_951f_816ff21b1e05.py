@@ -1,34 +1,33 @@
-"""A right-facing human head silhouette with an open neck."""
+'Right-facing head profile with a smooth rounded skull, deliberate nose corner, rounded jaw and straight neck.\nPlan: SQUARE exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: human_ref/user.svg: simple head proportions; source preserves a continuous profile neck.\nOmissions: No essential features omitted.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = "66eefdff-ac9b-4760-951f-816ff21b1e05"
 SOURCE_PATH = "pictographic-primitives/other/head_66eefdff-ac9b-4760-951f-816ff21b1e05.svg"
-AUTHOR = "gpt-6"
+AUTHOR='gpt-6'
 
+class Drawing(Solo48):
+    icon_id='human-head-side-profile-solo'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="people/anatomy"
+    aliases=()
+    keywords=('human', 'head', 'side', 'profile', 'solo')
+    def build(self):
 
-class HumanHeadSideProfile(Solo48):
-    icon_id = "human-head-side-profile-solo"
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "people/anatomy"
-    aliases = ("head profile", "side face")
-    keywords = ("human", "face", "mind", "head")
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-    def build(self) -> None:
-        # One continuous right-facing silhouette. The smooth skull and jaw
-        # follow the human reference's simple anatomy; the projecting nose
-        # remains intentionally asymmetric and angular as in the source.
-        self.add_line("rear-neck", (12, 42), (12, 31))
-        self.add_bezier("back-head", (12, 31), ((8, 27), (6, 23), (6, 18)))
-        self.add_bezier("crown-left", (6, 18), ((6, 10), (14, 6), (24, 6)))
-        self.add_bezier("crown-right", (24, 6), ((30, 6), (34, 10), (36, 15)))
-        self.add_line("forehead", (36, 15), (42, 24))
-        self.add_line("nose-return", (42, 24), (37, 25))
-        self.add_line("face-front", (37, 25), (37, 31))
-        self.add_bezier("jaw", (37, 31), ((37, 35), (33, 36), (29, 36)))
-        self.add_line("front-neck", (29, 36), (29, 42))
-        self.add_contour("head-profile", "rear-neck", "back-head",
-                         "crown-left", "crown-right", "forehead",
-                         "nose-return", "face-front", "jaw", "front-neck")
+        path('profile',(12,42),[('L',(12,32)),('C',(6,20),(8,28),(6,24)),('C',(24,6),(6,10),(14,6)),('C',(36,14),(30,6),(33,8)),('L',(42,26)),('L',(36,26)),('L',(36,28)),('A',(28,36),8,8,True),('L',(28,42))])

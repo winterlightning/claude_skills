@@ -1,46 +1,38 @@
-'Musical Saxophone Instrument.\n\nSymbol plan: Saxophone with curved bottom, upright body, mouthpiece and upward bell; omit tiny key ticks.\nKeyshape: VRECT_L; authored on SOLO48, not scaled from source.\nLucide: no useful subject match; reference-informed geometric construction.'
+"""curved-saxophone: U-shaped saxophone tube; nested circular bowls and tangent straight sides; diagonal bell remains asymmetric.
+Lucide construction: music; original and atomic-debug inspected.
+Omissions: Tiny key ticks omitted for tube clearance.
+Keyshape VRECT_L: exact contract envelope; 4-unit stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5b1bdd1e-b98f-4cd3-8970-9fc4e618a5e9'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_23/instrument saxophone_5b1bdd1e-b98f-4cd3-8970-9fc4e618a5e9.svg'
 AUTHOR = 'gpt-6'
-
-class CurvedSaxophone(Solo48):
+class Drawing(Solo48):
     icon_id = 'curved-saxophone'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/reference'
     aliases = ()
     keywords = ('curved', 'saxophone')
-
     def build(self):
-        # Saxophone with curved bottom, upright body, mouthpiece and upward bell; omit tiny key ticks.
-        axis_x = 24
-        p_8_4 = (8, 4)
-        p_12_12 = (12, 12)
-        p_12_30 = (12, 30)
-        p_12_38 = (12, 38)
-        p_16_44 = (16, 44)
-        p_18_4 = (18, 4)
-        p_22_10 = (22, 10)
-        p_22_18 = (22, 18)
-        p_22_30 = (22, 30)
-        p_26_44 = (26, 44)
-        p_32_16 = (32, 16)
-        p_32_30 = (32, 30)
-        p_34_44 = (34, 44)
-        p_40_25 = (40, 25)
-        p_40_30 = (40, 30)
-        p_40_39 = (40, 39)
-        self.add_bezier('sax-1', p_8_4, (p_18_4, p_22_10, p_22_18))
-        self.add_line('sax-2', p_22_18, p_22_30)
-        self.add_arc('sax-3', p_22_30, p_32_30, radius_x=5, radius_y=5, sweep=False)
-        self.add_line('sax-4', p_32_30, p_32_16)
-        self.add_line('sax-5', p_32_16, p_40_25)
-        self.add_line('sax-6', p_40_25, p_40_30)
-        self.add_bezier('sax-7', p_40_30, (p_40_39, p_34_44, p_26_44))
-        self.add_bezier('sax-8', p_26_44, (p_16_44, p_12_38, p_12_30))
-        self.add_line('sax-9', p_12_30, p_12_12)
-        self.add_contour('sax', 'sax-1', 'sax-2', 'sax-3', 'sax-4', 'sax-5', 'sax-6', 'sax-7', 'sax-8', 'sax-9', closed=False)
+
+        def path(name, start, commands, closed=False):
+            members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,start,end)
+                elif kind=='A': self.add_arc(ident,start,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,start,(args[0],args[1],end))
+                members.append(ident);start=end
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry):
+            path(name,(cx,cy-ry),[('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True),('A',(cx,cy-ry),rx,ry,True)],True)
+        def rect(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        path('sax',(8,4),[('A',(22,18),14,14,True),('L',(22,30)),('A',(32,30),5,5,False),('L',(32,16)),('L',(40,24)),('L',(40,30)),('A',(12,30),14,14,True),('L',(12,12))])

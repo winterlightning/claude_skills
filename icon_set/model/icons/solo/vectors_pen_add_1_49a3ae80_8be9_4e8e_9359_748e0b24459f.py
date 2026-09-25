@@ -1,67 +1,38 @@
-"""A diagonal vector pen nib with an upper-left plus sign.
-Symbol plan: pen-tool: coherent nib, cap and slit; plus: centered intersecting arms.
-Keyshape: SQUARE; fixed profile envelope is recorded in ink_extremes.
-Reduction: None; cap, nib, slit and plus retained.
+"""Diagonal pen nib with straight symmetric flanks, clean slit and square cap, beside a plus sign.
+Omissions: None
+Construction references: ['pen-tool'].
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='49a3ae80-8be9-4e8e-9359-748e0b24459f'
-SOURCE_PATH='icon_set/work/todo-references/vectors pen add 1_49a3ae80-8be9-4e8e-9359-748e0b24459f.svg'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__vectors-pen-add-1/20260924T172356Z-thuan-mac/reference/vectors pen add 1_49a3ae80-8be9-4e8e-9359-748e0b24459f.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
     icon_id='vectors-pen-add-1'
     keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/general'
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
     aliases=()
     keywords=('vectors', 'pen', 'add', '1')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
     def build(self):
-        self.add_polyline('nib',(6,42),(20,24),(28,20),(34,26),(30,34),(6,42))
-        self.add_polyline('cap',(28,20),(34,6),(42,14),(34,26))
-        self.relate('connect','cap','nib')
-        self.add_line('slit',(6,42),(21,27));self.relate('connect','slit','nib')
-        self.add_polyline('plus-h',(6,12),(12,12),(18,12))
-        self.add_polyline('plus-v',(12,6),(12,12),(12,18));self.relate('connect','plus-h','plus-v')
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def person(self,name,cx,cy,r,bottom):
-        # Shared human reference: exact detached head gap at the shoulder apex.
-        self.circle(name+'-head',cx,cy,r)
-        top=cy+r+8;w=6
-        self.add_arc(name+'-shoulder-left',(cx-w,top+6),(cx,top),radius_x=w)
-        self.add_arc(name+'-shoulder-right',(cx,top),(cx+w,top+6),radius_x=w)
-        self.add_line(name+'-right',(cx+w,top+6),(cx+w,bottom))
-        self.add_line(name+'-bottom-right',(cx+w,bottom),(cx,bottom))
-        self.add_line(name+'-bottom-left',(cx,bottom),(cx-w,bottom))
-        self.add_line(name+'-left',(cx-w,bottom),(cx-w,top+6))
-        self.add_contour(name+'-body',name+'-shoulder-left',name+'-shoulder-right',name+'-right',name+'-bottom-right',name+'-bottom-left',name+'-left',closed=True)
-
-    def dollar(self,cx,cy):
-        self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
-        self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
-        self.relate('connect','dollar','dollar-stem')
+        self.add_polyline('nib',(6,42),(14,22),(24,16),(32,24),(28,36),closed=True)
+        self.add_polyline('cap',(24,16),(34,6),(42,14),(32,24));self.relate('connect','nib','cap')
+        self.add_line('slit',(6,42),(20,28));self.relate('connect','slit','nib')
+        self.add_polyline('plus-h',(6,10),(10,10),(14,10));self.add_polyline('plus-v',(10,6),(10,10),(10,14));self.relate('connect','plus-h','plus-v')

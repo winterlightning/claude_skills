@@ -1,11 +1,6 @@
-"""Tracked Bulldozer with Front Blade
-Plan: Track capsule, raised cab and front blade
-Keyshape HRECT_L: (2, 6, 46, 42).
-Construction reference: Lucide construction and truck silhouette.
-Reduction: Remove track rollers and tiny cab details."""
+'Tracked bulldozer with sloping cab roof front, continuous engine body, capsule track and curved blade. Bounds (4,8)-(44,40).\nConstruction: Lucide car: unified vehicle outline and round track ends.\nOmissions: Track rollers and inset cab window omitted.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd0f99117-6bd5-4d22-aa8c-bb2c7264ee3a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_08/bulldozer_d0f99117-6bd5-4d22-aa8c-bb2c7264ee3a.svg'
 AUTHOR = 'gpt-6'
@@ -15,31 +10,29 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = "objects"
     aliases = ()
-    keywords = ('bulldozer', 'construction', 'tracks', 'blade', 'vehicle', 'machine', 'earthmoving')
+    keywords = ('tracked', 'bulldozer', 'with', 'front', 'blade')
 
     def build(self):
 
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        rect('track',4,30,24,10,5)
-        path('cab',(8,30),[('L',(8,8)),('L',(24,8)),('L',(24,20)),('L',(32,20)),('L',(28,30))]);self.relate('connect','cab','track')
-        self.add_line('arm',(28,30),(40,30));self.relate('connect','arm','track')
-        path('blade',(44,16),[('C',(40,40),(42,22),(40,34)),('L',(44,40))]);self.relate('connect','blade','arm')
+        def path(n,p,steps,closed=False):
+            members=[]
+            for i,s in enumerate(steps):
+                k,q,*a=s; m=f'{n}-{i}'
+                if k=='L': self.add_line(m,p,q)
+                elif k=='A': self.add_arc(m,p,q,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif k=='C': self.add_bezier(m,p,(a[0],a[1],q))
+                members.append(m);p=q
+            self.add_contour(n,*members,closed=closed)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        path('track',(9,30),[('L',(10,30)),('L',(25,30)),('A',(30,35),5,5,True),('A',(25,40),5,5,True),('L',(9,40)),('A',(4,35),5,5,True),('A',(9,30),5,5,True)],True)
+        poly('cab',(10,30),(10,20),(14,20),(14,8),(24,8),(29,20),(30,20),(30,30),(25,30));join('cab','track')
+        line('arm',(30,30),(40,30));join('arm','cab')
+        path('blade',(42,18),[('C',(40,30),(41,22),(40,26)),('C',(44,40),(40,35),(42,38)),('L',(38,40)),('L',(38,20)),('L',(42,18))],True);join('blade','arm')

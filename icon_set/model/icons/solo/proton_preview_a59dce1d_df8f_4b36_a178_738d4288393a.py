@@ -1,44 +1,37 @@
-"""Proton preview (internet), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Molecule with three round outer nodes and a round central node, joined by three straight bonds.
+Omissions: None
+Construction references: ['network'].
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a59dce1d-df8f-4b36-a178-738d4288393a'
 SOURCE_PATH = 'pictographic-primitives/internet/proton preview_a59dce1d-df8f-4b36-a178-738d4288393a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class ProtonPreview(Solo48):
-    icon_id = 'proton-preview'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'internet'
-    aliases = ()
-    keywords = ('proton', 'preview', 'internet')
+class Drawing(Solo48):
+    icon_id='proton-preview'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="internet"
+    aliases=()
+    keywords=('proton', 'preview')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (16, 37), (22, 29))
-        self.add_line('e1', (34, 19), (30, 21))
-        self.add_line('e2', (15, 12), (22, 20))
-        self.add_arc('e3-top', (9, 39), (17, 39), radius_x=4, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e3-bottom', (17, 39), (9, 39), radius_x=4, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e4-top', (34, 16), (40, 16), radius_x=3, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e4-bottom', (40, 16), (34, 16), radius_x=3, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e5-top', (8, 9), (16, 9), radius_x=4, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e5-bottom', (16, 9), (8, 9), radius_x=4, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e6-top', (20, 25), (28, 25), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e6-bottom', (28, 25), (20, 25), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e1',), closed=False)
-        self.add_contour('c2', *('e2',), closed=False)
-        self.add_contour('e6', *('e6-top', 'e6-bottom'), closed=True)
-        self.add_contour('e3', *('e3-top', 'e3-bottom'), closed=True)
-        self.add_contour('e4', *('e4-top', 'e4-bottom'), closed=True)
-        self.add_contour('e5', *('e5-top', 'e5-bottom'), closed=True)
-        self.relate('connect', *('c0', 'e3'))
-        self.relate('connect', *('c0', 'e6'))
-        self.relate('connect', *('c1', 'e4'))
-        self.relate('connect', *('c1', 'e6'))
-        self.relate('connect', *('c2', 'e5'))
-        self.relate('connect', *('c2', 'e6'))
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+
+    def build(self):
+        for n,x,y,r in [('top',13,9,5),('bottom',13,39,5),('center',24,24,5),('right',37,14,3)]:self.circle(n,x,y,r)
+        for n,a,b,left,right in [('top-link',(16,13),(20,21),'top','center'),('bottom-link',(16,35),(24,29),'bottom','center'),('right-link',(28,21),(34,14),'center','right')]:
+            self.add_line(n,a,b);self.relate('connect',n,left);self.relate('connect',n,right)

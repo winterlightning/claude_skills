@@ -1,50 +1,38 @@
-"""A wide dollar banknote with gently waved long edges.
-
-Symbol plan: one closed paper outline shares straight vertical ends with
-three-piece top and bottom waves; a compact central dollar remains detached.
-Lucide banknote informed the balanced enclosure and centered currency mark.
-The unequal wave heights are intentional to show flexible paper.
+"""Wavy banknote with coherent smooth boundaries and a clean dollar sign. Taller square envelope provides room for the currency strokes.
+Omissions: None
+Construction references: ['banknote'].
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
+SOURCE_ICON_ID='f112a16f-0b5c-4192-abdc-173f55e6a032'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__wavy-dollar-bill/20260924T172356Z-thuan-mac/reference/money bill wave_f112a16f-0b5c-4192-abdc-173f55e6a032.svg'
+AUTHOR='gpt-6'
 
-SOURCE_ICON_ID = "f112a16f-0b5c-4192-abdc-173f55e6a032"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_27/money bill wave_f112a16f-0b5c-4192-abdc-173f55e6a032.svg"
-AUTHOR = "gpt-6"
+class Drawing(Solo48):
+    icon_id='wavy-dollar-bill'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects"
+    aliases=()
+    keywords=('money', 'bill', 'wave')
 
+    def path(self, name, start, commands, closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{name}-{i}'; ids.append(eid)
+            if c[0]=='L': self.add_line(eid,here,c[1])
+            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
+            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
+            here=c[1]
+        self.add_contour(name,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,x,y,w,h,r):
+        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
 
-class WavyDollarBill(Solo48):
-    icon_id = "wavy-dollar-bill"
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "finance/money"
-    aliases = ("waving dollar note", "money bill wave")
-    keywords = ("cash", "banknote", "dollar", "paper")
-
-    def build(self) -> None:
-        self.add_bezier(
-            "bill-top", (4, 10),
-            ((7, 9), (10, 8), (14, 8)),
-            ((19, 8), (22, 11), (28, 11)),
-            ((35, 13), (40, 11), (44, 10)),
-        )
-        self.add_line("bill-right", (44, 10), (44, 38))
-        self.add_bezier(
-            "bill-bottom", (44, 38),
-            ((40, 39), (36, 40), (32, 40)),
-            ((27, 40), (23, 37), (18, 37)),
-            ((12, 36), (8, 37), (4, 38)),
-        )
-        self.add_line("bill-left", (4, 38), (4, 10))
-        self.add_contour("bill", "bill-top", "bill-right", "bill-bottom", "bill-left", closed=True)
-
-        self.add_line("dollar-top-stem", (24, 19), (24, 21))
-        self.add_bezier(
-            "dollar-s", (24, 21),
-            ((21, 20), (19, 21), (19, 23)),
-            ((19, 25), (29, 24), (29, 27)),
-            ((29, 29), (26, 30), (24, 27)),
-        )
-        self.add_line("dollar-bottom-stem", (24, 27), (24, 29))
-        self.add_contour("dollar", "dollar-top-stem", "dollar-s", "dollar-bottom-stem")
+    def build(self):
+        self.path('bill',(6,8),[('C',(15,6),(9,6),(12,6)),('C',(33,8),(21,6),(27,8)),('C',(42,6),(37,8),(39,7)),('L',(42,40)),('C',(33,42),(39,42),(36,42)),('C',(15,40),(27,42),(21,40)),('C',(6,42),(11,40),(9,41)),('L',(6,8))],True)
+        self.path('dollar',(28,18),[('C',(24,17),(27,17),(25,17)),('C',(24,24),(17,17),(17,23)),('C',(24,31),(31,25),(31,31)),('C',(20,30),(22,31),(21,31))])
+        for n,a,b in [('top',(24,16),(24,17)),('bottom',(24,31),(24,32))]:
+            self.add_line(n,a,b);self.relate('connect',n,'dollar')

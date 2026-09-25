@@ -1,4 +1,6 @@
-'A rounded head covering has a straight forehead band above a wide uncovered face strip. A large curved veil wraps across the lower face and shoulder, with a short internal fold line.\nPlan: Rounded head covering with wide uncovered face strip; preserve veil silhouette, omit tight secondary fold. Extrema8,4,40,44.\nConstruction reference: human_ref/user.svg as head proportion reference; covering and exposed strip from supplied original.'
+"""Head wrapped in niqab: smooth round hood, broad exposed eye strip, lower veil draping to shoulder. Human user reference supplies head proportions; reference preserves covering. Omit small fold.
+Keyshape VRECT_L: exact SOLO48 envelope. Reviewer: clean centerlines and joins.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,33 +11,38 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'head-wrapped-in-a-face-veil'
     keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = 'objects'
     aliases = ()
     keywords = ('head', 'wrapped', 'in', 'a', 'face', 'veil')
 
     def build(self):
+        # Round hood and lower face loop; the two mantle ends extend naturally outward.
+        self.path('hood',(10,28),[(10,18),((24,4),14,14,True),((38,18),14,14,True),(38,28),((24,42),14,14,True),((10,28),14,14,True)],True)
+        self.add_line('brow',(10,18),(38,18));self.relate('connect','hood','brow')
+        self.path('veil',(10,28),[((38,28),14,5,False)])
+        self.relate('connect','hood','veil')
+        self.add_line('mantle-left',(8,44),(10,28));self.relate('connect','mantle-left','hood');self.relate('connect','mantle-left','veil')
+        self.add_line('mantle-right',(38,28),(40,44));self.relate('connect','mantle-right','hood');self.relate('connect','mantle-right','veil')
 
-        def path(name,start,steps,closed=False):
-            here=start; members=[]
-            for j,(kind,end,*args) in enumerate(steps):
-                member=f'{name}-{j}'
-                if kind=='L':self.add_line(member,here,end)
-                elif kind=='A':self.add_arc(member,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C':self.add_bezier(member,here,(args[0],args[1],end))
-                here=end;members.append(member)
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-        def line(name,a,b):self.add_line(name,a,b)
-        def poly(name,*points):self.add_polyline(name,*points,closed=points[0]==points[-1])
-        def join(a,b):self.relate('connect',a,b)
-        def box(name,l,t,r,b,rad=4):
-            path(name,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-        def oval(name,x,y,rx,ry):
-            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def path(self, name, start, steps, closed=False):
+        members=[]; here=start
+        for j,step in enumerate(steps):
+            eid=f'{name}-{j}'
+            if len(step)==2:
+                self.add_line(eid,here,step); end=step
+            else:
+                end,rx,ry,sweep=step
+                self.add_arc(eid,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        path('cover',(8,32),[('L',(8,12)),('A',(16,4),8,8,True),('L',(32,4)),('A',(40,12),8,8,True),('L',(40,36)),('L',(40,44)),('C',(8,32),(24,44),(8,42))],True)
-        poly('opening',(17,16),(31,16),(31,24),(17,24),(17,16))
-        path('wrap',(8,32),[('C',(40,36),(16,36),(28,36))]);join('cover','wrap')
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+
+    def cups(self):
+        # Identical supporting palms mirrored about x24; vertical to horizontal tangent quarters.
+        for n,s in [('left',1),('right',-1)]:
+            def p(x,y):return (24+s*(x-24),y)
+            self.path(n+'-hand',p(6,30),[p(6,32),(p(16,42),10,10,s<0),p(20,42)])

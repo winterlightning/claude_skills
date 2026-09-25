@@ -1,42 +1,34 @@
-"Pile of Cornmeal Powder.\nSymbol plan: One enlarged loose grain replaces two tiny granules.\nConstruction: Lucide original and atomic-debug: bath, truck, notebook, piano, orbit, sprout and pill-bottle; coherent arcs, shared joins and repeated dimensions.\nKeyshape HRECT_M: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+"""Conical cornmeal mound with two loose grains. Smooth symmetric mound about x20, straight base; grains preserve intentional asymmetry. No useful exact Lucide match. Irregular grain contours simplified to one small circle and one dot.
+Keyshape HRECT_M: exact SOLO48 envelope; 4px stroke.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'be886800-c2f1-4e0a-9a5c-3fe7d2c8926e'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_13/cornmeal_be886800-c2f1-4e0a-9a5c-3fe7d2c8926e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'conical-powder-mound-with-loose-grains'
-    keyshape = Keyshape.HRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('powder', 'mound', 'grain', 'cornmeal', 'flour', 'pile', 'food')
+class Drawing(Solo48):
+    icon_id='conical-powder-mound-with-loose-grains'
+    keyshape=Keyshape.HRECT_M
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('conical', 'powder', 'mound', 'with', 'loose', 'grains')
+
     def build(self):
+        self.path('mound',(4,38),[('C',(20,16),(10,30),(16,16)),('C',(36,38),(24,16),(30,30)),('L',(4,38))],True)
+        self.circle('grain',40,13,3);self.add_dot('small-grain',(44,27))
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        bez('mound',(4,38),((11,30),(17,19),(20,18)),((23,16),(24,16),(27,18)),((31,21),(38,31),(44,38)))
-        line('base',(44,38),(4,38));con('pile','mound','base',closed=True)
-        circle('grain',40,14,4)
+    def path(self,name,start,commands,closed=False):
+        members=[];here=start
+        for j,(kind,end,*args) in enumerate(commands):
+            eid=f'{name}-{j}'
+            if kind=='L':self.add_line(eid,here,end)
+            elif kind=='A':self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C':self.add_bezier(eid,here,(args[0],args[1],end))
+            members.append(eid);here=end
+        self.add_contour(name,*members,closed=closed)
 
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

@@ -1,36 +1,35 @@
-"""autism disorder symptoms.
-Plan: Asymmetric head with missing upper-left puzzle region. Shared human user.svg smooth anatomical construction, continuous neck; no detached head. No useful Lucide match.
-Keyshape SQUARE: visible bounds (4, 4, 44, 44); centerlines inset 2 from these bounds.
+"""autism-disorder-symptoms. Reconstructed clean centerlines from the original reference.
+Construction reference: puzzle and human profile reference. Keyshape SQUARE chosen for the composition.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='4a264e06-6d44-57cc-8176-d57369c6c0ee'
-SOURCE_PATH='pictographic-primitives/health/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg'
-AUTHOR="gpt-6"
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__autism-disorder-symptoms/20260925T034142Z-thuan-mac/reference/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg'
+AUTHOR='gpt-6'
 
 class Drawing(Solo48):
     icon_id='autism-disorder-symptoms'
     keyshape=Keyshape.SQUARE
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/general"
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/reference'
     aliases=()
     keywords=('autism', 'disorder', 'symptoms')
     def build(self):
-        # Detached puzzle piece and continuous anatomical neck profile.
-        self.path('piece',(6,14),[('A',(14,6),8,8,True),('L',(22,6)),('L',(22,17)),('L',(18,17)),('A',(10,17),4,4,True),('L',(6,17)),('L',(6,14))],True)
-        self.path('profile',(16,42),[('L',(16,38)),('A',(10,30),8,8,True),('L',(20,30)),('A',(30,30),5,5,False),('L',(32,30)),('L',(32,14)),('A',(38,24),10,10,True),('L',(42,30)),('L',(38,30)),('L',(38,34)),('A',(34,38),4,4,True),('L',(30,38)),('L',(30,42))])
+        # Puzzle piece owns the round tab; continuous profile owns brow, nose,
+        # jaw and neck. Deliberate asymmetric side view, no detached human head.
+        self.path('piece',(6,16),[('A',(16,6),10,10,True),('L',(22,6)),('L',(22,16)),('L',(18,16)),('A',(10,16),4,4,True),('L',(6,16))],True)
+        self.path('profile',(14,42),[('L',(14,39)),('C',(6,29),(14,35),(6,34)),('L',(20,29)),('A',(30,29),5,5,False),('L',(32,29)),('L',(32,14)),('C',(38,25),(36,15),(38,20)),('L',(42,30)),('L',(38,30)),('L',(38,34)),('A',(34,38),4,4,True),('L',(30,38)),('L',(30,42))])
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def path(self,n,start,ops,closed=False):
-        at=start; members=[]
-        for i,op in enumerate(ops):
-            eid=f'{n}-{i}';kind,end,*args=op
-            if end==at:continue
-            if kind=='L':self.add_line(eid,at,end)
-            elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            at=end;members.append(eid)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,(kind,q,*v) in enumerate(ops):
+            eid=f'{n}-{i}'
+            if kind=='L': self.add_line(eid,p,q)
+            elif kind=='A': self.add_arc(eid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif kind=='C': self.add_bezier(eid,p,(v[0],v[1],q))
+            members.append(eid);p=q
         self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def join(self,a,b): self.relate('connect',a,b)

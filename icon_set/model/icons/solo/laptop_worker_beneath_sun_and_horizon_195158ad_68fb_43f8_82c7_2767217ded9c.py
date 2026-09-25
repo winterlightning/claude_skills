@@ -1,44 +1,38 @@
-"Person Working on Laptop with Sun.\nSymbol plan: Laptop lid emblem and small rays omitted; retain outdoor sun and seated worker.\nConstruction: human_ref/full_body_ref.png: circular heads and coherent limbs; Lucide object construction where relevant.\nKeyshape HRECT_L: exact SOLO48 contract envelope, selected for this subject's proportions.\nSource UUID and original reference preserved."
+'A seated worker beside a laptop and a rising sun; circular head with exact four-unit detached ink gap.\nPlan: HRECT_L exact SOLO48 envelope; coherent contours, shared parameters, 4-unit stroke.\nConstruction: human_ref/full_body_ref.png and user.svg: circular head, coherent shoulder; cloud-sun: geometric sun arc.\nOmissions: Tiny laptop emblem and sun rays omitted for clearance.\nFeedback: smooth centerlines, no kinks or stray nodes; preserve concept.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '195158ad-68fb-43f8-82c7-2767217ded9c'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/digital nomad sun_195158ad-68fb-43f8-82c7-2767217ded9c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR='gpt-6'
 
-class BatchIcon(Solo48):
-    icon_id = 'laptop-worker-beneath-sun-and-horizon'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/reference"
-    aliases = ()
-    keywords = ('laptop', 'worker', 'sun', 'person', 'computer', 'outdoors', 'remote')
+class Drawing(Solo48):
+    icon_id='laptop-worker-beneath-sun-and-horizon'
+    keyshape=Keyshape.HRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/reference"
+    aliases=()
+    keywords=('laptop', 'worker', 'beneath', 'sun', 'and', 'horizon')
     def build(self):
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
-        def bez(n,a,*s): self.add_bezier(n,a,*s)
-        def con(n,*p,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
-            self.add_contour(n,*p,closed=closed)
-        def circle(n,x,y,r):
-            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
-            con(n,n+'a',n+'b',closed=True)
-        def rect(n,x,y,w,h,r=0):
-            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
-            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
-                else: line(n+str(j),ps[j],ps[(j+1)%8])
-            con(n,*(n+str(j) for j in range(8)),closed=True)
-        circle('head',39,22,5)
-        line('torso',(39,35),(39,40));line('base',(39,40),(44,40))
-        poly('laptop',(8,40),(4,25),(25,25),(29,40),(8,40))
-        arc('sun',(6,16),(22,16),8)
-        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        def path(name,start,commands,closed=False):
+            point=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                member=f'{name}-{i}'
+                if kind=='L': self.add_line(member,point,end)
+                elif kind=='A': self.add_arc(member,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(member,point,(args[0],args[1],end))
+                point=end; members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(name,a,b): self.add_line(name,a,b)
+        def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
 
-        # Declare only real, shared endpoints as automatic contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)
+        circle('head',39,21,5)
+        # Head bottom 26; torso starts 34: eight centerline units / four ink units.
+        path('body',(39,34),[('C',(44,40),(39,38),(40,40))])
+        self.mark_human_figure('worker',head='head',torso='body-0',torso_junction='start')
+        path('laptop',(9,40),[('L',(4,25)),('L',(25,25)),('L',(30,40)),('L',(9,40))],True)
+        path('sun',(5,16),[('A',(21,16),8,8,True)])

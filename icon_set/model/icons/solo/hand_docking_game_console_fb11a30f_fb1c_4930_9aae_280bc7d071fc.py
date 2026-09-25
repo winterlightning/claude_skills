@@ -1,48 +1,39 @@
-'Handheld Gaming Console Dock.\nPlan: Hand entering from above grips console rim; console partially hidden behind broad docking base. Buttons and tilt reduced for clear overlap. Bounds6..42.\nReference: Lucide hand and gamepad-2: rounded gripping finger and controller corners; human-part reference vocabulary.\nKeyshape: SQUARE, exact SOLO48 envelope.'
-from ...keyshapes import Keyshape
+"""A rounded hand grip lowers a game console into a clean dock.
+Plan: A rounded hand grip lowers a game console into a clean dock.
+Construction: Lucide hand: coherent curves and rounded fingertips.
+Omissions: Buttons and individual fingers omitted; stacked console/dock and grip retained."""
 from ._base import Solo48
-
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID = 'fb11a30f-fb1c-4930-9aae-280bc7d071fc'
 SOURCE_PATH = 'pictographic-primitives/video-games/batch-11/switch dock_fb11a30f-fb1c-4930-9aae-280bc7d071fc.svg'
-AUTHOR = 'gpt-6'
-
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = 'hand-docking-game-console'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('hand', 'docking', 'game', 'console')
+    icon_id='hand-docking-game-console'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('hand', 'docking', 'game', 'console')
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
-
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
-
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        path('hand',(18,6),[(18,14),(18,16),((26,16),4,4,False),(26,14),(26,6)])
-        path('console-left',(18,14),[(10,14),((6,18),4,4,False),(6,30),(8,30)])
-        path('console-right',(26,14),[(38,14),((42,18),4,4,True),(42,30),(40,30)])
-        box('dock',8,30,40,42,4)
-        for n in ('console-left','console-right'):self.relate('connect',n,'hand');self.relate('connect',n,'dock')
+        def path(name,start,steps,closed=False):
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
+            self.add_contour(name,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        path('hand',(18,6),[('L',(18,14)),('L',(18,16)),('A',(26,16),4,4,False),('L',(26,14)),('L',(26,6))])
+        path('console-left',(18,14),[('L',(10,14)),('A',(6,18),4,4,False),('L',(6,34))])
+        path('console-right',(26,14),[('L',(38,14)),('A',(42,18),4,4,True),('L',(42,34))])
+        path('dock',(6,34),[('A',(10,30),4,4,True),('L',(38,30)),('A',(42,34),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,34))],True)
+        for n in ('console-left','console-right'):join(n,'hand');join(n,'dock')
