@@ -1,0 +1,66 @@
+{
+  "key": "solo/five-petaled-flower-on-stem",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__five-petaled-flower-on-stem/20260925T090056Z-thuan-mac",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__five-petaled-flower-on-stem/20260925T090056Z-thuan-mac/reference/poppy_f5580be8-f678-427f-889e-270f12d6dee5.svg",
+  "id": "five-petaled-flower-on-stem",
+  "category": "primitives-generate",
+  "run": "icon_set/work/primitive-make-ray/f5580be8-f678-427f-889e-270f12d6dee5/20260925T0903-thuan-mac-revision",
+  "source_uuid": "f5580be8-f678-427f-889e-270f12d6dee5",
+  "concept": "poppy",
+  "module": "icon_set/work/primitive-make-ray/f5580be8-f678-427f-889e-270f12d6dee5/20260925T0903-thuan-mac-revision/five_petaled_flower_on_stem_f5580be8_f678_427f_889e_270f12d6dee5.py",
+  "note": "Restored five rounded petals, outlined center and a clearly separated lower stem leaf.",
+  "construction_reference": "Lucide flower: radial petals and a distinct center; sprout: attached lens leaf.",
+  "exception_reason": "Preserve the complete five-petal bloom, center and stem leaf; compact clearances remain readable in both themes.",
+  "icon_id": "five-petaled-flower-on-stem",
+  "author": "gpt-6",
+  "feedback": "Manual fix request",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "five-petaled-flower-on-stem",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (6.66671, 1, 41.3333, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.6667, 1.0, 0.6667, 0.0], tolerance 0.0)",
+      "mic [petals]: petals and center are 5.54453 apart on centerlines nearest (16, 18)<->(21.1754, 16.0107); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [petals / leaf]: bottom-left and leaf-b have 1.7497 units of ink clearance over 5.7426 units; requires 4; review required",
+      "internal-spacing [leaf / stem]: leaf-b and stem have -3.8516 units of ink clearance over 3.25 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the complete five-petal bloom, center and stem leaf; compact clearances remain readable in both themes.",
+      "approved_by": "user (delegated visual exception judgment)",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "3d4a97e896347081e6923a66c0bbe6480c3c4a0520ed35dcffd147ea27b60b31"
+    },
+    "automatic_status": "fail"
+  },
+  "exception": {
+    "reason": "Preserve the complete five-petal bloom, center and stem leaf; compact clearances remain readable in both themes.",
+    "approved_by": "user (delegated visual exception judgment)",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "3d4a97e896347081e6923a66c0bbe6480c3c4a0520ed35dcffd147ea27b60b31"
+  },
+  "visual_review": "Reviewed native 48px and enlarged in both themes: complete reference meaning, open interior features, smooth main curves and intentional symmetry/asymmetry. Restored five rounded petals, outlined center and a clearly separated lower stem leaf.",
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "Chosen for upright or square subject proportions; exact natural outline deviations recorded in drawing-bound exception.",
+  "omissions": [],
+  "references": [
+    "supplied original",
+    "rejected before SVG",
+    "Lucide flower: radial petals and a distinct center; sprout: attached lens leaf."
+  ],
+  "artifacts": [
+    "preview-dark-384.png",
+    "reference.svg",
+    "five-petaled-flower-on-stem.svg",
+    "five_petaled_flower_on_stem_f5580be8_f678_427f_889e_270f12d6dee5.py",
+    "preview-dark-48.png",
+    "reference.png",
+    "five-petaled-flower-on-stem.metadata.json",
+    "__pycache__",
+    "preview-light-384.png",
+    "validation.txt",
+    "preview-light-48.png",
+    "build-gate.json"
+  ]
+}

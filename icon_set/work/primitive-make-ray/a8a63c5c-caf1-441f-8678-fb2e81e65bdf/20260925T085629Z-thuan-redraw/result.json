@@ -1,0 +1,46 @@
+{
+  "concept": "preparation",
+  "source_uuid": "a8a63c5c-caf1-441f-8678-fb2e81e65bdf",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__dining-plate-fork/20260925T085629Z-thuan-mac/reference/preparation_a8a63c5c-caf1-441f-8678-fb2e81e65bdf.svg",
+  "icon_id": "dining-plate-fork",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "dining-plate-fork",
+    "status": "pass",
+    "errors": [
+      "mic [fork]: parallel straight edges fork-3 and middle-handle-1, middle-handle-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [middle-handle]: parallel straight edges middle-handle-1, middle-handle-2 and fork-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+    ],
+    "warnings": [
+      "internal-spacing [fork / middle-handle]: fork-0 and middle-handle-1 have 2 units of ink clearance over 11 units; requires 4; review required",
+      "internal-spacing [fork / middle-handle]: fork-3 and middle-handle-1 have 2 units of ink clearance over 11 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve all three evenly spaced tines with two-pixel visible gaps; replacing the three-prong fork with a two-prong symbol loses source identity. Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.",
+      "approved_by": "user-directed-gpt-6",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "1df8637dd218c3b8cdcc5629fd12b069f034f88aaa963dc5348fffcc08eae5eb"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected native 48px and enlarged previews in both themes. Smooth contours and clear recognizable parts; approved specific exceptions retain automatic findings.",
+  "omissions": "Fine source detail reduced only as described in drawing plan.",
+  "drawing_plan": "Restore all three fork tines with equal spacing, rounded shoulders and a separate round plate.",
+  "lucide_reference": "utensils",
+  "artifacts": [
+    "preview-dark-384.png",
+    "dining-plate-fork.svg",
+    "reference.svg",
+    "preview-dark-48.png",
+    "gate.json",
+    "dining_plate_fork_a8a63c5c_caf1_441f_8678_fb2e81e65bdf.py",
+    "preview-light-384.png",
+    "validation.txt",
+    "reference-192.png",
+    "dining-plate-fork.metadata.json",
+    "automatic-gate.json",
+    "preview-light-48.png",
+    "reference-48.png"
+  ]
+}

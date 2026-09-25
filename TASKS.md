@@ -17,10 +17,6 @@ project here):
   If you think an icon needs to be exceptional, make it an exception, but make sure
   the icon quality is still good for UI/UX.
 
-- [ ] $primitive-fix-thuan 20 --offset 0 --disapprove-status manual-fix-request --worker thuan-mac (tp:23ad2444)
-  If you think an icon needs to be exceptional, make it an exception, but make sure
-  the icon quality is still good for UI/UX.
-
 
 ## Backlog
 
