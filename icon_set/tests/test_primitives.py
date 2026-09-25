@@ -87,6 +87,21 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(load_category_overrides(path), {U2: 'arrows', U4: 'tools'})
             self.assertEqual(load_category_overrides(Path(tmp) / 'missing.json'), {})
 
+    def test_pictoicon_primitives_generate_becomes_its_category(self):
+        from icon_set.scripts import primitive_categories
+        with tempfile.TemporaryDirectory() as tmp:
+            root = primitives_tree(Path(tmp) / 'primitives')
+            (root / f'_uncategorized_07/other_{U4.replace("4", "5")}.svg').write_text(ORIGINAL)
+            rows = Path(tmp) / 'rows.json'
+            rows.write_text(json.dumps([
+                {'id': U2, 'style': 'pictoicon', 'categories': 'primitives primitives-generate'},
+                {'id': U2, 'style': 'notion', 'categories': 'arrows'},
+                {'id': U4.replace('4', '5'), 'style': 'pictoicon', 'categories': 'primitive primitives'}]))
+            target = Path(tmp) / 'categories.json'
+            counts = primitive_categories.build(rows, root, target)
+            self.assertEqual(load_category_overrides(target), {U2: 'primitives-generate'})
+        self.assertEqual(counts['no category (stays Uncategorized)'], 1)
+
     def test_folder_only_runs_count_as_drawn(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = primitives_tree(Path(tmp) / 'primitives')

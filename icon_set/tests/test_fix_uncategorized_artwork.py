@@ -23,12 +23,15 @@ class FixUncategorizedArtworkTests(unittest.TestCase):
         root = Path(self.tmp.name)
         self.gallery = root / 'gallery'
         self.gallery.mkdir()
-        (self.gallery / 'icons.json').write_text(json.dumps({'icons': [{'key': 'solo/lever', 'category': 'tools'}]}))
+        (self.gallery / 'icons.json').write_text(json.dumps({'icons': [
+            {'key': 'solo/lever', 'icon_id': 'lever', 'category': 'tools'}]}))
         (self.gallery / 'primitives.json').write_text(json.dumps({'rows': [
-            {'uuid': U1, 'concept': 'Process Box', 'category': 'programing'},
-            {'uuid': None, 'concept': 'Grid Layout', 'category': 'construction'},
-            {'uuid': None, 'concept': 'Grid Layout', 'category': 'interface-essential'},
-            {'uuid': None, 'concept': 'grid layout', 'category': 'interface-essential'}]}))
+            {'uuid': U1, 'concept': 'Process Box', 'category': 'programing', 'path': 'programing/p.svg'},
+            {'uuid': None, 'concept': 'Lever', 'category': 'primitives-generate', 'path': '_uncategorized_01/l.svg',
+             'models': ['lever']},
+            {'uuid': None, 'concept': 'Grid Layout', 'category': 'construction', 'path': 'construction/g.svg'},
+            {'uuid': None, 'concept': 'Grid Layout', 'category': 'construction', 'path': 'construction/h.svg'},
+            {'uuid': None, 'concept': 'grid layout', 'category': 'primitives-generate', 'path': '_uncategorized_02/g.svg'}]}))
         self.database = root / 'feedback.sqlite3'
         with sqlite3.connect(self.database) as connection:
             connection.execute('CREATE TABLE icon_artwork (icon TEXT PRIMARY KEY, revision INTEGER NOT NULL, source_mode TEXT, '
@@ -56,9 +59,9 @@ class FixUncategorizedArtworkTests(unittest.TestCase):
         self.assertEqual(self.rows()[0]['edited_graph']['category'], 'Uncategorized')
         fix.main(['--database', str(self.database), '--gallery', str(self.gallery), '--apply'])
         edit, uploads = self.rows()
-        self.assertEqual(edit['edited_graph']['category'], 'tools')
+        self.assertEqual(edit['edited_graph']['category'], 'primitives-generate')  # primitive link beats icons.json
         self.assertEqual(effective_validation_status(edit), 'pass')
-        self.assertEqual(uploads, {f'process-box-{U1}-upload-1': 'programing', 'grid-upload-2': 'interface-essential',
+        self.assertEqual(uploads, {f'process-box-{U1}-upload-1': 'programing', 'grid-upload-2': 'primitives-generate',
                                    'grid-upload-3': 'Uncategorized', 'odd-upload-4': 'Uncategorized'})
         self.assertEqual(len(list(self.database.parent.glob('feedback.before-categories-*.sqlite3'))), 1)
 

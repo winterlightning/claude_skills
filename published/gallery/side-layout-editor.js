@@ -16,6 +16,9 @@
   .side-layout-presets{display:grid;gap:8px;margin-bottom:0}.side-layout-sizes,.side-layout-shapes{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.side-layout-sizes>span,.side-layout-shapes>span{min-width:112px}
   .side-layout-sizes button{min-width:40px;padding:7px 8px;font-variant-numeric:tabular-nums}.side-layout-presets small{color:#5b6b67;font-variant-numeric:tabular-nums}
   .side-layout .side-layout-shape{display:grid;grid-template-columns:22px auto;grid-template-rows:auto auto;column-gap:6px;align-items:center;text-align:left;padding:5px 9px}.side-layout-shape svg{grid-row:1/3}.side-layout-shape span{font-size:12px;font-weight:600}.side-layout-shape small{font-size:11px}
+  .side-layout-output{display:flex;gap:14px;align-items:flex-end;margin-top:12px;padding:10px;border:1px solid #d5dfdc;border-radius:8px;background:#fff}
+  .side-layout-output figure{display:grid;justify-items:center;gap:4px;margin:0}.side-layout-output img{display:block;image-rendering:auto}.side-layout-output figcaption{margin:0;font:11px system-ui;color:#5b6b67}
+  .side-layout-canvas .size-label{font:600 2.3px system-ui;fill:#1f5f36;paint-order:stroke;stroke:#fff;stroke-width:.7px;stroke-linejoin:round;pointer-events:none;font-variant-numeric:tabular-nums}
   .side-layout-canvas .guide{stroke:#7c3aed;stroke-width:.3;stroke-dasharray:1.2 .8;pointer-events:none}
   .side-layout-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 10px;font:13px system-ui}.side-layout-bar .spacer{flex:1}.side-layout-bar label{display:flex;gap:5px;align-items:center}
   .side-layout-stages{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(180px,2fr);gap:16px;align-items:start}
@@ -28,6 +31,7 @@
   .side-layout-canvas .handle.nw,.side-layout-canvas .handle.se{cursor:nwse-resize}.side-layout-canvas .handle.ne,.side-layout-canvas .handle.sw{cursor:nesw-resize}.side-layout-canvas .handle.n,.side-layout-canvas .handle.s{cursor:ns-resize}.side-layout-canvas .handle.e,.side-layout-canvas .handle.w{cursor:ew-resize}
   .side-layout-preview{display:grid;place-items:center;aspect-ratio:1;background:#fbfdfb;box-shadow:inset 0 0 0 1px #99adb4;font:13px system-ui;color:#5b6b67;text-align:center}
   .side-layout-list{font:13px system-ui;display:grid;gap:10px;max-height:60vh;overflow:auto}.side-layout-list h3{font:600 12px system-ui;text-transform:uppercase;letter-spacing:.03em;color:#5b6b67;margin:0 0 4px}
+  .side-layout-list label.child{padding-left:22px;font-size:12px;color:#40524d}
   .side-layout-list label{display:flex;gap:6px;align-items:flex-start;padding:3px 0;cursor:pointer;overflow-wrap:anywhere}.side-layout-list small{color:#5b6b67}
   .side-layout-list .row-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.side-layout-list .row-actions button{padding:4px 8px;font-size:12px}
   .side-layout-readout{font:13px/1.5 system-ui;font-variant-numeric:tabular-nums;margin:10px 0 0}.side-layout-readout.bad{color:#b91c1c}
@@ -60,15 +64,16 @@
     dialog=html('dialog','side-layout');
     dialog.innerHTML=`<header><h2></h2><button type="button" data-close>Close</button></header>
       <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main size"></div>
-      <div class="side-layout-bar"><span>Click selects</span><button type="button" data-level="whole">Whole icon</button><button type="button" data-level="element">Element</button>
+      <div class="side-layout-bar"><span>Click selects</span><button type="button" data-level="whole">Whole icon</button><button type="button" data-level="element">Element</button><button type="button" data-level="path" title="One path of a connected element (the stand of a monitor)">Path</button>
       <label><input type="checkbox" data-centerline> Centerline</label><span class="spacer"></span>
       <button type="button" data-reset>Reset to automatic</button><button type="button" data-cancel>Discard changes</button><button type="button" class="side-layout-save" data-save>Save layout</button></div>
       <div class="side-layout-stages"><figure><svg class="side-layout-canvas" tabindex="0" role="application" aria-label="Layout editor, 64 by 64 grid"></svg>
       <figcaption>Editing view: main and sub drawn whole, centerline in red.</figcaption></figure>
-      <figure><div class="side-layout-preview"></div><figcaption>Combined result (the sub erases the main where they meet).</figcaption></figure>
+      <figure><div class="side-layout-preview"></div><figcaption>Combined result (the sub erases the main where they meet).</figcaption>
+      <div class="side-layout-output" aria-label="Output SVG at 32, 48 and 64 pixels"></div></figure>
       <div class="side-layout-list" aria-label="Elements"></div></div>
       <p class="side-layout-readout" role="status"></p>
-      <p class="side-layout-hint">Main size 32–56 (every 4) and a keyshape snap the main onto that keyshape at that size (purple dashes) — 48 on its own keyshape is automatic; Free lets you drag it to any size. Shift- or ⌘-click (or tick the list) to choose several elements. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
+      <p class="side-layout-hint">Main size 32–56 (every 4) and a keyshape snap the main onto that keyshape at that size (purple dashes) — 48 on its own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
       <p class="side-layout-error" role="alert"></p>`;
     document.body.append(dialog);
     const q=s=>dialog.querySelector(s);
@@ -126,25 +131,33 @@
     for(const role of ctx.dirty)out[role]=ctx.roles[role].units.map(u=>({paths:u.paths,x:u.x,y:u.y,w:u.w,h:u.h}));
     return Object.keys(out).length?out:null;
   }
-  // Split the chosen units into one unit per path, each keeping exactly where it is drawn now.
-  function split(){
-    touch(selectedRoles());
-    const next=new Set();
+  // Split units (keys) into one unit per path, each keeping exactly where it is drawn now.
+  // The selection follows; returns {role: {path: key}} for every path of every unit.
+  function splitUnits(targets){
+    touch(new Set([...targets].map(k=>k.split(':')[0])));
+    const remap=new Map(),byPath={};
     for(const [role,r] of Object.entries(ctx.roles)){
-      const units=[];
+      const units=[];byPath[role]={};
       r.units.forEach((u,i)=>{
-        if(!ctx.sel.has(keyOf(role,i))||u.paths.length<2){if(ctx.sel.has(keyOf(role,i)))next.add(keyOf(role,units.length));units.push(u);return;}
-        const [sx,sy]=scales(u);
+        const old=keyOf(role,i);
+        if(!targets.has(old)||u.paths.length<2){
+          const key=keyOf(role,units.length);remap.set(old,[key]);for(const p of u.paths)byPath[role][p]=key;units.push(u);return;
+        }
+        const [sx,sy]=scales(u),keys=[];
         for(const p of u.paths){
           const s=r.sources[p],x0=Math.round(u.x+(s[0]-u.src[0])*sx),y0=Math.round(u.y+(s[1]-u.src[1])*sy);
           const x1=Math.round(u.x+(s[2]-u.src[0])*sx),y1=Math.round(u.y+(s[3]-u.src[1])*sy);
-          next.add(keyOf(role,units.length));units.push({paths:[p],src:s,x:x0,y:y0,w:x1-x0,h:y1-y0});
+          const key=keyOf(role,units.length);keys.push(key);byPath[role][p]=key;
+          units.push({paths:[p],src:s,x:x0,y:y0,w:s[2]-s[0]>EDGE?x1-x0:0,h:s[3]-s[1]>EDGE?y1-y0:0});
         }
+        remap.set(old,keys);
       });
       r.units=units;
     }
-    ctx.sel=next;ctx.level='element';refresh();
+    ctx.sel=new Set([...ctx.sel].flatMap(k=>remap.get(k)||[]));
+    return byPath;
   }
+  function split(){splitUnits(new Set(ctx.sel));ctx.level='path';refresh();}
 
   function pxPerUnit(svg){const m=svg.getScreenCTM();return m&&m.a>0?m.a:6;}
   // The main's keyshape: its drawing's centerline box on the 48 canvas, when that is a SOLO48 keyshape.
@@ -267,7 +280,7 @@
         const [sx,sy]=scales(u),transform=`matrix(${sx} 0 0 ${sy} ${u.x-u.src[0]*sx} ${u.y-u.src[1]*sy})`;
         const art=el('g',{class:'art'+(ctx.sel.has(keyOf(role,i))?' picked':''),'data-role':role,'data-unit':i,transform});
         const parsed=new DOMParser().parseFromString(`<svg xmlns="${ns}">${u.paths.map(p=>r.markup[p]).join('')}</svg>`,'image/svg+xml').documentElement;
-        for(const child of [...parsed.children]){const n=document.importNode(child,true);n.setAttribute('vector-effect','non-scaling-stroke');n.setAttribute('stroke-width',STROKE*px);art.append(n);}
+        [...parsed.children].forEach((child,n)=>{const e=document.importNode(child,true);e.setAttribute('data-path',u.paths[n]);e.setAttribute('vector-effect','non-scaling-stroke');e.setAttribute('stroke-width',STROKE*px);art.append(e);});
         layer.append(art);
         if(centerline){const t=art.cloneNode(true);t.removeAttribute('class');for(const n of t.children){n.setAttribute('stroke','#ef4444');n.setAttribute('stroke-width',1.3);n.setAttribute('fill','none');}traces.append(t);}
       });
@@ -280,6 +293,10 @@
       const b=unionOf(list),p=[b[0]-2,b[1]-2,b[2]+2,b[3]+2],mx=(p[0]+p[2])/2,my=(p[1]+p[3])/2;
       svg.append(el('rect',{class:'move',x:p[0],y:p[1],width:p[2]-p[0],height:p[3]-p[1],'data-move':''}));
       svg.append(el('rect',{class:'sel'+(outside(b)?' out':''),x:p[0],y:p[1],width:p[2]-p[0],height:p[3]-p[1]}));
+      // Live size on the frame: painted ink (stroke included) and the centerline bounding box.
+      const label=el('text',{class:'size-label',x:p[0],y:p[1]>4?p[1]-1.2:p[3]+3.2});
+      label.textContent=`ink ${fmt(p[2]-p[0])}×${fmt(p[3]-p[1])} · box ${fmt(b[2]-b[0])}×${fmt(b[3]-b[1])} · at ${fmt(p[0])},${fmt(p[1])}`;
+      svg.append(label);
       for(const [name,x,y] of [['nw',p[0],p[1]],['n',mx,p[1]],['ne',p[2],p[1]],['e',p[2],my],['se',p[2],p[3]],['s',mx,p[3]],['sw',p[0],p[3]],['w',p[0],my]])
         svg.append(el('rect',{class:'handle '+name,'data-handle':name,x:x-HANDLE/2,y:y-HANDLE/2,width:HANDLE,height:HANDLE}));
     }
@@ -299,6 +316,12 @@
         const text=html('span','',named?u.paths.map(p=>r.names[p]).join(' + '):`${role==='sub'&&ctx.pair.native_text?'Glyph':'Element'} ${i+1}`);
         text.append(html('small','',` · ${fmt(u.w+4)}×${fmt(u.h+4)}`));
         label.append(check,text);section.append(label);
+        // Child paths of a connected element: ticking one splits the element and selects that path.
+        if(u.paths.length>1)for(const p of u.paths){
+          const child=html('label','child'),box=html('input');box.type='checkbox';
+          box.onchange=()=>{const key=splitUnits(new Set([keyOf(role,i)]))[role][p];ctx.sel.add(key);ctx.level='path';refresh();};
+          child.append(box,html('span','',named?r.names[p]:`path ${p+1}`));section.append(child);
+        }
       });
       const actions=html('div','row-actions'),all=html('button','','Select all');all.type='button';
       all.onclick=()=>{r.units.forEach((_u,i)=>ctx.sel.add(keyOf(role,i)));draw();};actions.append(all);section.append(actions);
@@ -322,7 +345,14 @@
   const readout=(text,bad)=>{const r=dialog.querySelector('.side-layout-readout');r.textContent=text;r.classList.toggle('bad',!!bad);};
   const error=text=>{dialog.querySelector('.side-layout-error').textContent=text;};
   // The combined result, with its centerline traced on top when that view is on.
+  // The output SVG as it ships: black strokes only, at 32, 48 and 64 pixels.
+  function output(result){
+    const box=dialog.querySelector('.side-layout-output');box.replaceChildren();if(!result)return;
+    const svg=result.svg.replace(/currentColor/g,'#000000'),src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+    for(const size of [32,48,64]){const f=html('figure'),img=html('img');img.src=src;img.width=img.height=size;img.alt=`Output at ${size} pixels`;f.append(img,html('figcaption','',size+' px'));box.append(f);}
+  }
   function preview(result,text){
+    output(result);
     const box=dialog.querySelector('.side-layout-preview');box.replaceChildren();
     if(!result){box.append(html('span','',text||''));return;}
     ctx.result=result;
@@ -371,12 +401,24 @@
     const svg=e.currentTarget,additive=e.shiftKey||e.metaKey||e.ctrlKey;let target=e.target,art=target.closest('.art');
     // Artwork under the selection frame (the arrow inside a selected monitor) can still be picked.
     if(target.hasAttribute('data-move')){
-      const under=document.elementsFromPoint(e.clientX,e.clientY).map(n=>n.closest?.('.art')).find(Boolean);
-      if(under&&(additive||!ctx.sel.has(keyOf(under.dataset.role,under.dataset.unit)))&&(ctx.level==='element'||!selectedRoles().has(under.dataset.role)||additive)){target=under;art=under;}
+      const nodes=document.elementsFromPoint(e.clientX,e.clientY),under=nodes.map(n=>n.closest?.('.art')).find(Boolean);
+      if(ctx.level==='path'){
+        const path=nodes.map(n=>n.closest?.('[data-path]')).find(n=>n?.closest('.art'));
+        if(path){
+          const a=path.closest('.art'),u=ctx.roles[a.dataset.role].units[Number(a.dataset.unit)],k=keyOf(a.dataset.role,a.dataset.unit);
+          if(additive||u.paths.length>1||!ctx.sel.has(k)){target=path;art=a;}
+        }
+      }else if(under&&(additive||!ctx.sel.has(keyOf(under.dataset.role,under.dataset.unit)))&&(ctx.level==='element'||!selectedRoles().has(under.dataset.role)||additive)){target=under;art=under;}
     }
     if(!target.hasAttribute('data-handle')&&!target.hasAttribute('data-move')){
       if(!art){if(!additive)ctx.sel.clear();draw();return;}
-      const role=art.dataset.role,keys=ctx.level==='element'?[keyOf(role,art.dataset.unit)]:ctx.roles[role].units.map((_u,i)=>keyOf(role,i));
+      let role=art.dataset.role,keys;
+      if(ctx.level==='path'){
+        // A path of a connected element: split just that element, then pick the path.
+        const p=Number(target.closest('[data-path]')?.dataset.path??ctx.roles[role].units[Number(art.dataset.unit)].paths[0]);
+        const unit=ctx.roles[role].units[Number(art.dataset.unit)];
+        keys=[unit.paths.length>1?splitUnits(new Set([keyOf(role,art.dataset.unit)]))[role][p]:keyOf(role,art.dataset.unit)];
+      }else keys=ctx.level==='element'?[keyOf(role,art.dataset.unit)]:ctx.roles[role].units.map((_u,i)=>keyOf(role,i));
       if(additive){const on=keys.every(k=>ctx.sel.has(k));for(const k of keys)on?ctx.sel.delete(k):ctx.sel.add(k);draw();return;}
       if(!keys.every(k=>ctx.sel.has(k))||keys.length!==ctx.sel.size)ctx.sel=new Set(keys);
     }

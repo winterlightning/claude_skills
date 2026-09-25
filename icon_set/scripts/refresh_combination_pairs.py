@@ -6,6 +6,7 @@ import shutil
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from .category_report import REPO_ROOT, model_catalog, source_id
+from .primitives_catalog import load_aliases, resolve
 from .combination_experiment import DATA, ROOT
 
 if __package__:
@@ -120,6 +121,13 @@ def refresh():
 
     remap_path = ROOT / 'data/combination-remaps.json'
     remaps = json.loads(remap_path.read_text()).get('rules', []) if remap_path.exists() else []
+    # A pair may name an alias uuid (a 99% duplicate reference); its drawings sit under the canonical one.
+    aliases = load_aliases()
+
+    def lookup(index, uid):
+        uid = (uid or '').lower()
+        return index.get(uid) or index.get(resolve(uid, aliases) or '', [])
+
     rows, failures = [], []
     for original in json.loads((REPO_ROOT / 'combination_data.json').read_text()).get('side', []):
         row = dict(original)
@@ -128,9 +136,10 @@ def refresh():
             fragment = row['id'][:18] if rule['role'] == 'main' else row['id'][19:34]
             if not row.get(field) and fragment == rule['fragment']:
                 row[field] = rule['reference_id']
-        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
+        mains = sorted(lookup(index, row.get('main_id')), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
         sub_id = (row.get('sub_id') or '').lower()
-        subs = sorted(state_subs.get(sub_id, index.get(sub_id, [])), key=lambda m: ({'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
+        state_id = next((u for u in (sub_id, resolve(sub_id, aliases)) if u in state_subs), None)
+        subs = sorted(state_subs[state_id] if state_id else lookup(index, sub_id), key=lambda m: ({'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
         if not mains or not subs:
             continue
         try:

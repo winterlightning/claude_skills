@@ -11,11 +11,12 @@ cannot recategorize them:
 
 * accepted gallery edits (icon_artwork): the server overlays the saved edited_graph on
   the icon, including the category it had when it was edited. The category becomes the
-  one icons.json now gives the icon. validation / validation_override graph_sha256 are
+  one the build gives the icon: its primitive row's category (as gallery.remap_categories
+  does), else its icons.json category. validation / validation_override graph_sha256 are
   recomputed so the edit stays accepted; the geometry is untouched.
 * uploaded icons (uploaded_icons): the category of the primitive whose uuid appears in
-  the icon id, else of the primitive with the same concept name (the most common one
-  when several share it).
+  the icon id, else of the primitive with the same concept name, preferring one from an
+  _uncategorized folder (the upload itself was uncategorized), then the most common.
 
 Only records whose category is Uncategorized in the requested families are changed.
 --apply writes a backup next to the database first.
@@ -44,16 +45,22 @@ _UUID = re.compile(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 
 
 def load_gallery(gallery: Path) -> tuple[dict, dict, dict]:
-    """icon key -> build category; primitive uuid -> category; concept name -> Counter of categories."""
+    """icon key -> build category; primitive uuid -> category; concept name -> Counter of (uncategorized folder?, category)."""
     icons = json.loads((gallery / 'icons.json').read_text(encoding='utf-8'))
-    built = {r['key']: r.get('category') for r in icons.get('icons', []) + icons.get('failed_icons', [])}
+    records = icons.get('icons', []) + icons.get('failed_icons', [])
     primitives = json.loads((gallery / 'primitives.json').read_text(encoding='utf-8'))
-    by_uuid, by_name = {}, collections.defaultdict(collections.Counter)
+    by_uuid, by_name, linked = {}, collections.defaultdict(collections.Counter), collections.defaultdict(set)
     for row in primitives['rows']:
         for uid in [row.get('uuid')] + [alias['uuid'] for alias in row.get('aliases', [])]:
             if uid:
                 by_uuid[uid] = row['category']
-        by_name[row['concept'].lower()][row['category']] += 1
+        by_name[row['concept'].lower()][(row['path'].startswith('_uncategorized'), row['category'])] += 1
+        for icon_id in row.get('models', []):
+            linked[icon_id].add(row['category'])
+    built = {}
+    for record in records:
+        categories = linked.get(record['icon_id']) or linked.get(record.get('variant_root')) or set()
+        built[record['key']] = next(iter(categories)) if len(categories) == 1 else record.get('category')
     return built, by_uuid, by_name
 
 
@@ -61,8 +68,8 @@ def upload_category(record: dict, by_uuid: dict, by_name: dict) -> str | None:
     for uid in _UUID.findall(f"{record.get('icon_id', '')} {record.get('name', '')}"):
         if by_uuid.get(uid, UNCATEGORIZED) != UNCATEGORIZED:
             return by_uuid[uid]
-    names = by_name.get(str(record.get('name', '')).lower())
-    for category, _ in (names or collections.Counter()).most_common():
+    names = by_name.get(str(record.get('name', '')).lower()) or collections.Counter()
+    for (_, category), _ in sorted(names.items(), key=lambda item: (not item[0][0], -item[1])):
         if category != UNCATEGORIZED:
             return category
     return None
