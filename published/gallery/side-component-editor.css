@@ -1,11 +1,30 @@
-#detail{border:1px solid var(--line);border-radius:16px;padding:0;box-shadow:0 24px 80px #15241d44}
-#detail .dialog-head{display:flex;align-items:center;justify-content:space-between;gap:20px}
-#detail .sc-editor-workspace{flex:1;min-height:0;overflow:auto}
-#detail [hidden]{display:none!important}#detail::backdrop{background:#15241d80}
-#detail button{border:1px solid var(--line);border-radius:7px;background:#fff;cursor:pointer}
-#detail button.primary{background:var(--green);color:#fff;border-color:var(--green)}
-#detail button:disabled{opacity:.55;cursor:default}#detail .dialog-head button{padding:8px 14px}
-#detail input,#detail select,#detail textarea{font:inherit;border:1px solid var(--line);border-radius:6px}
-#detail textarea{min-height:80px}#detail .stroke-offsets input{box-sizing:border-box}
+/* Base styles formerly inherited from the review page. Load before stroke-editor.css
+   so the shared editor's tabs, selection states and tool sizes take precedence. */
+.side-icon-editor{color:#202c29;font-size:14px;line-height:1.5}
+.side-icon-editor#detail{width:min(1200px,calc(100vw - 32px));height:min(860px,calc(100dvh - 32px));max-width:none;max-height:calc(100dvh - 32px);border:1px solid var(--line);border-radius:16px;padding:0;box-shadow:0 24px 80px #15241d44}
+.side-icon-editor::backdrop{background:#15241d80}
+.side-icon-editor :where(button,input,select,textarea,.download){font:inherit;color:inherit;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff}
+.side-icon-editor :where(button,.download){cursor:pointer}
+.side-icon-editor :where(button:disabled){opacity:.55;cursor:default}
+.side-icon-editor :where(label){display:block;font-size:13px;font-weight:600;margin:18px 0 8px}
+.side-icon-editor :where(input[type=checkbox],input[type=radio]){width:auto;padding:0;accent-color:var(--green);flex-shrink:0}
+.side-icon-editor :where(textarea){width:100%;min-height:80px;resize:vertical;line-height:1.5}
+.side-icon-editor :where(p){color:var(--muted);line-height:1.5}
+.side-icon-editor :where(.download){display:inline-block;text-decoration:none;margin:0 0 16px}
+.side-icon-editor .primary{background:var(--green);color:#fff;border-color:var(--green)}
+.side-icon-editor .dialog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.side-icon-editor .dialog-head h2{margin:0;min-width:0;overflow-wrap:anywhere}
+.side-icon-editor .dialog-head button{flex-shrink:0}
+.side-icon-editor .sc-editor-workspace{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+#detail.side-icon-editor [role=tabpanel]{overflow:visible;flex:initial}
+.side-icon-editor .stroke-editor-layout>div{min-width:0}
+/* Keep both toolbars outside the drawing, especially when buttons wrap on mobile. */
+.side-icon-editor .stroke-canvas-frame{display:flex;flex-direction:column;gap:8px}
+.side-icon-editor .stroke-canvas-actions{position:static;box-shadow:none}
+.side-icon-editor .stroke-view-actions{position:static;transform:none;align-self:center;box-shadow:none}
+.side-icon-editor .stroke-save-actions{flex-wrap:wrap}
+.side-icon-editor .editing-subtabs{flex-wrap:wrap}
+.side-icon-editor :where(button,input,select,textarea,a):focus-visible{outline:3px solid #78a88d;outline-offset:3px}
 .side-edit-component{margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-size:12px}
 .side-editor-message{font-size:12px;color:#8a2e1f}
+@media(max-width:700px){.side-icon-editor#detail{width:calc(100vw - 16px);height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);border-radius:12px}}

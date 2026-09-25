@@ -95,7 +95,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 @media(max-width:700px){.side-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.side-step:nth-child(3)::before{display:none}.side-original,.side-combined{width:96px;height:96px}.side-combined img{width:96px;height:96px}}
 @media(max-width:600px){.side-grid{grid-template-columns:1fr}}
 </style>
-<link rel="stylesheet" href="stroke-editor.css"><link rel="stylesheet" href="side-component-editor.css"><script src="icon-guides.js"></script><script src="stroke-fit.js"></script><script src="stroke-editor.js"></script><script src="icon-artwork.js"></script>
+<link rel="stylesheet" href="side-component-editor.css"><link rel="stylesheet" href="stroke-editor.css"><script src="icon-guides.js"></script><script src="stroke-fit.js"></script><script src="stroke-editor.js"></script><script src="icon-artwork.js"></script>
 </head>
 <body class="guest">
 <header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
@@ -170,7 +170,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
   <p id="briefMessage" role="status"></p><button id="saveBrief" type="submit">Save brief</button><button id="clearBrief" type="button">Clear brief</button><button id="closeBrief" type="button">Cancel</button>
 </form></dialog>
 <footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Primitives remake progress</span></footer>
-<dialog id="detail" aria-labelledby="editorTitle"><div class="dialog-head"><h2 id="editorTitle">Edit icon</h2><button id="closeEditor" type="button">Close</button></div>
+<dialog id="detail" class="side-icon-editor" aria-labelledby="editorTitle"><div class="dialog-head"><h2 id="editorTitle">Edit icon</h2><button id="closeEditor" type="button">Close</button></div>
 <div class="inspector-tabs"><button id="informationTab" hidden></button><button id="reviewTab" hidden></button><button id="editingTab" type="button">Editing</button></div>
 <div id="inspectorWorkspace" class="sc-editor-workspace"><section id="informationPanel" hidden></section><section id="reviewPanel" hidden></section><section id="editingPanel" role="tabpanel" aria-labelledby="editingTab" hidden>
 <div class="editing-subtabs" role="tablist" aria-label="Editing tools"><button id="browserEditTab" role="tab" aria-selected="true" aria-controls="browserEditPanel">Browser Edit</button><button id="manualEditTab" role="tab" aria-selected="false" aria-controls="manualEditPanel" tabindex="-1">Manual Edit</button><button id="pickEditTab" role="tab" aria-selected="false" aria-controls="pickEditPanel" tabindex="-1">Pick</button></div>
