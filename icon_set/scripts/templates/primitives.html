@@ -95,6 +95,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 @media(max-width:700px){.side-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.side-step:nth-child(3)::before{display:none}.side-original,.side-combined{width:96px;height:96px}.side-combined img{width:96px;height:96px}}
 @media(max-width:600px){.side-grid{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="stroke-editor.css"><link rel="stylesheet" href="side-component-editor.css"><script src="icon-guides.js"></script><script src="stroke-fit.js"></script><script src="stroke-editor.js"></script><script src="icon-artwork.js"></script>
 </head>
 <body class="guest">
 <header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
@@ -125,7 +126,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
       <th>Progress</th><th><button data-sort="done">Done</button></th></tr></thead><tbody id="categoryRows"></tbody></table></div>
   </section>
 
-  <section id="detail" hidden>
+  <section id="primitiveDetail" hidden>
     <a class="back" href="primitives.html?view=categories">← All categories</a>
     <div class="cat-head"><div><p class="eyebrow" id="detailEyebrow">CATEGORY</p><h2 id="detailTitle"></h2></div><div id="detailStats" class="muted"></div></div>
     <div id="detailBar" class="bar" style="margin-top:12px" aria-hidden="true"></div>
@@ -169,6 +170,10 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
   <p id="briefMessage" role="status"></p><button id="saveBrief" type="submit">Save brief</button><button id="clearBrief" type="button">Clear brief</button><button id="closeBrief" type="button">Cancel</button>
 </form></dialog>
 <footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Primitives remake progress</span></footer>
+<dialog id="detail" aria-labelledby="editorTitle"><div class="dialog-head"><h2 id="editorTitle">Edit icon</h2><button id="closeEditor" type="button">Close</button></div>
+<div class="inspector-tabs"><button id="informationTab" hidden></button><button id="reviewTab" hidden></button><button id="editingTab" type="button">Editing</button></div>
+<div id="inspectorWorkspace" class="sc-editor-workspace"><section id="informationPanel" hidden></section><section id="reviewPanel" hidden></section><!-- shared-icon-editor --></div></dialog>
+<script src="side-component-editor.js"></script>
 <script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="progression-combinations.js"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -464,15 +469,15 @@ function renderReviewShortcuts(){
 
 function openCategory(name,brief=''){state.view='category';state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';state.brief=brief;page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
 function openView(view){state.view=view;state.category='';state.status=view==='review'?'all':'todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
-function show(){if(!statusesAvailable||!briefsAvailable){$('overview').hidden=$('detail').hidden=true;return;}
+function show(){if(!statusesAvailable||!briefsAvailable){$('overview').hidden=$('primitiveDetail').hidden=true;return;}
   if(state.view==='category'&&!(catalog.categories||{})[state.category]){state.view='categories';state.category='';}
   renderReviewShortcuts();
   const combination=['container','side'].includes(state.view);
   $('combinations').hidden=!combination;
   for(const view of ['container','side'])$(view+'View').setAttribute('aria-pressed',String(state.view===view));
   $('status').hidden=combination;
-  if(combination){$('overview').hidden=$('detail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');writeURL();renderCombinations();return;}
-  const inDetail=state.view!=='categories';$('overview').hidden=inDetail;$('detail').hidden=!inDetail;
+  if(combination){$('overview').hidden=$('primitiveDetail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');writeURL();renderCombinations();return;}
+  const inDetail=state.view!=='categories';$('overview').hidden=inDetail;$('primitiveDetail').hidden=!inDetail;
   $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view==='categories'));
   if(inDetail)renderDetail();else{writeURL();renderOverview();}}
 
@@ -539,7 +544,7 @@ async function refreshGalleryState(){
   }catch{
     if(revision===galleryRevision&&canRefreshGallery()){
       statusesAvailable=briefsAvailable=false;
-      $('overview').hidden=$('detail').hidden=true;
+      $('overview').hidden=$('primitiveDetail').hidden=true;
       $('status').textContent='Production primitive data unavailable. Retrying…';
     }
   }finally{refreshInFlight=false;}

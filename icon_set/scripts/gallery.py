@@ -430,12 +430,12 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
     for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "side-combination-popup.js", "side-layout-editor.js", "side-repair-flags.js", "side-combination-progress.js", "icons.html", "approved-icons.js", "reference-picker.js",
-                  "primitives.html", "progression-combinations.js", "side-pairs-grid.js", "symbols-needed.html", "side-mains.html", "side-subs.html", "side-components.js", "side-components.css", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js", "work.html", "work.css", "work.js"):
+                  "primitives.html", "progression-combinations.js", "side-pairs-grid.js", "side-component-editor.js", "side-component-editor.css", "symbols-needed.html", "side-mains.html", "side-subs.html", "side-components.js", "side-components.css", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js", "work.html", "work.css", "work.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
     editor_source = (Path(__file__).with_name('templates') / 'gallery.html').read_text()
     editor_panel = editor_source.split('<section id="editingPanel"', 1)[1].split('</section></div></dialog>', 1)[0]
     editor_panel = '<section id="editingPanel"' + editor_panel + '</section>'
-    for name in ('side-mains.html', 'side-subs.html'):
+    for name in ('side-mains.html', 'side-subs.html', 'primitives.html'):
         page = target / name
         page.write_text(page.read_text().replace('<!-- shared-icon-editor -->', editor_panel))
     side_review = REPO_ROOT / 'icon_set/work/side-combinations-passing-sub'

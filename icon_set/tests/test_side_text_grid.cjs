@@ -4,7 +4,7 @@ const root=path.resolve(__dirname,'../..'),read=p=>JSON.parse(fs.readFileSync(pa
 const combinationCatalog=read('published/gallery/combinations.json');
 const components=read('published/gallery/side-components.json');
 const report=read('published/gallery/side-text-v2.json');
-const context=vm.createContext({URLSearchParams,location:{search:''},document:{addEventListener(){}},window:{},combinationCatalog,components,report,
+const context=vm.createContext({URLSearchParams,location:{search:''},document:{addEventListener(){}},window:{addEventListener(){}},combinationCatalog,components,report,
  combinationMain:row=>combinationCatalog.references[row.main_id]});
 vm.runInContext(fs.readFileSync(path.join(root,'icon_set/scripts/templates/side-pairs-grid.js'),'utf8'),context);
 vm.runInContext(`sidePairs=new Map();sideMapNativeText(report,components,d=>d.status==='pass');

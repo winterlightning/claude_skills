@@ -210,6 +210,30 @@ function sideParts(row){
   const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^(sub|text)\//.test(g.key));
   return {pair,key,main:hasMain&&main&&{icon:main.icon_id,preview_url:main.preview_url,pending:true},sub:hasSub&&sub&&{icon:sub.icon_id,preview_url:sub.preview_url,pending:true},ready:false};
 }
+// Resolve the exact displayed variant; use the live failed drawing when no passing one exists.
+function sideEditableDrawing(row,role,item){
+  const source=row[role+'_id'],list=sideComponents?.[role==='main'?'mains':'subs']||[];
+  const component=list.find(c=>c.id===source||c.source_ids.includes(source));
+  const drawings=component?.drawings||[],key=item?.model_key||item?.key;
+  return (key?drawings.find(d=>d.key===key):null)||
+    (item?.icon?drawings.find(d=>d.icon_id===item.icon):drawings[0]);
+}
+function sideEditButton(row,role,item){
+  const drawing=sideEditableDrawing(row,role,item);
+  if(!drawing||drawing.profile==='TEXT_NATIVE_V2'||!window.SideComponentEditor)return null;
+  const wrap=node('div','requires-login'),button=node('button','side-edit-component',`Edit ${role} icon`),message=node('p','side-editor-message');
+  button.type='button';message.setAttribute('role','status');
+  button.onclick=async()=>{
+    button.disabled=true;message.textContent='';
+    try{await window.SideComponentEditor.open(drawing,`${role==='main'?'Main':'Sub'} · ${drawing.icon_id}`);}
+    catch(error){message.textContent=error.message;}finally{button.disabled=false;}
+  };
+  wrap.append(button,message);return wrap;
+}
+window.addEventListener('side-component-approved',()=>{
+  sideRendered.clear();sideComponentStatus={main:new Map(),sub:new Map()};
+  loadSidePairs();
+});
 function sideState(row,parts){
   const key=parts.key.startsWith('both')?'main':parts.key,label=parts.key==='both'?'Needs main + sub':parts.key==='both-text'?'Needs main + text sub':SIDE_STATES[key];
   return [label,{ready:'ready',fix:'fix',waiting:'waiting',textsub:'info'}[key]||'needed',SIDE_STATE_HINTS[key]];
@@ -232,8 +256,15 @@ function sideRow(row){
   const media=node('div','side-combined');
   if(parts.ready)sideFillCombined(media,pair,sub);else media.append(node('span','side-combined-empty','Not combined yet'));
   const steps=node('div','side-steps');
-  const mainPart=sidePart('Main',main,48,false),subPart=sidePart('Sub',sub,32,true);
-  if(main)sideInspectable(mainPart,'Main',main,48,row.concept);if(sub)sideInspectable(subPart,'Sub',sub,32,row.concept);
+  const display=(role,item)=>{
+    const drawing=sideEditableDrawing(row,role,item);
+    if(item&&drawing&&!drawing.preview_url?.includes('/api/icon-artwork/'))return item;
+    return drawing?{...item,icon:drawing.icon_id,key:drawing.key,model_key:drawing.key,family:drawing.family,
+      preview_url:drawing.preview_url,document:null,pending:item?.pending??true}:item;
+  };
+  const shownMain=display('main',main),shownSub=display('sub',sub);
+  const mainPart=sidePart('Main',shownMain,48,false),subPart=sidePart('Sub',shownSub,32,true);
+  if(shownMain)sideInspectable(mainPart,'Main',shownMain,48,row.concept);if(shownSub)sideInspectable(subPart,'Sub',shownSub,32,row.concept);
   const combinedStep=sideStep(pair?.native_text?'Combined · native':'Combined · 64',media);
   // Editing the layout sits right under the combined icon it changes.
   // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
@@ -244,7 +275,10 @@ function sideRow(row){
     sideRendered.delete(pair.id+'|'+sub.icon);
     if(card.isConnected)card.replaceWith(sideRow(row));
   },sideAdjusted(pair,sub)));
-  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,sub?.icon),combinedStep);
+  const mainStep=sideStep('Main · 48',mainPart,shownMain?.icon),subStep=sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,shownSub?.icon);
+  const editMain=sideEditButton(row,'main',main),editSub=sideEditButton(row,'sub',sub);
+  if(editMain)mainStep.append(editMain);if(editSub)subStep.append(editSub);
+  steps.append(sideStep('Original',original),mainStep,subStep,combinedStep);
   card.append(steps);
   if(pair?.subs.length>1){
     const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
