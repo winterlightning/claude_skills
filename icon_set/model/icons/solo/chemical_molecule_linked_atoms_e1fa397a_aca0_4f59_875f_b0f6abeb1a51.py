@@ -1,13 +1,16 @@
-"""Hexagonal chemical structure with five ring atoms, an upper-right terminal atom and lower side chain. Equal radius2 nodes and explicit bond endpoints; bounds (6,6)-(42,42).
-Keyshape SQUARE; fresh revision for feedback: Bad stroke drawn.
-Construction reference: No useful exact Lucide molecule match; repeated circular atoms and shared cardinal bond nodes.
-Omissions: The terminal atom rightward short branch omitted; upper and lower side chains restored. Radius2 atom circles use the existing small-circle exception and read as solid nodes at native size.
+"""Chemical Molecular Structure. Simplified molecular structure: four open atoms and three clear connecting bonds.
+Keyshape SQUARE: extremes authored from its SOLO48 centerline box.
+Omissions: Removed ring skeleton, secondary atom nodes and short terminal twigs at the user’s request.
 """
-from ...keyshapes import Keyshape
-from ._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'e1fa397a-aca0-4f59-875f-b0f6abeb1a51'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/chemical hexagon_e1fa397a-aca0-4f59-875f-b0f6abeb1a51.svg'
+SOURCE_PATH = 'pictographic-primitives/health/chemical hexagon_e1fa397a-aca0-4f59-875f-b0f6abeb1a51.svg'
 AUTHOR = 'gpt-6'
+PLAN = 'Simplified molecular structure: four open atoms and three clear connecting bonds.'
+OMISSIONS = 'Removed ring skeleton, secondary atom nodes and short terminal twigs at the user’s request.'
+CONSTRUCTION_REFERENCES = ['hexagon']
+PARENT_MODULE = 'icon_set/model/icons/solo/chemical_molecule_linked_atoms_e1fa397a_aca0_4f59_875f_b0f6abeb1a51.py'
 
 class Drawing(Solo48):
     icon_id = 'chemical-molecule-linked-atoms'
@@ -15,59 +18,69 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
-    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('chemical', 'hexagon')
 
-    def build(self):
-        for n,x,y in [('top',20,8),('upper-left',8,18),('lower-left',8,30),('bottom',20,36),('upper-right',28,20),('terminal',40,14)]:self.circle(n,x,y,2)
-        self.add_line('bond-top-left',(10,18),(18,8))
-        self.add_line('bond-top-right',(22,8),(28,18))
-        self.add_line('bond-left',(8,20),(8,28))
-        self.add_line('bond-bottom-left',(10,30),(18,36))
-        self.add_polyline('bond-right',(28,22),(28,30),(22,36))
-        self.add_line('side-chain',(30,20),(38,14))
-        self.add_line('terminal-bond',(40,12),(40,6))
-        self.add_polyline('lower-chain',(20,38),(20,42),(14,42))
-        self.contacts()
-
-    def path(self, name, start, *commands, closed=False):
-        members=[]
-        here=start
-        for j,command in enumerate(commands):
-            kind,end,*args=command
-            ident=f'{name}-{j}'
-            if kind=='L': self.add_line(ident,here,end)
-            else:
-                rx,ry,sweep=args
-                self.add_arc(ident,here,end,radius_x=rx,radius_y=ry,sweep=sweep)
-            here=end;members.append(ident)
-        self.add_contour(name,*members,closed=closed)
-
-    def circle(self,name,x,y,r):
-        self.path(name,(x-r,y),('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),closed=True)
-
+    def path(self,n,start,commands,closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{n}-{i}'; kind,end,*args=c
+            if kind=='L' and here==end: continue
+            if kind=='L': self.add_line(eid,here,end)
+            elif kind=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid); here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+    def phone(self):
+        self.box('phone',8,4,40,44,4)
+        self.add_line('phone-band',(8,36),(40,36))
+    def calendar(self,wide=False):
+        l,t,r,b,bind,divider=(6,10,42,42,6,18) if wide else (8,8,40,44,4,16)
+        self.box('calendar',l,t,r,b,4)
+        self.add_line('divider',(l,divider),(r,divider))
+        for x in (16,32): self.add_line(f'binding-{x}',(x,bind),(x,t))
+    def dollar(self,x=24,y=24):
+        self.path('dollar',(x+4,y-5),[('C',(x,y-6),(x+3,y-6),(x+1,y-6)),('C',(x,y),(x-8,y-6),(x-8,y-1)),('C',(x,y+6),(x+8,y+1),(x+8,y+6)),('C',(x-4,y+5),(x-1,y+6),(x-3,y+6))])
+        self.add_line('dollar-top',(x,y-8),(x,y-6))
+        self.add_line('dollar-bottom',(x,y+6),(x,y+8))
+    def cross(self,n,x,y,r):
+        for j,(dx,dy) in enumerate(((-r,0),(r,0),(0,-r),(0,r))):self.add_line(f'{n}-{j}',(x,y),(x+dx,y+dy))
+    def handset(self,x=24,y=23):
+        self.path('handset',(x-3,y-5),[('L',(x-6,y-6)),('L',(x-7,y-6)),('C',(x+4,y+5),(x-7,y),(x-1,y+5)),('L',(x+7,y+2)),('L',(x+4,y-1))])
     def contacts(self):
-        # Split receiving straight runs at true attachment nodes. Declare only
-        # actual endpoint contact; never connect separated shapes.
+        # Split only actual straight attachment nodes; connect exact shared endpoints.
         from icon_set.model.primitives import Line
         from dataclasses import replace
-        endpoints={p.start for p in self.primitives}|{p.end for p in self.primitives}
-        replacement={};rebuilt=[]
+        points={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        changes={}; fresh=[]
         for p in self.primitives:
             if isinstance(p,Line) and p.start!=p.end:
                 a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
-                cuts=[q for q in endpoints if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                cuts=[q for q in points if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
                 if cuts:
-                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]
-                    ids=[]
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]; ids=[]
                     for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
-                        ident=f'{p.element_id}-join-{j}';rebuilt.append(Line(ident,u,v));ids.append(ident)
-                    replacement[p.element_id]=ids
-                    continue
-            rebuilt.append(p)
-        self.primitives[:]=rebuilt
-        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in replacement.get(m,[m]))) for c in self.contours]
+                        name=f'{p.element_id}-join-{j}'; fresh.append(Line(name,u,v));ids.append(name)
+                    changes[p.element_id]=ids;continue
+            fresh.append(p)
+        self.primitives[:]=fresh
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in changes.get(m,[m]))) for c in self.contours]
         for j,a in enumerate(self.primitives):
             for b in self.primitives[j+1:]:
                 if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
+
+    def build(self):
+
+        self.circle('center',24,24,4)
+        self.circle('left',10,10,4)
+        self.circle('right',38,10,4)
+        self.circle('bottom',24,38,4)
+        self.add_line('left-bond',(14,10),(20,24))
+        self.add_line('right-bond',(34,10),(28,24))
+        self.add_line('bottom-bond',(24,28),(24,34))
+
+        self.contacts()

@@ -1,72 +1,85 @@
-"""Book bearing a person with curved arms.
-Plan: Tall book and lower page band. Head bottom y19 and torso start y27 give exactly 8 centerline / 4 ink units. Head and torso align at x24; central straight shoulders join tangent outer curves.
+"""Book with Person Symbol. Hardbound book with a square front cover, curved spine and recessed page edge. Portrait torso joins the cover edge.
+Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
+Omissions: None.
 """
-from ._base import Solo48
-from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
-SOURCE_ICON_ID='8ed961c5-a996-4c78-a7d6-d1d6baa41755'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+SOURCE_ICON_ID = '8ed961c5-a996-4c78-a7d6-d1d6baa41755'
 SOURCE_PATH = 'pictographic-primitives/other/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg'
-AUTHOR='gpt-6'
-class Drawing(Solo48):
-    icon_id='book-person'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
-    aliases=()
-    keywords=('book', 'person')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
-    def build(self):
-        self.rounded('book',8,4,40,44,4,breaks={2:[(40,36)],6:[(8,36)]})
-        self.add_line('pages',(8,36),(40,36));self.relate('connect','pages','book')
-        self.circle('head',24,16,3)
-        self.add_bezier('arm-left',(17,25),((18,26),(20,27),(22,27)))
-        self.add_line('shoulder-left',(22,27),(24,27))
-        self.add_line('shoulder-right',(24,27),(26,27))
-        self.add_bezier('arm-right',(26,27),((28,27),(30,26),(31,25)))
-        self.relate('connect','arm-left','shoulder-left')
-        self.relate('connect','shoulder-left','shoulder-right')
-        self.relate('connect','shoulder-right','arm-right')
-        self.add_polyline('torso',(24,27),(24,28));self.relate('connect','shoulder-left','torso');self.relate('connect','shoulder-right','torso')
-        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')
-        # Head bottom19, torso start27 => exact8 centerline /4 ink; front-facing axis x24.
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def browser(self):
-        self.rounded('window',8,4,40,44,4,breaks={2:[(40,12)],6:[(8,12)]})
-        self.add_line('header',(8,12),(40,12));self.relate('connect','header','window')
-
-    def dollar(self,x,y):
-        self.add_bezier('dollar',(x+4,y-6),((x+2,y-7),(x+1,y-7),(x,y-7)),((x-7,y-7),(x-7,y),(x,y)),((x+7,y),(x+7,y+7),(x,y+7)),((x-1,y+7),(x-2,y+7),(x-4,y+6)))
-        self.add_line('stem-top',(x,y-8),(x,y-7));self.relate('connect','dollar','stem-top')
-        self.add_line('stem-bottom',(x,y+7),(x,y+8));self.relate('connect','dollar','stem-bottom')
-
-    def euro(self,x):
-        self.add_bezier('euro',(x+3,22),((x-2,19),(x-8,21),(x-8,28)),((x-8,35),(x-2,37),(x+3,34)))
-        self.add_polyline('crossbar',(x-11,28),(x-8,28),(x,28));self.relate('connect','euro','crossbar')
-
-PLAN = 'Book bearing a person with curved arms. Tall book and lower page band.'
+AUTHOR = 'gpt-6'
+PLAN = 'Hardbound book with a square front cover, curved spine and recessed page edge. Portrait torso joins the cover edge.'
 OMISSIONS = 'None.'
-CONSTRUCTION_REFERENCES = ['icon_set/references/lucide/original/book-user.svg', 'icon_set/references/lucide/atomic-debug/book-user.svg', 'icon_set/references/human_ref/user.svg', 'icon_set/references/human_ref/full_body_ref.png']
-PARENT_SOURCE = 'icon_set/model/icons/solo/book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py'
+CONSTRUCTION_REFERENCES = ['book-user', 'human_ref/user.svg']
+PARENT_MODULE = 'icon_set/model/icons/solo/book_person_8ed961c5_a996_4c78_a7d6_d1d6baa41755.py'
+
+class Drawing(Solo48):
+    icon_id = 'book-person'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    aliases = ()
+    keywords = ('book', 'person')
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{n}-{i}'; kind,end,*args=c
+            if kind=='L' and here==end: continue
+            if kind=='L': self.add_line(eid,here,end)
+            elif kind=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid); here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+    def phone(self):
+        self.box('phone',8,4,40,44,4)
+        self.add_line('phone-band',(8,36),(40,36))
+    def calendar(self,wide=False):
+        l,t,r,b,bind,divider=(6,10,42,42,6,18) if wide else (8,8,40,44,4,16)
+        self.box('calendar',l,t,r,b,4)
+        self.add_line('divider',(l,divider),(r,divider))
+        for x in (16,32): self.add_line(f'binding-{x}',(x,bind),(x,t))
+    def dollar(self,x=24,y=24):
+        self.path('dollar',(x+4,y-5),[('C',(x,y-6),(x+3,y-6),(x+1,y-6)),('C',(x,y),(x-8,y-6),(x-8,y-1)),('C',(x,y+6),(x+8,y+1),(x+8,y+6)),('C',(x-4,y+5),(x-1,y+6),(x-3,y+6))])
+        self.add_line('dollar-top',(x,y-8),(x,y-6))
+        self.add_line('dollar-bottom',(x,y+6),(x,y+8))
+    def cross(self,n,x,y,r):
+        for j,(dx,dy) in enumerate(((-r,0),(r,0),(0,-r),(0,r))):self.add_line(f'{n}-{j}',(x,y),(x+dx,y+dy))
+    def handset(self,x=24,y=23):
+        self.path('handset',(x-3,y-5),[('L',(x-6,y-6)),('L',(x-7,y-6)),('C',(x+4,y+5),(x-7,y),(x-1,y+5)),('L',(x+7,y+2)),('L',(x+4,y-1))])
+    def contacts(self):
+        # Split only actual straight attachment nodes; connect exact shared endpoints.
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        points={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        changes={}; fresh=[]
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in points if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]; ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        name=f'{p.element_id}-join-{j}'; fresh.append(Line(name,u,v));ids.append(name)
+                    changes[p.element_id]=ids;continue
+            fresh.append(p)
+        self.primitives[:]=fresh
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in changes.get(m,[m]))) for c in self.contours]
+        for j,a in enumerate(self.primitives):
+            for b in self.primitives[j+1:]:
+                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
+
+    def build(self):
+
+        self.path('cover',(8,40),[('L',(8,8)),('A',(12,4),4,4,True),('L',(40,4)),('L',(40,36)),('L',(12,36)),('A',(8,40),4,4,False)])
+        self.path('pages',(8,40),[('A',(12,44),4,4,False),('L',(40,44)),('C',(40,36),(38,42),(38,38))])
+        self.circle('head',24,16,4)
+        self.path('arms',(16,25),[('C',(22,28),(18,27),(20,28)),('L',(24,28)),('L',(26,28)),('C',(32,25),(28,28),(30,27))])
+        self.add_line('torso',(24,28),(24,36))
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+
+        self.contacts()

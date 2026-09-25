@@ -4,9 +4,10 @@
    A unit is what moves as one piece: a connected element by default, or a single path once split. */
 (()=>{
   const ns='http://www.w3.org/2000/svg',STROKE=4,HANDLE=1.6,EDGE=1e-9;
-  // Main size presets every 4 units from 32 to 64: the main's SOLO48 keyshape grows or shrinks
-  // by the same amount on both axes (48 is the automatic size).
-  const MAIN_PRESETS=Array.from({length:9},(_v,i)=>32+4*i),PADDING=2;
+  // Size presets every 4 units: a role's keyshape grows or shrinks by the same amount on both axes.
+  // Main: SOLO48 keyshapes, 32–64, 48 automatic. Sub: SUB32 keyshapes, 20–44, 32 automatic.
+  const PRESETS={main:{base:48,sizes:Array.from({length:9},(_v,i)=>32+4*i),label:'Main'},
+                 sub:{base:32,sizes:Array.from({length:7},(_v,i)=>20+4*i),label:'Sub'}},PADDING=2;
   const ANCHORS={br:[1,1],bl:[0,1],tr:[1,0],tl:[0,0],ri:[1,.5],le:[0,.5],bo:[.5,1],to:[.5,0]};
   const style=document.createElement('style');style.textContent=`
   .side-layout{width:min(1080px,96vw);max-height:96vh;border:1px solid #a7b8be;border-radius:14px;padding:22px;color:#20302d;background:#fff}.side-layout::backdrop{background:#101b24a8}
@@ -27,6 +28,7 @@
   .side-layout-apply .ok{color:#25653a;font-weight:600}.side-layout-apply .fail{color:#b91c1c}
   .side-layout-apply .actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
   .side-layout-canvas .size-label{font:600 2.3px system-ui;fill:#1f5f36;paint-order:stroke;stroke:#fff;stroke-width:.7px;stroke-linejoin:round;pointer-events:none;font-variant-numeric:tabular-nums}
+  .side-layout-canvas .guide.sub{stroke:#0e7490!important}.side-layout-sizes.sub,.side-layout-shapes.sub{padding-top:6px;border-top:1px dashed #d5dfdc}
   .side-layout-canvas .guide{stroke:#7c3aed;stroke-width:.3;stroke-dasharray:1.2 .8;pointer-events:none}
   .side-layout-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 10px;font:13px system-ui}.side-layout-bar .spacer{flex:1}.side-layout-bar label{display:flex;gap:5px;align-items:center}
   .side-layout-stages{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(180px,2fr);gap:16px;align-items:start}
@@ -72,7 +74,7 @@
   function build(){
     dialog=html('dialog','side-layout');
     dialog.innerHTML=`<header><h2></h2><button type="button" data-close>Close</button></header>
-      <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main size"></div>
+      <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main and sub size"></div>
       <div class="side-layout-bar"><span>Click selects</span><button type="button" data-level="whole">Whole icon</button><button type="button" data-level="element">Element</button><button type="button" data-level="path" title="One path of a connected element (the stand of a monitor)">Path</button>
       <label><input type="checkbox" data-centerline> Centerline</label><span class="spacer"></span>
       <button type="button" data-reset>Reset to automatic</button><button type="button" data-cancel>Discard changes</button><button type="button" class="side-layout-save" data-save>Save layout</button></div>
@@ -83,7 +85,7 @@
       <div class="side-layout-list" aria-label="Elements"></div></div>
       <details class="side-layout-apply"></details>
       <p class="side-layout-readout" role="status"></p>
-      <p class="side-layout-hint">Main size 32–64 (every 4) and a keyshape snap the main onto that keyshape at that size (purple dashes) — 48 on its own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
+      <p class="side-layout-hint">Main size 32–64 / sub size 20–44 (every 4) and a keyshape snap the main / sub onto that keyshape at that size (purple / teal dashes) — 48 / 32 on the own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
       <p class="side-layout-error" role="alert"></p>`;
     document.body.append(dialog);
     const q=s=>dialog.querySelector(s);
@@ -121,7 +123,7 @@
     }
     if(ctx.pair!==pair)return;
     if(!data.elements){readout('');error(data.elements_error||'This pair cannot be adjusted.');preview(data);return;}
-    ctx.canvas=data.canvas||64;ctx.keyshapes=data.keyshapes||{};ctx.shapes=null;ctx.size=null;ctx.shape=null;
+    ctx.canvas=data.canvas||64;ctx.keyshapes=data.keyshapes||{};ctx.shapes=null;ctx.preset={};
     for(const [role,c] of Object.entries(data.elements)){
       ctx.roles[role]={markup:c.markup,names:c.names,sources:c.sources,units:c.groups.map(g=>{const b=g.box;return {paths:g.paths,src:g.source,x:b[0],y:b[1],w:b[2]-b[0],h:b[3]-b[1]};})};
       if(saved?.[role])ctx.dirty.add(role);
@@ -220,60 +222,67 @@
   function split(){splitUnits(new Set(ctx.sel));ctx.level='path';refresh();}
 
   function pxPerUnit(svg){const m=svg.getScreenCTM();return m&&m.a>0?m.a:6;}
-  // The main's keyshape: its drawing's centerline box on the 48 canvas, when that is a SOLO48 keyshape.
-  function mainSource(){
-    const r=ctx.roles.main;if(!r)return null;
+  // A role's drawing's centerline box in its own coordinates, and its own canvas.
+  function roleSource(role){
+    const r=ctx.roles[role];if(!r)return null;
     const boxes=r.sources.filter(Boolean);
     return boxes.length?boxes.reduce((a,b)=>[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[2],b[2]),Math.max(a[3],b[3])]):null;
   }
-  // The six distinct SOLO48 keyshapes of the contract (several names share one set of bounds),
-  // in picker order: square, circle, tall, wide, tall small, wide small.
-  function shapes(){
-    if(ctx.shapes)return ctx.shapes;
+  const roleCanvas=role=>(role==='main'?ctx.main.canvas:ctx.sub.canvas)||PRESETS[role].base;
+  // A role's distinct keyshapes from the contract (names that share bounds are one keyshape;
+  // the circle stays apart from the square). Order: square, circle, tall…, wide…
+  function shapes(role){
+    ctx.shapes??={};if(ctx.shapes[role])return ctx.shapes[role];
     const unique=new Map();
-    for(const [name,b] of Object.entries(ctx.keyshapes)){const k=b.join(',');if(!unique.has(k))unique.set(k,{names:[],bounds:b});unique.get(k).names.push(name);}
+    for(const [name,b] of Object.entries(ctx.keyshapes?.[role]||{})){
+      const k=(name==='CIRCLE'?'c:':'')+b.join(',');if(!unique.has(k))unique.set(k,{names:[],bounds:b});unique.get(k).names.push(name);
+    }
     const list=[...unique.values()].map(s=>({...s,w:s.bounds[2]-s.bounds[0],h:s.bounds[3]-s.bounds[1],circle:s.names.includes('CIRCLE')}));
-    const pick=(filter,sort)=>list.filter(filter).sort(sort);
-    const tall=pick(s=>s.h>s.w,(a,b)=>b.w-a.w),wide=pick(s=>s.w>s.h,(a,b)=>b.h-a.h);
-    const named=[['square','Square',list.find(s=>s.w===s.h&&!s.circle)],['circle','Circle',list.find(s=>s.circle)],
-      ['tall','Tall',tall[0]],['wide','Wide',wide[0]],['tall-small','Tall small',tall[1]],['wide-small','Wide small',wide[1]]];
-    return ctx.shapes=named.filter(([, ,s])=>s).map(([id,label,s])=>({id,label,...s}));
+    const tall=list.filter(s=>s.h>s.w).sort((a,b)=>b.w-a.w),wide=list.filter(s=>s.w>s.h).sort((a,b)=>b.h-a.h);
+    // Two sizes: "Tall" / "Tall small"; more: the contract's size suffix ("Tall XL" … "Tall S").
+    const named=(kind,group)=>group.map((s,i)=>[`${kind.toLowerCase()}-${i}`,group.length<=2?(i?`${kind} small`:kind):`${kind} ${s.names[0].split('_').pop()}`,s]);
+    const order=[['square','Square',list.find(s=>s.w===s.h&&!s.circle)],['circle','Circle',list.find(s=>s.circle)]];
+    for(let i=0;i<Math.max(tall.length,wide.length);i++)order.push(...named('Tall',tall).slice(i,i+1),...named('Wide',wide).slice(i,i+1));
+    return ctx.shapes[role]=order.filter(([, ,s])=>s).map(([id,label,s])=>({id,label,...s}));
   }
-  function ownShape(){
-    const src=mainSource();if(!src||Math.abs((ctx.main.canvas||48)-48)>1e-6)return null;
-    return shapes().find(s=>s.bounds.every((v,i)=>Math.abs(v-src[i])<.05))?.id||null;
+  function ownShape(role){
+    const src=roleSource(role);if(!src||Math.abs(roleCanvas(role)-PRESETS[role].base)>1e-6)return null;
+    return shapes(role).find(s=>s.bounds.every((v,i)=>Math.abs(v-src[i])<.05))?.id||null;
   }
-  // Centerline box of the main at a preset: a keyshape grows or shrinks by (size − 48) on both axes
-  // (square 40 → 44 at 52) and sits in the corner opposite the sub, as the automatic placement puts it.
-  // 'own' (a drawing on no keyshape) scales the drawing evenly instead.
-  function presetBox(size,shapeId){
-    const [ax,ay]=ANCHORS[ctx.pair.position]||[1,1],c=ctx.canvas,shape=shapes().find(s=>s.id===shapeId);
+  // Centerline box of a role at a preset: its keyshape grows or shrinks by (size − base) on both axes
+  // (main square 40 → 44 at 52) and sits in its corner (the main opposite the sub), as the automatic
+  // placement puts it at the base size. 'own' (a drawing on no keyshape) scales evenly instead.
+  function presetBox(role,size,shapeId){
+    const [px,py]=ANCHORS[ctx.pair.position]||[1,1],[ax,ay]=role==='main'?[1-px,1-py]:[px,py];
+    const c=ctx.canvas,shape=shapes(role).find(s=>s.id===shapeId),base=PRESETS[role].base;
     let w,h;
-    if(shape){w=shape.w+size-48;h=shape.h+size-48;}
-    else{const src=mainSource();if(!src)return null;const k=size/(ctx.main.canvas||48);w=Math.round((src[2]-src[0])*k);h=Math.round((src[3]-src[1])*k);}
+    if(shape){w=shape.w+size-base;h=shape.h+size-base;}
+    else{const src=roleSource(role);if(!src)return null;const k=size/roleCanvas(role);w=Math.round((src[2]-src[0])*k);h=Math.round((src[3]-src[1])*k);}
     if(w<4||h<4||w+4>c-2*PADDING||h+4>c-2*PADDING)return null;
-    const x=Math.round(PADDING+(c-2*PADDING-w-4)*(1-ax))+2,y=Math.round(PADDING+(c-2*PADDING-h-4)*(1-ay))+2;
+    const x=Math.round(PADDING+(c-2*PADDING-w-4)*ax)+2,y=Math.round(PADDING+(c-2*PADDING-h-4)*ay)+2;
     return [x,y,x+w,y+h];
   }
   const sameBox=(a,b)=>a&&b&&a.every((v,i)=>Math.abs(v-b[i])<1e-6);
-  // The preset (size + keyshape) the main is on right now, if any.
-  function currentPreset(){
-    const r=ctx.roles.main;if(!r)return null;const box=unionOf(r.units);
-    // Boxes can coincide (circle at 44 = square at 48): what was chosen last wins, then the main's own keyshape.
-    if(ctx.size&&ctx.shape&&sameBox(box,presetBox(ctx.size,ctx.shape)))return {size:ctx.size,shape:ctx.shape};
-    const ids=[...(ownShape()?[ownShape()]:['own']),...shapes().map(s=>s.id)];
-    for(const id of ids)for(const size of MAIN_PRESETS)if(sameBox(box,presetBox(size,id)))return {size,shape:id};
+  // Native text keeps its own size rules; keyshape presets are for drawn icons.
+  const hasPresets=role=>!!ctx.roles[role]&&!(role==='sub'&&ctx.pair.native_text);
+  // The preset (size + keyshape) a role is on right now, if any.
+  function currentPreset(role){
+    const r=ctx.roles[role];if(!r)return null;const box=unionOf(r.units),chosen=ctx.preset?.[role];
+    // Boxes can coincide (circle at 44 = square at 48): what was chosen last wins, then the own keyshape.
+    if(chosen?.size&&chosen.shape&&sameBox(box,presetBox(role,chosen.size,chosen.shape)))return {...chosen};
+    const own=ownShape(role),ids=[own||'own',...shapes(role).map(s=>s.id)];
+    for(const id of ids)for(const size of PRESETS[role].sizes)if(sameBox(box,presetBox(role,size,id)))return {size,shape:id};
     return null;
   }
-  // Map every main unit from the main's current box onto the preset box (edges rounded to the grid).
-  function applyPreset(size,shapeId){
-    const r=ctx.roles.main,target=presetBox(size,shapeId);if(!r||!target)return;
-    touch(['main']);ctx.size=size;ctx.shape=shapeId;
+  // Map every unit of a role from its current box onto the preset box (edges rounded to the grid).
+  function applyPreset(role,size,shapeId){
+    const r=ctx.roles[role],target=presetBox(role,size,shapeId);if(!r||!target)return;
+    touch([role]);ctx.preset[role]={size,shape:shapeId};
     const from=unionOf(r.units),fw=from[2]-from[0],fh=from[3]-from[1];
     const mapX=v=>Math.round(fw>EDGE?target[0]+(v-from[0])*(target[2]-target[0])/fw:target[0]);
     const mapY=v=>Math.round(fh>EDGE?target[1]+(v-from[1])*(target[3]-target[1])/fh:target[1]);
     for(const u of r.units){const x0=mapX(u.x),y0=mapY(u.y),x1=mapX(u.x+u.w),y1=mapY(u.y+u.h);u.x=x0;u.y=y0;u.w=u.w>0?Math.max(1,x1-x0):0;u.h=u.h>0?Math.max(1,y1-y0):0;}
-    ctx.sel=new Set(r.units.map((_u,i)=>keyOf('main',i)));refresh();
+    ctx.sel=new Set(r.units.map((_u,i)=>keyOf(role,i)));refresh();
     dialog.querySelector('.side-layout-canvas').focus();
   }
   // A small drawing of a keyshape at its proportions.
@@ -284,42 +293,50 @@
     return svg;
   }
   function drawPresets(){
-    const bar=dialog.querySelector('.side-layout-presets');bar.replaceChildren();
-    const r=ctx.roles.main;if(!r)return;
-    const own=ownShape(),now=currentPreset();
-    if(now){ctx.size=now.size;ctx.shape=now.shape;}
-    ctx.size??=48;ctx.shape??=own||'own';
-    const canvas=dialog.querySelector('.side-layout-canvas'),current=unionOf(r.units),painted=b=>`${b[2]-b[0]+4}×${b[3]-b[1]+4}`;
-    const sizes=html('div','side-layout-sizes');sizes.append(html('span','','Main size'));
-    for(const size of MAIN_PRESETS){
-      if(!presetBox(size,ctx.shape))continue;
-      const b=html('button','',String(size));b.type='button';b.setAttribute('aria-pressed',String(!!now&&now.size===size));
-      b.onclick=()=>applyPreset(size,ctx.shape);sizes.append(b);
+    const bar=dialog.querySelector('.side-layout-presets');bar.replaceChildren();ctx.preset??={};
+    for(const role of ['main','sub']){
+      if(!hasPresets(role))continue;
+      const r=ctx.roles[role],own=ownShape(role),now=currentPreset(role),{base,sizes:list,label}=PRESETS[role];
+      const state=ctx.preset[role]??={};
+      if(now)Object.assign(state,now);
+      state.size??=base;state.shape??=own||'own';
+      const canvas=dialog.querySelector('.side-layout-canvas'),current=unionOf(r.units),painted=b=>`${b[2]-b[0]+4}×${b[3]-b[1]+4}`;
+      const sizes=html('div','side-layout-sizes '+role);sizes.append(html('span','',`${label} size`));
+      for(const size of list){
+        if(!presetBox(role,size,state.shape))continue;
+        const b=html('button','',String(size));b.type='button';b.setAttribute('aria-pressed',String(!!now&&now.size===size));
+        if(size===base)b.title='Automatic size';
+        b.onclick=()=>applyPreset(role,size,state.shape);sizes.append(b);
+      }
+      const free=html('button','','Free');free.type='button';free.setAttribute('aria-pressed',String(!now));
+      free.title=`Resize the ${role} freely: drag its handles`;
+      // Keyboard nudges (arrows, Alt+arrows, + / −) go to the canvas straight after choosing.
+      free.onclick=()=>{ctx.level='whole';ctx.sel=new Set(r.units.map((_u,i)=>keyOf(role,i)));draw();canvas.focus();};
+      sizes.append(free,html('small','',`painted ${painted(current)}`));
+      // Keyshapes at the chosen size, each with its painted size.
+      const tiles=html('div','side-layout-shapes '+role);tiles.append(html('span','',`${label} keyshape at ${state.size}`));
+      for(const s of [...(own?[]:[{id:'own',label:'Own shape'}]),...shapes(role)]){
+        const box=presetBox(role,state.size,s.id);if(!box)continue;
+        const w=box[2]-box[0]+4,h=box[3]-box[1]+4,b=html('button','side-layout-shape');b.type='button';
+        b.setAttribute('aria-pressed',String(!!now&&now.shape===s.id));
+        b.title=`${s.label}${s.names?' ('+s.names.join(', ')+')':''}: painted ${w}×${h} at size ${state.size}`;
+        b.append(shapeIcon(w,h,s.circle),html('span','',s.label),html('small','',`${w}×${h}${s.id===own?' · own':''}`));
+        b.onclick=()=>applyPreset(role,state.size,s.id);tiles.append(b);
+      }
+      bar.append(sizes,tiles);
     }
-    const free=html('button','','Free');free.type='button';free.setAttribute('aria-pressed',String(!now));
-    free.title='Resize the main freely: drag its handles';
-    // Keyboard nudges (arrows, Alt+arrows, + / −) go to the canvas straight after choosing.
-    free.onclick=()=>{ctx.level='whole';ctx.sel=new Set(r.units.map((_u,i)=>keyOf('main',i)));draw();canvas.focus();};
-    sizes.append(free,html('small','',`painted ${painted(current)}`));
-    // Keyshapes at the chosen size, each with its painted size.
-    const tiles=html('div','side-layout-shapes');tiles.append(html('span','',`Keyshape at ${ctx.size}`));
-    const options=[...(own?[]:[{id:'own',label:'Own shape'}]),...shapes()];
-    for(const s of options){
-      const box=presetBox(ctx.size,s.id);if(!box)continue;
-      const w=box[2]-box[0]+4,h=box[3]-box[1]+4,b=html('button','side-layout-shape');b.type='button';
-      b.setAttribute('aria-pressed',String(!!now&&now.shape===s.id));
-      b.title=`${s.label}${s.names?' ('+s.names.join(', ')+')':''}: painted ${w}×${h} at size ${ctx.size}`;
-      b.append(shapeIcon(w,h,s.circle),html('span','',s.label),html('small','',`${w}×${h}${s.id===own?' · own':''}`));
-      b.onclick=()=>applyPreset(ctx.size,s.id);tiles.append(b);
-    }
-    bar.append(sizes,tiles);
   }
-  // Dashed outline of the chosen keyshape at the chosen size (painted), behind the artwork.
-  function keyshapeGuide(){
-    const box=ctx.roles.main&&presetBox(ctx.size??48,ctx.shape??'own');if(!box)return null;
-    const shape=shapes().find(s=>s.id===ctx.shape),p=[box[0]-2,box[1]-2,box[2]+2,box[3]+2],attrs={class:'guide',fill:'none'};
-    return shape?.circle?el('circle',{...attrs,cx:(p[0]+p[2])/2,cy:(p[1]+p[3])/2,r:(p[2]-p[0])/2})
-      :el('rect',{...attrs,x:p[0],y:p[1],width:p[2]-p[0],height:p[3]-p[1],rx:1});
+  // Dashed outline of each role's chosen keyshape at its chosen size (painted), behind the artwork.
+  function keyshapeGuides(){
+    const out=[];
+    for(const role of ['main','sub']){
+      const state=ctx.preset?.[role];if(!hasPresets(role)||!state?.size)continue;
+      const box=presetBox(role,state.size,state.shape);if(!box)continue;
+      const shape=shapes(role).find(s=>s.id===state.shape),p=[box[0]-2,box[1]-2,box[2]+2,box[3]+2],attrs={class:'guide '+role,fill:'none'};
+      out.push(shape?.circle?el('circle',{...attrs,cx:(p[0]+p[2])/2,cy:(p[1]+p[3])/2,r:(p[2]-p[0])/2})
+        :el('rect',{...attrs,x:p[0],y:p[1],width:p[2]-p[0],height:p[3]-p[1],rx:1}));
+    }
+    return out;
   }
 
   function draw(){
@@ -330,7 +347,7 @@
     const grid=el('g',{'pointer-events':'none'});
     for(let i=0;i<=c;i++){const a={stroke:i%8===0?'#9eb3bd':'#dae4e9','stroke-width':i%8===0?.13:.055};grid.append(el('line',{x1:i,y1:0,x2:i,y2:c,...a}),el('line',{x1:0,y1:i,x2:c,y2:i,...a}));}
     svg.append(grid);
-    const guide=keyshapeGuide();if(guide)svg.append(guide);
+    svg.append(...keyshapeGuides());
     // Strokes do not stretch with the unit: drawn in screen pixels, 4 canvas units wide.
     const px=pxPerUnit(svg),traces=el('g',{class:'trace',fill:'none',stroke:'#ef4444'});
     for(const role of ['main','sub']){

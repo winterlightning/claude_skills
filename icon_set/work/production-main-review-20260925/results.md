@@ -1,6 +1,6 @@
 # 36 main icon redraws
 
-Standalone review drafts; 10 user approvals recorded, 13 revised; no publication.
+Library publication: 10 user approvals recorded; 14 revised. Raw validation results retained.
 
 | # | Icon | Keyshape | Strict QA | Result | SVG |
 |---|---|---|---|---|---|

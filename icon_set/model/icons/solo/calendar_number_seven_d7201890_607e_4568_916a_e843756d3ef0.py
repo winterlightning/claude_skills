@@ -2,8 +2,8 @@
 Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
 Omissions: Seven follows typeface-v2 flat cap and descending diagonal, snapped to SOLO48 integer grid.
 """
-from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd7201890-607e-4568-916a-e843756d3ef0'
 SOURCE_PATH = 'pictographic-primitives/other/calendar number seven_d7201890-607e-4568-916a-e843756d3ef0.svg'
 AUTHOR = 'gpt-6'
@@ -18,7 +18,6 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
-    categories = ('combination', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('calendar', 'number', 'seven')
 

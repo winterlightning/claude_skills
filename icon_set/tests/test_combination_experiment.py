@@ -121,11 +121,12 @@ class CombinationLayoutTests(unittest.TestCase):
         self.assertEqual([g['paths'] for g in elements['sub']['groups']], [[0]])
         self.assertEqual(len(elements['main']['markup']), 5)
 
-    def test_editor_gets_solo48_keyshapes(self):
-        # Main size presets grow the main's keyshape; the monitor sits exactly on SQUARE.
+    def test_editor_gets_keyshapes_for_both_roles(self):
+        # Size presets grow the main's SOLO48 / the sub's SUB32 keyshape; the monitor sits on SQUARE.
         keyshapes = self.default()['keyshapes']
-        self.assertEqual(keyshapes['SQUARE'], [6, 6, 42, 42])
-        self.assertEqual(keyshapes['CIRCLE'], [4, 4, 44, 44])
+        self.assertEqual(keyshapes['main']['SQUARE'], [6, 6, 42, 42])
+        self.assertEqual(keyshapes['main']['CIRCLE'], [4, 4, 44, 44])
+        self.assertEqual(keyshapes['sub']['HRECT_L'], [2, 6, 30, 26])      # the cloud's own keyshape
 
     def test_identity_layout_keeps_the_combination(self):
         import re

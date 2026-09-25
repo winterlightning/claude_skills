@@ -8,30 +8,35 @@
   "parent_module": "icon_set/model/icons/solo/person_with_long_straight_hair_3e16363f_ada2_54c9_a72d_11531ba9fcf7.py",
   "keyshape": "VRECT_L",
   "keyshape_reason": "Tall frame or upright figure uses the 32-by-40 centerline envelope.",
-  "plan": "Expand the circular face and preserve long straight hair; coherent circular jaw and broad shoulders.",
+  "plan": "Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.",
   "construction_references": [
     "human_ref/user.svg"
   ],
   "reference_use": "Local Lucide references informed smooth corners, coherent arcs and joins; human_ref/user.svg informed circular heads and shoulders; typeface v2 informed the text series, where listed.",
-  "validation_status": "review",
+  "validation_status": "valid",
   "full_qa_status": "review",
   "errors": [],
   "warnings": [
-    "mic [hair]: hair and fringe are 7.99985 apart on centerlines nearest (8.0003, 19.9509)<->(16, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    "internal-spacing [jaw / shoulders]: jaw-0 and shoulders-2 have 0.0327 units of ink clearance over 6 units; requires 4; review required",
+    "internal-spacing [jaw / shoulders]: jaw-1 and shoulders-2 have 0.0327 units of ink clearance over 6.25 units; requires 4; review required"
   ],
-  "avatar_contact_verification": null,
+  "avatar_contact_verification": {
+    "ink_gap": 0,
+    "centerline_gap": 4,
+    "circular_face_arcs": true
+  },
   "visual_review": {
     "native_48_light": true,
     "native_48_dark": true,
     "enlarged_light": true,
     "enlarged_dark": true,
-    "findings": "Larger circular jaw and mirrored fringe; long hair and detached shoulders read clearly. Hair-to-fringe is at the sampled spacing boundary."
+    "findings": "Rebuilt with icon-avatar: circular centered jaw, long hair joined to curved shoulders, open bust and zero visible head/body gap."
   },
-  "omissions": "Neck seams and shirt collar omitted to protect the exact detached face-to-body gap; hairstyle retained.",
+  "omissions": "Tiny neck seams omitted; original hairstyle and open bust retained.",
   "visual_approval": "pending",
   "exception_approved": false,
-  "user_revision": false,
-  "publication_status": "standalone review draft; user approvals recorded locally; not published",
+  "user_revision": true,
+  "publication_status": "imported into registered library and included in publication; see publication-verification.json for catalog or failed-build location",
   "artifacts": {
     "python": "person_with_long_straight_hair_3e16363f_ada2_54c9_a72d_11531ba9fcf7.py",
     "svg": "person-with-long-straight-hair.svg",

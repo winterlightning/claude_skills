@@ -260,7 +260,7 @@ for i,code in text_codes.items():
     design(i,'HRECT_M','Typeface v2 letter construction re-authored on integer SOLO48 coordinates with shared cap height and baseline.',code+(gcode if i!=2 else ''),['typeface/glyphs-v2.json'], 'Tiny source corner fragments simplified into coherent joins; retained typeface v2 glyph shape.')
 
 # User review corrections, 2026-09-25. Keep approved geometry unchanged.
-AVATARS={6,22,24,32,35,36}
+AVATARS={1,6,22,24,32,35,36}
 DESIGNS[5]=DESIGNS[4]
 for i in (6,24,35):
     key,plan,code,refs,omissions=DESIGNS[i]
@@ -268,12 +268,12 @@ for i in (6,24,35):
     code=code.replace("self.path('body',(8,44),[('A',(20,32),12,12,True),('L',(28,32)),('A',(40,44),12,12,True)])", "self.path('body',(8,44),[('L',(8,40)),('A',(20,28),12,12,True),('L',(28,28)),('A',(40,40),12,12,True),('L',(40,44))])")
     code+="\n        self.relate('connect','head',"+repr('shoulders' if i==6 else 'body')+")\n"
     DESIGNS[i]=(key,'Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.',code,refs,'No new costume details; retain skullcap or original neckline.')
-for i in (22,32,36):
+for i in (1,22,32,36):
     key,plan,code,refs,omissions=DESIGNS[i]
     code=code.replace("self.path('shoulders',(8,44),[('A',(16,36),8,8,True),('L',(32,36)),('A',(40,44),8,8,True)])", "self.path('shoulders',(8,44),[('L',(8,40)),('A',(16,32),8,8,True),('L',(32,32)),('A',(40,40),8,8,True),('L',(40,44))])")
     code=code.replace('# Shared human vocabulary: radius8 circular jaw; bottom28, shoulders36 => 4u ink gap.','# Circular jaw bottom28; shoulder top32 yields zero ink gap at stroke4.')
     if i==22: code=code.replace('(8,27)','(8,26)').replace('(40,27)','(40,26)')
-    if i==36:
+    if i in (1,36):
         code=code.replace('(8,30)','(8,40)').replace('(40,30)','(40,40)')
         code+="\n        self.relate('connect','hair','shoulders')\n"
     code+="\n        self.relate('connect','jaw','shoulders')\n"

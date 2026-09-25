@@ -1,55 +1,86 @@
+"""Modern Home Air Purifier. Air purifier with coherent slender airflow curves, smooth body and upright indicator.
+Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
+Omissions: None.
+"""
 from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'a83ae7ee-8a41-4fef-9868-438ff298dd07'
 SOURCE_PATH = 'pictographic-primitives/ecology/air purifier 1_a83ae7ee-8a41-4fef-9868-438ff298dd07.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'gpt-6'
+PLAN = 'Air purifier with coherent slender airflow curves, smooth body and upright indicator.'
+OMISSIONS = 'None.'
+CONSTRUCTION_REFERENCES = ['smartphone']
+PARENT_MODULE = 'icon_set/model/icons/solo/air_purifier_with_midline_and_upright_indicator_a83ae7ee_8a41_4fef_9868_438ff298dd07.py'
 
 class Drawing(Solo48):
     icon_id = 'air-purifier-with-midline-and-upright-indicator'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "ecology"
-    categories = ("ecology", "other", "primitives-generate")
-    aliases = ()
-    keywords = ('air purifier 1',)
-    def build(self):
-        # Reviewer: two thin vertical S-shaped open airflow strokes; stroke remains4.
-        # Air-vent informs smooth open air paths; source owns the divided upright body.
-        self.box("body",8,19,32,25,4)
-        self.add_line("seam",(8,36),(40,36));self.relate("connect","seam","body")
-        self.add_dot("indicator",(24,28))
-        for x in (18,30):
-            self.path(f"air-{x}",(x,4),[((x-4,6),(x+4,9),(x,11))])
-
-    def path(self,name,start,commands,closed=False):
-        members=[]
-        for i,c in enumerate(commands):
-            tag=f"{name}-{i}"
-            if len(c)==2: self.add_line(tag,start,c); start=c
-            else: self.add_bezier(tag,start,c); start=c[2]
-            members.append(tag)
-        self.add_contour(name,*members,closed=closed)
-
-    def circle(self,name,x,y,r):
-        pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
-        for i in range(4): self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
-        self.add_contour(name,*[f"{name}-{i}" for i in range(4)],closed=True)
-
-    def box(self,name,x,y,w,h,r=0):
-        if not r:
-            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            return
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
-        for i in range(8):
-            if i%2: self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
-            else: self.add_line(f"{name}-{i}",pts[i],pts[i+1])
-        self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
-
-    icon_id = 'air-purifier-with-midline-and-upright-indicator'
-    category = 'ecology'
-    categories = ('ecology', 'other', 'primitives-generate')
-    aliases = ()
-    keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'seam', 'home', 'ecology')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
+    category = 'ecology'
+    aliases = ()
+    keywords = ('purifier', 'air', 'device', 'airflow', 'indicator', 'seam', 'home', 'ecology')
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]; here=start
+        for i,c in enumerate(commands):
+            eid=f'{n}-{i}'; kind,end,*args=c
+            if kind=='L' and here==end: continue
+            if kind=='L': self.add_line(eid,here,end)
+            elif kind=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif kind=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid); here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+    def phone(self):
+        self.box('phone',8,4,40,44,4)
+        self.add_line('phone-band',(8,36),(40,36))
+    def calendar(self,wide=False):
+        l,t,r,b,bind,divider=(6,10,42,42,6,18) if wide else (8,8,40,44,4,16)
+        self.box('calendar',l,t,r,b,4)
+        self.add_line('divider',(l,divider),(r,divider))
+        for x in (16,32): self.add_line(f'binding-{x}',(x,bind),(x,t))
+    def dollar(self,x=24,y=24):
+        self.path('dollar',(x+4,y-5),[('C',(x,y-6),(x+3,y-6),(x+1,y-6)),('C',(x,y),(x-8,y-6),(x-8,y-1)),('C',(x,y+6),(x+8,y+1),(x+8,y+6)),('C',(x-4,y+5),(x-1,y+6),(x-3,y+6))])
+        self.add_line('dollar-top',(x,y-8),(x,y-6))
+        self.add_line('dollar-bottom',(x,y+6),(x,y+8))
+    def cross(self,n,x,y,r):
+        for j,(dx,dy) in enumerate(((-r,0),(r,0),(0,-r),(0,r))):self.add_line(f'{n}-{j}',(x,y),(x+dx,y+dy))
+    def handset(self,x=24,y=23):
+        self.path('handset',(x-3,y-5),[('L',(x-6,y-6)),('L',(x-7,y-6)),('C',(x+4,y+5),(x-7,y),(x-1,y+5)),('L',(x+7,y+2)),('L',(x+4,y-1))])
+    def contacts(self):
+        # Split only actual straight attachment nodes; connect exact shared endpoints.
+        from icon_set.model.primitives import Line
+        from dataclasses import replace
+        points={p.start for p in self.primitives}|{p.end for p in self.primitives}
+        changes={}; fresh=[]
+        for p in self.primitives:
+            if isinstance(p,Line) and p.start!=p.end:
+                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
+                cuts=[q for q in points if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
+                if cuts:
+                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]; ids=[]
+                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
+                        name=f'{p.element_id}-join-{j}'; fresh.append(Line(name,u,v));ids.append(name)
+                    changes[p.element_id]=ids;continue
+            fresh.append(p)
+        self.primitives[:]=fresh
+        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in changes.get(m,[m]))) for c in self.contours]
+        for j,a in enumerate(self.primitives):
+            for b in self.primitives[j+1:]:
+                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
+
+    def build(self):
+
+        self.box('body',8,22,40,44,4)
+        self.add_line('divider',(8,36),(40,36))
+        self.add_line('indicator',(24,29),(24,30))
+        for x in (18,30):
+            self.path(f'air-{x}',(x,4),[('C',(x,14),(x-4,7),(x+4,11))])
+
+        self.contacts()
+
+Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved this exact reviewed main drawing including the displayed validation findings. Original QA findings remain recorded.', 'svg_sha256': 'ec2ca4dff3b967572f443df81e9b043f8444c3f7a3a7b1e6c0a4aadad9ebca5b', 'source_uuid': 'a83ae7ee-8a41-4fef-9868-438ff298dd07'}

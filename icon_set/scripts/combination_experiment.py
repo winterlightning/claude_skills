@@ -250,10 +250,10 @@ def layout_components(components, canvas):
     return {c['role']:c for c in out['components']}
 
 
-def solo48_keyshapes():
-    """SOLO48 keyshape centerline bounds from the locked keyshape contract."""
+def profile_keyshapes(profile):
+    """A profile's keyshape centerline bounds (SOLO48, SUB32, ...) from the locked keyshape contract."""
     contract=json.loads((ROOT/'model/contracts/keyshapes.v1.json').read_text())
-    return {name:k['centerline_bounds'] for name,k in contract['resolved']['SOLO48'].items()}
+    return {name:k['centerline_bounds'] for name,k in contract['resolved'][profile].items()}
 
 
 def placement_transform(item, placed):
@@ -388,8 +388,8 @@ def render(data, row=None):
         result['layout']=layout
     if elements is not None and data.get('elements'):
         result['elements']=elements
-        # The editor's main size presets grow the main's SOLO48 keyshape onto a larger canvas.
-        result['keyshapes']=solo48_keyshapes()
+        # The editor's size presets grow or shrink the main's SOLO48 / the sub's SUB32 keyshape.
+        result['keyshapes']={'main':profile_keyshapes('SOLO48'),'sub':profile_keyshapes('SUB32')}
     if elements_error:
         result['elements_error']=elements_error
     return result
