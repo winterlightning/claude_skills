@@ -1,15 +1,13 @@
-"""monitor math, complete SOLO48 composition.
-Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
-"""
+'Computer monitor with math symbols.\nPlan: VRECT_L supplies height for division dots at pitch 8, the lower-left plus and an 8-unit stand.\nReference: monitor; Display frame and centered stand; intentional diagonal symbol arrangement retained.\nChanges: No marks omitted; frame made taller with square corners and shorter operator bars.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6cbe1bf6-f7d0-4add-99b4-0d1a57f47f13'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor math_6cbe1bf6-f7d0-4add-99b4-0d1a57f47f13.svg'
+SOURCE_PATH = 'pictographic-primitives/other/monitor math_6cbe1bf6-f7d0-4add-99b4-0d1a57f47f13.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'monitor-math'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -30,21 +28,10 @@ class Drawing(Solo48):
         self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
 
     def monitor(self):
-        # Symmetric rounded screen, split bottom edge at actual stand attachment.
-        self.add_line('top',(10,6),(38,6))
-        self.add_arc('tr',(38,6),(42,10),radius_x=4)
-        self.add_line('right',(42,10),(42,30))
-        self.add_arc('br',(42,30),(38,34),radius_x=4)
-        self.add_line('bottom-right',(38,34),(24,34))
-        self.add_line('bottom-left',(24,34),(10,34))
-        self.add_arc('bl',(10,34),(6,30),radius_x=4)
-        self.add_line('left',(6,30),(6,10))
-        self.add_arc('tl',(6,10),(10,6),radius_x=4)
-        self.add_contour('screen','top','tr','right','br','bottom-right','bottom-left','bl','left','tl',closed=True)
-        self.add_line('stand',(24,34),(24,42))
-        self.add_polyline('foot',(16,42),(24,42),(32,42))
-        self.relate('connect','screen','stand')
-        self.relate('connect','stand','foot')
+        self.add_polyline('screen',(8,4),(40,4),(40,36),(24,36),(8,36),closed=True)
+        self.add_line('stand',(24,36),(24,44))
+        self.add_polyline('foot',(16,44),(24,44),(32,44))
+        self.relate('connect','screen','stand');self.relate('connect','stand','foot')
 
     def banknote(self):
         self.add_polyline('note',(4,8),(44,8),(44,40),(4,40),closed=True)
@@ -55,10 +42,11 @@ class Drawing(Solo48):
             self.relate('connect','note','corner-'+str(i))
 
     def build(self):
-        # Lower-left plus and upper-right division sign, including both dots.
         self.monitor()
-        self.add_line('plus-h',(14,24),(24,24))
-        self.add_line('plus-v',(19,19),(19,29))
+        self.add_polyline('plus-h',(16,26),(19,26),(22,26))
+        self.add_polyline('plus-v',(19,24),(19,26),(19,28))
         self.relate('connect','plus-h','plus-v')
-        self.add_line('divide-bar',(27,16),(35,16))
-        for i,y in enumerate((12,20)):self.add_dot('divide-dot-'+str(i),(31,y))
+        self.add_line('divide-bar',(28,20),(32,20))
+        for i,y in enumerate((12,28)):self.add_dot('divide-dot-'+str(i),(30,y))
+
+PARENT_MODULE = 'icon_set/model/icons/solo/monitor_math_6cbe1bf6_f7d0_4add_99b4_0d1a57f47f13.py'

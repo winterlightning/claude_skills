@@ -94,6 +94,11 @@ function sideCombined(pair,sub){
   if(prebuilt&&placed('sub')===sub.icon&&placed('main')===pair.mains[0].icon)return prebuilt;
   return sideRendered.get(pair.id+'|'+sub.icon);
 }
+// The hand-set layout the pair's published result was rendered with, when it is for this main and sub.
+function sideAdjusted(pair,sub){
+  const result=sidePreviews[pair.id]?.result;
+  return result?.layout&&result.placements?.every(p=>p.icon===(p.role==='main'?pair.mains[0].icon:sub.icon))?result.layout:null;
+}
 function sideFillCombined(media,pair,sub){
   const found=sideCombined(pair,sub);media.replaceChildren();
   if(found?.error){media.append(node('span','side-combined-empty',found.error));return;}
@@ -212,6 +217,7 @@ function sideRow(row){
   head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · '+(pair?.native_text?`${sideRound(pair.canvas_width)}×${sideRound(pair.canvas_height)}`:'64×64')),Object.assign(node('span','side-state '+tone,label),{title:hint}));
   if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
   if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
+  if(parts.ready&&sideAdjusted(pair,sub))head.append(Object.assign(node('span','side-state info','Adjusted layout'),{title:'Main / sub positions and sizes were set by hand.'}));
   card.append(head);
   const original=node('div','side-original');
   if(ref?.reference_url){const img=node('img');img.src=ref.reference_url;img.alt=row.concept+' — original';img.loading='lazy';original.append(img);}
@@ -231,6 +237,11 @@ function sideRow(row){
     const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
     if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
     if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
+    if(window.SideLayoutEditor&&!pair.native_text)actions.append(SideLayoutEditor.button(pair,main,sub,data=>{
+      // The saved (or reset) layout is republished; show it here without a reload.
+      sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url,result:data.result};sideRendered.delete(pair.id+'|'+sub.icon);
+      if(card.isConnected)card.replaceWith(sideRow(row));
+    },sideAdjusted(pair,sub)));
     if(actions.childElementCount)card.append(actions);
   }
   return card;

@@ -98,7 +98,8 @@ class ProductionTests(IconUploadTests):
         self.assertFalse(hasattr(self.server, 'ai_feedback'))
         for route in ('/api/generation', '/api/generation/accept', '/api/generation/discard',
                       '/api/ai-feedback', '/api/icons/discard', '/api/feedback-db/sync',
-                      '/api/combination-refresh', '/api/combination-experiment'):
+                      '/api/combination-refresh', '/api/combination-experiment',
+                      '/api/combinations/side/layout'):
             for method in ('GET', 'POST'):
                 with self.subTest(route=route, method=method):
                     self.assertEqual(self.call(method, route, {} if method == 'POST' else None)[0], 403)

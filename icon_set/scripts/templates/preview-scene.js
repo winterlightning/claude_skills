@@ -78,12 +78,13 @@
   const extra=PreviewUsageTemplates[kind];
   root.innerHTML=extra?extra.render({icon}):({landing,dashboard,application,slides:presentation})[kind]();
   editor.mount();
-  let showCombos=true;
-  const variantBtn=document.createElement('button');variantBtn.type='button';variantBtn.id='iconVariantToggle';
-  const paintVariantBtn=()=>{variantBtn.textContent=showCombos?'View Solo':'View Side combination';variantBtn.setAttribute('aria-pressed',String(showCombos));variantBtn.title=showCombos?'Show the original solo icons':'Show the side-combination icons';};
-  variantBtn.onclick=()=>{showCombos=!showCombos;paintVariantBtn();editor.setVariant(showCombos);};
-  paintVariantBtn();
-  const barRight=document.querySelector('.scene-editbar > div');if(barRight)barRight.insertBefore(variantBtn,barRight.firstChild);
+  const views=document.createElement('div');views.className='scene-views';views.setAttribute('role','group');views.setAttribute('aria-label','Icon family');
+  const viewButtons=[['solo','48','Show Primitive 48 icons'],['p72','72','Show the best-matching Primitive 72 icons'],['side','Side','Show the side-combination icons']].map(([mode,text,title])=>{const b=document.createElement('button');b.type='button';b.dataset.mode=mode;b.textContent=text;b.title=title;b.onclick=()=>{editor.setMode(mode);paintViews(mode);};views.append(b);return b;});
+  const shuffleBtn=document.createElement('button');shuffleBtn.type='button';shuffleBtn.id='iconShuffle';shuffleBtn.textContent='Shuffle';shuffleBtn.title='Random approved icons from Primitive 48, Primitive 72 and side combinations';
+  shuffleBtn.onclick=()=>{editor.shuffle();paintViews('shuffle');};
+  const paintViews=mode=>{viewButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));shuffleBtn.setAttribute('aria-pressed',String(mode==='shuffle'));};
+  paintViews('side');
+  const barRight=document.querySelector('.scene-editbar > div');if(barRight)barRight.prepend(views,shuffleBtn);
   if(extra)extra.mount({icon,editor});
   if(kind==='dashboard')document.getElementById('period').onchange=e=>{const month=e.target.value==='month';['$24,680','18','24'].forEach((v,i)=>document.querySelector(`[data-metric="${i}"]`).textContent=month?['$98,420','42','26'][i]:v);document.querySelectorAll('.bar').forEach((b,i)=>b.style.height=(month?[42,51,63,56,74,83,96][i]:b.dataset.height)+'%');document.querySelectorAll('.bars small').forEach((s,i)=>s.textContent=month?['1–4','5–8','9–12','13–16','17–20','21–24','25–30'][i]:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]);document.getElementById('chartSummary').textContent=month?'128 tasks completed this month':'32 tasks completed this week';document.querySelector('.chart').setAttribute('aria-label',month?'Sample activity over the month':'Sample activity over the week');};
   if(kind==='application'){

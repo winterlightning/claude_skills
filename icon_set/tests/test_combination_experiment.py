@@ -92,4 +92,76 @@ class CombinationExperimentTests(unittest.TestCase):
             with self.assertRaises(ValueError):number(v)
         with self.assertRaises(ValueError):render({'id':'not-a-pair'})
 
+MONITOR = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" '
+           'stroke-linecap="round" stroke-linejoin="round"><title>monitor-upload</title>'
+           '<path id="screen" d="M9 6L39 6A3 3 0 0 1 42 9L42 31A3 3 0 0 1 39 34L24 34L9 34A3 3 0 0 1 6 31L6 9A3 3 0 0 1 9 6Z"/>'
+           '<path id="stand" d="M24 34L24 42"/><path id="foot" d="M16 42L24 42L32 42"/>'
+           '<path id="arrowhead" d="M18 21L24 15L30 21"/><path id="shaft" d="M24 15L24 25"/></svg>')
+CLOUD = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="4" '
+         'stroke-linecap="round" stroke-linejoin="round"><path id="cloud" d="M8 14A8 8 0 0 1 24 14C28 14 30 16 30 20'
+         'C30 24 28 26 24 26L8 26C4 26 2 24 2 20C2 16 4 14 8 14Z"/></svg>')
+LAYOUT_ROW = {'id': 'layout-test', 'concept': 'monitor upload cloud', 'position': 'tr',
+              'mains': [{'icon': 'monitor-upload', 'document': MONITOR, 'bounds': [6, 6, 42, 42], 'canvas': 48, 'sha256': 'm1'}],
+              'subs': [{'icon': 'cloud', 'document': CLOUD, 'bounds': [2, 6, 30, 26], 'canvas': 32, 'sha256': 's1'}]}
+
+
+class CombinationLayoutTests(unittest.TestCase):
+    def default(self):
+        return render({'id': 'layout-test', 'elements': True}, row=LAYOUT_ROW)
+
+    @staticmethod
+    def snapped(result):
+        return {role: [{'paths': g['paths'], 'x': round(g['box'][0]), 'y': round(g['box'][1]),
+                        'size': round(max(g['box'][2]-g['box'][0], g['box'][3]-g['box'][1]))} for g in c['groups']]
+                for role, c in result['elements'].items()}
+
+    def test_connected_elements(self):
+        elements = self.default()['elements']
+        self.assertEqual([g['paths'] for g in elements['main']['groups']], [[0, 1, 2], [3, 4]])
+        self.assertEqual([g['paths'] for g in elements['sub']['groups']], [[0]])
+        self.assertEqual(len(elements['main']['markup']), 5)
+
+    def test_identity_layout_keeps_the_combination(self):
+        import re
+        base = self.default()
+        adjusted = render({'id': 'layout-test', 'layout': self.snapped(base)}, row=LAYOUT_ROW)
+        self.assertEqual([p['painted_box'] for p in base['placements']], [p['painted_box'] for p in adjusted['placements']])
+        main = lambda svg: set(re.findall(r'M[\d.,]+L[\d.,]+', svg.split('id="state-icon"')[0]))
+        self.assertEqual(main(base['svg']), main(adjusted['svg']))
+        self.assertNotIn('elements', adjusted)
+
+    def test_resized_element_snaps_and_keeps_stroke(self):
+        layout = self.snapped(self.default())
+        layout['main'][1] = {'paths': [3, 4], 'x': 14, 'y': 29, 'size': 8}
+        layout['sub'][0]['x'] += 2
+        result = render({'id': 'layout-test', 'layout': layout, 'elements': True}, row=LAYOUT_ROW)
+        arrow = result['elements']['main']['groups'][1]['box']
+        self.assertAlmostEqual(arrow[0], 14)
+        self.assertAlmostEqual(arrow[1], 29)
+        self.assertAlmostEqual(max(arrow[2]-arrow[0], arrow[3]-arrow[1]), 8)
+        sub = result['placements'][1]['painted_box']
+        self.assertEqual((sub['x'], sub['w']), (32, 32))
+        root = ET.fromstring(result['svg'])
+        for group in root:
+            if group.get('stroke-width'):
+                self.assertAlmostEqual(float(group.get('stroke-width')), 4)
+
+    def test_rejects_invalid_layouts(self):
+        good = self.snapped(self.default())
+        cases = [{'main': [dict(good['main'][0], x=2.5), good['main'][1]]},
+                 {'main': [good['main'][0]]},
+                 {'main': [good['main'][0], good['main'][0]]},
+                 {'main': [{'paths': [0, 1, 2, 3, 4], 'x': 40, 'y': 22, 'size': 36}]},
+                 {'other': []}]
+        for layout in cases:
+            with self.subTest(layout=layout), self.assertRaises(ValueError):
+                render({'id': 'layout-test', 'layout': layout}, row=LAYOUT_ROW)
+
+    def test_stale_layout_is_ignored(self):
+        from icon_set.scripts.combination_layouts import active
+        entry = {'main': {'icon': 'monitor-upload', 'sha256': 'm1'}, 'sub': {'icon': 'cloud', 'sha256': 's1'}, 'layout': {'sub': []}}
+        self.assertEqual(active(LAYOUT_ROW, entry)['sub'], 'cloud')
+        self.assertIsNone(active(LAYOUT_ROW, {**entry, 'sub': {'icon': 'cloud', 'sha256': 'changed'}}))
+        self.assertIsNone(active(LAYOUT_ROW, None))
+
 if __name__=='__main__':unittest.main()

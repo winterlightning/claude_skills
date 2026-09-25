@@ -89,6 +89,7 @@ ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1", "phuong": "1", "an": "1"}
 SESSION_TTL = 12 * 60 * 60
 # Discards rewrite icons.json and manifests; one at a time.
 DISCARD_LOCK = threading.Lock()
+SIDE_LAYOUT_LOCK = threading.Lock()
 MAX_DISCARD_BATCH = 500
 # Where the developer machine pulls reviewing data from; the quick tunnel URL changes on restart.
 DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffered-scored-nicole-default.trycloudflare.com')
@@ -703,7 +704,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if not getattr(getattr(self, 'server', None), 'production', False):
             return False
         return (route.startswith('/api/generation') or route.startswith('/api/ai-feedback')
-                or route in ('/api/icons/discard', '/api/combinations/side/keep-sub', '/api/feedback-db/sync',
+                or route in ('/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/feedback-db/sync',
                              '/api/combination-refresh', '/api/combination-experiment',
                              '/api/symbols/copy-from-sub'))
 
@@ -743,6 +744,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'categories': sorted(categories, key=lambda value: (value.casefold(), value))})
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Could not load categories. You can still type a category.'}, 503)
+        if parsed.path == '/gallery/preview-icons.json':
+            # The built preview list lacks uploads (icon-72); append them so the preview can use them.
+            try:
+                data = json.loads((self.root / 'gallery/preview-icons.json').read_text(encoding='utf-8'))
+                fixes = self.work_fixes()
+                uploads = [row for row in self.catalog_data()['icons'] if 'uploaded_svg' in row]
+                with self.server.artwork.snapshot():
+                    data['icons'] = data['icons'] + [
+                        {key: record.get(key, '') for key in ('icon_id', 'name', 'family', 'preview_url', 'category')}
+                        for record in (self.artwork_record(row, fixes) for row in uploads)]
+                return self.json_response(data)
+            except (OSError, ValueError, KeyError, sqlite3.Error):
+                return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
         if parsed.path == '/gallery/icons.json':
             try:
                 data, fixes = dict(self.catalog_data()), self.work_fixes()
@@ -1195,7 +1209,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/combinations/side/layout', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1298,6 +1312,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.work_action(route, data, user)
             if route == '/api/combinations/side/keep-sub':
                 return self.keep_side_sub(data, user)
+            if route == '/api/combinations/side/layout':
+                return self.save_side_layout(data, user)
             if route == '/api/feedback-db/sync':
                 return self.sync_feedback(data, user)
             if (not getattr(self.server, 'production', False) and route in (
@@ -1946,6 +1962,34 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response(result)
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
+
+    def save_side_layout(self, data, user):
+        """Save or reset a side pair's hand-adjusted layout and republish its combined preview.
+
+        Accepts {pair_id, main, sub, layout}; a null layout returns the pair to automatic placement.
+        The layout is rendered first, so one the engine rejects is never saved.
+        """
+        from icon_set.scripts import combination_layouts
+        from icon_set.scripts.build_combination_previews import build_one
+        from icon_set.scripts.combination_experiment import DATA, render
+        pair_id = data.get('pair_id')
+        if not isinstance(pair_id, str):
+            return self.json_response({'error': 'Choose a side pair.'}, 400)
+        with SIDE_LAYOUT_LOCK:
+            try:
+                row = next((r for r in json.loads(DATA.read_text())['rows'] if r['id'] == pair_id), None)
+                if row is None:
+                    return self.json_response({'error': 'Choose an available icon pair.'}, 404)
+                if data.get('layout') is None:
+                    combination_layouts.clear(pair_id)
+                    return self.json_response({'layout': None, **build_one(pair_id)})
+                main = data.get('main') or row['mains'][0]['icon']
+                sub = data.get('sub') or row['subs'][0]['icon']
+                result = render({'id': pair_id, 'main': main, 'sub': sub, 'layout': data['layout']}, row=row)
+                entry = combination_layouts.save(row, main, sub, result['layout'], user or '')
+                return self.json_response({'layout': entry, **build_one(pair_id, result)})
+            except (ValueError, OSError) as error:
+                return self.json_response({'error': str(error) or 'Could not save the layout.'}, 422)
 
     def keep_side_sub(self, data, user):
         """Keep one sub for a side pair; reject and discard its alternatives everywhere they are used.

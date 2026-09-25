@@ -2,7 +2,7 @@
 
 ## ABC monitor follow-up
 
-Resolved using the user-authorized size exception: native typeface v2 in a 68×52 monitor. Glyph integrity and layout checks pass; this is not a strict SOLO48 pass. [Updated SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/dd80ecbb-13f8-47dc-9883-44bd19aa7cc6/20260925-typeface-v2-size-exception/monitor-letters-typeface-v2.svg) · [New run](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/dd80ecbb-13f8-47dc-9883-44bd19aa7cc6/20260925-typeface-v2-size-exception). The earlier blocked attempt remains below as history.
+Resolved using the user-authorized size exception: native typeface v2 in a 60×46 monitor with 2-unit spacing. Glyph integrity and layout checks pass; this is not a strict SOLO48 pass. [Updated SVG](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/dd80ecbb-13f8-47dc-9883-44bd19aa7cc6/20260925-typeface-v2-spacing-2/monitor-letters-typeface-v2.svg) · [New run](/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/dd80ecbb-13f8-47dc-9883-44bd19aa7cc6/20260925-typeface-v2-spacing-2). The earlier blocked attempt remains below as history.
 
 
 All ten references received fresh standalone runs. Nine pass basic validation and full geometry QA with zero warnings; the ABC monitor is blocked. All were visually inspected at native 48px and 144px in light and dark themes.

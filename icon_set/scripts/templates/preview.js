@@ -2,6 +2,7 @@
   const names={landing:'Landing page',dashboard:'Dashboard',application:'Application',slides:'Presentation',...Object.fromEntries(Object.entries(PreviewUsageTemplates).map(([id,t])=>[id,t.name]))};
   const descriptions={landing:'Feature cards, navigation, and a hero with personality.',dashboard:'Navigation, metrics, and activity. Small cues that make data easier to read.',application:'Everyday actions and project cards with a shared visual language.',slides:'A presentation slide sample: bold ideas, simple diagrams, and recognizable symbols.'};
   const uses={landing:['ecology-leaf','upright-rocket-round-window','flash','nodes-connected-angle','security-shield','arrow-right-1','globe'],dashboard:['bars-chart','folder','nodes-connected-angle','notification-bell','cog','check-circle','ecology-leaf','upright-rocket-round-window'],application:['folder','zoom-in-magnifying-glass','check-circle','document','cup','user-reference','ecology-leaf','nodes-connected-angle','cog'],slides:['upright-rocket-round-window','globe','flash','nodes-connected-angle','ecology-leaf']};
+  const familyLabels={solo:'Primitive 48','icon-72':'Primitive 72',combination:'Side',container:'Container 64',sub:'Sub 32',symbol:'Symbol 32',text:'Text'};
   const $=id=>document.getElementById(id);let icons=[],example='landing',accent='green',width='desktop';const sceneIcons=new Map();
   function render(){
     const p=new URLSearchParams(location.search);example=Object.hasOwn(names,p.get('example'))?p.get('example'):'landing';accent=['green','blue','plum'].includes(p.get('accent'))?p.get('accent'):'green';width=p.get('width')==='mobile'?'mobile':'desktop';
@@ -12,7 +13,7 @@
   }
   function renderUsedIcons(){
     $('usedIcons').replaceChildren();
-    for(const id of sceneIcons.get(example)||uses[example]||[]){const icon=icons.find(i=>i.icon_id===id);if(!icon)continue;const a=document.createElement('a');a.className='used-icon';a.href='index.html?q='+encodeURIComponent(id);a.title='Inspect '+icon.name;const img=document.createElement('img');img.src=icon.preview_url;img.alt='';const label=document.createElement('span');label.textContent=icon.name.replaceAll('-',' ');a.append(img,label);$('usedIcons').append(a);}
+    for(const id of sceneIcons.get(example)||uses[example]||[]){const icon=icons.find(i=>i.icon_id===id);if(!icon)continue;const a=document.createElement('a');a.className='used-icon';a.href='index.html?q='+encodeURIComponent(id);a.title='Inspect '+icon.name;const img=document.createElement('img');img.src=icon.preview_url;img.alt='';const label=document.createElement('span');label.textContent=icon.name.replaceAll('-',' ');const family=document.createElement('small');family.className='used-family';family.dataset.family=icon.family;family.textContent=familyLabels[icon.family]||icon.family;a.title+=' · '+family.textContent;a.append(family,img,label);$('usedIcons').append(a);}
   }
   window.addEventListener('message',event=>{
     if(event.origin!==location.origin||event.source!==$('exampleFrame').contentWindow)return;

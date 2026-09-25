@@ -13,8 +13,9 @@ from unittest.mock import patch
 from icon_set.scripts import primitive_status as ps
 from icon_set.scripts.deploy import create_server, init_database, record_activity
 from icon_set.scripts.gallery import stage_gallery
-from icon_set.scripts.primitives_catalog import (REPO_ROOT, build_catalog, conversion_warning, link, model_links,
-                                                  primitives_root, scan, work_runs)
+from icon_set.scripts.primitives_catalog import (REPO_ROOT, build_catalog, conversion_warning, link,
+                                                  load_category_overrides, model_links, primitives_root, scan,
+                                                  work_runs)
 
 U1 = '00000000-0000-4000-8000-000000000001'
 U2 = '00000000-0000-4000-8000-000000000002'
@@ -66,6 +67,25 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual((rows[U4]['state'], rows[U4]['match']), ('model_only', 'source path'))
         self.assertEqual(rows[U2]['concept'], 'South West')
         self.assertEqual(catalog['categories']['Uncategorized'], {'total': 1, 'none': 1})
+
+    def test_category_overrides_move_only_uncategorized_rows(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = primitives_tree(Path(tmp))
+            catalog = build_catalog(root, {}, {}, fake_links(), work={},
+                                    category_overrides={U2: 'arrows', U1: 'tools'})
+        rows = {row['uuid']: row for row in catalog['rows']}
+        self.assertEqual((rows[U2]['category'], rows[U2]['batch'], rows[U2]['path']),
+                         ('arrows', '', f'_uncategorized_07/south west_{U2}.svg'))
+        self.assertEqual(rows[U1]['category'], 'computers')
+        self.assertNotIn('Uncategorized', catalog['categories'])
+
+    def test_category_override_file_entries(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'categories.json'
+            path.write_text(json.dumps({'categories': {U2.upper(): {'category': 'arrows', 'method': 'knn'},
+                                                       U3: 'Uncategorized', U4: 'tools'}}))
+            self.assertEqual(load_category_overrides(path), {U2: 'arrows', U4: 'tools'})
+            self.assertEqual(load_category_overrides(Path(tmp) / 'missing.json'), {})
 
     def test_folder_only_runs_count_as_drawn(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,76 +1,34 @@
-"""A diagonal rounded tag has a circular hole near its square end.
-Plan: One continuous rounded tag silhouette; intentional diagonal orientation matches the source.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Construction references: icon_set/references/lucide/original/tag.svg and atomic-debug/tag.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '05bd420f-ccd3-45f2-a021-10901b4a7362'
-SOURCE_PATH = 'icon_set/work/todo-references/tog_05bd420f-ccd3-45f2-a021-10901b4a7362.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tog/20260925T034659Z-thuan-mac/reference/tog_05bd420f-ccd3-45f2-a021-10901b4a7362.svg'
 AUTHOR = 'gpt-6'
-
-class Drawing(Solo48):
+# Plan: folded duvet with three equal rising warmth waves; user clarified thermal tog rating.
+# HRECT_L extremes (4,8)-(44,40); 10-unit centerline wave-to-duvet gap.
+# Lucide heater: repeated rising heat strokes, reauthored with tangent circular arcs.
+class AuthoredIcon(Solo48):
     icon_id = 'tog'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('tog',)
-
-    def path(self, name, start, operations, closed=False):
-        # A coherent path owns its members exactly once.
-        current=start; members=[]
-        for i,op in enumerate(operations):
-            n=f'{name}-{i}'
-            if op[0]=='L':
-                end=op[1]; self.add_line(n,current,end)
-            elif op[0]=='A':
-                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
-            else:
-                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
-            members.append(n);current=end
-        if closed and current!=start:
-            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
-        self.add_contour(name,*members,closed=closed)
-
-    def circle(self,name,x,y,r):
-        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-
-    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
-        ops=[]
-        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
-        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
-        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
-        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
-        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
-        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
-        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
-        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
-        # Capsules can have zero-length straight runs; omit those.
-        cleaned=[];p=(x+r,y)
-        for op in ops:
-            if op[0]!='L' or op[1]!=p: cleaned.append(op)
-            p=op[1]
-        self.path(name,(x+r,y),cleaned,True)
-
-    def join(self,*names):
-        for i,a in enumerate(names):
-            for b in names[i+1:]: self.relate('connect',a,b)
-
-    def cross(self,name,x,y,r,diagonal=False):
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        names=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
-        self.join(*names)
-
-    def letter_a(self,name,apex,left,right,bar_left,bar_right):
-        self.add_polyline(name,left,bar_left,apex,bar_right,right)
-        self.add_line(name+'-bar',bar_left,bar_right)
-        self.join(name,name+'-bar')
-
+    category = 'objects/home'
+    aliases = ('duvet warmth','thermal insulation')
+    keywords = ('tog','duvet','warmth','insulation','rating')
     def build(self):
-
-        self.path('tag',(26,6),[('L',(36,6)),('A',(42,12),6,6,True),('L',(42,22)),('C',(42,24),(42,25),(40,27)),('L',(26,40)),('C',(24,42),(23,42),(22,42)),('C',(20,42),(19,41),(18,40)),('L',(8,30)),('C',(6,28),(6,27),(6,26)),('C',(6,24),(7,23),(8,22)),('L',(22,8)),('C',(23,7),(24,6),(26,6))],True)
-        self.circle('hole',30,18,3)
+        for i,x in enumerate((12,24,36)):
+            self.add_arc(f'heat-lower-{i}',(x,16),(x,12),radius_x=2,sweep=False)
+            self.add_arc(f'heat-upper-{i}',(x,12),(x,8),radius_x=2)
+            self.add_contour(f'heat-{i}',f'heat-lower-{i}',f'heat-upper-{i}')
+        self.add_line('top-1',(8,26),(28,26))
+        self.add_line('top-2',(28,26),(40,26))
+        self.add_arc('tr',(40,26),(44,30),radius_x=4)
+        self.add_line('right',(44,30),(44,36))
+        self.add_arc('br',(44,36),(40,40),radius_x=4)
+        self.add_line('bottom-1',(40,40),(28,40))
+        self.add_line('bottom-2',(28,40),(8,40))
+        self.add_arc('bl',(8,40),(4,36),radius_x=4)
+        self.add_line('left',(4,36),(4,30))
+        self.add_arc('tl',(4,30),(8,26),radius_x=4)
+        self.add_contour('duvet','top-1','top-2','tr','right','br','bottom-1','bottom-2','bl','left','tl',closed=True)
+        self.add_line('fold',(28,26),(28,40))
+        self.relate('connect','fold','duvet')

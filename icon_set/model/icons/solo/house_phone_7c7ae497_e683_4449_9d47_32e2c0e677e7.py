@@ -1,54 +1,39 @@
-"""A diagonal telephone receiver appears inside a house.
-Plan: one enclosing symbol and one content symbol; symmetry and repeated parts share parameters.
-SOLO48 SQUARE; use Keyshape.bounds_for for visible envelope. Curved nodes are authored on the integer grid.
-Lucide house: coherent roof/wall contour with tangent lower corner arcs.
-Omissions: Tiny receiver corner fillets merged into coherent curves.
+"""house phone: fresh SOLO48 repair.
+Plan: Mirrored house with lower eaves; a curved handset and two joined terminal strokes.
+Keyshape: SQUARE. Equal-width house provides space for the diagonal receiver.
+Omissions: Receiver double outline and end loops simplified to an open stroke.
+Construction reference: house and phone: coherent roof/wall contour and curved receiver with terminal ends.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='7c7ae497-e683-4449-9d47-32e2c0e677e7'
-SOURCE_PATH='icon_set/work/todo-references/house phone_7c7ae497-e683-4449-9d47-32e2c0e677e7.svg'
-AUTHOR='gpt-6'
-class Drawing(Solo48):
-    icon_id='house-phone'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects/buildings'
-    aliases=()
-    keywords=('house', 'phone')
+SOURCE_ICON_ID = '7c7ae497-e683-4449-9d47-32e2c0e677e7'
+SOURCE_PATH = 'pictographic-primitives/other/house phone_7c7ae497-e683-4449-9d47-32e2c0e677e7.svg'
+AUTHOR = 'gpt-6'
+PARENT_SOURCE = 'icon_set/model/icons/solo/house_phone_7c7ae497_e683_4449_9d47_32e2c0e677e7.py'
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
+class Drawing(Solo48):
+    icon_id = 'house-phone'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/buildings'
+    aliases = ()
+    keywords = ('house', 'phone')
 
     def house(self):
-        # One mirrored envelope, x=24 axis; centerline extremes 6,6,42,42.
-        self.add_line('roof-1',(6,18),(24,6))
-        self.add_line('roof-2',(24,6),(42,18))
-        self.add_line('wall-right',(42,18),(42,40))
-        self.add_arc('corner-right',(42,40),(40,42),radius_x=2)
-        self.add_line('floor',(40,42),(8,42))
-        self.add_arc('corner-left',(8,42),(6,40),radius_x=2)
-        self.add_line('wall-left',(6,40),(6,18))
-        self.add_contour('house','roof-1','roof-2','wall-right','corner-right','floor','corner-left','wall-left',closed=True)
-
-    def lock_body(self):
-        # Shared shackle nodes are vertices in the top rail.
-        self.add_polyline('lock-body',(17,26),(19,26),(29,26),(31,26),(31,34),(17,34),closed=True)
+        self.add_line('roof-1', (6, 14), (24, 6))
+        self.add_line('roof-2', (24, 6), (42, 14))
+        self.add_line('wall-right', (42, 14), (42, 40))
+        self.add_arc('corner-right', (42, 40), (40, 42), radius_x=2)
+        self.add_line('floor', (40, 42), (8, 42))
+        self.add_arc('corner-left', (8, 42), (6, 40), radius_x=2)
+        self.add_line('wall-left', (6, 40), (6, 14))
+        self.add_contour('house', 'roof-1', 'roof-2', 'wall-right', 'corner-right', 'floor', 'corner-left', 'wall-left', closed=True)
 
     def build(self):
-
         self.house()
-        self.add_bezier('receiver',(16,20),((12,24),(20,34),(29,34)),((32,34),(34,31),(32,29)))
-        self.add_line('end-right-1',(32,29),(29,26))
-        self.add_line('end-right-2',(29,26),(25,29))
-        self.add_bezier('inside',(25,29),((22,27),(21,26),(19,24)))
-        self.add_line('end-left-1',(19,24),(22,21))
-        self.add_line('end-left-2',(22,21),(18,18))
-        self.add_line('end-left-3',(18,18),(16,20))
-        self.add_contour('phone','receiver','end-right-1','end-right-2','inside','end-left-1','end-left-2','end-left-3',closed=True)
-
-# Final visible envelope: (4,4)-(44,44)
-# Visual review: Receiver is recognizable but its upper end is pinched and too close to the roof. Parallel-edge MIC fails; not approved.
+        self.add_arc('receiver', (16, 21), (31, 33), radius_x=15, sweep=False)
+        self.add_line('earpiece', (16, 21), (20, 24))
+        self.add_line('mouthpiece', (31, 33), (28, 29))
+        self.relate('connect', 'receiver', 'earpiece')
+        self.relate('connect', 'receiver', 'mouthpiece')

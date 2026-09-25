@@ -1,42 +1,44 @@
-"""Two equal square sliders on straight vertical rails beside a Bitcoin B with smooth elliptical bowls and an exposed currency stem.
-Omissions: Second Bitcoin stem reduced to one at 48px.
-Construction references: ['sliders-vertical'].
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='807318c5-21cc-453f-a7fa-a1c902d1a221'
-SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__bitcoin-with-adjust/20260924T172356Z-thuan-mac/reference/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
-AUTHOR='gpt-6'
-
-class Drawing(Solo48):
-    icon_id='bitcoin-with-adjust'
-    keyshape=Keyshape.HRECT_L
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects"
-    aliases=()
-    keywords=('bitcoin', 'with', 'adjust')
-
-    def path(self, name, start, commands, closed=False):
-        ids=[]; here=start
-        for i,c in enumerate(commands):
-            eid=f'{name}-{i}'; ids.append(eid)
-            if c[0]=='L': self.add_line(eid,here,c[1])
-            elif c[0]=='A': self.add_arc(eid,here,c[1],radius_x=c[2],radius_y=c[3],sweep=c[4],large_arc=c[5] if len(c)>5 else False)
-            elif c[0]=='C': self.add_bezier(eid,here,(c[2],c[3],c[1]))
-            here=c[1]
-        self.add_contour(name,*ids,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def box(self,n,x,y,w,h,r):
-        self.path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-
+SOURCE_ICON_ID = '807318c5-21cc-453f-a7fa-a1c902d1a221'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bitcoin-with-adjust/20260925T034659Z-thuan-mac/reference/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
+AUTHOR = 'gpt-6'
+# Plan: Recognizable Bitcoin B with two top and bottom currency ticks; omit adjustment controls to prioritize reviewer request for bitcoin.
+# Construction reference: Lucide bitcoin double currency ticks and two bowls.
+# Envelope: VRECT_M; bounds are defined by its outer contour/extreme tips.
+class AuthoredIcon(Solo48):
+    icon_id = 'bitcoin-with-adjust'
+    keyshape = Keyshape.VRECT_M
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('bitcoin', 'with', 'adjust')
     def build(self):
-        for n,x,y in [('low',8,32),('high',20,16)]:
-            self.path(n,(x,y-4),[('L',(x+4,y-4)),('L',(x+4,y+4)),('L',(x,y+4)),('L',(x-4,y+4)),('L',(x-4,y-4)),('L',(x,y-4))],True)
-            self.add_line(n+'-up',(x,8),(x,y-4));self.add_line(n+'-down',(x,y+4),(x,40))
-            self.relate('connect',n,n+'-up');self.relate('connect',n,n+'-down')
-        self.add_polyline('stem',(33,8),(33,12),(33,24),(33,36),(33,40))
-        self.path('bowls',(33,12),[('L',(36,12)),('A',(36,24),8,6,True),('A',(36,36),8,6,True),('L',(33,36))])
-        self.relate('connect','stem','bowls')
-        self.add_line('middle',(33,24),(36,24));self.relate('connect','middle','bowls');self.relate('connect','middle','stem')
+        self.add_polyline('spine',(14,12),(14,24),(14,36))
+        self.add_line('top',(10,12),(32,12))
+        self.add_arc('upper',(32,12),(32,24),radius_x=6)
+        self.add_line('mid',(14,24),(32,24))
+        self.add_arc('lower',(32,24),(32,36),radius_x=6)
+        self.add_line('bottom',(32,36),(10,36))
+        for a,b in [('spine','top'),('spine','mid'),('spine','bottom'),('top','upper'),('upper','mid'),('upper','lower'),('mid','lower'),('lower','bottom')]:
+            self.relate('connect',a,b)
+        for x in (18,26):
+            self.add_line(f'top-tick-{x}',(x,4),(x,12))
+            self.add_line(f'bottom-tick-{x}',(x,36),(x,44))
+            self.relate('connect',f'top-tick-{x}','top')
+            self.relate('connect',f'bottom-tick-{x}','bottom')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,l,t,r,b,q=4):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{n}-{k}';ids.append(ident)
+            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(ident,pts[k],pts[(k+1)%8])
+        self.add_contour(n,*ids,closed=True)

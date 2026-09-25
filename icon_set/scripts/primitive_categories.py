@@ -2,6 +2,8 @@
 """Give Uncategorized primitives a topic category without moving their artwork.
 
 python3 icon_set/scripts/primitive_categories.py propose --rows .../pg_d1_app_search_worker/sql/rows.json
+python3 icon_set/scripts/primitive_categories.py set --file review.txt   # "uuid category" lines
+python3 icon_set/scripts/primitive_categories.py accept                 # keep every remaining knn pick
 python3 icon_set/scripts/primitive_categories.py summary
 
 The ``_uncategorized_NN`` folders hold primitives whose D1 ``categories`` carry no
@@ -123,6 +125,30 @@ def propose(rows_json: Path, root: Path, target: Path) -> collections.Counter:
     return counts
 
 
+def set_categories(pairs: list[tuple[str, str]], root: Path, target: Path) -> int:
+    """Record reviewed categories; ``Uncategorized`` keeps a primitive where it is."""
+    known = topics(root) | {UNCATEGORIZED}
+    data = load(target)
+    entries = data.setdefault('categories', {})
+    for uid, category in pairs:
+        if category not in known:
+            raise SystemExit(f'error: unknown category {category!r} for {uid}')
+        entry = entries.setdefault(uid.lower(), {})
+        entry.update(category=category, method='reviewed')
+    save(target, data)
+    return len(pairs)
+
+
+def accept(target: Path) -> int:
+    """Mark every remaining knn proposal as reviewed, keeping its category."""
+    data = load(target)
+    pending = [e for e in data['categories'].values() if e.get('method') != 'reviewed']
+    for entry in pending:
+        entry['method'] = 'reviewed'
+    save(target, data)
+    return len(pending)
+
+
 def summary(target: Path) -> None:
     entries = load(target)['categories']
     methods = collections.Counter(e.get('method', '?') for e in entries.values())
@@ -139,11 +165,23 @@ def main(argv=None) -> int:
     sub = parser.add_subparsers(dest='command', required=True)
     p = sub.add_parser('propose', help='rank topic folders for every Uncategorized primitive')
     p.add_argument('--rows', type=Path, required=True, help='D1 rows.json from pg_d1_app_search_worker/sql')
+    p = sub.add_parser('set', help='record reviewed categories')
+    p.add_argument('pairs', nargs='*', metavar='UUID=CATEGORY')
+    p.add_argument('--file', type=Path, help='lines of "uuid category"')
+    sub.add_parser('accept', help='mark every remaining knn proposal as reviewed')
     sub.add_parser('summary', help='count entries by method and category')
     args = parser.parse_args(argv)
     if args.command == 'propose':
         counts = propose(args.rows, primitives_root(args.primitives), args.target)
         print(' '.join(f'{k}={v}' for k, v in counts.items()), '->', args.target)
+    elif args.command == 'set':
+        pairs = [tuple(pair.split('=', 1)) for pair in args.pairs]
+        if args.file:
+            pairs += [tuple(line.split()[:2]) for line in args.file.read_text(encoding='utf-8').splitlines()
+                      if line.strip() and not line.startswith('#')]
+        print(f'{set_categories(pairs, primitives_root(args.primitives), args.target)} reviewed -> {args.target}')
+    elif args.command == 'accept':
+        print(f'{accept(args.target)} knn proposals accepted -> {args.target}')
     else:
         summary(args.target)
     return 0

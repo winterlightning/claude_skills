@@ -193,6 +193,67 @@ def restore_original_sub(svg, item, placed):
     return ET.tostring(target, encoding='unicode')
 
 
+def layout_placement(bounds, canvas=64):
+    """A baked layout document is already in canvas coordinates: place it at scale 1."""
+    x0,y0,x1,y1 = bounds
+    return {'size_lock':'none','locked_axis':None,'rounded_box':False,'locked_size':None,
+            'canvas_box':dict(x=0,y=0,w=canvas,h=canvas),
+            'painted_box':dict(x=x0-2,y=y0-2,w=x1-x0+4,h=y1-y0+4),
+            'box':dict(x=x0*24/canvas,y=y0*24/canvas,w=(x1-x0)*24/canvas,h=(y1-y0)*24/canvas)}
+
+
+def check_layout(layout):
+    """{main: [{paths, x, y, size}], sub: [...]}; each role optional; whole grid units only."""
+    if layout is None:
+        return None
+    if not isinstance(layout,dict) or not set(layout) <= {'main','sub'}:
+        raise ValueError('A layout lists groups for the main and/or the sub.')
+    clean={}
+    for role,groups in layout.items():
+        if groups is None:
+            continue
+        if not isinstance(groups,list) or not groups or len(groups)>64:
+            raise ValueError(f'List the {role} element groups.')
+        clean[role]=[]
+        for g in groups:
+            if not isinstance(g,dict) or not isinstance(g.get('paths'),list) or not g['paths'] \
+                    or any(type(i) is not int or i<0 for i in g['paths']):
+                raise ValueError(f'Each {role} group needs its element numbers.')
+            values={}
+            for key in ('x','y','size'):
+                v=g.get(key)
+                if isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) or v!=int(v):
+                    raise ValueError(f'{role} {key} must snap to a whole grid unit.')
+                values[key]=int(v)
+            if not -64<=values['x']<=128 or not -64<=values['y']<=128 or not 0<=values['size']<=64:
+                raise ValueError(f'The {role} layout is outside the canvas.')
+            clean[role].append({'paths':list(g['paths']),**values})
+    return clean or None
+
+
+def layout_components(components, canvas):
+    """Connected element groups (and baked layouts) from the isolated engine helper."""
+    python=os.environ.get('PICTOGRAPHIC_COMBINE_PYTHON') or sys.executable
+    try:
+        proc=subprocess.run([python,str(ROOT/'scripts/combination_layout_svg.py')],
+                            input=json.dumps({'canvas':canvas,'components':components}),
+                            capture_output=True,text=True,timeout=60,env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1'})
+        out=json.loads(proc.stdout.strip().splitlines()[-1])
+    except (ValueError,IndexError,subprocess.TimeoutExpired):
+        raise ValueError('Could not measure the connected elements.')
+    if proc.returncode or out.get('error'):
+        raise ValueError(out.get('error') or 'Could not measure the connected elements.')
+    return {c['role']:c for c in out['components']}
+
+
+def placement_transform(item, placed):
+    """Component coordinates -> canvas: (scale, tx, ty) of a default placement."""
+    x0,y0,x1,y1 = item['bounds']
+    box = placed['painted_box']
+    scale = (box['w']-4)/(x1-x0) if x1-x0>1e-9 else (box['h']-4)/(y1-y0) if y1-y0>1e-9 else 1
+    return scale, box['x']+2-x0*scale, box['y']+2-y0*scale
+
+
 def render(data, row=None):
     if row is None:
         rows = json.loads(DATA.read_text())['rows']
@@ -211,21 +272,50 @@ def render(data, row=None):
         raise ValueError('Erasure margin must be between 0 and 64.')
     native_sub=next((s for s in row['subs'] if s['icon']==(data.get('sub') or row['subs'][0]['icon'])),None)
     canvas=max(64,math.ceil(max(native_sub['canvas_width'],native_sub['canvas_height'])+2*padding-1e-8)) if native_sub and native_sub.get('sizing_mode')=='typeface-native' else 64
+    layout=check_layout(data.get('layout'))
+    chosen=[]
+    for role,group,size,anchor in [('main','mains',48,(1-ax,1-ay)),('sub','subs',32,(ax,ay))]:
+        choices=row[group]; wanted=data.get(role) or choices[0]['icon']
+        item=next((i for i in choices if i['icon']==wanted),None)
+        if data.get(role+'Upload') is not None:
+            item=custom_item(data[role+'Upload'],role)
+        if item is None:
+            raise ValueError('The selected component does not belong to this pair.')
+        p=placement(item,size,anchor,(number(data.get(role+'X')),number(data.get(role+'Y'))),padding,
+                    size_lock=data.get('subSizeLock', 'auto') if role=='sub' else 'none',
+                    bound_size=data.get('subBoundSize') if role=='sub' else None,canvas=canvas)
+        chosen.append([role,size,item,p])
+    # Connected elements for the layout editor; a saved layout bakes them onto the grid.
+    elements=None; elements_error=''
+    if layout or data.get('elements'):
+        requests=[]
+        for role,_size,item,p in chosen:
+            scale,tx,ty=placement_transform(item,p)
+            requests.append({'role':role,'document':item['document'],'scale':scale,'tx':tx,'ty':ty,
+                             'layout':(layout or {}).get(role)})
+        try:
+            measured=layout_components(requests,canvas)
+        except ValueError as error:
+            if layout:
+                raise
+            measured={}; elements_error=str(error)
+        for entry in chosen:
+            role,_size,item,_p=entry
+            baked=measured.get(role,{})
+            if 'document' in baked:
+                item={'icon':item['icon'],'document':baked['document'],'canvas':canvas,'bounds':baked['bounds']}
+                p=layout_placement(baked['bounds'],canvas)
+                b=p['painted_box']
+                if b['x']<-1e-6 or b['y']<-1e-6 or b['x']+b['w']>canvas+1e-6 or b['y']+b['h']>canvas+1e-6:
+                    raise ValueError(f'The adjusted {role} extends beyond the {canvas}×{canvas} canvas.')
+                entry[2:]=[item,p]
+        if measured:
+            elements={role:{'markup':c['markup'],'groups':c['elements']} for role,c in measured.items()}
     placements=[]; selected_sub=None
     with tempfile.TemporaryDirectory(prefix='pictographic-combination-') as temp:
         out = Path(temp); items=[]
-        for n,(role,group,size,anchor) in enumerate([
-                ('main','mains',48,(1-ax,1-ay)),('sub','subs',32,(ax,ay))]):
-            choices=row[group]; wanted=data.get(role) or choices[0]['icon']
-            item=next((i for i in choices if i['icon']==wanted),None)
-            if data.get(role+'Upload') is not None:
-                item=custom_item(data[role+'Upload'],role)
-            if item is None:
-                raise ValueError('The selected component does not belong to this pair.')
+        for n,(role,size,item,p) in enumerate(chosen):
             if role=='sub':selected_sub=item
-            p=placement(item,size,anchor,(number(data.get(role+'X')),number(data.get(role+'Y'))),padding,
-                        size_lock=data.get('subSizeLock', 'auto') if role=='sub' else 'none',
-                        bound_size=data.get('subBoundSize') if role=='sub' else None,canvas=canvas)
             placements.append(dict(p,role=role,icon=item['icon']))
             file=out/(role+'.svg');file.write_text(item.get('engine_document',item['document']))
             items.append({'sid':item['icon'],'file':str(file),'box':p['box'],
@@ -256,5 +346,12 @@ def render(data, row=None):
         b=p['painted_box']
         if b['x']<0 or b['y']<0 or b['x']+b['w']>canvas+.01 or b['y']+b['h']>canvas+.01:
             warnings.append(f'Adjusted artwork extends beyond the {canvas}×{canvas} canvas and may be clipped.');break
-    return {'svg':svg,'placements':placements,'position':position,'canvas':canvas,
+    result={'svg':svg,'placements':placements,'position':position,'canvas':canvas,
             'filename':row['id']+'.svg','warnings':warnings,'margin':margin,'padding':padding,'subSizeLock':data.get('subSizeLock','auto'),'subBoundSize':data.get('subBoundSize','')}
+    if layout:
+        result['layout']=layout
+    if elements is not None and data.get('elements'):
+        result['elements']=elements
+    if elements_error:
+        result['elements_error']=elements_error
+    return result

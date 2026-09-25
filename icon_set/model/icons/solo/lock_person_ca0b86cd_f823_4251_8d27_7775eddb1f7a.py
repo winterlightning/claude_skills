@@ -1,66 +1,42 @@
-"""A padlock contains a user head and shoulders.
-Plan: semantic components use coherent contours, shared nodes, and mirrored or repeated definitions.
-Keyshape VRECT_L; full composition retained on SOLO48. Omissions: Head reduced to a small circular outline to preserve the exact detached gap.
-"""
-from ...keyshapes import Keyshape
 from ._base import Solo48
+from ...keyshapes import Keyshape
 SOURCE_ICON_ID='ca0b86cd-f823-4251-8d27-7775eddb1f7a'
-SOURCE_PATH='icon_set/work/todo-references/lock person_ca0b86cd-f823-4251-8d27-7775eddb1f7a.svg'
+SOURCE_PATH='pictographic-primitives/other/lock person_ca0b86cd-f823-4251-8d27-7775eddb1f7a.svg'
 AUTHOR='gpt-6'
+PLAN='Padlock with rounded shackle, outlined circular head, and broad shoulders forming the inset lower silhouette.'
+CONSTRUCTION_REFERENCES='Lucide lock original and atomic-debug: rounded shackle. icon_set/references/human_ref/user.svg: circular head and broad symmetric shoulders.'
+OMISSIONS=[]
 class Drawing(Solo48):
     icon_id='lock-person'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects'
+    category='objects/general'
     aliases=()
     keywords=('lock', 'person')
 
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def heart(self):
-        # Shared bilateral lobe radius and mirrored flanks; exact square extremes.
-        self.add_arc('lobe-left',(24,15),(6,15),radius_x=9,sweep=False)
-        self.add_bezier('flank-left',(6,15),((6,28),(16,37),(24,42)))
-        self.add_bezier('flank-right',(24,42),((32,37),(42,28),(42,15)))
-        self.add_arc('lobe-right',(42,15),(24,15),radius_x=9,sweep=False)
-        self.add_contour('heart','lobe-left','flank-left','flank-right','lobe-right',closed=True)
-
-    def lens(self):
-        # Circle at (21,21), radius 15. Shared handle node (30,33): 9²+12²=15².
-        self.add_arc('lens-a',(30,33),(12,9),radius_x=15)
-        self.add_arc('lens-b',(12,9),(30,33),radius_x=15)
-        self.add_contour('lens','lens-a','lens-b',closed=True)
-        self.add_line('handle',(30,33),(42,42))
-        self.relate('connect','lens','handle')
-
-    def envelope(self):
-        # Complete card protruding from an open envelope; bilateral fold nodes.
-        self.add_polyline('body',(6,24),(6,42),(42,42),(42,24))
-        self.add_polyline('fold',(6,24),(12,28),(18,32),(30,32),(36,28),(42,24))
-        self.relate('connect','body','fold')
-        self.add_polyline('card',(12,28),(12,6),(36,6),(36,28))
-        self.relate('connect','card','fold')
-        self.add_line('seam-left',(18,32),(13,37))
-        self.add_line('seam-right',(30,32),(35,37))
-        self.relate('connect','seam-left','fold')
-        self.relate('connect','seam-right','fold')
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
-
-        self.add_polyline('body',(8,20),(14,20),(34,20),(40,20),(40,44),(32,44),(16,44),(8,44),closed=True)
-        self.add_line('shackle-left',(14,20),(14,14))
-        self.add_arc('shackle-top',(14,14),(34,14),radius_x=10)
-        self.add_line('shackle-right',(34,14),(34,20))
-        self.add_contour('shackle','shackle-left','shackle-top','shackle-right');self.relate('connect','body','shackle')
-        self.circle('head',24,30,2)
-        self.add_bezier('shoulders',(16,44),((16,40),(20,40),(24,40)),((28,40),(32,40),(32,44)))
-        self.relate('connect','shoulders','body')
-        # human_ref/user.svg: head bottom32, shoulder crest40 = 8 centerline / 4 ink.
-
-# Final review record: Lock and user read clearly. Small circular head appears nearly solid. Head center (24,30), radius2, bottom32; shoulder crest40. Exact detached ink gap: 40-32-4=4.
-# Visible keyshape bounds: (6, 2, 42, 46)
-# Construction: Shared human reference supplies circular head and broad mirrored shoulders; exact detached gap is measured in visual findings.
+        # Split at real corner/shoulder nodes so exact axis clearance is certifiable.
+        self.add_polyline('top',(12,16),(16,16),(32,16),(36,16))
+        self.path('left',(8,44),[('L',(8,20)),('A',(12,16),4,4,True)])
+        self.path('right',(36,16),[('A',(40,20),4,4,True),('L',(40,44))])
+        self.path('shoulders',(40,44),[('A',(24,40),16,4,False),('A',(8,44),16,4,False)])
+        for a,b in [('left','top'),('top','right'),('right','shoulders'),('shoulders','left')]:self.relate('connect',a,b)
+        self.path('shackle',(16,16),[('L',(16,12)),('A',(32,12),8,8,True),('L',(32,16))]);self.relate('connect','shackle','top')
+        self.circle('head',24,28,4)
+        # human_ref/user.svg: head lower extremum32, shoulder upper extremum40.
+        # Exact detached ink clearance: 40-32-4=4. No waiver or false contact.
