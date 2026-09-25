@@ -8,7 +8,7 @@ AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'smartwatch-dollar-sign'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'
@@ -33,15 +33,17 @@ class Drawing(Solo48):
         self.add_contour(name,name+'-upper',name+'-lower',closed=True)
 
     def build(self) -> None:
-        # Face and symmetric straps have deeper negative spaces above and below the dial.
-        curves=[((10,24),(10,19),(12,16),(16,14)),((16,14),(20,11),(28,11),(32,14)),((32,14),(36,16),(38,19),(38,24)),((38,24),(38,29),(36,32),(32,34)),((32,34),(28,37),(20,37),(16,34)),((16,34),(12,32),(10,29),(10,24))]
+        # Round dial owns four strap endpoints. Omit the nonessential transverse end seams
+        # rather than close the strap openings into tiny counters.
+        curves=[((8,24),(8,17),(11,12),(16,10)),((16,10),(20,7),(28,7),(32,10)),((32,10),(37,12),(40,17),(40,24)),((40,24),(40,31),(37,36),(32,38)),((32,38),(28,41),(20,41),(16,38)),((16,38),(11,36),(8,31),(8,24))]
         for j,(a,c1,c2,b) in enumerate(curves):self.add_bezier(f'face-{j}',a,(c1,c2,b))
         self.add_contour('face',*(f'face-{j}' for j in range(6)),closed=True)
-        for name,y,end in [('upper-band',14,4),('lower-band',34,44)]:
-            self.add_polyline(name,(16,y),(16,end),(32,end),(32,y));self.relate('connect','face',name)
-        self.add_bezier('dollar-upper',(28,19),((20,16),(18,22),(24,24)))
-        self.add_bezier('dollar-lower',(24,24),((30,26),(28,32),(20,29)))
-        self.add_contour('dollar','dollar-upper','dollar-lower')
+        for side,x in [('left',16),('right',32)]:
+            for name,y,end in [('upper',10,4),('lower',38,44)]:
+                n=f'{name}-strap-{side}';self.add_line(n,(x,y),(x,end));self.relate('connect','face',n)
+        self.add_bezier('dollar-top',(24,18),((16,18),(16,24),(24,24)))
+        self.add_bezier('dollar-bottom',(24,24),((32,24),(32,30),(24,30)))
+        self.add_contour('dollar','dollar-top','dollar-bottom')
         self.add_line('tick-top',(24,16),(24,18));self.add_line('tick-bottom',(24,30),(24,32))
         self.relate('connect','dollar','tick-top');self.relate('connect','dollar','tick-bottom')
 

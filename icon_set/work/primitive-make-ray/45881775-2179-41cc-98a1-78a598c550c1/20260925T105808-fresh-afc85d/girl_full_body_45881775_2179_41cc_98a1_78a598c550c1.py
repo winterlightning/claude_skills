@@ -4,16 +4,16 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='45881775-2179-41cc-98a1-78a598c550c1'
 SOURCE_PATH='pictographic-primitives/avatars/girl full body_45881775-2179-41cc-98a1-78a598c550c1.svg'
 AUTHOR='gpt-6'
-PLAN='Circular face beneath parted hair above a long simple dress with short sleeves; symmetric full-body silhouette.'
-CONSTRUCTION_REFERENCE='human_ref/user.svg and full_body_ref.png: circular head, paired body geometry, exact detached head gap'
-OMISSIONS='Fine hair strands omitted; no legs added because source has none.'
+PLAN='Circular face with outward hair curls; sleeves and long central torso replace the old skirt and added legs. Head bottom y20 and body top y28 give exactly 4 units of detached ink gap. Paired arcs mirror about x24.'
+CONSTRUCTION_REFERENCE='human_ref/user.svg and full_body_ref.png: circular head and coherent symmetric body; source retains sleeves and hair curls. This is an outlined figure, not a stick figure.'
+OMISSIONS='Interior hair part and duplicate hair cap omitted to avoid a pinched cap opening. No legs added, matching the source.'
 
 class Drawing(Solo48):
     icon_id='girl-full-body'
     keyshape=Keyshape.VRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category='avatars/full-body'
     aliases=()
     keywords=('girl', 'full', 'body')
 
@@ -40,6 +40,8 @@ class Drawing(Solo48):
 
     def build(self):
         self.circle('head',24,12,8)
-        self.add_polyline('hair-part',(16,12),(24,12),(32,12))
-        self.relate('connect','hair-part','head')
-        self.path('dress',(24,28),[('C',(14,35),(19,28),(15,30)),('L',(10,40)),('L',(16,40)),('L',(16,44)),('L',(32,44)),('L',(32,40)),('L',(38,40)),('L',(34,35)),('C',(24,28),(33,30),(29,28))],True)
+        self.add_arc('hair-left',(16,12),(10,20),radius_x=8)
+        self.add_arc('hair-right',(38,20),(32,12),radius_x=8)
+        self.relate('connect','head','hair-left')
+        self.relate('connect','head','hair-right')
+        self.path('body',(24,28),[('A',(10,36),14,8,False),('L',(18,36)),('L',(18,44)),('L',(30,44)),('L',(30,36)),('L',(38,36)),('A',(24,28),14,8,False)],True)

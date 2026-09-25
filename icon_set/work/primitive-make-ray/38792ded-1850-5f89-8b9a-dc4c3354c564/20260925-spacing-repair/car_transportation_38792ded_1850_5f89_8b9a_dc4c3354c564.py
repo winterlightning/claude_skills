@@ -1,7 +1,4 @@
-"""Restore the broad van-like cabin, short door handle, lower hood and separate circular wheels.
-Construction: Lucide car: simplified continuous roof/hood and rounded wheels.
-Omissions: None
-Keyshape HRECT_M: authored to exact SOLO48 extremes."""
+'Compact SUV side profile.\nPlan: HRECT_M preserves the wide cabin and lower hood. Equal wheels share a baseline and radius.\nReference: car; Continuous roof/hood and paired circular wheels.\nChanges: No parts omitted; wheel centers moved inward and lower corners squared.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '38792ded-1850-5f89-8b9a-dc4c3354c564'
@@ -38,3 +35,5 @@ class Drawing(Solo48):
         for x in (16,32):circle(f'wheel-{x}',x,34,4)
         line('sill',(20,34),(28,34));join('sill','wheel-16');join('sill','wheel-32')
         join('body','wheel-16');join('body','wheel-32')
+
+PARENT_MODULE = 'icon_set/model/icons/solo/car_transportation_38792ded_1850_5f89_8b9a_dc4c3354c564.py'

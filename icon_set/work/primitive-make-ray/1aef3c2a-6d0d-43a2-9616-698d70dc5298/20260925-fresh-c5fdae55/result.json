@@ -1,0 +1,55 @@
+{
+  "source_uuid": "1aef3c2a-6d0d-43a2-9616-698d70dc5298",
+  "reference_path": "pictographic-primitives/other/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg",
+  "concept": "monitor small squares",
+  "author": "gpt-6",
+  "parents": [
+    "icon_set/model/icons/solo/monitor_small_squares_1aef3c2a_6d0d_43a2_9616_698d70dc5298.py"
+  ],
+  "icon_id": "monitor-small-squares",
+  "status": "cannot-fix",
+  "validation_status": "fail",
+  "model_validation_status": "invalid",
+  "visual_review": {
+    "status": "not-approved",
+    "findings": "Both square tiles are readable, but their inner openings and top/bottom margins fail. Not approved."
+  },
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "VRECT_L maximizes the available height for two vertically stacked tiles and the stand.",
+  "construction_references": "monitor: framed screen, centered stand and repeated squares.",
+  "omissions": "No tile omitted or rearranged. The final failed candidate uses readable 6-unit squares; the larger 8-unit counter attempt is saved and fails against the screen floor.",
+  "blocker": "MIC: square-0 and square-1 internal edges and screen margins. Two 8-unit square centerline heights, an 8-unit gap and 8-unit top/bottom margins require 40 units for the screen alone; an 8-unit stand needs more than any SOLO48 rectangle height.",
+  "svg_sha256": "65f7ab7b3e6dbcdaaa81cd56d64774533777e54e10b957f94097f0eab69157a9",
+  "errors": [
+    "mic [square-0]: parallel straight edges square-0-2 and square-0-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [square-1]: parallel straight edges square-1-2 and square-1-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen]: parallel straight edges screen-1 and square-0-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [square-0]: parallel straight edges square-0-1 and square-0-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [square-1]: parallel straight edges square-1-1 and square-1-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [square-1]: parallel straight edges square-1-3 and screen-4, screen-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen]: screen and square-0 are 6 apart on centerlines nearest (16, 4)<->(16, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [screen]: screen and square-1 are 6 apart on centerlines nearest (22, 36)<->(22, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [square-0]: square-0-1 and square-0-3 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [square-0]: square-0-2 and square-0-4 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [square-1]: square-1-1 and square-1-3 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [square-1]: square-1-2 and square-1-4 have 2 units of ink clearance over 5 units; requires 4; review required"
+  ],
+  "artifacts": {
+    "python": "monitor_small_squares_1aef3c2a_6d0d_43a2_9616_698d70dc5298.py",
+    "svg": "monitor-small-squares.svg",
+    "metadata": "monitor-small-squares.metadata.json",
+    "reference": "reference.svg",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-192.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt",
+    "full_validation": "release-validation.json",
+    "findings": "findings.md",
+    "qa": "qa/"
+  }
+}

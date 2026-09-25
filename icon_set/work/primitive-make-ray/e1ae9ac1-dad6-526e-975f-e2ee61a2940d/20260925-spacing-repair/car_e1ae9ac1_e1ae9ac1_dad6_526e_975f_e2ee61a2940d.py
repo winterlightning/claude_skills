@@ -1,7 +1,4 @@
-"""Restore a flat-topped rounded cabin rather than a semicircle, and separate the circular wheels from the car body.
-Construction: Lucide car: paired round wheels and coherent body; source rounded cabin.
-Omissions: None
-Keyshape HRECT_M: authored to exact SOLO48 extremes."""
+'Compact passenger car.\nPlan: HRECT_M preserves the low vehicle. Repeated radius-4 wheels moved inward; cabin and pillar share contact nodes.\nReference: car; Circular wheels, continuous body and roof.\nChanges: No parts omitted; wheel centers moved inward and lower corners squared.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e1ae9ac1-dad6-526e-975f-e2ee61a2940d'
@@ -39,3 +36,5 @@ class Drawing(Solo48):
         for x in (16,32):circle(f'wheel-{x}',x,34,4)
         line('sill',(20,34),(28,34));join('sill','wheel-16');join('sill','wheel-32')
         join('body','wheel-16');join('body','wheel-32')
+
+PARENT_MODULE = 'icon_set/model/icons/solo/car_e1ae9ac1_e1ae9ac1_dad6_526e_975f_e2ee61a2940d.py'

@@ -1,11 +1,9 @@
-"""Clipped-corner document with centered clock. Lucide file-clock informs hands and clipped document, but the clock remains enclosed as in the source."""
+'Document with clock.\nPlan: SQUARE maximizes space for radius-10 clock inside the clipped page. Hands share one off-center junction.\nReference: file-clock; Circular clock and joined angular hands, kept enclosed as in the supplied source.\nChanges: No parts omitted; hands are necessarily very short (2 units each) and less legible at native size.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e7ce785e-158f-41d6-9e8b-dcba4879acac'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/time clock file 1_e7ce785e-158f-41d6-9e8b-dcba4879acac.svg'
 AUTHOR = 'gpt-6'
-PLAN = 'Clipped-corner document with centered clock. Lucide file-clock informs hands and clipped document, but the clock remains enclosed as in the source.'
-OMISSIONS = []
 class Drawing(Solo48):
     icon_id = 'time-clock-file-1'
     keyshape = Keyshape.SQUARE
@@ -33,3 +31,5 @@ class Drawing(Solo48):
             else:self.add_line(p,a,z)
             members.append(p)
         self.add_contour(n,*members,closed=True)
+
+PARENT_MODULE = 'icon_set/model/icons/solo/time_clock_file_1_e7ce785e_158f_41d6_9e8b_dcba4879acac.py'

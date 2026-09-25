@@ -4,9 +4,9 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='41f3ad63-cd17-441d-b26d-945da63c6f7c'
 SOURCE_PATH='pictographic-primitives/files/image file_41f3ad63-cd17-441d-b26d-945da63c6f7c.svg'
 AUTHOR='gpt-6'
-PLAN='Clipped document containing a sun and a closed two-peak mountain landscape.'
-CONSTRUCTION_REFERENCE='file-code: page outline with continuous corners'
-OMISSIONS='None; restores closed landscape and second peak.'
+PLAN='Two peaks now identify the landscape. Sun is a complete radius-2 circle, using the existing small-circle rule.'
+CONSTRUCTION_REFERENCE='file-code original and atomic-debug: clipped document with smooth corner construction; source supplies landscape.'
+OMISSIONS='Mountain baseline omitted after the closed two-peak candidate produced a narrow triangular pocket. Sun reduced.'
 
 class Drawing(Solo48):
     icon_id='landscape-picture-file'
@@ -40,5 +40,5 @@ class Drawing(Solo48):
 
     def build(self):
         self.file(6,6,42,42)
-        self.circle('sun',17,17,3)
-        self.add_polyline('mountains',(15,33),(20,25),(24,29),(29,20),(34,33),closed=True)
+        self.circle('sun',17,17,2)
+        self.add_polyline('mountains',(15,33),(20,28),(24,32),(29,23),(33,33))

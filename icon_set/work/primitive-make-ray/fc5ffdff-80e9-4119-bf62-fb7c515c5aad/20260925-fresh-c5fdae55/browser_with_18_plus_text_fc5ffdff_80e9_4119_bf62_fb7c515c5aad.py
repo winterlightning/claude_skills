@@ -75,12 +75,12 @@ class Drawing(Solo48):
                 self.relate("connect",name,"header")
 
     def build(self):
-        # Broader enclosure and enlarged counters retain all three characters.
-        self.add_polyline('calendar',(4,16),(4,10),(16,10),(32,10),(44,10),(44,40),(4,40),closed=True)
+        # Retained complete calendar and horizontal 18+; still blocked by text/enclosure spacing.
+        self.add_polyline('calendar',(4,18),(4,10),(16,10),(32,10),(44,10),(44,40),(4,40),closed=True)
         for x in (16,32):
             self.add_line('binding-'+str(x),(x,8),(x,10));self.relate('connect','calendar','binding-'+str(x))
         self.add_line('header',(4,18),(44,18));self.relate('connect','calendar','header')
-        self.add_line('one',(12,27),(12,35))
-        self.circle('eight-top',24,26,4);self.circle('eight-bottom',24,34,4);self.relate('connect','eight-top','eight-bottom')
-        self.add_polyline('plus-h',(36,30),(39,30),(42,30));self.add_polyline('plus-v',(39,27),(39,30),(39,33));self.relate('connect','plus-h','plus-v')
+        self.add_polyline('one',(11,26),(14,24),(14,34))
+        self.circle('eight-top',24,26,3);self.circle('eight-bottom',24,32,3);self.relate('connect','eight-top','eight-bottom')
+        self.add_polyline('plus-h',(33,30),(36,30),(39,30));self.add_polyline('plus-v',(36,27),(36,30),(36,33));self.relate('connect','plus-h','plus-v')
 

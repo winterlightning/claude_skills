@@ -22,15 +22,15 @@ def box(n,l,t,r,b,k=4):
     contour(n,*[n+x for x in ['t','tr','r','br','b','bl','l','tl']],closed=True)
 '''
 DESIGNS={
-'browser-dollar-sign-right':('HRECT_L','Browser window at left and a full-height curved dollar on the right; its two S bowls share radius 6. Move the dollar beside the browser to preserve its conventional shape.', '''
-box('browser',4,8,24,40)
-line('toolbar',(4,16),(24,16));join('browser','toolbar')
-line('s-top',(44,12),(38,12))
-arc('s-upper',(38,12),(38,24),6,s=False)
-arc('s-lower',(38,24),(38,36),6)
-line('s-bottom',(38,36),(32,36))
+'browser-dollar-sign-right':('HRECT_M','Square browser window at left and a curved dollar on the right; its two S bowls share radius 5. Move the dollar beside the browser to preserve its conventional shape.', '''
+box('browser',4,13,26,35)
+line('toolbar',(4,21),(26,21));join('browser','toolbar')
+line('s-top',(44,14),(39,14))
+arc('s-upper',(39,14),(39,24),5,s=False)
+arc('s-lower',(39,24),(39,34),5)
+line('s-bottom',(39,34),(34,34))
 contour('dollar-s','s-top','s-upper','s-lower','s-bottom')
-line('stem-top',(38,8),(38,12));line('stem-bottom',(38,36),(38,40))
+line('stem-top',(39,10),(39,14));line('stem-bottom',(39,34),(39,38))
 join('dollar-s','stem-top');join('dollar-s','stem-bottom')
 '''),
 'cartoon-cat-face':('HRECT_L','Cat face with mirrored pointed ears, a round jaw and whiskers on each cheek. Shared axis 24 controls ears, eyes, nose and whiskers.', '''
@@ -38,12 +38,12 @@ poly('ears',(10,26),(10,8),(20,16),(28,16),(38,8),(38,26))
 arc('jaw',(38,26),(10,26),14);join('ears','jaw')
 for i,side in enumerate([-1,1]):
     cheek=(24+side*14,26)
-    for j,y in enumerate([22,34]):
+    for j,y in enumerate([22,30]):
         n=f'whisker-{i}-{j}'
         line(n,cheek,(24+side*20,y));join('ears',n);join('jaw',n)
     join(f'whisker-{i}-0',f'whisker-{i}-1')
     self.add_dot('eye-'+str(i),(24+side*6,24))
-poly('nose',(22,31),(24,33),(26,31))
+line('nose',(23,31),(25,31))
 '''),
 'capped-carpenter-beside-a-hand-saw':('HRECT_L','Capped carpenter head beside an upright hand saw with three coarse teeth and a large rectangular handle opening; preserve the reference layout.', '''
 poly('saw',(4,40),(4,8),(16,8),(12,14),(16,18),(12,22),(16,28),(16,40),closed=True)

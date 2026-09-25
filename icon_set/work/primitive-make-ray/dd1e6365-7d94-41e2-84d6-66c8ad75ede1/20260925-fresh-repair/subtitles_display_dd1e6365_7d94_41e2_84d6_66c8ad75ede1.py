@@ -3,8 +3,8 @@ from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='dd1e6365-7d94-41e2-84d6-66c8ad75ede1'
 SOURCE_PATH='pictographic-primitives/other/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg'
 AUTHOR='gpt-6'
-PLAN='Full uppercase SUB text inside the rounded display. U has wider stems; B uses two evenly spaced bowls.'
-CONSTRUCTION_REFERENCES='rectangle-ellipsis: rounded panel; supplied source: full SUB inscription.'
+PLAN='Rounded subtitles panel with complete SUB lettering. Rebalanced B remains distinct from the panel and has open bowls; glyph spacing is unresolved.'
+CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis original and atomic-debug: rounded panel; supplied reference governs SUB.'
 OMISSIONS=[]
 class Drawing(Solo48):
     icon_id='subtitles-display'
@@ -30,9 +30,10 @@ class Drawing(Solo48):
         self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
+        # Rebalance all three glyphs into the panel without sacrificing SUB identity.
         self.box('panel',4,8,44,40,4)
-        self.path('s',(18,17),[('C',(10,20),(13,13),(9,16)),('C',(18,28),(10,25),(18,23)),('C',(10,31),(18,33),(13,35))])
-        self.path('u',(23,16),[('L',(23,28)),('A',(31,28),4,4,False),('L',(31,16))])
-        self.add_polyline('b-stem',(38,32),(38,24),(38,16))
-        self.path('b-bow',(38,16),[('A',(38,24),4,4,True),('A',(38,32),4,4,True)])
-        self.relate('connect','b-stem','b-bow')
+        self.path('s',(16,17),[('C',(10,20),(12,14),(9,17)),('C',(16,28),(10,24),(16,24)),('C',(10,31),(17,32),(13,34))])
+        self.path('u',(22,16),[('L',(22,28)),('A',(28,28),3,3,False),('L',(28,16))])
+        self.add_polyline('b-stem',(33,32),(33,24),(33,16),(35,16))
+        self.path('b-bow',(35,16),[('A',(35,24),4,4,True),('A',(35,32),4,4,True),('L',(33,32))])
+        self.add_line('b-mid',(33,24),(35,24));self.relate('connect','b-stem','b-bow');self.relate('connect','b-mid','b-stem');self.relate('connect','b-mid','b-bow')

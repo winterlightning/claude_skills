@@ -1,0 +1,33 @@
+# Computer monitor alphabet display
+
+HRECT_L offers the maximum width, but complete ABC does not fit required gaps and counters in this attempt.
+
+Native-size light/dark review: ABC remains recognizable, but the letters crowd and counters close. Not visually or numerically approved. Full failures are saved in validation.txt and qa.json.
+
+Construction: monitor — Enclosing display with centered stand.
+
+status: invalid
+  ERROR  mic [screen]: parallel straight edges screen0 and b-top are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [b-top]: parallel straight edges b-top and b-middle are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [b-middle]: parallel straight edges b-middle and b-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [b-bottom]: parallel straight edges b-bottom and screen4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [screen]: screen and a are 6 apart on centerlines nearest (15, 8)<->(15, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [screen]: screen and b-stem are 6 apart on centerlines nearest (22, 8)<->(22, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [screen]: screen and c are 6 apart on centerlines nearest (44, 16)<->(38, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [a]: a and b-stem are 4 apart on centerlines nearest (18, 26)<->(22, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [b-upper]: b-upper and c are 2.44102 apart on centerlines nearest (27.8708, 17.8709)<->(30.207, 18.5784); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+Full QA: fail
+mic [screen]: parallel straight edges screen0 and b-top are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [b-top]: parallel straight edges b-top and b-middle are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [b-middle]: parallel straight edges b-middle and b-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [b-bottom]: parallel straight edges b-bottom and screen4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [screen]: screen and a are 6 apart on centerlines nearest (15, 8)<->(15, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [screen]: screen and b-stem are 6 apart on centerlines nearest (22, 8)<->(22, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [screen]: screen and c are 6 apart on centerlines nearest (44, 16)<->(38, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [a]: a and b-stem are 4 apart on centerlines nearest (18, 26)<->(22, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [b-upper]: b-upper and c are 2.44102 apart on centerlines nearest (27.8708, 17.8709)<->(30.207, 18.5784); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+holes/pinches: 3 undersized holes; 1 pinches
+internal-spacing [b-stem / b-upper]: b-stem and b-upper have 1.6929 units of ink clearance over 2.9754 units; requires 4; review required
+internal-spacing [b-stem / b-lower]: b-stem and b-lower have 1.6929 units of ink clearance over 2.9754 units; requires 4; review required
+internal-spacing [b-top / b-middle]: b-top and b-middle have 2 units of ink clearance over 2 units; requires 4; review required
+internal-spacing [b-middle / b-bottom]: b-middle and b-bottom have 2 units of ink clearance over 2 units; requires 4; review required

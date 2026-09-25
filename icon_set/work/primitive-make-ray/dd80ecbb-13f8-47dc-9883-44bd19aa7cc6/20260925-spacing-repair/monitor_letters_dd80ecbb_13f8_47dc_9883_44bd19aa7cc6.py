@@ -1,6 +1,4 @@
-"""monitor letters, complete SOLO48 composition.
-Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
-"""
+'Computer monitor alphabet display.\nPlan: HRECT_L offers the maximum width, but complete ABC does not fit required gaps and counters in this attempt.\nReference: monitor; Enclosing display with centered stand.\nChanges: No letters omitted. BLOCKED: B counters, letter-to-letter gaps and frame clearances fail. Expanded B attempt also saved; no passing faithful layout found.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dd80ecbb-13f8-47dc-9883-44bd19aa7cc6'
@@ -9,7 +7,7 @@ AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'monitor-letters'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -30,9 +28,9 @@ class Drawing(Solo48):
         self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
 
     def monitor(self):
-        self.rounded('screen',8,4,32,32,3)
-        self.add_line('stand',(24,36),(24,44))
-        self.add_polyline('foot',(16,44),(24,44),(32,44))
+        self.rounded('screen',4,8,40,24,3)
+        self.add_line('stand',(24,32),(24,40))
+        self.add_polyline('foot',(16,40),(24,40),(32,40))
         self.relate('connect','screen','stand');self.relate('connect','stand','foot')
 
     def banknote(self):
@@ -44,15 +42,22 @@ class Drawing(Solo48):
             self.relate('connect','note','corner-'+str(i))
 
     def build(self):
+        # Three hand-authored capital letters preserve the source's ABC content.
         self.monitor()
-        self.add_polyline('a',(12,28),(14,20),(16,12),(18,20),(20,28))
-        self.add_line('a-bar',(14,20),(18,20));self.relate('connect','a','a-bar')
-        self.add_polyline('b-stem',(24,12),(24,20),(24,28))
-        self.add_line('b-top',(24,12),(28,12))
-        self.add_arc('b-upper',(28,12),(28,20),radius_x=4)
-        self.add_line('b-middle',(28,20),(24,20))
-        self.add_arc('b-lower',(28,20),(28,28),radius_x=4)
-        self.add_line('b-bottom',(28,28),(24,28))
+        self.add_polyline('a',(12,26),(13,22),(15,14),(17,22),(18,26))
+        self.add_line('a-bar',(13,22),(17,22))
+        self.relate('connect','a','a-bar')
+        self.add_line('b-stem',(22,14),(22,26))
+        self.add_line('b-top',(22,14),(25,14))
+        self.add_arc('b-upper',(25,14),(25,20),radius_x=3)
+        self.add_line('b-middle',(25,20),(22,20))
+        self.add_arc('b-lower',(25,20),(25,26),radius_x=3)
+        self.add_line('b-bottom',(25,26),(22,26))
         for n in ('b-top','b-middle','b-bottom'):self.relate('connect','b-stem',n)
-        for a,b in [('b-top','b-upper'),('b-upper','b-middle'),('b-middle','b-lower'),('b-lower','b-bottom')]:self.relate('connect',a,b)
-        self.add_arc('c',(36,14),(36,26),radius_x=6,large_arc=True,sweep=False)
+        self.relate('connect','b-top','b-upper')
+        self.relate('connect','b-upper','b-middle')
+        self.relate('connect','b-middle','b-lower')
+        self.relate('connect','b-lower','b-bottom')
+        self.add_arc('c',(38,16),(38,24),radius_x=5,large_arc=True,sweep=False)
+
+PARENT_MODULE = 'icon_set/model/icons/solo/monitor_letters_dd80ecbb_13f8_47dc_9883_44bd19aa7cc6.py'

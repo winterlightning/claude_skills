@@ -34,7 +34,7 @@ for e in entries:
     d=json.loads((Path(e['run'])/'design.json').read_text())
     lines += [f"- **{e['icon_id']}** — {d['keyshape']}. {d['references']}. {d['omissions']}"]
 lines += ['', f"Confirmed outcomes: {counts.get('done',0)} done (Ready), {counts.get('cannot-fix',0)} cannot-fix (Disapproved).",'',
-          '“Tog” was interpreted as “Tag” from its reference. The Bitcoin adjustment sliders were omitted to prioritize the explicit bitcoin feedback. No registered module, gallery build, publish or push was performed.']
+          'The user clarified “Tog” as thermal insulation / duvet tog rating; its tag interpretation was replaced by a folded duvet with warmth waves. The Bitcoin adjustment sliders were omitted to prioritize the explicit bitcoin feedback. No registered module, gallery build, publish or push was performed.']
 (ROOT/'REPORT.md').write_text('\n'.join(lines)+'\n')
 sheet.save(ROOT/'final-contact-sheet.png')
 print(json.dumps(counts))

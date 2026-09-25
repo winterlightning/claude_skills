@@ -22,6 +22,10 @@ its model state is:
 TODO/SKIP decisions are not stored here; they live in the gallery database
 (primitive_status.py) and are merged by the page, the API and the CLI.
 
+Uncategorized primitives can be given a topic category without moving their
+artwork: data/primitive-categories.json (written by primitive_categories.py) maps
+uuid -> category, and a listed row takes that category with no batch.
+
 Primitives that are the same drawing (data/primitive-aliases.json, written by
 primitive_duplicates.py) fold into one row: the canonical keeps its identity and
 lists the others under ``aliases``; models linked to any uuid in the set count.
@@ -54,6 +58,7 @@ from icon_set.scripts.category_report import UUID, declared_references, source_i
 ROOT_ENV = 'PICTOGRAPHIC_PRIMITIVES'
 UNCATEGORIZED = 'Uncategorized'
 ALIASES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-aliases.json'
+CATEGORIES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-categories.json'
 WORK_ROOT = REPO_ROOT / 'icon_set' / 'work'
 WORK_SKILLS = ('primitive-make-ray', 'side-main-make-thuan', 'side-sub-make-thuan')
 _VIEWBOX = re.compile(r'viewBox="([^"]+)"')
@@ -78,6 +83,32 @@ def load_aliases(path: Path | None = None) -> dict[str, str]:
     except ValueError:
         return {}
     return {str(alias).lower(): str(canonical).lower() for alias, canonical in (data.get('aliases') or {}).items()}
+
+
+def load_category_overrides(path: Path | None = None) -> dict[str, str]:
+    """uuid -> category from primitive_categories.py; entries are a category or {category, ...}."""
+    path = path or CATEGORIES_PATH
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except ValueError:
+        return {}
+    overrides = {}
+    for uid, entry in (data.get('categories') or {}).items():
+        category = entry.get('category') if isinstance(entry, dict) else entry
+        if category and category != UNCATEGORIZED:
+            overrides[str(uid).lower()] = str(category)
+    return overrides
+
+
+def apply_category_overrides(rows: list[dict], overrides: dict[str, str]) -> list[dict]:
+    """Move listed Uncategorized rows into their override category; the folder path stays."""
+    for row in rows:
+        category = overrides.get(row['uuid'] or '')
+        if category and row['category'] == UNCATEGORIZED:
+            row.update(category=category, batch='')
+    return rows
 
 
 def resolve(uid: str | None, aliases: dict[str, str]) -> str | None:
@@ -283,15 +314,20 @@ def link(row: dict, links: dict) -> tuple[list[str], str]:
 
 
 def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = None,
-                  aliases: dict[str, str] | None = None, work: dict[str, dict] | None = None) -> dict:
+                  aliases: dict[str, str] | None = None, work: dict[str, dict] | None = None,
+                  category_overrides: dict[str, str] | None = None) -> dict:
     """built/failed map icon_id -> gallery record (needs key and preview_url).
 
     Primitives listed as aliases in data/primitive-aliases.json fold into their canonical row.
     ``work`` maps uuid -> newest folder-only skill run (work_runs()); it only matters for rows
     with no linked model, which become ``work_only`` instead of ``none``.
+    ``category_overrides`` maps uuid -> category for Uncategorized rows (load_category_overrides()).
     """
     aliases = load_aliases() if aliases is None else aliases
-    rows = fold_aliases(scan(root), aliases)
+    overrides = load_category_overrides() if category_overrides is None else category_overrides
+    rows = apply_category_overrides(scan(root), overrides)
+    rows.sort(key=lambda r: (r['category'].lower(), r['batch'], r['concept'].lower(), r['path']))
+    rows = fold_aliases(rows, aliases)
     warning = conversion_warning(root, rows)
     links = links or model_links()
     work = work_runs() if work is None else work

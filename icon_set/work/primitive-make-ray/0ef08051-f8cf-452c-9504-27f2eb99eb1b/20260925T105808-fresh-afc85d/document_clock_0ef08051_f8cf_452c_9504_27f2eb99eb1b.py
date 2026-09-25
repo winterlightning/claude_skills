@@ -4,9 +4,9 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0ef08051-f8cf-452c-9504-27f2eb99eb1b'
 SOURCE_PATH='pictographic-primitives/other/file clock_0ef08051-f8cf-452c-9504-27f2eb99eb1b.svg'
 AUTHOR='gpt-6'
-PLAN='Clipped document containing a circular clock with short detached right-angle hands.'
-CONSTRUCTION_REFERENCE='file-code: enclosure construction; source owns internal clock placement'
-OMISSIONS='Hands shortened to retain clearance inside the ring.'
+PLAN='Detached L-shaped hands restore the clock instead of the previous pie-slice appearance. Readable 4-unit hands leave only 2 ink units to the radius-10 ring. Smaller one-unit hands passed but read as a dot and were rejected visually.'
+CONSTRUCTION_REFERENCE='file-code original and atomic-debug: clipped file contour. file-clock original inspected; its external overlay arrangement was not substituted for the supplied internal clock.'
+OMISSIONS='Rounded paper corner arcs simplified to round stroke joins; clock, hands, and clipped corner retained.'
 
 class Drawing(Solo48):
     icon_id='document-clock'
@@ -39,6 +39,6 @@ class Drawing(Solo48):
         self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
 
     def build(self):
-        self.file(6,6,42,42)
+        self.add_polyline('page',(6,6),(32,6),(42,16),(42,42),(6,42),closed=True)
         self.circle('clock',24,24,10)
-        self.add_polyline('hands',(24,23),(24,24),(25,24))
+        self.add_polyline('hands',(24,20),(24,24),(28,24))

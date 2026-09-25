@@ -4,9 +4,9 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a7885b17-70fa-431a-8397-cf8f653fa82c'
 SOURCE_PATH='pictographic-primitives/other/file code left_a7885b17-70fa-431a-8397-cf8f653fa82c.svg'
 AUTHOR='gpt-6'
-PLAN='Clipped document with broad matched 90-degree angle brackets.'
-CONSTRUCTION_REFERENCE='file-code: opposing code brackets and rounded paper corners'
-OMISSIONS='No omissions.'
+PLAN='Bracket tips lie at x15 and x33, with endpoints at x20 and x28. Matching angles are wider and clearer than the old narrow glyphs.'
+CONSTRUCTION_REFERENCE='file-code original and atomic-debug: opposing chevrons and continuous paper contour.'
+OMISSIONS='No defining features omitted. Document proportions broadened.'
 
 class Drawing(Solo48):
     icon_id='source-code-file'
@@ -41,5 +41,5 @@ class Drawing(Solo48):
     def build(self):
         self.file(6,6,42,42)
         axis=24
-        self.add_polyline('left-bracket',(20,18),(14,24),(20,30))
-        self.add_polyline('right-bracket',(2*axis-20,18),(2*axis-14,24),(2*axis-20,30))
+        self.add_polyline('left-bracket',(20,18),(15,24),(20,30))
+        self.add_polyline('right-bracket',(2*axis-20,18),(2*axis-15,24),(2*axis-20,30))

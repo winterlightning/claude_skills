@@ -1,7 +1,4 @@
-"""Side-view climbing airplane, with a smooth round nose, upper swept wing, broad lower wing and raised tail. Bounds4,8 to44,40.
-Construction reference: Lucide plane-takeoff: coherent fuselage and tapered wings.
-Omissions: No windows in source; retained both wings.
-"""
+'Airplane taking off.\nPlan: HRECT_L preserves the wide climbing silhouette. Widened wings and fuselage; raised tail is intentionally asymmetric.\nReference: plane-takeoff; Coherent fuselage, broad swept wings and round nose.\nChanges: No defining parts omitted; proportions broadened for clearance.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8fe19626-3dae-5f95-be02-4dbe10f65534'
@@ -16,7 +13,7 @@ class Drawing(Solo48):
     aliases = ()
     keywords = ('plane', '1')
     def build(self):
-        self.path('plane',(4,24),[('L',(10,24)),('L',(14,28)),('L',(23,24)),('L',(11,10)),('L',(21,8)),('L',(33,20)),('L',(36,19)),('C',(44,24),(40,18),(44,21)),('C',(38,29),(44,27),(42,28)),('L',(34,30)),('L',(29,40)),('L',(19,40)),('L',(24,30)),('L',(13,35)),('C',(8,32),(11,36),(9,35)),('L',(4,24))],True)
+        self.path('plane',(4,16),[('L',(8,16)),('L',(12,22)),('L',(23,18)),('L',(12,8)),('L',(26,8)),('L',(33,18)),('L',(36,17)),('C',(44,22),(40,16),(44,19)),('C',(38,27),(44,25),(42,26)),('L',(32,28)),('L',(27,40)),('L',(17,40)),('L',(22,29)),('L',(12,32)),('C',(4,24),(8,33),(4,28)),('L',(4,16))],True)
 
     def path(self, name, start, commands, closed=False):
         members=[]
@@ -33,3 +30,5 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=closed)
     def circle(self,name,x,y,r):
         self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+PARENT_MODULE = 'icon_set/model/icons/solo/climbing_airplane_rounded_nose_8fe19626_3dae_5f95_be02_4dbe10f65534.py'

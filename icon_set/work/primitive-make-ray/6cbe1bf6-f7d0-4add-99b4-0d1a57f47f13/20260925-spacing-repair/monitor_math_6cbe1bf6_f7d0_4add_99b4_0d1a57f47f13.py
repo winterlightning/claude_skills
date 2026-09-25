@@ -1,6 +1,4 @@
-"""monitor math, complete SOLO48 composition.
-Symbol plan in build(); visible keyshape extremes (4, 4, 44, 44).
-"""
+'Computer monitor with math symbols.\nPlan: VRECT_L supplies height for division dots at pitch 8, the lower-left plus and an 8-unit stand.\nReference: monitor; Display frame and centered stand; intentional diagonal symbol arrangement retained.\nChanges: No marks omitted; frame made taller with square corners and shorter operator bars.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6cbe1bf6-f7d0-4add-99b4-0d1a57f47f13'
@@ -45,8 +43,10 @@ class Drawing(Solo48):
 
     def build(self):
         self.monitor()
-        self.add_polyline('plus-h',(16,27),(19,27),(22,27))
-        self.add_polyline('plus-v',(19,24),(19,27),(19,30))
+        self.add_polyline('plus-h',(16,26),(19,26),(22,26))
+        self.add_polyline('plus-v',(19,24),(19,26),(19,28))
         self.relate('connect','plus-h','plus-v')
         self.add_line('divide-bar',(28,20),(32,20))
         for i,y in enumerate((12,28)):self.add_dot('divide-dot-'+str(i),(30,y))
+
+PARENT_MODULE = 'icon_set/model/icons/solo/monitor_math_6cbe1bf6_f7d0_4add_99b4_0d1a57f47f13.py'

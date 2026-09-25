@@ -1,8 +1,4 @@
-"""An address book has a left spine and a user portrait on its cover.
-Symbol plan: Horizontal book with spine 8 units from left edge; portrait has circular radius-4 head and cropped radius-6 shoulders, exact gap 34-(22+4)=8.
-Keyshape visible bounds: (2, 6, 46, 42).
-Construction references: Shared human_ref/user.svg: outlined head and smooth shoulder arch; Lucide notebook: separate spine; supplied reference: portrait on book cover..
-"""
+'Contact address book.\nPlan: SQUARE permits a left spine and detached head/shoulders. Head (28,19), radius 4; shoulders top31: centerline gap8, ink gap4.\nReference: notebook; human_ref/user.svg; Separate spine; outlined circular head and smooth open shoulders.\nChanges: No parts omitted; shoulder arch is shallow to retain bottom clearance.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b18b4462-5e10-44fd-99e3-3fb256fb4f34'
@@ -43,3 +39,5 @@ class Drawing(Solo48):
             else: self.add_line(part,a,b)
             members.append(part)
         self.add_contour(name,*members,closed=True)
+
+PARENT_MODULE = 'icon_set/model/icons/solo/phone_book_b18b4462_5e10_44fd_99e3_3fb256fb4f34.py'

@@ -4,9 +4,9 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ee45281c-9d60-448b-b6b0-b5db76f72c3b'
 SOURCE_PATH='pictographic-primitives/transportation/truck_ee45281c-9d60-448b-b6b0-b5db76f72c3b.svg'
 AUTHOR='gpt-6'
-PLAN='Cargo rectangle and rounded cab with wheel-sized gaps in the chassis; equal circular wheels attach on horizontal diameters.'
-CONSTRUCTION_REFERENCE='truck: segmented chassis ending at wheel sides'
-OMISSIONS='No omissions.'
+PLAN='Equal wheel centers (16,36),(32,36), radius 4. Chassis ends at wheel sides rather than continuing behind or tangent along them. Rounded cab retained.'
+CONSTRUCTION_REFERENCE='truck original and atomic-debug: horizontal chassis segments attach at wheel sides; coherent curved cab.'
+OMISSIONS='Cargo divider stops above the chassis to leave wheel clearance. Wheels moved inward and reduced slightly.'
 
 class Drawing(Solo48):
     icon_id='shipping-delivery-truck'
@@ -39,12 +39,12 @@ class Drawing(Solo48):
         self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
 
     def build(self):
-        self.path('cargo',(6,34),[('L',(4,34)),('L',(4,8)),('L',(26,8)),('L',(26,16)),('L',(26,24))])
-        self.path('cab',(26,16),[('L',(34,16)),('C',(44,26),(39,16),(44,21)),('L',(44,28)),('L',(42,28))])
-        self.add_line('chassis',(18,34),(30,34))
-        for x in (12,36):self.circle(f'wheel-{x}',x,34,6)
-        self.relate('connect','cargo','wheel-12')
+        self.path('cargo',(12,36),[('L',(4,36)),('L',(4,8)),('L',(24,8)),('L',(24,16)),('L',(24,24))])
+        self.path('cab',(24,16),[('L',(34,16)),('C',(44,26),(39,16),(44,21)),('L',(44,36)),('L',(36,36))])
+        self.add_line('chassis',(20,36),(28,36))
+        for x in (16,32):self.circle(f'wheel-{x}',x,36,4)
+        self.relate('connect','cargo','wheel-16')
         self.relate('connect','cab','cargo')
-        self.relate('connect','chassis','wheel-12')
-        self.relate('connect','chassis','wheel-36')
-        self.relate('connect','cab','wheel-36')
+        self.relate('connect','chassis','wheel-16')
+        self.relate('connect','chassis','wheel-32')
+        self.relate('connect','cab','wheel-32')

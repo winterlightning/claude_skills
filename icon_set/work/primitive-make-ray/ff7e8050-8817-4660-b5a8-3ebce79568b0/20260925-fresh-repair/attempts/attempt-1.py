@@ -1,0 +1,38 @@
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='ff7e8050-8817-4660-b5a8-3ebce79568b0'
+SOURCE_PATH='pictographic-primitives/state/slash sperm_ff7e8050-8817-4660-b5a8-3ebce79568b0.svg'
+AUTHOR='gpt-6'
+PLAN='Slashed circular prohibition ring around an organic sperm head and a smooth attached trailing tail. Slash remains interrupted as in the supplied reference.'
+CONSTRUCTION_REFERENCES='No useful Lucide organic-cell match; inspected source controls head and tail.'
+OMISSIONS=[]
+class Drawing(Solo48):
+    icon_id='no-sperm-cell-sign'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('slash', 'sperm')
+
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+
+    def build(self):
+        self.path('ring',(12,40),[('A',(36,8),20,20,True),('A',(12,40),20,20,True)],True)
+        self.add_line('slash-low',(12,40),(17,35));self.relate('connect','ring','slash-low')
+        self.add_line('slash-high',(30,14),(36,8));self.relate('connect','ring','slash-high')
+        self.path('cell',(20,24),[('C',(14,18),(12,24),(12,20)),('C',(22,18),(14,12),(18,14)),('C',(20,24),(26,21),(24,24))],True)
+        self.path('tail',(20,24),[('C',(29,29),(27,26),(31,25)),('C',(29,35),(23,33),(24,35))])
+        self.relate('connect','cell','tail')

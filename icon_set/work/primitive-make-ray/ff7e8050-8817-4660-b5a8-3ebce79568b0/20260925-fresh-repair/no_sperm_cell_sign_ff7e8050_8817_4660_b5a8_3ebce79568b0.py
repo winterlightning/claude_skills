@@ -3,9 +3,9 @@ from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ff7e8050-8817-4660-b5a8-3ebce79568b0'
 SOURCE_PATH='pictographic-primitives/state/slash sperm_ff7e8050-8817-4660-b5a8-3ebce79568b0.svg'
 AUTHOR='gpt-6'
-PLAN='Slashed circular prohibition ring around an organic sperm head and a smooth attached trailing tail. Slash remains interrupted as in the supplied reference.'
-CONSTRUCTION_REFERENCES='No useful Lucide organic-cell match; inspected source controls head and tail.'
-OMISSIONS=[]
+PLAN='Circular prohibition rim with separated slash ends surrounds a circular sperm head and attached curved tail.'
+CONSTRUCTION_REFERENCES='No useful Lucide organic-cell match; supplied reference governs the sperm and interrupted slash.'
+OMISSIONS=['Irregular egg-shaped head simplified to a circular head.']
 class Drawing(Solo48):
     icon_id='no-sperm-cell-sign'
     keyshape=Keyshape.CIRCLE
@@ -31,8 +31,8 @@ class Drawing(Solo48):
 
     def build(self):
         self.path('ring',(12,40),[('A',(36,8),20,20,True),('A',(12,40),20,20,True)],True)
-        self.add_line('slash-low',(12,40),(17,35));self.relate('connect','ring','slash-low')
-        self.add_line('slash-high',(30,14),(36,8));self.relate('connect','ring','slash-high')
-        self.path('cell',(20,24),[('C',(14,18),(12,24),(12,20)),('C',(22,18),(14,12),(18,14)),('C',(20,24),(26,21),(24,24))],True)
-        self.path('tail',(20,24),[('C',(29,29),(27,26),(31,25)),('C',(29,35),(23,33),(24,35))])
+        self.add_line('slash-low',(12,40),(16,36));self.relate('connect','ring','slash-low')
+        self.add_line('slash-high',(31,13),(36,8));self.relate('connect','ring','slash-high')
+        self.path('cell',(22,24),[('A',(16,16),5,5,True),('A',(22,24),5,5,True)],True)
+        self.path('tail',(22,24),[('C',(27,31),(28,26),(31,28)),('C',(29,34),(23,34),(25,34))])
         self.relate('connect','cell','tail')

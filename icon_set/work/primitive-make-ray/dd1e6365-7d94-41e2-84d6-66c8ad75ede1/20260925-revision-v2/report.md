@@ -1,0 +1,110 @@
+# SUB display
+
+SUB uses typeface v2 at0.9 uniform centerline scale. Rounded panel expanded by2 units per side within the48 canvas. Original v2 bowls and letter shapes replace the handmade lettering.
+
+- Source: `pictographic-primitives/other/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg`
+- Source UUID: `dd1e6365-7d94-41e2-84d6-66c8ad75ede1`
+- Keyshape: `HRECT_L`
+- Automatic full QA: `fail`
+- Acceptance: `user-approved-exception`
+- Reviewed at48px and192px, in light and dark themes.
+
+Exception scopes: typeface-v2 fractional coordinates, glyph spacing, expanded panel keyshape fit. The approval is bound to this exact SVG hash; the standard validator result is not altered.
+
+## Findings
+
+- style/grid [text-0-S-0-0-0]: start.x must be an integer on grid 1, got 15.4
+- style/grid [text-0-S-0-0-0]: start.y must be an integer on grid 1, got 17.25
+- style/grid [text-0-S-0-0-0]: end.x must be an integer on grid 1, got 11.8
+- style/grid [text-0-S-0-0-0]: end.y must be an integer on grid 1, got 17.25
+- style/grid [text-0-S-0-0-1]: start.x must be an integer on grid 1, got 11.8
+- style/grid [text-0-S-0-0-1]: start.y must be an integer on grid 1, got 17.25
+- style/grid [text-0-S-0-0-1]: end.x must be an integer on grid 1, got 10.0
+- style/grid [text-0-S-0-0-1]: end.y must be an integer on grid 1, got 22.65
+- style/grid [text-0-S-0-0-2]: start.x must be an integer on grid 1, got 10.0
+- style/grid [text-0-S-0-0-2]: start.y must be an integer on grid 1, got 22.65
+- style/grid [text-0-S-0-0-2]: end.x must be an integer on grid 1, got 13.6
+- style/grid [text-0-S-0-0-2]: end.y must be an integer on grid 1, got 25.35
+- style/grid [text-0-S-0-0-3]: start.x must be an integer on grid 1, got 13.6
+- style/grid [text-0-S-0-0-3]: start.y must be an integer on grid 1, got 25.35
+- style/grid [text-0-S-0-0-3]: end.x must be an integer on grid 1, got 11.8
+- style/grid [text-0-S-0-0-3]: end.y must be an integer on grid 1, got 30.75
+- style/grid [text-0-S-0-0-4]: start.x must be an integer on grid 1, got 11.8
+- style/grid [text-0-S-0-0-4]: start.y must be an integer on grid 1, got 30.75
+- style/grid [text-0-S-0-0-4]: end.x must be an integer on grid 1, got 8.2
+- style/grid [text-0-S-0-0-4]: end.y must be an integer on grid 1, got 30.75
+- style/grid [text-1-U-0-0-0]: start.x must be an integer on grid 1, got 27.6
+- style/grid [text-1-U-0-0-0]: start.y must be an integer on grid 1, got 17.25
+- style/grid [text-1-U-0-0-0]: end.x must be an integer on grid 1, got 27.6
+- style/grid [text-1-U-0-0-0]: end.y must be an integer on grid 1, got 28.05
+- style/grid [text-1-U-0-0-1]: start.x must be an integer on grid 1, got 27.6
+- style/grid [text-1-U-0-0-1]: start.y must be an integer on grid 1, got 28.05
+- style/grid [text-1-U-0-0-1]: end.x must be an integer on grid 1, got 24.0
+- style/grid [text-1-U-0-0-1]: end.y must be an integer on grid 1, got 30.75
+- style/grid [text-1-U-0-0-2]: start.x must be an integer on grid 1, got 24.0
+- style/grid [text-1-U-0-0-2]: start.y must be an integer on grid 1, got 30.75
+- style/grid [text-1-U-0-0-2]: end.x must be an integer on grid 1, got 20.4
+- style/grid [text-1-U-0-0-2]: end.y must be an integer on grid 1, got 28.05
+- style/grid [text-1-U-0-0-3]: start.x must be an integer on grid 1, got 20.4
+- style/grid [text-1-U-0-0-3]: start.y must be an integer on grid 1, got 28.05
+- style/grid [text-1-U-0-0-3]: end.x must be an integer on grid 1, got 20.4
+- style/grid [text-1-U-0-0-3]: end.y must be an integer on grid 1, got 17.25
+- style/grid [text-2-B-0-0-0]: start.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-0-0-0]: start.y must be an integer on grid 1, got 17.25
+- style/grid [text-2-B-0-0-0]: end.x must be an integer on grid 1, got 35.43
+- style/grid [text-2-B-0-0-0]: end.y must be an integer on grid 1, got 17.25
+- style/grid [text-2-B-0-0-1]: start.x must be an integer on grid 1, got 35.43
+- style/grid [text-2-B-0-0-1]: start.y must be an integer on grid 1, got 17.25
+- style/grid [text-2-B-0-0-1]: end.x must be an integer on grid 1, got 38.681
+- style/grid [text-2-B-0-0-1]: end.y must be an integer on grid 1, got 20.501
+- style/grid [text-2-B-0-0-2]: start.x must be an integer on grid 1, got 38.681
+- style/grid [text-2-B-0-0-2]: start.y must be an integer on grid 1, got 20.501
+- style/grid [text-2-B-0-0-2]: end.x must be an integer on grid 1, got 38.681
+- style/grid [text-2-B-0-0-2]: end.y must be an integer on grid 1, got 20.749
+- style/grid [text-2-B-0-0-3]: start.x must be an integer on grid 1, got 38.681
+- style/grid [text-2-B-0-0-3]: start.y must be an integer on grid 1, got 20.749
+- style/grid [text-2-B-0-0-3]: end.x must be an integer on grid 1, got 35.431
+- style/grid [text-2-B-0-0-3]: end.y must be an integer on grid 1, got 23.55
+- style/grid [text-2-B-0-0-4]: start.x must be an integer on grid 1, got 35.431
+- style/grid [text-2-B-0-0-4]: start.y must be an integer on grid 1, got 23.55
+- style/grid [text-2-B-0-0-4]: end.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-0-0-4]: end.y must be an integer on grid 1, got 23.55
+- style/grid [text-2-B-0-0-5]: start.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-0-0-5]: start.y must be an integer on grid 1, got 23.55
+- style/grid [text-2-B-0-0-5]: end.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-0-0-5]: end.y must be an integer on grid 1, got 17.25
+- style/grid [text-2-B-1-0-0]: start.x must be an integer on grid 1, got 32.601
+- style/grid [text-2-B-1-0-0]: start.y must be an integer on grid 1, got 23.559
+- style/grid [text-2-B-1-0-0]: end.x must be an integer on grid 1, got 36.549
+- style/grid [text-2-B-1-0-0]: end.y must be an integer on grid 1, got 23.559
+- style/grid [text-2-B-1-0-1]: start.x must be an integer on grid 1, got 36.549
+- style/grid [text-2-B-1-0-1]: start.y must be an integer on grid 1, got 23.559
+- style/grid [text-2-B-1-0-1]: end.x must be an integer on grid 1, got 39.8
+- style/grid [text-2-B-1-0-1]: end.y must be an integer on grid 1, got 27.26
+- style/grid [text-2-B-1-0-2]: start.x must be an integer on grid 1, got 39.8
+- style/grid [text-2-B-1-0-2]: start.y must be an integer on grid 1, got 27.26
+- style/grid [text-2-B-1-0-2]: end.x must be an integer on grid 1, got 39.8
+- style/grid [text-2-B-1-0-2]: end.y must be an integer on grid 1, got 27.499
+- style/grid [text-2-B-1-0-3]: start.x must be an integer on grid 1, got 39.8
+- style/grid [text-2-B-1-0-3]: start.y must be an integer on grid 1, got 27.499
+- style/grid [text-2-B-1-0-3]: end.x must be an integer on grid 1, got 36.549
+- style/grid [text-2-B-1-0-3]: end.y must be an integer on grid 1, got 30.75
+- style/grid [text-2-B-1-0-4]: start.x must be an integer on grid 1, got 36.549
+- style/grid [text-2-B-1-0-4]: start.y must be an integer on grid 1, got 30.75
+- style/grid [text-2-B-1-0-4]: end.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-1-0-4]: end.y must be an integer on grid 1, got 30.75
+- style/grid [text-2-B-1-0-5]: start.x must be an integer on grid 1, got 32.6
+- style/grid [text-2-B-1-0-5]: start.y must be an integer on grid 1, got 30.75
+- style/grid [text-2-B-1-0-5]: end.x must be an integer on grid 1, got 32.601
+- style/grid [text-2-B-1-0-5]: end.y must be an integer on grid 1, got 23.559
+- canvas/keyshape bounds: visible ink (0, 6, 48, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)
+- mic: parallel straight geometry could not be checked: text-0-S-0-0-0: non-integer authored line
+- mic [panel]: panel and text-0-S-0-0 are 6.2 apart on centerlines nearest (2, 30.75)<->(8.2, 30.75); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [panel]: panel and text-2-B-0-0 are 7.319 apart on centerlines nearest (46, 20.501)<->(38.681, 20.501); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [panel]: panel and text-2-B-1-0 are 6.2 apart on centerlines nearest (46, 27.26)<->(39.8, 27.26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [text-0-S-0-0]: text-0-S-0-0 and text-1-U-0-0 are 5 apart on centerlines nearest (15.4, 17.25)<->(20.4, 17.25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [text-1-U-0-0]: text-1-U-0-0 and text-2-B-0-0 are 5 apart on centerlines nearest (27.6, 17.25)<->(32.6, 17.25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [text-1-U-0-0]: text-1-U-0-0 and text-2-B-1-0 are 5.00038 apart on centerlines nearest (27.6, 28.05)<->(32.6004, 28.0507); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [text-2-B-0-0]: text-2-B-0-0 and text-2-B-1-0 are 0.009 apart on centerlines nearest (32.601, 23.55)<->(32.601, 23.559); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- internal-spacing [text-1-U-0-0]: text-1-U-0-0-0 and text-1-U-0-0-3 have 3.2 units of ink clearance over 9.8182 units; requires 4; review required
+- internal-spacing [text-2-B-1-0]: text-2-B-1-0-0 and text-2-B-1-0-4 have 3.191 units of ink clearance over 2.9617 units; requires 4; review required

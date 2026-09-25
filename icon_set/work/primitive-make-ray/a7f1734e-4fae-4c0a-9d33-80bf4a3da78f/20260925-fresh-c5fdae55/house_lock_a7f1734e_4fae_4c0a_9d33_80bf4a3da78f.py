@@ -36,14 +36,14 @@ class Drawing(Solo48):
 
     def lock_body(self):
         # Shared shackle nodes are vertices in the top rail.
-        self.add_polyline('lock-body',(16,25),(19,25),(29,25),(32,25),(32,33),(16,33),closed=True)
+        self.add_polyline('lock-body',(16,26),(19,26),(29,26),(32,26),(32,34),(16,34),closed=True)
 
     def build(self):
 
-        self.house();self.lock_body()
-        self.add_line('shackle-left',(19,25),(19,22))
+        self.add_polyline('house',(6,18),(24,6),(42,18),(42,42),(6,42),closed=True);self.lock_body()
+        self.add_line('shackle-left',(19,26),(19,22))
         self.add_arc('shackle-top',(19,22),(29,22),radius_x=5)
-        self.add_line('shackle-right',(29,22),(29,25))
+        self.add_line('shackle-right',(29,22),(29,26))
         self.add_contour('shackle','shackle-left','shackle-top','shackle-right')
         self.relate('connect','shackle','lock-body')
 

@@ -1,13 +1,9 @@
-"""A three-binding calendar showing the arithmetic expression 2+1.
-Plan: Three evenly repeated bindings with no header divider, matching the source. Hand-authored 2, plus and 1 remain in source order."""
+'Calendar with math equation.\nPlan: HRECT_L allocates width to 2+1 in the original order. Shared plus intersection and repeated bindings.\nReference: calendar; Even binding rhythm and enclosing calendar.\nChanges: Numeral 1 loses its short lead-in; corners are square; plus is very compact.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '14b5dacf-2ae7-4b43-b032-7129b3d49037'
 SOURCE_PATH = 'pictographic-primitives/other/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg'
 AUTHOR = 'gpt-6'
-CONSTRUCTION_REFERENCES = ['calendar']
-PLAN = 'Three-binding calendar with 2+1; redistribute the three glyphs across a wide keyshape.'
-PARENT_RESULT = 'icon_set/work/primitive-make-ray/14b5dacf-2ae7-4b43-b032-7129b3d49037/20260923-b06-3c258fc8/result.json'
 
 class Drawing(Solo48):
     icon_id = 'calendar-math'
@@ -85,3 +81,5 @@ class Drawing(Solo48):
         self.add_polyline('plus-vertical',(27,25),(27,27),(27,29))
         self.relate('connect','plus-horizontal','plus-vertical')
         self.add_line('one',(36,21),(36,31))
+
+PARENT_MODULE = 'icon_set/model/icons/solo/calendar_math_14b5dacf_2ae7_4b43_b032_7129b3d49037.py'

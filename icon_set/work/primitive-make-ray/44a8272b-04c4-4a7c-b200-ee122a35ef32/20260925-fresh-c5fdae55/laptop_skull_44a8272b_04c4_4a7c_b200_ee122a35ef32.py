@@ -9,7 +9,7 @@ AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'laptop-skull'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -37,11 +37,12 @@ class Drawing(Solo48):
         self.relate('connect','screen','base')
 
     def build(self):
-        # Taller laptop screen opens the skull's surrounding negative space.
-        self.add_polyline('screen',(6,34),(6,6),(42,6),(42,34),(6,34),closed=True)
-        self.add_polyline('base',(6,34),(6,42),(42,42),(42,34));self.relate('connect','screen','base')
-        self.add_arc('cranium',(16,24),(32,24),radius_x=8)
-        self.add_line('jaw-left',(16,24),(16,29));self.add_line('jaw-right',(32,24),(32,29))
+        # Retain the flared laptop base, two eye sockets and three open jaw/tooth strokes.
+        # The larger cranium is still too close to the enclosure and sockets under SOLO48.
+        self.laptop()
+        self.add_arc('cranium',(16,23),(32,23),radius_x=8)
+        self.add_line('jaw-left',(16,23),(16,27));self.add_line('jaw-right',(32,23),(32,27))
         self.relate('connect','cranium','jaw-left');self.relate('connect','cranium','jaw-right')
-        for x in (20,28):self.add_dot('eye-'+str(x),(x,23))
+        for x in (20,28):self.add_dot('eye-'+str(x),(x,22))
+        self.add_line('tooth',(24,25),(24,27))
 

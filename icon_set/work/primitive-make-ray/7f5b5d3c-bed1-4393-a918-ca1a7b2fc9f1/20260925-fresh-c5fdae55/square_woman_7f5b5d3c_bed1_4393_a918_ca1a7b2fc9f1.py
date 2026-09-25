@@ -20,13 +20,13 @@ class Drawing(Solo48):
     def build(self):
         # Circular jaw with an open parted-hair crown removes the enclosed fringe sliver.
         self.box('frame',6,6,42,42,2)
-        self.add_arc('jaw',(17,21),(31,21),radius_x=7,sweep=False)
-        self.add_bezier('hair-left',(17,21),((17,12),(23,12),(24,17)))
-        self.add_bezier('hair-right',(24,17),((25,12),(31,12),(31,21)))
+        self.add_arc('jaw',(19,20),(29,20),radius_x=5,sweep=False)
+        self.add_bezier('hair-left',(19,20),((19,13),(23,13),(24,17)))
+        self.add_bezier('hair-right',(24,17),((25,13),(29,13),(29,20)))
         self.add_contour('head','hair-left','hair-right')
         self.relate('connect','head','jaw')
-        self.add_arc('shoulder-left',(15,42),(24,36),radius_x=9,radius_y=6)
-        self.add_arc('shoulder-right',(24,36),(33,42),radius_x=9,radius_y=6)
+        self.add_arc('shoulder-left',(15,42),(24,33),radius_x=9,radius_y=9)
+        self.add_arc('shoulder-right',(24,33),(33,42),radius_x=9,radius_y=9)
         self.add_contour('shoulders','shoulder-left','shoulder-right');self.relate('connect','frame','shoulders')
 
 

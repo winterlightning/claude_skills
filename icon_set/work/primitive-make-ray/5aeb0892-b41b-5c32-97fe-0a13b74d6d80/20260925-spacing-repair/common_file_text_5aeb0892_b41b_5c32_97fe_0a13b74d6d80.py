@@ -1,8 +1,4 @@
-"""A text document has a folded upper-right corner and two text lines.
-Symbol plan: Portrait page with equal radius-4 corners, diagonal fold and two repeated text rules at pitch 9.
-Keyshape visible bounds: (6, 2, 42, 46).
-Construction references: Lucide file-text: coherent folded page and text bars; supplied reference: two long text lines and smooth folded corner..
-"""
+'Document with text content.\nPlan: VRECT_L preserves portrait paper. Enlarged fold with tangent corner and two text rules at pitch8.\nReference: file-text; Folded outline, smooth page corners and repeated text rules.\nChanges: No parts omitted; fold enlarged to avoid the pinched pocket.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5aeb0892-b41b-5c32-97fe-0a13b74d6d80'
@@ -49,3 +45,5 @@ class Drawing(Solo48):
             else: self.add_line(part,a,b)
             members.append(part)
         self.add_contour(name,*members,closed=True)
+
+PARENT_MODULE = 'icon_set/model/icons/solo/common_file_text_5aeb0892_b41b_5c32_97fe_0a13b74d6d80.py'

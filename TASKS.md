@@ -11,12 +11,6 @@ project here):
 
 ## Queued
 
-- [ ] $primitive-fix-thuan 20 --offset 0 --disapprove-status meaning --worker thuan-mac (tp:9af4e8f5)
-  These icons were disapproved for unclear meaning: the concept name and the
-  drawing do not match. Read the concept name and the reference first, then
-  redraw so the icon clearly shows that concept at 48px, using its most
-  recognizable, conventional depiction rather than copying a misleading shape.
-
 
 ## Backlog
 
@@ -24,6 +18,12 @@ project here):
 
 
 ## Done
+
+- [x] $primitive-fix-thuan 20 --offset 0 --disapprove-status meaning --worker thuan-mac (tp:9af4e8f5)
+  These icons were disapproved for unclear meaning: the concept name and the
+  drawing do not match. Read the concept name and the reference first, then
+  redraw so the icon clearly shows that concept at 48px, using its most
+  recognizable, conventional depiction rather than copying a misleading shape.
 
 - [x] $primitive-fix-thuan 20 --offset 0 --disapprove-status meaning --worker thuan-mac (tp:6b660d31)
   These icons were disapproved for unclear meaning: the concept name and the

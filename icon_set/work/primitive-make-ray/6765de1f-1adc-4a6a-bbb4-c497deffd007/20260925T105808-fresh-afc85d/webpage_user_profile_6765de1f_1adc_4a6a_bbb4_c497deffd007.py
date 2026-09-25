@@ -4,9 +4,9 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6765de1f-1adc-4a6a-bbb4-c497deffd007'
 SOURCE_PATH='pictographic-primitives/other/ui webpage social profile_6765de1f-1adc-4a6a-bbb4-c497deffd007.svg'
 AUTHOR='gpt-6'
-PLAN='Tall browser page with a small circular portrait and detached shoulder arch on the left, two text lines on the right.'
-CONSTRUCTION_REFERENCE='human_ref/user.svg and panels-top-left; exact detached gap is 8 centerline units.'
-OMISSIONS='Header dashes omitted.'
+PLAN='Head center (20,22), radius 2; shoulders top y32. Exact detached head-to-shoulder gap: 32-(22+2)-4=4. Rounded portrait shoulders remain separate from page bottom.'
+CONSTRUCTION_REFERENCE='human_ref/user.svg for circular head and shoulder proportions; panels-top-left original and atomic-debug for chrome.'
+OMISSIONS='Header dashes omitted; source text lines reduced to short dashes; small head uses the existing complete-circle exception.'
 
 class Drawing(Solo48):
     icon_id='webpage-user-profile'
@@ -41,6 +41,6 @@ class Drawing(Solo48):
     def build(self):
         self.box('page',8,4,40,44)
         self.add_line('header',(8,12),(40,12));self.relate('connect','page','header')
-        self.circle('head',20,23,3)
-        self.add_arc('shoulders',(17,36),(23,36),radius_x=3,radius_y=2)
-        for i,y in enumerate((22,30)):self.add_line(f'text-{i}',(31,y),(31,y))
+        self.circle('head',20,22,2)
+        self.add_arc('shoulders',(17,35),(23,35),radius_x=3,radius_y=3)
+        for i,y in enumerate((22,30)):self.add_line(f'text-{i}',(30,y),(31,y))

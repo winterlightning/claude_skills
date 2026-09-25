@@ -3,8 +3,8 @@ from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='fc535717-5e07-564a-aad9-923ace667ffb'
 SOURCE_PATH='pictographic-primitives/holidays/star_fc535717-5e07-564a-aad9-923ace667ffb.svg'
 AUTHOR='gpt-6'
-PLAN='Five-point star centered in a round award medal, with paired ribbon ends beneath. Wider star and deeper lower notch increase internal space.'
-CONSTRUCTION_REFERENCES='star: mirrored alternating outer points and inner valleys; supplied medal owns ribbon.'
+PLAN='Round award medal with a crisp five-point star and symmetric notched ribbon. Star arms and ribbon now pass internal spacing; inset star-to-medal clearance remains unresolved.'
+CONSTRUCTION_REFERENCES='Lucide star original and atomic-debug: alternating points and valleys with a common vertical axis.'
 OMISSIONS=[]
 class Drawing(Solo48):
     icon_id='star-award-badge-ribbon'
@@ -30,7 +30,8 @@ class Drawing(Solo48):
         self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
-        self.path('medal',(24,4),[('A',(40,20),16,16,True),('A',(24,36),16,16,True),('A',(8,20),16,16,True),('A',(24,4),16,16,True)],True)
-        self.add_polyline('star',(24,11),(27,17),(34,18),(29,23),(30,30),(24,27),(18,30),(19,23),(14,18),(21,17),closed=True)
-        self.add_polyline('ribbon',(12,31),(12,44),(24,40),(36,44),(36,31))
-        # The ribbon ends meet the circle at integer 3-4-5 nodes below.
+        # Slightly upright round medal, with ribbon contacts owned by explicit nodes.
+        self.path('medal',(24,4),[('C',(40,19),(33,4),(40,10)),('C',(36,29),(40,23),(39,26)),('C',(24,34),(33,32),(28,34)),('C',(12,29),(20,34),(15,32)),('C',(8,19),(9,26),(8,23)),('C',(24,4),(8,10),(15,4))],True)
+        # Crisp five-point star retains the reference identity; unresolved spacing is reported.
+        self.add_polyline('star',(24,12),(27,17),(32,18),(28,22),(29,27),(24,24),(19,27),(20,22),(16,18),(21,17),closed=True)
+        self.add_polyline('ribbon',(12,29),(10,44),(24,42),(38,44),(36,29));self.relate('connect','ribbon','medal')

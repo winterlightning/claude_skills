@@ -1,13 +1,9 @@
-"""A three-binding calendar containing a three-sector pie chart.
-Plan: Calendar without header and centered circular pie. Radial dividers share one center and actual circle endpoints; unequal sectors preserve the source."""
+'Calendar with pie chart.\nPlan: SQUARE balances three bindings and the centered pie. Shared radial junction with unequal sectors.\nReference: calendar; Three repeated bindings and rounded frame.\nChanges: No parts omitted; pie rim adjusted to clear the frame and diagonal spoke.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8c9afa4f-6b92-41b3-8bcd-f538c69afde6'
 SOURCE_PATH = 'pictographic-primitives/other/calendar pie_8c9afa4f-6b92-41b3-8bcd-f538c69afde6.svg'
 AUTHOR = 'gpt-6'
-CONSTRUCTION_REFERENCES = ['calendar']
-PLAN = 'Calendar and three-sector pie retain the lower-left divider; a smooth cubic rim exposes an exact integer attachment point.'
-PARENT_RESULT = 'icon_set/work/primitive-make-ray/8c9afa4f-6b92-41b3-8bcd-f538c69afde6/20260923-b06-aa15f65f/result.json'
 
 class Drawing(Solo48):
     icon_id = 'calendar-pie'
@@ -90,3 +86,5 @@ class Drawing(Solo48):
             self.add_line('spoke-'+n,(24,25),end)
             self.relate('connect','spoke-'+n,'pie')
         self.relate('connect','spoke-up','spoke-right','spoke-diagonal')
+
+PARENT_MODULE = 'icon_set/model/icons/solo/calendar_pie_8c9afa4f_6b92_41b3_8bcd_f538c69afde6.py'

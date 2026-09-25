@@ -43,10 +43,11 @@ class Drawing(Solo48):
     keywords = ('monitor', 'small', 'squares')
 
     def build(self):
-        # One repeat definition makes both application tiles square with larger counters.
-        self.add_polyline('screen',(8,4),(40,4),(40,38),(24,38),(8,38),closed=True)
-        self.add_line('stand',(24,38),(24,44));self.add_polyline('base',(16,44),(24,44),(32,44))
+        # This retained vertical tile layout cannot meet all SOLO48 clearances.
+        # Preserve two recognizable square tiles rather than claim the enlarged but clipped attempt passes.
+        self.add_polyline('screen',(8,4),(40,4),(40,36),(24,36),(8,36),closed=True)
+        self.add_line('stand',(24,36),(24,44));self.add_polyline('base',(16,44),(24,44),(32,44))
         self.relate('connect','screen','stand');self.relate('connect','stand','base')
-        for i,y in enumerate((12,28)):
-            self.add_polyline(f'square-{i}',(16,y),(24,y),(24,y+8),(16,y+8),closed=True)
+        for i,y in enumerate((10,24)):
+            self.add_polyline(f'square-{i}',(16,y),(22,y),(22,y+6),(16,y+6),closed=True)
 

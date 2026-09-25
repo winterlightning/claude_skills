@@ -27,10 +27,10 @@ class Drawing(Solo48):
         self.add_contour('lower-orbit','orbit-bottom','orbit-bottom-end')
         self.add_polyline('left-arrow',(8,18),(4,24),(9,27));self.relate('connect','upper-orbit','left-arrow')
         self.add_polyline('right-arrow',(40,30),(44,24),(39,21));self.relate('connect','lower-orbit','right-arrow')
-        self.add_bezier('plane-tail',(18,27),((20,29),(20,31),(23,29)))
-        self.add_polyline('plane-body',(23,29),(26,26),(30,22))
+        self.add_bezier('plane-tail',(18,30),((20,32),(21,32),(24,29)))
+        self.add_polyline('plane-body',(24,29),(27,26),(31,22))
         self.relate('connect','plane-tail','plane-body')
-        self.add_line('plane-wing',(18,18),(26,26));self.relate('connect','plane-body','plane-wing')
+        self.add_line('plane-wing',(18,17),(27,26));self.relate('connect','plane-body','plane-wing')
 
 
     def circle(self, name, cx, cy, r):
