@@ -2,14 +2,14 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='611bc604-f296-4d2b-bb5f-5565ddcd7e36'
 SOURCE_PATH='icon_set/work/todo-references/square fragile_611bc604-f296-4d2b-bb5f-5565ddcd7e36.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing a wine glass with rounded bowl, stem and foot.'
 CONSTRUCTION_REFERENCES='Lucide wine: bowl, centered stem and horizontal foot.'
 OMISSIONS='None.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
-    icon_id='square-fragile'
+    icon_id = 'square-fragile'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

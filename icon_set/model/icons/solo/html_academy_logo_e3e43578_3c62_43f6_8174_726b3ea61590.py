@@ -19,6 +19,7 @@ class HtmlAcademyLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('html-academy', 'education', 'coding', 'logo', 'brand', 'web', 'course')
 

@@ -1,0 +1,92 @@
+Run $primitive-make-ray to repair failed icons, batch 6 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_28/music box_b9c25347-4f61-49ed-b94b-bdbb23fd2b5e.svg
+     icon_id: music-box
+     current drawing: published/failed/solo48/music-box.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [note-right / beam]: note-right-a and beam-1 have 2.195 units of ink clearance over 3.25 units; requires 4; review required | internal-spacing [note-right / second-beam]: note-right-a and second-beam have -0.997 units of ink clearance over 5.5 units; requires 4; review required
+  2. pictographic-primitives/_uncategorized_28/music making_8fed7998-a482-495d-a5a5-6b6237429d87.svg
+     icon_id: music-making
+     current drawing: published/failed/solo48/music-making.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [note-right / beam]: note-right-a and beam-2 have 3.216 units of ink clearance over 7.246 units; requires 4; review required
+  3. pictographic-primitives/_uncategorized_28/muskrat_763a2d28-4b32-458f-8301-cf3ad514b5a1.svg
+     icon_id: crouching-muskrat
+     current drawing: published/failed/solo48/crouching-muskrat.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [muskrat / tail]: muskrat-4 and tail-1 have 1.015 units of ink clearance over 18.771 units; requires 4; review required | internal-spacing [muskrat / tail]: muskrat-5 and tail-1 have 1.595 units of ink clearance over 3.75 units; requires 4; review required
+  4. pictographic-primitives/_uncategorized_28/natural disaster hurricane house_3f984823-804b-4a87-b5c2-3f6d4596f2d2.svg
+     icon_id: natural-disaster-hurricane-house
+     current drawing: published/failed/solo48/natural-disaster-hurricane-house.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hurricane]: tail and inner-coil have 1.601 units of ink clearance over 23.085 units; requires 4; review required | internal-spacing [hurricane]: outer-coil and core have 1.624 units of ink clearance over 29.669 units; requires 4; review required | internal-spacing [house]: house-2 and house-4 have 2.277 units of ink clearance over 3.975 units; requires 4; review required (+1 more)
+  5. pictographic-primitives/_uncategorized_28/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg
+     icon_id: nectar
+     current drawing: published/failed/solo48/nectar.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 7 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 7 undersized holes; 2 pinches
+  6. pictographic-primitives/_uncategorized_28/netsuke_caf0865b-e1c7-4007-9994-158b89caccc0.svg
+     icon_id: netsuke
+     current drawing: published/failed/solo48/netsuke.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  7. pictographic-primitives/_uncategorized_28/neuropathologist_0231a044-ecb1-470e-bcc3-8a45ccdc5d4a.svg
+     icon_id: right-profile-with-folded-brain
+     current drawing: published/failed/solo48/right-profile-with-folded-brain.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  8. pictographic-primitives/_uncategorized_28/nightclub_4f2adf74-2b0c-4983-8567-ce3c6c50bff8.svg
+     icon_id: nightclub
+     current drawing: published/failed/solo48/nightclub.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [cornice / door]: cornice-2 and door-top have 2.001 units of ink clearance over 11.25 units; requires 4; review required | internal-spacing [building / door]: building-3 and door-top have 3.522 units of ink clearance over 4.188 units; requires 4; review required | internal-spacing [note-0-right / beam-0]: note-0-right-a and beam-0-2 have 2.246 units of ink clearance over 7.246 units; requires 4; review required (+1 more)
+  9. pictographic-primitives/_uncategorized_29/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg
+     icon_id: office-desk-1
+     current drawing: published/failed/solo48/office-desk-1.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [monitor]: monitor and clock are 6 apart on centerlines nearest (26, 14)<->(32, 14); (needs 8) | mic [clock]: clock and hands are 1.999 apart on centerlines nearest (37.975, 8.000)<->(38, 10); (needs 8)
+       - parallel straight edges under 8: mic [cup]: parallel straight edges cup-3 and cup-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [cup]: parallel straight edges cup-2 and desk-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  10. pictographic-primitives/_uncategorized_29/olympic rings_3c672b26-42c9-4289-a407-8947e0d6a086.svg
+     icon_id: five-interlocking-olympic-rings
+     current drawing: published/failed/solo48/five-interlocking-olympic-rings.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 7 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 7 undersized holes; 2 pinches
+  11. pictographic-primitives/_uncategorized_29/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg
+     icon_id: outdoors-dog-house
+     current drawing: published/failed/solo48/outdoors-dog-house.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [dog]: dog-6 and dog-8 have 0.941 units of ink clearance over 4 units; requires 4; review required
+  12. pictographic-primitives/_uncategorized_29/paintbrush_f6746ee9-8a45-44c8-81ef-7d3da12c0bca.svg
+     icon_id: pointed-artist-paintbrush
+     current drawing: published/failed/solo48/pointed-artist-paintbrush.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  13. pictographic-primitives/_uncategorized_29/paintwork_6c8a1385-af01-4783-b140-1d97d33064f1.svg
+     icon_id: broad-tipped-artist-brush
+     current drawing: published/failed/solo48/broad-tipped-artist-brush.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [handle-outline]: handle and handle have 1.707 units of ink clearance over 20.411 units; requires 4; review required | internal-spacing [handle-outline / ferrule]: handle-base and ferrule-2 have 2.843 units of ink clearance over 6.25 units; requires 4; review required
+  14. pictographic-primitives/_uncategorized_29/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg
+     icon_id: pantyhose
+     current drawing: published/failed/solo48/pantyhose.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [bent-leg]: outer-thigh and toe-2 have 0.435 units of ink clearance over 5.310 units; requires 4; review required | internal-spacing [bent-leg]: outer-calf and toe-2 have 0.410 units of ink clearance over 13.897 units; requires 4; review required
+  15. pictographic-primitives/_uncategorized_29/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg
+     icon_id: parking-p
+     current drawing: published/failed/solo48/parking-p.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [badge]: badge and p-stem are 3.291 apart on centerlines nearest (27.556, 24.957)<->(29, 22); (needs 8) | mic [badge]: badge and roof are 2.206 apart on centerlines nearest (23.819, 21.751)<->(22, 23); (needs 8) | mic [badge]: badge and car are 4 apart on centerlines nearest (32, 26)<->(32, 30); (needs 8) (+5 more)
+       - parallel straight edges under 8: mic [p-stem]: parallel straight edges p-stem-3 and p-return are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [roof]: parallel straight edges roof-2 and car-0 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)

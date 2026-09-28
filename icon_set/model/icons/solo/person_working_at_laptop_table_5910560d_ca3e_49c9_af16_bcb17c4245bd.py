@@ -12,7 +12,8 @@ class PersonWorkingAtLaptopTable(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/work'
+    category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('person', 'laptop', 'desk', 'work', 'seated', 'computer')
 

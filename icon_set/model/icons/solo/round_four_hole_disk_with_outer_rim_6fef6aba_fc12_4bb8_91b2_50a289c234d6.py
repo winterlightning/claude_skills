@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('round', 'four', 'hole', 'disk', 'with', 'outer', 'rim')
 
     def build(self):

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '688256eb-e269-4b62-9dcc-ecccc8d9b352'
 SOURCE_PATH = 'icon_set/work/todo-references/transit no entering stop_688256eb-e269-4b62-9dcc-ecccc8d9b352.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'transit-no-entering-stop'
     keyshape = Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'db5fe124-1329-594f-9463-63ea811fbf4d'
 SOURCE_PATH = 'icon_set/work/todo-references/bathroom mirror_db5fe124-1329-594f-9463-63ea811fbf4d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bathroom-mirror'

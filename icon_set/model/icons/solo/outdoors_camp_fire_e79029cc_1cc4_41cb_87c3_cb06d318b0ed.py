@@ -12,6 +12,7 @@ class OutdoorsCampFire(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('outdoors', 'camp', 'fire')
 

@@ -10,7 +10,8 @@ class PregnantBellyWithHeart(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/maternity'
+    category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ('pregnancy-hug', 'baby-bump')
     keywords = ('pregnancy', 'belly', 'bump', 'expecting', 'heart', 'maternity', 'mother', 'prenatal')
 

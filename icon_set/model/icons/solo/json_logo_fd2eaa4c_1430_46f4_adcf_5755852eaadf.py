@@ -19,6 +19,7 @@ class JsonLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('json', 'data', 'format', 'swirl', 'logo', 'brand', 'developer')
 

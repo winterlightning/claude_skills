@@ -10,7 +10,8 @@ class BabyFigure(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/babies'
+    category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ()
     keywords = ('baby', 'figure', 'infant', 'nursery')
 

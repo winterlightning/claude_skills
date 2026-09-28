@@ -12,7 +12,8 @@ class Helicopter(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('helicopter', 'chopper', 'aircraft', 'rotor', 'flight', 'aviation', 'air transport', 'side view')
 

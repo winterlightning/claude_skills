@@ -8,9 +8,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='ac9f1218-ef15-4d4e-a1dd-51bf700d94db'
 SOURCE_PATH='icon_set/work/todo-references/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='house-dollar-sign'
+    icon_id = 'house-dollar-sign'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

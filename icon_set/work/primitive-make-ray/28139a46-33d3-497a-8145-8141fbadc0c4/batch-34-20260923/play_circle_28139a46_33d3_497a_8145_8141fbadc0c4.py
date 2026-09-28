@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='28139a46-33d3-497a-8145-8141fbadc0c4'
 SOURCE_PATH='icon_set/work/todo-references/play circle_28139a46-33d3-497a-8145-8141fbadc0c4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Play triangle centered optically within a circular outline. Right-pointing asymmetry carries direction.'
 CONSTRUCTION_REFERENCES='Lucide circle-play: outer circle and one triangular contour.'
 OMISSIONS='None.'

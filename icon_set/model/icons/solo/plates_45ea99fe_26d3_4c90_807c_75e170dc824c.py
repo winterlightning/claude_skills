@@ -13,6 +13,7 @@ class Plates(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('plates', 'hotels')
     keyshape = Keyshape.HRECT_L

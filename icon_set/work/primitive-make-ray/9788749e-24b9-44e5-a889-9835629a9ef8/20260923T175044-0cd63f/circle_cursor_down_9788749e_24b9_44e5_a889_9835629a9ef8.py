@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9788749e-24b9-44e5-a889-9835629a9ef8'
 SOURCE_PATH = 'icon_set/work/todo-references/circle cursor down_9788749e-24b9-44e5-a889-9835629a9ef8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circle-cursor-down'

@@ -11,7 +11,8 @@ class SpeakerInAmphitheatre(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('speaker', 'amphitheatre', 'presentation', 'person', 'auditorium', 'office')
 

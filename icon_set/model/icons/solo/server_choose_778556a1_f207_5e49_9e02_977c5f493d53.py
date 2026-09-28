@@ -13,6 +13,7 @@ class ServerChoose(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'servers'
+    categories = ('servers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('server', 'choose', 'servers')
     keyshape = Keyshape.HRECT_L

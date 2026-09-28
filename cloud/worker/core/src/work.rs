@@ -258,7 +258,10 @@ pub fn queue(data: &WorkData, query: &Query, claimable_only: bool) -> Result<Val
         let status = item["status"].as_str().unwrap_or("");
         (status == "disapprove" || status == "claimed")
             && (!claimable_only || state_of(item).is_none())
-            && wanted_state.is_none_or(|s| state_of(item) == Some(s))
+            && wanted_state.is_none_or(|s| state_matches(item, s))
+            // Side combination 64 icons have no Python model to fix; they are fixed through their main and sub,
+            // so fix workers only get them when they ask for that family.
+            && (filters.family.is_some() || item["family"].as_str() != Some("side_combination64"))
     }).collect();
     rows.sort_by_key(|item| (text(item, "disapproved_at"), text(item, "key")));
     let total = rows.len();
@@ -293,12 +296,14 @@ pub fn listing(data: &WorkData) -> Value {
 /// Stage summaries of uploaded fix results, keyed by (icon, sha).
 pub type ResultSummaries = HashMap<(String, String), BTreeMap<String, Value>>;
 
-/// `/api/work/review`: everything a reviewer may follow, newest activity first.
-pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummaries) -> Result<Value, WorkError> {
-    let mut query = query.clone();
-    query.entry("limit".into()).or_insert_with(|| vec![MAX_QUEUE.to_string()]);
-    let paging = paging(&query, MAX_QUEUE)?;
-    let filters = Filters { family: paging.one("family"), category: None, icon_type: None, reason: paging.one("reason") };
+/// `state=open` selects unclaimed items; any other value one work state.
+fn state_matches(item: &Value, state: &str) -> bool {
+    state_of(item) == if state == "open" { None } else { Some(state) }
+}
+
+/// work_claims.py `review_items`: the whole review listing, newest claim or disapproval first, unfiltered.
+pub fn review_items(data: &WorkData, summaries: &ResultSummaries) -> Vec<Value> {
+    let filters = Filters { family: None, category: None, icon_type: None, reason: None };
     let mut items = disapproved_items(data, &filters);
     for item in items.iter_mut() {
         let key = (text(item, "key"), text(item, "svg_sha256"));
@@ -310,21 +315,47 @@ pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummarie
             .unwrap_or_else(|| text(item, "disapproved_at"));
         (stamp, text(item, "key"))
     };
-    let mut ordered = items.clone();
-    ordered.sort_by_key(|item| std::cmp::Reverse(sort_key(item)));
-    if let Some(state) = paging.one("state") {
-        ordered.retain(|item| state_of(item) == Some(state));
-    }
-    if let Some(status) = paging.one("status") {
-        ordered.retain(|item| item["status"].as_str() == Some(status));
-    }
+    items.sort_by_key(|item| std::cmp::Reverse(sort_key(item)));
+    items
+}
+
+fn searchable(item: &Value) -> String {
+    let work = &item["work"];
+    [&item["key"], &item["name"], &work["worker"], &item["feedback"], &item["disapproved_by"], &work["note"]].iter()
+        .map(|value| match value { Value::Null => String::new(), Value::String(s) => s.clone(), other => other.to_string() })
+        .collect::<Vec<_>>().join(" ").to_lowercase()
+}
+
+/// `/api/work/review` (work_claims.py `filter_review`): filters family, reason (or `missing`), status,
+/// state (`open` = unclaimed), worker and `q` text search. `counts` ignore only the state filter.
+pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummaries) -> Result<Value, WorkError> {
+    let mut query = query.clone();
+    query.entry("limit".into()).or_insert_with(|| vec![MAX_QUEUE.to_string()]);
+    let paging = paging(&query, MAX_QUEUE)?;
+    let items = review_items(data, summaries);
+    let (family, reason, status, worker) = (paging.one("family"), paging.one("reason"), paging.one("status"), paging.one("worker"));
+    let needle = paging.one("q").unwrap_or("").trim().to_lowercase();
+    let mut matching: Vec<Value> = items.iter().filter(|item| {
+        family.is_none_or(|f| item["family"].as_str() == Some(f))
+            && reason.is_none_or(|r| item["reason"].as_str().filter(|s| !s.is_empty()).unwrap_or("missing") == r)
+            && status.is_none_or(|s| item["status"].as_str() == Some(s))
+            && worker.is_none_or(|w| item["work"]["worker"].as_str() == Some(w))
+            && (needle.is_empty() || searchable(item).contains(&needle))
+    }).cloned().collect();
     let mut counts = Map::new();
     for state in STATES {
-        counts.insert(state.into(), json!(items.iter().filter(|item| state_of(item) == Some(state)).count()));
+        counts.insert(state.into(), json!(matching.iter().filter(|item| state_of(item) == Some(state)).count()));
     }
-    let total = ordered.len();
-    let (page_items, next) = page(ordered, paging.offset, paging.limit);
-    Ok(json!({"total": total, "offset": paging.offset, "next_offset": next, "counts": counts, "items": page_items}))
+    let unfiltered = matching.len();
+    if let Some(state) = paging.one("state") {
+        matching.retain(|item| state_matches(item, state));
+    }
+    let families: std::collections::BTreeSet<&str> = items.iter().filter_map(|item| item["family"].as_str())
+        .filter(|f| !f.is_empty()).collect();
+    let total = matching.len();
+    let (page_items, next) = page(matching, paging.offset, paging.limit);
+    Ok(json!({"total": total, "offset": paging.offset, "next_offset": next, "counts": counts, "all": unfiltered,
+              "families": families, "items": page_items}))
 }
 
 // ---- transition checks; the caller runs the conditional SQL when these pass ----

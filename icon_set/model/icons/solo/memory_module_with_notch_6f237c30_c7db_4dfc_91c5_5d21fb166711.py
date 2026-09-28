@@ -11,7 +11,8 @@ class MemoryModuleWithNotch(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('ram', 'memory', 'module', 'dimm', 'chip', 'hardware', 'computer', 'upgrade')
 

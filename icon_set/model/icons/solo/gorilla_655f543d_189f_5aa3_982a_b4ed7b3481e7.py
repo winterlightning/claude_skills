@@ -13,6 +13,7 @@ class Gorilla(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('gorilla', 'ape', 'primate', 'knuckle', 'monkey', 'animal', 'wildlife', 'strength')
 

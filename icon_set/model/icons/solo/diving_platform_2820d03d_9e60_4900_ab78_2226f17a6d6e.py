@@ -10,7 +10,8 @@ class DivingPlatform(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('diving', 'platform', 'tower', 'pool', 'swimming', 'equipment')
     def build(self) -> None:

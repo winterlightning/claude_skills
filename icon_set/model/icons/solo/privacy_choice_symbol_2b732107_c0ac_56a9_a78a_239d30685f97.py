@@ -11,7 +11,8 @@ class PrivacyChoiceSymbol(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/technology"
+    category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('privacy', 'choice', 'consent', 'opt-out', 'check', 'cross', 'ccpa')
 

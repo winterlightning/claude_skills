@@ -1,42 +1,38 @@
-"""Female User Profile.
-Plan: Circular jaw and center-parted hair above symmetric shoulder arch; detached gap 4 ink units. Ink (6,2)-(42,46).
-Construction reference: human_ref/user.svg.
-Reduction: Omit outward hair wisps; preserve center part, circular face and broad shoulders.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b7558322-6681-447e-8b8a-0f4a588a3f0e'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/images/woman_b7558322-6681-447e-8b8a-0f4a588a3f0e.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__female-user-profile/20260925T034349Z-thuan-mac/reference/woman_b7558322-6681-447e-8b8a-0f4a588a3f0e.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'female-user-profile'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/images'
+    category = 'objects'
     aliases = ()
-    keywords = ('female', 'user', 'profile')
+    keywords = ('meaning-revision',)
     def build(self):
+        # Long hair framing a circular face above broad shoulders; detached face-to-shoulder gap 4 ink units.
+        def line(n,a,b): self.add_line(n,a,b)
+        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def contour(n,*p,closed=False): self.add_contour(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(n,x,y,r):
+            arc(n+'a',(x-r,y),(x+r,y),r)
+            arc(n+'b',(x+r,y),(x-r,y),r)
+            contour(n,n+'a',n+'b',closed=True)
+        def box(n,l,t,r,b,k=4):
+            line(n+'t',(l+k,t),(r-k,t));arc(n+'tr',(r-k,t),(r,t+k),k)
+            line(n+'r',(r,t+k),(r,b-k));arc(n+'br',(r,b-k),(r-k,b),k)
+            line(n+'b',(r-k,b),(l+k,b));arc(n+'bl',(l+k,b),(l,b-k),k)
+            line(n+'l',(l,b-k),(l,t+k));arc(n+'tl',(l,t+k),(l+k,t),k)
+            contour(n,*[n+x for x in ['t','tr','r','br','b','bl','l','tl']],closed=True)
 
-        def circle(name, cx, cy, r):
-            self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r)
-            self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r)
-            self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-        def rect(name,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
-            for i,(a,b) in enumerate(zip(pts,pts[1:])):
-                if i%2: self.add_arc(f'{name}-{i}',a,b,radius_x=r)
-                else: self.add_line(f'{name}-{i}',a,b)
-            self.add_contour(name,*(f'{name}-{i}' for i in range(8)),closed=True)
-
-        self.add_arc('hair-top',(14,14),(34,14),radius_x=10)
-        self.add_arc('jaw',(34,14),(14,14),radius_x=10)
-        self.add_contour('head','hair-top','jaw',closed=True)
-        self.add_bezier('part-left',(14,14),((18,14),(22,12),(24,10)))
-        self.add_bezier('part-right',(24,10),((26,12),(30,14),(34,14)))
-        self.add_contour('hair-part','part-left','part-right')
-        self.relate('connect','hair-part','head')
-        self.add_arc('shoulders',(8,44),(24,32),radius_x=16,radius_y=12)
-        self.add_arc('shoulders-right',(24,32),(40,44),radius_x=16,radius_y=12)
-        self.add_contour('body','shoulders','shoulders-right')
+        circle('head',24,14,10)
+        for side in [-1,1]:
+            x=24+side*10
+            line('hair'+str(side),(x,14),(24+side*16,28))
+            join('head','hair'+str(side))
+        arc('shoulders',(8,44),(40,44),16,12)

@@ -5,7 +5,7 @@ from PIL import Image,ImageDraw,ImageOps
 
 SOURCE_ICON_ID='79bf90d8-329d-4a4d-83de-1b10b21a59b2'
 SOURCE_PATH='icon_set/work/todo-references/real estate market house decrease_79bf90d8-329d-4a4d-83de-1b10b21a59b2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ROWS=json.loads((ROOT/'batch.json').read_text())
 HELPERS='''

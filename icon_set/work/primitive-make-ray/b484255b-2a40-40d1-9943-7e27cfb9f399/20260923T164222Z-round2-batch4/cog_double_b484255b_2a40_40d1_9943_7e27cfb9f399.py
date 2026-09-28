@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='b484255b-2a40-40d1-9943-7e27cfb9f399'
 SOURCE_PATH='icon_set/work/todo-references/cog double_b484255b-2a40-40d1-9943-7e27cfb9f399.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='cog-double'
     keyshape=Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='ee2a071e-6904-4d7d-a879-a7315aec3bd6'
 SOURCE_PATH='icon_set/work/todo-references/baggage weight_ee2a071e-6904-4d7d-a879-a7315aec3bd6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='baggage-weight'
     keyshape=Keyshape.VRECT_L

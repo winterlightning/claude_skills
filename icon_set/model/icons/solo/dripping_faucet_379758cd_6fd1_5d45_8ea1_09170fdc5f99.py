@@ -55,6 +55,7 @@ class DrippingFaucet(Solo48):
     icon_id = 'dripping-faucet'
     keyshape = Keyshape.VRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

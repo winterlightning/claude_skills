@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '77a84225-bc63-404c-8e7b-1890d0aceb3d'
 SOURCE_PATH = 'icon_set/work/todo-references/adder_77a84225-bc63-404c-8e7b-1890d0aceb3d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'adder'

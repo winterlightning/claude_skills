@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='afef5066-8280-48f5-ac92-1b42175580cd'
 SOURCE_PATH='icon_set/work/todo-references/music file_afef5066-8280-48f5-ac92-1b42175580cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='music-file'
     keyshape=Keyshape.VRECT_L

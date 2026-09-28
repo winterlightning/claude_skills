@@ -12,6 +12,7 @@ class ChickenFace(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('chicken', 'hen', 'face', 'head', 'comb', 'beak', 'farm', 'poultry')
 

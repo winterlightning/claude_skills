@@ -15,6 +15,7 @@ class PowerPlugDisconnected(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'electronics'
+    categories = ('electronics', 'primitives')
     aliases = ()
     keywords = ('power', 'plug', 'disconnected', 'electronics')
 

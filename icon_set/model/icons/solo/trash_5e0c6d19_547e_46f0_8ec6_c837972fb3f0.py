@@ -12,6 +12,7 @@ class TrashState(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('trash', 'state')
 

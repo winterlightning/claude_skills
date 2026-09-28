@@ -14,7 +14,8 @@ class InformationDesk(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('information', 'desk', '_uncategorized')
 

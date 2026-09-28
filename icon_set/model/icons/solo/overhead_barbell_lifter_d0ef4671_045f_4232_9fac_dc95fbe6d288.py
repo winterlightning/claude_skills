@@ -10,7 +10,8 @@ class OverheadBarbellLifter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/sports'
+    category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('overhead', 'barbell', 'lifter', 'sport')
 

@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '242c5167-10ea-4717-a24b-bd22d2cf9483'
 SOURCE_PATH = 'icon_set/work/todo-references/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A desktop monitor with a large diagonal editing pencil.

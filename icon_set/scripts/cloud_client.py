@@ -7,6 +7,9 @@ only change where documents are read from and saved to:
 * ``CloudClient``           HTTP calls to the Worker, with the push token for internal routes.
 * ``CloudStrokeEditStore``  stroke edits saved in the cloud, keyed ``<icon>@<svg_sha256>``.
 * ``CloudArtworkStore``     artwork choices saved in the cloud, cached briefly (read per record).
+
+Both stores run the database-backed save logic against a local cache database: the cloud's
+current document is copied in first, so the local revision check sees what the cloud has.
 * ``CloudReferenceStore``   reference images downloaded on demand into a local cache folder.
 
 Saves send the revision they started from; the cloud refuses a save when another machine saved
@@ -25,11 +28,15 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from contextlib import contextmanager
+
 if __package__:
+    from . import state_db
     from .icon_artwork import ArtworkStore
     from .reference_images import ReferenceStore
     from .stroke_edits import StrokeEditStore, EditConflict
 else:
+    import state_db
     from icon_artwork import ArtworkStore
     from reference_images import ReferenceStore
     from stroke_edits import StrokeEditStore, EditConflict
@@ -149,11 +156,19 @@ def _save_document(client: CloudClient, store: str, key: str, document: dict, pr
         raise
 
 
-class CloudStrokeEditStore(StrokeEditStore):
-    """Stroke edits in the cloud; the local folder only holds files while a save is in progress."""
+def _seed(store, table: str, where: dict, document: dict | None, put) -> None:
+    """Make the local cache row match the cloud's current document (or its absence) before a save."""
+    with store.transaction() as connection:
+        connection.execute(f"DELETE FROM {table} WHERE {' AND '.join(k + '=?' for k in where)}", tuple(where.values()))
+        if document is not None:
+            put(connection, document)
 
-    def __init__(self, client: CloudClient, root, contracts_path=None):
-        super().__init__(root, contracts_path)
+
+class CloudStrokeEditStore(StrokeEditStore):
+    """Stroke edits in the cloud; the local cache database only mirrors the documents being saved."""
+
+    def __init__(self, client: CloudClient, database, contracts_path=None):
+        super().__init__(database, contracts_path)
         self.client = client
 
     @staticmethod
@@ -174,7 +189,9 @@ class CloudStrokeEditStore(StrokeEditStore):
 
     def save(self, icon, data, user):
         previous = data.get('revision')
-        document = super().save(icon, data, user)  # validates against the cloud's current revision, writes a local file
+        _seed(self, 'stroke_edits', {'icon': icon['key'], 'source_svg_sha256': icon['svg_sha256']},
+              self.get(icon['key'], icon['svg_sha256']), state_db.put_stroke_edit)
+        document = super().save(icon, data, user)  # validates against the cloud's current revision
         _save_document(self.client, 'stroke-edits', self.cloud_key(icon['key'], icon['svg_sha256']), document,
                        previous if isinstance(previous, int) else 0, user)
         return document
@@ -186,11 +203,15 @@ class CloudArtworkStore(ArtworkStore):
 
     TTL = 5.0
 
-    def __init__(self, client: CloudClient, root):
-        super().__init__(root)
+    def __init__(self, client: CloudClient, database):
+        super().__init__(database)
         self.client = client
         self._cache: tuple[float, dict] | None = None
         self._lock = threading.Lock()
+
+    @contextmanager
+    def snapshot(self):
+        yield self  # get() already answers from one fetch of every choice
 
     def _documents(self) -> dict:
         with self._lock:
@@ -208,7 +229,9 @@ class CloudArtworkStore(ArtworkStore):
     def save(self, icon, data, user, edits):
         with self._lock:
             self._cache = None  # decide against the cloud's current choice, not a cached one
-        previous = (self.get(icon['key']) or {}).get('revision', 0)
+        current = self.get(icon['key'])
+        previous = (current or {}).get('revision', 0)
+        _seed(self, 'icon_artwork', {'icon': icon['key']}, current, state_db.put_artwork)
         result = super().save(icon, data, user, edits)
         _save_document(self.client, 'icon-artwork', icon['key'], result, previous, user)
         with self._lock:

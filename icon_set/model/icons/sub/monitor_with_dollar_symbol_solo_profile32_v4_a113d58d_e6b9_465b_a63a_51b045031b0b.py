@@ -19,7 +19,8 @@ class DrawingVariant4(SideSub32Exception):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/finance'
+    category = 'symbol'
+    categories = ('symbol', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
     canvas_width = 40
     canvas_height = 32

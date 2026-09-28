@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class LightBulbContainer(Container64):
     icon_id = 'light-bulb-container'
+    category = 'work'
+    categories = ('work', 'other', 'primitives-generate')
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('light', 'bulb', 'container')

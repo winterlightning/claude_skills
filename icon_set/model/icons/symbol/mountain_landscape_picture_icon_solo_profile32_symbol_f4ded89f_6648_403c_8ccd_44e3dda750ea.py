@@ -22,7 +22,8 @@ class DrawingContainerSymbol(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/interface-essential'
+    category = 'images'
+    categories = ('images', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

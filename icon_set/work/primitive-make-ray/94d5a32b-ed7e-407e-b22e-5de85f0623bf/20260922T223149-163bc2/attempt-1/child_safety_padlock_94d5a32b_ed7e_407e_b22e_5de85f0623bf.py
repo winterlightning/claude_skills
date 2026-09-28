@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '94d5a32b-ed7e-407e-b22e-5de85f0623bf'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/children safety door lock 1_94d5a32b-ed7e-407e-b22e-5de85f0623bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'child-safety-padlock'

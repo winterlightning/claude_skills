@@ -53,6 +53,7 @@ class WoodBoardWithKnot(Solo48):
     icon_id = 'wood-board-with-knot'
     keyshape = Keyshape.HRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

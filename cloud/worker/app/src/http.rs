@@ -84,6 +84,11 @@ pub fn text(status: u16, body: &str, content_type: &str) -> Result<Response> {
         .with_headers(base_headers(content_type, "no-store")?))
 }
 
+/// Prebuilt response bytes (e.g. JSON spliced around a stored file), never cached.
+pub fn bytes(status: u16, body: Vec<u8>, content_type: &str) -> Result<Response> {
+    Ok(Response::from_bytes(body)?.with_status(status).with_headers(base_headers(content_type, "no-store")?))
+}
+
 pub fn redirect(location: &str) -> Result<Response> {
     let headers = Headers::new();
     headers.set("Location", location)?;

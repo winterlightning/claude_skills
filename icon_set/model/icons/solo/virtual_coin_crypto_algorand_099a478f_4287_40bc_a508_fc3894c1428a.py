@@ -1,13 +1,15 @@
-"""An Algorand coin contains an angular A-like logo.
-Plan: A circular coin owns an open apex and a separate short interior diagonal.
-Keyshape CIRCLE: {'center': [24, 24], 'ink_radius': 22, 'centerline_radius': 20}.
-References: Supplied SVG rendered and inspected. No useful local Lucide subject match used; geometric reconstruction follows the supplied drawing.
+"""virtual coin crypto algorand.
+Plan: Circular coin around Algorand A; the second diagonal joins the right leg at a shared node and parallels the left leg with clearance.
+Construction: Source Algorand shape; shared-node geometry and concentric circular enclosure, Lucide circle construction.
+Omissions: Detached diagonal moved into its defining A attachment.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '099a478f-4287-40bc-a508-fc3894c1428a'
-SOURCE_PATH = 'icon_set/work/todo-references/virtual coin crypto algorand_099a478f-4287-40bc-a508-fc3894c1428a.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/finance/virtual coin crypto algorand_099a478f-4287-40bc-a508-fc3894c1428a.svg'
+AUTHOR = "gpt-6"
+
 class Drawing(Solo48):
     icon_id = 'virtual-coin-crypto-algorand'
     keyshape = Keyshape.CIRCLE
@@ -16,7 +18,7 @@ class Drawing(Solo48):
     category = 'objects/general'
     aliases = ()
     keywords = ('virtual', 'coin', 'crypto', 'algorand')
-
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,7 +72,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
         self.circle('coin',24,24,20)
-        self.add_polyline('logo',(15,31),(24,14),(33,31))
-        self.add_line('inner-stroke',(20,31),(24,24))
+        self.add_polyline('logo',(14,30),(24,14),(29,22),(34,30))
+        self.add_line('inner-stroke',(24,30),(29,22))
+        self.relate('connect','logo','inner-stroke')

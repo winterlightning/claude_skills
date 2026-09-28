@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '579fb1d8-d4cf-45fd-9c72-5e63a9b1bcad'
 SOURCE_PATH = 'icon_set/work/todo-references/transporter 3_579fb1d8-d4cf-45fd-9c72-5e63a9b1bcad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'transporter-3'
     keyshape = Keyshape.SQUARE

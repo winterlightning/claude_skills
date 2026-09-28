@@ -20,6 +20,7 @@ class ChevronUpWithWideArms(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'arrows'
+    categories = ('arrows', 'state')
     aliases = ()
     keywords = ('chevron', 'up', 'with', 'wide', 'arms')
 

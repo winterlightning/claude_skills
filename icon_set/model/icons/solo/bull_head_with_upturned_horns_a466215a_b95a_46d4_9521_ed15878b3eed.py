@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'bull-head-with-upturned-horns'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('bull', 'head', 'with', 'upturned', 'horns')
 
     def build(self):

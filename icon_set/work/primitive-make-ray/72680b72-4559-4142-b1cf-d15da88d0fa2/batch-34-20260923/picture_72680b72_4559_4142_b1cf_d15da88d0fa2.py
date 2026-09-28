@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='72680b72-4559-4142-b1cf-d15da88d0fa2'
 SOURCE_PATH='icon_set/work/todo-references/picture_72680b72-4559-4142-b1cf-d15da88d0fa2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Landscape picture with sun upper right and overlapping angular mountain ridges. Preserve diagonal asymmetry.'
 CONSTRUCTION_REFERENCES='Lucide image: geometric peaks and framed sun.'
 OMISSIONS='Sun hole reduces to a tiny native-size disc; frame uses rounded joins.'

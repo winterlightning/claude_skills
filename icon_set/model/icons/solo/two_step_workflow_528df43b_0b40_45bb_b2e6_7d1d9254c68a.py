@@ -69,6 +69,7 @@ class TwoStepWorkflow(Solo48):
     icon_id = 'two-step-workflow'
     keyshape = Keyshape.VRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -1,0 +1,97 @@
+Run $primitive-make-ray to repair failed icons, batch 8 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_31/plug circle xmark_2fa2e764-f653-4eb6-b13a-4c6d7b198877.svg
+     icon_id: plug-circle-xmark
+     current drawing: published/failed/solo48/plug-circle-xmark.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [plug-top / plug-bowl]: plug-top-2 and bowl-right have 2.215 units of ink clearance over 2.728 units; requires 4; review required | internal-spacing [plug-top / plug-bowl]: plug-top-2 and bowl-left have 2.215 units of ink clearance over 2.728 units; requires 4; review required
+  2. pictographic-primitives/_uncategorized_31/polyester_7a069c80-678a-480c-a3ff-5da10f209d9c.svg
+     icon_id: polyester
+     current drawing: published/failed/solo48/polyester.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [fold]: fold and vertical-2 are 0.707 apart on centerlines nearest (31.5, 15.5)<->(31, 16); (needs 8)
+       - parallel straight edges under 8: mic [sheet]: parallel straight edges sheet-8 and fold-2 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  3. pictographic-primitives/_uncategorized_31/pound_4b4714a5-9ccb-46f5-aa7c-3672e3f9cac9.svg
+     icon_id: pound
+     current drawing: published/failed/solo48/pound.svg
+     violates 1 rule: parallel straight edges under 8
+       - parallel straight edges under 8: mic [pound]: parallel straight edges bar-right-1 and foot-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  4. pictographic-primitives/_uncategorized_31/prescription drug px 2_5a9d43a5-7519-4e64-81a0-64a7c06298cc.svg
+     icon_id: prescription-drug-px-2
+     current drawing: published/failed/solo48/prescription-drug-px-2.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [paper]: paper and rx-down are 5 apart on centerlines nearest (34, 28)<->(29, 28); (needs 8) | mic [paper]: paper and writing-0 are 7 apart on centerlines nearest (12, 33)<->(19, 33); (needs 8) | mic [paper]: paper and writing-1 are 3 apart on centerlines nearest (19, 42)<->(19, 39); (needs 8) (+2 more)
+       - parallel straight edges under 8: mic [writing-0]: parallel straight edges writing-0 and writing-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [writing-1]: parallel straight edges writing-1 and paper-bottom are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  5. pictographic-primitives/_uncategorized_31/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg
+     icon_id: programming-hold-code-2
+     current drawing: published/failed/solo48/programming-hold-code-2.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [cupped-left]: hand-left and palm-left have 3.155 units of ink clearance over 4.952 units; requires 4; review required | internal-spacing [cupped-left]: hand-left and finger-left have 0 units of ink clearance over 3.067 units; requires 4; review required | internal-spacing [cupped-left]: hand-left and palm-left have 0.117 units of ink clearance over 3.067 units; requires 4; review required (+5 more)
+  6. pictographic-primitives/_uncategorized_31/protocol open id logo_962c33a0-eaf5-4a99-9127-a5fd1da5870b.svg
+     icon_id: protocol-open-id-logo
+     current drawing: published/failed/solo48/protocol-open-id-logo.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [arrow-upper / arrow-lower]: arrow-upper-1 and arrow-lower-2 have 0.277 units of ink clearance over 8.447 units; requires 4; review required | internal-spacing [outer-loop / inner-loop]: outer-loop and inner-loop have 1.574 units of ink clearance over 22.531 units; requires 4; review required | internal-spacing [outer-loop / inner-loop]: outer-loop and inner-loop have 1.551 units of ink clearance over 20.693 units; requires 4; review required
+  7. pictographic-primitives/_uncategorized_31/psycho analysis 5_fc8e8b95-766a-4f15-a80b-5e30979a5fc8.svg
+     icon_id: psycho-analysis-5
+     current drawing: published/failed/solo48/psycho-analysis-5.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [head-bowl / shoulders]: jaw and shoulders have 0.018 units of ink clearance over 6.010 units; requires 4; review required | internal-spacing [head-bowl / shoulders]: jaw and shoulders have 0.018 units of ink clearance over 6.010 units; requires 4; review required
+  8. pictographic-primitives/_uncategorized_32/quote left_bbf400c0-4ed9-481e-8643-979aa728bc9d.svg
+     icon_id: quote-left
+     current drawing: published/failed/solo48/quote-left.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [quote-0]: quote-0-outer and quote-0-inner have 2.341 units of ink clearance over 19.617 units; requires 4; review required | internal-spacing [quote-1]: quote-1-outer and quote-1-inner have 2.341 units of ink clearance over 19.617 units; requires 4; review required
+  9. pictographic-primitives/_uncategorized_32/quote right_a669591d-8405-49c2-be0a-5d69af49a20c.svg
+     icon_id: quote-right
+     current drawing: published/failed/solo48/quote-right.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [quote-0]: quote-0-outer and quote-0-inner have 2.341 units of ink clearance over 19.617 units; requires 4; review required | internal-spacing [quote-1]: quote-1-outer and quote-1-inner have 2.341 units of ink clearance over 19.617 units; requires 4; review required
+  10. pictographic-primitives/_uncategorized_32/quotes_d8e178df-75a7-436c-99cf-7f7c90cf866a.svg
+     icon_id: quotes
+     current drawing: published/failed/solo48/quotes.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [quote-0]: quote-0-outer-tail and quote-0-inner-tail have 1.830 units of ink clearance over 17.537 units; requires 4; review required | internal-spacing [quote-1]: quote-1-outer-tail and quote-1-inner-tail have 1.830 units of ink clearance over 17.537 units; requires 4; review required
+  11. pictographic-primitives/_uncategorized_32/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg
+     icon_id: rating-booklet
+     current drawing: published/failed/solo48/rating-booklet.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [cover]: cover and rating-star are 6 apart on centerlines nearest (24, 12)<->(24, 18); (needs 8) | mic [cover]: cover and text-0 are 6 apart on centerlines nearest (20, 44)<->(20, 38); (needs 8) | mic [cover]: cover and text-1 are 3 apart on centerlines nearest (20, 44)<->(20, 41); (needs 8) (+3 more)
+       - parallel straight edges under 8: mic [text-0]: parallel straight edges text-0 and text-1 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [text-0]: parallel straight edges text-0 and cover-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [text-1]: parallel straight edges text-1 and cover-4 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  12. pictographic-primitives/_uncategorized_32/real estate deal shake_490f19a8-c170-4914-bea1-18cbfb479033.svg
+     icon_id: real-estate-deal-shake
+     current drawing: published/failed/solo48/real-estate-deal-shake.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [handshake-outline]: left-hand-top-1 and thumb-1 have -0.899 units of ink clearance over 2.189 units; requires 4; review required | internal-spacing [handshake-outline]: left-hand-top-2 and thumb-return have 1.352 units of ink clearance over 2.220 units; requires 4; review required | internal-spacing [handshake-outline]: thumb-return and fingers-bottom have 3.138 units of ink clearance over 7.901 units; requires 4; review required (+1 more)
+  13. pictographic-primitives/_uncategorized_32/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg
+     icon_id: real-estate-favorite-house-rating
+     current drawing: published/failed/solo48/real-estate-favorite-house-rating.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [main-star]: main-star and star-0 are 4.438 apart on centerlines nearest (18.378, 19.729)<->(14, 19); (needs 8) | mic [main-star]: main-star and star-1 are 4.438 apart on centerlines nearest (29.621, 19.729)<->(34, 19); (needs 8) | mic [main-star]: main-star and roof are 4.472 apart on centerlines nearest (22, 20)<->(24, 24); (needs 8) (+3 more)
+       - parallel straight edges under 8: mic [house]: parallel straight edges walls-right-3 and walls-right-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [house]: parallel straight edges walls-right-1 and walls-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [house]: parallel straight edges walls-3 and walls-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  14. pictographic-primitives/_uncategorized_32/real estate market calculator house_110df7d0-d83c-4e1f-a771-57b0adb39e09.svg
+     icon_id: real-estate-market-calculator-house
+     current drawing: published/failed/solo48/real-estate-market-calculator-house.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [roof]: roof and house-wall are 4.472 apart on centerlines nearest (42, 16)<->(40, 20); (needs 8) | mic [roof]: roof and calculator are 2 apart on centerlines nearest (18, 16)<->(18, 18); (needs 8) | mic [house-wall]: house-wall and calculator are 2 apart on centerlines nearest (34, 28)<->(32, 28); (needs 8) (+6 more)
+       - parallel straight edges under 8: mic [vertical-divider]: parallel straight edges vertical-divider-1, vertical-divider-2 and plus-bottom are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [vertical-divider]: parallel straight edges vertical-divider-1, vertical-divider-2 and plus-top are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [plus-bottom]: parallel straight edges plus-bottom and calculator-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+10 more)
+       - undersized holes: holes/pinches: 3 undersized holes; 0 pinches
+  15. pictographic-primitives/_uncategorized_32/real estate market house_1228a3cf-b0ac-41b8-a4db-2d272fbe1241.svg
+     icon_id: real-estate-market-house
+     current drawing: published/failed/solo48/real-estate-market-house.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [segment]: segment and house are 3.654 apart on centerlines nearest (34, 24)<->(31.572, 26.731); (needs 8)
+       - parallel straight edges under 8: mic [house]: parallel straight edges house-3 and door-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [door]: parallel straight edges door-3 and door-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [door]: parallel straight edges door-1 and house-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) (+1 more)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches

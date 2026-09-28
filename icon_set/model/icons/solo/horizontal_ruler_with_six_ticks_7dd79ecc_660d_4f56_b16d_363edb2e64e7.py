@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Horizontal Measuring Ruler']
     keywords = ['ruler', 'measure', 'tick', 'stationery', 'length', 'tool']
     def build(self):

@@ -13,7 +13,8 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("Landscape with Mountains and Sun",)
     keywords = ("hill", "landscape", "sun", "countryside", "terrain", "nature")
-    category = "nature"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

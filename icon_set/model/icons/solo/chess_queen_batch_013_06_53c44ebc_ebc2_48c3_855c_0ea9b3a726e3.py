@@ -22,7 +22,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "hobbies"
+    categories = ("primitives", "hobbies")
     aliases = ()
     keywords = ('chess', 'queen', 'crown', 'piece', 'game', 'board')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f2e0c651-d48a-403a-b9be-ca4d6dfd34d6'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/bnter logo_f2e0c651-d48a-403a-b9be-ca4d6dfd34d6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-message-speech-bubble'

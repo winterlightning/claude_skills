@@ -17,6 +17,7 @@ class CheckedSpeechBubble(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "chat"
+    categories = ("primitives", "chat")
     aliases = ["Speech Bubble with Checkmark"]
     keywords = ("speech", "bubble", "checkmark", "message")
     def build(self):

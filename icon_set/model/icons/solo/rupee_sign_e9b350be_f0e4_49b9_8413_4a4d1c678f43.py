@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'e9b350be-f0e4-49b9-8413-4a4d1c678f43'
 SOURCE_PATH = 'icon_set/work/todo-references/rupee sign_e9b350be-f0e4-49b9-8413-4a4d1c678f43.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Indian rupee sign with two horizontal rules, rounded bowl and diagonal leg.
 # Reference: indian-rupee: two bars crossing a single rounded bowl plus diagonal leg.
 # Reduction: No defining parts omitted.

@@ -14,7 +14,8 @@ class Landmark(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'places/landmarks'
+    category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('minoan', 'palace', 'knossos', 'crete', 'greece', 'ancient', 'columns', 'ruins', 'heritage')
 

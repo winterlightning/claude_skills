@@ -15,6 +15,7 @@ class StandingLamp(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'lamps'
+    categories = ('lamps', 'primitives')
     aliases = ()
     keywords = ('standing', 'lamp', 'lamps')
 

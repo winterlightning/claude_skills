@@ -14,7 +14,8 @@ class Drawing(Sub32):
     keyshape=Keyshape.HRECT_XL
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'state'
+    categories = ('state',)
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'wifi connection error warning')
     def build(self):

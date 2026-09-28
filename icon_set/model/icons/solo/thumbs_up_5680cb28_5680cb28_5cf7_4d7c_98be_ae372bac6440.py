@@ -11,6 +11,7 @@ class ThumbsUp5680cb28(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'thumbs-up-5680cb28')
 

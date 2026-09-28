@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'networks'
+    categories = ('primitives', 'networks')
     aliases=()
     keywords=('user', 'mobility')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

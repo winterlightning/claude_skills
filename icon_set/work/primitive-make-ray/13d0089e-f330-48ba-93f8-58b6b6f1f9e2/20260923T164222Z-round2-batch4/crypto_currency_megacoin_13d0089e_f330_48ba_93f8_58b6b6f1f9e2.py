@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='13d0089e-f330-48ba-93f8-58b6b6f1f9e2'
 SOURCE_PATH='icon_set/work/todo-references/crypto currency megacoin_13d0089e-f330-48ba-93f8-58b6b6f1f9e2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='crypto-currency-megacoin'
     keyshape=Keyshape.CIRCLE

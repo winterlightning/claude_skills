@@ -10,7 +10,8 @@ class BeamedEighthNotes(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
+    categories = ("music", "state", "other", "primitives-generate")
     aliases=()
     keywords=('notes', 'eighth-notes', 'beamed', 'music', 'melody', 'notation', 'song')
 

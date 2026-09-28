@@ -31,7 +31,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface-essential"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases = ()
     keywords = ('minus', 'subtract', 'bar', 'horizontal', 'operator', 'symbol')
     def build(self):

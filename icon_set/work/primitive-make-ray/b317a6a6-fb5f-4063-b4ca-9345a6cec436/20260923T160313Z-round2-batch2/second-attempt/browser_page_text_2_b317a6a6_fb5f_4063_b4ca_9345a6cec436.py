@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='b317a6a6-fb5f-4063-b4ca-9345a6cec436'
 SOURCE_PATH='icon_set/work/todo-references/browser page text 2_b317a6a6-fb5f-4063-b4ca-9345a6cec436.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='browser-page-text-2'
     keyshape=Keyshape.HRECT_L

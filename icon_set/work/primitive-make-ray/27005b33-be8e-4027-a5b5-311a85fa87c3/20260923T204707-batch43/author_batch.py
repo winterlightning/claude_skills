@@ -5,7 +5,7 @@ import cairosvg
 
 SOURCE_ICON_ID='27005b33-be8e-4027-a5b5-311a85fa87c3'
 SOURCE_PATH='icon_set/work/todo-references/signboard 1_27005b33-be8e-4027-a5b5-311a85fa87c3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ENTRIES=json.loads((ROOT/'batch-inputs.json').read_text())
 

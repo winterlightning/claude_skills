@@ -29,7 +29,8 @@ class Batch051Icon(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('gauge', 'dial', 'needle', 'speedometer', 'meter', 'reading', 'instrument')
 

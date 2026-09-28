@@ -10,7 +10,8 @@ class PersonDetectedByMotionSensor(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('motion-sensor', 'person', 'running', 'detection', 'school', 'learning', 'sensor')
 

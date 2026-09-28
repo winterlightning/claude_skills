@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='704fbfc7-8565-458d-83d3-502a2bedf683'
 SOURCE_PATH='icon_set/work/todo-references/house paw print_704fbfc7-8565-458d-83d3-502a2bedf683.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='house-paw-print'
     keyshape=Keyshape.SQUARE

@@ -13,7 +13,8 @@ class CrowPose(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/sports'
+    category = 'sports'
+    categories = ('sports', 'primitives')
     aliases = ()
     keywords = ('crow', 'pose', 'yoga', 'exercise')
 

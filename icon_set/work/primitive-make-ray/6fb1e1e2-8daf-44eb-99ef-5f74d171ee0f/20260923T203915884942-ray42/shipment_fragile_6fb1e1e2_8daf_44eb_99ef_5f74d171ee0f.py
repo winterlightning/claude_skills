@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6fb1e1e2-8daf-44eb-99ef-5f74d171ee0f'
 SOURCE_PATH = 'icon_set/work/todo-references/shipment fragile_6fb1e1e2-8daf-44eb-99ef-5f74d171ee0f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Fragile parcel with top packing ribbon, wine-glass handling symbol and upward arrow.
 # Construction references: package and wine: clear folded tape and bowl/stem construction.
 # Reduction: No defining parts omitted.

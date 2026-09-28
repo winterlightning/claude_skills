@@ -10,7 +10,8 @@ class PersonCrossingStreet(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('person', 'crossing', 'street', 'walking', 'pedestrian', 'road')
 

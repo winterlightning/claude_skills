@@ -1,0 +1,49 @@
+{
+  "source_uuid": "9ab7c5fa-7d54-4c5c-8f9e-b01743e34909",
+  "source_path": "pictographic-primitives/other/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg",
+  "reference_path": "pictographic-primitives/other/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg",
+  "concept": "ui webpage skull",
+  "icon_id": "ui-webpage-skull",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "visual_review": {
+    "status": "blocked",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "findings": "Blocked: skull/frame gap is 6 and eye/skull gaps are 5.52732, below 8. Skull remains crowded at native size. Human reference user.svg checked for head vocabulary; no detached head/body pair applies."
+  },
+  "omissions": "Middle tooth removed; cranium, eye pair and jaw retained.",
+  "construction_references": "app-window and skull: browser header, curved cranium and narrowed open jaw.",
+  "keyshape_reason": "SQUARE preserves the full page and centered skull.",
+  "attempts": 6,
+  "svg_sha256": "2b8345734e3547580d6454f1979ee129c0b96e67e714f98bab1ae3ee789962b1",
+  "blocker": "BUILD GATE FAIL (fail, 3 errors, 0 warnings)\n  error: mic [browser]: browser and skull are 6 apart on centerlines nearest (19, 42)<->(19, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [skull]: skull and eye-20 are 5.52732 apart on centerlines nearest (15.0327, 25.5756)<->(20, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [skull]: skull and eye-28 are 5.52732 apart on centerlines nearest (32.9673, 25.5756)<->(28, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "artifacts": {
+    "module": "ui_webpage_skull_9ab7c5fa_7d54_4c5c_8f9e_b01743e34909.py",
+    "svg": "ui-webpage-skull.svg",
+    "input_metadata": "ui-webpage-skull.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/",
+    "findings": "findings.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  },
+  "keyshape_bounds": "(4, 4, 44, 44)",
+  "module_sha256": "8035f1e94fc4515018d67369d093c7c2ceb3ddcceb7f01270c2d0c660c10b59c"
+}

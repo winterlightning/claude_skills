@@ -20,12 +20,12 @@ ROOT = Path(__file__).resolve().parents[2]
 DASHED = re.compile(r'([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})$', re.I)
 UNDERSCORED = re.compile(r'([a-z0-9]{8}(?:_[a-z0-9]{4}){3}_[a-z0-9]{12})$', re.I)
 MAIN_FAMILIES = ('solo', 'combination_main')
-SUB_FAMILIES = ('sub',)
+SUB_FAMILIES = ('sub', 'text')
 STATUS_ORDER = {'missing': 0, 'failing': 1, 'done': 2}
 
 
 def _source_ids(record: dict) -> set[str]:
-    ids = set()
+    ids = set(record.get('source_ids') or [])
     path = (record.get('python_source') or {}).get('path') or ''
     if match := UNDERSCORED.search(Path(path).stem):
         ids.add(match[1].replace('_', '-').lower())
@@ -37,7 +37,9 @@ def _source_ids(record: dict) -> set[str]:
 
 def _drawing(record: dict, failed: bool) -> dict:
     validation = record.get('validation') or {}
-    if failed or validation.get('status') == 'fail' or record.get('model_validation') == 'fail':
+    if validation.get('status') == 'human-selected':
+        status = 'pass'
+    elif failed or validation.get('status') == 'fail' or record.get('model_validation') == 'fail':
         status = 'fail'
     elif validation.get('status') == 'valid' or record.get('model_validation') == 'pass':
         status = 'pass'
@@ -48,8 +50,10 @@ def _drawing(record: dict, failed: bool) -> dict:
         errors = [validation['provenance']]
     return {'icon_id': record['icon_id'], 'key': record.get('key') or f"{record['family']}/{record['icon_id']}",
             'family': record['family'], 'status': status, 'preview_url': record.get('preview_url'),
+            'exception': validation.get('exception') or (validation if validation.get('status') == 'human-selected' else None),
             'python_source': (record.get('python_source') or {}).get('path'), 'svg_sha256': record.get('svg_sha256'),
-            'errors': errors[:4]}
+            'errors': errors[:4], 'profile': record.get('profile'),
+            'canvas_width': record.get('canvas_width'), 'canvas_height': record.get('canvas_height')}
 
 
 def _originals(root: Path) -> dict[str, str]:
@@ -127,8 +131,57 @@ def build(combinations: dict, records: list[dict], failed_records: list[dict], r
 
 def write(target: Path, combinations: dict, records: list[dict], failed_records: list[dict], root: Path = ROOT) -> dict:
     result = build(combinations, records, failed_records, root)
+    text_report = target / 'side-text-v2.json'
+    if text_report.exists():
+        report = json.loads(text_report.read_text())
+        for item in result['subs']:
+            ids = {item['id'], *item['source_ids']}
+            item['text_combinations'] = [p for p in report['pairs'] if p['sub_source_id'] in ids]
+            item['text_blocked'] = [p for p in report['blocked'] if p.get('sub_source_id') in ids]
+            item['text_note'] = next((r['reason'] for r in report['unresolved'] if r['source_id'] in ids), None)
     (target / 'side-components.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     return result
+
+
+def annotate_side_roles(records: list[dict], gallery: Path) -> int:
+    """Tag gallery records that side pairs use: side_role, side_uses, side_source.
+
+    A virtual family for Icon review only; the record keeps its real family and key, so a
+    solo icon and its side-main role share one review decision. Drawings are matched by
+    key, then by source UUID so a freshly authored drawing is tagged before the next full
+    side-components rebuild.
+    """
+    path = gallery / 'side-components.json'
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return 0
+    by_key: dict[str, tuple[str, dict]] = {}
+    by_source: dict[str, tuple[str, dict]] = {}
+    for role, plural in (('main', 'mains'), ('sub', 'subs')):
+        for item in data.get(plural, []):
+            for drawing in item.get('drawings', []):
+                by_key.setdefault(drawing['key'], (role, item))
+            for uuid in {item['id'], *item.get('source_ids', [])}:
+                by_source.setdefault(uuid.lower(), (role, item))
+    tagged = 0
+    for record in records:
+        for field in ('side_role', 'side_uses', 'side_source'):
+            record.pop(field, None)
+        key = record.get('key') or f"{record.get('family')}/{record.get('icon_id')}"
+        match = by_key.get(key)
+        if match is None:
+            for uuid in _source_ids(record):
+                candidate = by_source.get(uuid.lower())
+                if candidate and record.get('family') in (MAIN_FAMILIES if candidate[0] == 'main' else SUB_FAMILIES):
+                    match = candidate
+                    break
+        if match is None:
+            continue
+        role, item = match
+        record.update(side_role=role, side_uses=item.get('uses', 0), side_source=item['id'])
+        tagged += 1
+    return tagged
 
 
 def refresh(gallery: Path) -> dict:

@@ -1,0 +1,102 @@
+Run $primitive-make-ray to repair failed icons, batch 2 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Keyshape bounds: the visible ink does not exactly match the chosen keyshape envelope (rectangles fit with tolerance 0; CIRCLE is radial). Choose the keyshape first, get its extremes from Keyshape.<TOKEN>.bounds_for(Profile.SOLO48), and design backwards so the outermost strokes sit exactly on the centerline box. Put arc centres on integer points with the apex at the endpoint so nothing overshoots or falls short.
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_04/archive books_42cdb953-b64a-446a-9e2f-0a5e1116e601.svg
+     icon_id: archive-books
+     current drawing: published/failed/solo48/archive-books.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [binder-0]: binder-0 and label-0 are 3 apart on centerlines nearest (14, 14)<->(11, 14); (needs 8) | mic [binder-0]: binder-0 and hole-0 are 3 apart on centerlines nearest (4, 33)<->(7, 33); (needs 8) | mic [binder-0]: binder-0 and binder-1 are 5 apart on centerlines nearest (14, 10)<->(19, 10); (needs 8) (+8 more)
+       - parallel straight edges under 8: mic [binder-2]: parallel straight edges binder-2-2 and label-2-2 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [binder-2]: parallel straight edges binder-2-2 and label-2-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback) | mic [label-2]: parallel straight edges label-2-2 and label-2-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) (+17 more)
+       - pinches: holes/pinches: 9 undersized holes; 3 pinches
+       - undersized holes: holes/pinches: 9 undersized holes; 3 pinches
+  2. pictographic-primitives/_uncategorized_04/arduino plus minus_ed08c4ae-cd2f-485c-a2ad-1642f69c286c.svg
+     icon_id: infinity-loop-with-plus-and-minus
+     current drawing: published/failed/solo48/infinity-loop-with-plus-and-minus.svg
+     violates 2 rules: keyshape bounds, part spacing under 8
+       - keyshape bounds: canvas/keyshape bounds: visible ink (2.25, 8, 45.75, 40) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.25, 0.0, 0.25, 0.0], tolerance 0.0)
+       - part spacing under 8: mic [infinity]: infinity and minus are 5.749 apart on centerlines nearest (4.250, 23.971)<->(10, 24); (needs 8) | mic [infinity]: infinity and plus-h are 5.749 apart on centerlines nearest (43.749, 23.971)<->(38, 24); (needs 8)
+  3. pictographic-primitives/_uncategorized_04/astronomy eclipse_6d179933-acab-43ec-bf9b-e0d73eebedfc.svg
+     icon_id: overlapping-eclipse-disks
+     current drawing: published/failed/solo48/overlapping-eclipse-disks.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [front]: front and rear are 1.888 apart on centerlines nearest (27.161, 38.307)<->(28, 40); (needs 8)
+  4. pictographic-primitives/_uncategorized_04/audio book headphones_b0fa3cc1-6e0c-4af2-b4ad-57175c266a2a.svg
+     icon_id: audiobook-with-headphones
+     current drawing: published/failed/solo48/audiobook-with-headphones.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [left-ear]: left-ear and book are 5 apart on centerlines nearest (10, 23)<->(15, 23); (needs 8)
+       - parallel straight edges under 8: mic [right-ear]: parallel straight edges right-inner and book-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [book]: parallel straight edges book-6 and left-inner are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  5. pictographic-primitives/_uncategorized_04/auto pilot car signal 1_148a6d3d-6e93-44b0-ad9c-3c3c30856f29.svg
+     icon_id: autonomous-domed-car-with-signal
+     current drawing: published/failed/solo48/autonomous-domed-car-with-signal.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [left-base]: left-base and center-base are 6 apart on centerlines nearest (9, 38)<->(15, 38); (needs 8) | mic [left-base]: left-base and left-wheel are 0.163 apart on centerlines nearest (9, 38)<->(9.154, 38.051); (needs 8) | mic [right-base]: right-base and right-wheel are 0.163 apart on centerlines nearest (39, 38)<->(38.845, 38.051); (needs 8) (+18 more)
+       - parallel straight edges under 8: mic [beacon-right]: parallel straight edges beacon-right and beacon-stem-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [window-divider]: parallel straight edges window-divider and center-base are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  6. pictographic-primitives/_uncategorized_05/avatar carpenter_0a473297-da88-4e1f-8691-703bcbdef5cb.svg
+     icon_id: capped-carpenter-beside-a-hand-saw
+     current drawing: published/failed/solo48/capped-carpenter-beside-a-hand-saw.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [saw]: saw-1 and saw-3 have 0.277 units of ink clearance over 7.950 units; requires 4; review required | internal-spacing [saw]: saw-1 and saw-4 have 0.277 units of ink clearance over 7.950 units; requires 4; review required | internal-spacing [saw]: saw-1 and saw-5 have 0.277 units of ink clearance over 7.950 units; requires 4; review required (+1 more)
+  7. pictographic-primitives/_uncategorized_05/avatar piracy laptop_aa4f64c4-a374-44b3-9890-7cd9bfe00eab.svg
+     icon_id: bearded-pirate-behind-a-laptop
+     current drawing: published/failed/solo48/bearded-pirate-behind-a-laptop.svg
+     violates 2 rules: part spacing under 8, undersized holes
+       - part spacing under 8: mic [hat]: hat and beard are 7.588 apart on centerlines nearest (30.722, 20)<->(30.722, 27.588); (needs 8)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  8. pictographic-primitives/_uncategorized_05/babe_4601d69f-9445-41fa-8190-2bd52b395af7.svg
+     icon_id: smiling-woman-with-shoulder-length-hair
+     current drawing: published/failed/solo48/smiling-woman-with-shoulder-length-hair.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [face]: face and smile are 6.156 apart on centerlines nearest (20.320, 16.076)<->(22, 22); (needs 8)
+  9. pictographic-primitives/_uncategorized_05/baby care pacifier_fcf2e80c-06a5-42d9-a45c-b4984bad2541.svg
+     icon_id: diagonal-pacifier-with-a-round-handle
+     current drawing: published/failed/solo48/diagonal-pacifier-with-a-round-handle.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  10. pictographic-primitives/_uncategorized_05/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg
+     icon_id: band-saw
+     current drawing: published/failed/solo48/band-saw.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [base]: base and hub are 2 apart on centerlines nearest (31, 34)<->(31, 32); (needs 8)
+       - parallel straight edges under 8: mic [inner]: parallel straight edges inner-1 and frame-left-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [inner]: parallel straight edges inner-2 and wheel-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 4 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 4 undersized holes; 2 pinches
+  11. pictographic-primitives/_uncategorized_06/bhudda hand finger citron 1_76411d38-aca5-4268-9511-bc3205689722.svg
+     icon_id: upright-hand-with-curled-fingers
+     current drawing: published/failed/solo48/upright-hand-with-curled-fingers.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [hand]: thumb and thumb have 1.904 units of ink clearance over 4.334 units; requires 4; review required
+  12. pictographic-primitives/_uncategorized_06/bicycle person_816c0a6d-a6b1-4041-9b3e-aa2bb963535f.svg
+     icon_id: cyclist-on-a-fully-framed-bicycle
+     current drawing: published/failed/solo48/cyclist-on-a-fully-framed-bicycle.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  13. pictographic-primitives/_uncategorized_06/bike parking 2_7eea5c25-9b41-4dec-ba5e-91b557120a37.svg
+     icon_id: angled-handlebar-road-bicycle
+     current drawing: published/failed/solo48/angled-handlebar-road-bicycle.svg
+     violates 3 rules: part spacing under 8, pinches, undersized holes
+       - part spacing under 8: mic [wheel-36]: wheel-36 and frame are 3.803 apart on centerlines nearest (28.768, 28.579)<->(25.314, 26.985); (needs 8)
+       - pinches: holes/pinches: 3 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 3 undersized holes; 1 pinches
+  14. pictographic-primitives/_uncategorized_06/bilibili logo_967f7cba-3409-4e70-8a1c-ac8501b16e27.svg
+     icon_id: smiling-television-mascot
+     current drawing: published/failed/solo48/smiling-television-mascot.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [tv / aerial]: tv-0 and aerial-1 have -3.746 units of ink clearance over 9.75 units; requires 4; review required | internal-spacing [tv / aerial]: tv-0 and aerial-2 have -3.746 units of ink clearance over 9.75 units; requires 4; review required
+  15. pictographic-primitives/_uncategorized_07/bower logo_ff183e37-2bed-4312-ad52-11655fc8a512.svg
+     icon_id: bower-logo
+     current drawing: published/failed/solo48/bower-logo.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches

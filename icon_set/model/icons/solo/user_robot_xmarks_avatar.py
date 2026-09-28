@@ -19,6 +19,7 @@ class UserRobotXmarksAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars',)
     aliases = ()
     keywords = ('user', 'robot', 'xmarks', 'portrait', 'bust')
     def build(self):

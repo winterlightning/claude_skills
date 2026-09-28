@@ -4,7 +4,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f3a40f08-7124-46f5-9ed2-b85ee4e25e73'
 SOURCE_PATH = 'icon_set/work/todo-references/browser yuan sign right_f3a40f08-7124-46f5-9ed2-b85ee4e25e73.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['panels-top-left', 'japanese-yen']
 class Drawing(Solo48):
     icon_id = 'browser-yuan-sign-right'

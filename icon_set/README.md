@@ -137,6 +137,25 @@ Malformed JSON, mismatched identity, blank names, and invalid tag lists fail
 with the filename. Reading a draft without a file uses model defaults without
 writing to disk.
 
+### Categories
+
+An icon can belong to several categories. A model sets `category` (the primary one
+pages group by) and `categories` (every token of its `SOURCE_ICON_ID` pictoicon
+record, e.g. `('health', 'state', 'primitives')`); the metadata file carries both.
+Keep them correct with one script, then rebuild:
+
+```bash
+python3 -m icon_set.scripts.fix_model_categories --check   # detect; exit 1 if anything is off
+python3 -m icon_set.scripts.fix_model_categories --apply   # fix models + metadata
+python3 -m icon_set.scripts.fix_model_categories --set <uuid>=<category> --apply
+```
+
+It reads `pictoicons.fixed.json` (else `pictoicons.json`) at the repo root. A record
+with no topic is listed as "needs a concept category": choose one from the concept
+name and record it with `--set`; choices live in `data/concept-categories.json`, which
+the primitives catalog also reads. `python3 -m icon_set.scripts.fix_pictoicon_categories`
+gives every pictoicon record a type token (`other` also gets `primitives-generate`).
+
 `to_record()` and JSON graph exports include the current search fields. Builds
 do not seed missing source files; they refresh metadata on reused records and publish
 `<icon_id>.metadata.json` beside each successful or failed SVG. Family manifests
@@ -555,6 +574,12 @@ feedback textarea. Submitted feedback is stored on the server with the icon
 family/ID, SVG revision hash, and timestamp. The inspector shows the latest
 100 submissions for that icon. Unsaved drafts stay in the current browser when
 local storage is available. Feedback records requests; it does not edit icons.
+
+The Family filter also offers two virtual families with no Python model of their
+own: **Side main (solo)** and **Side sub** list the solo and sub icons that side
+pairs use (tagged `side_role` at build time from `side-components.json`). They are
+the same records and keys as under Solo / Sub, so one review decision covers both
+views; the inspector shows how many side pairs use the icon and links to them.
 
 From the repository root:
 

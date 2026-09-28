@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '08de5c3e-418d-4732-b0b0-0789943abce3'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KissingFaceHeart(Solo48):
     icon_id = 'kissing-face-heart'

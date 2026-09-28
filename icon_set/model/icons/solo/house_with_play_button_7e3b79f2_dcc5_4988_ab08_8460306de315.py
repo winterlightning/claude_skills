@@ -1,20 +1,19 @@
-"""A circular play button is contained inside a house.
-Plan: one enclosing symbol and one content symbol; symmetry and repeated parts share parameters.
-SOLO48 SQUARE; use Keyshape.bounds_for for visible envelope. Curved nodes are authored on the integer grid.
-Lucide house: coherent roof/wall contour with tangent lower corner arcs.
-Omissions: None; circular bezel and triangular play mark retained.
+"""house with play button: fresh spacing repair.
+Plan: Right-facing play triangle remains clear within the house.
+Keyshape SQUARE: SQUARE preserves the house envelope.
+Omissions: Secondary circular button bezel omitted to leave a readable play opening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='7e3b79f2-dcc5-4988-ab08-8460306de315'
-SOURCE_PATH='icon_set/work/todo-references/house with play button_7e3b79f2-dcc5-4988-ab08-8460306de315.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH='pictographic-primitives/other/house with play button_7e3b79f2-dcc5-4988-ab08-8460306de315.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='house-with-play-button'
+    icon_id = 'house-with-play-button'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/buildings'
+    category='objects/general'
     aliases=()
     keywords=('house', 'with', 'play', 'button')
 
@@ -22,26 +21,30 @@ class Drawing(Solo48):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
+    def page(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
     def house(self):
-        # One mirrored envelope, x=24 axis; centerline extremes 6,6,42,42.
-        self.add_line('roof-1',(6,18),(24,6))
-        self.add_line('roof-2',(24,6),(42,18))
-        self.add_line('wall-right',(42,18),(42,40))
-        self.add_arc('corner-right',(42,40),(40,42),radius_x=2)
-        self.add_line('floor',(40,42),(8,42))
-        self.add_arc('corner-left',(8,42),(6,40),radius_x=2)
-        self.add_line('wall-left',(6,40),(6,18))
-        self.add_contour('house','roof-1','roof-2','wall-right','corner-right','floor','corner-left','wall-left',closed=True)
-
-    def lock_body(self):
-        # Shared shackle nodes are vertices in the top rail.
-        self.add_polyline('lock-body',(17,26),(19,26),(29,26),(31,26),(31,34),(17,34),closed=True)
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
 
     def build(self):
-
-        self.house();self.circle('button',24,27,8)
-        self.add_polyline('play',(22,23),(28,27),(22,31),closed=True)
-
-# Final visible envelope: (4,4)-(44,44)
-# Visual review: Circular bezel and triangle are preserved but their strokes merge. Nested spacing fails; not approved.
+        self.house()
+        self.add_polyline('play',(19,21),(32,27),(19,33),closed=True)

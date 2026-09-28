@@ -12,7 +12,8 @@ class Batch06Icon9(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/stationery"
+    category = "content"
+    categories = ("primitives", "content")
     aliases = ()
     keywords = ('person', 'reading', 'newspaper')
     def build(self):

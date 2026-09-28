@@ -12,7 +12,8 @@ class PersonStandingBody(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('person', 'body', 'standing', 'user', 'figure', 'human', 'member', 'people')
 

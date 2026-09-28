@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='592beacc-84e1-4868-af66-30a20a39dbfd'
 SOURCE_PATH='icon_set/work/todo-references/rectangle list_592beacc-84e1-4868-af66-30a20a39dbfd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square list panel with three equal horizontal rules. A shared repeat owns row spacing.'
 CONSTRUCTION_REFERENCES='Lucide list: consistent rows; rectangle-ellipsis: coherent rounded enclosure.'
 OMISSIONS='No source rules omitted; no bullet points added.'

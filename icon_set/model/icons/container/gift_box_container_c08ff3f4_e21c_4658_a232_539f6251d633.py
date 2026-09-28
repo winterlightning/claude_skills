@@ -14,6 +14,8 @@ AUTHOR = 'gpt-6'
 
 class GiftBoxContainer(Container64):
     icon_id = 'gift-box-container'
+    category = 'rewards'
+    categories = ('rewards', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('gift', 'box', 'container')

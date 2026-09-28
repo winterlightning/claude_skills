@@ -10,7 +10,8 @@ class SingingBird(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('bird', 'singing', 'beak', 'open', 'song', 'chirp', 'head', 'wildlife')
 

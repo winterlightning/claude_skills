@@ -12,7 +12,8 @@ class SmilingFace(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('smile', 'happy', 'smiling', 'cheerful', 'face', 'emoji')
 

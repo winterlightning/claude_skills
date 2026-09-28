@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Plain Dreidel with Central Stroke']
     keywords = ['dreidel', 'top', 'spinning', 'toy', 'handle', 'hanukkah', 'game']
     def build(self):

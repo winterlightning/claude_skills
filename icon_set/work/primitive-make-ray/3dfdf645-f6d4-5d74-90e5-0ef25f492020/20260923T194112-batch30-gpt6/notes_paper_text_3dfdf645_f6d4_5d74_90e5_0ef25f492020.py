@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3dfdf645-f6d4-5d74-90e5-0ef25f492020'
 SOURCE_PATH = 'icon_set/work/todo-references/notes paper text_3dfdf645-f6d4-5d74-90e5-0ef25f492020.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A written page with its upper right corner folded.

@@ -11,6 +11,7 @@ class ToothFc42d854(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'tooth-fc42d854')
 

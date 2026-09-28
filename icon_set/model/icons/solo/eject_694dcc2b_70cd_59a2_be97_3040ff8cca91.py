@@ -11,7 +11,8 @@ class Eject(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "video"
+    categories = ("video", "primitives")
     aliases = ()
     keywords = ('eject', 'media', 'control', 'triangle', 'playback', 'button', 'disc')
 

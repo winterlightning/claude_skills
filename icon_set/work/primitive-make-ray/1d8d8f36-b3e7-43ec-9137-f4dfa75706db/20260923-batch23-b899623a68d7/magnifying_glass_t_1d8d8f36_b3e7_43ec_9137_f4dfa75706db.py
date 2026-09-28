@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1d8d8f36-b3e7-43ec-9137-f4dfa75706db'
 SOURCE_PATH='icon_set/work/todo-references/magnifying glass t_1d8d8f36-b3e7-43ec-9137-f4dfa75706db.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='magnifying-glass-t'
     keyshape=Keyshape.SQUARE

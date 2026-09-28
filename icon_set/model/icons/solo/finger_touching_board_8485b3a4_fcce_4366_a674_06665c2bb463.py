@@ -12,7 +12,8 @@ class FingerTouchingBoard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('touch', 'finger', 'hand', 'board', 'touchscreen', 'virtual', 'interaction')
 

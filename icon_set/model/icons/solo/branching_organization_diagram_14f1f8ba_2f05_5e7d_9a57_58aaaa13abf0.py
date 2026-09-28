@@ -44,6 +44,7 @@ class BranchingOrganizationDiagram(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('branching', 'organization', 'diagram')
 

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='8d435341-042f-470f-9af2-453657b4c06a'
 SOURCE_PATH='icon_set/work/todo-references/code build_8d435341-042f-470f-9af2-453657b4c06a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='code-build'
     keyshape=Keyshape.HRECT_L

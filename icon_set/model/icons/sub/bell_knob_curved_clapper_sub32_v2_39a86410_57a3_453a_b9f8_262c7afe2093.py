@@ -19,7 +19,8 @@ class RepairVariant(Sub32):
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/symbols'
+    category = 'symbol'
+    categories = ('symbol', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

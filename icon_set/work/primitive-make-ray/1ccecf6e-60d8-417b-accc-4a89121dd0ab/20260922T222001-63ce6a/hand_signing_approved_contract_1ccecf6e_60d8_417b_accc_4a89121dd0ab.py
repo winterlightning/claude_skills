@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1ccecf6e-60d8-417b-accc-4a89121dd0ab'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/business contract approve_1ccecf6e-60d8-417b-accc-4a89121dd0ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hand-signing-approved-contract'

@@ -15,6 +15,7 @@ class QrCodeShopping(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('qr', 'code', 'shopping')
 

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d928473f-e1b9-47e2-9861-0a616c29978e'
 SOURCE_PATH='icon_set/work/todo-references/pin x mark_d928473f-e1b9-47e2-9861-0a616c29978e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Tall hollow map pin above a very wide, shallow ground X. Preserve source’s unequal pin and ground widths.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: circular aperture and teardrop contour.'
 OMISSIONS='None.'

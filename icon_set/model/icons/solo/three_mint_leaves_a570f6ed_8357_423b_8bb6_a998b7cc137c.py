@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='nature'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases=('mint sprig',)
     keywords=('mint','leaves','herb','plant','botanical','foliage')
     def build(self):

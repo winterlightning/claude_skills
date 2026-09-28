@@ -16,6 +16,7 @@ class TableTools(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('table', 'tools', 'interface-essential')
     keyshape = Keyshape.SQUARE

@@ -11,7 +11,8 @@ class RibbonBowWithTails(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('ribbon', 'bow', 'gift', 'decoration', 'tie', 'accessory', 'present', 'wrapping')
 

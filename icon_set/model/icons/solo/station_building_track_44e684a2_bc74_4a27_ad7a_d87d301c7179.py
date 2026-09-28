@@ -13,6 +13,7 @@ class StationBuildingTrack(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('ticket office', 'station', 'railway station', 'building', 'track', 'depot', 'terminal', 'train')
 

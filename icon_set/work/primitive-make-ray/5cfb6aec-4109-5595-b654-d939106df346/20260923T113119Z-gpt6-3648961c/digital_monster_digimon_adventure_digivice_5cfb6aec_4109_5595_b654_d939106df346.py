@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5cfb6aec-4109-5595-b654-d939106df346'
 SOURCE_PATH = 'icon_set/work/todo-references/digital monster digimon adventure digivice_5cfb6aec-4109-5595-b654-d939106df346.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'digital-monster-digimon-adventure-digivice'

@@ -55,6 +55,7 @@ class UnrolledWallpaperRoll(Solo48):
     icon_id = 'unrolled-wallpaper-roll'
     keyshape = Keyshape.SQUARE
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

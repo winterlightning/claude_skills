@@ -1,0 +1,46 @@
+{
+  "source_uuid": "24fe2386-b951-48d1-8a50-9d4e65f27e91",
+  "source_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+  "reference_path": "pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg",
+  "concept": "ui webpage ad text",
+  "icon_id": "webpage-advertisement",
+  "author": "gpt-6",
+  "status": "cannot-fix",
+  "validation_status": "invalid",
+  "full_qa_status": "fail",
+  "warnings": [
+    "mic [a]: a and d-stem are 8 apart on centerlines nearest (20, 22)<->(28, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "errors": [
+    "mic [header]: parallel straight edges header and a-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [browser]: browser and a are 6 apart on centerlines nearest (12, 40)<->(12, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [browser]: browser and d-stem are 6 apart on centerlines nearest (28, 40)<->(28, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "keyshape": "HRECT_L",
+  "keyshape_rationale": "HRECT_L uses the widest permitted enclosure to retain side-by-side capital letters.",
+  "visual_review": {
+    "native_light": true,
+    "native_dark": true,
+    "enlarged_light": true,
+    "enlarged_dark": true,
+    "findings": "Squared A restores an open counter; D is restored to a taller bowl. The original undersized-hole/pinch finding is resolved. Header-to-A and bottom-to-letters clearance remains 2 ink units, below 4.",
+    "approved_for_handoff": false
+  },
+  "omissions": [
+    "Header dashes omitted. A uses a rectangular cap instead of the source triangular apex."
+  ],
+  "construction_references": "panels-top-left original and atomic-debug: coherent rounded enclosure and joined header.",
+  "svg_sha256": "f9616d2a9baa429a0ea3408ea9eef03a54840cb77cf78c208ecb9ad378e0a55f",
+  "artifacts": {
+    "python": "webpage_advertisement_24fe2386_b951_48d1_8a50_9d4e65f27e91.py",
+    "svg": "webpage-advertisement.svg",
+    "metadata": "webpage-advertisement.metadata.json",
+    "reference": "reference.png",
+    "light_native": "preview-light-48.png",
+    "dark_native": "preview-dark-48.png",
+    "light_large": "preview-light-192.png",
+    "dark_large": "preview-dark-192.png",
+    "validation": "validation.txt",
+    "full_qa": "checks.json"
+  }
+}

@@ -11,7 +11,8 @@ class RetouchCurveGraph(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('curve', 'graph', 'retouch', 'adjust', 'edit', 'control points', 'chart', 'photo')
 

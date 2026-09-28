@@ -54,6 +54,7 @@ class RobotHeadWithDomedTop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('robot', 'head', 'with', 'domed', 'top')
 

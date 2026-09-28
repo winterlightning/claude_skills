@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dca837aa-19a2-403a-a6bd-fadb5aa0ee27'
 SOURCE_PATH = 'icon_set/work/todo-references/touch up 1_dca837aa-19a2-403a-a6bd-fadb5aa0ee27.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'touch-up-1'

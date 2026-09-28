@@ -15,7 +15,8 @@ class Batch30Icon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/finance"
+    category = "finance"
+    categories = ("primitives", "finance")
     aliases = ()
     keywords = ('money', 'saving', 'piggy', 'bank')
 

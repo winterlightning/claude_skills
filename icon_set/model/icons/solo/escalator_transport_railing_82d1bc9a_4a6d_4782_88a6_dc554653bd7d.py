@@ -14,7 +14,8 @@ class EscalatorTransportRailing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'transport/escalators'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Escalator Transport Railing',)
     keywords = tuple('escalator transport railing'.split())
 

@@ -33,7 +33,8 @@ class FullTorsoPersonSub(Symbol32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('full', 'torso', 'person', 'sub')
 

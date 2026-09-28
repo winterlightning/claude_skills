@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9bf327e4-22cd-4f46-a740-34545d603a6f'
 SOURCE_PATH = 'icon_set/work/todo-references/ocd disorder symptoms 2_9bf327e4-22cd-4f46-a740-34545d603a6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Left-facing head silhouette with repeated checklist symbols inside; intentional facial asymmetry preserves profile.
 # Keyshape visible extremes are supplied by Keyshape.VRECT_L.bounds_for(SOLO48).
 # Lucide construction reference: No useful subject match; shared human reference for portraits.

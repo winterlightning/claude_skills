@@ -17,6 +17,7 @@ class GridAlignedSub(Sub32):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
 
     def build(self):
         self.add_line('e0', (16, 2), (16, 30))

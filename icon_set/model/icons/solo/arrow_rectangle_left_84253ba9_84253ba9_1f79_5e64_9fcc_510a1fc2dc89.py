@@ -13,6 +13,7 @@ class ArrowRectangleLeft84253ba9(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('arrow', 'rectangle', 'left', '84253ba9')
 

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8e417011-adce-441b-988b-244db878cd89'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/falafel_8e417011-adce-441b-988b-244db878cd89.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ScallopedRoundShape(Solo48):
     icon_id = 'scalloped-round-shape'

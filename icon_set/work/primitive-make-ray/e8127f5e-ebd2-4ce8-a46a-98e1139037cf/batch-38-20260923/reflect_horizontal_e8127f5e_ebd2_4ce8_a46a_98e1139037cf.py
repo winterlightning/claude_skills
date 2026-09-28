@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e8127f5e-ebd2-4ce8-a46a-98e1139037cf'
 SOURCE_PATH='icon_set/work/todo-references/reflect horizontal_e8127f5e-ebd2-4ce8-a46a-98e1139037cf.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two horizontal outlined bars with an upward sloping stroke attached to the lower bar. Shared width and eight-unit bar height.'
 CONSTRUCTION_REFERENCES='No useful exact Lucide match; paired rectangles and diagonal stroke are reconstructed directly.'
 OMISSIONS='None.'

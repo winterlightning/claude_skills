@@ -21,7 +21,8 @@ class GeneratedIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     keywords = ('measurement', 'marker', 'draft')
 
     def build(self):

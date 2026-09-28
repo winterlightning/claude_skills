@@ -12,7 +12,8 @@ class SneezingFaceWithTissue(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('sneezing', 'tissue', 'nose', 'cold', 'face', 'emoji')
 

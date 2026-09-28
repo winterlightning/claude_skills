@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ca616303-2772-470a-8741-d8743a502817'
 SOURCE_PATH='icon_set/work/todo-references/rectangle uv high_ca616303-2772-470a-8741-d8743a502817.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Upright UV high indicator: long vertical stem attached to a low circular bulb inside a rounded panel.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: tangent rounded frame; source supplies indicator geometry.'
 OMISSIONS='None.'

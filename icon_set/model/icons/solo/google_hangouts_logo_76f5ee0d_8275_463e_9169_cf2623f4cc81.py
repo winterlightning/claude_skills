@@ -19,6 +19,7 @@ class GoogleHangoutsLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-hangouts', 'hangouts', 'google', 'chat', 'quotes', 'logo', 'brand')
 

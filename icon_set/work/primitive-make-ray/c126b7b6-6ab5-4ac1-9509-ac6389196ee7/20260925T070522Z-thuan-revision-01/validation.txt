@@ -1,0 +1,21 @@
+status: invalid
+  ERROR  mic [wall-34]: parallel straight edges wall-34 and entry-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [entry]: parallel straight edges entry-0 and wall-14 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [outline]: outline and window are 4.77817 apart on centerlines nearest (18.5, 19.5)<->(21.8787, 22.8787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full automatic gate: fail
+mic [wall-34]: parallel straight edges wall-34 and entry-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [entry]: parallel straight edges entry-0 and wall-14 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [outline]: outline and window are 4.77817 apart on centerlines nearest (18.5, 19.5)<->(21.8787, 22.8787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+internal-spacing [entry / wall-14]: entry-0 and wall-14 have 2 units of ink clearance over 4 units; requires 4; review required
+internal-spacing [entry / wall-14]: entry-1 and wall-14 have 2.1328 units of ink clearance over 4.25 units; requires 4; review required
+internal-spacing [entry / wall-34]: entry-1 and wall-34 have 2.1328 units of ink clearance over 4.5 units; requires 4; review required
+internal-spacing [entry / wall-34]: entry-2 and wall-34 have 2 units of ink clearance over 4 units; requires 4; review required
+
+Effective gate: pass (drawing-bound visual exception)
+{
+  "reason": "Preserve the source church towers, round window and arched doorway. Two-unit side clearances remain visibly open at 48px in light and dark; widening them would erase the architectural bays.",
+  "approved_by": "user delegated visual-exception judgment to gpt-6",
+  "approved_on": "2026-09-25",
+  "svg_sha256": "62433374777b21ae8a93e7c89bf9ff0a9a1df33e034eb509577d1bf97a2d2c44"
+}

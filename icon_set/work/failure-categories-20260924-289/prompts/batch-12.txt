@@ -1,0 +1,98 @@
+Run $primitive-make-ray to repair failed icons, batch 12 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_39/type cursor_54b02242-5568-41c3-a69f-a06ca068bbf9.svg
+     icon_id: type-cursor
+     current drawing: published/failed/solo48/type-cursor.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [field / hook]: field-bottom-2 and hook have 3.215 units of ink clearance over 2.728 units; requires 4; review required
+  2. pictographic-primitives/_uncategorized_39/user cash scale 1_79fff0c7-26d4-4146-b968-24705c1e7d4a.svg
+     icon_id: user-cash-scale-1
+     current drawing: published/failed/solo48/user-cash-scale-1.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 4 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 4 undersized holes; 2 pinches
+  3. pictographic-primitives/_uncategorized_39/user signal_2000d10a-a193-4355-bf76-3a121de4ad3f.svg
+     icon_id: user-signal
+     current drawing: published/failed/solo48/user-signal.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  4. pictographic-primitives/_uncategorized_39/valve logo_cbc8a808-542b-49df-b4bd-c313efd61052.svg
+     icon_id: valve-logo
+     current drawing: published/failed/solo48/valve-logo.svg
+     violates 4 rules: part spacing under 8, parallel straight edges under 8, pinches, undersized holes
+       - part spacing under 8: mic [v-first]: v-first and a-sides are 5.965 apart on centerlines nearest (10, 10)<->(15.931, 10.635); (needs 8) | mic [v-first]: v-first and a-bar are 6.001 apart on centerlines nearest (8.032, 28.360)<->(14, 29); (needs 8) | mic [a-sides]: a-sides and a-bar are 0.035 apart on centerlines nearest (13.964, 28.996)<->(14, 29); (needs 8) (+4 more)
+       - parallel straight edges under 8: mic [v-first]: parallel straight edges v-first-2 and a-sides-1 are 5.965 apart on centerlines (ink gap 1.965); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  5. pictographic-primitives/_uncategorized_40/wave square_23bded82-26fd-41b4-9b35-3c4566fa527a.svg
+     icon_id: wave-square
+     current drawing: published/failed/solo48/wave-square.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [wave]: wave-rise and wave-curl have -0.896 units of ink clearance over 10.609 units; requires 4; review required
+  6. pictographic-primitives/_uncategorized_40/zcool logo_14555301-7f11-43db-978e-a383d12a3b27.svg
+     icon_id: zcool-logo
+     current drawing: published/failed/solo48/zcool-logo.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [flame]: flame-upper and flame-upper have 1.377 units of ink clearance over 2.103 units; requires 4; review required
+  7. pictographic-primitives/design/design pen tool_cd921e04-704d-5a6b-a478-676cad6d9f2e.svg
+     icon_id: design-pen-tool
+     current drawing: published/failed/solo48/design-pen-tool.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [control]: control and handle-left are 4 apart on centerlines nearest (20, 10)<->(16, 10); (needs 8) | mic [control]: control and handle-right are 4 apart on centerlines nearest (28, 10)<->(32, 10); (needs 8) | mic [control]: control and nib are 4 apart on centerlines nearest (24, 14)<->(24, 18); (needs 8)
+       - parallel straight edges under 8: mic [control]: parallel straight edges control-4 and control-2 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [control]: parallel straight edges control-1 and control-3 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  8. pictographic-primitives/ecology/noise pollution car_0cd83d52-cde5-4493-95b0-2a1a4f137c27.svg
+     icon_id: noise-pollution-car
+     current drawing: published/failed/solo48/noise-pollution-car.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 3 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 3 undersized holes; 2 pinches
+  9. pictographic-primitives/entertainment/concert rock_3a11e17f-1153-59b2-b135-910a41a584c7.svg
+     icon_id: concert-rock
+     current drawing: published/failed/solo48/concert-rock.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [hand]: hand and left-bolt are 2 apart on centerlines nearest (12, 14)<->(12, 12); (needs 8) | mic [hand]: hand and top-bolt are 7.313 apart on centerlines nearest (33.171, 15.171)<->(28, 10); (needs 8) | mic [hand]: hand and right-bolt are 2 apart on centerlines nearest (36, 14)<->(36, 12); (needs 8)
+       - parallel straight edges under 8: mic [top-bolt]: parallel straight edges top-bolt-1 and top-bolt-3 are 4.242 apart on centerlines (ink gap 0.242); requires at least 8 centerline / 4 ink (midpoint-normal)
+  10. pictographic-primitives/finance/virtual coin crypto 0x zrx_24bf1d97-6037-5919-9f14-530a400a7d7a.svg
+     icon_id: virtual-coin-crypto-0x-zrx
+     current drawing: published/failed/solo48/virtual-coin-crypto-0x-zrx.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [coin]: coin and diagonal-low are 0.201 apart on centerlines nearest (9.857, 38.141)<->(10, 38); (needs 8)
+       - parallel straight edges under 8: mic [x-outline]: parallel straight edges x-outline-10 and x-outline-8 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [x-outline]: parallel straight edges x-outline-2 and x-outline-4 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [x-outline]: parallel straight edges x-outline-1 and x-outline-11 are 5.656 apart on centerlines (ink gap 1.656); requires at least 8 centerline / 4 ink (midpoint-normal) (+1 more)
+  11. pictographic-primitives/food/symbol fork cross knife_aba5bfb7-5990-4b45-9606-e4cfe58ad1ea.svg
+     icon_id: crossed-fork-and-chef-knife
+     current drawing: published/failed/solo48/crossed-fork-and-chef-knife.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [fork-head / knife-handle]: fork-left-curve and knife-handle-1 have 1.673 units of ink clearance over 8.734 units; requires 4; review required | internal-spacing [fork-head / knife-handle]: fork-right-curve and knife-handle-2 have 1.673 units of ink clearance over 7.237 units; requires 4; review required
+  12. pictographic-primitives/food/symbol spoon cross fork_53cd4f82-ae5a-4f7a-8ddd-de64747944f4.svg
+     icon_id: crossed-fork-with-spoon
+     current drawing: published/failed/solo48/crossed-fork-with-spoon.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [fork-head / spoon-handle]: fork-left-curve and spoon-handle-1 have 1.673 units of ink clearance over 8.734 units; requires 4; review required | internal-spacing [fork-head / spoon-bowl]: fork-right-curve and spoon-upper have 1.268 units of ink clearance over 4.081 units; requires 4; review required | internal-spacing [fork-head / spoon-handle]: fork-right-curve and spoon-handle-2 have 1.673 units of ink clearance over 7.237 units; requires 4; review required
+  13. pictographic-primitives/health/heart rate_8a7bb75e-fc55-5c1f-9e7a-6055f25d511f.svg
+     icon_id: heart-rate
+     current drawing: published/failed/solo48/heart-rate.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [heart / pulse]: point-2 and pulse-4 have 0.663 units of ink clearance over 6.427 units; requires 4; review required
+  14. pictographic-primitives/health/heart rate_a954f676-1cce-4e19-81eb-ec067ec52edc.svg
+     icon_id: heart-with-pulse-wave-solo
+     current drawing: published/failed/solo48/heart-with-pulse-wave-solo.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [outline / pulse]: right-side and pulse-4 have 1.644 units of ink clearance over 7.439 units; requires 4; review required
+  15. pictographic-primitives/health/monitor heart beat touch_effbc2d1-e5a5-4a1b-88be-7ca24a41a9c1.svg
+     icon_id: monitor-heart-beat-touch
+     current drawing: published/failed/solo48/monitor-heart-beat-touch.svg
+     violates 2 rules: parallel straight edges under 8, undersized holes
+       - parallel straight edges under 8: mic [hand]: parallel straight edges finger and thumb-6, thumb-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [sensor]: parallel straight edges sensor-bottom-right and hand-top are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [hand]: parallel straight edges thumb-4 and thumb-1 are 4.242 apart on centerlines (ink gap 0.242); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches

@@ -12,6 +12,7 @@ class Mosquito(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('mosquito', 'insect', 'bug', 'wings', 'pest', 'bite', 'fly', 'antennae')
 

@@ -11,6 +11,7 @@ class VectorsAnchorTriangle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('vectors', 'anchor', 'triangle', 'design')
 

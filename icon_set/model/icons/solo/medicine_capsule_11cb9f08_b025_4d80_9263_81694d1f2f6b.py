@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "other", "primitives-generate")
     aliases = ('medicine-capsule',)
     keywords = ('medicine', 'capsule')
 

@@ -10,7 +10,8 @@ class BroadcastRouter(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/networks'
+    category = 'networks'
+    categories = ('primitives', 'networks')
     aliases=()
     keywords=('broadcast', 'router', 'network')
 

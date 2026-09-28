@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '73361088-d185-4b41-a6d6-a7100df12b83'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor webcam_73361088-d185-4b41-a6d6-a7100df12b83.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor with a central webcam interrupting the top edge.'
 CONSTRUCTION_PLAN = 'Top border has symmetric gaps around the camera dot; paired sloping supports attach to a shared base.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

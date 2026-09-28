@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='67a3758e-aa06-455b-bb00-226525eeddc2'
 SOURCE_PATH='icon_set/work/todo-references/pill with checkmark and x_67a3758e-aa06-455b-bb00-226525eeddc2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Horizontal capsule split diagonally, checkmark in left half and X in right half. Capsule end radii match.'
 CONSTRUCTION_REFERENCES='Lucide pill: tangent capsule ends and diagonal division.'
 OMISSIONS='No defining glyphs omitted.'

@@ -22,7 +22,8 @@ class DrawingContainerSymbol(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

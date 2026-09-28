@@ -11,7 +11,8 @@ class Result(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'people/avatars'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('woman', 'bust', 'portrait', 'bob', 'hair', 'avatar')
     human_construction = "bust"

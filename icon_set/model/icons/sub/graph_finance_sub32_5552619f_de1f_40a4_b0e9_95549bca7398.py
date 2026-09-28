@@ -19,6 +19,7 @@ class Drawing(Sub32):
     semantic_role = "SUB"
     semantic_kind = "modifier"
     category = 'finance'
+    categories = ('primitives', 'finance')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

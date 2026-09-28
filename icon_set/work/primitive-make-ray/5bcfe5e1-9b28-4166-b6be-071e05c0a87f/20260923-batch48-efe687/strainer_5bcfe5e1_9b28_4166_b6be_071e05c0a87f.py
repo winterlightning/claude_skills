@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5bcfe5e1-9b28-4166-b6be-071e05c0a87f'
 SOURCE_PATH = 'icon_set/work/todo-references/strainer_5bcfe5e1-9b28-4166-b6be-071e05c0a87f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Round strainer bowl with a diagonal open handle extending down-left.'
 CONSTRUCTION_REFERENCE = 'circle: circular bowl; intentional diagonal handle asymmetry'
 

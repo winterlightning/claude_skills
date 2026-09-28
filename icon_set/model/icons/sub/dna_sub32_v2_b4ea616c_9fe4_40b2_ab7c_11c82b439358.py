@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = '7db5f99141f12a42d646294f38bdb1222ec98b9dbe2e6ab804818
 
 class DrawingVariant2(Sub32):
     icon_id = 'dna-sub32-v2'
-    variant_of = 'dna-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

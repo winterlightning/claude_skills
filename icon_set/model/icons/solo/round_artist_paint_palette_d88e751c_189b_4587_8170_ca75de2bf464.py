@@ -17,7 +17,8 @@ class RoundArtistPaintPalette(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "arts/painting"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("three-hole disc", "round palette")
     keywords = ("paint", "openings", "artist", "color")
 

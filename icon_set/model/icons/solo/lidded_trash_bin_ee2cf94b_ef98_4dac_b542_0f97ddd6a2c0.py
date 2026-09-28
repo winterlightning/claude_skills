@@ -16,7 +16,8 @@ class Batch03Icon12(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/trash"
+    category = "container"
+    categories = ("container",)
     aliases = ('lidded-trash-bin',)
     keywords = ('lidded', 'trash', 'bin')
 

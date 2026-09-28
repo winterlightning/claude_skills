@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'bowler-hat-portrait'
     keyshape = Keyshape.SQUARE
-    category = "avatars"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     human_construction = "bust"
     def build(self):
 

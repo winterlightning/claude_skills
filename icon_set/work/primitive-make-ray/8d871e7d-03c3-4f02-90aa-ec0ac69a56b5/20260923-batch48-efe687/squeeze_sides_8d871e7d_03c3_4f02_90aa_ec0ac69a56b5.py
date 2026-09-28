@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8d871e7d-03c3-4f02-90aa-ec0ac69a56b5'
 SOURCE_PATH = 'icon_set/work/todo-references/squeeze sides_8d871e7d-03c3-4f02-90aa-ec0ac69a56b5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Hand grips a phone while two arrows point inward; four repeated fingers and a curved thumb.'
 CONSTRUCTION_REFERENCE = 'smartphone and move-horizontal: rounded phone and arrow strokes'
 

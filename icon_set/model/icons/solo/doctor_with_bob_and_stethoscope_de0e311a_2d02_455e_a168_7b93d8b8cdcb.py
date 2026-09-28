@@ -53,6 +53,7 @@ class DoctorWithBobAndStethoscope(Solo48):
     icon_id = 'doctor-with-bob-and-stethoscope'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

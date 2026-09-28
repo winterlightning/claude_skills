@@ -15,7 +15,8 @@ class WolfFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('wolf-head',)
     keywords = ('wolf', 'face', 'head', 'ears', 'front', 'muzzle', 'canine', 'wild')
 

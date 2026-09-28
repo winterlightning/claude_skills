@@ -12,7 +12,8 @@ class VintageJeep(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('jeep', 'vintage', 'off-road', '4x4', 'car', 'classic', 'vehicle', 'side view')
 

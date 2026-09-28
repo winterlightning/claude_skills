@@ -1,30 +1,58 @@
-"""Electric Kick Scooter, re-authored from its reference on SOLO48."""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-SOURCE_ICON_ID = '5a173d3f-0f7b-4dcd-a49d-423f38bee3a7'
-SOURCE_PATH = 'pictographic-primitives/transportation/e scooter_5a173d3f-0f7b-4dcd-a49d-423f38bee3a7.svg'
-AUTHOR = 'gpt-6'
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='5a173d3f-0f7b-4dcd-a49d-423f38bee3a7'
+SOURCE_PATH='pictographic-primitives/transportation/e scooter_5a173d3f-0f7b-4dcd-a49d-423f38bee3a7.svg'
+AUTHOR='gpt-6'
+PLAN='Tall slim scooter steering stem, short T handle, small circular wheels, rising deck and upper platform mark.'
+CONSTRUCTION_REFERENCES='Lucide scooter: coherent stem/deck and circular wheels; source controls tall proportions and additional platform line.'
+OMISSIONS=['Upper platform shortened to six centerline units for clearance; the far fender tip is omitted.']
+class Drawing(Solo48):
+    icon_id='electric-kick-scooter'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
+    aliases=()
+    keywords=('e', 'scooter')
 
-class ElectricKickScooter(Solo48):
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+        for n,x in [('rear',10),('front',38)]:self.circle(n+'-wheel',x,38,4)
+        self.add_line('deck-flat',(14,38),(28,38))
+        self.path('deck-rise',(28,38),[('C',(38,34),(32,38),(32,34))])
+        self.relate('connect','deck-flat','deck-rise');self.relate('connect','deck-flat','rear-wheel');self.relate('connect','deck-rise','front-wheel')
+        self.add_line('stem',(30,6),(38,34));self.relate('connect','stem','deck-rise');self.relate('connect','stem','front-wheel')
+        self.add_polyline('handlebar',(24,6),(30,6),(36,6));self.relate('connect','handlebar','stem')
+        self.add_line('platform',(20,30),(26,30))
+
     icon_id = 'electric-kick-scooter'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/transportation"
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('e-scooter', 'kick scooter', 'scooter', 'electric', 'micromobility', 'ride', 'transport', 'side view')
-
-    def build(self) -> None:
-        # Current contract centerline extremes: (6,8)-(42,40).
-        for i,x in enumerate((10,38)):
-            self.add_arc(f'wheel-{i}-a',(x-6,34),(x+6,34),radius_x=6)
-            self.add_arc(f'wheel-{i}-b',(x+6,34),(x-6,34),radius_x=6)
-            self.add_contour(f'wheel-{i}',f'wheel-{i}-a',f'wheel-{i}-b',closed=True)
-        self.add_polyline('deck',(16,34),(27,34),(32,28),(38,28))
-        self.relate('connect','deck','wheel-0')
-        self.relate('connect','deck','wheel-1')
-        self.add_line('steering',(30,8),(38,28))
-        self.relate('connect','steering','deck')
-        self.relate('connect','steering','wheel-1')
-        self.add_polyline('handlebar',(26,8),(30,8),(36,8))
-        self.relate('connect','handlebar','steering')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

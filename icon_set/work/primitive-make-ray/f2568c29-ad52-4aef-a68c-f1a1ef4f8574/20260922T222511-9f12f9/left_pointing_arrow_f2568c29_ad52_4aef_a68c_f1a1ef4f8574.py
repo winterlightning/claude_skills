@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f2568c29-ad52-4aef-a68c-f1a1ef4f8574'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/caret left_f2568c29-ad52-4aef-a68c-f1a1ef4f8574.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'left-pointing-arrow'

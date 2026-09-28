@@ -10,7 +10,8 @@ class RoundInflatableRobot(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('robot', 'baymax', 'companion', 'healthcare', 'character', 'friendly', 'android')
 

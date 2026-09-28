@@ -16,7 +16,8 @@ class UserBustSub(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('user', 'bust', 'circular', 'head', 'sits', 'open', 'semicircular', 'shoulder')
 

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f31f1d33-4050-4371-af56-548e54cec150'
 SOURCE_PATH = 'icon_set/work/todo-references/align top bottom_f31f1d33-4050-4371-af56-548e54cec150.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'align-top-bottom'

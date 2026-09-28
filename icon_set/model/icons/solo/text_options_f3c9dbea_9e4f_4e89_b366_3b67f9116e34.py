@@ -1,23 +1,21 @@
-"""A serif A sits over a dropdown field.
-Plan: Centered A with matched foot serifs; rounded dropdown with a right chevron.
-Keyshape: SQUARE. Exact envelope: {'ink': [4, 4, 44, 44], 'centerline': [6, 6, 42, 42]}.
-Construction references: icon_set/references/lucide/original/type.svg and atomic-debug/type.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
+"""text options.
+Plan: Merge dropdown arrow into open field baseline as a downward notch; omit small serifs. A and selection remain vertically arranged.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'f3c9dbea-9e4f-4e89-b366-3b67f9116e34'
-SOURCE_PATH = 'icon_set/work/todo-references/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='f3c9dbea-9e4f-4e89-b366-3b67f9116e34'
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'text-options'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('text', 'options')
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('text', 'options')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,9 +69,5 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.letter_a('a',(24,6),(14,26),(34,26),(19,16),(29,16))
-        for name,x in [('serif-left',14),('serif-right',34)]:
-            self.add_polyline(name,(x-3,26),(x,26),(x+3,26));self.join('a',name)
-        self.rect('dropdown',6,34,36,8,4)
-        self.add_polyline('chevron',(32,37),(34,39),(36,37))
+        self.letter_a('a',(24,6),(10,26),(38,26),(17,16),(31,16))
+        self.add_polyline('dropdown',(6,34),(6,38),(20,38),(24,42),(28,38),(42,38),(42,34))

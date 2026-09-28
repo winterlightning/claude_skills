@@ -54,6 +54,7 @@ class RollerShadeWithScallopedHem(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('roller', 'shade', 'with', 'scalloped', 'hem')
 

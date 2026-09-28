@@ -18,6 +18,7 @@ class GirlWithDoubleHairBuns(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('girl', 'with', 'double', 'hair', 'buns')
     human_construction = "bust"

@@ -49,7 +49,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'cannabis'
+    categories = ('primitives', 'cannabis')
     aliases = ()
     keywords = ('seven', 'pointed', 'cannabis', 'leaf')
 

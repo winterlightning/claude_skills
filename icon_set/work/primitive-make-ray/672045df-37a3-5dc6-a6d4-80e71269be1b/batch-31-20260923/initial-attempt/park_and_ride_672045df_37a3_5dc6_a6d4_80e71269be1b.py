@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '672045df-37a3-5dc6-a6d4-80e71269be1b'
 SOURCE_PATH = 'icon_set/work/todo-references/park and ride_672045df-37a3-5dc6-a6d4-80e71269be1b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Park and ride represented by P plus R. Shared uppercase height and bowl geometry.'
 CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; hand-authored P/R with shared bowl parameters.'
 OMISSIONS = 'None; complete P+R retained.'

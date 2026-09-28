@@ -18,7 +18,8 @@ class HandTakingBlisterPill(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/food"
+    category = "food"
+    categories = ("primitives", "food")
     aliases = ()
     keywords = ('hand', 'taking', 'blister', 'pill')
 

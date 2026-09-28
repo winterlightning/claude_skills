@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/general'
+    category = 'war'
+    categories = ('war', 'primitives')
     aliases=()
     keywords=('death', 'rip')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)

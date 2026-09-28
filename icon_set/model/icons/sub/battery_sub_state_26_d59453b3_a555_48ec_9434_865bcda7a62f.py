@@ -16,7 +16,8 @@ class BatterySubState26(Sub32):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('battery', 'wide', 'body', 'forms', 'rounded', 'rectangular', 'outline', 'empty')
 

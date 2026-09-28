@@ -15,6 +15,7 @@ AUTHOR = 'gpt-6'
 class UserAvatar(Solo48):
     icon_id = "user-avatar"
     category = "avatars"
+    categories = ("avatars",)
     keyshape = Keyshape.VRECT_L
     aliases = ("account-avatar",)
     keywords = ('user', 'person', 'avatar', 'profile', 'account', 'sub icon')

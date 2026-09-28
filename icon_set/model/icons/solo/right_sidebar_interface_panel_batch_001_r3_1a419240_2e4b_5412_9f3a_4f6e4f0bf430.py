@@ -25,6 +25,7 @@ class RightSidebarInterfacePanelBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("sidebar-line-right", "right-panel")
     keywords = ("sidebar", "panel", "menu", "right", "layout", "interface")
 

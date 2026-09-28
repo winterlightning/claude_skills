@@ -11,7 +11,8 @@ class FlamingBrazier(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'culture/objects'
+    category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('brazier', 'fire', 'flame', 'greek', 'olympic', 'torch', 'ritual', 'ancient')
 

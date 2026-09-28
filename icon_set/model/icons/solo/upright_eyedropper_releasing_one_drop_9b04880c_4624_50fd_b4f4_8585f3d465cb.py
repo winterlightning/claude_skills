@@ -27,7 +27,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('dropper', 'with', 'liquid', 'drop')
 

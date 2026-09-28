@@ -15,7 +15,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/symbols'
+    category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('upward', 'pointing', 'dashed', 'arrow')
     def build(self):

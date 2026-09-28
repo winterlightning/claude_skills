@@ -11,7 +11,8 @@ class CrystalBallOnStand(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('crystal ball', 'sphere', 'fortune', 'divination', 'psychic', 'mystic', 'orb', 'future')
 

@@ -15,7 +15,8 @@ class OpenAccessLogo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('open-access', 'padlock', 'unlocked', 'research', 'logo', 'brand', 'open')
 

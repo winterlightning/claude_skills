@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='5a6783f5-2ff0-45f5-bf14-6058dbfbeb5c'
 SOURCE_PATH='icon_set/work/todo-references/tv control play_5a6783f5-2ff0-45f5-bf14-6058dbfbeb5c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Television on a central stand with an outlined right-pointing play triangle.'
 CONSTRUCTION_REFERENCE='monitor: matched screen corners and centered stand'
 

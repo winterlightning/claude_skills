@@ -9,7 +9,8 @@ class EmptyRoundedSquareShape(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "shapes/outline"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("rounded square",)
     keywords = ("empty", "border", "frame")
 

@@ -11,6 +11,7 @@ class Plane1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
+    categories = ('travel', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-full-set', 'plane-1')
 

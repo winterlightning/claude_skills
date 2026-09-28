@@ -10,7 +10,8 @@ class ElasticsearchLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('elasticsearch', 'elastic', 'search', 'logo', 'brand', 'letter-e', 'data')
 

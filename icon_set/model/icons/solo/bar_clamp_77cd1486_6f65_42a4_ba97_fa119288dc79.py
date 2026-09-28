@@ -11,7 +11,8 @@ class BarClamp(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('clamp', 'bar clamp', 'quick clamp', 'hold', 'woodworking', 'workshop', 'jaws', 'tool')
 

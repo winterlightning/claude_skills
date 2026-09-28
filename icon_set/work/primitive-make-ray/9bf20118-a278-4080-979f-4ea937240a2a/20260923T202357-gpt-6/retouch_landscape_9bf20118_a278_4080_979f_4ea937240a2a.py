@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9bf20118-a278-4080-979f-4ea937240a2a'
 SOURCE_PATH = 'icon_set/work/todo-references/retouch landscape_9bf20118-a278-4080-979f-4ea937240a2a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Landscape frame, sun and two mountain peaks with retouch rays outside upper right corner.
 # Reference reduction: Reduced retouch rays to three and omitted redundant mountain baseline.
 # Construction references: ['wand-sparkles', 'table']

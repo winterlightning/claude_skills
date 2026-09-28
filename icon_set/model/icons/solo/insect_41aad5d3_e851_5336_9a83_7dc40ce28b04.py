@@ -13,6 +13,7 @@ class HornedBeetle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('beetle', 'insect', 'horn', 'bug', 'shell', 'profile', 'legs', 'nature')
 

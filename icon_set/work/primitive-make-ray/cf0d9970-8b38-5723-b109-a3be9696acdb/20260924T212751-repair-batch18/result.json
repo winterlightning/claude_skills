@@ -1,0 +1,49 @@
+{
+  "source_uuid": "cf0d9970-8b38-5723-b109-a3be9696acdb",
+  "source_path": "pictographic-primitives/rating/rating star three_cf0d9970-8b38-5723-b109-a3be9696acdb.svg",
+  "reference_path": "pictographic-primitives/rating/rating star three_cf0d9970-8b38-5723-b109-a3be9696acdb.svg",
+  "concept": "rating star three",
+  "icon_id": "rating-star-three",
+  "author": "gpt-6",
+  "keyshape": "CIRCLE",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "visual_review": {
+    "status": "blocked",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "findings": "Blocked: adjacent stars are 2 units apart and several interior bands require review. Enlarged counters, staggered positions, joined tips and rectangular envelopes were tried. Narrow diamond-like candidates were visually rejected."
+  },
+  "omissions": "None; all three equal five-point stars retained.",
+  "construction_references": "star: alternating tips and valleys from one repeated definition.",
+  "keyshape_reason": "CIRCLE provides a radial envelope while retaining the horizontal three-star arrangement.",
+  "attempts": 8,
+  "svg_sha256": "f638069df6c5af54c69852bfd41c96c7b3341bb9d097250b7a100c59b9114719",
+  "blocker": "BUILD GATE FAIL (fail, 2 errors, 9 warnings)\n  error: mic [star-0]: star-0 and star-1 are 2 apart on centerlines nearest (16, 24)<->(18, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [star-1]: star-1 and star-2 are 2 apart on centerlines nearest (30, 24)<->(32, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: internal-spacing [star-0]: star-0-2 and star-0-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-0]: star-0-4 and star-0-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-0]: star-0-6 and star-0-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-2 and star-1-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-4 and star-1-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-1]: star-1-6 and star-1-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-2 and star-2-5 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-4 and star-2-7 have 2.5839 units of ink clearance over 2.9137 units; requires 4; review required\n  warning: internal-spacing [star-2]: star-2-6 and star-2-9 have 3.2672 units of ink clearance over 2.25 units; requires 4; review required",
+  "artifacts": {
+    "module": "rating_star_three_cf0d9970_8b38_5723_b109_a3be9696acdb.py",
+    "svg": "rating-star-three.svg",
+    "input_metadata": "rating-star-three.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/",
+    "findings": "findings.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  },
+  "keyshape_bounds": "(2, 2, 46, 46)",
+  "module_sha256": "51e7ecc45765940fa63ea2320e57ddf9ddd7ef894228c61eefe3a9eb536a6f6e"
+}

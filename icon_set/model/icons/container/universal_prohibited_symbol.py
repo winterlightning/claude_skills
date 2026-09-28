@@ -16,7 +16,8 @@ class UniversalProhibitedSymbol(Container64):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('universal', 'prohibited', 'symbol')
 

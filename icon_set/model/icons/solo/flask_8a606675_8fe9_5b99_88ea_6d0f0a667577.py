@@ -11,6 +11,7 @@ class Flask(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('flask', 'drinks')
 

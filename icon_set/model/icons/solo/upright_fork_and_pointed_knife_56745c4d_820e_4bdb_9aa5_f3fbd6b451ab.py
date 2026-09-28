@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/food'
+    category = 'food'
+    categories = ('food', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('fork', 'knife', 'cutlery', 'dining', 'utensil', 'meal', 'kitchen')
 

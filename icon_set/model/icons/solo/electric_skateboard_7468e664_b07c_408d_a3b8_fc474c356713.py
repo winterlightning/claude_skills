@@ -14,7 +14,8 @@ class ElectricSkateboard(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'transport/skateboards'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Electric Skateboard with Lightning Symbol',)
     keywords = tuple('electric skateboard with lightning symbol'.split())
 

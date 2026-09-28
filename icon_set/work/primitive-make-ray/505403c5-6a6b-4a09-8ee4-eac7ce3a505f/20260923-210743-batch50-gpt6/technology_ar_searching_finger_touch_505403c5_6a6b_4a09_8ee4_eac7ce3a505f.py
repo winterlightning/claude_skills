@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '505403c5-6a6b-4a09-8ee4-eac7ce3a505f'
 SOURCE_PATH = 'icon_set/work/todo-references/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'technology-ar-searching-finger-touch'

@@ -19,6 +19,7 @@ class GoogleDaydreamLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-daydream', 'daydream', 'vr', 'google', 'logo', 'brand', 'cloud')
 

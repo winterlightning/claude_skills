@@ -12,6 +12,7 @@ class DoorLeftHandOpen(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('door', 'left', 'hand', 'open', 'building')
 

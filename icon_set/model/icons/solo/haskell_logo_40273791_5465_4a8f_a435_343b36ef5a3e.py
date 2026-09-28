@@ -19,6 +19,7 @@ class HaskellLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('haskell', 'lambda', 'functional', 'programming', 'logo', 'brand', 'language')
 

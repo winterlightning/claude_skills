@@ -1,23 +1,21 @@
-"""A tire-pressure warning outline encloses a vertical warning stroke.
-Plan: Mirrored throat caps lead into a broad U-shaped bulb; paired lower stems stay aligned.
-Keyshape: VRECT_L. Exact envelope: {'ink': [6, 2, 42, 46], 'centerline': [8, 4, 40, 44]}.
-Construction references: No useful local Lucide subject match found; shared geometric construction principles used.
+"""tire pressure warning.
+Plan: Single open tire silhouette; paired tread stems share explicit bottom endpoints. Doubled wall removed for clear pressure mark.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '992df6cb-53a3-42d8-b584-7ec4584f57b0'
-SOURCE_PATH = 'icon_set/work/todo-references/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='992df6cb-53a3-42d8-b584-7ec4584f57b0'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'tire-pressure-warning'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('tire', 'pressure', 'warning')
-
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('tire', 'pressure', 'warning')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -71,8 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.path('tire',(12,8),[('A',(20,8),4,4,True),('L',(20,14)),('C',(20,20),(16,22),(16,27)),('C',(16,32),(19,34),(24,34)),('C',(29,34),(32,32),(32,27)),('C',(32,22),(28,20),(28,14)),('L',(28,8)),('A',(36,8),4,4,True),('C',(36,18),(40,20),(40,28)),('C',(40,36),(34,40),(28,40)),('L',(20,40)),('C',(14,40),(8,36),(8,28)),('C',(8,20),(12,18),(12,8))],True)
-        self.add_line('warning',(24,15),(24,23))
-        for name,x in [('stem-left',20),('stem-right',28)]:
-            self.add_line(name,(x,40),(x,44));self.join('tire',name)
+        self.path('tire',(14,4),[('C',(14,15),(8,18),(8,28)),('C',(8,36),(12,40),(18,40)),('L',(30,40)),('C',(36,40),(40,36),(40,28)),('C',(40,18),(34,15),(34,4))])
+        self.add_line('warning',(24,13),(24,27))
+        for n,x in [('left',18),('right',30)]:
+            self.add_line('tread-'+n,(x,40),(x,44));self.join('tire','tread-'+n)

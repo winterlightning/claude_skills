@@ -6,9 +6,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='8fed7998-a482-495d-a5a5-6b6237429d87'
 SOURCE_PATH='icon_set/work/todo-references/music making_8fed7998-a482-495d-a5a5-6b6237429d87.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='music-making'
+    icon_id = 'music-making'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

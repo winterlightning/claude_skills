@@ -1,0 +1,43 @@
+{
+  "concept": "face dizzy",
+  "source_uuid": "aa0c1f8e-f7ca-4bf9-adf6-7f6f74e5b90a",
+  "reference_path": "pictographic-primitives/_uncategorized_17/face dizzy_aa0c1f8e-f7ca-4bf9-adf6-7f6f74e5b90a.svg",
+  "icon_id": "dizzy-face-with-spiral-eyes",
+  "author": "gpt-6",
+  "parent_module": "icon_set/work/primitive-make-ray/aa0c1f8e-f7ca-4bf9-adf6-7f6f74e5b90a/20260924T174202-six-retry/face_dizzy_aa0c1f8e_f7ca_4bf9_adf6_7f6f74e5b90a.py",
+  "status": "exception",
+  "keyshape": "CIRCLE",
+  "keyshape_reason": "Complete circular face centered at (24,24), radius20, with smaller symbols enclosed independently.",
+  "validation_status": "invalid",
+  "validation_errors": 6,
+  "validation_warnings": 0,
+  "build_gate": "fail",
+  "user_rule_exception": {
+    "authorized": true,
+    "instruction": "for those emoji, i want you to remain the circle, just draw the heart, start, @ smaller, even if broke the rule, im good with it",
+    "scope": "Preserve full circle and use smaller heart/star/spiral eye symbols despite rule violations. No global validator/profile settings changed.",
+    "label": "exception"
+  },
+  "svg_sha256": "f899a1946c617682a9ce44cbdf89d97774d515f8b19e8f55bdbd4631e5ea57df",
+  "visual_review": {
+    "native_light": true,
+    "native_dark": true,
+    "findings": "Complete circular enclosure retained with independent smaller eye symbols. Tight internal symbol spaces are intentional under the user instruction; no eye connects to the outer face."
+  },
+  "design_changes": "Reverted eye/head boundary integration. Restored complete circle for every emoji, including the heart-eye face per latest user direction. Eyes are smaller; mouths retain distinct open-grin, open-frown, smile and neutral expressions.",
+  "references": "Original supplied references reviewed; prior human facial and Lucide star construction references retained as context. No body is depicted.",
+  "artifacts": {
+    "module": "face_dizzy_aa0c1f8e_f7ca_4bf9_adf6_7f6f74e5b90a.py",
+    "svg": "dizzy-face-with-spiral-eyes.svg",
+    "metadata": "dizzy-face-with-spiral-eyes.metadata.json",
+    "reference": "reference.svg",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_large": "light-240.png",
+    "dark_large": "dark-240.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/"
+  },
+  "flag": "exception"
+}

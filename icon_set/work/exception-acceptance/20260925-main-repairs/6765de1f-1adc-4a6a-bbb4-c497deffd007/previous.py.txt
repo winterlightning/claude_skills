@@ -1,0 +1,46 @@
+"""Tall browser page with a small circular portrait and detached shoulder arch on the left, two text lines on the right."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID='6765de1f-1adc-4a6a-bbb4-c497deffd007'
+SOURCE_PATH='pictographic-primitives/other/ui webpage social profile_6765de1f-1adc-4a6a-bbb4-c497deffd007.svg'
+AUTHOR='gpt-6'
+PLAN='Head center (20,22), radius 2; shoulders top y32. Exact detached head-to-shoulder gap: 32-(22+2)-4=4. Rounded portrait shoulders remain separate from page bottom.'
+CONSTRUCTION_REFERENCE='human_ref/user.svg for circular head and shoulder proportions; panels-top-left original and atomic-debug for chrome.'
+OMISSIONS='Header dashes omitted; source text lines reduced to short dashes; small head uses the existing complete-circle exception.'
+
+class Drawing(Solo48):
+    icon_id='webpage-user-profile'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('ui', 'webpage', 'social', 'profile')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+
+    def build(self):
+        self.box('page',8,4,40,44)
+        self.add_line('header',(8,12),(40,12));self.relate('connect','page','header')
+        self.circle('head',20,22,2)
+        self.add_arc('shoulders',(17,35),(23,35),radius_x=3,radius_y=3)
+        for i,y in enumerate((22,30)):self.add_line(f'text-{i}',(30,y),(31,y))

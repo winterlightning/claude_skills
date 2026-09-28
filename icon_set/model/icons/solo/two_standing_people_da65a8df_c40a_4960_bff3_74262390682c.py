@@ -12,7 +12,8 @@ class TwoStandingPeople(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/groups"
+    category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('people', 'two', 'users', 'pair', 'men', 'figures', 'group', 'team', 'sub icon')
 

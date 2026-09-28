@@ -15,7 +15,8 @@ class LinuxFoundationLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('linux-foundation', 'linux', 'open-source', 'square', 'logo', 'brand', 'foundation')
 

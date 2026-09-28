@@ -11,7 +11,8 @@ class Cinema4DLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('cinema-4d', 'maxon', '3d', 'logo', 'brand', 'modeling', 'animation')
 

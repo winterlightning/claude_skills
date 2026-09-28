@@ -15,7 +15,8 @@ class LoomLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('loom', 'video', 'recording', 'starburst', 'logo', 'brand', 'screen-recording')
 

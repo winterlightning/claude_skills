@@ -11,7 +11,8 @@ class PersonScrubbingFace(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('person', 'face', 'scrubbing', 'washing', 'pad', 'hygiene')
 

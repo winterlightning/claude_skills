@@ -45,7 +45,8 @@ class PowerCableLoopContainer(Container64):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ("circular-electrical-power-cable", "cable-loop", "plug-ring")
     keywords = (
         "cable", "cables", "plug", "plugs", "power", "cord", "lead",

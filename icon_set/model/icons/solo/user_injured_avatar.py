@@ -19,6 +19,7 @@ class UserInjuredAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars',)
     aliases = ()
     keywords = ('user', 'injured', 'portrait', 'bust')
     def build(self):

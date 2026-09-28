@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/devices"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases = ()
     keywords = ('delete',)
 

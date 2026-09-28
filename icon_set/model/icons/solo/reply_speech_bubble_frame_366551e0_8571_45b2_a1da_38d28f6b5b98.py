@@ -16,7 +16,8 @@ class Batch04Icon11(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/reply"
+    category = "container"
+    categories = ("container",)
     aliases = ('reply-speech-bubble-frame',)
     keywords = ('reply', 'speech', 'bubble', 'frame')
 

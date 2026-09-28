@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f3964f57-12c0-4eaf-8a13-4ca7af83fcd5'
 SOURCE_PATH = 'icon_set/work/todo-references/circle cursor right_f3964f57-12c0-4eaf-8a13-4ca7af83fcd5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circle-cursor-right'

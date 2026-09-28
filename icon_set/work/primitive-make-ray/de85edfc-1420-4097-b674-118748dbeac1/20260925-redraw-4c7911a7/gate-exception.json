@@ -1,0 +1,30 @@
+{
+  "source_uuid": "de85edfc-1420-4097-b674-118748dbeac1",
+  "icon_id": "smartphone-with-app-icons",
+  "approval_source": "user",
+  "user_instruction": "put not pass as eception, im ok with it",
+  "scope": "All existing blocking validation findings for this exact standalone batch drawing, including review warnings.",
+  "svg_sha256": "16139b3cff35ebf3c2118c2639148fc4f59acd80b6d703626af5efe52cd333d2",
+  "automatic_status": "fail",
+  "errors": [
+    "mic [app-12]: parallel straight edges app-12-2 and app-12-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [app-24]: parallel straight edges app-24-2 and app-24-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [app-12]: parallel straight edges app-12-1 and app-12-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [app-12]: parallel straight edges app-12-3 and app-24-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [app-24]: parallel straight edges app-24-1 and app-24-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bezel]: parallel straight edges bezel and phone-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [app-12]: app-12 and app-24 are 6 apart on centerlines nearest (22, 18)<->(22, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [phone]: phone and app-12 are 8 apart on centerlines nearest (8, 12)<->(16, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and app-24 are 8 apart on centerlines nearest (8, 24)<->(16, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [phone / bezel]: phone-4 and bezel have 2 units of ink clearance over 23 units; requires 4; review required",
+    "internal-spacing [app-12]: app-12-1 and app-12-3 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [app-12]: app-12-2 and app-12-4 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [app-24]: app-24-1 and app-24-3 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [app-24]: app-24-2 and app-24-4 have 2 units of ink clearance over 5 units; requires 4; review required"
+  ],
+  "effective_status": "accepted-with-exception",
+  "invalidation": "Requires new review if the SVG hash changes.",
+  "application": "Standalone result acceptance only; no global validator changes or production publication."
+}

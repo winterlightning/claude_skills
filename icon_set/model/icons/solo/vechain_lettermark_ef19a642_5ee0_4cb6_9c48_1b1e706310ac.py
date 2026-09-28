@@ -10,7 +10,8 @@ class VechainLettermark(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="symbols/finance"
+    category = "money"
+    categories = ("primitives", "money")
     aliases=()
     keywords=('vechain', 'v', 'lettermark', 'crypto', 'currency', 'ribbon')
 

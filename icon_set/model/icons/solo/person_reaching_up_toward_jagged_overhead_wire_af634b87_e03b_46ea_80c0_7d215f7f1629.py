@@ -14,7 +14,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/electronics'
+    category = 'electronics'
+    categories = ('electronics', 'primitives')
     aliases = ()
     keywords = ('person', 'electric', 'shock', 'hazard', 'wire', 'hand', 'danger', 'safety')
     def build(self):

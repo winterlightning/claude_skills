@@ -11,6 +11,7 @@ class Bell77ec3808(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('bell', 'symbol', 'solo-ai-first50')
 

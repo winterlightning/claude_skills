@@ -19,6 +19,7 @@ class GoogleDataStudioLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-data-studio', 'looker-studio', 'google', 'reports', 'logo', 'brand', 'data')
 

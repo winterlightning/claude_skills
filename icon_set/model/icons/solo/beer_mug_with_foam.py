@@ -11,7 +11,8 @@ class BeerMugWithFoam(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/drink'
+    category = 'drinks'
+    categories = ('drinks',)
     aliases = ('beer-mug', 'beer-stein', 'stein')
     keywords = ('beer', 'mug', 'stein', 'drink', 'pub', 'bar', 'alcohol', 'foam')
 

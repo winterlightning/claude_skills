@@ -19,7 +19,8 @@ class SquareState264ContainerSymbol(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('square', 'upright', 'outline', 'four', 'straight', 'equal', 'sides', 'empty')
 

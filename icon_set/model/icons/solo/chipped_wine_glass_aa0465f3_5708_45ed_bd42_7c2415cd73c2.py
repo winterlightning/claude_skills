@@ -11,7 +11,8 @@ class ChippedWineGlass(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shipping"
+    category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('glass', 'wine', 'fragile', 'chip', 'broken', 'stemware')
 

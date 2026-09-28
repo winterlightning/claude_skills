@@ -18,7 +18,8 @@ class WaterScooter(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/vehicle'
+    category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('jet-ski', 'water-scooter', 'watercraft', 'waves', 'sea', 'sport', 'vehicle', 'summer')
 

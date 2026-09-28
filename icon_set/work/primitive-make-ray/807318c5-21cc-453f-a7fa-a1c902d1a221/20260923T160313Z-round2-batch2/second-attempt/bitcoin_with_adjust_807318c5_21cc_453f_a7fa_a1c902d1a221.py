@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='807318c5-21cc-453f-a7fa-a1c902d1a221'
 SOURCE_PATH='icon_set/work/todo-references/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='bitcoin-with-adjust'
     keyshape=Keyshape.SQUARE

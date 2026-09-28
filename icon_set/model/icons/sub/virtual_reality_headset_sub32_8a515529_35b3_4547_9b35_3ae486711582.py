@@ -14,7 +14,8 @@ class Drawing(Sub32):
     keyshape=Keyshape.HRECT_XL
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'virtual reality headset')
     def build(self):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bb90ccf0-9578-45c7-ad84-a7eb1350bdaf'
 SOURCE_PATH = 'icon_set/work/todo-references/squeeze sides_bb90ccf0-9578-45c7-ad84-a7eb1350bdaf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Phone with paired inward-bowing squeeze marks and a bottom separator.'
 CONSTRUCTION_REFERENCE = 'smartphone: rounded vertical enclosure'
 

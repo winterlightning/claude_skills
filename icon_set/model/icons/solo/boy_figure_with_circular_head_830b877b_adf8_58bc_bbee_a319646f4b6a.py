@@ -20,6 +20,7 @@ class BoyFigureWithCircularHead(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'avatars'
+    categories = ('avatars', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('boy', 'figure', 'with', 'circular', 'head')
     HUMAN_REFERENCE = "icon_set/references/human_ref/full_body_ref.png"

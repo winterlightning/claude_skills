@@ -14,7 +14,8 @@ class ForestFire(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-03"
+    category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('forest fire', 'wildfire', 'trees', 'flame', 'smoke', 'campfire', 'pine', 'danger')
 

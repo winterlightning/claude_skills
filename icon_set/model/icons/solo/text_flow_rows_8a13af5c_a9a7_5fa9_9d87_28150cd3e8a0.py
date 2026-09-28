@@ -12,6 +12,7 @@ class TextFlowRows(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('text', 'flow', 'rows', 'interface-essential')
 

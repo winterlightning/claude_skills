@@ -10,7 +10,8 @@ class Batch033Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
+    categories = ("symbol", "state", "other", "primitives-generate")
     aliases = ('zoom-in-magnifying-glass',)
     keywords = ('batch-033',)
 

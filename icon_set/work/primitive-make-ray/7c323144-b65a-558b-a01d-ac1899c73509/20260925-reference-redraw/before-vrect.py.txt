@@ -1,0 +1,42 @@
+'Moved the medical cross from the cap to the left chest. Restored a rounded surgical cap and center coat fastening. HRECT_L supplies room for cross/fastening spacing; head is smaller and shoulders broader than the source. Circular head radius7 at (24,15) ends y22; shoulders at y26 give zero avatar ink gap. Fine collar detail omitted. Construction references: user-round and shared human_ref/user.svg.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='7c323144-b65a-558b-a01d-ac1899c73509'
+SOURCE_PATH='pictographic-primitives/avatars/man doctor_7c323144-b65a-558b-a01d-ac1899c73509.svg'
+AUTHOR='gpt-6'
+PARENT_MODULE='icon_set/model/icons/solo/man_doctor_avatar.py'
+class Drawing(Solo48):
+    icon_id='man-doctor-avatar'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='avatars'
+    aliases=()
+    keywords=('man doctor',)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def build(self):
+        self.circle('head',24,15,7)
+        self.add_line('cap-band',(17,15),(31,15));self.relate('connect','head','cap-band')
+        self.add_line('body-left-side',(4,40),(4,34))
+        self.add_arc('body-left-shoulder',(4,34),(14,26),radius_x=10,radius_y=8)
+        self.add_line('body-top-left',(14,26),(24,26));self.add_line('body-top-right',(24,26),(34,26))
+        self.add_arc('body-right-shoulder',(34,26),(44,34),radius_x=10,radius_y=8)
+        self.add_line('body-right-side',(44,34),(44,40))
+        for a,b in [('body-left-side','body-left-shoulder'),('body-left-shoulder','body-top-left'),('body-top-left','body-top-right'),('body-top-right','body-right-shoulder'),('body-right-shoulder','body-right-side')]:self.relate('connect',a,b)
+        for part in ['body-top-left','body-top-right']:self.relate('connect','head',part)
+        self.add_line('fastening',(24,26),(24,40));self.relate('connect','fastening','body-top-left');self.relate('connect','fastening','body-top-right')
+        self.add_polyline('cross-h',(12,37),(14,37),(16,37));self.add_polyline('cross-v',(14,35),(14,37),(14,39));self.relate('connect','cross-h','cross-v')

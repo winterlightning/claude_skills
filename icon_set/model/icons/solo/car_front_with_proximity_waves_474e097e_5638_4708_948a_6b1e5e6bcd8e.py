@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'car-front-with-proximity-waves'
     keyshape = Keyshape.HRECT_L
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('car', 'front', 'with', 'proximity', 'waves')
 
     def build(self):

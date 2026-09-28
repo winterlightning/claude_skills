@@ -11,6 +11,7 @@ class ShockAbsorber(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('shock absorber', 'suspension', 'damper', 'car', 'strut', 'mechanic', 'automotive', 'repair')
 

@@ -17,7 +17,8 @@ class WrappedFlowerBouquet(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/romance"
+    category = "romance"
+    categories = ("primitives", "romance")
     aliases = ()
     keywords = ('bouquet', 'flower', 'heart', 'wrapping', 'gift', 'romance')
 

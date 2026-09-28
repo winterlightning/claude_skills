@@ -17,7 +17,8 @@ class LightningBoltSymbol(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/weather"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("flash", "electric-bolt")
     keywords = ("lightning", "electricity", "energy", "thunder")
 

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'eb0291a2-d110-4e0e-9cb6-552c49ef98d5'
 SOURCE_PATH = 'icon_set/work/todo-references/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'step-uncle'

@@ -1,0 +1,64 @@
+{
+  "key": "solo/foggy-cloud",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__foggy-cloud/20260925T090056Z-thuan-mac",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__foggy-cloud/20260925T090056Z-thuan-mac/reference/weather cloud wind 1_3ea1561a-0ad1-4359-8da5-b2d62f6fc199.svg",
+  "id": "foggy-cloud",
+  "category": "primitives-generate",
+  "run": "icon_set/work/primitive-make-ray/3ea1561a-0ad1-4359-8da5-b2d62f6fc199/20260925T0903-thuan-mac-revision",
+  "source_uuid": "3ea1561a-0ad1-4359-8da5-b2d62f6fc199",
+  "concept": "weather cloud wind 1",
+  "module": "icon_set/work/primitive-make-ray/3ea1561a-0ad1-4359-8da5-b2d62f6fc199/20260925T0903-thuan-mac-revision/foggy_cloud_3ea1561a_0ad1_4359_8da5_b2d62f6fc199.py",
+  "note": "Restored the full cloud mass with an open lower-right break and two spaced fog bars.",
+  "construction_reference": "Lucide cloud: flowing lobes and horizontal lower edge.",
+  "exception_reason": "Preserve natural cloud envelope; exact eight-unit cloud/fog centerline gap is visually open despite conservative curved check.",
+  "icon_id": "foggy-cloud",
+  "author": "gpt-6",
+  "feedback": "Manual fix request",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "foggy-cloud",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (3, 2, 42.811, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [3.0, 0.0, 0.811, 0.0], tolerance 0.0)"
+    ],
+    "warnings": [
+      "mic [cloud]: cloud and fog-1 are 8 apart on centerlines nearest (12, 28)<->(12, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Preserve natural cloud envelope; exact eight-unit cloud/fog centerline gap is visually open despite conservative curved check.",
+      "approved_by": "user (delegated visual exception judgment)",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "167fe50416cc6269b3d3a456e0150fba71e91d39d086635ffd20c10ecf25e00f"
+    },
+    "automatic_status": "fail"
+  },
+  "exception": {
+    "reason": "Preserve natural cloud envelope; exact eight-unit cloud/fog centerline gap is visually open despite conservative curved check.",
+    "approved_by": "user (delegated visual exception judgment)",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "167fe50416cc6269b3d3a456e0150fba71e91d39d086635ffd20c10ecf25e00f"
+  },
+  "visual_review": "Reviewed native 48px and enlarged in both themes: complete reference meaning, open interior features, smooth main curves and intentional symmetry/asymmetry. Restored the full cloud mass with an open lower-right break and two spaced fog bars.",
+  "keyshape": "VRECT_L",
+  "keyshape_reason": "Chosen for upright or square subject proportions; exact natural outline deviations recorded in drawing-bound exception.",
+  "omissions": [],
+  "references": [
+    "supplied original",
+    "rejected before SVG",
+    "Lucide cloud: flowing lobes and horizontal lower edge."
+  ],
+  "artifacts": [
+    "preview-dark-384.png",
+    "reference.svg",
+    "preview-dark-48.png",
+    "foggy-cloud.svg",
+    "reference.png",
+    "__pycache__",
+    "foggy_cloud_3ea1561a_0ad1_4359_8da5_b2d62f6fc199.py",
+    "preview-light-384.png",
+    "validation.txt",
+    "foggy-cloud.metadata.json",
+    "preview-light-48.png",
+    "build-gate.json"
+  ]
+}

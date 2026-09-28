@@ -15,7 +15,8 @@ class RoundHeadMapPinSub(Sub32):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('round', 'head', 'map', 'pin', 'sub')
 

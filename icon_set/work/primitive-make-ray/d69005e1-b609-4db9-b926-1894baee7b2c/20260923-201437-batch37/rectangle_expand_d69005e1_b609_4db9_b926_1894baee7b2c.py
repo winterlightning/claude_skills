@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='d69005e1-b609-4db9-b926-1894baee7b2c'
 SOURCE_PATH='icon_set/work/todo-references/rectangle expand_d69005e1-b609-4db9-b926-1894baee7b2c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A diagonal two-headed expand arrow inside a rectangular card.'
 OMISSIONS='No defining features omitted.'
 LUCIDE_REFERENCE='move-diagonal-2'

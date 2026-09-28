@@ -18,7 +18,8 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/media'
+    category = 'medias'
+    categories = ('medias', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

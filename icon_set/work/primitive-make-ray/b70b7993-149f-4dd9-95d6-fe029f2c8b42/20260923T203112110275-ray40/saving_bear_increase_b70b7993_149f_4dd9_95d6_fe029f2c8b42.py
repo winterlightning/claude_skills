@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b70b7993-149f-4dd9-95d6-fe029f2c8b42'
 SOURCE_PATH = 'icon_set/work/todo-references/saving bear increase_b70b7993-149f-4dd9-95d6-fe029f2c8b42.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Bear head below a rising financial arrow; ears and muzzle mirror around x=26.
 # Reference: No exact local Lucide bear match; smooth lobes and coherent financial arrow.
 # Reduction: Omitted tiny muzzle crease while retaining split muzzle and two ears.

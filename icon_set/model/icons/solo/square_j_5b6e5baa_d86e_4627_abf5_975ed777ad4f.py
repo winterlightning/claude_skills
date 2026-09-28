@@ -2,14 +2,14 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='5b6e5baa-d86e-4627-abf5-975ed777ad4f'
 SOURCE_PATH='icon_set/work/todo-references/square j_5b6e5baa-d86e-4627-abf5-975ed777ad4f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing the right arrow shown in the source.'
 CONSTRUCTION_REFERENCES='Lucide arrow-down construction rotated by authoring coordinates.'
 OMISSIONS='Source direction preserved despite square j filename.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
-    icon_id='square-j'
+    icon_id = 'square-j'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

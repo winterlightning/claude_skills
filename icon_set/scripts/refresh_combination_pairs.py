@@ -5,7 +5,9 @@ import sys
 import shutil
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from pathlib import Path
 from .category_report import REPO_ROOT, model_catalog, source_id
+from .primitives_catalog import load_aliases, resolve
 from .combination_experiment import DATA, ROOT
 
 if __package__:
@@ -30,6 +32,11 @@ def refresh():
     profiles = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'container': 'container64', 'combination_main':'combination_main48'}
     for model in model_catalog():
         path = build_dist(REPO_ROOT) / profiles[model['family']] / (model['icon_id'] + '.svg')
+        # A drawing that fails the build check is exported under failed/. Keep it as a candidate:
+        # combining uses it only after a reviewer approves it as an exception.
+        failed = not path.exists()
+        if failed:
+            path = build_dist(REPO_ROOT) / 'failed' / profiles[model['family']] / (model['icon_id'] + '.svg')
         if not path.exists():
             continue
         ids = {model['source_id']}
@@ -39,7 +46,8 @@ def refresh():
             ids.add(uid)
             if reference:
                 ids.add(source_id(reference))
-        item = {'icon': model['icon_id'], 'family': model['family'], 'svg': path.relative_to(REPO_ROOT).as_posix()}
+        item = {'icon': model['icon_id'], 'family': model['family'], 'svg': path.relative_to(REPO_ROOT).as_posix(),
+                **({'build_failed': True} if failed else {})}
         for uid in ids:
             if uid:
                 index[uid.lower()].append(item)
@@ -120,6 +128,13 @@ def refresh():
 
     remap_path = ROOT / 'data/combination-remaps.json'
     remaps = json.loads(remap_path.read_text()).get('rules', []) if remap_path.exists() else []
+    # A pair may name an alias uuid (a 99% duplicate reference); its drawings sit under the canonical one.
+    aliases = load_aliases()
+
+    def lookup(index, uid):
+        uid = (uid or '').lower()
+        return index.get(uid) or index.get(resolve(uid, aliases) or '', [])
+
     rows, failures = [], []
     for original in json.loads((REPO_ROOT / 'combination_data.json').read_text()).get('side', []):
         row = dict(original)
@@ -128,29 +143,37 @@ def refresh():
             fragment = row['id'][:18] if rule['role'] == 'main' else row['id'][19:34]
             if not row.get(field) and fragment == rule['fragment']:
                 row[field] = rule['reference_id']
-        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
+        # Passing drawings first, so default previews and first choices never pick a failing one.
+        mains = sorted(lookup(index, row.get('main_id')), key=lambda m: (bool(m.get('build_failed')), {'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
         sub_id = (row.get('sub_id') or '').lower()
-        subs = sorted(state_subs.get(sub_id, index.get(sub_id, [])), key=lambda m: ({'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
+        state_id = next((u for u in (sub_id, resolve(sub_id, aliases)) if u in state_subs), None)
+        subs = sorted(state_subs[state_id] if state_id else lookup(index, sub_id), key=lambda m: (bool(m.get('build_failed')), {'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
         if not mains or not subs:
             continue
         try:
             rows.append(dict(row, type='side', mains=[measure(m,'main') for m in mains], subs=[measure(m,'sub') for m in subs]))
         except Exception as error:
             failures.append({'id':row['id'],'concept':row['concept'],'error':str(error)})
+    # Native text layouts are generated from the supplied typeface, outside the
+    # Python primitive registry. Keep them in the shared combination pipeline.
+    native = {row['id']: row for row in old if row.get('native_text')}
+    rows = [row for row in rows if row['id'] not in native] + list(native.values())
     DATA.write_text(json.dumps({'rows': rows, 'failures': failures, 'state_skips': state_skips}))
     (ROOT / 'data/combination-sub32.json').write_text(json.dumps(export_manifest, indent=2)+'\n')
     (build_dist(ROOT.parent) / 'gallery/experiment-combination.json').write_text(DATA.read_text())
-    catalog = build_dist(ROOT.parent) / 'gallery/experiments.json'
-    totals = json.loads(catalog.read_text())
-    totals['combination'] = len(rows)
-    catalog.write_text(json.dumps(totals))
+    # experiments.json counts combined icons, so build_combination_previews sets it after rendering.
     from .deduplicate_subs import run as deduplicate_subs
     deduplicate_subs()
     print(f'Available: {len(rows)} side pairs; {len(export_manifest)} reusable 32px exports; {len(failures)} failures; grid: {len(old)} → {len(rows)}', flush=True)
 
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--previews', action='store_true')
+    parser.add_argument('--approved-plan')
+    args = parser.parse_args()
     refresh()
-    if '--previews' in sys.argv:
+    if args.previews:
         from .build_combination_previews import build
-        build()
+        build(approved_plan=json.loads(Path(args.approved_plan).read_text()) if args.approved_plan else None)

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '08ce9242-6dea-4459-b4d0-e91ada71f50a'
 SOURCE_PATH = 'icon_set/work/todo-references/clapper_08ce9242-6dea-4459-b4d0-e91ada71f50a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'clapper'

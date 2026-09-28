@@ -12,7 +12,8 @@ class CrossedAdhesiveBandages(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/health"
+    category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('crossed', 'adhesive', 'bandages')
 

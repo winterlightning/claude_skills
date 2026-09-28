@@ -11,6 +11,7 @@ class Megaphone6b4a53f0(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'megaphone-6b4a53f0')
 

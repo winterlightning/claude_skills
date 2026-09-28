@@ -4,7 +4,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'
 SOURCE_PATH = 'icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['calendar']
 PLAN = 'Calendar with a continuous telephone receiver; simplify the handset to a centerline hook with distinct earpiece ends.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc/20260923-b06-4cafeaf5/result.json'

@@ -15,7 +15,8 @@ class Batch28Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/agriculture"
+    category = "farming"
+    categories = ("farming", "primitives")
     aliases = ()
     keywords = ('curved', 'harvesting', 'sickle', 'tool')
 

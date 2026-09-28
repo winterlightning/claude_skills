@@ -1,0 +1,43 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+
+SOURCE_ICON_ID='fca396e7-351b-4b96-8ac4-233b3625135c'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/user cash scale_fca396e7-351b-4b96-8ac4-233b3625135c.svg'
+AUTHOR="gpt-6"
+PLAN='Human cash balance: detached head gap 8 centerline, monetary coin and triangular fulcrum.'
+class Drawing(Solo48):
+    icon_id='user-cash-scale'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';end=op[1]
+            if op[0]=='L': self.add_line(eid,p,end)
+            elif op[0]=='A': self.add_arc(eid,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            else: self.add_bezier(eid,p,(op[2],op[3],end))
+            p=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
+
+    def build(self):
+        self.circle('head',12,9,3)
+        self.path('shoulders',(6,23),[('A',(12,20),6,3,True),('A',(18,23),6,3,True)])
+        self.add_polyline('beam',(6,32),(24,32),(42,32))
+        self.add_polyline('fulcrum',(14,42),(24,32),(34,42))
+        self.relate('connect','beam','fulcrum')
+        self.add_bezier('dollar',(34,8),((26,8),(26,16),(34,16)),((42,16),(42,24),(34,24)))
+        self.add_line('dollar-top',(34,6),(34,8))
+        self.add_line('dollar-bottom',(34,24),(34,26))
+        self.relate('connect','dollar','dollar-top')
+        self.relate('connect','dollar','dollar-bottom')

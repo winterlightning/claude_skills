@@ -14,7 +14,8 @@ class FacetedDiamond(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('diamond', 'gem', 'facet', 'crystal', 'jewel', 'mineral')
 

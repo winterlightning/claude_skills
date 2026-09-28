@@ -11,7 +11,8 @@ class IonicColumn(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('column', 'ionic', 'classical', 'greek', 'roman', 'architecture', 'pillar', 'antiquity')
 

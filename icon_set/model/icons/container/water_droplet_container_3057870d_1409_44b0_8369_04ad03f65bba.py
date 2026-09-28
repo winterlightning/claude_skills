@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class WaterDropletContainer(Container64):
     icon_id = 'water-droplet-container'
+    category = 'smileys'
+    categories = ('smileys', 'other', 'primitives-generate')
     keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('water', 'droplet', 'container')

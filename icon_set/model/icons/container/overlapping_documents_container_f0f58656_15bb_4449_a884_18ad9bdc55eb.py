@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class OverlappingDocumentsContainer(Container64):
     icon_id = 'overlapping-documents-container'
+    category = 'files'
+    categories = ('files', 'primitives')
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('overlapping', 'documents', 'container')

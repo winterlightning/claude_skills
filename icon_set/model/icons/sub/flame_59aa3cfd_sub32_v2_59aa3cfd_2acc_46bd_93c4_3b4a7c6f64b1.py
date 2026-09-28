@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = '3218057023c3d16ce533700b62b7417f15ec19faf503dfe7dca76
 
 class DrawingVariant2(Sub32):
     icon_id = 'flame-59aa3cfd-sub32-v2'
-    variant_of = 'flame-59aa3cfd-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'products'
+    categories = ('primitives', 'products')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

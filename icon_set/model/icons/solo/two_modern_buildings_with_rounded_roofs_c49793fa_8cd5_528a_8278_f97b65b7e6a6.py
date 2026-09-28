@@ -20,6 +20,7 @@ class TwoModernBuildingsWithRoundedRoofs(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'building'
+    categories = ('building', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('two', 'modern', 'buildings', 'with', 'rounded', 'roofs')
 

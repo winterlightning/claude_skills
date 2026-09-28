@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'outer-ear-with-curved-folds'
     keyshape = Keyshape.VRECT_M
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

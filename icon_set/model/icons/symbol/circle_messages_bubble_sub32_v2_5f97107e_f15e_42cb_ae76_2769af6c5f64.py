@@ -19,7 +19,8 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'other'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

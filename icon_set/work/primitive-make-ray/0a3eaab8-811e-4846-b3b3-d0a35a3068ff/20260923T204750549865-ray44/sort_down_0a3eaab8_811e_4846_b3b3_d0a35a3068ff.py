@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0a3eaab8-811e-4846-b3b3-d0a35a3068ff'
 SOURCE_PATH = 'icon_set/work/todo-references/sort down_0a3eaab8-811e-4846-b3b3-d0a35a3068ff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Downward arrow over three equally spaced horizontal sort rows.
 # References: arrow-down: equal arrow wings and shared shaft endpoint.
 # Reduction: No defining parts omitted.

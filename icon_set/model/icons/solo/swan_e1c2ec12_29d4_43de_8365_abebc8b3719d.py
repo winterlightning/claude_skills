@@ -13,6 +13,7 @@ class Swan(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('swan', 'bird', 'neck', 'curve', 'pond', 'elegant', 'waterfowl', 'grace')
 

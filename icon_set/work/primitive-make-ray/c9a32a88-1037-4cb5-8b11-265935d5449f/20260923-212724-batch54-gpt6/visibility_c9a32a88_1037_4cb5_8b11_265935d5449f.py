@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c9a32a88-1037-4cb5-8b11-265935d5449f'
 SOURCE_PATH = 'icon_set/work/todo-references/visibility_c9a32a88-1037-4cb5-8b11-265935d5449f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'visibility'
     keyshape = Keyshape.SQUARE

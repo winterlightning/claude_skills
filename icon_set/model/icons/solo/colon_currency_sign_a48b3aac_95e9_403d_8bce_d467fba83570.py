@@ -18,7 +18,8 @@ class ColonCurrencySign(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('colon', 'currency', 'money', 'costa-rica', 'sign', 'finance', 'symbol', 'crc')
 

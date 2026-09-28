@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '73fb23c1-2829-46c7-89b1-3591caacb92a'
 SOURCE_PATH = 'icon_set/work/todo-references/square arrow trend up_73fb23c1-2829-46c7-89b1-3591caacb92a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-arrow-trend-up'

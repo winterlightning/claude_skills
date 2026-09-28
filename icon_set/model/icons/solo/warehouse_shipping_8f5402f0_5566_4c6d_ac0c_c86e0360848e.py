@@ -16,6 +16,7 @@ class WarehouseShipping(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('primitives', 'shipping')
     aliases = ()
     keywords = ('warehouse', 'shipping')
     keyshape = Keyshape.HRECT_L

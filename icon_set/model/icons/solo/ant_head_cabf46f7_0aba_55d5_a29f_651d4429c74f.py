@@ -10,7 +10,8 @@ class AntHead(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('ant', 'insect', 'head', 'face', 'antennae', 'eyes', 'bug', 'mandible')
 

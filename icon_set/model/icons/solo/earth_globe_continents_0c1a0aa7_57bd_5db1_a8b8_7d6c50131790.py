@@ -10,7 +10,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/maps"
+    category = "maps"
+    categories = ("maps", "other", "primitives-generate")
     aliases = ()
     keywords = ('earth', 'globe', 'world', 'planet', 'continents', 'map', 'global', 'geography')
 

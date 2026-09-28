@@ -11,7 +11,8 @@ class PerspectiveGridWithCurvedSideLines(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('grid', 'perspective', 'mesh', 'warp', 'curve', 'distortion', 'design', 'geometry')
 

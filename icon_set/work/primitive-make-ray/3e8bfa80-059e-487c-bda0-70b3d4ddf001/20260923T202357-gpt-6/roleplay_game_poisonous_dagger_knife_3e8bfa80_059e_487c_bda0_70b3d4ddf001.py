@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3e8bfa80-059e-487c-bda0-70b3d4ddf001'
 SOURCE_PATH = 'icon_set/work/todo-references/roleplay game poisonous dagger knife_3e8bfa80-059e-487c-bda0-70b3d4ddf001.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Diagonal dagger with poison droplet and an open-neck vial at lower right.
 # Reference reduction: Omitted blade bevel; preserved blade, guard, grip, droplet and vial.
 # Construction references: ['wand-sparkles']

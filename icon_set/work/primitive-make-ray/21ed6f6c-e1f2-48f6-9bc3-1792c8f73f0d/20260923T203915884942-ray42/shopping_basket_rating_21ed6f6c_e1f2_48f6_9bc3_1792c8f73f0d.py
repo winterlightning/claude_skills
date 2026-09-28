@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d'
 SOURCE_PATH = 'icon_set/work/todo-references/shopping basket rating_21ed6f6c-e1f2-48f6-9bc3-1792c8f73f0d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Shopping basket beneath three rating stars, with the middle star raised.
 # Construction references: No exact useful Lucide rating match; shared star definition and mirrored basket sides.
 # Reduction: Reduced basket ribs to two; retained three stars and both handles.

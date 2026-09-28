@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='bd159874-c962-4129-9d84-72190444e5e0'
 SOURCE_PATH='icon_set/work/todo-references/rectangle check_bd159874-c962-4129-9d84-72190444e5e0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A wide rectangle contains a checkmark left of centre.'
 OMISSIONS='No defining features omitted.'
 LUCIDE_REFERENCE='check'

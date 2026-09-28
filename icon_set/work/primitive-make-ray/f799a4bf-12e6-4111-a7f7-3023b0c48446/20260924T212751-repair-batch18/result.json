@@ -1,0 +1,49 @@
+{
+  "source_uuid": "f799a4bf-12e6-4111-a7f7-3023b0c48446",
+  "source_path": "pictographic-primitives/other/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg",
+  "reference_path": "pictographic-primitives/other/test file_f799a4bf-12e6-4111-a7f7-3023b0c48446.svg",
+  "concept": "test file",
+  "icon_id": "test-file",
+  "author": "gpt-6",
+  "keyshape": "VRECT_L",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "visual_review": {
+    "status": "blocked",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "findings": "Blocked: B counters close at native size. Page/B, A/answer and B/answer spacing, undersized holes, pinches and internal A clearance remain. Six candidates saved."
+  },
+  "omissions": "A apex rounded and answer dashes shortened; both letters and both rows retained.",
+  "construction_references": "file-text: clipped page corner and separate content rows.",
+  "keyshape_reason": "VRECT_L reserves maximum height for the two letter rows.",
+  "attempts": 6,
+  "svg_sha256": "1509cb0a0ea1debff273863fa3b712e44558e688d4411acad4f71abfc1e5e682",
+  "blocker": "BUILD GATE FAIL (fail, 4 errors, 3 warnings)\n  error: mic [page]: page and b-stem are 4 apart on centerlines nearest (17, 44)<->(17, 40); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [a-right]: a-right and answer-0 are 6 apart on centerlines nearest (25, 20)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: mic [b-upper]: b-upper and answer-1 are 7.25941 apart on centerlines nearest (23.981, 34.1471)<->(31, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  error: holes/pinches: 2 undersized holes; 2 pinches\n  warning: mic [page]: page and answer-0 are 8 apart on centerlines nearest (40, 20)<->(32, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: mic [page]: page and answer-1 are 8 apart on centerlines nearest (40, 36)<->(32, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  warning: internal-spacing [a-cap / a-bar]: a-cap and a-bar have 3.5224 units of ink clearance over 4.1881 units; requires 4; review required",
+  "artifacts": {
+    "module": "test_file_f799a4bf_12e6_4111_a7f7_3023b0c48446.py",
+    "svg": "test-file.svg",
+    "input_metadata": "test-file.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/",
+    "findings": "findings.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  },
+  "keyshape_bounds": "(6, 2, 42, 46)",
+  "module_sha256": "d04235bc353d24ef55a5479268cb22c810f74c5dc16b6ae84318f30af5d5965c"
+}

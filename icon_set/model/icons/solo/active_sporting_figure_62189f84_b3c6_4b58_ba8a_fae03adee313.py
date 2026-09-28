@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/container-components'
+    category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('sub icon', 'active', 'sporting', 'figure')
     def build(self):

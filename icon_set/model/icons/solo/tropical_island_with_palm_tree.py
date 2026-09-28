@@ -11,7 +11,8 @@ class TropicalIslandWithPalmTree(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/nature'
+    category = 'nature'
+    categories = ('nature',)
     aliases = ('tropical-island', 'palm-tree-island', 'island-palm')
     keywords = ('island', 'palm', 'tree', 'beach', 'tropical', 'vacation', 'holiday', 'sea', 'sand', 'water')
 

@@ -1,85 +1,52 @@
-"""Person with Hair Swept Behind Ears.
-Plan: Centered circular face (24,18), radius 10; face bottom 28; shoulder top 32; zero visible contact. Hair and rounded shoulders fit (8,4)-(40,44).
-References: human_ref/user.svg circular jaw and smooth shoulders; Lucide user open rounded bust.
-Reduction: Ear bowls join the circular jaw as one open facial outline; redundant side walls and neck seams omitted.
+"""Fresh reference repair. Construction reference: human_ref/user.svg and Lucide user.
+Keyshape VRECT_L; source identity is preserved separately from its icon name.
 """
-from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ff4a6b33-a236-5f2d-89ee-7f8719bc7553'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_ff4a6b33-a236-5f2d-89ee-7f8719bc7553.svg'
 AUTHOR = 'gpt-6'
-
-def path(icon, name, start, *steps, closed=False):
-    """Emit one coherent stroke; each knot belongs to its owning shape."""
-    members = []
-    point = start
-    for index, step in enumerate(steps):
-        member = f"{name}-{index + 1}"
-        kind, end, *args = step
-        if kind == "L":
-            icon.add_line(member, point, end)
-        elif kind == "A":
-            rx, ry, sweep = args
-            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-        elif kind == "B":
-            icon.add_bezier(member, point, (args[0], args[1], end))
-        members.append(member)
-        point = end
-    icon.add_contour(name, *members, closed=closed)
-
-
-def circle(icon, name, cx, cy, radius):
-    path(icon, name, (cx-radius, cy),
-         ("A", (cx, cy-radius), radius, radius, True),
-         ("A", (cx+radius, cy), radius, radius, True),
-         ("A", (cx, cy+radius), radius, radius, True),
-         ("A", (cx-radius, cy), radius, radius, True), closed=True)
-
-
-def symmetric(icon, name, start, left_steps, axis=24):
-    """One half owns the whole outline; reflect and reverse its traversal."""
-    flip = lambda p: (2*axis-p[0], p[1])
-    prior = start
-    reverse = []
-    for kind, end, *args in left_steps:
-        if kind == 'B':
-            reverse.append((kind, flip(prior), flip(args[1]), flip(args[0])))
-        else:
-            reverse.append((kind, flip(prior), *args))
-        prior = end
-    path(icon, name, start, *left_steps, *reversed(reverse), closed=True)
-
-class PersonWithHairSweptBehindEars(Solo48):
-    icon_id = 'person-with-hair-swept-behind-ears'
+class Drawing(Solo48):
+    icon_id = 'woman-with-parted-hair'
     keyshape = Keyshape.VRECT_L
-    category = 'avatars'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
-    keywords = ('person', 'with', 'hair', 'swept', 'behind', 'ears')
+    keywords = ('woman',)
+
+    def path(self,n,start,*steps,closed=False):
+        here=start; ids=[]
+        for i,step in enumerate(steps):
+            kind,end,*v=step; name=f'{n}-{i}';ids.append(name)
+            if kind=='L':self.add_line(name,here,end)
+            elif kind=='A':self.add_arc(name,here,end,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif kind=='C':self.add_bezier(name,here,(v[0],v[1],end))
+            here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x,y-r),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),('A',(x,y-r),r,r,True),closed=True)
+
     def build(self):
 
-        self.add_arc('crown',(14,18),(34,18),radius_x=10,radius_y=14)
-        path(self,'ear-right',(34,18),('B',(40,18),(34,13),(40,13)),('B',(32,24),(40,24),(36,24)))
-        self.add_arc('face',(32,24),(16,24),radius_x=10)
-        path(self,'ear-left',(16,24),('B',(8,18),(12,24),(8,24)),('B',(14,18),(8,13),(14,13)))
-        self.relate('connect','crown','ear-right')
-        self.relate('connect','face','ear-right')
-        self.relate('connect','face','ear-left')
-        self.relate('connect','crown','ear-left')
-        path(self,'fringe',(14,18),('B',(24,12),(19,18),(22,15)),('B',(34,18),(26,15),(29,18)))
-        self.relate('connect','fringe','crown')
-        self.relate('connect','fringe','ear-left')
-        self.relate('connect','fringe','ear-right')
+        # Human reference radius-10 circular jaw; parted hair and round ears; zero ink gap to shoulders.
+        self.path('hair',(14,18),('C',(24,4),(14,10),(18,4)),('C',(34,18),(30,4),(34,10)))
+        self.path('fringe',(14,18),('C',(24,12),(19,18),(22,15)),('C',(34,18),(26,15),(29,18)))
+        self.path('ear-right',(34,18),('C',(40,20),(34,14),(40,14)),('C',(32,28),(40,26),(36,28)))
+        self.path('ear-left',(16,28),('C',(8,20),(12,28),(8,26)),('C',(14,18),(8,14),(14,14)))
+        self.add_arc('jaw',(32,28),(16,28),radius_x=10)
+        self.add_arc('left-shoulder',(8,44),(16,36),radius_x=8)
+        self.add_line('body-top-left',(16,36),(24,36))
+        self.add_line('body-top-right',(24,36),(32,36))
+        self.add_arc('right-shoulder',(32,36),(40,44),radius_x=8)
+        self.add_contour('body','left-shoulder','body-top-left','body-top-right','right-shoulder')
+        for a,b in [('hair','fringe'),('hair','ear-left'),('hair','ear-right'),('fringe','ear-left'),('fringe','ear-right'),('jaw','ear-left'),('jaw','ear-right'),('jaw','body')]:self.relate('connect',a,b)
 
-        body_top=28+HEAD_BODY_CENTERLINE_GAP
-        path(self,'body',(8,44),('L',(8,body_top+8)),('A',(16,body_top),8,8,True))
-        self.add_line('body-top',(16,body_top),(24,body_top))
-        self.add_line('body-top-right',(24,body_top),(32,body_top))
-        path(self,'body-right',(32,body_top),('A',(40,body_top+8),8,8,True),('L',(40,44)))
-        self.relate('connect','body','body-top')
-        self.relate('connect','body-top','body-top-right')
-        self.relate('connect','body-top-right','body-right')
-        self.relate('connect','face','body-top')
-        self.relate('connect','face','body-top-right')
-
+    icon_id = 'person-with-hair-swept-behind-ears'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
+    aliases = ()
+    keywords = ('person', 'with', 'hair', 'swept', 'behind', 'ears')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

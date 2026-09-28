@@ -11,7 +11,8 @@ class SealBalancingBall(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/marine'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('seal', 'ball', 'balance', 'circus', 'sea lion', 'trick', 'show', 'marine')
 

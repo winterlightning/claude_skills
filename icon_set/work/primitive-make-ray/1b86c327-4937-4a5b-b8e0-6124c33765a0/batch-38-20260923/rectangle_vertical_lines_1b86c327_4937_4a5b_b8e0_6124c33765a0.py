@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1b86c327-4937-4a5b-b8e0-6124c33765a0'
 SOURCE_PATH='icon_set/work/todo-references/rectangle vertical lines_1b86c327-4937-4a5b-b8e0-6124c33765a0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wide rectangular panel enclosing four evenly spaced vertical rules. One series owns all strokes.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: panel; regular line series reconstructed from the supplied reference.'
 OMISSIONS='Corner arcs reduced to round joins for exact clearances; all four rules retained.'

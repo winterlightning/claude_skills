@@ -21,7 +21,8 @@ class ZoomInMagnifyingGlass(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ("zoom-in-lens",)
     keywords = ("zoom", "magnify", "enlarge", "search", "lens", "plus")
 

@@ -11,7 +11,8 @@ class UblockOriginLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('ublock-origin', 'ad-blocker', 'shield', 'privacy', 'logo', 'brand', 'browser')
 

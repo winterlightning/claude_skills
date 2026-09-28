@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d9b2fbd2-57ec-4727-b6cb-7840bb9c667a'
 SOURCE_PATH='icon_set/work/todo-references/wechat pay logo_d9b2fbd2-57ec-4727-b6cb-7840bb9c667a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='wechat-pay-logo'

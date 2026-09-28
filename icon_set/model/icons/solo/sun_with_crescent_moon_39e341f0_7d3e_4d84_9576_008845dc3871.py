@@ -11,7 +11,8 @@ class SunWithCrescentMoon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('sun', 'moon', 'day', 'night', 'dark mode', 'light mode', 'theme', 'toggle')
 

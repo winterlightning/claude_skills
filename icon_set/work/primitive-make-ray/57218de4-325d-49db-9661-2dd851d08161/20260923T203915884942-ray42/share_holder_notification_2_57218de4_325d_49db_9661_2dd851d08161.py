@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57218de4-325d-49db-9661-2dd851d08161'
 SOURCE_PATH = 'icon_set/work/todo-references/share holder notification 2_57218de4-325d-49db-9661-2dd851d08161.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Notification bell above three shareholder busts, with shared head radii and exact own head-to-shoulder gaps.
 # Construction references: bell: flared contour; human_ref/user.svg and full_body_ref.png: circular heads and smooth shoulders.
 # Reduction: Omitted tiny bell top loop; retained bell clapper and all three people.

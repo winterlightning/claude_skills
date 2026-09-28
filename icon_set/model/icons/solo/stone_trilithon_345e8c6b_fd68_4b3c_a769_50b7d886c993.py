@@ -13,6 +13,7 @@ class StoneTrilithon(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('stonehenge', 'trilithon', 'stones', 'landmark', 'megalith', 'monument', 'ancient', 'outdoors-batch-02')
 

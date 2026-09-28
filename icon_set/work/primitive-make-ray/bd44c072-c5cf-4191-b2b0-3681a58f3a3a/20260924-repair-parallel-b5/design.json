@@ -1,0 +1,6 @@
+{
+  "keyshape": "SQUARE",
+  "body": "\nself.add_polyline('growth',(6,24),(14,14),(22,18),(30,10),(34,14),(42,6))\nself.add_polyline('arrow-head',(34,6),(42,6),(42,14));self.join('growth','arrow-head')\nself.add_polyline('table',(16,26),(24,26),(33,26),(42,26),(42,34),(42,42),(33,42),(24,42),(16,42),(16,34),closed=True)\nfor x in (24,33):\n    self.add_polyline(f'column-{x}',(x,26),(x,34),(x,42));self.join('table',f'column-{x}')\nself.add_polyline('row',(16,34),(24,34),(33,34),(42,34));self.join('table','row');self.join('column-24','row');self.join('column-33','row')\n",
+  "note": "Rising zigzag above data grid. Two rows replace four and table top is level; shared row spacing8 and column widths10/9/9 preserve legibility. Shift table left edge to16; column widths8/9/9 clear rising stroke.",
+  "round": 2
+}

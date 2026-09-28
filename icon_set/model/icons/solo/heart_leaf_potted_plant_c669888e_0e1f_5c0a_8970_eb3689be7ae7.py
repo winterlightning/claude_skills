@@ -12,7 +12,8 @@ class HeartLeafPottedPlant(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('plant', 'heart', 'leaves', 'pot', 'stems', 'foliage', 'decor')
 

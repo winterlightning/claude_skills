@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0347a479-eedb-4204-bff5-6fccfb03c880'
 SOURCE_PATH = 'icon_set/work/todo-references/circle rand_0347a479-eedb-4204-bff5-6fccfb03c880.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circle-rand'

@@ -84,6 +84,12 @@ one when it does not, and say in your reply that you introduced it. When you
 patch an existing module, `AUTHOR` becomes yours: you are the one who drew the
 geometry that ships. A module with no `AUTHOR` predates the field; add it.
 
+A production fix made through /primitive-fix-thuan follows the same rule: its
+`AUTHOR` is the model ID of the agent that fixed it (for example
+`claude-fable-5-1`), never a worker or machine name and never `<worker>/<model>`.
+The worker is recorded on the production claim, not in the module. The gallery
+shows `AUTHOR` as the icon's author.
+
 Before creating a module, search existing Python files for the exact source ID
 and its underscore form. Patch the matching module for the requested family
 instead of creating another file under a new name. Preserve existing module

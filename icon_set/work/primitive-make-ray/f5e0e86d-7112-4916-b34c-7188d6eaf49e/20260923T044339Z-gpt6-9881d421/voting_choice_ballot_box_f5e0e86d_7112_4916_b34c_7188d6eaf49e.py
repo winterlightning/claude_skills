@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f5e0e86d-7112-4916-b34c-7188d6eaf49e'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/election ballot box 4_f5e0e86d-7112-4916-b34c-7188d6eaf49e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class VotingChoiceBallotBox(Solo48):
     icon_id = 'voting-choice-ballot-box'

@@ -11,6 +11,7 @@ class LoveIt(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'social'
+    categories = ('social', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'love-it')
 

@@ -1,36 +1,43 @@
 #!/usr/bin/env python3
-"""Claim disapproved solo icons, keep their first version, and report in-place fixes.
+"""Claim disapproved solo icons, hand them to /primitive-make-ray, upload and report the result.
 
-The two commands behind the /primitive-fix-thuan skill. Every run is recorded in
-a standalone folder and mirrored to production so the Fix queue page can show
-the drawing before and after the fix:
+The two commands behind the /primitive-fix-thuan skill. The drawing itself is
+authored by /primitive-make-ray; this script only claims, records and uploads,
+so the Fix queue page can show the drawing before and after the fix:
 
     python3 icon_set/scripts/primitive_fix.py start --worker thuan-mac --limit 5 [--offset 0] [--disapprove-status bad-stroke]
-    python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --outcome done --note "equalised the arms"
+    python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --run icon_set/work/primitive-make-ray/<uuid>/<run> --outcome done --note "equalised the arms"
     python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --outcome cannot-fix --note "MIC 8 impossible with three bars"
 
 ``start`` claims up to ``--limit`` claimable disapproved solo icons on production,
 creates ``icon_set/work/primitive-fix-thuan/<key>/<run>/`` per icon with the
-brief, the claim record and a ``before/`` copy of the registered module and the
-displayed SVG, and uploads that first version to production. Exit 3 when nothing
-was claimable.
+brief, the claim record, a ``before/`` copy of the registered module and the
+displayed SVG, and ``reference/<concept>_<uuid>.svg`` (the original reference,
+the input for /primitive-make-ray), and uploads that first version to
+production. Exit 3 when nothing was claimable.
 
-``finish`` validates the edited registered module through the icon registry,
-writes ``after/`` (module, SVG, previews, validation.txt) and ``result.json``,
+``finish`` loads the module /primitive-make-ray wrote in ``--run``, validates it,
+writes ``after/`` (module, SVG, previews), ``validation.txt`` and ``result.json``,
 uploads the after result, then reports ``done`` (only when the model is valid
-with zero warnings; otherwise exit 2 and nothing is uploaded or reported) or
-``cannot-fix`` (note required).
+with zero warnings and passes the build gate, build_gate.py: holes/pinches,
+internal spacing, symmetry; otherwise exit 2 and nothing is uploaded or reported) or
+``cannot-fix`` (note required; ``--run`` optional). Registered modules are never
+touched; promotion stays with promote_work_icons.py. Until a rebuilt model
+reaches production, the gallery shows the uploaded after SVG as a worker fix.
 """
 from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import importlib.util
+import inspect
 import json
 from pathlib import Path
 import re
 import shutil
 import sys
 import traceback
+import uuid as uuid_module
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urljoin
 from urllib.request import Request, urlopen
@@ -38,11 +45,12 @@ from urllib.request import Request, urlopen
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
-from icon_set.scripts import work_queue  # noqa: E402
-from icon_set.scripts.workspace import primitive_fix_results_dir  # noqa: E402
+from icon_set.scripts import build_gate, work_queue  # noqa: E402
+from icon_set.scripts.workspace import primitive_fix_results_dir, primitive_results_dir  # noqa: E402
 
 FAMILY = 'solo'
 PREVIEW_SIZES = (48, 384)
+UUID = re.compile(r'[0-9a-f]{8}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{12}$', re.IGNORECASE)
 THEMES = (('light', '#141413', '#ffffff'), ('dark', '#f5f4ef', '#1c1c19'))
 
 
@@ -70,17 +78,108 @@ def fetch_svg(base_url, item):
     raise RuntimeError(f'could not download the current SVG for {item["key"]}: {failure}')
 
 
-def load_icon(icon_id):
-    """The registered icon instance; errors here mean the registry does not import cleanly."""
-    from icon_set.model.icons.registry import create
-    return create(icon_id)
+def run_module(run_dir):
+    """The authored module in a /primitive-make-ray result: ``<name>_<source_uuid>.py`` (attempts and scripts aside)."""
+    run_dir = Path(run_dir)
+    modules = sorted(path for path in run_dir.glob('*.py') if not path.name.startswith('_'))
+    suffix = '_' + run_dir.parent.name.replace('-', '_').lower() + '.py'
+    named = [path for path in modules if path.name.lower().endswith(suffix)]
+    if len(named) == 1:
+        return named[0]
+    if len(modules) == 1:
+        return modules[0]
+    raise RuntimeError(f'expected one module named *{suffix} in {run_dir}, found {[path.name for path in modules]}')
 
 
-def describe_block(item, result_dir, module_path):
+AUTHOR_MODEL_ID = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+
+
+def author_is_model(author):
+    """The fix skill writes ``AUTHOR = '<model>'``: a lowercase, hyphenated AI model ID and nothing else
+    (no worker name, no slash, no generic label)."""
+    return isinstance(author, str) and bool(AUTHOR_MODEL_ID.match(author.strip())) and author.strip() not in ('ai', 'assistant', 'agent', 'model')
+
+
+def load_icon(module_path):
+    """Instantiate the Solo48 class a /primitive-make-ray module defines, loaded by file path."""
+    from icon_set.model.icons.solo._base import Solo48
+    spec = importlib.util.spec_from_file_location(f'primitive_fix_run_{Path(module_path).stem}', module_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module  # so the class's module (and its AUTHOR) can be looked up later
+    spec.loader.exec_module(module)
+    classes = [value for value in vars(module).values()
+               if inspect.isclass(value) and issubclass(value, Solo48) and value is not Solo48
+               and value.__module__ == module.__name__]
+    if len(classes) != 1:
+        raise RuntimeError(f'expected one Solo48 class in {module_path}, found {[cls.__name__ for cls in classes]}')
+    return classes[0]()
+
+
+def reference_name(item):
+    """``<concept>_<uuid>.svg`` for /primitive-make-ray, from the original source or the module name."""
+    sources = [ref for ref in item.get('original_sources') or [] if isinstance(ref, dict)]
+    for ref in sources:
+        stem = Path(ref.get('source_path') or '').stem
+        if UUID.search(stem) and UUID.search(stem).start() > 1:
+            return stem + '.svg'
+    source = item.get('python_source') or {}
+    stem = Path(source.get('path') or '').stem if isinstance(source, dict) else ''
+    match = UUID.search(stem)
+    if match:
+        uuid = match.group(0).replace('_', '-')
+        return f"{slug(item.get('icon_id') or stem[:match.start()])}_{uuid}.svg"
+    return None
+
+
+def stage_reference(base_url, item, target):
+    """Copy the original reference the icon was drawn from; None when it has no UUID-named source."""
+    name = reference_name(item)
+    if not name:
+        return None
+    target.mkdir(exist_ok=True)
+    path = target / name
+    for ref in item.get('original_sources') or []:
+        if not isinstance(ref, dict):
+            continue
+        local = REPO_ROOT / (ref.get('source_path') or '')
+        if ref.get('source_path') and local.is_file():
+            shutil.copyfile(local, path)
+            return path
+        if ref.get('url'):
+            try:
+                with urlopen(urljoin(base_url.rstrip('/') + '/gallery/', ref['url']), timeout=work_queue.TIMEOUT) as response:
+                    path.write_bytes(response.read())
+                return path
+            except (HTTPError, URLError, OSError):
+                continue
+    return None
+
+
+def stage_current_as_reference(item, before_svg, target):
+    """No original on production: the current drawing becomes the reference, named with a stable UUID so
+    /primitive-make-ray can run on it. The fix still happens; nothing is finished as cannot-fix for this."""
+    if not before_svg.is_file():
+        return None
+    target.mkdir(exist_ok=True)
+    source_uuid = str(uuid_module.uuid5(uuid_module.NAMESPACE_URL, 'pictographic:' + item['key']))
+    path = target / f"{slug(item.get('icon_id') or key_folder(item['key']))}_{source_uuid}.svg"
+    shutil.copyfile(before_svg, path)
+    return path
+
+
+def describe_block(item, result_dir, module_path, reference=None, reference_is_current=False):
     work = item.get('work') or {}
+    if reference is None:
+        reference_line = 'none (no original and no current drawing; redraw from the icon_id and feedback)'
+    elif reference_is_current:
+        reference_line = f'{reference} (no original on production: this is the current drawing; fix it anyway)'
+    else:
+        reference_line = str(reference)
     lines = [f"icon: {item['key']}",
              f"icon_id: {item.get('icon_id') or ''}",
-             f"module: {module_path or 'unknown (no python_source on production)'}",
+             f"reference: {reference_line}",
+             f"before: {result_dir / 'before'}",
+             f"registered module: {module_path or 'unknown (no python_source on production)'}",
              f"result dir: {result_dir}",
              f"svg_sha256: {item.get('svg_sha256') or ''}",
              f"reason: {item.get('reason') or 'none recorded'}",
@@ -88,7 +187,7 @@ def describe_block(item, result_dir, module_path):
              'feedback:',
              item.get('feedback') or '(no feedback text)',
              f"claim expires: {work.get('expires_at') or ''}",
-             f"finish with: python3 icon_set/scripts/primitive_fix.py finish --icon {item['key']} --outcome done --note \"<what changed>\""]
+             f"finish with: python3 icon_set/scripts/primitive_fix.py finish --icon {item['key']} --run <primitive-make-ray RESULT_DIR> --outcome done --note \"<what changed>\""]
     return '\n'.join(lines) + '\n'
 
 
@@ -124,7 +223,16 @@ def start(base_url, worker, limit, offset=0, reason=None, results_root=None):
         except Exception as error:  # the claim stands; the agent still has the local copy
             upload_error = f'{type(error).__name__}: {error}'
             (result_dir / 'before-upload-error.txt').write_text(upload_error + '\n', encoding='utf-8')
-        started.append({'key': key, 'result_dir': result_dir, 'module': module_path, 'item': item, 'upload_error': upload_error})
+        reference = stage_reference(base_url, item, result_dir / 'reference')
+        reference_is_current = False
+        if reference is None:
+            reference = stage_current_as_reference(item, svg_path, result_dir / 'reference')
+            reference_is_current = reference is not None
+        if reference is not None:
+            reference = reference.relative_to(REPO_ROOT) if reference.is_relative_to(REPO_ROOT) else reference
+        started.append({'key': key, 'result_dir': result_dir, 'module': module_path, 'item': item,
+                        'reference': reference, 'reference_is_current': reference_is_current,
+                        'upload_error': upload_error})
     return started
 
 
@@ -152,36 +260,78 @@ def render_previews(svg, icon_id, canvas, target):
     return files
 
 
-def finish(base_url, worker, key, outcome, note='', results_root=None, icon_loader=None):
+def check_ray_run(ray_run, run):
+    """A /primitive-make-ray result directory for this claim's reference, never a registered folder."""
+    ray_run = Path(ray_run)
+    ray_run = (ray_run if ray_run.is_absolute() else REPO_ROOT / ray_run).resolve()
+    if not ray_run.is_dir():
+        raise SystemExit(f'error: --run {ray_run} is not a directory')
+    if not ray_run.is_relative_to(primitive_results_dir().resolve()):
+        raise SystemExit(f'error: --run must be a /primitive-make-ray result under {primitive_results_dir()}')
+    references = sorted((run / 'reference').glob('*.svg'))
+    match = UUID.search(references[0].stem) if references else None
+    if match and ray_run.parent.name.lower() != match.group(0).replace('_', '-').lower():
+        raise SystemExit(f'error: --run {ray_run} is not a run for reference {references[0].name}')
+    return ray_run
+
+
+def approved_visual_exception(report, gate):
+    """The full QA gate verified the exact SVG approval; structural errors still block."""
+    if not (gate.get('status') == 'pass' and gate.get('exception')
+            and gate.get('automatic_status') in ('pass', 'review', 'fail')):
+        return False
+    visual_checks = ('mic ', 'canvas/keyshape bounds:')
+    return (report.status in ('valid', 'review', 'invalid')
+            and all(message.startswith(visual_checks)
+                    for message in list(report.errors) + list(report.warnings)))
+
+
+def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=None):
     if outcome not in ('done', 'cannot-fix'):
         raise SystemExit('error: --outcome must be done or cannot-fix')
     if outcome == 'cannot-fix' and not note.strip():
         raise SystemExit('error: --note is required for cannot-fix')
+    if outcome == 'done' and not ray_run:
+        raise SystemExit('error: --run <primitive-make-ray RESULT_DIR> is required for done')
     run = latest_run(key, results_root)
     claim = json.loads((run / 'claim.json').read_text(encoding='utf-8'))
     item = claim['item']
     icon_id, sha = item.get('icon_id'), item['svg_sha256']
-    source = item.get('python_source') or {}
-    module_path = source.get('path') if isinstance(source, dict) else None
+    ray_run = check_ray_run(ray_run, run) if ray_run else None
+    findings = {'source_key': key, 'icon_id': icon_id, 'svg_sha256': sha, 'worker': worker, 'outcome': outcome,
+                'note': note, 'make_ray_run': None, 'module': None, 'validation_status': None, 'validation_errors': [],
+                'validation_warnings': [], 'artifacts': [], 'finished_at': None}
+    if ray_run is None:  # cannot-fix before make-ray produced anything: report only
+        return report_outcome(base_url, worker, key, sha, outcome, note, run, findings)
+    findings['make_ray_run'] = (ray_run.relative_to(REPO_ROOT) if ray_run.is_relative_to(REPO_ROOT) else ray_run).as_posix()
     after = run / 'after'
     after.mkdir(exist_ok=True)
-    findings = {'source_key': key, 'icon_id': icon_id, 'svg_sha256': sha, 'worker': worker, 'outcome': outcome,
-                'note': note, 'module': module_path, 'validation_status': None, 'validation_errors': [],
-                'validation_warnings': [], 'artifacts': [], 'finished_at': None}
-    module_copy = None
-    if module_path and (REPO_ROOT / module_path).is_file():
-        module_copy = after / Path(module_path).name
-        shutil.copyfile(REPO_ROOT / module_path, module_copy)
-        findings['artifacts'].append(f'after/{module_copy.name}')
-    svg_path = validation_path = None
+    module_copy = svg_path = validation_path = None
     try:
-        icon = (icon_loader or load_icon)(icon_id)
+        module_path = run_module(ray_run)
+        findings['module'] = module_path.relative_to(REPO_ROOT).as_posix() if module_path.is_relative_to(REPO_ROOT) else module_path.as_posix()
+        module_copy = after / module_path.name
+        shutil.copyfile(module_path, module_copy)
+        findings['artifacts'].append(f'after/{module_copy.name}')
+        icon = load_icon(module_path)
+        icon_id = getattr(icon, 'icon_id', None) or icon_id
+        # Who fixed it: the skill writes AUTHOR = '<model>' (the AI model only); the worker is on the claim.
+        findings['author'] = getattr(sys.modules.get(type(icon).__module__), 'AUTHOR', None)
+        findings['author_ok'] = author_is_model(findings['author'])
         report = icon.validate_icon()
         findings['validation_status'] = report.status
         findings['validation_errors'] = list(getattr(report, 'errors', []) or [])
         findings['validation_warnings'] = list(getattr(report, 'warnings', []) or [])
+        # validate_icon() misses the build's hole/pinch, internal-spacing and symmetry gates; run them too.
+        findings['build_gate'] = build_gate.gate(module_path)
+        findings['accepted_exception'] = approved_visual_exception(report, findings['build_gate'])
         validation_path = run / 'validation.txt'
-        validation_path.write_text(report.describe() + '\n', encoding='utf-8')
+        gate_lines = [f"build gate: {findings['build_gate']['status']}"] + [
+            f'  {message}' for message in findings['build_gate']['errors'] + findings['build_gate']['warnings']]
+        if findings['accepted_exception']:
+            gate_lines += ['Accepted drawing-bound visual exception; automatic findings retained.',
+                           json.dumps(findings['build_gate']['exception'], ensure_ascii=False)]
+        validation_path.write_text(report.describe() + '\n\n' + '\n'.join(gate_lines) + '\n', encoding='utf-8')
         findings['artifacts'].append('validation.txt')
         svg = icon.to_svg()
         svg_path = after / f'{icon_id}.svg'
@@ -198,17 +348,29 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, icon_load
     except Exception as error:
         findings['error'] = f'{type(error).__name__}: {error}'
         (run / 'finish-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
-    clean = (findings['validation_status'] == 'valid' and not findings['validation_warnings'] and 'error' not in findings)
+    gate_status = (findings.get('build_gate') or {}).get('status')
+    clean = ('error' not in findings and gate_status == 'pass' and findings.get('author_ok') and (
+        findings.get('accepted_exception') or (
+            findings['validation_status'] == 'valid' and not findings['validation_warnings'])))
     if outcome == 'done' and not clean:
         findings['outcome'] = 'refused'
         (run / 'result.json.refused').write_text(json.dumps(findings, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-        problem = findings.get('error') or f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
-        print(f'refused: {key} is not clean ({problem}); nothing uploaded or reported. Fix the model or finish with --outcome cannot-fix.',
+        problem = findings.get('error') or (
+            f"AUTHOR {findings.get('author')!r} must be the AI model ID only (lowercase, hyphenated, no worker name or slash)"
+            if not findings.get('author_ok') else
+            f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
+            if findings['validation_status'] != 'valid' or findings['validation_warnings'] else
+            f"build gate {gate_status}: " + '; '.join((findings['build_gate']['errors'] + findings['build_gate']['warnings'])[:3]))
+        print(f'refused: {key} is not clean ({problem}); nothing uploaded or reported. Keep fixing the model in a fresh /primitive-make-ray run and finish again.',
               file=sys.stderr)
         return 2
     if svg_path is not None:
         uploaded = work_queue.upload_result(base_url, worker, key, sha, 'after', svg_path, module_copy, validation_path, note=note)
         findings['uploaded'] = uploaded['result']
+    return report_outcome(base_url, worker, key, sha, outcome, note, run, findings)
+
+
+def report_outcome(base_url, worker, key, sha, outcome, note, run, findings):
     reported = work_queue.call(base_url, 'POST', '/api/work/' + outcome,
                                {'icon': key, 'svg_sha256': sha, 'worker': worker, 'note': note})
     findings['reported'] = reported.get('work')
@@ -223,17 +385,23 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, icon_load
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
-    parser.add_argument('--base-url', default=None, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
-    parser.add_argument('--worker', default=None, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
+    # --base-url and --worker are accepted before or after the subcommand (the skills write them after).
+    shared = argparse.ArgumentParser(add_help=False)
+    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
+    shared.add_argument('--worker', default=argparse.SUPPRESS, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
+    parser.set_defaults(base_url=None, worker=None)
+    for action in shared._actions:
+        parser._add_action(action)
     parser.add_argument('--results-root', type=Path, default=None, help=argparse.SUPPRESS)
     commands = parser.add_subparsers(dest='command', required=True)
-    begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version')
+    begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version', parents=[shared])
     begin.add_argument('--limit', type=int, required=True, help='how many icons to claim')
     begin.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     begin.add_argument('--disapprove-status', '--reason', dest='reason', choices=work_queue.REASONS,
                        help='only icons disapproved for this reason')
-    end = commands.add_parser('finish', help='validate, record and report one fixed icon')
+    end = commands.add_parser('finish', help='validate, record and report one fixed icon', parents=[shared])
     end.add_argument('--icon', required=True)
+    end.add_argument('--run', default=None, help='the /primitive-make-ray RESULT_DIR holding the fixed module (required for done)')
     end.add_argument('--outcome', required=True, choices=('done', 'cannot-fix'))
     end.add_argument('--note', default='')
     args = parser.parse_args(argv)
@@ -249,12 +417,13 @@ def main(argv=None):
                       + (f' with reason {args.reason}' if args.reason else '') + '.', file=sys.stderr)
                 return 3
             for entry in started:
-                print(describe_block(entry['item'], entry['result_dir'], entry['module']))
+                print(describe_block(entry['item'], entry['result_dir'], entry['module'], entry['reference'],
+                                     entry['reference_is_current']))
                 if entry['upload_error']:
                     print(f"warning: the before result was not uploaded: {entry['upload_error']}\n", file=sys.stderr)
             print(f'claimed {len(started)} icon' + ('s' if len(started) != 1 else '') + f' for {worker}')
             return 0
-        return finish(base_url, worker, args.icon, args.outcome, args.note, args.results_root)
+        return finish(base_url, worker, args.icon, args.outcome, args.note, args.results_root, args.run)
     except work_queue.ApiError as error:
         print(f'Error ({error.status or "network"}): {error}', file=sys.stderr)
         return 1

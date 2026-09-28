@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = 'fb3b9dee71b9ea3e73d7bb8e8fff14bd73408fbe4bd42eb5bb47b
 
 class DrawingVariant2(Sub32):
     icon_id = 'open-scissors-sub32-v2'
-    variant_of = 'open-scissors-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/tools'
+    category = 'tools'
+    categories = ('primitives', 'tools')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

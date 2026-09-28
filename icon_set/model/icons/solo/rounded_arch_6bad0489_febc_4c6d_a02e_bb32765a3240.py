@@ -12,7 +12,8 @@ class RoundedArch(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ["Rounded Arch", "Set Intersection Symbol"]
     keywords = ["arch", "curve", "shape", "inverted", "u", "symbol"]
     def build(self):

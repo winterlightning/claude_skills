@@ -1,0 +1,43 @@
+{
+  "concept": "walking forbidden",
+  "source_uuid": "d3d76995-132c-4fd1-ae17-729e5381f6a4",
+  "reference_path": "pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg",
+  "icon_id": "walking-forbidden",
+  "author": "gpt-6",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "keyshape": "CIRCLE",
+  "attempts": 7,
+  "visual_review": {
+    "native_light_dark": "inspected",
+    "enlarged_light_dark": "inspected",
+    "findings": "Compact stick figure and diagonal prohibition retained; slash/head clearance and slash/leg spacing remain blocked. Readable diagonal version selected after six attempted repairs.",
+    "accepted": false
+  },
+  "omissions": "Compact stick figure and diagonal prohibition retained; slash/head clearance and slash/leg spacing remain blocked. Readable diagonal version selected after six attempted repairs.",
+  "blockers": [
+    "error: mic [slash]: slash and head are 4.00003 apart on centerlines nearest (19.1936, 17.5914)<->(22.3936, 15.1914); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: mic [sign]: sign and head are 7.99985 apart on centerlines nearest (24.0491, 4.0003)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: internal-spacing [legs / slash]: legs-2 and slash have -1.4721 units of ink clearance over 7.5 units; requires 4; review required"
+  ],
+  "construction_reference": "Lucide ban: original and atomic-debug reviewed for coherent contours and shared geometric construction.",
+  "artifacts": {
+    "python": "walking_forbidden_d3d76995_132c_4fd1_ae17_729e5381f6a4.py",
+    "svg": "walking-forbidden.svg",
+    "metadata": "walking-forbidden.metadata.json",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "debug": "gate/",
+    "reference": "reference.png",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-384.png",
+      "dark-384.png"
+    ]
+  },
+  "validation_report_header": "status: invalid",
+  "human_reference": "icon_set/references/human_ref/user.svg; full_body_ref.png",
+  "head_body_gap": "8 centerline units / 4 visible ink units, measured at shoulder or torso start"
+}

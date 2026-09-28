@@ -11,7 +11,8 @@ class CompactDiscWithReflectionBands(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('cd', 'compact-disc', 'disc', 'music', 'playing', 'media', 'audio', 'album')
 

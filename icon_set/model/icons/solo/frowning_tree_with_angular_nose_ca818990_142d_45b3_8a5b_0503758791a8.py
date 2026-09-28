@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects'
+    category = 'video-games'
+    categories = ('video-games', 'primitive', 'primitives')
     aliases = ()
     keywords = ('frowning', 'tree', 'with', 'angular', 'nose')
 

@@ -11,7 +11,8 @@ class Smartwatch(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ('watch', 'wearable', 'smart-watch')
     keywords = ('watch', 'wearable', 'device', 'strap', 'band', 'time')
 

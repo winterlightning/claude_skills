@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4bb28054-94de-493d-a03f-2cbba2687378'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/donation charity smartphone heart_4bb28054-94de-493d-a03f-2cbba2687378.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandSmartphoneHeart(Solo48):
     icon_id = 'hand-smartphone-heart'

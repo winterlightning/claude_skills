@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '776da6f9-d7d4-597a-a158-44ea69d4fbb8'
 SOURCE_PATH = 'icon_set/work/todo-references/saving money flower_776da6f9-d7d4-597a-a158-44ea69d4fbb8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Money flower: dollar coin atop stem with paired leaves.
 # Reference: sprout: paired leaf contours and shared stem; circular coin and handwritten dollar.
 # Reduction: No defining parts omitted.

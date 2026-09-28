@@ -11,7 +11,8 @@ class SportsBicycle(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bicycle', 'bike', 'sports', 'racing', 'road bike', 'cycling', 'drop handlebar', 'pedal')
 

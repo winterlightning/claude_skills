@@ -1,0 +1,92 @@
+# PM message
+
+PM now reuses typeface v2 at 0.8 uniform centerline scale, with4-unit strokes. Restored an oval bubble and reduced lettering to avoid overlap with its outline.
+
+- Source: `pictographic-primitives/other/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg`
+- Source UUID: `39d51711-cb0a-4cf4-bdca-37c1fe832458`
+- Keyshape: `HRECT_L`
+- Automatic full QA: `fail`
+- Acceptance: `user-approved-exception`
+- Reviewed at48px and192px, in light and dark themes.
+
+Exception scopes: typeface-v2 fractional coordinates, glyph internal and external spacing, text/bubble clearance. The approval is bound to this exact SVG hash; the standard validator result is not altered.
+
+## Findings
+
+- style/grid [text-0-P-0-0-0]: start.x must be an integer on grid 1, got 13.807
+- style/grid [text-0-P-0-0-0]: start.y must be an integer on grid 1, got 16.0
+- style/grid [text-0-P-0-0-0]: end.x must be an integer on grid 1, got 13.8
+- style/grid [text-0-P-0-0-0]: end.y must be an integer on grid 1, got 28.0
+- style/grid [text-0-P-1-0-0]: start.x must be an integer on grid 1, got 13.8
+- style/grid [text-0-P-1-0-0]: start.y must be an integer on grid 1, got 16.0
+- style/grid [text-0-P-1-0-0]: end.x must be an integer on grid 1, got 16.917
+- style/grid [text-0-P-1-0-0]: end.y must be an integer on grid 1, got 16.006
+- style/grid [text-0-P-1-0-1]: start.x must be an integer on grid 1, got 16.917
+- style/grid [text-0-P-1-0-1]: start.y must be an integer on grid 1, got 16.006
+- style/grid [text-0-P-1-0-1]: end.x must be an integer on grid 1, got 17.674
+- style/grid [text-0-P-1-0-1]: end.y must be an integer on grid 1, got 16.053
+- style/grid [text-0-P-1-0-2]: start.x must be an integer on grid 1, got 17.674
+- style/grid [text-0-P-1-0-2]: start.y must be an integer on grid 1, got 16.053
+- style/grid [text-0-P-1-0-2]: end.x must be an integer on grid 1, got 18.453
+- style/grid [text-0-P-1-0-2]: end.y must be an integer on grid 1, got 16.271
+- style/grid [text-0-P-1-0-3]: start.x must be an integer on grid 1, got 18.453
+- style/grid [text-0-P-1-0-3]: start.y must be an integer on grid 1, got 16.271
+- style/grid [text-0-P-1-0-3]: end.x must be an integer on grid 1, got 19.24
+- style/grid [text-0-P-1-0-3]: end.y must be an integer on grid 1, got 16.774
+- style/grid [text-0-P-1-0-4]: start.x must be an integer on grid 1, got 19.24
+- style/grid [text-0-P-1-0-4]: start.y must be an integer on grid 1, got 16.774
+- style/grid [text-0-P-1-0-4]: end.x must be an integer on grid 1, got 19.794
+- style/grid [text-0-P-1-0-4]: end.y must be an integer on grid 1, got 17.46
+- style/grid [text-0-P-1-0-5]: start.x must be an integer on grid 1, got 19.794
+- style/grid [text-0-P-1-0-5]: start.y must be an integer on grid 1, got 17.46
+- style/grid [text-0-P-1-0-5]: end.x must be an integer on grid 1, got 20.09
+- style/grid [text-0-P-1-0-5]: end.y must be an integer on grid 1, got 18.27
+- style/grid [text-0-P-1-0-6]: start.x must be an integer on grid 1, got 20.09
+- style/grid [text-0-P-1-0-6]: start.y must be an integer on grid 1, got 18.27
+- style/grid [text-0-P-1-0-6]: end.x must be an integer on grid 1, got 20.2
+- style/grid [text-0-P-1-0-6]: end.y must be an integer on grid 1, got 19.23
+- style/grid [text-0-P-1-0-7]: start.x must be an integer on grid 1, got 20.2
+- style/grid [text-0-P-1-0-7]: start.y must be an integer on grid 1, got 19.23
+- style/grid [text-0-P-1-0-7]: end.x must be an integer on grid 1, got 20.074
+- style/grid [text-0-P-1-0-7]: end.y must be an integer on grid 1, got 20.215
+- style/grid [text-0-P-1-0-8]: start.x must be an integer on grid 1, got 20.074
+- style/grid [text-0-P-1-0-8]: start.y must be an integer on grid 1, got 20.215
+- style/grid [text-0-P-1-0-8]: end.x must be an integer on grid 1, got 19.704
+- style/grid [text-0-P-1-0-8]: end.y must be an integer on grid 1, got 21.07
+- style/grid [text-0-P-1-0-9]: start.x must be an integer on grid 1, got 19.704
+- style/grid [text-0-P-1-0-9]: start.y must be an integer on grid 1, got 21.07
+- style/grid [text-0-P-1-0-9]: end.x must be an integer on grid 1, got 19.117
+- style/grid [text-0-P-1-0-9]: end.y must be an integer on grid 1, got 21.726
+- style/grid [text-0-P-1-0-10]: start.x must be an integer on grid 1, got 19.117
+- style/grid [text-0-P-1-0-10]: start.y must be an integer on grid 1, got 21.726
+- style/grid [text-0-P-1-0-10]: end.x must be an integer on grid 1, got 18.362
+- style/grid [text-0-P-1-0-10]: end.y must be an integer on grid 1, got 22.159
+- style/grid [text-0-P-1-0-11]: start.x must be an integer on grid 1, got 18.362
+- style/grid [text-0-P-1-0-11]: start.y must be an integer on grid 1, got 22.159
+- style/grid [text-0-P-1-0-11]: end.x must be an integer on grid 1, got 17.425
+- style/grid [text-0-P-1-0-11]: end.y must be an integer on grid 1, got 22.381
+- style/grid [text-0-P-1-0-12]: start.x must be an integer on grid 1, got 17.425
+- style/grid [text-0-P-1-0-12]: start.y must be an integer on grid 1, got 22.381
+- style/grid [text-0-P-1-0-12]: end.x must be an integer on grid 1, got 13.805
+- style/grid [text-0-P-1-0-12]: end.y must be an integer on grid 1, got 22.4
+- style/grid [text-1-M-0-0-0]: start.x must be an integer on grid 1, got 26.2
+- style/grid [text-1-M-0-0-0]: start.y must be an integer on grid 1, got 28.0
+- style/grid [text-1-M-0-0-0]: end.x must be an integer on grid 1, got 26.2
+- style/grid [text-1-M-0-0-0]: end.y must be an integer on grid 1, got 16.0
+- style/grid [text-1-M-0-0-1]: start.x must be an integer on grid 1, got 26.2
+- style/grid [text-1-M-0-0-1]: start.y must be an integer on grid 1, got 16.0
+- style/grid [text-1-M-0-0-1]: end.x must be an integer on grid 1, got 30.2
+- style/grid [text-1-M-0-0-1]: end.y must be an integer on grid 1, got 22.4
+- style/grid [text-1-M-0-0-2]: start.x must be an integer on grid 1, got 30.2
+- style/grid [text-1-M-0-0-2]: start.y must be an integer on grid 1, got 22.4
+- style/grid [text-1-M-0-0-2]: end.x must be an integer on grid 1, got 34.2
+- style/grid [text-1-M-0-0-2]: end.y must be an integer on grid 1, got 16.0
+- style/grid [text-1-M-0-0-3]: start.x must be an integer on grid 1, got 34.2
+- style/grid [text-1-M-0-0-3]: start.y must be an integer on grid 1, got 16.0
+- style/grid [text-1-M-0-0-3]: end.x must be an integer on grid 1, got 34.2
+- style/grid [text-1-M-0-0-3]: end.y must be an integer on grid 1, got 28.0
+- mic: parallel straight geometry could not be checked: text-0-P-0-0-0: non-integer authored line
+- mic [bubble]: bubble and text-0-P-1-0 are 5.48582 apart on centerlines nearest (11.0182, 11.2718)<->(13.8, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [bubble]: bubble and text-1-M-0-0 are 5.48582 apart on centerlines nearest (36.9818, 11.2718)<->(34.2, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- mic [text-0-P-1-0]: text-0-P-1-0 and text-1-M-0-0 are 6 apart on centerlines nearest (20.2, 19.23)<->(26.2, 19.23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+- internal-spacing [text-0-P-1-0]: text-0-P-1-0-0 and text-0-P-1-0-12 have 2.3818 units of ink clearance over 2.172 units; requires 4; review required

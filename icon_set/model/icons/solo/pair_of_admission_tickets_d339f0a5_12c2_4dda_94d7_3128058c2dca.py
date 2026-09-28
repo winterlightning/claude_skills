@@ -11,7 +11,8 @@ class PairOfAdmissionTickets(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('ticket', 'admission', 'pair', 'pass', 'event', 'entry')
 

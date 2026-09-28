@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bcaaf2a2-b7c9-450b-836e-e0c294ab0564'
 SOURCE_PATH = 'icon_set/work/todo-references/business card hand 3_bcaaf2a2-b7c9-450b-836e-e0c294ab0564.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Hand holding a portrait business card; flatten the upper hand clearance and shorten the shoulder bowl while retaining the portrait.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/bcaaf2a2-b7c9-450b-836e-e0c294ab0564/20260922T221840-dd88b8/result.json'

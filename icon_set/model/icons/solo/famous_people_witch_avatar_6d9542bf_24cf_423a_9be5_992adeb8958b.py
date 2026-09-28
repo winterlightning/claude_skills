@@ -26,6 +26,7 @@ class FamousPeopleWitchAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('famous', 'people', 'witch', 'portrait', 'bust')
 

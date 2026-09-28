@@ -12,7 +12,8 @@ class ChineseCoinWithSquareHole(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('coin', 'chinese', 'cash', 'money', 'square', 'hole', 'currency')
 

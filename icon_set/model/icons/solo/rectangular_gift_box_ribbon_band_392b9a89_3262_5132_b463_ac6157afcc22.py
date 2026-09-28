@@ -15,7 +15,8 @@ class RectangularGiftBoxRibbonBand(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/award'
+    category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases=()
     keywords=('award', 'reward', 'rectangular-gift-box-ribbon-band')
     def build(self) -> None:

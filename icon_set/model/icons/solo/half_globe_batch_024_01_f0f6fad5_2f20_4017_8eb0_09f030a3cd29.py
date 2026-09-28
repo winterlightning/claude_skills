@@ -1,68 +1,54 @@
-"""Half Earth Globe Planet.
-
-Symbol plan: Partial globe with crescent boundary and two visible latitude rules.
-Keyshape: VRECT_L; authored at SOLO48, never scaled from the source.
-Reference construction: supplied reference; no useful exact Lucide match.
-Reduction: No identity-bearing features omitted.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f0f6fad5-2f20-4017-8eb0-09f030a3cd29'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/a half of earth_f0f6fad5-2f20-4017-8eb0-09f030a3cd29.svg'
-AUTHOR = 'gpt-6'
-# Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
-SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/a half of earth_f0f6fad5-2f20-4017-8eb0-09f030a3cd29.svg'
-BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-024/01-half-earth-globe-planet--f0f6fad5-2f20-4017-8eb0-09f030a3cd29.md'
-EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-024/references/a half of earth_f0f6fad5-2f20-4017-8eb0-09f030a3cd29.svg'
+SOURCE_PATH = 'pictographic-primitives/other/a half of earth_f0f6fad5-2f20-4017-8eb0-09f030a3cd29.svg'
+AUTHOR = "gpt-6"
 
-class GeneratedIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'half-globe-batch-024-01'
     keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    keywords = ('half', 'globe')
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
+    aliases = ()
+    keywords = ('a half of earth',)
 
     def build(self):
-        def path(name, start, *steps, closed=False):
-            point = start
-            members = []
-            for j, step in enumerate(steps):
-                eid = f"{name}-{j}"
-                if step[0] == 'L':
-                    self.add_line(eid, point, step[1])
-                    point = step[1]
-                elif step[0] == 'A':
-                    self.add_arc(eid, point, step[1], radius_x=step[2], radius_y=step[3], sweep=step[4], large_arc=step[5] if len(step)>5 else False)
-                    point = step[1]
-                else:
-                    self.add_bezier(eid, point, (step[1], step[2], step[3]))
-                    point = step[3]
-                members.append(eid)
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), ('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True), closed=True)
-        def rect(name, l,t,r,b, radius=0):
-            if not radius:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),closed=True)
-            else:
-                q=radius
-                path(name,(l+q,t),('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True),closed=True)
-        def line(name,a,b):
-            self.add_line(name,a,b)
-        def poly(name,*pts,closed=False):
-            self.add_polyline(name,*pts,closed=closed)
-        def dot(name,p):
-            self.add_dot(name,p)
-        def cross(name,x,y,r):
-            for j,p in enumerate(((x-r,y),(x+r,y),(x,y-r),(x,y+r))):
-                line(f'{name}-{j}',(x,y),p)
-        path('shell',(40,4),('C',(26,4),(15,8),(11,16)),('C',(9,19),(8,21),(8,24)),('C',(8,27),(9,29),(11,32)),('C',(15,40),(26,44),(40,44)),('C',(35,39),(33,35),(32,32)),('C',(30,27),(30,21),(32,16)),('C',(33,13),(35,9),(40,4)),closed=True)
-        line('latitude-top',(11,16),(32,16))
-        line('latitude-bottom',(11,32),(32,32))
-        primitives = list(self.primitives)
-        for i, first in enumerate(primitives):
-            for second in primitives[i+1:]:
-                if {first.start, first.end} & {second.start, second.end}:
-                    self.relate("connect", first.element_id, second.element_id)
+        # Reference crescent hemisphere; two latitude lines retained.
+        # Rounded outer hemisphere and smooth concave meridian mirror about y24.
+        self.path("hemisphere",(40,4),[((22,4),(8,11),(8,24)),((8,37),(22,44),(40,44)),((33,36),(31,30),(31,24)),((31,18),(33,12),(40,4))],True)
+        self.add_line("latitude-n",(11,18),(31,18));self.relate("connect","latitude-n","hemisphere")
+        self.add_line("latitude-s",(11,30),(31,30));self.relate("connect","latitude-s","hemisphere")
+
+    def path(self,name,start,commands,closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            tag=f"{name}-{i}"
+            if len(c)==2: self.add_line(tag,start,c); start=c
+            else: self.add_bezier(tag,start,c); start=c[2]
+            members.append(tag)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
+        for i in range(4): self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+        self.add_contour(name,*[f"{name}-{i}" for i in range(4)],closed=True)
+
+    def box(self,name,x,y,w,h,r=0):
+        if not r:
+            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            return
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
+        for i in range(8):
+            if i%2: self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+            else: self.add_line(f"{name}-{i}",pts[i],pts[i+1])
+        self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
+
+    icon_id = 'half-globe-batch-024-01'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases = ()
+    keywords = ('half', 'globe')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

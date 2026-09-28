@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b4bf811c-cc24-4d58-a27f-2cf37289678d'
 SOURCE_PATH = 'icon_set/work/todo-references/trash clock_b4bf811c-cc24-4d58-a27f-2cf37289678d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'trash-clock'
     keyshape = Keyshape.VRECT_L

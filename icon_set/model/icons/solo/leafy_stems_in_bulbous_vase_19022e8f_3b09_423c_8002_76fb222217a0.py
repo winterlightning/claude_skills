@@ -11,7 +11,8 @@ class LeafyStemsInBulbousVase(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = 'decoration'
+    categories = ('decoration', 'primitive', 'primitives')
     aliases = ()
     keywords = ('leafy', 'stems', 'in', 'bulbous', 'vase')
 

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='07459f9b-1db4-4f1f-aeee-4e5113b2f2f4'
 SOURCE_PATH='icon_set/work/todo-references/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='briefcase-dollar'
     keyshape=Keyshape.SQUARE

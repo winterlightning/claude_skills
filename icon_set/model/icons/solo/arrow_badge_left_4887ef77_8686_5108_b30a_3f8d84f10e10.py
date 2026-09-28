@@ -11,6 +11,7 @@ class ArrowBadgeLeft(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('arrow', 'badge', 'left', 'arrows')
 

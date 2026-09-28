@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0bd98d1c-2291-4610-be55-e9292563a85a'
 SOURCE_PATH = 'icon_set/work/todo-references/right to bracket_0bd98d1c-2291-4610-be55-e9292563a85a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-to-bracket'

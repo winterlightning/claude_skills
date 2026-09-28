@@ -11,6 +11,7 @@ class Binocular(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('binocular', 'outdoors', 'solo-ai-first50')
 

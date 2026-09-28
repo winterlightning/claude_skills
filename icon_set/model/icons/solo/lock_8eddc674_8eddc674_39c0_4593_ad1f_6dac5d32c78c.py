@@ -11,6 +11,7 @@ class Lock8eddc674(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'lock-8eddc674')
 

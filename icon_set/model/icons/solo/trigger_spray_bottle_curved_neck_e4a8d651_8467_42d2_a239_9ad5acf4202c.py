@@ -15,7 +15,8 @@ class Batch27Icon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/agriculture"
+    category = "farming"
+    categories = ("farming", "state")
     aliases = ()
     keywords = ('cleaning', 'spray', 'bottle')
 

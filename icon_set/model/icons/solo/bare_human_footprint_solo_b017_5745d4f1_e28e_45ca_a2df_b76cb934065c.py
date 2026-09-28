@@ -13,7 +13,8 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.VRECT_M
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/everyday"
+    category = "primitives-generate"
+    categories = ("primitives-generate", "other")
     aliases=()
     keywords=('bare', 'human', 'footprint')
     def build(self):

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3f8e8502-ee93-5815-9b80-fe4bec679a26'
 SOURCE_PATH = 'icon_set/work/todo-references/grid artboard_3f8e8502-ee93-5815-9b80-fe4bec679a26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'grid-artboard'
     keyshape = Keyshape.SQUARE

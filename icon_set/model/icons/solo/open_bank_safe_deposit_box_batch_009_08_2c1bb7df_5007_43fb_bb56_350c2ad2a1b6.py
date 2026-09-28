@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-009"
+    category = "finance"
+    categories = ("primitives", "finance")
     aliases = ()
     keywords = ('open', 'bank', 'safe', 'deposit', 'box')
 

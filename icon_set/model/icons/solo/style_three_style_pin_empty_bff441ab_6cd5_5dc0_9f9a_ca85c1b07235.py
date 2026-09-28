@@ -11,6 +11,7 @@ class StyleThreeStylePinEmpty(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
+    categories = ('maps', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'style-three-style-pin-empty')
 

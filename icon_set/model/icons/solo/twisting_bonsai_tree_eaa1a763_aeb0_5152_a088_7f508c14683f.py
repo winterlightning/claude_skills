@@ -12,7 +12,8 @@ class TwistingBonsaiTree(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('bonsai', 'tree', 'plant', 'planter', 'foliage', 'garden', 'decor')
 

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57237fb8-d140-4fc2-97bb-fe24ab1c7285'
 SOURCE_PATH = 'icon_set/work/todo-references/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'office-desk-1'

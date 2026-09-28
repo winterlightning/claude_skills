@@ -11,6 +11,7 @@ class CursorTarget(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('cursor', 'target', 'interface-essential')
 

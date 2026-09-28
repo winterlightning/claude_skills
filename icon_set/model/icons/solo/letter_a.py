@@ -19,6 +19,7 @@ class LetterA(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "typeface"
+    categories = ("typeface",)
     # Semantic body region for text composition; source geometry stays unchanged.
     typeface = {'character': 'a', 'kind': 'lowercase'}
     aliases = ()

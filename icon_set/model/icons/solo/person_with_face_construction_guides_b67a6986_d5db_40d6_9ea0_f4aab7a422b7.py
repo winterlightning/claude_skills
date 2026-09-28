@@ -18,6 +18,7 @@ class PersonWithFaceConstructionGuides(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
+    categories = ('business', 'state')
     aliases = ()
     keywords = ('face', 'head', 'portrait', 'guidelines', 'alignment', 'facial recognition', 'landmarks', 'identity')
 

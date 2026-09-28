@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5369bbbe-4735-40b1-9ac5-84246a859e0f'
 SOURCE_PATH = 'icon_set/work/todo-references/movie_5369bbbe-4735-40b1-9ac5-84246a859e0f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A film frame with matching perforations down both sides.'
 CONSTRUCTION_PLAN = 'Symmetric rounded film frame with a shared repeated perforation spacing.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

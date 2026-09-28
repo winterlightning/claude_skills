@@ -17,7 +17,8 @@ class StorageJarWithLid(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/storage"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("lidded jar", "typewriter-like container")
     keywords = ("lid", "wide bar", "rounded body", "front opening")
 

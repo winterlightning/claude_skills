@@ -12,7 +12,8 @@ class CribWithMobile(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/baby"
+    category = "babies"
+    categories = ("babies", "primitives")
     aliases = ()
     keywords = ('crib', 'with', 'mobile', 'baby', 'nursery', 'toy')
 

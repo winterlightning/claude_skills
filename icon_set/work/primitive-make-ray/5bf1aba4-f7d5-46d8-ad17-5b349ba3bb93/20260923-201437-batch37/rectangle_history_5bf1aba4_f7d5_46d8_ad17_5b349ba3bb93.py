@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='5bf1aba4-f7d5-46d8-ad17-5b349ba3bb93'
 SOURCE_PATH='icon_set/work/todo-references/rectangle history_5bf1aba4-f7d5-46d8-ad17-5b349ba3bb93.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A clipped-corner history document with a clock and bottom text rule.'
 OMISSIONS='Clock face ticks omitted, retaining both hands.'
 LUCIDE_REFERENCE='file-clock'

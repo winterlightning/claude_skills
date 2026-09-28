@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5a6bc318-1415-407d-8cee-66dc95d8d15f'
 SOURCE_PATH = 'icon_set/work/todo-references/outdoors fire camp_5a6bc318-1415-407d-8cee-66dc95d8d15f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A camp flame above a segmented brick fire pit.'
 OMISSIONS = 'Six bricks reduced to two blocks to retain open spacing.'
 LUCIDE_REFERENCE = 'flame'

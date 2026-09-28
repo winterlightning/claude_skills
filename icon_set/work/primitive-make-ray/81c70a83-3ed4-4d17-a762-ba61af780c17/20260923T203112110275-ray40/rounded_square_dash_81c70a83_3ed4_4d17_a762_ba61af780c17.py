@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '81c70a83-3ed4-4d17-a762-ba61af780c17'
 SOURCE_PATH = 'icon_set/work/todo-references/rounded square dash_81c70a83-3ed4-4d17-a762-ba61af780c17.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Dashed rounded square using four matching quarter-circle corners and four centered short dashes.
 # Reference: square-dashed: equal repeated corner geometry and separated marks.
 # Reduction: Reduced dash count to maintain 8-unit centerline gaps.

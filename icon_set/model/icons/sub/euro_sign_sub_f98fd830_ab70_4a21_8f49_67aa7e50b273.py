@@ -16,7 +16,8 @@ class EuroSignSub(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'primitives-generate'
+    categories = ('primitives-generate', 'state')
     aliases = ()
     keywords = ('euro', 'sign', 'large', 'c', 'shaped', 'currency', 'curve', 'crossed')
 

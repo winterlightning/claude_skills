@@ -1,41 +1,45 @@
+"""Sleeping head and shoulder beside a raised blanket; one clear Z. Detached head bottom30 and torso start38 give exactly4 ink gap; deliberate reclining neck bend from reference.
+Symbol plan: shared contour owners and attachment nodes; repeated marks share a spacing parameter.
+Omissions: Second Z and pillow seam.
+Construction: Shared human_ref/user.svg and full_body_ref.png: circular head and coherent body.
+"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-
-SOURCE_ICON_ID = 'f8998b5a-15d8-45ce-9679-4cac7ab954c3'
-SOURCE_PATH = 'icon_set/work/todo-references/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg'
-AUTHOR = 'gpt-6'
-# Plan: Sleeping person in bed with two hand-authored Z marks overhead.
-# References: bed: simple bedding silhouette; human_ref/user.svg and full_body_ref.png: circular head and smooth shoulder construction.
-# Reduction: Omitted minor pillow crease; retained pillow, blanket and both Zs.
-
-class AuthoredIcon(Solo48):
+SOURCE_ICON_ID='f8998b5a-15d8-45ce-9679-4cac7ab954c3'
+SOURCE_PATH='pictographic-primitives/_uncategorized_34/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg'
+AUTHOR="gpt-6"
+class Drawing(Solo48):
     icon_id = 'snorer'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('snorer',)
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('snorer',)
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.circle('head',16,25,6)
-        self.add_bezier('torso',(16,39),((18,39),(21,41),(24,42)))
+        self.circle('head',12,24,6)
+        self.add_line('torso',(12,38),(24,42))
         self.mark_human_figure('sleeper',head='head',torso='torso',torso_junction='start')
-        self.add_polyline('pillow',(15,34),(6,34),(6,42),(24,42));self.relate('connect','pillow','torso')
-        self.add_bezier('blanket-top',(24,42),((26,31),(26,30),(31,30)),((36,30),(42,28),(42,35)))
-        self.add_polyline('blanket-base',(42,35),(42,42),(24,42));self.relate('connect','blanket-top','blanket-base');self.relate('connect','blanket-top','torso')
-        for n,x,y in [('small',23,15),('large',33,6)]:self.add_polyline(n,(x,y),(x+6,y),(x,y+6),(x+6,y+6))
+        self.path('blanket',(24,42),[('L',(27,30)),('A',(31,27),4,4,True),('L',(38,27)),('A',(42,31),4,4,True),('L',(42,42)),('L',(24,42))],True)
+        self.relate('connect','torso','blanket')
+        self.add_polyline('sleep-z',(32,6),(42,6),(32,14),(42,14))
 
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def box(self,n,l,t,r,b,q=3):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def path(self,n,start,ops,closed=False):
+        p=start;members=[]
+        for i,op in enumerate(ops):
+            name=f'{n}-{i}';end=op[1]
+            if op[0]=='L':self.add_line(name,p,end)
+            elif op[0]=='A':self.add_arc(name,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            elif op[0]=='B':self.add_bezier(name,p,(op[2],op[3],end))
+            members.append(name);p=end
+        if closed and p!=start:
+            self.add_line(n+'-close',p,start);members.append(n+'-close')
+        self.add_contour(n,*members,closed=closed)

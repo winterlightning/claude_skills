@@ -12,7 +12,8 @@ class CrackedHouseWithChimney(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('house', 'home', 'damage', 'crack', 'poverty', 'housing', 'shelter', 'chimney', 'repair')
 

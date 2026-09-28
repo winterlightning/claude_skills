@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f11ccece-81b6-415d-a20a-a1bdd3fceb3c'
 SOURCE_PATH='icon_set/work/todo-references/woman nude_f11ccece-81b6-415d-a20a-a1bdd3fceb3c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='woman-nude'

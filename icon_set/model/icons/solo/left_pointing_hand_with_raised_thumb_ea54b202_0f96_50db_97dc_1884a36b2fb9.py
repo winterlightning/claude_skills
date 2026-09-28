@@ -28,7 +28,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface-essential"
+    category = "interface-essential"
+    categories = ("interface-essential", "state", "other", "primitives-generate")
     aliases = ()
     keywords = ('hand', 'left', 'point', 'finger', 'thumb', 'gesture')
     def build(self):

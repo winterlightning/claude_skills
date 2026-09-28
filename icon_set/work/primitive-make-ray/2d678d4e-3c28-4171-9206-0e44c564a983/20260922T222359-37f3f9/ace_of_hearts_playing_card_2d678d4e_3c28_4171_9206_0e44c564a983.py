@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2d678d4e-3c28-4171-9206-0e44c564a983'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/card game heart_2d678d4e-3c28-4171-9206-0e44c564a983.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ace-of-hearts-playing-card'

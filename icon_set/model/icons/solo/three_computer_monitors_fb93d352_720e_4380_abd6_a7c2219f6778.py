@@ -10,7 +10,8 @@ class ThreeComputerMonitors(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/networks'
+    category = 'networks'
+    categories = ('primitives', 'networks')
     aliases=()
     keywords=('three', 'computer', 'monitors', 'network')
 

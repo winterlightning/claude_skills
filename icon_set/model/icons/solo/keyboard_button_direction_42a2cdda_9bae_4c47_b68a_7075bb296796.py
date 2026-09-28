@@ -12,7 +12,8 @@ class Drawing(Solo48):
     # Visible ink extremes: (4, 4, 44, 44).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('keyboard', 'button', 'direction')
 

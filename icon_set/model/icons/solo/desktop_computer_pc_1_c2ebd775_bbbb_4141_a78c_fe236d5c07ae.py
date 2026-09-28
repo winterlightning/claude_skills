@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/devices"
+    category = "primitives-generate"
+    categories = ("container", "other", "primitives-generate")
     aliases = ()
     keywords = ('desktop', 'computer', 'pc', '1')
 

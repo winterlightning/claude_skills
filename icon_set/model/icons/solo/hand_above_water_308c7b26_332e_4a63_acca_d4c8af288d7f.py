@@ -11,7 +11,8 @@ class HandAboveWater(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('hand', 'water', 'drowning', 'rescue', 'safety', 'waves')
 

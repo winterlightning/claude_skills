@@ -15,7 +15,8 @@ class ChamomileFlower(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-01"
+    category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('chamomile', 'daisy', 'flower', 'petals', 'bloom', 'herbal', 'nature', 'botanical')
 

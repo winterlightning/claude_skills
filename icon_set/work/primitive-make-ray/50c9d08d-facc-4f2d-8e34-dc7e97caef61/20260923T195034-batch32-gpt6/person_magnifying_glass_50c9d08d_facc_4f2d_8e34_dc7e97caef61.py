@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '50c9d08d-facc-4f2d-8e34-dc7e97caef61'
 SOURCE_PATH = 'icon_set/work/todo-references/person magnifying glass_50c9d08d-facc-4f2d-8e34-dc7e97caef61.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A magnifying glass framing a broad-shouldered person.

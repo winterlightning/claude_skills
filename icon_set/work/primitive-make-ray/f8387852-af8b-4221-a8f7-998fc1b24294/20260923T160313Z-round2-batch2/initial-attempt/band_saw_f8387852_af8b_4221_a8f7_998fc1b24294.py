@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='f8387852-af8b-4221-a8f7-998fc1b24294'
 SOURCE_PATH='icon_set/work/todo-references/band saw_f8387852-af8b-4221-a8f7-998fc1b24294.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='band-saw'
     keyshape=Keyshape.SQUARE

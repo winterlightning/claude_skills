@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e4b8631c-5185-5ace-a823-05b73325753b'
 SOURCE_PATH = 'icon_set/work/todo-references/pen tools_e4b8631c-5185-5ace-a823-05b73325753b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A pen nib beneath vector curve control handles.

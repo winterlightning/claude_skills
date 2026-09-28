@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6386b3b6-b64f-4621-aa3e-cfe7179c9cca'
 SOURCE_PATH='icon_set/work/todo-references/picture stack human_6386b3b6-b64f-4621-aa3e-cfe7179c9cca.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Stacked portrait pictures: front rounded panel with detached round head and smooth shoulders, rear panel visible at right.'
 CONSTRUCTION_REFERENCES='Shared human-reference.md and human_ref/user.svg own head/shoulders; Lucide image supplies enclosure construction.'
 OMISSIONS='Facial detail absent in source; none added. Rear picture is an exposed outline only.'

@@ -15,7 +15,8 @@ class BugBeetle(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('bug', 'beetle', 'insect', 'debug', 'error', 'software', 'pest', 'virus', 'sub icon')
 

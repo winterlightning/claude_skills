@@ -10,7 +10,8 @@ class FlamingTorchWithBowl(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/social"
+    category = "social"
+    categories = ("social", "primitives")
     aliases = ()
     keywords = ('torch', 'flame', 'fire', 'handle', 'bowl', 'burning')
 

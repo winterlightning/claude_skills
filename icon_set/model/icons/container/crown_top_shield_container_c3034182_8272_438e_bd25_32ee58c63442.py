@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class CrownTopShieldContainer(Container64):
     icon_id = 'crown-top-shield-container'
+    category = 'protection'
+    categories = ('protection', 'primitives')
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('crown', 'top', 'shield', 'container')

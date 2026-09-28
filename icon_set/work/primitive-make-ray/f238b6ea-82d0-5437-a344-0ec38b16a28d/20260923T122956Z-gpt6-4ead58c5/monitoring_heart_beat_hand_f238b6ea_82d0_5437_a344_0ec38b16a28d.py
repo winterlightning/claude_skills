@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f238b6ea-82d0-5437-a344-0ec38b16a28d'
 SOURCE_PATH = 'icon_set/work/todo-references/monitoring heart beat hand_f238b6ea-82d0-5437-a344-0ec38b16a28d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A hand holding a heart containing a heartbeat trace.'
 CONSTRUCTION_PLAN = 'Two heart lobes and a pulse retain the medical symbol; hand contour occludes the lower-right heart through shared endpoints. Human-reference guide consulted for coherent rounded anatomy.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

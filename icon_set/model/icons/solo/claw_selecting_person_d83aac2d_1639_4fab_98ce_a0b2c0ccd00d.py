@@ -15,7 +15,8 @@ class ClawSelectingPerson(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
+    categories = ("work", "primitives")
     aliases = ()
     keywords = ('claw', 'person', 'recruiting', 'selection', 'team', 'employee')
 

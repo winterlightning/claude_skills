@@ -17,7 +17,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'quality-award-check-content'
     keyshape = Keyshape.VRECT_L
-    category = 'objects/interface-essential'
+    category = 'symbol'
+    categories = ('symbol', 'state')
     tags = ('sub icon',)
     keywords = ('verified quality award badge',)
     def build(self):

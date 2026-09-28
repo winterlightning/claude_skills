@@ -1,0 +1,72 @@
+{
+  "source_key": "solo/bowling-pins-row",
+  "icon_id": "bowling-pins-row",
+  "svg_sha256": "fd0814de8c3431a7d18c30a9956fec1a5a847699050fc9588d5184c14463a8e0",
+  "worker": "thuan-mac",
+  "outcome": "cannot-fix",
+  "note": "Cannot fit the required three continuous pin silhouettes in HRECT_L: 40 centerline units minus two 8-unit inter-pin gaps leaves 8 units per pin. A legal 8-unit neck leaves no room for a wider belly. The retained attempt fails MIC on the 4-unit necks and the hole/internal-spacing gate; touching head/body loops were not reused.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/d972c303-2754-4efe-82ae-c0b2f535370b/20260924T181031Z-meaning-bowling-pins-row",
+  "module": "icon_set/work/primitive-make-ray/d972c303-2754-4efe-82ae-c0b2f535370b/20260924T181031Z-meaning-bowling-pins-row/bowling_pins_row_d972c303_2754_4efe_82ae_c0b2f535370b.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (1.96648, 6, 46.0335, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0335, 0.0, 0.0335, 0.0], tolerance 0.0)",
+    "mic [pin-2]: parallel straight edges pin-2-2 and pin-2-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pin-1]: parallel straight edges pin-1-2 and pin-1-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pin-0]: parallel straight edges pin-0-2 and pin-0-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pin-0]: pin-0 and pin-1 are 7.93296 apart on centerlines nearest (12.0335, 28.9648)<->(19.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [pin-1]: pin-1 and pin-2 are 7.93296 apart on centerlines nearest (28.0335, 28.9648)<->(35.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/bowling_pins_row_d972c303_2754_4efe_82ae_c0b2f535370b.py",
+    "validation.txt",
+    "after/bowling-pins-row.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-24T18:31:49.677923+00:00",
+  "build_gate": {
+    "icon_id": "bowling-pins-row",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1.96648, 6, 46.0335, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0335, 0.0, 0.0335, 0.0], tolerance 0.0)",
+      "mic [pin-2]: parallel straight edges pin-2-2 and pin-2-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-1]: parallel straight edges pin-1-2 and pin-1-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-0]: parallel straight edges pin-0-2 and pin-0-10 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pin-0]: pin-0 and pin-1 are 7.93296 apart on centerlines nearest (12.0335, 28.9648)<->(19.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [pin-1]: pin-1 and pin-2 are 7.93296 apart on centerlines nearest (28.0335, 28.9648)<->(35.9665, 28.9648); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 3 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [pin-0]: pin-0-1 and pin-0-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-0]: pin-0-2 and pin-0-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-0]: pin-0-4 and pin-0-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-1 and pin-1-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-2 and pin-1-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-1]: pin-1-4 and pin-1-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-1 and pin-2-11 have 0.3353 units of ink clearance over 5.3643 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-2 and pin-2-10 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [pin-2]: pin-2-4 and pin-2-8 have 2.2844 units of ink clearance over 6.3521 units; requires 4; review required"
+    ]
+  },
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-24T18:31:49.349696+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__bowling-pins-row/20260924T181031Z-thuan-mac/after/bowling_pins_row_d972c303_2754_4efe_82ae_c0b2f535370b.py",
+    "note": "Cannot fit the required three continuous pin silhouettes in HRECT_L: 40 centerline units minus two 8-unit inter-pin gaps leaves 8 units per pin. A legal 8-unit neck leaves no room for a wider belly. The retained attempt fails MIC on the 4-unit necks and the hole/internal-spacing gate; touching head/body loops were not reused.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "cannot-fix",
+    "worker": "thuan-mac",
+    "note": "Cannot fit the required three continuous pin silhouettes in HRECT_L: 40 centerline units minus two 8-unit inter-pin gaps leaves 8 units per pin. A legal 8-unit neck leaves no room for a wider belly. The retained attempt fails MIC on the 4-unit necks and the hole/internal-spacing gate; touching head/body loops were not reused.",
+    "claimed_at": "2026-09-24T18:09:41.817953+00:00",
+    "updated_at": "2026-09-17T08:15:14.298722+00:00",
+    "svg_sha256": "fd0814de8c3431a7d18c30a9956fec1a5a847699050fc9588d5184c14463a8e0"
+  },
+  "review_status": null
+}

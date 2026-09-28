@@ -10,7 +10,8 @@ class CloudGamingController(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/gaming'
+    category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('cloud gaming', 'cloud', 'gamepad', 'controller', 'connected', 'streaming', 'online', 'game')
 

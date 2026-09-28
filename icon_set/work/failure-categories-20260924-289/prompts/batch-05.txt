@@ -1,0 +1,91 @@
+Run $primitive-make-ray to repair failed icons, batch 5 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_25/linguist_d3d86e97-b873-48ff-bd6b-fc4456184a6e.svg
+     icon_id: speaking-profile-with-empty-bubble
+     current drawing: published/failed/solo48/speaking-profile-with-empty-bubble.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [face / skull]: face-6 and skull have 2.017 units of ink clearance over 5.248 units; requires 4; review required
+  2. pictographic-primitives/_uncategorized_26/love boat_74aefd26-5ecb-469f-857a-7b635d067fa7.svg
+     icon_id: couple-in-bed-with-hearts
+     current drawing: published/failed/solo48/couple-in-bed-with-hearts.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  3. pictographic-primitives/_uncategorized_26/love heart ranking_23d9de33-2d15-4372-8f12-18cd47ea7ba3.svg
+     icon_id: heart-ranking-podium
+     current drawing: published/failed/solo48/heart-ranking-podium.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [heart]: heart-1 and heart-4 have 2.754 units of ink clearance over 6.726 units; requires 4; review required | internal-spacing [heart]: heart-5 and heart-8 have 2.754 units of ink clearance over 6.726 units; requires 4; review required
+  4. pictographic-primitives/_uncategorized_26/male star_9d16496d-3f1e-497f-acc5-d87ece1bf0c8.svg
+     icon_id: person-with-three-stars
+     current drawing: published/failed/solo48/person-with-three-stars.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 3 undersized holes; 3 pinches
+       - undersized holes: holes/pinches: 3 undersized holes; 3 pinches
+  5. pictographic-primitives/_uncategorized_26/mantel_cd0e91bf-8014-4487-8310-916da006a67a.svg
+     icon_id: fireplace-with-burning-flame
+     current drawing: published/failed/solo48/fireplace-with-burning-flame.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [flame]: flame-1 and flame-5 have 2.452 units of ink clearance over 4 units; requires 4; review required | internal-spacing [flame]: flame-2 and flame-6 have 3.378 units of ink clearance over 2.185 units; requires 4; review required
+  6. pictographic-primitives/_uncategorized_26/map marks_4a6fa657-5f3d-4ab6-8949-77cda8ee6030.svg
+     icon_id: map-with-two-location-pins
+     current drawing: published/failed/solo48/map-with-two-location-pins.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [pin-1 / map]: pin-right-1 and map-5 have 2.617 units of ink clearance over 2.25 units; requires 4; review required
+  7. pictographic-primitives/_uncategorized_26/mastodon logo 2_5728b0bd-4ca7-4880-8dd9-2620444de10e.svg
+     icon_id: mastodon-social-network-logo
+     current drawing: published/failed/solo48/mastodon-social-network-logo.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [outline]: underbody and tail-return have 2.490 units of ink clearance over 5.5 units; requires 4; review required
+  8. pictographic-primitives/_uncategorized_27/mastodon logo 3_0ab8e84d-e705-47dc-805d-8eeccbcc900b.svg
+     icon_id: mastodon-social-network-icon
+     current drawing: published/failed/solo48/mastodon-social-network-icon.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [outline]: underbody and tail-return have 2.490 units of ink clearance over 5.5 units; requires 4; review required
+  9. pictographic-primitives/_uncategorized_27/maya logo_adef874c-e298-460c-b8fd-7d6806bd6e51.svg
+     icon_id: outlined-capital-m
+     current drawing: published/failed/solo48/outlined-capital-m.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [letter-outline]: letter-outline-2 and letter-outline-10 have 2.472 units of ink clearance over 8.656 units; requires 4; review required | internal-spacing [letter-outline]: letter-outline-2 and letter-outline-11 have 2.736 units of ink clearance over 3 units; requires 4; review required | internal-spacing [letter-outline]: letter-outline-3 and letter-outline-7 have 2.736 units of ink clearance over 3 units; requires 4; review required (+1 more)
+  10. pictographic-primitives/_uncategorized_27/medical app smartphone listen_811410b0-f597-4cad-ad05-e3c48b6e64b7.svg
+     icon_id: smartphone-with-stethoscope
+     current drawing: published/failed/solo48/smartphone-with-stethoscope.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [stethoscope-u / lower-tube]: u-right-bend and lower-tube-2 have 1.018 units of ink clearance over 10.75 units; requires 4; review required
+  11. pictographic-primitives/_uncategorized_27/microsoft internet explorer logo_ff53feac-62ae-4745-9bd7-4e08ad72f21a.svg
+     icon_id: internet-explorer-e
+     current drawing: published/failed/solo48/internet-explorer-e.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [e-main]: middle-bar and lower-bowl-right have 1.602 units of ink clearance over 14.534 units; requires 4; review required | internal-spacing [e-main]: lower-bowl-left and outer-bottom-left have 3.981 units of ink clearance over 10.222 units; requires 4; review required | internal-spacing [e-main]: lower-bowl-right and outer-bottom-right have -0.999 units of ink clearance over 17.556 units; requires 4; review required
+  12. pictographic-primitives/_uncategorized_27/microsoft powerpoint logo_1a770dd1-2225-4204-b85f-81e18d91cca2.svg
+     icon_id: presentation-pie-chart-badge
+     current drawing: published/failed/solo48/presentation-pie-chart-badge.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  13. pictographic-primitives/_uncategorized_27/modern music monitor speaker_ddfc1e41-af2e-4f27-a89f-8cb60796155a.svg
+     icon_id: music-monitor-and-speaker
+     current drawing: published/failed/solo48/music-monitor-and-speaker.svg
+     violates 3 rules: part spacing under 8, parallel straight edges under 8, undersized holes
+       - part spacing under 8: mic [monitor-bezel]: monitor-bezel and music-notes are 3.884 apart on centerlines nearest (12.996, 27)<->(12.996, 23.115); (needs 8) | mic [speaker]: speaker and speaker-tweeter are 5 apart on centerlines nearest (36, 16)<->(36, 21); (needs 8) | mic [speaker]: speaker and speaker-woofer are 3 apart on centerlines nearest (36, 40)<->(36, 37); (needs 8) (+1 more)
+       - parallel straight edges under 8: mic [music-notes]: parallel straight edges right-note-stem and left-note-stem are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [monitor-bezel]: parallel straight edges monitor-bezel and monitor-bottom are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [monitor]: parallel straight edges monitor-bottom and stand-foot are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  14. pictographic-primitives/_uncategorized_27/monetization tablet_e64a63c8-c12a-4dd2-90a5-e6fbd2b163fb.svg
+     icon_id: smartphone-with-dollar-sign
+     current drawing: published/failed/solo48/smartphone-with-dollar-sign.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  15. pictographic-primitives/_uncategorized_27/moving walkway_b13ef0ee-32e3-468d-876a-7e9b08b10fa2.svg
+     icon_id: person-on-rising-escalator
+     current drawing: published/failed/solo48/person-on-rising-escalator.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches

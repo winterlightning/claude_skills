@@ -11,7 +11,8 @@ class CapsuleConnectedToTeardropForm(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('capsule', 'connected', 'to', 'teardrop', 'form')
 

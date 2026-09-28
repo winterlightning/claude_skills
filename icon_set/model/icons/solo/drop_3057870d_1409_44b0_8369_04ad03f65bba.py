@@ -15,6 +15,7 @@ class Drop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'smileys'
+    categories = ('smileys', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('drop', 'smileys', 'sub icon')
 

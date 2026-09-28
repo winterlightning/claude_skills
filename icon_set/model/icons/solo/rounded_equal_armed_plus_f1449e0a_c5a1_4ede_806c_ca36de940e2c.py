@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'symbols'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Rounded Plus Addition Symbol']
     keywords = []
     def build(self):

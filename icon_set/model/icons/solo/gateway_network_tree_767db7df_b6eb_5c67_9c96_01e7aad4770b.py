@@ -10,7 +10,8 @@ class GatewayNetworkTree(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/networks'
+    category = 'networks'
+    categories = ('primitives', 'networks')
     aliases=()
     keywords=('gateway', 'network', 'tree', 'network')
 

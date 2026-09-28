@@ -17,7 +17,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'face-scan-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('facial recognition scan',)
     def build(self):

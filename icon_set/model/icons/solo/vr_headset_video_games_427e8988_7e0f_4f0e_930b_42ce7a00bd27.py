@@ -16,6 +16,7 @@ class VrHeadsetVideoGames(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'video-games'
+    categories = ('video-games', 'state')
     aliases = ()
     keywords = ('vr', 'headset', 'video-games')
     keyshape = Keyshape.HRECT_L

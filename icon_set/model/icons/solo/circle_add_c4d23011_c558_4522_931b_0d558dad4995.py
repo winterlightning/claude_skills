@@ -10,7 +10,8 @@ class CircleAdd(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'other'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('circle', 'add', 'other')
 

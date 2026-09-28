@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('quantum', 'processor', 'chip', 'microchip', 'pins', 'diagonal', 'trace', 'running')
     def build(self):

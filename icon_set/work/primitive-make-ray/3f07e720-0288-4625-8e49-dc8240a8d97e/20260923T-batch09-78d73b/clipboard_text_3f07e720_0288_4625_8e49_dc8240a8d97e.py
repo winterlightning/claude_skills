@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3f07e720-0288-4625-8e49-dc8240a8d97e'
 SOURCE_PATH = 'icon_set/work/todo-references/clipboard text_3f07e720-0288-4625-8e49-dc8240a8d97e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'clipboard-text'

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f5badc78-84c0-4392-89e1-d9fa0712f0cb'
 SOURCE_PATH = 'icon_set/work/todo-references/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'programming-hold-code-2'

@@ -15,7 +15,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     keywords = ('switch', 'toggle', 'capsule', 'control', 'off', 'setting')
 
     def build(self):

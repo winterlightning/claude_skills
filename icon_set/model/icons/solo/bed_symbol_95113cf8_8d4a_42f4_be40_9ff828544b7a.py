@@ -11,6 +11,7 @@ class BedSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('bed', 'symbol', 'solo-ai-first50')
 

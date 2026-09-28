@@ -2,7 +2,7 @@
 
 Used by deploy.py's Discard action, for one icon or a batch. Stdlib only, so the
 server never imports the icon registry. The removed source and records are
-archived beside the database.
+archived in the database's discarded_icons table.
 """
 from __future__ import annotations
 
@@ -13,6 +13,11 @@ import os
 from pathlib import Path
 import re
 import tempfile
+
+if __package__:
+    from . import state_db
+else:
+    import state_db
 
 SIBLING_IMPORT = re.compile(r'^\s*from\s+\.(\w+)\s+import\s+\(?([\w\s,]+)\)?', re.MULTILINE)
 VARIANT_OF = re.compile(r"variant_of\s*=\s*['\"]([^'\"]+)['\"]")
@@ -100,11 +105,13 @@ def detach_variant(path: Path, icon_id: str, parent: str | None) -> None:
     _write_atomic(path, line.sub((lambda m: f"{m[1]}variant_of = '{parent}'\n") if parent else '', text))
 
 
-def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: Path, connection, user: str,
+def discard_many(icons: list[dict], *, source_root: Path, dist: Path, connection, user: str,
                  detach_variants: bool = False) -> dict:
     """Discard every icon that passes its checks; the rest are reported, not touched (caller commits).
 
-    The large catalog and manifest files are rewritten once for the whole batch.
+    Each discarded icon's source text, record and feedback are kept in the database's
+    discarded_icons table (id = the returned ``archive``). The large catalog and manifest
+    files are rewritten once for the whole batch.
     """
     source_root = Path(source_root).resolve()
     indexes: dict = {}
@@ -118,7 +125,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
         return {'discarded': [], 'failed': failed}
 
     now = datetime.now(timezone.utc)
-    archive.mkdir(parents=True, exist_ok=True)
+    state_db.init_store_tables(connection)
     current: dict[Path, str] = {}
     discarded, removed_ids, removed_keys = [], {}, set()
     for icon, plan in plans:
@@ -130,11 +137,9 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
             'SELECT id, feedback, svg_sha256, created_at, author FROM feedback WHERE icon=?', (key,))]
         # A module holding other icons loses only this class; earlier removals in the batch are kept.
         shared = len(_icon_classes(text)) > 1
-        (archive / f'{stem}.py').write_text(text, encoding='utf-8')
-        (archive / f'{stem}.json').write_text(json.dumps({
+        state_db.put_discard(connection, stem, {
             'discarded_by': user, 'discarded_at': now.isoformat(), 'source_path': str(path.relative_to(source_root)),
-            'shared_module': shared, 'record': icon, 'feedback': feedback}, ensure_ascii=False, indent=2) + '\n',
-            encoding='utf-8')
+            'shared_module': shared, 'record': icon, 'feedback': feedback}, text)
         discarding = {p['path'] for _, p in plans}
         for child in plan.get('children', []):
             if child not in discarding:
@@ -153,7 +158,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
         rows = {table: connection.execute(f'DELETE FROM {table} WHERE icon=?', (key,)).rowcount
                 for table in ('reviews', 'icon_flags', 'icon_types', 'feedback')}
         discarded.append({'icon': key, 'name': icon.get('name', icon_id), 'source': str(path.relative_to(source_root)),
-                          'shared_module': shared, 'archive': f'{stem}.py', 'removed_rows': rows})
+                          'shared_module': shared, 'archive': stem, 'removed_rows': rows})
 
     targets = [(dist / folder / 'manifest.json', 'icon_id', ids) for folder, ids in removed_ids.items()]
     targets += [(dist / 'failed' / folder / 'manifest.json', 'icon_id', ids) for folder, ids in removed_ids.items()]

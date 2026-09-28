@@ -17,7 +17,8 @@ class MovieFilmFrame(Container64):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('movie', 'film', 'frame')
 

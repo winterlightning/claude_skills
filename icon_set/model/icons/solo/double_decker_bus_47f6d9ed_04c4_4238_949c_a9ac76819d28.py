@@ -12,7 +12,8 @@ class DoubleDeckerBus(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('bus', 'double decker', 'double-decker', 'public transport', 'london', 'vehicle', 'sightseeing', 'transit')
 

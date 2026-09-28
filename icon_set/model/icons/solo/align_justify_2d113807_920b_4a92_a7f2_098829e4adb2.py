@@ -13,7 +13,8 @@ class AlignJustify(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_01'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('align', 'justify', '_uncategorized_01')
 

@@ -12,7 +12,8 @@ class QueenCrownWithOvalFinial(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/award'
+    category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases=()
     keywords=('reward','celebration','queen-crown-with-oval-finial')
     def build(self) -> None:

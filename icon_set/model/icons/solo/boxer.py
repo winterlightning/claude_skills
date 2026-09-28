@@ -16,7 +16,8 @@ class Boxer(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='people/occupations'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases=()
     keywords=('boxer', 'bust', 'occupation', 'body')
 

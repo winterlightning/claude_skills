@@ -12,7 +12,8 @@ class EngineBlockIntake(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('engine', 'motor', 'engine block', 'car', 'mechanic', 'repair', 'dashboard', 'automotive')
 

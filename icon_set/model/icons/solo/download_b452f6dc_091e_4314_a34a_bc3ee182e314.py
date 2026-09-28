@@ -15,6 +15,7 @@ class DownloadB452f6dc(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'primitives')
     aliases = ()
     keywords = ('download', 'emails')
 

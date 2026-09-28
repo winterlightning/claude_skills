@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4a473edf-a356-4eca-8cfd-195e95d6bc62'
 SOURCE_PATH = 'icon_set/work/todo-references/team approve disapprove_4a473edf-a356-4eca-8cfd-195e95d6bc62.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'team-approve-disapprove'

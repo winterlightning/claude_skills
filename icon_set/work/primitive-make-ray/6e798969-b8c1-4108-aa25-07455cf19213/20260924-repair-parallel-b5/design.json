@@ -1,0 +1,6 @@
+{
+  "keyshape": "SQUARE",
+  "body": "\nfor i,(x,y) in enumerate(((6,6),(34,6),(6,34),(34,34))):self.rect(f'corner-{i}',x,y,8,8,2,split_x=(10,38),split_y=(10,38))\nfor name,a,b,c,d in [('top',(14,10),(34,10),'corner-0','corner-1'),('bottom',(14,38),(34,38),'corner-2','corner-3'),('left',(10,14),(10,34),'corner-0','corner-2'),('right',(38,14),(38,34),'corner-1','corner-3')]:\n    self.add_line(name,a,b);self.join(name,c);self.join(name,d)\nself.path('heart',(24,30),[('L',(19,27)),('C',(17,23),(20,18),(24,22)),('C',(28,18),(31,23),(29,27)),('L',(24,30))],True)\n",
+  "note": "Four mirrored corner blocks connected by straight rails; drop narrow connector sleeves and medallion ring while retaining central heart. Raise tip to give bottom rail8-unit clearance. Rebalance paired lobes inward for rail clearance.",
+  "round": 3
+}

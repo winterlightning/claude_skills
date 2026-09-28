@@ -20,7 +20,8 @@ class BubblesVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'primitives-generate'
+    categories = ('primitives-generate', 'state')
     aliases = ()
     keywords = ('bubbles', 'large', 'circular', 'bubble', 'touches', 'smaller', 'circle', 'upper')
     keyshape = Keyshape.SQUARE

@@ -11,6 +11,7 @@ class HippoFace(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('hippo', 'hippopotamus', 'face', 'head', 'muzzle', 'ears', 'animal', 'cute')
 

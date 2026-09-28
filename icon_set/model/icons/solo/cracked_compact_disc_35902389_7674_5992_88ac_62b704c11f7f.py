@@ -10,7 +10,8 @@ class CrackedCompactDisc(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('cd', 'disc', 'broken', 'cracked', 'damaged', 'media', 'storage', 'error', 'disk')
 

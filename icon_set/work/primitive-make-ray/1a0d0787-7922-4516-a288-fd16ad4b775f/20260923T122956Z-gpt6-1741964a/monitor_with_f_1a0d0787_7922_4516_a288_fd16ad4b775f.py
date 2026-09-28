@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1a0d0787-7922-4516-a288-fd16ad4b775f'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor with F_1a0d0787-7922-4516-a288-fd16ad4b775f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor displaying the uppercase letter F.'
 CONSTRUCTION_PLAN = 'Shared monitor and a hand-authored F made from a split upright and two horizontal bars.'
 KEYSHAPE_CENTERLINE_BOUNDS = [8, 4, 40, 44]

@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class PaymentCardContainer(Container64):
     icon_id = 'payment-card-container'
+    category = 'business'
+    categories = ('business', 'other', 'primitives-generate')
     keyshape = Keyshape.HRECT_M
     aliases = ()
     keywords = ('payment', 'card', 'container')

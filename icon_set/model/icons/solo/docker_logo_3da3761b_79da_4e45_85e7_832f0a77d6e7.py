@@ -10,7 +10,8 @@ class DockerLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('docker', 'containers', 'whale', 'logo', 'brand', 'devops', 'developer')
 

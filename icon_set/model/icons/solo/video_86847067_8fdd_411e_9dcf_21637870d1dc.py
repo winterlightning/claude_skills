@@ -15,6 +15,7 @@ class Video86847067(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('video', 'symbol')
 

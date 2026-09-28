@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ['Visual Data Preparation']
     keywords = ['data', 'flow', 'shapes', 'arrows', 'conversion', 'circles', 'blocks']
     def build(self):

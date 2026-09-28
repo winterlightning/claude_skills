@@ -18,7 +18,8 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/award'
+    category = 'rewards'
+    categories = ('rewards', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

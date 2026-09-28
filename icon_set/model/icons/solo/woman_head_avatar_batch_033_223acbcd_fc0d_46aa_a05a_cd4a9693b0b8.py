@@ -1,45 +1,69 @@
-"""Woman Head Avatar — new batch-033 result."""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-SOURCE_ICON_ID = '223acbcd-fc0d-46aa-a05a-cd4a9693b0b8'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/women_223acbcd-fc0d-46aa-a05a-cd4a9693b0b8.svg'
-AUTHOR = 'gpt-6'
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='223acbcd-fc0d-46aa-a05a-cd4a9693b0b8'
+SOURCE_PATH='pictographic-primitives/other/women_223acbcd-fc0d-46aa-a05a-cd4a9693b0b8.svg'
+AUTHOR='gpt-6'
+PLAN = 'Centered round lower face inside long parted hair with gently flared tips and a curved lower edge, replacing the box-like hood.'
+CONSTRUCTION_REFERENCES='human_ref/user.svg: circular jaw vocabulary; Lucide circle-user-round: nested curved forms. Source is an isolated head, so no body is added.'
+OMISSIONS = []
+class Drawing(Solo48):
+    icon_id='woman-head-with-flared-hair'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases=()
+    keywords=('women',)
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
 
-class Batch033Icon(Solo48):
+    def avatar_body(self,top=32):
+        self.add_line('body-left-side',(8,44),(8,top+8))
+        self.add_arc('body-left-shoulder',(8,top+8),(16,top),radius_x=8)
+        self.add_line('body-top',(16,top),(24,top))
+        self.add_line('body-top-right',(24,top),(32,top))
+        self.add_arc('body-right-shoulder',(32,top),(40,top+8),radius_x=8)
+        self.add_line('body-right-side',(40,top+8),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','body-top','body-top-right','body-right-shoulder','body-right-side')
+    def portrait_head(self):
+        self.add_line('root-left',(14,18),(14,14))
+        self.add_arc('crown',(14,14),(34,14),radius_x=10)
+        self.add_line('root-right',(34,14),(34,18))
+        self.add_arc('jaw',(34,18),(14,18),radius_x=10)
+        self.add_contour('head','root-left','crown','root-right','jaw',closed=True)
+        self.add_bezier('fringe',(14,18),((20,18),(22,13),(24,13)),((26,13),(28,18),(34,18)))
+        self.relate('connect','head','fringe')
+    def build(self):
+
+        self.path('hair',(6,38),[('C',(7,23),(8,34),(7,31)),('A',(24,6),17,17,True),('A',(41,23),17,17,True),('C',(42,38),(41,31),(40,34)),('C',(24,42),(38,41),(30,42)),('C',(6,38),(18,42),(10,41))],True)
+        self.path('face',(16,21),[('C',(24,15),(20,21),(22,15)),('C',(32,21),(26,15),(28,21)),('L',(32,25)),('A',(24,33),8,8,True),('A',(16,25),8,8,True),('L',(16,21))],True)
+
     icon_id = 'woman-head-avatar-batch-033'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/other"
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ('woman-head-avatar',)
     keywords = ('batch-033',)
-
-    def build(self):
-        # Symbol plan: Blank circular-jaw face under center-parted long hair; shared axis24; extrema (8,4)-(40,44).
-
-        def circle(name,cx,cy,r):
-            self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-            self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-            self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-        def rect(name,x0,y0,x1,y1,r=4):
-            pts=[(x0+r,y0),(x1-r,y0),(x1,y0+r),(x1,y1-r),(x1-r,y1),(x0+r,y1),(x0,y1-r),(x0,y0+r)]
-            ids=[]
-            for i,p in enumerate(pts):
-                q=pts[(i+1)%8];eid=f'{name}-{i}';ids.append(eid)
-                if i%2:self.add_arc(eid,p,q,radius_x=r)
-                else:self.add_line(eid,p,q)
-            self.add_contour(name,*ids,closed=True)
-
-        self.add_arc('crown',(8,20),(40,20),radius_x=16)
-        self.add_line('outer-right',(40,20),(40,40))
-        self.add_arc('br',(40,40),(36,44),radius_x=4)
-        self.add_line('hair-base',(36,44),(12,44))
-        self.add_arc('bl',(12,44),(8,40),radius_x=4)
-        self.add_line('outer-left',(8,40),(8,20))
-        self.add_contour('hair','crown','outer-right','br','hair-base','bl','outer-left',closed=True)
-        self.add_bezier('part-left',(24,14),((23,17),(20,19),(17,19)))
-        self.add_line('face-left',(17,19),(17,26))
-        self.add_arc('jaw',(17,26),(31,26),radius_x=7,sweep=False)
-        self.add_line('face-right',(31,26),(31,19))
-        self.add_bezier('part-right',(31,19),((28,19),(25,17),(24,14)))
-        self.add_contour('face','part-left','face-left','jaw','face-right','part-right',closed=True)
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

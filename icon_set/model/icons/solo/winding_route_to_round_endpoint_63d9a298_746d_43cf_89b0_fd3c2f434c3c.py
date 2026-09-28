@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Curved Route to Destination']
     keywords = ['route', 'path', 'endpoint', 'journey', 'curve', 'navigation']
     def build(self):

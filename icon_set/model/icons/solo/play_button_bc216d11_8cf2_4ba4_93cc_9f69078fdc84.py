@@ -2,14 +2,14 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='bc216d11-8cf2-4ba4-93cc-9f69078fdc84'
 SOURCE_PATH='icon_set/work/todo-references/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Television play button: antenna pair, rectangular screen, two feet and central play triangle. Symmetry axis x=24.'
 CONSTRUCTION_REFERENCES='Lucide tv: paired antenna and screen; circle-play: simple triangular play glyph.'
 OMISSIONS='Rounded screen corners reduced to round stroke joins; triangle compressed vertically for the screen.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
-    icon_id='play-button'
+    icon_id = 'play-button'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

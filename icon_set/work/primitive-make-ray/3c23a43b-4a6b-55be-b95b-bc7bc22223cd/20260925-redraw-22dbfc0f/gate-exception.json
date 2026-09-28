@@ -1,0 +1,17 @@
+{
+  "source_uuid": "3c23a43b-4a6b-55be-b95b-bc7bc22223cd",
+  "icon_id": "eye-with-iris-and-pupil",
+  "approval_source": "user",
+  "user_instruction": "put exception on fail gate",
+  "scope": "All existing blocking validation findings for this exact standalone batch drawing, including review warnings.",
+  "svg_sha256": "b55f2fe5c537acf4a6cd55ff5330f18d6ecdf475ff9a101e472495ef1dc51853",
+  "automatic_status": "review",
+  "errors": [],
+  "warnings": [
+    "mic [eye]: eye and iris are 7.99994 apart on centerlines nearest (23.9679, 8.00013)<->(24, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [iris]: iris and pupil are 7.9994 apart on centerlines nearest (21.2129, 16.5019)<->(24, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "effective_status": "accepted-with-exception",
+  "invalidation": "Requires new review if the SVG hash changes.",
+  "application": "Standalone result acceptance only; no global validator changes or production publication."
+}

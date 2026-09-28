@@ -13,7 +13,8 @@ class PowerSymbol(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/symbols'
+    category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('power', 'on-off', 'shutdown', 'switch', 'button', 'standby', 'turn-off', 'energy')
 

@@ -15,7 +15,8 @@ class BonsaiInShallowPot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-02"
+    category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('bonsai', 'tree', 'pot', 'plant', 'miniature', 'japanese', 'garden', 'houseplant')
 

@@ -1,34 +1,47 @@
-"""Simple Bicycle. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
-Two equal wheels, shared frame junctions and opposing seat/handlebar ends.
+"""Fresh reference repair. Construction reference: Lucide bike (wheel construction only).
+Keyshape HRECT_L; source identity is preserved separately from its icon name.
 """
-from ...keyshapes import Keyshape
-from ._base import Solo48
-from ._payments_batch01 import circle, rounded_rect
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ba2c7c5d-7b19-4251-8651-f1619fdbdc5e'
 SOURCE_PATH = 'pictographic-primitives/other/bike_ba2c7c5d-7b19-4251-8651-f1619fdbdc5e.svg'
 AUTHOR = 'gpt-6'
-
 class Drawing(Solo48):
-    icon_id = 'bicycle-reference-25-solo'
-    keyshape = Keyshape.SQUARE
+    icon_id = 'simple-bicycle'
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface-essential'
-    tags = ('sub icon',)
-    keywords = ('sub icon', 'simple bicycle')
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
+    aliases = ()
+    keywords = ('bike',)
+
+    def path(self,n,start,*steps,closed=False):
+        here=start; ids=[]
+        for i,step in enumerate(steps):
+            kind,end,*v=step; name=f'{n}-{i}';ids.append(name)
+            if kind=='L':self.add_line(name,here,end)
+            elif kind=='A':self.add_arc(name,here,end,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif kind=='C':self.add_bezier(name,here,(v[0],v[1],end))
+            here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x,y-r),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),('A',(x,y-r),r,r,True),closed=True)
+
     def build(self):
-        # Compact equal wheels and elevated diamond frame; forks meet wheel tops.
-        circle(self,'rear-wheel',12,36,6)
-        circle(self,'front-wheel',36,36,6)
-        self.add_polyline('frame',(18,14),(30,14),(24,26),(18,14))
-        self.add_line('rear-fork',(18,14),(12,30))
-        self.add_line('front-fork',(30,14),(36,30))
-        self.add_line('seat-post',(18,6),(18,14))
-        self.add_line('seat',(14,6),(22,6))
-        self.add_polyline('handlebar',(30,14),(28,6),(36,6))
-        self.relate('connect','rear-wheel','rear-fork')
-        self.relate('connect','front-wheel','front-fork')
-        self.relate('connect','frame','rear-fork','front-fork','seat-post','handlebar')
-        self.relate('connect','seat-post','seat')
+
+        # The reference is an open simple frame, not a diamond: preserve the single sloping crossbar.
+        for n,x in [('rear',12),('front',36)]:self.circle(n,x,32,8)
+        self.add_polyline('rear-fork',(12,32),(12,24),(18,8))
+        self.add_polyline('seat',(10,8),(14,8),(18,8))
+        self.add_polyline('front-fork',(36,32),(36,24),(32,16),(30,8),(26,8))
+        self.add_line('crossbar',(12,24),(32,16))
+        for a,b in [('rear','rear-fork'),('front','front-fork'),('rear-fork','seat'),('rear-fork','crossbar'),('front-fork','crossbar')]:self.relate('connect',a,b)
+
+    icon_id = 'bicycle-reference-25-solo'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
+    aliases = ()
+    keywords = ('sub icon', 'simple bicycle')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

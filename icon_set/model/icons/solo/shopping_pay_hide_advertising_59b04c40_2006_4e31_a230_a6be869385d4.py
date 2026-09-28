@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '59b04c40-2006-4e31-a230-a6be869385d4'
 SOURCE_PATH = 'icon_set/work/todo-references/shopping pay hide advertising_59b04c40-2006-4e31-a230-a6be869385d4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Dollar coin crossed by a rising diagonal suppression slash.
 # Construction references: No exact local Lucide match; circular badge and handwritten dollar curves.
 # Reduction: No defining parts omitted.

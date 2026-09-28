@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7c784cb7-5aec-47a9-96ef-4c2afb98e94a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/do not throw trash toilet_7c784cb7-5aec-47a9-96ef-4c2afb98e94a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonDroppingTrashIntoToilet(Solo48):
     icon_id = 'person-dropping-trash-into-toilet'

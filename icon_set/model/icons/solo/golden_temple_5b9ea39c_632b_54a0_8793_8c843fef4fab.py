@@ -11,7 +11,8 @@ class GoldenTemple(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('golden temple', 'amritsar', 'india', 'sikh', 'gurdwara', 'dome', 'landmark', 'religion')
 

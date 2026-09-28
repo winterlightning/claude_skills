@@ -11,6 +11,7 @@ class LegalScale1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'primitives')
     aliases = ()
     keywords = ('legal', 'scale', 'office')
 

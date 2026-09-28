@@ -13,6 +13,7 @@ class SidebarDotsRight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'apps'
+    categories = ('apps', 'primitives')
     aliases = ()
     keywords = ('sidebar', 'dots', 'right', 'apps')
     keyshape = Keyshape.HRECT_L

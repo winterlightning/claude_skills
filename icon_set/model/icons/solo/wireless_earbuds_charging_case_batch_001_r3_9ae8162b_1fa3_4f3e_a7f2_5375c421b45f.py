@@ -29,6 +29,7 @@ class WirelessEarbudsChargingCaseBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "audio"
+    categories = ("audio", "primitives")
     aliases = ("earpods-charge", "earbuds-case")
     keywords = ("earbuds", "earpods", "wireless", "charging", "case", "audio", "headphones")
 

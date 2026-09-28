@@ -10,7 +10,8 @@ class ProwlingPuma(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('cougar', 'mountain-lion')
     keywords = ('puma', 'cougar', 'mountain lion', 'prowl', 'big cat', 'feline', 'stalk', 'wildlife')
 

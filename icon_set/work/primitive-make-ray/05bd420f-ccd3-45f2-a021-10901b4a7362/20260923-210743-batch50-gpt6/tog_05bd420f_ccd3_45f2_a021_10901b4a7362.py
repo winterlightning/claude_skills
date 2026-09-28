@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05bd420f-ccd3-45f2-a021-10901b4a7362'
 SOURCE_PATH = 'icon_set/work/todo-references/tog_05bd420f-ccd3-45f2-a021-10901b4a7362.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'tog'

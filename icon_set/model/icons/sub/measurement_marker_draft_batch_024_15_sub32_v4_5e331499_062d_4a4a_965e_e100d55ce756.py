@@ -14,12 +14,12 @@ REFERENCE_EXPORT_SHA256 = '87c7e406c9b43dd8ea797baabb748d1eb350ef001b0658e1a16b8
 
 class DrawingVariant4(Sub32):
     icon_id = 'measurement-marker-draft-batch-024-15-sub32-v4'
-    variant_of = 'measurement-marker-draft-batch-024-15-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="avatars"
+    category = "avatars"
+    categories = ("avatars", "primitive", "primitives")
     human_construction="bust"
     aliases=("Masked Thief Avatar",)
     keywords=("mask","thief","portrait","disguise")

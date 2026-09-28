@@ -1,13 +1,13 @@
-"""A crouching person shelters beneath a table with earthquake marks above.
-Construction reference: human_ref/full_body_ref.png: crouching pose and coherent limbs. No useful exact Lucide scene match.
-Reduction: The original continuous head-and-back silhouette is retained; no detached head is introduced. Small folds reduced.
-Keyshape: SQUARE; geometry authored directly on SOLO48.
+"""A crouching person shelters beneath a table with earthquake marks.
+Plan: SQUARE fits the shelter and person.
+Reduction: Table thickness and small limb folds omitted; outlined figure reinterpreted as a round-headed stick figure; each tremor simplified to two segments.
+Construction: human_ref/full_body_ref.png: round head, coherent bent limbs and minimal anatomy. Head center (17,29), radius 3; neck (28,29) lies on the horizontal upper-torso axis. Actual nearest centerline gap 11-3=8, ink gap 4. No useful exact Lucide scene match.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8d2595e2-135f-48bd-8886-08c5da475869'
-SOURCE_PATH = 'icon_set/work/todo-references/earthquake hiding proof table_8d2595e2-135f-48bd-8886-08c5da475869.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/earthquake hiding proof table_8d2595e2-135f-48bd-8886-08c5da475869.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -40,13 +40,15 @@ class Drawing(Solo48):
         self.path(name, (x+r,y), [(x+w-r,y),((x+w,y+r),r,r,True),(x+w,y+h-r),((x+w-r,y+h),r,r,True),(x+r,y+h),((x,y+h-r),r,r,True),(x,y+r),((x+r,y),r,r,True)], True)
 
     def build(self):
-        # Plan: tabletop and two legs shelter a continuous crouched silhouette.
-        # Human reference: icon_set/references/human_ref/full_body_ref.png.
-        # Supplied pose has no detached circular head; the upper outline includes head/back.
-        self.rect('tabletop',6,16,36,8,3)
-        for x in (8,40):
-            self.add_line(f'table-leg-{x}',(x,24),(x,42))
-            self.relate('connect',f'table-leg-{x}','tabletop')
+        # Human vocabulary: human_ref/full_body_ref.png, crouching round-headed figure.
+        # Head (17,29), r3; horizontal neck at (28,29): 11-3=8 centerline / 4 ink gap.
+        # Table's thin top and simplified limbs leave room for the complete shelter scene.
+        self.add_polyline('table',(6,42),(6,18),(42,18),(42,42))
         for side in (-1,1):
-            self.add_polyline(f'tremor-{side}',(24+side*18,10),(24+side*15,6),(24+side*11,10),(24+side*8,6))
-        self.path('crouched-body',(34,39),[((31,36),3,3,False),(31,31),((27,27),4,4,False),(17,27),((13,31),4,4,False),(18,38),(14,38),((14,42),2,2,False),(21,42),((24,38),4,4,False),(21,32),(27,32),(25,39),(28,42)])
+            self.add_polyline(f'tremor-{side}',(24+side*18,10),(24+side*12,6),(24+side*6,10))
+        self.circle('head',17,29,3)
+        self.add_line('torso',(28,29),(32,29))
+        self.add_line('back',(32,29),(32,34));self.relate('connect','torso','back')
+        self.add_polyline('bent-leg',(32,34),(24,42),(22,42));self.relate('connect','back','bent-leg')
+        self.add_line('right-leg',(32,34),(34,42));self.relate('connect','back','right-leg');self.relate('connect','bent-leg','right-leg')
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')

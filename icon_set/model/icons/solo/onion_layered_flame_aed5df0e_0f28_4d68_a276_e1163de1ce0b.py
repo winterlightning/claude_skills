@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/fire'
+    category = 'fire'
+    categories = ('fire', 'primitives')
     aliases = ()
     keywords = ('fire', 'flame', 'onion', 'layered', 'burning', 'heat', 'symbol')
 

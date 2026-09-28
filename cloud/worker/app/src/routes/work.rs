@@ -38,8 +38,16 @@ async fn release_expired(ctx: &Ctx, now: chrono::DateTime<chrono::Utc>) -> Resul
 /// GET /api/work, /api/work/queue, /disapproved, /review, /history, /result.
 pub async fn read(ctx: &Ctx) -> Result<Response> {
     let now = chrono::Utc::now();
-    let catalog = data::catalog(&ctx.db, true).await?;
     release_expired(ctx, now).await?;
+    if ctx.path == "/api/work/fixes" {
+        // Every uploaded after result; the gallery shows it while that revision is current. Needs no catalog.
+        #[derive(Deserialize, serde::Serialize)]
+        struct Fix { icon: String, svg_sha256: String, worker: Option<String>, saved_at: Option<String> }
+        let fixes: Vec<Fix> = db::all(&ctx.db, "SELECT icon, svg_sha256, worker, saved_at FROM work_results \
+            WHERE stage = 'after' ORDER BY icon, svg_sha256", vec![]).await?;
+        return http::json(200, &json!({"fixes": fixes}));
+    }
+    let catalog = data::catalog(&ctx.db, true).await?;
     let (rows, _, decisions) = data::decisions(&ctx.db, &catalog).await?;
     let path = ctx.path.as_str();
     let row_map = data::row_map(&rows);

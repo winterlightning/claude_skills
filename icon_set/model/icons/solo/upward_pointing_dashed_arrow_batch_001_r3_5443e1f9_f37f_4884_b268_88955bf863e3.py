@@ -25,6 +25,7 @@ class UpwardPointingDashedArrowBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "arrows"
+    categories = ("arrows", "primitives")
     aliases = ("dashed-upward-arrow", "arrow-dash-up")
     keywords = ("arrow", "up", "upward", "dashed", "direction", "navigation")
 

@@ -13,6 +13,7 @@ class ShieldStar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'state')
     aliases = ()
     keywords = ('shield', 'star', 'protection')
     keyshape = Keyshape.VRECT_L

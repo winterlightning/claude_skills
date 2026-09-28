@@ -13,6 +13,7 @@ class CellBorderFull(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('cell', 'border', 'full', 'interface-essential')
     keyshape = Keyshape.SQUARE

@@ -19,6 +19,7 @@ class JiraSoftwareLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('jira-software', 'jira', 'atlassian', 'diamond', 'logo', 'brand', 'agile')
 

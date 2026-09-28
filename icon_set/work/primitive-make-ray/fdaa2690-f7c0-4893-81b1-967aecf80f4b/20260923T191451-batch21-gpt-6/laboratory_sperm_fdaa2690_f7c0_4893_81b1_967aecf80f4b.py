@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fdaa2690-f7c0-4893-81b1-967aecf80f4b'
 SOURCE_PATH = 'icon_set/work/todo-references/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'laboratory-sperm'
     keyshape = Keyshape.CIRCLE

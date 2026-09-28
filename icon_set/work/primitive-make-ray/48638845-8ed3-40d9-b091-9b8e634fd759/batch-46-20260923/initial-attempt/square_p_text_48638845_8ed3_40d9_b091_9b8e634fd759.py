@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='48638845-8ed3-40d9-b091-9b8e634fd759'
 SOURCE_PATH='icon_set/work/todo-references/square p text_48638845-8ed3-40d9-b091-9b8e634fd759.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing a single-stroke uppercase P.'
 CONSTRUCTION_REFERENCES='Lucide square-parking: upright stem and rounded upper bowl.'
 OMISSIONS='None.'

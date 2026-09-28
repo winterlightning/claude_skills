@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="Uncategorized"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases=("Entrance Door with Doorknob",)
     keywords=("door","frame","entrance","knob","threshold","building","closed")
     def build(self):

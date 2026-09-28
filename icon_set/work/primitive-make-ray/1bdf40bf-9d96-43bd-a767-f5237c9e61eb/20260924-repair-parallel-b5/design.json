@@ -1,0 +1,6 @@
+{
+  "keyshape": "SQUARE",
+  "body": "\nself.add_polyline('house',(8,24),(8,16),(18,6),(28,16),(28,24))\nself.add_polyline('cargo',(6,24),(8,24),(28,24),(30,24),(30,36),(14,36),(6,36),(6,24))\nself.join('house','cargo')\nself.add_polyline('cab',(30,24),(36,24),(42,30),(42,36),(36,36))\nself.join('cargo','cab')\nfor name,x in [('left',14),('right',36)]:self.circle('wheel-'+name,x,39,3)\nself.join('cargo','wheel-left');self.join('cab','wheel-right')\n",
+  "note": "House on cargo truck; minimal roof/walls, no small door; matching wheels.",
+  "round": 2
+}

@@ -14,7 +14,8 @@ class HandsShapingPottery(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/hobbies"
+    category = "hobbies"
+    categories = ("primitives", "hobbies")
     aliases = ()
     keywords = ('hands', 'shaping', 'pottery')
 

@@ -1,40 +1,40 @@
+"""south west. Repair round 5: dial radius 10, enlarged text band; ticks removed, pointer reduced to directional stroke. Retain SW text despite fit constraints.
+Symbol plan: shared circle/rounded-frame parameters; meaningful joints reuse endpoints.
+Reference: supplied SVG; Lucide shopping-basket and square-user construction inspected.
+Human construction uses human_ref/user.svg where applicable.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '00066094-2048-4259-bd02-411ee5eca13f'
-SOURCE_PATH = 'icon_set/work/todo-references/south west_00066094-2048-4259-bd02-411ee5eca13f.svg'
-AUTHOR = 'gpt-6'
-# Plan: Compass dial with four ticks and a pointer above the label SW.
-# References: compass: circular dial and geometric pointer; letters authored as strokes.
-# Reduction: No parts omitted; pointer direction follows the supplied reference.
-
-class AuthoredIcon(Solo48):
+SOURCE_ICON_ID='00066094-2048-4259-bd02-411ee5eca13f'
+SOURCE_PATH='pictographic-primitives/_uncategorized_35/south west_00066094-2048-4259-bd02-411ee5eca13f.svg'
+AUTHOR="gpt-6"
+class Drawing(Solo48):
     icon_id = 'south-west'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
-    aliases = ()
-    keywords = ('south', 'west')
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('south west',)
     def build(self):
-        self.circle('dial',24,20,16)
-        for n,a,b in [('north',(24,4),(24,7)),('south',(24,33),(24,36)),('west',(8,20),(11,20)),('east',(37,20),(40,20))]:
-            self.add_line(n,a,b);self.relate('connect',n,'dial')
-        self.add_polyline('pointer',(19,20),(29,14),(25,26),(23,22),closed=True)
-        self.add_bezier('s',(20,39),((11,35),(11,42),(17,41)),((23,40),(22,46),(13,43)))
-        self.add_polyline("w",(25,38),(28,44),(32,38),(36,44),(39,38))
+        self.circle('dial',24,16,10)
+        self.add_line('pointer',(23,17),(25,15))
+        self.add_bezier('s',(17,34),((6,32),(6,39),(12,39)),((17,39),(17,42),(6,42)))
+        self.add_bezier('w',(26,34),((26,44),(34,44),(34,34)),((34,44),(42,44),(42,34)))
 
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def box(self,n,l,t,r,b,q=3):
+        pts=[(x-r,y),(x,y-r),(x+r,y),(x,y+r),(x-r,y)]
+        for i in range(4): self.add_arc(f'{n}-{i}',pts[i],pts[i+1],radius_x=r)
+        self.add_contour(n,*(f'{n}-{i}' for i in range(4)),closed=True)
+    def box(self,n,l,t,r,b,q=4):
         pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+        for i in range(8):
+            if i%2:self.add_arc(f'{n}-{i}',pts[i],pts[(i+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{i}',pts[i],pts[(i+1)%8])
+        self.add_contour(n,*(f'{n}-{i}' for i in range(8)),closed=True)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i):self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+
+# Contract keyshape visible bounds: (4, 4, 44, 44).

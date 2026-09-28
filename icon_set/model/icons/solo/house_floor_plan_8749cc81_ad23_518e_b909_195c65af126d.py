@@ -15,7 +15,8 @@ class HouseFloorPlan(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/real-estate"
+    category = "real-estate"
+    categories = ("real-estate", "primitives")
     aliases = ()
     keywords = ('house', 'floor', 'plan')
 

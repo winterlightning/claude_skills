@@ -11,7 +11,8 @@ class OpenUmbrellaWithScallopedCanopy(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
+    categories = ('accessories', 'state')
     aliases = ()
     keywords = ('open', 'umbrella', 'with', 'scalloped', 'canopy')
 

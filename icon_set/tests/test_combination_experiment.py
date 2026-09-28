@@ -1,4 +1,5 @@
 import json
+import math
 import unittest
 import xml.etree.ElementTree as ET
 from icon_set.scripts.refresh_combination_pairs import export_sub32
@@ -32,6 +33,13 @@ class CombinationExperimentTests(unittest.TestCase):
     def test_automatic_sub_bounds_fit_all_available_pairs(self):
         for row in json.loads(DATA.read_text())['rows']:
             for item in row['subs']:
+                if item.get('sizing_mode') in ('typeface-native','side-32x48','side-one-axis32','side-source-fit','container-content-resize'):
+                    canvas=max(64,math.ceil(max(item['canvas_width'],item['canvas_height'])+4-1e-8))
+                    result=placement(item,32,(1,1),(0,0),size_lock='auto',canvas=canvas)
+                    self.assertAlmostEqual(result['painted_box']['w'],item['bounds'][2]-item['bounds'][0]+4)
+                    self.assertAlmostEqual(result['painted_box']['h'],item['bounds'][3]-item['bounds'][1]+4)
+                    self.assertIsNone(result['locked_size'])
+                    continue
                 result=placement(item,32,(1,1),(0,0),size_lock='auto')
                 box=result['painted_box']
                 if item['family'] != 'sub':
@@ -52,9 +60,10 @@ class CombinationExperimentTests(unittest.TestCase):
             for ax,ay in POSITIONS.values():
                 for role,size,anchor in [('mains',48,(1-ax,1-ay)),('subs',32,(ax,ay))]:
                     for item in row[role]:
-                        box=placement(item,size,anchor,(0,0))['painted_box']
+                        canvas=max(64,math.ceil(max(item['canvas_width'],item['canvas_height'])+4-1e-8)) if item.get('sizing_mode') in ('typeface-native','side-32x48','side-one-axis32','side-source-fit','container-content-resize') else 64
+                        box=placement(item,size,anchor,(0,0),canvas=canvas)['painted_box']
                         for k,e,a in [('x','w',anchor[0]),('y','h',anchor[1])]:
-                            self.assertAlmostEqual(box[k]+box[e]*a,2+60*a)
+                            self.assertAlmostEqual(box[k]+box[e]*a,2+(canvas-4)*a)
 
     def test_keyshape_does_not_change_origin_or_scale(self):
         for w,h in [(36,36),(40,32),(32,40),(40,40)]:
@@ -82,5 +91,158 @@ class CombinationExperimentTests(unittest.TestCase):
         for v in ['invalid','NaN','Infinity',100]:
             with self.assertRaises(ValueError):number(v)
         with self.assertRaises(ValueError):render({'id':'not-a-pair'})
+
+MONITOR = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" '
+           'stroke-linecap="round" stroke-linejoin="round"><title>monitor-upload</title>'
+           '<path id="screen" d="M9 6L39 6A3 3 0 0 1 42 9L42 31A3 3 0 0 1 39 34L24 34L9 34A3 3 0 0 1 6 31L6 9A3 3 0 0 1 9 6Z"/>'
+           '<path id="stand" d="M24 34L24 42"/><path id="foot" d="M16 42L24 42L32 42"/>'
+           '<path id="arrowhead" d="M18 21L24 15L30 21"/><path id="shaft" d="M24 15L24 25"/></svg>')
+CLOUD = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="4" '
+         'stroke-linecap="round" stroke-linejoin="round"><path id="cloud" d="M8 14A8 8 0 0 1 24 14C28 14 30 16 30 20'
+         'C30 24 28 26 24 26L8 26C4 26 2 24 2 20C2 16 4 14 8 14Z"/></svg>')
+LAYOUT_ROW = {'id': 'layout-test', 'concept': 'monitor upload cloud', 'position': 'tr',
+              'mains': [{'icon': 'monitor-upload', 'document': MONITOR, 'bounds': [6, 6, 42, 42], 'canvas': 48, 'sha256': 'm1'}],
+              'subs': [{'icon': 'cloud', 'document': CLOUD, 'bounds': [2, 6, 30, 26], 'canvas': 32, 'sha256': 's1'}]}
+
+
+class CombinationLayoutTests(unittest.TestCase):
+    def default(self):
+        return render({'id': 'layout-test', 'elements': True}, row=LAYOUT_ROW)
+
+    @staticmethod
+    def snapped(result):
+        return {role: [{'paths': g['paths'], 'x': round(g['box'][0]), 'y': round(g['box'][1]),
+                        'w': round(g['box'][2]-g['box'][0]), 'h': round(g['box'][3]-g['box'][1])} for g in c['groups']]
+                for role, c in result['elements'].items()}
+
+    def test_connected_elements(self):
+        elements = self.default()['elements']
+        self.assertEqual([g['paths'] for g in elements['main']['groups']], [[0, 1, 2], [3, 4]])
+        self.assertEqual([g['paths'] for g in elements['sub']['groups']], [[0]])
+        self.assertEqual(len(elements['main']['markup']), 5)
+
+    def test_editor_gets_keyshapes_for_both_roles(self):
+        # Size presets grow the main's SOLO48 / the sub's SUB32 keyshape; the monitor sits on SQUARE.
+        keyshapes = self.default()['keyshapes']
+        self.assertEqual(keyshapes['main']['SQUARE'], [6, 6, 42, 42])
+        self.assertEqual(keyshapes['main']['CIRCLE'], [4, 4, 44, 44])
+        self.assertEqual(keyshapes['sub']['HRECT_L'], [2, 6, 30, 26])      # the cloud's own keyshape
+
+    def test_identity_layout_keeps_the_combination(self):
+        import re
+        base = self.default()
+        adjusted = render({'id': 'layout-test', 'layout': self.snapped(base)}, row=LAYOUT_ROW)
+        self.assertEqual([p['painted_box'] for p in base['placements']], [p['painted_box'] for p in adjusted['placements']])
+        main = lambda svg: set(re.findall(r'M[\d.,]+L[\d.,]+', svg.split('id="state-icon"')[0]))
+        self.assertEqual(main(base['svg']), main(adjusted['svg']))
+        self.assertNotIn('elements', adjusted)
+
+    def test_resized_element_snaps_and_keeps_stroke(self):
+        layout = self.snapped(self.default())
+        # Width and height are independent: the arrow is squashed to 8×5.
+        layout['main'][1] = {'paths': [3, 4], 'x': 14, 'y': 29, 'w': 8, 'h': 5}
+        layout['sub'][0]['x'] += 2
+        result = render({'id': 'layout-test', 'layout': layout, 'elements': True}, row=LAYOUT_ROW)
+        self.assertEqual(result['elements']['main']['names'], ['screen', 'stand', 'foot', 'arrowhead', 'shaft'])
+        arrow = result['elements']['main']['groups'][1]['box']
+        for actual, expected in zip(arrow, (14, 29, 22, 34)):
+            self.assertAlmostEqual(actual, expected)
+        sub = result['placements'][1]['painted_box']
+        self.assertEqual((sub['x'], sub['w']), (32, 32))
+        root = ET.fromstring(result['svg'])
+        for group in root:
+            if group.get('stroke-width'):
+                self.assertAlmostEqual(float(group.get('stroke-width')), 4)
+
+    def test_rejects_invalid_layouts(self):
+        good = self.snapped(self.default())
+        cases = [{'main': [dict(good['main'][0], x=2.5), good['main'][1]]},
+                 {'main': [good['main'][0]]},
+                 {'main': [good['main'][0], good['main'][0]]},
+                 {'main': [{'paths': [0, 1, 2, 3, 4], 'x': 40, 'y': 22, 'w': 36, 'h': 36}]},
+                 {'main': [dict(good['main'][0], w=0), good['main'][1]]},
+                 {'other': []}]
+        for layout in cases:
+            with self.subTest(layout=layout), self.assertRaises(ValueError):
+                render({'id': 'layout-test', 'layout': layout}, row=LAYOUT_ROW)
+
+    def test_stale_layout_is_ignored(self):
+        from icon_set.scripts.combination_layouts import active
+        entry = {'main': {'icon': 'monitor-upload', 'sha256': 'm1'}, 'sub': {'icon': 'cloud', 'sha256': 's1'}, 'layout': {'sub': []}}
+        self.assertEqual(active(LAYOUT_ROW, entry)['sub'], 'cloud')
+        self.assertIsNone(active(LAYOUT_ROW, {**entry, 'sub': {'icon': 'cloud', 'sha256': 'changed'}}))
+        self.assertIsNone(active(LAYOUT_ROW, None))
+
+
+class LayoutTransferTests(unittest.TestCase):
+    """Applying one pair's layout to another pair that uses the same main."""
+    LAYOUT = {'main': [{'paths': [0, 1, 2], 'x': 4, 'y': 20, 'w': 40, 'h': 40}, {'paths': [3, 4], 'x': 16, 'y': 30, 'w': 16, 'h': 14}],
+              'sub': [{'paths': [0], 'x': 32, 'y': 4, 'w': 28, 'h': 20}]}
+
+    def transfer(self, *args, **kwargs):
+        from icon_set.scripts.combination_layouts import transfer
+        return transfer(self.LAYOUT, 'tr', 'cloud', *args, **kwargs)
+
+    def test_same_side_same_sub_copies_exactly(self):
+        self.assertEqual(self.transfer('tr', 'cloud', 64), self.LAYOUT)
+
+    def test_other_side_reanchors_keeping_sizes(self):
+        moved = self.transfer('br', 'cloud', 64)
+        main, sub = moved['main'], moved['sub']
+        # Sub pushed bottom-right (painted edge at 62), main top-left (painted edge at 2).
+        self.assertEqual((sub[0]['x'] + sub[0]['w'] + 2, sub[0]['y'] + sub[0]['h'] + 2), (62, 62))
+        self.assertEqual((main[0]['x'] - 2, main[0]['y'] - 2), (2, 2))
+        self.assertEqual([(g['w'], g['h']) for g in main], [(40, 40), (16, 14)])
+        # Internal edits move with the main: the arrow keeps its offset inside the screen.
+        self.assertEqual((main[1]['x'] - main[0]['x'], main[1]['y'] - main[0]['y']), (12, 10))
+
+    def test_different_sub_fits_the_edited_box_with_its_own_proportions(self):
+        groups = [{'paths': [0, 1], 'box': [40, 40, 56, 60]}, {'paths': [2], 'box': [56, 44, 60, 56]}]   # 20×20 own sub
+        sub = self.transfer('tr', 'arrow', 64, groups)['sub']
+        x0, y0 = min(g['x'] for g in sub), min(g['y'] for g in sub)
+        x1, y1 = max(g['x'] + g['w'] for g in sub), max(g['y'] + g['h'] for g in sub)
+        self.assertEqual((x1 - x0, y1 - y0), (20, 20))          # square keeps square: min(28/20, 20/20)
+        self.assertEqual((x1, y0), (60, 4))                       # pushed into the top-right corner of the edited box
+        self.assertTrue(all(isinstance(g[k], int) for g in sub for k in 'xywh'))
+
+
+class OneCombinedIconTests(unittest.TestCase):
+    """A saved layout is the pair's one combined icon: every served copy and list follows it."""
+    def setUp(self):
+        import os, tempfile
+        from pathlib import Path
+        self.dir = Path(tempfile.mkdtemp())
+        self.gallery = self.dir / 'gallery'
+        (self.gallery / 'combination-previews').mkdir(parents=True)
+        row = dict(LAYOUT_ROW, position='tr')
+        (self.gallery / 'experiment-combination.json').write_text(json.dumps({'rows': [row]}))
+        (self.gallery / 'experiment-combination-results.json').write_text(json.dumps({'results': {row['id']: {'url': 'combination-previews/layout-test.svg', 'result': {'svg': '<svg>auto</svg>'}}}}))
+        (self.gallery / 'preview-combination-icons.json').write_text(json.dumps({'icons': [{'icon_id': row['id'], 'preview_url': 'combination-previews/layout-test.svg'}]}))
+        self.env = os.environ.get('PICTOGRAPHIC_COMBINATION_LAYOUTS')
+        os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = str(self.dir / 'layouts.json')
+        self.row = row
+
+    def tearDown(self):
+        import os, shutil
+        if self.env is None:
+            os.environ.pop('PICTOGRAPHIC_COMBINATION_LAYOUTS', None)
+        else:
+            os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = self.env
+        shutil.rmtree(self.dir)
+
+    def test_every_copy_serves_the_saved_icon(self):
+        from icon_set.scripts import combination_layouts as layouts
+        self.assertIsNone(layouts.served(self.gallery, '/gallery/combination-previews/layout-test.svg'))
+        layouts.save(self.row, 'monitor-upload', 'cloud', {'sub': []}, {'svg': '<svg>saved</svg>', 'layout': {'sub': []}})
+        for path in ('/gallery/combination-previews/layout-test.svg', '/compositions/side-text-v2-layout-test.svg'):
+            self.assertEqual(layouts.served(self.gallery, path), (b'<svg>saved</svg>', 'image/svg+xml'))
+        results = json.loads(layouts.served(self.gallery, '/gallery/experiment-combination-results.json')[0])['results']['layout-test']
+        self.assertEqual(results['result']['svg'], '<svg>saved</svg>')
+        self.assertIn('?v=', results['url'])
+        icons = json.loads(layouts.served(self.gallery, '/gallery/preview-combination-icons.json')[0])['icons']
+        self.assertEqual(icons[0]['preview_url'], results['url'])
+        # A changed drawing makes the saved layout stale: the released icon is served again.
+        layouts.save(dict(self.row, subs=[dict(self.row['subs'][0], sha256='changed')]), 'monitor-upload', 'cloud', {'sub': []}, {'svg': '<svg>x</svg>'})
+        self.assertIsNone(layouts.served(self.gallery, '/gallery/combination-previews/layout-test.svg'))
 
 if __name__=='__main__':unittest.main()

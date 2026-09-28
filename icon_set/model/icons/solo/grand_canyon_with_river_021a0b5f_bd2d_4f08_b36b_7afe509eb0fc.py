@@ -10,7 +10,8 @@ class GrandCanyonWithRiver(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('grand canyon', 'canyon', 'usa', 'arizona', 'river', 'cliff', 'landscape', 'nature', 'landmark')
 

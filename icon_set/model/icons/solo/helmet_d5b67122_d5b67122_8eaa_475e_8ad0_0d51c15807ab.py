@@ -11,6 +11,7 @@ class HelmetD5b67122(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('helmet', 'protection')
 

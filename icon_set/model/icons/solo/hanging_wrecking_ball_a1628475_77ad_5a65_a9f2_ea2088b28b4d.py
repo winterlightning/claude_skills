@@ -69,6 +69,7 @@ class HangingWreckingBall(Solo48):
     icon_id = 'hanging-wrecking-ball'
     keyshape = Keyshape.VRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

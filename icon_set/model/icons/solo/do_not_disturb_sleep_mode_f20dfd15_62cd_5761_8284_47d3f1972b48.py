@@ -11,6 +11,7 @@ class DoNotDisturbSleepMode(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'do-not-disturb-sleep-mode')
 

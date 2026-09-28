@@ -11,6 +11,7 @@ class GhostScare(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'smileys'
+    categories = ('smileys', 'primitives')
     aliases = ()
     keywords = ('ghost', 'scare', 'smileys')
 

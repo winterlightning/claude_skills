@@ -12,7 +12,8 @@ class PersonTargetHead(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('target', 'person', 'tracking', 'face-detection', 'focus', 'user', 'aim', 'surveillance')
 

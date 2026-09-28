@@ -16,7 +16,8 @@ class AirportSignalAntenna(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airport', 'antenna', 'signal', 'radar', 'radio', 'waves', 'tower', 'communication')
 

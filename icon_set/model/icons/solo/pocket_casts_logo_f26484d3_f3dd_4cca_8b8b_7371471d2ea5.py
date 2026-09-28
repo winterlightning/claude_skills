@@ -11,7 +11,8 @@ class PocketCastsLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('pocket-casts', 'podcast', 'spiral', 'logo', 'brand', 'audio', 'player')
 

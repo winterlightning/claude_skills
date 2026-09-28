@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '98f6fd32-ffa9-4713-85d4-721b3399c95c'
 SOURCE_PATH = 'icon_set/work/todo-references/sign language thank you_98f6fd32-ffa9-4713-85d4-721b3399c95c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Open hand with four upright fingers, left thumb and downward motion arrow by the palm.
 # Construction references: hand: rounded fingertips and coherent palm; human_ref/user.svg and full_body_ref.png inspected for shared human vocabulary, no detached head in this subject.
 # Reduction: Omitted minor palm crease; retained four fingers, thumb and motion arrow.

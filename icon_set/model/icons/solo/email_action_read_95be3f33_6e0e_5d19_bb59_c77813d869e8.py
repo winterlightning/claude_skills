@@ -16,6 +16,7 @@ class EmailActionRead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'primitives')
     aliases = ()
     keywords = ('email', 'action', 'read', 'emails')
     keyshape = Keyshape.HRECT_L

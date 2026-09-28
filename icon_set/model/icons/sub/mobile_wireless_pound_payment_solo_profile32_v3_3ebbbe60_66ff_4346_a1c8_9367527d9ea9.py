@@ -14,12 +14,12 @@ REFERENCE_EXPORT_SHA256 = '29749699c767f28e1029d9ab391a263486c9f4c9a99ec4b626782
 
 class DrawingVariant3(TallSideSub32):
     icon_id = 'mobile-wireless-pound-payment-solo-profile32-v3'
-    variant_of = 'mobile-wireless-pound-payment-solo-profile32'
     variant_label = 'User review correction; preserve earlier variants'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/finance'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

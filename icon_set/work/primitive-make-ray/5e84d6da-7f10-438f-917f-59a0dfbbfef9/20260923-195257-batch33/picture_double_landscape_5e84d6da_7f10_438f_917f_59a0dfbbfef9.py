@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='5e84d6da-7f10-438f-917f-59a0dfbbfef9'
 SOURCE_PATH='icon_set/work/todo-references/picture double landscape_5e84d6da-7f10-438f-917f-59a0dfbbfef9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two overlapping landscape cards with mountains in the foreground.'
 OMISSIONS='Rear card content is hidden; mountain baseline omitted and slopes extended to the frame edges to enlarge both peaks.'
 LUCIDE_REFERENCE='gallery-vertical-end'

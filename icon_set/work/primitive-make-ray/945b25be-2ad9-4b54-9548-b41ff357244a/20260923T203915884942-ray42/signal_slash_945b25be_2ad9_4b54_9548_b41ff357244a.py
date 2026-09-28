@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '945b25be-2ad9-4b54-9548-b41ff357244a'
 SOURCE_PATH = 'icon_set/work/todo-references/signal slash_945b25be-2ad9-4b54-9548-b41ff357244a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Circular wireless signal crossed by a diagonal slash, with broadcast arcs and a dot.
 # Construction references: signal plus concentric wireless arc principles; source is wireless, not bar signal.
 # Reduction: Reduced outer ring to two arcs around slash clearance; two wireless arcs and dot retained.

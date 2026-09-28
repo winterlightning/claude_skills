@@ -21,7 +21,8 @@ class GeneratedIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     keywords = ('double', 'upward', 'chevron')
 
     def build(self):

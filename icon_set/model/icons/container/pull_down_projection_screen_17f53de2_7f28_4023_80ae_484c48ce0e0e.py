@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class PullDownProjectionScreen(Container64):
     icon_id = 'pull-down-projection-screen'
+    category = 'office'
+    categories = ('office', 'other', 'primitives-generate')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('pull', 'down', 'projection', 'screen')

@@ -14,7 +14,8 @@ class AnglesRight(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_03'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('angles', 'right', '_uncategorized_03')
 

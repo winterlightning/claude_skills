@@ -11,6 +11,8 @@ AUTHOR = 'gpt-6'
 
 class ClosedPadlockContainer(Container64):
     icon_id = 'closed-padlock-container'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ()

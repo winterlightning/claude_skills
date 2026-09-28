@@ -17,7 +17,8 @@ class TraditionalJapaneseMochi(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "food/desserts"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("mochi", "rounded rice cake")
     keywords = ("rice", "cake", "filling", "japanese")
 

@@ -55,6 +55,7 @@ class FittedWrapFrontVest(Solo48):
     icon_id = 'fitted-wrap-front-vest'
     keyshape = Keyshape.VRECT_L
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -10,7 +10,8 @@ class ConeAndSphere(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('shapes', 'cone', 'sphere', '3d', 'geometry', 'reality', 'objects')
 

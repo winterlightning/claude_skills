@@ -69,6 +69,7 @@ class GanttChartWithProgressDividers(Solo48):
     icon_id = 'gantt-chart-with-progress-dividers'
     keyshape = Keyshape.VRECT_L
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

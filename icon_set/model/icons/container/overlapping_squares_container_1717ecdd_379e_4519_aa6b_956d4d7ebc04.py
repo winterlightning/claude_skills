@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class OverlappingSquaresContainer(Container64):
     icon_id = 'overlapping-squares-container'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('overlapping', 'squares', 'container')

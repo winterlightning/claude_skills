@@ -11,7 +11,8 @@ class HorizontalTelephoneReceiver(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'phones'
+    categories = ('phones', 'state')
     aliases = ()
     keywords = ('telephone', 'receiver', 'handset', 'horizontal', 'call', 'communication')
 

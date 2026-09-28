@@ -19,6 +19,7 @@ class IndiegogoLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('indiegogo', 'crowdfunding', 'go', 'wordmark', 'logo', 'brand', 'campaign')
 

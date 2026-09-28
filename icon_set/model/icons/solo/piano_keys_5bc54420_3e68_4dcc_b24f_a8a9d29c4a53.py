@@ -10,7 +10,8 @@ class PianoKeys(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('piano', 'keys', 'keyboard', 'instrument', 'music', 'octave', 'play')
 

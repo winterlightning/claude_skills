@@ -20,6 +20,7 @@ class TrackedBulldozerFacingLeft(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('tracked', 'bulldozer', 'facing', 'left')
 

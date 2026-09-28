@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a69a3b57-2f22-4637-ba14-3f4947054026'
 SOURCE_PATH='icon_set/work/todo-references/square down left_a69a3b57-2f22-4637-ba14-3f4947054026.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square containing the downward arrow actually shown in the source.'
 CONSTRUCTION_REFERENCES='Lucide arrow-down: shaft and symmetric chevron.'
 OMISSIONS='Filename direction differs from the picture; preserve the picture.'

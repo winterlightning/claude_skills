@@ -44,6 +44,7 @@ class TractorWithRearWheelHub(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('tractor', 'with', 'rear', 'wheel', 'hub')
 

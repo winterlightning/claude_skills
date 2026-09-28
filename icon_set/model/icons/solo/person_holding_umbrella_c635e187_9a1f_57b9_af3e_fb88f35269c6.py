@@ -13,6 +13,7 @@ class PersonHoldingUmbrella(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('umbrella', 'person', 'rain', 'weather', 'holding', 'shelter', 'protection', 'outdoors-batch-02')
 

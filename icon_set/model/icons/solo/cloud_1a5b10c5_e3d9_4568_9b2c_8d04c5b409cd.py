@@ -11,6 +11,7 @@ class Cloud(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'internet'
+    categories = ('internet', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cloud', 'internet', 'solo-ai-next100')
 

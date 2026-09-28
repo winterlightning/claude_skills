@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6a0ef6b0-613d-4883-ad08-e75fd510a4f6'
 SOURCE_PATH = 'icon_set/work/todo-references/circle colon_6a0ef6b0-613d-4883-ad08-e75fd510a4f6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circle-colon'

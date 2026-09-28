@@ -8,9 +8,9 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='b05e7a98-e0c7-5855-a771-4dc4b12ff639'
 SOURCE_PATH='icon_set/work/todo-references/crop rotate_b05e7a98-e0c7-5855-a771-4dc4b12ff639.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='crop-rotate'
+    icon_id = 'crop-rotate'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

@@ -11,7 +11,8 @@ class MountainBike(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'state')
     aliases = ()
     keywords = ('mountain bike', 'mtb', 'bicycle', 'cycling', 'off-road')
 

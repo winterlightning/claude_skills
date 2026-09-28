@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c0e31e5f-9872-4414-9334-38d9e1e42539'
 SOURCE_PATH = 'icon_set/work/todo-references/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'romance-pride-gay-lgbt-heart'

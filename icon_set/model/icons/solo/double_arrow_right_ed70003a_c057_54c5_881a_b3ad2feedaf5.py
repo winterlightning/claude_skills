@@ -11,6 +11,7 @@ class DoubleArrowRight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('double', 'arrow', 'right', 'arrows')
 

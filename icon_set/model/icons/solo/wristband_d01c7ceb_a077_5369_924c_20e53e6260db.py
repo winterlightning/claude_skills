@@ -13,6 +13,7 @@ class Wristband(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'events'
+    categories = ('primitives', 'events')
     aliases = ()
     keywords = ('wristband', 'events')
     keyshape = Keyshape.HRECT_L

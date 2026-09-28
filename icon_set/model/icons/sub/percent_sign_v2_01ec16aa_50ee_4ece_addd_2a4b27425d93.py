@@ -10,12 +10,12 @@ SOURCE_PATH = 'pictographic-primitives/state/percent symbol circle_01ec16aa-50ee
 AUTHOR = 'gpt-6'
 class CompleteReferenceRedraw(Sub32):
     icon_id = 'percent-sign-v2'
-    variant_of = 'percent-sign'
     variant_label = 'Complete reference redraw'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'state'
+    categories = ('state',)
     def build(self):
         self.add_arc('frame-0-0', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=True, sweep=True)
         self.add_arc('frame-0-1', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=True, sweep=True)

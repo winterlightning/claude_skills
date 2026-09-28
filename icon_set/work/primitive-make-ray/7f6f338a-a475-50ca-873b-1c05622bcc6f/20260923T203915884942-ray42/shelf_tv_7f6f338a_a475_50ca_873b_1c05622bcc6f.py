@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7f6f338a-a475-50ca-873b-1c05622bcc6f'
 SOURCE_PATH = 'icon_set/work/todo-references/shelf tv_7f6f338a-a475-50ca-873b-1c05622bcc6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Television on a trapezoidal stand above a low shelf with two short legs.
 # Construction references: tv: rounded screen with clean straight sides; paired stand and shelf legs share x-axis symmetry.
 # Reduction: No defining parts omitted.

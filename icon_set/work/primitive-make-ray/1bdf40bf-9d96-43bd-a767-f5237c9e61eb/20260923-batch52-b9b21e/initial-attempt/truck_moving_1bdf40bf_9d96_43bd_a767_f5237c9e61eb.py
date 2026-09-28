@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='1bdf40bf-9d96-43bd-a767-f5237c9e61eb'
 SOURCE_PATH='icon_set/work/todo-references/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Moving truck carrying a house above its cargo box.'
 CONSTRUCTION_REFERENCE='truck and house: wheel pair, peaked roof and doorway'
 

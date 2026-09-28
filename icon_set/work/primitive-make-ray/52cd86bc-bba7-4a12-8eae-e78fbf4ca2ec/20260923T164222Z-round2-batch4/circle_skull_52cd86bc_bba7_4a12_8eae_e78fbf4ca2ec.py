@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec'
 SOURCE_PATH='icon_set/work/todo-references/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='circle-skull'
     keyshape=Keyshape.CIRCLE

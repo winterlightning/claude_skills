@@ -15,6 +15,7 @@ class KeyboardAsterisk955c228f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('keyboard', 'asterisk', 'interface-essential')
 

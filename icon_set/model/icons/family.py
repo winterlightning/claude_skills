@@ -43,6 +43,7 @@ class FamilyIcon(Icon):
     semantic_role: str = "MAIN"
     semantic_kind: str = "noun"
     category: str = ""
+    categories: tuple[str, ...] = ()
     aliases: tuple[str, ...] = ()
     keywords: tuple[str, ...] = ()
 

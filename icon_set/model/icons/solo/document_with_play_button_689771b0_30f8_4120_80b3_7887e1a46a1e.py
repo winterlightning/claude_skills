@@ -12,7 +12,8 @@ class DocumentWithPlayButton(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("video file", "play document")
     keywords = ("video", "file", "media", "play")
 

@@ -1,51 +1,49 @@
-"""Fill adjustment layer (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
-SOURCE_ICON_ID = '3bfeb607-fee8-43a8-8a4a-88f605a7b761'
-SOURCE_PATH = 'pictographic-primitives/design/fill adjustment layer_3bfeb607-fee8-43a8-8a4a-88f605a7b761.svg'
-AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
-
-class FillAdjustmentLayer(Solo48):
-    icon_id = 'fill-adjustment-layer'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='3bfeb607-fee8-43a8-8a4a-88f605a7b761'
+SOURCE_PATH='pictographic-primitives/design/fill adjustment layer_3bfeb607-fee8-43a8-8a4a-88f605a7b761.svg'
+AUTHOR='gpt-6'
+PLAN = 'Two diamond layers with broader tangent-continuous corner curves, mirrored around the center axis.'
+CONSTRUCTION_REFERENCES='Lucide layers: repeated rhombus proportions and open lower layer.'
+OMISSIONS = []
+class Drawing(Solo48):
+    icon_id='two-stacked-design-layers'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
     category = 'design'
+    categories = ('design', 'primitives')
+    aliases=()
+    keywords=('fill', 'adjustment', 'layer')
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def build(self):
+        self.path('top-layer',(24,6),[
+            ('C',(30,8),(26,6),(27,6)),('L',(39,14)),
+            ('C',(42,18),(42,16),(42,16)),('C',(39,22),(42,20),(42,20)),
+            ('L',(36,24)),('L',(30,28)),('C',(24,30),(27,30),(26,30)),
+            ('C',(18,28),(22,30),(21,30)),('L',(12,24)),('L',(9,22)),
+            ('C',(6,18),(6,20),(6,20)),('C',(9,14),(6,16),(6,16)),
+            ('L',(18,8)),('C',(24,6),(21,6),(22,6))],True)
+        self.path('lower-layer',(12,24),[
+            ('L',(9,26)),('C',(6,30),(6,28),(6,28)),
+            ('C',(9,34),(6,32),(6,32)),('L',(18,40)),
+            ('C',(24,42),(21,42),(22,42)),('C',(30,40),(26,42),(27,42)),
+            ('L',(39,34)),('C',(42,30),(42,32),(42,32)),
+            ('C',(39,26),(42,28),(42,28)),('L',(36,24))])
+        self.relate('connect','top-layer','lower-layer')
+
+    icon_id = 'fill-adjustment-layer'
+    category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('fill', 'adjustment', 'layer', 'design')
-
-    def build(self):
-        self.add_line('e0', (13, 24), (7, 28))
-        self.add_line('e1', (7, 31), (22, 42))
-        self.add_line('e2', (24, 42), (41, 31))
-        self.add_line('e3', (41, 28), (35, 24))
-        self.add_line('e4', (13, 24), (22, 31))
-        self.add_line('e5', (25, 31), (35, 24))
-        self.add_line('e6', (13, 24), (7, 20))
-        self.add_line('e7', (7, 17), (23, 6))
-        self.add_line('e8', (25, 6), (41, 17))
-        self.add_line('e9', (41, 20), (35, 24))
-        self.add_line('e10-1', (7, 28), (6, 29))
-        self.add_line('e10-2', (6, 29), (7, 31))
-        self.add_line('e11', (22, 42), (24, 42))
-        self.add_line('e12-1', (41, 31), (42, 29))
-        self.add_line('e12-2', (42, 29), (41, 28))
-        self.add_arc('e13', (22, 31), (25, 31), radius_x=3, sweep=False)
-        self.add_line('e14-1', (7, 20), (6, 19))
-        self.add_line('e14-2', (6, 19), (7, 17))
-        self.add_line('e15', (23, 6), (25, 6))
-        self.add_line('e16-1', (41, 17), (42, 19))
-        self.add_line('e16-2', (42, 19), (41, 20))
-        self.add_contour('c0', 'e0', 'e10-1', 'e10-2', 'e1', 'e11', 'e2', 'e12-1', 'e12-2', 'e3')
-        self.add_contour('c1', 'e4', 'e13', 'e5')
-        self.add_contour('c2', 'e6', 'e14-1', 'e14-2', 'e7', 'e15', 'e8', 'e16-1', 'e16-2', 'e9')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

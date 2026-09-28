@@ -10,7 +10,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/maps"
+    category = "maps"
+    categories = ("maps", "primitives")
     aliases = ()
     keywords = ('pins', 'locations', 'multiple', 'trip', 'map', 'places', 'markers', 'route')
 

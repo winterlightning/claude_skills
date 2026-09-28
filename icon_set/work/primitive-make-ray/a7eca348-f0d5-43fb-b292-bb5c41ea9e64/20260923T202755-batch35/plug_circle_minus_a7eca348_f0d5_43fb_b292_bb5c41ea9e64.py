@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a7eca348-f0d5-43fb-b292-bb5c41ea9e64'
 SOURCE_PATH = 'icon_set/work/todo-references/plug circle minus_a7eca348-f0d5-43fb-b292-bb5c41ea9e64.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'plug-circle-minus'

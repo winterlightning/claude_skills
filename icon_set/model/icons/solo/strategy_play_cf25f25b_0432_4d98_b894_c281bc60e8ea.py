@@ -14,7 +14,8 @@ class StrategyPlay(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases=()
     keywords=('strategy', 'plan', 'tactics', 'route', 'game-plan', 'path', 'goal', 'sports')
 

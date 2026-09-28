@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b14caff0-05ed-47b9-bade-e59579619967'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/browser page layout_b14caff0-05ed-47b9-bade-e59579619967.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'horizontal-page-layout'

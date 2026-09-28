@@ -11,7 +11,8 @@ class DogFaceTallEars(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/mammals'
+    category = 'animals'
+    categories = ('animals',)
     aliases = ('dog face', 'upright-ear dog')
     keywords = ('dog', 'canine', 'pet', 'face', 'tall ears', 'lucide')
 

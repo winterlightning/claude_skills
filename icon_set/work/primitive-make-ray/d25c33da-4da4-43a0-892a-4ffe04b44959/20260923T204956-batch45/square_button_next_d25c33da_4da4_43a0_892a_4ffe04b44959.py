@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd25c33da-4da4-43a0-892a-4ffe04b44959'
 SOURCE_PATH = 'icon_set/work/todo-references/square button next_d25c33da-4da4-43a0-892a-4ffe04b44959.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-button-next'

@@ -11,7 +11,8 @@ class TaxiFront(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('taxi', 'cab', 'car', 'front', 'roof sign', 'vehicle', 'ride', 'transport')
 

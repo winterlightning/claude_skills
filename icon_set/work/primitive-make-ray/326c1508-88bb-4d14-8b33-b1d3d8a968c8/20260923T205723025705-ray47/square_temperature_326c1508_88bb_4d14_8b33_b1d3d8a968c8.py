@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '326c1508-88bb-4d14-8b33-b1d3d8a968c8'
 SOURCE_PATH = 'icon_set/work/todo-references/square temperature_326c1508-88bb-4d14-8b33-b1d3d8a968c8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square enclosing a degree mark and the letter C.
 # References: No exact local Lucide typography match; circular C arc and degree dot.
 # Reduction: Reconstructed the tiny source degree mark as a degree dot.

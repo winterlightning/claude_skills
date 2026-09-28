@@ -16,6 +16,7 @@ class VideoE80765f4(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('video', 'symbol')
     keyshape = Keyshape.HRECT_L

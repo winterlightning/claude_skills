@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2d678d4e-3c28-4171-9206-0e44c564a983'
 SOURCE_PATH = 'icon_set/work/todo-references/card game heart_2d678d4e-3c28-4171-9206-0e44c564a983.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Three hearts on an upright playing card; reduce the central suit while preserving both opposing corner marks.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/2d678d4e-3c28-4171-9206-0e44c564a983/20260922T222359-37f3f9/result.json'

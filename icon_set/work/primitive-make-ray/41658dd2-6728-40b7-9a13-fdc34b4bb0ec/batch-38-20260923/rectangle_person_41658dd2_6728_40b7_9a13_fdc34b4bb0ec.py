@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='41658dd2-6728-40b7-9a13-fdc34b4bb0ec'
 SOURCE_PATH='icon_set/work/todo-references/rectangle person_41658dd2-6728-40b7-9a13-fdc34b4bb0ec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Framed person with circular detached head and a smooth broad shoulder arch. Subject and frame share x=24.'
 CONSTRUCTION_REFERENCES='Shared human-reference.md and human_ref/user.svg own proportions and detached gap; Lucide rectangle-ellipsis supplies the frame.'
 OMISSIONS='Frame made taller to provide head/shoulder clearance.'

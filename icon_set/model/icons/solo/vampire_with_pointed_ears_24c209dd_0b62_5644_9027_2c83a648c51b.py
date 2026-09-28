@@ -18,6 +18,7 @@ class IconVampireWithPointedEars(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ()
     keywords = ('vampire', 'with', 'pointed', 'ears')
     human_construction = "bust"

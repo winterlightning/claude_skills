@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/fire'
+    category = 'fire'
+    categories = ('fire', 'primitives')
     aliases = ()
     keywords = ('candle', 'pair', 'table', 'flame', 'light', 'fire', 'room')
 

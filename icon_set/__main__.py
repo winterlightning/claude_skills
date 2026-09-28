@@ -15,6 +15,7 @@ def main(argv=None):
         'production': 'deploy',
         'doctor': 'workspace_doctor',
         'typeface-sizes': 'typeface_sizes',
+        'side-text': 'side_text',
         'combinations': 'combination_library',
     }
     parser = argparse.ArgumentParser(description=__doc__)

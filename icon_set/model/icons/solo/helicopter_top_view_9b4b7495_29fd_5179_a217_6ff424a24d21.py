@@ -10,7 +10,8 @@ class HelicopterTopView(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('helicopter', 'top view', 'aerial', 'rotor', 'aircraft', 'chopper', 'aviation', 'overhead')
 

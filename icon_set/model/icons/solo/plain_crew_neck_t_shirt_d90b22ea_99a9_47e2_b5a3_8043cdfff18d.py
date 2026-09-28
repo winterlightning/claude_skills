@@ -54,6 +54,7 @@ class PlainCrewNeckTShirt(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     aliases = ()
     keywords = ('plain', 'crew-neck', 't-shirt')
 

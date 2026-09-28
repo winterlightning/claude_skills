@@ -12,7 +12,8 @@ class HowlingWolfWithSound(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/animals"
+    category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('wolf', 'howl', 'sound', 'arcs', 'head', 'noise', 'canine', 'night')
 

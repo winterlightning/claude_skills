@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-007"
+    category = "drinks"
+    categories = ("drinks", "primitives")
     aliases = ()
     keywords = ('coconut', 'drink', 'with', 'straw')
 

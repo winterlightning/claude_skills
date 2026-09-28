@@ -14,7 +14,8 @@ class AmazonWebServiceAppMesh(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_02'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('amazon', 'web', 'service', 'app', 'mesh', '_uncategorized_02')
 

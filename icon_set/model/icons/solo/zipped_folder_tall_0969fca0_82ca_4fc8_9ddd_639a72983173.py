@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/files'
+    category = 'folders'
+    categories = ('folders', 'state')
     aliases = ()
     keywords = ('folder', 'zip', 'zipper', 'archive', 'file', 'storage', 'document')
 

@@ -16,7 +16,8 @@ class Batch03Icon0(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/cloche"
+    category = "container"
+    categories = ("container",)
     aliases = ('food-cloche',)
     keywords = ('food', 'cloche')
 

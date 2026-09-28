@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='223c2cf3-707e-5588-bcee-3eb48df2972c'
 SOURCE_PATH='icon_set/work/todo-references/lgbt love_223c2cf3-707e-5588-bcee-3eb48df2972c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='lgbt-love'
     keyshape=Keyshape.SQUARE

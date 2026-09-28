@@ -15,7 +15,8 @@ class MiniaturePinscherFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'miniature-pinscher', 'pinscher', 'face', 'breed', 'ears', 'pet')
 

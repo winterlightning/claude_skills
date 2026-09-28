@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('monitor letters',)
 
@@ -71,3 +72,6 @@ class Drawing(Solo48):
         self.relate('connect','b-middle','b-lower')
         self.relate('connect','b-lower','b-bottom')
         self.add_arc('c',(38,16),(38,24),radius_x=5,large_arc=True,sweep=False)
+
+# Explicit user approval for this exact SVG; changes invalidate the exception.
+Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': '2c55477d4e41e019450e252a792f39d4e0fbf856be289b18806fe3b67fd4e5a6', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': 'dd80ecbb-13f8-47dc-9883-44bd19aa7cc6'}

@@ -10,7 +10,8 @@ class PresentationBoard(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'container'
+    categories = ('container',)
     aliases = ('classroom-presentation-board',)
     keywords = ('presentation', 'board')
 

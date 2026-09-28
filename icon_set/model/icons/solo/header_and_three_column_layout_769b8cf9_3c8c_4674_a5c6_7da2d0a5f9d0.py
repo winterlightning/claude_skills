@@ -17,7 +17,8 @@ class HeaderAndThreeColumnLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/layout"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("three column page", "header grid")
     keywords = ("layout", "header", "columns", "grid", "page")
 

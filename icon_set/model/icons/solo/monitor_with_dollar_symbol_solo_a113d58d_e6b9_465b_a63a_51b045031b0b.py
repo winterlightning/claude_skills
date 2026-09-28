@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/finance' 
+    category = 'symbol'
+    categories = ('symbol', 'state')
     tags=('sub icon',)
     keywords=('sub icon', 'monitor with dollar symbol')
     def build(self):

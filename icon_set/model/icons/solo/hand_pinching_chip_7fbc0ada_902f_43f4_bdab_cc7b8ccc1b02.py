@@ -13,7 +13,8 @@ class HandPinchingChip(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/programming"
+    category = "programing"
+    categories = ("programing", "primitives")
     aliases = ()
     keywords = ('hand', 'chip', 'microchip', 'hardware', 'holding', 'technology', 'processor', 'electronics')
 

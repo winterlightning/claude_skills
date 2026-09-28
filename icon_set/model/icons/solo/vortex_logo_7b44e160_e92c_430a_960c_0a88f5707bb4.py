@@ -11,7 +11,8 @@ class VortexLogo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('vortex', 'letter-v', 'logo', 'brand', 'v', 'mod-manager', 'gaming')
 

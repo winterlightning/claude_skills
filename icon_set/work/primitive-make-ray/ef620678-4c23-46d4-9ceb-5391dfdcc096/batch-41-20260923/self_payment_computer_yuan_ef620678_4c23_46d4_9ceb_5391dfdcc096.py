@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ef620678-4c23-46d4-9ceb-5391dfdcc096'
 SOURCE_PATH='icon_set/work/todo-references/self payment computer yuan_ef620678-4c23-46d4-9ceb-5391dfdcc096.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Payment terminal with yuan Y and one crossbar, plus two rules and stand.'
 CONSTRUCTION_REFERENCES='Lucide monitor and japanese-yen: branching Y construction. Source has one currency bar.'
 OMISSIONS='No components omitted; source single crossbar preserved.'

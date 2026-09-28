@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b569bafc-f80a-44b7-a43f-233891818936'
 SOURCE_PATH = 'icon_set/work/todo-references/passport hand_b569bafc-f80a-44b7-a43f-233891818936.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Passport cover with an exposed binding above and a centered globe. The source has no visible hand.'
 CONSTRUCTION_REFERENCES = 'globe: equal hemispheres and central meridian; monitor: rounded enclosure.'
 OMISSIONS = 'Latitude pair reduced to a central equator; one meridian retained. Source has no visible hand.'

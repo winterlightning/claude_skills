@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.HRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='food'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases=('watermelon slice',)
     keywords=('watermelon','fruit','slice','rind','seeds','food')
     def build(self):

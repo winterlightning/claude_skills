@@ -11,6 +11,7 @@ class PineF98a2e8b(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'pine-f98a2e8b')
 

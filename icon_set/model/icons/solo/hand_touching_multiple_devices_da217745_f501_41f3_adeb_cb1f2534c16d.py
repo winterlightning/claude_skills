@@ -10,7 +10,8 @@ class HandTouchingMultipleDevices(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('responsive', 'devices', 'hand', 'touch', 'phone', 'browser', 'screen')
 

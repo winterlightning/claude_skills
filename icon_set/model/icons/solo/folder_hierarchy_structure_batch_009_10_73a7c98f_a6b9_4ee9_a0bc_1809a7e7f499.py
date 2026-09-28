@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-009"
+    category = "folders"
+    categories = ("folders", "primitives")
     aliases = ()
     keywords = ('folder', 'hierarchy', 'structure')
 

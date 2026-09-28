@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='17a80e1d-0c3e-4bda-810b-9bcc8c3fc841'
 SOURCE_PATH='icon_set/work/todo-references/serif text character_17a80e1d-0c3e-4bda-810b-9bcc8c3fc841.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Uppercase serif M with upright outer stems, deep diagonal center and four horizontal serifs.'
 CONSTRUCTION_REFERENCES='Lucide type: explicit serif terminals; M construction follows supplied character.'
 OMISSIONS='Double hairline outlines reduced to single coherent strokes while retaining the M and all serifs.'

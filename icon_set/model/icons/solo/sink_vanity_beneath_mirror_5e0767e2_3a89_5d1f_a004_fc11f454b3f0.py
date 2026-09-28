@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/hotels'
+    category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('sink', 'vanity', 'beneath', 'mirror')
     def build(self):

@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'arrows'
+    categories = ('arrows', 'primitive', 'primitives')
     aliases = ['Curved Right Turn Arrow']
     keywords = ['arrow', 'turning', 'right']
     def build(self):

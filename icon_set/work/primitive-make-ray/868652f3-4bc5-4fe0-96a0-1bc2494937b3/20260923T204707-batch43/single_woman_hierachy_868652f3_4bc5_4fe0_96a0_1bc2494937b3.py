@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='868652f3-4bc5-4fe0-96a0-1bc2494937b3'
 SOURCE_PATH='icon_set/work/todo-references/single woman hierachy_868652f3-4bc5-4fe0-96a0-1bc2494937b3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='single-woman-hierachy'

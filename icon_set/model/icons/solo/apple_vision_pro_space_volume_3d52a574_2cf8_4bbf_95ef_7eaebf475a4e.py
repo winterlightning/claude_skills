@@ -12,7 +12,8 @@ class AppleVisionProSpaceVolume(Solo48):
     icon_id = 'apple-vision-pro-space-volume'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_03'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('apple', 'vision', 'pro', 'space', 'volume', '_uncategorized_03')
     keyshape = Keyshape.HRECT_L

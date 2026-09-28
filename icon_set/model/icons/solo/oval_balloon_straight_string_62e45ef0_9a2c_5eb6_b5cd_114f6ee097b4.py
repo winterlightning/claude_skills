@@ -16,7 +16,8 @@ class Batch26Icon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/celebrations"
+    category = "events"
+    categories = ("primitives", "events")
     aliases = ()
     keywords = ('oval', 'party', 'celebration', 'balloon')
 

@@ -11,7 +11,8 @@ class RLanguageLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('r', 'r-language', 'statistics', 'programming', 'logo', 'brand', 'data')
 

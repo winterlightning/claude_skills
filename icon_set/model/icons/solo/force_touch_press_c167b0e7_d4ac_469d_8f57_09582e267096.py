@@ -9,9 +9,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='c167b0e7-d4ac-469d-8f57-09582e267096'
 SOURCE_PATH='icon_set/work/todo-references/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='force-touch-press'
+    icon_id = 'force-touch-press'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

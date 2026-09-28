@@ -26,6 +26,7 @@ class Icon(Container64):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'files'
+    categories = ('files', 'primitives')
     aliases = ('Document Size Measurement',)
     keywords = ('document', 'size', 'measurement')
     def build(self):

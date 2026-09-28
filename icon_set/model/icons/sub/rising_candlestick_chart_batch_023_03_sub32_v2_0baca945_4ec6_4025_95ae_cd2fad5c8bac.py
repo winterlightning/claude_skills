@@ -18,7 +18,8 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('other', 'state', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

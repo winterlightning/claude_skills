@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 
 SOURCE_ICON_ID = 'eda76035-f908-4c33-b07e-3ebf83672f88'
 SOURCE_PATH = 'icon_set/work/todo-references/comment box 1_eda76035-f908-4c33-b07e-3ebf83672f88.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'comment-box-1'

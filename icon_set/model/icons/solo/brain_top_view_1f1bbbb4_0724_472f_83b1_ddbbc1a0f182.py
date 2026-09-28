@@ -10,7 +10,8 @@ class BrainTopView(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('brain', 'study', 'mind', 'hemispheres', 'thinking', 'learning', 'intelligence')
 

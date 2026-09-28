@@ -11,7 +11,8 @@ class ArchedHandleFlapHandbag(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shopping"
+    category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('handbag', 'purse', 'bag', 'handle', 'clasp', 'fashion', 'accessory')
 

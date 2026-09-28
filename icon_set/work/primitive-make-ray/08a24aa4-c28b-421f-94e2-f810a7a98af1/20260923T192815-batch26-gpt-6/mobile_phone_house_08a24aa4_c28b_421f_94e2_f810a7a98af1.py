@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '08a24aa4-c28b-421f-94e2-f810a7a98af1'
 SOURCE_PATH = 'icon_set/work/todo-references/mobile phone house_08a24aa4-c28b-421f-94e2-f810a7a98af1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-house'
     keyshape = Keyshape.VRECT_L

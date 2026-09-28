@@ -27,6 +27,7 @@ class LeftSidebarNavigationLayoutBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("sidebar-line-left", "navigation-sidebar")
     keywords = ("sidebar", "navigation", "menu", "left", "layout", "panel", "interface")
 

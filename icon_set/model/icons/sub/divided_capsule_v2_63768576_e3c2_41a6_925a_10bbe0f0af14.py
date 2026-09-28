@@ -20,7 +20,8 @@ class DividedCapsuleVariant2(SourceFaithfulSideSub):
     variant_label = 'Complete original restored on a proportionate canvas'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives/shape'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('divided', 'capsule', 'upright', 'rounded', 'equal', 'upper', 'lower', 'halves')
     keyshape = Keyshape.SQUARE

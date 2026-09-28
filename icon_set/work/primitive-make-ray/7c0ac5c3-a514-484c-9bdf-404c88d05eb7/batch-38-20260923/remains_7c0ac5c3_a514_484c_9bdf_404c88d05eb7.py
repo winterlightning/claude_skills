@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7c0ac5c3-a514-484c-9bdf-404c88d05eb7'
 SOURCE_PATH='icon_set/work/todo-references/remains_7c0ac5c3-a514-484c-9bdf-404c88d05eb7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Diagonal bone beside a pointed leaf with a vein continuing into a stem. Preserve the organic asymmetry.'
 CONSTRUCTION_REFERENCES='Lucide bone: paired rounded lobes and narrow shaft; leaf: curved pointed outline with stem.'
 OMISSIONS='None.'

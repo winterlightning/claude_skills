@@ -11,7 +11,8 @@ class WomanLongHairTakingPhoto(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('woman', 'photographer', 'camera', 'taking pictures', 'photo', 'person', 'shooting', 'capture')
 

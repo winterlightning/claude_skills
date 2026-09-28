@@ -1,0 +1,42 @@
+"""Fresh reference repair. Construction reference: human_ref/user.svg and Lucide user.
+Keyshape VRECT_L; source identity is preserved separately from its icon name.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'ff4a6b33-a236-5f2d-89ee-7f8719bc7553'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman_ff4a6b33-a236-5f2d-89ee-7f8719bc7553.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'woman-with-parted-hair'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'avatars'
+    aliases = ()
+    keywords = ('woman',)
+
+    def path(self,n,start,*steps,closed=False):
+        here=start; ids=[]
+        for i,step in enumerate(steps):
+            kind,end,*v=step; name=f'{n}-{i}';ids.append(name)
+            if kind=='L':self.add_line(name,here,end)
+            elif kind=='A':self.add_arc(name,here,end,radius_x=v[0],radius_y=v[1],sweep=v[2])
+            elif kind=='C':self.add_bezier(name,here,(v[0],v[1],end))
+            here=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x,y-r),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),('A',(x,y-r),r,r,True),closed=True)
+
+    def build(self):
+
+        # Circular radius-10 jaw meets the shoulders at zero visible ink gap; broad parted hair.
+        self.path('hair',(12,18),('C',(24,4),(12,10),(16,4)),('C',(36,18),(32,4),(36,10)))
+        self.path('fringe',(12,18),('C',(24,12),(17,18),(22,15)),('C',(36,18),(26,15),(31,18)))
+        self.path('jaw',(14,18),('L',(14,22)),('A',(24,32),10,10,False),('A',(34,22),10,10,False),('L',(34,18)))
+        self.path('body',(8,44),('A',(16,36),8,8,True),('L',(24,36)),('L',(32,36)),('A',(40,44),8,8,True))
+        self.relate('connect','jaw','body')
+        self.relate('connect','hair','fringe')
+        self.path('left-ear',(12,18),('C',(14,26),(6,18),(8,26)))
+        self.path('right-ear',(34,26),('C',(36,18),(40,26),(42,18)))
+        self.relate('connect','left-ear','hair');self.relate('connect','left-ear','fringe');self.relate('connect','left-ear','jaw')
+        self.relate('connect','right-ear','hair');self.relate('connect','right-ear','fringe');self.relate('connect','right-ear','jaw')

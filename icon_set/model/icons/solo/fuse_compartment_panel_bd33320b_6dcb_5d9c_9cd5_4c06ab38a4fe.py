@@ -10,7 +10,8 @@ class FuseCompartmentPanel(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('fuse box', 'fuse', 'compartment', 'electrical', 'car', 'panel', 'circuit', 'maintenance')
 

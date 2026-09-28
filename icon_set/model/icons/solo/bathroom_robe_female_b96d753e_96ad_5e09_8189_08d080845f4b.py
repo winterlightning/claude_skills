@@ -12,6 +12,7 @@ class BathroomRobeFemale(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'spas'
+    categories = ('primitives', 'spas')
     aliases = ()
     keywords = ('bathroom', 'robe', 'female', 'spas')
 

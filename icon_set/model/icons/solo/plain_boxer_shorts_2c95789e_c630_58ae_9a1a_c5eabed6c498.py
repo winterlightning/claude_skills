@@ -55,6 +55,7 @@ class PlainBoxerShorts(Solo48):
     icon_id = 'plain-boxer-shorts'
     keyshape = Keyshape.HRECT_L
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

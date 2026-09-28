@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '94c872cf-8c68-4f83-8b74-b91b3ce122c3'
 SOURCE_PATH = 'icon_set/work/todo-references/decrease decimal_94c872cf-8c68-4f83-8b74-b91b3ce122c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'decrease-decimal'

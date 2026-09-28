@@ -17,7 +17,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'fragile-upright-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('fragile and this side up',)
     def build(self):

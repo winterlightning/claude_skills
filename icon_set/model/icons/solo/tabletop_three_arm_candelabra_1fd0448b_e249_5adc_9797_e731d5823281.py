@@ -12,7 +12,8 @@ class TabletopThreeArmCandelabra(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('candelabra', 'candles', 'flames', 'table', 'holder', 'decor', 'lighting')
 

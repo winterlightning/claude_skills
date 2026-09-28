@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 
 SOURCE_ICON_ID = 'db0cac9f-1efd-4347-be80-52b232e59a07'
 SOURCE_PATH = 'icon_set/work/todo-references/computer shield_db0cac9f-1efd-4347-be80-52b232e59a07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'computer-shield'

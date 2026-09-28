@@ -1,0 +1,38 @@
+"""Counterclockwise circular arrow surrounding a pivot. Circle sweep centered 26,24 radius16; arrow points down at left endpoint. Centerline bounds 4,8 to 44,40.
+Construction reference: Lucide rotate-ccw: circular shaft and tangent arrowhead.
+Omissions: None.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '7cf64b00-9120-590b-8cbb-dece46c03d25'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rotation-arrow-around-central-circle-batch-013/20260924T092136Z-thuan-mac/reference/synchronize arrow 2_7cf64b00-9120-590b-8cbb-dece46c03d25.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'rotation-arrow-around-central-circle-batch-013'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/other'
+    aliases = ()
+    keywords = ('synchronize', 'arrow', '2')
+    def build(self):
+        self.path('sweep',(26,40),[('A',(42,24),16,16,False),('A',(26,8),16,16,False),('A',(10,24),16,16,False)])
+        self.add_polyline('arrow',(4,18),(10,24),(17,17))
+        self.relate('connect','arrow','sweep')
+        self.circle('pivot',27,24,5)
+
+    def path(self, name, start, commands, closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            ident=f'{name}-{i}'
+            if c[0]=='L': end=c[1];self.add_line(ident,start,end)
+            elif c[0]=='A':
+                _,end,rx,ry,sweep=c
+                self.add_arc(ident,start,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            elif c[0]=='C':
+                _,end,c1,c2=c
+                self.add_bezier(ident,start,(c1,c2,end))
+            members.append(ident);start=end
+        self.add_contour(name,*members,closed=closed)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)

@@ -1,73 +1,43 @@
+"""Parking P centered inside a rounded square. Shared bowl attachment heights15 and27.
+Symbol plan: shared contour owners and attachment nodes; repeated marks share a spacing parameter.
+Omissions: Double outline on the letter replaced with a single stroke to preserve the counter.
+Construction: Lucide square-parking: continuous P stem and rounded bowl within a square.
+"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='7ad3706e-c1c2-4821-ba45-49920032c75f'
-SOURCE_PATH='icon_set/work/todo-references/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
-AUTHOR='gpt-6'
-PLAN='Square containing an outlined uppercase parking P.'
-CONSTRUCTION_REFERENCES='Lucide square-parking: P structure; outlined form hand-authored from source.'
-OMISSIONS='None.'
-KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
-
+SOURCE_PATH='pictographic-primitives/_uncategorized_35/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='square-parking'
+    icon_id = 'square-parking'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
     aliases=()
     keywords=('square', 'parking')
-
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
-
-    def box(self,name,x,y,w,h,r=3):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,a in enumerate(pts):
-            b=pts[(i+1)%8];part=f'{name}-{i}';members.append(part)
-            if i%2:self.add_arc(part,a,b,radius_x=r)
-            else:self.add_line(part,a,b)
-        self.add_contour(name,*members,closed=True)
-
-    def magnifier(self):
-        # The handle node (30,33) is exactly radius 15 from (21,21).
-        pts=[(6,21),(21,6),(36,21),(30,33),(6,21)]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):self.add_arc(f'lens-{i}',a,b,radius_x=15)
-        self.add_contour('lens',*(f'lens-{i}' for i in range(4)),closed=True)
-        self.add_line('handle',(30,33),(42,42));self.relate('connect','lens','handle')
-
-    def score(self,y):
-        self.add_arc('two-top',(12,y+4),(20,y+4),radius_x=4)
-        self.add_polyline('two-bottom',(20,y+4),(12,y+12),(20,y+12));self.relate('connect','two-top','two-bottom')
-        for i,cy in enumerate((y+3,y+11)):self.add_dot(f'colon-{i}',(25,cy))
-        self.box('zero',31,y,8,12,4)
-
-    def terminal(self):
-        self.box('screen',6,6,36,28,3)
-        self.add_line('stand',(24,34),(24,42));self.relate('connect','screen','stand')
-        self.add_polyline('foot',(16,42),(24,42),(32,42));self.relate('connect','stand','foot')
-        for i,y in enumerate((18,26)):self.add_line(f'equals-{i}',(31,y),(35,y))
-
-    def send(self,direction):
-        self.box('panel',6,6,36,36,4)
-        if direction=='left':
-            self.add_polyline('head',(23,17),(16,24),(23,31));self.add_line('shaft',(16,24),(33,24))
-        else:
-            self.add_polyline('head',(25,17),(32,24),(25,31));self.add_line('shaft',(32,24),(15,24))
-        self.relate('connect','head','shaft')
-
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.box('frame',6,6,36,36,4)
-        self.add_polyline('p-left',(16,34),(16,14),(24,14))
-        self.add_arc('p-bowl',(24,14),(24,28),radius_x=7)
-        self.add_polyline('p-foot',(24,28),(21,28),(21,34),(16,34))
-        self.relate('connect','p-left','p-bowl');self.relate('connect','p-bowl','p-foot');self.relate('connect','p-foot','p-left')
-        self.add_polyline('counter-left',(21,19),(24,19))
-        self.add_arc('counter-round',(24,19),(24,23),radius_x=2)
-        self.add_polyline('counter-bottom',(24,23),(21,23),(21,19))
-        self.relate('connect','counter-left','counter-round');self.relate('connect','counter-round','counter-bottom');self.relate('connect','counter-bottom','counter-left')
+        self.box('frame',6,6,42,42,5)
+        self.add_polyline('p-stem',(16,33),(16,27),(16,15))
+        self.path('p-bowl',(16,15),[('L',(26,15)),('A',(26,27),6,6,True),('L',(16,27))])
+        self.relate('connect','p-stem','p-bowl')
 
-KEYSHAPE_REASON='The complete composition uses centerline extremes (6,6)–(42,42).'
-FINAL_REDUCTIONS='None.'
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def path(self,n,start,ops,closed=False):
+        p=start;members=[]
+        for i,op in enumerate(ops):
+            name=f'{n}-{i}';end=op[1]
+            if op[0]=='L':self.add_line(name,p,end)
+            elif op[0]=='A':self.add_arc(name,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            elif op[0]=='B':self.add_bezier(name,p,(op[2],op[3],end))
+            members.append(name);p=end
+        if closed and p!=start:
+            self.add_line(n+'-close',p,start);members.append(n+'-close')
+        self.add_contour(n,*members,closed=closed)

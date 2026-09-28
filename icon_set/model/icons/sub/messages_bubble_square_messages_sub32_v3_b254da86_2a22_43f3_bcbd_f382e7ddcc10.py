@@ -21,6 +21,7 @@ class DrawingVariant3(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'messages'
+    categories = ('messages', 'state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

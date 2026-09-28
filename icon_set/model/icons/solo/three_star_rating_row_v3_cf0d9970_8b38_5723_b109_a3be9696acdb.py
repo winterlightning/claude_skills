@@ -14,7 +14,8 @@ class IndependentSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'symbols/ratings'
+    category = 'rating'
+    categories = ('rating', 'primitives')
     aliases = ()
     keywords = ('three', 'star', 'rating', 'row')
 

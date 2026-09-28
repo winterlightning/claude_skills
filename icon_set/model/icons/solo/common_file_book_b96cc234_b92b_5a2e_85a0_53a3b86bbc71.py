@@ -13,6 +13,7 @@ class CommonFileBook(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'primitives')
     aliases = ()
     keywords = ('common', 'file', 'book', 'office')
     keyshape = Keyshape.HRECT_L

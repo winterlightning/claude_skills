@@ -11,7 +11,8 @@ class FilmStripFrame(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('film', 'film strip', 'frame', 'movie', 'photography', 'negative', 'cinema', 'reel')
 

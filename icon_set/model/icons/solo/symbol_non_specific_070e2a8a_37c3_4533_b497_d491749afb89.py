@@ -16,6 +16,7 @@ class SymbolNonSpecific(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'protection'
+    categories = ('protection', 'primitives')
     aliases = ()
     keywords = ('symbol', 'non', 'specific', 'protection')
     keyshape = Keyshape.HRECT_L

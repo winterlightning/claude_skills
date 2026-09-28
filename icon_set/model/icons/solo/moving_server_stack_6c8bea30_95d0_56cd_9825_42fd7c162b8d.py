@@ -11,7 +11,8 @@ class MovingServerStack(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('server', 'stack', 'migration', 'motion', 'hardware', 'data', 'hosting')
 

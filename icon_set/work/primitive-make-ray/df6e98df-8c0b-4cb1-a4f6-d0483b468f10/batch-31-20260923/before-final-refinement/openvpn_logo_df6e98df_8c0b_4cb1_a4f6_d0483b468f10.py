@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'df6e98df-8c0b-4cb1-a4f6-d0483b468f10'
 SOURCE_PATH = 'icon_set/work/todo-references/openvpn logo_df6e98df-8c0b-4cb1-a4f6-d0483b468f10.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'OpenVPN emblem: open circular outer arch surrounding a keyhole. Shared axis x=24.'
 CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; circle and coherent keyhole contours are authored directly.'
 OMISSIONS = 'No semantic elements omitted.'

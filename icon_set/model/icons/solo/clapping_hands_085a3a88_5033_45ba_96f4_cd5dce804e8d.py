@@ -12,7 +12,8 @@ class ClappingHands(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/social"
+    category = "social"
+    categories = ("social", "primitives")
     aliases = ()
     keywords = ('hand', 'clapping', 'applause', 'palm', 'gesture', 'celebration')
 

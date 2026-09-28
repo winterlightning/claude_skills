@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/compose.py", line 181, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/compose.py", line 168, in main
+    record["svg_path"] = str(target.relative_to(PACKAGE_ROOT))
+                             ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/pathlib/_local.py", line 385, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'icon_set/work/side-subs-20260924/fix-25/compositions/distance-two-meters-uppercase-sub32-clean/container-circle-distance-two-meters-uppercase-sub32-clean.svg' is not in the subpath of '/Applications/Workspaces/pictographic/claude_skills/icon_set'

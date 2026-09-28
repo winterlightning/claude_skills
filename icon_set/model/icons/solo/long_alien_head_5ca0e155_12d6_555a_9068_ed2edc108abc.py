@@ -14,7 +14,8 @@ class LongAlienHead(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('alien', 'head', 'oval', 'extraterrestrial', 'eyes', 'face')
 

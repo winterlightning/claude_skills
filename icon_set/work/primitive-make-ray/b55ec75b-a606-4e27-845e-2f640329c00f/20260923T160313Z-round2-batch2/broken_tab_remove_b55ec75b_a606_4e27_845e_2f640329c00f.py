@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='b55ec75b-a606-4e27-845e-2f640329c00f'
 SOURCE_PATH='icon_set/work/todo-references/broken tab remove_b55ec75b-a606-4e27-845e-2f640329c00f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='broken-tab-remove'
     keyshape=Keyshape.HRECT_M

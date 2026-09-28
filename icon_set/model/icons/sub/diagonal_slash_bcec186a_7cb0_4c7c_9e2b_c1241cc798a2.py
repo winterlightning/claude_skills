@@ -16,7 +16,8 @@ class DiagonalSlash(Sub32):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('diagonal', 'slash', 'long', 'rising', 'stroke', 'extends', 'lower', 'left')
 

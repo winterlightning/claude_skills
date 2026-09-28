@@ -14,7 +14,8 @@ class HandsExchangingBitcoin(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/payments'
+    category = 'payments'
+    categories = ('primitives', 'payments')
     aliases=()
     keywords=('crypto', 'bitcoin', 'trade', 'exchange', 'coin', 'hands', 'currency', 'blockchain')
     def build(self):

@@ -53,6 +53,7 @@ class MedicalWorkerWithCapAndMask(Solo48):
     icon_id = 'medical-worker-with-cap-and-mask'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

@@ -11,7 +11,8 @@ class TicketInspection(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('ticket', 'inspection', 'people', 'admission', 'service', 'pass')
 

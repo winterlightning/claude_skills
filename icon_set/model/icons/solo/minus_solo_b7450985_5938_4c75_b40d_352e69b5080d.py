@@ -12,7 +12,8 @@ class MinusSolo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('minus', 'subtract', 'remove', 'dash', 'less', 'negative', 'collapse', 'line')
 

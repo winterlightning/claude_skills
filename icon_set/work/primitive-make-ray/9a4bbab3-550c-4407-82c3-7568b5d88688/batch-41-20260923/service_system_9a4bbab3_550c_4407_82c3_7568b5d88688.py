@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9a4bbab3-550c-4407-82c3-7568b5d88688'
 SOURCE_PATH='icon_set/work/todo-references/service system_9a4bbab3-550c-4407-82c3-7568b5d88688.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded service panel with two plus marks: lower small cross and taller upper-right cross. Preserve their unequal vertical extents.'
 CONSTRUCTION_REFERENCES='Lucide monitor: rounded enclosure; hand-authored plus symbols from source.'
 OMISSIONS='Horizontal arms share length; larger right cross retains a longer lower stem.'

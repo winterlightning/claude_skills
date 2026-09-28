@@ -15,7 +15,8 @@ class CatGrassInPot(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('cat-grass', 'grass', 'pot', 'plant', 'cat', 'pet', 'greens')
 

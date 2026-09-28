@@ -11,6 +11,7 @@ class ChampagneGlass(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('champagne', 'glass', 'drinks', 'solo-ai-next100')
 

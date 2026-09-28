@@ -13,7 +13,8 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/toys"
+    category = "lights"
+    categories = ("lights", "primitives")
     aliases=()
     keywords=('light', 'bulb', 'with', 'leaf', 'filament')
     def build(self):

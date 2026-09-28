@@ -14,6 +14,7 @@ class AquariusZodiacSymbol(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "culture"
+    categories = ("culture", "primitives")
     aliases = ()
     keywords = ('aquarius', 'zodiac', 'astrology', 'water', 'waves', 'horoscope', 'star sign', 'symbol')
 

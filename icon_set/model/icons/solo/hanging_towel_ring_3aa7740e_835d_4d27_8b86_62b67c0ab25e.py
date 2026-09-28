@@ -16,7 +16,8 @@ class Batch03Icon8(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/ring"
+    category = "container"
+    categories = ("container",)
     aliases = ('hanging-towel-ring',)
     keywords = ('hanging', 'towel', 'ring')
 

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9204a741-e696-415f-a720-706376b448e6'
 SOURCE_PATH='icon_set/work/todo-references/self payment computer euro_9204a741-e696-415f-a720-706376b448e6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Payment terminal with euro symbol and two right-hand rules. Frame and stand match the currency series.'
 CONSTRUCTION_REFERENCES='Lucide monitor and euro: open round C contour with a crossing bar.'
 OMISSIONS='Single crossbar matches source; no components omitted.'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82791e1b-7e30-4905-85e9-1bf64f1e2489'
 SOURCE_PATH = 'icon_set/work/todo-references/online learning online course 2_82791e1b-7e30-4905-85e9-1bf64f1e2489.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Open book above a course entry field. Mirror the pages about x=24; the field owns its centered rule.'
 CONSTRUCTION_REFERENCES = 'book-open: paired pages and center binding; monitor: rounded enclosure.'
 OMISSIONS = 'Page curvature simplified; field rule retained.'

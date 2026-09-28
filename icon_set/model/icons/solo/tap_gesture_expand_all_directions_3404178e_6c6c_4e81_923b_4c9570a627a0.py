@@ -9,7 +9,8 @@ class TapGestureExpandAllDirections(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("four-way tap expand",)
     keywords = ("finger", "arrows", "spread")
 

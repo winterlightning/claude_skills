@@ -10,7 +10,8 @@ class LeftRightDirectionArrow(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transportation"
+    category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('direction', 'turn signal', 'indicator', 'left', 'right', 'arrow', 'junction', 'dashboard')
 

@@ -11,7 +11,8 @@ class DiagonalEyedropperOverSampleTray(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
+    categories = ('design', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('eyedropper', 'pipette', 'sample', 'tray', 'color', 'liquid', 'tool', 'dropper')
 

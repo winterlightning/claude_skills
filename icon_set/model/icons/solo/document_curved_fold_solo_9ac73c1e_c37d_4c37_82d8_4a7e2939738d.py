@@ -18,7 +18,8 @@ class SourceMain(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('container', 'other', 'primitives-generate')
     aliases = ('document-curved-fold',)
     keywords = ('document', 'curved', 'fold')
 

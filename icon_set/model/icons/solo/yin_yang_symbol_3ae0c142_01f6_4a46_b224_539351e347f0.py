@@ -11,7 +11,8 @@ class YinYangSymbol(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('yin yang', 'taoism', 'circle', 'balance', 'symbol', 'duality')
 

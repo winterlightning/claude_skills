@@ -1,0 +1,69 @@
+"""A woozy face with uneven mouth and a floating star.
+
+SOLO48 CIRCLE; Lucide reference: no useful Lucide face match; circular outline geometry.
+Symbol plan: source composition reduced to named outlines and shared geometry.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'fe974dc7-4d81-41d1-9dba-73ed68ac785f'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/face woozy_fe974dc7-4d81-41d1-9dba-73ed68ac785f.svg'
+AUTHOR = 'gpt-6'
+
+class WoozyFaceFloatingStar(Solo48):
+    icon_id = 'woozy-face-floating-star'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'emoji/faces'
+    aliases = ('Woozy Face with Floating Star',)
+    keywords = tuple('woozy face with floating star'.split())
+
+    def ring(self, name, x, y, r):
+        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
+        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
+        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
+        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
+        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
+
+    def box(self, name, x1, y1, x2, y2):
+        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
+
+    def round_box(self, name, x1, y1, x2, y2, r):
+        parts=[]
+        def line(s,a,b):
+            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
+        def arc(s,a,b):
+            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
+        line('top',(x1+r,y1),(x2-r,y1))
+        arc('ne',(x2-r,y1),(x2,y1+r))
+        line('right',(x2,y1+r),(x2,y2-r))
+        arc('se',(x2,y2-r),(x2-r,y2))
+        line('bottom',(x2-r,y2),(x1+r,y2))
+        arc('sw',(x1+r,y2),(x1,y2-r))
+        line('left',(x1,y2-r),(x1,y1+r))
+        arc('nw',(x1,y1+r),(x1+r,y1))
+        self.add_contour(name,*parts,closed=True)
+
+    def heart(self,name,x,y):
+        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
+        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
+        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
+        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
+        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
+        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
+        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
+
+    def build(self) -> None:
+        self.add_arc('face-ne',(26,10),(42,26),radius_x=16)
+        self.add_arc('face-se',(42,26),(26,42),radius_x=16)
+        self.add_arc('face-sw',(26,42),(10,26),radius_x=16)
+        self.add_contour('face','face-ne','face-se','face-sw')
+        for x in (20,32):
+            self.add_arc('eye-'+str(x),(x-2,23),(x+2,23),radius_x=2,sweep=False)
+        self.add_polyline('mouth',(20,33),(24,31),(28,33),(32,31))
+        self.add_polyline('star-h',(6,10),(10,10),(14,10))
+        self.add_polyline('star-v',(10,6),(10,10),(10,14))
+        self.relate('connect','star-h','star-v')
+
+# Repair plan: Open circular face around floating sparkle; uneven mouth, closed eyes. Square extremes 6,6,42,42. No useful local Lucide smile match.
+# Exact visible bounds: (4, 4, 44, 44)

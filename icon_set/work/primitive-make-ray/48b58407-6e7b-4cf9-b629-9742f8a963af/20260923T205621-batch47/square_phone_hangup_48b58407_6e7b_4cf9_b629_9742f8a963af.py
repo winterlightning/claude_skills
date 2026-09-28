@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '48b58407-6e7b-4cf9-b629-9742f8a963af'
 SOURCE_PATH = 'icon_set/work/todo-references/square phone hangup_48b58407-6e7b-4cf9-b629-9742f8a963af.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-phone-hangup'

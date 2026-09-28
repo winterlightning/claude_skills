@@ -11,6 +11,7 @@ class ExpandHorizontal3(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('expand', 'horizontal', 'interface-essential')
 

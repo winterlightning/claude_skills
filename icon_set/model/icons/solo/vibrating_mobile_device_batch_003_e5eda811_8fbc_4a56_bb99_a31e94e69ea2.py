@@ -22,6 +22,7 @@ class VibratingMobileDeviceBatch003(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('vibrate', 'phone', 'mobile', 'device', 'silent', 'buzz')
 

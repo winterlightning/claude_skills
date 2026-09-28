@@ -16,7 +16,8 @@ class CodeBracketsState56(Sub32):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('code', 'brackets', 'opposing', 'angle', 'face', 'away', 'central', 'gap')
 

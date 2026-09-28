@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='373ac967-90cc-46ee-9b78-f2b3cc4a75c9'
 SOURCE_PATH='icon_set/work/todo-references/plane trip food service_373ac967-90cc-46ee-9b78-f2b3cc4a75c9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Oblique airplane above a divider with fork and knife below. Fork owns shared tine spacing; knife keeps its curved blade.'
 CONSTRUCTION_REFERENCES='Lucide plane: continuous wing silhouette; source determines utensil shapes.'
 OMISSIONS='None; aircraft, separator, fork and knife retained.'

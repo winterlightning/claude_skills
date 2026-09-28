@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/business card stack 1_c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stack-of-business-cards'

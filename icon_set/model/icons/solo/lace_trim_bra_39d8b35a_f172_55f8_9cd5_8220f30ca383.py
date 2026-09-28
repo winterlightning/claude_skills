@@ -44,6 +44,7 @@ class LaceTrimBra(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     aliases = ()
     keywords = ('lace-trim', 'bra')
 

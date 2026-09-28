@@ -15,7 +15,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "networks"
+    categories = ("primitives", "networks")
     keywords = ('network', 'globe', 'nodes', 'links', 'data', 'connections', 'graph', 'global')
 
     def build(self):

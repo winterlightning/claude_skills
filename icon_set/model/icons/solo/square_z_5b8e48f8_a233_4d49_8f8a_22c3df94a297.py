@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5b8e48f8-a233-4d49-8f8a-22c3df94a297'
 SOURCE_PATH = 'icon_set/work/todo-references/square z_5b8e48f8-a233-4d49-8f8a-22c3df94a297.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-z'

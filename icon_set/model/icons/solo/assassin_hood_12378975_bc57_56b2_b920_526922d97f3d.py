@@ -10,7 +10,8 @@ class AssassinHood(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/gaming'
+    category = 'video-games'
+    categories = ('primitives', 'video-games')
     aliases = ()
     keywords = ('assassin', 'hood', 'emblem', 'assassins creed', 'stealth', 'game', 'logo', 'video game')
 

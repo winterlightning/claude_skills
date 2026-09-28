@@ -12,7 +12,8 @@ class Drawing(Solo48):
     # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('combination', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('mobile', 'phone', 'yuan', 'sign')
 

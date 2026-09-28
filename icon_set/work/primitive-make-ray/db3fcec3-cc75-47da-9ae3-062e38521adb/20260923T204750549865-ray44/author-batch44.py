@@ -1,6 +1,6 @@
 from pathlib import Path
 import json,textwrap
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROWS=json.loads(Path('/tmp/ray44-203915-unique.json').read_text())
 SOURCE_ICON_ID=[r['source_uuid'] for r in ROWS]
 SOURCE_PATH=[r['reference_path'] for r in ROWS]

@@ -11,6 +11,7 @@ class SlalomKayaker(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('kayaking', 'kayak', 'paddle', 'whitewater', 'sport', 'water', 'slalom', 'outdoors-batch-03')
 

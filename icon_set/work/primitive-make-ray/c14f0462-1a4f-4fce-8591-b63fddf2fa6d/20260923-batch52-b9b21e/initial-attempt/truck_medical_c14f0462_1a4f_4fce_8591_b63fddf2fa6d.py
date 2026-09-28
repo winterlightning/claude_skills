@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='c14f0462-1a4f-4fce-8591-b63fddf2fa6d'
 SOURCE_PATH='icon_set/work/todo-references/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Medical truck with two wheels, cab window and outlined medical cross.'
 CONSTRUCTION_REFERENCE='truck and ambulance: circular wheels, interrupted lower chassis and cab profile'
 

@@ -11,7 +11,8 @@ class MobileIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/mobile'
+    category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases = ()
     keywords = ('gps', 'navigation', 'pointer', 'direction', 'location', 'compass', 'arrow')
 

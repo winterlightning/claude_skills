@@ -11,7 +11,8 @@ class ReceiptPrinter(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shopping"
+    category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('receipt', 'printer', 'paper', 'checkout', 'retail', 'printing', 'device')
 

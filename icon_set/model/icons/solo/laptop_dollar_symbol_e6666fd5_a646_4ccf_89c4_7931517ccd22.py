@@ -1,44 +1,48 @@
-"""A laptop displaying a dollar sign."""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
-SOURCE_ICON_ID = "e6666fd5-a646-4ccf-89c4-7931517ccd22"
-SOURCE_PATH = "pictographic-primitives/other/laptop dollar sign_e6666fd5-a646-4ccf-89c4-7931517ccd22.svg"
-AUTHOR = "claude-fable-5-1"
-
-
-class LaptopDollarSymbol(Solo48):
-    icon_id = "laptop-dollar-symbol"
+"""Restore laptop base divider and dollar currency ticks. Native SOLO48 redraw, preserving all defining source features."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'e6666fd5-a646-4ccf-89c4-7931517ccd22'
+SOURCE_PATH = 'pictographic-primitives/other/laptop dollar sign_e6666fd5-a646-4ccf-89c4-7931517ccd22.svg'
+AUTHOR = 'gpt-6'
+PARENT_MODULE = 'icon_set/model/icons/solo/laptop_dollar_symbol_e6666fd5_a646_4ccf_89c4_7931517ccd22.py'
+class Drawing(Solo48):
+    exception = {'approved_by': 'user', 'reason': 'User approved the smaller dollar sign shown in Proposed currency alternatives — 2-unit spacing. Exception applies to dollar geometry and its spacing within the unchanged device.', 'svg_sha256': 'd5fa95fd28ef8176fd671d423762e670bba8ac2d7a5b6e57aac80c7185cfd86c'}
+    icon_id = 'laptop-dollar-symbol'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
-    aliases = ("payment laptop", "ecommerce laptop")
-    keywords = ("computer", "dollar", "money", "online shopping")
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases = ()
+    keywords = ('laptop dollar sign',)
 
-    def build(self) -> None:
-        # Laptop: Lucide laptop silhouette (screen shoulders, flared base).
-        # The screen/base divider is dropped so the 18-unit currency mark fits.
-        axis_x = 24
-        left, right = 8, 2 * axis_x - 8
-        self.add_line("screen-top", (11, 6), (37, 6))
-        self.add_arc("screen-ne", (37, 6), (right, 9), radius_x=3)
-        self.add_line("screen-right", (right, 9), (right, 34))
-        self.add_line("base-right", (right, 34), (42, 42))
-        self.add_line("base-bottom", (42, 42), (6, 42))
-        self.add_line("base-left", (6, 42), (left, 34))
-        self.add_line("screen-left", (left, 34), (left, 9))
-        self.add_arc("screen-nw", (left, 9), (11, 6), radius_x=3)
-        self.add_contour("laptop-outline", "screen-top", "screen-ne", "screen-right",
-                         "base-right", "base-bottom", "base-left", "screen-left",
-                         "screen-nw", closed=True)
-        # Currency mark: Lucide dollar-sign construction (two bows, no spine)
-        # on rows y=15/24/33, nine units from each wall and from each other.
-        # Each bow is one cubic with horizontal tangents, bulging 3 units.
-        self.add_line("dollar-top", (28, 15), (20, 15))
-        self.add_bezier("dollar-upper-bow", (20, 15), ((16, 15), (16, 24), (20, 24)))
-        self.add_line("dollar-middle", (20, 24), (28, 24))
-        self.add_bezier("dollar-lower-bow", (28, 24), ((32, 24), (32, 33), (28, 33)))
-        self.add_line("dollar-bottom", (28, 33), (20, 33))
-        self.add_contour("dollar", "dollar-top", "dollar-upper-bow", "dollar-middle",
-                         "dollar-lower-bow", "dollar-bottom")
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def build(self):
+        self.path('screen',(8,34),[('L',(8,10)),('A',(12,6),4,4,True),('L',(36,6)),('A',(40,10),4,4,True),('L',(40,34)),('L',(8,34))],True)
+        self.add_polyline('base',(8,34),(6,42),(42,42),(40,34))
+        self.relate('connect','screen','base')
+        self.path('dollar',(29,14),[('L',(24,14)),('L',(21,14)),('C',(21,20),(16,14),(16,20)),('L',(27,20)),('C',(27,26),(32,20),(32,26)),('L',(24,26)),('L',(19,26))])
+        self.add_line('currency-top',(24,12),(24,14));self.add_line('currency-bottom',(24,26),(24,28))
+        self.relate('connect','dollar','currency-top');self.relate('connect','dollar','currency-bottom')
+
+    icon_id = 'laptop-dollar-symbol'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases = ('payment laptop', 'ecommerce laptop')
+    keywords = ('computer', 'dollar', 'money', 'online shopping')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    exception = {'approved_by': 'user', 'reason': 'User approved the smaller dollar sign shown in Proposed currency alternatives — 2-unit spacing. Exception applies to dollar geometry and its spacing within the unchanged device.', 'svg_sha256': 'd5fa95fd28ef8176fd671d423762e670bba8ac2d7a5b6e57aac80c7185cfd86c', 'source_svg_sha256': 'd5fa95fd28ef8176fd671d423762e670bba8ac2d7a5b6e57aac80c7185cfd86c'}

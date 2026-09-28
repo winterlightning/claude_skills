@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='2546aeb2-c808-42ef-a35a-a9f3ddc26c19'
 SOURCE_PATH='icon_set/work/todo-references/picture polaroid human_2546aeb2-c808-42ef-a35a-a9f3ddc26c19.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A portrait Polaroid in front of a tilted second print.'
 OMISSIONS='Bust uses a circular detached head and broad shoulder arc; blank caption retained.'
 LUCIDE_REFERENCE='user'

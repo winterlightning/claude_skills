@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e23fb9d7-ed54-45f6-9142-77054c14c7bc'
 SOURCE_PATH='icon_set/work/todo-references/rectangle ad text_e23fb9d7-ed54-45f6-9142-77054c14c7bc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='The letters AD inside a rectangular advertising panel.'
 OMISSIONS='No letters omitted; outlines squared to preserve spacing.'
 LUCIDE_REFERENCE=None

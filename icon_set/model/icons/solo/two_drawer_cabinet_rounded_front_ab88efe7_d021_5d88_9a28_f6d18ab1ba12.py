@@ -12,7 +12,8 @@ class TwoDrawerCabinetRoundedFront(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/furniture"
+    category = "furnitures"
+    categories = ("furnitures", "primitives")
     aliases = ()
     keywords = ('two', 'drawer', 'storage', 'cabinet')
 

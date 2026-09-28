@@ -11,7 +11,8 @@ class CatPawPrint(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals',)
     aliases = ('feline paw print',)
     keywords = ('cat', 'paw', 'pet', 'kitten', 'footprint', 'animal')
 

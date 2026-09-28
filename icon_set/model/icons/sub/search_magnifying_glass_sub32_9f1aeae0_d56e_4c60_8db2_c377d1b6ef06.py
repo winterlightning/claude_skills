@@ -14,7 +14,8 @@ class Drawing(Sub32):
     keyshape=Keyshape.SQUARE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/interface-essential'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'search magnifying glass')
     def build(self):

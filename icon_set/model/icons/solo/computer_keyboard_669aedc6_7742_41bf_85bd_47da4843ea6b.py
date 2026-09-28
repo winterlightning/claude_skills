@@ -10,7 +10,8 @@ class ComputerKeyboard(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('keyboard', 'typing', 'input', 'keys', 'peripheral', 'computer', 'hardware', 'text')
 

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='edc387fb-8345-489a-a276-38ea07c6e827'
 SOURCE_PATH='icon_set/work/todo-references/pin add_edc387fb-8345-489a-a276-38ea07c6e827.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Large location pin with lower-right circular add badge. Pin and badge remain a complete composition.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: domed pin with pointed bottom.'
 OMISSIONS='None; badge and plus retained.'

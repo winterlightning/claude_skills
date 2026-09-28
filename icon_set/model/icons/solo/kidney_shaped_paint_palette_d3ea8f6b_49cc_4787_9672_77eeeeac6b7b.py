@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'kidney-shaped-paint-palette'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('kidney', 'shaped', 'paint', 'palette')
 
     def build(self):

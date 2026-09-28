@@ -11,6 +11,7 @@ class DiagramArrowCornerPointBottom(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('diagram', 'arrow', 'corner', 'point', 'bottom', 'arrows')
 

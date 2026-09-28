@@ -12,6 +12,7 @@ class VolumeControl(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'audio'
+    categories = ('audio', 'primitives')
     aliases = ()
     keywords = ('volume', 'control', 'audio')
 

@@ -13,7 +13,8 @@ class RetroRayGun(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/science'
+    category = 'science'
+    categories = ('science', 'primitives')
     aliases = ()
     keywords = ('ray gun', 'blaster', 'weapon', 'retro', 'fiction', 'space')
 

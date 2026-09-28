@@ -5,7 +5,7 @@ import cairosvg
 from PIL import Image, ImageDraw
 SOURCE_ICON_ID = 'cc404dcf-c8d5-46a5-97a2-34ff80d2c015'
 SOURCE_PATH = 'icon_set/work/todo-references/touch up_cc404dcf-c8d5-46a5-97a2-34ff80d2c015.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ROOT = Path(__file__).resolve().parent
 ROWS = json.loads((ROOT/'batch-inputs.json').read_text())
 # Reuse only the generic emission helpers; every subject below is authored here.

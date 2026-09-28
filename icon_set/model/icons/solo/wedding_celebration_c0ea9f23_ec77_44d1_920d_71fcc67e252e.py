@@ -5,10 +5,10 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='c0ea9f23-ec77-44d1-920d-71fcc67e252e'
 SOURCE_PATH='icon_set/work/todo-references/wedding celebration_c0ea9f23-ec77-44d1-920d-71fcc67e252e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id='wedding-celebration'
+    icon_id = 'wedding-celebration'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

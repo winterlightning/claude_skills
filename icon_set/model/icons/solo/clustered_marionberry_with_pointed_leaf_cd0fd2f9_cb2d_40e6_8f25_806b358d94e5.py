@@ -18,7 +18,8 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     aliases = ("marionberry",)
     keywords = ("berry", "fruit", "leaf", "cluster")
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

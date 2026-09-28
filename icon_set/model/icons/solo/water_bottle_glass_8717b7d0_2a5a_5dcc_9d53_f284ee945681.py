@@ -15,6 +15,7 @@ class WaterBottleGlass(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('water', 'bottle', 'glass', 'drinks')
 

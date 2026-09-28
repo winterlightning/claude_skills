@@ -22,7 +22,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases = ()
     keywords = ('arrows', 'scroll', 'left', 'right', 'triangles', 'navigation')
 

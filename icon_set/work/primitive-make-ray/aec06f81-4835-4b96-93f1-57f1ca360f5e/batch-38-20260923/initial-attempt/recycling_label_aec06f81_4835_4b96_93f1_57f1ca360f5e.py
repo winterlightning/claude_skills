@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aec06f81-4835-4b96-93f1-57f1ca360f5e'
 SOURCE_PATH='icon_set/work/todo-references/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Diagonal recycling tag with its circular hole and a separate lower-right leaf with stem.'
 CONSTRUCTION_REFERENCES='Lucide tag: clipped tag end and eyelet; leaf: coherent organic outline and vein.'
 OMISSIONS='Minor tag corner rounding simplified; tag and leaf retained.'

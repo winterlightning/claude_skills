@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'mangrove-with-exposed-roots-in-water'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
 

@@ -15,7 +15,8 @@ class OwlHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('owl', 'head', 'horned', 'ears', 'beak', 'night', 'bird', 'minimal')
 

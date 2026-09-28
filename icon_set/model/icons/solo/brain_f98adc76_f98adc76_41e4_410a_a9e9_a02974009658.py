@@ -11,6 +11,7 @@ class BrainF98adc76(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('solo-ai-next50-refine', 'solo-ai-next50', 'brain-f98adc76')
 

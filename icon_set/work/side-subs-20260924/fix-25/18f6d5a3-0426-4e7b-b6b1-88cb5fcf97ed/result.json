@@ -1,0 +1,65 @@
+{
+  "index": 9,
+  "icon_id": "clock-square-message-sub32-clean",
+  "source_uuid": "18f6d5a3-0426-4e7b-b6b1-88cb5fcf97ed",
+  "source_path": "pictographic-primitives/symbol/chat time clock_18f6d5a3-0426-4e7b-b6b1-88cb5fcf97ed.svg",
+  "concept": "Chat Bubble With Clock",
+  "module": "icon_set/model/icons/sub/clock_square_message_sub32_clean_18f6d5a3_0426_4e7b_b6b1_88cb5fcf97ed.py",
+  "previous_module": "icon_set/model/icons/sub/clock_square_message_sub32_18f6d5a3_0426_4e7b_b6b1_88cb5fcf97ed.py",
+  "previous_icon_id": "clock-square-message-sub32",
+  "parts": [
+    "rounded square speech bubble",
+    "lower-left tail",
+    "complete clock circle",
+    "vertical upward hand and horizontal right hand"
+  ],
+  "repair_plan": "Deepen the bubble so the clock is detached from its baseline; center the hands on the clock face.",
+  "qa_status": "fail",
+  "errors": [
+    "mic [frame]: frame and clock are 5 apart on centerlines nearest (16, 2)<->(16, 7); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [clock]: clock and hands are 3.9997 apart on centerlines nearest (16.0491, 7.0006)<->(16, 11); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 5 undersized holes; 0 pinches"
+  ],
+  "warnings": [],
+  "author": "gpt-6",
+  "stroke_width": 4,
+  "canvas": [
+    32,
+    32
+  ],
+  "strict_check": {
+    "icon_id": "clock-square-message-sub32-clean",
+    "module": "icon_set/model/icons/sub/clock_square_message_sub32_clean_18f6d5a3_0426_4e7b_b6b1_88cb5fcf97ed.py",
+    "source_icon_id": "18f6d5a3-0426-4e7b-b6b1-88cb5fcf97ed",
+    "source_path": "pictographic-primitives/symbol/chat time clock_18f6d5a3-0426-4e7b-b6b1-88cb5fcf97ed.svg",
+    "keyshape": "SQUARE",
+    "qa_status": "fail",
+    "strict_32": "fail",
+    "failures": [
+      "mic [frame]: frame and clock are 5 apart on centerlines nearest (16, 2)<->(16, 7); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "mic [clock]: clock and hands are 3.9997 apart on centerlines nearest (16.0491, 7.0006)<->(16, 11); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 5 undersized holes; 0 pinches"
+    ]
+  },
+  "outcome": "visual-cleanup-with-unresolved-validation",
+  "source_part_coverage": [
+    "rounded square speech bubble",
+    "lower-left tail",
+    "complete clock circle",
+    "vertical upward hand and horizontal right hand"
+  ],
+  "omissions": [],
+  "additions": [],
+  "earlier_variant_preserved": true,
+  "visual_review": "Compared full reference, previous and repaired output at 32 and 128 pixels in light and dark. Dense enclosed details can still merge at 4px; this is not a blanket visual approval.",
+  "publication": {
+    "status": "pass-by-exception",
+    "exception": {
+      "reason": "User-approved complete reference composition; accept remaining visual/grid/spacing findings while preserving 32x32 and uniform 4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-24",
+      "svg_sha256": "b0f0cc4f7d0b35d349243d8bc0172435a9088631adcc700ad3e2a925562fb4bd"
+    },
+    "automatic_status": "fail"
+  }
+}

@@ -13,6 +13,7 @@ class CurlyBrackets(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'programing'
+    categories = ('programing', 'primitives')
     aliases = ()
     keywords = ('curly', 'brackets', 'programing')
     keyshape = Keyshape.VRECT_L

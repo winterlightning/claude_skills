@@ -1,0 +1,6 @@
+{
+  "keyshape": "CIRCLE",
+  "body": "\nself.path('sign',(4,24),[('A',(24,4),20,20,True),('A',(44,24),20,20,True),('A',(36,40),20,20,True),('A',(24,44),20,20,True),('A',(4,24),20,20,True)],True)\nself.add_polyline('slash',(4,24),(24,34),(36,40));self.join('sign','slash')\nself.circle('head',24,16,3)\nself.add_line('torso',(24,27),(24,34))\nself.add_line('arms',(24,27),(30,23));self.join('torso','arms')\nself.add_polyline('legs',(16,38),(24,34),(28,40));self.join('torso','legs');self.join('torso','slash');self.join('legs','slash')\nself.mark_human_figure('person',head='head',torso='torso',torso_junction='start')\n",
+  "note": "Sixth repair: angle forward arm upward to open slash clearance; keep exact8-unit detached head/torso gap and actual hip/slash junction. Human full_body_ref reviewed.",
+  "round": 6
+}

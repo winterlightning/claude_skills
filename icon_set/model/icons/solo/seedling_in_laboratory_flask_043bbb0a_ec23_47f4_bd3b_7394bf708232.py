@@ -14,7 +14,8 @@ class SeedlingInLaboratoryFlask(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('seedling', 'flask', 'plant', 'biotechnology', 'laboratory', 'gmo')
 

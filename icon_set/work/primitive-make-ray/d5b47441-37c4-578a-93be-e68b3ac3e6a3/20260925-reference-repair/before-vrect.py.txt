@@ -1,0 +1,31 @@
+'Rebuilt the barrel on HRECT_L for broader, uncrowded curves. Mirrored wall and stave segments use matching tangent directions at both hoops and vertical tangents at the widest point. Retains two hoops and two bowed staves. The result is intentionally wider than the source.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+AUTHOR='gpt-6'
+SOURCE_ICON_ID='d5b47441-37c4-578a-93be-e68b3ac3e6a3'
+SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
+class Drawing(Solo48):
+    icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
+    keyshape=Keyshape.HRECT_L
+    category='objects/drink'
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=()
+    def build(self):
+        # Mirrored cubic curves with aligned tangent directions at each joint.
+        for side in ('left','right'):
+            flip=lambda p: p if side=='left' else (48-p[0],p[1])
+            for name,offset in [('wall',0),('stave',10)]:
+                pts=[(8+offset,8),(5+offset,16),(4+offset,24),(5+offset,32),(8+offset,40)]
+                controls=[((7,10),(6,12)),((4,20),(4,22)),((4,26),(4,28)),((6,36),(7,38))]
+                for i in range(4):
+                    c1,c2=controls[i]
+                    self.add_bezier(f'{name}-{side}-{i}',flip(pts[i]),(flip((c1[0]+offset,c1[1])),flip((c2[0]+offset,c2[1])),flip(pts[i+1])))
+                self.add_contour(name+'-'+side,*(f'{name}-{side}-{i}' for i in range(4)))
+        for name,y in [('top',8),('bottom',40)]:
+            self.add_polyline(name,(8,y),(18,y),(30,y),(40,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect',name,part)
+        for y in (16,32):
+            self.add_polyline('hoop-'+str(y),(5,y),(15,y),(33,y),(43,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect','hoop-'+str(y),part)

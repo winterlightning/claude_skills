@@ -11,7 +11,8 @@ class UprightLensBarrel(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('lens', 'camera lens', 'barrel', 'zoom', 'optics', 'photography', 'grip', 'mount')
 

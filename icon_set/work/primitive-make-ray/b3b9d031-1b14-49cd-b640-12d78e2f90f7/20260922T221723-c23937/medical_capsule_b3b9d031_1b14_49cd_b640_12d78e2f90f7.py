@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3b9d031-1b14-49cd-b640-12d78e2f90f7'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/burrito_b3b9d031-1b14-49cd-b640-12d78e2f90f7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'medical-capsule'

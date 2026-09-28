@@ -15,7 +15,8 @@ class ChessRookWideBattlements(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/hobbies'
+    category = 'hobbies'
+    categories = ('primitives', 'hobbies')
     aliases = ()
     keywords = ('chess', 'rook')
 

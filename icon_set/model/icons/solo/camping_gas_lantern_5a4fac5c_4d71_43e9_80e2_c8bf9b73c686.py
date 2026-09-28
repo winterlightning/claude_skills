@@ -13,6 +13,7 @@ class CampingGasLantern(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('lantern', 'camping', 'gas', 'flame', 'light', 'outdoors', 'lamp', 'outdoors-batch-02')
 

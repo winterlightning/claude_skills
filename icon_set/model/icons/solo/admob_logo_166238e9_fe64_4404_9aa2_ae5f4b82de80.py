@@ -11,7 +11,8 @@ class AdmobLogo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_01'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('admob', 'logo', '_uncategorized_01')
 

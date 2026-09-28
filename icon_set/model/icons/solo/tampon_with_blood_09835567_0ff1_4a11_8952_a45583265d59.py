@@ -6,10 +6,10 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='09835567-0ff1-4a11-8952-a45583265d59'
 SOURCE_PATH='icon_set/work/todo-references/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id='tampon-with-blood'
+    icon_id = 'tampon-with-blood'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

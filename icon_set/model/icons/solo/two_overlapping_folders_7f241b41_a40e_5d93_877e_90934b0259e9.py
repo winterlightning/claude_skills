@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'folders'
+    categories = ('folders', 'primitives')
     aliases = ()
     keywords = ('overlapping', 'folders', 'offset', 'file', 'raised', 'tabs', 'folder')
     def build(self):

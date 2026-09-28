@@ -1,0 +1,48 @@
+"""lesbian lgbt festival fair exhibition, complete SOLO48 composition.
+Symbol plan is recorded in build(). Visible keyshape extremes: (4, 4, 44, 44).
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '6ea8474c-4454-55bb-9882-399cf49d120a'
+SOURCE_PATH = 'pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
+AUTHOR = "gpt-6"
+
+class Drawing(Solo48):
+    icon_id = 'lesbian-lgbt-festival-fair-exhibition'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('lesbian lgbt festival fair exhibition',)
+
+    def rounded(self,n,x,y,w,h,r):
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        for i in range(8):
+            a,b=pts[i],pts[(i+1)%8]
+            if i%2:self.add_arc(n+str(i),a,b,radius_x=r)
+            else:self.add_line(n+str(i),a,b)
+        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
+
+    def laptop(self):
+        # Screen and base own shared hinge endpoints; repeated corner radius 4.
+        self.add_line('screen-left',(8,32),(8,12))
+        self.add_arc('screen-tl',(8,12),(12,8),radius_x=4)
+        self.add_line('screen-top',(12,8),(36,8))
+        self.add_arc('screen-tr',(36,8),(40,12),radius_x=4)
+        self.add_line('screen-right',(40,12),(40,32))
+        self.add_line('hinge',(40,32),(8,32))
+        self.add_contour('screen','screen-left','screen-tl','screen-top','screen-tr','screen-right','hinge',closed=True)
+        self.add_polyline('base',(8,32),(4,40),(44,40),(40,32))
+        self.relate('connect','screen','base')
+
+    def build(self):
+        # Three equal bunting triangles above a heart; shared horizontal cord.
+        for i,x in enumerate((6,18,30)):
+            self.add_polyline('flag-'+str(i),(x,6),(x+12,6),(x+6,17),closed=True)
+        for i in range(2):self.relate('connect','flag-'+str(i),'flag-'+str(i+1))
+        self.add_arc('heart-left',(24,32),(8,32),radius_x=8,radius_y=6,sweep=False)
+        self.add_line('heart-side-left',(8,32),(24,42))
+        self.add_line('heart-side-right',(24,42),(40,32))
+        self.add_arc('heart-right',(40,32),(24,32),radius_x=8,radius_y=6,sweep=False)
+        self.add_contour('heart','heart-left','heart-side-left','heart-side-right','heart-right',closed=True)

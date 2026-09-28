@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '090839a1-55f5-53c5-9d3e-f5849a8b9898'
 SOURCE_PATH = 'icon_set/work/todo-references/kawaii manga screentone effect action text bubble_090839a1-55f5-53c5-9d3e-f5849a8b9898.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'kawaii-manga-screentone-effect-action-text-bubble'
     keyshape = Keyshape.SQUARE

@@ -10,7 +10,8 @@ class Batch033Icon(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ('letter-c-and-number-5',)
     keywords = ('batch-033',)
 

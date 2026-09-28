@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bc2a6778-ef25-47fb-9edd-73d0b5963727'
 SOURCE_PATH = 'icon_set/work/todo-references/right from bracket_bc2a6778-ef25-47fb-9edd-73d0b5963727.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Closed rounded square surrounding a right arrow, as in the supplied image.
 # Reference reduction: No defining parts omitted.
 # Construction references: ['table', 'arrow-right']

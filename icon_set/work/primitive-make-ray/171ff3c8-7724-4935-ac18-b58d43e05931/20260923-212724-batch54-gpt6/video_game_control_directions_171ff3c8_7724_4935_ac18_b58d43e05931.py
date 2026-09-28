@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '171ff3c8-7724-4935-ac18-b58d43e05931'
 SOURCE_PATH = 'icon_set/work/todo-references/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-game-control-directions'
     keyshape = Keyshape.SQUARE

@@ -14,7 +14,8 @@ class PredatorHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('predator', 'alien', 'head', 'mask', 'creature', 'fiction')
 

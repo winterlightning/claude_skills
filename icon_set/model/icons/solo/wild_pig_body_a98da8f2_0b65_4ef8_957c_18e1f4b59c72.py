@@ -12,7 +12,8 @@ class WildBoar(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/animals"
+    category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('boar', 'pig', 'hog', 'standing', 'snout', 'tusk', 'farm', 'wildlife')
 

@@ -17,7 +17,8 @@ class BlankDocumentFile(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/files"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("blank file", "empty document")
     keywords = ("document", "file", "paper", "folded", "blank")
 

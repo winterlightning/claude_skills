@@ -14,7 +14,8 @@ class CanyonButtesWithSun(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/landmarks'
+    category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('canyon', 'butte', 'mesa', 'rock', 'desert', 'usa', 'landscape', 'nature', 'sun')
 

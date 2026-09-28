@@ -11,7 +11,8 @@ class LaptopWithTwoUprightScreens(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/technology"
+    category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('laptop', 'screens', 'responsive', 'devices', 'computer', 'display', 'mobile')
 

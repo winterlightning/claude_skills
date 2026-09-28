@@ -55,11 +55,15 @@ class Icon:
     #: modifier, and the validator enforces exactly that pairing.
     semantic_kind: str = "modifier"
     category: str = "primitives"
+    #: Every category the icon belongs to; ``category`` is the primary one.
+    categories: tuple[str, ...] = ()
     aliases: tuple[str, ...] = ()
     composition_class: str = "SOLO"
     keywords: tuple[str, ...] = ()
     variant_of: str | None = None
     variant_label: str = ""
+    # Explicit visual acceptance of one SVG; automatic checks still run.
+    exception: dict | None = None
 
     def __init__(
         self,
@@ -345,6 +349,8 @@ class Icon:
         if self.variant_of:
             record["variant_of"] = self.variant_of
             record["variant_label"] = self.variant_label
+        if self.exception is not None:
+            record["exception"] = dict(self.exception)
         if self.free_keyshape is not None:
             record["free_keyshape"] = {
                 "bounds": [

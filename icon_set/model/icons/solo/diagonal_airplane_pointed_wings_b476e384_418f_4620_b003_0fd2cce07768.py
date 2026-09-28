@@ -16,7 +16,8 @@ class DiagonalAirplanePointedWings(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'aircraft', 'jet', 'aviation', 'airport', 'travel')
 

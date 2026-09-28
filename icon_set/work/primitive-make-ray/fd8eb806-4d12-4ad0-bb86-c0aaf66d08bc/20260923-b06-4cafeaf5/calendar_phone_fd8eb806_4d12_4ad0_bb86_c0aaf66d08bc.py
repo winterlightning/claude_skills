@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'
 SOURCE_PATH = 'icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['calendar']
 class Drawing(Solo48):
     icon_id = 'calendar-phone'

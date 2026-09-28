@@ -10,7 +10,8 @@ class ShapesOn3DPlatform(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('platform', 'shapes', 'cone', 'cylinder', '3d', 'reality-kit', 'scene')
 

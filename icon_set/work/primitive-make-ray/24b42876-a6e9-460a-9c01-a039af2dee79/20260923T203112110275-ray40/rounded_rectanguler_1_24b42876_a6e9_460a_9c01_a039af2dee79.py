@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '24b42876-a6e9-460a-9c01-a039af2dee79'
 SOURCE_PATH = 'icon_set/work/todo-references/rounded rectanguler 1_24b42876-a6e9-460a-9c01-a039af2dee79.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Closed quadrilateral with two diagonally opposed quarter-circle corners; both radii share one parameter.
 # Reference: No exact Lucide match; elementary tangent quarter-circle construction.
 # Reduction: No parts omitted.

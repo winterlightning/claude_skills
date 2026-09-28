@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='2841f97c-3470-4026-a287-d82828da5d59'
 SOURCE_PATH='icon_set/work/todo-references/book library shelf_2841f97c-3470-4026-a287-d82828da5d59.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='book-library-shelf'
     keyshape=Keyshape.HRECT_L

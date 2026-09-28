@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e82ae3f4-3ab0-421b-9460-5df44f0236e9'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_09/canvas_e82ae3f4-3ab0-421b-9460-5df44f0236e9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'presentation-board-on-stand'

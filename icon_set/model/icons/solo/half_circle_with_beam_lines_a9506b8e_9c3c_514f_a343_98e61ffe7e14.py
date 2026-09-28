@@ -10,7 +10,8 @@ class HalfCircleWithBeamLines(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('clarity', 'sharpness', 'image', 'beam', 'light', 'focus', 'display')
 

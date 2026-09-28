@@ -11,7 +11,8 @@ class MonocleWithCord(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('monocle', 'glasses', 'lens', 'eyeglass', 'cord', 'vintage', 'eyewear', 'accessory')
 

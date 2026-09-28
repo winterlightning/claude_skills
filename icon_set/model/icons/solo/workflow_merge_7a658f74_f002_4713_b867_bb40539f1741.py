@@ -15,6 +15,7 @@ class WorkflowMerge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'diagrams'
+    categories = ('diagrams', 'primitives')
     aliases = ()
     keywords = ('workflow', 'merge', 'diagrams')
 

@@ -13,6 +13,7 @@ class Dna(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('dna', 'artificial-intelligence')
     keyshape = Keyshape.VRECT_L

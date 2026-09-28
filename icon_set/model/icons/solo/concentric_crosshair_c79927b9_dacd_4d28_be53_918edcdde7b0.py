@@ -12,7 +12,8 @@ class ConcentricCrosshair(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
+    categories = ('war', 'primitives')
     aliases = ()
     keywords = ('crosshair', 'sight', 'target', 'reticle', 'circle', 'aim')
 

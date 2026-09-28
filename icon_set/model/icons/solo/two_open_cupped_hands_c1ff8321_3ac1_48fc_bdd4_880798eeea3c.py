@@ -1,46 +1,57 @@
-'Two Open Cupped Hands.\nPlan: Mirrored open hands with tall outer fingers and inward palms. Fingers grouped; interior creases omitted. Bounds6..42.\nReference: human_ref human-part vocabulary; Lucide hand: coherent rounded digits and palm, source cupped gesture retained.\nKeyshape: SQUARE, exact SOLO48 envelope.'
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
-SOURCE_ICON_ID = 'c1ff8321-3ac1-48fc-bdd4-880798eeea3c'
-SOURCE_PATH = 'pictographic-primitives/other/hand holding_c1ff8321-3ac1-48fc-bdd4-880798eeea3c.svg'
-AUTHOR = 'gpt-6'
-
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='c1ff8321-3ac1-48fc-bdd4-880798eeea3c'
+SOURCE_PATH='pictographic-primitives/other/hand holding_c1ff8321-3ac1-48fc-bdd4-880798eeea3c.svg'
+AUTHOR='gpt-6'
+PLAN='Mirrored cupped hands with rounded tall fingers, visible inward thumb folds and curved palms.'
+CONSTRUCTION_REFERENCES='Lucide hand: coherent finger/palm curves. Supplied reference: paired cupped gesture and thumb branches.'
+OMISSIONS=['Diagonal thumb folds simplified to upright folds to keep the paired palms open at stroke 4.']
 class Drawing(Solo48):
-    icon_id = 'two-open-cupped-hands'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'objects'
-    aliases = ()
-    keywords = ('two', 'open', 'cupped', 'hands')
+    icon_id='two-open-cupped-hands'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases=()
+    keywords=('hand', 'holding')
+
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
 
     def build(self):
-        def path(name, start, steps, closed=False):
-            members = []
-            point = start
-            for index, step in enumerate(steps):
-                member = f"{name}-{index}"
-                if len(step) == 2:
-                    self.add_line(member, point, step)
-                    point = step
-                else:
-                    end, rx, ry, sweep = step
-                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                    point = end
-                members.append(member)
-            self.add_contour(name, *members, closed=closed)
+        for side in (-1,1):
+            p=lambda x,y:(x,y) if side==-1 else (48-x,y)
+            n='left' if side==-1 else 'right'
+            self.path(n+'-outer',p(12,40),[('L',p(12,36)),('A',p(4,28),8,8,side==-1),('L',p(4,12)),('A',p(12,12),4,4,side==-1),('L',p(12,20))])
+            self.path(n+'-thumb-palm',p(12,28),[('L',p(12,20)),('A',p(20,28),8,8,side==-1),('L',p(20,40))])
+            self.relate('connect',n+'-outer',n+'-thumb-palm')
 
-        def circle(name, x, y, radius):
-            path(name, (x-radius,y), [((x+radius,y),radius,radius,True),
-                 ((x-radius,y),radius,radius,True)], True)
-
-        def box(name, left, top, right, bottom, radius):
-            r = radius
-            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
-                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
-                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
-
-        for j,flip in enumerate((False,True)):
-         def pt(x,y):return (48-x,y) if flip else (x,y)
-         path(f'hand-{j}',pt(10,42),[pt(10,34),pt(6,28),pt(6,10),(pt(14,10),4,4,not flip),pt(14,20),pt(20,26),pt(20,42)])
+    icon_id = 'two-open-cupped-hands'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
+    aliases = ()
+    keywords = ('two', 'open', 'cupped', 'hands')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

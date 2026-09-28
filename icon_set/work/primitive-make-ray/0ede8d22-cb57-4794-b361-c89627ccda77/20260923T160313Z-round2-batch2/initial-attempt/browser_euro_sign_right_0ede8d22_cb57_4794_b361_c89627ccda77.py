@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='0ede8d22-cb57-4794-b361-c89627ccda77'
 SOURCE_PATH='icon_set/work/todo-references/browser euro sign right_0ede8d22-cb57-4794-b361-c89627ccda77.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='browser-euro-sign-right'
     keyshape=Keyshape.VRECT_L

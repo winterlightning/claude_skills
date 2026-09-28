@@ -13,6 +13,7 @@ class ArchitectureWindow(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('architecture', 'window', 'building')
     keyshape = Keyshape.VRECT_L

@@ -11,6 +11,7 @@ class FinishLineMarkerBuoy(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('buoy', 'finish-line', 'sailing', 'regatta', 'flag', 'marker', 'water', 'race', 'outdoors-batch-03')
 

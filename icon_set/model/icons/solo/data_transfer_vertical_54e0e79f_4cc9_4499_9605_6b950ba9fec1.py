@@ -15,6 +15,7 @@ class DataTransferVerticalNetworks(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'networks'
+    categories = ('networks', 'state')
     aliases = ()
     keywords = ('data', 'transfer', 'vertical', 'networks')
 

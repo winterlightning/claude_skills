@@ -11,6 +11,7 @@ class Earth89744ee7(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
+    categories = ('maps', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'earth-89744ee7')
 

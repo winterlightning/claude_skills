@@ -23,6 +23,7 @@ class DrawingContainerSymbol(Sub32):
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'video-games'
+    categories = ('video-games', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

@@ -1,22 +1,21 @@
-"""A road with broken centerline passes a location pin.
-Plan: Converging road edges and a repeated centerline retain perspective; the pin occupies the upper right.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/map-pin.svg and atomic-debug/map-pin.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
+"""trip road 1.
+Plan: Widen pin and shorten near lane dash for legal pin clearance; far dash omitted. Intentional road perspective.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'ad200efe-c77b-4f38-9fed-8ab02c8a6235'
-SOURCE_PATH = 'icon_set/work/todo-references/trip road 1_ad200efe-c77b-4f38-9fed-8ab02c8a6235.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='ad200efe-c77b-4f38-9fed-8ab02c8a6235'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/trip road 1_ad200efe-c77b-4f38-9fed-8ab02c8a6235.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'trip-road-1'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('trip', 'road', '1')
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('trip', 'road', '1')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,8 +69,8 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.add_line('road-left',(6,42),(18,6));self.add_line('road-right',(38,30),(42,42))
-        self.add_line('center-far',(24,22),(24,26));self.add_line('center-near',(24,34),(24,42))
-        self.path('pin',(26,14),[('A',(42,14),8,8,True),('C',(42,20),(37,25),(34,28)),('C',(31,25),(26,20),(26,14))],True)
-        self.circle('pin-hole',34,14,3)
+        self.add_line('road-left',(6,42),(12,6))
+        self.add_line('road-right',(40,35),(42,42))
+        self.add_line('center-near',(22,36),(22,42))
+        self.path('pin',(20,17),[('A',(42,17),11,11,True),('C',(42,23),(36,28),(31,32)),('C',(26,28),(20,23),(20,17))],True)
+        self.circle('pin-hole',31,17,2)

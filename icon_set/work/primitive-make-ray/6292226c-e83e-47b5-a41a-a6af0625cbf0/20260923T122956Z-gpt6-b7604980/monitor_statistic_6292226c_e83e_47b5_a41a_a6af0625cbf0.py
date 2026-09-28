@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6292226c-e83e-47b5-a41a-a6af0625cbf0'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor statistic_6292226c-e83e-47b5-a41a-a6af0625cbf0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor displaying a rising line chart.'
 CONSTRUCTION_PLAN = 'Shared monitor contains an L-shaped axis and an asymmetric rising trend; split the axis at its real trend attachment.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

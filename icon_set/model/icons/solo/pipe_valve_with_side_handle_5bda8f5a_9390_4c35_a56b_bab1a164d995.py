@@ -55,6 +55,7 @@ class PipeValveWithSideHandle(Solo48):
     icon_id = 'pipe-valve-with-side-handle'
     keyshape = Keyshape.HRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

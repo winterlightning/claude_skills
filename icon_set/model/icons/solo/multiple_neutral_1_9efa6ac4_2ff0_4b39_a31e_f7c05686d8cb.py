@@ -11,6 +11,7 @@ class MultipleNeutral1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'users'
+    categories = ('users', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'multiple-neutral-1')
 

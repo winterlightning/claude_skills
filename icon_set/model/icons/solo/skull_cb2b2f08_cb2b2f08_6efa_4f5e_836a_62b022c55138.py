@@ -13,6 +13,7 @@ class SkullCb2b2f08(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('skull', 'interface-essential')
     keyshape = Keyshape.HRECT_L

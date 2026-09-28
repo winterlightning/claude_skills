@@ -1,0 +1,1 @@
+Meaning remains unresolved. The recognizable leaf/fruit attempt failed internal-spacing between crown and leaf; separating and simplifying those shapes passed numerically but the clustered drupelets and oval leaf read as a flower or pawn at 48px, not a blackberry. Not suitable for Ready.

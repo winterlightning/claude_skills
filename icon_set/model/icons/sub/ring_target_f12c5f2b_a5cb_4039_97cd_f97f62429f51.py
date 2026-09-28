@@ -16,7 +16,8 @@ class RingTarget(Sub32):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('ring', 'target', 'concentric', 'circular', 'outlines', 'share', 'centre', 'broad')
 

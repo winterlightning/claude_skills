@@ -10,7 +10,8 @@ class CompactDiscWithSheenArcs(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cd', 'disc', 'dvd', 'media', 'storage', 'music', 'shine', 'disk')
 

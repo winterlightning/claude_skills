@@ -14,7 +14,8 @@ class Drawing(Sub32):
     keyshape=Keyshape.VRECT_XL
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'mobile contactless euro payment')
     def build(self):

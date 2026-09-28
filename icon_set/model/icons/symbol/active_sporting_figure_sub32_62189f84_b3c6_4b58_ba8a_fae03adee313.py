@@ -17,7 +17,8 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/container-components'
+    category = 'video-games'
+    categories = ('primitives', 'video-games')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

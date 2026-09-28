@@ -11,6 +11,7 @@ class TurnRightTransportation(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'turn-right-transportation')
 

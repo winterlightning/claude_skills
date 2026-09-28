@@ -11,8 +11,10 @@ from pathlib import Path
 
 if __package__:
     from .workspace import DEFAULT_DATABASE
+    from .state_db import tag_category_reviews
 else:
     from workspace import DEFAULT_DATABASE
+    from state_db import tag_category_reviews
 
 
 SNAPSHOT = Path(__file__).resolve().parents[1] / 'progression.sqlite3'
@@ -32,10 +34,13 @@ def export_snapshot(database, target=SNAPSHOT, reviews=None):
         for uid, user, at in source.execute("SELECT substr(icon,11),username,created_at FROM activity_log WHERE action='primitive_todo' ORDER BY id"):
             dest.execute("INSERT INTO decisions VALUES (?,'todo',NULL,'',?,?,NULL,NULL,NULL) ON CONFLICT(uuid) DO UPDATE SET status='todo',reason=NULL,note='',updated_by=excluded.updated_by,updated_at=excluded.updated_at,main_brief=NULL,sub_brief=NULL,sub_position=NULL WHERE excluded.updated_at>decisions.updated_at", (uid,user,at))
         dest.execute('CREATE TABLE reviews(path TEXT PRIMARY KEY,content TEXT NOT NULL)')
+        # Category reviews live in the database (progression_reviews); a review folder, when given, adds to them.
+        if source.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='progression_reviews'").fetchone():
+            dest.executemany('INSERT INTO reviews VALUES (?,?)', source.execute('SELECT path,content FROM progression_reviews ORDER BY path'))
         if reviews and Path(reviews).exists():
             for path in sorted(Path(reviews).rglob('review.json')):
                 content = json.loads(path.read_text())
-                dest.execute('INSERT INTO reviews VALUES (?,?)', (str(path.relative_to(reviews)),json.dumps(content,ensure_ascii=False,sort_keys=True)))
+                dest.execute('INSERT OR REPLACE INTO reviews VALUES (?,?)', (str(path.relative_to(reviews)),json.dumps(content,ensure_ascii=False,sort_keys=True)))
         dest.execute('PRAGMA user_version=1')
         dest.commit()
         assert dest.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
@@ -66,7 +71,10 @@ def import_snapshot(connection, snapshot=SNAPSHOT):
             connection.execute('INSERT INTO progression_imports VALUES (?,?) ON CONFLICT(uuid) DO UPDATE SET updated_at=excluded.updated_at',(uid,at))
             changed += 1
         for row in source.execute('SELECT path,content FROM reviews'):
-            connection.execute('INSERT INTO progression_reviews VALUES (?,?) ON CONFLICT(path) DO UPDATE SET content=excluded.content',row)
+            connection.execute('INSERT INTO progression_reviews(path,content) VALUES (?,?) ON CONFLICT(path) DO UPDATE SET content=excluded.content',row)
+    columns = {row[1] for row in connection.execute('PRAGMA table_info(progression_reviews)')}
+    if 'category' in columns:
+        tag_category_reviews(connection)
     return changed
 
 
@@ -74,7 +82,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--database',type=Path,default=DEFAULT_DATABASE)
     parser.add_argument('--output',type=Path,default=SNAPSHOT)
-    parser.add_argument('--reviews',type=Path,default=SNAPSHOT.parents[1]/'work/primitives-review')
+    parser.add_argument('--reviews',type=Path,default=None,help='Optional folder of review.json files to add to the database copies')
     args = parser.parse_args()
     export_snapshot(args.database,args.output,args.reviews)
     print(args.output)

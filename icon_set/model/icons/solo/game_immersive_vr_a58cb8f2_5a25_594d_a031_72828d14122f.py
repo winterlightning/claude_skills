@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/gaming'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('game', 'immersive', 'vr')
 

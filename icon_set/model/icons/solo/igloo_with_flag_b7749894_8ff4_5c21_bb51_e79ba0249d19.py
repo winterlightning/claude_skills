@@ -12,7 +12,8 @@ class IglooWithFlag(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('igloo', 'snow', 'arctic', 'shelter', 'dome', 'winter', 'flag', 'expedition')
 

@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = 'fb0bab2042a8fa685ffbdff3c7ac8f7a14ca4825974dd852e94e5
 
 class DrawingVariant2(Sub32):
     icon_id = 'state32-5e0c6d19-547e-46f0-8ec6-c837972fb3f0-v2'
-    variant_of = 'state32-5e0c6d19-547e-46f0-8ec6-c837972fb3f0'
     variant_label = 'Record the actual joined strokes; preserve reviewed artwork'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

@@ -11,6 +11,7 @@ class ChessPawn(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hobbies'
+    categories = ('hobbies', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('chess', 'pawn', 'hobbies', 'solo-ai-next100')
 

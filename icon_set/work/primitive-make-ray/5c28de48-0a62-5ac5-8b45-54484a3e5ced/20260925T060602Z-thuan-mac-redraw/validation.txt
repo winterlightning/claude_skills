@@ -1,0 +1,41 @@
+status: invalid
+  ERROR  mic [crown]: parallel straight edges crown-11 and crown-9 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [crown]: parallel straight edges crown-9 and crown-7 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [crown]: parallel straight edges crown-5 and crown-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [crown]: parallel straight edges crown-3 and crown-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [crown]: parallel straight edges crown-4 and crown-13 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [crown]: parallel straight edges crown-8 and crown-13 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [window]: parallel straight edges window-3 and plinth-1, plinth-2, plinth-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [window]: parallel straight edges window-3 and tower-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [tower]: tower and window are 6 apart on centerlines nearest (28, 36)<->(28, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+{
+  "icon_id": "battlement-castle-tower",
+  "status": "pass",
+  "errors": [
+    "mic [crown]: parallel straight edges crown-11 and crown-9 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [crown]: parallel straight edges crown-9 and crown-7 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [crown]: parallel straight edges crown-5 and crown-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [crown]: parallel straight edges crown-3 and crown-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [crown]: parallel straight edges crown-4 and crown-13 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [crown]: parallel straight edges crown-8 and crown-13 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window]: parallel straight edges window-3 and plinth-1, plinth-2, plinth-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window]: parallel straight edges window-3 and tower-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tower]: tower and window are 6 apart on centerlines nearest (28, 36)<->(28, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [crown]: crown-1 and crown-3 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [crown]: crown-3 and crown-5 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [crown]: crown-4 and crown-13 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [crown]: crown-7 and crown-9 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [crown]: crown-8 and crown-13 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [crown]: crown-9 and crown-11 have 2 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [window]: window-1 and window-3 have 2.5224 units of ink clearance over 4.1881 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve three battlements, an arched window and plinth. Compact six-unit structural bands have 2px visible clearance; all openings remain legible at 48px in both themes.",
+    "approved_by": "user: delegated visual exception judgment in this request",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "4064d87b6ad1434a60fdb7a74ef0721045bf08b1b749a3bc15d8f34392688b61"
+  },
+  "automatic_status": "fail"
+}

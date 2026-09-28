@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1051c492-cdc2-5350-9e90-f45df42fffa6'
 SOURCE_PATH = 'icon_set/work/todo-references/kitchen window_1051c492-cdc2-5350-9e90-f45df42fffa6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'kitchen-window'
     keyshape = Keyshape.SQUARE

@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'twin-prong-nasal-device'
     keyshape = Keyshape.HRECT_L
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('twin', 'prong', 'nasal', 'device')
 
     def build(self):

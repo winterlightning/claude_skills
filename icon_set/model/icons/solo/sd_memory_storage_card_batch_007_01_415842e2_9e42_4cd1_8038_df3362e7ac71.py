@@ -39,6 +39,7 @@ class Result(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'electronics'
+    categories = ('electronics', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('sd', 'memory', 'storage', 'card')
 

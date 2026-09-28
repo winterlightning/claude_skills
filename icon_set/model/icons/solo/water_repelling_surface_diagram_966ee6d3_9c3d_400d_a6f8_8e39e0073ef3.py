@@ -55,6 +55,7 @@ class WaterRepellingSurfaceDiagram(Solo48):
     icon_id = 'water-repelling-surface-diagram'
     keyshape = Keyshape.HRECT_L
     category = 'construction'
+    categories = ('construction', 'primitives')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

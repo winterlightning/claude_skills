@@ -53,6 +53,7 @@ class PersonWithSidePartedHairAndGlasses(Solo48):
     icon_id = 'person-with-side-parted-hair-and-glasses'
     keyshape = Keyshape.VRECT_L
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

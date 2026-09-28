@@ -13,7 +13,8 @@ class HierarchyArchedBranches(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('hierarchy', 'tree', 'branches', 'structure', 'nodes', 'diagram', 'organization', 'network')
 

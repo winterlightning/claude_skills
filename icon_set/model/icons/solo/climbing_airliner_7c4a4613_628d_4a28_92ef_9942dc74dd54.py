@@ -16,7 +16,8 @@ class ClimbingAirliner(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'plane', 'takeoff', 'flight', 'climbing', 'aviation', 'departure', 'travel')
 

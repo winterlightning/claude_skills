@@ -18,7 +18,8 @@ class FemaleTeacherWithWhiteboard(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ('teacher-whiteboard',)
     keywords = ('teacher', 'woman', 'board', 'education')
 

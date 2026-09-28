@@ -14,7 +14,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/ecology'
+    category = 'ecology'
+    categories = ('primitives', 'ecology')
     aliases = ()
     keywords = ('wind', 'turbine', 'blades', 'energy', 'mast', 'rotor', 'power', 'ecology')
     def build(self):

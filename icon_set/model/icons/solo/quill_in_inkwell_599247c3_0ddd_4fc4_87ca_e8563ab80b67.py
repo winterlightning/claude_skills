@@ -12,7 +12,8 @@ class Batch06Icon10(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/stationery"
+    category = "content"
+    categories = ("primitives", "content")
     aliases = ()
     keywords = ('quill', 'in', 'inkwell', 'sub icon')
     def build(self):

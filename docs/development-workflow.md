@@ -261,3 +261,74 @@ pointing `--dist` at the slot recorded by `active.json` as `previous` and its
 the watched branch again, so revert the bad commit before resuming updates.
 The watcher itself stays at its installed version; pull and restart it when
 changing deployment orchestration code.
+
+## Native typeface v2 side text
+
+`icon_set/data/side-text-v2.json` stores the visually checked strings and source
+UUIDs for the text sub list. Rebuild them with
+`python3 -m icon_set side-text --reviews /path/to/review-status.json`, where the
+review file is the target gallery's current `/api/reviews` response. Rejected or
+needs-fix mains are excluded. This writes `published/text-native-v2/`, updates the
+side-component gallery, and saves native combinations under `published/compositions/`.
+Combinations use the shared convex-hull clearance engine with its existing
+8-unit buffer, 2-unit padding and opposite-edge anchoring. Native text pairs
+are also registered in the shared experiment snapshots and preview cache.
+
+These text layouts preserve the existing glyph paths, apply translations only,
+and leave 4 units between character ink bounds (8 between facing centerlines).
+Letters and digits use v2; punctuation absent from v2 uses existing v1 paths at
+native size. They are text layouts, not SUB32 profile drawings. Wide or multiline
+text expands the composition canvas rather than shrinking the letters. The
+report in `published/gallery/side-text-v2.json` records generated pairs and
+references blocked by unavailable mains or non-text symbols.
+
+## Explicit SUB32 and SOLO48 visual exceptions
+
+A user may accept a complete SUB32 32×32 or SOLO48 48×48 drawing that retains 4px strokes despite
+visual spacing, grid, keyshape or small-opening findings. Set the Python icon
+class parameter `exception` to a dictionary containing `reason`, `approved_by`
+and `svg_sha256` (the SHA-256 of `icon.to_svg().encode("utf-8")`). Optional
+`approved_on` records the approval date. This approval belongs to that exact SVG;
+changing its drawing invalidates the exception. Remove the parameter to revoke it.
+
+The build still runs all checks, preserves errors, warnings and the
+`automatic_status`, and exports the approved drawing with its `exception`
+metadata. The side-component gallery labels it **pass · exception**. Checker
+errors, invalid schema, a canvas that does not match its family/profile or non-4px strokes cannot be
+accepted this way. The strict `fix_icon_sub.py check` command continues to report
+the automatic result, so acceptance is never confused with a strict geometry pass.
+
+## Side component review and editing
+
+Main icons and Sub icons offer **Edit icon**, **Approve**, and **Approve as
+exception** on each drawing. The popup reuses Browser Edit, Manual Edit, and
+Pick from the review gallery. Save an edit, then pick that saved version to
+approve and display it. For an intentional validation failure, save with
+**Force pass (human reviewed)** before picking the browser edit.
+
+**Approve as exception** accepts the original drawing with its current SVG
+hash. It preserves the automatic findings and requires the same family canvas
+and 4px strokes as authored exceptions. This approval lives in the production
+artwork database, survives pulls and restarts, and expires when the original
+SVG changes. Live side pages show saved artwork and approvals immediately;
+accepted failed originals are also available in the live icon catalog.
+
+Deploy this feature by pulling the published assets and restarting the Python
+server once. Later edits and approvals need no rebuild or restart.
+
+## Side combination 64 (combine run → Experiment → review)
+
+**Combine approved side pairs** (Progression › Side pairs) shows the number of available pairs
+whose chosen main and sub drawings both have current **Approve** reviews. The button snapshots
+those approved drawing revisions, runs `refresh_combination_pairs --previews` and renders only
+that set. An expired approval, failed drawing or pair without both approvals is excluded.
+The final combined count can be lower if a selected pair cannot be rendered.
+Each run replaces the previous set of combined icons. `build_combination_previews.build()` deletes
+previews of pairs that are no longer combined. `experiment_gallery.stage_side_combination64()` then
+rewrites `published/gallery/side-combination64.json`, which lists only the pairs that actually rendered.
+Its `count` is the number shown on the Experiment tab, in the Experiment grid, and in Progression's
+**Combined · 64** summary. The same records are merged into the review catalog by `deploy.py`
+(`catalog_data`), not into `icons.json`, as the **Side combination 64** family
+(`side_combination64/<pair id>`). Reviews key on the combined SVG's sha, so a pair whose drawing changes
+comes back for review. Disapproved combinations stay out of the default fix queue: they are fixed through
+their main and sub.

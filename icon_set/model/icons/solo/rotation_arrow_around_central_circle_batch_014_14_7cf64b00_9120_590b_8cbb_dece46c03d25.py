@@ -20,7 +20,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "interface-essential"
+    categories = ("interface-essential", "primitives")
     aliases = ()
     keywords = ('rotation', 'arrow', 'circle', 'refresh', 'pivot', 'interface')
 

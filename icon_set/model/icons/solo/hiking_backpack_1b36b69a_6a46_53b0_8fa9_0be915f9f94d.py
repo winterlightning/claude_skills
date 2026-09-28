@@ -13,6 +13,7 @@ class HikingBackpack(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('backpack', 'hiking', 'rucksack', 'camping', 'travel', 'bag', 'outdoors', 'outdoors-batch-02')
 

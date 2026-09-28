@@ -12,7 +12,8 @@ class PoliticianAtPodium(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'society/elections'
+    category = 'school-learning'
+    categories = ('school-learning', 'primitives')
     aliases = ()
     keywords = ('politician', 'podium', 'speech', 'sash', 'person', 'election')
 

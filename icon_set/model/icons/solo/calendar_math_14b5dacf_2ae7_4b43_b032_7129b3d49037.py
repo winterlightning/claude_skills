@@ -1,20 +1,17 @@
-"""A three-binding calendar showing the arithmetic expression 2+1.
-Plan: Three evenly repeated bindings with no header divider, matching the source. Hand-authored 2, plus and 1 remain in source order."""
+'Calendar with math equation.\nPlan: HRECT_L allocates width to 2+1 in the original order. Shared plus intersection and repeated bindings.\nReference: calendar; Even binding rhythm and enclosing calendar.\nChanges: Numeral 1 loses its short lead-in; corners are square; plus is very compact.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '14b5dacf-2ae7-4b43-b032-7129b3d49037'
-SOURCE_PATH = 'icon_set/work/todo-references/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg'
+SOURCE_PATH = 'pictographic-primitives/other/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg'
 AUTHOR = 'gpt-6'
-CONSTRUCTION_REFERENCES = ['calendar']
-PLAN = 'Three-binding calendar with 2+1; redistribute the three glyphs across a wide keyshape.'
-PARENT_RESULT = 'icon_set/work/primitive-make-ray/14b5dacf-2ae7-4b43-b032-7129b3d49037/20260923-b06-3c258fc8/result.json'
 
 class Drawing(Solo48):
     icon_id = 'calendar-math'
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/media"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('calendar', 'math')
 
@@ -75,11 +72,18 @@ class Drawing(Solo48):
                 self.relate("connect",name,"header")
 
     def build(self):
+        # Wide frame owns the 2+1 row. Narrow one is a straight numeral.
+        self.add_polyline('calendar-body',(4,12),(14,12),(24,12),(34,12),(44,12),(44,40),(4,40),closed=True)
+        for x in (14,24,34):
+            self.add_line(f'binding-{x}',(x,8),(x,12))
+            self.relate('connect',f'binding-{x}','calendar-body')
+        self.path('two',(13,23),[('A',(18,23),3,3,True),('L',(13,31)),('L',(18,31))])
+        self.add_polyline('plus-horizontal',(26,27),(27,27),(28,27))
+        self.add_polyline('plus-vertical',(27,25),(27,27),(27,29))
+        self.relate('connect','plus-horizontal','plus-vertical')
+        self.add_line('one',(36,21),(36,31))
 
-        self.calendar(header=False,three=True)
-        self.path("two",(13,23),[("A",(20,23),4,4,True),
-            ("A",(18,27),5,5,True),("L",(13,31)),("L",(20,31))])
-        self.add_polyline("plus-horizontal",(27,26),(29,26),(31,26))
-        self.add_polyline("plus-vertical",(29,24),(29,26),(29,28))
-        self.relate("connect","plus-horizontal","plus-vertical")
-        self.add_polyline("one",(37,22),(39,20),(39,31))
+PARENT_MODULE = 'icon_set/model/icons/solo/calendar_math_14b5dacf_2ae7_4b43_b032_7129b3d49037.py'
+
+# Explicit user approval for this exact SVG; changes invalidate the exception.
+Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'b020531a2d105b6b9535d9c7bc7077a4b2108f30e4a4588e053ea26c40db5213', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '14b5dacf-2ae7-4b43-b032-7129b3d49037'}

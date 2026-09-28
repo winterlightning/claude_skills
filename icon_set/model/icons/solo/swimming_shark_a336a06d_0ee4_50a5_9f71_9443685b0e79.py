@@ -15,7 +15,8 @@ class SwimmingShark(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/marine'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('shark', 'swim', 'sea', 'ocean', 'fin', 'fish', 'predator', 'marine')
 

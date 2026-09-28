@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='f24ed8d0-bad1-40f8-8511-14b66646951a'
 SOURCE_PATH='icon_set/work/todo-references/phone missed_f24ed8d0-bad1-40f8-8511-14b66646951a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A telephone handset with a diagonal missed-call arrow.'
 OMISSIONS='No defining parts omitted.'
 LUCIDE_REFERENCE='phone'

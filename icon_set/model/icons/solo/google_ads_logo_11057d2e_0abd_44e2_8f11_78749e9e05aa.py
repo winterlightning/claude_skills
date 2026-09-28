@@ -10,7 +10,8 @@ class GoogleAdsLogo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('google-ads', 'google', 'advertising', 'letter-a', 'logo', 'brand', 'marketing')
 

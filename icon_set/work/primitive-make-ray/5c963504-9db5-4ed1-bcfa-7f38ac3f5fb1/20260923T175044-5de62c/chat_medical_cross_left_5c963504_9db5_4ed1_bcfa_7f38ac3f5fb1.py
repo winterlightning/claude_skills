@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1'
 SOURCE_PATH = 'icon_set/work/todo-references/chat medical cross left_5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'chat-medical-cross-left'

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='a42c5ace-2d95-442e-890a-394dc910c551'
 SOURCE_PATH='icon_set/work/todo-references/photo frame hang_a42c5ace-2d95-442e-890a-394dc910c551.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A hanging double frame contains a tower and stepped buildings.'
 OMISSIONS='Tower crossbeam omitted; two building steps retained.'
 LUCIDE_REFERENCE='image'

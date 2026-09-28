@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '80d97145-f6de-4619-ba81-710887abad5e'
 SOURCE_PATH = 'icon_set/work/todo-references/shield 2_80d97145-f6de-4619-ba81-710887abad5e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Plain shield with gently arched upper rim and rounded pointed base.
 # Construction references: shield: equal side curves; crown deliberately softer than shield 1.
 # Reduction: No parts omitted.

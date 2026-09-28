@@ -17,7 +17,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/drink"
+    category = "drinks"
+    categories = ("drinks", "primitives")
     aliases = ()
     keywords = ('whiskey', 'glass', 'ice', 'cubes', 'tumbler', 'drink', 'liquor', 'beverage')
 

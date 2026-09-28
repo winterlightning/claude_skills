@@ -7,8 +7,10 @@
 
 The effective catalog is what the gallery shows: ``published/gallery/icons.json`` by default,
 or ``--from-server http://127.0.0.1:8000`` to take a running local deploy.py's /gallery/icons.json,
-which applies saved artwork choices (that overlay needs Python rendering, so it is computed here).
-Uploaded icons are skipped; they already live in D1.
+which applies saved artwork choices and shows workers' uploaded fixes (that overlay needs Python
+rendering, so it is computed here). Uploaded icons are skipped; they already live in D1. The
+"Side combination 64" family (``side-combination64.json``, kept outside icons.json) is pushed as
+icons too, as deploy.py lists it.
 
 Every current drawing is read from the build, checked against its svg_sha256, and stored inline
 in D1 (authored SVGs are ~450 bytes). icons.json is rewritten with ``icons`` last so the Worker can
@@ -40,12 +42,21 @@ def load_catalog(dist: Path, server: str | None) -> dict:
     if server:
         with urllib.request.urlopen(server.rstrip('/') + '/gallery/icons.json', timeout=300) as response:  # local server
             return json.loads(response.read())
-    return json.loads((dist / 'gallery' / 'icons.json').read_text(encoding='utf-8'))
+    catalog = json.loads((dist / 'gallery' / 'icons.json').read_text(encoding='utf-8'))
+    side = dist / 'gallery' / 'side-combination64.json'
+    if side.is_file():
+        catalog['icons'] = catalog['icons'] + json.loads(side.read_text(encoding='utf-8')).get('icons', [])
+    return catalog
 
 
 def drawing(dist: Path, server: str | None, record: dict) -> str | None:
     """The current SVG of a record, from the build or (for artwork choices) the local server."""
     url = record.get('preview_url') or ''
+    if record.get('artwork_source') == 'work_fix':
+        # The gallery shows a worker's uploaded fix; the revision itself is still the built Python drawing.
+        profile = (record.get('profile') or '').lower()
+        path = dist / ('failed' if record.get('build_failed') else '') / profile / f"{record.get('icon_id')}.svg"
+        return path.read_text(encoding='utf-8') if path.is_file() else None
     if url.startswith('../api/') or url.startswith('/api/'):
         if not server:
             return None

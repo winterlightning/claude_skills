@@ -11,7 +11,8 @@ class ScallopShell(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "animals/marine"
+    category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('shell', 'scallop', 'seashell', 'beach', 'ocean', 'ribs', 'marine', 'fan')
 

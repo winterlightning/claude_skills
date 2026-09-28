@@ -60,7 +60,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from icon_set.scripts.icon_artwork import ArtworkStore, resolve_artwork, icon_from_graph, sha
+from icon_set.scripts.icon_artwork import open_artwork_store, resolve_artwork, icon_from_graph, sha
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.metadata import publish_metadata
@@ -195,6 +195,7 @@ def _failed_record(icon, family: str, qa: dict, messages: list[str], mtime: floa
         "canvas_size": (qa.get('rules') or {}).get('profile', {}).get('canvas_size')
                        or Profile.for_family(family).spec.canvas_size,
         "status": qa.get('status', 'error'), "errors": list(messages), "warnings": list(qa.get('warnings') or []),
+        "exception": getattr(icon, 'exception', None),
         "svg": None, "svg_sha256": None, "source_path": _source_path(icon), "source_mtime": mtime,
         "spacing_pairs": pairs, "holes": holes,
     }
@@ -430,7 +431,7 @@ def _stage_family(
     def overlay_failure(icon_id, svg_sha):
         return _qa_overlay_failure(qa_overlays, folder, icon_id, svg_sha)
 
-    artwork_store = ArtworkStore(artwork_dir) if artwork_dir is not None else None
+    artwork_store = open_artwork_store(artwork_dir) if artwork_dir is not None else None
     # Pass 1 decides, in library order, which icons reuse their last result and
     # which must be checked. Pass 2 applies those decisions in the same order,
     # so records and QA rows come out exactly as a sequential build writes them,
@@ -453,6 +454,7 @@ def _stage_family(
             png = preview_dir / f"{icon.icon_id}.png" if preview_dir is not None else None
             overlay = overlay_failure(icon.icon_id, drawing)
             if _reusable_record(record, target_dir / f"{icon.icon_id}.svg", png, mtime, drawing) and \
+                    record.get('exception') == getattr(icon, 'exception', None) and \
                     overlay is None and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] == 'pass')):
                 steps.append(('reuse', record, old_qa))
@@ -460,6 +462,7 @@ def _stage_family(
                 continue
             stale = old_failed.get(icon.icon_id)
             if record is None and stale is not None and mtime is not None and \
+                    stale.get('exception') == getattr(icon, 'exception', None) and \
                     (stale.get('source_mtime') or 0) >= mtime and stale.get('svg_sha256') == drawing and \
                     bool(stale.get('qa_overlays_failed')) == (overlay is not None) and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] != 'pass')):
@@ -546,7 +549,7 @@ def _stage_family(
         if overlay is not None:
             qa['errors'].extend(overlay['errors'])
             qa['qa_overlays'] = overlay
-            if qa['status'] == 'pass' and not (manual and manual['validation_override']):
+            if qa['status'] == 'pass' and not qa.get('exception') and not (manual and manual['validation_override']):
                 qa['status'] = 'fail'
         if qa['status'] != 'pass':
             fail(icon, qa, qa['errors'] or qa['warnings'], mtime)
@@ -576,6 +579,7 @@ def _stage_family(
             record["validation"] = {
                 "status": "human-selected" if manual and (manual['source_mode']=='use_upload' or manual['validation_override']) else "valid",
                 "automatic_status": qa.get('automatic_status', qa['status']),
+                "exception": qa.get('exception'),
                 "validation_override": qa.get('validation_override'),
                 "errors": qa['errors'],
                 "checks_run": qa['checks_run'] + ([] if manual and manual['source_mode']=='use_upload' else ['holes/pinches', 'internal-spacing-review']),
@@ -901,7 +905,8 @@ def main(argv: list[str] | None = None) -> int:
                              'distance or hole check failed on the SVG being published go to the failed build '
                              f'(default: {DEFAULT_QA_OVERLAYS.relative_to(REPO_ROOT)})')
     parser.add_argument('--artwork-dir', type=Path, default=None,
-                        help='Opt in to a manual-artwork export; default builds Python originals only')
+                        help='Opt in to saved human artwork choices: the gallery database (icon_set/state/feedback.sqlite3) '
+                             'or an old icon-artwork JSON folder; default builds Python originals only')
     parser.add_argument('--allow-validation-failures', action='store_true',
                         help='Publish the review gallery even when drawings fail validation; build errors still fail')
     parser.add_argument('--changed-only', action='store_true',

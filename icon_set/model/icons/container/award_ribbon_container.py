@@ -19,7 +19,8 @@ class AwardRibbonContainer(Container64):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ('circular-award-medal-ribbon', 'circular-award-ribbon-badge')
     keywords = ('award', 'ribbon', 'container')
 

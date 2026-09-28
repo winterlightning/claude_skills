@@ -12,7 +12,8 @@ class CancerAwarenessLoopedRibbon(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/health"
+    category = "health"
+    categories = ("health", "primitives")
     aliases = ()
     keywords = ('cancer', 'awareness', 'ribbon', 'symbol')
 

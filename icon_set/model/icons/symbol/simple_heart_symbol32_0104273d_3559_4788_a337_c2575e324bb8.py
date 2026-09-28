@@ -16,7 +16,8 @@ class Drawing(Symbol32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'romance'
+    categories = ('romance', 'state', 'other', 'primitives-generate')
     aliases = ('Simple Heart Love Symbol',)
     keywords = ('symbol', 'container content')
 

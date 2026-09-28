@@ -1,42 +1,52 @@
-'Modern Doorbell Button.\n\nSymbol plan: Tall pill-shaped mounting plate with one central circular doorbell button.\nKeyshape: VRECT_M; authored on SOLO48, not scaled from source.\nLucide: no useful subject match; reference-informed geometric construction.'
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '98f12741-22af-40d9-ac63-b267d9991649'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/doorbell_98f12741-22af-40d9-ac63-b267d9991649.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/doorbell_98f12741-22af-40d9-ac63-b267d9991649.svg'
+AUTHOR = "gpt-6"
 
-class ModernDoorbellButton(Solo48):
+class Drawing(Solo48):
     icon_id = 'modern-doorbell-button'
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/reference'
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
+    aliases = ()
+    keywords = ('doorbell',)
+    def build(self):
+        # Source is a rounded rectangular plate, not a capsule. VRECT_M10..38 /4..44.
+        # Smartphone rounded-rectangle principles; central circular button preserved.
+        self.box("plate",10,4,28,40,6)
+        self.circle("button",24,24,5)
+
+    def path(self,name,start,commands,closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            tag=f"{name}-{i}"
+            if len(c)==2: self.add_line(tag,start,c); start=c
+            else: self.add_bezier(tag,start,c); start=c[2]
+            members.append(tag)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
+        for i in range(4): self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+        self.add_contour(name,*[f"{name}-{i}" for i in range(4)],closed=True)
+
+    def box(self,name,x,y,w,h,r=0):
+        if not r:
+            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            return
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
+        for i in range(8):
+            if i%2: self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+            else: self.add_line(f"{name}-{i}",pts[i],pts[i+1])
+        self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
+
+    icon_id = 'modern-doorbell-button'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('modern', 'doorbell', 'button')
-
-    def build(self):
-        # Tall pill-shaped mounting plate with one central circular doorbell button.
-        axis_x = 24
-        p_10_16 = (10, 16)
-        p_10_32 = (10, 32)
-        p_19_24 = (19, 24)
-        p_22_4 = (22, 4)
-        p_22_44 = (22, 44)
-        p_26_4 = (2 * axis_x - p_22_4[0], p_22_4[1])
-        p_26_44 = (2 * axis_x - p_22_44[0], p_22_44[1])
-        p_29_24 = (2 * axis_x - p_19_24[0], p_19_24[1])
-        p_38_16 = (2 * axis_x - p_10_16[0], p_10_16[1])
-        p_38_32 = (2 * axis_x - p_10_32[0], p_10_32[1])
-        self.add_line('plate-1', p_22_4, p_26_4)
-        self.add_arc('plate-2', p_26_4, p_38_16, radius_x=12, radius_y=12, sweep=True)
-        self.add_line('plate-3', p_38_16, p_38_32)
-        self.add_arc('plate-4', p_38_32, p_26_44, radius_x=12, radius_y=12, sweep=True)
-        self.add_line('plate-5', p_26_44, p_22_44)
-        self.add_arc('plate-6', p_22_44, p_10_32, radius_x=12, radius_y=12, sweep=True)
-        self.add_line('plate-7', p_10_32, p_10_16)
-        self.add_arc('plate-8', p_10_16, p_22_4, radius_x=12, radius_y=12, sweep=True)
-        self.add_contour('plate', 'plate-1', 'plate-2', 'plate-3', 'plate-4', 'plate-5', 'plate-6', 'plate-7', 'plate-8', closed=True)
-        self.add_arc('button-1', p_19_24, p_29_24, radius_x=5, radius_y=5, sweep=True)
-        self.add_arc('button-2', p_29_24, p_19_24, radius_x=5, radius_y=5, sweep=True)
-        self.add_contour('button', 'button-1', 'button-2', closed=True)
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

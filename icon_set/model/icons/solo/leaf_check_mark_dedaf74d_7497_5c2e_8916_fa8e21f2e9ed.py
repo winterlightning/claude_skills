@@ -12,7 +12,8 @@ class LeafCheckMark(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/food"
+    category = "food"
+    categories = ("primitives", "food")
     aliases = ("vegetarian-leaf-check",)
     keywords = ("leaf", "check", "vegetarian", "plant", "foliage")
 

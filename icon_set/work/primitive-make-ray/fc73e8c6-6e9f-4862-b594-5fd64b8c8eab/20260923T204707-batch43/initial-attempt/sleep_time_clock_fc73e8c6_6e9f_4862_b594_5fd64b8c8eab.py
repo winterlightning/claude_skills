@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='fc73e8c6-6e9f-4862-b594-5fd64b8c8eab'
 SOURCE_PATH='icon_set/work/todo-references/sleep time clock_fc73e8c6-6e9f-4862-b594-5fd64b8c8eab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sleep-time-clock'

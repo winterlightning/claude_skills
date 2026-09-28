@@ -15,6 +15,7 @@ class Flag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'social'
+    categories = ('social', 'state')
     aliases = ()
     keywords = ('flag', 'social')
 

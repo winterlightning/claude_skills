@@ -1,24 +1,38 @@
-"""Delivery truck with separated wheels. HRECT_L supports a broad side view.
-Lucide truck contributes cargo/cab hierarchy; reference gives cargo/cab proportions.
-Omit separate windshield bar and detach wheels to keep clear wheel arches. Paired wheels share radius and axle height."""
+"""Box delivery truck with rounded cargo corners and equal wheels with clear separation.
+Plan: Box delivery truck with rounded cargo corners and equal wheels with clear separation.
+Construction: Lucide truck original and atomic-debug: rounded cargo, angled cabin, circular attached wheels.
+Omissions: Window subdivision omitted; wheels separated from body to maintain full interior clearance."""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID = "0070eae2-79f7-4131-b3be-164ea822745d"
 SOURCE_PATH = "pictographic-primitives/_uncategorized_10/carrier_0070eae2-79f7-4131-b3be-164ea822745d.svg"
-AUTHOR = "gpt-6"
+AUTHOR='gpt-6'
 class Drawing(Solo48):
-    icon_id = "box-delivery-truck"
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "Uncategorized"
-    aliases = ["Delivery Truck"]
-    keywords = ["truck", "delivery", "cargo", "vehicle", "box", "cab", "wheels"]
+    icon_id='box-delivery-truck'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
+    aliases=()
+    keywords=('box', 'delivery', 'truck')
+
     def build(self):
-        self.add_polyline("body",(4,25),(4,8),(24,8),(24,16),(34,16),(44,25),(24,25),closed=True)
-        self.add_line("divider",(24,16),(24,25))
-        self.relate("connect","body","divider")
-        for name,x in [("rear",12),("front",36)]:
-            self.add_arc(name+"-top",(x-3,37),(x+3,37),radius_x=3)
-            self.add_arc(name+"-bottom",(x+3,37),(x-3,37),radius_x=3)
-            self.add_contour(name,name+"-top",name+"-bottom",closed=True)
+        def path(name,start,steps,closed=False):
+            p=start; members=[]
+            for j,(kind,q,*args) in enumerate(steps):
+                n=f'{name}-{j}'
+                if p==q: continue
+                if kind=='L': self.add_line(n,p,q)
+                elif kind=='A': self.add_arc(n,p,q,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(n,p,(args[0],args[1],q))
+                p=q;members.append(n)
+            self.add_contour(name,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False):self.add_polyline(n,*p,closed=closed)
+        def join(a,b):self.relate('connect',a,b)
+        path('cargo',(6,8),[('L',(23,8)),('A',(25,10),2,2,True),('L',(25,16)),('L',(25,24)),('L',(6,24)),('A',(4,22),2,2,True),('L',(4,10)),('A',(6,8),2,2,True)],True)
+        poly('cab',(25,16),(34,16),(44,24),(25,24));join('cab','cargo')
+        for name,x in [('rear',12),('front',36)]:circle(name,x,36,4)

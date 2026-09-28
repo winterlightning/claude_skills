@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='613bafeb-8e15-4a5f-b38b-6de37442d065'
 SOURCE_PATH='icon_set/work/todo-references/square envelope_613bafeb-8e15-4a5f-b38b-6de37442d065.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square frame containing an envelope with flap and lower folds.'
 CONSTRUCTION_REFERENCES='Lucide mail: rectangular envelope with centered flap.'
 OMISSIONS='None.'

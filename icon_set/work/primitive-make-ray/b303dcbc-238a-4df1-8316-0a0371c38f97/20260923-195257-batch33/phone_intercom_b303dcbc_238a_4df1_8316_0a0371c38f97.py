@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='b303dcbc-238a-4df1-8316-0a0371c38f97'
 SOURCE_PATH='icon_set/work/todo-references/phone intercom_b303dcbc-238a-4df1-8316-0a0371c38f97.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A telephone handset below a speech bubble for intercom conversation.'
 OMISSIONS='Speech-bubble inner text omitted as in the reference.'
 LUCIDE_REFERENCE='phone'

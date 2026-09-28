@@ -11,7 +11,8 @@ class SnareDrumCrossedSticks(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('drum', 'snare', 'drumsticks', 'percussion', 'instrument', 'band', 'music', 'rhythm')
 

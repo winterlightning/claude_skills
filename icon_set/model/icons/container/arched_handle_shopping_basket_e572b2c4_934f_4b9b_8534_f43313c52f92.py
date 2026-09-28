@@ -11,6 +11,8 @@ AUTHOR = 'gpt-6'
 
 class ArchedHandleShoppingBasket(Container64):
     icon_id = 'arched-handle-shopping-basket'
+    category = 'shopping'
+    categories = ('shopping', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ()

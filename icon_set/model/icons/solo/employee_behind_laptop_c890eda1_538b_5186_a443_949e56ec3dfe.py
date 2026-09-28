@@ -12,7 +12,8 @@ class EmployeeBehindLaptop(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/work'
+    category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('employee', 'laptop', 'person', 'computer', 'work', 'office')
 

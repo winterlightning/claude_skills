@@ -11,6 +11,7 @@ class DesignToolMagnet(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'state')
     aliases = ()
     keywords = ('design', 'tool', 'magnet', 'solo-ai-next100')
 

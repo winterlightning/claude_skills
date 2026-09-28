@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='91199cb3-6e0d-41e0-9c27-12e09942eed6'
 SOURCE_PATH='icon_set/work/todo-references/tv circle check_91199cb3-6e0d-41e0-9c27-12e09942eed6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Television on a central stand with a circled check inside.'
 CONSTRUCTION_REFERENCE='monitor and circle: rounded screen, central stand and circular status mark'
 

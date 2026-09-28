@@ -12,7 +12,8 @@ class Shark(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "animals/marine"
+    category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('shark', 'fish', 'fin', 'sea', 'ocean', 'predator', 'swim', 'marine')
 

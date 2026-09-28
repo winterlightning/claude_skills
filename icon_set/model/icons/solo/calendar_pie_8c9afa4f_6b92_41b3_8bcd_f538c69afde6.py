@@ -4,7 +4,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8c9afa4f-6b92-41b3-8bcd-f538c69afde6'
 SOURCE_PATH = 'icon_set/work/todo-references/calendar pie_8c9afa4f-6b92-41b3-8bcd-f538c69afde6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['calendar']
 PLAN = 'Calendar and three-sector pie retain the lower-left divider; a smooth cubic rim exposes an exact integer attachment point.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/8c9afa4f-6b92-41b3-8bcd-f538c69afde6/20260923-b06-aa15f65f/result.json'

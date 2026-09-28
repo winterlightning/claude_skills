@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f210946c-cdf6-4570-9689-058b554c18ac'
 SOURCE_PATH = 'icon_set/work/todo-references/resize expand spreadsheet_f210946c-cdf6-4570-9689-058b554c18ac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Spreadsheet with a header and a two-by-two cell array; dimension arrows below and right.
 # Reference reduction: Reduced cell count to preserve open cells.
 # Construction references: ['table', 'arrow-right']

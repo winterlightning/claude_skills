@@ -19,6 +19,7 @@ class GoogleDocsLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-docs', 'google', 'document', 'text', 'logo', 'brand', 'office')
 

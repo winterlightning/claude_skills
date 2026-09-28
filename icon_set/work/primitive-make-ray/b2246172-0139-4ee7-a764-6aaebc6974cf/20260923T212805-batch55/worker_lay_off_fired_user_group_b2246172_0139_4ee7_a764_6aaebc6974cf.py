@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b2246172-0139-4ee7-a764-6aaebc6974cf'
 SOURCE_PATH='icon_set/work/todo-references/worker lay off fired user group_b2246172-0139-4ee7-a764-6aaebc6974cf.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='worker-lay-off-fired-user-group'

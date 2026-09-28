@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '066b21a8-f091-485c-bcec-dbf7bacab23b'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/block_066b21a8-f091-485c-bcec-dbf7bacab23b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-square-shape'

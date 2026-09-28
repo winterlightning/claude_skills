@@ -1,0 +1,46 @@
+{
+  "concept": "workflow coaching stopwatch hand",
+  "source_uuid": "a430fc9d-29f3-4753-b308-1283a45b63e1",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-holding-stopwatch/20260924T181031Z-thuan-mac/reference/workflow coaching stopwatch hand_a430fc9d-29f3-4753-b308-1283a45b63e1.svg",
+  "icon_id": "hand-holding-stopwatch",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "hand-holding-stopwatch",
+    "status": "fail",
+    "errors": [
+      "mic [crease-28]: crease-28 and stopwatch are 0.246238 apart on centerlines nearest (28, 28)<->(27.7604, 28.0569); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [crease-36]: crease-36 and watch-hand are 5.83095 apart on centerlines nearest (28, 36)<->(23, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [stopwatch]: stopwatch and watch-hand are 2.99977 apart on centerlines nearest (20.0368, 22.0005)<->(20, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "keyshape": "VRECT_L",
+  "visual_review": "Cannot retain the named stopwatch and the specified thumb plus four rounded fingers at 48px. The rebuilt hand has four finger lobes, but crease-28 lies only 0.246 units from the stopwatch and the dial hand is only 3 units from its case, below MIC 8. Removing the watch yields a different concept; the failed full attempt is retained.",
+  "description": "Rounded palm, extended thumb, open wrist and stacked curled fingers restore the hand silhouette.",
+  "construction_references": "Lucide hand and hand-fist: shared finger joints and rounded knuckles; original coaching hand reference.",
+  "omissions": "Four fingers and stopwatch dial must remain recognizable; this fit tests their spacing.",
+  "artifacts": [
+    "hand_holding_stopwatch_a430fc9d_29f3_4753_b308_1283a45b63e1.py",
+    "hand-holding-stopwatch.svg",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png",
+    "hand-holding-stopwatch.metadata.json",
+    "reference-48.png",
+    "reference-384.png",
+    "validation.txt"
+  ],
+  "reviewer_feedback": "Does not convey the intended meaning\n\nConstruct the icon as a hand:\n- Two open lines entering from the left for the wrist/forearm.\n- One long rounded thumb pointing diagonally upward-left.\n- One rounded palm in the center.\n- Four separate rounded finger segments stacked vertically on the right.\n- One or two short lines for palm and finger creases.",
+  "visual_review_sizes": [
+    48,
+    384
+  ],
+  "visual_review_themes": [
+    "light",
+    "dark"
+  ],
+  "outcome": "cannot-fix",
+  "note": "Cannot retain the named stopwatch and the specified thumb plus four rounded fingers at 48px. The rebuilt hand has four finger lobes, but crease-28 lies only 0.246 units from the stopwatch and the dial hand is only 3 units from its case, below MIC 8. Removing the watch yields a different concept; the failed full attempt is retained."
+}

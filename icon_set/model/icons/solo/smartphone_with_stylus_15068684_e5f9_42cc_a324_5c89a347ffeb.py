@@ -11,7 +11,8 @@ class SmartphoneWithStylus(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('smartphone', 'stylus', 'pen', 'mobile', 'phone', 'device')
 

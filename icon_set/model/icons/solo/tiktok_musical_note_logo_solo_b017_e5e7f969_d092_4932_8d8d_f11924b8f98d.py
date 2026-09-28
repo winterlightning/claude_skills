@@ -13,7 +13,8 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/everyday"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases=()
     keywords=('tiktok', 'musical', 'note', 'logo')
     def build(self):

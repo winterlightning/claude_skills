@@ -1,0 +1,37 @@
+"""Downward Pointing Hand.
+Plan: Open wrist expands to a thumb and two folded knuckles; the long index finger descends to a round tip. Ink (6,2)-(42,46). Human references use simple rounded anatomy; no detached head.
+Reference construction: pointer; hand; human_ref/user.svg and human_ref/full_body_ref.png.
+Reduction: Merge three folded fingertips into two broad knuckles and omit short creases so the pointing index stays clear.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '6844e5df-076b-584d-b04b-1261c4770be8'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__downward-pointing-hand/20260927T135945Z-thuan-mac-1/reference/hand pointer down_6844e5df-076b-584d-b04b-1261c4770be8.svg'
+AUTHOR = "gpt-6"
+class Drawing(Solo48):
+    icon_id = 'downward-pointing-hand'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
+    aliases = ()
+    keywords = ('downward', 'pointing', 'hand')
+    def build(self):
+
+        def circle(name,cx,cy,r):
+            pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
+            for j,(a,b) in enumerate(zip(pts,pts[1:])): self.add_arc(f'{name}-{j}',a,b,radius_x=r)
+            self.add_contour(name,*(f'{name}-{j}' for j in range(4)),closed=True)
+
+        self.add_bezier('wrist-left',(16,4),((16,10),(8,12),(8,18)))
+        self.add_line('thumb-left',(8,18),(8,26))
+        self.add_arc('thumb',(8,26),(14,26),radius_x=3,sweep=False)
+        self.add_line('index-left',(14,26),(14,40))
+        self.add_arc('index-tip',(14,40),(22,40),radius_x=4,sweep=False)
+        self.add_line('index-right',(22,40),(22,26))
+        self.add_arc('knuckle-1',(22,26),(31,26),radius_x=5,sweep=False)
+        self.add_arc('knuckle-2',(31,26),(40,26),radius_x=5,sweep=False)
+        self.add_line('palm-right',(40,26),(40,18))
+        self.add_bezier('wrist-right',(40,18),((40,10),(32,10),(32,4)))
+        self.add_contour('hand','wrist-left','thumb-left','thumb','index-left','index-tip','index-right','knuckle-1','knuckle-2','palm-right','wrist-right')

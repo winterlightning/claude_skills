@@ -12,7 +12,8 @@ class ChatBubbleSmile(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('chat', 'smile', 'bubble', 'happy', 'emoji', 'message', 'feedback', 'friendly')
 

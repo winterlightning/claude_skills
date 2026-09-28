@@ -1,0 +1,116 @@
+{
+  "source_uuid": "e9337ccf-6e62-4109-8b9f-fb9a7582cfcb",
+  "reference_path": "pictographic-primitives/avatars/detective woman_e9337ccf-6e62-4109-8b9f-fb9a7582cfcb.svg",
+  "concept": "detective woman",
+  "previous_modules": [
+    "icon_set/model/icons/solo/detective_woman_1_avatar_e9337ccf_6e62_4109_8b9f_fb9a7582cfcb.py"
+  ],
+  "previous_module": "icon_set/model/icons/solo/detective_woman_1_avatar_e9337ccf_6e62_4109_8b9f_fb9a7582cfcb.py",
+  "result_dir": "icon_set/work/primitive-make-ray/e9337ccf-6e62-4109-8b9f-fb9a7582cfcb/20260925-tube-batch-01a0d6b4",
+  "author": "gpt-6",
+  "icon_id": "woman-in-rounded-cap",
+  "module": "woman_in_rounded_cap_e9337ccf_6e62_4109_8b9f_fb9a7582cfcb.py",
+  "keyshape": "VRECT_L",
+  "plan": "Restore the reference rounded cap and curved visor, circular lower face, flipped bob hair and V-neck shoulders.",
+  "construction_references": "Lucide hat-glasses: separate crown and brim construction; human_ref/user.svg owns round jaw and shoulder vocabulary.",
+  "omissions": [
+    "Upper visor seam omitted; small closed hair wedges reduced to open curved flips."
+  ],
+  "keyshape_visible_ink_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "keyshape_reason": "Upright rectangle contains the cap, lower face, hair and V-neck bust.",
+  "validation_status": "review",
+  "full_qa_status": "review",
+  "automatic_status": "review",
+  "acceptance_status": "user-approved-exception",
+  "validation_errors": [],
+  "validation_warnings": [
+    "mic [jaw]: jaw and left-shoulder are 8.00043 apart on centerlines nearest (16.8443, 27.633)<->(12, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "svg_sha256": "36ccb648c1a80e29a38e56bf3d603e601fb7649b1286c0fe64a215905eede11a",
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      192
+    ],
+    "findings": "The rounded cap, curved visor, flipped hair and V neckline follow the source instead of the previous fedora and scarf. Exact detached head/body spacing is analytically four ink units; automated curved-distance certification remains review."
+  },
+  "artifacts": {
+    "python": "woman_in_rounded_cap_e9337ccf_6e62_4109_8b9f_fb9a7582cfcb.py",
+    "svg": "woman-in-rounded-cap.svg",
+    "metadata": "woman-in-rounded-cap.metadata.json",
+    "input_metadata": "input.metadata.json",
+    "reference": "reference.svg",
+    "before": "before.svg",
+    "validation": "validation.txt",
+    "qa": "qa.json",
+    "report": "report.md",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-192.png",
+      "dark-192.png"
+    ],
+    "exception": "exception.json"
+  },
+  "human_review": {
+    "reference": "icon_set/references/human_ref/user.svg",
+    "jaw_center": [
+      24,
+      18
+    ],
+    "jaw_radius": 12,
+    "body_nearest_points": [
+      [
+        12,
+        34
+      ],
+      [
+        36,
+        34
+      ]
+    ],
+    "head_to_body_ink_gap": 4,
+    "proof": "sqrt(12^2+16^2)-12-4=4. Nearest jaw points are (16.8,27.6) and (31.2,27.6). Shoulder curves approach these endpoints from outside the offset circle; each collar line moves away from it. The checker reports review for the curved pair, not a strict pass."
+  },
+  "exception": {
+    "approved_by": "user",
+    "approved_on": "2026-09-25",
+    "source_request": "other unresolve could make as eception",
+    "recording": "Local exception under the earlier session instruction; raw QA remains unchanged and this is not a strict pass.",
+    "svg_sha256": "36ccb648c1a80e29a38e56bf3d603e601fb7649b1286c0fe64a215905eede11a",
+    "reason": "The exact four-unit head/body ink gap is proved analytically, but the checker cannot certify the diagonal arc/shoulder minimum.",
+    "scope": [
+      "jaw/left-shoulder curved-distance review; reported 8.00043 centerline distance."
+    ],
+    "analytical_proof": {
+      "reference": "icon_set/references/human_ref/user.svg",
+      "jaw_center": [
+        24,
+        18
+      ],
+      "jaw_radius": 12,
+      "body_nearest_points": [
+        [
+          12,
+          34
+        ],
+        [
+          36,
+          34
+        ]
+      ],
+      "head_to_body_ink_gap": 4,
+      "proof": "sqrt(12^2+16^2)-12-4=4. Nearest jaw points are (16.8,27.6) and (31.2,27.6). Shoulder curves approach these endpoints from outside the offset circle; each collar line moves away from it. The checker reports review for the curved pair, not a strict pass."
+    }
+  }
+}

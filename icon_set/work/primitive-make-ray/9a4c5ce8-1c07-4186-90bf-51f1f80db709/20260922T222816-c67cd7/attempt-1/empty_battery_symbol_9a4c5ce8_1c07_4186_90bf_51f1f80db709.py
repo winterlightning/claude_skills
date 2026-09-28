@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9a4c5ce8-1c07-4186-90bf-51f1f80db709'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/charging battery empty 1_9a4c5ce8-1c07-4186-90bf-51f1f80db709.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'empty-battery-symbol'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b1f8b254-d1a6-42ab-b2cf-3daadafa7358'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/cemetery_b1f8b254-d1a6-42ab-b2cf-3daadafa7358.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'gravestone-with-cross'

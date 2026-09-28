@@ -11,6 +11,7 @@ class HorizontalRectangle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'combination'
+    categories = ('combination', 'primitives')
     aliases = ()
     keywords = ('horizontal', 'rectangle', 'combination')
 

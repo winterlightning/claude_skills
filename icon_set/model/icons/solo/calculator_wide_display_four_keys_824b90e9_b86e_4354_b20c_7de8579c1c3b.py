@@ -15,7 +15,8 @@ class Batch30Icon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/finance"
+    category = "finance"
+    categories = ("finance", "other", "primitives-generate")
     aliases = ()
     keywords = ('simple', 'digital', 'calculator')
 

@@ -124,8 +124,8 @@ def strict_check(icon_id: str) -> dict:
         'source_icon_id': module_value(module_path(icon_id), 'SOURCE_ICON_ID'),
         'source_path': module_value(module_path(icon_id), 'SOURCE_PATH'),
         'keyshape': getattr(icon.keyshape, 'name', str(icon.keyshape)),
-        'qa_status': row['status'],
-        'strict_32': 'pass' if row['status'] == 'pass' and not problems else 'fail',
+        'qa_status': row.get('automatic_status', row['status']),
+        'strict_32': 'pass' if row.get('automatic_status', row['status']) == 'pass' and not problems else 'fail',
         'failures': errors,
     }
 

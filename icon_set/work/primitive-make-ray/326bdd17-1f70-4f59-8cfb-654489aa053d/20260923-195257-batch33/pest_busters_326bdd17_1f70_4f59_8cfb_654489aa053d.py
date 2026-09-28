@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='326bdd17-1f70-4f59-8cfb-654489aa053d'
 SOURCE_PATH='icon_set/work/todo-references/pest busters_326bdd17-1f70-4f59-8cfb-654489aa053d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A six-legged insect crossed by a diagonal pest-control slash.'
 OMISSIONS='Thorax split and small head details omitted.'
 LUCIDE_REFERENCE='bug'

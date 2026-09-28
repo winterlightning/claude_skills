@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'antenna-wired-to-a-house'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('antenna', 'wired', 'to', 'a', 'house')
 
     def build(self):

@@ -14,12 +14,12 @@ REFERENCE_EXPORT_SHA256 = '9bbc5a9688cae7020358725b5ea130c8ae8e847164c2006b396f8
 
 class DrawingVariant4(Sub32):
     icon_id = 'chicken-face-sub32-v4'
-    variant_of = 'chicken-face-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'animals'
+    categories = ('animals', 'state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

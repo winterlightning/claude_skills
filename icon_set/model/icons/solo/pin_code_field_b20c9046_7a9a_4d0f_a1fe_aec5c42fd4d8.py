@@ -12,7 +12,8 @@ class PinCodeField(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('pin', 'code', 'password', 'input', 'field', 'keycode', 'passcode', 'security')
 

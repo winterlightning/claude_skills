@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '125d1901-e1d4-4af8-992a-1b24766cf5c1'
 SOURCE_PATH = 'icon_set/work/todo-references/merge table vertical_125d1901-e1d4-4af8-992a-1b24766cf5c1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'Two inward vertical arrows within an open four-corner table boundary.'
 CONSTRUCTION_PLAN = 'One rounded corner definition is mirrored about x=24 and y=24. Equal arrows point toward the central gap. '
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

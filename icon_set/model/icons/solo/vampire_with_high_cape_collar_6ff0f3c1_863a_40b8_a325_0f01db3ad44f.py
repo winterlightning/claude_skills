@@ -18,6 +18,7 @@ class IconVampireWithHighCapeCollar(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ()
     keywords = ('vampire', 'with', 'high', 'cape', 'collar')
     human_construction = "bust"

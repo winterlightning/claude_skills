@@ -15,6 +15,7 @@ class Cursor(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('cursor', 'interface-essential')
 

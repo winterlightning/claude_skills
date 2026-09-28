@@ -19,6 +19,7 @@ class LetterK(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "typeface"
+    categories = ("typeface",)
     # Semantic body region for text composition; source geometry stays unchanged.
     typeface = {'character': 'k', 'kind': 'lowercase', 'body_band': (14, 44)}
     aliases = ()

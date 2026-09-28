@@ -11,6 +11,7 @@ class Squid(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('squid', 'tentacles', 'sea', 'ocean', 'marine', 'cephalopod', 'fins', 'calamari')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fd9ee582-67bc-480d-85e3-0fdc2982679b'
 SOURCE_PATH = 'icon_set/work/todo-references/monitoring bed_fd9ee582-67bc-480d-85e3-0fdc2982679b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A reclining medical bed below a small heartbeat monitor.'
 CONSTRUCTION_PLAN = 'Rounded reclining cushion on a pedestal, with an independent small screen at upper left. Preserve the two-part arrangement.'
 KEYSHAPE_CENTERLINE_BOUNDS = [4, 8, 44, 40]

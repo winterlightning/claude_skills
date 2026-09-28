@@ -26,6 +26,7 @@ class CategorizedSidebarLayoutBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("categorization-list", "sidebar-tiles-layout")
     keywords = ("sidebar", "layout", "categories", "tiles", "dashboard", "window", "interface")
 

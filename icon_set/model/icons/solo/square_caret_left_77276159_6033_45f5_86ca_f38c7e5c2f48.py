@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '77276159-6033-45f5-86ca-f38c7e5c2f48'
 SOURCE_PATH = 'icon_set/work/todo-references/square caret left_77276159-6033-45f5-86ca-f38c7e5c2f48.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-caret-left'

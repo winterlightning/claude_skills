@@ -12,7 +12,8 @@ class Batch06Icon5(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/stationery"
+    category = "content"
+    categories = ("content", "other", "primitives-generate")
     aliases = ()
     keywords = ('open', 'book', 'with', 'two', 'lines')
     def build(self):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f0240cbb-c97d-481a-8652-de2b075a8bca'
 SOURCE_PATH='icon_set/work/todo-references/navigation menu 2_f0240cbb-c97d-481a-8652-de2b075a8bca.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='navigation-menu-2'
     keyshape=Keyshape.VRECT_L

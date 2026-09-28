@@ -2,14 +2,14 @@ from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='4c602b7b-4759-408d-85ec-47eb4b50b541'
 SOURCE_PATH='icon_set/work/todo-references/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three segmented columns below a curved two-ended rearrangement arrow.'
 OMISSIONS='Rows reduced to two per column.'
 LUCIDE_REFERENCE=None
 HUMAN_REFERENCE=None
 FULL_BODY_REFERENCE=None
 class Drawing(Solo48):
-    icon_id='rearrange-column'
+    icon_id = 'rearrange-column'
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'

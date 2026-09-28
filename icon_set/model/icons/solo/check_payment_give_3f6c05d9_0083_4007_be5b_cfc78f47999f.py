@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3f6c05d9-0083-4007-be5b-cfc78f47999f'
 SOURCE_PATH = 'icon_set/work/todo-references/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Check above a pointing hand; lower the fingertip and enlarge the gap in the occluded check edge.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/3f6c05d9-0083-4007-be5b-cfc78f47999f/20260922T222946-af8b23/result.json'

@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b285a9ad-1d8d-44fa-8ec0-6e31ab68ccc4'
 SOURCE_PATH='icon_set/work/todo-references/velvet_b285a9ad-1d8d-44fa-8ec0-6e31ab68ccc4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='velvet'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '95b0fd3b-05a5-49bd-b7c9-29486aaf4857'
 SOURCE_PATH = 'icon_set/work/todo-references/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'ipod-play'
     keyshape = Keyshape.VRECT_L

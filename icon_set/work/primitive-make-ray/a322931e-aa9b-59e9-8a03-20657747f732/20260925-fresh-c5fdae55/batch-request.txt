@@ -1,0 +1,64 @@
+```text
+/primitive-make-ray "pictographic-primitives/business/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg" "pictographic-primitives/cannabis/cannabis_487f3a05-de28-44cf-9e49-3130e24b6363.svg" "pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg" "pictographic-primitives/combination/smart watch circle dollar sign_6b9fab53-d945-4f18-86b9-fcc5bd5840ce.svg" "pictographic-primitives/other/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg" "pictographic-primitives/other/house lock_a7f1734e-4fae-4c0a-9d33-80bf4a3da78f.svg" "pictographic-primitives/other/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg" "pictographic-primitives/other/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg" "pictographic-primitives/other/square woman_7f5b5d3c-bed1-4393-a918-ca1a7b2fc9f1.svg" "pictographic-primitives/travel/plane 1_44d3d80b-4240-42cf-9ac4-2237f7c5d0aa.svg"
+
+Each of these references already has a drawing that needs fixing. Author a FRESH run for every file, even if an earlier result.json exists under icon_set/work/primitive-make-ray/<uuid>/. Do not skip any file. Open the current drawing and read why it failed, then redraw from the reference so the new icon resolves every note below, stays faithful to the reference and passes SOLO48 validation.
+
+1. Open Palm Hand Gesture (a322931e-aa9b-59e9-8a03-20657747f732)
+   - Current drawing open-palm-hand-gesture-solo-b002-11 (icon_set/model/icons/solo/open_palm_hand_gesture_solo_b002_11_a322931e_aa9b_59e9_8a03_20657747f732.py)
+     - Validation error: holes/pinches: 1 undersized holes; 1 pinches
+     - Fix: holes/pinches: enlarge the undersized holes and remove pinched joins
+2. Seven Pointed Cannabis Leaf (487f3a05-de28-44cf-9e49-3130e24b6363)
+   - Current drawing seven-lobed-cannabis-leaf (icon_set/model/icons/solo/seven_lobed_cannabis_leaf_487f3a05_de28_44cf_9e49_3130e24b6363.py)
+     - Validation error: internal-spacing [leaf]: leaf-0 and leaf-2 have 2.5924 units of ink clearance over 3.511 units; requires 4; review required
+     - Validation error: internal-spacing [leaf]: leaf-4 and leaf-6 have 1.6242 units of ink clearance over 2.2511 units; requires 4; review required
+     - Validation error: internal-spacing [leaf / stem]: leaf-5 and stem have 3.2399 units of ink clearance over 3.115 units; requires 4; review required
+     - Validation error: internal-spacing [leaf]: leaf-7 and leaf-9 have 1.6242 units of ink clearance over 2.2511 units; requires 4; review required
+     - Fix: internal-spacing: parts sit too close, keep 4u ink clearance (8u between centerlines)
+   - Current drawing seven-lobed-cannabis-leaf-solo (icon_set/model/icons/solo/cannabis_487f3a05_de28_44cf_9e49_3130e24b6363.py)
+     - Validation error: internal-spacing [leaf]: leaf-0 and leaf-2 have 2.5924 units of ink clearance over 3.511 units; requires 4; review required
+     - Validation error: internal-spacing [leaf]: leaf-4 and leaf-6 have 1.6242 units of ink clearance over 2.2511 units; requires 4; review required
+     - Validation error: internal-spacing [leaf / stem]: leaf-5 and stem have 3.2399 units of ink clearance over 3.115 units; requires 4; review required
+     - Validation error: internal-spacing [leaf]: leaf-7 and leaf-9 have 1.6242 units of ink clearance over 2.2511 units; requires 4; review required
+     - Fix: internal-spacing: parts sit too close, keep 4u ink clearance (8u between centerlines)
+3. Smart Watch Yuan Symbol (b1f2ce85-d591-4522-b2a6-64d3fc5c75f6)
+   - Current drawing smart-watch-yuan-symbol (icon_set/model/icons/solo/smart_watch_yuan_symbol_b1f2ce85_d591_4522_b2a6_64d3fc5c75f6.py)
+     - Validation error: holes/pinches: 2 undersized holes; 0 pinches
+     - Fix: holes/pinches: enlarge the undersized holes and remove pinched joins
+4. Smartwatch with Dollar Sign (6b9fab53-d945-4f18-86b9-fcc5bd5840ce)
+   - Current drawing smartwatch-dollar-sign (icon_set/model/icons/solo/smartwatch_dollar_sign_6b9fab53_d945_4f18_86b9_fcc5bd5840ce.py)
+     - Validation error: holes/pinches: 4 undersized holes; 1 pinches
+     - Fix: holes/pinches: enlarge the undersized holes and remove pinched joins
+5. Eighteen Plus Calendar (fc5ffdff-80e9-4119-bf62-fb7c515c5aad)
+   - Current drawing browser-with-18-plus-text (icon_set/model/icons/solo/browser_with_18_plus_text_fc5ffdff_80e9_4119_bf62_fb7c515c5aad.py)
+     - Validation error: mic [calendar-body]: parallel straight edges calendar-body-0 and plus-vertical-1, plus-vertical-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [calendar-body]: calendar-body and one are 6 apart on centerlines nearest (6, 26)<->(12, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+     - Validation error: mic [header]: header and eight-top are 5 apart on centerlines nearest (23, 18)<->(23, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+     - Validation error: mic [calendar-body]: calendar-body and eight-bottom are 7 apart on centerlines nearest (23, 42)<->(23, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+     - Fix: mic: a gap or opening is too narrow, widen it to 4u ink clearance (8u centerlines)
+6. Secure Home Padlock (a7f1734e-4fae-4c0a-9d33-80bf4a3da78f)
+   - Current drawing house-lock (icon_set/model/icons/solo/house_lock_a7f1734e_4fae_4c0a_9d33_80bf4a3da78f.py)
+     - Validation error: internal-spacing [lock-body / shackle]: lock-body-2 and shackle-top have 3.3897 units of ink clearance over 5.2354 units; requires 4; review required
+     - Fix: internal-spacing: parts sit too close, keep 4u ink clearance (8u between centerlines)
+7. Computer Monitor with Application Icons (1aef3c2a-6d0d-43a2-9616-698d70dc5298)
+   - Current drawing monitor-small-squares (icon_set/model/icons/solo/monitor_small_squares_1aef3c2a_6d0d_43a2_9616_698d70dc5298.py)
+     - Validation error: mic [screen]: parallel straight edges screen-0 and square-0-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [square-0]: parallel straight edges square-0-1 and square-0-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [square-0]: parallel straight edges square-0-3 and square-1-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [square-1]: parallel straight edges square-1-1 and square-1-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Fix: mic: a gap or opening is too narrow, widen it to 4u ink clearance (8u centerlines)
+8. Laptop with Skull Malware (44a8272b-04c4-4a7c-b200-ee122a35ef32)
+   - Current drawing laptop-skull (icon_set/model/icons/solo/laptop_skull_44a8272b_04c4_4a7c_b200_ee122a35ef32.py)
+     - Validation error: mic [jaw-right]: parallel straight edges jaw-right and tooth are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [tooth]: parallel straight edges tooth and jaw-left are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+     - Validation error: mic [screen]: screen and cranium are 4.39445 apart on centerlines nearest (24, 8)<->(24, 12.3944); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+     - Validation error: mic [screen]: screen and tooth are 5 apart on centerlines nearest (24, 32)<->(24, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+     - Fix: mic: a gap or opening is too narrow, widen it to 4u ink clearance (8u centerlines)
+9. Square Woman Profile Icon (7f5b5d3c-bed1-4393-a918-ca1a7b2fc9f1)
+   - Current drawing square-woman (icon_set/model/icons/solo/square_woman_7f5b5d3c_bed1_4393_a918_ca1a7b2fc9f1.py)
+     - Validation error: holes/pinches: 1 undersized holes; 2 pinches
+     - Fix: holes/pinches: enlarge the undersized holes and remove pinched joins
+10. Airplane Rotation Sync (44d3d80b-4240-42cf-9ac4-2237f7c5d0aa)
+   - Current drawing plane-1-solo (icon_set/model/icons/solo/plane_1_44d3d80b_4240_42cf_9ac4_2237f7c5d0aa.py)
+     - Validation error: holes/pinches: 0 undersized holes; 3 pinches
+     - Fix: holes/pinches: enlarge the undersized holes and remove pinched joins
+```

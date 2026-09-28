@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '64b0a542-67a6-4d92-8168-4adc3edbd214'
 SOURCE_PATH = 'icon_set/work/todo-references/patentee_64b0a542-67a6-4d92-8168-4adc3edbd214.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A patent certificate with a folded corner and ribbon seal.

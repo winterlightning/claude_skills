@@ -13,6 +13,7 @@ class TrashCan(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('trash', 'can', 'symbol')
     keyshape = Keyshape.VRECT_L

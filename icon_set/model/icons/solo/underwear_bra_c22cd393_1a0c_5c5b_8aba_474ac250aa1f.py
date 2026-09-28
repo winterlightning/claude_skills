@@ -15,6 +15,7 @@ class UnderwearBra(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
+    categories = ('primitives', 'clothes')
     aliases = ()
     keywords = ('underwear', 'bra', 'clothes')
 

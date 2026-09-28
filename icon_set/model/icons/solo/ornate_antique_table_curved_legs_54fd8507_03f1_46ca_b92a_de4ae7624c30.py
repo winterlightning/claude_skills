@@ -12,7 +12,8 @@ class OrnateAntiqueTableCurvedLegs(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/furniture"
+    category = "furnitures"
+    categories = ("furnitures", "primitives")
     aliases = ()
     keywords = ('vintage', 'ornate', 'antique', 'table')
 

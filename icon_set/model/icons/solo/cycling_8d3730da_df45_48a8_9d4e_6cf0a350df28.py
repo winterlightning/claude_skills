@@ -12,7 +12,8 @@ class Cycling(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'symbols/standalone'
+    category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('cycling', 'bicycle', 'bike', 'cyclist', 'sport', 'ride', 'exercise', 'transport')
 

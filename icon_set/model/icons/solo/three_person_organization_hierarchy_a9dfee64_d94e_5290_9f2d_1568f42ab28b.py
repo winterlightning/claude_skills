@@ -69,6 +69,7 @@ class ThreePersonOrganizationHierarchy(Solo48):
     icon_id = 'three-person-organization-hierarchy'
     keyshape = Keyshape.SQUARE
     category = 'companies'
+    categories = ('primitives', 'companies')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

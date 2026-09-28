@@ -1,73 +1,79 @@
-"""A 360-degree VR band with a small game symbol.
-Symbol plan: cylinder: curved band silhouette; source supplies 360 text and open-mouth game mark.
-Keyshape: HRECT_L; fixed profile envelope is recorded in ink_extremes.
-Reduction: None; digits and game symbol retained.
+"""video game 360 vr.
+Plan: Full-height 360 with narrowed three, eight-unit six internal run, rounded open band sides and enlarged upward-facing game mouth. Band rim omitted where symbols need clearance.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='c710459a-2d6e-4c8e-89da-f6b82e663367'
-SOURCE_PATH='icon_set/work/todo-references/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg'
-AUTHOR='gpt-6'
-
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='video-game-360-vr'
-    keyshape=Keyshape.HRECT_L
+    icon_id = 'video-game-360-vr'
+    keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
     aliases=()
     keywords=('video', 'game', '360', 'vr')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
 
     def build(self):
-        self.add_arc('band-top',(4,24),(44,24),radius_x=20,radius_y=6,sweep=False)
-        self.add_line('band-right',(44,24),(44,34))
-        self.add_arc('band-bottom',(44,34),(4,34),radius_x=20,radius_y=6)
-        self.add_line('band-left',(4,34),(4,24))
-        self.add_contour('band','band-top','band-right','band-bottom','band-left',closed=True)
-        self.add_bezier('three',(13,9),((21,6),(21,13),(15,13)),((21,13),(21,21),(13,17)))
-        self.add_bezier('six',(28,9),((20,6),(20,19),(26,19)),((32,19),(30,11),(23,14)))
-        self.add_arc('zero-top',(32,13),(40,13),radius_x=4,radius_y=5)
-        self.add_arc('zero-bottom',(40,13),(32,13),radius_x=4,radius_y=5)
-        self.add_contour('zero','zero-top','zero-bottom',closed=True)
-        self.add_arc('game-mouth',(27,31),(27,37),radius_x=4,large_arc=True,sweep=False)
-        self.add_polyline('game-wedge',(27,37),(24,34),(27,31));self.relate('connect','game-mouth','game-wedge')
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-
-    def person(self,name,cx,cy,r,bottom):
-        # Shared human reference: exact detached head gap at the shoulder apex.
-        self.circle(name+'-head',cx,cy,r)
-        top=cy+r+8;w=6
-        self.add_arc(name+'-shoulder-left',(cx-w,top+6),(cx,top),radius_x=w)
-        self.add_arc(name+'-shoulder-right',(cx,top),(cx+w,top+6),radius_x=w)
-        self.add_line(name+'-right',(cx+w,top+6),(cx+w,bottom))
-        self.add_line(name+'-bottom-right',(cx+w,bottom),(cx,bottom))
-        self.add_line(name+'-bottom-left',(cx,bottom),(cx-w,bottom))
-        self.add_line(name+'-left',(cx-w,bottom),(cx-w,top+6))
-        self.add_contour(name+'-body',name+'-shoulder-left',name+'-shoulder-right',name+'-right',name+'-bottom-right',name+'-bottom-left',name+'-left',closed=True)
-
-    def dollar(self,cx,cy):
-        self.add_bezier('dollar',(cx+3,cy-6),((cx-3,cy-9),(cx-6,cy-3),(cx,cy)),((cx+6,cy+3),(cx+3,cy+9),(cx-3,cy+6)))
-        self.add_polyline('dollar-stem',(cx,cy-9),(cx,cy),(cx,cy+9))
-        self.relate('connect','dollar','dollar-stem')
+        self.add_polyline('three',(6,6),(10,6),(10,14),(6,14))
+        self.add_polyline('three-bottom',(10,14),(10,22),(6,22));self.join('three','three-bottom')
+        self.circle('six-loop',22,18,4);self.add_polyline('six-stem',(18,18),(18,6),(26,6));self.join('six-loop','six-stem')
+        self.path('zero',(34,10),[('A',(42,10),4,4,True),('L',(42,18)),('A',(34,18),4,4,True),('L',(34,10))],True)
+        self.path('band-left',(10,30),[('A',(6,34),4,4,False),('L',(6,38)),('A',(10,42),4,4,False)])
+        self.path('band-right',(38,30),[('A',(42,34),4,4,True),('L',(42,38)),('A',(38,42),4,4,True)])
+        self.add_arc('game-arc',(24,30),(30,36),radius_x=6,large_arc=True,sweep=False)
+        self.add_polyline('game-mouth',(30,36),(24,36),(24,30));self.join('game-arc','game-mouth')

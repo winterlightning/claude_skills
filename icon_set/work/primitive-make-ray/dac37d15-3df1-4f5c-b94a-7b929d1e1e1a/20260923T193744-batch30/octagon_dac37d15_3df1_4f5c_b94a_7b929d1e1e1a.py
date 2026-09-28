@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dac37d15-3df1-4f5c-b94a-7b929d1e1e1a'
 SOURCE_PATH = 'icon_set/work/todo-references/octagon_dac37d15-3df1-4f5c-b94a-7b929d1e1e1a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'octagon'

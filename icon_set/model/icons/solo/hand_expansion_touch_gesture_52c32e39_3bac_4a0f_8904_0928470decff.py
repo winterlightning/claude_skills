@@ -9,7 +9,8 @@ class HandExpansionTouchGesture(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "gestures/touch"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("expand gesture", "three-way drag")
     keywords = ("hand", "finger", "arrows", "spread")
 

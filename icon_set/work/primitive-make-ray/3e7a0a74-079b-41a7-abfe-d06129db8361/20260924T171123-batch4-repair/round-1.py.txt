@@ -1,0 +1,36 @@
+"""Circular smiling face with paired five-point star eyes. CIRCLE matches the face silhouette. Source supplies expression; Lucide star supplies five-tip contour. Reduced star eyes close at stroke4: unresolved parallel runs and holes. Wider eyes were also tried and violate face/eye and inter-eye clearance; rotating the face does not improve packing."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '3e7a0a74-079b-41a7-abfe-d06129db8361'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face grin stars_3e7a0a74-079b-41a7-abfe-d06129db8361.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'smiling-face-with-star-eyes-v2'
+    variant_of = 'smiling-face-with-star-eyes'
+    variant_label = 'Distilled reconstruction'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('smiling', 'face', 'with', 'star', 'eyes', 'v2')
+
+    def build(self):
+        def circle(name, x, y, r):
+            self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
+            self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
+            self.add_contour(name,name+'-a',name+'-b',closed=True)
+        def path(name, start, commands, closed=False):
+            here=start; members=[]
+            for i,(kind,end,*args) in enumerate(commands):
+                part=f'{name}-{i}'
+                if kind=='L': self.add_line(part,here,end)
+                elif kind=='A': self.add_arc(part,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                else: self.add_bezier(part,here,(args[0],args[1],end))
+                here=end; members.append(part)
+            self.add_contour(name,*members,closed=closed)
+        circle('face',24,24,20)
+        for i,x in enumerate((17,31)):
+            self.add_polyline(f'star-{i}',(x,13),(x+2,17),(x+4,17),(x+3,21),(x+4,25),(x,22),(x-4,25),(x-3,21),(x-4,17),(x-2,17),closed=True)
+        self.add_arc('smile',(20,33),(28,33),radius_x=5,sweep=False)

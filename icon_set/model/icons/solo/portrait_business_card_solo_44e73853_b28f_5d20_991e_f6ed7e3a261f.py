@@ -18,7 +18,8 @@ class SourceMain(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'office'
+    categories = ('office', 'primitives')
     aliases = ('portrait-business-card',)
     keywords = ('portrait', 'business', 'card')
 

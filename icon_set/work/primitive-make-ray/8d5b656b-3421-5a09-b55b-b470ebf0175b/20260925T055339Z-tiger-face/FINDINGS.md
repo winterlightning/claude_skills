@@ -1,0 +1,3 @@
+# Tiger face correction
+
+Removed the oversized oval muzzle. Added a compact angular feline nose, one forehead stripe and two cheek stripes; closed the rounded face outline. These tiger markings follow the user correction and go beyond the unstriped source reference. Paired ears, eyes and cheek markings mirror about x=24. SQUARE centerline bounds (6,6)-(42,42). Lucide cat informed the feline facial hierarchy. Simplified away nested muzzle and lip outlines for clear 48 px reading. Reviewed native and enlarged light/dark renders. Model validation valid and full QA pass, zero warnings; no per-icon exception.

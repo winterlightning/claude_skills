@@ -12,7 +12,8 @@ class RamHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'animals/wildlife'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('ram', 'goat', 'horns', 'head', 'face', 'aries', 'farm', 'animal')
 

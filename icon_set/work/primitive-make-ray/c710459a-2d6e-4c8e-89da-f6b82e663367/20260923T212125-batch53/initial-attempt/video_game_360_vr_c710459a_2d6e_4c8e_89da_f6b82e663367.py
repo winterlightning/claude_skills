@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c710459a-2d6e-4c8e-89da-f6b82e663367'
 SOURCE_PATH='icon_set/work/todo-references/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='video-game-360-vr'

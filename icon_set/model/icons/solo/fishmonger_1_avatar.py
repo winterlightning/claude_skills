@@ -18,7 +18,8 @@ class Fishmonger1Avatar(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'avatars'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('fishmonger', '1', 'portrait', 'bust')
 

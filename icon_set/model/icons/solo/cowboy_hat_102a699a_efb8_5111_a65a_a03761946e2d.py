@@ -10,7 +10,8 @@ class CowboyHat(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/accessories'
+    category = 'accessories'
+    categories = ('primitives', 'accessories')
     aliases = ()
     keywords = ('hat', 'cowboy hat', 'western', 'stetson', 'brim', 'ranch', 'headwear', 'country')
 

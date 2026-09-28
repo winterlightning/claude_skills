@@ -1,0 +1,1 @@
+Rechecked the original: restored its long outlined diagonal handle behind the rim, deeper tapered basket, rounded corners, and wheels under the lower corners. VRECT_L; all strokes4. The handle opening fails the strict spacing and hole checks; no exception applied. Reference: supplied original plus previously inspected Lucide shopping-cart for coherent curves and equal wheels.

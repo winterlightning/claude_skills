@@ -14,7 +14,8 @@ AUTHOR = 'gpt-6-astra'
 class Drawing(Solo48):
     icon_id = 'cupped-hands-beneath-casino-chip'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     semantic_role = "MAIN"
     semantic_kind = "noun"
     aliases = ("Hands Holding Casino Chip",)

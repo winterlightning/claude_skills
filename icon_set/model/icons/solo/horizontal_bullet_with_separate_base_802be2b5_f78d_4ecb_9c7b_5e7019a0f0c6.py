@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'horizontal-bullet-with-separate-base'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('horizontal', 'bullet', 'with', 'separate', 'base')
 
     def build(self):

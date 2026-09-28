@@ -11,6 +11,7 @@ class FilePaperDocument(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'files'
+    categories = ('files', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'file-paper-document')
 

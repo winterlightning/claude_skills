@@ -11,6 +11,7 @@ class ClassicalPiano(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'music'
+    categories = ('primitives', 'music')
     aliases = ()
     keywords = ('classical', 'piano', 'music', 'solo-ai-next100')
 

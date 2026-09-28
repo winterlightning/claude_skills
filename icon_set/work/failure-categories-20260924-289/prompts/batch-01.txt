@@ -1,0 +1,95 @@
+Run $primitive-make-ray to repair failed icons, batch 1 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Keyshape bounds: the visible ink does not exactly match the chosen keyshape envelope (rectangles fit with tolerance 0; CIRCLE is radial). Choose the keyshape first, get its extremes from Keyshape.<TOKEN>.bounds_for(Profile.SOLO48), and design backwards so the outermost strokes sit exactly on the centerline box. Put arc centres on integer points with the apex at the endpoint so nothing overshoots or falls short.
+    - Part spacing: two distinct parts are closer than 8 units between centerlines (ink clearance 4). Give every gap at least 8, or truly join the parts (shared endpoint plus relate('connect')), or merge or drop the minor part. A mark between two walls needs a 16-unit band, or 17 if a wall is curved. Never squeeze.
+    - Parallel straight edges: two parallel straight runs (slots, teeth, list lines, columns, inner frames) are under 8 apart on centerlines. Space parallel runs at least 8 apart, use fewer repeated lines, or widen the part holding them.
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_01/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg
+     icon_id: adjustable-brightness-light-bulb
+     current drawing: published/failed/solo48/adjustable-brightness-light-bulb.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  2. pictographic-primitives/_uncategorized_01/aerial yoga bow pose_4a1112c6-2f20-434b-b756-511460d08610.svg
+     icon_id: aerial-yoga-bow-pose
+     current drawing: published/failed/solo48/aerial-yoga-bow-pose.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  3. pictographic-primitives/_uncategorized_02/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg
+     icon_id: amazon-emr
+     current drawing: published/failed/solo48/amazon-emr.svg
+     violates 2 rules: part spacing under 8, parallel straight edges under 8
+       - part spacing under 8: mic [hub]: hub and plus-horizontal are 6.999 apart on centerlines nearest (6.001, 23.914)<->(13, 24); (needs 8) | mic [plus-vertical]: plus-vertical and upper-link are 7.810 apart on centerlines nearest (15, 22)<->(21, 17); (needs 8) | mic [plus-horizontal]: plus-horizontal and right-upper-link are 7.280 apart on centerlines nearest (17, 24)<->(24, 22); (needs 8) (+3 more)
+       - parallel straight edges under 8: mic [upper-node]: parallel straight edges upper-node-3 and right-upper-node-1 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [right-upper-node]: parallel straight edges right-upper-node-3 and right-lower-node-1 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  4. pictographic-primitives/_uncategorized_02/amazon mq_14a3a91e-9beb-47ca-9999-bd7a4d5e5429.svg
+     icon_id: square-centered-ring-network
+     current drawing: published/failed/solo48/square-centered-ring-network.svg
+     violates 1 rule: part spacing under 8
+       - part spacing under 8: mic [ring-0]: ring-0 and ring-1 are 8 apart on centerlines nearest (40, 20)<->(40, 28); (needs 8)
+  5. pictographic-primitives/_uncategorized_02/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg
+     icon_id: code-version-control-and-branching
+     current drawing: published/failed/solo48/code-version-control-and-branching.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  6. pictographic-primitives/_uncategorized_02/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg
+     icon_id: amazon-elemental-medialive
+     current drawing: published/failed/solo48/amazon-elemental-medialive.svg
+     violates 3 rules: keyshape bounds, part spacing under 8, parallel straight edges under 8
+       - keyshape bounds: canvas/keyshape bounds: visible ink (4, 3, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 1.0, 0.0, 2.0], tolerance 0.0)
+       - part spacing under 8: mic [play]: play and top are 5.813 apart on centerlines nearest (21.4, 18.2)<->(24, 13); (needs 8) | mic [play]: play and lower-left are 7.071 apart on centerlines nearest (19, 31)<->(14, 36); (needs 8) | mic [lower-left]: lower-left and scan-bottom are 5 apart on centerlines nearest (14, 40)<->(19, 40); (needs 8) (+1 more)
+       - parallel straight edges under 8: mic [top]: parallel straight edges top-6 and top-3 are 7.155 apart on centerlines (ink gap 3.155); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [lower-left]: parallel straight edges lower-left-6 and lower-left-3 are 7.155 apart on centerlines (ink gap 3.155); requires at least 8 centerline / 4 ink (midpoint-normal) | mic [lower-right]: parallel straight edges lower-right-6 and lower-right-3 are 7.155 apart on centerlines (ink gap 3.155); requires at least 8 centerline / 4 ink (midpoint-normal) (+4 more)
+  7. pictographic-primitives/_uncategorized_03/amber_3ccf997d-67a6-4970-9541-a4835906cdba.svg
+     icon_id: fossilized-bug-in-amber
+     current drawing: published/failed/solo48/fossilized-bug-in-amber.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 5 undersized holes; 4 pinches
+       - undersized holes: holes/pinches: 5 undersized holes; 4 pinches
+  8. pictographic-primitives/_uncategorized_03/american football ball 1_a9f0b51b-1232-4e6f-922b-648cbe4c0f54.svg
+     icon_id: diagonal-american-football
+     current drawing: published/failed/solo48/diagonal-american-football.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [outline / end-band-high]: cap-upper and end-band-high have 1.831 units of ink clearance over 10.471 units; requires 4; review required | internal-spacing [outline / end-band-low]: cap-lower and end-band-low have 1.953 units of ink clearance over 10.222 units; requires 4; review required
+  9. pictographic-primitives/_uncategorized_03/amphibian frog body_b274b037-6061-4c72-b6f8-f750487d883c.svg
+     icon_id: front-facing-seated-frog
+     current drawing: published/failed/solo48/front-facing-seated-frog.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [frog / right-haunch]: frog-4 and right-haunch-0 have -0.889 units of ink clearance over 3.019 units; requires 4; review required | internal-spacing [frog / right-haunch]: frog-5 and right-haunch-0 have 3.434 units of ink clearance over 2.916 units; requires 4; review required | internal-spacing [frog / right-haunch]: frog-5 and right-haunch-1 have -0.011 units of ink clearance over 10.850 units; requires 4; review required (+3 more)
+  10. pictographic-primitives/_uncategorized_03/amusement park ferris wheel 1_504a0510-ec03-4633-a8b4-a32a2b49ce54.svg
+     icon_id: spoked-ferris-wheel-with-round-cabins
+     current drawing: published/failed/solo48/spoked-ferris-wheel-with-round-cabins.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 2 undersized holes; 2 pinches
+       - undersized holes: holes/pinches: 2 undersized holes; 2 pinches
+  11. pictographic-primitives/_uncategorized_03/anaconda_22672d31-d164-4dfa-a6e8-c5a29193cea8.svg
+     icon_id: s-curved-snake
+     current drawing: published/failed/solo48/s-curved-snake.svg
+     violates 2 rules: parallel straight edges under 8, undersized holes
+       - parallel straight edges under 8: mic [snake]: parallel straight edges snake-2 and snake-4 are 6.363 apart on centerlines (ink gap 2.363); requires at least 8 centerline / 4 ink (midpoint-normal)
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  12. pictographic-primitives/_uncategorized_03/ankle tracker_09ba7447-8f77-4033-ba06-5bf4e4d39449.svg
+     icon_id: electronic-ankle-tracking-device
+     current drawing: published/failed/solo48/electronic-ankle-tracking-device.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [foot-outline]: foot-outline-3 and foot-outline-5 have 0.163 units of ink clearance over 3.726 units; requires 4; review required | internal-spacing [foot-outline]: foot-outline-6 and foot-outline-9 have 2.976 units of ink clearance over 2.5 units; requires 4; review required
+  13. pictographic-primitives/_uncategorized_03/aquarium_4fb53005-bb60-46fd-bc0e-7ea549f599e9.svg
+     icon_id: fish-in-an-aquarium-tank
+     current drawing: published/failed/solo48/fish-in-an-aquarium-tank.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 2 undersized holes; 4 pinches
+       - undersized holes: holes/pinches: 2 undersized holes; 4 pinches
+  14. pictographic-primitives/_uncategorized_04/arch linux logo_7f1ad0e2-4f9e-423b-9473-4df26eae6fed.svg
+     icon_id: pointed-arch-linux-emblem
+     current drawing: published/failed/solo48/pointed-arch-linux-emblem.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [left / base]: left-1 and base-1 have 3.116 units of ink clearance over 10.957 units; requires 4; review required | internal-spacing [left / base]: left-2 and base-1 have 3.308 units of ink clearance over 4.236 units; requires 4; review required
+  15. pictographic-primitives/_uncategorized_04/archaeologist_434aebe0-5637-41b2-ba5b-e41942db8485.svg
+     icon_id: archaeologist-beside-a-spade
+     current drawing: published/failed/solo48/archaeologist-beside-a-spade.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [brim / jaw]: brim and jaw have 3.028 units of ink clearance over 8.211 units; requires 4; review required | internal-spacing [jaw / shoulders]: jaw and shoulders have 0.037 units of ink clearance over 2.646 units; requires 4; review required

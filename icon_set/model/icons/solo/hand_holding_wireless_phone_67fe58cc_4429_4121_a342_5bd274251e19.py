@@ -11,7 +11,8 @@ class HandHoldingWirelessPhone(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('hand', 'phone', 'wireless', 'signal', 'holding', 'mobile')
 

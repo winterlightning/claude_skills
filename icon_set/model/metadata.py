@@ -8,7 +8,7 @@ from types import SimpleNamespace
 from . import contracts
 
 ROOT = Path(__file__).resolve().parents[1] / "metadata"
-FIELDS = ("name", "description", "tags", "aliases", "category", "keywords")
+FIELDS = ("name", "description", "tags", "aliases", "category", "categories", "keywords")
 
 
 def metadata_path(icon, root: Path | None = None) -> Path:
@@ -30,8 +30,18 @@ def defaults(icon) -> dict:
         "tags": list(dict.fromkeys(getattr(icon, "tags", keywords))),
         "aliases": list(dict.fromkeys(getattr(icon, "aliases", ()))),
         "category": getattr(icon, "category", ""),
+        "categories": model_categories(icon),
         "keywords": keywords,
     }
+
+
+def model_categories(icon, category: str | None = None) -> list[str]:
+    """Every category the icon belongs to; ``category`` alone when the model lists none."""
+    categories = list(dict.fromkeys(getattr(icon, "categories", ())))
+    if categories:
+        return categories
+    category = getattr(icon, "category", "") if category is None else category
+    return [category] if category else []
 
 
 def validate(document: dict, icon) -> None:
@@ -47,7 +57,7 @@ def validate(document: dict, icon) -> None:
             raise ValueError(f"Metadata {field} must be a string")
     if not document["name"].strip():
         raise ValueError("Metadata name must not be blank")
-    for field in ("tags", "aliases", "keywords"):
+    for field in ("tags", "aliases", "categories", "keywords"):
         values = document.get(field)
         if (not isinstance(values, list)
                 or any(not isinstance(value, str) or not value.strip() for value in values)
@@ -72,6 +82,9 @@ def load_metadata(icon, *, root: Path | None = None, create: bool = False) -> di
                 return load_metadata(icon, root=root)
     except ValueError as error:
         raise ValueError(f"{path}: {error}") from error
+    if isinstance(document, dict) and "categories" not in document:
+        # Sidecars written before icons had several categories.
+        document["categories"] = model_categories(icon, document.get("category"))
     try:
         validate(document, icon)
     except ValueError as error:

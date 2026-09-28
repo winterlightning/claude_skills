@@ -11,7 +11,8 @@ class Fetus(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/maternity'
+    category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ('embryo',)
     keywords = ('fetus', 'pregnancy', 'unborn', 'womb', 'embryo', 'prenatal', 'baby', 'gestation')
 

@@ -11,7 +11,8 @@ class TajMahal(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/landmarks"
+    category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('taj mahal', 'india', 'agra', 'mausoleum', 'dome', 'minaret', 'landmark', 'heritage')
 

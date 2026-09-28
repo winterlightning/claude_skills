@@ -21,6 +21,7 @@ class FiveLobedCannabisLeafWithCurvedStem(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'cannabis'
+    categories = ('primitives', 'cannabis')
     tags = ('sub icon',)
     aliases = ()
     keywords = ('five-lobed', 'cannabis', 'leaf', 'with', 'curved', 'stem')

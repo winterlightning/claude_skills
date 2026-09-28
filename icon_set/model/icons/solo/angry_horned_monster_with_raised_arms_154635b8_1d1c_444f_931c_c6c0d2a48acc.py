@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'angry-horned-monster-with-raised-arms'
     keyshape = Keyshape.SQUARE
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('angry', 'horned', 'monster', 'with', 'raised', 'arms')
 
     def build(self):

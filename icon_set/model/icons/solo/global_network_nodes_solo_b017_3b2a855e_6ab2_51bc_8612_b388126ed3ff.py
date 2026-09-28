@@ -13,7 +13,8 @@ class BatchIcon(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/everyday"
+    category = "networks"
+    categories = ("primitives", "networks")
     aliases=()
     keywords=('global', 'network', 'nodes')
     def build(self):

@@ -1,22 +1,21 @@
-"""An elevator doorway sits beside separate up and down arrows.
-Plan: Nested doorway rails keep a common floor; two arrow strokes repeat vertically.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. No useful local Lucide subject match used; shared geometric construction principles applied.
+"""transporter 2.
+Plan: Open doorway left and opposed transport arrows right. Remove second door trim; straight arrow-to-door gap is 8.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'a94a77f8-560c-43b1-83e5-a5b781212a50'
-SOURCE_PATH = 'icon_set/work/todo-references/transporter 2_a94a77f8-560c-43b1-83e5-a5b781212a50.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='a94a77f8-560c-43b1-83e5-a5b781212a50'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/transporter 2_a94a77f8-560c-43b1-83e5-a5b781212a50.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'transporter-2'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('transporter', '2')
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('transporter', '2')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,8 +69,6 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.add_polyline('door',(6,42),(6,6),(30,6),(30,42),(22,42),(14,42),(6,42))
-        self.add_polyline('opening',(14,42),(14,14),(22,14),(22,42));self.join('door','opening')
+        self.add_polyline('door',(6,42),(6,6),(26,6),(26,42))
         self.add_line('up-shaft',(38,6),(38,20));self.add_polyline('up-head',(34,10),(38,6),(42,10));self.join('up-shaft','up-head')
         self.add_line('down-shaft',(38,28),(38,42));self.add_polyline('down-head',(34,38),(38,42),(42,38));self.join('down-shaft','down-head')

@@ -13,6 +13,7 @@ class StagBeetle(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('stag beetle', 'beetle', 'insect', 'horn', 'bug', 'shell', 'profile', 'nature')
 

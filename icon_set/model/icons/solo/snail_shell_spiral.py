@@ -10,7 +10,8 @@ class SnailShellSpiral(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl', 'sub icon')
 

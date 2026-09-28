@@ -15,6 +15,7 @@ class Dog(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'pets'
+    categories = ('pets', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('dog', 'pets')
 

@@ -10,7 +10,8 @@ class WebcamOnStand(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('webcam', 'camera', 'video-call', 'lens', 'stand', 'stream', 'device')
 

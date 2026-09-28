@@ -13,6 +13,7 @@ class DiverUnderwater(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('diving', 'scuba', 'diver', 'underwater', 'freediving', 'swimming', 'sea', 'fin', 'outdoors-batch-01')
 

@@ -13,7 +13,8 @@ class SunShower(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/weather'
+    category = 'weather'
+    categories = ('weather', 'primitives')
     aliases = ()
     keywords = ('sun', 'rain', 'cloud', 'shower', 'weather', 'daylight')
 

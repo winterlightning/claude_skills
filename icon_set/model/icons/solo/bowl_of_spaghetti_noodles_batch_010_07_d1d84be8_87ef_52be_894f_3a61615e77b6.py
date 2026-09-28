@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-010"
+    category = "food"
+    categories = ("primitives", "food")
     aliases = ()
     keywords = ('bowl', 'of', 'spaghetti', 'noodles')
 

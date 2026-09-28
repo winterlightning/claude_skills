@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b9c1cbac-5439-4b45-98c2-03e923e14b07'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/cell border right_b9c1cbac-5439-4b45-98c2-03e923e14b07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-section-grid-layout'

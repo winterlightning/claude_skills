@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '864a3e5e-bff8-4c48-84b5-70e4dafc6d23'
 SOURCE_PATH = 'icon_set/work/todo-references/message bubble circle_864a3e5e-bff8-4c48-84b5-70e4dafc6d23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'An empty broad oval speech bubble with a lower-left tail.'
 CONSTRUCTION_PLAN = 'Wider oval than circle 1, with tangent cardinal extrema and intentional lower-left tail asymmetry.'
 KEYSHAPE_CENTERLINE_BOUNDS = [4, 8, 44, 40]

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='d4554878-96fc-4ac9-833b-7cf76a28dfc4'
 SOURCE_PATH='icon_set/work/todo-references/ui webpage template add_d4554878-96fc-4ac9-833b-7cf76a28dfc4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Page template with horizontal rows and a lower-right add sign.'
 CONSTRUCTION_REFERENCE='panels-top-left: repeated horizontal divisions and rounded upper corners'
 

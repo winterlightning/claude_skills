@@ -12,7 +12,8 @@ class AngularSuv(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('suv', 'car', 'crossover', 'vehicle', 'side view', 'automobile', '4x4', 'driving')
 

@@ -18,7 +18,8 @@ class DrawingVariant2(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/fire'
+    category = 'fire'
+    categories = ('fire', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

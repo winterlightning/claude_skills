@@ -12,6 +12,7 @@ class ElephantHeadFriendly(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals',)
     aliases = ('elephant-head',)
     keywords = ('elephant', 'head', 'ears', 'trunk', 'friendly', 'wildlife')
 

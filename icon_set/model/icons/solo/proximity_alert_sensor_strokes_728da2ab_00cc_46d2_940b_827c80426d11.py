@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '728da2ab-00cc-46d2-940b-827c80426d11'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'proximity-alert-sensor-strokes'

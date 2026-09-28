@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='9906051d-60e6-48a1-85dc-e14a0d83a72d'
 SOURCE_PATH='icon_set/work/todo-references/turn 1_9906051d-60e6-48a1-85dc-e14a0d83a72d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Diamond traffic sign with opposing branches on an outlined vertical route.'
 CONSTRUCTION_REFERENCE='signpost: coherent outlined arrow corners; intentional opposing branches'
 

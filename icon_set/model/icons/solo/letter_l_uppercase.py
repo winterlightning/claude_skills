@@ -17,6 +17,7 @@ class LetterLUppercase(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'typeface'
+    categories = ('typeface',)
     typeface = {'character': 'L', 'kind': 'uppercase'}
     aliases = ()
     keywords = ('L', 'uppercase', 'capital', 'typeface')

@@ -18,6 +18,7 @@ class ManClerkAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('man', 'clerk', 'portrait', 'bust')
     def build(self):

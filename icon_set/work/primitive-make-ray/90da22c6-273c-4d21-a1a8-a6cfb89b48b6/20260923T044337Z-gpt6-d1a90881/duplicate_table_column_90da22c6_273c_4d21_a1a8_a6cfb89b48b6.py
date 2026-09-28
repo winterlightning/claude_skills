@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '90da22c6-273c-4d21-a1a8-a6cfb89b48b6'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/duplicate column_90da22c6-273c-4d21-a1a8-a6cfb89b48b6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DuplicateTableColumn(Solo48):
     icon_id = 'duplicate-table-column'

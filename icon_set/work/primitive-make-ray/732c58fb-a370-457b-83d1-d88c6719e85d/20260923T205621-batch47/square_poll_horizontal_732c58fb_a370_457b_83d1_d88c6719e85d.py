@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '732c58fb-a370-457b-83d1-d88c6719e85d'
 SOURCE_PATH = 'icon_set/work/todo-references/square poll horizontal_732c58fb-a370-457b-83d1-d88c6719e85d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-poll-horizontal'

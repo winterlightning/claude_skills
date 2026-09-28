@@ -1,38 +1,52 @@
+"""Square temperature fahrenheit, reconstructed from the supplied reference.
+Symbol plan: one complete composition; shared frame and repeated geometry parameters.
+Lucide square-arrow-up informs tangent rounded corners and joined arrow construction.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '513a80b0-c23c-4732-baf6-7285d2bcbb03'
 SOURCE_PATH = 'icon_set/work/todo-references/square temperature fahrenheit_513a80b0-c23c-4732-baf6-7285d2bcbb03.svg'
-AUTHOR = 'gpt-6'
-# Plan: Rounded square enclosing a degree mark and the letter F.
-# References: No exact local Lucide typography match; F is hand-authored with shared stem intersections.
-# Reduction: Tiny source degree mark retained as a dot; no defining parts omitted.
+AUTHOR = "gpt-6"
 
-class AuthoredIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'square-temperature-fahrenheit'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/signage'
     aliases = ()
     keywords = ('square', 'temperature', 'fahrenheit')
 
     def build(self):
-        self.box("frame",6,6,42,42,4)
-        self.add_dot('degree',(16,17))
-        self.add_polyline('f',(26,33),(26,16),(33,16))
-        self.add_line('f-bar',(26,25),(32,25));self.relate('connect','f','f-bar')
+        self.frame()
+        # Preserve the source's small degree mark and hand-authored F.
+        self.add_dot('degree',(15,15))
+        self.add_polyline('f-top',(33,16),(24,16),(24,24),(24,33))
+        self.add_line('f-middle',(24,24),(31,24))
+        self.relate('connect','f-top','f-middle')
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
 
-    def box(self,n,l,t,r,b,q=4):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+    def circle(self, name, x, y, r):
+        self.add_arc(name+'-a', (x-r,y), (x+r,y), radius_x=r)
+        self.add_arc(name+'-b', (x+r,y), (x-r,y), radius_x=r)
+        self.add_contour(name, name+'-a', name+'-b', closed=True)
+
+    def frame(self):
+        # SQUARE extremes: centerlines (6,6)-(42,42), ink (4,4)-(44,44).
+        # Shared quarter-circle corners give a tangent-continuous square.
+        lo, hi, r = 6, 42, 4
+        nodes = [(lo+r,lo),(hi-r,lo),(hi,lo+r),(hi,hi-r),
+                 (hi-r,hi),(lo+r,hi),(lo,hi-r),(lo,lo+r)]
+        members=[]
+        for i,a in enumerate(nodes):
+            b=nodes[(i+1)%8]; name=f'frame-{i}'; members.append(name)
+            if i%2: self.add_arc(name,a,b,radius_x=r)
+            else: self.add_line(name,a,b)
+        self.add_contour('frame',*members,closed=True)
+
+    def up_arrow(self, name, x, top, bottom, half):
+        tip=(x,top)
+        self.add_polyline(name+'-head',(x-half,top+half),tip,(x+half,top+half))
+        self.add_line(name+'-shaft',(x,bottom),tip)
+        self.relate('connect',name+'-head',name+'-shaft')
+

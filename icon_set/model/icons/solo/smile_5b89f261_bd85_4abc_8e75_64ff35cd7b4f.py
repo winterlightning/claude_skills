@@ -11,6 +11,7 @@ class Smile(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'chat'
+    categories = ('primitives', 'chat')
     aliases = ()
     keywords = ('smile', 'chat')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b60b81a4-9d88-4566-84d3-7931d6c1da67'
 SOURCE_PATH = 'icon_set/work/todo-references/sass circle logo_b60b81a4-9d88-4566-84d3-7931d6c1da67.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Circular Sass logo with an open upper script loop and lower S loop, hand-authored as smooth cubics.
 # Reference: No useful exact local Lucide logo match. Supplied Sass reference owns the calligraphic path.
 # Reduction: Simplified small loop curvature to integer knots; retained both script loops.

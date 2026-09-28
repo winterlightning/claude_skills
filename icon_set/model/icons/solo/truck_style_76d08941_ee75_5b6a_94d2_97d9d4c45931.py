@@ -11,6 +11,7 @@ class TruckStyle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'delivery'
+    categories = ('delivery', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'truck-style')
 

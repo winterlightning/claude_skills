@@ -15,7 +15,8 @@ class SunFog(Solo48):
     keyshape = Keyshape.HRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/weather"
+    category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('sun', 'fog', 'mist', 'haze', 'weather', 'daylight')
 

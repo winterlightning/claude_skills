@@ -11,7 +11,8 @@ class ExpandedDropdownMenu(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface'
+    category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('dropdown', 'menu', 'form', 'options', 'interface', 'chevron', 'selection')
 

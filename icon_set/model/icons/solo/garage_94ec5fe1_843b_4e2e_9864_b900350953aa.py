@@ -12,7 +12,8 @@ class Garage(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('garage', 'warehouse', 'building', 'parking', 'car', 'storage', 'depot', 'door')
 

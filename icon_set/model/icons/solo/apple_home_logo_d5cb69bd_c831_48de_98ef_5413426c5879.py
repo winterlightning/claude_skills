@@ -19,6 +19,7 @@ class AppleHomeLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('home', 'apple-home', 'house', 'smart-home', 'logo', 'brand', 'apps')
 

@@ -13,6 +13,7 @@ class LockE43b261d(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'lock-e43b261d')
     keyshape = Keyshape.VRECT_L

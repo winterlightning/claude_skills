@@ -15,7 +15,8 @@ class KikLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('kik', 'messenger', 'chat', 'letter-k', 'logo', 'brand', 'speech-bubble')
 

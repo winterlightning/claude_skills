@@ -16,7 +16,8 @@ AUTHOR = 'gpt-6'
 class PassengerBus(Solo48):
     icon_id = "passenger-bus"
     keyshape = Keyshape.HRECT_L
-    category = "objects/transport"
+    category = "transportation"
+    categories = ("transportation",)
     aliases = ("bus", "public-transport-passenger-bus", "transit-bus")
     keywords = (
         "bus", "transport", "transit", "vehicle", "travel", "coach",

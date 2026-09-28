@@ -14,7 +14,8 @@ class ChristmasBauble(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/holidays"
+    category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('christmas', 'bauble')
 

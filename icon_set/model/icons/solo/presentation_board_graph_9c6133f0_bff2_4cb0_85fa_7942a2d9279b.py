@@ -11,6 +11,7 @@ class PresentationBoardGraph(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'presentation-board-graph')
 

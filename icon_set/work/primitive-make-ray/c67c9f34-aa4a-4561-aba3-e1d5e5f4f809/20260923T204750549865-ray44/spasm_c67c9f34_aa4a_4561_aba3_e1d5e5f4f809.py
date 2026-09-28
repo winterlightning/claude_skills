@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c67c9f34-aa4a-4561-aba3-e1d5e5f4f809'
 SOURCE_PATH = 'icon_set/work/todo-references/spasm_c67c9f34-aa4a-4561-aba3-e1d5e5f4f809.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Large angular spasm bolt with three short motion rays on its left.
 # References: No useful exact local Lucide match; coherent polygon and detached motion strokes.
 # Reduction: No parts omitted.

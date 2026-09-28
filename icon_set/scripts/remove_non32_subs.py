@@ -10,8 +10,8 @@
 The size is the model's own canvas (`canvas_dimensions`), which is what the
 published SVG's width/height come from; e.g. a 24x24 `*-symbol-resize` icon or
 a 68x20 natural-width text icon. Removal goes through `discard_icon.discard_many`,
-the gallery's Discard action: the Python model is archived to
-`<state>/discarded-icons/`, and its published SVG/PNG, manifest and catalog rows
+the gallery's Discard action: the Python model is archived in the gallery
+database's discarded_icons table, and its published SVG/PNG, manifest and catalog rows
 and review rows are removed. A model that another kept icon depends on (as its
 `variant_of` parent or by import) is reported and left in place.
 """
@@ -68,7 +68,6 @@ def apply(rows, user) -> dict:
     with sqlite3.connect(DEFAULT_DATABASE) as connection:
         while pending:
             result = discard_many(pending, source_root=REPO_ROOT, dist=DEFAULT_DIST,
-                                  archive=DEFAULT_DATABASE.parent / 'discarded-icons',
                                   connection=connection, user=user)
             connection.commit()
             discarded += result['discarded']

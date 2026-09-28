@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-008"
+    category = "electronics"
+    categories = ("electronics", "primitives")
     aliases = ()
     keywords = ('power', 'adapter', 'with', 'lightning', 'symbol')
 

@@ -103,6 +103,16 @@ class ProductionTests(IconUploadTests):
                 with self.subTest(route=route, method=method):
                     self.assertEqual(self.call(method, route, {} if method == 'POST' else None)[0], 403)
 
+    def test_side_layouts_are_production_state(self):
+        # Production edits its own layouts: they live beside its database, and saving needs a login.
+        import os
+        self.assertEqual(os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'], str(self.database.resolve().parent / 'combination-layouts.json'))
+        self.assertEqual(self.call('GET', '/api/combinations/side/layouts'), (200, {}))
+        status, body = self.call('POST', '/api/combinations/side/layout', {'pair_id': 'x', 'layout': None})
+        self.assertEqual(status, 401)
+        status, body = self.call('POST', '/api/combinations/side/layout/apply', {'pair_id': 'x', 'layout': {}, 'targets': []})
+        self.assertEqual(status, 401)
+
     def test_manual_choice_survives_replacement_of_original(self):
         self.login()
         original = dict(self.icon)

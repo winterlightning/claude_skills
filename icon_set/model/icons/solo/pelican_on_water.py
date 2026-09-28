@@ -11,7 +11,8 @@ class PelicanOnWater(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('pelican',)
     keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
 

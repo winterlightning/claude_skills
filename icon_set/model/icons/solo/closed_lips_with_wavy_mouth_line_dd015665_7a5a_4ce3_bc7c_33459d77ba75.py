@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'closed-lips-with-wavy-mouth-line'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     def build(self):
 
         def path(name,start,steps,closed=False):

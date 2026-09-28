@@ -19,6 +19,7 @@ class HerokuLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('heroku', 'cloud', 'hosting', 'letter-h', 'logo', 'brand', 'platform')
 

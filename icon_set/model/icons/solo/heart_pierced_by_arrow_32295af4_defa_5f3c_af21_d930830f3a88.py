@@ -15,7 +15,8 @@ class HeartPiercedByArrow(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/romance'
+    category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('heart', 'arrow', 'cupid', 'love', 'romance', 'pierced')
 

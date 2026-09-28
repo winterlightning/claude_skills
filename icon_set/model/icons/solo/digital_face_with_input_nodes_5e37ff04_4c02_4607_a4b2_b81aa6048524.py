@@ -1,59 +1,70 @@
-"""Digital Face with Input Nodes.
-
-Symbol plan: A circular digital face receives three equal input nodes. Two eyes and a short neutral mouth preserve face recognition; the construction grid and curved smile are simplified to maintain clear spacing.
-Lucide: brain-circuit; original and atomic-debug geometry inspected.
-Keyshape: HRECT_L; centerline (4,8)-(44,40); ink (2,6)-(46,42).
+"""Fresh reconstruction of deepfake face from the supplied reference.
+Construction references: Lucide brain-circuit; supplied wire-face reference. Symbol plan recorded in build().
+Profile SOLO48, keyshape HRECT_L; final findings are recorded alongside this module.
 """
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5e37ff04-4c02-4607-a4b2-b81aa6048524'
 SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/deepfake face_5e37ff04-4c02-4607-a4b2-b81aa6048524.svg'
 AUTHOR = 'gpt-6'
 
-
-class DigitalFaceWithInputNodes(Solo48):
+class Drawing(Solo48):
     icon_id = 'digital-face-with-input-nodes'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
-    keywords = ('head', 'neural network', 'intelligence', 'connection', 'thinking', 'technology', 'brain', 'artificial intelligence')
+    keywords = ('deepfake', 'face')
+
+    def circle(self, n, x, y, r):
+        self.add_arc(n+'-top', (x-r,y), (x+r,y), radius_x=r)
+        self.add_arc(n+'-bottom', (x+r,y), (x-r,y), radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def box(self,n,l,t,r,b,k=4,top=(),bottom=()):
+        p=[(l+k,t),*[(x,t) for x in sorted(top)],(r-k,t),(r,t+k),(r,b-k),(r-k,b),*[(x,b) for x in sorted(bottom,reverse=True)],(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,(a,z) in enumerate(zip(p,p[1:]+p[:1])):
+            if a==z:continue
+            name=f'{n}-{i}';ids.append(name)
+            if a[0]!=z[0] and a[1]!=z[1]:self.add_arc(name,a,z,radius_x=k)
+            else:self.add_line(name,a,z)
+        self.add_contour(n,*ids,closed=True)
 
     def build(self):
-        x,y,r=30,24,14
-        self.circle('face',x,y,r)
-        for n,ex in [('left',26),('right',34)]:self.add_dot(n+'-eye',(ex,20))
-        self.add_line('mouth',(26,28),(34,28))
-        for j,ny,end in [(0,10,(30,10)),(1,24,(16,24)),(2,38,(30,38))]:
-            self.circle(f'node-{j}',6,ny,2)
-            self.add_line(f'input-{j}',(8,ny),end);self.relate('connect',f'input-{j}',f'node-{j}');self.relate('connect',f'input-{j}','face')
+        # Restore the source's construction grid and curved smile; no invented eye dots.
+        self.add_line('face-top-left',(24,8),(30,8))
+        self.add_line('face-top-right',(30,8),(34,8))
+        self.add_arc('face-tr',(34,8),(44,18),radius_x=10)
+        self.add_line('face-right-lower',(44,18),(44,30))
+        self.add_arc('face-br',(44,30),(34,40),radius_x=10)
+        self.add_line('face-bottom-right',(34,40),(30,40))
+        self.add_line('face-bottom-left',(30,40),(24,40))
+        self.add_arc('face-bl',(24,40),(17,33),radius_x=7)
+        self.add_line('face-left-lower',(17,33),(17,18))
+        self.add_line('face-left-upper',(17,18),(17,15))
+        self.add_arc('face-tl',(17,15),(24,8),radius_x=7)
+        self.add_contour('face','face-top-left','face-top-right','face-tr','face-right-lower','face-br','face-bottom-right','face-bottom-left','face-bl','face-left-lower','face-left-upper','face-tl',closed=True)
+        self.add_polyline('vertical-grid',(30,8),(30,18),(30,31),(30,40))
+        self.add_polyline('horizontal-grid',(17,18),(30,18),(44,18))
+        self.relate('connect','face','vertical-grid','horizontal-grid')
+        self.add_arc('smile-left',(26,27),(30,31),radius_x=4,radius_y=4,sweep=False)
+        self.add_arc('smile-right',(30,31),(34,27),radius_x=4,radius_y=4,sweep=False)
+        self.add_contour('smile','smile-left','smile-right');self.relate('connect','smile','vertical-grid')
+        for i,y in enumerate((10,24,38)):
+            self.circle(f'node-{i}',6,y,2)
+            end=[(24,8),(17,18),(24,40)][i]
+            self.add_line(f'input-{i}',(8,y),end)
+            self.relate('connect',f'input-{i}',f'node-{i}')
+            self.relate('connect',f'input-{i}','face')
+            if i==1:self.relate('connect',f'input-{i}','horizontal-grid')
 
-    def path(self, name, start, *steps, closed=False):
-        members=[]
-        point=start
-        for index, step in enumerate(steps):
-            member=f"{name}-{index+1}"
-            if len(step)==2:
-                self.add_line(member,point,step)
-                point=step
-            elif len(step)==5:
-                x,y,rx,ry,sweep=step
-                self.add_arc(member,point,(x,y),radius_x=rx,radius_y=ry,sweep=sweep)
-                point=(x,y)
-            else:
-                x,y,cx1,cy1,cx2,cy2=step
-                self.add_bezier(member,point,((cx1,cy1),(cx2,cy2),(x,y)))
-                point=(x,y)
-            members.append(member)
-        self.add_contour(name,*members,closed=closed)
-
-    def circle(self,name,x,y,r):
-        self.path(name,(x,y-r),(x+r,y,r,r,True),(x,y+r,r,r,True),
-                  (x-r,y,r,r,True),(x,y-r,r,r,True),closed=True)
-
-    def rect(self,name,x,y,w,h,r=2):
-        self.path(name,(x+r,y),(x+w-r,y),(x+w,y+r,r,r,True),
-                  (x+w,y+h-r),(x+w-r,y+h,r,r,True),(x+r,y+h),
-                  (x,y+h-r,r,r,True),(x,y+r),(x+r,y,r,r,True),closed=True)
+    icon_id = 'digital-face-with-input-nodes'
+    category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
+    aliases = ()
+    keywords = ('head', 'neural network', 'intelligence', 'connection', 'thinking', 'technology', 'brain', 'artificial intelligence')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

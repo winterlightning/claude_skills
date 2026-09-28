@@ -1,0 +1,42 @@
+{
+  "concept": "browser with 18+ text",
+  "source_uuid": "fc5ffdff-80e9-4119-bf62-fb7c515c5aad",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__browser-with-18-plus-text/20260926T085631Z-thuan-mac/reference/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg",
+  "icon_id": "browser-with-18-plus-text",
+  "author": "claude-opus-5-5",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "browser-with-18-plus-text",
+    "status": "fail",
+    "errors": [
+      "mic [calendar]: calendar and plus-h are 7 apart on centerlines nearest (44, 25)<->(37, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eight-top]: eight-top and plus-h are 5.54453 apart on centerlines nearest (25.8246, 23.0107)<->(31, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "keyshape": "HRECT_L",
+  "outcome": "cannot-fix",
+  "blocker": "Width budget: calendar walls x4/x44 leave 40 units; \"1\" (0) + \"8\" (two r3 rings, 6) + \"+\" (6) with four 8-unit gaps needs 44 of the 40 available. The \"+\" (plus-h) comes 5.5 from the \"8\" ring (eight-top) and 7 from the right wall (calendar).",
+  "visual_review": "Attempt rendered at 48px and 384px: calendar box with bindings and a thin 18+ row; readable but the plus crowds the 8 and the wall.",
+  "omissions": "Header line dropped in the attempt to give the digits height.",
+  "lucide_reference": "Lucide calendar box and bindings.",
+  "fix_for": "solo/browser-with-18-plus-text",
+  "feedback": "8_spacing",
+  "fix_claim": "icon_set/work/primitive-fix-thuan/solo__browser-with-18-plus-text/20260926T085631Z-thuan-mac",
+  "artifacts": [
+    "__pycache__",
+    "browser-with-18-plus-text.metadata.json",
+    "browser-with-18-plus-text.svg",
+    "browser_with_18_plus_text_fc5ffdff_80e9_4119_bf62_fb7c515c5aad.py",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "reference.svg",
+    "validation.txt",
+    "result.json"
+  ]
+}

@@ -2,14 +2,14 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='07568706-6580-4938-9b1c-46841b6e4e23'
 SOURCE_PATH='icon_set/work/todo-references/square f_07568706-6580-4938-9b1c-46841b6e4e23.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square frame containing an empty speech bubble with a lower-left tail.'
 CONSTRUCTION_REFERENCES='Lucide message-square: coherent outline and integrated tail.'
 OMISSIONS='Rounded inner corners reduced to round joins; source bubble retained despite letter filename.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
-    icon_id='square-f'
+    icon_id = 'square-f'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

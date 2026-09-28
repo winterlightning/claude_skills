@@ -12,7 +12,8 @@ class DeskWithCurvedLamp(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/office"
+    category = "office"
+    categories = ("office", "primitives")
     aliases = ()
     keywords = ('desk', 'lamp', 'table', 'trestle', 'furniture', 'office')
 

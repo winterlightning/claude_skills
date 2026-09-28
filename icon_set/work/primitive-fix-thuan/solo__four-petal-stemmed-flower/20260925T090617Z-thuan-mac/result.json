@@ -1,0 +1,62 @@
+{
+  "source_key": "solo/four-petal-stemmed-flower",
+  "icon_id": "four-petal-stemmed-flower",
+  "svg_sha256": "f8ae353d9614b2045ddf5cc4c465c8a1b96d3d68e0dbd88d7f594f19c531d045",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore the central flower disk, four equal rounded petals, two pointed leaves and a short visible stem below the leaf junction.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/bc50f80c-32d1-4463-8d50-0760d877bb3f/20260925T090617Z-thuan-redraw",
+  "module": "icon_set/work/primitive-make-ray/bc50f80c-32d1-4463-8d50-0760d877bb3f/20260925T090617Z-thuan-redraw/four_petal_stemmed_flower_bc50f80c_32d1_4463_8d50_0760d877bb3f.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [bloom]: bloom and disk are 5.48528 apart on centerlines nearest (30, 10)<->(26.1213, 13.8787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/four_petal_stemmed_flower_bc50f80c_32d1_4463_8d50_0760d877bb3f.py",
+    "validation.txt",
+    "after/four-petal-stemmed-flower.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-25T09:15:12.998846+00:00",
+  "build_gate": {
+    "icon_id": "four-petal-stemmed-flower",
+    "status": "pass",
+    "errors": [
+      "mic [bloom]: bloom and disk are 5.48528 apart on centerlines nearest (30, 10)<->(26.1213, 13.8787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [bloom / right-leaf]: bloom-2 and right-leaf-1 have 3.7144 units of ink clearance over 4.0586 units; requires 4; review required",
+      "internal-spacing [bloom / left-leaf]: bloom-3 and left-leaf-1 have 3.7144 units of ink clearance over 4.0586 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the flower center disk and four rounded petals. Local narrow petal-to-disk clearances remain open at native size; a missing center changes the reference. Reviewed in light and dark at 48px. User explicitly authorized case-specific exceptions for UI/UX quality.",
+      "approved_by": "user-directed-gpt-6",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "5e34a22d2f0981c85210ff032e96ed12d9153f5e6271446da8a837339eb68b53"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-25T09:15:12.340470+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__four-petal-stemmed-flower/20260925T090617Z-thuan-mac/after/four_petal_stemmed_flower_bc50f80c_32d1_4463_8d50_0760d877bb3f.py",
+    "note": "Restore the central flower disk, four equal rounded petals, two pointed leaves and a short visible stem below the leaf junction.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore the central flower disk, four equal rounded petals, two pointed leaves and a short visible stem below the leaf junction.",
+    "claimed_at": "2026-09-25T09:06:16.959995+00:00",
+    "updated_at": "2026-09-25T09:15:13.058612+00:00",
+    "svg_sha256": "f8ae353d9614b2045ddf5cc4c465c8a1b96d3d68e0dbd88d7f594f19c531d045"
+  },
+  "review_status": "ready"
+}

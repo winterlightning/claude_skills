@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2a272a63-d16a-4057-9c1a-7e52136b6784'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/brute force authentication password attack bash_2a272a63-d16a-4057-9c1a-7e52136b6784.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'open-terminal-window-outline'

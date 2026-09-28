@@ -18,7 +18,8 @@ class Drawing(Sub32):
     keyshape = Keyshape.SQUARE
     semantic_role = "SUB"
     semantic_kind = "modifier"
-    category = 'objects/health'
+    category = 'health'
+    categories = ('health', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

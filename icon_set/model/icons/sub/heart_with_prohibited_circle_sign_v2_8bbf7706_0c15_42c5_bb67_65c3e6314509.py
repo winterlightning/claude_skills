@@ -13,12 +13,12 @@ REPAIR_PLAN = {'concept': 'Heart With Prohibited Circle Sign', 'core_parts': ('i
 
 class DrawingVariant2(Sub32):
     icon_id = "heart-with-prohibited-circle-sign-v2"
-    variant_of = "heart-with-prohibited-circle-sign"
     variant_label = 'Reduced the heart and joined the two visible slash ends'
     keyshape = Keyshape.CIRCLE
     semantic_role = "SUB"
     semantic_kind = "state"
-    category = "primitives/state"
+    category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ("no-heart", "heart-prohibited")
     keywords = ("heart", "prohibited", "ban", "slash", "no")
 

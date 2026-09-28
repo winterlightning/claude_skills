@@ -12,7 +12,8 @@ class Minibus(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('minibus', 'bus', 'van', 'shuttle', 'vehicle', 'transport', 'public transport', 'side view')
 

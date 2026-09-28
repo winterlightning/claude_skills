@@ -11,6 +11,7 @@ class Box45de01b0(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('primitives', 'shipping')
     aliases = ()
     keywords = ('box', 'shipping', 'solo-ai-next50')
 

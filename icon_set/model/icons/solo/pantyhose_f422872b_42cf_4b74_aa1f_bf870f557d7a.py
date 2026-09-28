@@ -2,7 +2,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f422872b-42cf-4b74-aa1f-bf870f557d7a'
 SOURCE_PATH = 'icon_set/work/todo-references/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Pantyhose with one straight leg and one bent crossing leg, open at the waist.'
 CONSTRUCTION_REFERENCES = 'Shared human-reference.md/full_body_ref.png: coherent bent limb strokes and simple anatomy. No detached head.'
 OMISSIONS = 'Fine ankle wrinkles omitted; crossing leg and toe shapes retained.'

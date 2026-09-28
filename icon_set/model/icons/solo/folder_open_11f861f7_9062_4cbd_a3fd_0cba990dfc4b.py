@@ -14,7 +14,8 @@ class Drawing(Solo48):
     # Declared visible-ink extrema: (2, 6, 46, 42).
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "folders"
+    categories = ("folders", "primitives")
     aliases = ()
     keywords = ('folder', 'open')
 

@@ -15,6 +15,7 @@ class Pot(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('pot', 'furnitures')
 

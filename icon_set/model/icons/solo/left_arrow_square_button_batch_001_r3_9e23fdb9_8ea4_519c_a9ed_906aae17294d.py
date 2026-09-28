@@ -24,6 +24,7 @@ class LeftArrowSquareButtonBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "arrows"
+    categories = ("arrows", "primitives")
     aliases = ("square-chevron-left", "back-button")
     keywords = ("arrow", "left", "chevron", "back", "previous", "button", "square")
 

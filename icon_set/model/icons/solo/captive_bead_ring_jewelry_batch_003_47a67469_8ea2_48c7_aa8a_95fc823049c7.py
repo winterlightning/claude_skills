@@ -22,6 +22,7 @@ class CaptiveBeadRingJewelryBatch003(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('captive', 'bead', 'ring', 'jewelry', 'piercing', 'hoop')
 

@@ -11,6 +11,7 @@ class SwanCoupleHeart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('swan', 'couple', 'heart', 'love', 'pair', 'romance', 'birds', 'wedding')
 

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9241b7de-9722-4a77-a035-d10d9bdf9d33'
 SOURCE_PATH = 'icon_set/work/todo-references/microphone podcast international_9241b7de-9722-4a77-a035-d10d9bdf9d33.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'microphone-podcast-international'
     keyshape = Keyshape.VRECT_L

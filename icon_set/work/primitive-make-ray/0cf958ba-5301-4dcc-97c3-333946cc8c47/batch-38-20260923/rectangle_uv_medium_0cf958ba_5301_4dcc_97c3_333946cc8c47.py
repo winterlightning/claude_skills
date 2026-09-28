@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0cf958ba-5301-4dcc-97c3-333946cc8c47'
 SOURCE_PATH='icon_set/work/todo-references/rectangle uv medium_0cf958ba-5301-4dcc-97c3-333946cc8c47.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Upright UV medium indicator with the same bulb and frame as UV high, but a shorter stem.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: tangent rounded frame; UV pair shares dimensions.'
 OMISSIONS='None.'

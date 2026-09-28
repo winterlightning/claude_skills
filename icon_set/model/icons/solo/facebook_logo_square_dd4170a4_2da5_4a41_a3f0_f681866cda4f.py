@@ -10,7 +10,8 @@ class FacebookLogoSquare(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('facebook', 'social', 'letter-f', 'logo', 'brand', 'meta', 'square')
 

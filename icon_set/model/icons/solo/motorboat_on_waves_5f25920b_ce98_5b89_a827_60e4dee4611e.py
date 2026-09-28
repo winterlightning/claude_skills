@@ -13,6 +13,7 @@ class MotorboatOnWaves(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('motorboat', 'boat', 'speedboat', 'waves', 'water', 'marine', 'sea', 'nautical')
 

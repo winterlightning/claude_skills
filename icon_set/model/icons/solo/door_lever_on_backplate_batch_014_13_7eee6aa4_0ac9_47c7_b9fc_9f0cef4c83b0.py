@@ -22,7 +22,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-subjects"
+    category = "hotels"
+    categories = ("hotels", "primitives")
     aliases = ()
     keywords = ('door', 'lever', 'handle', 'backplate', 'lock', 'hardware')
 

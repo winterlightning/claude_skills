@@ -15,7 +15,8 @@ class GreatDaneHead(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/pets"
+    category = "pets"
+    categories = ("pets", "primitives")
     aliases = ()
     keywords = ('dog', 'great-dane', 'head', 'breed', 'ears', 'large-dog', 'pet')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2db6cf72-5f8c-42a8-a787-67d6ad07a91f'
 SOURCE_PATH = 'icon_set/work/todo-references/performance tablet increase_2db6cf72-5f8c-42a8-a787-67d6ad07a91f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A hand holding a tablet displaying a rising chart.

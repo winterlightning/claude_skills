@@ -12,7 +12,8 @@ class AndroiddautoLogo(Solo48):
     icon_id = 'androiddauto-logo'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_03'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('androiddauto', 'logo', '_uncategorized_03')
     keyshape = Keyshape.VRECT_L

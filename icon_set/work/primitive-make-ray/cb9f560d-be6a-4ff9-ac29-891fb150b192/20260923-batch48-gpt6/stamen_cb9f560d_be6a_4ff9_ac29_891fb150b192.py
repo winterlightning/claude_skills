@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cb9f560d-be6a-4ff9-ac29-891fb150b192'
 SOURCE_PATH = 'icon_set/work/todo-references/stamen_cb9f560d-be6a-4ff9-ac29-891fb150b192.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stamen'

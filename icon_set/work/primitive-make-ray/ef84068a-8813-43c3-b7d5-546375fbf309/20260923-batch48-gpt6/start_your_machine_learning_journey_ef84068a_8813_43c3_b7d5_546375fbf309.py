@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ef84068a-8813-43c3-b7d5-546375fbf309'
 SOURCE_PATH = 'icon_set/work/todo-references/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'start-your-machine-learning-journey'

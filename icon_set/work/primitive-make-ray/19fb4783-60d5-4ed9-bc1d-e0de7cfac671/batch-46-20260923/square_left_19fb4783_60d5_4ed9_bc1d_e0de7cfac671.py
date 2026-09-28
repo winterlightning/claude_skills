@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='19fb4783-60d5-4ed9-bc1d-e0de7cfac671'
 SOURCE_PATH='icon_set/work/todo-references/square left_19fb4783-60d5-4ed9-bc1d-e0de7cfac671.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Broad left-pointing outlined arrow.'
 CONSTRUCTION_REFERENCES='Source arrow silhouette; deliberate concave corners.'
 OMISSIONS='Rounded source bends use round joins.'

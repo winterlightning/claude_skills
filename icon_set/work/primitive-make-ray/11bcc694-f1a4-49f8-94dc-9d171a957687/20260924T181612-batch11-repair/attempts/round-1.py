@@ -1,0 +1,47 @@
+"""A station wagon in side view.
+Repair plan: Raised chassis and larger roof band; two equal wheels and mirrored window spacing within a directional vehicle.
+Omissions: Three window sections reduced to two.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+
+SOURCE_ICON_ID = '11bcc694-f1a4-49f8-94dc-9d171a957687'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg'
+AUTHOR = "gpt-6"
+
+class Drawing(Solo48):
+    icon_id = 'station-wagon-reference-11bcc694'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = 'objects'
+    aliases = ()
+    keywords = ('car', 'wagon', 'station', 'vehicle', 'transport', 'wheel', 'window', 'automobile')
+
+    def build(self):
+        def path(name, start, commands, closed=False):
+            here = start
+            members = []
+            for index, (kind, end, *args) in enumerate(commands):
+                member = f"{name}-{index}"
+                if kind == 'L': self.add_line(member, here, end)
+                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
+                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
+                members.append(member)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, x, y, r):
+            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
+        def rect(name, x, y, w, h, r=0):
+            if not r:
+                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            else:
+                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+        # Roof and chassis bands give the wheel contacts generous clearance.
+        path('body',(12,30),[('L',(4,30)),('L',(4,18)),('L',(10,8)),('L',(30,8)),('L',(36,18)),('L',(40,18)),('A',(44,22),4,4,True),('L',(44,30)),('L',(36,30))])
+        self.add_line('chassis',(12,30),(36,30));self.relate('connect','chassis','body')
+        for x in (12,36):
+            circle(f'wheel-{x}',x,35,5)
+            self.relate('connect','chassis',f'wheel-{x}');self.relate('connect','body',f'wheel-{x}')
+        self.add_line('windows',(4,18),(36,18));self.relate('connect','windows','body')
+        self.add_line('pillar',(20,8),(20,18));self.relate('connect','pillar','body');self.relate('connect','pillar','windows')

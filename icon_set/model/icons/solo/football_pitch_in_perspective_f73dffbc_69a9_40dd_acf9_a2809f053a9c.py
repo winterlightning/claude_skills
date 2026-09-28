@@ -17,6 +17,7 @@ class FootballPitchInPerspective(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('football', 'pitch', 'field', 'sport', 'stadium', 'plan', 'soccer', 'playing field')
 

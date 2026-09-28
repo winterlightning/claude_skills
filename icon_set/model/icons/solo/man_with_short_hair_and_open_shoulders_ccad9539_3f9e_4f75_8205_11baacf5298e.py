@@ -17,6 +17,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('man', 'with', 'short', 'hair', 'and', 'open', 'shoulders')
 

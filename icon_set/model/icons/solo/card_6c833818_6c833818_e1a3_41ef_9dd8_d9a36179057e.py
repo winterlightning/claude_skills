@@ -13,6 +13,7 @@ class Card6c833818(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('card', 'business')
     keyshape = Keyshape.HRECT_L

@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'abd4c13a-0851-416c-9370-fe3d89993b99'
 SOURCE_PATH = 'icon_set/work/todo-references/square bolt_abd4c13a-0851-416c-9370-fe3d89993b99.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-bolt'

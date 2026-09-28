@@ -11,7 +11,8 @@ class GamingKeyboardWithCable(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('keyboard', 'gaming', 'cable', 'typing', 'input', 'peripheral', 'computer', 'wired')
 

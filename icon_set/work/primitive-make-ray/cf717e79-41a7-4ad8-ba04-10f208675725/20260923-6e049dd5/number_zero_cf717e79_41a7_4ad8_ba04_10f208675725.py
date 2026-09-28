@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cf717e79-41a7-4ad8-ba04-10f208675725'
 SOURCE_PATH = 'icon_set/work/todo-references/number zero_cf717e79-41a7-4ad8-ba04-10f208675725.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Single tall oval zero centered on the vertical axis.
 # Keyshape visible extremes are supplied by Keyshape.VRECT_M.bounds_for(SOLO48).
 # Lucide construction reference: No useful subject match; shared human reference for portraits.

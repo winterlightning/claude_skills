@@ -1,0 +1,29 @@
+# Review candidate; original preserved.
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'ac736fb4-930d-5099-ae75-efdc2b2a7f88'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__snail-shell-spiral/20260927T093533Z-thuan-mac-1/reference/snail shell_ac736fb4-930d-5099-ae75-efdc2b2a7f88.svg'
+AUTHOR = "gpt-6"
+
+class SnailShellSpiral(Solo48):
+    icon_id = 'snail-shell-spiral'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'animals'
+    categories = ('animals', 'primitives')
+    aliases = ()
+    keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl', 'sub icon')
+
+    def build(self) -> None:
+        """Opening repair: Rebuilt the whorl from tangent half-ellipses with wider turn spacing and exact square bounds."""
+        self.add_arc('outer-upper', (6, 24), (42, 24), radius_x=18)
+        self.add_arc('outer-lower', (42, 24), (16, 24), radius_x=13, radius_y=18)
+        # Open the inner whorl so the original's single continuous spiral remains legible.
+        self.add_arc('middle-upper', (16, 24), (32, 24), radius_x=8, radius_y=9)
+        self.add_arc('inner-lower', (32, 24), (24, 24), radius_x=4, radius_y=4)
+        self.add_contour('spiral', 'outer-upper', 'outer-lower', 'middle-upper', 'inner-lower')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('7795da4a-94f4-4d32-9e97-2b2255bfc247', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/hotels/food_7795da4a-94f4-4d32-9e97-2b2255bfc247.svg')]

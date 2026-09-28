@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82791e1b-7e30-4905-85e9-1bf64f1e2489'
 SOURCE_PATH = 'icon_set/work/todo-references/online learning online course 2_82791e1b-7e30-4905-85e9-1bf64f1e2489.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Open book over a course input panel; shared centre fold and mirrored pages.'
 OMISSIONS = 'Page curves simplified; input dash omitted because the shallow panel cannot hold another separated stroke.'
 LUCIDE_REFERENCE = 'book-open'

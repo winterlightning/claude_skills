@@ -10,7 +10,8 @@ class FencingFoil(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('fencing', 'foil', 'sword', 'blade', 'guard', 'equipment')
     def build(self) -> None:

@@ -15,6 +15,7 @@ class TwitterLogo1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('twitter', 'logo', 'logos')
 

@@ -22,6 +22,8 @@ AUTHOR = 'gpt-6'
 
 class BrainHemispheresContainer(Container64):
     icon_id = 'brain-hemispheres-container'
+    category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('brain', 'hemispheres', 'container')

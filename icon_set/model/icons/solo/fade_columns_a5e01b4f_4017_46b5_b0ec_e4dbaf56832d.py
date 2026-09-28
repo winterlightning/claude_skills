@@ -11,7 +11,8 @@ class FadeColumns(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('fade', 'columns', 'photo', 'filter', 'edit', 'effect', 'transition', 'opacity')
 

@@ -16,6 +16,7 @@ class EmailActionUnreadEmails(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'state')
     aliases = ()
     keywords = ('email', 'action', 'unread', 'emails')
     keyshape = Keyshape.HRECT_L

@@ -15,7 +15,8 @@ class SunOverWaves(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/batch-02"
+    category = "nature"
+    categories = ("nature", "primitives")
     aliases = ()
     keywords = ('sun', 'sea', 'waves', 'sunset', 'sunrise', 'ocean', 'beach', 'summer')
 

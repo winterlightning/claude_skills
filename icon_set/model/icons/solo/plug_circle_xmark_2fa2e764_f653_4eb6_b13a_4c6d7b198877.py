@@ -10,7 +10,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '2fa2e764-f653-4eb6-b13a-4c6d7b198877'
 SOURCE_PATH = 'icon_set/work/todo-references/plug circle xmark_2fa2e764-f653-4eb6-b13a-4c6d7b198877.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'plug-circle-xmark'

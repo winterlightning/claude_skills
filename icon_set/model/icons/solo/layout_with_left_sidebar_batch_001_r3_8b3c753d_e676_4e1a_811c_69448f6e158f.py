@@ -24,6 +24,7 @@ class LayoutWithLeftSidebarBatch001R3(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "apps"
+    categories = ("apps", "primitives")
     aliases = ("sidebar-dots-left", "dashed-sidebar-layout")
     keywords = ("sidebar", "layout", "left", "dashed", "panel", "window", "interface")
 

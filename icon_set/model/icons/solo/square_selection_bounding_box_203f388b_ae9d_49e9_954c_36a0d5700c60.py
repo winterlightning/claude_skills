@@ -14,7 +14,8 @@ class SquareSelectionBoundingBox(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/selection"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("selection-frame", "transform-bounding-box")
     keywords = ("selection", "bounding", "box", "handles", "resize")
 

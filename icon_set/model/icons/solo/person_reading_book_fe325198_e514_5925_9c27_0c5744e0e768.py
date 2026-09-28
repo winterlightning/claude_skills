@@ -10,7 +10,8 @@ class PersonReadingBook(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'education/school'
+    category = 'school-learning'
+    categories = ('school-learning', 'primitives')
     aliases = ()
     keywords = ('person', 'reading', 'book', 'study', 'reader', 'learning')
 

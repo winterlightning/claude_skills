@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('sub icon', 'vertical remote control with buttons')
     def build(self):

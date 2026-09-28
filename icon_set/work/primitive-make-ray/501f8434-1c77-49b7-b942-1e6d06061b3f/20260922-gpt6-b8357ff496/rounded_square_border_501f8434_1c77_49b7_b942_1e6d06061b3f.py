@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '501f8434-1c77-49b7-b942-1e6d06061b3f'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/border_501f8434-1c77-49b7-b942-1e6d06061b3f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-square-border'

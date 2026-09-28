@@ -6,7 +6,7 @@ from PIL import Image, ImageOps, ImageDraw
 
 SOURCE_ICON_ID = '82791e1b-7e30-4905-85e9-1bf64f1e2489'
 SOURCE_PATH = 'icon_set/work/todo-references/online learning online course 2_82791e1b-7e30-4905-85e9-1bf64f1e2489.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ROOT = Path(__file__).parent
 ROWS = json.loads((ROOT/'batch-inputs.json').read_text())
 

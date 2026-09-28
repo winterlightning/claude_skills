@@ -28,6 +28,7 @@ class CasinoPlayerWomanAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('casino', 'player', 'woman', 'portrait', 'bust')
 

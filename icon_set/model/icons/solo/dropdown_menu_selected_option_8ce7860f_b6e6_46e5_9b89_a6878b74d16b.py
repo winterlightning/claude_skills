@@ -12,7 +12,8 @@ class DropdownMenuSelectedOption(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface"
+    category = "websites"
+    categories = ("websites", "primitives")
     aliases = ()
     keywords = ('dropdown', 'menu', 'selected', 'check', 'form', 'options', 'interface')
 

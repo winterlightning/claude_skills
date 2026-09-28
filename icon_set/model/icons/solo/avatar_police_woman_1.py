@@ -23,6 +23,7 @@ class AvatarPoliceWoman1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('avatars',)
     aliases = ()
     keywords = ('avatar', 'police', 'woman', '1', 'bust', 'body', 'portrait')
 

@@ -13,6 +13,7 @@ class WarpFisheye(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('warp', 'fisheye', 'design')
     keyshape = Keyshape.HRECT_L

@@ -12,6 +12,7 @@ class LesbianLgbtSymbol(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('lesbian', 'lgbt', 'symbol', 'romance')
 

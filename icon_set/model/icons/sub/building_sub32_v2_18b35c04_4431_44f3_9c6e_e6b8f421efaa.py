@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = 'e1143185a448471579457b69cb9f93509d07b5f239f9784e1bc67
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'building-sub32'
     icon_id = 'building-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'building'
+    categories = ('building', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

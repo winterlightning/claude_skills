@@ -12,7 +12,8 @@ class SpeakerAtLectern(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "society/elections"
+    category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('speaker', 'lectern', 'podium', 'speech', 'person', 'presentation')
 

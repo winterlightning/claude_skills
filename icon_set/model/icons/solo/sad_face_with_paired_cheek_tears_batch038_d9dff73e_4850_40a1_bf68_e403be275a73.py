@@ -17,7 +17,8 @@ class Batch038Icon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/expressions" 
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('sad', 'face', 'with', 'paired', 'cheek', 'tears')
 

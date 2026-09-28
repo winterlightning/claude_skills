@@ -11,6 +11,7 @@ class Batch01Laptop7a7343f1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('batch', 'laptop', 'computers')
 

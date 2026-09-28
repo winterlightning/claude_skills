@@ -17,7 +17,8 @@ class CloudDatabaseStorage(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/storage"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("cloud-storage-databases",)
     keywords = ("cloud", "database", "storage", "server")
 

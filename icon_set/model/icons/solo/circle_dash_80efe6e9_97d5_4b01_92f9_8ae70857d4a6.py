@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '80efe6e9-97d5-4b01-92f9-8ae70857d4a6'
 SOURCE_PATH = 'icon_set/work/todo-references/circle dash_80efe6e9-97d5-4b01-92f9-8ae70857d4a6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circle-dash'

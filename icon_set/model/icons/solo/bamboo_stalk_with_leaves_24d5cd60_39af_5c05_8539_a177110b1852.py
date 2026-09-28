@@ -11,7 +11,8 @@ class BambooStalkWithLeaves(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/wellness"
+    category = "spas"
+    categories = ("primitives", "spas")
     aliases = ()
     keywords = ('spa', 'wellness', 'bamboo-stalk-with-leaves')
 

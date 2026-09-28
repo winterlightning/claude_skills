@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3f984823-804b-4a87-b5c2-3f6d4596f2d2'
 SOURCE_PATH='icon_set/work/todo-references/natural disaster hurricane house_3f984823-804b-4a87-b5c2-3f6d4596f2d2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='natural-disaster-hurricane-house'
     keyshape=Keyshape.SQUARE

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b569bafc-f80a-44b7-a43f-233891818936'
 SOURCE_PATH = 'icon_set/work/todo-references/passport hand_b569bafc-f80a-44b7-a43f-233891818936.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A passport booklet with top cover flap and a latitude-longitude globe.'
 OMISSIONS = 'Latitude bands reduced to one equator; curved meridians reduced to a central vertical meridian.'
 LUCIDE_REFERENCE = 'globe'

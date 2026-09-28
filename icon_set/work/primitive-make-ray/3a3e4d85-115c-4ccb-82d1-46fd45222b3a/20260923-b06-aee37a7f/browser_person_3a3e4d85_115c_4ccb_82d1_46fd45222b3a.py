@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3a3e4d85-115c-4ccb-82d1-46fd45222b3a'
 SOURCE_PATH = 'icon_set/work/todo-references/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['panels-top-left', 'human_ref/user.svg']
 class Drawing(Solo48):
     icon_id = 'browser-person'

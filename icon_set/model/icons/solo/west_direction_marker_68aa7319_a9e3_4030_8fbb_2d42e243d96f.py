@@ -14,7 +14,8 @@ class WestDirectionMarker(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/navigation"
+    category = "navigation"
+    categories = ("navigation", "primitives")
     aliases = ()
     keywords = ('west', 'direction', 'compass', 'navigation', 'arrow', 'orientation', 'marker')
 

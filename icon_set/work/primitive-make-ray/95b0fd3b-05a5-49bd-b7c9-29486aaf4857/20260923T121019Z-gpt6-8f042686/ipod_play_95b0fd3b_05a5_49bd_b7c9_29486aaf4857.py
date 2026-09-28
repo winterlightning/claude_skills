@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '95b0fd3b-05a5-49bd-b7c9-29486aaf4857'
 SOURCE_PATH = 'icon_set/work/todo-references/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'An iPod player with play triangle, screen division, and circular control.'
 CONSTRUCTION_PLAN = 'Tangent rounded device body with independently authored play and control. '
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

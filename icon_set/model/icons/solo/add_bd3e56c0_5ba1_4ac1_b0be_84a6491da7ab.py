@@ -15,6 +15,7 @@ class AddBd3e56c0(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('add', 'interface-essential')
 

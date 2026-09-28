@@ -11,7 +11,8 @@ class HestiaWithFlame(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "culture/religion"
+    category = "religion"
+    categories = ("primitives", "religion")
     aliases = ()
     keywords = ('hestia', 'goddess', 'flame', 'hearth', 'greek', 'mythology', 'figure')
 

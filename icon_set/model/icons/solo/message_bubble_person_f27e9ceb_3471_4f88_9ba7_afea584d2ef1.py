@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f27e9ceb-3471-4f88-9ba7-afea584d2ef1'
 SOURCE_PATH = 'icon_set/work/todo-references/message bubble person_f27e9ceb-3471-4f88-9ba7-afea584d2ef1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A rectangular speech bubble containing a small person portrait.'
 CONSTRUCTION_PLAN = 'Rounded enclosure includes a lower-left tail. A circular head and shared-axis elliptical shoulders follow human_ref/user.svg with exactly four ink units of detached clearance.'
 KEYSHAPE_CENTERLINE_BOUNDS = [8, 4, 40, 44]
@@ -27,7 +27,7 @@ def rounded_rect(icon,name,left,top,right,bottom,r=4,split_y=None):
     icon.add_contour(name,*members,closed=True)
 
 class Drawing(Solo48):
-    icon_id = 'message-bubble-person'
+    icon_id = 'speech-bubble-with-user'
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"

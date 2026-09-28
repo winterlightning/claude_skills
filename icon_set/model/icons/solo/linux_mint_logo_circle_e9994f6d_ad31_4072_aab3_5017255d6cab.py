@@ -16,7 +16,8 @@ class LinuxMintLogoCircle(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "brands/logos"
+    category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('linux-mint', 'linux', 'operating-system', 'lm', 'logo', 'brand', 'circle')
 

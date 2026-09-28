@@ -14,7 +14,8 @@ class IndependentSolo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/emotions'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('smiling', 'face', 'with', 'star', 'eyes')
 

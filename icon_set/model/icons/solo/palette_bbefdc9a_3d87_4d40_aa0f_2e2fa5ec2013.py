@@ -12,6 +12,7 @@ class Palette(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
+    categories = ('design', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('palette', 'design')
 

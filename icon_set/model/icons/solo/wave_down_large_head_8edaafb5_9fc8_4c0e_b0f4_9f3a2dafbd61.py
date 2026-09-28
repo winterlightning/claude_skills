@@ -11,6 +11,7 @@ class WaveDownLargeHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
+    categories = ('arrows', 'primitives')
     aliases = ()
     keywords = ('wave', 'down', 'large', 'head', 'arrows')
 

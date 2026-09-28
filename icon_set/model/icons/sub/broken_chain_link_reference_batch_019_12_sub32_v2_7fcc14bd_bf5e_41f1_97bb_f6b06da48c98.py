@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = '3fa6d2713325b3262e53c246fd830b88d9224a1235cf27990b29c
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'broken-chain-link-reference-batch-019-12-sub32'
     icon_id = 'broken-chain-link-reference-batch-019-12-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

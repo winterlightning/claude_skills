@@ -21,6 +21,7 @@ class SkewRightShapeTransformation(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "design"
+    categories = ("design", "primitives")
     aliases = ("transform right", "skew right")
     keywords = ("skew", "right", "shape", "transformation")
 

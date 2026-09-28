@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4512686f-a1a4-47d7-aba0-6b0d998def04'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_05/bankbook_4512686f-a1a4-47d7-aba0-6b0d998def04.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bank-passbook'

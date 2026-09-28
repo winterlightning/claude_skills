@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '078c527e-7fad-4791-9242-4409c4f071d0'
 SOURCE_PATH = 'icon_set/work/todo-references/Academic Graduation Cap_078c527e-7fad-4791-9242-4409c4f071d0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'academic-graduation-cap'

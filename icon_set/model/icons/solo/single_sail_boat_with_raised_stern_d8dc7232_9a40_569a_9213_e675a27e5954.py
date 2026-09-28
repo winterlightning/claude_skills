@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/transport"
+    category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('boat', 'sailing', 'sail', 'mast', 'hull', 'nautical', 'vessel', 'ship')
 

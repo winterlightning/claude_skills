@@ -10,7 +10,8 @@ class SwimmingGoggles(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/sports'
+    category = 'sports'
+    categories = ('sports', 'primitives')
     aliases=()
     keywords=('swimming', 'goggles', 'lens', 'eyewear', 'protection', 'equipment')
     def build(self) -> None:

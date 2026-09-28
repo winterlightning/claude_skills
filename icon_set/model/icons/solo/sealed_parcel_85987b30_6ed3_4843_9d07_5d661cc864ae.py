@@ -11,7 +11,8 @@ class SealedParcel(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shipping"
+    category = "shipping"
+    categories = ("primitives", "shipping")
     aliases = ()
     keywords = ('parcel', 'box', 'package', 'shipping', 'tape', 'delivery')
 

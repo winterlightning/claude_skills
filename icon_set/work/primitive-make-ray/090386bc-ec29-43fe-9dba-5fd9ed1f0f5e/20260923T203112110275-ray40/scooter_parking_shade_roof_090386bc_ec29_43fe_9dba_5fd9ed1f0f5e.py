@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '090386bc-ec29-43fe-9dba-5fd9ed1f0f5e'
 SOURCE_PATH = 'icon_set/work/todo-references/scooter parking shade roof_090386bc-ec29-43fe-9dba-5fd9ed1f0f5e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Scooter under a pitched shelter roof; two wheels, seat, body and steering column.
 # Reference: bike: shared wheel radii and baseline; no useful scooter shelter match.
 # Reduction: Omitted tiny seat seam; preserved shelter, seat, scooter body, handle and both wheels.

@@ -16,7 +16,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/batch-006"
+    category = "design"
+    categories = ("design", "primitives")
     aliases = ()
     keywords = ('overlapping', 'documents', 'with', 'facing', 'arrows')
 

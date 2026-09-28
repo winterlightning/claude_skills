@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2841f97c-3470-4026-a287-d82828da5d59'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/book library shelf_2841f97c-3470-4026-a287-d82828da5d59.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'row-of-four-library-books'

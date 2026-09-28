@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='60d1d2ee-fa72-4bff-bc6e-fae27ec0c92c'
 SOURCE_PATH='icon_set/work/todo-references/square heart_60d1d2ee-fa72-4bff-bc6e-fae27ec0c92c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square with a symmetrical hollow heart.'
 CONSTRUCTION_REFERENCES='Lucide heart: paired lobes and pointed base.'
 OMISSIONS='None.'

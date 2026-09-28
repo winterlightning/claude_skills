@@ -15,7 +15,8 @@ class GiftBoxWideBow(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/award'
+    category = 'rewards'
+    categories = ('rewards', 'primitives')
     aliases=()
     keywords=('award', 'reward', 'gift-box-wide-bow')
     def build(self) -> None:

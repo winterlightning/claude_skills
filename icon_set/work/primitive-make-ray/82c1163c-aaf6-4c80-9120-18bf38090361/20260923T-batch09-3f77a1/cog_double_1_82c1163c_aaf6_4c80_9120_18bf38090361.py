@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82c1163c-aaf6-4c80-9120-18bf38090361'
 SOURCE_PATH = 'icon_set/work/todo-references/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cog-double-1'

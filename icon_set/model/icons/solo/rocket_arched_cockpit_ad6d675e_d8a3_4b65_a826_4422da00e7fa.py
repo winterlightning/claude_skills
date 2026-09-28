@@ -14,7 +14,8 @@ class RocketArchedCockpit(Solo48):
     keyshape = Keyshape.VRECT_XL
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "state")
     aliases = ()
     keywords = ('rocket', 'cockpit', 'fin', 'space', 'launch', 'spacecraft')
 

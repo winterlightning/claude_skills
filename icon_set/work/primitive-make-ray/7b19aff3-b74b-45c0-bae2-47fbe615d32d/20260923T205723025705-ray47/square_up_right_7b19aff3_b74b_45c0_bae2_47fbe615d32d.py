@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7b19aff3-b74b-45c0-bae2-47fbe615d32d'
 SOURCE_PATH = 'icon_set/work/todo-references/square up right_7b19aff3-b74b-45c0-bae2-47fbe615d32d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Upward arrow in a rounded square; source direction is vertical.
 # References: square-arrow-up: shared central axis and equal arrowhead wings.
 # Reduction: No parts omitted; tiny shaft/head discontinuity in source is joined coherently.

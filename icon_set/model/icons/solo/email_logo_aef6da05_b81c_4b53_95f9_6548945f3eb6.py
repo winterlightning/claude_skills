@@ -16,6 +16,7 @@ class EmailLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('email', 'logo', 'logos')
     keyshape = Keyshape.HRECT_L

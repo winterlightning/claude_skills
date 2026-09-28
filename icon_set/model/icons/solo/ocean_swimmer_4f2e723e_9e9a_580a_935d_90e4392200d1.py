@@ -1,0 +1,46 @@
+"""Athlete swimming freestyle in ocean waves, authored on SOLO48.
+
+Human reference: full_body_ref.png — outlined circular head, round-ended
+limbs, minimal anatomy. Lucide waves-horizontal informs the repeating wave.
+Plan: detached head; one bent recovery arm joined to the diagonal torso;
+one continuous ocean wave. HRECT_L centerline bounds (4,8)-(44,40).
+Head/body separation is horizontal: head left x=30, shoulder x=22,
+therefore 8 centerline units and exactly 4 visible units. Motion is asymmetric.
+Omit submerged legs, goggles and extra wave rows for native-size readability.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '4f2e723e-9e9a-580a-935d-90e4392200d1'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ocean-swimmer/20260927T133654Z-thuan-mac-1/reference/ocean-swimmer_4f2e723e-9e9a-580a-935d-90e4392200d1.svg'
+AUTHOR = 'gpt-6'
+
+
+class OceanSwimmer(Solo48):
+    icon_id = "ocean-swimmer-solo"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "sports"
+    categories = ("sports",)
+    aliases = ("open-water-swimmer",)
+    keywords = ("athlete", "swimming", "freestyle", "ocean", "sea", "sport", "human")
+
+    def build(self) -> None:
+        cx, cy, radius = 37, 16, 7
+        gap, stroke = 4, 4
+        shoulder = (cx-radius-stroke-gap, cy)
+        self.add_arc("head-top", (cx-radius, cy), (cx+radius, cy), radius_x=radius)
+        self.add_arc("head-bottom", (cx+radius, cy), (cx-radius, cy), radius_x=radius)
+        self.add_contour("head", "head-top", "head-bottom", closed=True)
+        self.add_polyline("swimming-body", (4, 16), (14, 8), shoulder, (8, 26))
+        wave_ids = []
+        for index in range(2):
+            x = 4 + index * 20
+            name = f"wave-{index}"
+            self.add_bezier(name, (x, 38),
+                            ((x+4, 34), (x+6, 34), (x+10, 38)),
+                            ((x+13, 40), (x+14, 40), (x+15, 40)),
+                            ((x+16, 40), (x+18, 38), (x+20, 38)))
+            wave_ids.append(name)
+        self.add_contour("ocean", *wave_ids)

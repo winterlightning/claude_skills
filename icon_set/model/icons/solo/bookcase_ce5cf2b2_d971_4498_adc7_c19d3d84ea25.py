@@ -12,7 +12,8 @@ class Bookcase(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "education/school"
+    category = "school-learning"
+    categories = ("school-learning", "primitives")
     aliases = ()
     keywords = ('bookcase', 'books', 'library', 'shelf', 'reading', 'storage')
 

@@ -14,7 +14,8 @@ class TwinPendantLights(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/lighting'
+    category = 'lamps'
+    categories = ('lamps', 'primitives')
     aliases = ()
     keywords = ('lamp', 'pendant', 'light', 'ceiling', 'twin', 'fixture')
 

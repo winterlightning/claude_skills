@@ -11,7 +11,8 @@ class FloatTrowel(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('trowel', 'float', 'plaster', 'flattener', 'masonry', 'concrete', 'construction', 'tool')
 

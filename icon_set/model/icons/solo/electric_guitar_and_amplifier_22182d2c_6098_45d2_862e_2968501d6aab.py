@@ -11,7 +11,8 @@ class ElectricGuitarAndAmplifier(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/music"
+    category = "music"
+    categories = ("primitives", "music")
     aliases = ()
     keywords = ('electric-guitar', 'amplifier', 'rock', 'bass', 'band', 'speaker', 'instrument', 'music')
 

@@ -1,0 +1,42 @@
+{
+  "source_uuid": "0ef08051-f8cf-452c-9504-27f2eb99eb1b",
+  "source_path": "pictographic-primitives/other/file clock_0ef08051-f8cf-452c-9504-27f2eb99eb1b.svg",
+  "reference_path": "pictographic-primitives/other/file clock_0ef08051-f8cf-452c-9504-27f2eb99eb1b.svg",
+  "concept": "file clock",
+  "icon_id": "document-clock",
+  "author": "gpt-6",
+  "status": "cannot-fix",
+  "validation_status": "invalid",
+  "full_qa_status": "fail",
+  "warnings": [],
+  "errors": [
+    "mic [clock]: clock and hands are 5.99955 apart on centerlines nearest (24.0736, 14.0009)<->(24, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "SQUARE gives the enclosed clock its largest balanced interior.",
+  "visual_review": {
+    "native_light": true,
+    "native_dark": true,
+    "enlarged_light": true,
+    "enlarged_dark": true,
+    "findings": "Detached L-shaped hands restore the clock instead of the previous pie-slice appearance. Readable 4-unit hands leave only 2 ink units to the radius-10 ring. Smaller one-unit hands passed but read as a dot and were rejected visually.",
+    "approved_for_handoff": false
+  },
+  "omissions": [
+    "Rounded paper corner arcs simplified to round stroke joins; clock, hands, and clipped corner retained."
+  ],
+  "construction_references": "file-code original and atomic-debug: clipped file contour. file-clock original inspected; its external overlay arrangement was not substituted for the supplied internal clock.",
+  "svg_sha256": "8276c9c84361bb1690f3293fe84a548e65324306a71beb1e6d8d86c6c50f75ff",
+  "artifacts": {
+    "python": "document_clock_0ef08051_f8cf_452c_9504_27f2eb99eb1b.py",
+    "svg": "document-clock.svg",
+    "metadata": "document-clock.metadata.json",
+    "reference": "reference.png",
+    "light_native": "preview-light-48.png",
+    "dark_native": "preview-dark-48.png",
+    "light_large": "preview-light-192.png",
+    "dark_large": "preview-dark-192.png",
+    "validation": "validation.txt",
+    "full_qa": "checks.json"
+  }
+}

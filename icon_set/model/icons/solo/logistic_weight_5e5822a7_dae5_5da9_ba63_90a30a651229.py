@@ -13,6 +13,7 @@ class LogisticWeight(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shipping'
+    categories = ('primitives', 'shipping')
     aliases = ()
     keywords = ('logistic', 'weight', 'shipping')
     keyshape = Keyshape.VRECT_L

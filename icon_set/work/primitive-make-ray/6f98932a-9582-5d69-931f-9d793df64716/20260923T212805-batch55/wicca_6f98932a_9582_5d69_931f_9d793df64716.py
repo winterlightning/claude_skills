@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6f98932a-9582-5d69-931f-9d793df64716'
 SOURCE_PATH='icon_set/work/todo-references/wicca_6f98932a-9582-5d69-931f-9d793df64716.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='wicca'

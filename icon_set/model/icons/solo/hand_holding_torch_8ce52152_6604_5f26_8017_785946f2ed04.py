@@ -11,7 +11,8 @@ class HandHoldingTorch(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('hand', 'holding', 'torch', 'grip', 'handheld', 'fist', 'blowtorch', 'tool')
 

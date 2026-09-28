@@ -33,7 +33,8 @@ class WeddingCoupleHeartArchScene(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('wedding', 'couple', 'heart', 'arch', 'scene')
 

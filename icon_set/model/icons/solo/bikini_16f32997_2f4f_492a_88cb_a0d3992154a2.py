@@ -11,6 +11,7 @@ class Bikini(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('bikini', 'symbol', 'solo-ai-first50')
 

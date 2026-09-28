@@ -14,12 +14,12 @@ REPAIR_PLAN = {'concept': 'Circular Question Mark Symbol', 'core_parts': ('enclo
 
 class DrawingVariant2(Sub32):
     icon_id='circular-question-mark-symbol-sub32-v2'
-    variant_of = 'circular-question-mark-symbol-sub32'
     variant_label = 'Widened question hook and separated the dot; circle, hook, and dot remain'
     keyshape=Keyshape.CIRCLE
     semantic_role='SUB'
     semantic_kind='modifier'
-    category='objects/finance'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'grid fitted', 'circular question mark symbol')
     def build(self):

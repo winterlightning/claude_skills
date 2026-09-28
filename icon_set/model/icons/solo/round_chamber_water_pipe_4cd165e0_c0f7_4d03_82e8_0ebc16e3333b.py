@@ -17,7 +17,8 @@ class RoundChamberWaterPipe(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/crime"
+    category = "crime"
+    categories = ("crime", "primitives")
     aliases = ()
     keywords = ('round', 'chamber', 'water', 'pipe')
 

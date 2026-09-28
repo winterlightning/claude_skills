@@ -12,7 +12,8 @@ class RoosterHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('rooster', 'cockerel', 'head', 'comb', 'wattle', 'beak', 'farm', 'poultry')
 

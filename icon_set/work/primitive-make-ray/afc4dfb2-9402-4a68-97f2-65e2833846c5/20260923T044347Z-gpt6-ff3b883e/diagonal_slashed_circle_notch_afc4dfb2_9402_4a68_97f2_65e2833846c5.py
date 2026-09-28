@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'afc4dfb2-9402-4a68-97f2-65e2833846c5'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/female stablization_afc4dfb2-9402-4a68-97f2-65e2833846c5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DiagonalSlashedCircleNotch(Solo48):
     icon_id = 'diagonal-slashed-circle-notch'

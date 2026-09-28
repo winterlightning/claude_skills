@@ -10,7 +10,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('running', 'track', 'curve', 'arrow')
 
@@ -41,6 +42,6 @@ class Drawing(Solo48):
         self.add_arc('inner-turn',(20,17),(20,31),radius_x=7,sweep=False)
         self.add_line('inner-bottom',(20,31),(23,31))
         self.add_contour('inner','inner-top','inner-turn','inner-bottom')
-        self.add_polyline('arrowhead',(34,25),(44,29),(34,32))
+        self.add_polyline('arrowhead',(34,26),(44,29),(34,31))
         self.add_line('shaft',(32,29),(44,29))
         self.relate('connect','shaft','arrowhead')

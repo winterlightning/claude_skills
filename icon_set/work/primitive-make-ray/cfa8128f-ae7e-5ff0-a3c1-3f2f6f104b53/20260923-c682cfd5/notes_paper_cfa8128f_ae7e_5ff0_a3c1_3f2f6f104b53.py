@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cfa8128f-ae7e-5ff0-a3c1-3f2f6f104b53'
 SOURCE_PATH = 'icon_set/work/todo-references/notes paper_cfa8128f-ae7e-5ff0-a3c1-3f2f6f104b53.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Text page with lower-right dog-ear; two text lines above the fold.
 # Keyshape visible extremes are supplied by Keyshape.VRECT_L.bounds_for(SOLO48).
 # Lucide construction reference: file-text.

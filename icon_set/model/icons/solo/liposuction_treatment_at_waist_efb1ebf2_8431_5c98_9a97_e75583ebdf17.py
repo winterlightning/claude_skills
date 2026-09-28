@@ -54,6 +54,7 @@ class LiposuctionTreatmentAtWaist(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'beauty'
+    categories = ('primitives', 'beauty')
     aliases = ()
     keywords = ('liposuction', 'treatment', 'at', 'waist')
 

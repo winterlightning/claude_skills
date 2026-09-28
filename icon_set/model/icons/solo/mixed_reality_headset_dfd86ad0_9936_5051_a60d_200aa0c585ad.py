@@ -10,7 +10,8 @@ class MixedRealityHeadset(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/technology'
+    category = 'technology'
+    categories = ('primitives', 'technology')
     aliases = ()
     keywords = ('headset', 'mixed-reality', 'vision-pro', 'visor', 'spatial', 'vr', 'ar', 'goggles')
 

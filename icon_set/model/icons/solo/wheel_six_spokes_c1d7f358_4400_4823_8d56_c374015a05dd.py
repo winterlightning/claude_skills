@@ -18,7 +18,8 @@ class WheelSixSpokes(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('wheel', 'spokes', 'circle', 'dharma', 'wagon', 'symbol', 'cycle', 'rim')
 

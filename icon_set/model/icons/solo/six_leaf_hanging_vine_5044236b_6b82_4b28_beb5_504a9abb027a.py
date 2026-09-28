@@ -11,7 +11,8 @@ class SixLeafHangingVine(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/decoration"
+    category = "decoration"
+    categories = ("primitives", "decoration")
     aliases = ()
     keywords = ('vine', 'hanging', 'leaves', 'stem', 'foliage', 'plant', 'botanical')
 

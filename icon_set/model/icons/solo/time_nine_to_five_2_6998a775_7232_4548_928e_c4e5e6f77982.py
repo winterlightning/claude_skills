@@ -12,6 +12,7 @@ class TimeNineToFive2(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('time', 'nine', 'to', 'five', 'interface-essential')
 

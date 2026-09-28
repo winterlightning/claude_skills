@@ -13,6 +13,7 @@ class DriftingJellyfish(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
+    categories = ("animals", "primitives")
     aliases = ()
     keywords = ('jellyfish', 'drift', 'sea', 'ocean', 'marine', 'tentacles', 'bell', 'swim')
 

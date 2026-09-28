@@ -3,12 +3,12 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='0a0feef2-02cf-4796-98f1-93d8a372ce93'
 SOURCE_PATH='icon_set/work/todo-references/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Browser page containing a round bug with three paired legs and a horizontal crossbar.'
 CONSTRUCTION_REFERENCE='panels-top-left and bug: browser frame and repeated bilateral legs'
 
 class Drawing(Solo48):
-    icon_id='ui-webpage-bug'
+    icon_id = 'ui-webpage-bug'
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"

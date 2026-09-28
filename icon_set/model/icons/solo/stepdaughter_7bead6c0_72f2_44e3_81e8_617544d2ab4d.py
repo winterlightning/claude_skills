@@ -1,63 +1,43 @@
-"""A girl with long hair and a circular relationship badge.
-Plan: Circular face, long surrounding hair, smooth shoulders and lower-right badge.
-Keyshape: SQUARE; extrema follow the profile contract.
-References: supplied reference SVG; human_ref/user.svg and human_ref/full_body_ref.png: circular heads and smooth shoulders or limbs
+"""stepdaughter. Longer downturned hair locks distinguish girl silhouette; fringe and crowded right shoulder omitted. Circular face22 to torso30 gives exact4 ink gap; badge retained.
+Symbol plan: shared circle/rounded-frame parameters; meaningful joints reuse endpoints.
+Reference: supplied SVG; Lucide shopping-basket and square-user construction inspected.
+Human construction uses human_ref/user.svg where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '7bead6c0-72f2-44e3-81e8-617544d2ab4d'
-SOURCE_PATH = 'icon_set/work/todo-references/stepdaughter_7bead6c0-72f2-44e3-81e8-617544d2ab4d.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='7bead6c0-72f2-44e3-81e8-617544d2ab4d'
+SOURCE_PATH='pictographic-primitives/_uncategorized_36/stepdaughter_7bead6c0-72f2-44e3-81e8-617544d2ab4d.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'stepdaughter'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('stepdaughter',)
-    human_construction = 'bust'
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def rect(self, name, x, y, w, h, r=4):
-        # One owning rectangle; four equal tangent corner arcs.
-        points = [(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                  (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,p in enumerate(points):
-            q=points[(i+1)%8]; n=f'{name}-{i}'
-            if i%2: self.add_arc(n,p,q,radius_x=r)
-            else: self.add_line(n,p,q)
-            members.append(n)
-        self.add_contour(name,*members,closed=True)
-
-    def cross(self, name, x, y, r, diagonal=False):
-        # Four rays share the true intersection node.
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        ids=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));ids.append(n)
-        for i,a in enumerate(ids):
-            for b in ids[i+1:]: self.relate('connect',a,b)
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('stepdaughter',)
     def build(self):
-
-        # human_ref/user.svg: circular head and broad smooth shoulders.
-        # Head lower centerline y=26, shoulder apex y=30: touching ink.
-        self.circle('head',22,16,10)
-        self.add_arc('shoulder-left',(6,42),(22,30),radius_x=16,radius_y=12)
-        self.add_bezier('shoulder-right',(22,30),((27,30),(30,31),(32,34)))
-        self.add_line('base',(6,42),(26,42))
-        self.add_contour('body','shoulder-left','shoulder-right')
-        self.relate('connect','head','body')
-        self.relate('connect','base','body')
+        self.circle('head',20,14,8)
+        for n,a,b in [('left',(12,14),(8,23)),('right',(28,14),(32,22))]:
+            self.add_line('hair-'+n,a,b);self.relate('connect','head','hair-'+n)
+        self.add_arc('torso',(20,30),(6,42),radius_x=14,radius_y=12,sweep=False)
+        self.add_line('base',(6,42),(20,42));self.relate('connect','base','torso')
         self.circle('badge',36,36,6)
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
 
-        self.add_polyline('hair-left',(12,14),(10,27),(15,28))
-        self.add_polyline('hair-right',(32,14),(34,27),(29,28))
-        self.add_polyline('hair-part',(13,14),(20,13),(25,10),(31,14))
+    def circle(self,n,x,y,r):
+        pts=[(x-r,y),(x,y-r),(x+r,y),(x,y+r),(x-r,y)]
+        for i in range(4): self.add_arc(f'{n}-{i}',pts[i],pts[i+1],radius_x=r)
+        self.add_contour(n,*(f'{n}-{i}' for i in range(4)),closed=True)
+    def box(self,n,l,t,r,b,q=4):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        for i in range(8):
+            if i%2:self.add_arc(f'{n}-{i}',pts[i],pts[(i+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{i}',pts[i],pts[(i+1)%8])
+        self.add_contour(n,*(f'{n}-{i}' for i in range(8)),closed=True)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i):self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+
+# Contract keyshape visible bounds: (4, 4, 44, 44).

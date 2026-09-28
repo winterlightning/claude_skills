@@ -42,6 +42,7 @@ class Result(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'entertainment'
+    categories = ('entertainment', 'primitives')
     aliases = ()
     keywords = ('admit', 'one', 'event', 'ticket')
 

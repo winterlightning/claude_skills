@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1ccecf6e-60d8-417b-accc-4a89121dd0ab'
 SOURCE_PATH = 'icon_set/work/todo-references/business contract approve_1ccecf6e-60d8-417b-accc-4a89121dd0ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Approved contract held in two hands; enlarge the sheet and separate text rows; circular approval seal retained.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/1ccecf6e-60d8-417b-accc-4a89121dd0ab/20260922T222001-63ce6a/result.json'

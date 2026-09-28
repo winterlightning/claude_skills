@@ -9,7 +9,8 @@ class MultipleFileFolders(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/office"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("folders", "stacked folders")
     keywords = ("files", "documents", "stack")
 

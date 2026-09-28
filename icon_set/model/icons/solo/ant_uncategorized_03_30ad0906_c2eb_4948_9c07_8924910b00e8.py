@@ -10,7 +10,8 @@ class AntUncategorized03(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = '_uncategorized_03'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('ant', '_uncategorized_03', 'solo-ai-first50')
 

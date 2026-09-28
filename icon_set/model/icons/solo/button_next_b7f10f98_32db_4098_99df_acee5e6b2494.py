@@ -13,6 +13,7 @@ class ButtonNext(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state')
     aliases = ()
     keywords = ('button', 'next', 'interface-essential')
     keyshape = Keyshape.SQUARE

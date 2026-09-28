@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='020a56a5-f5a1-50e3-82a6-a0f431f34437'
 SOURCE_PATH='icon_set/work/todo-references/photo frame_020a56a5-f5a1-50e3-82a6-a0f431f34437.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A broad photo frame surrounds a sun and two mountain ridges.'
 OMISSIONS='No defining parts omitted.'
 LUCIDE_REFERENCE='image'

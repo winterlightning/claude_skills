@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6b152715-10e9-4683-860f-3b5e258f19e4'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/elemental mediaconnect 1_6b152715-10e9-4683-860f-3b5e258f19e4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ConnectedHexagonNetworkArrow(Solo48):
     icon_id = 'connected-hexagon-network-arrow'

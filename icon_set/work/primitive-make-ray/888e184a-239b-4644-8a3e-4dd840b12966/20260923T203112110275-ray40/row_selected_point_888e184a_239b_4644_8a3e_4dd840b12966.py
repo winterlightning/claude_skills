@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '888e184a-239b-4644-8a3e-4dd840b12966'
 SOURCE_PATH = 'icon_set/work/todo-references/row selected point_888e184a-239b-4644-8a3e-4dd840b12966.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Selected row crossing a vertical table fragment, with a right arrow pointing into its left edge.
 # Reference: Rounded rectangle and arrow construction; no exact local Lucide subject match.
 # Reduction: Reduced open table fragment to upper and lower L-shaped corners.

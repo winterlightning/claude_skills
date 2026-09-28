@@ -1,10 +1,11 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """laptop skull, complete SOLO48 composition.
 Symbol plan is recorded in build(). Visible keyshape extremes: (2, 6, 46, 42).
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '44a8272b-04c4-4a7c-b200-ee122a35ef32'
-SOURCE_PATH = 'icon_set/work/todo-references/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__laptop-skull/20260927T142529Z-thuan-mac-1/reference/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -12,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("combination", "other", "primitives-generate")
     aliases = ()
     keywords = ('laptop skull',)
 
@@ -37,12 +39,12 @@ class Drawing(Solo48):
         self.relate('connect','screen','base')
 
     def build(self):
-        # Skull within laptop, keeping paired eyes and open jaw/tooth markers.
-        self.laptop()
-        self.add_arc('cranium',(18,23),(30,23),radius_x=7,large_arc=True)
-        self.add_line('jaw-left',(18,23),(18,27))
-        self.add_line('jaw-right',(30,23),(30,27))
-        self.relate('connect','cranium','jaw-left')
-        self.relate('connect','cranium','jaw-right')
-        for x in (21,27):self.add_dot('eye-'+str(x),(x,19))
-        self.add_line('tooth',(24,24),(24,27))
+        # A wider skull sits above an open laptop base, preserving room for eye sockets.
+        self.add_arc('cranium',(8,24),(40,24),radius_x=16,radius_y=16)
+        self.add_polyline('jaw',(8,24),(16,31),(32,31),(40,24))
+        self.relate('connect','cranium','jaw')
+        for x in (19,29): self.add_dot('eye-'+str(x),(x,22))
+        self.add_line('laptop-base',(4,40),(44,40))
+
+
+# Explicit user approval for this exact SVG; changes invalidate the exception.

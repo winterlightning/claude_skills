@@ -11,7 +11,8 @@ class OverlappingClouds(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/weather"
+    category = "weather"
+    categories = ("weather", "primitives")
     aliases = ()
     keywords = ('cloud', 'overcast', 'sky', 'weather', 'cloudy', 'atmosphere')
 

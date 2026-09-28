@@ -1,40 +1,44 @@
-"""Two nested upright rectangular frame rails.
-Symbol plan: preserve the reference's complete composition; shared parameters own repeated elements.
-Keyshape VRECT_L; exact profile envelope supplied by Keyshape.bounds_for.
-Omissions: None.
-Lucide: scan-face; rounded contour and coherent stroke construction where applicable.
-Human reference: icon_set/references/human_ref/user.svg for portrait modules.
+"""A rectangular picture frame with an inset rectangular opening.
+Construction: none. None; both concentric rectangles retained.
+Keyshape VRECT_L; extremes are fixed by SOLO48. All dimensions are authored locally.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='a28d2c15-57a6-4f2e-bd21-647c70fa234d'
-SOURCE_PATH='icon_set/work/todo-references/frame_a28d2c15-57a6-4f2e-bd21-647c70fa234d.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = 'a28d2c15-57a6-4f2e-bd21-647c70fa234d'
+SOURCE_PATH = 'icon_set/work/todo-references/frame_a28d2c15-57a6-4f2e-bd21-647c70fa234d.svg'
+AUTHOR = "gpt-6"
+
 class Drawing(Solo48):
-    icon_id='frame-double-rectangle'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category='objects'
-    aliases=()
-    keywords=('frame',)
+    icon_id = 'frame-double-rectangle'
+    keyshape = Keyshape.VRECT_L
+    # Declared visible-ink extrema: (6, 2, 42, 46).
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('frame',)
 
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
+    def circle(self, name, cx, cy, r):
+        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r)
+        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r)
+        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
 
-    def box(self, name, x, y, w, h, r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i in range(8):
-            eid=f'{name}-{i}';ids.append(eid)
-            if i%2:self.add_arc(eid,pts[i],pts[(i+1)%8],radius_x=r)
-            else:self.add_line(eid,pts[i],pts[(i+1)%8])
-        self.add_contour(name,*ids,closed=True)
+    def rect(self, name, x, y, w, h, r=2):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
+                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i,a in enumerate(points):
+            b=points[(i+1)%8]; n=f'{name}-{i}'
+            if i%2: self.add_arc(n,a,b,radius_x=r)
+            else: self.add_line(n,a,b)
+            members.append(n)
+        self.add_contour(name,*members,closed=True)
 
     def build(self):
 
-        self.add_polyline('outer',(8,4),(40,4),(40,44),(8,44),closed=True)
-        self.add_polyline('inner',(16,12),(32,12),(32,36),(16,36),closed=True)
-
+        # Plan: two concentric rectangles with a shared 8-unit centerline inset.
+        x,y,w,h=8,4,32,40
+        self.add_polyline('outer',(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+        inset=8
+        self.add_polyline('inner',(x+inset,y+inset),(x+w-inset,y+inset),
+                          (x+w-inset,y+h-inset),(x+inset,y+h-inset),closed=True)

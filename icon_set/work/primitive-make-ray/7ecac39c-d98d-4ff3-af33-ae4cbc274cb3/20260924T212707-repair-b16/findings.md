@@ -1,0 +1,30 @@
+# rectangle-buy-text
+
+BUY lettering in an enclosure; larger counters tested in square and wide frames.
+
+Keyshape: SQUARE; ink bounds (4, 4, 44, 44).
+
+Reductions: No letters omitted.
+
+Construction references: No useful exact Lucide lettering match; hand-authored B/U/Y.
+
+Native and enlarged review, both themes: Not approved: word still crowds frame and adjacent letters; small counter/pinch persists.
+
+status: invalid
+  ERROR  mic [frame]: parallel straight edges frame-2 and y-stem are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [y-stem]: parallel straight edges y-stem and u-right are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [b]: parallel straight edges b-stem and frame-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [frame]: frame and b are 6 apart on centerlines nearest (6, 16)<->(12, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [frame]: frame and y-top are 3 apart on centerlines nearest (42, 16)<->(39, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [b]: b and u are 1 apart on centerlines nearest (20, 20)<->(21, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [u]: u and y-top are 2 apart on centerlines nearest (29, 16)<->(31, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+BUILD GATE FAIL (fail, 8 errors, 0 warnings)
+  error: mic [frame]: parallel straight edges frame-2 and y-stem are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  error: mic [y-stem]: parallel straight edges y-stem and u-right are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  error: mic [b]: parallel straight edges b-stem and frame-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  error: mic [frame]: frame and b are 6 apart on centerlines nearest (6, 16)<->(12, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [frame]: frame and y-top are 3 apart on centerlines nearest (42, 16)<->(39, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [b]: b and u are 1 apart on centerlines nearest (20, 20)<->(21, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [u]: u and y-top are 2 apart on centerlines nearest (29, 16)<->(31, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: holes/pinches: 1 undersized holes; 1 pinches

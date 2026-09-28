@@ -15,6 +15,7 @@ class Eye1Container(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('eye', 'container')
 

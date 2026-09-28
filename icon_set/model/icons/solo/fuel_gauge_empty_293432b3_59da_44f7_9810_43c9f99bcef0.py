@@ -12,7 +12,8 @@ class FuelGaugeEmpty(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('fuel gauge', 'empty', 'fuel', 'gauge', 'dashboard', 'car', 'petrol', 'low fuel')
 

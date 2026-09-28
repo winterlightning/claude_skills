@@ -13,7 +13,8 @@ class AuthoredIcon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ()
     keywords = ('shipping', 'logistic', 'estimate', 'time', 'arrival', '2')
 

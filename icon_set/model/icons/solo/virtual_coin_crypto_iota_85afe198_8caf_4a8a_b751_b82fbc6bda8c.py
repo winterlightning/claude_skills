@@ -12,6 +12,7 @@ class VirtualCoinCryptoIota(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'finance'
+    categories = ('primitives', 'finance')
     aliases = ()
     keywords = ('virtual', 'coin', 'crypto', 'iota', 'finance')
 

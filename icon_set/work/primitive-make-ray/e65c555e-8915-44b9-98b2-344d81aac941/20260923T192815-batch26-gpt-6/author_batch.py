@@ -5,7 +5,7 @@ import cairosvg
 from PIL import Image,ImageDraw
 SOURCE_ICON_ID='e65c555e-8915-44b9-98b2-344d81aac941'
 SOURCE_PATH='icon_set/work/todo-references/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 BASE=Path(__file__).parent
 ROWS=json.loads((BASE/'batch-inputs.json').read_text())
 exec((BASE/'helpers.txt').read_text())
@@ -20,7 +20,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = {uid!r}
 SOURCE_PATH = {m['reference_path']!r}
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = {iid!r}
     keyshape = Keyshape.{key}

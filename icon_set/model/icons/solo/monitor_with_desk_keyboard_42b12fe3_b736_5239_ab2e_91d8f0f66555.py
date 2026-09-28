@@ -11,7 +11,8 @@ class MonitorWithDeskKeyboard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'computers'
+    categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('monitor', 'keyboard', 'desktop', 'computer', 'workstation', 'screen', 'typing', 'pc')
 

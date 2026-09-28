@@ -11,6 +11,7 @@ class SynchronizeRefreshArrowInterfaceEssential(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-full-set', 'synchronize-refresh-arrow-interface-essential')
 

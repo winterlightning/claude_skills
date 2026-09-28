@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'be992ed2-ade4-5f64-a515-8f186d7ca8e3'
 SOURCE_PATH = 'icon_set/work/todo-references/room service do not disturb_be992ed2-ade4-5f64-a515-8f186d7ca8e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Door-hanger tag with a large open hook and a minus sign. Hook radii share the vertical axis.
 # Reference: No exact Lucide hanger match; door-closed informed the simple sign treatment.
 # Reduction: No defining parts omitted.

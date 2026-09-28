@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4a1b8b06-db68-40b2-adfe-7ecac75aaa72'
 SOURCE_PATH = 'icon_set/work/todo-references/shoemaker_4a1b8b06-db68-40b2-adfe-7ecac75aaa72.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Shoemaker with a circular head, apron and a shoe in the lower right foreground.
 # Construction references: human_ref/user.svg and full_body_ref.png: circular head and broad smooth shoulders; no exact shoe match.
 # Reduction: Omitted small apron side seam; retained apron, shoulder outline and shoe.

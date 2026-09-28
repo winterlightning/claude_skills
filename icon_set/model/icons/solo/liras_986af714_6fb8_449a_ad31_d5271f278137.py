@@ -15,6 +15,7 @@ class Liras(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'money'
+    categories = ('money', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('liras', 'money')
 

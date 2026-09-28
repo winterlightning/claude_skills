@@ -11,7 +11,8 @@ class HandScrubbingWithBrush(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('hand', 'brush', 'scrubbing', 'cleaning', 'suds', 'washing')
 

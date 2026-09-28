@@ -6,9 +6,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='53d72a10-e412-48cc-8f05-68600caa04a9'
 SOURCE_PATH='icon_set/work/todo-references/maha shivaratri_53d72a10-e412-48cc-8f05-68600caa04a9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='maha-shivaratri'
+    icon_id = 'maha-shivaratri'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

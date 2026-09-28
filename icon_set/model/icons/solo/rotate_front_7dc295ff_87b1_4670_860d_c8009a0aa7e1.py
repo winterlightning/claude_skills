@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7dc295ff-87b1-4670-860d-c8009a0aa7e1'
 SOURCE_PATH = 'icon_set/work/todo-references/rotate front_7dc295ff-87b1-4670-860d-c8009a0aa7e1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Overlapping front and rear tiles with a clockwise rotation arc above the rear tile.
 # Reference: rotate-cw: coherent curved arrow; rounded tile geometry.
 # Reduction: No defining parts omitted.

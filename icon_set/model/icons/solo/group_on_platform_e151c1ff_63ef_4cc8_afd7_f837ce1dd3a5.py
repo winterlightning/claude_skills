@@ -12,7 +12,8 @@ class GroupOnPlatform(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/groups"
+    category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('group', 'team', 'people', 'platform', 'community', 'circle', 'crowd', 'users')
 

@@ -11,6 +11,7 @@ class EarthFad4bbe1(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
+    categories = ('maps', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-full-set', 'earth-fad4bbe1')
 

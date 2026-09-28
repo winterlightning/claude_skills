@@ -15,7 +15,8 @@ class JetSkiOnWaves(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/recreation"
+    category = "recreation"
+    categories = ("primitives", "recreation")
     aliases = ()
     keywords = ('jet', 'ski', 'on', 'waves')
 

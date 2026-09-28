@@ -13,6 +13,7 @@ class EnvelopeSealed(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'primitives')
     aliases = ()
     keywords = ('envelope', 'sealed', 'emails')
     keyshape = Keyshape.SQUARE

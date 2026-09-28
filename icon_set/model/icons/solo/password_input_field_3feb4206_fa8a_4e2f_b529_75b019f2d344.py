@@ -12,7 +12,8 @@ class PasswordInputField(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/input"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ("password box", "masked text field")
     keywords = ("password", "authentication", "dots", "entry")
 

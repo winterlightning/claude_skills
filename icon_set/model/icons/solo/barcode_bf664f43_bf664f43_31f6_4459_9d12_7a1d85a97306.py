@@ -16,6 +16,7 @@ class BarcodeBf664f43(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'primitives')
     aliases = ()
     keywords = ('barcode', 'shopping')
     keyshape = Keyshape.HRECT_L

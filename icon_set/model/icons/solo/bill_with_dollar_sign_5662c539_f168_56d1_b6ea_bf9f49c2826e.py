@@ -12,7 +12,8 @@ class BillWithDollarSign(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/payments'
+    category = 'payments'
+    categories = ('primitives', 'payments')
     aliases = ()
     keywords = ('bill', 'invoice', 'dollar', 'document', 'accounting', 'payment', 'money', 'receipt')
 

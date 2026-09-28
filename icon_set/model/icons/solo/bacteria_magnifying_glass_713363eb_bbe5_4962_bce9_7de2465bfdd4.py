@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('bacteria', 'magnifying', 'glass')
     # Bounds are supplied by the contract; geometry below is authored to them.

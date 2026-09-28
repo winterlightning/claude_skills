@@ -16,7 +16,8 @@ class AirplaneTakingOff(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('airplane', 'takeoff', 'departure', 'runway', 'flight', 'plane', 'airport', 'travel')
 

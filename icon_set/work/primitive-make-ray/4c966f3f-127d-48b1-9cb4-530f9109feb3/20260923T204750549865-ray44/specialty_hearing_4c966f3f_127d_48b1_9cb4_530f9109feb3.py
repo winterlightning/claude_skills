@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4c966f3f-127d-48b1-9cb4-530f9109feb3'
 SOURCE_PATH = 'icon_set/work/todo-references/specialty hearing_4c966f3f-127d-48b1-9cb4-530f9109feb3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Outer ear and inner fold beside a short sound waveform.
 # References: ear: continuous outer helix and rounded lower lobe.
 # Reduction: Reduced inner fold to one hooked curve; retained waveform.

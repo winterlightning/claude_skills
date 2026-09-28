@@ -11,7 +11,8 @@ class MobileIcon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/mobile'
+    category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases = ()
     keywords = ('gprs', 'text', 'cellular', 'network', 'mobile', 'letters', 'data')
 

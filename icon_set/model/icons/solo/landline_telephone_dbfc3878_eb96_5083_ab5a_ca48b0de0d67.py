@@ -11,7 +11,8 @@ class LandlineTelephone(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/device'
+    category = 'phones'
+    categories = ('phones', 'primitives')
     aliases = ()
     keywords = ('telephone', 'landline', 'receiver', 'base', 'handset', 'desk')
 

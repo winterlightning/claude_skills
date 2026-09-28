@@ -11,7 +11,8 @@ class ScissorLiftTable(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/tools"
+    category = "tools"
+    categories = ("primitives", "tools")
     aliases = ()
     keywords = ('scissor lift', 'lift', 'platform', 'jack', 'expand', 'raise', 'clamp', 'hydraulic')
 

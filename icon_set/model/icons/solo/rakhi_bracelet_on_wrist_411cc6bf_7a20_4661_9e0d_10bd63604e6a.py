@@ -18,6 +18,7 @@ class IconRakhiBraceletOnWrist(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "holidays"
+    categories = ("primitives", "holidays")
     aliases = ()
     keywords = ('rakhi', 'bracelet', 'on', 'wrist')
 

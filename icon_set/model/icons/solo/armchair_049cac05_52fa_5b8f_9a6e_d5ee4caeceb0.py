@@ -11,6 +11,7 @@ class Armchair(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'furnitures'
+    categories = ('furnitures', 'primitives')
     aliases = ()
     keywords = ('armchair', 'furnitures', 'solo-ai-first50')
 

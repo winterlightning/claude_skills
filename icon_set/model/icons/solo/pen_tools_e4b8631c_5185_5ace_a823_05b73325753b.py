@@ -1,63 +1,83 @@
+"""pen tools.
+Plan: Bezier control nodes and arch above a large pointed fountain nib with central slit.
+Construction: Lucide pen-tool pointed nib and slit, source control-node arrangement.
+Omissions: Nib hole merged into slit; separate base band omitted to enlarge nib interior.
+"""
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e4b8631c-5185-5ace-a823-05b73325753b'
-SOURCE_PATH = 'icon_set/work/todo-references/pen tools_e4b8631c-5185-5ace-a823-05b73325753b.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/design/pen tools_e4b8631c-5185-5ace-a823-05b73325753b.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
-    """A pen nib beneath vector curve control handles.
-    Plan: Symmetric nib, central hole, repeated control nodes and a broad curve.
-    Reference: pen-tool: nib, slit and circular hole; source adds curve handles.
-    """
     icon_id = 'pen-tools'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
     aliases = ()
     keywords = ('pen', 'tools')
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
 
-    def circle(self,n,x,y,r,ry=None):
-        ry=r if ry is None else ry
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r,radius_y=ry)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r,radius_y=ry)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
 
-    def rounded(self,n,l,t,r,b,k=4):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        members=[]
-        for i,p in enumerate(pts):
-            q=pts[(i+1)%8];name=f'{n}-{i}';members.append(name)
-            if i%2:self.add_arc(name,p,q,radius_x=k)
-            else:self.add_line(name,p,q)
-        self.add_contour(n,*members,closed=True)
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
 
-    def dollar(self):
-        self.add_line('s-top',(29,16),(24,16))
-        self.add_arc('s-left',(24,16),(24,24),radius_x=4,sweep=False)
-        self.add_arc('s-right',(24,24),(24,32),radius_x=4)
-        self.add_line('s-bottom',(24,32),(19,32))
-        self.add_contour('dollar','s-top','s-left','s-right','s-bottom')
-        self.add_line('stem-top',(24,12),(24,16));self.relate('connect','stem-top','dollar')
-        self.add_line('stem-bottom',(24,32),(24,36));self.relate('connect','stem-bottom','dollar')
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
 
-    def bust(self,n,x,y,r,width,body_y,body_ry):
-        # Detached head bottom = y+r; shoulder apex = body_y-body_ry.
-        # Author parameters require their difference to be exactly eight.
-        self.circle(n+'-head',x,y,r)
-        self.add_arc(n+'-shoulders',(x-width,body_y),(x+width,body_y),radius_x=width,radius_y=body_ry)
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
 
     def build(self):
-
         self.circle('left-node',8,8,2);self.circle('right-node',40,8,2)
-        self.add_polyline('control-square',(20,6),(28,6),(28,14),(20,14),closed=True)
+        self.add_polyline('control-square',(20,6),(28,6),(28,8),(28,10),(28,17),(20,17),(20,10),(20,8),closed=True)
         self.add_line('left-control',(10,8),(20,8));self.relate('connect','left-control','left-node');self.relate('connect','left-control','control-square')
         self.add_line('right-control',(28,8),(38,8));self.relate('connect','right-control','right-node');self.relate('connect','right-control','control-square')
-        self.add_arc('curve-left',(8,24),(20,10),radius_x=16,radius_y=16)
-        self.add_arc('curve-right',(28,10),(40,24),radius_x=16,radius_y=16)
+        self.add_arc('curve-left',(10,25),(20,17),radius_x=10,radius_y=8)
+        self.add_arc('curve-right',(28,17),(38,25),radius_x=10,radius_y=8)
         self.relate('connect','curve-left','control-square');self.relate('connect','curve-right','control-square')
-        self.add_polyline('nib',(24,18),(14,30),(18,34),(30,34),(34,30),closed=True)
-        self.circle('nib-hole',24,28,2)
-        self.add_line('slit',(24,18),(24,26));self.relate('connect','slit','nib');self.relate('connect','slit','nib-hole')
-        self.add_polyline('base',(16,34),(32,34),(32,42),(16,42),closed=True);self.relate('connect','base','nib')
+        self.add_polyline('nib',(24,26),(12,34),(18,42),(30,42),(36,34),closed=True)
+        self.add_line('slit',(24,26),(24,32));self.relate('connect','slit','nib')

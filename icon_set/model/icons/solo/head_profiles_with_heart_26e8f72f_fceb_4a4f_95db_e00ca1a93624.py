@@ -12,7 +12,8 @@ class HeadProfilesWithHeart(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/identity"
+    category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('empathy', 'heads', 'profile', 'heart', 'compassion', 'people', 'care', 'understanding')
 

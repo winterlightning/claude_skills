@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='ae6b25a3-d93d-4b50-877f-b93b791b7261'
 SOURCE_PATH='icon_set/work/todo-references/tv control pause_ae6b25a3-d93d-4b50-877f-b93b791b7261.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Television on a central stand showing two pause bars.'
 CONSTRUCTION_REFERENCE='monitor: matched screen corners and centered stand'
 

@@ -49,7 +49,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'business'
+    categories = ('primitives', 'business')
     aliases = ()
     keywords = ('standard', 'payment', 'credit', 'card')
 

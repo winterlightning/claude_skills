@@ -9,7 +9,8 @@ class LightbulbSpeechBubble(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "communication/idea"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("idea message",)
     keywords = ("speech bubble", "bulb", "thought")
 

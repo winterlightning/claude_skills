@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8f58894e-3584-4d7e-9183-ffe9e81333d8'
 SOURCE_PATH = 'icon_set/work/todo-references/tools tear gas_8f58894e-3584-4d7e-9183-ffe9e81333d8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'tools-tear-gas'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '511355eb-7cfa-58bd-92f0-c71be6237ccf'
 SOURCE_PATH = 'icon_set/work/todo-references/notes text flip_511355eb-7cfa-58bd-92f0-c71be6237ccf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Top-bound spiral notebook with three repeated open loops and two writing rules.
 # Keyshape visible extremes are supplied by Keyshape.VRECT_L.bounds_for(SOLO48).
 # Lucide construction reference: notebook-pen.

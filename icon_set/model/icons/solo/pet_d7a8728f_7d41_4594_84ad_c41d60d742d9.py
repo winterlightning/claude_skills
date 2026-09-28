@@ -12,7 +12,8 @@ class RoundBug(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "nature/animals"
+    category = "animals"
+    categories = ("animals", "state")
     aliases = ('beetle',)
     keywords = ('bug', 'insect', 'beetle', 'small', 'antennae', 'legs', 'pest', 'nature')
 

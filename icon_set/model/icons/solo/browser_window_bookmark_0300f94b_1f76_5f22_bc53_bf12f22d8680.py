@@ -18,7 +18,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/websites'
+    category = 'websites'
+    categories = ('websites', 'primitives')
     aliases = ()
     keywords = ('browser', 'window', 'bookmark')
 

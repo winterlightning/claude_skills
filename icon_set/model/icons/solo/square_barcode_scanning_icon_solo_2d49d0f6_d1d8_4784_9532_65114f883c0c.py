@@ -15,7 +15,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/interface-essential'
+    category = 'shopping'
+    categories = ('shopping', 'primitives')
     tags = ('sub icon',)
     keywords = ('sub icon', 'square barcode scanning icon')
     def build(self):

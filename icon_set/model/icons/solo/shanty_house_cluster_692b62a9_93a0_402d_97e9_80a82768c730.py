@@ -12,7 +12,8 @@ class ShantyHouseCluster(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/landmarks"
+    category = "landmarks"
+    categories = ("landmarks", "primitives")
     aliases = ()
     keywords = ('shanty', 'slum', 'village', 'houses', 'informal', 'settlement', 'shelter', 'housing')
 

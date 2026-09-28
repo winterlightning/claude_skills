@@ -1,4 +1,5 @@
 """Rejected icons stay disabled until explicitly restored, preserving source/history."""
+from contextlib import nullcontext
 import json
 from email.message import Message
 from io import BytesIO
@@ -33,7 +34,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         # Exercise the actual HTTP route handlers without requiring a listening socket.
         handler = GalleryHandler.__new__(GalleryHandler)
         handler.root, handler.database = self.dist, self.database
-        handler.server = SimpleNamespace(references=ReferenceStore(self.root / 'reference-images'), artwork=SimpleNamespace(get=lambda key: None))
+        handler.server = SimpleNamespace(references=ReferenceStore(self.root / 'reference-images'), artwork=SimpleNamespace(get=lambda key: None, snapshot=nullcontext))
         handler.current_user = lambda: 'jakes'  # every change is made by a logged-in reviewer
         handler.path = path
         body = json.dumps(data).encode() if data is not None else b''

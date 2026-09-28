@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d77fdc9d-cf53-47f2-a658-1374ef8bc461'
 SOURCE_PATH='icon_set/work/todo-references/wordpress logo 2_d77fdc9d-cf53-47f2-a658-1374ef8bc461.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='wordpress-logo-2'

@@ -12,6 +12,17 @@ from urllib.parse import quote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+# Authored model categories that name a catalog category another way.
+CATEGORY_ALIASES = {
+    'objects/clothing': 'clothes', 'objects/drink': 'drinks',
+    'nature/animals': 'animals', 'animals/mammals': 'animals',
+    'objects/sports': 'sports', 'people/sports': 'sports',
+    'objects/tool': 'tools', 'objects/organization': 'business',
+    'objects/communication': 'messages', 'objects/transport': 'transportation',
+    'objects/baby': 'babies', 'places/landmarks': 'landmarks',
+    'objects/nature': 'nature', 'people/users': 'users',
+    'people/occupations': 'avatars', 'objects/media': 'audio',
+}
 
 
 def stage_review_facets(records: list[dict], staged: Path, published: Path, target: Path) -> None:
@@ -277,16 +288,7 @@ def remap_categories(records: list[dict], catalog: dict) -> None:
     for row in catalog['rows']:
         for icon_id in row.get('models', []):
             categories.setdefault(icon_id, set()).add(row['category'])
-    aliases = {
-        'objects/clothing': 'clothes', 'objects/drink': 'drinks',
-        'nature/animals': 'animals', 'animals/mammals': 'animals',
-        'objects/sports': 'sports', 'people/sports': 'sports',
-        'objects/tool': 'tools', 'objects/organization': 'business',
-        'objects/communication': 'messages', 'objects/transport': 'transportation',
-        'objects/baby': 'babies', 'places/landmarks': 'landmarks',
-        'objects/nature': 'nature', 'people/users': 'users',
-        'people/occupations': 'avatars', 'objects/media': 'audio',
-    }
+    aliases = CATEGORY_ALIASES
     valid = set(catalog['categories'])
     for record in records:
         candidates = categories.get(record['icon_id'])
@@ -309,11 +311,25 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
                             {record['icon_id']: record for record in failed_records})
     from icon_set.scripts.combination_catalog import write_catalog as write_combinations
     combinations = write_combinations(target, catalog, records)
-    from icon_set.scripts.side_components import write as write_side_components
+    from icon_set.scripts.side_components import write as write_side_components, annotate_side_roles
     write_side_components(target, combinations, records, failed_records)
+    annotate_side_roles(records + failed_records, target)
     if catalog['warning']:
         print('Primitives page: ' + catalog['warning'])
     return catalog
+
+
+def failed_editor_graph(factory, failure):
+    """Ship editable geometry only when it reproduces the failed export exactly."""
+    import hashlib
+    try:
+        icon = factory()
+        if hashlib.sha256(icon.to_svg().encode()).hexdigest() == failure.get('svg_sha256'):
+            return icon.to_record()
+    except Exception:
+        # A broken original remains reviewable, but cannot provide an editor graph.
+        pass
+    return {}
 
 
 def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=None) -> Path:
@@ -373,9 +389,10 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
             if key in exported_keys:
                 continue
             failed_records.append({
-                **failure, 'key': key, 'name': icon_id, 'build_failed': True,
+                **failed_editor_graph(factory, failure), **failure, 'key': key, 'name': icon_id, 'build_failed': True,
                 'author': getattr(sys.modules[factory.__module__], 'AUTHOR', ''),
                 'category': getattr(factory, 'category', ''),
+                'categories': list(getattr(factory, 'categories', ()) or [getattr(factory, 'category', '')]),
                 'keywords': getattr(factory, 'keywords', ()),
                 'preview_url': '../failed/' + quote(folder, safe='') + '/' + quote(failure.get('svg') or icon_id + '.svg', safe=''),
                 'original_sources': copy_originals(sources.get(icon_id, []), target),
@@ -413,9 +430,15 @@ def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=Non
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
-    for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "side-combination-popup.js", "side-repair-flags.js", "side-combination-progress.js", "icons.html", "approved-icons.js", "reference-picker.js",
-                  "primitives.html", "progression-combinations.js", "side-pairs-grid.js", "symbols-needed.html", "side-mains.html", "side-subs.html", "side-components.js", "side-components.css", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js", "work.html", "work.css", "work.js"):
+    for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "side-combination-popup.js", "side-layout-editor.js", "side-repair-flags.js", "side-combination-progress.js", "icons.html", "approved-icons.js", "reference-picker.js",
+                  "primitives.html", "progression-combinations.js", "side-pairs-grid.js", "side-component-editor.js", "side-component-editor.css", "symbols-needed.html", "side-mains.html", "side-subs.html", "side-components.js", "side-components.css", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js", "work.html", "work.css", "work.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
+    editor_source = (Path(__file__).with_name('templates') / 'gallery.html').read_text()
+    editor_panel = editor_source.split('<section id="editingPanel"', 1)[1].split('</section></div></dialog>', 1)[0]
+    editor_panel = '<section id="editingPanel"' + editor_panel + '</section>'
+    for name in ('side-mains.html', 'side-subs.html', 'primitives.html'):
+        page = target / name
+        page.write_text(page.read_text().replace('<!-- shared-icon-editor -->', editor_panel))
     side_review = REPO_ROOT / 'icon_set/work/side-combinations-passing-sub'
     if (side_review / 'index.html').is_file():
         shutil.copytree(side_review, target / 'side-combinations-passing-sub', dirs_exist_ok=True,

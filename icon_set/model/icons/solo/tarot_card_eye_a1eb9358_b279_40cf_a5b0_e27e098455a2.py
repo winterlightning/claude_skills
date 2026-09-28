@@ -14,6 +14,7 @@ class TarotCardEye(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "culture"
+    categories = ("culture", "primitives")
     aliases = ()
     keywords = ('tarot', 'card', 'eye', 'divination', 'fortune', 'occult', 'deck', 'mystic', 'lucide:eye', 'lucide:rectangle-vertical')
 

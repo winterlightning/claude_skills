@@ -12,7 +12,8 @@ class Drawing(Solo48):
     # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('mobile', 'screen')
 

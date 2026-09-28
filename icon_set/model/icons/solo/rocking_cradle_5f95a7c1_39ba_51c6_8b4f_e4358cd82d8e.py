@@ -12,7 +12,8 @@ class RockingCradle(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/baby"
+    category = "babies"
+    categories = ("babies", "primitives")
     aliases = ()
     keywords = ('rocking', 'cradle', 'baby', 'nursery', 'toy')
 

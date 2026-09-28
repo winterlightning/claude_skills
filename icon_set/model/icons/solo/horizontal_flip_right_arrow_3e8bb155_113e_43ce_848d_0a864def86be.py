@@ -22,7 +22,8 @@ class HorizontalFlipRightArrow(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
+    categories = ('design', 'primitives')
     aliases = ('flip-right-panel',)
     keywords = ('horizontal', 'flip', 'right', 'arrow', 'panel', 'design')
 

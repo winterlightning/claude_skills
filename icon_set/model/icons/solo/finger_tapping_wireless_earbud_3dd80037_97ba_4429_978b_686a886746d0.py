@@ -17,6 +17,7 @@ class FingerTappingWirelessEarbud(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'audio'
+    categories = ('audio', 'primitives')
     aliases = ()
     keywords = ('earbud', 'wireless', 'audio', 'listening', 'headphone', 'music', 'device', 'sound')
 

@@ -11,6 +11,7 @@ class ShoppingBag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'shopping'
+    categories = ('shopping', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'shopping-bag-1b586bc1')
 

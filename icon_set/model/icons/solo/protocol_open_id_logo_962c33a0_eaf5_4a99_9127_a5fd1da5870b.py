@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '962c33a0-eaf5-4a99-9127-a5fd1da5870b'
 SOURCE_PATH = 'icon_set/work/todo-references/protocol open id logo_962c33a0-eaf5-4a99-9127-a5fd1da5870b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'protocol-open-id-logo'

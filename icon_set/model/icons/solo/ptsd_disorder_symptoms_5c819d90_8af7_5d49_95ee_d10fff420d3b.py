@@ -11,6 +11,7 @@ class PtsdDisorderSymptoms(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('solo-ai-full-set', 'ptsd-disorder-symptoms')
 

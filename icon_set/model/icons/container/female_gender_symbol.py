@@ -19,7 +19,8 @@ class FemaleGenderSymbol(Container64):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ("venus-container", "female-symbol-container")
     keywords = ("female", "gender", "venus", "woman", "circle")
 

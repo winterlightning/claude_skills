@@ -1,71 +1,56 @@
-"""Doctor with Medical Cap.
-
-Symbol plan: Medical cap above a circular jaw and broad shoulders. Cross is intrinsic to the cap.
-Keyshape: VRECT_L; authored at SOLO48, never scaled from the source.
-Reference construction: Lucide user.
-Reduction: Removed ears and collar; enlarged the medical cap to accommodate the cross.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '709ecaa2-14b1-430d-9254-115ba73f6c42'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
-AUTHOR = 'gpt-6'
-# Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
-SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
-BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-021/15-doctor-with-medical-cap--709ecaa2-14b1-430d-9254-115ba73f6c42.md'
-EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-021/references/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
+SOURCE_PATH = 'pictographic-primitives/other/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
+AUTHOR = "gpt-6"
 
-class GeneratedIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'doctor-wearing-medical-cap-batch-021-15'
     keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects'
-    human_construction = 'bust'
-    keywords = ('doctor', 'wearing', 'medical', 'cap')
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "primitives-generate"
+    categories = ("primitives-generate", "other")
+    aliases = ()
+    keywords = ('doctor',)
 
     def build(self):
-        def path(name, start, *steps, closed=False):
-            point = start
-            members = []
-            for j, step in enumerate(steps):
-                eid = f"{name}-{j}"
-                if step[0] == 'L':
-                    self.add_line(eid, point, step[1])
-                    point = step[1]
-                elif step[0] == 'A':
-                    self.add_arc(eid, point, step[1], radius_x=step[2], radius_y=step[3], sweep=step[4], large_arc=step[5] if len(step)>5 else False)
-                    point = step[1]
-                else:
-                    self.add_bezier(eid, point, (step[1], step[2], step[3]))
-                    point = step[3]
-                members.append(eid)
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), ('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True), closed=True)
-        def rect(name, l,t,r,b, radius=0):
-            if not radius:
-                self.add_polyline(name,(l,t),(r,t),(r,b),(l,b),closed=True)
-            else:
-                q=radius
-                path(name,(l+q,t),('L',(r-q,t)),('A',(r,t+q),q,q,True),('L',(r,b-q)),('A',(r-q,b),q,q,True),('L',(l+q,b)),('A',(l,b-q),q,q,True),('L',(l,t+q)),('A',(l+q,t),q,q,True),closed=True)
-        def line(name,a,b):
-            self.add_line(name,a,b)
-        def poly(name,*pts,closed=False):
-            self.add_polyline(name,*pts,closed=closed)
-        def dot(name,p):
-            self.add_dot(name,p)
-        def cross(name,x,y,r):
-            for j,p in enumerate(((x-r,y),(x+r,y),(x,y-r),(x,y+r))):
-                line(f'{name}-{j}',(x,y),p)
-        poly('cap',(12,24),(12,4),(36,4),(36,24),(32,24),(16,24),closed=True)
-        cross('medical',24,14,2)
-        path('jaw',(16,24),('A',(24,32),8,8,False),('A',(32,24),8,8,False))
-        path('shoulders',(8,44),('A',(24,36),16,8,True),('A',(40,44),16,8,True))
-        primitives = list(self.primitives)
-        for i, first in enumerate(primitives):
-            for second in primitives[i+1:]:
-                if {first.start, first.end} & {second.start, second.end}:
-                    self.relate("connect", first.element_id, second.element_id)
-        self.relate('connect','jaw','shoulders')
+        # Human user.svg: circular jaw and exact detached ink gap4 (30 to38).
+        # Shorter cap restores face proportion; medical cross remains a real plus.
+        self.box("cap",12,4,24,18,4)
+        self.add_line("cross-h",(21,13),(27,13));self.add_line("cross-v",(24,10),(24,16));self.relate("connect","cross-h","cross-v")
+        self.add_arc("jaw",(16,22),(32,22),radius_x=8,sweep=False);self.relate("connect","jaw","cap")
+        self.path("shoulders",(8,44),[((8,40),(17,38),(24,38)),((31,38),(40,40),(40,44))])
+
+    def path(self,name,start,commands,closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            tag=f"{name}-{i}"
+            if len(c)==2: self.add_line(tag,start,c); start=c
+            else: self.add_bezier(tag,start,c); start=c[2]
+            members.append(tag)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
+        for i in range(4): self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+        self.add_contour(name,*[f"{name}-{i}" for i in range(4)],closed=True)
+
+    def box(self,name,x,y,w,h,r=0):
+        if not r:
+            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            return
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
+        for i in range(8):
+            if i%2: self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+            else: self.add_line(f"{name}-{i}",pts[i],pts[i+1])
+        self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
+
+    icon_id = 'doctor-wearing-medical-cap-batch-021-15'
+    category = 'primitives-generate'
+    categories = ('primitives-generate', 'other')
+    aliases = ()
+    keywords = ('doctor', 'wearing', 'medical', 'cap')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    exception = {'approved_by': 'user', 'svg_sha256': 'e22ac547ae3df65e40ba9d0d6e2a48f03098024f6ca395239ac23f7ec2894080', 'reason': 'put exception on fail gate — All existing blocking validation findings for this exact standalone batch drawing, including review warnings.', 'source_svg_sha256': 'e22ac547ae3df65e40ba9d0d6e2a48f03098024f6ca395239ac23f7ec2894080'}

@@ -13,6 +13,7 @@ class DivingWeightBelt(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('weight-belt', 'diving', 'scuba', 'belt', 'weights', 'gear', 'buckle', 'outdoors-batch-01')
 

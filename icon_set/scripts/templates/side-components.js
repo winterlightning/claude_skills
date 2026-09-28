@@ -3,8 +3,8 @@
 (()=>{
 const ROLE=document.body.dataset.role, PAGE_SIZE=48, $=id=>document.getElementById(id);
 const BUCKETS=ROLE==='sub'
-  ?[['done','Generated','A 32×32 sub drawing passes'],['text','Text','Text or a number · generated separately'],['failing','Needs fix','Fails validation or marked needs fix · /fix-icon-sub'],['missing','Not generated','No 32×32 drawing yet · /icon-sub'],['variants','Extra versions failing','Generated, but other versions fail or need fix'],['all','All sub icons','']]
-  :[['done','Generated','A 48×48 solo drawing passes'],['missing','Not generated','No 48×48 solo drawing yet · /icon-solo'],['failing','Needs fix','Fails validation or marked needs fix'],['all','All main icons','']];
+  ?[['done','Generated','Passes checks or has an approved exception'],['text','Text','Text or a number · generated separately'],['failing','Needs fix','Fails validation or marked needs fix · /fix-icon-sub'],['missing','Not generated','No 32×32 drawing yet · /icon-sub'],['variants','Extra versions failing','Generated, but other versions fail or need fix'],['all','All sub icons','']]
+  :[['done','Generated','A 48×48 solo drawing passes or has an approved exception'],['missing','Not generated','No 48×48 solo drawing yet · /icon-solo'],['failing','Needs fix','Fails validation or marked needs fix'],['all','All main icons','']];
 const HANDOFF={missing:ROLE==='sub'?'Generate each as a SUB32 sub icon with /icon-sub from its source reference.':'Generate each as a SOLO48 main icon with /icon-solo from its source reference.',
   failing:ROLE==='sub'?'Repair each with /fix-icon-sub: keep the reference meaning, produce a variant that passes the SUB32 gate.':'Repair each drawing so it passes validation, keeping the reference meaning.',
   text:'Each sub is readable text or a number. Generate as a text sub, not a pictogram.',variants:'These subs already pass; their extra variants fail. Fix or discard the failing variants.',done:'Reference list only.',all:'Reference list only.'};
@@ -12,7 +12,8 @@ let items=[],statuses={},reviews={},counts={},page=1;
 // A drawing counts as generated only when it passes validation and no reviewer marked it Needs fix
 // (review status pending) or rejected it. Same rule as the Side pairs summary in side-pairs-grid.js.
 const flagged=d=>['pending','rejected'].includes(reviews[d.key]);
-const usable=d=>d.status==='pass'&&!flagged(d);
+// A failing drawing counts once a reviewer approved it as an exception (Icon review · Failed check).
+const usable=d=>(d.status==='pass'||reviews[d.key]==='approve')&&!flagged(d);
 function restatus(item){item.failing_variants=item.drawings.filter(d=>!usable(d)).length;item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';}
 const params=new URLSearchParams(location.search);
 const state={status:BUCKETS.some(b=>b[0]===params.get('status'))?params.get('status'):'missing',q:params.get('q')||'',sort:params.get('sort')==='name'?'name':'uses'};
@@ -50,14 +51,58 @@ function renderStats(){
 const GRID=ROLE==='sub'?32:48;
 function drawingFigure(item,d){
   const fig=node('figure','sc-drawing '+d.status),a=node('a','sc-grid sc-grid-'+GRID);a.href=d.preview_url||'#';a.target='_blank';a.rel='noopener';a.title=d.python_source||d.icon_id;
+  if(d.profile==='TEXT_NATIVE_V2'){a.className='sc-text-native';a.style.aspectRatio=String(d.canvas_width/d.canvas_height);}
   const img=document.createElement('img');img.loading='lazy';img.alt=d.icon_id;img.src=d.preview_url;a.append(img);
   if(d.preview_url)centerlineObserver.observe(a);a.dataset.src=d.preview_url||'';
-  fig.append(a,node('figcaption','',`${d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.status}`));
+  fig.append(a,node('figcaption','',`${d.profile==='TEXT_NATIVE_V2'?'Typeface v2 · native size · gap 4':d.icon_id} · ${reviews[d.key]==='pending'?'needs fix':d.exception?'pass · exception':d.status}`));
   if(reviews[d.key]==='pending')fig.classList.add('flagged');
-  if(d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
-  if(d.svg_sha256){fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
+  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256&&d.status==='pass')fig.append(fixButton(item,d));
+  if(d.profile!=='TEXT_NATIVE_V2'&&d.svg_sha256){fig.append(reviewActions(item,d));fig.append(removeButton(item,d));fig.append(selectBox(item,d,fig));}
   return fig;
 }
+// The shared editor stores drafts separately; Pick approves the saved version for use.
+async function api(url,body){
+  const response=await fetch(url,body===undefined?{cache:'no-store'}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save.');return data;
+}
+async function reloadDrawings(){
+  const [data,review]=await Promise.all([api('/api/side-components'),api('/api/reviews')]);
+  items=ROLE==='sub'?data.subs:data.mains;reviews=review;items.forEach(restatus);selected.clear();svgCache.clear();render();
+}
+async function restoreRejected(d){
+  if(reviews[d.key]==='rejected')await api('/api/reject-combination/restore',{icon:d.key,svg_sha256:d.svg_sha256});
+}
+function reviewActions(item,d){
+  const wrap=node('div','sc-review-actions login-only'),edit=node('button','','Edit icon'),approve=node('button','primary',d.status==='pass'?'Approve':'Approve as exception'),msg=node('span');
+  edit.type=approve.type='button';msg.setAttribute('role','status');
+  approve.disabled=reviews[d.key]==='approve'&&d.status==='pass';
+  if(approve.disabled)approve.textContent=d.exception?'Approved · exception':'Approved';
+  edit.onclick=async()=>{
+    edit.disabled=true;msg.textContent='Opening editor…';
+    try{
+      const data=await api('/api/icon-artwork?icon='+encodeURIComponent(d.key));
+      $('editorTitle').textContent=item.concept;
+      window.StrokeEditor.open(data.record);window.IconArtwork.open(data.record);
+      $('detail').showModal();$('editingTab').click();msg.textContent='';
+    }catch(error){msg.textContent=error.message;}finally{edit.disabled=false;}
+  };
+  approve.onclick=async()=>{
+    approve.disabled=true;msg.textContent='Saving approval…';
+    try{
+      const data=await api('/api/icon-artwork?icon='+encodeURIComponent(d.key));
+      if(data.record.svg_sha256!==d.svg_sha256)throw Error('This drawing changed. Reload the page before approving it.');
+      await restoreRejected(d);
+      if(d.status==='pass')await api('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'approve'});
+      else await api('/api/icon-artwork',{icon:d.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision||0,source_mode:'use_org',approve_exception:true});
+      await reloadDrawings();
+    }catch(error){msg.textContent=error.message;approve.disabled=false;}
+  };
+  wrap.append(edit,approve,msg);return wrap;
+}
+window.beforeIconArtworkApprove=async icon=>{const current=await api('/api/reviews');if(current[icon.key]==='rejected')await api('/api/reject-combination/restore',{icon:icon.key,svg_sha256:icon.svg_sha256});};
+$('closeEditor').onclick=()=>$('detail').close();
+$('detail').addEventListener('close',()=>reloadDrawings().catch(error=>{$('copyNote').textContent=error.message;}));
+window.addEventListener('icon-artwork-saved',()=>reloadDrawings().catch(error=>{$('copyNote').textContent='Approval saved. Reload to refresh: '+error.message;}));
 // Centerline: each drawing is inlined as its artwork plus a thin copy of the same paths (CSS .sc-cl).
 const svgCache=new Map();
 const loadSVG=url=>{if(!svgCache.has(url))svgCache.set(url,fetch(url).then(r=>{if(!r.ok)throw Error();return r.text();}));return svgCache.get(url);};
@@ -104,10 +149,11 @@ async function batchDelete(){
   const picks=[...selected.values()],post=async(url,body)=>{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Could not delete.');return data;};
   const errors=[];let done=0;
   try{
-    // Discard only takes rejected (or failed-build) icons, so reject the rest first.
+    // Discard only takes rejected (or failed-build) icons, so reject every pick first. A drawing that
+    // fails validation still builds and needs the reject; a failed build is not in the review catalog.
     for(const [i,{d}] of picks.entries()){
       msg.textContent=`Rejecting ${i+1}/${picks.length}…`;
-      if(d.status!=='fail')await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected/i.test(e.message))errors.push(`${d.icon_id}: ${e.message}`);});
+      await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected|unknown icon/i.test(e.message))errors.push(`${d.icon_id}: ${e.message}`);});
     }
     for(let start=0;start<picks.length;start+=500){
       msg.textContent=`Deleting ${Math.min(start+500,picks.length)}/${picks.length}…`;
@@ -128,7 +174,7 @@ function removeButton(item,d){
     clearTimeout(armed);armed=0;button.disabled=true;button.textContent='Removing…';msg.textContent='';
     try{
       const post=async(url,body)=>{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await r.json().catch(()=>({}));if(!r.ok)throw Error(data.error||'Could not remove.');return data;};
-      if(d.status!=='fail')await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected/i.test(e.message))throw e;});
+      await post('/api/reviews',{icon:d.key,svg_sha256:d.svg_sha256,status:'rejected'}).catch(e=>{if(!/rejected|unknown icon/i.test(e.message))throw e;});
       await post('/api/icons/discard',{icon:d.key,svg_sha256:d.svg_sha256,detach_variants:true});
       item.drawings=item.drawings.filter(x=>x.key!==d.key);
       restatus(item);
@@ -146,7 +192,7 @@ function tile(item){
   if(item.drawings.length)for(const d of item.drawings)art.append(drawingFigure(item,d));
   else{const f=node('figure');f.append(node('div','ph',b==='text'?'Text · generate separately':'Not generated'));art.append(f);}
   el.append(art);
-  const badges=node('div','sc-badges');badges.append(node('span','sc-badge '+b,{missing:'Not generated',failing:'Needs fix',done:'Generated',text:'Text'}[b]));
+  const badges=node('div','sc-badges');badges.append(node('span','sc-badge '+b,{missing:'Not generated',failing:'Needs fix',done:'Generated',text:item.drawings.some(d=>d.profile==='TEXT_NATIVE_V2'&&usable(d))?'Text · generated':'Text'}[b]));
   if(item.failing_variants&&item.status==='done')badges.append(node('span','sc-badge fail',`${item.failing_variants} failing variant${item.failing_variants===1?'':'s'}`));
   for(const f of item.other_drawings||[])badges.append(node('span','sc-badge',`${f} exists`));
   el.append(badges,node('h3','',item.concept),node('p','',`Used by ${item.uses.toLocaleString()} side pair${item.uses===1?'':'s'}: ${item.pairs.map(p=>p.concept).join(', ')}${item.uses>item.pairs.length?'…':''}`));
@@ -158,6 +204,9 @@ function tile(item){
     for(const d of failing)for(const e of d.errors)ul.append(node('li','',`${d.icon_id}: ${e}`));det.append(ul);el.append(det);}
   const links=node('div','sc-links'),pairs=node('a','','View side pairs');pairs.href='primitives.html?view=side&q='+encodeURIComponent(item.source_ids[0]||item.id);links.append(pairs);
   if(item.source_path){const s=node('a','','Source SVG');s.href=item.reference_url||'#';s.title=item.source_path;s.target='_blank';s.rel='noopener';links.append(s);}
+  for(const pair of item.text_blocked||[])el.append(node('p','',`${pair.concept}: ${pair.reason}.`));
+  if(item.text_note)el.append(node('p','',item.text_note));
+  if(item.text_combinations?.length){const details=node('details');details.append(node('summary','',`${item.text_combinations.length} combined icons`));for(const pair of item.text_combinations){const a=node('a');a.href=pair.preview_url;a.target='_blank';const img=document.createElement('img');img.src=pair.preview_url;img.alt=pair.concept;img.style.cssText='width:96px;height:96px;object-fit:contain';a.append(img);details.append(a); }el.append(details);}
   el.append(links);if(ROLE==='sub')el.append(classify(item));return el;
 }
 function classify(item){
@@ -207,7 +256,8 @@ const applyCl=()=>{document.body.classList.toggle('sc-no-cl',!showCl);clToggle.s
 clToggle.onclick=()=>{showCl=!showCl;try{localStorage.setItem('sc-centerline',showCl?'on':'off');}catch{}applyCl();};$('closeCopy').onclick=()=>$('copyDialog').close();
 (async()=>{
   try{
-    const [data,status,review]=await Promise.all([fetch('side-components.json',{cache:'no-store'}),ROLE==='sub'?fetch('/api/primitives/status',{cache:'no-store'}).catch(()=>null):null,fetch('/api/reviews',{cache:'no-store'}).catch(()=>null)]);
+    const fromDb=await fetch('/api/side-components',{cache:'no-store'}).catch(()=>null);
+    const [data,status,review]=await Promise.all([fromDb?.ok?fromDb:fetch('side-components.json',{cache:'no-store'}),ROLE==='sub'?fetch('/api/primitives/status',{cache:'no-store'}).catch(()=>null):null,fetch('/api/reviews',{cache:'no-store'}).catch(()=>null)]);
     if(!data.ok)throw Error('side-components.json is not built yet. Run the gallery build.');
     const json=await data.json();items=ROLE==='sub'?json.subs:json.mains;counts=json.counts[ROLE]||{};
     if(review?.ok)reviews=await review.json();items.forEach(restatus);

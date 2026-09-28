@@ -12,6 +12,7 @@ class Car4ecb7b0f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('car', 'transportation')
 

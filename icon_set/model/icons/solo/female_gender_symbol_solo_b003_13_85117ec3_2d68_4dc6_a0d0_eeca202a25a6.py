@@ -49,7 +49,8 @@ class GeneratedSolo(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects'
+    category = 'container'
+    categories = ('container',)
     aliases = ()
     keywords = ('female', 'gender', 'symbol')
 

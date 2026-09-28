@@ -17,7 +17,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'electric-plug-bolt-content'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'symbol'
+    categories = ('symbol',)
     tags = ('sub icon',)
     keywords = ('electric plug with lightning bolt',)
     def build(self):

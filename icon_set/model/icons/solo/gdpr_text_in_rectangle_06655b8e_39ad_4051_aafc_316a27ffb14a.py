@@ -12,7 +12,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'objects/signs'
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('gdpr', 'text', 'in', 'rectangle')
 

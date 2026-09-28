@@ -1,0 +1,43 @@
+{
+  "concept": "face grin stars",
+  "source_uuid": "3e7a0a74-079b-41a7-abfe-d06129db8361",
+  "reference_path": "pictographic-primitives/_uncategorized_17/face grin stars_3e7a0a74-079b-41a7-abfe-d06129db8361.svg",
+  "icon_id": "smiling-face-with-star-eyes",
+  "author": "gpt-6",
+  "parent_module": "icon_set/work/primitive-make-ray/3e7a0a74-079b-41a7-abfe-d06129db8361/20260924T174202-six-retry/smiling_face_with_star_eyes_v2_3e7a0a74_079b_41a7_abfe_d06129db8361.py",
+  "status": "exception",
+  "keyshape": "CIRCLE",
+  "keyshape_reason": "Complete circular face centered at (24,24), radius20, with smaller symbols enclosed independently.",
+  "validation_status": "invalid",
+  "validation_errors": 5,
+  "validation_warnings": 0,
+  "build_gate": "fail",
+  "user_rule_exception": {
+    "authorized": true,
+    "instruction": "for those emoji, i want you to remain the circle, just draw the heart, start, @ smaller, even if broke the rule, im good with it",
+    "scope": "Preserve full circle and use smaller heart/star/spiral eye symbols despite rule violations. No global validator/profile settings changed.",
+    "label": "exception"
+  },
+  "svg_sha256": "a4b4ff64dd7a1e2ae750f85d6acc41e1f01b03b268f363cb12f080ba08a1eee5",
+  "visual_review": {
+    "native_light": true,
+    "native_dark": true,
+    "findings": "Complete circular enclosure retained with independent smaller eye symbols. Tight internal symbol spaces are intentional under the user instruction; no eye connects to the outer face."
+  },
+  "design_changes": "Reverted eye/head boundary integration. Restored complete circle for every emoji, including the heart-eye face per latest user direction. Eyes are smaller; mouths retain distinct open-grin, open-frown, smile and neutral expressions.",
+  "references": "Original supplied references reviewed; prior human facial and Lucide star construction references retained as context. No body is depicted.",
+  "artifacts": {
+    "module": "smiling_face_with_star_eyes_v2_3e7a0a74_079b_41a7_abfe_d06129db8361.py",
+    "svg": "smiling-face-with-star-eyes.svg",
+    "metadata": "smiling-face-with-star-eyes.metadata.json",
+    "reference": "reference.svg",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_large": "light-240.png",
+    "dark_large": "dark-240.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "gate_overlays": "gate/"
+  },
+  "flag": "exception"
+}

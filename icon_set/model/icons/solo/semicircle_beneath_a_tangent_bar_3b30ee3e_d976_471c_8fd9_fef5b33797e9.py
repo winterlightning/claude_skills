@@ -9,7 +9,8 @@ AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'semicircle-beneath-a-tangent-bar'
     keyshape = Keyshape.HRECT_M
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     keywords = ('semicircle', 'beneath', 'a', 'tangent', 'bar')
 
     def build(self):

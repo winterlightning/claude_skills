@@ -17,6 +17,7 @@ class QueueIcon(Container64):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'entertainment'
+    categories = ('entertainment', 'primitives')
     aliases = ('Heart Playing Card',)
     keywords = ('heart', 'playing', 'card')
     def build(self):

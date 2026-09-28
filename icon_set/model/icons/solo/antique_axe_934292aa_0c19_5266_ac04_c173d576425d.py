@@ -11,6 +11,7 @@ class AntiqueAxe(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
+    categories = ('war', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'antique-axe')
 

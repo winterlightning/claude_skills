@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6498afd8-8355-4072-b42d-b96eef9111b1'
 SOURCE_PATH = 'icon_set/work/todo-references/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Standing person beside a map pin and short road line.'
 CONSTRUCTION_REFERENCE = 'human_ref/full_body_ref.png and map-pin: outlined head, connected limbs, pointed marker'
 

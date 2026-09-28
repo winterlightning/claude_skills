@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9b912024-cd41-447a-9b3f-0d8b1e66a4fe'
 SOURCE_PATH = 'icon_set/work/todo-references/paragraph right to left_9b912024-cd41-447a-9b3f-0d8b1e66a4fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'paragraph-right-to-left'

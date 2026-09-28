@@ -10,7 +10,8 @@ class FilmReelWithHangingTail(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/media'
+    category = 'movies'
+    categories = ('primitives', 'movies')
     aliases = ()
     keywords = ('film', 'reel', 'spool', 'cinema', 'movie', 'tail')
 

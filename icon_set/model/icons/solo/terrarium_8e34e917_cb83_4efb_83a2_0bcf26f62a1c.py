@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8e34e917-cb83-4efb-83a2-0bcf26f62a1c'
 SOURCE_PATH = 'icon_set/work/todo-references/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'terrarium'

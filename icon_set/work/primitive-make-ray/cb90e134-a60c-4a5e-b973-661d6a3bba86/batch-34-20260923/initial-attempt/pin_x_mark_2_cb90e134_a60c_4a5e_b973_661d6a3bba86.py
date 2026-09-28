@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cb90e134-a60c-4a5e-b973-661d6a3bba86'
 SOURCE_PATH='icon_set/work/todo-references/pin x mark 2_cb90e134-a60c-4a5e-b973-661d6a3bba86.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Location pin with round hole over a small ground X. The narrow crossing stays centered on the tip.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: circular hole and tapered pin.'
 OMISSIONS='Ground X compressed vertically to maintain the pin above it.'

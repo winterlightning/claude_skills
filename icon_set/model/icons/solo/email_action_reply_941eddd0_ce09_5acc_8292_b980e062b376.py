@@ -11,6 +11,7 @@ class EmailActionReply(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'emails'
+    categories = ('emails', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'email-action-reply')
 

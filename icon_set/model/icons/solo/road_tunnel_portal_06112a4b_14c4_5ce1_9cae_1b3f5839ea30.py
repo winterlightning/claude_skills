@@ -11,7 +11,8 @@ class RoadTunnelPortal(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('tunnel', 'road tunnel', 'portal', 'arch', 'road', 'underpass', 'highway', 'infrastructure')
 

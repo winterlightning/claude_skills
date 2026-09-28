@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3b9d031-1b14-49cd-b640-12d78e2f90f7'
 SOURCE_PATH = 'icon_set/work/todo-references/burrito_b3b9d031-1b14-49cd-b640-12d78e2f90f7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'A wrapped burrito with bowed seam and diagonal fold; split both curved contact locations at integer shared endpoints.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/b3b9d031-1b14-49cd-b640-12d78e2f90f7/20260922T221723-c23937/result.json'

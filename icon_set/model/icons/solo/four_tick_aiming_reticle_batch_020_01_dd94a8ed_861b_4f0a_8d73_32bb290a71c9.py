@@ -15,7 +15,8 @@ class BatchIcon(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("container", "other", "primitives-generate")
     keywords = ('reticle', 'aim', 'target', 'circle', 'ticks', 'sight', 'focus', 'crosshair')
 
     def build(self):

@@ -12,7 +12,8 @@ class CarSeat(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/symbols"
+    category = "symbol"
+    categories = ("symbol",)
     aliases = ()
     keywords = ('seat', 'car-seat', 'chair', 'vehicle', 'interior', 'passenger', 'driver', 'automotive')
 

@@ -11,6 +11,7 @@ class ChefGearMug(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('chef', 'gear', 'mug', 'drinks', 'solo-ai-next100')
 

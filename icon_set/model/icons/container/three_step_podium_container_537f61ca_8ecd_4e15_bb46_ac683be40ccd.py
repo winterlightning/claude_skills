@@ -16,7 +16,8 @@ class ThreeStepPodiumContainer(Container64):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'rating'
+    categories = ('rating', 'state', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('three', 'step', 'podium', 'container')
 

@@ -10,7 +10,8 @@ class AlarmBellWithPullCord(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/wayfinding'
+    category = 'wayfinding'
+    categories = ('wayfinding', 'primitives')
     aliases = ()
     keywords = ('bell', 'alarm', 'cord', 'ring', 'safety', 'signal')
 

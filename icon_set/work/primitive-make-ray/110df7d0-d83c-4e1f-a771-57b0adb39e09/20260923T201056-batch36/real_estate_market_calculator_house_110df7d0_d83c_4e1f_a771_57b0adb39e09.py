@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '110df7d0-d83c-4e1f-a771-57b0adb39e09'
 SOURCE_PATH = 'icon_set/work/todo-references/real estate market calculator house_110df7d0-d83c-4e1f-a771-57b0adb39e09.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'real-estate-market-calculator-house'

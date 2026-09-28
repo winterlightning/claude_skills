@@ -53,6 +53,7 @@ class GanttChartWithLinkedTasks(Solo48):
     icon_id = 'gantt-chart-with-linked-tasks'
     keyshape = Keyshape.SQUARE
     category = 'business'
+    categories = ('primitives', 'business')
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     aliases = ()

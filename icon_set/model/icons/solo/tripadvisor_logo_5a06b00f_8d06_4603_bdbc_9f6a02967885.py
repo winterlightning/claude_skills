@@ -11,7 +11,8 @@ class TripadvisorLogo(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('tripadvisor', 'owl', 'travel', 'reviews', 'logo', 'brand', 'eyes')
 

@@ -13,6 +13,7 @@ class StatueWithFlag(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('statue', 'flag', 'monument', 'landmark', 'pedestal', 'memorial', 'sculpture', 'outdoors-batch-02')
 

@@ -11,7 +11,8 @@ class Batch045Icon7(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('tree', 'fir', 'evergreen', 'pine', 'forest', 'branches', 'nature')
     # Reference: trees: mirrored tier silhouette and central trunk.

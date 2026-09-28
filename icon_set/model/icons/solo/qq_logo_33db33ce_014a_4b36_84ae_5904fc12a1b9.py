@@ -13,6 +13,7 @@ class QqLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('qq', 'logo', 'logos')
     keyshape = Keyshape.VRECT_L

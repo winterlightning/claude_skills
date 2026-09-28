@@ -1,0 +1,17 @@
+# face smile hearts
+
+Status: `exception` — user-authorized rule violations. Full circle retained; smaller eye symbols stay separate from the head.
+
+User instruction:
+> for those emoji, i want you to remain the circle, just draw the heart, start, @ smaller, even if broke the rule, im good with it
+
+Automatic model validation: invalid.
+
+```text
+BUILD GATE FAIL (fail, 5 errors, 0 warnings)
+  error: mic [head]: head and heart-eye-0 are 4.74698 apart on centerlines nearest (8.04313, 11.9432)<->(11.8385, 14.7943); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [head]: head and heart-eye-1 are 4.74698 apart on centerlines nearest (39.9569, 11.9432)<->(36.1615, 14.7943); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [heart-eye-0]: heart-eye-0 and heart-eye-1 are 6.76242 apart on centerlines nearest (20.6188, 16.4254)<->(27.3812, 16.4254); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [heart-eye-0]: heart-eye-0 and smile are 7 apart on centerlines nearest (16, 24)<->(16, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  error: mic [heart-eye-1]: heart-eye-1 and smile are 7 apart on centerlines nearest (32, 24)<->(32, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

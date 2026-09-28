@@ -9,9 +9,9 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='1dfab6f7-a053-5aee-8d2b-b99c63e6f3df'
 SOURCE_PATH='icon_set/work/todo-references/four wheel drive_1dfab6f7-a053-5aee-8d2b-b99c63e6f3df.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='four-wheel-drive'
+    icon_id = 'four-wheel-drive'
     keyshape=Keyshape.HRECT_M
     semantic_role='MAIN'
     semantic_kind='noun'

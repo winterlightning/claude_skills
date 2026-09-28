@@ -9,7 +9,8 @@ class BabyBottleWithHandles(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/baby-care'
+    category = 'babies'
+    categories = ('babies', 'primitives')
     aliases = ()
     keywords = ('bottle', 'handles', 'baby', 'milk', 'feeding', 'sippy', 'teat', 'infant')
 

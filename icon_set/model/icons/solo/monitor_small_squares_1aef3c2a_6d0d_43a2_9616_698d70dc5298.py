@@ -2,8 +2,8 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1aef3c2a-6d0d-43a2-9616-698d70dc5298'
-SOURCE_PATH = 'icon_set/work/todo-references/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/monitor small squares_1aef3c2a-6d0d-43a2-9616-698d70dc5298.svg'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor showing two vertically stacked small squares.'
 CONSTRUCTION_PLAN = 'Shared monitor enclosure and one square definition repeated down the left screen area.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]
@@ -35,14 +35,23 @@ def monitor(icon):
 
 class Drawing(Solo48):
     icon_id = 'monitor-small-squares'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/general"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
     aliases = ()
     keywords = ('monitor', 'small', 'squares')
 
     def build(self):
-        monitor(self)
-        for i,y in enumerate([13,24]):
-            self.add_polyline(f'square-{i}',(15,y),(23,y),(23,y+6),(15,y+6),closed=True)
+        # This retained vertical tile layout cannot meet all SOLO48 clearances.
+        # Preserve two recognizable square tiles rather than claim the enlarged but clipped attempt passes.
+        self.add_polyline('screen',(8,4),(40,4),(40,36),(24,36),(8,36),closed=True)
+        self.add_line('stand',(24,36),(24,44));self.add_polyline('base',(16,44),(24,44),(32,44))
+        self.relate('connect','screen','stand');self.relate('connect','stand','base')
+        for i,y in enumerate((10,24)):
+            self.add_polyline(f'square-{i}',(16,y),(22,y),(22,y+6),(16,y+6),closed=True)
+
+
+# Explicit user approval for this exact SVG; changes invalidate the exception.
+Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': '65f7ab7b3e6dbcdaaa81cd56d64774533777e54e10b957f94097f0eab69157a9', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '1aef3c2a-6d0d-43a2-9616-698d70dc5298'}

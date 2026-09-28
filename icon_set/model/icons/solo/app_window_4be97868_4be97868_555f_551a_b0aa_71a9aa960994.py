@@ -11,6 +11,7 @@ class AppWindow4be97868(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'apps'
+    categories = ('apps', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('app', 'window', 'apps')
 

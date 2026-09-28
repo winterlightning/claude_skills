@@ -1,22 +1,21 @@
-"""A location pin hovers above a winding route on a perspective map.
-Plan: Map outline is interrupted behind the pin; a continuous winding route ends on its lower edge.
-Keyshape SQUARE: exact ink and centerline envelopes ((4, 4, 44, 44), (6, 6, 42, 42)).
-References: Supplied SVG, rendered and visually inspected. Lucide original/map-pin.svg and atomic-debug/map-pin.svg: coherent contours, shared nodes, consistent rounding; re-authored on SOLO48.
+"""tour.
+Plan: Drop minor pin eye after enlarging and rebalancing attempts. Preserve map, pin silhouette and curved route; route bottom join is perpendicular.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '486721e9-ba81-4dfa-9797-b5882d2c9ef1'
-SOURCE_PATH = 'icon_set/work/todo-references/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='486721e9-ba81-4dfa-9797-b5882d2c9ef1'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'tour'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('tour',)
-
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('tour',)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -70,9 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-
-        self.add_polyline('map',(18,14),(10,14),(6,42),(22,42),(42,42),(38,14),(36,14))
-        self.path('pin',(20,14),[('A',(36,14),8,8,True),('C',(36,20),(31,26),(28,30)),('C',(25,26),(20,20),(20,14))],True)
-        self.circle('pin-hole',28,14,2)
-        self.add_bezier('route',(20,22),((10,25),(12,28),(23,30)),((36,32),(29,38),(22,42)))
+        self.add_polyline('map',(12,22),(10,22),(6,42),(22,42),(42,42),(40,35))
+        self.path('pin',(20,17),[('A',(42,17),11,11,True),('C',(42,22),(36,25),(31,28)),('C',(26,25),(20,22),(20,17))],True)
+        self.path('route',(17,30),[('C',(17,33),(22,30),(22,33)),('L',(22,42))])
         self.join('map','route')

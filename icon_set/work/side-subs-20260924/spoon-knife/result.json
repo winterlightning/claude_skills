@@ -1,0 +1,40 @@
+{
+  "source_uuid": "b2e51317-7251-4abe-a7c5-6e845a33f1c5",
+  "source_path": "pictographic-primitives/other/square folk_b2e51317-7251-4abe-a7c5-6e845a33f1c5.svg",
+  "icon_id": "square-spoon-knife-sub32",
+  "author": "gpt-6",
+  "status": "needs-review",
+  "canvas": [
+    32,
+    32
+  ],
+  "stroke_width": 4,
+  "keyshape": "SQUARE",
+  "keyshape_reason": "Rounded square enclosure reaches all four square keyshape extremes.",
+  "parts": [
+    "rounded square enclosure",
+    "circular spoon bowl",
+    "attached vertical spoon handle",
+    "upright curved knife blade with horizontal heel",
+    "vertical knife handle"
+  ],
+  "omissions": [],
+  "additions": [],
+  "validation_status": "fail",
+  "findings": [
+    "mic [frame]: frame and bowl are 5 apart on centerlines nearest (2, 12)<->(7, 12); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and blade are 5 apart on centerlines nearest (30, 18)<->(25, 18); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bowl]: bowl and knife-back are 5 apart on centerlines nearest (15, 12)<->(20, 12); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "visual_review": "Compared original and authored drawings at 32px and enlarged, light/dark. Complete composition retained. Circular spoon remains hollow; blade opening is very small. Three deliberate reference parts remain separate despite subminimum clearances.",
+  "construction_reference": "Local Lucide utensils original and atomic-debug: coherent utensil construction and true attachment nodes; reference spoon retained instead of substituting Lucide fork.",
+  "strict_cli": "Blocked by existing missing-parent registry error for arrow-bottom-symbol-sub32-v3.",
+  "artifacts": [
+    "square-spoon-knife-sub32.svg",
+    "comparison.png",
+    "validation.txt",
+    "full-qa.json"
+  ],
+  "user_visual_acceptance": "User accepted this appearance despite rule violations and requested remaining icons."
+}

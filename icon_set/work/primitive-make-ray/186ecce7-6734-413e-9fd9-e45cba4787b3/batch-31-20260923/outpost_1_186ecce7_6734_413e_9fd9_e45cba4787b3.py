@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '186ecce7-6734-413e-9fd9-e45cba4787b3'
 SOURCE_PATH = 'icon_set/work/todo-references/outpost 1_186ecce7-6734-413e-9fd9-e45cba4787b3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Roofed outpost with a central foreground rectangular device. Roof mirrors about x=24.'
 CONSTRUCTION_REFERENCES = 'house: gable and side walls; monitor: rounded front object.'
 OMISSIONS = 'Short device indicator omitted; screen division retained.'

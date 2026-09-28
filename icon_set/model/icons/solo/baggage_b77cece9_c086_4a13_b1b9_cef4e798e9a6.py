@@ -12,6 +12,7 @@ class Baggage(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
+    categories = ('travel', 'state')
     aliases = ()
     keywords = ('baggage', 'travel')
 

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ff37a759-f10f-4dcd-9512-00c110068828'
 SOURCE_PATH='icon_set/work/todo-references/rectangle barcode_ff37a759-f10f-4dcd-9512-00c110068828.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A rectangular barcode card with repeated vertical bars.'
 OMISSIONS='Seven narrow source bars reduced to four equally spaced bars.'
 LUCIDE_REFERENCE=None

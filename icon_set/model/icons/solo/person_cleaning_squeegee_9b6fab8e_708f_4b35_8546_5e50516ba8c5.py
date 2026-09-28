@@ -13,6 +13,7 @@ class PersonCleaningSqueegee(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('window washer', 'squeegee', 'cleaning', 'wiper', 'person', 'worker', 'car wash', 'service')
 

@@ -16,6 +16,7 @@ class FoxHead(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('fox', 'head', 'face', 'ears', 'snout', 'animal', 'wildlife', 'canine')
 

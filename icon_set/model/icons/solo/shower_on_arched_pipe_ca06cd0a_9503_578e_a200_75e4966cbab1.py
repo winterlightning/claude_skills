@@ -14,7 +14,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/hotels'
+    category = 'hotels'
+    categories = ('hotels', 'primitives')
     aliases = ()
     keywords = ('shower', 'on', 'arched', 'pipe')
     def build(self):

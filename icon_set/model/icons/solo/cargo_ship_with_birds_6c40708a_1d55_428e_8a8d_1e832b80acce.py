@@ -13,6 +13,7 @@ class CargoShipWithBirds(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('cargo ship', 'ship', 'freighter', 'birds', 'sea', 'harbour', 'vessel', 'shipping')
 

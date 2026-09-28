@@ -13,6 +13,7 @@ class DiverAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('diver', 'portrait', 'bust')
     keyshape = Keyshape.VRECT_L

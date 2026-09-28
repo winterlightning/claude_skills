@@ -1,0 +1,64 @@
+{
+  "key": "solo/five-rounded-flower-petals",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__five-rounded-flower-petals/20260925T090056Z-thuan-mac",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__five-rounded-flower-petals/20260925T090056Z-thuan-mac/reference/onam 2_59e5c54e-47c7-45fc-becf-a493bbebd830.svg",
+  "id": "five-rounded-flower-petals",
+  "category": "primitives-generate",
+  "run": "icon_set/work/primitive-make-ray/59e5c54e-47c7-45fc-becf-a493bbebd830/20260925T0903-thuan-mac-revision",
+  "source_uuid": "59e5c54e-47c7-45fc-becf-a493bbebd830",
+  "concept": "onam 2",
+  "module": "icon_set/work/primitive-make-ray/59e5c54e-47c7-45fc-becf-a493bbebd830/20260925T0903-thuan-mac-revision/five_rounded_flower_petals_59e5c54e_47c7_45fc_becf_a493bbebd830.py",
+  "note": "Restored five round lobes, a clear circular center and radial petal seams.",
+  "construction_reference": "Lucide flower: coherent radial petal seams and center ring.",
+  "exception_reason": "Preserve the five-lobe natural envelope and connected radial seams rather than forcing a square silhouette.",
+  "icon_id": "five-rounded-flower-petals",
+  "author": "gpt-6",
+  "feedback": "Manual fix request",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "five-rounded-flower-petals",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2.15395, 6, 45.846, 44.8823) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.846, 2.0, 1.846, 0.8823], tolerance 0.0)"
+    ],
+    "warnings": [
+      "mic [seam-3]: seam-3 and center are 0 apart on centerlines nearest (24, 29)<->(24, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Preserve the five-lobe natural envelope and connected radial seams rather than forcing a square silhouette.",
+      "approved_by": "user (delegated visual exception judgment)",
+      "approved_on": "2026-09-25",
+      "svg_sha256": "39d8e4c74669caa186025d112ee12a76b271258a0604122107aefd0686ae4fd2"
+    },
+    "automatic_status": "fail"
+  },
+  "exception": {
+    "reason": "Preserve the five-lobe natural envelope and connected radial seams rather than forcing a square silhouette.",
+    "approved_by": "user (delegated visual exception judgment)",
+    "approved_on": "2026-09-25",
+    "svg_sha256": "39d8e4c74669caa186025d112ee12a76b271258a0604122107aefd0686ae4fd2"
+  },
+  "visual_review": "Reviewed native 48px and enlarged in both themes: complete reference meaning, open interior features, smooth main curves and intentional symmetry/asymmetry. Restored five round lobes, a clear circular center and radial petal seams.",
+  "keyshape": "SQUARE",
+  "keyshape_reason": "Chosen for upright or square subject proportions; exact natural outline deviations recorded in drawing-bound exception.",
+  "omissions": [],
+  "references": [
+    "supplied original",
+    "rejected before SVG",
+    "Lucide flower: coherent radial petal seams and center ring."
+  ],
+  "artifacts": [
+    "preview-dark-384.png",
+    "reference.svg",
+    "five-rounded-flower-petals.svg",
+    "preview-dark-48.png",
+    "five_rounded_flower_petals_59e5c54e_47c7_45fc_becf_a493bbebd830.py",
+    "reference.png",
+    "five-rounded-flower-petals.metadata.json",
+    "__pycache__",
+    "preview-light-384.png",
+    "validation.txt",
+    "preview-light-48.png",
+    "build-gate.json"
+  ]
+}

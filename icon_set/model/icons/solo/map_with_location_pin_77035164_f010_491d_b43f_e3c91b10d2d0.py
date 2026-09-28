@@ -17,7 +17,8 @@ class MapWithLocationPin(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/maps"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("road-map-pin",)
     keywords = ("map", "pin", "road", "location", "navigation")
 

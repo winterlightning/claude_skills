@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='338dd19b-18e2-58c6-aede-44560fae85ca'
 SOURCE_PATH='icon_set/work/todo-references/lte edge_338dd19b-18e2-58c6-aede-44560fae85ca.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='lte-edge'
     keyshape=Keyshape.VRECT_M

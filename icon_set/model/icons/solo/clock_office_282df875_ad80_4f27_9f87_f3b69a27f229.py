@@ -11,6 +11,7 @@ class ClockOffice(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
+    categories = ('office', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('clock', 'office', 'solo-ai-next100')
 

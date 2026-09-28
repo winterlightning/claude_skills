@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '50f8b937-c3ef-4dbe-b3bb-69d8a2f54940'
 SOURCE_PATH = 'icon_set/work/todo-references/rune stone_50f8b937-c3ef-4dbe-b3bb-69d8a2f54940.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded standing stone containing a vertical angular rune with a triangular upper branch.
 # Reference: No exact local Lucide match; coherent curved stone outline and joined rune strokes.
 # Reduction: No defining parts omitted.

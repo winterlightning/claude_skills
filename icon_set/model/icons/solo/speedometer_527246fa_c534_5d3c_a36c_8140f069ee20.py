@@ -12,7 +12,8 @@ class Speedometer(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('speedometer', 'speed', 'gauge', 'dashboard', 'dial', 'car', 'meter', 'performance')
 

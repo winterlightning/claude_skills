@@ -11,6 +11,7 @@ class InflatableRaftAndPaddle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'outdoors'
+    categories = ('outdoors', 'primitives')
     aliases = ()
     keywords = ('raft', 'rafting', 'paddle', 'inflatable', 'boat', 'whitewater', 'sport', 'outdoors-batch-03')
 

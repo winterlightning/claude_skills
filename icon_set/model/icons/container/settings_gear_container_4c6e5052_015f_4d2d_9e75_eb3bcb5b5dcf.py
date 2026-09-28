@@ -19,6 +19,8 @@ AUTHOR = 'gpt-6'
 
 class SettingsGearContainer(Container64):
     icon_id = 'settings-gear-container'
+    category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('settings', 'gear', 'container')

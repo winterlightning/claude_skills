@@ -16,6 +16,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "health"
+    categories = ("health", "state")
     aliases = ('outstretched-stick-figure',)
     keywords = ('outstretched', 'stick', 'figure')
 

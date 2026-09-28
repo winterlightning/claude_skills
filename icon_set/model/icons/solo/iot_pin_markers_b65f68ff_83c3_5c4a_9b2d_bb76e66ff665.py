@@ -13,7 +13,8 @@ class IotPinMarkers(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/programming"
+    category = "programing"
+    categories = ("programing", "primitives")
     aliases=()
     keywords=('iot', 'pins', 'location', 'devices', 'analytics', 'nodes', 'network', 'markers')
 

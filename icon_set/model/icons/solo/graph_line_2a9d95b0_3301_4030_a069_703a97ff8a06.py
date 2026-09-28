@@ -15,6 +15,7 @@ class GraphLineHealth(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'primitives')
     aliases = ()
     keywords = ('graph', 'line', 'health')
 

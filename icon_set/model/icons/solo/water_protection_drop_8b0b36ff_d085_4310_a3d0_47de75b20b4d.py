@@ -15,6 +15,7 @@ class WaterProtectionDrop(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecology'
+    categories = ('primitives', 'ecology')
     aliases = ()
     keywords = ('water', 'protection', 'drop', 'ecology')
 

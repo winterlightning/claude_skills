@@ -20,7 +20,9 @@ def build(root=ROOT, target=None):
     qa=json.loads((root/'icon_set/work/sub-profile-migration/qa.json').read_text())
     cards=[]
     for original,entry in migration.items():
-        uid=entry['model_key'].split('/',1)[1];r=models[uid];status=r['model_validation'];text=r['sizing_kind']=='text'
+        uid=entry['model_key'].split('/',1)[1]
+        if uid not in models or uid not in qa:continue  # folded into another model by deduplicate_subs
+        r=models[uid];status=r['model_validation'];text=r['sizing_kind']=='text'
         sources=entry['sources'];source=sources[0] if sources else None
         source_url=os.path.relpath(root/(source['source_svg'] if source else entry['reference_export']),gallery)
         model_url=os.path.relpath(root/entry['python_source'],gallery)

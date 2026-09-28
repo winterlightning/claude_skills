@@ -3,7 +3,7 @@ from pathlib import Path
 import json,importlib.util,textwrap
 SOURCE_ICON_ID='8e659963-5f68-4c80-963b-528218ccf29f'
 SOURCE_PATH='icon_set/work/todo-references/award wall_8e659963-5f68-4c80-963b-528218ccf29f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ENTRIES=json.loads((ROOT/'batch-inputs.json').read_text())
 s=importlib.util.spec_from_file_location('export_utility',Path('icon_set/work/primitive-make-ray/08acfc76-564e-418d-abde-1f5766d10cdc/20260923T210601-batch48/author_batch.py'))

@@ -12,7 +12,8 @@ class FamilyGroup(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/identity"
+    category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('family', 'group', 'people', 'parents', 'children', 'team', 'users', 'together')
 

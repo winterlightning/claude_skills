@@ -1,0 +1,60 @@
+{
+  "concept": "lethan lutian",
+  "source_uuid": "1cbfd2f8-04d6-4b91-b205-3ee8299e6715",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__alien-head-twin-hanging-lobes/20260926T064521Z-thuan-mac/reference/lethan lutian_1cbfd2f8-04d6-4b91-b205-3ee8299e6715.svg",
+  "icon_id": "alien-head-twin-hanging-lobes",
+  "author": "claude-opus-5-5",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 4, 46, 42) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [0.0, 2.0, 0.0, 0.0], tolerance 0.0)",
+    "mic [face]: face and eye-left are 5.91643 apart on centerlines nearest (12.1587, 26.0601)<->(18, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [face]: face and eye-right are 5.91643 apart on centerlines nearest (35.8413, 26.0601)<->(30, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [face]: face and smile are 4.99962 apart on centerlines nearest (24.0614, 39.9992)<->(24, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [eye-left]: eye-left and eye-right are 4 apart on centerlines nearest (22, 27)<->(26, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [eye-left]: eye-left and smile are 6.32456 apart on centerlines nearest (22, 27)<->(20, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [eye-right]: eye-right and smile are 6.32456 apart on centerlines nearest (26, 27)<->(28, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "alien-head-twin-hanging-lobes",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 4, 46, 42) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [0.0, 2.0, 0.0, 0.0], tolerance 0.0)",
+      "mic [face]: face and eye-left are 5.91643 apart on centerlines nearest (12.1587, 26.0601)<->(18, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [face]: face and eye-right are 5.91643 apart on centerlines nearest (35.8413, 26.0601)<->(30, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [face]: face and smile are 4.99962 apart on centerlines nearest (24.0614, 39.9992)<->(24, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-left]: eye-left and eye-right are 4 apart on centerlines nearest (22, 27)<->(26, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-left]: eye-left and smile are 6.32456 apart on centerlines nearest (22, 27)<->(20, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-right]: eye-right and smile are 6.32456 apart on centerlines nearest (26, 27)<->(28, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [face / lobe-left]: face-left and left-arch have 1.8927 units of ink clearance over 10.6648 units; requires 4; review required",
+      "internal-spacing [face / lobe-left]: face-left and left-inner have -1.4548 units of ink clearance over 16.3365 units; requires 4; review required",
+      "internal-spacing [face / lobe-right]: face-right and right-arch have 1.8927 units of ink clearance over 10.6648 units; requires 4; review required",
+      "internal-spacing [face / lobe-right]: face-right and right-inner have -1.4548 units of ink clearance over 16.3365 units; requires 4; review required",
+      "internal-spacing [lobe-left]: left-arch and left-inner have -1.3791 units of ink clearance over 5.9524 units; requires 4; review required",
+      "internal-spacing [lobe-left]: left-outer and left-inner have -0.5994 units of ink clearance over 9 units; requires 4; review required",
+      "internal-spacing [lobe-right]: right-arch and right-inner have -1.3791 units of ink clearance over 5.9524 units; requires 4; review required",
+      "internal-spacing [lobe-right]: right-outer and right-inner have -0.5994 units of ink clearance over 9 units; requires 4; review required"
+    ]
+  },
+  "visual_review": "Attempted every review point: rounded lobe bottoms, inward-curving inner lobe lines, a complete face circle hanging beneath a larger open bun, two small curved eyes and a separate smile. It does not validate. The side lobes need at least 8 units of width each, which caps the face at 24 wide (r12). The two eyes then sit 4 apart and 5.9 from the face outline, and the smile sits 5 from the chin and 6.3 from the eyes (MIC needs 8). Holding the eyes and smile at legal clearance needs a face about 32 wide, which leaves no room for the lobes in 40 units.",
+  "omissions": "Not publishable: blocked by MIC clearance among face features (eyes, smile, face outline).",
+  "drawing_plan": "HRECT_XL: bun r5 at (24,11); face r12 about (24,28); lobes arch from the bun to x 4/44, straight sides, r4 round bottoms, inner r16 curves; eye arcs at y27; smile arc at y33.",
+  "lucide_reference": "No Lucide match.",
+  "fix_claim": "icon_set/work/primitive-fix-thuan/solo__alien-head-twin-hanging-lobes/20260926T064521Z-thuan-mac",
+  "artifacts": [
+    "alien-head-twin-hanging-lobes.metadata.json",
+    "alien-head-twin-hanging-lobes.svg",
+    "alien_head_twin_hanging_lobes_1cbfd2f8_04d6_4b91_b205_3ee8299e6715.py",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "reference.svg",
+    "validation.txt"
+  ]
+}

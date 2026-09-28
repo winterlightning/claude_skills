@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82d1bc9a-4a6d-4782-88a6-dc554653bd7d'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/escalator_82d1bc9a-4a6d-4782-88a6-dc554653bd7d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class EscalatorTransportRailing(Solo48):
     icon_id = 'escalator-transport-railing'

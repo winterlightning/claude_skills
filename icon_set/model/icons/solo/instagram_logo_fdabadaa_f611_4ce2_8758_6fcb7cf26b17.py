@@ -11,6 +11,7 @@ class InstagramLogo(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('instagram', 'logo', 'logos')
 

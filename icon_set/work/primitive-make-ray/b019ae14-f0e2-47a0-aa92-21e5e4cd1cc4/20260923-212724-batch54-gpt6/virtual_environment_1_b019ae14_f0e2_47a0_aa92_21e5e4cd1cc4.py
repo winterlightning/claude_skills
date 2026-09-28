@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b019ae14-f0e2-47a0-aa92-21e5e4cd1cc4'
 SOURCE_PATH = 'icon_set/work/todo-references/virtual environment 1_b019ae14-f0e2-47a0-aa92-21e5e4cd1cc4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'virtual-environment-1'
     keyshape = Keyshape.SQUARE

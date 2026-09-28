@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e768495f-4a83-4777-ba0c-6d66e88b98d4'
 SOURCE_PATH = 'icon_set/work/todo-references/podium star_e768495f-4a83-4777-ba0c-6d66e88b98d4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'podium-star'

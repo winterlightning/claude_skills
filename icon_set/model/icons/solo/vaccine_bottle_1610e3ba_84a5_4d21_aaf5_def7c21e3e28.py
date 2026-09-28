@@ -11,6 +11,7 @@ class VaccineBottle(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
+    categories = ('health', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'vaccine-bottle')
 

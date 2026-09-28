@@ -11,6 +11,7 @@ class Gift(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'holidays'
+    categories = ('holidays', 'state')
     aliases = ()
     keywords = ('solo-ai-full-set', 'gift')
 

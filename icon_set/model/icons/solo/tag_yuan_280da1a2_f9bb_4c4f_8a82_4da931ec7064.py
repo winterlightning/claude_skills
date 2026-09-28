@@ -1,69 +1,45 @@
-"""Tag yuan, drawn from its complete supplied reference.
-Symbol plan: preserve the subject, nested symbols, repeats and intentional overlaps.
-Each repeated part and rounded rectangle owns its parameters and attachment nodes.
+"""Beveled price tag with a complete two-bar yuan sign. Bars share8-unit step.
+Symbol plan: shared contour owners and attachment nodes; repeated marks share a spacing parameter.
+Omissions: Small punch hole omitted to prioritize currency identity.
+Construction: Lucide tag: clipped tag shoulder; supplied reference: two-bar yuan.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='280da1a2-f9bb-4c4f-8a82-4da931ec7064'
-SOURCE_PATH='icon_set/work/todo-references/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg'
-AUTHOR='gpt-6'
-
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/tag yuan_280da1a2-f9bb-4c4f-8a82-4da931ec7064.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='tag-yuan'
-    keyshape=Keyshape.SQUARE
+    icon_id = 'tag-yuan'
+    keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
     category='objects/general'
     aliases=()
     keywords=('tag', 'yuan')
-
-    # Keyshape visible extremes: (4, 4, 44, 44); centerline extremes: (6, 6, 42, 42).
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        # Diagonal price tag with a circular punch hole and the complete yuan sign.
-        self.add_polyline('tag',(6,28),(28,6),(42,6),(42,22),(22,42),closed=True)
-        self.circle('hole',32,16,3)
-        self.add_polyline('yuan-fork',(17,23),(21,28),(25,23))
-        self.add_polyline('yuan-stem',(21,28),(21,34),(21,36))
-        for n,y in [('upper',28),('lower',34)]:
-            self.add_polyline(n,(18,y),(21,y),(24,y))
-            self.relate('connect',n,'yuan-stem')
+        self.add_polyline('tag',(8,16),(20,4),(40,4),(40,36),(32,44),(8,44),closed=True)
+        self.add_polyline('yuan-fork',(18,18),(24,25),(30,18))
+        self.add_polyline('yuan-stem',(24,25),(24,33),(24,35))
+        for name,y in [('upper',25),('lower',33)]:
+            self.add_polyline(name,(17,y),(24,y),(31,y));self.relate('connect',name,'yuan-stem')
         self.relate('connect','yuan-fork','yuan-stem','upper')
 
-
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def path(self,n,start,segments,closed=False):
-        at=start; members=[]
-        for i,s in enumerate(segments):
-            eid=f'{n}-{i}'; kind,end,*args=s
-            if end==at: continue
-            if kind=='L': self.add_line(eid,at,end)
-            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
-            at=end; members.append(eid)
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def path(self,n,start,ops,closed=False):
+        p=start;members=[]
+        for i,op in enumerate(ops):
+            name=f'{n}-{i}';end=op[1]
+            if op[0]=='L':self.add_line(name,p,end)
+            elif op[0]=='A':self.add_arc(name,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            elif op[0]=='B':self.add_bezier(name,p,(op[2],op[3],end))
+            members.append(name);p=end
+        if closed and p!=start:
+            self.add_line(n+'-close',p,start);members.append(n+'-close')
         self.add_contour(n,*members,closed=closed)
-
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        # One rounded rectangle owns paired radii, extents, and connection splits.
-        seg=[('L',(x,t)) for x in sorted(set(top)) if l+k<x<r-k]
-        seg += [('L',(r-k,t)),('A',(r,t+k),k)]
-        seg += [('L',(r,y)) for y in sorted(set(right)) if t+k<y<b-k]
-        seg += [('L',(r,b-k)),('A',(r-k,b),k)]
-        seg += [('L',(x,b)) for x in sorted(set(bottom),reverse=True) if l+k<x<r-k]
-        seg += [('L',(l+k,b)),('A',(l,b-k),k)]
-        seg += [('L',(l,y)) for y in sorted(set(left),reverse=True) if t+k<y<b-k]
-        seg += [('L',(l,t+k)),('A',(l+k,t),k)]
-        self.path(n,(l+k,t),seg,True)
-
-    def suitcase(self):
-        # SQUARE: ink (4,4)-(44,44); centerlines (6,6)-(42,42).
-        self.rect('case',6,14,42,42,4,top=(16,32))
-        self.path('handle',(16,14),[('L',(16,10)),('A',(20,6),4),
-            ('L',(28,6)),('A',(32,10),4),('L',(32,14))])
-        self.relate('connect','case','handle')
-
-    def check(self,n,x,y):
-        self.add_polyline(n,(x,y),(x+3,y+3),(x+9,y-3))
-

@@ -1,49 +1,53 @@
-"""Stacked Landscape Photo Gallery.
-
-Plan: Centerline6,6,42,42. Offset rear photo behind a large front image; mountain contour attaches at lower corners.
-Construction: No useful direct Lucide match; photo layers with source-specific landscape.
-Reduction: Secondary small peak omitted; mountain expanded to connect to frame and preserve open interior.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '206fa313-37ee-4826-b03f-bda05b9a6f9d'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-019/references/39-206fa313-37ee-4826-b03f-bda05b9a6f9d.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_PATH = 'pictographic-primitives/other/double images_206fa313-37ee-4826-b03f-bda05b9a6f9d.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stacked-landscape-photo-gallery'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects"
+    category = "primitives-generate"
+    categories = ("other", "primitives-generate")
+    aliases = ()
+    keywords = ('double images',)
+    def build(self):
+        # Lucide images layering; source has two peaks entirely inside the front photo.
+        self.path("rear",(14,33),[(10,33),((7.791,33),(6,31.209),(6,29)),(6,10),((6,7.791),(7.791,6),(10,6)),(29,6),((31.209,6),(33,7.791),(33,10)),(33,14)])
+        self.box("front",14,14,28,28,4);self.relate("connect","rear","front")
+        self.add_polyline("mountains",(22,34),(27,24),(30,29),(32,27),(34,34),closed=True)
+
+    def path(self,name,start,commands,closed=False):
+        members=[]
+        for i,c in enumerate(commands):
+            tag=f"{name}-{i}"
+            if len(c)==2: self.add_line(tag,start,c); start=c
+            else: self.add_bezier(tag,start,c); start=c[2]
+            members.append(tag)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
+        for i in range(4): self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+        self.add_contour(name,*[f"{name}-{i}" for i in range(4)],closed=True)
+
+    def box(self,name,x,y,w,h,r=0):
+        if not r:
+            self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            return
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r),(x+r,y)]
+        for i in range(8):
+            if i%2: self.add_arc(f"{name}-{i}",pts[i],pts[i+1],radius_x=r)
+            else: self.add_line(f"{name}-{i}",pts[i],pts[i+1])
+        self.add_contour(name,*[f"{name}-{i}" for i in range(8)],closed=True)
+
+    icon_id = 'stacked-landscape-photo-gallery'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('stacked', 'landscape', 'photo', 'gallery')
-
-    def build(self):
-
-        def path(name, start, commands, closed=False):
-            here = start
-            members = []
-            for index, (kind, end, *args) in enumerate(commands):
-                member = f"{name}-{index}"
-                if kind == 'L': self.add_line(member, here, end)
-                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
-                members.append(member)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, x, y, r):
-            path(name, (x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)], True)
-        def rect(name, x, y, w, h, r=0):
-            if not r:
-                self.add_polyline(name, (x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-            else:
-                path(name,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
-        def line(name, a, b): self.add_line(name,a,b)
-        def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
-        def join(a,b): self.relate('connect',a,b)
-        path('rear',(6,31),[('L',(6,10)),('A',(10,6),4,4,True),('L',(27,6)),('A',(31,10),4,4,True),('L',(31,15))])
-        path('front',(19,15),[('L',(31,15)),('L',(38,15)),('A',(42,19),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(19,42)),('A',(15,38),4,4,True),('L',(15,19)),('A',(19,15),4,4,True)],True)
-        poly('mountain',(15,38),(28,25),(42,38));join('rear','front');join('mountain','front')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    exception = {'approved_by': 'user', 'svg_sha256': '8cec1fdaf0b98142922cf3203ebb0f012e3730aea19928dd5f37988ab83d89ec', 'reason': 'put not pass as eception, im ok with it — All existing blocking validation findings for this exact standalone batch drawing, including review warnings.', 'source_svg_sha256': '8cec1fdaf0b98142922cf3203ebb0f012e3730aea19928dd5f37988ab83d89ec'}

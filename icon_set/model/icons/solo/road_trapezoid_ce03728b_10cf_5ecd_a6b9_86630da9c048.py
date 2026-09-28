@@ -11,7 +11,8 @@ class RoadTrapezoid(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/transportation'
+    category = 'transportation'
+    categories = ('transportation', 'primitives')
     aliases = ()
     keywords = ('road', 'straight road', 'highway', 'lane', 'street', 'perspective', 'route', 'driving')
 

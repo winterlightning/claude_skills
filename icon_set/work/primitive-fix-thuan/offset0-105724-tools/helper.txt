@@ -1,0 +1,13 @@
+        def path(n, start, steps, closed=False):
+            p=start; ids=[]
+            for i,s in enumerate(steps):
+                name=f'{n}-{i}'; kind,end,*args=s
+                if kind=='L': self.add_line(name,p,end)
+                elif kind=='A': self.add_arc(name,p,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(name,p,(args[0],args[1],end))
+                ids.append(name); p=end
+            self.add_contour(n,*ids,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        line=self.add_line; poly=self.add_polyline
+        def join(a,b): self.relate('connect',a,b)

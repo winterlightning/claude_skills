@@ -13,6 +13,7 @@ class ArrowMerge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol', 'state')
     aliases = ()
     keywords = ('arrow', 'merge', 'symbol')
     keyshape = Keyshape.SQUARE

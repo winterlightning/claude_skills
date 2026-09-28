@@ -1,58 +1,40 @@
-"""Wooden Storage Barrel.
+'Rebalanced onto VRECT_L: centerline bounds (8,4)–(40,44). Taller barrel with two hoops and two bowed staves. Mirrored curves retain aligned tangent directions through the hoop joints and vertical tangents at the widest point. Full SOLO48 QA passes without exceptions.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+AUTHOR='gpt-6'
+SOURCE_ICON_ID='d5b47441-37c4-578a-93be-e68b3ac3e6a3'
+SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
+class Drawing(Solo48):
+    icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
+    keyshape=Keyshape.VRECT_L
+    category = 'drinks'
+    categories = ('drinks', 'primitives')
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=()
+    def build(self):
+        # Mirrored cubic curves with aligned tangent directions at each joint.
+        for side in ('left','right'):
+            flip=lambda p: p if side=='left' else (48-p[0],p[1])
+            for name,offset in [('wall',0),('stave',9)]:
+                pts=[(11+offset,4),(9+offset,16),(8+offset,24),(9+offset,32),(11+offset,44)]
+                controls=[((10,8),(10,12)),((8,20),(8,22)),((8,26),(8,28)),((10,36),(10,40))]
+                for i in range(4):
+                    c1,c2=controls[i]
+                    self.add_bezier(f'{name}-{side}-{i}',flip(pts[i]),(flip((c1[0]+offset,c1[1])),flip((c2[0]+offset,c2[1])),flip(pts[i+1])))
+                self.add_contour(name+'-'+side,*(f'{name}-{side}-{i}' for i in range(4)))
+        for name,y in [('top',4),('bottom',44)]:
+            self.add_polyline(name,(11,y),(20,y),(28,y),(37,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect',name,part)
+        for y in (16,32):
+            self.add_polyline('hoop-'+str(y),(9,y),(18,y),(30,y),(39,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect','hoop-'+str(y),part)
 
-Symbol plan: Mirrored barrel silhouette and two hoops; retain one central stave to keep broad openings.
-Keyshape VRECT_L: visible ink extremes (6, 2, 42, 46); stroke centerlines inset 2.
-Lucide construction reference: barrel.
-Source is visual subject evidence; geometry is freshly authored at 48.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48
-
-SOURCE_ICON_ID = 'd5b47441-37c4-578a-93be-e68b3ac3e6a3'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
-AUTHOR = 'gpt-6'
-
-class BatchIcon(Solo48):
     icon_id = 'wooden-barrel-with-two-hoops-and-curved-staves'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/drink"
+    category = 'drinks'
+    categories = ('drinks', 'primitives')
     aliases = ()
     keywords = ('barrel', 'wood', 'storage', 'staves', 'hoops', 'cask', 'container', 'drink')
-
-    def build(self):
-
-        def line(n,a,b): self.add_line(n,a,b)
-        def poly(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
-        def arc(n,a,b,rx,ry=None,sweep=True):
-            self.add_arc(n,a,b,radius_x=rx,radius_y=ry,sweep=sweep)
-        def contour(n,*parts,closed=False):
-            self.contours[:] = [c for c in self.contours if not set(c.members) & set(parts)]
-            self.add_contour(n,*parts,closed=closed)
-        def rect(n,x,y,w,h,r=0):
-            if not r:
-                poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for i in range(8):
-                a,b=pts[i],pts[(i+1)%8]
-                if i%2: arc(n+str(i),a,b,r)
-                else: line(n+str(i),a,b)
-            contour(n,*(n+str(i) for i in range(8)),closed=True)
-        poly('top',(12,4),(24,4),(36,4))
-        arc('right-top',(36,4),(40,16),20,20)
-        line('right-mid',(40,16),(40,32))
-        arc('right-bottom',(40,32),(36,44),20,20)
-        poly('bottom',(36,44),(24,44),(12,44))
-        arc('left-bottom',(12,44),(8,32),20,20)
-        line('left-mid',(8,32),(8,16))
-        arc('left-top',(8,16),(12,4),20,20)
-        contour('body','top-1','top-2','right-top','right-mid','right-bottom','bottom-1','bottom-2','left-bottom','left-mid','left-top',closed=True)
-        for y in (16,32): poly('hoop'+str(y),(8,y),(24,y),(40,y))
-        poly('stave',(24,4),(24,16),(24,32),(24,44))
-        # Only true shared endpoints are physical connections. No proximity exemptions.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if {a.start,a.end} & {b.start,b.end}:
-                    self.relate("connect",a.element_id,b.element_id)
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

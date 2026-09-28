@@ -1,0 +1,31 @@
+'Rebalanced onto VRECT_L: centerline bounds (8,4)–(40,44). Taller barrel with two hoops and two bowed staves. Mirrored curves retain aligned tangent directions through the hoop joints and vertical tangents at the widest point. Full SOLO48 QA passes without exceptions.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+AUTHOR='gpt-6'
+SOURCE_ICON_ID='d5b47441-37c4-578a-93be-e68b3ac3e6a3'
+SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
+class Drawing(Solo48):
+    icon_id='wooden-barrel-with-two-hoops-and-curved-staves'
+    keyshape=Keyshape.VRECT_L
+    category='objects/drink'
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=()
+    def build(self):
+        # Mirrored cubic curves with aligned tangent directions at each joint.
+        for side in ('left','right'):
+            flip=lambda p: p if side=='left' else (48-p[0],p[1])
+            for name,offset in [('wall',0),('stave',9)]:
+                pts=[(11+offset,4),(9+offset,16),(8+offset,24),(9+offset,32),(11+offset,44)]
+                controls=[((10,8),(10,12)),((8,20),(8,22)),((8,26),(8,28)),((10,36),(10,40))]
+                for i in range(4):
+                    c1,c2=controls[i]
+                    self.add_bezier(f'{name}-{side}-{i}',flip(pts[i]),(flip((c1[0]+offset,c1[1])),flip((c2[0]+offset,c2[1])),flip(pts[i+1])))
+                self.add_contour(name+'-'+side,*(f'{name}-{side}-{i}' for i in range(4)))
+        for name,y in [('top',4),('bottom',44)]:
+            self.add_polyline(name,(11,y),(20,y),(28,y),(37,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect',name,part)
+        for y in (16,32):
+            self.add_polyline('hoop-'+str(y),(9,y),(18,y),(30,y),(39,y))
+            for part in ('wall-left','wall-right','stave-left','stave-right'):self.relate('connect','hoop-'+str(y),part)

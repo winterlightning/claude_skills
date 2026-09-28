@@ -12,7 +12,8 @@ class FaceWithMedicalMask(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/emotions"
+    category = "smileys"
+    categories = ("smileys", "primitives")
     aliases = ()
     keywords = ('mask', 'medical', 'sick', 'ill', 'face', 'emoji')
 

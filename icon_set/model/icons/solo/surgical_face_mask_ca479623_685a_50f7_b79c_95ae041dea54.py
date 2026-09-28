@@ -12,7 +12,8 @@ class ProtectionIcon(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/protection"
+    category = "protection"
+    categories = ("protection", "primitives")
     aliases = ()
     keywords = ('face mask', 'surgical', 'medical', 'mask', 'health', 'hygiene', 'protection', 'virus')
 

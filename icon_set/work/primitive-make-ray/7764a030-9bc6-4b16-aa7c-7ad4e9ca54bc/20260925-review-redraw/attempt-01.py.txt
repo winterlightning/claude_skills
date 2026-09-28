@@ -1,0 +1,39 @@
+"""Restore flat graduation board, band, tassel, jaw and V-neck gown. Native SOLO48 redraw, preserving all defining source features."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '7764a030-9bc6-4b16-aa7c-7ad4e9ca54bc'
+SOURCE_PATH = 'pictographic-primitives/avatars/man graduate_7764a030-9bc6-4b16-aa7c-7ad4e9ca54bc.svg'
+AUTHOR = 'gpt-6'
+PARENT_MODULE = 'icon_set/model/icons/solo/man_graduate_avatar.py'
+class Drawing(Solo48):
+    icon_id = 'man-graduate-avatar'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'avatars'
+    aliases = ()
+    keywords = ('man graduate',)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def build(self):
+        # Flat mortarboard, visible cap band, open face and V-shaped gown.
+        self.add_polyline('board',(8,12),(24,4),(40,12),(24,20),(8,12))
+        self.add_polyline('cap-band',(14,15),(14,22),(34,22),(34,15))
+        self.relate('connect','board','cap-band')
+        self.add_arc('jaw',(34,22),(14,22),radius_x=10)
+        self.relate('connect','jaw','cap-band')
+        self.add_line('tassel',(8,12),(8,26));self.relate('connect','board','tassel')
+        self.path('shoulders',(8,44),[('C',(16,36),(8,40),(12,36)),('L',(24,44)),('L',(32,36)),('C',(40,44),(36,36),(40,40))])

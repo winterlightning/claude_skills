@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ed808041-ff02-4ca5-8f86-337d16e29436'
 SOURCE_PATH = 'icon_set/work/todo-references/camera file_ed808041-ff02-4ca5-8f86-337d16e29436.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['file-video-camera']
 class Drawing(Solo48):
     icon_id = 'camera-file'

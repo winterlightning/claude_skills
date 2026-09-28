@@ -12,7 +12,8 @@ class RoundedDashedSelectionBox(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface/selection"
+    category = "primitives-generate"
+    categories = ("container", "other", "primitives-generate")
     aliases = ("dashed square", "selection marquee")
     keywords = ("crop", "boundary", "outline", "dotted")
 

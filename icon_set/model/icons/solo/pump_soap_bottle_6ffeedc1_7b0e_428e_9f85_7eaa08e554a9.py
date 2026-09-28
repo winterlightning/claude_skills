@@ -16,7 +16,8 @@ class Batch04Icon7(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/soap"
+    category = "container"
+    categories = ("container",)
     aliases = ('pump-soap-bottle',)
     keywords = ('pump', 'soap', 'bottle')
 

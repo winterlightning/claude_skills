@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c2caf72a-e028-4b0f-9d4f-ea1a841b97bb'
 SOURCE_PATH = 'icon_set/work/todo-references/paragraph image right_c2caf72a-e028-4b0f-9d4f-ea1a841b97bb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Paragraph panel with an image at upper right and text rules at left and below.'
 CONSTRUCTION_REFERENCES = 'monitor: rounded rectangular enclosure.'
 OMISSIONS = 'Four text lines reduced to three; rectangular picture and enclosing panel retained.'

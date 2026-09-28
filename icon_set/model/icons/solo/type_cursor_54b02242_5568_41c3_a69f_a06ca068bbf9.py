@@ -3,12 +3,12 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='54b02242-5568-41c3-a69f-a06ca068bbf9'
 SOURCE_PATH='icon_set/work/todo-references/type cursor_54b02242-5568-41c3-a69f-a06ca068bbf9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded text input crossed by a tall cursor with a curved lower hook.'
 CONSTRUCTION_REFERENCE='text-cursor-input: rounded field and cursor crossing the field'
 
 class Drawing(Solo48):
-    icon_id='type-cursor'
+    icon_id = 'type-cursor'
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"

@@ -10,7 +10,8 @@ class StratisLayeredEmblem(Solo48):
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="symbols/finance"
+    category = "money"
+    categories = ("primitives", "money")
     aliases=()
     keywords=('stratis', 'crypto', 'emblem', 'layer', 'stack', 'diamond')
 

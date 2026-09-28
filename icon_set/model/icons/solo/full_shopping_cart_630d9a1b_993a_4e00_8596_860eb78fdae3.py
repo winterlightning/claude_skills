@@ -10,7 +10,8 @@ class FullShoppingCart(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/shopping"
+    category = "shopping"
+    categories = ("shopping", "primitives")
     aliases = ()
     keywords = ('cart', 'shopping', 'groceries', 'packages', 'trolley', 'full', 'retail')
 

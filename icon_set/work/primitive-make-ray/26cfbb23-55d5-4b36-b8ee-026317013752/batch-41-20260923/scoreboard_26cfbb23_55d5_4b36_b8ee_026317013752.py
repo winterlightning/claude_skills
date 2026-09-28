@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='26cfbb23-55d5-4b36-b8ee-026317013752'
 SOURCE_PATH='icon_set/work/todo-references/scoreboard_26cfbb23-55d5-4b36-b8ee-026317013752.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Standing scoreboard with the full 2:0 score above two supporting posts. Score glyphs share the first scoreboard construction.'
 CONSTRUCTION_REFERENCES='Lucide monitor: panel; source defines freestanding posts.'
 OMISSIONS='None.'

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ac8740e0-9a7e-4e67-901d-18b0353d7000'
 SOURCE_PATH = 'icon_set/work/todo-references/dial finger_ac8740e0-9a7e-4e67-901d-18b0353d7000.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'dial-finger'

@@ -1,0 +1,48 @@
+{
+  "source_uuid": "44a8272b-04c4-4a7c-b200-ee122a35ef32",
+  "reference_path": "pictographic-primitives/other/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg",
+  "concept": "laptop skull",
+  "author": "gpt-6",
+  "parents": [
+    "icon_set/model/icons/solo/laptop_skull_44a8272b_04c4_4a7c_b200_ee122a35ef32.py"
+  ],
+  "icon_id": "laptop-skull",
+  "status": "cannot-fix",
+  "validation_status": "fail",
+  "model_validation_status": "invalid",
+  "visual_review": {
+    "status": "not-approved",
+    "findings": "The flared base and skull remain recognizable, but eyes, tooth and jaw are crowded. Not approved."
+  },
+  "keyshape": "HRECT_L",
+  "keyshape_reason": "HRECT_L preserves the wide laptop and flared keyboard base.",
+  "construction_references": "skull: a cranium, eye sockets and short jaw markers.",
+  "omissions": "No defining feature omitted in the final failed candidate. The tooth-free larger-screen attempt is also saved.",
+  "blocker": "MIC: screen versus jaw/tooth; cranium versus eye-20/eye-28; eyes versus tooth. Enlarging the head or moving the jaw trades one failed clearance for another inside the retained laptop.",
+  "svg_sha256": "cd4d3b384c17d12160ba3bb385d4057271125f35420cb491c3cd93abd8cd0b26",
+  "errors": [
+    "mic [screen]: screen and jaw-left are 5 apart on centerlines nearest (16, 32)<->(16, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [screen]: screen and tooth are 5 apart on centerlines nearest (24, 32)<->(24, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [cranium]: cranium and eye-20 are 3.87658 apart on centerlines nearest (16.2283, 21.1043)<->(20, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [cranium]: cranium and eye-28 are 3.87658 apart on centerlines nearest (31.7717, 21.1043)<->(28, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [eye-20]: eye-20 and tooth are 5 apart on centerlines nearest (20, 22)<->(24, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [eye-28]: eye-28 and tooth are 5 apart on centerlines nearest (28, 22)<->(24, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "artifacts": {
+    "python": "laptop_skull_44a8272b_04c4_4a7c_b200_ee122a35ef32.py",
+    "svg": "laptop-skull.svg",
+    "metadata": "laptop-skull.metadata.json",
+    "reference": "reference.svg",
+    "previews": [
+      "light-48.png",
+      "dark-48.png",
+      "light-192.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt",
+    "full_validation": "release-validation.json",
+    "findings": "findings.md",
+    "qa": "qa/"
+  }
+}

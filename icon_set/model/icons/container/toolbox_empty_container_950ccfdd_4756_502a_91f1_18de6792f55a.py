@@ -16,7 +16,8 @@ class ToolboxEmptyContainer(Container64):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'primitives-generate'
+    categories = ('other', 'primitives-generate')
     aliases = ()
     keywords = ('toolbox', 'empty', 'container')
 

@@ -1,0 +1,87 @@
+Run $primitive-make-ray to repair failed icons, batch 11 of 20. Redraw each of these 15 reference files in order.
+  Every file below was already drawn (a registered model and/or an earlier primitive-make-ray run), and that drawing FAILED the build. It shows as "Drawn, unpublished" on gallery/primitives.html. Do not skip a file because a result.json exists. Author a fresh run in a new RESULT_DIR for every file. Only skip a file when its newest existing run passes the build gate below with zero errors and zero warnings; report that file as done.
+  validate_icon() alone is NOT enough. It misses the build's hole/pinch, internal-spacing and symmetry gates, which is why earlier runs reported "valid" and still failed. Once validate_icon() is valid with zero warnings, also run `python3 icon_set/scripts/build_gate.py RESULT_DIR/<module>.py --debug RESULT_DIR/gate` and require BUILD GATE PASS.
+  Retry automatically. If either check fails, read the named element and coordinates (and the overlays in RESULT_DIR/gate), repair the Python model, and re-run both checks. Keep going for at least 5 repair rounds, following the repair ladder: enlarge the opening, rebalance, change the keyshape, simplify or drop a minor part. Stop only when both pass. Never weaken a rule, declare a false connect, add a FREE record, or hand-edit the SVG. Save the last gate output as RESULT_DIR/build-gate.txt and set "build_gate": "pass" or "fail" in result.json. If a file still fails after the retries, record the failing check and element as a blocker and continue with the next file. At the end, list each file as pass or blocked.
+  Each file lists its icon id and EVERY build rule its current drawing violates, with the errors. Fix all of the listed rules for that file, not just the first; a file passes only when none remain.
+  How to fix each rule that appears in this batch:
+    - Internal ink clearance: two edges run side by side over a sustained length with under 4 units of ink gap. The build reports this as 'review required', and that counts as a fail. Open the band to at least 8 on centerlines, or reroute one edge so the pair diverges quickly.
+    - Pinches: the negative space between strokes narrows into a neck that nearly closes (near-tangent approaches, acute junctions, strokes grazing each other). Meet at wider angles, end strokes cleanly on a shared point, or open the neck. Check gate/holes.png.
+    - Undersized holes: an enclosed pocket of negative space is too small (tiny gaps between strokes, small triangles at junctions, slivers where strokes cross). Enlarge the pocket, close it by merging the strokes, or remove the part. Only complete circles with a centerline diameter of exactly 4 or 6 are exempt. Check gate/holes.png.
+  Files:
+  1. pictographic-primitives/_uncategorized_34/snarl_47ddf223-ee29-448c-9235-3145f69bc3fa.svg
+     icon_id: snarling-face-with-two-fangs
+     current drawing: published/failed/solo48/snarling-face-with-two-fangs.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 1 undersized holes; 0 pinches
+  2. pictographic-primitives/_uncategorized_34/soccer kick ball_7637106f-a796-4b5a-8382-ddbd48faa5f0.svg
+     icon_id: football-boot-kicking-panelled-ball
+     current drawing: published/failed/solo48/football-boot-kicking-panelled-ball.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [boot]: boot-2 and boot-4 have 3.068 units of ink clearance over 15.147 units; requires 4; review required
+  3. pictographic-primitives/_uncategorized_35/sonic 1_eb2aefc1-7636-41c6-9f3f-921141c93aab.svg
+     icon_id: sonic-head-with-swept-spines
+     current drawing: published/failed/solo48/sonic-head-with-swept-spines.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [head]: head-1 and head-3 have 2.312 units of ink clearance over 2.447 units; requires 4; review required | internal-spacing [head]: head-3 and head-5 have 1.592 units of ink clearance over 4.445 units; requires 4; review required
+  4. pictographic-primitives/_uncategorized_35/spasm_c67c9f34-aa4a-4561-aba3-e1d5e5f4f809.svg
+     icon_id: spasm
+     current drawing: published/failed/solo48/spasm.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [bolt]: bolt-5 and bolt-7 have 3.374 units of ink clearance over 2.467 units; requires 4; review required
+  5. pictographic-primitives/_uncategorized_35/spork_af4b0bcf-b76c-4768-8a09-e4eb2d20860e.svg
+     icon_id: three-tined-spork-with-rounded-handle
+     current drawing: published/failed/solo48/three-tined-spork-with-rounded-handle.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [spork]: spork-0 and spork-11 have -0.343 units of ink clearance over 3.284 units; requires 4; review required | internal-spacing [spork]: spork-6 and spork-8 have -0.343 units of ink clearance over 3.886 units; requires 4; review required
+  6. pictographic-primitives/_uncategorized_35/spreadsheet data analysis_25858b73-169f-47b3-b602-412321f8cd10.svg
+     icon_id: spreadsheet-data-analysis
+     current drawing: published/failed/solo48/spreadsheet-data-analysis.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [axes / curve]: axes-2 and curve have 0.036 units of ink clearance over 4.25 units; requires 4; review required
+  7. pictographic-primitives/_uncategorized_35/square fragile_611bc604-f296-4d2b-bb5f-5565ddcd7e36.svg
+     icon_id: square-fragile
+     current drawing: published/failed/solo48/square-fragile.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [foot / bowl-bottom]: foot-1 and bowl-bottom have 0.016 units of ink clearance over 4 units; requires 4; review required | internal-spacing [foot / bowl-bottom]: foot-2 and bowl-bottom have 0.016 units of ink clearance over 4 units; requires 4; review required
+  8. pictographic-primitives/_uncategorized_35/square phone hangup_48b58407-6e7b-4cf9-b629-9742f8a963af.svg
+     icon_id: square-phone-hangup
+     current drawing: published/failed/solo48/square-phone-hangup.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [handset]: handset and handset have -2.065 units of ink clearance over 13.147 units; requires 4; review required
+  9. pictographic-primitives/_uncategorized_35/square phone_746eedc8-eb0c-4e03-8d4c-d25625ee4a35.svg
+     icon_id: square-phone
+     current drawing: published/failed/solo48/square-phone.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [handset]: handset and handset have -2.065 units of ink clearance over 13.147 units; requires 4; review required
+  10. pictographic-primitives/_uncategorized_36/station wagon_11bcc694-f1a4-49f8-94dc-9d171a957687.svg
+     icon_id: station-wagon-reference-11bcc694
+     current drawing: published/failed/solo48/station-wagon-reference-11bcc694.svg
+     violates 1 rule: undersized holes
+       - undersized holes: holes/pinches: 2 undersized holes; 0 pinches
+  11. pictographic-primitives/_uncategorized_36/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg
+     icon_id: step-uncle
+     current drawing: published/failed/solo48/step-uncle.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [badge / hem]: badge-lower and hem have -3.966 units of ink clearance over 3 units; requires 4; review required
+  12. pictographic-primitives/_uncategorized_36/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg
+     icon_id: street-view
+     current drawing: published/failed/solo48/street-view.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [arms / legs]: arms-1 and legs-2 have 0.751 units of ink clearance over 4 units; requires 4; review required | internal-spacing [arms / legs]: arms-2 and legs-3 have 2.183 units of ink clearance over 3.689 units; requires 4; review required
+  13. pictographic-primitives/_uncategorized_37/tandem bike_bf66e761-47e7-4f37-adf7-8e87414c6db8.svg
+     icon_id: single-rider-road-bicycle
+     current drawing: published/failed/solo48/single-rider-road-bicycle.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 3 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 3 undersized holes; 1 pinches
+  14. pictographic-primitives/_uncategorized_37/task list pin 1_5de932db-9cc5-44c6-b9d7-4ae36e88165f.svg
+     icon_id: task-list-pin-1
+     current drawing: published/failed/solo48/task-list-pin-1.svg
+     violates 2 rules: pinches, undersized holes
+       - pinches: holes/pinches: 1 undersized holes; 1 pinches
+       - undersized holes: holes/pinches: 1 undersized holes; 1 pinches
+  15. pictographic-primitives/_uncategorized_38/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg
+     icon_id: truck-medical
+     current drawing: published/failed/solo48/truck-medical.svg
+     violates 1 rule: internal ink clearance under 4
+       - internal ink clearance under 4: internal-spacing [cargo / wheel-left]: cargo-2 and wheel-left-top have 0.079 units of ink clearance over 3.5 units; requires 4; review required | internal-spacing [cab / wheel-right]: cab-3 and wheel-right-top have 0.079 units of ink clearance over 3 units; requires 4; review required

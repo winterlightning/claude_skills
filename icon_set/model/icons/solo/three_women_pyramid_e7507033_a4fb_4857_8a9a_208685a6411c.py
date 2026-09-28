@@ -12,7 +12,8 @@ class ThreeWomenPyramid(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/users"
+    category = "users"
+    categories = ("users", "primitives")
     aliases = ()
     keywords = ('women', 'group', 'three', 'team', 'female', 'users', 'people', 'community')
 

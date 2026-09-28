@@ -10,7 +10,8 @@ class SittingRabbit(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('sitting-bunny',)
     keywords = ('rabbit', 'bunny', 'sitting', 'ears', 'hare', 'animal', 'pet', 'easter')
 

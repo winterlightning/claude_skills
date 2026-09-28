@@ -14,7 +14,8 @@ class MarvinTheMartianHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('marvin', 'martian', 'helmet', 'head', 'cartoon', 'alien')
 

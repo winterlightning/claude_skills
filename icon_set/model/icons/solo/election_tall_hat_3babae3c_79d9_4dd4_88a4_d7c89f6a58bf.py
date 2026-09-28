@@ -15,6 +15,7 @@ class ElectionTallHat(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'school-learning'
+    categories = ('school-learning', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('election', 'tall', 'hat', 'school-learning')
 

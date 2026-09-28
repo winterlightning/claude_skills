@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='17467afa-448a-45f3-b1dc-cc2f15c9f72e'
 SOURCE_PATH='icon_set/work/todo-references/pin x mark 4_17467afa-448a-45f3-b1dc-cc2f15c9f72e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Round-headed straight map pin standing at the center of a wide ground X. Head and shaft share the vertical axis.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: round head vocabulary; straight pin reconstructed from source.'
 OMISSIONS='None.'

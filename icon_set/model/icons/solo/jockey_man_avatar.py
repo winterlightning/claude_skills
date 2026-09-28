@@ -22,6 +22,7 @@ class JockeyManAvatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('avatar', 'jockey', 'man', 'bust', 'body', 'portrait')
 

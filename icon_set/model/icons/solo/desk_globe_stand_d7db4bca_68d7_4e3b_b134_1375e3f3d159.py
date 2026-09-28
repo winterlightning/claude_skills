@@ -10,7 +10,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/maps"
+    category = "maps"
+    categories = ("maps", "primitives")
     aliases = ()
     keywords = ('globe', 'desk globe', 'earth', 'world', 'geography', 'school', 'stand', 'map')
 

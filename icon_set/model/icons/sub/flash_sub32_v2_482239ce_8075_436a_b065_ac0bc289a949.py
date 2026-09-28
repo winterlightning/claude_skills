@@ -15,12 +15,12 @@ REFERENCE_EXPORT_SHA256 = 'ea3e7b7b798dd7be8870c146de47f6297d153e6469ef42e66ee3b
 
 class DrawingVariant2(Sub32):
     icon_id = 'flash-sub32-v2'
-    variant_of = 'flash-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
     category = 'interface-essential'
+    categories = ('interface-essential', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

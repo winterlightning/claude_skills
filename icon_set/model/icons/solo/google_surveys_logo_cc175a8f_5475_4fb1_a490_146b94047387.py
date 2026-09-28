@@ -19,6 +19,7 @@ class GoogleSurveysLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('google-surveys', 'google', 'survey', 'check', 'logo', 'brand', 'feedback')
 

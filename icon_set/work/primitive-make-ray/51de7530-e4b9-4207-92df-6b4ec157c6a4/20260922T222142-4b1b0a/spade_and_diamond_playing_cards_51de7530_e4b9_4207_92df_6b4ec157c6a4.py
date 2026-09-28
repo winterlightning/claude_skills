@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '51de7530-e4b9-4207-92df-6b4ec157c6a4'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/card game cards spade diamond_51de7530-e4b9-4207-92df-6b4ec157c6a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'spade-and-diamond-playing-cards'

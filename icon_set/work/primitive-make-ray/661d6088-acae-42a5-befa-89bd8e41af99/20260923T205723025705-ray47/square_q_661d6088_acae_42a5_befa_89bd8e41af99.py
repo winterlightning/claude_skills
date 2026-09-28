@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '661d6088-acae-42a5-befa-89bd8e41af99'
 SOURCE_PATH = 'icon_set/work/todo-references/square q_661d6088-acae-42a5-befa-89bd8e41af99.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square containing a circular Q with a diagonal tail.
 # References: No exact local Lucide letter match; circular bowl and attached diagonal tail.
 # Reduction: No parts omitted.

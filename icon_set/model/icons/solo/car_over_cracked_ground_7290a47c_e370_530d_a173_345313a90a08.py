@@ -12,7 +12,8 @@ class CarOverCrackedGround(Solo48):
     icon_id = 'car-over-cracked-ground'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/weather'
+    category = 'weather'
+    categories = ('weather', 'primitives')
     aliases = ()
     keywords = ('car', 'earthquake', 'crack', 'road', 'tremor', 'disaster')
     keyshape = Keyshape.HRECT_L

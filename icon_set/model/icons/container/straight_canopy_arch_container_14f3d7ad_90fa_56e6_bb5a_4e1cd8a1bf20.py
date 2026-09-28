@@ -16,7 +16,8 @@ class StraightCanopyArchContainer(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'containers'
+    category = 'romance'
+    categories = ('primitives', 'romance')
     aliases = ()
     keywords = ('straight', 'canopy', 'arch', 'container')
 

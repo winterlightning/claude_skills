@@ -16,7 +16,8 @@ class Batch02Icon2(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/book"
+    category = "container"
+    categories = ("container",)
     aliases = ('closed-hardcover-book',)
     keywords = ('closed', 'hardcover', 'book')
 

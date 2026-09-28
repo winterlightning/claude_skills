@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'df632f40-c8e3-4ae9-9986-caca559c4210'
 SOURCE_PATH = 'icon_set/work/todo-references/passport globe_df632f40-c8e3-4ae9-9986-caca559c4210.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Passport in front of a globe with a second globe on its cover.'
 OMISSIONS = 'Fine geographic border simplified; meridian count reduced.'
 LUCIDE_REFERENCE = 'globe'

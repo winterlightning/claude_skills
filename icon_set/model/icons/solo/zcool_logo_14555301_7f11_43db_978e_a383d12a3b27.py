@@ -5,10 +5,10 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='14555301-7f11-43db-978e-a383d12a3b27'
 SOURCE_PATH='icon_set/work/todo-references/zcool logo_14555301-7f11-43db-978e-a383d12a3b27.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id='zcool-logo'
+    icon_id = 'zcool-logo'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

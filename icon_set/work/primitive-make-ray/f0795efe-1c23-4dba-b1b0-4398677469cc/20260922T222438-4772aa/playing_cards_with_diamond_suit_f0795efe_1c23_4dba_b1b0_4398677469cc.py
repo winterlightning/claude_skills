@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f0795efe-1c23-4dba-b1b0-4398677469cc'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/cards_f0795efe-1c23-4dba-b1b0-4398677469cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'playing-cards-with-diamond-suit'

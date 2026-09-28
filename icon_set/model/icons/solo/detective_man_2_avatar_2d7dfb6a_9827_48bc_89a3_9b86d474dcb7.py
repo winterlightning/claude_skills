@@ -26,6 +26,7 @@ class DetectiveMan2Avatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('detective', 'man', '2', 'portrait', 'bust')
 

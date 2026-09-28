@@ -17,7 +17,8 @@ class BankCreditCard(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "finance/payment"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("credit card with chip", "payment card")
     keywords = ("bank", "chip", "stripe", "debit")
 

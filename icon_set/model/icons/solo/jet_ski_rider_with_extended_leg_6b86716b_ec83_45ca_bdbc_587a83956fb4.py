@@ -21,7 +21,8 @@ class JetSkiRiderWithExtendedLeg(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/recreation'
+    category = 'recreation'
+    categories = ('primitives', 'recreation')
     aliases = ()
     keywords = ('jet', 'ski', 'rider', 'with', 'extended', 'leg')
 

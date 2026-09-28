@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '513a80b0-c23c-4732-baf6-7285d2bcbb03'
 SOURCE_PATH = 'icon_set/work/todo-references/square temperature fahrenheit_513a80b0-c23c-4732-baf6-7285d2bcbb03.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square enclosing a degree mark and the letter F.
 # References: No exact local Lucide typography match; F is hand-authored with shared stem intersections.
 # Reduction: Tiny source degree mark retained as a dot; no defining parts omitted.

@@ -16,7 +16,8 @@ class CheckMarkState165(Sub32):
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('check', 'mark', 'angular', 'short', 'descending', 'left', 'arm', 'followed')
 

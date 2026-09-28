@@ -11,7 +11,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'Uncategorized'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Downward Pointing Arrow']
     keywords = ['arrow', 'straight', 'down', 'with', 'open', 'head']
 

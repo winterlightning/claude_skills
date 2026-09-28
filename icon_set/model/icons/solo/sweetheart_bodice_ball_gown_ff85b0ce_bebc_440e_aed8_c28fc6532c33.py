@@ -9,7 +9,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "Uncategorized"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ('Elegant Ball Gown Dress',)
     keywords = ('gown', 'dress', 'ball', 'clothing', 'skirt', 'bodice', 'formal')
     def build(self):

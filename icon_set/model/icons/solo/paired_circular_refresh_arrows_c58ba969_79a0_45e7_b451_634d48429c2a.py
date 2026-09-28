@@ -31,7 +31,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/interface-essential"
+    category = "interface-essential"
+    categories = ("interface-essential", "state")
     aliases = ()
     keywords = ('refresh', 'arrows', 'circular', 'cycle', 'clockwise', 'synchronize', 'sub icon')
     def build(self):

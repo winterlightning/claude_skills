@@ -14,7 +14,8 @@ class ThreeEngineSpacecraft(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/science"
+    category = "science"
+    categories = ("science", "primitives")
     aliases = ()
     keywords = ('spacecraft', 'engine', 'cabin', 'rocket', 'nozzle', 'space')
 

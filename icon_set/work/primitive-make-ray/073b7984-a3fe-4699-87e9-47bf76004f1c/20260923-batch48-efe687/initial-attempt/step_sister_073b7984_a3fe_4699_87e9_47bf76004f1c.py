@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '073b7984-a3fe-4699-87e9-47bf76004f1c'
 SOURCE_PATH = 'icon_set/work/todo-references/step sister_073b7984-a3fe-4699-87e9-47bf76004f1c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Woman with a shoulder-length bob and circular lower-right relationship badge.'
 CONSTRUCTION_REFERENCE = 'human_ref/user.svg: circular jaw and broad curved shoulders'
 

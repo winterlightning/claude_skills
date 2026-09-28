@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4100f85e-0f38-4aa9-b1a2-3069cab1dbab'
 SOURCE_PATH = 'icon_set/work/todo-references/medical mobile phone_4100f85e-0f38-4aa9-b1a2-3069cab1dbab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A medical smartphone displaying a plus above a lower panel.'
 CONSTRUCTION_PLAN = 'Rounded portrait enclosure with split side-wall attachment nodes and a centred equal-arm medical plus.'
 KEYSHAPE_CENTERLINE_BOUNDS = [10, 4, 38, 44]

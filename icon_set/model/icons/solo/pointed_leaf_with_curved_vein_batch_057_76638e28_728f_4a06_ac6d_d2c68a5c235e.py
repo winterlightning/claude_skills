@@ -11,7 +11,8 @@ class Result(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = 'nature/plants'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('leaf', 'nature', 'plant', 'vein', 'botanical', 'foliage')
 

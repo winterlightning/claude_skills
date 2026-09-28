@@ -16,7 +16,8 @@ class CircularSpeechBubble(Container64):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "containers"
+    category = "container"
+    categories = ("container",)
     aliases = ()
     keywords = ('circular', 'speech', 'bubble')
 

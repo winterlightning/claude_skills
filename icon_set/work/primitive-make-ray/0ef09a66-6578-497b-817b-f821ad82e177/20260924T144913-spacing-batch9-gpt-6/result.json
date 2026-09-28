@@ -1,0 +1,52 @@
+{
+  "concept": "mobile phone fingerprint",
+  "source_uuid": "0ef09a66-6578-497b-817b-f821ad82e177",
+  "source_path": "pictographic-primitives/other/mobile phone fingerprint_0ef09a66-6578-497b-817b-f821ad82e177.svg",
+  "reference_path": "pictographic-primitives/other/mobile phone fingerprint_0ef09a66-6578-497b-817b-f821ad82e177.svg",
+  "icon_id": "mobile-phone-fingerprint",
+  "author": "gpt-6",
+  "status": "blocked",
+  "validation_status": "invalid",
+  "build_gate": "fail",
+  "repair_rounds": 5,
+  "attempt_count": 6,
+  "keyshape": "SQUARE",
+  "keyshape_reason": "36 by 36 centerline envelope provides width for nested composition.",
+  "visual_review": {
+    "reviewed_native_light_and_dark": true,
+    "approved": false,
+    "findings": "Single-arch reduction rejected as doorbell-like; restored ridges still violate spacing."
+  },
+  "omissions": [
+    "Extra fingerprint branch strokes omitted; multiple identifying ridges retained."
+  ],
+  "construction_references": [
+    "icon_set/references/lucide/original/smartphone.svg",
+    "icon_set/references/lucide/atomic-debug/smartphone.svg",
+    "icon_set/references/lucide/original/fingerprint-pattern.svg",
+    "icon_set/references/lucide/atomic-debug/fingerprint-pattern.svg"
+  ],
+  "blockers": [
+    "error: mic [separator]: separator and inner-left are 6 apart on centerlines nearest (18, 34)<->(18, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: mic [separator]: separator and center-ridge are 5 apart on centerlines nearest (24, 34)<->(24, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: mic [outer-ridge]: outer-ridge and inner-arch are 5.48686 apart on centerlines nearest (33, 23)<->(27.7981, 24.7453); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "error: mic [inner-left]: inner-left and center-ridge are 4.37152 apart on centerlines nearest (19.9306, 26.4031)<->(24, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "warning: mic [phone]: phone and outer-ridge are 8 apart on centerlines nearest (24, 6)<->(24, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": {
+    "module": "mobile_phone_fingerprint_0ef09a66_6578_497b_817b_f821ad82e177.py",
+    "svg": "mobile-phone-fingerprint.svg",
+    "metadata": "mobile-phone-fingerprint.metadata.json",
+    "reference": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "build_gate": "build-gate.txt",
+    "debug": "gate",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-384.png",
+    "dark_enlarged": "dark-384.png",
+    "findings": "findings.md"
+  },
+  "module_sha256": "e8ac85dc4cfc81eecc056401efa2ff97aaf99c1a8a68de907680c41a944f28f0"
+}

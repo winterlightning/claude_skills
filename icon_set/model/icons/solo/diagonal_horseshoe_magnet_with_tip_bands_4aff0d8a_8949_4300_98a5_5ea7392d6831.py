@@ -11,7 +11,8 @@ class DiagonalHorseshoeMagnetWithTipBands(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/design'
+    category = 'design'
+    categories = ('design', 'primitives')
     aliases = ()
     keywords = ('magnet', 'horseshoe', 'poles', 'magnetic', 'tool', 'attraction', 'physics', 'metal')
 

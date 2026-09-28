@@ -17,7 +17,8 @@ class FiveSectionGridLayout(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/layout"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("five-panel-layout",)
     keywords = ("grid", "interface", "columns", "panels")
 

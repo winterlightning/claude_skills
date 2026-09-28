@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='02c4f114-340f-49bc-b4ae-89065a04546b'
 SOURCE_PATH='icon_set/work/todo-references/logout 2_02c4f114-340f-49bc-b4ae-89065a04546b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='logout-2'
     keyshape=Keyshape.HRECT_L

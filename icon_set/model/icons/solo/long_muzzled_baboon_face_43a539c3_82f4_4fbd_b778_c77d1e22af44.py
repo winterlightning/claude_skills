@@ -16,7 +16,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ('Baboon Animal Face',)
     keywords = ('baboon','face','muzzle','primate','ears','animal','monkey')
 

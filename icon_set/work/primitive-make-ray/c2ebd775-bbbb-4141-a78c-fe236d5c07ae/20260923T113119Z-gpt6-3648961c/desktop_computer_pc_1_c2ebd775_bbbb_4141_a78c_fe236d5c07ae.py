@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c2ebd775-bbbb-4141-a78c-fe236d5c07ae'
 SOURCE_PATH = 'icon_set/work/todo-references/desktop computer pc 1_c2ebd775-bbbb-4141-a78c-fe236d5c07ae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'desktop-computer-pc-1'

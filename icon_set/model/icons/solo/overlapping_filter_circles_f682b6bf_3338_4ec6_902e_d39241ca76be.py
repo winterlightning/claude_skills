@@ -11,7 +11,8 @@ class OverlappingFilterCircles(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('filter', 'circles', 'overlap', 'blend', 'photo', 'effect', 'edit', 'color')
 

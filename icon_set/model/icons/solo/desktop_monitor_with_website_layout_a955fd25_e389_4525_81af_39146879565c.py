@@ -16,7 +16,8 @@ class DesktopMonitorWithWebsiteLayout(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "technology/displays"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("website monitor", "webpage screen")
     keywords = ("desktop", "layout", "image", "text")
 

@@ -19,6 +19,7 @@ class HuluLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('hulu', 'streaming', 'tv', 'wordmark', 'logo', 'brand', 'video')
 

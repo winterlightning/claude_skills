@@ -8,9 +8,9 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0'
 SOURCE_PATH='icon_set/work/todo-references/breeding gender symbols_d98a91a3-2cf0-4bb4-a37a-26d5ea8781e0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='breeding-gender-symbols'
+    icon_id = 'breeding-gender-symbols'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'

@@ -10,7 +10,8 @@ class HorseHead(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ('equine-head',)
     keywords = ('horse', 'head', 'profile', 'mane', 'equine', 'pony', 'zebra')
 

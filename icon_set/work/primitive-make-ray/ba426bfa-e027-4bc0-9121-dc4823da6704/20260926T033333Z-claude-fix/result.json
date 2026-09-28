@@ -1,0 +1,35 @@
+{
+  "concept": "wedding bride groom",
+  "source_uuid": "ba426bfa-e027-4bc0-9121-dc4823da6704",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__bride-and-groom/20260926T030905Z-thuan-mac/reference/wedding bride groom_ba426bfa-e027-4bc0-9121-dc4823da6704.svg",
+  "icon_id": "bride-and-groom",
+  "author": "claude-opus-5-5",
+  "validation_status": "valid",
+  "validation_errors": [],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "bride-and-groom",
+    "status": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "visual_review": "Inspected 48px and 384px in light and dark: groom on the left with a circular head, rounded-shoulder jacket with a V collar and two legs; bride on the right framed by a hood-shaped veil falling to her shoulders, V neckline and flared gown; figures 8 apart. Human references: full_body_ref.png (circular heads, simple torsos, dress figure) and user.svg (rounded shoulders). Groom head gap verified analytically: collar corners (8,23) and (18,23) are 13 from head centre (13,11), minus r5 = 8 centerline / 4 ink, and they are the nearest body points; the checker passes it. A first candidate was rejected: the tie sat 7 from the jacket sides (MIC), and veil lines hugging the bride's head merged into a blob. The rejected drawing had a small groom head and an unclear bride.",
+  "omissions": "The bride's face and fringe inside the veil are omitted (no face circle fits 8 units inside a 48px veil); the veil itself frames the head. The groom's jacket centre line becomes a V collar. The bride is attached head-to-body through the veil, so only the groom carries a detached-head flag.",
+  "drawing_plan": "Groom: head r5 (13,11), collar V (8,23)-(13,28)-(18,23), jacket x 6..20 hem 36, legs x 9/17. Bride: veil hood r5 arch at (35,11) down to y=23, V neckline to (35,27), gown to hem 28..42 at y=42.",
+  "lucide_reference": "Lucide 'users': circular heads, rounded shoulders, figures spaced apart; human proportions from icon_set/references/human_ref.",
+  "fix_claim": "icon_set/work/primitive-fix-thuan/solo__bride-and-groom/20260926T030905Z-thuan-mac",
+  "artifacts": [
+    "bride-and-groom.metadata.json",
+    "bride-and-groom.svg",
+    "bride_and_groom_ba426bfa_e027_4bc0_9121_dc4823da6704.py",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "reference.svg",
+    "validation.txt"
+  ]
+}

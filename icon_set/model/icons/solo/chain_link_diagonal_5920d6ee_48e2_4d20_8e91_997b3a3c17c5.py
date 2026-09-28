@@ -18,7 +18,8 @@ class ChainLinkDiagonal(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/standalone"
+    category = "symbol"
+    categories = ("symbol", "state")
     aliases = ()
     keywords = ('link', 'chain', 'url', 'hyperlink', 'attachment', 'connect', 'web', 'join')
 

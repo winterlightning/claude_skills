@@ -15,6 +15,7 @@ class Flash821a0fbf(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('flash', 'interface-essential')
 

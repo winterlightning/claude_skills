@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4b4c4e57-da6a-4ce9-9d53-b8f095c266b7'
 SOURCE_PATH = 'icon_set/work/todo-references/square right_4b4c4e57-da6a-4ce9-9d53-b8f095c266b7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rightward arrow inside a square enclosure with two chamfered right corners.
 # References: square-arrow-up: joined arrow construction; source owns asymmetric tag-like enclosure.
 # Reduction: No parts omitted.

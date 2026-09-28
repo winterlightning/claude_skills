@@ -10,7 +10,8 @@ class CordlessPowerDrill(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/tools'
+    category = 'tools'
+    categories = ('primitives', 'tools')
     aliases = ()
     keywords = ('drill', 'power drill', 'cordless', 'power tool', 'battery', 'bit', 'construction', 'tool')
 

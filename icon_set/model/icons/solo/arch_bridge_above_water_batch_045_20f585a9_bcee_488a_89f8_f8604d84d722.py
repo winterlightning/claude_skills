@@ -11,7 +11,8 @@ class Batch045Icon1(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/general'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ()
     keywords = ('bridge', 'arch', 'water', 'waves', 'span', 'crossing', 'structure')
     # Reference: No close subject match; own concentric arch construction.

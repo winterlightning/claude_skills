@@ -11,7 +11,8 @@ class StringClosureDocumentEnvelope(Solo48):
     keyshape=Keyshape.VRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/office"
+    category = "office"
+    categories = ("office", "primitives")
     aliases=()
     keywords=('envelope', 'document', 'string', 'closure', 'folder', 'office')
 

@@ -11,6 +11,7 @@ class BreadSliceFood(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
+    categories = ('primitives', 'food')
     aliases = ()
     keywords = ('bread', 'slice', 'food', 'solo-ai-next50')
 

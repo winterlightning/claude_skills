@@ -10,7 +10,8 @@ class Ostrich(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'animals/birds'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('ostrich', 'emu', 'bird', 'standing', 'neck', 'legs', 'flightless', 'africa')
 

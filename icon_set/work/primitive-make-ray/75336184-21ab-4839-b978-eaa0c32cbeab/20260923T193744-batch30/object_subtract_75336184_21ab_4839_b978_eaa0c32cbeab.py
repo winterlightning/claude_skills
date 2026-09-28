@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '75336184-21ab-4839-b978-eaa0c32cbeab'
 SOURCE_PATH = 'icon_set/work/todo-references/object subtract_75336184-21ab-4839-b978-eaa0c32cbeab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'object-subtract'

@@ -1,76 +1,76 @@
-"""Person with Flared Bob.
-Plan: Circular face centered (24,22), radius7; bottom29, shoulder top33, zero ink gap. Hair outline follows the source length and part. Whole bounds (8,4)-(40,44).
-References: human_ref/user.svg circular jaw and smooth shoulders; Lucide user open rounded bust.
-Reduction: Facial microdetails and neck seams omitted; source hairstyle retained.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = '420efd38-3335-538c-8fe6-abc9051f9f1b'
-SOURCE_PATH = 'pictographic-primitives/avatars/woman_420efd38-3335-538c-8fe6-abc9051f9f1b.svg'
-AUTHOR = 'gpt-6'
-
-def path(icon, name, start, *steps, closed=False):
-    """Emit one coherent stroke; each knot belongs to its owning shape."""
-    members = []
-    point = start
-    for index, step in enumerate(steps):
-        member = f"{name}-{index + 1}"
-        kind, end, *args = step
-        if kind == "L":
-            icon.add_line(member, point, end)
-        elif kind == "A":
-            rx, ry, sweep = args
-            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
-        elif kind == "B":
-            icon.add_bezier(member, point, (args[0], args[1], end))
-        members.append(member)
-        point = end
-    icon.add_contour(name, *members, closed=closed)
-
-
-def circle(icon, name, cx, cy, radius):
-    path(icon, name, (cx-radius, cy),
-         ("A", (cx, cy-radius), radius, radius, True),
-         ("A", (cx+radius, cy), radius, radius, True),
-         ("A", (cx, cy+radius), radius, radius, True),
-         ("A", (cx-radius, cy), radius, radius, True), closed=True)
-
-
-def symmetric(icon, name, start, left_steps, axis=24):
-    """One half owns the whole outline; reflect and reverse its traversal."""
-    flip = lambda p: (2*axis-p[0], p[1])
-    prior = start
-    reverse = []
-    for kind, end, *args in left_steps:
-        if kind == 'B':
-            reverse.append((kind, flip(prior), flip(args[1]), flip(args[0])))
-        else:
-            reverse.append((kind, flip(prior), *args))
-        prior = end
-    path(icon, name, start, *left_steps, *reversed(reverse), closed=True)
-
-class PersonWithFlaredBob(Solo48):
-    icon_id = 'person-with-flared-bob'
-    keyshape = Keyshape.VRECT_L
+from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID='420efd38-3335-538c-8fe6-abc9051f9f1b'
+SOURCE_PATH='pictographic-primitives/avatars/woman_420efd38-3335-538c-8fe6-abc9051f9f1b.svg'
+AUTHOR='gpt-6'
+PLAN = 'Larger centered circular face, smooth parted fringe and flared bob ends on broad touching shoulders.'
+CONSTRUCTION_REFERENCES='icon-avatar and human_ref/user.svg: circular jaw and touching curved shoulders; Lucide user-round: cardinal arcs.'
+OMISSIONS = ['Tiny turned-back hair ends and neckline seam omitted; each bob side is one smooth outward curve.']
+class Drawing(Solo48):
+    icon_id='woman-with-flared-bob-avatar'
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
     category = 'avatars'
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
+    categories = ('primitives', 'avatars')
+    aliases=()
+    keywords=('woman',)
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
+
+    def avatar_body(self,top=32):
+        self.add_line('body-left-side',(8,44),(8,top+8))
+        self.add_arc('body-left-shoulder',(8,top+8),(16,top),radius_x=8)
+        self.add_line('body-top',(16,top),(24,top))
+        self.add_line('body-top-right',(24,top),(32,top))
+        self.add_arc('body-right-shoulder',(32,top),(40,top+8),radius_x=8)
+        self.add_line('body-right-side',(40,top+8),(40,44))
+        self.add_contour('body','body-left-side','body-left-shoulder','body-top','body-top-right','body-right-shoulder','body-right-side')
+    def portrait_head(self):
+        self.add_line('root-left',(14,18),(14,14))
+        self.add_arc('crown',(14,14),(34,14),radius_x=10)
+        self.add_line('root-right',(34,14),(34,18))
+        self.add_arc('jaw',(34,18),(14,18),radius_x=10)
+        self.add_contour('head','root-left','crown','root-right','jaw',closed=True)
+        self.add_bezier('fringe',(14,18),((20,18),(22,13),(24,13)),((26,13),(28,18),(34,18)))
+        self.relate('connect','head','fringe')
+    def build(self):
+
+        self.portrait_head();self.avatar_body(28+HEAD_BODY_CENTERLINE_GAP)
+        for side in (-1,1):
+            p=lambda x,y:(x,y) if side==-1 else (48-x,y)
+            n='hair-'+str(side)
+            self.add_bezier(n,p(14,18),(p(14,22),p(10,25),p(8,25)))
+            self.relate('connect','head',n);self.relate('connect','fringe',n)
+        self.relate('connect','head','body')
+
+    icon_id = 'person-with-flared-bob'
+    category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ()
     keywords = ('person', 'with', 'flared', 'bob')
-    def build(self):
-        path(self,'hair',(8,27),('B',(8,20),(10,26),(8,23)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('B',(40,27),(40,23),(38,26)))
-        path(self,'fringe',(17,22),('B',(24, 15),(20,21),(22,18)),('B',(31,22),(26,18),(28,21)))
-        self.add_arc('face',(31,22),(17,22),radius_x=7)
-        self.relate('connect','fringe','face')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
 
-        body_top=29+HEAD_BODY_CENTERLINE_GAP
-        path(self,'body',(8,44),('L',(8,body_top+8)),('A',(16,body_top),8,8,True))
-        self.add_line('body-top',(16,body_top),(24,body_top))
-        self.add_line('body-top-right',(24,body_top),(32,body_top))
-        path(self,'body-right',(32,body_top),('A',(40,body_top+8),8,8,True),('L',(40,44)))
-        self.relate('connect','body','body-top')
-        self.relate('connect','body-top','body-top-right')
-        self.relate('connect','body-top-right','body-right')
-        self.relate('connect','face','body-top')
-        self.relate('connect','face','body-top-right')
-
+HUMAN_CONSTRUCTION_REVIEW = {'head_bottoms': [28], 'shoulder_tops': [32], 'reference': 'icon_set/references/human_ref/user.svg', 'specialization': 'icon-avatar', 'centerline_gap': 4, 'visible_ink_gap': 0, 'proof': 'Each shoulder apex is four centerline units below its own circular head or jaw bottom. With stroke width four, the ink edges touch. Avatar specialization requested by user.'}

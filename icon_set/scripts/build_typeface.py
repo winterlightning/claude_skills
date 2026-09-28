@@ -234,7 +234,7 @@ def build_v2():
   box=bounds(paths);path_data=[path.d() for path in paths]
   left,top,right,bottom=box;canvas_width,canvas_height=view_box[2:]
   glyphs.append(dict(icon_id=icon_id,character=char,kind=kind,preferred=True,
-                     body_top=2,baseline=18,body_height=16,bounds=box,
+                     body_top=2,baseline=canvas_height-2,body_height=canvas_height-4,bounds=box,
                      measurement='source-body-band',paths=path_data,preview_box=view_box,
                      svg_sha256=hashlib.sha256(json.dumps(path_data,separators=(',',':')).encode()).hexdigest(),
                      source_path=str(source.relative_to(ROOT)),source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
@@ -244,7 +244,7 @@ def build_v2():
                      ink_left=left-2,ink_top=top-2,
                      centerline_width=right-left,centerline_height=bottom-top,
                      canvas_width=canvas_width,canvas_height=canvas_height,
-                     centerline_band_height=16))
+                     centerline_band_height=canvas_height-4))
  expected=set('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
  if {glyph['character'] for glyph in glyphs}!=expected:
   raise ValueError('Letters/new must contain exactly A-Z and 0-9')

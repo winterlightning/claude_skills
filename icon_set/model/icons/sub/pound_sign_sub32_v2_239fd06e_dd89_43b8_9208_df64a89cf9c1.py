@@ -16,12 +16,12 @@ REFERENCE_EXPORT_SHA256 = '618b20769523037d57430d31503fd9951221548ca489e2bcb9938
 
 class DrawingVariant2(Sub32):
     icon_id = 'pound-sign-sub32-v2'
-    variant_of = 'pound-sign-sub32'
     variant_label = 'Complete source with corrected 32px geometry'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'objects/symbols'
+    category = 'symbol'
+    categories = ('symbol', 'state')
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):

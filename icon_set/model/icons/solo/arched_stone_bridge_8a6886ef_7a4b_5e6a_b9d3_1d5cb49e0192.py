@@ -13,6 +13,7 @@ class ArchedStoneBridge(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('arched', 'stone', 'bridge')
 

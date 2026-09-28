@@ -11,7 +11,8 @@ class SimpleCamera(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "other", "primitives-generate")
     aliases = ()
     keywords = ('camera', 'photo', 'photography', 'picture', 'lens', 'snapshot', 'capture', 'image')
 

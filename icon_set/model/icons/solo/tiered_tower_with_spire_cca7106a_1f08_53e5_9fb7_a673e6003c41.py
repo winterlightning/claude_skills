@@ -10,7 +10,8 @@ class TieredTowerWithSpire(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'places/landmarks'
+    category = 'landmarks'
+    categories = ('landmarks', 'primitives')
     aliases = ()
     keywords = ('tower', 'castle', 'keep', 'spire', 'tiers', 'building', 'medieval', 'landmark')
 

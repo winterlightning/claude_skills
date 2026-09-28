@@ -19,6 +19,7 @@ class Wrestler1Avatar(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
+    categories = ('primitives', 'avatars')
     aliases = ('masked-wrestler-avatar',)
     keywords = ('wrestler','luchador','mask','singlet','sport','portrait')
     def build(self):

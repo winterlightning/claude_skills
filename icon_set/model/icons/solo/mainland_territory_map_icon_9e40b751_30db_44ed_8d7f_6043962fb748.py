@@ -17,7 +17,8 @@ class MainlandTerritoryMapIcon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "places/maps"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("territory-outline",)
     keywords = ("mainland", "map", "region", "geography")
 

@@ -1,9 +1,14 @@
+"""A standing person beside a map pin and road lines.
+Plan: SQUARE fits the left figure and upper-right pin.
+Reduction: Body reduced to a stick figure; arms raised and legs opened to separate the limbs.
+Construction: human_ref/full_body_ref.png: outlined head and coherent limbs; source map pin.
+Layout: Marked person: head bottom y14, torso start y22, exactly four units of detached head-body ink gap. Pin and road sit to the right."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6498afd8-8355-4072-b42d-b96eef9111b1'
-SOURCE_PATH = 'icon_set/work/todo-references/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg'
+AUTHOR = "gpt-6"
 PLAN = 'Standing person beside a map pin and short road line.'
 CONSTRUCTION_REFERENCE = 'human_ref/full_body_ref.png and map-pin: outlined head, connected limbs, pointed marker'
 
@@ -56,9 +61,9 @@ class Drawing(Solo48):
         # Human reference: outlined head, coherent torso and round-ended limbs.
         self.circle('head',12,10,4)
         self.add_line('torso',(12,22),(12,32))
-        self.add_polyline('arms',(6,30),(12,22),(20,30))
-        self.add_polyline('legs',(8,42),(8,34),(12,32),(16,34),(16,42))
-        self.relate('connect','torso','arms','legs')
+        self.add_polyline('arms',(6,26),(12,22),(18,26))
+        self.add_polyline('legs',(6,42),(12,32),(20,42))
+        self.relate('connect','torso','arms');self.relate('connect','torso','legs')
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
         # Exact emitted gap: torso 22 - head bottom 14 - stroke 4 = 4 ink units.
         self.add_arc('pin-top',(24,15),(42,15),radius_x=9)

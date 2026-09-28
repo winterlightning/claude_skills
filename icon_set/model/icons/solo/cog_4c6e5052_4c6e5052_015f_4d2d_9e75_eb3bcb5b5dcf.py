@@ -11,6 +11,7 @@ class Cog4c6e5052(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('solo-ai-shapes-refine', 'solo-ai-next100', 'cog-4c6e5052')
 

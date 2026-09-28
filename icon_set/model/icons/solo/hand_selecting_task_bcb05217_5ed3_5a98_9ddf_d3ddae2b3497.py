@@ -12,7 +12,8 @@ class HandSelectingTask(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/work'
+    category = 'work'
+    categories = ('work', 'primitives')
     aliases = ()
     keywords = ('hand', 'task', 'check', 'selection', 'interface', 'completion')
 

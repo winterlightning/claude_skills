@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'dd96595d-042a-465f-9681-d8c23c641754'
 SOURCE_PATH = 'icon_set/work/todo-references/spoon and fork_dd96595d-042a-465f-9681-d8c23c641754.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Round plate with a three-tined fork inside and a short diagonal utensil handle outside.
 # References: utensils: equal tines and a rounded fork bowl; supplied image has no separate spoon bowl.
 # Reduction: No defining parts omitted.

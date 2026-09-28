@@ -11,6 +11,7 @@ class Robot99be828f(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
+    categories = ('artificial-intelligence', 'primitives')
     aliases = ()
     keywords = ('robot', 'artificial-intelligence')
 

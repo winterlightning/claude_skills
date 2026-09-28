@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'fe4e3f6c-b05b-4d47-b62a-141f6676b4fe'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor with a_fe4e3f6c-b05b-4d47-b62a-141f6676b4fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor displaying the uppercase A pictured in the supplied reference.'
 CONSTRUCTION_PLAN = 'Shared monitor; A is mirrored about x=24 with a shared crossbar attachment row.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

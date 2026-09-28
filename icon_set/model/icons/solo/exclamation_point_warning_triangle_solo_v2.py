@@ -20,7 +20,8 @@ class DrawingVariant2(Solo48):
     variant_of = 'exclamation-point-warning-triangle-solo'
     variant_label = 'Square proportions'
     keyshape = Keyshape.SQUARE
-    category = 'objects/interface-essential'
+    category = 'primitives-generate'
+    categories = ('symbol', 'state', 'other', 'primitives-generate')
     tags = ('sub icon',)
     keywords = ('exclamation point warning triangle',)
 

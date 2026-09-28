@@ -1,0 +1,35 @@
+"""Person Looking at Information Stand.
+Plan: Standing reader beside a small sign on a tall post; bent arm points toward sign.
+References: supplied source; no useful exact Lucide match.
+Native SOLO48 construction, no cross-family scaling.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.icons.solo._symmetry_curves import path as _path, ellipse, box as _box, contacts
+SOURCE_ICON_ID = 'eea8ca50-446e-430e-a8d9-e9f719afa8b6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-at-information-stand/20260927T145836Z-thuan-mac-1/reference/watcher_eea8ca50-446e-430e-a8d9-e9f719afa8b6.svg'
+AUTHOR = "gpt-6"
+
+class Drawing(Solo48):
+    icon_id = 'person-at-information-stand'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    categories = ('symbol', 'other', 'primitives-generate')
+    aliases = ()
+    keywords = ('sub icon', 'person', 'at', 'information', 'stand')
+    def build(self):
+        path = lambda n,p,*cmd,**kw: _path(self,n,p,*cmd,**kw)
+        circle = lambda n,x,y,r: ellipse(self,n,x,y,r)
+        box = lambda n,l,t,r,b,q=4,**kw: _box(self,n,l,t,r,b,q,**kw)
+        line, poly = self.add_line, self.add_polyline
+        box('sign',6,6,18,16,2,xs=(12,))
+        line('post',(12,16),(12,42))
+        circle('head',36,10,4)
+        line('torso',(36,22),(36,32))
+        poly('arm',(36,22),(28,27),(24,22))
+        # The reference is standing close to the sign, not striding past it.
+        poly('legs',(31,42),(36,32),(42,42))
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        contacts(self)

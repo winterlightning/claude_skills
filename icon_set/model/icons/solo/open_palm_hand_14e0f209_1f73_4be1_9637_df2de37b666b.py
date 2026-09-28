@@ -1,52 +1,50 @@
-"""Open Palm Hand.
-
-Plan: Four round fingertips, shared finger radius4 and step8; left thumb and rounded palm. Bounds (4,8)-(44,40).
-Construction: Lucide hand original and atomic-debug: rounded tips, continuous palm and separate finger creases. Human-reference simple rounded limb vocabulary.
-Reduction: Shortened finger creases and widened fingers to the SOLO48 spacing budget. Identical reference subjects use the same construction under separate source UUIDs.
-"""
-from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-
+'hand. Longer finger creases restore finger-to-palm proportions. Thumb perimeter no longer crosses itself. Four fingertip widths share radius4 and pitch8. HRECT_L remains broader than the source because four finger widths and a thumb consume the 40-unit horizontal budget; thumb is more upright than the reference. Construction reference: local Lucide hand + human_ref/user.svg.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '14e0f209-1f73-4be1-9637-df2de37b666b'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/hand_14e0f209-1f73-4be1-9637-df2de37b666b.svg'
+SOURCE_PATH = 'pictographic-primitives/holidays/hand_14e0f209-1f73-4be1-9637-df2de37b666b.svg'
 AUTHOR = 'gpt-6'
-
-
-class IconOpenPalmHand(Solo48):
-    icon_id = 'open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b'
+PARENT_MODULE = 'icon_set/model/icons/solo/open_palm_hand_14e0f209_1f73_4be1_9637_df2de37b666b.py'
+class Drawing(Solo48):
+    icon_id = 'open-palm-hand'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "holidays"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'holidays'
+    categories = ('primitives', 'holidays')
     aliases = ()
-    keywords = ('open', 'palm', 'hand')
+    keywords = ('hand',)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';end=c[1]
+            if c[0]=='L':self.add_line(k,start,end)
+            elif c[0]=='A':self.add_arc(k,start,end,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,start,(c[2],c[3],end))
+            ids.append(k);start=end
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
 
     def build(self):
-
-        def path(name, start, commands, closed=False):
-            here=start
-            members=[]
-            for i, (kind,end,*args) in enumerate(commands):
-                k=f"{name}-{i}"
-                if kind == "L": self.add_line(k,here,end)
-                elif kind == "A": self.add_arc(k,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind == "C": self.add_bezier(k,here,(args[0],args[1],end))
-                members.append(k)
-                here=end
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,x,y,r):
-            path(name,(x-r,y),[("A",(x+r,y),r,r,True),("A",(x-r,y),r,r,True)],True)
-        # The fingertip series owns the shared radius and spacing; heights preserve the hand's anatomy.
-        first_x, radius = 12, 4
-        step = 2 * radius
-        heights = (14,12,14,20)
-        commands=[]
+        # Four long fingers share eight-unit widths; thumb is a separate lobe
+        # in the perimeter, without the prior self-overlapping thumb loop.
+        first=12;step=8;r=4;heights=(14,12,14,20)
+        cmds=[]
         for i,y in enumerate(heights):
-         x=first_x+i*step
-         commands.extend([('L',(x,y)),('A',(x+step,y),radius,radius,True)])
-        commands.extend([('L',(44,28)),('A',(32,40),12,12,True),('L',(24,40)),('C',(4,28),(16,40),(10,34)),('C',(12,28),(4,22),(8,22))])
-        path('outline',(12,28),commands,True)
-        for i,(name,end_y) in enumerate(zip(('index','middle','ring'),(24,24,26))):
-         x=first_x+(i+1)*step
-         start=(x,max(heights[i],heights[i+1]))
-         self.add_line(name,start,(x,end_y));self.relate('connect',name,'outline')
+            x=first+i*step;cmds += [('L',(x,y)),('A',(x+step,y),r,r,True)]
+        cmds += [('L',(44,28)),('A',(32,40),12,12,True),('L',(20,40)),('C',(4,32),(12,40),(4,38)),('L',(4,24)),('A',(12,24),4,4,True)]
+        self.path('hand',(12,24),cmds,True)
+        for i in range(3):
+            x=first+(i+1)*step;y=max(heights[i],heights[i+1]);self.add_line(f'crease-{i}',(x,y),(x,29));self.relate('connect','hand',f'crease-{i}')
+
+    icon_id = 'open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b'
+    category = 'holidays'
+    categories = ('primitives', 'holidays')
+    aliases = ()
+    keywords = ('open', 'palm', 'hand')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'

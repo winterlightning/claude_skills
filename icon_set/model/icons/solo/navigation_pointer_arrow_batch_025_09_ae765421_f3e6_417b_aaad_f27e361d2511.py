@@ -16,7 +16,8 @@ class Batch025Icon(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/other"
+    category = "primitives-generate"
+    categories = ("state", "other", "primitives-generate")
     aliases = ()
     keywords = ('navigation', 'pointer', 'arrow')
 

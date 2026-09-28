@@ -10,7 +10,8 @@ class CassetteTapeRoundReels(Solo48):
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
-    category="objects/music"
+    category = "music"
+    categories = ("primitives", "music")
     aliases=()
     keywords=('cassette', 'tape', 'reels', 'audio', 'retro', 'walkman', 'music')
 

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '83ea3f1d-dfb5-4247-948a-2314faaff6ad'
 SOURCE_PATH = 'icon_set/work/todo-references/prescription px square_83ea3f1d-dfb5-4247-948a-2314faaff6ad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'prescription-px-square'

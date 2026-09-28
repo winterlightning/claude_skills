@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='9ab7c5fa-7d54-4c5c-8f9e-b01743e34909'
 SOURCE_PATH='icon_set/work/todo-references/ui webpage skull_9ab7c5fa-7d54-4c5c-8f9e-b01743e34909.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Browser page containing an open-jawed skull with eye dots and a middle tooth stroke.'
 CONSTRUCTION_REFERENCE='panels-top-left and skull: circular cranium with narrowed jaw; human_ref/user.svg supplies circular head principle'
 

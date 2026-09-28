@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9ec9ed06-396b-4bca-8680-e36e1ed302bf'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/engineer project superviser 1_9ec9ed06-396b-4bca-8680-e36e1ed302bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class EngineeringProjectSupervisor(Solo48):
     icon_id = 'engineering-project-supervisor'

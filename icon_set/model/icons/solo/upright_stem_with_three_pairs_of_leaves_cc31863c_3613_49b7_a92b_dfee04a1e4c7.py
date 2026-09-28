@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'Uncategorized'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
     aliases = ['Ear of Wheat Grain']
     keywords = ['stem','leaves','plant','spelt','foliage','sprig']
     def build(self):

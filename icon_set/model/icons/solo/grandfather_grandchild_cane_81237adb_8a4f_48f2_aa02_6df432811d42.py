@@ -16,7 +16,8 @@ class Batch26Icon(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "people/family"
+    category = "family"
+    categories = ("primitives", "family")
     aliases = ()
     keywords = ('grandfather', 'and', 'grandchild')
 

@@ -22,6 +22,7 @@ class PencilDrawingHouseBatch003(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'construction'
+    categories = ('construction', 'primitives')
     aliases = ()
     keywords = ('pencil', 'house', 'drawing', 'architecture', 'plan', 'design', 'project')
 

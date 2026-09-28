@@ -1,57 +1,45 @@
-"""A folded map accompanies a connected four-node learning diagram.
-Plan: Map folds remain at upper left; one large node connects to a triangular group.
-Keyshape: HRECT_L; extrema follow the profile contract.
-References: supplied reference SVG; No useful local Lucide subject match used; shared geometric construction principles applied.
+"""start your machine learning journey. Folded map remains above-left of the network. Simplified four-node network to three connected nodes; preserve cyclic learning diagram.
+Symbol plan: shared circle/rounded-frame parameters; meaningful joints reuse endpoints.
+Reference: supplied SVG; Lucide shopping-basket and square-user construction inspected.
+Human construction uses human_ref/user.svg where applicable.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'ef84068a-8813-43c3-b7d5-546375fbf309'
-SOURCE_PATH = 'icon_set/work/todo-references/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='ef84068a-8813-43c3-b7d5-546375fbf309'
+SOURCE_PATH='pictographic-primitives/_uncategorized_36/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'start-your-machine-learning-journey'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'objects/general'
-    aliases = ()
-    keywords = ('start', 'your', 'machine', 'learning', 'journey')
-
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-        self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-    def rect(self, name, x, y, w, h, r=4):
-        # One owning rectangle; four equal tangent corner arcs.
-        points = [(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                  (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        members=[]
-        for i,p in enumerate(points):
-            q=points[(i+1)%8]; n=f'{name}-{i}'
-            if i%2: self.add_arc(n,p,q,radius_x=r)
-            else: self.add_line(n,p,q)
-            members.append(n)
-        self.add_contour(name,*members,closed=True)
-
-    def cross(self, name, x, y, r, diagonal=False):
-        # Four rays share the true intersection node.
-        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
-        ids=[]
-        for i,(dx,dy) in enumerate(offsets):
-            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));ids.append(n)
-        for i,a in enumerate(ids):
-            for b in ids[i+1:]: self.relate('connect',a,b)
-
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('start your machine learning journey',)
     def build(self):
+        self.add_polyline('map',(4,24),(4,8),(12,12),(20,8),(20,16))
+        self.add_line('fold',(12,12),(12,20));self.relate('connect','map','fold')
+        self.circle('root',20,34,6)
+        self.circle('upper-node',41,16,3)
+        self.circle('lower-node',41,37,3)
+        self.add_line('upper-link',(20,28),(38,16))
+        self.add_line('lower-link',(26,34),(38,37))
+        self.add_line('chain',(41,19),(41,34))
+        for link,node in [('upper-link','root'),('upper-link','upper-node'),('lower-link','root'),('lower-link','lower-node'),('chain','upper-node'),('chain','lower-node')]:self.relate('connect',link,node)
 
-        self.add_polyline('map',(4,26),(4,8),(13,12),(22,8),(22,20))
-        self.add_line('map-fold',(13,12),(13,23));self.relate('connect','map','map-fold')
-        self.circle('root',23,29,6)
-        nodes=[('top',37,16,4),('right',41,28,3),('bottom',37,37,3)]
-        for name,x,y,r in nodes: self.circle(name,x,y,r)
-        self.add_line('upper-link',(27,25),(34,19))
-        self.add_line('middle-link',(29,29),(38,28))
-        self.add_line('lower-link',(27,33),(34,36))
-        self.add_polyline('node-chain',(39,20),(42,25),(40,31),(38,34))
+    def circle(self,n,x,y,r):
+        pts=[(x-r,y),(x,y-r),(x+r,y),(x,y+r),(x-r,y)]
+        for i in range(4): self.add_arc(f'{n}-{i}',pts[i],pts[i+1],radius_x=r)
+        self.add_contour(n,*(f'{n}-{i}' for i in range(4)),closed=True)
+    def box(self,n,l,t,r,b,q=4):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        for i in range(8):
+            if i%2:self.add_arc(f'{n}-{i}',pts[i],pts[(i+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{i}',pts[i],pts[(i+1)%8])
+        self.add_contour(n,*(f'{n}-{i}' for i in range(8)),closed=True)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i):self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+
+# Contract keyshape visible bounds: (2, 6, 46, 42).

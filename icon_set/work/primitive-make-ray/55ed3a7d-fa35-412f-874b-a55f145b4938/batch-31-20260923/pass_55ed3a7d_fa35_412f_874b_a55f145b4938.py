@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '55ed3a7d-fa35-412f-874b-a55f145b4938'
 SOURCE_PATH = 'icon_set/work/todo-references/pass_55ed3a7d-fa35-412f-874b-a55f145b4938.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded pass badge containing a rising check mark.'
 CONSTRUCTION_REFERENCES = 'monitor: equal-radius corners and generous inner padding.'
 OMISSIONS = 'None.'

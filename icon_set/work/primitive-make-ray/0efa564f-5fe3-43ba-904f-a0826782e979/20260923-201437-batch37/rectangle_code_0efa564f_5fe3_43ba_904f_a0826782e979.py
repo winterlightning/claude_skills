@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='0efa564f-5fe3-43ba-904f-a0826782e979'
 SOURCE_PATH='icon_set/work/todo-references/rectangle code_0efa564f-5fe3-43ba-904f-a0826782e979.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A QR-code card with three square finder marks and a broken lower-right mark.'
 OMISSIONS='Small code strokes reduced to a corner and a dash.'
 LUCIDE_REFERENCE='scan-qr-code'

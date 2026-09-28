@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='7d52935c-9d9a-5844-873a-a446e58d57fc'
 SOURCE_PATH='icon_set/work/todo-references/tv flat screen_7d52935c-9d9a-5844-873a-a446e58d57fc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wide flat-screen television with a centered pedestal.'
 CONSTRUCTION_REFERENCE='monitor: smooth rounded screen and central foot'
 

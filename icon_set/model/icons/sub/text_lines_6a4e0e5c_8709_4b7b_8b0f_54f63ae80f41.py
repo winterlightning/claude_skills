@@ -16,7 +16,8 @@ class TextLines(Sub32):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'SUB'
     semantic_kind = 'modifier'
-    category = 'primitives/mark'
+    category = 'state'
+    categories = ('state',)
     aliases = ()
     keywords = ('text', 'lines', 'horizontal', 'are', 'stacked', 'space', 'between', 'them')
 

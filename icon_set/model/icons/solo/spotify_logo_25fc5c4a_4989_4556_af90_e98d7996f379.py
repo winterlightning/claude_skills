@@ -11,7 +11,8 @@ class SpotifyLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('spotify', 'music', 'streaming', 'sound-waves', 'logo', 'brand', 'audio')
 

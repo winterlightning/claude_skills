@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '84f3f807-398a-4f6c-9d2e-58805a5192a4'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor spoon and folk_84f3f807-398a-4f6c-9d2e-58805a5192a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor showing a round spoon and a pointed knife, as in the supplied reference.'
 CONSTRUCTION_PLAN = 'Circular spoon bowl joins its handle; separate curved knife blade joins its stem. Preserve the pictured knife despite the filename folk.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

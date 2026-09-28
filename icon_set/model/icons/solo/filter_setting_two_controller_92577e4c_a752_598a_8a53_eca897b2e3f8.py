@@ -15,6 +15,7 @@ class FilterSettingTwoController(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
+    categories = ('interface-essential', 'primitives')
     aliases = ()
     keywords = ('filter', 'setting', 'two', 'controller', 'interface-essential')
 

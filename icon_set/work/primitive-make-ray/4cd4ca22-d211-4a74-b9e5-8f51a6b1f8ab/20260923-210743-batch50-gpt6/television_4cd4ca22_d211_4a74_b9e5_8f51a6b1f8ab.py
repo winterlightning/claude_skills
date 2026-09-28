@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4cd4ca22-d211-4a74-b9e5-8f51a6b1f8ab'
 SOURCE_PATH = 'icon_set/work/todo-references/television_4cd4ca22-d211-4a74-b9e5-8f51a6b1f8ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'television'

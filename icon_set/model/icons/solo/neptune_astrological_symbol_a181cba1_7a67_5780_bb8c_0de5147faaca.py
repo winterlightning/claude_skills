@@ -11,7 +11,8 @@ class NeptuneAstrologicalSymbol(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/culture'
+    category = 'culture'
+    categories = ('culture', 'primitives')
     aliases = ()
     keywords = ('neptune', 'astrology', 'planet', 'trident', 'symbol', 'horoscope', 'glyph', 'poseidon')
 

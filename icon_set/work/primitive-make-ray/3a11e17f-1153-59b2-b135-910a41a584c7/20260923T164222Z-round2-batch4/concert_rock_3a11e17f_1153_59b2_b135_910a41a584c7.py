@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='3a11e17f-1153-59b2-b135-910a41a584c7'
 SOURCE_PATH='icon_set/work/todo-references/concert rock_3a11e17f-1153-59b2-b135-910a41a584c7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='concert-rock'
     keyshape=Keyshape.SQUARE

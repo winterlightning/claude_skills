@@ -11,7 +11,8 @@ class UmbrellaLampStand(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/photography"
+    category = "photography"
+    categories = ("photography", "primitives")
     aliases = ()
     keywords = ('umbrella light', 'lamp', 'studio', 'lighting', 'stand', 'reflector', 'photography', 'equipment')
 

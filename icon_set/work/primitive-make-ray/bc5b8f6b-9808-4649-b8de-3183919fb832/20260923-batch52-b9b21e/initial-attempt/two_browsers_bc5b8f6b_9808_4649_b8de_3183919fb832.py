@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='bc5b8f6b-9808-4649-b8de-3183919fb832'
 SOURCE_PATH='icon_set/work/todo-references/two browsers_bc5b8f6b-9808-4649-b8de-3183919fb832.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two overlapping browser windows, the front window carrying a header separator.'
 CONSTRUCTION_REFERENCE='panels-top-left: overlapping rounded frames and header rule'
 

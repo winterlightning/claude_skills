@@ -19,6 +19,7 @@ class IbeaconLogo(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "logos"
+    categories = ("logos", "primitives")
     aliases = ()
     keywords = ('ibeacon', 'apple', 'bluetooth', 'beacon', 'logo', 'brand', 'proximity')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ec2fdfe8-6612-41f4-989a-e02eaced92f2'
 SOURCE_PATH = 'icon_set/work/todo-references/mudslide_ec2fdfe8-6612-41f4-989a-e02eaced92f2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A diamond warning sign showing a curved mudslide descending from a slope.'
 CONSTRUCTION_PLAN = 'Angular diamond frame contrasts with a coherent curved landslide boundary. Preserve the uneven downhill silhouette. No useful Lucide subject match used.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

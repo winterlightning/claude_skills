@@ -12,7 +12,8 @@ class OvalLightBulb(Solo48):
     keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/work"
+    category = "work"
+    categories = ("work", "other", "primitives-generate")
     aliases = ()
     keywords = ('bulb', 'light', 'lamp', 'idea', 'illumination', 'electricity')
 

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='27aa3dce-b920-4d2d-a33f-f67617ed748b'
 SOURCE_PATH='icon_set/work/todo-references/screentone effect action text bubble_27aa3dce-b920-4d2d-a33f-f67617ed748b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Empty comic action bubble with inward-curving edges and six detached action rays. Opposite sides mirror around (24,24).'
 CONSTRUCTION_REFERENCES='No useful exact Lucide match; source provides the concave burst and ray pattern.'
 OMISSIONS='Ray lengths reduced to preserve surrounding space; all six rays retained.'

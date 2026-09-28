@@ -16,7 +16,8 @@ class SecurityOfficerWithBag(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "objects/travel"
+    category = "travel"
+    categories = ("travel", "primitives")
     aliases = ()
     keywords = ('security', 'officer', 'luggage', 'bag', 'checkpoint', 'airport', 'guard', 'inspection')
 

@@ -13,6 +13,7 @@ class Motorhome(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "transportation"
+    categories = ("transportation", "primitives")
     aliases = ()
     keywords = ('rv', 'motorhome', 'camper', 'camper van', 'travel', 'camping', 'vehicle', 'road trip')
 

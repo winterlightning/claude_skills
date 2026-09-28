@@ -15,6 +15,7 @@ class BarsChart(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
+    categories = ('symbol',)
     aliases = ()
     keywords = ('bars', 'chart', 'symbol')
 

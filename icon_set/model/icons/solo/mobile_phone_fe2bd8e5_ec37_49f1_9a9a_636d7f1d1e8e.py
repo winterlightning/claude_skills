@@ -12,6 +12,7 @@ class MobilePhoneFe2bd8e5(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'mobile'
+    categories = ('mobile', 'primitives')
     aliases = ()
     keywords = ('mobile', 'phone')
 

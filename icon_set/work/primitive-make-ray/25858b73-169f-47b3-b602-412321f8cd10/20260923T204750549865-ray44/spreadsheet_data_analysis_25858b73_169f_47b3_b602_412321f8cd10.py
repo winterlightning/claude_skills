@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '25858b73-169f-47b3-b602-412321f8cd10'
 SOURCE_PATH = 'icon_set/work/todo-references/spreadsheet data analysis_25858b73-169f-47b3-b602-412321f8cd10.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Spreadsheet grid with lower-right analytics chart cutout and a rising curve.
 # References: Rounded grid construction; coherent chart axes and smooth S-shaped data trend.
 # Reduction: Reduced grid to two columns and two rows; retained chart cutout.

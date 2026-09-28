@@ -12,6 +12,7 @@ class PlurkLogoLogos(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('plurk', 'logo', 'logos')
 

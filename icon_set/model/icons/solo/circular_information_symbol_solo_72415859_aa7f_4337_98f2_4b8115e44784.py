@@ -13,7 +13,8 @@ class Drawing(Solo48):
     keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category='objects/finance' 
+    category = 'primitives-generate'
+    categories = ('state', 'other', 'primitives-generate')
     tags=('sub icon',)
     keywords=('sub icon', 'circular information symbol')
     def build(self):

@@ -5,12 +5,14 @@ const sidePreviewSub=new Map(), sideRendered=new Map(), sideRenderTargets=new Ma
 let sideActiveRenders=0;
 const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
 // One plain status per pair. Waiting: main and sub are drawn but not in the combine data yet.
-const SIDE_STATES={ready:'Ready',fix:'Fix sub',waiting:'Waiting',main:'Needs main',sub:'Needs sub',textsub:'Needs text sub'};
-const SIDE_STATE_HINTS={ready:'Main and sub are drawn and can be combined.',fix:'The sub fails a check. Fix it before combining.',waiting:'Main and sub are drawn but not combined yet.',main:'No 48×48 solo main icon yet.',sub:'No 32×32 sub icon yet.',textsub:'The sub is text or a number and is not drawn yet. It is generated separately.'};
-const SIDE_FILTERS={'':'All',...SIDE_STATES,text:'Text sub',multi:'2+ subs'};
+const SIDE_STATES={ready:'Ready',fix:'Fix sub',fixmain:'Fix main',waiting:'Waiting',main:'Needs main',sub:'Needs sub',textsub:'Needs text sub'};
+const SIDE_STATE_HINTS={ready:'Main and sub are drawn and can be combined.',fix:'The sub fails a check. Fix it before combining.',fixmain:'A 48×48 main is drawn but fails validation or was marked needs fix, so it is not in Icon review. Fix it on the Main icons page (Needs fix).',waiting:'Main and sub are drawn but not combined yet.',main:'No 48×48 solo main icon yet.',sub:'No 32×32 sub icon yet.',textsub:'The sub is text or a number and is not drawn yet. It is generated separately.'};
+const SIDE_FILTERS={'':'All',...SIDE_STATES,uncombined:'Not combined',text:'Text sub',multi:'2+ subs'};
 const sideParams=new URLSearchParams(location.search);
 // Main / sub status per source UUID from side-components.json, the same data as the Main icons and Sub icons pages.
 let sideComponentStatus={main:new Map(),sub:new Map()},sideComponents=null;
+// The latest Combine all side pairs run (side-combination64.json) and review states, shared with Experiment and Icon review.
+let sideRun=null,sideReviews={};
 let sideFilter=SIDE_FILTERS[sideParams.get('side')]?sideParams.get('side'):'', sidePageSize=[24,48,96].includes(Number(sideParams.get('size')))?Number(sideParams.get('size')):24;
 
 async function loadSidePairs(){
@@ -22,14 +24,47 @@ async function loadSidePairs(){
     sideComponents=components;
     // Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count.
     const reviews=await fetch('/api/reviews',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
-    const usable=d=>d.status==='pass'&&!['pending','rejected'].includes(reviews[d.key]);
+    sideReviews=reviews;
+    if(Object.keys(reviews).length)window.SideRepairFlags?.setReviews(reviews);
+    sideRun=await fetch('side-combination64.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+    const usable=sideUsable;
     for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
     for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of item.source_ids)sideComponentStatus[role].set(id,item.status);
+    // Native text is a separate layout family. Map its exact selected main and
+    // sub by source UUID/key, then reuse the already generated native SVG.
+    const native=await fetch('side-text-v2.json',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
+    sideMapNativeText(native,components,usable);
     // Text / number marks are optional: without them the filter falls back to text-drawn subs.
     try{const r=await fetch('/api/primitives/status',{cache:'no-store'});if(r.ok)sideStatuses=await r.json();}catch{}
   }catch(error){sideError=error.message;}
-  finally{sideLoading=false;}
+  finally{sideLoading=false;sideCombineChecked=false;}
   if(state.view==='side')renderCombinations();
+}
+function sideMapNativeText(report,components,usable){
+  for(const result of report.pairs||[]){
+    const row=combinationCatalog.rows.find(r=>r.id===result.id);
+    if(!row)continue;
+    if(sidePairs.get(row.id)?.subs.some(s=>s.sizing_mode==='typeface-native'))continue;
+    const main=components.mains.flatMap(i=>i.drawings).find(d=>d.key===result.main_key&&usable(d));
+    const source=components.subs.find(i=>[i.id,...i.source_ids].includes(result.sub_source_id));
+    const sub=source?.drawings.find(d=>d.profile==='TEXT_NATIVE_V2'&&usable(d));
+    if(!main||!sub)continue;
+    const item=d=>({...d,icon:d.icon_id,model_key:d.key,model_validation:'pass'});
+    const pair={...row,native_text:true,mapped_native:true,canvas_width:result.canvas_width||64,canvas_height:result.canvas_height||64,
+      mains:[item(main)],subs:[{...item(sub),sizing_kind:'text',native_text:true,
+        bounds:[2,2,sub.canvas_width-2,sub.canvas_height-2]}]};
+    sidePairs.set(row.id,pair);
+    sidePreviews[row.id]={url:result.preview_url,native_text:true,main:main.icon_id,sub:sub.icon_id};
+  }
+}
+// Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count;
+// a failing drawing counts once a reviewer approved it as an exception.
+const sideUsable=d=>(d.status==='pass'||sideReviews[d.key]==='approve')&&!['pending','rejected'].includes(sideReviews[d.key]);
+// Why a drawing shown on a tile does not count: failed checks or its review state.
+function sideDrawingProblems(d){
+  if(!d||sideUsable(d))return [];
+  if(d.status!=='pass')return d.errors?.length?d.errors:['Fails validation'];
+  return [sideReviews[d.key]==='rejected'?'Rejected in Icon review':'Disapproved — needs fix'];
 }
 const sideSubKey=s=>s.model_key||s.family+'/'+s.icon;
 const sideDataURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
@@ -40,8 +75,8 @@ function sideSubProblems(s){
   const problems=[],[w,h]=sideInk(s,true);
   if(s.model_validation&&s.model_validation!=='pass')problems.push('Model validation: '+s.model_validation);
   if(['needs_redraw','needs_review'].includes(s.sub32_status))problems.push(s.sub32_reason||'Needs a SUB32 redraw');
-  if(w>32.01||h>32.01)problems.push(`Ink ${sideRound(w)}×${sideRound(h)} exceeds 32×32`);
-  if(window.SideRepairFlags?.flagged(s))problems.push('Flagged for repair');
+  if(!s.native_text&&(w>32.01||h>32.01))problems.push(`Ink ${sideRound(w)}×${sideRound(h)} exceeds 32×32`);
+  if(window.SideRepairFlags?.flagged(s))problems.push('Disapproved — needs fix');
   return problems;
 }
 const sideCurrentSub=pair=>pair.subs.find(s=>s.icon===sidePreviewSub.get(pair.id))||pair.subs[0];
@@ -55,6 +90,8 @@ function sideSubIsText(row,pair){
 function sideKey(row){
   const pair=sidePairs.get(row.id),main=sideComponentStatus.main.get(row.main_id),sub=sideComponentStatus.sub.get(row.sub_id);
   const textSub=sub==='missing'&&sideSubIsText(row,pair);
+  // A drawn main that fails is a fix, not a missing main; the tile still shows that drawing.
+  if(main==='failing')return 'fixmain';
   if(main!=='done')return sub==='missing'?(textSub?'both-text':'both'):'main';
   if(sub==='missing')return textSub?'textsub':'sub';
   if(sub==='failing')return 'fix';
@@ -64,20 +101,30 @@ function sideKey(row){
 function sideCategory(row){
   const pair=sidePairs.get(row.id),key=sideKey(row);
   const both=key.startsWith('both');
-  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
+  // Not combined: main and sub are both drawn, but the last Combine all run made no icon for the pair.
+  const uncombined=!['main','fixmain','sub','textsub'].includes(key)&&!both&&!sidePreviews[row.id];
+  const subNeeded=key==='fixmain'&&sideComponentStatus.sub.get(row.sub_id)==='missing'?(sideSubIsText(row,pair)?'textsub':'sub'):null;
+  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),...(subNeeded?{[subNeeded]:true}:{}),uncombined,multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
 }
 
 function sideCombined(pair,sub){
   const prebuilt=sidePreviews[pair.id],placed=role=>prebuilt?.result?.placements?.find(p=>p.role===role)?.icon;
+  if(prebuilt?.native_text&&prebuilt.sub===sub.icon&&prebuilt.main===pair.mains[0].icon)return prebuilt;
   if(prebuilt&&placed('sub')===sub.icon&&placed('main')===pair.mains[0].icon)return prebuilt;
   return sideRendered.get(pair.id+'|'+sub.icon);
+}
+// The hand-set layout the pair's published result was rendered with, when it is for this main and sub.
+function sideAdjusted(pair,sub){
+  const result=sidePreviews[pair.id]?.result;
+  return result?.layout&&result.placements?.every(p=>p.icon===(p.role==='main'?pair.mains[0].icon:sub.icon))?result.layout:null;
 }
 function sideFillCombined(media,pair,sub){
   const found=sideCombined(pair,sub);media.replaceChildren();
   if(found?.error){media.append(node('span','side-combined-empty',found.error));return;}
   if(!found){media.append(node('span','side-combined-empty','Rendering…'));sideRequestRender(pair,sub,media);return;}
   const img=node('img');img.src=found.url||sideDataURL(found.result.svg);img.alt=pair.concept+' — combined';img.width=img.height=128;
-  media.append(img);window.SideCombinationPopup?.attach(img,pair.concept,found.result);
+  if(found.native_text){const link=node('a');link.href=found.url;link.target='_blank';link.append(img);media.append(link);}
+  else{media.append(img);window.SideCombinationPopup?.attach(img,pair.concept,found.result);}
 }
 // Renders missing previews on demand, two at a time, and fills the tile if it is still shown.
 function sideRequestRender(pair,sub,media){
@@ -99,7 +146,7 @@ function sidePart(label,item,size,isSub){
   const figure=node('figure','side-part'),art=node('div','side-part-art side-grid-'+size);
   if(item){
     const img=node('img');img.src=item.document?sideDataURL(item.document):item.preview_url;img.alt=label+' '+item.icon;img.loading='lazy';art.append(img);
-    const caption=item.document?`${label} ${sideRound(sideInk(item,isSub)[0])}×${sideRound(sideInk(item,isSub)[1])} / ${size}`:`${label} · generated`;
+    const caption=item.native_text?`${label} ${sideRound(item.canvas_width)}×${sideRound(item.canvas_height)} · native`:item.document?`${label} ${sideRound(sideInk(item,isSub)[0])}×${sideRound(sideInk(item,isSub)[1])} / ${size}`:`${label} · generated`;
     figure.append(art,node('figcaption','',caption));
     if(isSub&&item.document){sideFixItems.set(figure,item);sideMarkFix(figure);}
   }else{art.classList.add('side-part-missing');art.append(node('span','',label+' needed'));figure.append(art,node('figcaption','',label+' · '+size+'×'+size));}
@@ -111,6 +158,14 @@ function sideMarkFix(figure){
   figure.classList.toggle('needs-fix',!!problems.length);art.querySelector('.side-fix-badge')?.remove();
   if(problems.length){const badge=node('span','side-fix-badge','Fix sub');badge.title=problems.join(' · ');art.append(badge);}
   figure.title=problems.join(' · ');
+}
+function sideMarkDrawing(figure,label,drawing){
+  const problems=figure.querySelector('.side-part-missing')?[]:sideDrawingProblems(drawing);
+  if(!problems.length)return;
+  figure.classList.add('needs-fix');figure.title=problems.join(' · ');
+  const badge=node('span','side-fix-badge','Fix '+label.toLowerCase());badge.title=figure.title;
+  figure.querySelector('.side-part-art').append(badge);
+  figure.querySelector('figcaption').textContent=`${label} · ${drawing.status==='pass'?'needs fix':'fails validation'}`;
 }
 document.addEventListener('side-repair-flags-change',()=>{for(const figure of document.querySelectorAll('.side-part'))sideMarkFix(figure);});
 
@@ -170,14 +225,40 @@ async function sideConfirmKeep(pair,current,button){
 /* Each pair is one row: Original → Main → Sub → Combined, with one main and one sub. */
 function sideParts(row){
   const refs=combinationCatalog.references,pair=sidePairs.get(row.id);
-  const key=sideKey(row),hasMain=!['main','both','both-text'].includes(key),hasSub=!['sub','textsub','both','both-text'].includes(key);
+  const key=sideKey(row),hasMain=!['main','fixmain','both','both-text'].includes(key);
+  const hasSub=!['sub','textsub','both','both-text'].includes(key)&&!(key==='fixmain'&&sideComponentStatus.sub.get(row.sub_id)==='missing');
   if(pair?.mains.length&&pair.subs.length&&hasMain&&hasSub)return {pair,key,main:pair.mains.find(m=>m.family==='solo'||m.family==='combination_main')||pair.mains[0],sub:sideCurrentSub(pair),ready:true};
-  const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^sub\//.test(g.key));
+  const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^(sub|text)\//.test(g.key));
   return {pair,key,main:hasMain&&main&&{icon:main.icon_id,preview_url:main.preview_url,pending:true},sub:hasSub&&sub&&{icon:sub.icon_id,preview_url:sub.preview_url,pending:true},ready:false};
 }
+// Resolve the exact displayed variant; use the live failed drawing when no passing one exists.
+function sideEditableDrawing(row,role,item){
+  const source=row[role+'_id'],list=sideComponents?.[role==='main'?'mains':'subs']||[];
+  const component=list.find(c=>c.id===source||c.source_ids.includes(source));
+  const drawings=component?.drawings||[],key=item?.model_key||item?.key;
+  return (key?drawings.find(d=>d.key===key):null)||
+    (item?.icon?drawings.find(d=>d.icon_id===item.icon):drawings[0]);
+}
+function sideEditButton(row,role,item){
+  const drawing=sideEditableDrawing(row,role,item);
+  if(!drawing||drawing.profile==='TEXT_NATIVE_V2'||!window.SideComponentEditor)return null;
+  const wrap=node('div','requires-login'),button=node('button','side-edit-component',`Edit ${role} icon`),message=node('p','side-editor-message');
+  button.type='button';message.setAttribute('role','status');
+  button.onclick=async()=>{
+    button.disabled=true;message.textContent='';
+    try{await window.SideComponentEditor.open(drawing,`${role==='main'?'Main':'Sub'} · ${drawing.icon_id}`);}
+    catch(error){message.textContent=error.message;}finally{button.disabled=false;}
+  };
+  wrap.append(button,message);return wrap;
+}
+window.addEventListener('side-component-approved',()=>{
+  sideRendered.clear();sideComponentStatus={main:new Map(),sub:new Map()};
+  loadSidePairs();
+});
 function sideState(row,parts){
-  const key=parts.key.startsWith('both')?'main':parts.key,label=parts.key==='both'?'Needs main + sub':parts.key==='both-text'?'Needs main + text sub':SIDE_STATES[key];
-  return [label,{ready:'ready',fix:'fix',waiting:'waiting',textsub:'info'}[key]||'needed',SIDE_STATE_HINTS[key]];
+  const key=parts.key.startsWith('both')?'main':parts.key,subMissing=key==='fixmain'&&sideComponentStatus.sub.get(row.sub_id)==='missing';
+  const label=parts.key==='both'?'Needs main + sub':parts.key==='both-text'?'Needs main + text sub':subMissing?'Fix main + needs sub':SIDE_STATES[key];
+  return [label,{ready:'ready',fix:'fix',fixmain:'fix',waiting:'waiting',textsub:'info'}[key]||'needed',SIDE_STATE_HINTS[key]];
 }
 function sideStep(label,content,name){
   const step=node('div','side-step');step.append(node('p','side-step-label',label),content);
@@ -186,9 +267,10 @@ function sideStep(label,content,name){
 function sideRow(row){
   const refs=combinationCatalog.references,ref=refs[row.id],parts=sideParts(row),{pair,main,sub}=parts;
   const card=node('article','side-row'),head=node('div','side-row-head'),[label,tone,hint]=sideState(row,parts);
-  head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · 64×64'),Object.assign(node('span','side-state '+tone,label),{title:hint}));
+  head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · '+(pair?.native_text?`${sideRound(pair.canvas_width)}×${sideRound(pair.canvas_height)}`:'64×64')),Object.assign(node('span','side-state '+tone,label),{title:hint}));
   if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
   if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
+  if(parts.ready&&sideAdjusted(pair,sub))head.append(Object.assign(node('span','side-state info','Adjusted layout'),{title:'Main / sub positions and sizes were set by hand.'}));
   card.append(head);
   const original=node('div','side-original');
   if(ref?.reference_url){const img=node('img');img.src=ref.reference_url;img.alt=row.concept+' — original';img.loading='lazy';original.append(img);}
@@ -196,9 +278,47 @@ function sideRow(row){
   const media=node('div','side-combined');
   if(parts.ready)sideFillCombined(media,pair,sub);else media.append(node('span','side-combined-empty','Not combined yet'));
   const steps=node('div','side-steps');
-  const mainPart=sidePart('Main',main,48,false),subPart=sidePart('Sub',sub,32,true);
-  if(main)sideInspectable(mainPart,'Main',main,48,row.concept);if(sub)sideInspectable(subPart,'Sub',sub,32,row.concept);
-  steps.append(sideStep('Original',original),sideStep('Main · 48',mainPart,main?.icon),sideStep('Sub · 32',subPart,sub?.icon),sideStep('Combined · 64',media));
+  const display=(role,item)=>{
+    const drawing=sideEditableDrawing(row,role,item);
+    if(item&&drawing&&item.sha256===drawing.svg_sha256&&!drawing.preview_url?.includes('/api/icon-artwork/'))return item;
+    return drawing?{...item,icon:drawing.icon_id,key:drawing.key,model_key:drawing.key,family:drawing.family,
+      preview_url:drawing.preview_url,document:null,pending:item?.pending??true}:item;
+  };
+  const shownMain=display('main',main),shownSub=display('sub',sub);
+  const mainPart=sidePart('Main',shownMain,48,false),subPart=sidePart('Sub',shownSub,32,true);
+  // A failing drawing is still shown so it can be fixed; flag it so it does not look finished.
+  sideMarkDrawing(mainPart,'Main',sideEditableDrawing(row,'main',main));
+  if(!subPart.classList.contains('needs-fix'))sideMarkDrawing(subPart,'Sub',sideEditableDrawing(row,'sub',sub));
+  if(shownMain)sideInspectable(mainPart,'Main',shownMain,48,row.concept);if(shownSub)sideInspectable(subPart,'Sub',shownSub,32,row.concept);
+  const combinedStep=sideStep(pair?.native_text?'Combined · native':'Combined · 64',media);
+  if(parts.ready&&!pair.mapped_native){
+    const wrap=node('div','requires-login'),button=node('button','side-edit-component','Recombine this icon'),message=node('p','side-editor-message');
+    button.type='button';button.title='Use the latest saved main and sub with automatic placement';message.setAttribute('role','status');
+    button.onclick=async()=>{
+      button.disabled=true;button.textContent='Recombining…';message.textContent='';
+      try{
+        const response=await fetch('/api/combinations/side/recombine',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pair_id:pair.id,main:main.icon,sub:sub.icon})});
+        const data=await response.json();if(!response.ok||data.error)throw Error(data.error||'Could not recombine this icon.');
+        sidePreviews[pair.id]={url:data.url||null,result:data.result};sideRendered.delete(pair.id+'|'+sub.icon);
+        if(card.isConnected)card.replaceWith(sideRow(row));
+      }catch(error){message.textContent=error.message;}
+      finally{button.disabled=false;button.textContent='Recombine this icon';}
+    };
+    wrap.append(button,message);combinedStep.append(wrap);
+  }
+  // Editing the layout sits right under the combined icon it changes.
+  // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
+  if(parts.ready&&window.SideLayoutEditor&&!pair.mapped_native)combinedStep.append(SideLayoutEditor.button(pair,main,sub,data=>{
+    // Show the saved layout (or, after a reset, the automatic result) here without a reload. The server
+    // serves the same icon to every other page (Experiment, Preview) from now on.
+    if(data.result)sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url||null,result:data.result};
+    sideRendered.delete(pair.id+'|'+sub.icon);
+    if(card.isConnected)card.replaceWith(sideRow(row));
+  },sideAdjusted(pair,sub)));
+  const mainStep=sideStep('Main · 48',mainPart,shownMain?.icon),subStep=sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,shownSub?.icon);
+  const editMain=sideEditButton(row,'main',main),editSub=sideEditButton(row,'sub',sub);
+  if(editMain)mainStep.append(editMain);if(editSub)subStep.append(editSub);
+  steps.append(sideStep('Original',original),mainStep,subStep,combinedStep);
   card.append(steps);
   if(pair?.subs.length>1){
     const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
@@ -206,12 +326,34 @@ function sideRow(row){
   }
   if(parts.ready){
     const actions=node('div','pair-card-actions'),found=sideCombined(pair,sub);
-    if(found?.url){const a=node('a');a.href=found.url;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
-    if(window.SideRepairFlags)actions.append(SideRepairFlags.button('main',main,pair),SideRepairFlags.button('sub',sub,pair));
+    const href=found?.url||(found?.result?.svg&&sideDataURL(found.result.svg));
+    if(href){const a=node('a');a.href=href;a.download=pair.id+'.svg';window.SideRepairFlags?.download(a);actions.append(a);}
+    const reviewItem=(role,item)=>{
+      const drawing=sideEditableDrawing(row,role,item);
+      return drawing?{...item,model_key:drawing.key,sha256:drawing.svg_sha256}:item;
+    };
+    if(window.SideRepairFlags&&!pair.native_text)actions.append(SideRepairFlags.button('main',reviewItem('main',main),pair),SideRepairFlags.button('sub',reviewItem('sub',sub),pair));
     if(actions.childElementCount)card.append(actions);
   }
   return card;
 }
+
+/* The layout editor lists the other ready pairs that use the same main, so one fix can be
+   applied to several of them; after applying, their previews update here. */
+window.SideLayoutEditor?.configure({
+  pairsWithMain(icon,exceptId){
+    if(!sidePairs)return [];
+    return [...sidePairs.values()].filter(p=>p.id!==exceptId&&!p.mapped_native&&p.subs.length&&p.mains.some(m=>m.icon===icon)).map(p=>{
+      const sub=sideCurrentSub(p),found=sideCombined(p,sub);
+      return {id:p.id,concept:p.concept,position:p.position,sub:sub.icon,adjusted:!!sideAdjusted(p,sub),
+        preview:found?.url||(found?.result?.svg?sideDataURL(found.result.svg):null)};
+    });
+  },
+  applied(results){
+    for(const r of results){if(!r.ok)continue;sidePreviews[r.pair_id]={fingerprint:r.fingerprint,url:r.url||null,result:r.result};for(const k of [...sideRendered.keys()])if(k.startsWith(r.pair_id+'|'))sideRendered.delete(k);}
+    renderCombinations();
+  }
+});
 
 /* Clicking a main or sub opens it large on its own grid with its stroke centerline. */
 const SIDE_NS='http://www.w3.org/2000/svg';
@@ -306,8 +448,9 @@ function sideGroupSection(group){
 let sideCombine={status:'idle',message:''},sideCombinePolling=false,sideCombineChecked=false;
 function sideCombineShow(){
   const button=document.getElementById('sideCombineAll'),status=document.getElementById('sideCombineStatus');
-  if(button)button.disabled=sideCombine.status==='running';
-  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+' You can retry.':'Main + chosen sub for every side pair. Results appear on Experiment › Side combination.';
+  const count=sideCombine.eligible_count;
+  if(button){button.textContent=count==null?'Count approved side pairs…':`Combine ${count.toLocaleString()} approved side pair${count===1?'':'s'}`;button.disabled=sideCombine.status==='running'||count===0||count==null;}
+  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+(count==null?' Reload to retry.':' You can retry.'):`${count==null?'Counting':count.toLocaleString()+' approved'} side pairs ready. Each run replaces the previous set`+(sideRun?` · last run ${new Date(sideRun.generated_at).toLocaleString()}: ${sideRun.count.toLocaleString()} combined icons`:'')+'.';
 }
 async function sideCombineRequest(method){
   const init=method==='POST'?{method,headers:{'Content-Type':'application/json'},body:'{}'}:{method,cache:'no-store'};
@@ -319,21 +462,21 @@ async function sideCombinePoll(){
   try{
     while(sideCombine.status==='running'){await new Promise(r=>setTimeout(r,2000));sideCombine=await sideCombineRequest('GET');sideCombineShow();}
     if(sideCombine.status==='complete'){
-      sideStatus='Combined all side pairs. '+(sideCombine.message||'');sideCombine={status:'idle',message:''};
+      sideStatus='Combined approved side pairs. '+(sideCombine.message||'');sideCombine={status:'idle',message:'',eligible_count:sideCombine.eligible_count};
       sidePairs=null;sidePreviews={};sideRendered.clear();loadSidePairs();
     }
-  }catch(error){sideCombine={status:'error',message:error.message};sideCombineShow();}
+  }catch(error){sideCombine={...sideCombine,status:'error',message:error.message};sideCombineShow();}
   finally{sideCombinePolling=false;}
 }
 async function sideCombineAll(){
-  sideCombine={status:'running',message:'Starting…'};sideCombineShow();
+  sideCombine={...sideCombine,status:'running',message:'Starting…'};sideCombineShow();
   try{sideCombine=await sideCombineRequest('POST');sideCombineShow();sideCombinePoll();}
-  catch(error){sideCombine={status:'error',message:error.message};sideCombineShow();}
+  catch(error){sideCombine={...sideCombine,status:'error',message:error.message};sideCombineShow();}
 }
 // A refresh started earlier (or from another tab) keeps reporting progress here.
 async function sideCombineCheck(){
   if(sideCombineChecked)return;sideCombineChecked=true;
-  try{const data=await sideCombineRequest('GET');if(data.status==='running'){sideCombine=data;sideCombineShow();sideCombinePoll();}}catch{}
+  try{const data=await sideCombineRequest('GET');sideCombine=data;sideCombineShow();if(data.status==='running')sideCombinePoll();}catch(error){sideCombine={status:'error',message:error.message};sideCombineShow();}
 }
 
 function writeSideURL(){
@@ -349,16 +492,39 @@ function sideIconSummary(pairCount){
   const mains=sideComponents.mains,subs=sideComponents.subs,textSubs=subs.filter(isText),iconSubs=subs.filter(i=>!isText(i));
   const count=(list,status)=>list.filter(i=>i.status===status).length;
   const wrap=node('section','side-icon-summary');
-  wrap.append(node('p','side-icon-total',`${pairCount.toLocaleString()} side pairs, made from ${mains.length.toLocaleString()} main icons and ${subs.length.toLocaleString()} sub icons.`));
-  const group=(title,total,page,cells)=>{
+  // One source icon can have several drawings (alternative redraws or revised versions) and one drawing can serve
+  // several sources; a pair uses one. Icon review lists distinct drawings, so these counts match its Side main / Side sub families.
+  const drawings=list=>[...new Map(list.flatMap(i=>i.drawings).filter(d=>d.status!=='fail'&&d.svg_sha256).map(d=>[d.key,d])).values()];
+  const mainDrawings=drawings(mains),subDrawings=drawings(subs);
+  wrap.append(node('p','side-icon-total',`${pairCount.toLocaleString()} side pairs, made from ${mains.length.toLocaleString()} main icons (${mainDrawings.length.toLocaleString()} drawings) and ${subs.length.toLocaleString()} sub icons (${subDrawings.length.toLocaleString()} drawings). A source with several drawings has alternative redraws or versions; each pair uses one.`));
+  const cells=(row,page,items)=>{for(const [label,value,status,tone] of items){const a=node('a','side-icon-cell '+tone);a.href=page+(page.includes('?')?'&':'?')+'status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));row.append(a);}};
+  const group=(title,total,page,items)=>{
     const box=node('div','side-icon-group'),head=node('a','side-icon-head');head.href=page;head.append(node('strong','',title),node('span','',total.toLocaleString()+' icons →'));box.append(head);
-    const row=node('div','side-icon-cells');
-    for(const [label,value,status,tone] of cells){const a=node('a','side-icon-cell '+tone);a.href=page+'?status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));row.append(a);}
+    const row=node('div','side-icon-cells');cells(row,page,items);
     box.append(row);return box;
   };
+  // Review decisions per drawing, the same states as Icon review (iconState there); cells open its Side main / Side sub family.
+  const reviewState=d=>{const s=sideReviews[d.key]||'ready';return s==='re-generated'?'ready':s==='disapprove'||s==='claimed'?'pending':s;};
+  const reviewRow=(box,list,family)=>{
+    const tally=Object.fromEntries(['approve','ready','pending','rejected'].map(s=>[s,0]));for(const d of list)tally[reviewState(d)]=(tally[reviewState(d)]||0)+1;
+    const head=node('a','side-icon-subhead');head.href='index.html?family='+family;head.append(node('strong','','Icon review'),node('span','',`${list.length.toLocaleString()} drawings →`));
+    const row=node('div','side-icon-cells');cells(row,'index.html?family='+family,[['Approved',tally.approve,'approve','ok'],['To review',tally.ready,'ready','todo'],['Needs fix',tally.pending,'pending','fix'],['Rejected',tally.rejected,'rejected','rej']]);
+    box.append(head,row);return box;
+  };
   wrap.append(
-    group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),
-    group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]));
+    reviewRow(group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),mainDrawings,'side_main'),
+    reviewRow(group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]),subDrawings,'side_sub'));
+  if(sideRun){
+    // Combined icons: the count links to Experiment, the review cells to Icon review's Side combination 64 family.
+    const state=icon=>({approve:'approve','re-generated':'ready',disapprove:'pending',claimed:'pending'})[sideReviews[icon.key]]||sideReviews[icon.key]||'ready';
+    const reviewed=s=>sideRun.icons.filter(i=>state(i)===s).length,review='index.html?family=side_combination64';
+    const box=group('Combined · 64',sideRun.count,'experiment.html?type=combination',[]),cells=box.querySelector('.side-icon-cells');
+    box.querySelector('.side-icon-head span').textContent=sideRun.count.toLocaleString()+' combined icons →';
+    for(const [label,value,status,tone] of [['Approved',reviewed('approve'),'approve','ok'],['To review',reviewed('ready'),'ready','todo'],['Needs fix',reviewed('pending'),'pending','fix']]){
+      const a=node('a','side-icon-cell '+tone);a.href=review+'&status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));cells.append(a);
+    }
+    wrap.append(box);
+  }
   return wrap;
 }
 function renderSideGrid(host,all,summary){
@@ -370,7 +536,7 @@ function renderSideGrid(host,all,summary){
   }
   const categories=new Map(all.map(r=>[r.id,sideCategory(r)])),count=key=>[...categories.values()].filter(c=>c[key]).length;
   summary.replaceWith(sideIconSummary(all.length));
-  const combine=node('div','toolbar side-combine'),combineButton=node('button','','Combine all side pairs'),combineStatus=node('span','muted');
+  const combine=node('div','toolbar side-combine'),combineButton=node('button','','Count approved side pairs…'),combineStatus=node('span','muted');
   combineButton.id='sideCombineAll';combineButton.type='button';combineButton.setAttribute('data-development-only','');combineButton.onclick=sideCombineAll;
   combineStatus.id='sideCombineStatus';combineStatus.setAttribute('role','status');combine.append(combineButton,combineStatus);host.append(combine);
   sideCombineShow();sideCombineCheck();

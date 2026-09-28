@@ -3,7 +3,7 @@ import json, importlib.util, shutil
 import cairosvg
 from PIL import Image, ImageOps, ImageDraw
 
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_ICON_ID = 'feae9946-0309-4abb-92af-f66c52188484'
 SOURCE_PATH = 'icon_set/work/todo-references/column insert_feae9946-0309-4abb-92af-f66c52188484.svg'
 ROOT = Path(__file__).parent

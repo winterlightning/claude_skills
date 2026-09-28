@@ -10,7 +10,8 @@ class FlickrLogo(Solo48):
     keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'brands/logos'
+    category = 'logos'
+    categories = ('logos', 'primitives')
     aliases = ()
     keywords = ('flickr', 'photos', 'dots', 'logo', 'brand', 'sharing', 'photography')
 

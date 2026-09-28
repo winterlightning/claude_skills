@@ -14,7 +14,8 @@ class PenguinFace(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/animals'
+    category = 'animals'
+    categories = ('animals', 'primitives')
     aliases = ()
     keywords = ('penguin', 'bird', 'face', 'head', 'beak', 'chick', 'animal', 'minimal')
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='cb1286a7-3505-4678-8e82-0111af579a89'
 SOURCE_PATH='icon_set/work/todo-references/ui webpage code_cb1286a7-3505-4678-8e82-0111af579a89.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Browser page with two opposing horizontal code arrows.'
 CONSTRUCTION_REFERENCE='panels-top-left: browser frame; shared arrow strokes'
 

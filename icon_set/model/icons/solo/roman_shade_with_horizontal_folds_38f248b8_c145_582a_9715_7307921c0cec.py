@@ -54,6 +54,7 @@ class RomanShadeWithHorizontalFolds(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
+    categories = ('building', 'primitives')
     aliases = ()
     keywords = ('roman', 'shade', 'with', 'horizontal', 'folds')
 

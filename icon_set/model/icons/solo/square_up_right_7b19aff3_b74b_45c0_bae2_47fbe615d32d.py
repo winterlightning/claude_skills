@@ -1,36 +1,48 @@
+"""Square up right, reconstructed from the supplied reference.
+Symbol plan: one complete composition; shared frame and repeated geometry parameters.
+Lucide square-arrow-up informs tangent rounded corners and joined arrow construction.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7b19aff3-b74b-45c0-bae2-47fbe615d32d'
 SOURCE_PATH = 'icon_set/work/todo-references/square up right_7b19aff3-b74b-45c0-bae2-47fbe615d32d.svg'
-AUTHOR = 'gpt-6'
-# Plan: Upward arrow in a rounded square; source direction is vertical.
-# References: square-arrow-up: shared central axis and equal arrowhead wings.
-# Reduction: No parts omitted; tiny shaft/head discontinuity in source is joined coherently.
+AUTHOR = "gpt-6"
 
-class AuthoredIcon(Solo48):
+class Drawing(Solo48):
     icon_id = 'square-up-right'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/general"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/signage'
     aliases = ()
     keywords = ('square', 'up', 'right')
 
     def build(self):
-        self.box("frame",6,6,42,42,4)
-        self.add_line('shaft',(24,33),(24,15));self.add_polyline('head',(16,23),(24,15),(32,23));self.relate('connect','shaft','head')
+        self.frame()
+        self.up_arrow('arrow',24,15,33,8)
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
 
-    def box(self,n,l,t,r,b,q=4):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+    def circle(self, name, x, y, r):
+        self.add_arc(name+'-a', (x-r,y), (x+r,y), radius_x=r)
+        self.add_arc(name+'-b', (x+r,y), (x-r,y), radius_x=r)
+        self.add_contour(name, name+'-a', name+'-b', closed=True)
+
+    def frame(self):
+        # SQUARE extremes: centerlines (6,6)-(42,42), ink (4,4)-(44,44).
+        # Shared quarter-circle corners give a tangent-continuous square.
+        lo, hi, r = 6, 42, 4
+        nodes = [(lo+r,lo),(hi-r,lo),(hi,lo+r),(hi,hi-r),
+                 (hi-r,hi),(lo+r,hi),(lo,hi-r),(lo,lo+r)]
+        members=[]
+        for i,a in enumerate(nodes):
+            b=nodes[(i+1)%8]; name=f'frame-{i}'; members.append(name)
+            if i%2: self.add_arc(name,a,b,radius_x=r)
+            else: self.add_line(name,a,b)
+        self.add_contour('frame',*members,closed=True)
+
+    def up_arrow(self, name, x, top, bottom, half):
+        tip=(x,top)
+        self.add_polyline(name+'-head',(x-half,top+half),tip,(x+half,top+half))
+        self.add_line(name+'-shaft',(x,bottom),tip)
+        self.relate('connect',name+'-head',name+'-shaft')
+

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '51d07cc0-5d3e-489d-b18a-12bf56b9cf6a'
 SOURCE_PATH = 'icon_set/work/todo-references/road sign 4m high_51d07cc0-5d3e-489d-b18a-12bf56b9cf6a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Hand-authored 4M height text between upper and lower chevrons.
 # Reference reduction: No defining parts omitted.
 # Construction references: ['arrow-right']

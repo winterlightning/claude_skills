@@ -14,7 +14,8 @@ class SunIconWithSmallCircle(Solo48):
     keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "symbols/weather"
+    category = "primitives-generate"
+    categories = ("primitives", "primitives-generate")
     aliases = ("sun-with-particle", "ray-circle-with-dot")
     keywords = ("sun", "rays", "circle", "particle", "status")
 
