@@ -65,6 +65,22 @@ pub async fn get(ctx: &Ctx) -> Result<Response> {
         "/api/primitives/briefs" => http::json(200, &Value::Object(briefs(ctx).await?)),
         "/api/primitives/symbol-links" => http::json(200, &Value::Object(symbol_links(ctx).await?)),
         "/api/primitives/status" => http::json(200, &Value::Object(statuses(ctx).await?)),
+        "/api/primitives/state" => {
+            // One read for the primitives page: the published catalog as-is, with decisions and briefs.
+            let bucket = ctx.env.bucket("FILES")?;
+            let Some(object) = bucket.get(PRIMITIVES_KEY).execute().await? else {
+                return http::error(503, "Primitive progress is temporarily unavailable");
+            };
+            let catalog = object.body().ok_or_else(|| worker::Error::RustError("empty primitives.json".into()))?.bytes().await?;
+            let mut body = b"{\"catalog\":".to_vec();
+            body.extend_from_slice(&catalog);
+            body.extend_from_slice(b",\"statuses\":");
+            body.extend(serde_json::to_vec(&Value::Object(statuses(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?);
+            body.extend_from_slice(b",\"briefs\":");
+            body.extend(serde_json::to_vec(&Value::Object(briefs(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?);
+            body.push(b'}');
+            http::bytes(200, body, "application/json")
+        }
         "/api/primitives/prompt" => {
             let parse = |name: &str, default: &str| ctx.param(name).unwrap_or(default).trim().parse::<i64>();
             let (count, offset) = match (parse("count", "4"), parse("offset", "0")) {

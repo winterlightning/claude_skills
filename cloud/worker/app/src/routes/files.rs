@@ -14,6 +14,8 @@ use worker::{Headers, HttpMetadata, Range, Response, Result};
 
 pub const SITE: &str = "site";
 pub const ICONS_JSON: &str = "site/gallery/icons.json";
+pub const PREVIEW_ICONS_JSON: &str = "site/gallery/preview-icons.json";
+pub const SIDE_COMPONENTS_JSON: &str = "site/gallery/side-components.json";
 
 fn content_type(path: &str) -> Option<&'static str> {
     let extension = path.rsplit('.').next()?.to_ascii_lowercase();
@@ -50,6 +52,9 @@ pub async fn static_file(ctx: &Ctx) -> Result<Response> {
     let key = format!("{SITE}/{relative}");
     if key == ICONS_JSON {
         return icons_json(ctx).await;
+    }
+    if key == PREVIEW_ICONS_JSON {
+        return preview_icons_json(ctx).await;
     }
     if let Some(response) = drawing(ctx, &relative).await? {
         return Ok(response);
@@ -184,6 +189,41 @@ async fn icons_json(ctx: &Ctx) -> Result<Response> {
     appended.extend_from_slice(&tail);
     let combined = prefix.chain(stream::once(async move { Ok::<Vec<u8>, worker::Error>(appended) }));
     Ok(Response::from_stream(combined)?.with_headers(headers))
+}
+
+/// `/gallery/preview-icons.json`: the built preview list lacks uploads; append them (deploy.py does the same).
+async fn preview_icons_json(ctx: &Ctx) -> Result<Response> {
+    let bucket = ctx.env.bucket("FILES")?;
+    let Some(object) = bucket.get(PREVIEW_ICONS_JSON).execute().await? else { return http::error(404, "Not found") };
+    let bytes = object.body().ok_or_else(|| worker::Error::RustError("empty preview-icons.json".into()))?.bytes().await?;
+    let Ok(mut data) = serde_json::from_slice::<Value>(&bytes) else { return http::error(503, "Artwork storage is unavailable.") };
+    #[derive(Deserialize)]
+    struct Upload { record: String }
+    let uploads: Vec<Upload> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    if let Some(Value::Array(icons)) = data.get_mut("icons") {
+        for upload in uploads {
+            let Ok(record) = serde_json::from_str::<Value>(&upload.record) else { continue };
+            let mut row = serde_json::Map::new();
+            for field in ["icon_id", "name", "family", "preview_url", "category"] {
+                row.insert(field.into(), record.get(field).cloned().filter(|v| !v.is_null()).unwrap_or(json!("")));
+            }
+            icons.push(Value::Object(row));
+        }
+    }
+    http::json(200, &data)
+}
+
+/// An R2 JSON file as an API answer (`/api/side-components`): the build pushes it, the local gallery
+/// re-pushes it with each icon's current drawing after artwork changes.
+pub async fn r2_json(ctx: &Ctx, key: &str, missing: &str) -> Result<Response> {
+    let bucket = ctx.env.bucket("FILES")?;
+    let Some(object) = bucket.get(key).execute().await? else { return http::error(404, missing) };
+    let Some(body) = object.body() else { return http::error(404, missing) };
+    let headers = Headers::new();
+    headers.set("Content-Type", "application/json")?;
+    headers.set("X-Content-Type-Options", "nosniff")?;
+    headers.set("Cache-Control", "no-store")?;
+    Ok(Response::from_stream(body.stream()?)?.with_headers(headers))
 }
 
 /// GET /primitives/<path>: original reference SVGs, sandboxed like deploy.py `serve_primitive`.

@@ -51,6 +51,8 @@ if __package__:
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
     from . import work_claims
+    # The same module objects as the stores deploy.py uses, so their exceptions (EditConflict) match.
+    from . import cloud_client
     from . import state_db
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
@@ -70,6 +72,7 @@ else:
     from progression import import_snapshot
     from primitives_catalog import primitives_root
     import work_claims
+    import cloud_client
     import state_db
 
 if __package__:
@@ -609,7 +612,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if cached and cached[0] > time.monotonic():
             return cached[1]
         def fetch(route):
-            request = urllib.request.Request(self.work_origin() + route, headers={'Accept': 'application/json'})
+            # Cloudflare's bot filter refuses Python's default User-Agent.
+            request = urllib.request.Request(self.work_origin() + route, headers={'Accept': 'application/json',
+                                                                                  'User-Agent': 'pictographic-gallery/1.0'})
             with urllib.request.urlopen(request, timeout=FIXES_TIMEOUT) as response:
                 return json.loads(response.read().decode('utf-8'))
 
@@ -707,9 +712,42 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 'preview_url': '../api/icon-artwork/svg?icon='+quote(icon['key'], safe='')+'&v='+str((choice or {}).get('revision', 0)),
                 'record': self.artwork_record(icon)}
 
+    def effective_catalog(self):
+        """/gallery/icons.json as shown: artwork choices and uploaded fixes applied; an approved exception is a built icon."""
+        data, fixes = dict(self.catalog_data()), self.work_fixes()
+        with self.server.artwork.snapshot():
+            for field in ('icons', 'failed_icons'):
+                data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
+        data['icons'].extend(row for row in data['failed_icons'] if not row.get('build_failed'))
+        data['failed_icons'] = [row for row in data['failed_icons'] if row.get('build_failed')]
+        return data
+
+    def side_components_data(self):
+        """side-components.json with each drawing's current status (artwork choices and approved exceptions); None before a build."""
+        with self.mirror('side_components') as connection:
+            data = state_db.load_side_components(connection)
+        if data is None:
+            return None
+        from icon_set.scripts.side_components import _drawing
+        catalog = self.catalog(include_failed=True)
+        for role in ('mains', 'subs'):
+            for item in data[role]:
+                item['drawings'] = [(_drawing(catalog[d['key']], bool(catalog[d['key']].get('build_failed')))
+                                     if d['key'] in catalog else d) for d in item['drawings']]
+                item['status'] = ('done' if any(d['status'] == 'pass' for d in item['drawings'])
+                                  else 'failing' if item['drawings'] else 'missing')
+                item['failing_variants'] = sum(d['status'] != 'pass' for d in item['drawings'])
+            counts = data['counts'].setdefault('main' if role == 'mains' else 'sub', {})
+            counts.update({status: sum(item['status'] == status for item in data[role])
+                           for status in ('done', 'failing', 'missing')})
+            counts.update(total=len(data[role]),
+                          done_with_failing_variants=sum(item['status'] == 'done' and item['failing_variants'] > 0 for item in data[role]),
+                          blocked_pairs=sum(item.get('uses', 0) for item in data[role] if item['status'] != 'done'))
+        return data
+
     def mirror(self, *sources):
         """A database connection whose catalog mirror matches this gallery's published JSON."""
-        connection = state_db.connect(self.database)
+        connection = state_db.connect(getattr(self.server, 'mirror_database', None) or self.database)
         try:
             state_db.refresh_catalog(connection, self.root / 'gallery', sources=sources or None)
         except BaseException:
@@ -811,7 +849,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     CLOUD_LOCAL_ROUTES = ('/api/runtime', '/api/icon-artwork', '/api/icons/discard', '/api/combinations/side/keep-sub',
                           '/api/symbols/copy-from-sub', '/api/combination-refresh', '/api/combination-experiment',
                           '/api/primitives/generation-queue', '/api/combinations/generation-queue',
-                          '/api/pending-briefs/download')
+                          '/api/pending-briefs/download', '/api/side-components', '/api/combinations/side/layouts',
+                          '/api/combinations/side/recombine', '/api/combinations/side/layout',
+                          '/api/combinations/side/layout/apply', '/api/combinations/side/preview')
 
     def runs_locally(self, path, query=''):
         if not path.startswith('/api/'):
@@ -829,12 +869,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                                        # Where work claims live: this server in production, its sync source in development.
                                        'production_api': '' if production else self.work_origin(),
                                        'storage': 'cloudflare' if self.cloud else 'sqlite'})
+        if self.cloud and not self.runs_locally(parsed.path, parsed.query):
+            return self.forward_to_production('GET', self.path)
         if parsed.path == '/api/combinations/side/layouts':
             # This server's own hand-adjusted layouts, with the results rendered from them.
             from icon_set.scripts import combination_layouts
             return self.json_response(combination_layouts.load())
-        if self.cloud and not self.runs_locally(parsed.path, parsed.query):
-            return self.forward_to_production('GET', self.path)
         # Primitive progress has one authority, just like the shared work queue.
         if (not getattr(self.server, 'production', False) and parsed.path in (
                 '/gallery/primitives.json', '/api/primitives', '/api/primitives/status',
@@ -875,7 +915,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             try:
                 data = json.loads((self.root / 'gallery/preview-icons.json').read_text(encoding='utf-8'))
                 fixes = self.work_fixes()
-                uploads = [row for row in self.catalog_data()['icons'] if 'uploaded_svg' in row]
+                uploads = [row for row in self.catalog_data()['icons'] if row.get('uploaded_icon') or 'uploaded_svg' in row]
                 with self.server.artwork.snapshot():
                     data['icons'] = data['icons'] + [
                         {key: record.get(key, '') for key in ('icon_id', 'name', 'family', 'preview_url', 'category')}
@@ -885,13 +925,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
         if parsed.path == '/gallery/icons.json':
             try:
-                data, fixes = dict(self.catalog_data()), self.work_fixes()
-                with self.server.artwork.snapshot():
-                    for field in ('icons', 'failed_icons'):
-                        data[field] = [{k: v for k, v in self.artwork_record(row, fixes).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
-                data['icons'].extend(row for row in data['failed_icons'] if not row.get('build_failed'))
-                data['failed_icons'] = [row for row in data['failed_icons'] if row.get('build_failed')]
-                return self.json_response(data)
+                return self.json_response(self.effective_catalog())
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
         if parsed.path in ('/api/icon-artwork', '/api/icon-artwork/svg'):
@@ -1086,25 +1120,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Category progress is temporarily unavailable'}, 503)
         if parsed.path in ('/api/side-components', '/gallery/side-components.json'):
             try:
-                with self.mirror('side_components') as connection:
-                    data = state_db.load_side_components(connection)
+                data = self.side_components_data()
                 if data is None:
                     return self.json_response({'error': 'side-components.json is not built yet. Run the gallery build.'}, 404)
-                from icon_set.scripts.side_components import _drawing
-                catalog = self.catalog(include_failed=True)
-                for role in ('mains', 'subs'):
-                    for item in data[role]:
-                        item['drawings'] = [(_drawing(catalog[d['key']], bool(catalog[d['key']].get('build_failed')))
-                                             if d['key'] in catalog else d) for d in item['drawings']]
-                        item['status'] = ('done' if any(d['status'] == 'pass' for d in item['drawings'])
-                                          else 'failing' if item['drawings'] else 'missing')
-                        item['failing_variants'] = sum(d['status'] != 'pass' for d in item['drawings'])
-                    counts = data['counts'].setdefault('main' if role == 'mains' else 'sub', {})
-                    counts.update({status: sum(item['status'] == status for item in data[role])
-                                   for status in ('done', 'failing', 'missing')})
-                    counts.update(total=len(data[role]),
-                                  done_with_failing_variants=sum(item['status'] == 'done' and item['failing_variants'] > 0 for item in data[role]),
-                                  blocked_pairs=sum(item.get('uses', 0) for item in data[role] if item['status'] != 'done'))
                 return self.json_response(data)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Side components are temporarily unavailable'}, 503)
@@ -2097,12 +2115,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def save_artwork_cloud(self, data, user):
         """Pick artwork here (rendering, validation), then tell the cloud: the icon's new drawing, then its approval."""
-        from icon_set.scripts.cloud_client import CloudError, catalog_row
+        CloudError, catalog_row = cloud_client.CloudError, cloud_client.catalog_row
         with DISCARD_LOCK:
             try:
                 icon = self.catalog_icon(data.get('icon'))
                 if not icon:
                     return self.json_response({'error': 'Icon not found.'}, 404)
+                if data.get('approve_exception') is True and icon.get('artwork_source', 'use_org') != 'use_org':
+                    return self.json_response({'error': 'This is selected artwork. Approve that saved version in the editor instead of approving the original.'}, 409)
                 if data.get('action') == 'upload':
                     self.server.artwork.save(icon, data, user, self.stroke_edits)
                     return self.json_response(self.artwork_response(icon))
@@ -2128,7 +2148,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Could not store artwork. Check the SVG rendering dependencies and the cloud connection.'}, 503)
 
     def refresh_cloud_catalog(self):
-        """Re-upload the effective gallery catalog after artwork changes, at most every 30 seconds, in the background."""
+        """Re-upload the effective gallery catalog (and side component statuses) after artwork changes,
+        at most every 30 seconds, in the background."""
         server = self.server
         if getattr(server, 'catalog_refresh_pending', False):
             return
@@ -2139,14 +2160,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             time.sleep(30)
             server.catalog_refresh_pending = False
             try:
-                from icon_set.scripts.cloud_client import catalog_json
-                data = handler.catalog_data()
-                built = dict(data, icons=[handler.artwork_record(r) for r in data['icons'] if not r.get('uploaded_icon')],
-                             failed_icons=[handler.artwork_record(r) for r in data.get('failed_icons', [])])
-                content = catalog_json(built)
-                status, body, _ = server.cloud.request('PUT', '/api/files/site/gallery/icons.json', raw=content, internal=True)
-                if status >= 400:
-                    print(f'cloud catalog refresh failed: HTTP {status} {body[:200]!r}', flush=True)
+                files = {'icons.json': cloud_client.catalog_json(handler.effective_catalog())}
+                side = handler.side_components_data()
+                if side is not None:
+                    # Approving a side component's exception changes its status on the side pages.
+                    files['side-components.json'] = json.dumps(side, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
+                for name, content in files.items():
+                    status, body, _ = server.cloud.request('PUT', '/api/files/site/gallery/' + name, raw=content, internal=True)
+                    if status >= 400:
+                        print(f'cloud catalog refresh of {name} failed: HTTP {status} {body[:200]!r}', flush=True)
             except Exception as error:  # a background refresh must never take the server down
                 print(f'cloud catalog refresh failed: {error}', flush=True)
 
@@ -2224,6 +2246,59 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
+    def discard_icon_cloud(self, data, user, batch, requests):
+        """discard_icon with local file removal and the cloud's review rows."""
+        CloudError = cloud_client.CloudError
+        with DISCARD_LOCK:
+            try:
+                catalog = self.catalog(include_failed=True)
+                statuses = self.cloud.get('/api/reviews')
+                icons, failed = [], []
+                for item in requests:
+                    key, icon = item['icon'], catalog.get(item['icon'])
+                    error = ('Unknown icon' if icon is None else
+                             'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon.get('svg_sha256') else
+                             'Only rejected icons can be discarded. Reject it first.'
+                             if not icon.get('build_failed') and statuses.get(key) != 'rejected' else None)
+                    if error:
+                        failed.append({'icon': key, 'name': icon['name'] if icon else key, 'error': error})
+                    elif all(existing['key'] != key for existing in icons):
+                        icons.append(icon)
+                if not batch and failed:
+                    return self.json_response({'error': failed[0]['error']}, 404 if failed[0]['error'] == 'Unknown icon' else 409)
+                result = self.discard_in_cloud(icons, user, catalog, detach=data.get('detach_variants') is True)
+                result['failed'] = failed + result['failed']
+                if not batch and result['failed']:
+                    return self.json_response({'error': result['failed'][0]['error']}, 409)
+                return self.json_response(result)
+            except CloudError as error:
+                return self.json_response({'error': f'The cloud refused the discard: {error}'}, 502)
+            except (OSError, SyntaxError, sqlite3.Error):
+                return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
+
+    def discard_in_cloud(self, icons, user, catalog, detach=False):
+        """Remove sources and published files here, then the icons' review rows in the cloud."""
+        source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
+        with closing(self.discard_connection([icon['key'] for icon in icons])) as memory:
+            result = discard_many(icons, source_root=source_root, dist=self.root,
+                                  connection=memory, user=user, detach_variants=detach)
+            # The archived sources and records stay on this machine, which removed the files.
+            rows = memory.execute('SELECT * FROM discarded_icons').fetchall()
+            with closing(state_db.connect(self.server.mirror_database)) as archive, archive:
+                state_db.init_store_tables(archive)
+                archive.executemany(f"INSERT OR REPLACE INTO discarded_icons VALUES ({','.join('?' * 11)})", rows)
+        if result['discarded']:
+            self.cloud.post('/api/icons/discard-record', {'user': user, 'icons': [
+                {'icon': row['icon'], 'svg_sha256': catalog[row['icon']].get('svg_sha256'), 'source': row['source'],
+                 'archive': row['archive']} for row in result['discarded']]}, internal=True)
+            if (self.root / 'gallery/side-components.json').is_file():
+                try:
+                    from icon_set.scripts.side_components import refresh as refresh_side_components
+                    refresh_side_components(self.root / 'gallery')
+                except (OSError, ValueError, KeyError) as error:
+                    print(f'side-components refresh failed after discard: {error}', flush=True)
+        return result
+
     def preview_side_layout(self, data):
         """Render one side pair with an optional layout for the layout editor (both workspaces).
 
@@ -2252,7 +2327,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     raise ValueError('The saved fix is unavailable: ' + key)
                 return result['svg']
             query = urlencode({'icon': key, 'svg_sha256': icon['svg_sha256'], 'stage': 'after', 'part': 'svg'})
-            with urllib.request.urlopen(self.work_origin() + '/api/work/result?' + query, timeout=30) as response:
+            request = urllib.request.Request(self.work_origin() + '/api/work/result?' + query,
+                                             headers={'User-Agent': 'pictographic-gallery/1.0'})
+            with urllib.request.urlopen(request, timeout=30) as response:
                 return response.read().decode('utf-8')
         selected = resolve_artwork(icon, self.server.artwork.get(key))
         return selected['svg'] if selected else icon_from_graph(baseline(icon)).to_svg()
@@ -2361,54 +2438,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 except (ValueError, OSError) as error:
                     results.append({'pair_id': pair_id, 'ok': False, 'error': str(error) or 'Could not apply the layout.'})
         return self.json_response({'source': source, 'results': results})
-
-    def discard_icon_cloud(self, data, user, batch, requests):
-        """discard_icon with local file removal and the cloud's review rows."""
-        from icon_set.scripts.cloud_client import CloudError
-        with DISCARD_LOCK:
-            try:
-                catalog = self.catalog(include_failed=True)
-                statuses = self.cloud.get('/api/reviews')
-                icons, failed = [], []
-                for item in requests:
-                    key, icon = item['icon'], catalog.get(item['icon'])
-                    error = ('Unknown icon' if icon is None else
-                             'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon.get('svg_sha256') else
-                             'Only rejected icons can be discarded. Reject it first.'
-                             if not icon.get('build_failed') and statuses.get(key) != 'rejected' else None)
-                    if error:
-                        failed.append({'icon': key, 'name': icon['name'] if icon else key, 'error': error})
-                    elif all(existing['key'] != key for existing in icons):
-                        icons.append(icon)
-                if not batch and failed:
-                    return self.json_response({'error': failed[0]['error']}, 404 if failed[0]['error'] == 'Unknown icon' else 409)
-                result = self.discard_in_cloud(icons, user, catalog, detach=data.get('detach_variants') is True)
-                result['failed'] = failed + result['failed']
-                if not batch and result['failed']:
-                    return self.json_response({'error': result['failed'][0]['error']}, 409)
-                return self.json_response(result)
-            except CloudError as error:
-                return self.json_response({'error': f'The cloud refused the discard: {error}'}, 502)
-            except (OSError, SyntaxError, sqlite3.Error):
-                return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
-
-    def discard_in_cloud(self, icons, user, catalog, detach=False):
-        """Remove sources and published files here, then the icons' review rows in the cloud."""
-        source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
-        with closing(self.discard_connection([icon['key'] for icon in icons])) as memory:
-            result = discard_many(icons, source_root=source_root, dist=self.root, archive=self.database.parent / 'discarded-icons',
-                                  connection=memory, user=user, detach_variants=detach)
-        if result['discarded']:
-            self.cloud.post('/api/icons/discard-record', {'user': user, 'icons': [
-                {'icon': row['icon'], 'svg_sha256': catalog[row['icon']].get('svg_sha256'), 'source': row['source'],
-                 'archive': row['archive']} for row in result['discarded']]}, internal=True)
-            if (self.root / 'gallery/side-components.json').is_file():
-                try:
-                    from icon_set.scripts.side_components import refresh as refresh_side_components
-                    refresh_side_components(self.root / 'gallery')
-                except (OSError, ValueError, KeyError) as error:
-                    print(f'side-components refresh failed after discard: {error}', flush=True)
-        return result
 
     def keep_side_sub(self, data, user):
         """Keep one sub for a side pair; reject and discard its alternatives everywhere they are used.
@@ -2702,38 +2731,47 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         live_release_root, _ = validate_paths(PACKAGE_ROOT.parent, live_release_root, database)
     if cloud_api and production:
         raise ValueError('The cloud is the production server; run --cloud-api without --production.')
+    state_dir = database.parent
     if cloud_api:
-        # Review data lives in the cloud; this file holds only the machine's own state (catalog
-        # mirror, artwork choices, stroke edits, discards), kept apart from the SQLite-mode database.
-        database = database.parent / 'cloud-cache' / 'local-state.sqlite3'
-    init_database(database)
-    with closing(state_db.connect(database)) as connection:
-        # Artwork, stroke edits and discards moved from JSON folders into the database (runs once).
-        state_db.import_legacy_json(connection, database.parent)
-        if not production and not cloud_api:
-            with connection:
-                import_snapshot(connection)
+        # No local review data at all: a forgotten SQLite call fails loudly instead of writing locally.
+        database = state_dir / 'cloud-cache' / 'no-local-data.sqlite3'
+        database.parent.mkdir(parents=True, exist_ok=True)
+        # Derived data only: the published JSON mirror, cached cloud documents and this machine's discard archive.
+        mirror_database = database.parent / 'local.sqlite3'
+        with closing(state_db.connect(mirror_database)) as connection, connection:
+            state_db.migrate(connection)
+    else:
+        init_database(database)
+        mirror_database = database
+    with closing(state_db.connect(mirror_database)) as connection:
+        if not cloud_api:
+            # Artwork, stroke edits and discards moved from JSON folders into the database (runs once).
+            state_db.import_legacy_json(connection, database.parent)
+            if not production:
+                with connection:
+                    import_snapshot(connection)
         state_db.refresh_catalog(connection, dist / 'gallery')
     server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
     server.production = production
+    server.mirror_database = mirror_database
     # Each server keeps its own side-pair layouts beside its database; the combine jobs it starts inherit this.
-    os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = str(database.parent / 'combination-layouts.json')
+    os.environ['PICTOGRAPHIC_COMBINATION_LAYOUTS'] = str(state_dir / 'combination-layouts.json')
     server.live_release_root = live_release_root
-    server.references = ReferenceStore(database.parent / 'reference-images', database)
-    server.artwork = ArtworkStore(database)
-    server.stroke_edits = StrokeEditStore(database, dist / 'gallery/laboratory.json')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)
     server.sync_source = sync_source
     server.cloud = None
     if cloud_api:
         # Shared data and status live in the cloud; this machine renders, validates and builds.
-        from icon_set.scripts.cloud_client import CloudClient, CloudArtworkStore, CloudReferenceStore, CloudStrokeEditStore
-        server.cloud = CloudClient(cloud_api)
+        server.cloud = cloud_client.CloudClient(cloud_api)
         server.sync_source = cloud_api
-        server.references = CloudReferenceStore(server.cloud, database.parent / 'reference-images')
-        server.artwork = CloudArtworkStore(server.cloud, database.parent / 'icon-artwork')
-        server.stroke_edits = CloudStrokeEditStore(server.cloud, database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
+        server.references = cloud_client.CloudReferenceStore(server.cloud, database.parent / 'reference-images')
+        server.artwork = cloud_client.CloudArtworkStore(server.cloud, mirror_database)
+        server.stroke_edits = cloud_client.CloudStrokeEditStore(server.cloud, mirror_database, dist / 'gallery/laboratory.json')
+    else:
+        server.references = ReferenceStore(database.parent / 'reference-images', database)
+        server.artwork = ArtworkStore(database)
+        server.stroke_edits = StrokeEditStore(database, dist / 'gallery/laboratory.json')
     if not production:
         server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
         server.ai_feedback = FeedbackReviewManager(server.generation, database.parent / 'ai-feedback-jobs')

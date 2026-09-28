@@ -19,6 +19,7 @@ The data model the cloud grows into (concepts, physicals, icons, revisions, rele
 cloud/
   data-model.html      design: vocabulary, tables, diagrams
   MIGRATION.md         step-by-step migration and cutover runbook
+  ARCHITECTURE.md      what D1 and R2 hold (every table and prefix) and how to merge the Mac mini's data
   .env                 CLOUDFLARE_API_TOKEN, push tokens, R2 keys (git-ignored, never commit)
   worker/
     core/              pure rules in Rust (no Cloudflare): reviews, stats, work claims, primitives, SVG safety
@@ -97,6 +98,15 @@ sign in with them; put the Worker behind Cloudflare Access if that stops being a
   run in `deploy.py --cloud-api`: `/api/icon-artwork` (JSON and save), `/api/stroke-edits*`,
   `/api/qa-evidence*`, `/api/combinations/container/*`, the two generation queues, the
   pending-brief zip. Development-only routes stay `403` as in production.
+* Side-pair layouts (`/api/combinations/side/layout*`, `/recombine`, `/preview`) render, so they also
+  answer `501 {"local": true}`; a local gallery keeps its layouts beside its state directory and
+  republishes the combined previews (push them with `push_files.py`). In the cloud,
+  `/api/combinations/side/layouts` is always `{}`.
+* `/api/side-components` serves the pushed `side-components.json`; the local gallery re-pushes it,
+  with each drawing's current status, together with `icons.json` after an artwork change.
+* Workers' uploaded fixes (`/api/work/fixes`) are shown by `/api/icon-artwork/svg` straight from D1;
+  the `artwork_source: work_fix` labels in `icons.json` appear when the local gallery next pushes it.
+* `/api/primitives/categories` needs the SQLite mirror views and is not served by the cloud.
 * Uploads get the static SVG safety checks in the cloud; the optional "visible artwork" render
   check and holes/pinches validation need rendering, so choose bypass or upload through a local gallery.
 * `/api/feedback-db/export|sync` and `/api/review-data/export` are gone: there is one database.

@@ -38,8 +38,11 @@ def approved_pairs(rows, catalog, reviews):
 def plan(handler):
     rows = json.loads((handler.root / 'gallery/experiment-combination.json').read_text())['rows']
     catalog = handler.catalog(include_failed=True)
-    with closing(sqlite3.connect(handler.database, timeout=10)) as connection:
-        reviews = current_reviews(connection, catalog)[0]
+    if getattr(handler, 'cloud', None):
+        reviews = handler.cloud.get('/api/reviews')  # deploy.py --cloud-api: the review statuses live in the cloud
+    else:
+        with closing(sqlite3.connect(handler.database, timeout=10)) as connection:
+            reviews = current_reviews(connection, catalog)[0]
     selected = approved_pairs(rows, catalog, reviews)
     by_id = {row['id']: row for row in rows}
     for pair_id, roles in selected.items():

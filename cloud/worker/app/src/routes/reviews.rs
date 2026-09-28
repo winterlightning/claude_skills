@@ -53,7 +53,7 @@ pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
 
 pub async fn get_review_detail(ctx: &Ctx) -> Result<Response> {
     let key = ctx.param("icon").unwrap_or("");
-    let Some(icon) = data::icon(&ctx.db, key, false).await? else { return http::error(404, "Unknown icon") };
+    let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
     let decision = data::detail(&ctx.db, key, &icon.svg_sha256).await?;
     let row = data::review_row(&ctx.db, key, &icon.svg_sha256).await?;
     let now = chrono::Utc::now();
@@ -169,7 +169,7 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
     } else if !["ready", "pending", "re-generated", "approve", "rejected"].contains(&status.as_str()) {
         return invalid();
     }
-    let Some(icon) = data::icon(&ctx.db, key, route == "/api/feedback").await? else { return http::error(404, "Unknown icon") };
+    let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
     let sha = icon.svg_sha256.clone();
     if data.get("svg_sha256").and_then(Value::as_str).unwrap_or("") != sha {
         return http::error(409, "Icon changed; reload the gallery before submitting");

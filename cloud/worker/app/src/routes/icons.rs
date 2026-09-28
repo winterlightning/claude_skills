@@ -290,7 +290,14 @@ pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
     let row: Option<Row> = if icon.uploaded {
         db::first(&ctx.db, "SELECT svg FROM uploaded_icons WHERE icon = ?", args![key]).await?
     } else {
-        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?
+        // A worker's uploaded fix of the current revision is what the gallery shows (deploy.py `serve_work_fix`);
+        // an artwork choice gives the icon a different svg_sha256, so it never matches a fix.
+        let fix: Option<Row> = db::first(&ctx.db, "SELECT svg FROM work_results WHERE icon = ? AND svg_sha256 = ? AND stage = 'after'",
+                                         args![key, icon.svg_sha256.clone()]).await?;
+        match fix {
+            Some(fix) => Some(fix),
+            None => db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?,
+        }
     };
     match row {
         Some(row) => http::svg(&row.svg),

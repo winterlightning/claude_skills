@@ -48,7 +48,7 @@ pub async fn action(ctx: &Ctx, route: &str, data: &Value, user: &str) -> Result<
         return http::json(200, &json!({"saved": true}));
     }
     let key = data.get("icon").and_then(Value::as_str);
-    let icon = match key { Some(key) => data::icon(db, key, false).await?, None => None };
+    let icon = match key { Some(key) => data::icon(db, key, route == "/api/reject-combination/restore").await?, None => None };
     let (Some(key), Some(icon)) = (key, icon) else { return http::error(404, "Unknown icon") };
     let sha = icon.svg_sha256.clone();
     if data.get("svg_sha256").and_then(Value::as_str) != Some(sha.as_str()) {

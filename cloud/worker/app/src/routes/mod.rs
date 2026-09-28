@@ -28,7 +28,9 @@ fn production_blocked(path: &str) -> bool {
 /// Graphics processing (rendering, validation, geometry) and file packaging stay on local machines.
 fn local_only(path: &str) -> bool {
     path.starts_with("/api/qa-evidence") || path.starts_with("/api/combinations/container/")
+        || path.starts_with("/api/combinations/side/layout") && path != "/api/combinations/side/layouts"
         || matches!(path, "/api/icon-artwork" | "/api/stroke-edits" | "/api/stroke-edits/validate"
+                          | "/api/combinations/side/recombine" | "/api/combinations/side/preview"
                           | "/api/primitives/generation-queue" | "/api/combinations/generation-queue"
                           | "/api/pending-briefs/download" | "/api/feedback-db/export" | "/api/review-data/export")
 }
@@ -85,7 +87,12 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/reviewer-stats" => reviews::get_reviewer_stats(ctx).await,
         "/api/pending-briefs" => briefs::list(ctx).await,
         "/api/primitives" | "/api/primitives/status" | "/api/primitives/summary" | "/api/primitives/briefs"
-        | "/api/primitives/symbol-links" | "/api/primitives/prompt" => primitives::get(ctx).await,
+        | "/api/primitives/symbol-links" | "/api/primitives/prompt" | "/api/primitives/state" => primitives::get(ctx).await,
+        "/api/side-components" => files::r2_json(ctx, files::SIDE_COMPONENTS_JSON,
+                                                 "side-components.json is not built yet. Run the gallery build.").await,
+        // Hand-adjusted side-pair layouts are kept by the local gallery that renders them; their results
+        // reach the cloud as republished previews.
+        "/api/combinations/side/layouts" => http::json(200, &json!({})),
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, None, "system").await,
         "/api/activity" => internal::read_activity(ctx).await,
