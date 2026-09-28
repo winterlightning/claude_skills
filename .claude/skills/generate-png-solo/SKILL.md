@@ -1,7 +1,7 @@
 ---
 name: generate-png-solo
 description: Draw a clean 48x48-ready solo line icon PNG for one or more subjects (black Lucide / Feather style strokes on white, uniform width, natural proportions) and save it under new-pipeline-test/output_png. The model picks the 2 to 4 recognizable parts and the overall shape, follows the fixed prompt as its drawing brief, generates the PNG with an image generation model (never hand-drawn code, never a library icon), checks it at 48 px, vectorizes it to <slug>_raw.svg in the same folder with new-pipeline-test/vectorize/process.sh, and reports. Use when asked to generate a PNG icon, draw an icon as PNG, or start the PNG -> vectorize -> redraw pipeline. Hand-authored; edit this file directly.
-argument-hint: <subject> [, <subject> ...] [--shape tall|wide|square|round]
+argument-hint: <subject> --source-id <uuid> [, <subject> --source-id <uuid> ...] [--shape tall|wide|square|round]
 ---
 
 # /generate-png-solo — subject in, PNG icon out
@@ -20,6 +20,17 @@ and do not touch `published/`, the registered icon folders, or the build.
   overrides the shape you would pick. Anything else is part of the subject text.
 - If a piece is a path to an SVG or PNG, use `/generate-png-solo-with-reference`
   for that piece instead.
+- `--source-id <uuid>` inside a piece is the original icon id that this
+  drawing replaces or fixes; it belongs to that piece only. It becomes
+  `SOURCE_ICON_ID` on the Solo48 model the redraw step writes, so it cannot be
+  left out silently. Take it out of the piece before reading the rest.
+- A piece without `--source-id`: ask the user for its original icon id before
+  generating anything, one question listing every piece that lacks one.
+  If the user says there is none (a brand-new concept), record
+  `source_icon_id: null` and add a warning to the report. When you cannot ask
+  (non-interactive run), do not guess an id: use `null` and warn.
+- Never invent, derive or look up an id yourself; only the user or the
+  caller supplies it. Keep it exactly as given.
 - No subjects: say so and stop.
 
 ## Decide the drawing
@@ -191,7 +202,8 @@ Then check the result:
 - Files: `<slug>.png` (1024, the one final generation), the vectorize output
   `<slug>_raw.svg` (nothing
   else from the vectorizer), `prompt.txt` (the filled brief that produced
-  the final image), and `choice.json` with `subject`, `parts`, `shape`,
+  the final image), and `choice.json` with `subject`, `source_icon_id` (the
+  original icon id as given, or `null`), `parts`, `shape`,
   `stroke_count`, `shape_source` (`user` or `agent`), `image_model` (`codex:image_gen`,
   an API model id, or the host tool name), `attempts`, and `created_at`.
 - Reply with one line per subject: the PNG path, the `<slug>_raw.svg` path

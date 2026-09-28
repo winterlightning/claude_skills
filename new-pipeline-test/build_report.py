@@ -140,10 +140,13 @@ def card(r):
     panels.append(panel("Raw SVG", r["raw"], "svg", "not vectorized"))
     panels.append(panel("Redrawn SVG", r["redraw"], "svg", "not redrawn"))
     py = f' · <a href="{esc(r["redraw_py"])}">model</a>' if r["redraw_py"] else ""
-    return f'''<article class="run" data-status="{status}" data-name="{esc(r["subject"].lower())}">
+    rate = (f'<div class="rate" role="group" aria-label="Verdict">'
+            f'<button type="button" class="like" data-v="like" aria-pressed="false" title="I like this icon">&#10003; Like</button>'
+            f'<button type="button" class="dislike" data-v="dislike" aria-pressed="false" title="I do not like this icon">&#10007; No</button></div>')
+    return f'''<article class="run" data-status="{status}" data-verdict="" data-run="{esc(r["dir"])}" data-name="{esc(r["subject"].lower())}">
   <header><div><h2>{esc(r["subject"])}</h2>
   <p class="meta">{esc(r["when"])} · <a href="{esc(r["dir"])}/">{esc(r["dir"])}</a>{py}</p></div>
-  <div class="chips">{"".join(chips)}</div></header>
+  <div class="side">{rate}<div class="chips">{"".join(chips)}</div></div></header>
   {f'<p class="parts">{esc(r["parts"])}</p>' if r["parts"] else ""}
   <div class="panels cols{len(panels)}">{"".join(panels)}</div>
 </article>'''
@@ -168,7 +171,17 @@ border-radius:8px;padding:6px 12px}.bar button[aria-pressed="true"]{background:v
 .run header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 h2{font-size:16px;margin:0;text-transform:capitalize}.meta{margin:2px 0 0;color:var(--muted);font-size:12px}
 .meta a{color:inherit}.parts{color:var(--muted);margin:10px 0 0;font-size:13px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;justify-content:flex-end}
+.rate{display:flex;gap:6px}
+.rate button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--muted);
+border-radius:8px;padding:6px 12px;cursor:pointer}
+.rate button:hover{color:var(--ink)}
+.rate .like[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.rate .dislike[aria-pressed="true"]{background:var(--err);border-color:var(--err);color:#fff}
+.run[data-verdict="like"]{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.run[data-verdict="dislike"]{border-color:var(--err);box-shadow:inset 4px 0 0 var(--err)}
+.bar .count{color:var(--muted);align-self:center;font-size:12px}
 .chip{background:var(--chip);border-radius:99px;padding:2px 9px;font-size:12px;white-space:nowrap}
 .chip.err{color:var(--err)}.chip.warn{color:var(--warn)}.chip.done{color:var(--ok)}.chip.pending{color:var(--warn)}
 .panels{display:grid;gap:12px;margin-top:14px;grid-template-columns:repeat(3,1fr)}
@@ -189,11 +202,25 @@ figcaption{display:flex;justify-content:space-between;align-items:center;padding
 """
 
 JS = """
-const q=document.getElementById('q'),btns=[...document.querySelectorAll('[data-f]')];let f='all';
-function apply(){const t=q.value.toLowerCase();document.querySelectorAll('.run').forEach(r=>{
-r.hidden=!((f==='all'||r.dataset.status===f)&&r.dataset.name.includes(t))})}
+const KEY='png-report-verdicts';
+let verdicts={};try{verdicts=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){verdicts={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(verdicts))}catch(e){}}
+function paint(run){const v=verdicts[run.dataset.run]||'';run.dataset.verdict=v;
+run.querySelectorAll('.rate button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v))}
+document.querySelectorAll('.run').forEach(run=>{paint(run);
+run.querySelectorAll('.rate button').forEach(b=>b.onclick=()=>{const id=run.dataset.run;
+if(verdicts[id]===b.dataset.v)delete verdicts[id];else verdicts[id]=b.dataset.v;save();paint(run);apply()})});
+const q=document.getElementById('q'),btns=[...document.querySelectorAll('[data-f]')],cnt=document.getElementById('cnt');let f='all';
+function apply(){const t=q.value.toLowerCase();let like=0,no=0;document.querySelectorAll('.run').forEach(r=>{
+const v=r.dataset.verdict;if(v==='like')like++;if(v==='dislike')no++;
+const ok=f==='all'||r.dataset.status===f||(f==='like'&&v==='like')||(f==='dislike'&&v==='dislike')||(f==='unrated'&&!v);
+r.hidden=!(ok&&r.dataset.name.includes(t))});cnt.textContent=like+' liked · '+no+' disliked'}
 btns.forEach(b=>b.onclick=()=>{f=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()});
-q.oninput=apply;
+q.oninput=apply;apply();
+document.getElementById('export').onclick=()=>{const rows=[...document.querySelectorAll('.run')]
+.filter(r=>r.dataset.verdict).map(r=>({run:r.dataset.run,subject:r.dataset.name,verdict:r.dataset.verdict}));
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(rows,null,2)],{type:'application/json'}));
+a.download='verdicts.json';a.click()};
 """
 
 
@@ -211,7 +238,10 @@ def main():
 <h1>PNG → vectorize → redraw</h1>
 <p class="sub">{len(runs)} runs · {done} redrawn · {len(runs) - done} awaiting redraw · built {datetime.now():%Y-%m-%d %H:%M}</p>
 <div class="bar"><button data-f="all" aria-pressed="true">All</button><button data-f="done">Redrawn</button>
-<button data-f="pending">Awaiting redraw</button><input id="q" type="search" placeholder="Filter by subject"></div>
+<button data-f="pending">Awaiting redraw</button><button data-f="like">&#10003; Liked</button>
+<button data-f="dislike">&#10007; Disliked</button><button data-f="unrated">Unrated</button>
+<input id="q" type="search" placeholder="Filter by subject"><span class="count" id="cnt"></span>
+<button id="export" type="button" title="Download verdicts.json">Export</button></div>
 {"".join(card(r) for r in runs)}
 </main><script>{JS}</script></body></html>"""
     out = ROOT / "report.html"
