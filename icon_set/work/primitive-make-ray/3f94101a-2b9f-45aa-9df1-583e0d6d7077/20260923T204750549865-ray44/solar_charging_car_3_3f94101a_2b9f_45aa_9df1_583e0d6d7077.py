@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3f94101a-2b9f-45aa-9df1-583e0d6d7077'
 SOURCE_PATH = 'icon_set/work/todo-references/solar charging car 3_3f94101a-2b9f-45aa-9df1-583e0d6d7077.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Solar panel and sun beside a charging column marked with a lightning bolt.
 # References: sun: circular center and radial rays; simple panel grid and rounded charging enclosure.
 # Reduction: Reduced sun to four cardinal rays; retained four panel cells and charging bolt.

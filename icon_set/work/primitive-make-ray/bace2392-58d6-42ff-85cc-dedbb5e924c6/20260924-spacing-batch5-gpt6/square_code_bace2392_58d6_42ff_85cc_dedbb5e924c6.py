@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bace2392-58d6-42ff-85cc-dedbb5e924c6'
 SOURCE_PATH='pictographic-primitives/_uncategorized_35/square code_bace2392-58d6-42ff-85cc-dedbb5e924c6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='square-code'
     keyshape=Keyshape.HRECT_L

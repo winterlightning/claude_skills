@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '28bc625b-2596-540d-91c3-fb5e36336a56'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__airplane-rising-above-ground-line/20260926T064521Z-thuan-mac/reference/plane land_28bc625b-2596-540d-91c3-fb5e36336a56.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class AirplaneRisingAboveGroundLine(Solo48):

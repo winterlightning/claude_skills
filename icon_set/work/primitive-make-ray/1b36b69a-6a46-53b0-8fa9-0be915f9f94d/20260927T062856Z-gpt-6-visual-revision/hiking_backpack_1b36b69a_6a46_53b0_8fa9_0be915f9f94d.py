@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '1b36b69a-6a46-53b0-8fa9-0be915f9f94d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hiking-backpack/20260927T061852Z-thuan-mac-1/reference/outdoors backpack_1b36b69a-6a46-53b0-8fa9-0be915f9f94d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HikingBackpack(Solo48):
     icon_id = 'hiking-backpack'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b444bff0-3f95-5c44-97ae-10d0664a0249'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sleeping-bag/20260927T133815Z-thuan-mac-1/reference/camping sleeping bag_b444bff0-3f95-5c44-97ae-10d0664a0249.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SleepingBag(Solo48):

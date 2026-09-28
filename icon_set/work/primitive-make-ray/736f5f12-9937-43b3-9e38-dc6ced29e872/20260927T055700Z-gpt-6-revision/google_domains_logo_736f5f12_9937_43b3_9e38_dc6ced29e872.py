@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '736f5f12-9937-43b3-9e38-dc6ced29e872'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-domains-logo/20260927T055616Z-thuan-mac-1/reference/google domain logo_736f5f12-9937-43b3-9e38-dc6ced29e872.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleDomainsLogo(Solo48):

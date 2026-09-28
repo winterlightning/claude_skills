@@ -18,7 +18,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b013a26e-4b3d-4d2f-a975-ca81de5ad6ce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crested-penguin/20260926T125430Z-thuan-mac/reference/penguin crested_b013a26e-4b3d-4d2f-a975-ca81de5ad6ce.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

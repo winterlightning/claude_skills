@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='41f3ad63-cd17-441d-b26d-945da63c6f7c'
 SOURCE_PATH='pictographic-primitives/files/image file_41f3ad63-cd17-441d-b26d-945da63c6f7c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two peaks now identify the landscape. Sun is a complete radius-2 circle, using the existing small-circle rule.'
 CONSTRUCTION_REFERENCE='file-code original and atomic-debug: clipped document with smooth corner construction; source supplies landscape.'
 OMISSIONS='Mountain baseline omitted after the closed two-peak candidate produced a narrow triangular pocket. Sun reduced.'

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__foot-in-side-view-batch-012-09/20260924T093128Z-thuan-mac/reference/specialty feet_dcbbd8ae-d89f-5e3c-838f-3a4b9ef6294a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='foot-in-side-view-batch-012-09'
     keyshape=Keyshape.HRECT_L

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7ad3706e-c1c2-4821-ba45-49920032c75f'
 SOURCE_PATH='icon_set/work/todo-references/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing an outlined uppercase parking P.'
 CONSTRUCTION_REFERENCES='Lucide square-parking: P structure; outlined form hand-authored from source.'
 OMISSIONS='None.'

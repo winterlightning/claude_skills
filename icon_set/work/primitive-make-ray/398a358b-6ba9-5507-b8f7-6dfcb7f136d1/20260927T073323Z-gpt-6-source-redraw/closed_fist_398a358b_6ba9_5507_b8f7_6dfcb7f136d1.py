@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '398a358b-6ba9-5507-b8f7-6dfcb7f136d1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-fist/20260927T071330Z-thuan-mac-1/reference/hand fist bump_398a358b-6ba9-5507-b8f7-6dfcb7f136d1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ClosedFist(Solo48):
     icon_id = 'closed-fist'

@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='79fff0c7-26d4-4146-b968-24705c1e7d4a'
 SOURCE_PATH='icon_set/work/todo-references/user cash scale 1_79fff0c7-26d4-4146-b968-24705c1e7d4a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='user-cash-scale-1'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7ad3706e-c1c2-4821-ba45-49920032c75f'
 SOURCE_PATH='pictographic-primitives/_uncategorized_35/square parking_7ad3706e-c1c2-4821-ba45-49920032c75f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='square-parking'
     keyshape=Keyshape.SQUARE

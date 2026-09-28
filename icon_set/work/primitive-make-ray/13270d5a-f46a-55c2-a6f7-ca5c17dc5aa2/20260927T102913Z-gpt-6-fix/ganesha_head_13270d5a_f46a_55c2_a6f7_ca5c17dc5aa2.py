@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '13270d5a-f46a-55c2-a6f7-ca5c17dc5aa2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ganesha-head/20260927T101626Z-thuan-mac-1/reference/ganesh chaturthi_13270d5a-f46a-55c2-a6f7-ca5c17dc5aa2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GaneshaHead(Solo48):

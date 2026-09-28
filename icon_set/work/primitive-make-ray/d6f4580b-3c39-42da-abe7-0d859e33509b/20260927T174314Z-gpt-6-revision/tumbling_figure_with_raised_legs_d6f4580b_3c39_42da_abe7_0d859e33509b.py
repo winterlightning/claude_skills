@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd6f4580b-3c39-42da-abe7-0d859e33509b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tumbling-figure-with-raised-legs/20260927T173930Z-thuan-mac-1/reference/somersault_d6f4580b-3c39-42da-abe7-0d859e33509b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'tumbling-figure-with-raised-legs'

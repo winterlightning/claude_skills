@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a0e713ab-5594-48b4-9fb9-5bd0a13657f4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dollar-sign-chat-bubble-solo/20260925T085649Z-thuan-mac/reference/messages bubble round dollar sign_a0e713ab-5594-48b4-9fb9-5bd0a13657f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='dollar-sign-chat-bubble-solo'

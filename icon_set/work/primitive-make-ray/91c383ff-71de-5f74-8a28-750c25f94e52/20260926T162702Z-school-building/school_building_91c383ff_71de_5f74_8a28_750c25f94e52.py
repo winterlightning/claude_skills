@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '91c383ff-71de-5f74-8a28-750c25f94e52'
 SOURCE_PATH = 'pictographic-primitives/school-learning/school building_91c383ff-71de-5f74-8a28-750c25f94e52.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SchoolBuilding(Solo48):

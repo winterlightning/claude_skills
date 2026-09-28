@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='945b25be-2ad9-4b54-9548-b41ff357244a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/signal slash_945b25be-2ad9-4b54-9548-b41ff357244a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='signal-slash'
     keyshape=Keyshape.CIRCLE

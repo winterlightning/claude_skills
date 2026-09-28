@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a838d4d1-5686-50bb-ab98-47d224dd2824'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__five-petal-flower-with-leaves/20260927T032256Z-thuan-mac-1/reference/lilac_2b341bc8-cb9a-4490-9129-7339b9080d7e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FivePetalFlowerWithLeaves(Solo48):

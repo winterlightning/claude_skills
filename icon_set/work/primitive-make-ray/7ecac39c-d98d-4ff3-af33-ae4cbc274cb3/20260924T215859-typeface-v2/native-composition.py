@@ -4,7 +4,7 @@ sys.path.insert(0,str(Path.cwd()))
 from icon_set.scripts.side_text import glyph_map,native_text
 SOURCE_ICON_ID='7ecac39c-d98d-4ff3-af33-ae4cbc274cb3'
 SOURCE_PATH='pictographic-primitives/other/rectangle buy text_7ecac39c-d98d-4ff3-af33-ae4cbc274cb3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 WORD='BUY'
 NS='http://www.w3.org/2000/svg'
 def generate():

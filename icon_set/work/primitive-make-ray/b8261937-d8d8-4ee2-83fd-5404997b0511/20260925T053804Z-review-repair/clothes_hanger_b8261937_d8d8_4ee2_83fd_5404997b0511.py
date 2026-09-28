@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b8261937-d8d8-4ee2-83fd-5404997b0511'
 SOURCE_PATH = 'pictographic-primitives/other/hanger_b8261937-d8d8-4ee2-83fd-5404997b0511.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'clothes-hanger'
     keyshape = Keyshape.HRECT_L

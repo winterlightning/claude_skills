@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '35453f6e-cd21-46fc-9fb9-1211c1c34319'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__double-right-click-mouse-solo-b003-04/20260926T165410Z-thuan-mac/reference/right double click mouse_35453f6e-cd21-46fc-9fb9-1211c1c34319.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='double-right-click-mouse-solo-b003-04'
     keyshape=Keyshape.SQUARE

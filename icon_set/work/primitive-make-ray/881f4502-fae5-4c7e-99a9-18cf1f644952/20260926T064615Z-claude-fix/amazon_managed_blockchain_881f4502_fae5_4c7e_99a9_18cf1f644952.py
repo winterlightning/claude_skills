@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '881f4502-fae5-4c7e-99a9-18cf1f644952'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__amazon-managed-blockchain/20260926T064521Z-thuan-mac/reference/amazon managed blockchain_881f4502-fae5-4c7e-99a9-18cf1f644952.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class AmazonManagedBlockchain(Solo48):

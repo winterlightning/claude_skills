@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '65ff17d5-d6f4-45f8-9685-b215f34e7ba1'
 SOURCE_PATH = 'pictographic-primitives/symbol/se (text)_65ff17d5-d6f4-45f8-9685-b215f34e7ba1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/se_text_65ff17d5_d6f4_45f8_9685_b215f34e7ba1.py'
 class Drawing(Solo48):
     icon_id = 'se-text'

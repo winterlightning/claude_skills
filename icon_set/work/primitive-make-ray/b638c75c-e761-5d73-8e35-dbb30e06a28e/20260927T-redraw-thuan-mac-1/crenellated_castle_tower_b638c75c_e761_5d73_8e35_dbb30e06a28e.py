@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b638c75c-e761-5d73-8e35-dbb30e06a28e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crenellated-castle-tower/20260926T173134Z-thuan-mac-1/reference/historical building tower_b638c75c-e761-5d73-8e35-dbb30e06a28e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Landmark(Solo48):

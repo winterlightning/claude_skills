@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3be3c4f1-7eff-4665-918c-5125daa70608'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__isometric-cube-with-three-linked-hexagons/20260927T160114Z-thuan-mac-1/reference/scale 3d_3be3c4f1-7eff-4665-918c-5125daa70608.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CATALOG_REFERENCE = 'pictographic-primitives/design/scale 3d_3be3c4f1-7eff-4665-918c-5125daa70608.svg'
 
 def _run(icon, name, *points):

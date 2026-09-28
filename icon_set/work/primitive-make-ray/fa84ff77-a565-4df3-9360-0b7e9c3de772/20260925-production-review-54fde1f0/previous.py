@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='fa84ff77-a565-4df3-9360-0b7e9c3de772'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__cog-dollar/20260924T171046Z-thuan-mac/reference/cog dollar_fa84ff77-a565-4df3-9360-0b7e9c3de772.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='cog-dollar'

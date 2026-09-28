@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8548aa22-1279-4592-ab92-a951f8592833'
 SOURCE_PATH='icon_set/work/todo-references/navigation direction left forward_8548aa22-1279-4592-ab92-a951f8592833.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='navigation-direction-left-forward'
     keyshape=Keyshape.HRECT_L

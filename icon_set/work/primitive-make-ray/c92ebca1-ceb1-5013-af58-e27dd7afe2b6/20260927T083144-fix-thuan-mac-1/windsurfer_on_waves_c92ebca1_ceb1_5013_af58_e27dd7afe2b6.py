@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c92ebca1-ceb1-5013-af58-e27dd7afe2b6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__windsurfer-on-waves/20260927T083044Z-thuan-mac-1/reference/sport windsurfing_c92ebca1-ceb1-5013-af58-e27dd7afe2b6.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

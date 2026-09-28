@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '7c9ddd87-89bf-4672-8b55-b3be716fbedd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-harvesting-grain/20260927T101626Z-thuan-mac-1/reference/reishit katzir feast of firstfruits_7c9ddd87-89bf-4672-8b55-b3be716fbedd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandHarvestingGrain(Solo48):

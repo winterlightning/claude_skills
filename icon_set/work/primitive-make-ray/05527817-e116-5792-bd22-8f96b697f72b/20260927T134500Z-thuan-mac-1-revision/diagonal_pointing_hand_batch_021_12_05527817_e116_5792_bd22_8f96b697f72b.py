@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '05527817-e116-5792-bd22-8f96b697f72b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-pointing-hand-batch-021-12/20260927T133815Z-thuan-mac-1/reference/hand pointer diagonal_05527817-e116-5792-bd22-8f96b697f72b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (4, 4, 44, 44); centerline (6, 6, 42, 42).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/hand pointer diagonal_05527817-e116-5792-bd22-8f96b697f72b.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-021/12-diagonal-hand-pointer--05527817-e116-5792-bd22-8f96b697f72b.md'

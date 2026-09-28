@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a632e994-61fe-4267-acd7-2d4f14efccec'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sunny-thunderstorm/20260924T162030Z-thuan-mac/reference/weather thunder_a632e994-61fe-4267-acd7-2d4f14efccec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sunny-thunderstorm'

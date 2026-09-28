@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='604a5046-da14-4a38-bc4b-6674a784c0f4'
 SOURCE_PATH='icon_set/work/todo-references/send back_604a5046-da14-4a38-bc4b-6674a784c0f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square containing a left-pointing send-back arrow.'
 CONSTRUCTION_REFERENCES='Lucide monitor: equal frame corners; arrow hand-authored from source.'
 OMISSIONS='None.'

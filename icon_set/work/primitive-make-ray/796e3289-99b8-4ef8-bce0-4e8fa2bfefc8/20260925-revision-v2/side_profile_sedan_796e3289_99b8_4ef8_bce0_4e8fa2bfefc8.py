@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='796e3289-99b8-4ef8-bce0-4e8fa2bfefc8'
 SOURCE_PATH='pictographic-primitives/transportation/car_796e3289-99b8-4ef8-bce0-4e8fa2bfefc8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Lowered the cabin, smoothed hood and trunk into a continuous body, and reattached body and sill to wheel sides. Natural car ink bounds(2,10)-(46,38) deliberately relax the standard HRECT_M height by2 at each edge.'
 CONSTRUCTION_REFERENCES='Lucide car original and atomic-debug: coherent cabin, body ends and circular wheels.'
 OMISSIONS=[]

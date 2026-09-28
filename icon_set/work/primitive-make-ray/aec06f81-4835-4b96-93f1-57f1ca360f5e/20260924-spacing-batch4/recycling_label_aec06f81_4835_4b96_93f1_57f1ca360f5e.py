@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aec06f81-4835-4b96-93f1-57f1ca360f5e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A diagonal recycling tag with a separate leaf. Leaf halves and stem share the explicit node30,39. Intentional diagonal tag and offset leaf; clear negative space in both themes.'
 CONSTRUCTION_REFERENCE='Lucide tag clipped tip; leaf coherent outline'
 class Drawing(Solo48):

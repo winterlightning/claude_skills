@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '31a89d48-62e9-4297-8d54-47541920c9cc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opposing-bent-transfer-arrows-batch-017-01/20260927T153322Z-thuan-mac-1/reference/refresh_31a89d48-62e9-4297-8d54-47541920c9cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-017/references/refresh_31a89d48-62e9-4297-8d54-47541920c9cc.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-017/01-up-and-down-data-transfer-arrows--31a89d48-62e9-4297-8d54-47541920c9cc.md'
 DESIGN_PLAN = 'Two opposing arrows share vertical travel and mirror their turns.'

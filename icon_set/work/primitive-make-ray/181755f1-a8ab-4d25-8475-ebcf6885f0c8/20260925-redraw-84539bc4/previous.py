@@ -5,7 +5,7 @@ from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = '181755f1-a8ab-4d25-8475-ebcf6885f0c8'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-01/monitor_181755f1-a8ab-4d25-8475-ebcf6885f0c8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Batch01Monitor(Solo48):

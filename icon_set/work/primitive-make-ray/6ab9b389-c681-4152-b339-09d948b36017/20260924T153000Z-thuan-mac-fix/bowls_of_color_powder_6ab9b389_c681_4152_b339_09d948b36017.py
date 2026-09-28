@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6ab9b389-c681-4152-b339-09d948b36017'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bowls-of-color-powder/20260924T152540Z-thuan-mac/reference/holi_6ab9b389-c681-4152-b339-09d948b36017.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'bowls-of-color-powder'
     keyshape = Keyshape.HRECT_L

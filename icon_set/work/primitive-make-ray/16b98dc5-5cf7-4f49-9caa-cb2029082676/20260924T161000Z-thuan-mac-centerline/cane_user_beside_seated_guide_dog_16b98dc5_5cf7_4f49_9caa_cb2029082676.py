@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='16b98dc5-5cf7-4f49-9caa-cb2029082676'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__cane-user-beside-seated-guide-dog/20260924T160711Z-thuan-mac/reference/dog for blind_16b98dc5-5cf7-4f49-9caa-cb2029082676.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='cane-user-beside-seated-guide-dog'

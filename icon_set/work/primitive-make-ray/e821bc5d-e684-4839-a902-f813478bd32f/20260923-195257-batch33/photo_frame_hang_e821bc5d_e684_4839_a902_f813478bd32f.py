@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e821bc5d-e684-4839-a902-f813478bd32f'
 SOURCE_PATH='icon_set/work/todo-references/photo frame hang_e821bc5d-e684-4839-a902-f813478bd32f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A hanging picture shows a central tower flanked by two trees.'
 OMISSIONS='Tower crossbar retained; leaf interiors omitted.'
 LUCIDE_REFERENCE='image'

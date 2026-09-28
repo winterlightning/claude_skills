@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '1ab29135-e724-4766-8bba-d4d0f8b7b6d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cupped-hand-facing-right/20260927T032242Z-thuan-mac-1/reference/begging hand ask_1ab29135-e724-4766-8bba-d4d0f8b7b6d5.svg'
 SOURCE_ICON_IDS = ('1ab29135-e724-4766-8bba-d4d0f8b7b6d5', 'a322931e-aa9b-59e9-8a03-20657747f732')
 SOURCE_PATHS = ('pictographic-primitives/business/begging hand ask_1ab29135-e724-4766-8bba-d4d0f8b7b6d5.svg', 'pictographic-primitives/business/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg')
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 

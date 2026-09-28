@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aaf0ce86-5038-545e-84bd-c3ba85f4d67b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__armadillo/20260924T142441Z-thuan-mac/reference/armadillo_aaf0ce86-5038-545e-84bd-c3ba85f4d67b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='armadillo'

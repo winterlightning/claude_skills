@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '5e331499-062d-4a4a-965e-e100d55ce756'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horizontal-measurement-markers-solo/20260927T151732Z-thuan-mac-1/reference/measurement markers_5e331499-062d-4a4a-965e-e100d55ce756.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'horizontal-measurement-markers-solo'

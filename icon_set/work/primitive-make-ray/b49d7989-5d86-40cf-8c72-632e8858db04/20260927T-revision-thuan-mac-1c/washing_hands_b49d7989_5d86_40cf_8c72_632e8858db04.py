@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b49d7989-5d86-40cf-8c72-632e8858db04'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__washing-hands/20260927T145855Z-thuan-mac-1/reference/washing hand_b49d7989-5d86-40cf-8c72-632e8858db04.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WashingHands(Solo48):
     icon_id = 'washing-hands'

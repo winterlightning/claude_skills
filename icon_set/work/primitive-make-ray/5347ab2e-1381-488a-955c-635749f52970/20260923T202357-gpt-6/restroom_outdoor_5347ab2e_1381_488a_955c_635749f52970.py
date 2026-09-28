@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5347ab2e-1381-488a-955c-635749f52970'
 SOURCE_PATH = 'icon_set/work/todo-references/restroom outdoor_5347ab2e-1381-488a-955c-635749f52970.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Portable restroom with arched roof, inset door and triangular door emblem.
 # Reference reduction: Omitted tiny door handle; retained triangular emblem.
 # Construction references: ['table']

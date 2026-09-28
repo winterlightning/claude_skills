@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd14f767a-d27e-45c9-837c-e0c5f4d0ad51'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-clapper-toys/20260927T055730Z-thuan-mac-1/reference/reward claps hand stick_d14f767a-d27e-45c9-837c-e0c5f4d0ad51.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

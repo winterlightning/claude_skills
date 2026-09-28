@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b6399b86-ab71-4c36-a57b-9270903ce673'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__blockchain-blocks/20260927T032145Z-thuan-mac-1/reference/amazon managed blockchain_b6399b86-ab71-4c36-a57b-9270903ce673.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

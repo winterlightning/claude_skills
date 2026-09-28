@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6513dce9-94c3-521f-bfe4-c6dbfe9da85e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__butterfly/20260926T182452Z-thuan-mac-1/reference/butterfly_6513dce9-94c3-521f-bfe4-c6dbfe9da85e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Butterfly(Solo48):

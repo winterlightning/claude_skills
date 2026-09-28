@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8d0a0eeb-161b-49dd-b5f6-5bcfc4e716d9'
 SOURCE_PATH = 'pictographic-primitives/other/a with sync arrow_8d0a0eeb-161b-49dd-b5f6-5bcfc4e716d9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'a-with-sync-arrow'

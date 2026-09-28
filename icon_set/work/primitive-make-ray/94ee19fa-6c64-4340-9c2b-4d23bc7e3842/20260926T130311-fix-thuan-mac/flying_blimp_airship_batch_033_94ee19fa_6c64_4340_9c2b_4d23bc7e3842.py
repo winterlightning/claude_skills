@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '94ee19fa-6c64-4340-9c2b-4d23bc7e3842'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flying-blimp-airship-batch-033/20260926T125430Z-thuan-mac/reference/airship_94ee19fa-6c64-4340-9c2b-4d23bc7e3842.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

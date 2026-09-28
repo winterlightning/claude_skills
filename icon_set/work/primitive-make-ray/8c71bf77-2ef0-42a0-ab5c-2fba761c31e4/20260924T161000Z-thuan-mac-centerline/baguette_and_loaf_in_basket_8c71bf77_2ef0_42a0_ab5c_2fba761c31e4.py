@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8c71bf77-2ef0-42a0-ab5c-2fba761c31e4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__baguette-and-loaf-in-basket/20260924T160711Z-thuan-mac/reference/bread baguette_8c71bf77-2ef0-42a0-ab5c-2fba761c31e4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='baguette-and-loaf-in-basket'

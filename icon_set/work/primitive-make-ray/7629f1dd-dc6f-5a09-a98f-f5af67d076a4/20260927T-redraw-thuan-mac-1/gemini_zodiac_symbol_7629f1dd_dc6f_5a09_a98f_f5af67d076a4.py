@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7629f1dd-dc6f-5a09-a98f-f5af67d076a4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gemini-zodiac-symbol/20260926T173134Z-thuan-mac-1/reference/astrology gemini_7629f1dd-dc6f-5a09-a98f-f5af67d076a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GeminiZodiacSymbol(Solo48):
     icon_id = 'gemini-zodiac-symbol'

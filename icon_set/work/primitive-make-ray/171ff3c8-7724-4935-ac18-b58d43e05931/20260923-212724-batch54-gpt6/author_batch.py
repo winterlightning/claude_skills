@@ -5,7 +5,7 @@ import cairosvg
 from PIL import Image, ImageDraw
 SOURCE_ICON_ID='171ff3c8-7724-4935-ac18-b58d43e05931'
 SOURCE_PATH='icon_set/work/todo-references/video game control directions_171ff3c8-7724-4935-ac18-b58d43e05931.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).resolve().parent
 ROWS=json.loads((ROOT/'batch-inputs.json').read_text())
 prior=Path('icon_set/work/primitive-make-ray/4a473edf-a356-4eca-8cfd-195e95d6bc62/20260923-210743-batch50-gpt6/author_batch.py')

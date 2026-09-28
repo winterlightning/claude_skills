@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='69067a56-4a6a-4f02-bdcf-fc3b45bb66ac'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-painting/20260927T142540Z-thuan-mac-1/reference/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Landscape monitor with a full stand, oval palette, and a separate diagonal paintbrush. Tiny pigment dots are omitted.'
 class Drawing(Solo48):
     icon_id='monitor-painting'

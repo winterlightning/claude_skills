@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e64fd8f9-3929-4c88-98ad-7278fe105998'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__bound-blindfolded-woman/20260924T160711Z-thuan-mac/reference/kidnapping woman_e64fd8f9-3929-4c88-98ad-7278fe105998.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='bound-blindfolded-woman'

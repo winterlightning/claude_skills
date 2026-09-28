@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f542e864-60e7-4015-8097-2c14a14c8f14'
 SOURCE_PATH = 'icon_set/work/todo-references/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'amazon-emr'

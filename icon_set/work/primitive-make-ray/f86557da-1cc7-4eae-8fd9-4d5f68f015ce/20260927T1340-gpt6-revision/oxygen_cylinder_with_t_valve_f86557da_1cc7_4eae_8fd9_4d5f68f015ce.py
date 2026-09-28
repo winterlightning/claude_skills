@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f86557da-1cc7-4eae-8fd9-4d5f68f015ce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__oxygen-cylinder-with-t-valve/20260927T133654Z-thuan-mac-1/reference/oxygen tank_f86557da-1cc7-4eae-8fd9-4d5f68f015ce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'oxygen-cylinder-with-t-valve'

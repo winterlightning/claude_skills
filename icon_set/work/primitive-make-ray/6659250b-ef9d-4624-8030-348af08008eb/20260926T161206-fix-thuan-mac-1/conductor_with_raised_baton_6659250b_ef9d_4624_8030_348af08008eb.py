@@ -20,7 +20,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6659250b-ef9d-4624-8030-348af08008eb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__conductor-with-raised-baton/20260926T160211Z-thuan-mac-1/reference/conductor_6659250b-ef9d-4624-8030-348af08008eb.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 HEAD, HEAD_R = (26, 14), 8
 SHOULDER_L, SHOULDER_R, SHOULDER_Y = 18, 34, 30

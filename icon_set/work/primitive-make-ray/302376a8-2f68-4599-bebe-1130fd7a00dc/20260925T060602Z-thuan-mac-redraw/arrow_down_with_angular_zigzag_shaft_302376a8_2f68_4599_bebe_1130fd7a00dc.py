@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '302376a8-2f68-4599-bebe-1130fd7a00dc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-down-with-angular-zigzag-shaft/20260925T060602Z-thuan-mac/reference/diagram zig zag fall large head_302376a8-2f68-4599-bebe-1130fd7a00dc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'arrow-down-with-angular-zigzag-shaft'

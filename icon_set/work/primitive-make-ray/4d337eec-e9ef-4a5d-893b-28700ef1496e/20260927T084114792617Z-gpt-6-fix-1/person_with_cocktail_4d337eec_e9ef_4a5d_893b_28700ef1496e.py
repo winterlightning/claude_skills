@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4d337eec-e9ef-4a5d-893b-28700ef1496e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-cocktail/20260927T083143Z-thuan-mac-1/reference/drinking_4d337eec-e9ef-4a5d-893b-28700ef1496e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonWithCocktail(Solo48):

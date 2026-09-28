@@ -14,7 +14,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '07b26145-f859-446a-aa54-ec18b20ca4a5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__surfer-on-board/20260927T094403Z-thuan-mac-1/reference/nautic sports surfing water_07b26145-f859-446a-aa54-ec18b20ca4a5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SurferOnBoard(Solo48):
     icon_id = 'surfer-on-board'

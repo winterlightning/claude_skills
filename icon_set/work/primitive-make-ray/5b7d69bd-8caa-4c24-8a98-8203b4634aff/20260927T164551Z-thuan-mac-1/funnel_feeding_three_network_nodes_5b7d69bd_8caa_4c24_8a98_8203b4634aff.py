@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5b7d69bd-8caa-4c24-8a98-8203b4634aff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__funnel-feeding-three-network-nodes/20260927T164337Z-thuan-mac-1/reference/amazon sns filtered notification_5b7d69bd-8caa-4c24-8a98-8203b4634aff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'funnel-feeding-three-network-nodes'
     keyshape = Keyshape.HRECT_L

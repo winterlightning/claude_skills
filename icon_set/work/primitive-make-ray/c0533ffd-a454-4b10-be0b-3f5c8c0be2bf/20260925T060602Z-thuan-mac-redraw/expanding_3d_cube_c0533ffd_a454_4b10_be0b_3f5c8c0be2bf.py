@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c0533ffd-a454-4b10-be0b-3f5c8c0be2bf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__expanding-3d-cube/20260925T060602Z-thuan-mac/reference/3 d box expand_c0533ffd-a454-4b10-be0b-3f5c8c0be2bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'expanding-3d-cube'

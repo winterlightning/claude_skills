@@ -21,7 +21,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8d2595e2-135f-48bd-8886-08c5da475869'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__earthquake-hiding-proof-table/20260926T152509Z-thuan-mac-1/reference/earthquake hiding proof table_8d2595e2-135f-48bd-8886-08c5da475869.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 ZIG_LOW, ZIG_HIGH, ZIG_STEP = 14, 8, 6
 TABLE_TOP, FLOOR, LEG_L, LEG_R = 23, 40, 4, 44

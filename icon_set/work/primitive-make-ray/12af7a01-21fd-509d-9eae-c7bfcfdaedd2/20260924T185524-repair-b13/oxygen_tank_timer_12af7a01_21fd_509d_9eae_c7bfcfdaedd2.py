@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='12af7a01-21fd-509d-9eae-c7bfcfdaedd2'
 SOURCE_PATH='pictographic-primitives/health/oxygen tank timer_12af7a01-21fd-509d-9eae-c7bfcfdaedd2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Capsule tank lower left with two-to-one height, simplified valve stem; hose joins circular timer at left cardinal point. Lucide clock. Valve housing and ticks omitted to retain breathing space.'
 class Drawing(Solo48):
     icon_id='oxygen-tank-timer'

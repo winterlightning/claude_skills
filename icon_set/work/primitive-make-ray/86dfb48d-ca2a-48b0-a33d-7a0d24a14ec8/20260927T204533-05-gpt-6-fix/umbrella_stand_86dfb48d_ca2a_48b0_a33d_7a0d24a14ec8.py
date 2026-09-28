@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '86dfb48d-ca2a-48b0-a33d-7a0d24a14ec8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__umbrella-stand/20260927T133645Z-thuan-mac-1/reference/rain umbrella case_86dfb48d-ca2a-48b0-a33d-7a0d24a14ec8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class UmbrellaStand(Solo48):
     icon_id = 'umbrella-stand'

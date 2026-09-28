@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82b336ab-b6e2-5e37-a1d9-2432b628d6d6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rising-line-chart-with-two-dips/20260924T083118Z-thuan-mac/reference/graph lines_82b336ab-b6e2-5e37-a1d9-2432b628d6d6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rising-line-chart-with-two-dips'

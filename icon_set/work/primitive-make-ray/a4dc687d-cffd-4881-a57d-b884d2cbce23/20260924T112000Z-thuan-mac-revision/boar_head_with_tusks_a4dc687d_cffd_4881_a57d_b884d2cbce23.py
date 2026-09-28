@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a4dc687d-cffd-4881-a57d-b884d2cbce23'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boar-head-with-tusks/20260924T111346Z-thuan-mac/reference/boar_a4dc687d-cffd-4881-a57d-b884d2cbce23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'boar-head-with-tusks'

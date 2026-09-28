@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '42a05d04-2c3a-56da-bc69-f3ad49815b93'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__common-file-bookmark/20260926T182452Z-thuan-mac-1/reference/common file bookmark_42a05d04-2c3a-56da-bc69-f3ad49815b93.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CommonFileBookmark(Solo48):
     icon_id = 'common-file-bookmark'

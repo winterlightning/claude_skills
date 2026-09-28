@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2e264d89-df47-47dc-aaab-48215c4956d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-broadcasting-signal/20260927T145855Z-thuan-mac-1/reference/signal tower node 5g_2e264d89-df47-47dc-aaab-48215c4956d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonBroadcastingSignal(Solo48):
     icon_id = 'person-broadcasting-signal'

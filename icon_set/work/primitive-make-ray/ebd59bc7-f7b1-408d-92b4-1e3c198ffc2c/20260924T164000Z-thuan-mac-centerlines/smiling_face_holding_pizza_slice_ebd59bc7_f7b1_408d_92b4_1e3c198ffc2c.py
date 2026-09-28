@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ebd59bc7-f7b1-408d-92b4-1e3c198ffc2c'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__smiling-face-holding-pizza-slice/20260924T163448Z-thuan-mac/reference/emoji food eating lover hug_ebd59bc7-f7b1-408d-92b4-1e3c198ffc2c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='smiling-face-holding-pizza-slice'
     keyshape=Keyshape.SQUARE

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '52c708f4-a507-499a-ba67-b97481d798ed'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-storefront-batch-025-05/20260927T164337Z-thuan-mac-1/reference/mobile shop 1_52c708f4-a507-499a-ba67-b97481d798ed.svg'
 EXPORTED_REFERENCE = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-025/references/mobile shop 1_52c708f4-a507-499a-ba67-b97481d798ed.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch025Icon(Solo48):
     icon_id = 'mobile-storefront-batch-025-05'

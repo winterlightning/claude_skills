@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='13abc017-fcc3-51a3-aa3d-7d3d0708d9ed'
 SOURCE_PATH='icon_set/work/todo-references/folder open_13abc017-fcc3-51a3-aa3d-7d3d0708d9ed.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='folder-open-front-tab'
     keyshape=Keyshape.HRECT_L

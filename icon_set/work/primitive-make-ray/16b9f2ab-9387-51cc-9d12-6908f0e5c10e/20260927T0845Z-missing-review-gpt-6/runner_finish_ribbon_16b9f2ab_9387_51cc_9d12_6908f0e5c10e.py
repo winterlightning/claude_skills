@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '16b9f2ab-9387-51cc-9d12-6908f0e5c10e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__runner-finish-ribbon/20260927T084430Z-thuan-mac-1/reference/marathon running finished goal_16b9f2ab-9387-51cc-9d12-6908f0e5c10e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RunnerFinishRibbon(Solo48):
     icon_id = 'runner-finish-ribbon'

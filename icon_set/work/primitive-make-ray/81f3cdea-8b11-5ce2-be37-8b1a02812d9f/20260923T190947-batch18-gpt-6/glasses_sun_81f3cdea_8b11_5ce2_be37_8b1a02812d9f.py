@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '81f3cdea-8b11-5ce2-be37-8b1a02812d9f'
 SOURCE_PATH = 'icon_set/work/todo-references/glasses sun_81f3cdea-8b11-5ce2-be37-8b1a02812d9f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'glasses-sun'
     keyshape = Keyshape.SQUARE

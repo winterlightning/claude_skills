@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a4589238-285a-447b-a676-ee538482bbc9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__box-a4589238/20260925T060624Z-thuan-mac/reference/box_a4589238-285a-447b-a676-ee538482bbc9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'box-a4589238'

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3730401c-4d35-4b72-a477-2313ba8f23f7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__index-finger-touching-a-phone/20260924T162025Z-thuan-mac/reference/bendable phone touch_3730401c-4d35-4b72-a477-2313ba8f23f7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'index-finger-touching-a-phone'

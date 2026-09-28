@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b8386e8f-cf90-460c-9bbf-04c34adf60e1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__scalpel-making-incision/20260924T163012Z-thuan-mac/reference/incision_b8386e8f-cf90-460c-9bbf-04c34adf60e1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='scalpel-making-incision'

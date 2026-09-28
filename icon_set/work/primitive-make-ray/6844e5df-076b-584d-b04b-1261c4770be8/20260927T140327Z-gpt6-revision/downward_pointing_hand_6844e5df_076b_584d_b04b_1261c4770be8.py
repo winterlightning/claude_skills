@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6844e5df-076b-584d-b04b-1261c4770be8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__downward-pointing-hand/20260927T135945Z-thuan-mac-1/reference/hand pointer down_6844e5df-076b-584d-b04b-1261c4770be8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'downward-pointing-hand'
     keyshape = Keyshape.VRECT_L

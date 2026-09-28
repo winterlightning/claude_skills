@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '308599f6-0b87-5e57-8523-c30eb5dd4e7a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__running-athlete/20260927T084430Z-thuan-mac-1/reference/sport runner_308599f6-0b87-5e57-8523-c30eb5dd4e7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RunningAthlete(Solo48):
     icon_id='running-athlete'

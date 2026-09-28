@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '95068712-4718-4a1b-940a-d5f44d36324b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__folded-fabric-stack-and-upright-roll/20260927T055558Z-thuan-mac-1/reference/material fabric_95068712-4718-4a1b-940a-d5f44d36324b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'folded-fabric-stack-and-upright-roll'

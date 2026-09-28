@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b2260913-e29f-55f3-b60e-a685ed41fcf7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-waving/20260927T083143Z-thuan-mac-1/reference/man actions_b2260913-e29f-55f3-b60e-a685ed41fcf7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonWaving(Solo48):
     icon_id = 'person-waving'

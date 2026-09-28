@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='55261672-8aa2-44d9-b648-0fed630f399c'
 SOURCE_PATH='pictographic-primitives/_uncategorized_38/trading news 1_55261672-8aa2-44d9-b648-0fed630f399c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='trading-news-1'
     keyshape=Keyshape.SQUARE

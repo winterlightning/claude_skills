@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7076c51a-8b84-5f46-8b1e-333c3a1adf18'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ear-with-two-sound-waves/20260927T061820Z-thuan-mac-1/reference/earpod listen_7076c51a-8b84-5f46-8b1e-333c3a1adf18.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '37ae4172-af70-4ae7-8de2-52970a6302ab'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/recruiting resume document_37ae4172-af70-4ae7-8de2-52970a6302ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A résumé document with a photo placeholder, text and an applicant silhouette.'
 OMISSIONS = 'Text reduced from two rows to one shorter row; document bottom shortened to clear the person.'
 CONSTRUCTION_REFERENCES = 'Shared human user.svg: circular head and broad shoulders.'

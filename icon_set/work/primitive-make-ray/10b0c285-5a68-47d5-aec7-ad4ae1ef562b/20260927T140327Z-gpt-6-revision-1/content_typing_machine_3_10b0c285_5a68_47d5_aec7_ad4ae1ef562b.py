@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '10b0c285-5a68-47d5-aec7-ad4ae1ef562b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__typewriter-with-blank-upright-paper/20260927T140026Z-thuan-mac-1/reference/content typing machine 3_10b0c285-5a68-47d5-aec7-ad4ae1ef562b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'typewriter-with-blank-upright-paper'

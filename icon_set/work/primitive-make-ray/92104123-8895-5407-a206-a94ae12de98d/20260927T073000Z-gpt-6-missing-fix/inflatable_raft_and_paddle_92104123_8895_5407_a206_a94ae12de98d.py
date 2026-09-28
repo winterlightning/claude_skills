@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '92104123-8895-5407-a206-a94ae12de98d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__inflatable-raft-and-paddle/20260927T070849Z-thuan-mac-1/reference/sport rafting equipment_92104123-8895-5407-a206-a94ae12de98d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class InflatableRaftAndPaddle(Solo48):
     icon_id = 'inflatable-raft-and-paddle'

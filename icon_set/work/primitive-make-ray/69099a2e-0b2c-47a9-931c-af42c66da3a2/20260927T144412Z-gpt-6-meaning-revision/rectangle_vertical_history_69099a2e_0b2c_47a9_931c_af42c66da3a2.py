@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '69099a2e-0b2c-47a9-931c-af42c66da3a2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rectangle-vertical-history/20260927T144036Z-thuan-mac-1/reference/rectangle vertical history_69099a2e-0b2c-47a9-931c-af42c66da3a2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A history clock mark inside a panel.'
 OMISSIONS = 'Hour hand omitted; one radial clock hand retained and joined to the arc at an explicit endpoint. Arrowhead shortened.'
 CONSTRUCTION_REFERENCES = 'No local Lucide history original was available; quarter-circle construction and the supplied reference guide the mark.'

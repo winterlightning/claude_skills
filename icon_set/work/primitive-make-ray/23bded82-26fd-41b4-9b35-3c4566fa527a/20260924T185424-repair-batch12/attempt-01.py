@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='23bded82-26fd-41b4-9b35-3c4566fa527a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/wave square_23bded82-26fd-41b4-9b35-3c4566fa527a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='wave-square'

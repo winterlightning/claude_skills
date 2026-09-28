@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b4787f31-7286-435f-a9e4-6114f60b64e5'
 SOURCE_PATH = 'icon_set/work/todo-references/object exclude_b4787f31-7286-435f-a9e4-6114f60b64e5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Circular exclude symbol split at four diagonal attachment nodes, with crossing diagonals sharing the center.
 # Keyshape visible extremes are supplied by Keyshape.CIRCLE.bounds_for(SOLO48).
 # Lucide construction reference: No useful subject match; shared human reference for portraits.

@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '78cdcd12-a8af-52c7-89a0-c0f93928d644'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-above-organization-branches/20260927T074149Z-thuan-mac-1/reference/customer relationship management categorization list_78cdcd12-a8af-52c7-89a0-c0f93928d644.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonAboveOrganizationBranches(Solo48):

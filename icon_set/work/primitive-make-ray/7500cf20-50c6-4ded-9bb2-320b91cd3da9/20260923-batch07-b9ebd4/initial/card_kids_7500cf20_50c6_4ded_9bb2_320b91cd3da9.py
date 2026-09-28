@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7500cf20-50c6-4ded-9bb2-320b91cd3da9'
 SOURCE_PATH = 'icon_set/work/todo-references/card kids_7500cf20-50c6-4ded-9bb2-320b91cd3da9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'card-kids'

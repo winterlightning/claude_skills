@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '79956b84-d271-5a2f-bc03-ba8c4043b2b7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-vacuum-cleaner/20260927T032022Z-thuan-mac-1/reference/cleaning vacuum_79956b84-d271-5a2f-bc03-ba8c4043b2b7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class UprightVacuumCleaner(Solo48):
     icon_id = 'upright-vacuum-cleaner'

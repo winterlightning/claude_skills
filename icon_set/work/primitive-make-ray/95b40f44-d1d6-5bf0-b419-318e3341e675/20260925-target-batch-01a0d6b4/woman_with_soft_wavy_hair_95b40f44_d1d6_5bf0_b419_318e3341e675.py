@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='95b40f44-d1d6-5bf0-b419-318e3341e675'
 SOURCE_PATH='pictographic-primitives/avatars/woman_95b40f44-d1d6-5bf0-b419-318e3341e675.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN = 'Long wavy hair rests on broad curved shoulders around a large centered circular face and smooth parted fringe.'
 CONSTRUCTION_REFERENCES='icon-avatar and human_ref/user.svg: centered circular face, zero-gap touching shoulders; Lucide user-round: tangent curves.'
 OMISSIONS = ['Fine hair ripples condensed into one broad wave per side; neckline omitted.']

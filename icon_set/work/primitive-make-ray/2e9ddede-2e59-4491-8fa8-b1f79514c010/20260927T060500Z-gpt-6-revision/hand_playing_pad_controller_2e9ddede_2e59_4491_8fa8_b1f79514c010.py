@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2e9ddede-2e59-4491-8fa8-b1f79514c010'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-playing-pad-controller/20260927T060349Z-thuan-mac-1/reference/modern music mix touch_2e9ddede-2e59-4491-8fa8-b1f79514c010.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class HandPlayingPadController(Solo48):
     icon_id='hand-playing-pad-controller'

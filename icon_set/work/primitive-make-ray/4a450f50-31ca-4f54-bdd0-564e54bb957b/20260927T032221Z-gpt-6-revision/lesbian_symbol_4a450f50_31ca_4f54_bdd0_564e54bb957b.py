@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4a450f50-31ca-4f54-bdd0-564e54bb957b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lesbian-symbol/20260927T032022Z-thuan-mac-1/reference/gender lesbian_4a450f50-31ca-4f54-bdd0-564e54bb957b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class LesbianSymbol(Solo48):

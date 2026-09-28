@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '997ae6e3-eaa3-4004-9b7c-22a3dca9cbf5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__finger-selecting-ballot-option/20260927T075452Z-thuan-mac-1/reference/election online voting_997ae6e3-eaa3-4004-9b7c-22a3dca9cbf5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FingerSelectingBallotOption(Solo48):

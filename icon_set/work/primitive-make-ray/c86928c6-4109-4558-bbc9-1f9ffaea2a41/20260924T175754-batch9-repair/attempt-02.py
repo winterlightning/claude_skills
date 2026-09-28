@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='c86928c6-4109-4558-bbc9-1f9ffaea2a41'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate message couple building_c86928c6-4109-4558-bbc9-1f9ffaea2a41.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN='Two people discuss a house in a speech bubble above them.'
 OMISSIONS='Small door omitted; paired busts use identical proportions.'
 LUCIDE_REFERENCE='house'

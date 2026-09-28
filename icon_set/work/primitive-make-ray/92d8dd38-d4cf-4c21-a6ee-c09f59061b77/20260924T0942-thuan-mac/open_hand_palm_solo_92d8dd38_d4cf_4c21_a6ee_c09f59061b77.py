@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '92d8dd38-d4cf-4c21-a6ee-c09f59061b77'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-hand-palm-solo/20260924T093935Z-thuan-mac/reference/hand 1_92d8dd38-d4cf-4c21-a6ee-c09f59061b77.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide hand: four rounded fingertips with shared seams; source palm.'
 OMISSIONS = 'Wrist line retained; no palm crease.'
 

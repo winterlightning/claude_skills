@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'ce974c56-ba13-40f8-bcc7-d0c05f09f26f'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/volume_ce974c56-ba13-40f8-bcc7-d0c05f09f26f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class VolumeInterfaceEssential(Solo48):
     icon_id = 'volume-interface-essential'

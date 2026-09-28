@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '922ba268-0492-4ece-8f41-54253b52949a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/refugee immigration war 2_922ba268-0492-4ece-8f41-54253b52949a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'An explosion beside a house, representing war damage and displacement.'
 OMISSIONS = 'Inner capsule, house door and detached impact rays omitted. Burst rebalanced to retain multiple irregular rays and sufficient clearance to the house.'
 CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; supplied explosion composition and Lucide house roof/wall construction.'

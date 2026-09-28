@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8a02fc5d-81a6-4f72-8628-2ea73f78a5b6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__paired-grain-stalks/20260927T182642Z-thuan-mac-1/reference/bread wheat_8a02fc5d-81a6-4f72-8628-2ea73f78a5b6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'paired-grain-stalks'

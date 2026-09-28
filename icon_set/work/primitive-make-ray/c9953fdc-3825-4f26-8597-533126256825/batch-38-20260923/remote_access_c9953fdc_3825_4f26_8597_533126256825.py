@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c9953fdc-3825-4f26-8597-533126256825'
 SOURCE_PATH='icon_set/work/todo-references/remote access_c9953fdc-3825-4f26-8597-533126256825.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Nested outer and inner hexagons surrounding a circular center. Both hexagons share axis and paired sloping edges.'
 CONSTRUCTION_REFERENCES='No useful exact Lucide match; symmetric polygon construction from source. Existing hidden draft inspected and found invalid, left unchanged.'
 OMISSIONS='None; both hexagons and center circle retained.'

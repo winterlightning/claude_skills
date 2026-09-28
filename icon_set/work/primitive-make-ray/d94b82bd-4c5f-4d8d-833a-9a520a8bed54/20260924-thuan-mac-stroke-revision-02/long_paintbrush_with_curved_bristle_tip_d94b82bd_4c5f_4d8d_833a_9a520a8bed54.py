@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d94b82bd-4c5f-4d8d-833a-9a520a8bed54'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__long-paintbrush-with-curved-bristle-tip/20260924T101756Z-thuan-mac/reference/brush_d94b82bd-4c5f-4d8d-833a-9a520a8bed54.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='paintbrush: coherent handle/head seam'
 DESIGN_PLAN='Diagonal rounded handle joins a broad flowing bristle head. SQUARE centerlines (6,6)-(42,42). Tangents flow around the cap and working tip; slanted shared seam separates materials.'
 OMISSIONS='None.'

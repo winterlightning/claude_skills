@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5258ac69-241c-4b0b-aabc-f19af491ff9e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-expand-square-icon-solo-b005-13/20260924T093003Z-thuan-mac/reference/resize expand corner_5258ac69-241c-4b0b-aabc-f19af491ff9e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-expand-square-icon-solo-b005-13'
     keyshape = Keyshape.SQUARE

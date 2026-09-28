@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='59f997a9-32d8-436a-ae34-06535681b16e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/shipment approve smartphone_59f997a9-32d8-436a-ae34-06535681b16e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Parcel behind approval phone, perspective reduced to a clear parcel rectangle; tiny phone footer and cube seams omitted. HRECT_L4,8–44,40 separates objects. Lucide package enclosure principles.'
 class Drawing(Solo48):
     icon_id='shipment-approve-smartphone'

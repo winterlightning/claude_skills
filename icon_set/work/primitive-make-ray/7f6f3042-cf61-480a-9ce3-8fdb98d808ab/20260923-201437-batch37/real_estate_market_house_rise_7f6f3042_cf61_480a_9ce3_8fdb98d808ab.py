@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='7f6f3042-cf61-480a-9ce3-8fdb98d808ab'
 SOURCE_PATH='icon_set/work/todo-references/real estate market house rise_7f6f3042-cf61-480a-9ce3-8fdb98d808ab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='An open-door house with a rising zigzag market arrow at lower right.'
 OMISSIONS='Door arch retained; right wall and right jamb shortened to leave room for the rising trend.'
 LUCIDE_REFERENCE='house'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '545b491e-d8c6-4538-a8f0-b05b3ee99855'
 SOURCE_PATH = 'icon_set/work/todo-references/row insert_545b491e-d8c6-4538-a8f0-b05b3ee99855.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Two empty row bars with a rightward insertion chevron on the left.
 # Reference: square-dashed/rounded rectangle construction: repeated equal corner radii.
 # Reduction: No defining parts omitted.

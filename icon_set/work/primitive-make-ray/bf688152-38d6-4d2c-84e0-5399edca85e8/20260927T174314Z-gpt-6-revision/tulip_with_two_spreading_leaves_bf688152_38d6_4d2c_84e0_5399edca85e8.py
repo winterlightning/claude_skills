@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bf688152-38d6-4d2c-84e0-5399edca85e8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tulip-with-two-spreading-leaves/20260927T173930Z-thuan-mac-1/reference/bud_bf688152-38d6-4d2c-84e0-5399edca85e8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'tulip-with-two-spreading-leaves'

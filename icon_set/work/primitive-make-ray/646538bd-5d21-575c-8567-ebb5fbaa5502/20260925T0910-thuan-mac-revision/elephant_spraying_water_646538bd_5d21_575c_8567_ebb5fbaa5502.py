@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='646538bd-5d21-575c-8567-ebb5fbaa5502'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__elephant-spraying-water/20260925T085649Z-thuan-mac/reference/elephant water_646538bd-5d21-575c-8567-ebb5fbaa5502.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='elephant-spraying-water'

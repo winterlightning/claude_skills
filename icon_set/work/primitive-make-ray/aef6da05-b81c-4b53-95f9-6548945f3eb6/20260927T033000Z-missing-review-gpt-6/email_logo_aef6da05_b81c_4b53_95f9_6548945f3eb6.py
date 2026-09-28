@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line, poly, contacts
 SOURCE_ICON_ID = 'aef6da05-b81c-4b53-95f9-6548945f3eb6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__email-logo/20260927T032256Z-thuan-mac-1/reference/email logo_aef6da05-b81c-4b53-95f9-6548945f3eb6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class EmailLogo(Solo48):
     icon_id = 'email-logo'

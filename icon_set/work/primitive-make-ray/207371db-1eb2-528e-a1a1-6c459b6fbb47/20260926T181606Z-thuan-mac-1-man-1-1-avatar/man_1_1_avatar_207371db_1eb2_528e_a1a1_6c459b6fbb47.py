@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '207371db-1eb2-528e-a1a1-6c459b6fbb47'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__man-1-1-avatar/20260926T175531Z-thuan-mac-1/reference/man-1-1-avatar_207371db-1eb2-528e-a1a1-6c459b6fbb47.svg'
 SOURCE_HEAD_ICON_ID = 'man-1-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 class Man11Avatar(Solo48):
     icon_id = 'man-1-1-avatar'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '909c8013-e74f-52f3-bc3c-88ac60cd382c'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_909c8013-e74f-52f3-bc3c-88ac60cd382c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Avatar with circular jaw and smooth shoulder arcs. Body top32 = jaw bottom28 + HEAD_BODY_CENTERLINE_GAP; zero visible head/body gap.'
 OMISSIONS = 'Tiny neck seams omitted; original hairstyle and open bust retained.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']

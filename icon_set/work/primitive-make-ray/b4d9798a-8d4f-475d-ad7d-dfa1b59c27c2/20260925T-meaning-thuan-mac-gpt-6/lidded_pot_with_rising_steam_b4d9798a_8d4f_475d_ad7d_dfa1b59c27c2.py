@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b4d9798a-8d4f-475d-ad7d-dfa1b59c27c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lidded-pot-with-rising-steam/20260925T034349Z-thuan-mac/reference/cooking_b4d9798a-8d4f-475d-ad7d-dfa1b59c27c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'lidded-pot-with-rising-steam'

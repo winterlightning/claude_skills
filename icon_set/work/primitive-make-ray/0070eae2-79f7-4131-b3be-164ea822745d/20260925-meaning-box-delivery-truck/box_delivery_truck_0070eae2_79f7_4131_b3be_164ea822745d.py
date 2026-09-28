@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0070eae2-79f7-4131-b3be-164ea822745d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__box-delivery-truck/20260925T034659Z-thuan-mac/reference/carrier_0070eae2-79f7-4131-b3be-164ea822745d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Delivery truck with tall rectangular cargo box, distinct cab and two large wheels; replace flattened cab silhouette.
 # Construction reference: Lucide truck cargo/cab hierarchy and wheel alignment.
 # Envelope: HRECT_L; bounds are defined by its outer contour/extreme tips.

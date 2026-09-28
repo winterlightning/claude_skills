@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6c38d9c8-0e42-5dd8-a256-2b9b12046c18'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__customer-at-information-desk/20260927T032242Z-thuan-mac-1/reference/information desk customer_6c38d9c8-0e42-5dd8-a256-2b9b12046c18.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'customer-at-information-desk'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9afef0ba-76dd-58ef-a48e-cda905a50b5c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-on-escalator/20260926T171117Z-thuan-mac-1/reference/escalator person_9afef0ba-76dd-58ef-a48e-cda905a50b5c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonOnEscalator(Solo48):
     icon_id = 'person-on-escalator'

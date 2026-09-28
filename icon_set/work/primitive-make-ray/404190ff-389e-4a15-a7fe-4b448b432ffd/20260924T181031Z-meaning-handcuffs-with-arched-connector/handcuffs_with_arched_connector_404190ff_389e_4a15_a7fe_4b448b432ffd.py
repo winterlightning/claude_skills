@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '404190ff-389e-4a15-a7fe-4b448b432ffd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handcuffs-with-arched-connector/20260924T181031Z-thuan-mac/reference/handcuffs_404190ff-389e-4a15-a7fe-4b448b432ffd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'handcuffs-with-arched-connector'

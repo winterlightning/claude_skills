@@ -16,7 +16,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6c01ed88-1571-4e62-904d-509e18f64c7d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__four-playing-card-suits/20260926T152509Z-thuan-mac-1/reference/card game symbols_6c01ed88-1571-4e62-904d-509e18f64c7d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Drawing(Solo48):
     icon_id='four-playing-card-suits'

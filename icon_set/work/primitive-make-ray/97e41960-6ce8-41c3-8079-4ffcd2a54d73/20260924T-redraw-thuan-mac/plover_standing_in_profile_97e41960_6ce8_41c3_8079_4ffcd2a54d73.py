@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='97e41960-6ce8-41c3-8079-4ffcd2a54d73'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__plover-standing-in-profile/20260924T142441Z-thuan-mac/reference/plover_97e41960-6ce8-41c3-8079-4ffcd2a54d73.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='plover-standing-in-profile'

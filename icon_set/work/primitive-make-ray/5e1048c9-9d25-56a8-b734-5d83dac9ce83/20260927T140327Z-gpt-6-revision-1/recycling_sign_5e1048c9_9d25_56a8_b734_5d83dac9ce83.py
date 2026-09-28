@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5e1048c9-9d25-56a8-b734-5d83dac9ce83'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-folded-arrows-forming-recycling-loop/20260927T140026Z-thuan-mac-1/reference/recycling sign_5e1048c9-9d25-56a8-b734-5d83dac9ce83.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-folded-arrows-forming-recycling-loop'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ff75519b-afd0-4da5-b995-1999fe2b031a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stack-unstack-column/20260924T171114Z-thuan-mac/reference/stack unstack column_ff75519b-afd0-4da5-b995-1999fe2b031a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'stack-unstack-column'
     keyshape = Keyshape.VRECT_L

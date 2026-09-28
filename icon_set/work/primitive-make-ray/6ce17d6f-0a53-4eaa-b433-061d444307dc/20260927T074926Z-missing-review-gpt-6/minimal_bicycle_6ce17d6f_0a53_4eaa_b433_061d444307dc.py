@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6ce17d6f-0a53-4eaa-b433-061d444307dc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__minimal-bicycle/20260927T074149Z-thuan-mac-1/reference/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'
 SOURCE_REFERENCES = (('6ce17d6f-0a53-4eaa-b433-061d444307dc', 'pictographic-primitives/transportation/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'), ('809ac450-efd8-4c1a-94b3-ed96c86e92df', 'pictographic-primitives/transportation/bicycle_809ac450-efd8-4c1a-94b3-ed96c86e92df.svg'), ('c94a3698-f47d-459c-afbc-fc5e64f7a783', 'pictographic-primitives/transportation/bicycle_c94a3698-f47d-459c-afbc-fc5e64f7a783.svg'))
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MinimalBicycle(Solo48):
     icon_id = 'minimal-bicycle'

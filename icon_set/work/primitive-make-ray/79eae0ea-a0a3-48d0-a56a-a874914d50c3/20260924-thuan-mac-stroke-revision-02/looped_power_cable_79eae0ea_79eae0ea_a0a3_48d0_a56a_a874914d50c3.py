@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='79eae0ea-a0a3-48d0-a56a-a874914d50c3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__looped-power-cable-79eae0ea/20260924T101756Z-thuan-mac/reference/circle cable_79eae0ea-a0a3-48d0-a56a-a874914d50c3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='plug: rounded body and paired prongs'
 DESIGN_PLAN='Broad looped cable ends in a rounded plug with two evenly spaced prongs. SQUARE centerlines (6,6)-(42,42); tangent loop shoulders and larger plug opening.'
 OMISSIONS='None.'

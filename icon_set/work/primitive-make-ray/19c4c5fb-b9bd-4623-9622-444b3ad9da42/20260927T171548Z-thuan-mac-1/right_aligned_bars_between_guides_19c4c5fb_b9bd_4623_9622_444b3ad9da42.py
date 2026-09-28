@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '19c4c5fb-b9bd-4623-9622-444b3ad9da42'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__right-aligned-bars-between-guides/20260927T171300Z-thuan-mac-1/reference/objects align top_19c4c5fb-b9bd-4623-9622-444b3ad9da42.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-aligned-bars-between-guides'

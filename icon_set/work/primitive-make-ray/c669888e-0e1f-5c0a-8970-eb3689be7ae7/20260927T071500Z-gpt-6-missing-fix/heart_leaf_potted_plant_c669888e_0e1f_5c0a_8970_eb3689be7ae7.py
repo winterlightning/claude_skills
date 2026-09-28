@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c669888e-0e1f-5c0a-8970-eb3689be7ae7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-leaf-potted-plant/20260927T061835Z-thuan-mac-1/reference/indoor plant_c669888e-0e1f-5c0a-8970-eb3689be7ae7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeartLeafPottedPlant(Solo48):

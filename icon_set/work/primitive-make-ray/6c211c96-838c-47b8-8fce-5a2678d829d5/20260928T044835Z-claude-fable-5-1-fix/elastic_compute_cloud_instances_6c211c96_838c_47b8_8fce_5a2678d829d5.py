@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6c211c96-838c-47b8-8fce-5a2678d829d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__elastic-compute-cloud-instances/20260928T042731Z-thuan-mac-1/reference/elastic compute cloud instances_6c211c96-838c-47b8-8fce-5a2678d829d5.svg'
-AUTHOR = 'claude-fable-5-1'
+AUTHOR = "claude-fable-5-1"
 
 
 class ElasticComputeCloudInstances(Solo48):

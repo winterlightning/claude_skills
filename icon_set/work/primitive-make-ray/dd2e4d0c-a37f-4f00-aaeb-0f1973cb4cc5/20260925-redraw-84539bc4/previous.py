@@ -10,7 +10,7 @@ from ._side_main50_geometry import box, circle, path
 
 SOURCE_ICON_ID = 'dd2e4d0c-a37f-4f00-aaeb-0f1973cb4cc5'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/ui webpage bank_dd2e4d0c-a37f-4f00-aaeb-0f1973cb4cc5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SourceMain(Solo48):

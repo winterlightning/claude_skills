@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c126b7b6-6ab5-4ac1-9509-ac6389196ee7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__berlin-cathedral-reference/20260925T070522Z-thuan-mac/reference/landmark berlin cathedral_c126b7b6-6ab5-4ac1-9509-ac6389196ee7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'berlin-cathedral-reference'

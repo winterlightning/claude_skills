@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '773e44a0-ed3c-4e21-a7c4-a9f1984bd4e3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ox-head-raised-horns/20260924T111035Z-thuan-mac/reference/ox_773e44a0-ed3c-4e21-a7c4-a9f1984bd4e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'ox-head-raised-horns'
     keyshape = Keyshape.SQUARE

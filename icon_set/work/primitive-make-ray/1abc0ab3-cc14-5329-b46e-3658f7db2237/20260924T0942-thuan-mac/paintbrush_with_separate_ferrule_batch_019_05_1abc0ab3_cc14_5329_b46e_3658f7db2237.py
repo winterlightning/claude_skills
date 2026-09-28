@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1abc0ab3-cc14-5329-b46e-3658f7db2237'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__paintbrush-with-separate-ferrule-batch-019-05/20260924T093935Z-thuan-mac/reference/brush_1abc0ab3-cc14-5329-b46e-3658f7db2237.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide paintbrush: distinct ferrule and flowing bristle outline; source round handle.'
 OMISSIONS = 'None'
 

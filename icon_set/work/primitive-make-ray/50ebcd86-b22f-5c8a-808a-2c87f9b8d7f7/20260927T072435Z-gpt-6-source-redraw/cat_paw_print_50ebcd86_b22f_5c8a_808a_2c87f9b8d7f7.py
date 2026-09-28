@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '50ebcd86-b22f-5c8a-808a-2c87f9b8d7f7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cat-paw-print/20260927T071330Z-thuan-mac-1/reference/cat-paw-print_50ebcd86-b22f-5c8a-808a-2c87f9b8d7f7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CatPawPrint(Solo48):
     icon_id = 'cat-paw-print'

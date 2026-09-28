@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '994c360d-a3ef-411d-83b6-1227713cc09e'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/brain circuit_994c360d-a3ef-411d-83b6-1227713cc09e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'brain-circuit'

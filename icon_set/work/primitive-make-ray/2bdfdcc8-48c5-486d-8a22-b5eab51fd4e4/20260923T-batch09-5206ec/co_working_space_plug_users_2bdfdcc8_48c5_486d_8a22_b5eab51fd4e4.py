@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4'
 SOURCE_PATH = 'icon_set/work/todo-references/co working space plug users_2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'co-working-space-plug-users'

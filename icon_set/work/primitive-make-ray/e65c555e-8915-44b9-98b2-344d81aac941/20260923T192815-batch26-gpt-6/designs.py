@@ -1,7 +1,7 @@
 """Fresh SOLO48 plans for batch 26; identifiers are retained in every output module."""
 SOURCE_ICON_ID='e65c555e-8915-44b9-98b2-344d81aac941'
 SOURCE_PATH='icon_set/work/todo-references/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PHONE='''
         # Plan: rounded upright phone and lower band; content owns its own geometry.
         self.rect('phone',8,4,32,40)

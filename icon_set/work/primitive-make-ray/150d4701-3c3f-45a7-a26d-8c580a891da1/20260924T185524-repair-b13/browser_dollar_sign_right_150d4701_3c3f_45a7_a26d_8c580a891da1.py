@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='150d4701-3c3f-45a7-a26d-8c580a891da1'
 SOURCE_PATH='pictographic-primitives/other/browser dollar sign right_150d4701-3c3f-45a7-a26d-8c580a891da1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Browser with right aligned dollar; Lucide dollar-sign terminals and rounded frame construction. Dollar diagonal waist opens lobes. Header title dots omitted for spacing.'
 class Drawing(Solo48):
     icon_id='browser-dollar-sign-right'

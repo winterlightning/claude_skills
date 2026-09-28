@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c78b8def-1b7f-4ffe-9d6a-207e5edd5ad8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__onion-bulb-vertical-layers/20260927T133654Z-thuan-mac-1/reference/onion_c78b8def-1b7f-4ffe-9d6a-207e5edd5ad8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OnionBulbVerticalLayers(Solo48):
     icon_id = 'onion-bulb-vertical-layers'

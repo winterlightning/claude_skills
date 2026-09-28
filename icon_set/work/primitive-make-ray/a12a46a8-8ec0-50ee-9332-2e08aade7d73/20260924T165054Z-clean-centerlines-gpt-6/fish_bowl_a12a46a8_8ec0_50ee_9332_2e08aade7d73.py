@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a12a46a8-8ec0-50ee-9332-2e08aade7d73'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fish-bowl/20260924T165054Z-thuan-mac/reference/fish bowl_a12a46a8-8ec0-50ee-9332-2e08aade7d73.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'fish-bowl'
     keyshape = Keyshape.SQUARE

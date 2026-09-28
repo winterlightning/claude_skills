@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bb5a229c-a87a-4aa2-a696-d97a47004bfa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tank-wagon/20260927T094425Z-thuan-mac-1/reference/railroad wagon_bb5a229c-a87a-4aa2-a696-d97a47004bfa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected small hatch underplayed the source’s top service fitting.'
 REVISION_CHANGE = 'Widened the centered hatch while retaining the tank, ladder, and paired wheels.'
 

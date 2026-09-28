@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1228a3cf-b0ac-41b8-a4db-2d272fbe1241'
 SOURCE_PATH='icon_set/work/todo-references/real estate market house_1228a3cf-b0ac-41b8-a4db-2d272fbe1241.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A house sits inside an open circular market ring with a thick upper-right segment.'
 OMISSIONS='Door retained; ring segment reduced to a clean double arc.'
 LUCIDE_REFERENCE='house'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a0220f3e-39f2-4fe3-a929-e532120865b6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-cow/20260924T105724Z-thuan-mac/reference/cattle_a0220f3e-39f2-4fe3-a929-e532120865b6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'standing-cow'

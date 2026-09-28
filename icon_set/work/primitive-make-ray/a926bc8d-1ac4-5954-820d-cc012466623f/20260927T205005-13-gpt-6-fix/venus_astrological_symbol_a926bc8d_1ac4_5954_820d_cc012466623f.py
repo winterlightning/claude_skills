@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a926bc8d-1ac4-5954-820d-cc012466623f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__venus-astrological-symbol/20260927T133645Z-thuan-mac-1/reference/astrology venus_a926bc8d-1ac4-5954-820d-cc012466623f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class VenusAstrologicalSymbol(Solo48):
     icon_id = 'venus-astrological-symbol'

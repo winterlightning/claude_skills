@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ffe08ac3-8444-4717-b236-e05602679f52'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__fountain-pen-drawing-a-stroke/20260925T090617Z-thuan-mac/reference/pen write 1_ffe08ac3-8444-4717-b236-e05602679f52.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='fountain-pen-drawing-a-stroke'
     keyshape=Keyshape.SQUARE

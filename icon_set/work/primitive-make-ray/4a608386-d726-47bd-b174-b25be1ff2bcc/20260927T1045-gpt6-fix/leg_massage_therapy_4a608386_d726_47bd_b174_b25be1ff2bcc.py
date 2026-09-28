@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4a608386-d726-47bd-b174-b25be1ff2bcc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__leg-massage-therapy-4a608386/20260927T104148Z-thuan-mac-1/reference/thai massage leg_4a608386-d726-47bd-b174-b25be1ff2bcc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'leg-massage-therapy-4a608386'

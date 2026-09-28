@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4039196b-f9e5-4dae-8913-9d354e00731d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__electric-streetcar/20260924T115443Z-thuan-mac/reference/trolley_4039196b-f9e5-4dae-8913-9d354e00731d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='electric-streetcar'

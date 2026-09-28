@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cb7f5956-8d37-4c5d-be74-835813bcddcd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bow-tied-around-finger/20260924T152540Z-thuan-mac/reference/raksha bandhan_cb7f5956-8d37-4c5d-be74-835813bcddcd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'bow-tied-around-finger'
     keyshape = Keyshape.SQUARE

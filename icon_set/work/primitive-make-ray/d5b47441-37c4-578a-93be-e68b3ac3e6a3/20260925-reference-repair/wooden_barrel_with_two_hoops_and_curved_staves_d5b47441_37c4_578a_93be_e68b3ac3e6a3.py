@@ -1,7 +1,7 @@
 'Restored a fuller curved barrel on VRECT_L: narrower top and bottom, bowed walls and staves, and hoops moved toward the ends to expose the long central curves. Centerline bounds remain (8,4)–(40,44). All curve joins have aligned tangents. Full QA passes without exceptions.'
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 SOURCE_ICON_ID='d5b47441-37c4-578a-93be-e68b3ac3e6a3'
 SOURCE_PATH='pictographic-primitives/drinks/wine barrel_d5b47441-37c4-578a-93be-e68b3ac3e6a3.svg'
 class Drawing(Solo48):

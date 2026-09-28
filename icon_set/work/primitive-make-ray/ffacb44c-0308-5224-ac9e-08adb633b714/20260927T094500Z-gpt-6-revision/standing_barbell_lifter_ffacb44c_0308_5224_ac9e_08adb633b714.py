@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ffacb44c-0308-5224-ac9e-08adb633b714'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-barbell-lifter/20260927T093533Z-thuan-mac-1/reference/weightlifting_ffacb44c-0308-5224-ac9e-08adb633b714.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StandingBarbellLifter(Solo48):
     icon_id = 'standing-barbell-lifter'

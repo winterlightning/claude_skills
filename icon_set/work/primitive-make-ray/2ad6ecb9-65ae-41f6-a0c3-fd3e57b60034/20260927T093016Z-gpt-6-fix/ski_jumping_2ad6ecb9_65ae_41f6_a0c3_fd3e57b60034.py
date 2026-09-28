@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2ad6ecb9-65ae-41f6-a0c3-fd3e57b60034'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ski-jumping/20260927T092933Z-thuan-mac-1/reference/snow jumping_2ad6ecb9-65ae-41f6-a0c3-fd3e57b60034.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SkiJumping(Solo48):

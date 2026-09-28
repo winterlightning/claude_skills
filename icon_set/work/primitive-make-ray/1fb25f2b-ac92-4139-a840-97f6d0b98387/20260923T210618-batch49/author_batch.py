@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parent
 INPUTS=json.loads((ROOT/'batch-inputs.json').read_text())
 SOURCE_ICON_ID=tuple(r['source_uuid'] for r in INPUTS)
 SOURCE_PATH=tuple(r['reference_path'] for r in INPUTS)
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 HELPERS='''
     def circle(self,n,x,y,r):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '500e139c-ae79-400e-8292-d7a6a08b0328'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ice-cream-stick-1/20260926T164653Z-thuan-mac/reference/ice cream stick 1_500e139c-ae79-400e-8292-d7a6a08b0328.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

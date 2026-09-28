@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c2a64d8a-ca70-53b9-b450-150287c2bfc6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boxer-avatar/20260925T034659Z-thuan-mac/reference/boxer_c2a64d8a-ca70-53b9-b450-150287c2bfc6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Boxer portrait with broad shoulders and headguard framing the face; omit facial microdetails.
 # Construction reference: human_ref/user.svg broad shoulders and circular jaw; headguard retained from original.
 # Envelope: VRECT_L; bounds are defined by its outer contour/extreme tips.

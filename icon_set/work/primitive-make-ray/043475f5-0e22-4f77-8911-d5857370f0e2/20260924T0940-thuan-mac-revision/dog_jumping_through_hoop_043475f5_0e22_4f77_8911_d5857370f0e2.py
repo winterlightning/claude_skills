@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='043475f5-0e22-4f77-8911-d5857370f0e2'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dog-jumping-through-hoop/20260924T093128Z-thuan-mac/reference/dog jump_043475f5-0e22-4f77-8911-d5857370f0e2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='dog-jumping-through-hoop'
     keyshape=Keyshape.HRECT_L

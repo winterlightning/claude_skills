@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b918e243-05fb-49d7-a0ca-da68f69be04a'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__vertical-swipe-down-finger-gesture/20260924T172356Z-thuan-mac/reference/gesture swipe vertical down_b918e243-05fb-49d7-a0ca-da68f69be04a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='vertical-swipe-down-finger-gesture'

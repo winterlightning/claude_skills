@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='e9326841-b6b1-432e-a99d-c2065849139b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hex-nut-cluster/20260926T172218Z-thuan-mac-1/reference/well architected tools_e9326841-b6b1-432e-a99d-c2065849139b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HexNutCluster(Solo48):
     icon_id='hex-nut-cluster'

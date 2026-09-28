@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6f5654b6-d336-40f6-84c1-e153d3ad1fc3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-gripping-wrists/20260924T181031Z-thuan-mac/reference/workflow teamwork hand lock_6f5654b6-d336-40f6-84c1-e153d3ad1fc3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hands-gripping-wrists'

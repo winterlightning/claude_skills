@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd8e53a33-32ee-4c7d-85e0-ac0f71bcdb94'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__exclamation-mark-solo-batch-022-11/20260927T101626Z-thuan-mac-1/reference/exclamation_d8e53a33-32ee-4c7d-85e0-ac0f71bcdb94.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (8, 2, 40, 46); centerline (10, 4, 38, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/exclamation_d8e53a33-32ee-4c7d-85e0-ac0f71bcdb94.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-022/11-exclamation-mark-warning-symbol--d8e53a33-32ee-4c7d-85e0-ac0f71bcdb94.md'

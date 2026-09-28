@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '20214d85-2a10-45f3-974e-7a15e7241f74'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-supporting-hard-hat/20260924T162025Z-thuan-mac/reference/labor hands action_20214d85-2a10-45f3-974e-7a15e7241f74.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hands-supporting-hard-hat'

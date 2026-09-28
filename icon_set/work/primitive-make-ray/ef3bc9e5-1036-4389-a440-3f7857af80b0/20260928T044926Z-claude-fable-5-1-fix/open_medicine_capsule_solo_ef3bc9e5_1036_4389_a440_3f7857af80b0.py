@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ef3bc9e5-1036-4389-a440-3f7857af80b0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-medicine-capsule-solo/20260928T042731Z-thuan-mac-1/reference/pill open_ef3bc9e5-1036-4389-a440-3f7857af80b0.svg'
-AUTHOR = 'claude-fable-5-1'
+AUTHOR = "claude-fable-5-1"
 
 
 class OpenMedicineCapsuleSolo(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e169ce75-2425-4df4-8390-e71be7ca6c54'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-flame-with-three-rounded-smoke-puffs/20260924T093935Z-thuan-mac/reference/wildfire_e169ce75-2425-4df4-8390-e71be7ca6c54.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide flame: pointed tongue flowing into round lower bowl.'
 OMISSIONS = 'Inner flame omitted to retain clearance; all three smoke puffs retained.'
 

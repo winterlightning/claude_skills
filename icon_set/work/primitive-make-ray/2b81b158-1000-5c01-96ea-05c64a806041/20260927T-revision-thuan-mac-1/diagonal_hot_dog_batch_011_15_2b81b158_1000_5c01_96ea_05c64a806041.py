@@ -13,7 +13,7 @@ SOURCE_ICON_ID = '2b81b158-1000-5c01-96ea-05c64a806041'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-hot-dog-batch-011-15/20260927T150749Z-thuan-mac-1/reference/hot dog grilled_2b81b158-1000-5c01-96ea-05c64a806041.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/hot dog grilled_2b81b158-1000-5c01-96ea-05c64a806041.svg'
 EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-011/references/hot dog grilled_2b81b158-1000-5c01-96ea-05c64a806041.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 BATCH_AUTHORING_RUN = "20260917-011-015"
 
 

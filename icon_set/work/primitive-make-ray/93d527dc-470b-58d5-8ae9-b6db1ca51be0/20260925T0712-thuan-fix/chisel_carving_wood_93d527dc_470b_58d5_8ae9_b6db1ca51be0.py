@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '93d527dc-470b-58d5-8ae9-b6db1ca51be0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chisel-carving-wood/20260925T070532Z-thuan-mac/reference/wood carving_93d527dc-470b-58d5-8ae9-b6db1ca51be0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Allow the wood base to reach y=47 ink inside the 48px canvas, preserving a readable separate chisel blade, handle and wood grain recess. All spacing checks pass.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'c37355279459781ae263a0020d4b45581150e05fa62b9722d6101a794a6bd0c1'}

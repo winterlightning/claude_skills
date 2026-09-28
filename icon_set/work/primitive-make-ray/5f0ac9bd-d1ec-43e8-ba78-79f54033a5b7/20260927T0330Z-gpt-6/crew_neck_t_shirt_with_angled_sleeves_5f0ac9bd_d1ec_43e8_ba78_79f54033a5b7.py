@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5f0ac9bd-d1ec-43e8-ba78-79f54033a5b7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crew-neck-t-shirt-with-angled-sleeves/20260927T032242Z-thuan-mac-1/reference/t shirt_5f0ac9bd-d1ec-43e8-ba78-79f54033a5b7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('5f0ac9bd-d1ec-43e8-ba78-79f54033a5b7', 'pictographic-primitives/clothes/t shirt_5f0ac9bd-d1ec-43e8-ba78-79f54033a5b7.svg'), ('9aa1a37e-7127-4719-8aeb-03b09b01c294', 'pictographic-primitives/clothes/t shirt_9aa1a37e-7127-4719-8aeb-03b09b01c294.svg'))
 
 def _circle(icon, name, cx, cy, radius):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f512d6dd-1499-4436-b24c-e444dbfb80de'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dove-flying-right-with-raised-wing/20260925T085649Z-thuan-mac/reference/dove_f512d6dd-1499-4436-b24c-e444dbfb80de.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='dove-flying-right-with-raised-wing'

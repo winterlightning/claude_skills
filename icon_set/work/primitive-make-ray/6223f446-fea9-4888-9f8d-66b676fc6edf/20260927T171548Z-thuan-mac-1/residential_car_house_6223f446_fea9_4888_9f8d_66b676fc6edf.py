@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6223f446-fea9-4888-9f8d-66b676fc6edf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__residential-car-house/20260927T171300Z-thuan-mac-1/reference/parking resident_6223f446-fea9-4888-9f8d-66b676fc6edf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'residential-car-house'

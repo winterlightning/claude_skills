@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8ee71767-8c7b-4b67-8c9c-982b7a27e635'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bird-resting-in-nest/20260924T111346Z-thuan-mac/reference/nestling_8ee71767-8c7b-4b67-8c9c-982b7a27e635.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bird-resting-in-nest'

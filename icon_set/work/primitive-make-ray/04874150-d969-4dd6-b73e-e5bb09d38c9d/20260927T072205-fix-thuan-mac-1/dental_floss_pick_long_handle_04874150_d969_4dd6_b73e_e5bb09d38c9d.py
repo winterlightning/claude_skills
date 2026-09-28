@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '04874150-d969-4dd6-b73e-e5bb09d38c9d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dental-floss-pick-long-handle/20260927T072058Z-thuan-mac-1/reference/dental stick_04874150-d969-4dd6-b73e-e5bb09d38c9d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

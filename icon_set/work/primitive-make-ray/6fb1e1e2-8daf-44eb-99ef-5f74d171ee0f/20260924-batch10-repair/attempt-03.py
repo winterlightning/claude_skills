@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6fb1e1e2-8daf-44eb-99ef-5f74d171ee0f'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/shipment fragile_6fb1e1e2-8daf-44eb-99ef-5f74d171ee0f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Fragile parcel with glass, shared axis24 radius8; omit packing ribbon and redundant arrow for spacing. SQUARE6,6–42,42.'
 class Drawing(Solo48):
     icon_id='shipment-fragile'

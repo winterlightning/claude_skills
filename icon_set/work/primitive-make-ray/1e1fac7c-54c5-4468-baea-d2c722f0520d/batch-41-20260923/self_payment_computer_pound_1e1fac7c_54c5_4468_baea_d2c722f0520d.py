@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1e1fac7c-54c5-4468-baea-d2c722f0520d'
 SOURCE_PATH='icon_set/work/todo-references/self payment computer pound_1e1fac7c-54c5-4468-baea-d2c722f0520d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Payment terminal with pound symbol, two right-hand rules and stand.'
 CONSTRUCTION_REFERENCES='Lucide monitor and pound-sterling: round hook, crossbar and foot.'
 OMISSIONS='None.'

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '46825186-2cd0-49e4-9bcb-dfcef97654be'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__female-teacher-beside-board-batch-022-13/20260927T150749Z-thuan-mac-1/reference/female teacher_46825186-2cd0-49e4-9bcb-dfcef97654be.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (4, 4, 44, 44); centerline (6, 6, 42, 42).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/female teacher_46825186-2cd0-49e4-9bcb-dfcef97654be.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-022/13-female-teacher-with-whiteboard--46825186-2cd0-49e4-9bcb-dfcef97654be.md'

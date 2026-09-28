@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '0d1f6d50-1124-5d7a-86ce-bde7860e127e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__padlock-root-with-three-connected-nodes/20260927T133654Z-thuan-mac-1/reference/lock hierarchy_0d1f6d50-1124-5d7a-86ce-bde7860e127e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

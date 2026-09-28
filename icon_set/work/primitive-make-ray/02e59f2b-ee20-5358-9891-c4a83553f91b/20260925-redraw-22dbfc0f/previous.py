@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '02e59f2b-ee20-5358-9891-c4a83553f91b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/pill_02e59f2b-ee20-5358-9891-c4a83553f91b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'capsule-pill-02e59f2b'

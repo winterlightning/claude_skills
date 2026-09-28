@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a8f23851-7ae9-4939-bf46-aba37ee712d0'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__shottkey-diode/20260924T065933Z-thuan-mac/reference/shottkey diode_a8f23851-7ae9-4939-bf46-aba37ee712d0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='shottkey-diode'

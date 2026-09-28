@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bd9f57fc-780e-5c9d-8047-c776f0b4d870'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__coiled-snake/20260926T182517Z-thuan-mac-1/reference/reptile snake_bd9f57fc-780e-5c9d-8047-c776f0b4d870.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CoiledSnake(Solo48):
     icon_id = 'coiled-snake'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '66987003-940f-4afc-9d91-9448d42489a1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__overlapping-pair-of-rounded-profile-busts/20260927T143814Z-thuan-mac-1/reference/cousin_66987003-940f-4afc-9d91-9448d42489a1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'overlapping-pair-of-rounded-profile-busts'
     keyshape = Keyshape.SQUARE

@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5a6bc318-1415-407d-8cee-66dc95d8d15f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__outdoors-fire-camp/20260926T160211Z-thuan-mac-1/reference/outdoors fire camp_5a6bc318-1415-407d-8cee-66dc95d8d15f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 BASE, BASE_R = (24, 17), 9
 TIP = (28, 4)

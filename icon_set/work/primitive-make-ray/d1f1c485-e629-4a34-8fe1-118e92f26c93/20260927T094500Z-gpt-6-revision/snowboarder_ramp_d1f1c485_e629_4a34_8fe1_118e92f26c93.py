@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd1f1c485-e629-4a34-8fe1-118e92f26c93'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__snowboarder-ramp/20260927T093533Z-thuan-mac-1/reference/snowskating_d1f1c485-e629-4a34-8fe1-118e92f26c93.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SnowboarderRamp(Solo48):
     icon_id = 'snowboarder-ramp'

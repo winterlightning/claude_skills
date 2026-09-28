@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "23426642-b56a-47a6-8d29-43fd4e1c68f1"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__standing-camper-beside-tent/20260928T042745Z-thuan-mac-1/reference/camping trekking tent_23426642-b56a-47a6-8d29-43fd4e1c68f1.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class StandingCamperBesideTent(Solo48):

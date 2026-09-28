@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '500b316f-446d-4fba-b0b8-5ac1a1742ce9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pair-of-long-socks/20260927T182642Z-thuan-mac-1/reference/hosiery_500b316f-446d-4fba-b0b8-5ac1a1742ce9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PairOfLongSocks(Solo48):
     icon_id = 'pair-of-long-socks'

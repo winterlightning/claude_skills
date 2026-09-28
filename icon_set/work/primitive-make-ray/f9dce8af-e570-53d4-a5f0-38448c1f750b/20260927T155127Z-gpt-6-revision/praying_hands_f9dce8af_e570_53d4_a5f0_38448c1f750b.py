@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f9dce8af-e570-53d4-a5f0-38448c1f750b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__praying-hands/20260927T153747Z-thuan-mac-1/reference/hand pray_f9dce8af-e570-53d4-a5f0-38448c1f750b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PrayingHands(Solo48):
     icon_id = 'praying-hands'

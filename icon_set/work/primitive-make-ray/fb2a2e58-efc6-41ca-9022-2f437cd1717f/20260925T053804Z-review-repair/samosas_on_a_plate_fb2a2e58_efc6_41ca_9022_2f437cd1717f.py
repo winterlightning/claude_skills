@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fb2a2e58-efc6-41ca-9022-2f437cd1717f'
 SOURCE_PATH = 'pictographic-primitives/other/samosa_fb2a2e58-efc6-41ca-9022-2f437cd1717f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'samosas-on-a-plate'
     keyshape = Keyshape.HRECT_L

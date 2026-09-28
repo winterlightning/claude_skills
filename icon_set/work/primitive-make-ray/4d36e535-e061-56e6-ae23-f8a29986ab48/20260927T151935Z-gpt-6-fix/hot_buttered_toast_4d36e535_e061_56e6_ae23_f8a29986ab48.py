@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4d36e535-e061-56e6-ae23-f8a29986ab48'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hot-buttered-toast/20260927T151732Z-thuan-mac-1/reference/breakfast bread toast_4d36e535-e061-56e6-ae23-f8a29986ab48.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HotButteredToast(Solo48):
     icon_id = 'hot-buttered-toast'

@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '79eae0ea-a0a3-48d0-a56a-a874914d50c3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__looped-power-cable-79eae0ea-solo/20260926T160211Z-thuan-mac-1/reference/circle cable_79eae0ea-a0a3-48d0-a56a-a874914d50c3.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 LOOP, LOOP_R = (21, 27), 15
 CAP, CAP_R, BACK_X, PRONG_END = (27, 12), 6, 32, 42

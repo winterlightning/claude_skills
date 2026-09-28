@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c4852614-158d-5cf0-9655-1f558b86740b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tennis-player/20260927T094425Z-thuan-mac-1/reference/tennis player_c4852614-158d-5cf0-9655-1f558b86740b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected racket stood upright while the reference racket tilts back from the hand.'
 REVISION_CHANGE = 'Tilted the racket head and its grip while keeping the running stance and ball.'
 

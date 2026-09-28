@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '90c55c1b-6141-40f9-8dfb-e0b9bed3cb5e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hidden-visibility-eye-symbol-solo/20260927T151732Z-thuan-mac-1/reference/eye slash_90c55c1b-6141-40f9-8dfb-e0b9bed3cb5e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hidden-visibility-eye-symbol-solo'

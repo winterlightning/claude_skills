@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2239a15c-dd4c-44b5-99ff-7e5c0c02afee'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__diagonal-star-wand-with-rounded-handle/20260924T150246Z-thuan-mac/reference/magic wand_2239a15c-dd4c-44b5-99ff-7e5c0c02afee.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='diagonal-star-wand-with-rounded-handle'

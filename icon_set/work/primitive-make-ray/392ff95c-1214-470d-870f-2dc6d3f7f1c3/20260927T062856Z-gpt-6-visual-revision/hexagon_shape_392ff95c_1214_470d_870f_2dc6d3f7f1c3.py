@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '392ff95c-1214-470d-870f-2dc6d3f7f1c3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hexagon-shape/20260927T061852Z-thuan-mac-1/reference/hexagon shape_392ff95c-1214-470d-870f-2dc6d3f7f1c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HexagonShape(Solo48):
     icon_id = 'hexagon-shape'

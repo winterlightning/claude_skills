@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a59dce1d-df8f-4b36-a178-738d4288393a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__proton-preview/20260924T083118Z-thuan-mac/reference/proton preview_a59dce1d-df8f-4b36-a178-738d4288393a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'proton-preview'

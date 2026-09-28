@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5a6bc318-1415-407d-8cee-66dc95d8d15f'
 SOURCE_PATH = 'pictographic-primitives/outdoors/outdoors fire camp_5a6bc318-1415-407d-8cee-66dc95d8d15f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Campfire above a rectangular six-section fuel bed. Grid cells share intersections.'
 CONSTRUCTION_REFERENCES = 'flame: asymmetric tongue and rounded lower bowl.'
 OMISSIONS = 'All six fuel cells retained; flame reduced to a compact smooth tongue.'

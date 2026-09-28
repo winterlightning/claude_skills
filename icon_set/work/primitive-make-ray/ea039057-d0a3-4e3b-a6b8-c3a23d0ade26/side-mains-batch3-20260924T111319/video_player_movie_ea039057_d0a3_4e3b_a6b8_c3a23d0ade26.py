@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ea039057-d0a3-4e3b-a6b8-c3a23d0ade26'
 SOURCE_PATH = 'pictographic-primitives/video/video player movie_ea039057-d0a3-4e3b-a6b8-c3a23d0ade26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Movie player with one header rail and play triangle.'
 CONSTRUCTION_REFERENCES = 'Lucide monitor: rounded rectangle frame.'
 OMISSIONS = 'No omissions.'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '32a9f52e-9a62-4650-b64c-fba18e983c8a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__angles-up-down/20260926T064521Z-thuan-mac/reference/angles up down_32a9f52e-9a62-4650-b64c-fba18e983c8a.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-retained-after-visual-review'

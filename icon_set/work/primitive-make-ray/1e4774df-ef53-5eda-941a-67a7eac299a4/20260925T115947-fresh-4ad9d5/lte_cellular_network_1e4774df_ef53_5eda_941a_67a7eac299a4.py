@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1e4774df-ef53-5eda-941a-67a7eac299a4'
 SOURCE_PATH='pictographic-primitives/mobile/lte_1e4774df-ef53-5eda-941a-67a7eac299a4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='All three letters share top y10, baseline y38, 8-unit widths and 8-unit gaps. The height is reduced from the previous 32 units to 28 while retaining the source letter forms.'
 CONSTRUCTION_REFERENCE='No useful Lucide letter-set match; supplied LTE reference determines the three letters.'
 OMISSIONS='No omissions. This is custom SOLO48 lettering, not typeface v2.'

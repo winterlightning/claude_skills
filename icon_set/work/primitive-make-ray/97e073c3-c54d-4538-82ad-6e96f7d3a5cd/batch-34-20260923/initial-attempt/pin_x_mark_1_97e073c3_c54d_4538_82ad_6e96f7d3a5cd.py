@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='97e073c3-c54d-4538-82ad-6e96f7d3a5cd'
 SOURCE_PATH='icon_set/work/todo-references/pin x mark 1_97e073c3-c54d-4538-82ad-6e96f7d3a5cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Round map marker containing X, with a short narrow triangular tail below. Head symmetry and X share x=24.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: rounded head and point; X is hand-authored.'
 OMISSIONS='None.'

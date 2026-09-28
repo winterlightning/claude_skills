@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '433f063c-05d3-5f02-8814-531a9ce81f5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__educative-toys-music/20260924T165054Z-thuan-mac/reference/educative toys music_433f063c-05d3-5f02-8814-531a9ce81f5a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'educative-toys-music'
     keyshape = Keyshape.VRECT_L

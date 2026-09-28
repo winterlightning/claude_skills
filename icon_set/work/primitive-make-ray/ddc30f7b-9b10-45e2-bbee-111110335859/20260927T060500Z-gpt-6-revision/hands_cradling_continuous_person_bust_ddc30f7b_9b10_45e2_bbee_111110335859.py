@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ddc30f7b-9b10-45e2-bbee-111110335859'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-cradling-continuous-person-bust/20260927T060349Z-thuan-mac-1/reference/donation charity care person male_ddc30f7b-9b10-45e2-bbee-111110335859.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsCradlingContinuousPersonBust(Solo48):
     icon_id = 'hands-cradling-continuous-person-bust'

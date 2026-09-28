@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cd921e04-704d-5a6b-a478-676cad6d9f2e'
 SOURCE_PATH = 'icon_set/work/todo-references/design pen tool_cd921e04-704d-5a6b-a478-676cad6d9f2e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'design-pen-tool'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0f979459-ea45-4f2e-b3ab-3ab2403cc849'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__long-sporting-rifle/20260924T101756Z-thuan-mac/reference/rifle_0f979459-ea45-4f2e-b3ab-3ab2403cc849.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='No useful local Lucide rifle match'
 DESIGN_PLAN='Long diagonal sporting rifle with broad shouldered stock. SQUARE centerlines (6,6)-(42,42). An outlined stock and single long barrel preserve the rifle silhouette.'
 OMISSIONS='Tiny trigger guard and doubled barrel edge omitted for clearance.'

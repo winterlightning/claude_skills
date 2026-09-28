@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._payments_batch01 import rounded_rect
 from icon_set.model.icons.solo._payments_batch02 import small_dollar
 SOURCE_ICON_ID='ef9be51e-2927-4177-9d02-48b17a96d654'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-exchanging-bitcoin/20260926T172218Z-thuan-mac-1/reference/crypto trade_ef9be51e-2927-4177-9d02-48b17a96d654.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsExchangingBitcoin(Solo48):
     icon_id='hands-exchanging-bitcoin'

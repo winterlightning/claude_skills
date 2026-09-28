@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c747f16a-3172-497d-9495-75b5f73d5aba'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__skunk/20260927T133815Z-thuan-mac-1/reference/skunk_c747f16a-3172-497d-9495-75b5f73d5aba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Skunk(Solo48):
     icon_id = 'skunk'

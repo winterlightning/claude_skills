@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b72da6ab-adc1-4364-be21-8572894c8a90'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__microphone-b72da6ab/20260924T065933Z-thuan-mac/reference/microphone_b72da6ab-adc1-4364-be21-8572894c8a90.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='microphone-b72da6ab'

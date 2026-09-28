@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5fc3beee-fe11-4737-8f05-c292e2c4f15d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-cannabis-leaves-on-stems/20260927T080808Z-thuan-mac-1/reference/cannabis tree_5fc3beee-fe11-4737-8f05-c292e2c4f15d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

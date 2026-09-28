@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '936d0079-3089-4c8c-bc22-422921c13e69'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/saving bull_936d0079-3089-4c8c-bc22-422921c13e69.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A bull beneath an upward financial-trend arrow.'
 OMISSIONS = 'Horn simplified to an open curve; outlined legs reduced to two strokes; minor leg crease omitted. Retained head, hump, body, tail and rising arrow.'
 CONSTRUCTION_REFERENCES = 'No useful exact local Lucide bull match; supplied reference guides the horn, lowered head, body and financial arrow.'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='cfd8133d-3502-51fc-831c-fbc9d2cde5ab'
 SOURCE_PATH='pictographic-primitives/office/office glue_cfd8133d-3502-51fc-831c-fbc9d2cde5ab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class GlueBottle(Solo48):
     icon_id='glue-bottle'

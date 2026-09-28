@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = 'cfd5ff88-dde9-5378-9cfa-f993404a30bf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chair-pose/20260927T071330Z-thuan-mac-1/reference/yoga chair awkward pose_cfd5ff88-dde9-5378-9cfa-f993404a30bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChairPose(Solo48):
     icon_id = 'chair-pose'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7a8b5b6b-d72f-42df-9379-3389fd1e33fd'
 SOURCE_PATH='icon_set/work/todo-references/self driving car_7a8b5b6b-d72f-42df-9379-3389fd1e33fd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Front-facing car with two radio arcs above. Car sides, wheels and headlights mirror around x=24.'
 CONSTRUCTION_REFERENCES='Lucide car-front: joined roof, fascia and wheels.'
 OMISSIONS='Headlight outlines reduced to dots; wheel outlines reduced to short stems.'

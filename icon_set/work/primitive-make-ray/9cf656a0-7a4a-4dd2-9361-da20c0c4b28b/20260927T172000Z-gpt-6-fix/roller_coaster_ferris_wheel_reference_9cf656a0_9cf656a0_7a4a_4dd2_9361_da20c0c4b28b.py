@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9cf656a0-7a4a-4dd2-9361-da20c0c4b28b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__roller-coaster-ferris-wheel-reference-9cf656a0/20260927T171905Z-thuan-mac-1/reference/theme park_9cf656a0-7a4a-4dd2-9361-da20c0c4b28b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'roller-coaster-ferris-wheel-reference-9cf656a0'

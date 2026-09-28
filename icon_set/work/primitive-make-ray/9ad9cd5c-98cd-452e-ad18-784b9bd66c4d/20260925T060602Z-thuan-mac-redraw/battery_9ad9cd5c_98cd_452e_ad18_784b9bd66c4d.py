@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9ad9cd5c-98cd-452e-ad18-784b9bd66c4d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__battery/20260925T060602Z-thuan-mac/reference/battery_9ad9cd5c-98cd-452e-ad18-784b9bd66c4d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'battery'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c91125d2-c955-4285-9428-03593fb9517d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__side-view-bumper-car/20260924T160658Z-thuan-mac/reference/bumper_c91125d2-c955-4285-9428-03593fb9517d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'side-view-bumper-car'

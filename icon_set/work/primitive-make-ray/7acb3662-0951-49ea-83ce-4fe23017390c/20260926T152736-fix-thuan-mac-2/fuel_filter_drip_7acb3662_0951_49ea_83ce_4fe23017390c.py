@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7acb3662-0951-49ea-83ce-4fe23017390c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fuel-filter-drip/20260926T152555Z-thuan-mac-2/reference/fuel filter warning_7acb3662-0951-49ea-83ce-4fe23017390c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

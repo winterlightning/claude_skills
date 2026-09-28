@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID = "51794538-e0cd-4fd6-bb22-9d08f32d43d4"
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-overlapping-desktop-monitors/20260927T174057Z-thuan-mac-1/reference/monitor transfer_51794538-e0cd-4fd6-bb22-9d08f32d43d4.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 class Drawing(Solo48):
     icon_id = "two-overlapping-desktop-monitors"
     keyshape = Keyshape.HRECT_L

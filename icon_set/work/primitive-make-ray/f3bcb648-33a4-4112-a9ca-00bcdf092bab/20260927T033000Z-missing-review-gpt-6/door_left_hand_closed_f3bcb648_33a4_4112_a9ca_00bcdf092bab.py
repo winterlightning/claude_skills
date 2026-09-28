@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f3bcb648-33a4-4112-a9ca-00bcdf092bab'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__door-left-hand-closed/20260927T032256Z-thuan-mac-1/reference/door left hand closed_f3bcb648-33a4-4112-a9ca-00bcdf092bab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-reconstructed'

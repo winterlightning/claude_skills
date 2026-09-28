@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6202dcbb-4f20-480e-8b1f-ebc5b4ef0324'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__planet-with-diagonal-ring/20260927T164305Z-thuan-mac-1/reference/planet ringed_6202dcbb-4f20-480e-8b1f-ebc5b4ef0324.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'planet-with-diagonal-ring'

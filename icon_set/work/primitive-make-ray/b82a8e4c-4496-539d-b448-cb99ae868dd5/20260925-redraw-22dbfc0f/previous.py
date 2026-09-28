@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'b82a8e4c-4496-539d-b448-cb99ae868dd5'
 SOURCE_PATH = 'pictographic-primitives/pets/dog_b82a8e4c-4496-539d-b448-cb99ae868dd5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BulldogFace(Solo48):
     icon_id = 'bulldog-face'

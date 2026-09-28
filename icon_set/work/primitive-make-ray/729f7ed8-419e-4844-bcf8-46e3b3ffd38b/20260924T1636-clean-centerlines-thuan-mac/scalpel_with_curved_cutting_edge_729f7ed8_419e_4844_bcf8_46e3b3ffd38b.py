@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='729f7ed8-419e-4844-bcf8-46e3b3ffd38b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__scalpel-with-curved-cutting-edge/20260924T163012Z-thuan-mac/reference/scalpel_729f7ed8-419e-4844-bcf8-46e3b3ffd38b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='scalpel-with-curved-cutting-edge'

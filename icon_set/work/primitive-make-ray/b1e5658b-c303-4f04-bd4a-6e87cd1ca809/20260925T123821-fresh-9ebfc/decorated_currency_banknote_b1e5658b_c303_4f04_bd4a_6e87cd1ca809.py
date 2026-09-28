@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='b1e5658b-c303-4f04-bd4a-6e87cd1ca809'
 SOURCE_PATH='pictographic-primitives/_uncategorized_27/money bill_b1e5658b-c303-4f04-bd4a-6e87cd1ca809.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded currency banknote with four concave corner ornaments and an open central medallion.'
 CONSTRUCTION_REFERENCE='Lucide banknote: rounded outer border and central currency mark; supplied inset ornament.'
 class Drawing(Solo48):

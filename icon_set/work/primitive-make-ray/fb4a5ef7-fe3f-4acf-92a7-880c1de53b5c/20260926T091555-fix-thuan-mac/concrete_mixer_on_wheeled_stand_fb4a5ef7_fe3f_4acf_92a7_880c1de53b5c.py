@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fb4a5ef7-fe3f-4acf-92a7-880c1de53b5c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__concrete-mixer-on-wheeled-stand/20260926T085631Z-thuan-mac/reference/construction mortar machine_fb4a5ef7-fe3f-4acf-92a7-880c1de53b5c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class ConcreteMixerOnWheeledStand(Solo48):

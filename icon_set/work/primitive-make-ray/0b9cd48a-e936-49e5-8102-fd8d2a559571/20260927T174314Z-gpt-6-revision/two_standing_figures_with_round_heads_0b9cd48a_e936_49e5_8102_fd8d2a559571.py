@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0b9cd48a-e936-49e5-8102-fd8d2a559571'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-standing-figures-with-round-heads/20260927T173930Z-thuan-mac-1/reference/escort_0b9cd48a-e936-49e5-8102-fd8d2a559571.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'two-standing-figures-with-round-heads'

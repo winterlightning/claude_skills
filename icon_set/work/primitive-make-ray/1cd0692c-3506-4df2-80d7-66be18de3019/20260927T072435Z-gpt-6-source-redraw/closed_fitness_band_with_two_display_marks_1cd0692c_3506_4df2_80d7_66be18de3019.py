@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '1cd0692c-3506-4df2-80d7-66be18de3019'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-fitness-band-with-two-display-marks/20260927T071330Z-thuan-mac-1/reference/wearable smart watch_1cd0692c-3506-4df2-80d7-66be18de3019.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'closed-fitness-band-with-two-display-marks'

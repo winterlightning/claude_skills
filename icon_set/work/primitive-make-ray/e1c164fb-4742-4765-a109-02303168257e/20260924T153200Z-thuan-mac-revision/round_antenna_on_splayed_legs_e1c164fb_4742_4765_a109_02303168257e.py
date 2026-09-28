@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e1c164fb-4742-4765-a109-02303168257e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__round-antenna-on-splayed-legs/20260924T152553Z-thuan-mac/reference/amazon web service global network antennas_e1c164fb-4742-4765-a109-02303168257e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='round-antenna-on-splayed-legs'

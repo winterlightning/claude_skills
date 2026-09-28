@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9acd961d-254b-46da-a4e6-47bf2a234155'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crystal-ball-on-stand/20260925T083047Z-thuan-mac/reference/sphere_9acd961d-254b-46da-a4e6-47bf2a234155.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crystal-ball-on-stand'

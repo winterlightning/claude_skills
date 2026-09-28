@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a08dce58-bc2a-4e25-bd53-f469ccddb795'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hyves-logo/20260927T070849Z-thuan-mac-1/reference/hyves logo_a08dce58-bc2a-4e25-bd53-f469ccddb795.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HyvesLogo(Solo48):

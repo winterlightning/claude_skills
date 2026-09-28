@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cada69c0-f437-4038-87b1-211bd013904e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-twin-upward-ends-on-u-curve/20260925T060602Z-thuan-mac/reference/diagram up double large head_cada69c0-f437-4038-87b1-211bd013904e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'arrow-twin-upward-ends-on-u-curve'

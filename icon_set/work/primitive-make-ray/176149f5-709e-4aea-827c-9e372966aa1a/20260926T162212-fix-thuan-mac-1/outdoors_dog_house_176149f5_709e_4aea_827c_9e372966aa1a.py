@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '176149f5-709e-4aea-827c-9e372966aa1a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__outdoors-dog-house/20260926T160211Z-thuan-mac-1/reference/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 FLOOR, WALL_X, ROOF_L, ROOF_R = 42, 6, (6, 16), (42, 6)
 RUMP, SHOULDER = (16, 28), (32, 28)

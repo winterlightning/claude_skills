@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4a54478b-4849-4373-b597-046376cb8fb9'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__handcuff-pair-with-separate-key/20260924T160939Z-thuan-mac/reference/crime tools shackle key_4a54478b-4849-4373-b597-046376cb8fb9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='handcuff-pair-with-separate-key'

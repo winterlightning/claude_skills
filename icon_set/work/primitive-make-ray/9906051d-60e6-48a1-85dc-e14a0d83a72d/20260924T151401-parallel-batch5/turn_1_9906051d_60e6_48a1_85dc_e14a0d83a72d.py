@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9906051d-60e6-48a1-85dc-e14a0d83a72d'
 SOURCE_PATH='pictographic-primitives/_uncategorized_39/turn 1_9906051d-60e6-48a1-85dc-e14a0d83a72d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='turn-1'
     keyshape=Keyshape.CIRCLE

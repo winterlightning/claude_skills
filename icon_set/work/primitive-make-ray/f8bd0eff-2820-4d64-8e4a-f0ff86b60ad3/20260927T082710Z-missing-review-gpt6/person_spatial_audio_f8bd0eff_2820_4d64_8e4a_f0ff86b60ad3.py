@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f8bd0eff-2820-4d64-8e4a-f0ff86b60ad3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-spatial-audio/20260927T082307Z-thuan-mac-1/reference/spatial audio_f8bd0eff-2820-4d64-8e4a-f0ff86b60ad3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonSpatialAudio(Solo48):
     icon_id = 'person-spatial-audio'

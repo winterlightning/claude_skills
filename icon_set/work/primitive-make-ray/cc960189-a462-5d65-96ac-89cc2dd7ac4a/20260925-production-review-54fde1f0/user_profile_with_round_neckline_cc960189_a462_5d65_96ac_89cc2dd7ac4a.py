@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'cc960189-a462-5d65-96ac-89cc2dd7ac4a'
 SOURCE_PATH = 'pictographic-primitives/images/man_cc960189-a462-5d65-96ac-89cc2dd7ac4a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Avatar construction: circular face centered at24; body top28 = head bottom24 + HEAD_BODY_CENTERLINE_GAP. Zero visible head/body gap.'
 OMISSIONS = 'No new costume details; retain skullcap or original neckline.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']

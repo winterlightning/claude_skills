@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='912e59dc-cbf5-4106-b5c8-07b1ecc1036c'
 SOURCE_PATH='icon_set/work/todo-references/underline_912e59dc-cbf5-4106-b5c8-07b1ecc1036c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='underline'

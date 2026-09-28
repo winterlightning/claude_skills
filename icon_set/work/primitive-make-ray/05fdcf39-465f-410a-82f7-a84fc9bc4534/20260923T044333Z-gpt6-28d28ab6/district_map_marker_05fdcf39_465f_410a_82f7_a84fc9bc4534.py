@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05fdcf39-465f-410a-82f7-a84fc9bc4534'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/district_05fdcf39-465f-410a-82f7-a84fc9bc4534.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DistrictMapMarker(Solo48):
     icon_id = 'district-map-marker'

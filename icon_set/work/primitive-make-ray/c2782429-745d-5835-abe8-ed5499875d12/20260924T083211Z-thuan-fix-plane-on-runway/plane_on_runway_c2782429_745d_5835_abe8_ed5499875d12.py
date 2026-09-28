@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c2782429-745d-5835-abe8-ed5499875d12'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__plane-on-runway/20260924T083211Z-thuan-mac/reference/plane on runway_c2782429-745d-5835-abe8-ed5499875d12.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='plane-on-runway'

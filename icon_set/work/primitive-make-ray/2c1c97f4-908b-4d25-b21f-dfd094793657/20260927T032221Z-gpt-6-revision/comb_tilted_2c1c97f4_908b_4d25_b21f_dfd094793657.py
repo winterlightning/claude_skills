@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2c1c97f4-908b-4d25-b21f-dfd094793657'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__comb-tilted/20260927T032022Z-thuan-mac-1/reference/comb_2c1c97f4-908b-4d25-b21f-dfd094793657.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class CombTilted(Solo48):

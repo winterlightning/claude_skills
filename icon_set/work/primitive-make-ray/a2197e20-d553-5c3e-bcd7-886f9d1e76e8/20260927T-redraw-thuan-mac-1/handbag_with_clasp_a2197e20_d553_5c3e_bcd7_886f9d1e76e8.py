@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a2197e20-d553-5c3e-bcd7-886f9d1e76e8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handbag-with-clasp/20260926T173134Z-thuan-mac-1/reference/bag purse_a2197e20-d553-5c3e-bcd7-886f9d1e76e8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandbagWithClasp(Solo48):
     icon_id = 'handbag-with-clasp'

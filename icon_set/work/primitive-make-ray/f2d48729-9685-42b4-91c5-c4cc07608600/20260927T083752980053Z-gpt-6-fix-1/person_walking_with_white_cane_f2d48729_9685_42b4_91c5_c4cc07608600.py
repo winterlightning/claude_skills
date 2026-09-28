@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f2d48729-9685-42b4-91c5-c4cc07608600'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-walking-with-white-cane/20260927T083143Z-thuan-mac-1/reference/disability walk blind_f2d48729-9685-42b4-91c5-c4cc07608600.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonWalkingWithWhiteCane(Solo48):
     icon_id = 'person-walking-with-white-cane'

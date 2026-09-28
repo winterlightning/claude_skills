@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a40dd6b4-7ef7-5a0e-b996-7bd77b8c7cf8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kayak-and-paddle/20260927T082307Z-thuan-mac-1/reference/canoe_a40dd6b4-7ef7-5a0e-b996-7bd77b8c7cf8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class KayakAndPaddle(Solo48):

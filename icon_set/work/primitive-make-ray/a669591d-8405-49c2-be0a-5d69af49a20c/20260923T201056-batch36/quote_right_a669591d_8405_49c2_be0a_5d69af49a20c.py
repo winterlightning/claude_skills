@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a669591d-8405-49c2-be0a-5d69af49a20c'
 SOURCE_PATH = 'icon_set/work/todo-references/quote right_a669591d-8405-49c2-be0a-5d69af49a20c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'quote-right'

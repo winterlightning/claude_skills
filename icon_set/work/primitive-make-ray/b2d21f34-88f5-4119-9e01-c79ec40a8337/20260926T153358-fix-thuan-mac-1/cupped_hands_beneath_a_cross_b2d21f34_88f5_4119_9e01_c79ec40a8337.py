@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b2d21f34-88f5-4119-9e01-c79ec40a8337'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cupped-hands-beneath-a-cross/20260926T152509Z-thuan-mac-1/reference/religion hands_b2d21f34-88f5-4119-9e01-c79ec40a8337.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 CROSS_TOP, BAR_Y, BAR_HALF, FOOT = 8, 14, 7, (24, 24)

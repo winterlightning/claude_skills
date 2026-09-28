@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fc5ffdff-80e9-4119-bf62-fb7c515c5aad'
 SOURCE_PATH = 'icon_set/work/todo-references/browser with 18+ text_fc5ffdff-80e9-4119-bf62-fb7c515c5aad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['calendar']
 PLAN = 'Retain bindings, header and horizontal 18+; rebalance digit and operator spacing without dropping characters.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/fc5ffdff-80e9-4119-bf62-fb7c515c5aad/20260923-b06-a3379238/result.json'

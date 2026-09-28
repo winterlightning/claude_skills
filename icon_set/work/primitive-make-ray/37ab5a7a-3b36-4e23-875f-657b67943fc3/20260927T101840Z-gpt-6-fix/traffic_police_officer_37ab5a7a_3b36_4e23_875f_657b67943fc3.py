@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '37ab5a7a-3b36-4e23-875f-657b67943fc3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__traffic-police-officer/20260927T101610Z-thuan-mac-1/reference/police_37ab5a7a-3b36-4e23-875f-657b67943fc3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = [{'SOURCE_ICON_ID': '37ab5a7a-3b36-4e23-875f-657b67943fc3', 'SOURCE_PATH': 'pictographic-primitives/transportation/police_37ab5a7a-3b36-4e23-875f-657b67943fc3.svg', 'AUTHOR': 'gpt-6'}]
 
 class TrafficPoliceOfficer(Solo48):

@@ -4,7 +4,7 @@ import json,shutil,importlib.util,html,os,cairosvg
 from PIL import Image,ImageDraw
 SOURCE_ICON_ID='592beacc-84e1-4868-af66-30a20a39dbfd'
 SOURCE_PATH='icon_set/work/todo-references/rectangle list_592beacc-84e1-4868-af66-30a20a39dbfd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 rows=json.loads((ROOT/'batch-inputs.json').read_text())
 findings=[

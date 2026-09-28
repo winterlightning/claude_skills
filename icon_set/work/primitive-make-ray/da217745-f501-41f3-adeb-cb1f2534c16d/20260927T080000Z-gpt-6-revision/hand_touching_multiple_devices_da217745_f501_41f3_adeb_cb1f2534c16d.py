@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'da217745-f501-41f3-adeb-cb1f2534c16d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-touching-multiple-devices/20260927T075452Z-thuan-mac-1/reference/responsive design hand_da217745-f501-41f3-adeb-cb1f2534c16d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandTouchingMultipleDevices(Solo48):
     icon_id = 'hand-touching-multiple-devices'

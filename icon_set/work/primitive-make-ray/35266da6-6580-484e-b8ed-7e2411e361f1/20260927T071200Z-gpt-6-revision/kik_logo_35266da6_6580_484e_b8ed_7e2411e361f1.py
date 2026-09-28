@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '35266da6-6580-484e-b8ed-7e2411e361f1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kik-logo/20260927T070927Z-thuan-mac-1/reference/kik logo 1_35266da6-6580-484e-b8ed-7e2411e361f1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KikLogo(Solo48):
     icon_id = 'kik-logo'

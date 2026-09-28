@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '242c5167-10ea-4717-a24b-bd22d2cf9483'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pencil-edit-desktop/20260927T143814Z-thuan-mac-1/reference/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pencil-edit-desktop'

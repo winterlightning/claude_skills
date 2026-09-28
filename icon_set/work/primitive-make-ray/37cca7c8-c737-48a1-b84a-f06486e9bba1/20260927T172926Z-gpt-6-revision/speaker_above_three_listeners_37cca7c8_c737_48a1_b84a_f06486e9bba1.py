@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '37cca7c8-c737-48a1-b84a-f06486e9bba1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__speaker-above-three-listeners/20260927T172707Z-thuan-mac-1/reference/asalha puja group_37cca7c8-c737-48a1-b84a-f06486e9bba1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'speaker-above-three-listeners'

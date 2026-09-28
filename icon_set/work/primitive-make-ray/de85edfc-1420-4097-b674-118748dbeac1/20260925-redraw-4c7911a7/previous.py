@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'de85edfc-1420-4097-b674-118748dbeac1'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone small squares_de85edfc-1420-4097-b674-118748dbeac1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'smartphone-with-app-icons'

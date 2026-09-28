@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='01f7ad64-3236-47e0-979a-d3ccbb395a3d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__push-mower-with-raised-rear-handle/20260924T150007Z-thuan-mac/reference/mower_01f7ad64-3236-47e0-979a-d3ccbb395a3d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='push-mower-with-raised-rear-handle'
     keyshape=Keyshape.HRECT_L

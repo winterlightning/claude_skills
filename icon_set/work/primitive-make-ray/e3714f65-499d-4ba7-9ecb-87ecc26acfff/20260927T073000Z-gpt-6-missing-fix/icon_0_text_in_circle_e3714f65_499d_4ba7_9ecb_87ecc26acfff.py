@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e3714f65-499d-4ba7-9ecb-87ecc26acfff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__icon-0-text-in-circle/20260927T070849Z-thuan-mac-1/reference/0 text in circle_e3714f65-499d-4ba7-9ecb-87ecc26acfff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Icon0TextInCircle(Solo48):
     icon_id = 'icon-0-text-in-circle'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dd98fbbc-c547-45ae-8b8e-9d1c9182ca52'
 SOURCE_PATH = 'icon_set/work/todo-references/panorama_dd98fbbc-c547-45ae-8b8e-9d1c9182ca52.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'panorama'

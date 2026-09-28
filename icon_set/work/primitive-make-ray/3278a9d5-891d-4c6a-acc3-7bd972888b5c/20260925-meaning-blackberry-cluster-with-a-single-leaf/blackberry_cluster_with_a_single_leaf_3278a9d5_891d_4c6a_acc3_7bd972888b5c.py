@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3278a9d5-891d-4c6a-acc3-7bd972888b5c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__blackberry-cluster-with-a-single-leaf/20260925T034659Z-thuan-mac/reference/blackberry_3278a9d5-891d-4c6a-acc3-7bd972888b5c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Lobed blackberry cluster with curved drupelet divisions and one upright attached leaf; remove strawberry-like dots.
 # Construction reference: No useful exact Lucide match; supplied reference subject and geometric arc construction.
 # Envelope: VRECT_L; bounds are defined by its outer contour/extreme tips.

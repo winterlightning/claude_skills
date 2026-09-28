@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bc6ab01d-8cd4-4ac1-9148-3777fb7747d3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-envelope-batch-020-11/20260925T070630Z-thuan-mac/reference/e mail_bc6ab01d-8cd4-4ac1-9148-3777fb7747d3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'closed-envelope-batch-020-11'

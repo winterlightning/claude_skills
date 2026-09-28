@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '53680e18-332e-4f0c-8465-a0817408951d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__graphql-logo/20260927T055712Z-thuan-mac-1/reference/graphql logo_53680e18-332e-4f0c-8465-a0817408951d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GraphqlLogo(Solo48):

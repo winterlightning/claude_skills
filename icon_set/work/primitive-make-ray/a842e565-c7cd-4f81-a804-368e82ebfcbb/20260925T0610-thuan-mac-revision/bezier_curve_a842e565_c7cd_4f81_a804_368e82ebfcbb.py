@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a842e565-c7cd-4f81-a804-368e82ebfcbb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bezier-curve-with-control-handles/20260925T060624Z-thuan-mac/reference/bezier curve_a842e565-c7cd-4f81-a804-368e82ebfcbb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'bezier-curve-with-control-handles'

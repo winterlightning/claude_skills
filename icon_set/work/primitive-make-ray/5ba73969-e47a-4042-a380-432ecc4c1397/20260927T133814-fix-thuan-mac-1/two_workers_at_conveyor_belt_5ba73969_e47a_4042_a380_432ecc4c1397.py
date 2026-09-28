@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5ba73969-e47a-4042-a380-432ecc4c1397'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-workers-at-conveyor-belt/20260927T133656Z-thuan-mac-1/reference/factory assembly line worker_5ba73969-e47a-4042-a380-432ecc4c1397.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

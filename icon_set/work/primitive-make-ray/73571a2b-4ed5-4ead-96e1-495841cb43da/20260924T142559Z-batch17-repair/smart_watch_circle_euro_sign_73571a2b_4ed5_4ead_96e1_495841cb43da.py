@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '73571a2b-4ed5-4ead-96e1-495841cb43da'
 SOURCE_PATH = 'pictographic-primitives/other/smart watch circle euro sign_73571a2b-4ed5-4ead-96e1-495841cb43da.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'watch'
 
 class Drawing(Solo48):

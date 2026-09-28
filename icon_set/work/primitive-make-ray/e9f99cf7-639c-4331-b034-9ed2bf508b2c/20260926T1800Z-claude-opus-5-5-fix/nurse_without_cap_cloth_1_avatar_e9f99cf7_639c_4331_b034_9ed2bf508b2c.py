@@ -16,7 +16,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'e9f99cf7-639c-4331-b034-9ed2bf508b2c'
 SOURCE_PATH = 'pictographic-primitives/avatars/nurse without cap cloth_e9f99cf7-639c-4331-b034-9ed2bf508b2c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 CX = 24
 CROWN_Y = 4

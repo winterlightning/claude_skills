@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='6a3e9b51-1d2b-5969-ac5c-503d8629e1bb'
 SOURCE_PATH='pictographic-primitives/health/hearing aid ear_6a3e9b51-1d2b-5969-ac5c-503d8629e1bb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Organic outer ear, distinct inner bowl and canal notch, with a rounded hearing-aid casing behind the right edge.'
 CONSTRUCTION_REFERENCES='Lucide ear: coherent upper bowl and lower lobe curves; source owns the separate aid casing.'
 OMISSIONS=['Fine source curve irregularities regularized into coherent curves.']

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '866d6cda-38de-4dd8-9622-723649f45155'
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__pleading-face-with-joined-hands/20260927T170245Z-thuan-mac-1/reference/face pleading_866d6cda-38de-4dd8-9622-723649f45155.svg"
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PleadingFaceWithJoinedHands(Solo48):
     icon_id = 'pleading-face-with-joined-hands'

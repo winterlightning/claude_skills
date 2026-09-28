@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7e1a8309-f138-49c1-a543-a29fe848c8be'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wild-bird/20260927T151732Z-thuan-mac-1/reference/wild bird 2_7e1a8309-f138-49c1-a543-a29fe848c8be.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class WildBird(Solo48):

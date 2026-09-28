@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '314c71c7-9fc3-44ae-80a9-8137e1168cf2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-bouncing-on-trampoline/20260927T145836Z-thuan-mac-1/reference/trampoline playing_314c71c7-9fc3-44ae-80a9-8137e1168cf2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-bouncing-on-trampoline'

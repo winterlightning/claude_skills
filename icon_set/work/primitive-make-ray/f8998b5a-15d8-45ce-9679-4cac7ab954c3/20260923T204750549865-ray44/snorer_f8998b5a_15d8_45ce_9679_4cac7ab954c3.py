@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f8998b5a-15d8-45ce-9679-4cac7ab954c3'
 SOURCE_PATH = 'icon_set/work/todo-references/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Sleeping person in bed with two hand-authored Z marks overhead.
 # References: bed: simple bedding silhouette; human_ref/user.svg and full_body_ref.png: circular head and smooth shoulder construction.
 # Reduction: Omitted minor pillow crease; retained pillow, blanket and both Zs.

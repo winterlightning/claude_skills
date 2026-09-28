@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '875278b7-ec2e-4cba-9345-53b0ceaa504a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__right-facing-fish-with-two-fins/20260927T171300Z-thuan-mac-1/reference/carp_875278b7-ec2e-4cba-9345-53b0ceaa504a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-facing-fish-with-two-fins'

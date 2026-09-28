@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ee54ecd1-dacb-44d6-bb14-618638eed18c'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__open-end-wrench-with-rounded-handle/20260924T142504Z-thuan-mac/reference/maintenance tool_ee54ecd1-dacb-44d6-bb14-618638eed18c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='open-end-wrench-with-rounded-handle'
     keyshape=Keyshape.VRECT_L

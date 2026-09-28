@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '1876597a-539e-43bb-87c0-8c28c478f11a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-in-flagged-dragon-boat/20260927T153747Z-thuan-mac-1/reference/dragon boat festival person_1876597a-539e-43bb-87c0-8c28c478f11a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconPersonInFlaggedDragonBoat(Solo48):

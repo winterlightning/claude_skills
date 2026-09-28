@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='dd1e6365-7d94-41e2-84d6-66c8ad75ede1'
 SOURCE_PATH='pictographic-primitives/other/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='SUB uses typeface v2 at0.9 uniform centerline scale. Rounded panel expanded by2 units per side within the48 canvas. Original v2 bowls and letter shapes replace the handmade lettering.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis original and atomic-debug: rounded panel; supplied reference governs SUB.'
 OMISSIONS=[]

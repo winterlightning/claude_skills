@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '724c83b9-dfbc-417a-b236-a8b1fd9f3b71'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__baby-face-with-bow/20260926T073831Z-thuan-mac/reference/baby girl_724c83b9-dfbc-417a-b236-a8b1fd9f3b71.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BabyFaceWithBow(Solo48):
     icon_id = 'baby-face-with-bow'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8169d26b-b381-4e38-9d82-adde106d998b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sun-visor/20260924T172356Z-thuan-mac/reference/visor_8169d26b-b381-4e38-9d82-adde106d998b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sun-visor'

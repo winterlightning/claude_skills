@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd9a66ec5-6720-4213-9bfe-b9572cfa84f8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chick-emerging-from-egg/20260924T111346Z-thuan-mac/reference/hatchling_d9a66ec5-6720-4213-9bfe-b9572cfa84f8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'chick-emerging-from-egg'

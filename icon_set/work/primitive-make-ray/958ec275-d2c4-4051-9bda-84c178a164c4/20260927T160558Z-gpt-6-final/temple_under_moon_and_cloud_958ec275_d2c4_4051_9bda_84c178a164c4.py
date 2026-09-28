@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '958ec275-d2c4-4051-9bda-84c178a164c4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__temple-under-moon-and-cloud/20260927T155415Z-thuan-mac-1/reference/poya day_958ec275-d2c4-4051-9bda-84c178a164c4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconTempleUnderMoonAndCloud(Solo48):

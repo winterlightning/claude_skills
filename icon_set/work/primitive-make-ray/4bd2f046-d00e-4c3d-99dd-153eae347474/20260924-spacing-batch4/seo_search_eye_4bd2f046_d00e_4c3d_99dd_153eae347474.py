@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4bd2f046-d00e-4c3d-99dd-153eae347474'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/seo search eye_4bd2f046-d00e-4c3d-99dd-153eae347474.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='An eye-shaped search magnifier. Ellipse and pupil form a simplified eye. Handle uses exact3-4-5 ellipse node30,24; deliberate lower-right handle.'
 CONSTRUCTION_REFERENCE='Lucide eye symmetric eye/pupil; search attached handle'
 class Drawing(Solo48):

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0426472c-0785-4dc2-86f3-c6d7d6107f27'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-up-left/20260925T034659Z-thuan-mac/reference/square up left_0426472c-0785-4dc2-86f3-c6d7d6107f27.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Arrow points diagonally upper-left, replacing bent upward arrow.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

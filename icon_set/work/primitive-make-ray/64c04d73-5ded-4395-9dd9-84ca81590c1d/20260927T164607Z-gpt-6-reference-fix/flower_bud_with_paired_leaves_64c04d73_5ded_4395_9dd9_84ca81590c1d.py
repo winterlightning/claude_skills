@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '64c04d73-5ded-4395-9dd9-84ca81590c1d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flower-bud-with-paired-leaves/20260927T164305Z-thuan-mac-1/reference/hyacinth_64c04d73-5ded-4395-9dd9-84ca81590c1d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FlowerBudWithPairedLeaves(Solo48):
     icon_id = 'flower-bud-with-paired-leaves'

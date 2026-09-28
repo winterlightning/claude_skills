@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '55360bd5-b0c0-48c8-b255-4f7c05d395d6'
 SOURCE_PATH = 'icon_set/work/todo-references/square user_55360bd5-b0c0-48c8-b255-4f7c05d395d6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square with a circular user head and a smooth closed shoulder dome.
 # References: human_ref/user.svg and full_body_ref.png: circular head, symmetric shoulders and exact detached gap.
 # Reduction: No parts omitted.

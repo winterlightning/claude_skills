@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '29348e89-f21d-4b78-852b-089907b8fc8f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__facebook-f-logo/20260927T032256Z-thuan-mac-1/reference/facebook logo_29348e89-f21d-4b78-852b-089907b8fc8f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FacebookFLogo(Solo48):
     icon_id = 'facebook-f-logo'

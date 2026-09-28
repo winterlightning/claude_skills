@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '59bf9944-e39e-44d7-a13e-05c98d58e886'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__blimp-with-tail-fins/20260924T111346Z-thuan-mac/reference/blimp_59bf9944-e39e-44d7-a13e-05c98d58e886.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'blimp-with-tail-fins'

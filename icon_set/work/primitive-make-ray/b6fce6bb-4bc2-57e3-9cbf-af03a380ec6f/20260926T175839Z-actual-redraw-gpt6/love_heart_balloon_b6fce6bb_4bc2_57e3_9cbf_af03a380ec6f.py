@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b6fce6bb-4bc2-57e3-9cbf-af03a380ec6f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-balloon/20260926T172218Z-thuan-mac-1/reference/love heart balloon_b6fce6bb-4bc2-57e3-9cbf-af03a380ec6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeartBalloon(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1e9f2473-7774-5d81-917a-5de0d098f445'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__network/20260927T153322Z-thuan-mac-1/reference/network_1e9f2473-7774-5d81-917a-5de0d098f445.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Network(Solo48):
     icon_id = 'network'

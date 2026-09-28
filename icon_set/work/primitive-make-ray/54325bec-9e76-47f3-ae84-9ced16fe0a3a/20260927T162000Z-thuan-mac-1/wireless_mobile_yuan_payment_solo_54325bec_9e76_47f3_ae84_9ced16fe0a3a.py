@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._payments_batch01 import circle
 from icon_set.model.icons.solo._sub_preparation_symbols import bubble, document, wireless_phone, banknote, moneybag, house, monitor, baht, currency, compact, diagonal_dollar
 SOURCE_ICON_ID='54325bec-9e76-47f3-ae84-9ced16fe0a3a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wireless-mobile-yuan-payment-solo/20260927T160114Z-thuan-mac-1/reference/mobile phone yuan sign wireless_54325bec-9e76-47f3-ae84-9ced16fe0a3a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='wireless-mobile-yuan-payment-solo'
     keyshape=Keyshape.VRECT_L

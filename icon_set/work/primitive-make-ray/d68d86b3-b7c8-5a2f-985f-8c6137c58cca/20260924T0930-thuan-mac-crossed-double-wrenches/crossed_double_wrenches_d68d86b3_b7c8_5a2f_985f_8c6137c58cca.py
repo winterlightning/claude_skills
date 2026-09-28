@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd68d86b3-b7c8-5a2f-985f-8c6137c58cca'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crossed-double-wrenches/20260924T092136Z-thuan-mac/reference/tools wrench_d68d86b3-b7c8-5a2f-985f-8c6137c58cca.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'crossed-double-wrenches'
     keyshape = Keyshape.SQUARE

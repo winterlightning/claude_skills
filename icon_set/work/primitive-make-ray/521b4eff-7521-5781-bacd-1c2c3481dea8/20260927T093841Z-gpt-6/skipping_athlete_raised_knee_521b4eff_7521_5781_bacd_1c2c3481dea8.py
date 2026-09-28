@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '521b4eff-7521-5781-bacd-1c2c3481dea8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__skipping-athlete-raised-knee/20260927T093511Z-thuan-mac-1/reference/fitness jumping rope_521b4eff-7521-5781-bacd-1c2c3481dea8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SkippingAthleteRaisedKnee(Solo48):
     icon_id = 'skipping-athlete-raised-knee'

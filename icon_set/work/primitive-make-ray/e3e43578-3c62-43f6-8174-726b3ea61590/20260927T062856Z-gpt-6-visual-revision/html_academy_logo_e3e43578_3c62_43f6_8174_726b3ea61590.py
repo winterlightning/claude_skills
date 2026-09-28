@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = 'e3e43578-3c62-43f6-8174-726b3ea61590'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__html-academy-logo/20260927T061852Z-thuan-mac-1/reference/html academy logo_e3e43578-3c62-43f6-8174-726b3ea61590.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HtmlAcademyLogo(Solo48):
     icon_id = 'html-academy-logo'

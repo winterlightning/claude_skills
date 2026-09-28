@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5e8442fe-8bb0-4705-af7a-bf422ce50632'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hbo-logo/20260927T061820Z-thuan-mac-1/reference/hbo logo_5e8442fe-8bb0-4705-af7a-bf422ce50632.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'db4dd436-0c1b-4e44-a5c2-fb12637a6682'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face party_db4dd436-0c1b-4e44-a5c2-fb12637a6682.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'face-party'

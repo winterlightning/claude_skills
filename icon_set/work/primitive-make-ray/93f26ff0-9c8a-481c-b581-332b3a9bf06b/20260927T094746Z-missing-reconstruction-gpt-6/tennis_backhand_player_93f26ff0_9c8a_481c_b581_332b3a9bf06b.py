@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '93f26ff0-9c8a-481c-b581-332b3a9bf06b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tennis-backhand-player/20260927T094425Z-thuan-mac-1/reference/tennis backhand_93f26ff0-9c8a-481c-b581-332b3a9bf06b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected hitting arm crowded the bent front leg.'
 REVISION_CHANGE = 'Raised and opened the backhand arm while keeping the ball and racket.'
 

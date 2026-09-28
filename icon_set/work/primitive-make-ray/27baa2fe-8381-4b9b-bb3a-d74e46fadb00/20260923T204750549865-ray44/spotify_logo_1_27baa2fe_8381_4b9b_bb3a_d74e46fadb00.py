@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '27baa2fe-8381-4b9b-bb3a-d74e46fadb00'
 SOURCE_PATH = 'icon_set/work/todo-references/spotify logo 1_27baa2fe-8381-4b9b-bb3a-d74e46fadb00.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Spotify circular logo with three progressively shorter curved broadcast lines.
 # References: No exact local Lucide logo match; supplied reference owns the three nested curves.
 # Reduction: No defining parts omitted.

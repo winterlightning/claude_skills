@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bab5b5ab-20b1-4dd5-9adc-c0506955e155'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__air-pollution-fire/20260924T160718Z-thuan-mac/reference/air pollution fire_bab5b5ab-20b1-4dd5-9adc-c0506955e155.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='air-pollution-fire'

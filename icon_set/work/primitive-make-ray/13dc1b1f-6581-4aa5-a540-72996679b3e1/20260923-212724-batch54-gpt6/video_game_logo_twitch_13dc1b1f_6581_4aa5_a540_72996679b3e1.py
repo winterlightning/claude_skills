@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '13dc1b1f-6581-4aa5-a540-72996679b3e1'
 SOURCE_PATH = 'icon_set/work/todo-references/video game logo twitch_13dc1b1f-6581-4aa5-a540-72996679b3e1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-game-logo-twitch'
     keyshape = Keyshape.SQUARE

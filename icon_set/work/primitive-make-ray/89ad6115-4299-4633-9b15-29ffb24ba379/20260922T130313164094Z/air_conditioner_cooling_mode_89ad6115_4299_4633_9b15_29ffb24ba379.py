@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '89ad6115-4299-4633-9b15-29ffb24ba379'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/ac cool_89ad6115-4299-4633-9b15-29ffb24ba379.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class AirConditionerCoolingMode(Solo48):
     """A wall-mounted air conditioner emits cool air around a snowflake."""

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='dd1e6365-7d94-41e2-84d6-66c8ad75ede1'
 SOURCE_PATH='pictographic-primitives/other/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded subtitles panel with complete SUB lettering. Rebalanced B remains distinct from the panel and has open bowls; glyph spacing is unresolved.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis original and atomic-debug: rounded panel; supplied reference governs SUB.'
 OMISSIONS=[]

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='e8929314-39ec-46c6-9cfb-5107ebede2dc'
 SOURCE_PATH='icon_set/work/todo-references/data lake code_e8929314-39ec-46c6-9cfb-5107ebede2dc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='data-lake-code'
     keyshape=Keyshape.SQUARE

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0116108b-9fa1-5899-a39f-eb2c65332858'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__digital-head-profile-with-input-nodes/20260927T060349Z-thuan-mac-1/reference/deepfake ai_0116108b-9fa1-5899-a39f-eb2c65332858.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class DigitalHeadProfileWithInputNodes(Solo48):

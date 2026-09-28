@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d8495254-20a2-4d70-a2c6-140b4f7cd24a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/picture sun_d8495254-20a2-4d70-a2c6-140b4f7cd24a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A framed sun above two rounded hills. Paired hills join the frame at explicit endpoints; smooth curves, centered sun and balanced openings.'
 CONSTRUCTION_REFERENCE='Lucide image rounded frame, sun and joined landscape'
 class Drawing(Solo48):

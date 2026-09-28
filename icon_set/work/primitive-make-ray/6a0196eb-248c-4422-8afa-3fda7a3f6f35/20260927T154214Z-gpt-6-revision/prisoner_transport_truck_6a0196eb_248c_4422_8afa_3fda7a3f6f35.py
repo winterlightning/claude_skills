@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6a0196eb-248c-4422-8afa-3fda7a3f6f35'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__prisoner-transport-truck/20260927T153803Z-thuan-mac-1/reference/deliver issue prisoner_6a0196eb-248c-4422-8afa-3fda7a3f6f35.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PrisonerTransportTruck(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '602e570f-55c9-4a0a-85e7-806684d11f77'
 SOURCE_PATH = 'pictographic-primitives/other/passwords correct_602e570f-55c9-4a0a-85e7-806684d11f77.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A password field displaying two X characters.

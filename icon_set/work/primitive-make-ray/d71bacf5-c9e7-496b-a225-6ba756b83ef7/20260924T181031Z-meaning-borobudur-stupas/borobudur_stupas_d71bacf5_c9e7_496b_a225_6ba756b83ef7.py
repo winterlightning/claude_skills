@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd71bacf5-c9e7-496b-a225-6ba756b83ef7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__borobudur-stupas/20260924T181031Z-thuan-mac/reference/chandi borobudur_d71bacf5-c9e7-496b-a225-6ba756b83ef7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'borobudur-stupas'

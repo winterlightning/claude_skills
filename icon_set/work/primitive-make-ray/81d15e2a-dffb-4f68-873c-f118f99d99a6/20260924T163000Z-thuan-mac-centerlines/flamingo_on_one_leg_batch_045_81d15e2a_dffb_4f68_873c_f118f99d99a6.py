@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='81d15e2a-dffb-4f68-873c-f118f99d99a6'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__flamingo-on-one-leg-batch-045/20260924T162241Z-thuan-mac/reference/flamingo_81d15e2a-dffb-4f68-873c-f118f99d99a6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='flamingo-on-one-leg-batch-045'
     keyshape=Keyshape.VRECT_L

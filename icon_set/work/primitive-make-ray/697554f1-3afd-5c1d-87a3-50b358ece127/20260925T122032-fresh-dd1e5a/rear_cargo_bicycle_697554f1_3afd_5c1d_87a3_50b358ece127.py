@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='697554f1-3afd-5c1d-87a3-50b358ece127'
 SOURCE_PATH='pictographic-primitives/transportation/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Bicycle with two equal wheels, a mounted rear box, step-through frame and straight forward handlebar.'
 CONSTRUCTION_REFERENCE='bike original: balanced equal wheels; supplied reference owns the rear carrier and step-through frame.'
 OMISSIONS='Lower hub-level frame, internal wheel spokes and fine pedal detail omitted to retain clear wheel openings; shallow step-through connection retained.'

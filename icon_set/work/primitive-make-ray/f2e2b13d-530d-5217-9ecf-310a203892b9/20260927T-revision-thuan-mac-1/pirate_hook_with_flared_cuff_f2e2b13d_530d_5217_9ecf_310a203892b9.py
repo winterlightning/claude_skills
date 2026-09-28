@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f2e2b13d-530d-5217-9ecf-310a203892b9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pirate-hook-with-flared-cuff/20260927T145855Z-thuan-mac-1/reference/piracy hook hand_f2e2b13d-530d-5217-9ecf-310a203892b9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PirateHookWithFlaredCuff(Solo48):

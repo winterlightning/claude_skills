@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '48b58407-6e7b-4cf9-b629-9742f8a963af'
 SOURCE_PATH = 'icon_set/work/todo-references/square phone hangup_48b58407-6e7b-4cf9-b629-9742f8a963af.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square with a curved telephone handset; handset orientation follows the source.
 # References: phone: continuous curved handset with shaped grips. The hangup source has no slash.
 # Reduction: No defining parts omitted.

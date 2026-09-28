@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a48942b9-22b4-5473-bb69-75298cd6eb3f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crane-hook-beneath-tapered-block/20260927T032242Z-thuan-mac-1/reference/hook_a48942b9-22b4-5473-bb69-75298cd6eb3f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'crane-hook-beneath-tapered-block'

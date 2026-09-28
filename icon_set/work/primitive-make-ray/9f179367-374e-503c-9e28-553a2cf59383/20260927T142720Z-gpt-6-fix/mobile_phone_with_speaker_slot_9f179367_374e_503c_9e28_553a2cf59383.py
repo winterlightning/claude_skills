@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9f179367-374e-503c-9e28-553a2cf59383'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-with-speaker-slot/20260927T142540Z-thuan-mac-1/reference/mobile phone_9f179367-374e-503c-9e28-553a2cf59383.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MobileIcon(Solo48):
     icon_id = 'mobile-phone-with-speaker-slot'

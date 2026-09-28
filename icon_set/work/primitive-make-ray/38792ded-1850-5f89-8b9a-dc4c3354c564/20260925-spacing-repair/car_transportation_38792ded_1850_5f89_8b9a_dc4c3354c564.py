@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '38792ded-1850-5f89-8b9a-dc4c3354c564'
 SOURCE_PATH = 'pictographic-primitives/transportation/car_38792ded-1850-5f89-8b9a-dc4c3354c564.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'car-transportation'
     keyshape = Keyshape.HRECT_M

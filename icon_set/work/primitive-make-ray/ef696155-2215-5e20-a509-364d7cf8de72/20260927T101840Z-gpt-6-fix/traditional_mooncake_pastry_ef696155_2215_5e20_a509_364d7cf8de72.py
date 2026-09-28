@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ef696155-2215-5e20-a509-364d7cf8de72'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__traditional-mooncake-pastry/20260927T101610Z-thuan-mac-1/reference/mooncake top_ef696155-2215-5e20-a509-364d7cf8de72.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'traditional-mooncake-pastry'

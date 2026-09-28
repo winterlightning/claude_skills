@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7ec3f373-1143-413c-9c5d-6a91026ab479'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__pheasant-raised-tail/20260924T142504Z-thuan-mac/reference/pheasant_7ec3f373-1143-413c-9c5d-6a91026ab479.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='pheasant-raised-tail'
     keyshape=Keyshape.SQUARE

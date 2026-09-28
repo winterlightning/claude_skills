@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'acc6f9a7-f1e5-46cf-961e-ce00f3dd0639'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-facing-down-batch-024-02/20260927T101626Z-thuan-mac-1/reference/hand down_acc6f9a7-f1e5-46cf-961e-ce00f3dd0639.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (2, 8, 46, 40); centerline (4, 10, 44, 38).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/hand down_acc6f9a7-f1e5-46cf-961e-ce00f3dd0639.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-024/02-hand-facing-down--acc6f9a7-f1e5-46cf-961e-ce00f3dd0639.md'

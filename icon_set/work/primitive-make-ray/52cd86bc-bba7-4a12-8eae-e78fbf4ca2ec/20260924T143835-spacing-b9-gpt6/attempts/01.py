@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec'
 SOURCE_PATH='pictographic-primitives/other/circle skull_52cd86bc-bba7-4a12-8eae-e78fbf4ca2ec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='circle-skull'
     keyshape=Keyshape.CIRCLE

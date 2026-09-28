@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b2c7c47b-4d63-5df9-a04a-0a0fda69500c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-cradling-heart/20260927T060349Z-thuan-mac-1/reference/love heart hands hold_b2c7c47b-4d63-5df9-a04a-0a0fda69500c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsCradlingHeart(Solo48):
     icon_id = 'hands-cradling-heart'

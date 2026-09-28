@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f86557da-1cc7-4eae-8fd9-4d5f68f015ce'
 SOURCE_PATH='pictographic-primitives/beauty/oxygen tank_f86557da-1cc7-4eae-8fd9-4d5f68f015ce.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/oxygen_cylinder_with_t_valve_f86557da_1cc7_4eae_8fd9_4d5f68f015ce.py'
 class Drawing(Solo48):
     icon_id='liquid-soap-dispenser'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4f97114c-a7e4-4f5d-935d-2b5d4711fb3f'
 SOURCE_PATH = 'pictographic-primitives/shopping/cart_4f97114c-a7e4-4f5d-935d-2b5d4711fb3f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/shopping_cart_rounded_basket_4f97114c_a7e4_4f5d_935d_2b5d4711fb3f.py'
 class Drawing(Solo48):
     icon_id = 'shopping-cart-rounded-basket'

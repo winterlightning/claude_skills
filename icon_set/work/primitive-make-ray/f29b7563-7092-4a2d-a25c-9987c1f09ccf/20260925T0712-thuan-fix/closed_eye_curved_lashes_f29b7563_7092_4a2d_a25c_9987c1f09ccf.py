@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f29b7563-7092-4a2d-a25c-9987c1f09ccf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-eye-curved-lashes/20260925T070532Z-thuan-mac/reference/lashes_f29b7563-7092-4a2d-a25c-9987c1f09ccf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Use a naturally shallow eyelid envelope with ink y=11..37 instead of stretching it to y=8..40. Five evenly fanned lashes and continuous lid read clearly at 48px.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '58191e32de407a4d2f041f41a49c5e4db667ed8a72e9d17e8fe356af8f77bf23'}

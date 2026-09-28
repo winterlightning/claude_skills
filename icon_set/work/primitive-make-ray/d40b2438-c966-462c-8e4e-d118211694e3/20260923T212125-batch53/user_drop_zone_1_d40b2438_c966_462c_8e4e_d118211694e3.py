@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d40b2438-c966-462c-8e4e-d118211694e3'
 SOURCE_PATH='icon_set/work/todo-references/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='user-drop-zone-1'

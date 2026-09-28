@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bb0b20be-48e9-58c8-a781-dea110e7df94'
 SOURCE_PATH = 'pictographic-primitives/transportation/adventure car atv_bb0b20be-48e9-58c8-a781-dea110e7df94.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DuneBuggy(Solo48):
     icon_id = 'dune-buggy'

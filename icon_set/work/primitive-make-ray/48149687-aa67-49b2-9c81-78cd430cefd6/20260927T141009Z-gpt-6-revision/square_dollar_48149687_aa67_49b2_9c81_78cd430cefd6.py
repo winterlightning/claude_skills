@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '48149687-aa67-49b2-9c81-78cd430cefd6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-dollar-solo/20260927T140026Z-thuan-mac-1/reference/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-dollar-solo'

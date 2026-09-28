@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1898abfe-93e3-5805-8016-2bd361c14022'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__walking-farmer-shouldered-hoe/20260927T145855Z-thuan-mac-1/reference/farmer work_1898abfe-93e3-5805-8016-2bd361c14022.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch28Icon(Solo48):
     icon_id = 'walking-farmer-shouldered-hoe'

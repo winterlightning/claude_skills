@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0f9128c6-6dd9-40af-9935-178191e470a4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__unus-sed-leo-angular-emblem/20260927T160114Z-thuan-mac-1/reference/virtual coin crypto unus sed leo_0f9128c6-6dd9-40af-9935-178191e470a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'unus-sed-leo-angular-emblem'

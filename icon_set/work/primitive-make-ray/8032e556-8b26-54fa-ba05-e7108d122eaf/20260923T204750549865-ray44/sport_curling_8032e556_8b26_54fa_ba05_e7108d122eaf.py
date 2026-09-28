@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8032e556-8b26-54fa-ba05-e7108d122eaf'
 SOURCE_PATH = 'icon_set/work/todo-references/sport curling_8032e556-8b26-54fa-ba05-e7108d122eaf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Curling stone, diagonal broom and small curling stone marker.
 # References: No useful exact local Lucide match; coherent stone dome, handle and diagonal broom.
 # Reduction: Omitted small stone side seam; retained handle, broom head and round marker.

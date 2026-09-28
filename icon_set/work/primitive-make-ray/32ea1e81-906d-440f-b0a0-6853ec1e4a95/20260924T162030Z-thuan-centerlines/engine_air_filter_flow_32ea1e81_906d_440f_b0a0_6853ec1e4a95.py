@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='32ea1e81-906d-440f-b0a0-6853ec1e4a95'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__engine-air-filter-flow/20260924T162030Z-thuan-mac/reference/engine air filter_32ea1e81-906d-440f-b0a0-6853ec1e4a95.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='engine-air-filter-flow'

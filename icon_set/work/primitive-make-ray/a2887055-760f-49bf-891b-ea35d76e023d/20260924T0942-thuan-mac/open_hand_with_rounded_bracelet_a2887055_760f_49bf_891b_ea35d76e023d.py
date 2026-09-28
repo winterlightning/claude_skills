@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a2887055-760f-49bf-891b-ea35d76e023d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-hand-with-rounded-bracelet/20260924T093935Z-thuan-mac/reference/lgbt bracelet hand_a2887055-760f-49bf-891b-ea35d76e023d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide hand: shared finger creases and semicircular tips.'
 OMISSIONS = 'Bracelet stripes omitted; one capsule retained.'
 

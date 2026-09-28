@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b2d21f34-88f5-4119-9e01-c79ec40a8337'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__cupped-hands-beneath-a-cross/20260924T160718Z-thuan-mac/reference/religion hands_b2d21f34-88f5-4119-9e01-c79ec40a8337.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='cupped-hands-beneath-a-cross'

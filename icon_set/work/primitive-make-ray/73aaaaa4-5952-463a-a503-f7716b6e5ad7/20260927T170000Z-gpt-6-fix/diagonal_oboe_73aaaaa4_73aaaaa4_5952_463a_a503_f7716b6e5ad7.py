@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '73aaaaa4-5952-463a-a503-f7716b6e5ad7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-oboe-73aaaaa4/20260927T164353Z-thuan-mac-1/reference/oboe_73aaaaa4-5952-463a-a503-f7716b6e5ad7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'diagonal-oboe-73aaaaa4'

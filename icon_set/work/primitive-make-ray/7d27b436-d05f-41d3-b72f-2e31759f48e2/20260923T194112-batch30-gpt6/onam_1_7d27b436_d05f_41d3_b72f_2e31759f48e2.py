@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7d27b436-d05f-41d3-b72f-2e31759f48e2'
 SOURCE_PATH = 'icon_set/work/todo-references/onam 1_7d27b436-d05f-41d3-b72f-2e31759f48e2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A six-petal Onam flower inside a circular rim.

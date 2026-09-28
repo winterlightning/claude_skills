@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a01fbad7-74b8-42c3-9a8c-0dcba1622555'
 SOURCE_PATH='icon_set/work/todo-references/square grid_a01fbad7-74b8-42c3-9a8c-0dcba1622555.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square grid perimeter with eight inward ticks.'
 CONSTRUCTION_REFERENCES='Source: mirrored short ticks on four sides.'
 OMISSIONS='None.'

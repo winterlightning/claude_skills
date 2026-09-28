@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='7812933e-4da0-4067-9131-d948a045fef8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__movie-production-clapperboard/20260927T142540Z-thuan-mac-1/reference/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A broad raised clapper pivots from the left over a complete slate with one horizontal band.'
 CONSTRUCTION_REFERENCES='Lucide clapperboard original and atomic-debug: raised striped blade and rounded slate.'
 OMISSIONS=['Fine blade stripes omitted because they close at 48 pixels.']

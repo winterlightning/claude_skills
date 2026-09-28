@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='764d4993-c502-42d1-9520-e7dd676c9d28'
 SOURCE_PATH='pictographic-primitives/users/woman podium_764d4993-c502-42d1-9520-e7dd676c9d28.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Woman with parted bob hair and a real neck behind a broad lectern with inward-tapering sides.'
 CONSTRUCTION_REFERENCES='Lucide presentation: straight podium ledge; human_ref/user.svg owns round jaw and smooth shoulders. Source owns hairstyle and lectern.'
 OMISSIONS=[]

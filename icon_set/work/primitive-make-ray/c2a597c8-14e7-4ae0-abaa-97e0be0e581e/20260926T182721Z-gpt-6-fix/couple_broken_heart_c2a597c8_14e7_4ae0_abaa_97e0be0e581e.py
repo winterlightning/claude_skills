@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c2a597c8-14e7-4ae0-abaa-97e0be0e581e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__couple-broken-heart/20260926T182517Z-thuan-mac-1/reference/two persons with broken heart_c2a597c8-14e7-4ae0-abaa-97e0be0e581e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CoupleBrokenHeart(Solo48):
     icon_id = 'couple-broken-heart'

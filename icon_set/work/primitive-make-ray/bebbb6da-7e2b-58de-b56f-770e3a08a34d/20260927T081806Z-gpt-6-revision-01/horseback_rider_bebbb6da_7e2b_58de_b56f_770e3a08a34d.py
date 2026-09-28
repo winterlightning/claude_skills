@@ -11,7 +11,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bebbb6da-7e2b-58de-b56f-770e3a08a34d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horseback-rider/20260927T081503Z-thuan-mac-1/reference/outdoors horse_bebbb6da-7e2b-58de-b56f-770e3a08a34d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HorsebackRider(Solo48):
     icon_id = 'horseback-rider'

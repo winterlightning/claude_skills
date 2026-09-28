@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57237fb8-d140-4fc2-97bb-fe24ab1c7285'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/office desk 1_57237fb8-d140-4fc2-97bb-fe24ab1c7285.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """An office desk with a monitor, clock, and cup.

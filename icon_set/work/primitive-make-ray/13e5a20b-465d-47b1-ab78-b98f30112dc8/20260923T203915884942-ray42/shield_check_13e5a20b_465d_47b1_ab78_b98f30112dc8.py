@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '13e5a20b-465d-47b1-ab78-b98f30112dc8'
 SOURCE_PATH = 'icon_set/work/todo-references/shield check_13e5a20b-465d-47b1-ab78-b98f30112dc8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Crested shield enclosing a check mark.
 # Construction references: shield-check: broad clear shield and a simple joined check.
 # Reduction: No parts omitted.

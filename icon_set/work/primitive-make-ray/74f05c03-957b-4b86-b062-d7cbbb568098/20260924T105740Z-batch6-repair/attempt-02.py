@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='74f05c03-957b-4b86-b062-d7cbbb568098'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nectar_74f05c03-957b-4b86-b062-d7cbbb568098.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='nectar'
     keyshape=Keyshape.SQUARE

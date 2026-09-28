@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fdd7bd39-46cd-5b2f-9155-bc0b50b30900'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flag-buoy-on-waves/20260927T034714Z-thuan-mac-1/reference/diving flag buoys_fdd7bd39-46cd-5b2f-9155-bc0b50b30900.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FlagBuoyOnWaves(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '41bb3775-67e6-5a7f-bc03-6922fe35a73f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crab/20260926T182517Z-thuan-mac-1/reference/shellfish crab_41bb3775-67e6-5a7f-bc03-6922fe35a73f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Crab(Solo48):
     icon_id = 'crab'

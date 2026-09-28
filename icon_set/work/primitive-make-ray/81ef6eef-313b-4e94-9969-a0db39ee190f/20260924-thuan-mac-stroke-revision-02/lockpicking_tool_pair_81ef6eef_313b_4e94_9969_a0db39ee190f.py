@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='81ef6eef-313b-4e94-9969-a0db39ee190f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__lockpicking-tool-pair/20260924T101756Z-thuan-mac/reference/tools loackpick_81ef6eef-313b-4e94-9969-a0db39ee190f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='No direct Lucide match; rounded capsule construction'
 DESIGN_PLAN='Upright toothed pick and a diagonal bent pick with separate capsule grips. Integer 3-4-5 geometry owns the diagonal rounded cap; centerlines (6,6)-(42,42).'
 OMISSIONS='Tiny extra bend on right shaft simplified.'

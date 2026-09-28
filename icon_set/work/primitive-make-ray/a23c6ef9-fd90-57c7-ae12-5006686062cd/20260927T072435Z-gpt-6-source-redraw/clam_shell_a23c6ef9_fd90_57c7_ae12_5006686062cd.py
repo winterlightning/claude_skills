@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = 'a23c6ef9-fd90-57c7-ae12-5006686062cd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clam-shell/20260927T071330Z-thuan-mac-1/reference/shell_a23c6ef9-fd90-57c7-ae12-5006686062cd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ClamShell(Solo48):
     icon_id = 'clam-shell'

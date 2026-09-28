@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0da0f78f-cd68-48d5-8070-b71070bed549'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plain-human-head-in-left-profile/20260924T111035Z-thuan-mac/reference/bipolar disorder symptoms 2_0da0f78f-cd68-48d5-8070-b71070bed549.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'plain-human-head-in-left-profile'
     keyshape = Keyshape.VRECT_L

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='66464e9f-35f0-4894-b4e2-7c801bd38b27'
 SOURCE_PATH='pictographic-primitives/_uncategorized_39/vr video 1_66464e9f-35f0-4894-b4e2-7c801bd38b27.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='vr-video-1'
     keyshape=Keyshape.SQUARE

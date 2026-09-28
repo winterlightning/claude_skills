@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "ddcdb18c-a117-4e56-9306-9336b686e788"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__tall-fashion-boot/20260928T042745Z-thuan-mac-1/reference/footwear boots female_ddcdb18c-a117-4e56-9306-9336b686e788.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class TallFashionBoot(Solo48):

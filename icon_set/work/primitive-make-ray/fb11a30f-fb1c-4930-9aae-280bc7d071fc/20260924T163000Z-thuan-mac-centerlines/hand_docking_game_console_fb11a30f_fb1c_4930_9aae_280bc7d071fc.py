@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='fb11a30f-fb1c-4930-9aae-280bc7d071fc'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hand-docking-game-console/20260924T162241Z-thuan-mac/reference/switch dock_fb11a30f-fb1c-4930-9aae-280bc7d071fc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='hand-docking-game-console'
     keyshape=Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4435fc2e-43ca-497f-b976-20c5c54a083c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__oracle-logo/20260927T152212Z-thuan-mac-1/reference/oracle logo_4435fc2e-43ca-497f-b976-20c5c54a083c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OracleLogo(Solo48):
     icon_id = 'oracle-logo'

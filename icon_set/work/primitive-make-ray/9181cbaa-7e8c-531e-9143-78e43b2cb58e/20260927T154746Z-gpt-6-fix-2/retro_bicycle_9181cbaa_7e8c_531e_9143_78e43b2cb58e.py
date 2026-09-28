@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9181cbaa-7e8c-531e-9143-78e43b2cb58e'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__retro-bicycle/20260927T153833Z-thuan-mac-1/reference/bicycle retro_9181cbaa-7e8c-531e-9143-78e43b2cb58e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RetroBicycle(Solo48):
     icon_id = 'retro-bicycle'

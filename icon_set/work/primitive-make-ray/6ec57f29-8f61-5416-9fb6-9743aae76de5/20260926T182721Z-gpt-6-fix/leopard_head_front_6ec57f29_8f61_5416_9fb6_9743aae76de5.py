@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6ec57f29-8f61-5416-9fb6-9743aae76de5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cheetah-face/20260926T182517Z-thuan-mac-1/reference/leopard head front_6ec57f29-8f61-5416-9fb6-9743aae76de5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class CheetahFace(Solo48):

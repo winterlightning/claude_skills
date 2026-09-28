@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f442e678-6fbd-570e-923f-8eae8fd127e0'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/pin_f442e678-6fbd-570e-923f-8eae8fd127e0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/location_pin_above_baseline_f442e678_6fbd_570e_923f_8eae8fd127e0.py'
 class Drawing(Solo48):
     icon_id = 'location-pin-above-baseline'

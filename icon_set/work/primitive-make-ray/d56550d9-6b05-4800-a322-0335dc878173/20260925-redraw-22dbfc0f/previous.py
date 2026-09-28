@@ -10,7 +10,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'd56550d9-6b05-4800-a322-0335dc878173'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/women_d56550d9-6b05-4800-a322-0335dc878173.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/women_d56550d9-6b05-4800-a322-0335dc878173.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-022/15-female-user-profile-avatar--d56550d9-6b05-4800-a322-0335dc878173.md'

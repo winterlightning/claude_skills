@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bf8dff34-f22d-4976-9ab6-677659af27b1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__round-lantern/20260924T152553Z-thuan-mac/reference/lamp 1_bf8dff34-f22d-4976-9ab6-677659af27b1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='round-lantern'

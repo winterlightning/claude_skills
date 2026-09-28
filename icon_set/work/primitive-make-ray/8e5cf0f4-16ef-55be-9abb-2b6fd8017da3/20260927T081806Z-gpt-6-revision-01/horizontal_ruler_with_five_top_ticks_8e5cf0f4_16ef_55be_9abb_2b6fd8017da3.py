@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8e5cf0f4-16ef-55be-9abb-2b6fd8017da3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horizontal-ruler-with-five-top-ticks/20260927T081503Z-thuan-mac-1/reference/ruler_8e5cf0f4-16ef-55be-9abb-2b6fd8017da3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CATALOG_REFERENCE = 'pictographic-primitives/design/ruler_8e5cf0f4-16ef-55be-9abb-2b6fd8017da3.svg'
 
 def _run(icon, name, *points):

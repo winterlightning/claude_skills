@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'aa4ae914-3af0-476a-9426-f0036782e934'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__car-2/20260924T115444Z-thuan-mac/reference/car 2_aa4ae914-3af0-476a-9426-f0036782e934.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'car-2'
     keyshape = Keyshape.HRECT_M

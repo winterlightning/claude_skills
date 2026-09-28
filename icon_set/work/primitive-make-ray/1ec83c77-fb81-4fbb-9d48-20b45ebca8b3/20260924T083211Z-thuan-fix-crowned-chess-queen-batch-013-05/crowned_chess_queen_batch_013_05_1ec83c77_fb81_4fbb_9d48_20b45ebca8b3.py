@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1ec83c77-fb81-4fbb-9d48-20b45ebca8b3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__crowned-chess-queen-batch-013-05/20260924T083211Z-thuan-mac/reference/chess king_1ec83c77-fb81-4fbb-9d48-20b45ebca8b3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='crowned-chess-queen-batch-013-05'

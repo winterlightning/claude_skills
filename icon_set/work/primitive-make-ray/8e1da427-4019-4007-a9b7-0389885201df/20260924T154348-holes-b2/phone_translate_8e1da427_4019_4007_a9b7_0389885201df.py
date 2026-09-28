@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8e1da427-4019-4007-a9b7-0389885201df'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='phone-translate'
     keyshape=Keyshape.VRECT_L

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID = 'e94edbaf-c94d-4cdc-a976-817dfd2498ef'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-drill-fire-log/20260927T142529Z-thuan-mac-1/reference/outdoors camp fire make_e94edbaf-c94d-4cdc-a976-817dfd2498ef.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='hand-drill-fire-log'
     keyshape=Keyshape.SQUARE

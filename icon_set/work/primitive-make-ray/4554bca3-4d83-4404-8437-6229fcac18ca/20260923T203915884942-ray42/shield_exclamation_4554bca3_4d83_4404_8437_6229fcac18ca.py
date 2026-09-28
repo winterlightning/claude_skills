@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4554bca3-4d83-4404-8437-6229fcac18ca'
 SOURCE_PATH = 'icon_set/work/todo-references/shield exclamation_4554bca3-4d83-4404-8437-6229fcac18ca.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Crested shield enclosing an exclamation mark.
 # Construction references: shield-alert: central vertical stroke and detached round point.
 # Reduction: No parts omitted.

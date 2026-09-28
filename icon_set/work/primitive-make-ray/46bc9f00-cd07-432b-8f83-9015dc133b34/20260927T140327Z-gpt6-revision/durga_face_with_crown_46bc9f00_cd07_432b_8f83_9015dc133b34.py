@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '46bc9f00-cd07-432b-8f83-9015dc133b34'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__durga-face-with-crown/20260927T135945Z-thuan-mac-1/reference/durga puja face_46bc9f00-cd07-432b-8f83-9015dc133b34.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DurgaFaceWithCrown(Solo48):
     icon_id = 'durga-face-with-crown'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='59b04c40-2006-4e31-a230-a6be869385d4'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/shopping pay hide advertising_59b04c40-2006-4e31-a230-a6be869385d4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Dollar coin suppression. Open circular boundary around slash; real stem joins at ring extrema and dollar knots. SQUARE6,6–42,42. Preserve full dollar and slash; manual-review candidate if gate fails.'
 class Drawing(Solo48):
     icon_id='shopping-pay-hide-advertising'

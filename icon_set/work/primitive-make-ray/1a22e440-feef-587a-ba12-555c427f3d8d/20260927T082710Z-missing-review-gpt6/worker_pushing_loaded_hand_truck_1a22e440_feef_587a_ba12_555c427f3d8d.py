@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1a22e440-feef-587a-ba12-555c427f3d8d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__worker-pushing-loaded-hand-truck/20260927T082307Z-thuan-mac-1/reference/supply chain supplier trolley delivery_1a22e440-feef-587a-ba12-555c427f3d8d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('1a22e440-feef-587a-ba12-555c427f3d8d', 'pictographic-primitives/business/supply chain supplier trolley delivery_1a22e440-feef-587a-ba12-555c427f3d8d.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

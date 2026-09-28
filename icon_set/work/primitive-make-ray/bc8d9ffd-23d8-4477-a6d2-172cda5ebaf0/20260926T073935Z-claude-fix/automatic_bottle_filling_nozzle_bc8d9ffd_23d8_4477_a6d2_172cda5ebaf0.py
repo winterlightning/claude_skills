@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bc8d9ffd-23d8-4477-a6d2-172cda5ebaf0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__automatic-bottle-filling-nozzle/20260926T073831Z-thuan-mac/reference/factory automated bottle fill_bc8d9ffd-23d8-4477-a6d2-172cda5ebaf0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AutomaticBottleFillingNozzle(Solo48):
     icon_id = 'automatic-bottle-filling-nozzle'

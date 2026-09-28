@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0ea57261-df27-40e8-85d1-48d8e87aa7ac'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__toothpaste-tube-beside-toothbrush/20260927T173930Z-thuan-mac-1/reference/body care toothbrush paste_0ea57261-df27-40e8-85d1-48d8e87aa7ac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'toothpaste-tube-beside-toothbrush'

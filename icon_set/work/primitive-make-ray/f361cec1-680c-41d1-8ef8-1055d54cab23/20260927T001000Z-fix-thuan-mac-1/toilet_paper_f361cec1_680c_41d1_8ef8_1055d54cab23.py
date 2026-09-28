@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f361cec1-680c-41d1-8ef8-1055d54cab23'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hanging-toilet-paper-roll/20260926T172218Z-thuan-mac-1/reference/toilet paper_f361cec1-680c-41d1-8ef8-1055d54cab23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HangingToiletPaperRoll(Solo48):
     icon_id = 'hanging-toilet-paper-roll'

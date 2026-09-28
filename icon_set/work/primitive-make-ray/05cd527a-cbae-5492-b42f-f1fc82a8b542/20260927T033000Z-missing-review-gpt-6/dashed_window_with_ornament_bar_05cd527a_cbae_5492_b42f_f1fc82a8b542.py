@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05cd527a-cbae-5492-b42f-f1fc82a8b542'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dashed-window-with-ornament-bar/20260927T032256Z-thuan-mac-1/reference/element ornament_05cd527a-cbae-5492-b42f-f1fc82a8b542.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DashedWindowWithOrnamentBar(Solo48):
     icon_id = 'dashed-window-with-ornament-bar'

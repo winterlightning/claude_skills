@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '83188d0d-6fe1-57ec-8f6f-153a95690e91'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-mouth-in-side-section-83188d0d/20260924T093935Z-thuan-mac/reference/mouthwash teeth_83188d0d-6fe1-57ec-8f6f-153a95690e91.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Human source side section; no useful Lucide match.'
 OMISSIONS = 'Two teeth merged to broad dental edge; no lower neck.'
 

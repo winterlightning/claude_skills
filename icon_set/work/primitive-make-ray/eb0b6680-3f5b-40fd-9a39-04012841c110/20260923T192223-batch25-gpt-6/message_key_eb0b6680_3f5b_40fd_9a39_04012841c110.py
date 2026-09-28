@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'eb0b6680-3f5b-40fd-9a39-04012841c110'
 SOURCE_PATH = 'icon_set/work/todo-references/message key_eb0b6680-3f5b-40fd-9a39-04012841c110.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'message-key'
     keyshape = Keyshape.SQUARE

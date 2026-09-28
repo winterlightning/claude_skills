@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e29076a9-17a4-5730-a4ab-bc97eb440b98'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-behind-fence/20260927T145836Z-thuan-mac-1/reference/refugee immigration fence_e29076a9-17a4-5730-a4ab-bc97eb440b98.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonBehindFence(Solo48):

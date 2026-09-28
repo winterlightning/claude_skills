@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='f27e9ceb-3471-4f88-9ba7-afea584d2ef1'
 SOURCE_PATH='pictographic-primitives/other/message bubble person_f27e9ceb-3471-4f88-9ba7-afea584d2ef1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded speech bubble with a lower-left tail and a larger circular portrait on curved touching shoulders.'
 CONSTRUCTION_REFERENCES='Lucide message-circle: smooth bubble outline; human_ref/user.svg and icon-avatar: circular head and touching shoulder construction.'
 OMISSIONS=[]

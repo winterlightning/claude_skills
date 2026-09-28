@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2d817056-c992-421c-aa82-7918e9bbda30'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sunbather-by-water/20260927T094403Z-thuan-mac-1/reference/sunbathe activitiies_2d817056-c992-421c-aa82-7918e9bbda30.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SunbatherByWater(Solo48):

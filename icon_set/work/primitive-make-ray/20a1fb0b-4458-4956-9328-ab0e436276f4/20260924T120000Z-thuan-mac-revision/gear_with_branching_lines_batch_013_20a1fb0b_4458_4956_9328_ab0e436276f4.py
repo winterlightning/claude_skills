@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='20a1fb0b-4458-4956-9328-ab0e436276f4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__gear-with-branching-lines-batch-013/20260924T115443Z-thuan-mac/reference/set factor standard_20a1fb0b-4458-4956-9328-ab0e436276f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='gear-with-branching-lines-batch-013'

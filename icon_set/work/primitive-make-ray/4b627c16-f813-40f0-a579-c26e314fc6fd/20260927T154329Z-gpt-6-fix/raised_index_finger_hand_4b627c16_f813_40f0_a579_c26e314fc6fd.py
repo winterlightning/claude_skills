@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4b627c16-f813-40f0-a579-c26e314fc6fd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__raised-index-finger-hand/20260927T153833Z-thuan-mac-1/reference/cursor hand_4b627c16-f813-40f0-a579-c26e314fc6fd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def circle(icon,name,cx,cy,r):
     icon.add_arc(name+"-top",(cx-r,cy),(cx+r,cy),radius_x=r)

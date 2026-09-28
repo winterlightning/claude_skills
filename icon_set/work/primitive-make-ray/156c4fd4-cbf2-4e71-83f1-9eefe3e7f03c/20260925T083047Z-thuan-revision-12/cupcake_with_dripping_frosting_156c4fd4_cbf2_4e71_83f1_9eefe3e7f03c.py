@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '156c4fd4-cbf2-4e71-83f1-9eefe3e7f03c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cupcake-with-dripping-frosting/20260925T083047Z-thuan-mac/reference/icing_156c4fd4-cbf2-4e71-83f1-9eefe3e7f03c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cupcake-with-dripping-frosting'

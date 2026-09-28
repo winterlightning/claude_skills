@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7f241b41-a40e-5d93-877e-90934b0259e9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-overlapping-folders/20260927T174057Z-thuan-mac-1/reference/duplicate folder_7f241b41-a40e-5d93-877e-90934b0259e9.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 ADAPTED_FROM = 'folder'
 DESIGN_NOTES = 'No defining feature omitted.'
 CONSTRUCTION_REFERENCE = 'Lucide folder original and atomic-debug; coherent contours and shared attachment nodes.'

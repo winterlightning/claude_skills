@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ac0aabf7-0c09-4997-9ab6-af64655e476d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clustered-berry-with-branching-stem-batch-051/20260927T160834Z-thuan-mac-1/reference/fruit blackberry raspberry boysenberrry_ac0aabf7-0c09-4997-9ab6-af64655e476d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def _circle(icon, name, x, y, r):
     icon.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)

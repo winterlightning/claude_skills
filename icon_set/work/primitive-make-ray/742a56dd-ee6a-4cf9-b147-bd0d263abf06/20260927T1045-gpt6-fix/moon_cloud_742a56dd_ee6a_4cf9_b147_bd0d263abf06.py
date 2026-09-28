@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '742a56dd-ee6a-4cf9-b147-bd0d263abf06'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__moon-cloud/20260927T104148Z-thuan-mac-1/reference/weather night cloudy_742a56dd-ee6a-4cf9-b147-bd0d263abf06.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MoonCloud(Solo48):
     icon_id = 'moon-cloud'

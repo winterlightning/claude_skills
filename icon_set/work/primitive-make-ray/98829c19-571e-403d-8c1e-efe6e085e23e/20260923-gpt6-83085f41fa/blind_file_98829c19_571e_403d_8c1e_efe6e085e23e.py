@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '98829c19-571e-403d-8c1e-efe6e085e23e'
 SOURCE_PATH = 'icon_set/work/todo-references/blind file_98829c19-571e-403d-8c1e-efe6e085e23e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'blind-file'

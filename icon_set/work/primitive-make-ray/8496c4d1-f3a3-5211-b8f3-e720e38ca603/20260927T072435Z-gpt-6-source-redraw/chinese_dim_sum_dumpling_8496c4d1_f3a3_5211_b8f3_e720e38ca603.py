@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '8496c4d1-f3a3-5211-b8f3-e720e38ca603'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chinese-dim-sum-dumpling/20260927T071330Z-thuan-mac-1/reference/dimsum chinese dumpling_8496c4d1-f3a3-5211-b8f3-e720e38ca603.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'chinese-dim-sum-dumpling'

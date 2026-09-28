@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0257fd69-7a18-40fc-a7d2-903d1b421449'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Cylinder encloses outstretched human. VRECT_L extremes8,4–40,44 adds height for feet clearance; omit inner wall strips and bands. Human full_body_ref proportions: radius4 head bottom22 to torso30 is exact8 centerline/4 ink.'
 class Drawing(Solo48):
     icon_id='sense-of-stability'

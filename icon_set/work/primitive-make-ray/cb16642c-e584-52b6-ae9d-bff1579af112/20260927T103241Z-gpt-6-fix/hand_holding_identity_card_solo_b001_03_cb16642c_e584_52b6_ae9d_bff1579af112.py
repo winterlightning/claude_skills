@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cb16642c-e584-52b6-ae9d-bff1579af112'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-holding-identity-card-solo-b001-03/20260927T101626Z-thuan-mac-1/reference/digital policies data breach user_cb16642c-e584-52b6-ae9d-bff1579af112.svg'
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-001/references/digital policies data breach user_cb16642c-e584-52b6-ae9d-bff1579af112.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def circle(s,n,x,y,r):
     s.add_arc(n+'-a',(x,y-r),(x,y+r),radius_x=r)

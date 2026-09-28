@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '11803bf4-3d5a-4a80-ac9d-b2c0ab16e853'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__short-sleeved-dress-with-v-neck/20260927T172707Z-thuan-mac-1/reference/shirtdress_11803bf4-3d5a-4a80-ac9d-b2c0ab16e853.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'short-sleeved-dress-with-v-neck'

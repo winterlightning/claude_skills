@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1af2cc96-98e1-4c11-bd26-fef6f9c101b4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__question-mark-chat-bubble-solo/20260924T090615Z-thuan-mac/reference/question mark in chat bubble_1af2cc96-98e1-4c11-bd26-fef6f9c101b4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'question-mark-chat-bubble-solo'
     keyshape = Keyshape.SQUARE

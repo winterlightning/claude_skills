@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0bfd29d7-5d44-4550-b64e-501fc09382fa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crescent-moon-solo-batch-019-11/20260925T083047Z-thuan-mac/reference/moon_0bfd29d7-5d44-4550-b64e-501fc09382fa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crescent-moon-solo-batch-019-11'

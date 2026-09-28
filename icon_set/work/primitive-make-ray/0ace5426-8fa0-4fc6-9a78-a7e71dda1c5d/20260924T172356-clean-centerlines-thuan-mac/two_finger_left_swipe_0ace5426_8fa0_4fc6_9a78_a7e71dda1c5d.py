@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0ace5426-8fa0-4fc6-9a78-a7e71dda1c5d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__two-finger-left-swipe/20260924T172356Z-thuan-mac/reference/gesture swipe horizontal left two fingers_0ace5426-8fa0-4fc6-9a78-a7e71dda1c5d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='two-finger-left-swipe'

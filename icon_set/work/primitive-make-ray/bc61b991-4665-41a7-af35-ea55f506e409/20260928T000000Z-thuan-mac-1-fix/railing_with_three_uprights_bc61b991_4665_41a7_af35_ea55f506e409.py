@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bc61b991-4665-41a7-af35-ea55f506e409'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__railing-with-three-uprights/20260927T170540Z-thuan-mac-1/reference/railing_bc61b991-4665-41a7-af35-ea55f506e409.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'railing-with-three-uprights'

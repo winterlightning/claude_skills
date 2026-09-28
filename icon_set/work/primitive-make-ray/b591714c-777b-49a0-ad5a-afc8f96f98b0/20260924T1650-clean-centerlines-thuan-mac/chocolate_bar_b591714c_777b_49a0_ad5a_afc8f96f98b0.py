@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b591714c-777b-49a0-ad5a-afc8f96f98b0'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__chocolate-bar/20260924T164246Z-thuan-mac/reference/chocolate bar_b591714c-777b-49a0-ad5a-afc8f96f98b0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='chocolate-bar'

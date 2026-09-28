@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '66d61c39-06d6-41c2-a9d1-44513486e148'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-above-stepped-cellar/20260927T061852Z-thuan-mac-1/reference/cellar 2_66d61c39-06d6-41c2-a9d1-44513486e148.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HouseAboveSteppedCellar(Solo48):
     icon_id = 'house-above-stepped-cellar'

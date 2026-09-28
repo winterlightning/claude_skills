@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5c819d90-8af7-5d49-95ee-d10fff420d3b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ptsd-disorder-symptoms/20260927T153803Z-thuan-mac-1/reference/ptsd disorder symptoms_5c819d90-8af7-5d49-95ee-d10fff420d3b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PtsdDisorderSymptoms(Solo48):
     icon_id = 'ptsd-disorder-symptoms'

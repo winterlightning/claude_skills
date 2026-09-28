@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5b5a5348-95e6-489c-abb3-fe356243022b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__type-b-outlet-with-two-slots-and-ground-hole/20260927T101610Z-thuan-mac-1/reference/power outlet type b_5b5a5348-95e6-489c-abb3-fe356243022b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'type-b-outlet-with-two-slots-and-ground-hole'

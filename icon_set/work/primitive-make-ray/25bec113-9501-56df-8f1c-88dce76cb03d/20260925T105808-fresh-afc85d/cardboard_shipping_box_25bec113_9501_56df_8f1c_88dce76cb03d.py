@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='25bec113-9501-56df-8f1c-88dce76cb03d'
 SOURCE_PATH='pictographic-primitives/shipping/box_25bec113-9501-56df-8f1c-88dce76cb03d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Top edge now runs continuously across the attached tape tab. Tab is closed and centered, with matching rounded carton corners.'
 CONSTRUCTION_REFERENCE='panels-top-left original and atomic-debug: rounded rectangle and attached interior partition; package original inspected but its perspective is not used.'
 OMISSIONS='No omissions.'

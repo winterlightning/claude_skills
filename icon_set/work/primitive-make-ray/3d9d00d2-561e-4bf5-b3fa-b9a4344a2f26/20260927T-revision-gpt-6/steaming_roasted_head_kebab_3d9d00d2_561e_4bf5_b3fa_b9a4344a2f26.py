@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3d9d00d2-561e-4bf5-b3fa-b9a4344a2f26'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__steaming-roasted-head-kebab/20260927T094403Z-thuan-mac-1/reference/exotic food kebab_3d9d00d2-561e-4bf5-b3fa-b9a4344a2f26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'steaming-roasted-head-kebab'

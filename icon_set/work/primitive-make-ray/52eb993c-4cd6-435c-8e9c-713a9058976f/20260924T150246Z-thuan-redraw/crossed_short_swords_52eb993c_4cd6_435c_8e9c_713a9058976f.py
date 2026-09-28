@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='52eb993c-4cd6-435c-8e9c-713a9058976f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__crossed-short-swords/20260924T150246Z-thuan-mac/reference/antique swords_52eb993c-4cd6-435c-8e9c-713a9058976f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='crossed-short-swords'

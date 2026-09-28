@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "f091c14d-74b4-4dd3-a7fb-33b15684ee95"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__teacher-presenting-at-whiteboard-batch-003/20260928T042745Z-thuan-mac-1/reference/teacher shool_f091c14d-74b4-4dd3-a7fb-33b15684ee95.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class TeacherPresentingAtWhiteboardBatch003(Solo48):

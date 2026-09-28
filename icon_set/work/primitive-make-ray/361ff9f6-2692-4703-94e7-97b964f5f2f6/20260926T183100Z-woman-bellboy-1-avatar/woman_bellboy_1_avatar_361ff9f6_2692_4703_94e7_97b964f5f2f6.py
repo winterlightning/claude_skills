@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '361ff9f6-2692-4703-94e7-97b964f5f2f6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-bellboy-1-avatar/20260926T181831Z-thuan-mac-1/reference/woman bellboy_361ff9f6-2692-4703-94e7-97b964f5f2f6.svg'
 SOURCE_HEAD_ICON_ID = 'woman-bellboy-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 class WomanBellboy1Avatar(Solo48):
     icon_id = 'woman-bellboy-1-avatar'

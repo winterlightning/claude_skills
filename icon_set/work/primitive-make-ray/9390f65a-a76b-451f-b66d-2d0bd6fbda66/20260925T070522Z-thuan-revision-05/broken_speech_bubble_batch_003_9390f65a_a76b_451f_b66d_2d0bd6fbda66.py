@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9390f65a-a76b-451f-b66d-2d0bd6fbda66'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__broken-speech-bubble-batch-003/20260925T070522Z-thuan-mac/reference/language barrier broken bubble_9390f65a-a76b-451f-b66d-2d0bd6fbda66.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'broken-speech-bubble-batch-003'

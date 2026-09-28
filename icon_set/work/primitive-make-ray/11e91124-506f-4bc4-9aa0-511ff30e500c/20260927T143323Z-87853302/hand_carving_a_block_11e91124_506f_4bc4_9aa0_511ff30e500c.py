@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID = '11e91124-506f-4bc4-9aa0-511ff30e500c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-carving-a-block/20260927T142529Z-thuan-mac-1/reference/carving_11e91124-506f-4bc4-9aa0-511ff30e500c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='hand-carving-a-block'
     keyshape=Keyshape.SQUARE

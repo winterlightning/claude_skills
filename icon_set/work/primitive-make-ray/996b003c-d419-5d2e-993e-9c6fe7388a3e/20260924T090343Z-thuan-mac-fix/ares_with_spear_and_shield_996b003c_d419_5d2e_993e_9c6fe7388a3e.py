@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '996b003c-d419-5d2e-993e-9c6fe7388a3e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ares-with-spear-and-shield/20260924T090148Z-thuan-mac/reference/ares_996b003c-d419-5d2e-993e-9c6fe7388a3e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ares-with-spear-and-shield'

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = 'adb175ef-3f15-412e-aca0-3c0b32f9b52e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hot-stone-massage-with-steam/20260927T061852Z-thuan-mac-1/reference/hot stone massage person_adb175ef-3f15-412e-aca0-3c0b32f9b52e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'hot-stone-massage-with-steam'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c03757be-d1b5-4947-a24a-34ada29dbe5b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__circular-head-profile-bust/20260925T070532Z-thuan-mac/reference/bob_c03757be-d1b5-4947-a24a-34ada29dbe5b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circular-head-profile-bust'

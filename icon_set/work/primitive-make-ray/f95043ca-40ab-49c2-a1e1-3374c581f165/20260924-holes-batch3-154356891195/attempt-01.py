@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f95043ca-40ab-49c2-a1e1-3374c581f165'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-moon'
     keyshape = Keyshape.VRECT_L

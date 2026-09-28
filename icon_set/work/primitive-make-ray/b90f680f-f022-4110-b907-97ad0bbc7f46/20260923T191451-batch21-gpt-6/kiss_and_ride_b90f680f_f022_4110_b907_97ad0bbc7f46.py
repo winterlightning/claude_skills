@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b90f680f-f022-4110-b907-97ad0bbc7f46'
 SOURCE_PATH = 'icon_set/work/todo-references/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'kiss-and-ride'
     keyshape = Keyshape.HRECT_M

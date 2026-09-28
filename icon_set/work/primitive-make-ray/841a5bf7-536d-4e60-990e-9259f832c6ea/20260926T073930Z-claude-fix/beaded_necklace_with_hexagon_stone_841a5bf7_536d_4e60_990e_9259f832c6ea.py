@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '841a5bf7-536d-4e60-990e-9259f832c6ea'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__beaded-necklace-with-hexagon-stone/20260926T073831Z-thuan-mac/reference/necklace stone_841a5bf7-536d-4e60-990e-9259f832c6ea.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BeadedNecklaceWithHexagonStone(Solo48):
     icon_id = 'beaded-necklace-with-hexagon-stone'

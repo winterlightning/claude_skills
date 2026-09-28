@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2039321a-3302-40c2-86c4-0a7e4c5ef8fb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__brain-1/20260924T092136Z-thuan-mac/reference/brain 1_2039321a-3302-40c2-86c4-0a7e4c5ef8fb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'brain-1'
     keyshape = Keyshape.SQUARE

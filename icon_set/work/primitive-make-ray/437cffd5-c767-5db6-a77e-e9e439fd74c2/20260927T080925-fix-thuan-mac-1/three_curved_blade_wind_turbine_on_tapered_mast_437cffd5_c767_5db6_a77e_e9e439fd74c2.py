@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '437cffd5-c767-5db6-a77e-e9e439fd74c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-curved-blade-wind-turbine-on-tapered-mast/20260927T080754Z-thuan-mac-1/reference/renewable energy wind turbine_437cffd5-c767-5db6-a77e-e9e439fd74c2.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

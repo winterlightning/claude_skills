@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6765de1f-1adc-4a6a-bbb4-c497deffd007'
 SOURCE_PATH = 'pictographic-primitives/other/ui webpage social profile_6765de1f-1adc-4a6a-bbb4-c497deffd007.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Square webpage with header separator, outlined head and broad semicircular shoulders; shared human reference owns exactly 4 units of detached head-to-shoulder ink gap.'
 OMISSIONS = ['Header dashes omitted; retained header separator, outlined head, full shoulders and both text lines.']
 class Drawing(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8d44d13a-d1c5-42b4-bf53-5b096df50d2a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/checkbook_8d44d13a-d1c5-42b4-bf53-5b096df50d2a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'verified-payment-card'

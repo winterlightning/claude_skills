@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a50f4b37-52bf-57b9-a897-fe227c4018c5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__palette-with-two-angular-paint-marks/20260924T093935Z-thuan-mac/reference/color palette sample_a50f4b37-52bf-57b9-a897-fe227c4018c5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide palette: coherent kidney contour with isolated paint marks.'
 OMISSIONS = 'Closed paint patches reduced to open angular daubs because two closed patches plus a thumb hole cannot retain the required clearance.'
 

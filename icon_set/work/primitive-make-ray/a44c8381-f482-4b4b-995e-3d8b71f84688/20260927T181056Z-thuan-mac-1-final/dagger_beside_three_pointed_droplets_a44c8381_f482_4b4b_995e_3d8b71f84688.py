@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a44c8381-f482-4b4b-995e-3d8b71f84688'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dagger-beside-three-pointed-droplets/20260927T174057Z-thuan-mac-1/reference/fantasy medieval assassins knife poison_a44c8381-f482-4b4b-995e-3d8b71f84688.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class DaggerBesideThreePointedDroplets(Solo48):
     icon_id = 'dagger-beside-three-pointed-droplets'

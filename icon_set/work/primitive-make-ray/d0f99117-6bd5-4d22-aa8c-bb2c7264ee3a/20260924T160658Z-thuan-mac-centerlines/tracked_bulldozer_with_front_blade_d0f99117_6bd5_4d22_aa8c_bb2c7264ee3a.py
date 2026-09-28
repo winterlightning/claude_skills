@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd0f99117-6bd5-4d22-aa8c-bb2c7264ee3a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tracked-bulldozer-with-front-blade/20260924T160658Z-thuan-mac/reference/bulldozer_d0f99117-6bd5-4d22-aa8c-bb2c7264ee3a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'tracked-bulldozer-with-front-blade'

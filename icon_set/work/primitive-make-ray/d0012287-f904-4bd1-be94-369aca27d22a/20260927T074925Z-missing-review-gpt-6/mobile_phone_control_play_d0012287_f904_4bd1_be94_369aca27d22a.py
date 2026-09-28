@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd0012287-f904-4bd1-be94-369aca27d22a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-control-play/20260927T074149Z-thuan-mac-1/reference/mobile phone control play_d0012287-f904-4bd1-be94-369aca27d22a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MobilePhoneControlPlay(Solo48):
     icon_id = 'mobile-phone-control-play'

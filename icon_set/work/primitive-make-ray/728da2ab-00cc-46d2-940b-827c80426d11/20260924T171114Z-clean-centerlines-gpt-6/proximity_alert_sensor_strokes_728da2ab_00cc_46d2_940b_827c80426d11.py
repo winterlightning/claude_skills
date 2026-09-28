@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '728da2ab-00cc-46d2-940b-827c80426d11'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__proximity-alert-sensor-strokes/20260924T171114Z-thuan-mac/reference/audi pre sense warning_728da2ab-00cc-46d2-940b-827c80426d11.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'proximity-alert-sensor-strokes'
     keyshape = Keyshape.HRECT_M

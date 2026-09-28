@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f3c9dbea-9e4f-4e89-b366-3b67f9116e34'
 SOURCE_PATH='pictographic-primitives/_uncategorized_37/text options_f3c9dbea-9e4f-4e89-b366-3b67f9116e34.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='text-options'
     keyshape=Keyshape.SQUARE

@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ee9b4410-7878-4118-b268-8c6a1a30b640'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-using-a-telescope/20260927T083143Z-thuan-mac-1/reference/landmarks telescope person_ee9b4410-7878-4118-b268-8c6a1a30b640.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonUsingATelescope(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ce1c8b37-f882-45e5-9fea-ed732cc8d936'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sleeping-deer/20260927T133815Z-thuan-mac-1/reference/deer sleep_ce1c8b37-f882-45e5-9fea-ed732cc8d936.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SleepingDeer(Solo48):
     icon_id = 'sleeping-deer'

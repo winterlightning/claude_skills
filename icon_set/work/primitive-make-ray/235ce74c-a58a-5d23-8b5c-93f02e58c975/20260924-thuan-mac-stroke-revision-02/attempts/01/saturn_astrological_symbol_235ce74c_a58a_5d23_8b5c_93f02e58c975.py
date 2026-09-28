@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='235ce74c-a58a-5d23-8b5c-93f02e58c975'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__saturn-astrological-symbol/20260924T101756Z-thuan-mac/reference/astrology saturn_235ce74c-a58a-5d23-8b5c-93f02e58c975.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='No useful direct Lucide match'
 DESIGN_PLAN='Saturn glyph with a cross at the top of a long stem and a smooth asymmetric sickle. VRECT_L centerlines (8,4)-(40,44). One coherent cubic hook replaces mismatched elliptic arcs.'
 OMISSIONS='None.'

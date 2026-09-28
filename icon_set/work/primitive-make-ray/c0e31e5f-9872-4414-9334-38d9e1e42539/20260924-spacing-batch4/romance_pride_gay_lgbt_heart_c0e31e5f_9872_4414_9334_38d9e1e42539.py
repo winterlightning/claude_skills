@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c0e31e5f-9872-4414-9334-38d9e1e42539'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/romance pride gay lgbt heart_c0e31e5f-9872-4414-9334-38d9e1e42539.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A rainbow above a heart. Shared horizontal center; mirrored heart lobes and evenly nested rainbow bands. Flattened arcs provide room above heart.'
 CONSTRUCTION_REFERENCE='Lucide rainbow concentric arcs; heart mirrored lobes'
 class Drawing(Solo48):

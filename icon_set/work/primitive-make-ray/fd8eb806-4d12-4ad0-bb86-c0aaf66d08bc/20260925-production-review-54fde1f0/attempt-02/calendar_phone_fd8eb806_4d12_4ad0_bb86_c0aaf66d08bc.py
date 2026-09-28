@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'
 SOURCE_PATH = 'pictographic-primitives/other/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Calendar with smooth diagonal receiver and rounded frame.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['calendar-check', 'phone']

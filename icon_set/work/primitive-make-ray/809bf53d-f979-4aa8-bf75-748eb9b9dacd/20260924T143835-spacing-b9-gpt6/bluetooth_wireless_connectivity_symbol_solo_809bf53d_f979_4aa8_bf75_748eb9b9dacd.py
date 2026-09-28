@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='809bf53d-f979-4aa8-bf75-748eb9b9dacd'
 SOURCE_PATH='pictographic-primitives/other/circle bluetooth_809bf53d-f979-4aa8-bf75-748eb9b9dacd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='bluetooth-wireless-connectivity-symbol-solo'
     keyshape=Keyshape.CIRCLE

@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '10802c86-44a5-43d2-9258-49fbaaa0c39d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grim-reaper-with-scythe/20260926T152509Z-thuan-mac-1/reference/grim reaper_10802c86-44a5-43d2-9258-49fbaaa0c39d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 HANDLE_X, HANDLE_TOP, GROUND = 40, 8, 44
 BLADE_APEX, BLADE_TIP, BLADE_R = (28, 4), (12, 12), 20

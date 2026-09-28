@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9241b7de-9722-4a77-a035-d10d9bdf9d33'
 SOURCE_PATH = 'pictographic-primitives/audio/microphone podcast international_9241b7de-9722-4a77-a035-d10d9bdf9d33.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'microphone-podcast-international'

@@ -91,12 +91,13 @@ def run_module(run_dir):
     raise RuntimeError(f'expected one module named *{suffix} in {run_dir}, found {[path.name for path in modules]}')
 
 
-def author_names_worker(author, worker):
-    """The fix skill writes ``AUTHOR = '<worker>/<model>'``; both parts must be present."""
-    if not isinstance(author, str) or '/' not in author:
-        return False
-    who, _, model = author.partition('/')
-    return who.strip().lower() == worker.strip().lower() and bool(model.strip())
+AUTHOR_MODEL_ID = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+
+
+def author_is_model(author):
+    """The fix skill writes ``AUTHOR = '<model>'``: a lowercase, hyphenated AI model ID and nothing else
+    (no worker name, no slash, no generic label)."""
+    return isinstance(author, str) and bool(AUTHOR_MODEL_ID.match(author.strip())) and author.strip() not in ('ai', 'assistant', 'agent', 'model')
 
 
 def load_icon(module_path):
@@ -314,9 +315,9 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['artifacts'].append(f'after/{module_copy.name}')
         icon = load_icon(module_path)
         icon_id = getattr(icon, 'icon_id', None) or icon_id
-        # Who fixed it: the skill writes AUTHOR = '<worker>/<model>' so the gallery credits the fixer.
+        # Who fixed it: the skill writes AUTHOR = '<model>' (the AI model only); the worker is on the claim.
         findings['author'] = getattr(sys.modules.get(type(icon).__module__), 'AUTHOR', None)
-        findings['author_ok'] = author_names_worker(findings['author'], worker)
+        findings['author_ok'] = author_is_model(findings['author'])
         report = icon.validate_icon()
         findings['validation_status'] = report.status
         findings['validation_errors'] = list(getattr(report, 'errors', []) or [])
@@ -355,7 +356,7 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['outcome'] = 'refused'
         (run / 'result.json.refused').write_text(json.dumps(findings, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
         problem = findings.get('error') or (
-            f"AUTHOR {findings.get('author')!r} must be '<worker>/<model>', starting with {worker!r}/"
+            f"AUTHOR {findings.get('author')!r} must be the AI model ID only (lowercase, hyphenated, no worker name or slash)"
             if not findings.get('author_ok') else
             f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
             if findings['validation_status'] != 'valid' or findings['validation_warnings'] else

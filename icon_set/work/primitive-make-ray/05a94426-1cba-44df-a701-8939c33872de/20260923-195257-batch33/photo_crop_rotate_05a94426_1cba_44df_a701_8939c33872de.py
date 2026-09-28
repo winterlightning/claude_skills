@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='05a94426-1cba-44df-a701-8939c33872de'
 SOURCE_PATH='icon_set/work/todo-references/photo crop rotate_05a94426-1cba-44df-a701-8939c33872de.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Crop corners surrounded by two curved rotation arrows.'
 OMISSIONS='Rotation arcs simplified to quarter circles.'
 LUCIDE_REFERENCE='crop'

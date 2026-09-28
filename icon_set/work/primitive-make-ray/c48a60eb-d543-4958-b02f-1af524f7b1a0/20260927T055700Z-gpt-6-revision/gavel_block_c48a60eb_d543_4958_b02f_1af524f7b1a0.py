@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c48a60eb-d543-4958-b02f-1af524f7b1a0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gavel-block/20260927T055616Z-thuan-mac-1/reference/gavel block_c48a60eb-d543-4958-b02f-1af524f7b1a0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GavelBlock(Solo48):
     icon_id = 'gavel-block'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4dc29185-dc5f-4ffe-94d4-dbda6690888c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ant/20260926T064521Z-thuan-mac/reference/insect ant_4dc29185-dc5f-4ffe-94d4-dbda6690888c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Ant(Solo48):
     icon_id = 'ant'

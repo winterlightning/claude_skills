@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8fc2c304-31ee-459d-b87f-f1e23958c3b3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plumbing-pipe-repair-with-wrench/20260924T171114Z-thuan-mac/reference/home improvement 14_8fc2c304-31ee-459d-b87f-f1e23958c3b3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'plumbing-pipe-repair-with-wrench'
     keyshape = Keyshape.HRECT_L

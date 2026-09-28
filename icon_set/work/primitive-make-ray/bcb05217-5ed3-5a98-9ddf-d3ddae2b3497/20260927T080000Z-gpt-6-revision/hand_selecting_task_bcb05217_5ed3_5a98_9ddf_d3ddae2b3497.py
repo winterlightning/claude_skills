@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bcb05217-5ed3-5a98-9ddf-d3ddae2b3497'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-selecting-task/20260927T075452Z-thuan-mac-1/reference/workflow task management_bcb05217-5ed3-5a98-9ddf-d3ddae2b3497.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandSelectingTask(Solo48):
     icon_id = 'hand-selecting-task'

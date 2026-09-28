@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f7df912f-c801-53cc-a0b8-6bfbd3f5fdf8'
 SOURCE_PATH = 'pictographic-primitives/travel/crafts model plane_f7df912f-c801-53cc-a0b8-6bfbd3f5fdf8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SlenderAirlinerDiagonal(Solo48):

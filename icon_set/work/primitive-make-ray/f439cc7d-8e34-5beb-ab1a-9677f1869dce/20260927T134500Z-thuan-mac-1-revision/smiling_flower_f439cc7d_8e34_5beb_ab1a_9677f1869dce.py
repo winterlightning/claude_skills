@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f439cc7d-8e34-5beb-ab1a-9677f1869dce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-flower/20260927T133815Z-thuan-mac-1/reference/flower_f439cc7d-8e34-5beb-ab1a-9677f1869dce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SmilingFlower(Solo48):

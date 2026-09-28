@@ -13,7 +13,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'ae9da9e6-4132-4219-bed0-72be5d29e447'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__radiant-buddhist-monk/20260927T153833Z-thuan-mac-1/reference/magha puja_ae9da9e6-4132-4219-bed0-72be5d29e447.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconRadiantBuddhistMonk(Solo48):

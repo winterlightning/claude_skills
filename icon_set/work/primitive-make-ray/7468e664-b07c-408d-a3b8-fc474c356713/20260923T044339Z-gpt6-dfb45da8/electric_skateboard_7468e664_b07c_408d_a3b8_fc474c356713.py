@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7468e664-b07c-408d-a3b8-fc474c356713'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/electric skateboard_7468e664-b07c-408d-a3b8-fc474c356713.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ElectricSkateboard(Solo48):
     icon_id = 'electric-skateboard'

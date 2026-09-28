@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a5e62027-4155-4c3f-9eea-0fcf4e0f687b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__earth-model-1/20260926T152509Z-thuan-mac-1/reference/earth model 1_a5e62027-4155-4c3f-9eea-0fcf4e0f687b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 CENTER, BALL_R, MERIDIAN_RX = (24, 20), 16, 7

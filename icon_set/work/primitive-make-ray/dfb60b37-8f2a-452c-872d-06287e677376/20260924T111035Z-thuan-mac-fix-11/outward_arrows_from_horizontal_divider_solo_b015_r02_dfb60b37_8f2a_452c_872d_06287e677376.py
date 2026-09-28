@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dfb60b37-8f2a-452c-872d-06287e677376'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__outward-arrows-from-horizontal-divider-solo-b015-r02/20260924T111035Z-thuan-mac/reference/expand vertical 2_dfb60b37-8f2a-452c-872d-06287e677376.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'outward-arrows-from-horizontal-divider-solo-b015-r02'
     keyshape = Keyshape.SQUARE

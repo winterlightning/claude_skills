@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1698c156-c7f0-4e4f-9887-dce181f47697'
 SOURCE_PATH = 'pictographic-primitives/school-learning/school bell_1698c156-c7f0-4e4f-9887-dce181f47697.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SchoolBell(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6638dde1-f82d-45e5-9acf-2ac56c0bb9f4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__bathroom-sink-with-water-drop/20260924T171046Z-thuan-mac/reference/home improvement 10_6638dde1-f82d-45e5-9acf-2ac56c0bb9f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='bathroom-sink-with-water-drop'

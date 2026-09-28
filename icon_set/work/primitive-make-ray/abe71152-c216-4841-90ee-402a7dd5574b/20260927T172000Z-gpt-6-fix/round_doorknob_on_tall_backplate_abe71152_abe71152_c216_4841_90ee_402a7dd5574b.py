@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'abe71152-c216-4841-90ee-402a7dd5574b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-doorknob-on-tall-backplate-abe71152/20260927T171905Z-thuan-mac-1/reference/doorknob_abe71152-c216-4841-90ee-402a7dd5574b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'round-doorknob-on-tall-backplate-abe71152'

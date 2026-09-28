@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ee2a0599-4ac3-4352-a6e1-46843babfafa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flatboat-with-deck-cabin/20260924T165054Z-thuan-mac/reference/flatboat_ee2a0599-4ac3-4352-a6e1-46843babfafa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'flatboat-with-deck-cabin'
     keyshape = Keyshape.HRECT_M

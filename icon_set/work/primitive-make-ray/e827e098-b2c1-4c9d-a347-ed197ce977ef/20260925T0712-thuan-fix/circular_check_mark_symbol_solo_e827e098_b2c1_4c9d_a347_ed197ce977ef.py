@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e827e098-b2c1-4c9d-a347-ed197ce977ef'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__circular-check-mark-symbol-solo/20260925T070532Z-thuan-mac/reference/circle check 1_e827e098-b2c1-4c9d-a347-ed197ce977ef.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circular-check-mark-symbol-solo'

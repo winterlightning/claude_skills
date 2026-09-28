@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'df4a92a8-7c60-5ef2-a1d3-1b6549f97e0b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__staffordshire-bull-terrier/20260927T032022Z-thuan-mac-1/reference/staffordshire bull terrier_df4a92a8-7c60-5ef2-a1d3-1b6549f97e0b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StaffordshireBullTerrier(Solo48):
     icon_id = 'staffordshire-bull-terrier'

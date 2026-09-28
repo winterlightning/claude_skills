@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e7a439e2-504d-4cce-bf79-ba911a657a41'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__blank-face-wearing-cowboy-hat/20260924T142441Z-thuan-mac/reference/face cowboy hat_e7a439e2-504d-4cce-bf79-ba911a657a41.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='blank-face-wearing-cowboy-hat'

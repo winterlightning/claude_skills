@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7cf64b00-9120-590b-8cbb-dece46c03d25'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rotation-arrow-around-central-circle-batch-013/20260924T092136Z-thuan-mac/reference/synchronize arrow 2_7cf64b00-9120-590b-8cbb-dece46c03d25.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'rotation-arrow-around-central-circle-batch-013'
     keyshape = Keyshape.HRECT_L

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b1a7bb2e-afc5-4b1e-bd84-6da58d21d8c4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-downturned-facial-arc/20260927T174057Z-thuan-mac-1/reference/forebear_b1a7bb2e-afc5-4b1e-bd84-6da58d21d8c4.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class PersonWithDownturnedFacialArc(Solo48):
     icon_id = 'person-with-downturned-facial-arc'

@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a739aba3-680e-4958-8ded-555dc6c3c98e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__face-with-steam-from-nose/20260927T101626Z-thuan-mac-1/reference/rage_a739aba3-680e-4958-8ded-555dc6c3c98e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FaceWithSteamFromNose(Solo48):

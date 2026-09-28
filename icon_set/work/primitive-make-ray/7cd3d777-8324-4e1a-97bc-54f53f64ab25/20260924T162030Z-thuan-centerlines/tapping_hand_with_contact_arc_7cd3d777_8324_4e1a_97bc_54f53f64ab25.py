@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7cd3d777-8324-4e1a-97bc-54f53f64ab25'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tapping-hand-with-contact-arc/20260924T162030Z-thuan-mac/reference/gesture tap 2_7cd3d777-8324-4e1a-97bc-54f53f64ab25.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tapping-hand-with-contact-arc'

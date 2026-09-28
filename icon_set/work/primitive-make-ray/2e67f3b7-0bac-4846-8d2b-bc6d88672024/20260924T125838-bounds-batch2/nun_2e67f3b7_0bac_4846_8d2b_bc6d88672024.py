@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2e67f3b7-0bac-4846-8d2b-bc6d88672024'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nun_2e67f3b7-0bac-4846-8d2b-bc6d88672024.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A nun wearing a veil and a cross.

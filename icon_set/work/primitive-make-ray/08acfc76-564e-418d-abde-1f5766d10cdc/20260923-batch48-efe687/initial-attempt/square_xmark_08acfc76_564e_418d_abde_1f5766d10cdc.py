@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '08acfc76-564e-418d-abde-1f5766d10cdc'
 SOURCE_PATH = 'icon_set/work/todo-references/square xmark_08acfc76-564e-418d-abde-1f5766d10cdc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded square enclosing a centered X; shared axis and four joined arms.'
 CONSTRUCTION_REFERENCE = 'square-x: rounded enclosure and crossing diagonals'
 

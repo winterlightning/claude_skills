@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e664c190-9efc-40f1-a4a5-1e65969da91d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shopper-carrying-two-bags/20260927T091435Z-thuan-mac-1/reference/shopping bag carry_e664c190-9efc-40f1-a4a5-1e65969da91d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShopperCarryingTwoBags(Solo48):
     icon_id = 'shopper-carrying-two-bags'

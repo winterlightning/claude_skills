@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '70139615-7e04-5ac3-b7af-3298842e82a5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__curved-street-lantern/20260927T032242Z-thuan-mac-1/reference/street light_70139615-7e04-5ac3-b7af-3298842e82a5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('70139615-7e04-5ac3-b7af-3298842e82a5', 'pictographic-primitives/building/street light_70139615-7e04-5ac3-b7af-3298842e82a5.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

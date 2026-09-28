@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ea945a43-10ca-4ee5-a157-515c7b4149fa'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/road lock_ea945a43-10ca-4ee5-a157-515c7b4149fa.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Symmetric lock with receding trapezoid road. Remove center road dash; road and shackle attach to explicitly split body nodes.'
 CONSTRUCTION_REFERENCE='Lucide lock arched shackle and body'
 class Drawing(Solo48):

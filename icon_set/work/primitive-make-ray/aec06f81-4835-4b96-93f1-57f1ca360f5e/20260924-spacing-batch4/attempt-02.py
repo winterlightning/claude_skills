@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aec06f81-4835-4b96-93f1-57f1ca360f5e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Diagonal tag and separate lower-right leaf; omit inner vein and reduce eyelet to a dot.'
 CONSTRUCTION_REFERENCE='Lucide tag clipped tip; leaf coherent outline'
 class Drawing(Solo48):

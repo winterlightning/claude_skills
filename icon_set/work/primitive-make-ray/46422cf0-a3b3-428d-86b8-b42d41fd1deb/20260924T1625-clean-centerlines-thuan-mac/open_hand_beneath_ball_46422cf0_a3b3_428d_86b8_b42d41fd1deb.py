@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '46422cf0-a3b3-428d-86b8-b42d41fd1deb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-hand-beneath-ball/20260924T162025Z-thuan-mac/reference/catch_46422cf0-a3b3-428d-86b8-b42d41fd1deb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'open-hand-beneath-ball'

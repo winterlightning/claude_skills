@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='6fd53a7d-aab1-479b-9e12-e2f8acddcfb2'
 SOURCE_PATH = 'pictographic-primitives/other/ui webpage t shirt_6fd53a7d-aab1-479b-9e12-e2f8acddcfb2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='ui-webpage-t-shirt'

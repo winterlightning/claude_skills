@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='635ece78-65ec-4140-9338-f24f52af0c2d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__people-giving-high-five/20260924T065933Z-thuan-mac/reference/workflow teamwork user high five_635ece78-65ec-4140-9338-f24f52af0c2d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='people-giving-high-five'

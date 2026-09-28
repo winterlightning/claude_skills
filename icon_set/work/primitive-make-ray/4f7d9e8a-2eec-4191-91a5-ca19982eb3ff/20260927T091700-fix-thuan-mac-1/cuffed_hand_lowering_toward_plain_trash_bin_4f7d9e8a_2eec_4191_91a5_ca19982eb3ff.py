@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4f7d9e8a-2eec-4191-91a5-ca19982eb3ff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cuffed-hand-lowering-toward-plain-trash-bin/20260927T091424Z-thuan-mac-1/reference/recycling hand trash_4f7d9e8a-2eec-4191-91a5-ca19982eb3ff.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

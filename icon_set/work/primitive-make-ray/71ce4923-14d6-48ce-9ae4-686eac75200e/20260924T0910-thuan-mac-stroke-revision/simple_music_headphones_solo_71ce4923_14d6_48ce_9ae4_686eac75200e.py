@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '71ce4923-14d6-48ce-9ae4-686eac75200e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__simple-music-headphones-solo/20260924T090615Z-thuan-mac/reference/headphone_71ce4923-14d6-48ce-9ae4-686eac75200e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'simple-music-headphones-solo'
     keyshape = Keyshape.SQUARE

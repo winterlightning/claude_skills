@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6afd5ed7-d4c1-4069-8a05-14b56d7cd974'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tilting-hand-truck-with-square-load/20260924T172356Z-thuan-mac/reference/dolly_6afd5ed7-d4c1-4069-8a05-14b56d7cd974.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tilting-hand-truck-with-square-load'

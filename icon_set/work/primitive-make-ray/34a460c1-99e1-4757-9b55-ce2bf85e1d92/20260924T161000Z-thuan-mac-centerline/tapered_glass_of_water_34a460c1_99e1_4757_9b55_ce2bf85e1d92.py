@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='34a460c1-99e1-4757-9b55-ce2bf85e1d92'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tapered-glass-of-water/20260924T160711Z-thuan-mac/reference/glass water_34a460c1-99e1-4757-9b55-ce2bf85e1d92.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tapered-glass-of-water'

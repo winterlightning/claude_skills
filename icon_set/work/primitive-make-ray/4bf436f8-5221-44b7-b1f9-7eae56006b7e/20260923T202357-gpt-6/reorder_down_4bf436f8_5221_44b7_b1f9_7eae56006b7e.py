@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4bf436f8-5221-44b7-b1f9-7eae56006b7e'
 SOURCE_PATH = 'icon_set/work/todo-references/reorder down_4bf436f8-5221-44b7-b1f9-7eae56006b7e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Two repeated rounded blocks at left and a downward arrow at right.
 # Reference reduction: No defining parts omitted.
 # Construction references: ['table', 'arrow-right']

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3f6c409-ce6d-47c9-92ed-52d3c36236bc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-holding-paper-airplane/20260927T101626Z-thuan-mac-1/reference/origami_b3f6c409-ce6d-47c9-92ed-52d3c36236bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandHoldingPaperAirplane(Solo48):
     icon_id = 'hand-holding-paper-airplane'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c5dcd917-db01-4bed-8198-ceda95298504'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crypto-currency-dogecoin/20260925T083047Z-thuan-mac/reference/crypto currency dogecoin_c5dcd917-db01-4bed-8198-ceda95298504.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crypto-currency-dogecoin'

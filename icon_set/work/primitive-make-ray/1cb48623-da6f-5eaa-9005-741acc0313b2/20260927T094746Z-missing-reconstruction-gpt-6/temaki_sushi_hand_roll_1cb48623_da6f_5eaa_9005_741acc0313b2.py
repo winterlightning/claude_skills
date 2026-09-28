@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1cb48623-da6f-5eaa-9005-741acc0313b2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__temaki-sushi-hand-roll/20260927T094425Z-thuan-mac-1/reference/asian food japanese assorted seafood in seaweed cone_1cb48623-da6f-5eaa-9005-741acc0313b2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected filling had two heartlike lobes instead of the source’s three portions.'
 REVISION_CHANGE = 'Rebuilt the filling rhythm with three distinct rounded peaks over the seaweed wrap.'
 

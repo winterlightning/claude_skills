@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a83ae7ee-8a41-4fef-9868-438ff298dd07'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/ecology/air purifier 1_a83ae7ee-8a41-4fef-9868-438ff298dd07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'air-purifier-with-midline-and-upright-indicator'

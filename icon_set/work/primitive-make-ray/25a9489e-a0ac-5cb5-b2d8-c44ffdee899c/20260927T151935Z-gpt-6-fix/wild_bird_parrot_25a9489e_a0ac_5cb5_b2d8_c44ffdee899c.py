@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '25a9489e-a0ac-5cb5-b2d8-c44ffdee899c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__toucan/20260927T151732Z-thuan-mac-1/reference/wild bird parrot_25a9489e-a0ac-5cb5-b2d8-c44ffdee899c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Toucan(Solo48):
     icon_id = 'toucan'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5c9a7e59-ea50-4884-8c42-b6f78345635a'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__long-handled-turkish-coffee-pot-beside-cup/20260924T101756Z-thuan-mac/reference/coffee turkish_5c9a7e59-ea50-4884-8c42-b6f78345635a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='coffee: rounded cup and external handle'
 DESIGN_PLAN='A waisted long-handled coffee pot and a smaller cup. HRECT_L centerlines (4,8)-(44,40); preserve unequal vessel scale and diagonal handle. Continuous pot curves replace the pinched arc chain.'
 OMISSIONS='Steam and saucer baseline omitted to preserve two distinct vessels.'

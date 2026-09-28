@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e7e97355-bccb-465c-ae55-5037fd70d291'
 SOURCE_PATH='pictographic-primitives/other/heart user_e7e97355-bccb-465c-ae55-5037fd70d291.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='heart-user'
     keyshape=Keyshape.VRECT_L

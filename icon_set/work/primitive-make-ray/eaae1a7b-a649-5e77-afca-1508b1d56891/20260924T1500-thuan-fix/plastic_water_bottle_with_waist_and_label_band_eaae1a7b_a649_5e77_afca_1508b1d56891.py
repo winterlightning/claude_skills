@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='eaae1a7b-a649-5e77-afca-1508b1d56891'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__plastic-water-bottle-with-waist-and-label-band/20260924T150007Z-thuan-mac/reference/water bottle_eaae1a7b-a649-5e77-afca-1508b1d56891.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='plastic-water-bottle-with-waist-and-label-band'
     keyshape=Keyshape.VRECT_M

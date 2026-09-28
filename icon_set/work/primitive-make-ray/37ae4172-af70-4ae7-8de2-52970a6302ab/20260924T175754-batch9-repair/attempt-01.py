@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='37ae4172-af70-4ae7-8de2-52970a6302ab'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/recruiting resume document_37ae4172-af70-4ae7-8de2-52970a6302ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN='An open résumé document is overlaid by a full applicant silhouette on the right.'
 OMISSIONS='Document text reduced to two rows and one square photo placeholder.'
 LUCIDE_REFERENCE='user'

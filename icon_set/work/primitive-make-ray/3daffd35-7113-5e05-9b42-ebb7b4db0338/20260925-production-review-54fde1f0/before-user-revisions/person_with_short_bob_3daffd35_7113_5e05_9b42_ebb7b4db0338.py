@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3daffd35-7113-5e05-9b42-ebb7b4db0338'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_3daffd35-7113-5e05-9b42-ebb7b4db0338.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Expand the circular face and preserve short bob hair; coherent circular jaw and broad shoulders.'
 OMISSIONS = 'Neck seams and shirt collar omitted to protect the exact detached face-to-body gap; hairstyle retained.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']

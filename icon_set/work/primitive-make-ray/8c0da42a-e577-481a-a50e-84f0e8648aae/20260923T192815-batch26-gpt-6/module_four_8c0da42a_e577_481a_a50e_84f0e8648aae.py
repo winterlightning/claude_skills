@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8c0da42a-e577-481a-a50e-84f0e8648aae'
 SOURCE_PATH = 'icon_set/work/todo-references/module four_8c0da42a-e577-481a-a50e-84f0e8648aae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'module-four'
     keyshape = Keyshape.HRECT_L

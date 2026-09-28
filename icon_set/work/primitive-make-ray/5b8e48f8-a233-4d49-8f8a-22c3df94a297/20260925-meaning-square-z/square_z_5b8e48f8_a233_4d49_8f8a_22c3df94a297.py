@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5b8e48f8-a233-4d49-8f8a-22c3df94a297'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-z/20260925T034659Z-thuan-mac/reference/square z_5b8e48f8-a233-4d49-8f8a-22c3df94a297.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Capital Z with two horizontal bars and connecting diagonal, replacing dash and dot.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

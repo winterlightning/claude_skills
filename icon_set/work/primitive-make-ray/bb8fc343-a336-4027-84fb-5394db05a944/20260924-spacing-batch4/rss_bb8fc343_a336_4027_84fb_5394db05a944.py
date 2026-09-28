@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bb8fc343-a336-4027-84fb-5394db05a944'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/rss_bb8fc343-a336-4027-84fb-5394db05a944.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='An RSS symbol in a rounded badge. Quarter-circle broadcast geometry follows the source origin; asymmetric lower-left dot preserved.'
 CONSTRUCTION_REFERENCE='Lucide rss concentric quarter-circle construction'
 class Drawing(Solo48):

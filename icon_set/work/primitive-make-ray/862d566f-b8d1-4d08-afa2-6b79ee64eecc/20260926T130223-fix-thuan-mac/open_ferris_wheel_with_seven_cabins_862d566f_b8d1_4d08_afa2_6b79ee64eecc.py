@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '862d566f-b8d1-4d08-afa2-6b79ee64eecc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-ferris-wheel-with-seven-cabins/20260926T125429Z-thuan-mac/reference/amusement park ferris wheel_862d566f-b8d1-4d08-afa2-6b79ee64eecc.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 CX, CY = 24, 20
 REACH = 13        # hub to cabin centre

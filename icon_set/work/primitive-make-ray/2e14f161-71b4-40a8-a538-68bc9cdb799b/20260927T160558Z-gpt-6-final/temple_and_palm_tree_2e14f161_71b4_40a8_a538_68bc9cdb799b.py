@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '2e14f161-71b4-40a8-a538-68bc9cdb799b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__temple-and-palm-tree/20260927T155415Z-thuan-mac-1/reference/nyepi_2e14f161-71b4-40a8-a538-68bc9cdb799b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconTempleAndPalmTree(Solo48):

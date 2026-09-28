@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bc11fb2a-33c3-4ee2-90ab-066b5771ea82'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grinning-face-with-heart-eyes/20260925T034349Z-thuan-mac/reference/face grin hearts_bc11fb2a-33c3-4ee2-90ab-066b5771ea82.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'grinning-face-with-heart-eyes'

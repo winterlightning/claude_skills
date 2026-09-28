@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7c323144-b65a-558b-a01d-ac1899c73509'
 SOURCE_PATH='pictographic-primitives/avatars/man doctor_7c323144-b65a-558b-a01d-ac1899c73509.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/man_doctor_avatar.py'
 class Drawing(Solo48):
     icon_id='man-doctor-avatar'

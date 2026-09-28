@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='5ab3ac50-c850-4e2d-9757-c6093f013562'
 SOURCE_PATH='pictographic-primitives/other/half globe_5ab3ac50-c850-4e2d-9757-c6093f013562.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='True semicircular half globe, flat right cut, equator and curved meridian. Preserve the source half-circle aspect rather than the previous widened half ellipse.'
 CONSTRUCTION_REFERENCES='Lucide globe: circular graticule; supplied half-globe silhouette owns the vertical cut.'
 OMISSIONS=[]

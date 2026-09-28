@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c9d38952-2883-566b-9d45-ea289774a18d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mushroom-with-central-spot-batch-086/20260927T164916Z-thuan-mac-1/reference/mario mushroom_c9d38952-2883-566b-9d45-ea289774a18d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REFERENCE_COPY = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-086/references/mario mushroom_c9d38952-2883-566b-9d45-ea289774a18d.svg'
 
 class Drawing(Solo48):

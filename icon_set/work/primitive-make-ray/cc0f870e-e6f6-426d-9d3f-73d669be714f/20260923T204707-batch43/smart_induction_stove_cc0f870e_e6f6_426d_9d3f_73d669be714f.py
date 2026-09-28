@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cc0f870e-e6f6-426d-9d3f-73d669be714f'
 SOURCE_PATH='icon_set/work/todo-references/smart induction stove_cc0f870e-e6f6-426d-9d3f-73d669be714f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='smart-induction-stove'

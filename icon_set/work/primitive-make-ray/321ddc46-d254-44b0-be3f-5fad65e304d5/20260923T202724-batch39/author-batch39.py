@@ -1,7 +1,7 @@
 import json,textwrap
 from pathlib import Path
 records=json.load(open('/tmp/batch39.json'))
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 SOURCE_ICON_ID=[r['source_uuid'] for r in records]
 SOURCE_PATH=[r['reference_path'] for r in records]
 helpers='''

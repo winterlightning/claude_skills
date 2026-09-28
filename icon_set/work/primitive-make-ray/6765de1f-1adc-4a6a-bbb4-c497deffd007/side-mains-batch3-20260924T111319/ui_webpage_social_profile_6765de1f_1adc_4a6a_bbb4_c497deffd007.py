@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6765de1f-1adc-4a6a-bbb4-c497deffd007'
 SOURCE_PATH = 'pictographic-primitives/other/ui webpage social profile_6765de1f-1adc-4a6a-bbb4-c497deffd007.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Social profile webpage with header marks, portrait and text.'
 CONSTRUCTION_REFERENCES = 'Lucide id-card: portrait and text; human_ref/user.svg for head and shoulders.'
 OMISSIONS = 'Header dashes become dots; no semantic components omitted.'

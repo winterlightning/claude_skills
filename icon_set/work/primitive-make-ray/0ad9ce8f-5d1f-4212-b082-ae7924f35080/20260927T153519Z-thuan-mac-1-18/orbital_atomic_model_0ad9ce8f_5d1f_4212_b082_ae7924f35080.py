@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0ad9ce8f-5d1f-4212-b082-ae7924f35080'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__orbital-atomic-model/20260927T153322Z-thuan-mac-1/reference/molecules_0ad9ce8f-5d1f-4212-b082-ae7924f35080.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OrbitalAtomicModel(Solo48):
     icon_id = 'orbital-atomic-model'

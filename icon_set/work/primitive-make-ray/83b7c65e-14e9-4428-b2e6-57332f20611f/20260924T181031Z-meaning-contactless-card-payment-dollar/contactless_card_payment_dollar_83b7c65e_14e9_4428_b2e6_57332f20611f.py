@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '83b7c65e-14e9-4428-b2e6-57332f20611f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__contactless-card-payment-dollar/20260924T181031Z-thuan-mac/reference/contactless payment_83b7c65e-14e9-4428-b2e6-57332f20611f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'contactless-card-payment-dollar'

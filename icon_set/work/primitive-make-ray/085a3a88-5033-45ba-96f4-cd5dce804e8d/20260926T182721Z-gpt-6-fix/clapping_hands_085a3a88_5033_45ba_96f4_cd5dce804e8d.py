@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '085a3a88-5033-45ba-96f4-cd5dce804e8d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clapping-hands/20260926T182517Z-thuan-mac-1/reference/reward claps hand_085a3a88-5033-45ba-96f4-cd5dce804e8d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ClappingHands(Solo48):
     icon_id = 'clapping-hands'

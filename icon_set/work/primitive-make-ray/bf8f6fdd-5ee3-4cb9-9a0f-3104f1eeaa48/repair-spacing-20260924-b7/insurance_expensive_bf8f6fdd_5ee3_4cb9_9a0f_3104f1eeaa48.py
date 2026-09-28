@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bf8f6fdd-5ee3-4cb9-9a0f-3104f1eeaa48'
 SOURCE_PATH='pictographic-primitives/health/insurance expensive_bf8f6fdd-5ee3-4cb9-9a0f-3104f1eeaa48.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='insurance-expensive'
     keyshape=Keyshape.SQUARE

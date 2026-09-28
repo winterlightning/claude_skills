@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c167b0e7-d4ac-469d-8f57-09582e267096'
 SOURCE_PATH='pictographic-primitives/mobile/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Lucide hand rounded fingertip; widened bent index silhouette, omitted small secondary knuckle and impact rays. Deliberate directional asymmetry; no detached head.'
 class Drawing(Solo48):
     icon_id='force-touch-press'

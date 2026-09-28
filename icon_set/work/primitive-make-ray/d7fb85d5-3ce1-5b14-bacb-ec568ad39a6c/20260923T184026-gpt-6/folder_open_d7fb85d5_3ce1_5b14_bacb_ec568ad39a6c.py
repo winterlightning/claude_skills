@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd7fb85d5-3ce1-5b14-bacb-ec568ad39a6c'
 SOURCE_PATH = 'icon_set/work/todo-references/folder open_d7fb85d5-3ce1-5b14-bacb-ec568ad39a6c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'folder-open'

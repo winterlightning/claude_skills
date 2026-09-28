@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c80fcf90-fe49-4423-b773-cd30ca40b9c3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__face-with-exploding-crown/20260925T085649Z-thuan-mac/reference/face explode_c80fcf90-fe49-4423-b773-cd30ca40b9c3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='face-with-exploding-crown'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f68cfed4-af07-4707-93e1-6c92d2e4e588'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grid-globe/20260927T055712Z-thuan-mac-1/reference/earth_f68cfed4-af07-4707-93e1-6c92d2e4e588.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'grid-globe'

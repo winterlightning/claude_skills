@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e0e5259b-1f4e-49b1-b4fe-796abc5994f0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__coiled-french-horn/20260926T125429Z-thuan-mac/reference/instrument french horn_e0e5259b-1f4e-49b1-b4fe-796abc5994f0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 C, R = (19, 29), 13
 MOUTH_X, MOUTH_TOP, MOUTH_BOT = 42, 6, 22

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cc175a8f-5475-4fb1-a490-146b94047387'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-surveys-logo/20260927T055654Z-thuan-mac-1/reference/google surveys logo_cc175a8f-5475-4fb1-a490-146b94047387.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleSurveysLogo(Solo48):

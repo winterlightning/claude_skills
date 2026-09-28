@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6ecd4032-1f65-4fa1-8af7-1cf770b292d3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-in-car-seat/20260927T153747Z-thuan-mac-1/reference/person with seat_6ecd4032-1f65-4fa1-8af7-1cf770b292d3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-in-car-seat'

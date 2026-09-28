@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bf61d88d-d269-4a85-955c-a411e11583cd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__treehouse-logo/20260924T105724Z-thuan-mac/reference/treehouse logo_bf61d88d-d269-4a85-955c-a411e11583cd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'treehouse-logo'

@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'e065923b-81a0-5585-be2a-952d44fe334f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-office-avatar/20260926T182452Z-thuan-mac-1/reference/woman office_e065923b-81a0-5585-be2a-952d44fe334f.svg'
 SOURCE_HEAD_ICON_ID = 'woman-office'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 28
 class WomanOfficeAvatar(Solo48):
     icon_id = 'woman-office-avatar'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '101aaf57-5431-5ae4-a7e5-f05c16647c10'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__laboratory-microscope-101aaf57/20260924T100528Z-thuan-mac/reference/microscope_101aaf57-5431-5ae4-a7e5-f05c16647c10.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'microscope'
 DESIGN_PLAN = 'Diagonal optical tube, smooth semicircular support arm, separate specimen stage and broad base. VRECT_L centerlines (8,4)-(40,44). Keep deliberate diagonal optics; omit the tiny ocular collars. Arm has matched tangent arcs and a horizontal base attachment.'
 class Drawing(Solo48):

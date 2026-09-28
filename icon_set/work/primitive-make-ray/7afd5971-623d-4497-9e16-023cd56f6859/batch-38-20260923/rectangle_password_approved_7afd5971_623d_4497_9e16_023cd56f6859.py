@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7afd5971-623d-4497-9e16-023cd56f6859'
 SOURCE_PATH='icon_set/work/todo-references/rectangle password approved_7afd5971-623d-4497-9e16-023cd56f6859.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wide password approval field with a right-aligned check and blank left half.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: rounded field construction.'
 OMISSIONS='None; source has no password dots.'

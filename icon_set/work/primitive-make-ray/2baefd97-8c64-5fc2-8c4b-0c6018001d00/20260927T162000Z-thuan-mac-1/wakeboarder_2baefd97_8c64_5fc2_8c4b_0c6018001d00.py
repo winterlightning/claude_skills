@@ -12,7 +12,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2baefd97-8c64-5fc2-8c4b-0c6018001d00'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wakeboarder/20260927T160114Z-thuan-mac-1/reference/sport wakeboarding_2baefd97-8c64-5fc2-8c4b-0c6018001d00.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Wakeboarder(Solo48):
     icon_id = 'wakeboarder'

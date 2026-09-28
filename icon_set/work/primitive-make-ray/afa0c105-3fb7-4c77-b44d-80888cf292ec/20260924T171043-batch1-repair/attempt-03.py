@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "afa0c105-3fb7-4c77-b44d-80888cf292ec"
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class AdjustableBrightnessLightBulb(Solo48):

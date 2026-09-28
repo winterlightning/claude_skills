@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ab15b216-c865-50b0-bbd9-154c84212ce1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__suspended-crunch-pose/20260927T094403Z-thuan-mac-1/reference/crunches pose_ab15b216-c865-50b0-bbd9-154c84212ce1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SuspendedCrunchPose(Solo48):
     icon_id = 'suspended-crunch-pose'

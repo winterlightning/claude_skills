@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0ccedcc5-b1e5-4ed3-8a1f-38fd22a81781'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__beach-lounger-beneath-a-tilted-parasol/20260925T060624Z-thuan-mac/reference/beach palm sunbed_0ccedcc5-b1e5-4ed3-8a1f-38fd22a81781.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'beach-lounger-beneath-a-tilted-parasol'

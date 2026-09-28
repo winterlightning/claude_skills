@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3fdd5840-1a58-4cbe-bcb5-810d21e3c2dd'
 SOURCE_PATH='pictographic-primitives/interface-essential/cog_3fdd5840-1a58-4cbe-bcb5-810d21e3c2dd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/cog_interface_essential_3fdd5840_1a58_4cbe_bcb5_810d21e3c2dd.py'
 class Drawing(Solo48):
     icon_id='cog-interface-essential'

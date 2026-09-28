@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6fe7de29-69dc-4808-9579-295702797c76'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__downward-facing-dog-pose/20260927T135945Z-thuan-mac-1/reference/yoga downward facing dog pose_6fe7de29-69dc-4808-9579-295702797c76.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DownwardFacingDogPose(Solo48):
     icon_id = 'downward-facing-dog-pose'

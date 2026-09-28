@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2f63544c-d47d-4cd3-a41c-0ae8997887dc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__muslim-couple-standing-together/20260927T070927Z-thuan-mac-1/reference/muslim couple_2f63544c-d47d-4cd3-a41c-0ae8997887dc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'muslim-couple-standing-together'

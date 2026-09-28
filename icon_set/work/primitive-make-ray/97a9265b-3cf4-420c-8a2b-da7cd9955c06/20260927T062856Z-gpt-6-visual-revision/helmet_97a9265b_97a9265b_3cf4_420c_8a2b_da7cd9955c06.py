@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '97a9265b-3cf4-420c-8a2b-da7cd9955c06'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__helmet-97a9265b/20260927T061852Z-thuan-mac-1/reference/helmet_97a9265b-3cf4-420c-8a2b-da7cd9955c06.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Helmet97a9265b(Solo48):
     icon_id = 'helmet-97a9265b'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '76a3aff2-7ce1-498f-ac39-f41016299ef6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hearts-two/20260924T083118Z-thuan-mac/reference/heart and hook_76a3aff2-7ce1-498f-ac39-f41016299ef6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hearts-two'

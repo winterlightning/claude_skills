@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='6fd53a7d-aab1-479b-9e12-e2f8acddcfb2'
 SOURCE_PATH='icon_set/work/todo-references/ui webpage t shirt_6fd53a7d-aab1-479b-9e12-e2f8acddcfb2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Browser page displaying a short-sleeved T-shirt with a scooped neck.'
 CONSTRUCTION_REFERENCE='panels-top-left and shirt: browser chrome and symmetric garment outline'
 

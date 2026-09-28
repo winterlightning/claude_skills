@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0c8f7f81-3b5e-4964-a6bc-5955f81d4007'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-bar-battery/20260927T080808Z-thuan-mac-1/reference/charging battery two bars_0c8f7f81-3b5e-4964-a6bc-5955f81d4007.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

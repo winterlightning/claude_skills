@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c9bcc56f-bc17-4b53-9088-582efa893f7d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dental-extraction-forceps-open-jaws/20260924T092136Z-thuan-mac/reference/instrument tooth_c9bcc56f-bc17-4b53-9088-582efa893f7d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'dental-extraction-forceps-open-jaws'
     keyshape = Keyshape.SQUARE

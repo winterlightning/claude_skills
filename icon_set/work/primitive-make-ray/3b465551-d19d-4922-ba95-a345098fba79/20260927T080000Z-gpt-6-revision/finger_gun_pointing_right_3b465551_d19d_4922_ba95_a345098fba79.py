@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3b465551-d19d-4922-ba95-a345098fba79'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__finger-gun-pointing-right/20260927T075452Z-thuan-mac-1/reference/finger gun two_3b465551-d19d-4922-ba95-a345098fba79.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FingerGunPointingRight(Solo48):
     icon_id = 'finger-gun-pointing-right'

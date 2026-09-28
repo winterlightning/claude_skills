@@ -5,7 +5,7 @@ import importlib.util
 import cairosvg
 from PIL import Image, ImageDraw, ImageOps
 
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_ICON_ID = '11f861f7-9062-4cbd-a3fd-0cba990dfc4b'
 SOURCE_PATH = 'icon_set/work/todo-references/folder open_11f861f7-9062-4cbd-a3fd-0cba990dfc4b.svg'
 BASE = Path(__file__).parent

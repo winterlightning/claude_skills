@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'ef40d73c-791c-43f2-b177-65a95a3f157b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__japanese-man-avatar/20260926T175531Z-thuan-mac-1/reference/japanese man_ef40d73c-791c-43f2-b177-65a95a3f157b.svg'
 SOURCE_HEAD_ICON_ID = 'japanese-man'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 
 class JapaneseManAvatar(Solo48):

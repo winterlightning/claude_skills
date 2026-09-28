@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '46e8e840-52d0-4c78-aab3-c23fdb5e0ef4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-beside-bed/20260927T145836Z-thuan-mac-1/reference/neutral actions share_46e8e840-52d0-4c78-aab3-c23fdb5e0ef4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonBesideBed(Solo48):
     icon_id = 'person-beside-bed'

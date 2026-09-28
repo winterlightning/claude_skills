@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ded0b984-4a7d-5b44-8214-e8c48cf563e0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-meditation-curved-arms/20260927T091411Z-thuan-mac-1/reference/yoga meditate_ded0b984-4a7d-5b44-8214-e8c48cf563e0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedMeditationCurvedArms(Solo48):
     icon_id = 'seated-meditation-curved-arms'

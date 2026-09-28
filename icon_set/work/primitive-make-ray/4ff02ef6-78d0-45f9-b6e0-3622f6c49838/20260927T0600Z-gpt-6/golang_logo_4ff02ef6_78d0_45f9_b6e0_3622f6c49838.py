@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4ff02ef6-78d0-45f9-b6e0-3622f6c49838'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__golang-logo/20260927T055558Z-thuan-mac-1/reference/golang logo_4ff02ef6-78d0-45f9-b6e0-3622f6c49838.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GolangLogo(Solo48):
     icon_id = 'golang-logo'

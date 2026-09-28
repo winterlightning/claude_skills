@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f3f157a4-4ba4-56cb-af69-39f5c5fe3376'
 SOURCE_PATH = 'pictographic-primitives/devices/device google glass_f3f157a4-4ba4-56cb-af69-39f5c5fe3376.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'augmented-reality-glasses-with-corner-display'

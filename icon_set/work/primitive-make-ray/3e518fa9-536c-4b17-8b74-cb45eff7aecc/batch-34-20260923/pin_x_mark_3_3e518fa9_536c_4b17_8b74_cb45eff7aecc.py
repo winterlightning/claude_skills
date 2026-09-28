@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3e518fa9-536c-4b17-8b74-cb45eff7aecc'
 SOURCE_PATH='icon_set/work/todo-references/pin x mark 3_3e518fa9-536c-4b17-8b74-cb45eff7aecc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Broad rounded pin with a larger circular hole over a wide ground X. Softer base distinguishes it from pin x mark 2.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: domed head and hole.'
 OMISSIONS='None; broad X retained.'

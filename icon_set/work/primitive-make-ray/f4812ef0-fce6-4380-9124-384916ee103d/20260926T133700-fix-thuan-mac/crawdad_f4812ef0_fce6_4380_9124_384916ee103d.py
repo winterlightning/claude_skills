@@ -20,7 +20,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f4812ef0-fce6-4380-9124-384916ee103d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crawdad/20260926T125429Z-thuan-mac/reference/crawdad_f4812ef0-fce6-4380-9124-384916ee103d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 HALF_W = 5

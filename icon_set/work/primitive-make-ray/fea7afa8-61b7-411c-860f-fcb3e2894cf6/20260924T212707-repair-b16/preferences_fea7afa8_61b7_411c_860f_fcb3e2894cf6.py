@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='fea7afa8-61b7-411c-860f-fcb3e2894cf6'
 SOURCE_PATH='pictographic-primitives/other/preferences_fea7afa8-61b7-411c-860f-fcb3e2894cf6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Lucide settings: radial teeth around shared hub. Panel moved left to give half gear a wider annulus; mirror gear around y24, paired panel marks. No defining components omitted.'
 class Drawing(Solo48):
     icon_id='preferences'

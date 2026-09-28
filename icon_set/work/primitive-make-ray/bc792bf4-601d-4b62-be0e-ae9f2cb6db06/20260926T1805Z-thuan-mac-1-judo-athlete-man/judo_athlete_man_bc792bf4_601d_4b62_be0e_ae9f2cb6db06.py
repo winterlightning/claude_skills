@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'bc792bf4-601d-4b62-be0e-ae9f2cb6db06'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__judo-athlete-man/20260926T175531Z-thuan-mac-1/reference/judo athlete man_bc792bf4-601d-4b62-be0e-ae9f2cb6db06.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 
 class JudoAthleteMan(Solo48):

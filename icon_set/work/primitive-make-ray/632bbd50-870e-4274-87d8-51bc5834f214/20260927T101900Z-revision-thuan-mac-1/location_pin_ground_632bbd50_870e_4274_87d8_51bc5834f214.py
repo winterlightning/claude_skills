@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '632bbd50-870e-4274-87d8-51bc5834f214'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__location-pin-ground/20260927T101636Z-thuan-mac-1/reference/location dot_632bbd50-870e-4274-87d8-51bc5834f214.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class LocationPinGround(Solo48):
     icon_id = 'location-pin-ground'

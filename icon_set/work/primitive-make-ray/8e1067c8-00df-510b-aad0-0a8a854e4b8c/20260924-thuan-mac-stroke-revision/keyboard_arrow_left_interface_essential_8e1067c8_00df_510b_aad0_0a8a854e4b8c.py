@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8e1067c8-00df-510b-aad0-0a8a854e4b8c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__keyboard-arrow-left-interface-essential/20260924T100528Z-thuan-mac/reference/keyboard arrow left_8e1067c8-00df-510b-aad0-0a8a854e4b8c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'corner-down-right'
 DESIGN_PLAN = 'A continuous U-turn arrow, with one circular bend and equal arrowhead arms. Retain direction and open return; no omissions. Centerline box (4,8)-(44,40).'
 class Drawing(Solo48):

@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3d9430ac-9d10-4057-8ed4-2eea37cb58a1'
 SOURCE_PATH='pictographic-primitives/hotels/reception pay_3d9430ac-9d10-4057-8ed4-2eea37cb58a1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='reception-pay'
     keyshape=Keyshape.SQUARE

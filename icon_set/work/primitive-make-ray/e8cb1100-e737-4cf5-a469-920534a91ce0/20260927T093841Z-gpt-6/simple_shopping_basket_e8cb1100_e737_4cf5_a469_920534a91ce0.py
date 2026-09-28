@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e8cb1100-e737-4cf5-a469-920534a91ce0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__simple-shopping-basket/20260927T093511Z-thuan-mac-1/reference/tools kitchen basket_e8cb1100-e737-4cf5-a469-920534a91ce0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'simple-shopping-basket'

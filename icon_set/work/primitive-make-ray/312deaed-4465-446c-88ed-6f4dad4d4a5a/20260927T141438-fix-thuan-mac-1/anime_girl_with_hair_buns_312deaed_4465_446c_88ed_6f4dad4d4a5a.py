@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '312deaed-4465-446c-88ed-6f4dad4d4a5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__anime-girl-with-hair-buns/20260927T141159Z-thuan-mac-1/reference/sailormoon usagi_312deaed-4465-446c-88ed-6f4dad4d4a5a.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

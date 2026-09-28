@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '662b3074-f86b-483a-a095-4f5acc053b0c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hologram-cube-projector/20260927T061852Z-thuan-mac-1/reference/virtual box_662b3074-f86b-483a-a095-4f5acc053b0c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HologramCubeProjector(Solo48):
     icon_id = 'hologram-cube-projector'

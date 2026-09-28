@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '91e1dd69-832f-45a3-abe9-6beec3c5bdf5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-scalpel-with-curved-blade/20260924T093003Z-thuan-mac/reference/razor cut_91e1dd69-832f-45a3-abe9-6beec3c5bdf5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-scalpel-with-curved-blade'
     keyshape = Keyshape.SQUARE

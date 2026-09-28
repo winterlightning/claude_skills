@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1b529eb2-ba2a-4b82-8816-bb0f813a06d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__microphone-podcast-international-1/20260927T142529Z-thuan-mac-1/reference/microphone podcast international 1_1b529eb2-ba2a-4b82-8816-bb0f813a06d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='microphone-podcast-international-1'
     keyshape=Keyshape.VRECT_L

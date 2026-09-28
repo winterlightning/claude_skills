@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5b34dc81-b846-4bb2-ab08-2edb491e7e4a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/carport_5b34dc81-b846-4bb2-ab08-2edb491e7e4a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'car-parked-in-garage'

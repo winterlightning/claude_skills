@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4ec01feb-4215-413d-9fe1-82f8e7660a71'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__round-baby-head-with-one-curl/20260924T152553Z-thuan-mac/reference/baby boy_4ec01feb-4215-413d-9fe1-82f8e7660a71.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='round-baby-head-with-one-curl'

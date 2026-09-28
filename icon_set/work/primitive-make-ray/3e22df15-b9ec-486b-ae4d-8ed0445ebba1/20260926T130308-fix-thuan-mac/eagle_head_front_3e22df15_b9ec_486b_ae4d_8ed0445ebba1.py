@@ -16,7 +16,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3e22df15-b9ec-486b-ae4d-8ed0445ebba1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__eagle-head-front/20260926T125430Z-thuan-mac/reference/wild bird eagle head_3e22df15-b9ec-486b-ae4d-8ed0445ebba1.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

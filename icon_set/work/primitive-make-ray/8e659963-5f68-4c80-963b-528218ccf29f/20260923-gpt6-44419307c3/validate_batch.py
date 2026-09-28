@@ -6,7 +6,7 @@ import traceback
 import cairosvg
 from PIL import Image, ImageDraw
 
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 SOURCE_ICON_ID='8e659963-5f68-4c80-963b-528218ccf29f'
 SOURCE_PATH='icon_set/work/todo-references/award wall_8e659963-5f68-4c80-963b-528218ccf29f.svg'
 ROOT=Path(__file__).parent

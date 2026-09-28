@@ -7,7 +7,7 @@ SOURCE_ICON_ID='69d37e4e-d972-4edd-9487-a2d5344250c0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__treehouse-with-ladder-solo-b016/20260927T173930Z-thuan-mac-1/reference/family outdoors tree house_69d37e4e-d972-4edd-9487-a2d5344250c0.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/family outdoors tree house_69d37e4e-d972-4edd-9487-a2d5344250c0.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-016/references/family outdoors tree house_69d37e4e-d972-4edd-9487-a2d5344250c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class BatchIcon(Solo48):
     icon_id='treehouse-with-ladder-solo-b016'
     keyshape=Keyshape.SQUARE

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ac47ac3a-e57f-5b00-8f8a-5ae0e9fb9419'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__fossil-tablet/20260925T090617Z-thuan-mac/reference/dinosaur pteranodon fossil_ac47ac3a-e57f-5b00-8f8a-5ae0e9fb9419.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='fossil-tablet'
     keyshape=Keyshape.SQUARE

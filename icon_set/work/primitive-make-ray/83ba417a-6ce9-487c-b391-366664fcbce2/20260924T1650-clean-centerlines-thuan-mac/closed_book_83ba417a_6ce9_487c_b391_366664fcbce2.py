@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='83ba417a-6ce9-487c-b391-366664fcbce2'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__closed-book/20260924T164246Z-thuan-mac/reference/Book 2_83ba417a-6ce9-487c-b391-366664fcbce2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='closed-book'

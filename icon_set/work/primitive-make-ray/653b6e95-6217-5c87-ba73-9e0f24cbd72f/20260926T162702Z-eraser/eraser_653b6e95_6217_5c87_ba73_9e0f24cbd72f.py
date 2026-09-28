@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '653b6e95-6217-5c87-ba73-9e0f24cbd72f'
 SOURCE_PATH = 'pictographic-primitives/school-learning/eraser_653b6e95-6217-5c87-ba73-9e0f24cbd72f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Eraser(Solo48):

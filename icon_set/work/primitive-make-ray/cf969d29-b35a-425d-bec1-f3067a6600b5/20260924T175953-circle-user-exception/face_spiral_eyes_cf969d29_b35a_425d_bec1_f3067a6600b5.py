@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cf969d29-b35a-425d-bec1-f3067a6600b5'
 SOURCE_PATH='pictographic-primitives/_uncategorized_18/face spiral eyes_cf969d29-b35a-425d-bec1-f3067a6600b5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 USER_APPROVAL='Keep circular faces and draw smaller heart, star and spiral eyes even if rules are broken.'
 class Drawing(Solo48):
     icon_id='dizzy-hypnotized-face'

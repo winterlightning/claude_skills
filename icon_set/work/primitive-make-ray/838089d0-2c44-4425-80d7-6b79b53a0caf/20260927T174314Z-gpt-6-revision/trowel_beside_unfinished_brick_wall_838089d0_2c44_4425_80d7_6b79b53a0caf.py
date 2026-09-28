@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '838089d0-2c44-4425-80d7-6b79b53a0caf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__trowel-beside-unfinished-brick-wall/20260927T173930Z-thuan-mac-1/reference/construction brick_838089d0-2c44-4425-80d7-6b79b53a0caf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'trowel-beside-unfinished-brick-wall'

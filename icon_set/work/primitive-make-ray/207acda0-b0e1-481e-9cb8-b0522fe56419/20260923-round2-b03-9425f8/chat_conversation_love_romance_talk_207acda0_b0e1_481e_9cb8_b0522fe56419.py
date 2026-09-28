@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '207acda0-b0e1-481e-9cb8-b0522fe56419'
 SOURCE_PATH = 'icon_set/work/todo-references/chat conversation love romance talk_207acda0-b0e1-481e-9cb8-b0522fe56419.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Two overlapping speech bubbles and a front heart; redistribute front-bubble area and use an oblique rear tail.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/207acda0-b0e1-481e-9cb8-b0522fe56419/20260922T222907-8c0fa4/result.json'

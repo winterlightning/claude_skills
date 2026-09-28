@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '35244741-bba0-4c44-98a6-030d9b3fe5f3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-down-with-interrupted-curved-path/20260926T073831Z-thuan-mac/reference/dash down fast large head_35244741-bba0-4c44-98a6-030d9b3fe5f3.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class ArrowDownWithInterruptedCurvedPath(Solo48):

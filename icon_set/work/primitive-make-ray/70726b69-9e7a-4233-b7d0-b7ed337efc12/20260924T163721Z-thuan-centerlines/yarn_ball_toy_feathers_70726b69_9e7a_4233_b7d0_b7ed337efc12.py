@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='70726b69-9e7a-4233-b7d0-b7ed337efc12'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__yarn-ball-toy-feathers/20260924T163721Z-thuan-mac/reference/cat yarn toy_70726b69-9e7a-4233-b7d0-b7ed337efc12.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='yarn-ball-toy-feathers'

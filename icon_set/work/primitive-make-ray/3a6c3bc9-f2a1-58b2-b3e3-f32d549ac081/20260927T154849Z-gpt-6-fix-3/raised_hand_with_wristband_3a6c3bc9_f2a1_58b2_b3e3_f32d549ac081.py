@@ -13,7 +13,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3a6c3bc9-f2a1-58b2-b3e3-f32d549ac081'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__raised-hand-with-wristband/20260927T153833Z-thuan-mac-1/reference/romance pride lgbt bracelet hand_3a6c3bc9-f2a1-58b2-b3e3-f32d549ac081.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class RaisedHandWithWristband(Solo48):

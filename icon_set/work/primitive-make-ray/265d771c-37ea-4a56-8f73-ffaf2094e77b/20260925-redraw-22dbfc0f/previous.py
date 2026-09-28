@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '265d771c-37ea-4a56-8f73-ffaf2094e77b'
 SOURCE_PATH = 'pictographic-primitives/shopping/shopping cart empty_265d771c-37ea-4a56-8f73-ffaf2094e77b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShoppingCartEmpty(Solo48):
     icon_id = 'shopping-cart-empty'

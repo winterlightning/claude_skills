@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a0e1d015-0d2b-46ee-8ddb-cda6d8f61feb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tree-with-hanging-swing-solo-b016/20260924T160711Z-thuan-mac/reference/family outdoors swing tree_a0e1d015-0d2b-46ee-8ddb-cda6d8f61feb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tree-with-hanging-swing-solo-b016'

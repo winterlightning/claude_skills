@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='045a0447-9d31-4ac4-8345-6b457d6d7fdb'
 SOURCE_PATH='pictographic-primitives/other/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Taller monitor screen permits an open padlock. Lucide lock-keyhole-open shackle; omit keyhole absent in source and horizontal foot bar to preserve the open lock.'
 class Drawing(Solo48):
     icon_id='monitor-unlock'

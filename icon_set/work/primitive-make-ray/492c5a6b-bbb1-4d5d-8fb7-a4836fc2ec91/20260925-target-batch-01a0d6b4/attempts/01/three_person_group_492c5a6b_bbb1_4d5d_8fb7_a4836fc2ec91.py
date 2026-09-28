@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='492c5a6b-bbb1-4d5d-8fb7-a4836fc2ec91'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/people_492c5a6b-bbb1-4d5d-8fb7-a4836fc2ec91.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Larger centered head above two smaller side heads, with broad curved shoulders layered in front of the side busts.'
 CONSTRUCTION_REFERENCES='human_ref/user.svg: circular heads and open rounded shoulders; Lucide users-round: foreground/background arrangement.'
 OMISSIONS=[]

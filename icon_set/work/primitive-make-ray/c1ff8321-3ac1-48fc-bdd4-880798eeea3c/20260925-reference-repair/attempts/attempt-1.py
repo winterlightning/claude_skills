@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='c1ff8321-3ac1-48fc-bdd4-880798eeea3c'
 SOURCE_PATH='pictographic-primitives/other/hand holding_c1ff8321-3ac1-48fc-bdd4-880798eeea3c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Mirrored cupped hands with rounded tall fingers, visible inward thumb folds and curved palms.'
 CONSTRUCTION_REFERENCES='Lucide hand: coherent finger/palm curves. Supplied reference: paired cupped gesture and thumb branches.'
 OMISSIONS=[]

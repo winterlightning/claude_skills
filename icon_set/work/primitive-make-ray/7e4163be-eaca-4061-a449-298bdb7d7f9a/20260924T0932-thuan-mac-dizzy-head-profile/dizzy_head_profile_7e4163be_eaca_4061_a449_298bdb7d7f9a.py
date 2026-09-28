@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7e4163be-eaca-4061-a449-298bdb7d7f9a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dizzy-head-profile/20260924T093003Z-thuan-mac/reference/head dizziness_7e4163be-eaca-4061-a449-298bdb7d7f9a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'dizzy-head-profile'
     keyshape = Keyshape.SQUARE

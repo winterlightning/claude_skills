@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 
 SOURCE_ICON_ID = '37aec019-c588-4f28-a616-c14a53f1a100'
 SOURCE_PATH = 'icon_set/work/todo-references/concentrics circle_37aec019-c588-4f28-a616-c14a53f1a100.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'concentrics-circle'

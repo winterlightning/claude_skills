@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '10fe00ef-bdce-47d7-95cd-4727e2fc9f1a'
 SOURCE_PATH = 'icon_set/work/todo-references/safety fire right_10fe00ef-bdce-47d7-95cd-4727e2fc9f1a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Right-pointing evacuation arrow with three flowing flame trails underneath.
 # Reference: rotate-cw: joined arrowhead principles; no useful local flame-trail match.
 # Reduction: Reduced bottom flame outline to one smooth tongue; three trails retained.

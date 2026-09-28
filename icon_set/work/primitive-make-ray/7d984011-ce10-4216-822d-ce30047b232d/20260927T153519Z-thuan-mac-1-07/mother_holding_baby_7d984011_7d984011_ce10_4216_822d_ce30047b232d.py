@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7d984011-ce10-4216-822d-ce30047b232d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mother-holding-baby-7d984011/20260927T153322Z-thuan-mac-1/reference/mother baby_7d984011-ce10-4216-822d-ce30047b232d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'mother-holding-baby-7d984011'

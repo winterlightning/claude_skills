@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0afdecc4-e072-4f19-91eb-230ddfe1ded8'
 SOURCE_PATH = 'pictographic-primitives/religion/epgyptian mythology_0afdecc4-e072-4f19-91eb-230ddfe1ded8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class EgyptianDeityWithSunDisk(Solo48):

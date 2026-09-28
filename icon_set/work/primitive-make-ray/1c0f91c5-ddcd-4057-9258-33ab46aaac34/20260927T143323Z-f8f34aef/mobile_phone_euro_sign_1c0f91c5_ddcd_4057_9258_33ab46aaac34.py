@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1c0f91c5-ddcd-4057-9258-33ab46aaac34'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-euro-sign/20260927T142529Z-thuan-mac-1/reference/mobile phone euro sign_1c0f91c5-ddcd-4057-9258-33ab46aaac34.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-euro-sign'
     keyshape = Keyshape.VRECT_L

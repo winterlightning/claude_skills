@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='d7b60535-d86c-4822-a2a7-f6c1499603fc'
 SOURCE_PATH='pictographic-primitives/other/folder file_d7b60535-d86c-4822-a2a7-f6c1499603fc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Tall beveled document behind a smaller lower-left tabbed folder, with two document lines.'
 CONSTRUCTION_REFERENCES='Lucide folder-open: folder tab and rounded corners; source owns the page-in-back layering.'
 OMISSIONS=[]

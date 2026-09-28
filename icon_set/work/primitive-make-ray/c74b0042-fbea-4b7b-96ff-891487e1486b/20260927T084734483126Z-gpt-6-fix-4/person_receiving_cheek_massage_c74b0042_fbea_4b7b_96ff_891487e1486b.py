@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c74b0042-fbea-4b7b-96ff-891487e1486b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-receiving-cheek-massage/20260927T083143Z-thuan-mac-1/reference/facial cleansing massage_c74b0042-fbea-4b7b-96ff-891487e1486b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonReceivingCheekMassage(Solo48):
     icon_id = 'person-receiving-cheek-massage'

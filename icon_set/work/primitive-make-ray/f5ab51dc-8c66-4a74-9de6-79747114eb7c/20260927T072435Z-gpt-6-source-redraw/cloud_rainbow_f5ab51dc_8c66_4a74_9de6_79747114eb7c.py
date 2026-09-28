@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = 'f5ab51dc-8c66-4a74-9de6-79747114eb7c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cloud-rainbow/20260927T071330Z-thuan-mac-1/reference/weather cloud rainbow_f5ab51dc-8c66-4a74-9de6-79747114eb7c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CloudRainbow(Solo48):
     icon_id = 'cloud-rainbow'

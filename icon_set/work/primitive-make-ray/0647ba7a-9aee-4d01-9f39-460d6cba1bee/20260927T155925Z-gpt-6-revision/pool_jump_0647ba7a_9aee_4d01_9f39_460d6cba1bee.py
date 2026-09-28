@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0647ba7a-9aee-4d01-9f39-460d6cba1bee'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pool-jump/20260927T153747Z-thuan-mac-1/reference/swimming jump_0647ba7a-9aee-4d01-9f39-460d6cba1bee.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PoolJump(Solo48):
     icon_id = 'pool-jump'

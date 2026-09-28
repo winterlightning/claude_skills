@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4da51638-17b1-5407-995c-dcd3b7ff9feb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-rotating-around-vertical-axis/20260926T073831Z-thuan-mac/reference/d rotation y axis_4da51638-17b1-5407-995c-dcd3b7ff9feb.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class ArrowRotatingAroundVerticalAxis(Solo48):

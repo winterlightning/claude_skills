@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'da3a18cb-9766-5ab1-b651-eb447e6f30a2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__multiple-tags-2/20260926T160211Z-thuan-mac-1/reference/multiple tags 2_da3a18cb-9766-5ab1-b651-eb447e6f30a2.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 POINT, TOP_END, SIDE_END = (34, 6), (20, 6), (34, 20)
 RUN = 14                     # long edges run (-RUN, RUN) down the diagonal

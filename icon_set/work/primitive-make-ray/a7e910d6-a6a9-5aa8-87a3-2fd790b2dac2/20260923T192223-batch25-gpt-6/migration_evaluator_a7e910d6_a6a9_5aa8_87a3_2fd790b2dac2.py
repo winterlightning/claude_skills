@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a7e910d6-a6a9-5aa8-87a3-2fd790b2dac2'
 SOURCE_PATH = 'icon_set/work/todo-references/migration evaluator_a7e910d6-a6a9-5aa8-87a3-2fd790b2dac2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'migration-evaluator'
     keyshape = Keyshape.SQUARE

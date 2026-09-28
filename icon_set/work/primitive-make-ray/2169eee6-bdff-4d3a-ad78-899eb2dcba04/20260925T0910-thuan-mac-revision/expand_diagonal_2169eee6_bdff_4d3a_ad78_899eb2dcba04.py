@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2169eee6-bdff-4d3a-ad78-899eb2dcba04'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__expand-diagonal/20260925T085649Z-thuan-mac/reference/expand diagonal_2169eee6-bdff-4d3a-ad78-899eb2dcba04.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='expand-diagonal'

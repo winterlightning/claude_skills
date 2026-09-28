@@ -12,7 +12,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f8bb3c70-137a-40bf-96f2-7de841464ca6'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__ribbon-gymnast-circle/20260927T153833Z-thuan-mac-1/reference/ribbon person_f8bb3c70-137a-40bf-96f2-7de841464ca6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RibbonGymnastCircle(Solo48):
     icon_id = 'ribbon-gymnast-circle'

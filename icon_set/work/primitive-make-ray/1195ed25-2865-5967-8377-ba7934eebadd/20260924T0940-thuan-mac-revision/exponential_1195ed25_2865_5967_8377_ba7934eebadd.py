@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1195ed25-2865-5967-8377-ba7934eebadd'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__exponential/20260924T093128Z-thuan-mac/reference/exponential_1195ed25-2865-5967-8377-ba7934eebadd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='exponential'
     keyshape=Keyshape.SQUARE

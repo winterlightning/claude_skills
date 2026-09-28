@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9d3425c4-0090-4fdf-b40b-9f93695f8ca8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__curved-gauge-indicator-solo-b017/20260924T092136Z-thuan-mac/reference/adjustable_9d3425c4-0090-4fdf-b40b-9f93695f8ca8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'curved-gauge-indicator-solo-b017'
     keyshape = Keyshape.HRECT_M

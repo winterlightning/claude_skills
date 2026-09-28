@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4abc788f-9a40-5426-aee4-94c0f2ed3834'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__afghan-hound-head/20260924T181031Z-thuan-mac/reference/afghan hound_4abc788f-9a40-5426-aee4-94c0f2ed3834.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'afghan-hound-head'

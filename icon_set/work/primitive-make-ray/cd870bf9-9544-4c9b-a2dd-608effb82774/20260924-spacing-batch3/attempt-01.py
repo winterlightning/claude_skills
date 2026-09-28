@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cd870bf9-9544-4c9b-a2dd-608effb82774'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/people arrows_cd870bf9-9544-4c9b-a2dd-608effb82774.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two mirrored busts, exact8 head/shoulder gap, arrow beneath. Shared head radius5 and shoulder width8.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg'
 class Drawing(Solo48):

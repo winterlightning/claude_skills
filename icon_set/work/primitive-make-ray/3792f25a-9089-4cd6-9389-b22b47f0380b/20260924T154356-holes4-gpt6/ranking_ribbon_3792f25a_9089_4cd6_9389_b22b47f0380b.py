@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3792f25a-9089-4cd6-9389-b22b47f0380b'
 SOURCE_PATH = 'pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A five-point star with paired ribbon tails.'
 CONSTRUCTION_REFERENCES = 'Local Lucide award: coherent contours and shared attachments; original and atomic-debug inspected.'
 OMISSIONS = 'Removed the hidden banner segment beneath the star and the small fold-divider strokes; ribbon attachments moved to star tips.'

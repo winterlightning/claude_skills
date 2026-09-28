@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='4c0cf10b-bbbf-4ff4-9951-91713cc6ef28'
 SOURCE_PATH='icon_set/work/todo-references/rectangle bubble password_4c0cf10b-bbbf-4ff4-9951-91713cc6ef28.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A long rounded password field containing two X masking marks.'
 OMISSIONS='No masking marks omitted.'
 LUCIDE_REFERENCE=None

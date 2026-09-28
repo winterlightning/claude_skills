@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e8a4e2f0-e683-57b4-a6bb-145c10b5efac'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dog-wearing-recovery-cone/20260924T093128Z-thuan-mac/reference/pet cone_e8a4e2f0-e683-57b4-a6bb-145c10b5efac.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='dog-wearing-recovery-cone'
     keyshape=Keyshape.SQUARE

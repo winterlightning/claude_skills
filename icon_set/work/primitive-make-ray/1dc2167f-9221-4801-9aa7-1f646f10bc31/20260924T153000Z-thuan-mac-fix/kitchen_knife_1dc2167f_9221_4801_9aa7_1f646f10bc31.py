@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1dc2167f-9221-4801-9aa7-1f646f10bc31'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kitchen-knife/20260924T152540Z-thuan-mac/reference/knife edge_1dc2167f-9221-4801-9aa7-1f646f10bc31.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'kitchen-knife'
     keyshape = Keyshape.SQUARE

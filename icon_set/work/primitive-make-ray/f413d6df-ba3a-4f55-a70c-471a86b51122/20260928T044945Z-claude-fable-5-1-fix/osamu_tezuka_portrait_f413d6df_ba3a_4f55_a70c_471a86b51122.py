@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f413d6df-ba3a-4f55-a70c-471a86b51122'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__osamu-tezuka-portrait/20260928T042731Z-thuan-mac-1/reference/kawaii manga father original creator tetsuka osamu_f413d6df-ba3a-4f55-a70c-471a86b51122.svg'
-AUTHOR = 'claude-fable-5-1'
+AUTHOR = "claude-fable-5-1"
 
 
 class OsamuTezukaPortrait(Solo48):

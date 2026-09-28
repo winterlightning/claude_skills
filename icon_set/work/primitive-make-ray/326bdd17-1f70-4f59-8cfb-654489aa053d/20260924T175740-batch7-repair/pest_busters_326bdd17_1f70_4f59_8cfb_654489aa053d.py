@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='326bdd17-1f70-4f59-8cfb-654489aa053d'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pest busters_326bdd17-1f70-4f59-8cfb-654489aa053d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 LUCIDE_REFERENCE='bug'
 HUMAN_REFERENCE=None
 class Drawing(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='8e974970-0198-4484-85aa-47bb0a455f4b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__home-cog/20260927T142529Z-thuan-mac-1/reference/home cog_8e974970-0198-4484-85aa-47bb0a455f4b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='home-cog'
     keyshape=Keyshape.SQUARE

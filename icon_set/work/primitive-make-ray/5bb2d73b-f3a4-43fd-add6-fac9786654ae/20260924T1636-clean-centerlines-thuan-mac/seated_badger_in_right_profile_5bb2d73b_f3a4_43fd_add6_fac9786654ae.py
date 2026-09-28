@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5bb2d73b-f3a4-43fd-add6-fac9786654ae'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__seated-badger-in-right-profile/20260924T163012Z-thuan-mac/reference/badger_5bb2d73b-f3a4-43fd-add6-fac9786654ae.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='seated-badger-in-right-profile'

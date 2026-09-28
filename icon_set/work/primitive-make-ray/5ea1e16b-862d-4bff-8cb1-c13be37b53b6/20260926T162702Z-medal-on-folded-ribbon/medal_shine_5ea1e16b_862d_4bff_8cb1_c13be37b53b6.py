@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5ea1e16b-862d-4bff-8cb1-c13be37b53b6'
 SOURCE_PATH='pictographic-primitives/rewards/medal shine_5ea1e16b-862d-4bff-8cb1-c13be37b53b6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class MedalOnFoldedRibbon(Solo48):
     icon_id='medal-on-folded-ribbon'

@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'db37e620-1eb0-4c99-bce3-2c53b5c5fa76'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__one-finger-vertical-swipe-gesture/20260926T160211Z-thuan-mac-1/reference/gesture swipe vertical 3_db37e620-1eb0-4c99-bce3-2c53b5c5fa76.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 FINGER_L, FINGER_R, TIP_Y, TIP_R = 12, 20, 10, 4
 KNUCKLE_Y, PALM_R, HEEL_Y, HEEL_R = 20, 28, 30, 6

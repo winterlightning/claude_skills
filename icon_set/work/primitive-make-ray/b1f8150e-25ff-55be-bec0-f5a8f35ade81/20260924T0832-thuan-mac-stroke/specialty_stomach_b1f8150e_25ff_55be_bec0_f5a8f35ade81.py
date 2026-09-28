@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b1f8150e-25ff-55be-bec0-f5a8f35ade81'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stomach/20260924T083118Z-thuan-mac/reference/specialty stomach_b1f8150e-25ff-55be-bec0-f5a8f35ade81.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stomach'

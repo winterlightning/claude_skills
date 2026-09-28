@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2c0ac7cd-8681-4e21-803e-6437b35eb4a2'
 SOURCE_PATH = 'pictographic-primitives/other/smart watch square pound sign_2c0ac7cd-8681-4e21-803e-6437b35eb4a2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'pound-sterling'
 
 class Drawing(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c897c956-5934-483f-ac07-2cf2fa325d40'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-slanted-segmented-strips/20260924T105724Z-thuan-mac/reference/scene_c897c956-5934-483f-ac07-2cf2fa325d40.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'two-slanted-segmented-strips'

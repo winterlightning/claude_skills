@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '21df9f13-b0a5-4035-b2d5-b2fdc29a8b43'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__palm-supporting-a-soft-lobed-shape/20260927T165437Z-thuan-mac-1/reference/baby family slime play dough 1_21df9f13-b0a5-4035-b2d5-b2fdc29a8b43.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'palm-supporting-a-soft-lobed-shape'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c6c676da-c886-4787-803f-c5126fbd94b0'
 SOURCE_PATH='icon_set/work/todo-references/square man_c6c676da-c886-4787-803f-c5126fbd94b0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square portrait containing detached circular head and curved shoulders.'
 CONSTRUCTION_REFERENCES='Human user.svg and Lucide user: centered head and mirrored shoulders.'
 OMISSIONS='Shoulders shortened to fit frame; exact head bottom24 to shoulder apex32 gives 4 ink units.'

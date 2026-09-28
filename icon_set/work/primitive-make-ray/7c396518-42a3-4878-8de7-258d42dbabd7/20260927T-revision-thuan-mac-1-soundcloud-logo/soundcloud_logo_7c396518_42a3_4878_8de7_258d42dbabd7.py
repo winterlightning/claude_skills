@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7c396518-42a3-4878-8de7-258d42dbabd7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__soundcloud-logo/20260927T152212Z-thuan-mac-1/reference/soundcloud logo_7c396518-42a3-4878-8de7-258d42dbabd7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-reconstructed'

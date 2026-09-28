@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '26fbb103-f21c-436b-8013-3eb3bcd065b1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-reaching-connected-panel/20260927T072841Z-thuan-mac-1/reference/immersive reality_26fbb103-f21c-436b-8013-3eb3bcd065b1.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='019edb66-6728-4e28-ae42-b3dcaedeee84'
 SOURCE_PATH='pictographic-primitives/other/vr headset 1_019edb66-6728-4e28-ae42-b3dcaedeee84.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Left-facing continuous head profile with visor, horizontal strap, nose, chin and neck.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg: head proportion; source owns continuous side profile and visor.'
 class Drawing(Solo48):

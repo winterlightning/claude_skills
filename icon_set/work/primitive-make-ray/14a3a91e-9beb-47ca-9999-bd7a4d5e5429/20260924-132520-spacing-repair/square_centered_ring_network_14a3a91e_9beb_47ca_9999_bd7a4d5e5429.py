@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '14a3a91e-9beb-47ca-9999-bd7a4d5e5429'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon mq_14a3a91e-9beb-47ca-9999-bd7a4d5e5429.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-centered-ring-network'

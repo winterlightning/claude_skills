@@ -5,7 +5,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '08de5c3e-418d-4732-b0b0-0789943abce3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kissing-face-heart/20260927T142529Z-thuan-mac-1/reference/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'kissing-face-heart'

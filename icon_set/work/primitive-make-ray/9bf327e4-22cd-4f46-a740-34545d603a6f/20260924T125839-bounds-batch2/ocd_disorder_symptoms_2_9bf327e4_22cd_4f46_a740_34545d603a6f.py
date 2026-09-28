@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9bf327e4-22cd-4f46-a740-34545d603a6f'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/ocd disorder symptoms 2_9bf327e4-22cd-4f46-a740-34545d603a6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A head silhouette containing an obsessive checklist.

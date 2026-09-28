@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='45881775-2179-41cc-98a1-78a598c550c1'
 SOURCE_PATH='pictographic-primitives/avatars/girl full body_45881775-2179-41cc-98a1-78a598c550c1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular face with outward hair curls; sleeves and long central torso replace the old skirt and added legs. Head bottom y20 and body top y28 give exactly 4 units of detached ink gap. Paired arcs mirror about x24.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg and full_body_ref.png: circular head and coherent symmetric body; source retains sleeves and hair curls. This is an outlined figure, not a stick figure.'
 OMISSIONS='Interior hair part and duplicate hair cap omitted to avoid a pinched cap opening. No legs added, matching the source.'

@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6696729f-6eb0-4c03-96db-99c8e1e23356'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cooking-pot-with-lid/20260926T125430Z-thuan-mac/reference/lid_6696729f-6eb0-4c03-96db-99c8e1e23356.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

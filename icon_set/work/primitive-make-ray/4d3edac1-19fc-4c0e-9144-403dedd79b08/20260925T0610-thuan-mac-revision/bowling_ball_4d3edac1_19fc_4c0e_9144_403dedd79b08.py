@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4d3edac1-19fc-4c0e-9144-403dedd79b08'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bowling-ball-with-two-holes/20260925T060624Z-thuan-mac/reference/bowling ball_4d3edac1-19fc-4c0e-9144-403dedd79b08.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'bowling-ball-with-two-holes'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bd070373-fb79-5ffe-a5ec-6c7fdf08861b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__baby-bib/20260926T085631Z-thuan-mac/reference/baby care bib_bd070373-fb79-5ffe-a5ec-6c7fdf08861b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BabyBib(Solo48):
     icon_id = 'baby-bib'

@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'd38332cc-ed3e-4e29-835b-f24fbd23eb07'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/calendar check_d38332cc-ed3e-4e29-835b-f24fbd23eb07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'calendar-with-checkmark'

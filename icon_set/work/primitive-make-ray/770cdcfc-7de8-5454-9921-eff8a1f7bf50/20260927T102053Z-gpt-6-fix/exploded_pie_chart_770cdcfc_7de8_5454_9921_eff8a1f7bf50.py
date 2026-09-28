@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '770cdcfc-7de8-5454-9921-eff8a1f7bf50'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__exploded-pie-chart/20260927T101626Z-thuan-mac-1/reference/pie_770cdcfc-7de8-5454-9921-eff8a1f7bf50.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ExplodedPieChart(Solo48):

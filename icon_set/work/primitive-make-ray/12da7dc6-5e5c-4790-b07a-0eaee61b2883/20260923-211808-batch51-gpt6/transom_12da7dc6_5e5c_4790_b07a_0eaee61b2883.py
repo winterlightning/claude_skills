@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '12da7dc6-5e5c-4790-b07a-0eaee61b2883'
 SOURCE_PATH = 'icon_set/work/todo-references/transom_12da7dc6-5e5c-4790-b07a-0eaee61b2883.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'transom'
     keyshape = Keyshape.VRECT_L

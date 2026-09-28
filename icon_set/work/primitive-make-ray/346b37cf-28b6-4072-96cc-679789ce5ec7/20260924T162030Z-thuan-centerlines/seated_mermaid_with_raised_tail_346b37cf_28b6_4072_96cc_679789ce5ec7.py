@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='346b37cf-28b6-4072-96cc-679789ce5ec7'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__seated-mermaid-with-raised-tail/20260924T162030Z-thuan-mac/reference/fantasy medieval mermaid 2_346b37cf-28b6-4072-96cc-679789ce5ec7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='seated-mermaid-with-raised-tail'

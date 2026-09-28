@@ -5,7 +5,7 @@ from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'e4b1f036-4c20-4e55-975c-b249f0a098fc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__usb/20260927T133645Z-thuan-mac-1/reference/usb_e4b1f036-4c20-4e55-975c-b249f0a098fc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Usb(Solo48):

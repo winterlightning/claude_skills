@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8e9b7bc2-90cb-457c-b184-e60fb8d06b7b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__noise-pollution-traffic/20260926T160211Z-thuan-mac-1/reference/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 ZIG_LOW, ZIG_HIGH, ZIG_STEP = 14, 8, 6
 CAR_XS, CAR_W = (4, 28), 16

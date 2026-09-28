@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f4752828-8f41-472e-a48e-c509754917dd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__intellij-idea-logo/20260927T070909Z-thuan-mac-1/reference/intellijidea logo_f4752828-8f41-472e-a48e-c509754917dd.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

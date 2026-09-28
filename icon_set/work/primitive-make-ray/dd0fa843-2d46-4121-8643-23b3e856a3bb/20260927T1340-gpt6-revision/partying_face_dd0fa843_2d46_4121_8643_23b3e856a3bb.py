@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dd0fa843-2d46-4121-8643-23b3e856a3bb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__partying-face/20260927T133654Z-thuan-mac-1/reference/partying face celebrate_dd0fa843-2d46-4121-8643-23b3e856a3bb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PartyingFace(Solo48):

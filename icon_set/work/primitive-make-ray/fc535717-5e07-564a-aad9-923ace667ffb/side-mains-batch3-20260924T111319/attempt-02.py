@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fc535717-5e07-564a-aad9-923ace667ffb'
 SOURCE_PATH = 'pictographic-primitives/holidays/star_fc535717-5e07-564a-aad9-923ace667ffb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Award medal with inset star and notched ribbon.'
 CONSTRUCTION_REFERENCES = 'Lucide star: alternating points and shared mirror axis.'
 OMISSIONS = 'No omissions.'

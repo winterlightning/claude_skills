@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '815209de-601e-4c97-a648-8b07b9972741'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__thread-spool-and-yarn-ball/20260927T080754Z-thuan-mac-1/reference/clothes design needle yarn_815209de-601e-4c97-a648-8b07b9972741.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4f1c032b-ccc9-5ff8-ab8e-5cdd92d8148d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__infinity-loop-solo-batch-025-11/20260927T145836Z-thuan-mac-1/reference/hyperloop symbol_4f1c032b-ccc9-5ff8-ab8e-5cdd92d8148d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (2, 6, 46, 42); centerline (4, 8, 44, 40).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/hyperloop symbol_4f1c032b-ccc9-5ff8-ab8e-5cdd92d8148d.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-025/11-infinity-loop-symbol--4f1c032b-ccc9-5ff8-ab8e-5cdd92d8148d.md'

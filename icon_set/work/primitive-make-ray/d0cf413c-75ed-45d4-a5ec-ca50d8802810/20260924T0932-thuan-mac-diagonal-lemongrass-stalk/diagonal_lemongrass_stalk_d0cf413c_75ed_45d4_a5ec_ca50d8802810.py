@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd0cf413c-75ed-45d4-a5ec-ca50d8802810'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-lemongrass-stalk/20260924T093003Z-thuan-mac/reference/lemongrass_d0cf413c-75ed-45d4-a5ec-ca50d8802810.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-lemongrass-stalk'
     keyshape = Keyshape.SQUARE

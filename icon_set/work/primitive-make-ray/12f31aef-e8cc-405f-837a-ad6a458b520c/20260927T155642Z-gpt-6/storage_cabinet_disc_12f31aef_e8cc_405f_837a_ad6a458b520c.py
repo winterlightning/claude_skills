@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='12f31aef-e8cc-405f-837a-ad6a458b520c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__storage-cabinet-disc/20260927T155415Z-thuan-mac-1/reference/elemental mediastore_12f31aef-e8cc-405f-837a-ad6a458b520c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class StorageCabinetDisc(Solo48):
     icon_id='storage-cabinet-disc'

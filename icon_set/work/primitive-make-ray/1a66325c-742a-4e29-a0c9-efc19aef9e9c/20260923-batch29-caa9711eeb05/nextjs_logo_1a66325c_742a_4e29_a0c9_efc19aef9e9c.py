@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1a66325c-742a-4e29-a0c9-efc19aef9e9c'
 SOURCE_PATH='icon_set/work/todo-references/nextjs logo_1a66325c-742a-4e29-a0c9-efc19aef9e9c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='nextjs-logo'
     keyshape=Keyshape.CIRCLE

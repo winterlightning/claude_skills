@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='07459f9b-1db4-4f1f-aeee-4e5113b2f2f4'
 SOURCE_PATH='pictographic-primitives/other/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Case with handle, geometric S dollar with separated top and bottom stems. Lucide dollar-sign informs currency terminals; diagonal waist opens compact lobes. Taller envelope gives room to handle and mark.'
 class Drawing(Solo48):
     icon_id='briefcase-dollar'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '507c65f5-f61d-400d-aa16-c3e1eb1af23b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-infinity-arrow/20260924T093935Z-thuan-mac/reference/loop arrow_507c65f5-f61d-400d-aa16-c3e1eb1af23b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide infinity: equal outer lobes with smooth central progression.'
 OMISSIONS = 'Reference opening retained, lobes made taller to meet SOLO48 envelope.'
 

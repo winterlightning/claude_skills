@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='dd1e6365-7d94-41e2-84d6-66c8ad75ede1'
 SOURCE_PATH='pictographic-primitives/other/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Full uppercase SUB text inside the rounded display. U has wider stems; B uses two evenly spaced bowls.'
 CONSTRUCTION_REFERENCES='rectangle-ellipsis: rounded panel; supplied source: full SUB inscription.'
 OMISSIONS=[]

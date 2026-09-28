@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bc50f80c-32d1-4463-8d50-0760d877bb3f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__four-petal-stemmed-flower/20260925T090617Z-thuan-mac/reference/bloom_bc50f80c-32d1-4463-8d50-0760d877bb3f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='four-petal-stemmed-flower'
     keyshape=Keyshape.VRECT_L

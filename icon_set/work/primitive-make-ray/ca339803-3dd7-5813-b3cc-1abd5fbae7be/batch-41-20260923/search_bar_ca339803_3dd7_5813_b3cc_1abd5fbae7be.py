@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ca339803-3dd7-5813-b3cc-1abd5fbae7be'
 SOURCE_PATH='icon_set/work/todo-references/search bar_ca339803-3dd7-5813-b3cc-1abd5fbae7be.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded search field with a small magnifier at right. A real 3-4-5 attachment node connects its handle.'
 CONSTRUCTION_REFERENCES='Lucide search: circular lens and attached handle; rounded bar rebuilt on SOLO48.'
 OMISSIONS='Handle shortened; capsule ends made less semicircular to open the glyph clearance.'

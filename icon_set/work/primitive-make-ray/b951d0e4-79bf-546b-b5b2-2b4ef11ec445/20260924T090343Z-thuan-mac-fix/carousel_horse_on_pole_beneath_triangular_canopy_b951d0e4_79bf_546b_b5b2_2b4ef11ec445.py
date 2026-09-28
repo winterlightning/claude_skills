@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b951d0e4-79bf-546b-b5b2-2b4ef11ec445'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__carousel-horse-on-pole-beneath-triangular-canopy/20260924T090148Z-thuan-mac/reference/amusement park merry go round toys_b951d0e4-79bf-546b-b5b2-2b4ef11ec445.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'carousel-horse-on-pole-beneath-triangular-canopy'

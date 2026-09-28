@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3d46c4b2-e4b0-4c4b-9f88-76961d7a269e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__magnetic-knife-rack-three-knives/20260924T101756Z-thuan-mac/reference/kitchen knife set_3d46c4b2-e4b0-4c4b-9f88-76961d7a269e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='No useful exact Lucide rack match'
 DESIGN_PLAN='Three evenly spaced knife definitions hang from one horizontal rail. Curved blade bellies replace angular wedges. HRECT_L centerlines (4,8)-(44,40).'
 OMISSIONS='Rail thickness and outlined handles reduced to single strokes; three knives retained.'

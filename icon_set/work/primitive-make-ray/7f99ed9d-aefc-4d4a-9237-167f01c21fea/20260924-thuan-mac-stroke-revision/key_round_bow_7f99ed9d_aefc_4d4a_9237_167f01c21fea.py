@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7f99ed9d-aefc-4d4a-9237-167f01c21fea'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__key-round-bow/20260924T100528Z-thuan-mac/reference/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'key-round'
 DESIGN_PLAN = 'One round lower-left bow and a toothless diagonal shaft; SQUARE centerlines (6,6)-(42,42). Shaft edges are parallel with a broad opening. Preserve the round hole where present; omit the blank reference stray dot.'
 class Drawing(Solo48):

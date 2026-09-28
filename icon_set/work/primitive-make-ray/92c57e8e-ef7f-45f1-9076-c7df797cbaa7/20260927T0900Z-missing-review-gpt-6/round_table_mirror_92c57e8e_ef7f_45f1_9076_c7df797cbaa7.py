@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '92c57e8e-ef7f-45f1-9076-c7df797cbaa7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-table-mirror/20260927T084430Z-thuan-mac-1/reference/table mirror_92c57e8e-ef7f-45f1-9076-c7df797cbaa7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('92c57e8e-ef7f-45f1-9076-c7df797cbaa7', 'pictographic-primitives/beauty/table mirror_92c57e8e-ef7f-45f1-9076-c7df797cbaa7.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "6ecc644a-3a00-4527-b255-62f6624f6734"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__smiling-doraemon-face/20260928T042745Z-thuan-mac-1/reference/robot cat blue doraemon_6ecc644a-3a00-4527-b255-62f6624f6734.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class SmilingDoraemonFace(Solo48):

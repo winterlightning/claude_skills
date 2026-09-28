@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e686f130-6226-4d7d-b4c5-09b77a01b089'
 SOURCE_PATH = 'pictographic-primitives/ecology/air purifier_e686f130-6226-4d7d-b4c5-09b77a01b089.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'air-purifier-with-two-airflow-curves'

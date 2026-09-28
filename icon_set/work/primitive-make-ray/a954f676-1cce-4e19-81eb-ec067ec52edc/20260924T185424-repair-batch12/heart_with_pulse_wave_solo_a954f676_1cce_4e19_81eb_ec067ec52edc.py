@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a954f676-1cce-4e19-81eb-ec067ec52edc'
 SOURCE_PATH = 'pictographic-primitives/health/heart rate_a954f676-1cce-4e19-81eb-ec067ec52edc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'heart-with-pulse-wave-solo'

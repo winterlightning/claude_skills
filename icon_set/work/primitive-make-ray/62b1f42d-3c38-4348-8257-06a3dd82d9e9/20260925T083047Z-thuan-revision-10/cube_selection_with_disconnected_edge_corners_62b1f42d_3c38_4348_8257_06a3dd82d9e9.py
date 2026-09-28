@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '62b1f42d-3c38-4348-8257-06a3dd82d9e9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cube-selection-with-disconnected-edge-corners/20260925T083047Z-thuan-mac/reference/select 3d_62b1f42d-3c38-4348-8257-06a3dd82d9e9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cube-selection-with-disconnected-edge-corners'

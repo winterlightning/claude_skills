@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '446e953d-43b9-407c-93c8-585b9ab83fde'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bomb-lit-fuse/20260927T071330Z-thuan-mac-1/reference/boom_446e953d-43b9-407c-93c8-585b9ab83fde.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BombLitFuse(Solo48):
     icon_id = 'bomb-lit-fuse'

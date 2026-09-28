@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8979b686-cae8-4888-846e-0a6fe3d253fa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sliced-dragon-fruit/20260927T133815Z-thuan-mac-1/reference/dragon fruit slice_8979b686-cae8-4888-846e-0a6fe3d253fa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'sliced-dragon-fruit'

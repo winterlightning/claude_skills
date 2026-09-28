@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3e88b736-a624-5653-bfe9-0df39a7adb24'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cartoon-cat-face/20260925T035753Z-thuan-mac/reference/cat 1_3e88b736-a624-5653-bfe9-0df39a7adb24.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'cartoon-cat-face'
     keyshape = Keyshape.HRECT_L

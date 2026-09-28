@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '1ed85ce1-f76a-4b6a-8863-c9e201ffbd6b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bearded-explorer-with-a-brimmed-hat/20260927T174057Z-thuan-mac-1/reference/avatar adventure man_1ed85ce1-f76a-4b6a-8863-c9e201ffbd6b.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'bearded-explorer-with-a-brimmed-hat'

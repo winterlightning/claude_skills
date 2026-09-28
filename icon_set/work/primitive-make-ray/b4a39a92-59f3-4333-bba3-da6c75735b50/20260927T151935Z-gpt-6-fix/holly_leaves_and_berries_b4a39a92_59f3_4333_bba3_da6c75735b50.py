@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'b4a39a92-59f3-4333-bba3-da6c75735b50'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__holly-leaves-and-berries/20260927T151732Z-thuan-mac-1/reference/mistletoe_b4a39a92-59f3-4333-bba3-da6c75735b50.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconHollyLeavesAndBerries(Solo48):

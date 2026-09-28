@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e990e7ac-7a33-40af-9103-6dc2c867b7fd'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/people conflict 3_e990e7ac-7a33-40af-9103-6dc2c867b7fd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'people-conflict-3'

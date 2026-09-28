@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='32ab4ed8-b548-4a61-956b-a99332d1684d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__headphones-with-portable-player/20260927T081503Z-thuan-mac-1/reference/walkman headphones_32ab4ed8-b548-4a61-956b-a99332d1684d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HeadphonesWithPortablePlayer(Solo48):
     icon_id='headphones-with-portable-player'

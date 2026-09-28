@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '91e5eb5e-0488-53f4-96ba-65b4bca2049f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stooped-standing-person/20260927T094403Z-thuan-mac-1/reference/standing stooped_91e5eb5e-0488-53f4-96ba-65b4bca2049f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StoopedStandingPerson(Solo48):
     icon_id = 'stooped-standing-person'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7e4449d6-8a87-46be-a40e-333176088868'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__table-tennis-player/20260927T094403Z-thuan-mac-1/reference/ping pong player_7e4449d6-8a87-46be-a40e-333176088868.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TableTennisPlayer(Solo48):
     icon_id = 'table-tennis-player'

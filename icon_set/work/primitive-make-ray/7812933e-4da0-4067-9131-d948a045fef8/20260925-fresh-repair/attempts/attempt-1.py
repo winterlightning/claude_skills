@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='7812933e-4da0-4067-9131-d948a045fef8'
 SOURCE_PATH='pictographic-primitives/_uncategorized_11/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Raised striped clapper above a striped lower band and blank slate; shared left hinge; one stripe per band preserves the clapper vocabulary with wider open regions.'
 CONSTRUCTION_REFERENCES='clapperboard: diagonal raised blade and rounded lower slate.'
 OMISSIONS=['Stripe count reduced to one on each band.']

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '59eb4021-6108-44f6-8147-e5750c232c19'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opposed-hands-protecting-heart/20260928T042731Z-thuan-mac-1/reference/support 2_59eb4021-6108-44f6-8147-e5750c232c19.svg'
-AUTHOR = 'claude-fable-5-1'
+AUTHOR = "claude-fable-5-1"
 
 
 class OpposedHandsProtectingHeart(Solo48):

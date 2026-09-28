@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='79b63fb3-53d2-42aa-af62-afdbc09d4964'
 SOURCE_PATH='pictographic-primitives/_uncategorized_38/transportation ticket boat transfer_79b63fb3-53d2-42aa-af62-afdbc09d4964.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='transportation-ticket-boat-transfer'
     keyshape=Keyshape.SQUARE

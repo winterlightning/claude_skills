@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='2543e428-8532-5444-9cdb-344b1eca155c'
 SOURCE_PATH='pictographic-primitives/artificial-intelligence/brain_2543e428-8532-5444-9cdb-344b1eca155c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Paired organic brain hemispheres with scalloped upper and lower lobes, central fissure and two folds on each side.'
 CONSTRUCTION_REFERENCES='Lucide brain: organic bilateral lobes and inward folds; supplied source controls straight central fissure.'
 OMISSIONS=['Fine perimeter wrinkles condensed into broad lobes; two folds per side retained.']

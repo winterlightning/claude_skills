@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b9550739-2fcc-4d3f-b1da-62a62d9213f5'
 SOURCE_PATH = 'pictographic-primitives/symbol/thermometer_b9550739-2fcc-4d3f-b1da-62a62d9213f5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/thermometer_mercury_b9550739_2fcc_4d3f_b1da_62a62d9213f5.py'
 class Drawing(Solo48):
     icon_id = 'thermometer-mercury'

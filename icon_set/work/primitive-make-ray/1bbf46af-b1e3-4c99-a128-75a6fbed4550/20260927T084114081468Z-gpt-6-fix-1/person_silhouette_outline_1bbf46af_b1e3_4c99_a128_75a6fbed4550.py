@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1bbf46af-b1e3-4c99-a128-75a6fbed4550'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-silhouette-outline/20260927T083143Z-thuan-mac-1/reference/person 1_1bbf46af-b1e3-4c99-a128-75a6fbed4550.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonSilhouetteOutline(Solo48):

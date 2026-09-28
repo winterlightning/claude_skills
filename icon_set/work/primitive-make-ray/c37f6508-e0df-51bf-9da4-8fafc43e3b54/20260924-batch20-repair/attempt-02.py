@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c37f6508-e0df-51bf-9da4-8fafc43e3b54'
 SOURCE_PATH='pictographic-primitives/war/death rip_c37f6508-e0df-51bf-9da4-8fafc43e3b54.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wider HRECT_L4,8–44,40 tombstone. Plinth reduced to baseline to make room for RIP. Preserve horizontal inscription; no useful exact Lucide reference.'
 class Drawing(Solo48):
     icon_id='death-rip'

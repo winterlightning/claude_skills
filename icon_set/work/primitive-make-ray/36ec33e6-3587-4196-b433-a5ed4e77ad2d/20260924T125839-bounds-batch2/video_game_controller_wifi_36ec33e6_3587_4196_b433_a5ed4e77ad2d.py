@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '36ec33e6-3587-4196-b433-a5ed4e77ad2d'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video game controller wifi_36ec33e6-3587-4196-b433-a5ed4e77ad2d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-game-controller-wifi'
     keyshape = Keyshape.SQUARE

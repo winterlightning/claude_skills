@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1ad97e11-bd58-4d42-a0e0-51be7206e42e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sloth-face/20260927T093511Z-thuan-mac-1/reference/sloth_1ad97e11-bd58-4d42-a0e0-51be7206e42e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SlothFace(Solo48):
     icon_id = 'sloth-face'

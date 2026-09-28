@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a39aa19c-ac24-4e35-8e35-e653e256f2f7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-women-with-fringe/20260927T101610Z-thuan-mac-1/reference/multiple woman 2_a39aa19c-ac24-4e35-8e35-e653e256f2f7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_CONSTRUCTION = 'group-busts'
 
 class TwoWomenWithFringe(Solo48):

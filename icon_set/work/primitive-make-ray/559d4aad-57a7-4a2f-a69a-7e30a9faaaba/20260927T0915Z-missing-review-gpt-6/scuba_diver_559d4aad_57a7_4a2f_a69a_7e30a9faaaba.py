@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '559d4aad-57a7-4a2f-a69a-7e30a9faaaba'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__scuba-diver/20260927T084430Z-thuan-mac-1/reference/diving diver_559d4aad-57a7-4a2f-a69a-7e30a9faaaba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ScubaDiver(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '951456f0-7a11-4ecc-b29c-400594778716'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arched-speedometer/20260924T115444Z-thuan-mac/reference/odometer_951456f0-7a11-4ecc-b29c-400594778716.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'arched-speedometer'
     keyshape = Keyshape.HRECT_L

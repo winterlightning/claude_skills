@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ed13ba86-a993-4e4d-b461-5ce413a5cd46'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__woman-reading-a-book/20260924T163721Z-thuan-mac/reference/newspaper read woman_ed13ba86-a993-4e4d-b461-5ce413a5cd46.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='woman-reading-a-book'

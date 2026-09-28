@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d70ff34b-b46b-47ce-84af-a9faa347f1ba'
 SOURCE_PATH='icon_set/work/todo-references/square list_d70ff34b-b46b-47ce-84af-a9faa347f1ba.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing three evenly spaced horizontal lines.'
 CONSTRUCTION_REFERENCES='Source repeated rules; shared length and 9-unit pitch.'
 OMISSIONS='None.'

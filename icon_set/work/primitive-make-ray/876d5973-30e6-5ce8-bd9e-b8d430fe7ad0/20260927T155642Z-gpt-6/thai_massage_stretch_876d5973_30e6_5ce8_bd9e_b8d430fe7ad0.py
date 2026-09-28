@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '876d5973-30e6-5ce8-bd9e-b8d430fe7ad0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__thai-massage-stretch/20260927T155415Z-thuan-mac-1/reference/thai massage pose_876d5973-30e6-5ce8-bd9e-b8d430fe7ad0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ThaiMassageStretch(Solo48):

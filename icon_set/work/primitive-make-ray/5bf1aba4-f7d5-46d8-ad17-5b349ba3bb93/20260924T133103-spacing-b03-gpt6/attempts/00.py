@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5bf1aba4-f7d5-46d8-ad17-5b349ba3bb93'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/rectangle history_5bf1aba4-f7d5-46d8-ad17-5b349ba3bb93.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rectangle-history'

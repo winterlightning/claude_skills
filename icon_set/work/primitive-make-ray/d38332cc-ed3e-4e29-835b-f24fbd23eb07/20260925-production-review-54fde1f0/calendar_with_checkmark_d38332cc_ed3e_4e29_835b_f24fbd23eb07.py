@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd38332cc-ed3e-4e29-835b-f24fbd23eb07'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/calendar check_d38332cc-ed3e-4e29-835b-f24fbd23eb07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded calendar with taller rising check; equal top binding strokes.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['calendar-check']

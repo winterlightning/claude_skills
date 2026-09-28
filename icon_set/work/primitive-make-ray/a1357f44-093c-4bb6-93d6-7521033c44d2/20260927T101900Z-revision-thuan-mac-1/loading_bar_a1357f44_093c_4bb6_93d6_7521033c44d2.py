@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a1357f44-093c-4bb6-93d6-7521033c44d2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__loading-bar/20260927T101636Z-thuan-mac-1/reference/loading bar_a1357f44-093c-4bb6-93d6-7521033c44d2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class LoadingBar(Solo48):
     icon_id = 'loading-bar'

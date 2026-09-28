@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '37a4523d-3384-4c79-9494-a5cfb681f4f0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-passing-capsule/20260927T135945Z-thuan-mac-1/reference/drugs dealer_37a4523d-3384-4c79-9494-a5cfb681f4f0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandPassingCapsule(Solo48):

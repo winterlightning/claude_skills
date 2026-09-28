@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5c28de48-0a62-5ac5-8b45-54484a3e5ced'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__battlement-castle-tower/20260925T060602Z-thuan-mac/reference/electronics sport esport battle royal fortnite_5c28de48-0a62-5ac5-8b45-54484a3e5ced.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'battlement-castle-tower'

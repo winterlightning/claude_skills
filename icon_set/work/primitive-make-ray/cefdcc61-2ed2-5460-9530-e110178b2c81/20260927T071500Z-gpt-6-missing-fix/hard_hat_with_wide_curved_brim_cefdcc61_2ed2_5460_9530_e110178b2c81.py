@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cefdcc61-2ed2-5460-9530-e110178b2c81'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hard-hat-with-wide-curved-brim/20260927T061835Z-thuan-mac-1/reference/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('cefdcc61-2ed2-5460-9530-e110178b2c81', 'pictographic-primitives/construction/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

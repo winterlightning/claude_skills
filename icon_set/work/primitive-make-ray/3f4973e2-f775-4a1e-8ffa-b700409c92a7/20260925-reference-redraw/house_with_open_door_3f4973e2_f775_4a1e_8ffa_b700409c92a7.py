@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3f4973e2-f775-4a1e-8ffa-b700409c92a7'
 SOURCE_PATH='pictographic-primitives/other/house door open_3f4973e2-f775-4a1e-8ffa-b700409c92a7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/house_with_open_door_batch_025_05_3f4973e2_f775_4a1e_8ffa_b700409c92a7.py'
 class Drawing(Solo48):
     icon_id='house-with-open-door'

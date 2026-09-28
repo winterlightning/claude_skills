@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '284bd116-a688-437f-8349-e9b0799bf5bb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__inkscape-logo/20260927T070909Z-thuan-mac-1/reference/inkscape logo_284bd116-a688-437f-8349-e9b0799bf5bb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class InkscapeLogo(Solo48):

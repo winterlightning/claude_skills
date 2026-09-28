@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57fe8f91-559f-4932-b706-8c9dc391b19c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__right-facing-loudspeaker-with-two-sound-waves/20260927T171300Z-thuan-mac-1/reference/speakerphone_57fe8f91-559f-4932-b706-8c9dc391b19c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-facing-loudspeaker-with-two-sound-waves'

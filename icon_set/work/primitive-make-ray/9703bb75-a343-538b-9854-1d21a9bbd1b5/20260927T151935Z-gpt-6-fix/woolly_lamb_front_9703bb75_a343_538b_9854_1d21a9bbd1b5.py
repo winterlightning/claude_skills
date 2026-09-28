@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9703bb75-a343-538b-9854-1d21a9bbd1b5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woolly-lamb-front/20260927T151732Z-thuan-mac-1/reference/lamb_9703bb75-a343-538b-9854-1d21a9bbd1b5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WoollyLambFront(Solo48):
     icon_id = 'woolly-lamb-front'

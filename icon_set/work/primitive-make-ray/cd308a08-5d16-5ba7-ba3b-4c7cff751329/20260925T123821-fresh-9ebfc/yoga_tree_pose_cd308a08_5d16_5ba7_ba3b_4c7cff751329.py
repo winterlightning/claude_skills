@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='cd308a08-5d16-5ba7-ba3b-4c7cff751329'
 SOURCE_PATH='pictographic-primitives/sports/yoga tree pose_cd308a08-5d16-5ba7-ba3b-4c7cff751329.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular head framed by curved overhead arms, straight support leg and outward bent knee.'
 CONSTRUCTION_REFERENCE='human_ref/full_body_ref.png: outlined head and simple limbs; Lucide person-standing shared joints.'
 class Drawing(Solo48):

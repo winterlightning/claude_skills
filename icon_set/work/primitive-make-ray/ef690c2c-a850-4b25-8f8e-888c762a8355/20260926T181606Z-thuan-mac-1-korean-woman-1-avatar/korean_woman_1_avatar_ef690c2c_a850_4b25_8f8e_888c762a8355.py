@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'ef690c2c-a850-4b25-8f8e-888c762a8355'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__korean-woman-1-avatar/20260926T175531Z-thuan-mac-1/reference/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.svg'
 SOURCE_HEAD_ICON_ID = 'korean-woman-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class KoreanWoman1Avatar(Solo48):
     icon_id = 'korean-woman-1-avatar'
     keyshape = Keyshape.HRECT_L

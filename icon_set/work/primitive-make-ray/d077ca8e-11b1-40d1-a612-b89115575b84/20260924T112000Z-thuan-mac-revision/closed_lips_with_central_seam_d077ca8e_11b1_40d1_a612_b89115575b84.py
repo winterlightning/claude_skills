@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd077ca8e-11b1-40d1-a612-b89115575b84'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-lips-with-central-seam/20260924T111346Z-thuan-mac/reference/lip_d077ca8e-11b1-40d1-a612-b89115575b84.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'closed-lips-with-central-seam'

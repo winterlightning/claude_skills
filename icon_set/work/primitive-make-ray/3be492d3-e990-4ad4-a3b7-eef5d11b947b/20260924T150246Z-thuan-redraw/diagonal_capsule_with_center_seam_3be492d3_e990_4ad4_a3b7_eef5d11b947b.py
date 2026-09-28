@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3be492d3-e990-4ad4-a3b7-eef5d11b947b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__diagonal-capsule-with-center-seam/20260924T150246Z-thuan-mac/reference/emery_3be492d3-e990-4ad4-a3b7-eef5d11b947b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='diagonal-capsule-with-center-seam'

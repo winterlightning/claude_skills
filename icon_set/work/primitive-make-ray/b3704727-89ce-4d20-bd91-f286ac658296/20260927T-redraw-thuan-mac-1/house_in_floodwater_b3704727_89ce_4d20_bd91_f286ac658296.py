@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3704727-89ce-4d20-bd91-f286ac658296'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-in-floodwater/20260926T173134Z-thuan-mac-1/reference/flood house_b3704727-89ce-4d20-bd91-f286ac658296.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HouseInFloodwater(Solo48):
     icon_id = 'house-in-floodwater'

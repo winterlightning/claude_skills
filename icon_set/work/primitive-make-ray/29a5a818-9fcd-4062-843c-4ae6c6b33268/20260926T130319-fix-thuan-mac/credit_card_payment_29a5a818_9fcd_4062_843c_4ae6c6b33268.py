@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='29a5a818-9fcd-4062-843c-4ae6c6b33268'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__credit-card-payment/20260926T125430Z-thuan-mac/reference/credit card payment_29a5a818-9fcd-4062-843c-4ae6c6b33268.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

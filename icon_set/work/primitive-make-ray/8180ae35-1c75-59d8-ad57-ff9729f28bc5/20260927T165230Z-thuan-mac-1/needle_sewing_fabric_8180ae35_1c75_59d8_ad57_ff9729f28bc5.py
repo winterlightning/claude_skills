@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8180ae35-1c75-59d8-ad57-ff9729f28bc5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__needle-sewing-fabric/20260927T164916Z-thuan-mac-1/reference/sewing sewing scarf_8180ae35-1c75-59d8-ad57-ff9729f28bc5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class NeedleSewingFabric(Solo48):
     icon_id = 'needle-sewing-fabric'

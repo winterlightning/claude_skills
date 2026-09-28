@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f55929aa-88a8-4542-84cd-cb48b8cb8bb8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__npn-bipolar-junction-transistor-symbol-batch-008-01/20260927T164916Z-thuan-mac-1/reference/npn bipolar transistor_f55929aa-88a8-4542-84cd-cb48b8cb8bb8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GeneratedSolo(Solo48):

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '378a8b67-3065-5023-b054-9fccecc32c2c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gprs-text/20260927T055654Z-thuan-mac-1/reference/gprs_378a8b67-3065-5023-b054-9fccecc32c2c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MobileIcon(Solo48):
     icon_id = 'gprs-text'

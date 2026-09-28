@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'cc9735bd-b79d-4964-88bb-b90de1fc0d05'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__facial-massage-roller/20260927T032256Z-thuan-mac-1/reference/massage stick roll_cc9735bd-b79d-4964-88bb-b90de1fc0d05.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'facial-massage-roller'

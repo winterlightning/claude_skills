@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '65d8507f-531a-4e81-bd3e-1e2516aebe33'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/route interstate_65d8507f-531a-4e81-bd3e-1e2516aebe33.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'An interstate route shield with a header and road center mark.'
 OMISSIONS = 'Two road dashes reduced to one; header lowered to enlarge its band and attached to explicit side endpoints.'
 CONSTRUCTION_REFERENCES = 'Lucide shield: mirrored sides and pointed base.'

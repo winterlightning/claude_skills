@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='045a0447-9d31-4ac4-8345-6b457d6d7fdb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-unlock/20260927T142540Z-thuan-mac-1/reference/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Monitor with full pedestal and a compact solid lock bar below a visibly open shackle.'
 class Drawing(Solo48):
     icon_id='monitor-unlock'

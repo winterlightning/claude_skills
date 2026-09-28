@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8a8ad2bd-d2ec-46d9-9dd4-9707982c601a'
 SOURCE_PATH='icon_set/work/todo-references/vertical coupon_8a8ad2bd-d2ec-46d9-9dd4-9707982c601a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='vertical-coupon'

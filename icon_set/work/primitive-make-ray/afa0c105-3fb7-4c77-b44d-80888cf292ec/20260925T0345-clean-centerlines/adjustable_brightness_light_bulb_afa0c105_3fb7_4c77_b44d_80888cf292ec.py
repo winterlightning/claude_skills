@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='afa0c105-3fb7-4c77-b44d-80888cf292ec'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__adjustable-brightness-light-bulb/20260925T034142Z-thuan-mac/reference/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='adjustable-brightness-light-bulb'

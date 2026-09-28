@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e8ab6fc8-69a1-502b-9bad-36b6a778c21d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__time-clock-six/20260924T105724Z-thuan-mac/reference/time clock six_e8ab6fc8-69a1-502b-9bad-36b6a778c21d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'time-clock-six'

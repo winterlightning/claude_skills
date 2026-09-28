@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e3dc0da0-bd87-41fd-95b9-89f6eee043aa'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__finger-prick-blood-sample/20260924T160939Z-thuan-mac/reference/laboratory test blood finger_e3dc0da0-bd87-41fd-95b9-89f6eee043aa.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='finger-prick-blood-sample'

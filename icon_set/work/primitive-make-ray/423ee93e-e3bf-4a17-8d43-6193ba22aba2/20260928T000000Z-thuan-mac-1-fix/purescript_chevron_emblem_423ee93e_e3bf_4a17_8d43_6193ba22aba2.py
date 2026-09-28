@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID = "423ee93e-e3bf-4a17-8d43-6193ba22aba2"
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__purescript-chevron-emblem/20260927T170540Z-thuan-mac-1/reference/purescript logo_423ee93e-e3bf-4a17-8d43-6193ba22aba2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = "purescript-chevron-emblem"
     keyshape = Keyshape.HRECT_L

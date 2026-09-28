@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '32c98c89-6e46-4737-9aa5-e927668b865d'
 SOURCE_PATH = 'icon_set/work/todo-references/square v_32c98c89-6e46-4737-9aa5-e927668b865d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square with a check mark, matching the supplied square-v artwork.
 # References: Joined two-segment check with deliberate asymmetry.
 # Reduction: No parts omitted; source is a check rather than a letter V.

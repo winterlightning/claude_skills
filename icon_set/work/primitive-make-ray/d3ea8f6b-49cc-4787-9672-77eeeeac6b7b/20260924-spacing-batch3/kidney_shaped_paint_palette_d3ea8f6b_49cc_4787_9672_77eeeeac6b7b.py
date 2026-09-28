@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd3ea8f6b-49cc-4787-9672-77eeeeac6b7b'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/palate_d3ea8f6b-49cc-4787-9672-77eeeeac6b7b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'kidney-shaped-paint-palette'

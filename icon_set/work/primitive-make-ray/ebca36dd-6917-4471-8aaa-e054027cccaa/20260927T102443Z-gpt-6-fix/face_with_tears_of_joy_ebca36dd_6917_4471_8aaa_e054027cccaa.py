@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ebca36dd-6917-4471-8aaa-e054027cccaa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__face-with-tears-of-joy/20260927T101626Z-thuan-mac-1/reference/lol_ebca36dd-6917-4471-8aaa-e054027cccaa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FaceWithTearsOfJoy(Solo48):

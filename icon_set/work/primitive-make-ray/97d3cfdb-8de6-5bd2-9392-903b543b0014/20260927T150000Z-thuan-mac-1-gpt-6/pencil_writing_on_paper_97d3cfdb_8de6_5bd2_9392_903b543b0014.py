@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '97d3cfdb-8de6-5bd2-9392-903b543b0014'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pencil-writing-on-paper/20260927T145836Z-thuan-mac-1/reference/content pen_97d3cfdb-8de6-5bd2-9392-903b543b0014.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Batch06Icon7(Solo48):
     icon_id = 'pencil-writing-on-paper'
     keyshape = Keyshape.SQUARE

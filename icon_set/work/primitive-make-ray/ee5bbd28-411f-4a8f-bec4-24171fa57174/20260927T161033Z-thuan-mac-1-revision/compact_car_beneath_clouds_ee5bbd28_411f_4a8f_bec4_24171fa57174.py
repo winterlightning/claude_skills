@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ee5bbd28-411f-4a8f-bec4-24171fa57174'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__compact-car-beneath-clouds/20260927T160834Z-thuan-mac-1/reference/car clouds_ee5bbd28-411f-4a8f-bec4-24171fa57174.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'compact-car-beneath-clouds'

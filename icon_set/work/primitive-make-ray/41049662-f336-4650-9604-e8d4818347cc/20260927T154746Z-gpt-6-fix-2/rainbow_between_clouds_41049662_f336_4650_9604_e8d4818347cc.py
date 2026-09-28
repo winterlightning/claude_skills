@@ -12,7 +12,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '41049662-f336-4650-9604-e8d4818347cc'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__rainbow-between-clouds/20260927T153833Z-thuan-mac-1/reference/weather clouds rainbow_41049662-f336-4650-9604-e8d4818347cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RainbowBetweenClouds(Solo48):
     icon_id = 'rainbow-between-clouds'

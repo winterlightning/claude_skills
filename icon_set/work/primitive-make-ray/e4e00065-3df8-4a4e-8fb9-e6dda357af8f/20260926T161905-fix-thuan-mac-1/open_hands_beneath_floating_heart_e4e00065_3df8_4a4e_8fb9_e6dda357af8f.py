@@ -17,7 +17,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e4e00065-3df8-4a4e-8fb9-e6dda357af8f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-hands-beneath-floating-heart/20260926T160211Z-thuan-mac-1/reference/donation charity hand care heart_e4e00065-3df8-4a4e-8fb9-e6dda357af8f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class Drawing(Solo48):

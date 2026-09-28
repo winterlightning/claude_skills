@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2295a288-f526-406a-ae2e-c1f6bc4d44eb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tied-garbage-bag-beside-filled-trash-bin/20260924T162030Z-thuan-mac/reference/garbage_2295a288-f526-406a-ae2e-c1f6bc4d44eb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tied-garbage-bag-beside-filled-trash-bin'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b1092c83-c474-4752-bf58-6b3aa28a5860'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__graduation-cap/20260926T173134Z-thuan-mac-1/reference/graduate hat_b1092c83-c474-4752-bf58-6b3aa28a5860.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GraduationCap(Solo48):

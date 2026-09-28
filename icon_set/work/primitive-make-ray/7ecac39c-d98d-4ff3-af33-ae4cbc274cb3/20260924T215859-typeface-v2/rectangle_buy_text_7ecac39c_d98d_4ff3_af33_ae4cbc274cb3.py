@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7ecac39c-d98d-4ff3-af33-ae4cbc274cb3'
 SOURCE_PATH='pictographic-primitives/other/rectangle buy text_7ecac39c-d98d-4ff3-af33-ae4cbc274cb3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Typeface v2 native paths translated only. Full word retained. Strict SOLO48 fit attempt.'
 class Drawing(Solo48):
     icon_id='rectangle-buy-text'

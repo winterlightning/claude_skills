@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'de1e3329-5d1d-5faf-89b6-906f5dde19a6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sports-bicycle/20260927T155415Z-thuan-mac-1/reference/bicycle sports_de1e3329-5d1d-5faf-89b6-906f5dde19a6.svg'
 SOURCE_REFERENCES = (('de1e3329-5d1d-5faf-89b6-906f5dde19a6', 'pictographic-primitives/transportation/bicycle sports_de1e3329-5d1d-5faf-89b6-906f5dde19a6.svg'),)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SportsBicycle(Solo48):
     icon_id = 'sports-bicycle'

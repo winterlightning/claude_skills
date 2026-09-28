@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='589093c2-50d1-4d6e-b46e-2aef2795cea3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__horse-pulling-small-carriage/20260924T162241Z-thuan-mac/reference/carriage_589093c2-50d1-4d6e-b46e-2aef2795cea3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='horse-pulling-small-carriage'
     keyshape=Keyshape.HRECT_M

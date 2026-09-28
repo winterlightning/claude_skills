@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8caa23a3-2927-4a9f-91e3-22e1b440bbdf'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__waving-flag-rounded-pole/20260924T160711Z-thuan-mac/reference/nation_8caa23a3-2927-4a9f-91e3-22e1b440bbdf.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='waving-flag-rounded-pole'

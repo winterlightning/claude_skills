@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a119cf45-d021-460f-b469-9d1f28774714'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/multiple users wifi_a119cf45-d021-460f-b469-9d1f28774714.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'multiple-users-wifi'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0b6fcfb0-13db-4df2-9172-e8f486788553'
 SOURCE_PATH = 'icon_set/work/todo-references/office sign document_0b6fcfb0-13db-4df2-9172-e8f486788553.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Open document contour and diagonal signing pencil with pointed nib.
 # Keyshape visible extremes are supplied by Keyshape.SQUARE.bounds_for(SOLO48).
 # Lucide construction reference: notebook-pen.

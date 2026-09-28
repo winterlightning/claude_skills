@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '590e3124-67e7-5ef1-9f35-c589ee85cdd4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dome-pendant-lamp/20260926T173134Z-thuan-mac-1/reference/table lamp hanging_590e3124-67e7-5ef1-9f35-c589ee85cdd4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DomePendantLamp(Solo48):
     icon_id = 'dome-pendant-lamp'

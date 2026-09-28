@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '07459f9b-1db4-4f1f-aeee-4e5113b2f2f4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__briefcase-dollar/20260925T034659Z-thuan-mac/reference/briefcase dollar_07459f9b-1db4-4f1f-aeee-4e5113b2f2f4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Briefcase with a curved S and projecting currency ticks, avoiding tiny enclosed loops; preserve handle and recognizable dollar.
 # Construction reference: No useful exact Lucide match; supplied reference subject and geometric arc construction.
 # Envelope: VRECT_L; bounds are defined by its outer contour/extreme tips.

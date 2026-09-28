@@ -7,7 +7,7 @@ SOURCE_ICON_ID = '3be3c4f1-7eff-4665-918c-5125daa70608'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__isometric-cube-with-three-linked-hexagons/20260927T160114Z-thuan-mac-1/reference/scale 3d_3be3c4f1-7eff-4665-918c-5125daa70608.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/rotate d_0d0d1025-1418-574d-b291-75e0e612531c.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-017/references/rotate d_0d0d1025-1418-574d-b291-75e0e612531c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class IsometricCubeWithThreeLinkedHexagons(Solo48):
     icon_id='isometric-cube-with-three-linked-hexagons'
     keyshape=Keyshape.SQUARE

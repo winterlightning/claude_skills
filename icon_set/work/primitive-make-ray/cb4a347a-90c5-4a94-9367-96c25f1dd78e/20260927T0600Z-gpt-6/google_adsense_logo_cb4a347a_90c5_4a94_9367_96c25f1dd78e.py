@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cb4a347a-90c5-4a94-9367-96c25f1dd78e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-adsense-logo/20260927T055558Z-thuan-mac-1/reference/google adsense logo_cb4a347a-90c5-4a94-9367-96c25f1dd78e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GoogleAdsenseLogo(Solo48):
     icon_id = 'google-adsense-logo'

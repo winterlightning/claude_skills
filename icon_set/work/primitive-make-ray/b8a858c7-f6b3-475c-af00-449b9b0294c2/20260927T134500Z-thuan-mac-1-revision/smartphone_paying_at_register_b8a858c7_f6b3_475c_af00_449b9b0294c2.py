@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b8a858c7-f6b3-475c-af00-449b9b0294c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smartphone-paying-at-register/20260927T133815Z-thuan-mac-1/reference/wireless payment smartphone_b8a858c7-f6b3-475c-af00-449b9b0294c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SmartphonePayingAtRegister(Solo48):
     icon_id='smartphone-paying-at-register'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='22d0481f-c9b6-401c-ac60-eb38e2aabb27'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__satellite-with-signal-waves/20260924T101756Z-thuan-mac/reference/satellite signal_22d0481f-c9b6-401c-ac60-eb38e2aabb27.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='satellite: diagonal panel arrangement and shared bus connections'
 DESIGN_PLAN='Two diamond solar panels connect to a larger circular central bus, with a broad broadcast arc. Shared panel definition and a diagonal axis. SQUARE centerlines (6,6)-(42,42).'
 OMISSIONS='Tiny central bolt and inner wave tier omitted for clearance.'

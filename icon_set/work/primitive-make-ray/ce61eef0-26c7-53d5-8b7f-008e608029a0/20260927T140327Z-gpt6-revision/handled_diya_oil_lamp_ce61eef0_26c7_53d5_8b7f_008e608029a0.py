@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'ce61eef0-26c7-53d5-8b7f-008e608029a0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handled-diya-oil-lamp/20260927T135945Z-thuan-mac-1/reference/karthika deepam_ce61eef0-26c7-53d5-8b7f-008e608029a0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandledDiyaOilLamp(Solo48):

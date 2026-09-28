@@ -9,7 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '206fa313-37ee-4826-b03f-bda05b9a6f9d'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/.local/work/solo-saved-briefs-20260920/batch-folders/batch-019/references/39-206fa313-37ee-4826-b03f-bda05b9a6f9d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

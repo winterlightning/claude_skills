@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='fd3519ca-61c2-4e48-a98b-ef47a0103f4c'
 SOURCE_PATH='pictographic-primitives/_uncategorized_37/tea cup herbal_fd3519ca-61c2-4e48-a98b-ef47a0103f4c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='tea-cup-herbal'
     keyshape=Keyshape.HRECT_M

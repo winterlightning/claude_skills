@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f676f8b4-b6a7-4e6b-ab0e-87feab8269f5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cricket/20260924T172457Z-thuan-mac/reference/insect cricket body_f676f8b4-b6a7-4e6b-ab0e-87feab8269f5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'cricket'
     keyshape = Keyshape.HRECT_L

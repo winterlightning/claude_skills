@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cb6d4791-374d-48bd-942d-4c57ef0d8eb0'
 SOURCE_PATH = 'pictographic-primitives/other/men nude_cb6d4791-374d-48bd-942d-4c57ef0d8eb0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A framed pictogram of male genital anatomy.'
 CONSTRUCTION_PLAN = 'A diagonal shaft, rounded glans with seam, and curved scrotal outline sit inside a rounded square. Shared endpoint nodes define the glans seam; deliberate anatomical asymmetry. No useful Lucide anatomy match. Human construction guide inspected; detached-head rules do not apply. '
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

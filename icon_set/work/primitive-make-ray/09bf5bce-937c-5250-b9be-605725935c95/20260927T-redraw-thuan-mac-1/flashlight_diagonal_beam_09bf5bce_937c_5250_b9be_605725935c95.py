@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '09bf5bce-937c-5250-b9be-605725935c95'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flashlight-diagonal-beam/20260926T173134Z-thuan-mac-1/reference/outdoors flashlight_09bf5bce-937c-5250-b9be-605725935c95.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FlashlightDiagonalBeam(Solo48):

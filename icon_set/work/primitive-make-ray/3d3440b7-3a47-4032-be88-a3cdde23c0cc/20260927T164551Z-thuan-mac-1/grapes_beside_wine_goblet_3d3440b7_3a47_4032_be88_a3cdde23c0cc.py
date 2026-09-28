@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3d3440b7-3a47-4032-be88-a3cdde23c0cc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grapes-beside-wine-goblet/20260927T164337Z-thuan-mac-1/reference/greek grape wine_3d3440b7-3a47-4032-be88-a3cdde23c0cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

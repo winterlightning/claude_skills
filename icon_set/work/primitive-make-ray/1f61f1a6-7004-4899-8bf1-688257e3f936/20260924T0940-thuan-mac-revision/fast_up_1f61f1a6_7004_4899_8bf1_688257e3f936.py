@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1f61f1a6-7004-4899-8bf1-688257e3f936'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__fast-up/20260924T093128Z-thuan-mac/reference/fast up_1f61f1a6-7004-4899-8bf1-688257e3f936.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='fast-up'
     keyshape=Keyshape.HRECT_L

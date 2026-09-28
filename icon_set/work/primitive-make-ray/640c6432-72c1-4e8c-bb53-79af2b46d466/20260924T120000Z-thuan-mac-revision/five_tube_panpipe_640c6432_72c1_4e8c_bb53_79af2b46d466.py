@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='640c6432-72c1-4e8c-bb53-79af2b46d466'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__five-tube-panpipe/20260924T115443Z-thuan-mac/reference/panpipe_640c6432-72c1-4e8c-bb53-79af2b46d466.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='five-tube-panpipe'

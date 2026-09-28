@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-pinching-chip/20260926T172218Z-thuan-mac-1/reference/chip hold_7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandPinchingChip(Solo48):
     icon_id = 'hand-pinching-chip'

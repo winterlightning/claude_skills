@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7a52b466-8e1b-412a-aaa1-cea9d33e173c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__currency-pound-bill/20260926T173134Z-thuan-mac-1/reference/currency pound bill_7a52b466-8e1b-412a-aaa1-cea9d33e173c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CurrencyPoundBill(Solo48):
     icon_id = 'currency-pound-bill'

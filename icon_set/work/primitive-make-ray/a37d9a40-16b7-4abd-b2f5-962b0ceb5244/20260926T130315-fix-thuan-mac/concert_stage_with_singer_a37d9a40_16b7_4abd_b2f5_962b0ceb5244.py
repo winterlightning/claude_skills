@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = "a37d9a40-16b7-4abd-b2f5-962b0ceb5244"
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__concert-stage-with-singer/20260926T125430Z-thuan-mac/reference/concert microphone_a37d9a40-16b7-4abd-b2f5-962b0ceb5244.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

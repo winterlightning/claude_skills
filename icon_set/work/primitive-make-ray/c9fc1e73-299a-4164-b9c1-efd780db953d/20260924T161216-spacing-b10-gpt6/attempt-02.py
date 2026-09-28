@@ -9,7 +9,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c9fc1e73-299a-4164-b9c1-efd780db953d'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone woman_c9fc1e73-299a-4164-b9c1-efd780db953d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'mobile-phone-woman'

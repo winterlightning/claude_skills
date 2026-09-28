@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f2e9b73a-cb3b-4ba3-9a35-136a976c9aec'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__left-facing-person-sneezing/20260926T152509Z-thuan-mac-1/reference/sneeze_f2e9b73a-cb3b-4ba3-9a35-136a976c9aec.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 SKULL, SKULL_R = (31, 17), 11
 FACE = [(20, 17), (16, 21), (20, 24), (25, 28), (20, 32), (22, 36), (27, 37), (27, 42)]

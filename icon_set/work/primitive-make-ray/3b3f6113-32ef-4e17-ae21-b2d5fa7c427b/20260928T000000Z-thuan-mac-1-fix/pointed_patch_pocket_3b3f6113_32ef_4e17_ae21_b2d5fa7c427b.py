@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3b3f6113-32ef-4e17-ae21-b2d5fa7c427b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pointed-patch-pocket/20260927T170540Z-thuan-mac-1/reference/pocket_3b3f6113-32ef-4e17-ae21-b2d5fa7c427b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pointed-patch-pocket'

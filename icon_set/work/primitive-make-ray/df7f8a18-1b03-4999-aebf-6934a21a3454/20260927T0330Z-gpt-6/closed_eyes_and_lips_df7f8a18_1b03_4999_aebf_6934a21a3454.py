@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'df7f8a18-1b03-4999-aebf-6934a21a3454'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-eyes-and-lips/20260927T032242Z-thuan-mac-1/reference/dating makeup_df7f8a18-1b03-4999-aebf-6934a21a3454.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ClosedEyesAndLips(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '5dd7944c-8248-40cb-8bd4-400ceb51cae0'
 SOURCE_PATH = 'pictographic-primitives/other/car wrench_5dd7944c-8248-40cb-8bd4-400ceb51cae0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Smaller wrench inside the same car; stroke remains4, as requested even if compact jaws fail.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['car-front']

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '150d4701-3c3f-45a7-a26d-8c580a891da1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__browser-dollar-sign-right/20260925T035753Z-thuan-mac/reference/browser dollar sign right_150d4701-3c3f-45a7-a26d-8c580a891da1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'browser-dollar-sign-right'
     keyshape = Keyshape.HRECT_M

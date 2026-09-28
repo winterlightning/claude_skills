@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4251fc39-3831-5987-b611-d41be9e3207a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hockey-player/20260927T081503Z-thuan-mac-1/reference/sport hockey_4251fc39-3831-5987-b611-d41be9e3207a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HockeyPlayer(Solo48):
     icon_id='hockey-player'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b8975bc1-4fe4-47c7-82bd-a46a322d6fc6'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__winged-monument-on-a-pedestal/20260924T163721Z-thuan-mac/reference/angel of independence mexico_b8975bc1-4fe4-47c7-82bd-a46a322d6fc6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='winged-monument-on-a-pedestal'

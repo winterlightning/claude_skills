@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd0706c6f-5c48-4d64-a145-d56c1fe0de85'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__snare-drum-crossed-sticks/20260927T093511Z-thuan-mac-1/reference/drums_d0706c6f-5c48-4d64-a145-d56c1fe0de85.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SnareDrumCrossedSticks(Solo48):
     icon_id = 'snare-drum-crossed-sticks'

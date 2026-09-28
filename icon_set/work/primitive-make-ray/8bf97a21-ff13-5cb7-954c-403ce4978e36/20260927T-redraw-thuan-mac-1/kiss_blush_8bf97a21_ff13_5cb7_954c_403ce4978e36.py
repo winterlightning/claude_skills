@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8bf97a21-ff13-5cb7-954c-403ce4978e36'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kiss-blush/20260926T173134Z-thuan-mac-1/reference/kiss blush_8bf97a21-ff13-5cb7-954c-403ce4978e36.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KissBlush(Solo48):
     icon_id = 'kiss-blush'

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '02bbed8d-19bf-42c9-9539-d93fbda86791'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__howling-wolf/20260927T061852Z-thuan-mac-1/reference/wolf body howl_02bbed8d-19bf-42c9-9539-d93fbda86791.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HowlingWolf(Solo48):
     icon_id = 'howling-wolf'

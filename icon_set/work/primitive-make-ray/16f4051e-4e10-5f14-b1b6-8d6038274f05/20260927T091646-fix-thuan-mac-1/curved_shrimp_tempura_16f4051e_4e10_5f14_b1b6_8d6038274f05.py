@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '16f4051e-4e10-5f14-b1b6-8d6038274f05'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__curved-shrimp-tempura/20260927T091421Z-thuan-mac-1/reference/deep fied pawn shrimp tempura_16f4051e-4e10-5f14-b1b6-8d6038274f05.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

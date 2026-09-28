@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1efaaba1-675b-4453-93c8-175f701635ac'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__farmer-holding-crop-and-sickle/20260927T101626Z-thuan-mac-1/reference/farmer crops_1efaaba1-675b-4453-93c8-175f701635ac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch28Icon(Solo48):
     icon_id = 'farmer-holding-crop-and-sickle'

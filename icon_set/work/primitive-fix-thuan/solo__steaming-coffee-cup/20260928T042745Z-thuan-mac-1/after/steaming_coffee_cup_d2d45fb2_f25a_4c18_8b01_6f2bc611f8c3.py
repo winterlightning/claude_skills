@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "d2d45fb2-f25a-4c18-8b01-6f2bc611f8c3"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__steaming-coffee-cup/20260928T042745Z-thuan-mac-1/reference/java logo_d2d45fb2-f25a-4c18-8b01-6f2bc611f8c3.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class SteamingCoffeeCup(Solo48):

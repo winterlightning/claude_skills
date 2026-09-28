@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = 'f0c353b7-a354-469a-90f8-2f8b8d4edac1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__honeycomb/20260927T061852Z-thuan-mac-1/reference/honeycomb_f0c353b7-a354-469a-90f8-2f8b8d4edac1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Honeycomb(Solo48):
     icon_id = 'honeycomb'

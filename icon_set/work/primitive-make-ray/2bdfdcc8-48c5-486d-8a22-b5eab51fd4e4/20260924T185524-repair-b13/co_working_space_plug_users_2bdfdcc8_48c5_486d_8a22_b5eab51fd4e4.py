@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4'
 SOURCE_PATH='pictographic-primitives/office/co working space plug users_2bdfdcc8-48c5-486d-8a22-b5eab51fd4e4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two equal user heads radius3 and shoulders; actual detached ink gap4 (head bottom32, shoulder apex40). Human user.svg proportions; Lucide plug prongs separated8. Socket holes omitted for clearance; cords intentionally join side of heads as source.'
 class Drawing(Solo48):
     icon_id='co-working-space-plug-users'

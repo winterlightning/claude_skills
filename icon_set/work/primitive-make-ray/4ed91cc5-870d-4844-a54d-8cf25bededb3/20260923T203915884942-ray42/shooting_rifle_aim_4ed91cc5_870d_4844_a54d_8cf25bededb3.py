@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4ed91cc5-870d-4844-a54d-8cf25bededb3'
 SOURCE_PATH = 'icon_set/work/todo-references/shooting rifle aim_4ed91cc5-870d-4844-a54d-8cf25bededb3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rifle silhouette crosses a concentric target with vertical sight marks.
 # Construction references: No useful exact local Lucide rifle match; concentric circles and straight sight axes.
 # Reduction: Reduced target to two rings; retained stock, barrel, trigger and crosshair.

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='f3bcb648-33a4-4112-a9ca-00bcdf092bab'
 SOURCE_PATH='pictographic-primitives/building/door left hand closed_f3bcb648-33a4-4112-a9ca-00bcdf092bab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Symmetric door sides, equal rounded upper corners and a centered threshold replace the square, slightly uneven old frame.'
 CONSTRUCTION_REFERENCE='door-closed original and atomic-debug: rounded upper corners, upright sides and level threshold.'
 OMISSIONS='No omissions. No handle added because the reference is blank.'

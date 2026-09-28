@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e990e7ac-7a33-40af-9103-6dc2c867b7fd'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/people conflict 3_e990e7ac-7a33-40af-9103-6dc2c867b7fd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Mirrored opposed human profiles and conflict burst; remove small mouth/jaw stair steps; attached heads and necks.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg round cranium; source opposing profiles, no useful exact Lucide match'
 class Drawing(Solo48):

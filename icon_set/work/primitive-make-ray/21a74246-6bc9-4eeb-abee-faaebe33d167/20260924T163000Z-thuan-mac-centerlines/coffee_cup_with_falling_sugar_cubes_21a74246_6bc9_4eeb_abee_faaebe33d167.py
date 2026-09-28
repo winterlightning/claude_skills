@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='21a74246-6bc9-4eeb-abee-faaebe33d167'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__coffee-cup-with-falling-sugar-cubes/20260924T162241Z-thuan-mac/reference/amazon corretto_21a74246-6bc9-4eeb-abee-faaebe33d167.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='coffee-cup-with-falling-sugar-cubes'
     keyshape=Keyshape.SQUARE

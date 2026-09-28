@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '57877e05-412a-4ab7-81af-b1b8f5355989'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__imessage-logo/20260927T070849Z-thuan-mac-1/reference/imessage logo_57877e05-412a-4ab7-81af-b1b8f5355989.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ImessageLogo(Solo48):
     icon_id = 'imessage-logo'

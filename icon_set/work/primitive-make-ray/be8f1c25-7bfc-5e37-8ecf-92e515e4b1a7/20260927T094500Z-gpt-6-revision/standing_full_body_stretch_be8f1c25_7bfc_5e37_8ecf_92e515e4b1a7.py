@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'be8f1c25-7bfc-5e37-8ecf-92e515e4b1a7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-full-body-stretch/20260927T093533Z-thuan-mac-1/reference/yoga full body stretch_be8f1c25-7bfc-5e37-8ecf-92e515e4b1a7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StandingFullBodyStretch(Solo48):
     icon_id = 'standing-full-body-stretch'

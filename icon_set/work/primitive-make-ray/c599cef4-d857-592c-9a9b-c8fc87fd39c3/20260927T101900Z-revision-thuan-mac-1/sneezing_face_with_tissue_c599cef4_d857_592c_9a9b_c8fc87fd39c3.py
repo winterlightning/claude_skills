@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c599cef4-d857-592c-9a9b-c8fc87fd39c3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sneezing-face-with-tissue/20260927T101636Z-thuan-mac-1/reference/nose blow_c599cef4-d857-592c-9a9b-c8fc87fd39c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SneezingFaceWithTissue(Solo48):

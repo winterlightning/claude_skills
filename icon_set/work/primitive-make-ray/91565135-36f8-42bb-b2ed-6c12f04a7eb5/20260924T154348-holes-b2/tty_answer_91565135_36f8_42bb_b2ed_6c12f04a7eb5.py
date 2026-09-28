@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='91565135-36f8-42bb-b2ed-6c12f04a7eb5'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tty-answer'

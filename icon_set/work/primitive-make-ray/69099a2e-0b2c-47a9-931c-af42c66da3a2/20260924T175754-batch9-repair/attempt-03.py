@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='69099a2e-0b2c-47a9-931c-af42c66da3a2'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/rectangle vertical history_69099a2e-0b2c-47a9-931c-af42c66da3a2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN='Portrait history panel enclosing a three-quarter circular return arrow and clock hands.'
 CONSTRUCTION_REFERENCES='No local Lucide history original found; circular arc and attached arrow are constructed directly.'
 OMISSIONS='Minute ticks absent in source; no additions.'

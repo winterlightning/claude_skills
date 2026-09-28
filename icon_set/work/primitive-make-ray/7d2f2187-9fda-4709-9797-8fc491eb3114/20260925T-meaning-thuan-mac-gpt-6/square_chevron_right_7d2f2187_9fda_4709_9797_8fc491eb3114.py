@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7d2f2187-9fda-4709-9797-8fc491eb3114'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-chevron-right/20260925T034349Z-thuan-mac/reference/square chevron right_7d2f2187-9fda-4709-9797-8fc491eb3114.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-chevron-right'

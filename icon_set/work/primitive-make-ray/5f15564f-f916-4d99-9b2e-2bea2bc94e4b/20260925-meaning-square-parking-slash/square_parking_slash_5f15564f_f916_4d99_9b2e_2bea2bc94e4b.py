@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5f15564f-f916-4d99-9b2e-2bea2bc94e4b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-parking-slash/20260925T034659Z-thuan-mac/reference/square parking slash_5f15564f-f916-4d99-9b2e-2bea2bc94e4b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: No parking symbol: capital P crossed by a complete diagonal prohibition slash, replacing R-like mark.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

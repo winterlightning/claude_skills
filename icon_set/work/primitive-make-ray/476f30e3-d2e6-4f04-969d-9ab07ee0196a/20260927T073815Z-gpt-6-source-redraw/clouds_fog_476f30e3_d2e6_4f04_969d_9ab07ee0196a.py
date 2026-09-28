@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '476f30e3-d2e6-4f04-969d-9ab07ee0196a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clouds-fog/20260927T071330Z-thuan-mac-1/reference/cloud mist_476f30e3-d2e6-4f04-969d-9ab07ee0196a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CloudsFog(Solo48):
     icon_id = 'clouds-fog'

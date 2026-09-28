@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d1c4154e-8c68-4782-9c5a-e5c81055a594'
 SOURCE_PATH='pictographic-primitives/other/file with shield plus_d1c4154e-8c68-4782-9c5a-e5c81055a594.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='file-with-shield-plus'
     keyshape=Keyshape.VRECT_L

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='77937bbd-92c4-4b29-ac40-52719ed0b6cd'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/religion cao dai_77937bbd-92c4-4b29-ac40-52719ed0b6cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Divine eye in triangle, shared side nodes10,34 and38,34. Merge lower eyelid into triangle base to open a17+ band for pupil.'
 CONSTRUCTION_REFERENCE='Lucide eye lens vocabulary; triangle from source'
 class Drawing(Solo48):

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f4cacc67-26d4-47e8-b34a-ab263a5379c5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-news-logo/20260927T055654Z-thuan-mac-1/reference/google news logo_f4cacc67-26d4-47e8-b34a-ab263a5379c5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleNewsLogo(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '79079df9-e96e-507d-97a5-a334e4f830fb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ceres-astrological-symbol/20260926T173134Z-thuan-mac-1/reference/astrology ceres_79079df9-e96e-507d-97a5-a334e4f830fb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CeresAstrologicalSymbol(Solo48):
     icon_id = 'ceres-astrological-symbol'

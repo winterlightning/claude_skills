@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9f48d893-aef4-45f9-a4df-91680e23b5f9'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__standing-bird-facing-right/20260924T160711Z-thuan-mac/reference/fowl_9f48d893-aef4-45f9-a4df-91680e23b5f9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='standing-bird-facing-right'

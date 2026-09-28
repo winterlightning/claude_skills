@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'aadc2bb4-c5a5-468e-ad1c-a8d76afc257f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__saint-basils-cathedral/20260927T084430Z-thuan-mac-1/reference/saint basils cathderal_aadc2bb4-c5a5-468e-ad1c-a8d76afc257f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Landmark(Solo48):
     icon_id = 'saint-basils-cathedral'

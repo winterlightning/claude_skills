@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='90f8e8e2-f44a-59a6-8622-0f1cf3248972'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sawmill-blade/20260924T101756Z-thuan-mac/reference/sawmill_90f8e8e2-f44a-59a6-8622-0f1cf3248972.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='cog: rotationally repeated elements; source owns asymmetric hooked teeth'
 DESIGN_PLAN='Circular saw blade with eight directional teeth and a round arbor hole. A shared quarter-turn definition produces uniform hooked teeth. SQUARE centerlines (6,6)-(42,42).'
 OMISSIONS='Table baseline omitted; circular cutting blade and arbor retained.'

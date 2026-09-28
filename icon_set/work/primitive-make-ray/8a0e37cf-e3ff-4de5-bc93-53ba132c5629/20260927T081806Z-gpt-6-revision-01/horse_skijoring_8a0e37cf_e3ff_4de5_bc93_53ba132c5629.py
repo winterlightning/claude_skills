@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8a0e37cf-e3ff-4de5-bc93-53ba132c5629'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horse-skijoring/20260927T081503Z-thuan-mac-1/reference/skijoring_8a0e37cf-e3ff-4de5-bc93-53ba132c5629.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HorseSkijoring(Solo48):
     icon_id = 'horse-skijoring'

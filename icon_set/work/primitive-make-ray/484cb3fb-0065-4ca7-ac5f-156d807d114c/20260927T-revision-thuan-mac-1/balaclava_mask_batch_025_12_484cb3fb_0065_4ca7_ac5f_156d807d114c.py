@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '484cb3fb-0065-4ca7-ac5f-156d807d114c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__balaclava-mask-batch-025-12/20260927T150749Z-thuan-mac-1/reference/criminal_484cb3fb-0065-4ca7-ac5f-156d807d114c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/criminal_484cb3fb-0065-4ca7-ac5f-156d807d114c.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-025/12-infinity-symbol-balaclava--484cb3fb-0065-4ca7-ac5f-156d807d114c.md'

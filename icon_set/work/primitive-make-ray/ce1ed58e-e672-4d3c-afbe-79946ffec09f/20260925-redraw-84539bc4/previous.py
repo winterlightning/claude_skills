@@ -9,7 +9,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'ce1ed58e-e672-4d3c-afbe-79946ffec09f'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/hand_ce1ed58e-e672-4d3c-afbe-79946ffec09f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconOpenPalmHand(Solo48):

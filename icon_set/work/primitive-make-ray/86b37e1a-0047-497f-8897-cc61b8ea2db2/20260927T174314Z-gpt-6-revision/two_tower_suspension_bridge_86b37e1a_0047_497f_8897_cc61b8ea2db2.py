@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '86b37e1a-0047-497f-8897-cc61b8ea2db2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-tower-suspension-bridge/20260927T173930Z-thuan-mac-1/reference/bridge golden gate_86b37e1a-0047-497f-8897-cc61b8ea2db2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'two-tower-suspension-bridge'

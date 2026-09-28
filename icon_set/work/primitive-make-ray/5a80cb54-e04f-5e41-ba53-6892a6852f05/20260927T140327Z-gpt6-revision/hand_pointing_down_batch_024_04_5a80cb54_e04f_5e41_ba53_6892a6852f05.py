@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5a80cb54-e04f-5e41-ba53-6892a6852f05'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-pointing-down-batch-024-04/20260927T135945Z-thuan-mac-1/reference/hand pointer bottom_5a80cb54-e04f-5e41-ba53-6892a6852f05.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/hand pointer bottom_5a80cb54-e04f-5e41-ba53-6892a6852f05.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-024/04-hand-pointing-down--5a80cb54-e04f-5e41-ba53-6892a6852f05.md'

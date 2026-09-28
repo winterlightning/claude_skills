@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '37b8513e-3457-5655-923a-d4831e8257af'
 SOURCE_PATH = 'pictographic-primitives/websites/web form drop down menu_37b8513e-3457-5655-923a-d4831e8257af.svg'
 SOURCE_REFERENCES = ({'source_icon_id': '37b8513e-3457-5655-923a-d4831e8257af', 'source_path': 'pictographic-primitives/websites/web form drop down menu_37b8513e-3457-5655-923a-d4831e8257af.svg'},)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SelectionFieldWithCheck(Solo48):
     icon_id = 'selection-field-with-check'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ac5e07e4-9e24-406e-8500-ef19796d1933'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smartwatch-euro/20260927T140026Z-thuan-mac-1/reference/smart watch square euro sign_ac5e07e4-9e24-406e-8500-ef19796d1933.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restored the missing single-bar euro. Paired strap extensions are integrated into the outer contour, with matching rounded case corners.'
 CONSTRUCTION_REFERENCE='watch original and atomic-debug: paired straps and central face; source supplies single-bar euro.'
 OMISSIONS='The source strap/face dividing rails are omitted; short outlined top and bottom extensions preserve the wristwatch silhouette.'

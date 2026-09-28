@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '07568706-6580-4938-9b1c-46841b6e4e23'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-f/20260925T034349Z-thuan-mac/reference/square f_07568706-6580-4938-9b1c-46841b6e4e23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-f'

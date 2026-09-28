@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '68a536d7-1274-4ac9-a6a2-1c2c8e10550f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-whale/20260927T084430Z-thuan-mac-1/reference/whale_68a536d7-1274-4ac9-a6a2-1c2c8e10550f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class RoundWhale(Solo48):

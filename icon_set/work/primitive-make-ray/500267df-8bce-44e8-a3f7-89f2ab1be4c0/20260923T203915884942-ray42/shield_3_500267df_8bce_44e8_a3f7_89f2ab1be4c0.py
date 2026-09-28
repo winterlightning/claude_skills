@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '500267df-8bce-44e8-a3f7-89f2ab1be4c0'
 SOURCE_PATH = 'icon_set/work/todo-references/shield 3_500267df-8bce-44e8-a3f7-89f2ab1be4c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Crowned shield with a horizontal upper band and pointed lower body.
 # Construction references: shield: mirrored tapered lower silhouette.
 # Reduction: No parts omitted.

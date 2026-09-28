@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='683a2acb-7114-4e54-a1d8-6e9238c88f36'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__oatmeal-bowl-spoon/20260924T142504Z-thuan-mac/reference/oatmeal_683a2acb-7114-4e54-a1d8-6e9238c88f36.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='oatmeal-bowl-spoon'
     keyshape=Keyshape.SQUARE

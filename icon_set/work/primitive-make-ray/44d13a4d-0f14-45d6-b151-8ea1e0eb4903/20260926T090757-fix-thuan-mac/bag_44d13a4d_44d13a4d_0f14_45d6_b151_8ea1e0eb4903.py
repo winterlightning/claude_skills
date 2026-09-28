@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '44d13a4d-0f14-45d6-b151-8ea1e0eb4903'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bag-44d13a4d/20260926T085631Z-thuan-mac/reference/bag_44d13a4d-0f14-45d6-b151-8ea1e0eb4903.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Bag44d13a4d(Solo48):
     icon_id = 'bag-44d13a4d'

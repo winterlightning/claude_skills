@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a4fb38ea-9d46-4d87-93c6-0b06d6ba7b40'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__eight-point-star-anise/20260927T135945Z-thuan-mac-1/reference/star anise_a4fb38ea-9d46-4d87-93c6-0b06d6ba7b40.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'eight-point-star-anise'

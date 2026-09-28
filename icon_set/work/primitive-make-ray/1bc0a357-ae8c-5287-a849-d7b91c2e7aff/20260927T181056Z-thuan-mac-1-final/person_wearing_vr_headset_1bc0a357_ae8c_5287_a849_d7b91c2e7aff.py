@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1bc0a357-ae8c-5287-a849-d7b91c2e7aff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-wearing-vr-headset/20260927T174057Z-thuan-mac-1/reference/device wearable vr goggles_1bc0a357-ae8c-5287-a849-d7b91c2e7aff.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'person-wearing-vr-headset'

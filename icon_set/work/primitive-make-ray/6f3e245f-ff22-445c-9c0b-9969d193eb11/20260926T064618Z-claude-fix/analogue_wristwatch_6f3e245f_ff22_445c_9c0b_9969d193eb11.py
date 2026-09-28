@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6f3e245f-ff22-445c-9c0b-9969d193eb11'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__analogue-wristwatch/20260926T064521Z-thuan-mac/reference/watch_6f3e245f-ff22-445c-9c0b-9969d193eb11.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AnalogueWristwatch(Solo48):
     icon_id = 'analogue-wristwatch'

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8e1da427-4019-4007-a9b7-0389885201df'
 SOURCE_PATH='icon_set/work/todo-references/phone translate_8e1da427-4019-4007-a9b7-0389885201df.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A phone with Latin A and Chinese translation strokes across its screen.'
 OMISSIONS='Glyphs reduced to their essential strokes, preserving the bilingual layout.'
 LUCIDE_REFERENCE=None

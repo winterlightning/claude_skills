@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='25ee09f6-fd7a-43d2-abe9-d8c92772aab7'
 SOURCE_PATH='pictographic-primitives/protection/helmet_25ee09f6-fd7a-43d2-abe9-d8c92772aab7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Front-facing hard hat with a raised narrow central ridge and rounded rectangular brim.'
 CONSTRUCTION_REFERENCE='hard-hat original and atomic-debug: raised U-shaped ridge, curved side shell and rounded brim.'
 OMISSIONS='No omissions.'

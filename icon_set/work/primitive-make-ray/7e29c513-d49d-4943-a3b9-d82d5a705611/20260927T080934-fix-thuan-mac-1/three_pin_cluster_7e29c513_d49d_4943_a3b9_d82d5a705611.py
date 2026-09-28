@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7e29c513-d49d-4943-a3b9-d82d5a705611'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-pin-cluster/20260927T080754Z-thuan-mac-1/reference/trip pin multiple_7e29c513-d49d-4943-a3b9-d82d5a705611.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

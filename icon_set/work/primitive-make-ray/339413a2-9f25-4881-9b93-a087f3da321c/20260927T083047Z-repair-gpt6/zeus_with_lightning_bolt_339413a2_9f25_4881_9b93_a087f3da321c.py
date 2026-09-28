@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '339413a2-9f25-4881-9b93-a087f3da321c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__zeus-with-lightning-bolt/20260927T082307Z-thuan-mac-1/reference/zeus_339413a2-9f25-4881-9b93-a087f3da321c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_CONSTRUCTION = 'outlined-body'
 
 class ZeusWithLightningBolt(Solo48):

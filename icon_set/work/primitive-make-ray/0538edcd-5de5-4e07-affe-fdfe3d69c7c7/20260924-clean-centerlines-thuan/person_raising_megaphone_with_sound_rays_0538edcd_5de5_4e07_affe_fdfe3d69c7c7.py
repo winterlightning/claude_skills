@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0538edcd-5de5-4e07-affe-fdfe3d69c7c7'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__person-raising-megaphone-with-sound-rays/20260924T160718Z-thuan-mac/reference/election campaign 3_0538edcd-5de5-4e07-affe-fdfe3d69c7c7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='person-raising-megaphone-with-sound-rays'

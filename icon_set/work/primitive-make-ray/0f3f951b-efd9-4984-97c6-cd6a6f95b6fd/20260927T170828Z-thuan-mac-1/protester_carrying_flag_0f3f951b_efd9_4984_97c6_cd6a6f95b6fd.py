@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0f3f951b-efd9-4984-97c6-cd6a6f95b6fd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__protester-carrying-flag/20260927T170540Z-thuan-mac-1/reference/protester flag_0f3f951b-efd9-4984-97c6-cd6a6f95b6fd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ProtesterCarryingFlag(Solo48):
     icon_id = 'protester-carrying-flag'

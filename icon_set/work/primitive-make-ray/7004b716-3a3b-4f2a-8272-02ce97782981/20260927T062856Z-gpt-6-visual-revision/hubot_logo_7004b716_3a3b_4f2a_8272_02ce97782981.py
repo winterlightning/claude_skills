@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '7004b716-3a3b-4f2a-8272-02ce97782981'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hubot-logo/20260927T061852Z-thuan-mac-1/reference/hubot logo_7004b716-3a3b-4f2a-8272-02ce97782981.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HubotLogo(Solo48):
     icon_id = 'hubot-logo'

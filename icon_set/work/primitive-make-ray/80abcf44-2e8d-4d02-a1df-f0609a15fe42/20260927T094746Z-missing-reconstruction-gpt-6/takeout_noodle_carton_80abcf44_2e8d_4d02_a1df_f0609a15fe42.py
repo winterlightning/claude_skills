@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '80abcf44-2e8d-4d02-a1df-f0609a15fe42'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__takeout-noodle-carton/20260927T094425Z-thuan-mac-1/reference/pasta noodles_80abcf44-2e8d-4d02-a1df-f0609a15fe42.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected noodles appeared as two heavy horizontal bars.'
 REVISION_CHANGE = 'Replaced the bars with vertical strands rising from the carton and short side motion marks.'
 

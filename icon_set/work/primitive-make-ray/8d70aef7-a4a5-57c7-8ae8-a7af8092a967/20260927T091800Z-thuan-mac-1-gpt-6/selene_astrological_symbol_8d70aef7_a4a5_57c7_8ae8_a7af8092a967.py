@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8d70aef7-a4a5-57c7-8ae8-a7af8092a967'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__selene-astrological-symbol/20260927T091411Z-thuan-mac-1/reference/astrology selene_8d70aef7-a4a5-57c7-8ae8-a7af8092a967.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeleneAstrologicalSymbol(Solo48):
     icon_id = 'selene-astrological-symbol'

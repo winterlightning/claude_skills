@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bb90ccf0-9578-45c7-ad84-a7eb1350bdaf'
 SOURCE_PATH = 'pictographic-primitives/mobile/squeeze sides_bb90ccf0-9578-45c7-ad84-a7eb1350bdaf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'squeeze-sides-bb90ccf0'

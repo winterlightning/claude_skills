@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e0b1e330-cc81-522c-9a29-44fd4f8881cf'
 SOURCE_PATH = 'pictographic-primitives/health/prescription drug paper_e0b1e330-cc81-522c-9a29-44fd4f8881cf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/prescription_drug_paper_e0b1e330_cc81_522c_9a29_44fd4f8881cf.py'
 
 class Drawing(Solo48):

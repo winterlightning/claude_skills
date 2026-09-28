@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8d21e566-659e-4fb7-8142-64b94d182426'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__crested-bird-with-long-tail/20260924T162241Z-thuan-mac/reference/cardinal_8d21e566-659e-4fb7-8142-64b94d182426.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='crested-bird-with-long-tail'
     keyshape=Keyshape.SQUARE

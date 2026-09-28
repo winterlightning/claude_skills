@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1cbfd2f8-04d6-4b91-b205-3ee8299e6715'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__alien-head-twin-hanging-lobes/20260926T064521Z-thuan-mac/reference/lethan lutian_1cbfd2f8-04d6-4b91-b205-3ee8299e6715.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AlienHeadTwinHangingLobes(Solo48):
     icon_id = 'alien-head-twin-hanging-lobes'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c4258bcb-ac89-4640-8c90-2af9931d4edc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gmail-logo/20260927T055558Z-thuan-mac-1/reference/gmail logo_c4258bcb-ac89-4640-8c90-2af9931d4edc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GmailLogo(Solo48):
     icon_id = 'gmail-logo'

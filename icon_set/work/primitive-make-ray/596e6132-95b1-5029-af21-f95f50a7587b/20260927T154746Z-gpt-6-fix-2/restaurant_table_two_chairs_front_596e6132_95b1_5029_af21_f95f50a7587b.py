@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '596e6132-95b1-5029-af21-f95f50a7587b'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__restaurant-table-two-chairs-front/20260927T153833Z-thuan-mac-1/reference/table restaurant_596e6132-95b1-5029-af21-f95f50a7587b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RestaurantTableTwoChairsFront(Solo48):
     icon_id = 'restaurant-table-two-chairs-front'

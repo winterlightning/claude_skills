@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3b7aa072-22e2-420b-a990-9a6447b66ea3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__checklist-document-for-tasks-solo/20260925T070532Z-thuan-mac/reference/task list_3b7aa072-22e2-420b-a990-9a6447b66ea3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Allow 3px ink clearances between checkbox, page and text strokes. Both square openings are 4px wide; paired rows remain clearly separated and legible at 48px.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '09cf0eb1e212d42085704abd0d689c70e4a574d23ee24bee48ddb19b2a1cebc5'}

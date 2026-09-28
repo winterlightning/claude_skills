@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '079086c7-cfbe-4c2b-a1d3-438ec4146466'
 SOURCE_PATH = 'icon_set/work/todo-references/mobile phone skull_079086c7-cfbe-4c2b-a1d3-438ec4146466.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-skull'
     keyshape = Keyshape.VRECT_L

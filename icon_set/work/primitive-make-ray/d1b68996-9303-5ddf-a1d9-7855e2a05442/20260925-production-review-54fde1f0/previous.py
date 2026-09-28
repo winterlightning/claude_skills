@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd1b68996-9303-5ddf-a1d9-7855e2a05442'
 SOURCE_PATH = 'pictographic-primitives/avatars/woman_d1b68996-9303-5ddf-a1d9-7855e2a05442.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def path(icon, name, start, *steps, closed=False):
     """Emit one coherent stroke; each knot belongs to its owning shape."""

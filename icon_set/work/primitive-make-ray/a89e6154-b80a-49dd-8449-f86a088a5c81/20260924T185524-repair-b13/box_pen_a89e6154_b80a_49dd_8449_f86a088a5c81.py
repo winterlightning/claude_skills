@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a89e6154-b80a-49dd-8449-f86a088a5c81'
 SOURCE_PATH='pictographic-primitives/other/box pen_a89e6154-b80a-49dd-8449-f86a088a5c81.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Lucide box: three perspective edges share corner. Increase both side-face heights to open bands; shorten pen while retaining closed nib silhouette and diagonal pose; omit nib division.'
 class Drawing(Solo48):
     icon_id='box-pen'

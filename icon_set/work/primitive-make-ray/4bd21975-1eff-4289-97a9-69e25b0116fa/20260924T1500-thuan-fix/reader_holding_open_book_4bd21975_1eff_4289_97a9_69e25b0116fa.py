@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4bd21975-1eff-4289-97a9-69e25b0116fa'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__reader-holding-open-book/20260924T150007Z-thuan-mac/reference/newspaper read man_4bd21975-1eff-4289-97a9-69e25b0116fa.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='reader-holding-open-book'
     keyshape=Keyshape.SQUARE

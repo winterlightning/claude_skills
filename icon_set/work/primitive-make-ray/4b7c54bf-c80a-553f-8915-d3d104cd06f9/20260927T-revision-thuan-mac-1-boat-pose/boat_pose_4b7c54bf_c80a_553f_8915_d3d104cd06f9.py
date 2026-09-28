@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4b7c54bf-c80a-553f-8915-d3d104cd06f9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boat-pose/20260927T152212Z-thuan-mac-1/reference/yoga boat stretching pose_4b7c54bf-c80a-553f-8915-d3d104cd06f9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BoatPose(Solo48):
     icon_id = 'boat-pose'

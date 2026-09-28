@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e80dfc85-c6fd-437c-b23d-e459d16bc1d2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-kitten/20260924T162025Z-thuan-mac/reference/kitten_e80dfc85-c6fd-437c-b23d-e459d16bc1d2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'seated-kitten'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7ef89486-f781-4238-b1ba-7f9d5858262e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__woman-standing-beside-a-baby-carriage-7ef89486/20260924T163721Z-thuan-mac/reference/baby trolley_7ef89486-f781-4238-b1ba-7f9d5858262e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='woman-standing-beside-a-baby-carriage-7ef89486'

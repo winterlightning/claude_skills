@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9d15b8d2-355e-4368-9067-6467f7500659'
 SOURCE_PATH = 'icon_set/work/todo-references/right long to line_9d15b8d2-355e-4368-9067-6467f7500659.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-long-to-line'

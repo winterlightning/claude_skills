@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6341f7cd-9be8-48da-9d1f-bb8141ad4804'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/christmas postcard 2_6341f7cd-9be8-48da-9d1f-bb8141ad4804.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'winter-snowflake-postcard'

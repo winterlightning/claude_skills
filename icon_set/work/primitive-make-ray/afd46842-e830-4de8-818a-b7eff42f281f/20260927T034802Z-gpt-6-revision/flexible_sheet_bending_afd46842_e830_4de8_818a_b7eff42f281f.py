@@ -11,7 +11,7 @@ SOURCE_ICON_ID = 'afd46842-e830-4de8-818a-b7eff42f281f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flexible-sheet-bending/20260927T034714Z-thuan-mac-1/reference/bendable_afd46842-e830-4de8-818a-b7eff42f281f.svg'
 SOURCE_ICON_IDS = ('afd46842-e830-4de8-818a-b7eff42f281f',)
 SOURCE_PATHS = ('pictographic-primitives/construction/bendable_afd46842-e830-4de8-818a-b7eff42f281f.svg',)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FlexibleSheetBending(Solo48):

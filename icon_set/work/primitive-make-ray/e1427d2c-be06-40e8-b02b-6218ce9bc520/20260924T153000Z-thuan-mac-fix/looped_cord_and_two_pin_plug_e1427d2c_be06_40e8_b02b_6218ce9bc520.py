@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e1427d2c-be06-40e8-b02b-6218ce9bc520'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__looped-cord-and-two-pin-plug/20260924T152540Z-thuan-mac/reference/cord_e1427d2c-be06-40e8-b02b-6218ce9bc520.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'looped-cord-and-two-pin-plug'
     keyshape = Keyshape.HRECT_L

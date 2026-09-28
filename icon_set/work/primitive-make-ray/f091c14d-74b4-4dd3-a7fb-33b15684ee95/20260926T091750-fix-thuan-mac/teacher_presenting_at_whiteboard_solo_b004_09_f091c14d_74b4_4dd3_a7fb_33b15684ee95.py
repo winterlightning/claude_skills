@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f091c14d-74b4-4dd3-a7fb-33b15684ee95'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__teacher-presenting-at-whiteboard-solo-b004-09/20260926T085631Z-thuan-mac/reference/teacher shool_f091c14d-74b4-4dd3-a7fb-33b15684ee95.svg'
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-004/references/teacher shool_f091c14d-74b4-4dd3-a7fb-33b15684ee95.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 def circle(s,n,x,y,r):
     s.add_arc(n+'-a',(x,y-r),(x,y+r),radius_x=r)

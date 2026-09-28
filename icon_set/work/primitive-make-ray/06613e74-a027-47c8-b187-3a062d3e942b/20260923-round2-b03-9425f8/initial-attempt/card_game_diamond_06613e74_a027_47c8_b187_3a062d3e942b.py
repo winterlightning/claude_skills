@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '06613e74-a027-47c8-b187-3a062d3e942b'
 SOURCE_PATH = 'icon_set/work/todo-references/card game diamond_06613e74-a027-47c8-b187-3a062d3e942b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Three outlined diamonds on an upright playing card; enlarge corner diamonds and reduce the center to test the spacing budget.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/06613e74-a027-47c8-b187-3a062d3e942b/20260922T222300-80fc00/result.json'

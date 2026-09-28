@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb'
 SOURCE_PATH='pictographic-primitives/beauty/tube_deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restore the sloped shoulders between cap and tapered tube, upright oval label and lower crimp band.'
 CONSTRUCTION_REFERENCES='Lucide pipette: rounded end and narrow attachment; source owns tube silhouette.'
 OMISSIONS=['Upper horizontal shoulder seam omitted to preserve room for the upright label; sloped shoulders retained.']

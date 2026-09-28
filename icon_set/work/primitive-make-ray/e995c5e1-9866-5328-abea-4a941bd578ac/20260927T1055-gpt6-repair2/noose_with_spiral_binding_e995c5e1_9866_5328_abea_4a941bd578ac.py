@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e995c5e1-9866-5328-abea-4a941bd578ac'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__noose-with-spiral-binding/20260927T104148Z-thuan-mac-1/reference/hanging noose_e995c5e1-9866-5328-abea-4a941bd578ac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class NooseWithSpiralBinding(Solo48):

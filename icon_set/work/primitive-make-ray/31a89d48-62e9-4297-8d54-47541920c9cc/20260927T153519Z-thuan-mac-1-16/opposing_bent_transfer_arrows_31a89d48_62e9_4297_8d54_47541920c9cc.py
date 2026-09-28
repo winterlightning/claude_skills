@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '31a89d48-62e9-4297-8d54-47541920c9cc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opposing-bent-transfer-arrows/20260927T153322Z-thuan-mac-1/reference/refresh_31a89d48-62e9-4297-8d54-47541920c9cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def circle(icon,name,cx,cy,r):
     icon.add_arc(name+"-top",(cx-r,cy),(cx+r,cy),radius_x=r)

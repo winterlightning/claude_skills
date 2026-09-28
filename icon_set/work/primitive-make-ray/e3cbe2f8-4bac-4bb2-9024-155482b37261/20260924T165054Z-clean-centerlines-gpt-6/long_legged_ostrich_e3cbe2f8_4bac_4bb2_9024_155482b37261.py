@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e3cbe2f8-4bac-4bb2-9024-155482b37261'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__long-legged-ostrich/20260924T165054Z-thuan-mac/reference/ostrich_e3cbe2f8-4bac-4bb2-9024-155482b37261.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'long-legged-ostrich'
     keyshape = Keyshape.SQUARE

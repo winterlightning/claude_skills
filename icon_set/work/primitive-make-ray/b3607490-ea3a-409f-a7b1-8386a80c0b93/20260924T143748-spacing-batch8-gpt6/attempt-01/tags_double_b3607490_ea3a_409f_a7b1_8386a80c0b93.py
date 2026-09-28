@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b3607490-ea3a-409f-a7b1-8386a80c0b93'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/tags double_b3607490-ea3a-409f-a7b1-8386a80c0b93.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tags-double'

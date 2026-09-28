@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2e63d81a-e416-4ca7-957e-b45b2694d38d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__recumbent-handcycle/20260926T171117Z-thuan-mac-1/reference/racing handcycle_2e63d81a-e416-4ca7-957e-b45b2694d38d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RecumbentHandcycle(Solo48):
     icon_id = 'recumbent-handcycle'

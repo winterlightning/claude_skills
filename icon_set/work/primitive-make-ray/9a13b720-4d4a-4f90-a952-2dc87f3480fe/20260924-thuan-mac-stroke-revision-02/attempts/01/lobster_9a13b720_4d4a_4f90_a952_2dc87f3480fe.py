@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9a13b720-4d4a-4f90-a952-2dc87f3480fe'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__lobster/20260924T101756Z-thuan-mac/reference/shellfish lobster_9a13b720-4d4a-4f90-a952-2dc87f3480fe.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='shrimp: coherent crustacean body; supplied lobster establishes mirrored claws'
 DESIGN_PLAN='An elongated lobster body, paired curling claws and two rounded tail lobes. Shared mirror axis x24; SQUARE centerlines (6,6)-(42,42).'
 OMISSIONS='Small auxiliary legs reduced; main claws, body division and tail retained.'

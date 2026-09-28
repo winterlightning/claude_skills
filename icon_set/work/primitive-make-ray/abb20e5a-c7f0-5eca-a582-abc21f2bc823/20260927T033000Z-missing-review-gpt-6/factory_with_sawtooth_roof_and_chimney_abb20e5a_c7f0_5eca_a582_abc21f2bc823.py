@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'abb20e5a-c7f0-5eca-a582-abc21f2bc823'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__factory-with-sawtooth-roof-and-chimney/20260927T032256Z-thuan-mac-1/reference/factory building_abb20e5a-c7f0-5eca-a582-abc21f2bc823.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FactoryWithSawtoothRoofAndChimney(Solo48):
     icon_id = 'factory-with-sawtooth-roof-and-chimney'

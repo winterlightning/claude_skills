@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8e2b5875-0c52-5e83-a90d-b42371b3df31'
 SOURCE_PATH = 'icon_set/work/todo-references/notes checklist flip_8e2b5875-0c52-5e83-a90d-b42371b3df31.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Flip checklist: page frame, top separator, check and short writing runs.
 # Keyshape visible extremes are supplied by Keyshape.VRECT_L.bounds_for(SOLO48).
 # Lucide construction reference: file-text.

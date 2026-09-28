@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8c7d8432-5fda-4e13-a1e1-a5e9fa982221'
 SOURCE_PATH='icon_set/work/todo-references/photo frame human_8c7d8432-5fda-4e13-a1e1-a5e9fa982221.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A framed abstract human profile with an eye above a nose and chin.'
 OMISSIONS='Eyelashes reduced to a central brow tick; nested frame retained.'
 LUCIDE_REFERENCE=None

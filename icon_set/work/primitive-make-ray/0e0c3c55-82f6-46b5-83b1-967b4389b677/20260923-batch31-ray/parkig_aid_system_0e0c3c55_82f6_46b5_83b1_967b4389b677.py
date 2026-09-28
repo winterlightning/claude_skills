@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0e0c3c55-82f6-46b5-83b1-967b4389b677'
 SOURCE_PATH = 'icon_set/work/todo-references/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Parking P emits two sensor waves toward a triangular obstacle.'
 OMISSIONS = 'No defining features omitted.'
 LUCIDE_REFERENCE = 'square-parking'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dafdca17-4d27-4cd9-935d-01a08f4e53e2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handled-comb-on-diagonal/20260927T060349Z-thuan-mac-1/reference/hair dress comb_dafdca17-4d27-4cd9-935d-01a08f4e53e2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'handled-comb-on-diagonal'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5044236b-6b82-4b28-beb5-504a9abb027a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__six-leaf-hanging-vine/20260927T093511Z-thuan-mac-1/reference/hanging plant 4_5044236b-6b82-4b28-beb5-504a9abb027a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SixLeafHangingVine(Solo48):
     icon_id = 'six-leaf-hanging-vine'

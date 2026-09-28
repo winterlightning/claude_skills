@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dce3a197-6cbe-46f3-9f0d-900eb67b74fb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__papaya-slice-seeds/20260927T133654Z-thuan-mac-1/reference/papaya slice_dce3a197-6cbe-46f3-9f0d-900eb67b74fb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PapayaSliceSeeds(Solo48):
     icon_id = 'papaya-slice-seeds'

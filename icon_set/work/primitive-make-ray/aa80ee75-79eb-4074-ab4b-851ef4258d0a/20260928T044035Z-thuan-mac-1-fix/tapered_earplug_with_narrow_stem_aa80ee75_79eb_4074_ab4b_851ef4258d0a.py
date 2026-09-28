@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "aa80ee75-79eb-4074-ab4b-851ef4258d0a"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__tapered-earplug-with-narrow-stem/20260928T042745Z-thuan-mac-1/reference/earplug_aa80ee75-79eb-4074-ab4b-851ef4258d0a.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class TaperedEarplugWithNarrowStem(Solo48):

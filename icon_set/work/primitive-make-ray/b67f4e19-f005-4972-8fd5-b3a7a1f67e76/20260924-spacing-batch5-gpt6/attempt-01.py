@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b67f4e19-f005-4972-8fd5-b3a7a1f67e76'
 SOURCE_PATH='pictographic-primitives/_uncategorized_35/square dashed circle plus_b67f4e19-f005-4972-8fd5-b3a7a1f67e76.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='square-dashed-circle-plus'
     keyshape=Keyshape.SQUARE

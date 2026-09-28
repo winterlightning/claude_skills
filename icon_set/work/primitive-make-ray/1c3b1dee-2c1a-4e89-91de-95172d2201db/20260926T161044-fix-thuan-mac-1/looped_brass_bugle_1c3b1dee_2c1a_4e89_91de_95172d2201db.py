@@ -17,7 +17,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1c3b1dee-2c1a-4e89-91de-95172d2201db'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__looped-brass-bugle/20260926T160211Z-thuan-mac-1/reference/brass_1c3b1dee-2c1a-4e89-91de-95172d2201db.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 PIPE_Y, CUP_X, CUP_HALF, THROAT_X = 16, 4, 4, 26
 RIM_X, RIM_TOP, RIM_BOTTOM = 44, 8, 24

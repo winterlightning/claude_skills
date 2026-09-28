@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e5a65a59-3ada-4acf-99fb-4a0e4440ea37'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__children-on-seesaw/20260926T182517Z-thuan-mac-1/reference/family child teeter_e5a65a59-3ada-4acf-99fb-4a0e4440ea37.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChildrenOnSeesaw(Solo48):
     icon_id = 'children-on-seesaw'

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '3d352ad0-cfb8-44b6-bde3-b9670d7ae257'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-aviator-avatar/20260926T181831Z-thuan-mac-1/reference/woman aviator_3d352ad0-cfb8-44b6-bde3-b9670d7ae257.svg'
 SOURCE_HEAD_ICON_ID = 'woman-aviator'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 30
 class WomanAviatorAvatar(Solo48):
     icon_id = 'woman-aviator-avatar'

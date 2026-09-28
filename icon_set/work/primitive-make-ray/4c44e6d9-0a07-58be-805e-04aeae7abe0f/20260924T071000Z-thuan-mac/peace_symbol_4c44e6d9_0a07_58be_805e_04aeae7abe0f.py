@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4c44e6d9-0a07-58be-805e-04aeae7abe0f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__peace-symbol/20260924T065933Z-thuan-mac/reference/peace_4c44e6d9-0a07-58be-805e-04aeae7abe0f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='peace-symbol'

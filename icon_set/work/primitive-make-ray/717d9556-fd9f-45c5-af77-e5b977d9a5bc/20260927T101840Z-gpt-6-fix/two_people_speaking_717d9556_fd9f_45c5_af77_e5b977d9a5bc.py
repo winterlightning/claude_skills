@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '717d9556-fd9f-45c5-af77-e5b977d9a5bc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-people-speaking/20260927T101610Z-thuan-mac-1/reference/conversation speak_717d9556-fd9f-45c5-af77-e5b977d9a5bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class TwoPeopleSpeaking(Solo48):

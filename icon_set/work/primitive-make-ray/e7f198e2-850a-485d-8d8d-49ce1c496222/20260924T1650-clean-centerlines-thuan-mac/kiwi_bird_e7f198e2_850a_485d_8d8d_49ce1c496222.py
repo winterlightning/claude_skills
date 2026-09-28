@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e7f198e2-850a-485d-8d8d-49ce1c496222'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__kiwi-bird/20260924T164246Z-thuan-mac/reference/wild bird_e7f198e2-850a-485d-8d8d-49ce1c496222.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='kiwi-bird'

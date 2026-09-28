@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='537c9790-95ad-4207-bed6-e5d11691c98f'
 SOURCE_PATH='pictographic-primitives/other/artist_537c9790-95ad-4207-bed6-e5d11691c98f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Asymmetric left-facing portrait with long hair behind the right shoulder, a blank round face, connected neck and curved shirt neckline.'
 CONSTRUCTION_REFERENCES='Shared human_ref/user.svg: round face and shoulder vocabulary. Supplied artist reference: asymmetric long hair, connected neck and neckline.'
 OMISSIONS=[]

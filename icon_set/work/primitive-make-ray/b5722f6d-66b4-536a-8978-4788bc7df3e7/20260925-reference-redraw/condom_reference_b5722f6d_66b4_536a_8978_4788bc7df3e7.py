@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b5722f6d-66b4-536a-8978-4788bc7df3e7'
 SOURCE_PATH='pictographic-primitives/health/condom_b5722f6d-66b4-536a-8978-4788bc7df3e7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/condom_reference_b5722f6d_66b4_536a_8978_4788bc7df3e7.py'
 class Drawing(Solo48):
     icon_id='condom-reference'

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ecf631a8-7525-4a06-aff9-49f66955af5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__orchard-tree-beside-fence/20260927T174925Z-thuan-mac-1/reference/orchard_ecf631a8-7525-4a06-aff9-49f66955af5a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'orchard-tree-beside-fence'

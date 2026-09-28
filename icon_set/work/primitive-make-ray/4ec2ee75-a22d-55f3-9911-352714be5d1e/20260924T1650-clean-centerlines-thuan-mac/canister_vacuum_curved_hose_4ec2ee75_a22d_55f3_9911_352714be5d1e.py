@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4ec2ee75-a22d-55f3-9911-352714be5d1e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__canister-vacuum-curved-hose/20260924T164246Z-thuan-mac/reference/cleaning vacuum_4ec2ee75-a22d-55f3-9911-352714be5d1e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='canister-vacuum-curved-hose'

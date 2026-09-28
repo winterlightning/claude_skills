@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1cce3ebe-7c9e-4ccd-8f60-7f65d3dd1385'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__treatment-tower-with-elbow-pipe/20260927T101610Z-thuan-mac-1/reference/factory building water treatment 1_1cce3ebe-7c9e-4ccd-8f60-7f65d3dd1385.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TreatmentTowerWithElbowPipe(Solo48):
     icon_id = 'treatment-tower-with-elbow-pipe'

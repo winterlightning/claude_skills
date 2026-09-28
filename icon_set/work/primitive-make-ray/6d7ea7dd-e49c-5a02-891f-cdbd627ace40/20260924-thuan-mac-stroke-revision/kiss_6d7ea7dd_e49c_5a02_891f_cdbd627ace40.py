@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6d7ea7dd-e49c-5a02-891f-cdbd627ace40'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kiss/20260924T100528Z-thuan-mac/reference/kiss_6d7ea7dd-e49c-5a02-891f-cdbd627ace40.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'No useful local face match; shared human reference inspected for circular head vocabulary.'
 DESIGN_PLAN = 'Circular kissing face, mirrored closed eyes and one coherent double-lobed puckered mouth. CIRCLE centerline radius20. No body or detached-head spacing applies. Remove the tiny horizontal mouth spur.'
 class Drawing(Solo48):

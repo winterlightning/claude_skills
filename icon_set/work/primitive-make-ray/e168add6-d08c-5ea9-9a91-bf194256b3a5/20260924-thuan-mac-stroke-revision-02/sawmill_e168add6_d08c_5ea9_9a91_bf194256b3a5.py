@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e168add6-d08c-5ea9-9a91-bf194256b3a5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sawmill/20260924T101756Z-thuan-mac/reference/sawmill_e168add6-d08c-5ea9-9a91-bf194256b3a5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='cog: repeated radial cutting structures; supplied reference owns hooked saw teeth'
 DESIGN_PLAN='A toothed saw blade projects above a table, with a semicircular hub opening. HRECT_M centerlines (4,10)-(44,38). Broad hooked teeth and smoothly curved gullets replace the jagged mountain-like outline.'
 OMISSIONS='Tooth count reduced to preserve readable gullets.'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0e18d2c2-7d24-5496-89e8-d0168131b9c5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hourglass-batch-016-08/20260927T145836Z-thuan-mac-1/reference/hourglass_0e18d2c2-7d24-5496-89e8-d0168131b9c5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-016/references/hourglass_0e18d2c2-7d24-5496-89e8-d0168131b9c5.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-016/08-simple-hourglass-time-symbol--0e18d2c2-7d24-5496-89e8-d0168131b9c5.md'
 DESIGN_PLAN = 'One coherent outline; shared dimensions own repeated parts.'

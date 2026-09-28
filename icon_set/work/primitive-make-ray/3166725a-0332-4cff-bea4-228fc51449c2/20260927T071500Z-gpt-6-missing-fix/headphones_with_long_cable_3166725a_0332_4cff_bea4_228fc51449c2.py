@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3166725a-0332-4cff-bea4-228fc51449c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__headphones-with-long-cable/20260927T061835Z-thuan-mac-1/reference/headphones cable_3166725a-0332-4cff-bea4-228fc51449c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'headphones-with-long-cable'

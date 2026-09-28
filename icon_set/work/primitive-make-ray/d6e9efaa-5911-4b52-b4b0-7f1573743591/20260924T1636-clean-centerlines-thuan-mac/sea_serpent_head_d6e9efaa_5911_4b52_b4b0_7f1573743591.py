@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d6e9efaa-5911-4b52-b4b0-7f1573743591'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sea-serpent-head/20260924T163012Z-thuan-mac/reference/fantasy leviathan sea snake_d6e9efaa-5911-4b52-b4b0-7f1573743591.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sea-serpent-head'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='383a7153-4d4a-4a2e-8f3c-9d6a06472686'
 SOURCE_PATH='icon_set/work/todo-references/pin one_383a7153-4d4a-4a2e-8f3c-9d6a06472686.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Blank pin with a rounded head and narrow inward-curving lower neck. Shared axis x=24.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: circular top with smooth lower contours.'
 OMISSIONS='None; no inner mark exists in the reference.'

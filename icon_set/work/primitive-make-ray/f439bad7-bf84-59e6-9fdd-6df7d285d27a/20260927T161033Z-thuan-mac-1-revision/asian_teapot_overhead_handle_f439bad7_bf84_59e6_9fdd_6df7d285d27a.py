@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f439bad7-bf84-59e6-9fdd-6df7d285d27a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__asian-teapot-overhead-handle/20260927T160834Z-thuan-mac-1/reference/asian food tea pot_f439bad7-bf84-59e6-9fdd-6df7d285d27a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

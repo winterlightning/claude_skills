@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dd96595d-042a-465f-9681-d8c23c641754'
 SOURCE_PATH = 'pictographic-primitives/other/spoon and fork_dd96595d-042a-465f-9681-d8c23c641754.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'utensils'
 
 class AuthoredIcon(Solo48):

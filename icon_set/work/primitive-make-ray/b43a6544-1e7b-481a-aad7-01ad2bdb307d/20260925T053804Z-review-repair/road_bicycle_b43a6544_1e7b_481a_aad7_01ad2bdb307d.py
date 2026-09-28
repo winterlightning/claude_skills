@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b43a6544-1e7b-481a-aad7-01ad2bdb307d'
 SOURCE_PATH = 'pictographic-primitives/transportation/bicycle_b43a6544-1e7b-481a-aad7-01ad2bdb307d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'road-bicycle'
     keyshape = Keyshape.HRECT_L

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '32b4f97d-14a8-44bd-b54f-1b1a1bb4bc7c'
 SOURCE_PATH = 'icon_set/work/todo-references/railroad metro circle_32b4f97d-14a8-44bd-b54f-1b1a1bb4bc7c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'railroad-metro-circle'

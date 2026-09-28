@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'aab6030d-3db1-4329-b1d0-4d2e7c6cdfbc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-massage/20260927T061835Z-thuan-mac-1/reference/thai massage head_aab6030d-3db1-4329-b1d0-4d2e7c6cdfbc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def path(icon, name, start, *steps, closed=False):
     """Emit one coherent stroke; each knot belongs to its owning shape."""

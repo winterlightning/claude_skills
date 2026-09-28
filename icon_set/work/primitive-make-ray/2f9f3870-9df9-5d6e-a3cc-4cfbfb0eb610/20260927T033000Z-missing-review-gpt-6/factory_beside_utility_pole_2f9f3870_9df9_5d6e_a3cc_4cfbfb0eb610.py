@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2f9f3870-9df9-5d6e-a3cc-4cfbfb0eb610'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__factory-beside-utility-pole/20260927T032256Z-thuan-mac-1/reference/factory building_2f9f3870-9df9-5d6e-a3cc-4cfbfb0eb610.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FactoryBesideUtilityPole(Solo48):
     icon_id = 'factory-beside-utility-pole'

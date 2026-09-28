@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6c0a315d-d919-5e6b-8ff3-48d670cea3b4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-stick-figures/20260927T101610Z-thuan-mac-1/reference/primitive symbols group_6c0a315d-d919-5e6b-8ff3-48d670cea3b4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TwoStickFigures(Solo48):
     icon_id = 'two-stick-figures'

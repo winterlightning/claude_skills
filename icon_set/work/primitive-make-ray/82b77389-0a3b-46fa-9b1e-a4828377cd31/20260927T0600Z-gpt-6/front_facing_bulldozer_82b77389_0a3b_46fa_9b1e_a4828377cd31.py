@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '82b77389-0a3b-46fa-9b1e-a4828377cd31'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__front-facing-bulldozer/20260927T055558Z-thuan-mac-1/reference/cleaner_82b77389-0a3b-46fa-9b1e-a4828377cd31.svg'
 SOURCE_ICON_IDS = ('82b77389-0a3b-46fa-9b1e-a4828377cd31',)
 SOURCE_PATHS = ('pictographic-primitives/construction/cleaner_82b77389-0a3b-46fa-9b1e-a4828377cd31.svg',)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FrontFacingBulldozer(Solo48):

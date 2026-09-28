@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7a8b5b6b-d72f-42df-9379-3389fd1e33fd'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/self driving car_7a8b5b6b-d72f-42df-9379-3389fd1e33fd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Front car retains roof, fascia and wheels; simplify radio to one broad arc and omit crowded headlights. Mirrored about x24; Lucide car-front joined construction. SQUARE extremes6,6–42,42.'
 class Drawing(Solo48):
     icon_id='self-driving-car'

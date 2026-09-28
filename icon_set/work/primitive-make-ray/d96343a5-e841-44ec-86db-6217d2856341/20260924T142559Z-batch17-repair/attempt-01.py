@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d96343a5-e841-44ec-86db-6217d2856341'
 SOURCE_PATH='icon_set/work/todo-references/rectangle two persons_d96343a5-e841-44ec-86db-6217d2856341.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two equivalent portrait busts inside a wide rounded panel. Shared head radius, shoulder widths and vertical positions preserve equality.'
 CONSTRUCTION_REFERENCES='Shared human-reference.md/user.svg: equal circular heads and smooth shoulders; Lucide rectangle-ellipsis: frame.'
 OMISSIONS='None; both people retained.'

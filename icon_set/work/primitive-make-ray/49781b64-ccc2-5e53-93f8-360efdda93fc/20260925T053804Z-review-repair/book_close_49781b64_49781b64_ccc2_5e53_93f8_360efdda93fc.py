@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '49781b64-ccc2-5e53-93f8-360efdda93fc'
 SOURCE_PATH = 'pictographic-primitives/content/book close_49781b64-ccc2-5e53-93f8-360efdda93fc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'closed-book'
     keyshape = Keyshape.VRECT_L

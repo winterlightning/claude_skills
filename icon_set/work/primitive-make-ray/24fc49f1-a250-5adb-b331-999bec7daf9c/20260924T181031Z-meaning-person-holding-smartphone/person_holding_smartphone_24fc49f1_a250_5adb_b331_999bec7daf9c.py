@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '24fc49f1-a250-5adb-b331-999bec7daf9c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-holding-smartphone/20260924T181031Z-thuan-mac/reference/meeting smartphone hold_24fc49f1-a250-5adb-b331-999bec7daf9c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-holding-smartphone'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '542dfa8f-094e-4a0a-8c6a-e04692304231'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rocker-power-switch-in-rounded-square-mount/20260927T101542Z-thuan-mac-1/reference/rocker switch_542dfa8f-094e-4a0a-8c6a-e04692304231.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

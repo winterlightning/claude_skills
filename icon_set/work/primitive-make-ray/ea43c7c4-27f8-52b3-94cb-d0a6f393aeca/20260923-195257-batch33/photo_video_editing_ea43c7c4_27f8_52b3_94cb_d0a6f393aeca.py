@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ea43c7c4-27f8-52b3-94cb-d0a6f393aeca'
 SOURCE_PATH='icon_set/work/todo-references/photo video editing_ea43c7c4-27f8-52b3-94cb-d0a6f393aeca.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A video preview bubble with play triangle above timeline trim controls.'
 OMISSIONS='Timeline ticks reduced to two handles.'
 LUCIDE_REFERENCE=None

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0f507713-b747-5098-b67a-640fe383c7e2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-taking-blister-pill/20260927T075452Z-thuan-mac-1/reference/cooking baking tray hand_0f507713-b747-5098-b67a-640fe383c7e2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandTakingBlisterPill(Solo48):

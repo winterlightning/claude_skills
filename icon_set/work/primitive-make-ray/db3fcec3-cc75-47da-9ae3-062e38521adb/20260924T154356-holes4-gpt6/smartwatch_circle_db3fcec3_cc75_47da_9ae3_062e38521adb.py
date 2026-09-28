@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'db3fcec3-cc75-47da-9ae3-062e38521adb'
 SOURCE_PATH = 'pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Circular smartwatch face with paired upper and lower strap loops.
 # References: watch: dominant circular face with symmetric strap attachments.
 # Reduction: No parts omitted; source has an empty watch face.

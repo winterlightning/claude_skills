@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '56d270cc-86ac-49c0-a72a-078631b992ea'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__raised-clenched-fist/20260927T153833Z-thuan-mac-1/reference/protest knuckle up_56d270cc-86ac-49c0-a72a-078631b992ea.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RaisedClenchedFist(Solo48):
     icon_id = 'raised-clenched-fist'

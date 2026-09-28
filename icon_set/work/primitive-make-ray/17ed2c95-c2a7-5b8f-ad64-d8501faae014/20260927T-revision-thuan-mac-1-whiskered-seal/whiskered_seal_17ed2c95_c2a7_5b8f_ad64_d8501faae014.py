@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '17ed2c95-c2a7-5b8f-ad64-d8501faae014'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__whiskered-seal/20260927T152212Z-thuan-mac-1/reference/seal_17ed2c95-c2a7-5b8f-ad64-d8501faae014.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WhiskeredSeal(Solo48):
     icon_id = 'whiskered-seal'

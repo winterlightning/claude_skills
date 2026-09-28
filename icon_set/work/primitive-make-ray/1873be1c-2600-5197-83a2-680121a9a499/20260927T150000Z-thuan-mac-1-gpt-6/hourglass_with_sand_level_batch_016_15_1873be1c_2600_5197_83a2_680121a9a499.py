@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1873be1c-2600-5197-83a2-680121a9a499'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hourglass-with-sand-level-batch-016-15/20260927T145836Z-thuan-mac-1/reference/hourglass_1873be1c-2600-5197-83a2-680121a9a499.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-016/references/hourglass_1873be1c-2600-5197-83a2-680121a9a499.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-016/15-traditional-sand-timer-icon--1873be1c-2600-5197-83a2-680121a9a499.md'
 DESIGN_PLAN = 'One coherent outline; shared dimensions own repeated parts.'

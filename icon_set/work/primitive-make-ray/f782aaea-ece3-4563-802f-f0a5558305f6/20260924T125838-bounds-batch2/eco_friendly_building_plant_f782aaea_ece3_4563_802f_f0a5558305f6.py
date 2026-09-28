@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f782aaea-ece3-4563-802f-f0a5558305f6'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/factory building eco friendly 3_f782aaea-ece3-4563-802f-f0a5558305f6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class EcoFriendlyBuildingPlant(Solo48):
     icon_id = 'eco-friendly-building-plant'

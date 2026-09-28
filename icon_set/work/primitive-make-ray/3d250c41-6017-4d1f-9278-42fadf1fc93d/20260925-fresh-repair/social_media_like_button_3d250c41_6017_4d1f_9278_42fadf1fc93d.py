@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3d250c41-6017-4d1f-9278-42fadf1fc93d'
 SOURCE_PATH='pictographic-primitives/other/rectangle like text_3d250c41-6017-4d1f-9278-42fadf1fc93d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='All four LIKE letters remain in source order inside a rounded horizontal button; taller E strokes cure the old row spacing.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis original and atomic-debug: rounded horizontal enclosure; supplied reference governs LIKE.'
 OMISSIONS=['I serifs omitted.']

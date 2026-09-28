@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='39d51711-cb0a-4cf4-bdca-37c1fe832458'
 SOURCE_PATH='pictographic-primitives/other/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='PM now reuses typeface v2 at 0.8 uniform centerline scale, with4-unit strokes. Restored an oval bubble and reduced lettering to avoid overlap with its outline.'
 CONSTRUCTION_REFERENCES='Lucide message-square original and atomic-debug: rounded enclosure and integrated tail; supplied reference governs PM.'
 OMISSIONS=[]

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '50fa43e1-31b3-4e9e-9649-422646781af5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pchum-ben-food-offering/20260927T143814Z-thuan-mac-1/reference/pchum ben acnestor day_50fa43e1-31b3-4e9e-9649-422646781af5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='pchum-ben-food-offering'
     keyshape=Keyshape.SQUARE

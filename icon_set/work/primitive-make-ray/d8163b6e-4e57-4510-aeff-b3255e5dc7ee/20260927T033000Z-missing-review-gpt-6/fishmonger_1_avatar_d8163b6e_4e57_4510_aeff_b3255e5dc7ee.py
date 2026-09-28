@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd8163b6e-4e57-4510-aeff-b3255e5dc7ee'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fishmonger-1-avatar/20260927T032256Z-thuan-mac-1/reference/fishmonger_d8163b6e-4e57-4510-aeff-b3255e5dc7ee.svg'
 SOURCE_HEAD_ICON_ID = 'fishmonger-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 26
 
 class Fishmonger1Avatar(Solo48):

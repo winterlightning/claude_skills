@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '11d2f019-0f49-57bc-845a-b927c3976eed'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__spa-stone-stack/20260927T093533Z-thuan-mac-1/reference/spa stone_11d2f019-0f49-57bc-845a-b927c3976eed.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SpaStoneStack(Solo48):
     icon_id = 'spa-stone-stack'

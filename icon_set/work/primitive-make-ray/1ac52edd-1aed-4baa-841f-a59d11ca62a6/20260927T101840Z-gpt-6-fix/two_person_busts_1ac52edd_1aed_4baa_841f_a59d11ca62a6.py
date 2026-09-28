@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1ac52edd-1aed-4baa-841f-a59d11ca62a6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-person-busts/20260927T101610Z-thuan-mac-1/reference/multiple neutral_1ac52edd-1aed-4baa-841f-a59d11ca62a6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class TwoPersonBusts(Solo48):

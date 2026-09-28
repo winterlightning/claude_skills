@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '51de7530-e4b9-4207-92df-6b4ec157c6a4'
 SOURCE_PATH = 'icon_set/work/todo-references/card game cards spade diamond_51de7530-e4b9-4207-92df-6b4ec157c6a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Overlapping spade and diamond cards; widen the front card and rebalance its spade inside the available opening.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/51de7530-e4b9-4207-92df-6b4ec157c6a4/20260922T222142-4b1b0a/result.json'

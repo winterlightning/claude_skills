@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '540e6c7f-d9cf-5188-9e6f-b558f13e37e5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-gamepad-with-cross-control-and-four-buttons/20260927T084430Z-thuan-mac-1/reference/console_540e6c7f-d9cf-5188-9e6f-b558f13e37e5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-gamepad-with-cross-control-and-four-buttons'

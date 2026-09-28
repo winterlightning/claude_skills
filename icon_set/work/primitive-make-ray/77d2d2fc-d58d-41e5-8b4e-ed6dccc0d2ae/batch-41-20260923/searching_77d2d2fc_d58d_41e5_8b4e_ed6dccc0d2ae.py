@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='77d2d2fc-d58d-41e5-8b4e-ed6dccc0d2ae'
 SOURCE_PATH='icon_set/work/todo-references/searching_77d2d2fc-d58d-41e5-8b4e-ed6dccc0d2ae.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Large magnifying glass with a round lens and lower-right handle. Handle attachment is an exact circle point.'
 CONSTRUCTION_REFERENCES='Lucide search: one round lens and one attached handle.'
 OMISSIONS='None.'

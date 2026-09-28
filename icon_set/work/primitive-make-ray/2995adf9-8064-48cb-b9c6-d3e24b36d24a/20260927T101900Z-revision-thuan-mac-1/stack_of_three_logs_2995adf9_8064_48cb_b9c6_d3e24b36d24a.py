@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '2995adf9-8064-48cb-b9c6-d3e24b36d24a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stack-of-three-logs/20260927T101636Z-thuan-mac-1/reference/wood material_2995adf9-8064-48cb-b9c6-d3e24b36d24a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def path(icon, name, start, *steps, closed=False):
     """Emit one coherent stroke; each knot belongs to its owning shape."""

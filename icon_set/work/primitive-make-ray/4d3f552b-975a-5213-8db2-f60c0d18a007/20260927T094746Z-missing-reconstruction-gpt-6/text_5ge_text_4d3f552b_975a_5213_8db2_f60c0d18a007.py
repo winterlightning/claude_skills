@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4d3f552b-975a-5213-8db2-f60c0d18a007'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__text-5ge-text/20260927T094425Z-thuan-mac-1/reference/5ge_4d3f552b-975a-5213-8db2-f60c0d18a007.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected five had a stiff lower turn compared with the reference.'
 REVISION_CHANGE = 'Rounded the lower bowl of the 5 while preserving the large G and smaller E.'
 

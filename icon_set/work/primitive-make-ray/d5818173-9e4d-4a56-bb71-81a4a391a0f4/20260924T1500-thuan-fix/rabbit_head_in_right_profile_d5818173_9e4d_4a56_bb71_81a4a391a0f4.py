@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d5818173-9e4d-4a56-bb71-81a4a391a0f4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__rabbit-head-in-right-profile/20260924T150007Z-thuan-mac/reference/angora_d5818173-9e4d-4a56-bb71-81a4a391a0f4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='rabbit-head-in-right-profile'
     keyshape=Keyshape.VRECT_L

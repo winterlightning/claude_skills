@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '422fa961-4cef-5bf4-8415-0550aee83639'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-lipstick-with-angled-tip/20260927T133645Z-thuan-mac-1/reference/make up lipstick_422fa961-4cef-5bf4-8415-0550aee83639.svg'
 SOURCE_CATEGORY = 'beauty'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'upright-lipstick-with-angled-tip'

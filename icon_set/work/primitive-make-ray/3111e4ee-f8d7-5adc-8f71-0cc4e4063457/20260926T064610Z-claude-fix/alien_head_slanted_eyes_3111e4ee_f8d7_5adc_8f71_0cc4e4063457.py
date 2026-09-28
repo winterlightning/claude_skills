@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3111e4ee-f8d7-5adc-8f71-0cc4e4063457'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__alien-head-slanted-eyes/20260926T064521Z-thuan-mac/reference/alien_3111e4ee-f8d7-5adc-8f71-0cc4e4063457.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AlienHeadSlantedEyes(Solo48):
     icon_id = 'alien-head-slanted-eyes'

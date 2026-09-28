@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='87fdb6c4-b392-445f-b29f-1ee390cf87cd'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__simple-off-road-vehicle/20260924T160711Z-thuan-mac/reference/jeep_87fdb6c4-b392-445f-b29f-1ee390cf87cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='simple-off-road-vehicle'

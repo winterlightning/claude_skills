@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='14555301-7f11-43db-978e-a383d12a3b27'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/zcool logo_14555301-7f11-43db-978e-a383d12a3b27.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='zcool-logo'

@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ad3e9ba4-fc26-422f-8c50-3e803d6b108e'
 SOURCE_PATH='icon_set/work/todo-references/sleep instrument 2_ad3e9ba4-fc26-422f-8c50-3e803d6b108e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sleep-instrument-2'

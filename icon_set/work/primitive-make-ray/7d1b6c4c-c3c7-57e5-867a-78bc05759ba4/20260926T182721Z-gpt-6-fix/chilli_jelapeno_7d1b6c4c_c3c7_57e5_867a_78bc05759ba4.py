@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7d1b6c4c-c3c7-57e5-867a-78bc05759ba4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chilli-jelapeno/20260926T182517Z-thuan-mac-1/reference/chilli jelapeno_7d1b6c4c-c3c7-57e5-867a-78bc05759ba4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChilliJelapeno(Solo48):
     icon_id = 'chilli-jelapeno'

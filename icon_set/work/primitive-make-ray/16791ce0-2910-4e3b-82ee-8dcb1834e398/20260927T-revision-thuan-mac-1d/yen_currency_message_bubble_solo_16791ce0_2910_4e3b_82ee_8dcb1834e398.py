@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._payments_batch01 import circle
 from icon_set.model.icons.solo._sub_preparation_symbols import bubble, document, wireless_phone, banknote, moneybag, house, monitor, baht, currency, compact, diagonal_dollar
 SOURCE_ICON_ID='16791ce0-2910-4e3b-82ee-8dcb1834e398'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__yen-currency-message-bubble-solo/20260927T145855Z-thuan-mac-1/reference/message yuan sign lines_16791ce0-2910-4e3b-82ee-8dcb1834e398.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='yen-currency-message-bubble-solo'
     keyshape=Keyshape.SQUARE

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4cda3eae-34c4-5ab8-a48f-adebd3cb4042'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__duck-silhouette/20260927T060349Z-thuan-mac-1/reference/chick_4cda3eae-34c4-5ab8-a48f-adebd3cb4042.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DuckSilhouette(Solo48):
     icon_id = 'duck-silhouette'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1a7e6b5d-f481-539b-99c2-cd5e777fe71e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__lifting-hook-below-horizontal-beam/20260924T101756Z-thuan-mac/reference/lift hook_1a7e6b5d-f481-539b-99c2-cd5e777fe71e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='fishing-hook: broad uninterrupted hook bend'
 DESIGN_PLAN='Central mounting block under a beam with a long J hook; one shared suspension node and a tangent lower bowl. Centerlines (4,8)-(44,40).'
 OMISSIONS='Duplicate beam edge omitted.'

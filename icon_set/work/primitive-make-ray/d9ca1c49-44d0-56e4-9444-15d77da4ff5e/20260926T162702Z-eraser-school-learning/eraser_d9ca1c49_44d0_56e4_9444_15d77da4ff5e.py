@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd9ca1c49-44d0-56e4-9444-15d77da4ff5e'
 SOURCE_PATH = 'pictographic-primitives/school-learning/eraser_d9ca1c49-44d0-56e4-9444-15d77da4ff5e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-retained-after-visual-review'

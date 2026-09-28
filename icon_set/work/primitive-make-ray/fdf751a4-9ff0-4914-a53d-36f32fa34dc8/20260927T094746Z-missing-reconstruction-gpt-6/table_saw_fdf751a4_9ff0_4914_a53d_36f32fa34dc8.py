@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fdf751a4-9ff0-4914-a53d-36f32fa34dc8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__table-saw/20260927T094425Z-thuan-mac-1/reference/sawmill table_fdf751a4-9ff0-4914-a53d-36f32fa34dc8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected smooth arch hid the reference’s saw teeth.'
 REVISION_CHANGE = 'Added two broad blade teeth above the tabletop and kept the table braces.'
 

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd95930dd-4c35-5a2d-ad85-faa5674be25f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-steamed-dumpling/20260927T080808Z-thuan-mac-1/reference/chef gear dumplings_d95930dd-4c35-5a2d-ad85-faa5674be25f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

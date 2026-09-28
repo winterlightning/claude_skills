@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c1a77ca3-a293-51b0-9aea-f66e746d0e15'
 SOURCE_PATH = 'pictographic-primitives/images/man_c1a77ca3-a293-51b0-9aea-f66e746d0e15.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Enlarge circular head, balance shoulders and retain the shirt neckline; exact4u detached head gap.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['human_ref/user.svg']

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='82d65976-9908-4544-8c19-ca1cdea52290'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__whole-chestnut-with-basal-patch/20260924T163721Z-thuan-mac/reference/chestnut_82d65976-9908-4544-8c19-ca1cdea52290.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='whole-chestnut-with-basal-patch'

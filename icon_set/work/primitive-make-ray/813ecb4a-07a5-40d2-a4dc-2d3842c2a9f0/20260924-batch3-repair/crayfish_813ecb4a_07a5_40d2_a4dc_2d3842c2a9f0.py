@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '813ecb4a-07a5-40d2-a4dc-2d3842c2a9f0'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_13/crawdad_813ecb4a-07a5-40d2-a4dc-2d3842c2a9f0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crayfish'

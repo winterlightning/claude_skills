@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '505cc1d4-dec0-4492-aadd-1c3ba0a9d545'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__brain-with-undivided-centre/20260927T032242Z-thuan-mac-1/reference/brain 1_505cc1d4-dec0-4492-aadd-1c3ba0a9d545.svg'
 SOURCE_ICON_IDS = ('505cc1d4-dec0-4492-aadd-1c3ba0a9d545',)
 SOURCE_PATHS = ('pictographic-primitives/artificial-intelligence/brain 1_505cc1d4-dec0-4492-aadd-1c3ba0a9d545.svg',)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class BrainWithUndividedCentre(Solo48):

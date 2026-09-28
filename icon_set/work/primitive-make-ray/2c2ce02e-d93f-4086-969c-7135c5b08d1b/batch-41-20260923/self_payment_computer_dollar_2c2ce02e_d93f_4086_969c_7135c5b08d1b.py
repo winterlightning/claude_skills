@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2c2ce02e-d93f-4086-969c-7135c5b08d1b'
 SOURCE_PATH='icon_set/work/todo-references/self payment computer dollar_2c2ce02e-d93f-4086-969c-7135c5b08d1b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Payment terminal with dollar symbol at left and two equality/menu rules at right, supported by a stand.'
 CONSTRUCTION_REFERENCES='Lucide monitor: screen and stand; dollar-sign: S contour crossed by vertical stem.'
 OMISSIONS='No currency or rule omitted.'

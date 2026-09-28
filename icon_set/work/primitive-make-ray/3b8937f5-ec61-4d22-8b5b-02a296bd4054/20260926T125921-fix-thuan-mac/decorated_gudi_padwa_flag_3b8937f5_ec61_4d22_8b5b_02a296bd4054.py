@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3b8937f5-ec61-4d22-8b5b-02a296bd4054'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__decorated-gudi-padwa-flag/20260926T125429Z-thuan-mac/reference/gudi padwa 1_3b8937f5-ec61-4d22-8b5b-02a296bd4054.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 POLE_X = 14
 RIM_Y = 18

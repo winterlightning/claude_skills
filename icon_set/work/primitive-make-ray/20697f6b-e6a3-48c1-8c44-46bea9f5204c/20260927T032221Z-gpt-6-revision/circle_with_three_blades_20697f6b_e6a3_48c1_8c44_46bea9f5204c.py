@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '20697f6b-e6a3-48c1-8c44-46bea9f5204c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__circle-with-three-blades/20260927T032022Z-thuan-mac-1/reference/tools testflight_20697f6b-e6a3-48c1-8c44-46bea9f5204c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CircleWithThreeBlades(Solo48):
     icon_id = 'circle-with-three-blades'

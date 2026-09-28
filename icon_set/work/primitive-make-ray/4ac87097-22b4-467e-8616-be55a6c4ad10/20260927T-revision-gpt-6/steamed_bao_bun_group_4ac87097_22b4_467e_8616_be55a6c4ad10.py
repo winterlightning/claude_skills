@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4ac87097-22b4-467e-8616-be55a6c4ad10'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__steamed-bao-bun-group/20260927T094403Z-thuan-mac-1/reference/exotic food buns_4ac87097-22b4-467e-8616-be55a6c4ad10.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'steamed-bao-bun-group'

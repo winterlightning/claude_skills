@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cd308a08-5d16-5ba7-ba3b-4c7cff751329'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tree-pose/20260927T101610Z-thuan-mac-1/reference/yoga tree pose_cd308a08-5d16-5ba7-ba3b-4c7cff751329.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TreePose(Solo48):
     icon_id = 'tree-pose'

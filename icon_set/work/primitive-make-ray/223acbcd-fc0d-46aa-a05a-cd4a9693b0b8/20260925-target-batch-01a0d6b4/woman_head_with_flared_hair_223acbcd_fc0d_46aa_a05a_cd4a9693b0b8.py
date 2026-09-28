@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='223acbcd-fc0d-46aa-a05a-cd4a9693b0b8'
 SOURCE_PATH='pictographic-primitives/other/women_223acbcd-fc0d-46aa-a05a-cd4a9693b0b8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN = 'Centered round lower face inside long parted hair with gently flared tips and a curved lower edge, replacing the box-like hood.'
 CONSTRUCTION_REFERENCES='human_ref/user.svg: circular jaw vocabulary; Lucide circle-user-round: nested curved forms. Source is an isolated head, so no body is added.'
 OMISSIONS = []

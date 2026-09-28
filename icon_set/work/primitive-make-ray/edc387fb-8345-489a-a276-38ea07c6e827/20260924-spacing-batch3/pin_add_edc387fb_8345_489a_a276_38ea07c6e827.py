@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='edc387fb-8345-489a-a276-38ea07c6e827'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/pin add_edc387fb-8345-489a-a276-38ea07c6e827.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A location pin with a lower-right plus. Pin retains smooth dome and coherent taper; separate plus has four truly joined arms. Deliberate offset composition.'
 CONSTRUCTION_REFERENCE='Lucide map-pin domed pin and taper'
 class Drawing(Solo48):

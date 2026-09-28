@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '75ece3f4-5568-4178-a662-3cc71bc053be'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smartphone-with-lower-bezel-75ece3f4/20260927T093511Z-thuan-mac-1/reference/mobile phone_75ece3f4-5568-4178-a662-3cc71bc053be.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SmartphoneWithLowerBezel75Ece3F4(Solo48):
     icon_id = 'smartphone-with-lower-bezel-75ece3f4'

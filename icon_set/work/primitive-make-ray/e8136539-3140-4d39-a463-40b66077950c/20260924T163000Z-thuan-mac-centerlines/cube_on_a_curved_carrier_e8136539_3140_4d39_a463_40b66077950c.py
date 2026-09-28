@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e8136539-3140-4d39-a463-40b66077950c'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__cube-on-a-curved-carrier/20260924T162241Z-thuan-mac/reference/amazon web service fargate_e8136539-3140-4d39-a463-40b66077950c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='cube-on-a-curved-carrier'
     keyshape=Keyshape.VRECT_L

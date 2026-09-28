@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f6637806-cad7-548f-a017-78b29ebc0748'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__watermelon-slice-seeds/20260927T145855Z-thuan-mac-1/reference/watermelon_f6637806-cad7-548f-a017-78b29ebc0748.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'watermelon-slice-seeds'

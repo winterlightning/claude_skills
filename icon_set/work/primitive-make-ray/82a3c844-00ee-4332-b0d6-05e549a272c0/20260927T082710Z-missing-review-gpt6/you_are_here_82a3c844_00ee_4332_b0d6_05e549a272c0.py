@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '82a3c844-00ee-4332-b0d6-05e549a272c0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__you-are-here/20260927T082307Z-thuan-mac-1/reference/you are here_82a3c844-00ee-4332-b0d6-05e549a272c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class YouAreHere(Solo48):
     icon_id = 'you-are-here'

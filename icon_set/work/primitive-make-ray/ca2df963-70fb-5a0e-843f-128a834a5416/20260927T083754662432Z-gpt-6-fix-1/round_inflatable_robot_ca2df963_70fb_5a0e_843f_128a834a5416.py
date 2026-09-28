@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ca2df963-70fb-5a0e-843f-128a834a5416'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-inflatable-robot/20260927T083143Z-thuan-mac-1/reference/robot baymax_ca2df963-70fb-5a0e-843f-128a834a5416.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RoundInflatableRobot(Solo48):
     icon_id = 'round-inflatable-robot'

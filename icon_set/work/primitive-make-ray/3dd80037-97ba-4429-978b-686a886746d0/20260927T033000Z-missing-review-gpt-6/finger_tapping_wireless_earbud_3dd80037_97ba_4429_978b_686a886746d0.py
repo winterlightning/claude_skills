@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3dd80037-97ba-4429-978b-686a886746d0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__finger-tapping-wireless-earbud/20260927T032256Z-thuan-mac-1/reference/earpods double tap_3dd80037-97ba-4429-978b-686a886746d0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FingerTappingWirelessEarbud(Solo48):
     icon_id = 'finger-tapping-wireless-earbud'

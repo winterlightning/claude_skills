@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f66072f8-69df-452b-b63d-912a999c4271'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cloud-display-globe/20260924T181031Z-thuan-mac/reference/sphere_f66072f8-69df-452b-b63d-912a999c4271.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cloud-display-globe'

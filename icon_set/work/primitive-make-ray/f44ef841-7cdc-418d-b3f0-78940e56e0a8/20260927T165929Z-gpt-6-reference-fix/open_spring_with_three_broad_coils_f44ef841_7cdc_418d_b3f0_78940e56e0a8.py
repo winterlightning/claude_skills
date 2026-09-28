@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f44ef841-7cdc-418d-b3f0-78940e56e0a8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-spring-with-three-broad-coils/20260927T165437Z-thuan-mac-1/reference/spring_f44ef841-7cdc-418d-b3f0-78940e56e0a8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'open-spring-with-three-broad-coils'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='36316472-32cf-4e56-a2d2-8989a12c4e29'
 SOURCE_PATH='icon_set/work/todo-references/z wave logo_36316472-32cf-4e56-a2d2-8989a12c4e29.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='z-wave-logo'

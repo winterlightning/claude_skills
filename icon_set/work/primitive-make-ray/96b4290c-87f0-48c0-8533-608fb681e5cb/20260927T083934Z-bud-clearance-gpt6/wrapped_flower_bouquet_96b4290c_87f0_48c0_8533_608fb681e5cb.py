@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '96b4290c-87f0-48c0-8533-608fb681e5cb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wrapped-flower-bouquet/20260927T082307Z-thuan-mac-1/reference/flowers_96b4290c-87f0-48c0-8533-608fb681e5cb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class WrappedFlowerBouquet(Solo48):

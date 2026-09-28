@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='49a3ae80-8be9-4e8e-9359-748e0b24459f'
 SOURCE_PATH='icon_set/work/todo-references/vectors pen add 1_49a3ae80-8be9-4e8e-9359-748e0b24459f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='vectors-pen-add-1'

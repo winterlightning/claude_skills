@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '155a9d36-8aa9-55a7-9cd7-037e9873fa56'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-under-automatic-dryer/20260926T172218Z-thuan-mac-1/reference/automatic hand dryer_155a9d36-8aa9-55a7-9cd7-037e9873fa56.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandUnderAutomaticDryer(Solo48):
     icon_id = 'hand-under-automatic-dryer'

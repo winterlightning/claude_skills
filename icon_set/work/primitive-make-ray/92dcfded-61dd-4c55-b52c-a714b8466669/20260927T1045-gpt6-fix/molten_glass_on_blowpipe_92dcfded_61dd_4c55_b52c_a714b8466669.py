@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '92dcfded-61dd-4c55-b52c-a714b8466669'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__molten-glass-on-blowpipe/20260927T104148Z-thuan-mac-1/reference/glass blowing 1_92dcfded-61dd-4c55-b52c-a714b8466669.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MoltenGlassOnBlowpipe(Solo48):
     icon_id = 'molten-glass-on-blowpipe'

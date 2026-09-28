@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bf610dd4-85f9-4ff5-a1ea-5e00943043fc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sun-setting-behind-waves/20260924T160658Z-thuan-mac/reference/fen_bf610dd4-85f9-4ff5-a1ea-5e00943043fc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'sun-setting-behind-waves'

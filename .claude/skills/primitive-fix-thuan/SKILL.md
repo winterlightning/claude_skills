@@ -1,7 +1,7 @@
 ---
 name: primitive-fix-thuan
 argument-hint: <count> [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--worker name]
-description: Claim a number of disapproved Pictographic solo icons from the shared production fix queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to `<worker>/<model>` so the gallery shows who fixed it; never asks, never skips. Arguments: count, optional --offset, --disapprove-status and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Claim a number of disapproved Pictographic solo icons from the shared production fix queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Arguments: count, optional --offset, --disapprove-status and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
 # /primitive-fix-thuan — claim, redraw with /primitive-make-ray, upload
@@ -22,7 +22,7 @@ claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke
 claimed icon **must be fixed**. Do not ask the user anything, do not pause between icons for
 confirmation, and do not stop after a blocker: work through every claimed icon to `done`.
 Where /primitive-make-ray says to ask or to stop (the `AUTHOR` question, a reported
-blocker), do not: `AUTHOR` is `<worker>/<model>` as in section 2, and a blocker means another
+blocker), do not: `AUTHOR` is the model ID you are running as, as in section 2, and a blocker means another
 attempt, as in section 2.
 
 ## 1. Claim
@@ -57,14 +57,13 @@ completely. Additions for a fix:
   solid or single strokes, reduce counts (fewer letters, rays, teeth) as long as the subject
   still reads. Keep the element the feedback names and the subject's identifying silhouette;
   everything else may give way. Author each attempt as a fresh /primitive-make-ray run.
-- **Update the author, every icon.** The fixed module's `AUTHOR` names who fixed it, not who
-  drew the rejected version: set it to `<worker>/<model>`, the worker name from section 1
-  followed by the lowercase, hyphenated model ID you are running as, for example
-  `AUTHOR = "thuan-mac/claude-fable-5-1"`. The gallery shows this value as the icon's
-  author, so reviewers can see which person and model fixed it. Never copy the `AUTHOR` of
-  the `before/` module, and never use a bare model ID or a generic label here; this form
-  overrides the model-only `AUTHOR` rule in /primitive-make-ray and `naming.md` for fixes.
-  `finish` refuses `done` when `AUTHOR` does not start with the worker name.
+- **Update the author, every icon.** The fixed module's `AUTHOR` names the AI model that fixed
+  it, not the one that drew the rejected version: the lowercase, hyphenated model ID you are
+  running as and nothing else, for example `AUTHOR = "claude-fable-5-1"`. The gallery shows
+  this value as the icon's author. Never add the worker name or a slash (the worker is recorded
+  on the claim), never copy the `before/` module's value unthinkingly, and never use a generic
+  label such as `ai` or `assistant`. This is the same model-only rule as /primitive-make-ray and
+  `naming.md`. `finish` refuses `done` when `AUTHOR` is not a bare model ID.
 - This is a revision: author a **fresh** run even when an earlier
   `icon_set/work/primitive-make-ray/<source-uuid>/*/result.json` exists; that skip rule does not
   apply here.
@@ -83,7 +82,7 @@ python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-ke
 light/dark previews), `validation.txt` and `result.json` in the fix directory, uploads the after
 drawing, module and validation to production, and reports **done**: the revision returns to
 Ready for the reviewer. It refuses `done` (exit 2, nothing uploaded or reported) while the model
-is invalid or has warnings, or while its `AUTHOR` does not start with `<worker>/`; go back to
+is invalid or has warnings, or while its `AUTHOR` is not a bare model ID; go back to
 section 2 and make another attempt until `finish` accepts it. Do not report `cannot-fix` from
 this skill.
 
@@ -101,5 +100,5 @@ its SVG, the `AUTHOR` written into the module, and the validation status.
 - Report `done` without `finish`, or change the production status through `/api/reviews`.
 - Ask the user a question, stop between icons, or end the run with a claimed icon unfixed.
 - Draw without first comparing the original and the current drawing.
-- Keep the rejected drawing's `AUTHOR`, or write one without your worker name and model.
+- Keep the rejected drawing's `AUTHOR` unchecked, or write a worker name, a slash or a generic label into it.
 - Finish with `--outcome cannot-fix`, or leave a claimed icon without a `done` finish.

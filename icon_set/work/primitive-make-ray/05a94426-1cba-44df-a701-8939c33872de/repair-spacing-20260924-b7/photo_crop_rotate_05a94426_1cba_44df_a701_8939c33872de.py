@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='05a94426-1cba-44df-a701-8939c33872de'
 SOURCE_PATH='pictographic-primitives/design/photo crop rotate_05a94426-1cba-44df-a701-8939c33872de.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='photo-crop-rotate'
     keyshape=Keyshape.SQUARE

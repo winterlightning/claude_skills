@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a8d6f09a-0963-413b-9f3e-2fdf85be5892'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-hen-with-raised-tail/20260924T162025Z-thuan-mac/reference/capon_a8d6f09a-0963-413b-9f3e-2fdf85be5892.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'standing-hen-with-raised-tail'

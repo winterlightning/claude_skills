@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f210946c-cdf6-4570-9689-058b554c18ac'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/resize expand spreadsheet_f210946c-cdf6-4570-9689-058b554c18ac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'resize-expand-spreadsheet'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e81f6b0a-b9e2-4282-befa-4f4168cbe7d0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__samosa-plate-dipping-bowl/20260927T091411Z-thuan-mac-1/reference/exotic food samosa_e81f6b0a-b9e2-4282-befa-4f4168cbe7d0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'samosa-plate-dipping-bowl'

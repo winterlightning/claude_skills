@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='54b02242-5568-41c3-a69f-a06ca068bbf9'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/type cursor_54b02242-5568-41c3-a69f-a06ca068bbf9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='type-cursor'

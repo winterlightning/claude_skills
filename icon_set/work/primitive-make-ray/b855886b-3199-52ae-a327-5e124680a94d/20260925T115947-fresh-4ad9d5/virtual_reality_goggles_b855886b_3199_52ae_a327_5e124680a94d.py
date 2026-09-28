@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='b855886b-3199-52ae-a327-5e124680a94d'
 SOURCE_PATH='pictographic-primitives/devices/device wearable vr goggles_b855886b-3199-52ae-a327-5e124680a94d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Widened the visor from 32 to 36 centerline units. Matched radius-10 ends and smooth mirrored nose curves remove the old block-like corners.'
 CONSTRUCTION_REFERENCE='glasses original and atomic-debug: paired curves and bilateral balance.'
 OMISSIONS='Hollow side straps become short solid tabs. The visor is taller relative to its width than the source because of the prescribed keyshape.'

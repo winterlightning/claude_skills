@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '53c44ebc-ebc2-48c3-855c-0ea9b3a726e3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chess-queen/20260925T070532Z-thuan-mac/reference/chess queen_53c44ebc-ebc2-48c3-855c-0ea9b3a726e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Retain the circular royal finial and stepped three-point crown above a tall chess-piece body. Small local crown openings remain clear in native light and dark previews.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '3d209011cc13de6307333a51d593e6414f952df34c8f47933e6b543fb331fdb9'}

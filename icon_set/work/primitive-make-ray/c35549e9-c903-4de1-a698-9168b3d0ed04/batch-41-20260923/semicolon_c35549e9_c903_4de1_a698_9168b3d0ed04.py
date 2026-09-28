@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c35549e9-c903-4de1-a698-9168b3d0ed04'
 SOURCE_PATH='icon_set/work/todo-references/semicolon_c35549e9-c903-4de1-a698-9168b3d0ed04.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Semicolon with circular upper dot and an open rounded comma below. Common center x=24; comma flows into its tapered tail.'
 CONSTRUCTION_REFERENCES='No useful exact Lucide match; punctuation reconstructed as circular arcs and one coherent tail.'
 OMISSIONS='None.'

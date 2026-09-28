@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e63cb3c3-10bb-4fb1-a675-1e6b119047a5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__circular-rotating-arrows/20260924T171046Z-thuan-mac/reference/arrows spin_e63cb3c3-10bb-4fb1-a675-1e6b119047a5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='circular-rotating-arrows'

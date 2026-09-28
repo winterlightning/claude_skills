@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0bb5de88-a86b-409b-a1eb-82ac6ee78932'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__looped-treble-clef-0bb5de88/20260924T152540Z-thuan-mac/reference/clef_0bb5de88-a86b-409b-a1eb-82ac6ee78932.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'looped-treble-clef-0bb5de88'
     keyshape = Keyshape.VRECT_L

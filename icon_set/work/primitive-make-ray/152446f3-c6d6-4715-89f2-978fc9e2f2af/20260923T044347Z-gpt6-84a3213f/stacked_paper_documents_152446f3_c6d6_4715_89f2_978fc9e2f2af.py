@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '152446f3-c6d6-4715-89f2-978fc9e2f2af'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/files_152446f3-c6d6-4715-89f2-978fc9e2f2af.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StackedPaperDocuments(Solo48):
     icon_id = 'stacked-paper-documents'

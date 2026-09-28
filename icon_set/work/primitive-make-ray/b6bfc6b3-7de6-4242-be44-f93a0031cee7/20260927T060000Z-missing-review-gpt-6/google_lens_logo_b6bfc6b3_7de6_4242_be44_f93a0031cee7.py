@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b6bfc6b3-7de6-4242-be44-f93a0031cee7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-lens-logo/20260927T055654Z-thuan-mac-1/reference/google lens logo_b6bfc6b3-7de6-4242-be44-f93a0031cee7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleLensLogo(Solo48):

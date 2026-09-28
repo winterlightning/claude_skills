@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'a5df130c-736c-50a4-a363-25494841b316'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monk-in-robe/20260927T104148Z-thuan-mac-1/reference/figure_a5df130c-736c-50a4-a363-25494841b316.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconMonkInRobe(Solo48):

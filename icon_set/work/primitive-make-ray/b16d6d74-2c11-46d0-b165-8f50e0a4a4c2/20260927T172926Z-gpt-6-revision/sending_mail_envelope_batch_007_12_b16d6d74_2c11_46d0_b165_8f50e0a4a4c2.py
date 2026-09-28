@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b16d6d74-2c11-46d0-b165-8f50e0a4a4c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sending-mail-envelope-batch-007-12/20260927T172707Z-thuan-mac-1/reference/send email_b16d6d74-2c11-46d0-b165-8f50e0a4a4c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = '/Applications/Workspaces/pictographic/claude_skills/work/brief-exports/20260918-all-todo-batches-15/batches/batch-007/references/send email_b16d6d74-2c11-46d0-b165-8f50e0a4a4c2.svg'
 
 def circle(s,n,x,y,r):

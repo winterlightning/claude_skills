@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8f7bb524-ecd7-5e4a-9fb5-4d56729683d8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__police-car-front/20260927T153747Z-thuan-mac-1/reference/police_8f7bb524-ecd7-5e4a-9fb5-4d56729683d8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = [{'SOURCE_ICON_ID': '8f7bb524-ecd7-5e4a-9fb5-4d56729683d8', 'SOURCE_PATH': 'pictographic-primitives/transportation/police_8f7bb524-ecd7-5e4a-9fb5-4d56729683d8.svg', 'AUTHOR': 'gpt-6'}]
 
 class PoliceCarFront(Solo48):

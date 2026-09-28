@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='615e9ffb-b53e-40a6-9ba6-86b05b552fd0'
 SOURCE_PATH='pictographic-primitives/typeface/a_615e9ffb-b53e-40a6-9ba6-86b05b552fd0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/a_615e9ffb_b53e_40a6_9ba6_86b05b552fd0.py'
 class Drawing(Solo48):
     icon_id='lowercase-a'

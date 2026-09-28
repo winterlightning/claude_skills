@@ -10,7 +10,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '709ecaa2-14b1-430d-9254-115ba73f6c42'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/doctor_709ecaa2-14b1-430d-9254-115ba73f6c42.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-021/15-doctor-with-medical-cap--709ecaa2-14b1-430d-9254-115ba73f6c42.md'

@@ -13,7 +13,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "918bf38d-d107-4261-bb49-0141b95866e7"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__tall-crescent-with-three-sparkles/20260928T042745Z-thuan-mac-1/reference/astronomy moon_918bf38d-d107-4261-bb49-0141b95866e7.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class TallCrescentWithThreeSparkles(Solo48):

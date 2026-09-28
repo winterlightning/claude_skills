@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '7bf3dfa5-3ac7-5f0a-80ef-6a0df922feb1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shirt-with-wavy-stripes/20260927T091435Z-thuan-mac-1/reference/clothes design animal skin_7bf3dfa5-3ac7-5f0a-80ef-6a0df922feb1.svg'
 SOURCE_ICON_IDS = ('7bf3dfa5-3ac7-5f0a-80ef-6a0df922feb1',)
 SOURCE_PATHS = ('pictographic-primitives/clothes/clothes design animal skin_7bf3dfa5-3ac7-5f0a-80ef-6a0df922feb1.svg',)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ShirtWithWavyStripes(Solo48):

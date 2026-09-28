@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bbec6574-bfdd-4612-9ecb-0def3df626fd'
 SOURCE_PATH='pictographic-primitives/other/rectangle employee resume 1_bbec6574-bfdd-4612-9ecb-0def3df626fd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Portrait above résumé text. Human-reference user.svg: head bottom16, shoulder apex24 =8 centerline /4 ink. Reduce two repeated text rows to one to preserve portrait and open gaps; no useful exact Lucide résumé match.'
 class Drawing(Solo48):
     icon_id='rectangle-employee-resume-1'

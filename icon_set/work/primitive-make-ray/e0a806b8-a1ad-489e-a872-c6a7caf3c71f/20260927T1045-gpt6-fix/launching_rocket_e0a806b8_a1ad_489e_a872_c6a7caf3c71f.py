@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e0a806b8-a1ad-489e-a872-c6a7caf3c71f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__launching-rocket/20260927T104148Z-thuan-mac-1/reference/startup launch_e0a806b8-a1ad-489e-a872-c6a7caf3c71f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('e0a806b8-a1ad-489e-a872-c6a7caf3c71f', 'pictographic-primitives/business/startup launch_e0a806b8-a1ad-489e-a872-c6a7caf3c71f.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

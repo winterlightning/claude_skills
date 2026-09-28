@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a55f45de-c7d1-4563-93a4-39142d00a866'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ringed-planet-with-a-steep-tilt/20260927T171300Z-thuan-mac-1/reference/astronomy planet saturn 2_a55f45de-c7d1-4563-93a4-39142d00a866.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ringed-planet-with-a-steep-tilt'

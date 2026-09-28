@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7cb0537e-b066-4b8b-b3bc-b48c012f73b3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-surround-sound/20260927T083143Z-thuan-mac-1/reference/spatial audio user surround_7cb0537e-b066-4b8b-b3bc-b48c012f73b3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonSurroundSound(Solo48):
     icon_id = 'person-surround-sound'

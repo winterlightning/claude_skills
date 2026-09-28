@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '798bcbde-2493-4ba9-a894-3acb44b2dbd2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__curve-rise-dash-large-head/20260924T165054Z-thuan-mac/reference/curve rise dash large head_798bcbde-2493-4ba9-a894-3acb44b2dbd2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'curve-rise-dash-large-head'
     keyshape = Keyshape.HRECT_L

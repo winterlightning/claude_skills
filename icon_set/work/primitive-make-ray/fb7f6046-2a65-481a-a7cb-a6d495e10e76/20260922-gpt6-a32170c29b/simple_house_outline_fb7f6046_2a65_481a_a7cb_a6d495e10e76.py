@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fb7f6046-2a65-481a-a7cb-a6d495e10e76'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/attic_fb7f6046-2a65-481a-a7cb-a6d495e10e76.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'simple-house-outline'

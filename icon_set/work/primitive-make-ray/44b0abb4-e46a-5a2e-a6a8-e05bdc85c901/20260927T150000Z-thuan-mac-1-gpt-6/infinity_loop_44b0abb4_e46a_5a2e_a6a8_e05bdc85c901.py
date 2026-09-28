@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '44b0abb4-e46a-5a2e-a6a8-e05bdc85c901'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__infinity-loop/20260927T145836Z-thuan-mac-1/reference/loop_44b0abb4-e46a-5a2e-a6a8-e05bdc85c901.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def circle(icon,name,cx,cy,r):
     icon.add_arc(name+"-top",(cx-r,cy),(cx+r,cy),radius_x=r)

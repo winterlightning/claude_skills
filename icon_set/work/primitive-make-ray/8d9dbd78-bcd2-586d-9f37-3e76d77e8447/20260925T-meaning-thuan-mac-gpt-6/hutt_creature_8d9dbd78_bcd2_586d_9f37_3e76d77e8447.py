@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8d9dbd78-bcd2-586d-9f37-3e76d77e8447'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hutt-creature/20260925T034349Z-thuan-mac/reference/hutt_8d9dbd78-bcd2-586d-9f37-3e76d77e8447.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hutt-creature'

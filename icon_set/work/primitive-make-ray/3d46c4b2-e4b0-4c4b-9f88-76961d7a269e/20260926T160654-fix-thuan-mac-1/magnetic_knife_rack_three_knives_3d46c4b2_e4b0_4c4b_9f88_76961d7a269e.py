@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3d46c4b2-e4b0-4c4b-9f88-76961d7a269e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__magnetic-knife-rack-three-knives/20260926T160211Z-thuan-mac-1/reference/kitchen knife set_3d46c4b2-e4b0-4c4b-9f88-76961d7a269e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 BAR_Y, HANDLE_SIDE_TOP, BUTT_R, TIP_Y = 20, 12, 4, 40
 KNIFE_XS, KNIFE_W, EDGE_R = (4, 20, 36), 8, 29

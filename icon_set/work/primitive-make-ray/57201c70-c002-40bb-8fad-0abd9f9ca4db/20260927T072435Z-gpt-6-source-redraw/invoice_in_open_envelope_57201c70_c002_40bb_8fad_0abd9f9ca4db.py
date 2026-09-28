@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '57201c70-c002-40bb-8fad-0abd9f9ca4db'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__invoice-in-open-envelope/20260927T071330Z-thuan-mac-1/reference/invoice mail_57201c70-c002-40bb-8fad-0abd9f9ca4db.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class InvoiceInOpenEnvelope(Solo48):
     icon_id='invoice-in-open-envelope'

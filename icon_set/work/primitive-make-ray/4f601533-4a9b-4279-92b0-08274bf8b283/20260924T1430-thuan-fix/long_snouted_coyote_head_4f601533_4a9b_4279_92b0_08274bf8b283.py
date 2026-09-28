@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4f601533-4a9b-4279-92b0-08274bf8b283'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__long-snouted-coyote-head/20260924T142504Z-thuan-mac/reference/coyote_4f601533-4a9b-4279-92b0-08274bf8b283.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='long-snouted-coyote-head'
     keyshape=Keyshape.VRECT_L

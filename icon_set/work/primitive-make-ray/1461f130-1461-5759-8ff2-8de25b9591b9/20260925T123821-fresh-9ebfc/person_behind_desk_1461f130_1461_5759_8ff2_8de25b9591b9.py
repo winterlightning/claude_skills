@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1461f130-1461-5759-8ff2-8de25b9591b9'
 SOURCE_PATH='pictographic-primitives/users/neutral podium_1461f130-1461-5759-8ff2-8de25b9591b9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular head and curved shoulders separated from a wide desk with splayed legs.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg: circular head and arched shoulders; source desk separation.'
 class Drawing(Solo48):

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ebfdfda3-cd66-462a-9339-bae242892b0f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__avatar-muslim-man-outfit/20260926T085631Z-thuan-mac/reference/muslim man outfit_ebfdfda3-cd66-462a-9339-bae242892b0f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AvatarMuslimManOutfit(Solo48):
     icon_id = 'avatar-muslim-man-outfit'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '90005858-b0d4-51de-9d62-a9c0ec953e68'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cute-cat/20260924T092136Z-thuan-mac/reference/cute cat_90005858-b0d4-51de-9d62-a9c0ec953e68.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'cute-cat'
     keyshape = Keyshape.SQUARE

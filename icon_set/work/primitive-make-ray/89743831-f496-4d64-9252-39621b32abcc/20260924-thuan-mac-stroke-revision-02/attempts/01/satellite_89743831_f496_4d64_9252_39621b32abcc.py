@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='89743831-f496-4d64-9252-39621b32abcc'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__satellite/20260924T101756Z-thuan-mac/reference/satellite_89743831-f496-4d64-9252-39621b32abcc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='satellite-dish: diagonal bowl and receiver arm'
 DESIGN_PLAN='Parabolic dish with a diagonal rim, round feed receiver and triangular pedestal. SQUARE centerlines (6,6)-(42,42). A fuller continuous bowl replaces the flattened earlier dish.'
 OMISSIONS='Fine receiver support frame reduced to one arm.'

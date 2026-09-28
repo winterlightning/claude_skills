@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '318398ff-29a6-5b27-9546-cef465417560'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__notched-smartphone-with-home-button/20260927T104148Z-thuan-mac-1/reference/iphone x_318398ff-29a6-5b27-9546-cef465417560.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class NotchedSmartphoneWithHomeButton(Solo48):
     icon_id = 'notched-smartphone-with-home-button'

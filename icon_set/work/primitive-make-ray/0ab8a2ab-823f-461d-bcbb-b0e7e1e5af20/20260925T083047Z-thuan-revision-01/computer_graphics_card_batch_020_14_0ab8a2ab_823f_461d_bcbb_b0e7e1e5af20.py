@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0ab8a2ab-823f-461d-bcbb-b0e7e1e5af20'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__computer-graphics-card-batch-020-14/20260925T083047Z-thuan-mac/reference/gpu mining_0ab8a2ab-823f-461d-bcbb-b0e7e1e5af20.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'computer-graphics-card-batch-020-14'

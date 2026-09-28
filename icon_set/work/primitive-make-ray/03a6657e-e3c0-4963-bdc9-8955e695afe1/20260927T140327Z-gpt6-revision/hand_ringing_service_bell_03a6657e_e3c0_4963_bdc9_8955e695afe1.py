@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '03a6657e-e3c0-4963-bdc9-8955e695afe1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-ringing-service-bell/20260927T135945Z-thuan-mac-1/reference/reception bell call_03a6657e-e3c0-4963-bdc9-8955e695afe1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconHandRingingServiceBell(Solo48):

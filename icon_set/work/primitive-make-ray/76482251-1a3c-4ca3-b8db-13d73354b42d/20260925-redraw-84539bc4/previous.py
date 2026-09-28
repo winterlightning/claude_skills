@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '76482251-1a3c-4ca3-b8db-13d73354b42d'
 SOURCE_PATH = 'pictographic-primitives/shopping/shopping cart_76482251-1a3c-4ca3-b8db-13d73354b42d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShoppingCartLargeOpenWheels(Solo48):
     icon_id = 'shopping-cart-large-open-wheels'

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a5bb0ebe-31d7-43c2-a177-afcbf914e9b7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flower-with-paired-leaves/20260927T164305Z-thuan-mac-1/reference/flower enemy_a5bb0ebe-31d7-43c2-a177-afcbf914e9b7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

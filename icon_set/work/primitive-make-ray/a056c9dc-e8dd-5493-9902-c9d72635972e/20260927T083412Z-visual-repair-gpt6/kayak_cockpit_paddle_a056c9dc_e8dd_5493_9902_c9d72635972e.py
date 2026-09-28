@@ -13,7 +13,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a056c9dc-e8dd-5493-9902-c9d72635972e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kayak-cockpit-paddle/20260927T082307Z-thuan-mac-1/reference/kayak_a056c9dc-e8dd-5493-9902-c9d72635972e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KayakCockpitPaddle(Solo48):
     icon_id = 'kayak-cockpit-paddle'

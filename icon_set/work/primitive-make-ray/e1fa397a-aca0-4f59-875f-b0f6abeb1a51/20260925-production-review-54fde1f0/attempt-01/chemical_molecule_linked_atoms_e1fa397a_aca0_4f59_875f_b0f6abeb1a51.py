@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e1fa397a-aca0-4f59-875f-b0f6abeb1a51'
 SOURCE_PATH = 'pictographic-primitives/health/chemical hexagon_e1fa397a-aca0-4f59-875f-b0f6abeb1a51.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Hexagonal molecule with equal open circular atoms and exact shared bond endpoints.'
 OMISSIONS = 'Very short outer right twig and lower twig bend omitted; all six atom nodes retained.'
 CONSTRUCTION_REFERENCES = ['hexagon']

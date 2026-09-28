@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='41f0de58-c686-4c1c-bb67-50e2eae2c9b5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__seasoning-chilli/20260924T101756Z-thuan-mac/reference/seasoning chilli_41f0de58-c686-4c1c-bb67-50e2eae2c9b5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='No useful direct Lucide chilli match'
 DESIGN_PLAN='Curved chilli pepper with broad shoulder, wavy calyx seam and rising stem. SQUARE centerlines (6,6)-(42,42). Smooth return curves retain the pointed left tip and full lower belly.'
 OMISSIONS='None.'

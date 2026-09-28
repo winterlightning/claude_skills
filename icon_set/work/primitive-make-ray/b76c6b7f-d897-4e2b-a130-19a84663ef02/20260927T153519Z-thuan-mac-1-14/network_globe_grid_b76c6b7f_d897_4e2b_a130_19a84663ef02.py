@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b76c6b7f-d897-4e2b-a130-19a84663ef02'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__network-globe-grid/20260927T153322Z-thuan-mac-1/reference/network globe_b76c6b7f-d897-4e2b-a130-19a84663ef02.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class NetworkGlobeGrid(Solo48):
     icon_id = 'network-globe-grid'

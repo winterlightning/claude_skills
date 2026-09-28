@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '271fffbf-c0f5-4271-aa4c-60ff67604b47'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__oxygen-mask-in-profile-271fffbf/20260926T160211Z-thuan-mac-1/reference/oxygen mask head side_271fffbf-c0f5-4271-aa4c-60ff67604b47.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 SKULL, SKULL_R = (27, 17), 13
 MASK_C, MASK_R = (15, 27), 7

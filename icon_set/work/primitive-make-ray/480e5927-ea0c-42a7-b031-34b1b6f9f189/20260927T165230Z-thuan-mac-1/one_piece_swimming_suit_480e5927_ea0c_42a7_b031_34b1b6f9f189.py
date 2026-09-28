@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '480e5927-ea0c-42a7-b031-34b1b6f9f189'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__one-piece-swimming-suit/20260927T164916Z-thuan-mac-1/reference/swimsuit_480e5927-ea0c-42a7-b031-34b1b6f9f189.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OnePieceSwimmingSuit(Solo48):
     icon_id = 'one-piece-swimming-suit'

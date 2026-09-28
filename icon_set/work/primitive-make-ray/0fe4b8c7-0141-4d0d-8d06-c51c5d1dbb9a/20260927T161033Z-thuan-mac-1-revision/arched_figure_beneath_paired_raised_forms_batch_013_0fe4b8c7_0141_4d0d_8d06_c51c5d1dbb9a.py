@@ -9,7 +9,7 @@ SOURCE_ICON_ID = '0fe4b8c7-0141-4d0d-8d06-c51c5d1dbb9a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arched-figure-beneath-paired-raised-forms-batch-013/20260927T160834Z-thuan-mac-1/reference/vaikuntha ekadashi_0fe4b8c7-0141-4d0d-8d06-c51c5d1dbb9a.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/vaikuntha ekadashi_0fe4b8c7-0141-4d0d-8d06-c51c5d1dbb9a.svg'
 EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-013/references/vaikuntha ekadashi_0fe4b8c7-0141-4d0d-8d06-c51c5d1dbb9a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'arched-figure-beneath-paired-raised-forms-batch-013'

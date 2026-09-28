@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'be55183c-e8a5-49d0-83f3-c11a01b942c0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__iwiw-logo-1/20260924T090615Z-thuan-mac/reference/iwiw logo 1_be55183c-e8a5-49d0-83f3-c11a01b942c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'iwiw-logo-1'
     keyshape = Keyshape.SQUARE

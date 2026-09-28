@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='f31a007d-3a5d-501c-a760-c2b7f61bfea3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hierarchy-bracket-list/20260926T172218Z-thuan-mac-1/reference/hierarchy_f31a007d-3a5d-501c-a760-c2b7f61bfea3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HierarchyBracketList(Solo48):
     icon_id='hierarchy-bracket-list'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8808cfa8-f297-4bd3-a099-3c4ba3f2b025'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__couple-standing-with-hair/20260924T092136Z-thuan-mac/reference/multiple man woman 1_8808cfa8-f297-4bd3-a099-3c4ba3f2b025.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'couple-standing-with-hair'
     keyshape = Keyshape.SQUARE

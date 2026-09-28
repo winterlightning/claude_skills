@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4375e4d8-018b-56ed-9a8e-e4438dff0be0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flatbed-truck-with-two-packages/20260927T075459Z-thuan-mac-1/reference/delivery truck boxes_4375e4d8-018b-56ed-9a8e-e4438dff0be0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

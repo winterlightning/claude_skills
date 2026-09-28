@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3c4b5ee0-ba80-504c-8490-3598f2217ea8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-horse/20260927T094403Z-thuan-mac-1/reference/animal horse_3c4b5ee0-ba80-504c-8490-3598f2217ea8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StandingHorse(Solo48):
     icon_id = 'standing-horse'

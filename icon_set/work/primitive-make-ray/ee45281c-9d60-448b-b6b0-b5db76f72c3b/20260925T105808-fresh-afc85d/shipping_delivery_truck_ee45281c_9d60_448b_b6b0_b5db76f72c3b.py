@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ee45281c-9d60-448b-b6b0-b5db76f72c3b'
 SOURCE_PATH='pictographic-primitives/transportation/truck_ee45281c-9d60-448b-b6b0-b5db76f72c3b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Equal wheel centers (16,36),(32,36), radius 4. Chassis ends at wheel sides rather than continuing behind or tangent along them. Rounded cab retained.'
 CONSTRUCTION_REFERENCE='truck original and atomic-debug: horizontal chassis segments attach at wheel sides; coherent curved cab.'
 OMISSIONS='Cargo divider stops above the chassis to leave wheel clearance. Wheels moved inward and reduced slightly.'

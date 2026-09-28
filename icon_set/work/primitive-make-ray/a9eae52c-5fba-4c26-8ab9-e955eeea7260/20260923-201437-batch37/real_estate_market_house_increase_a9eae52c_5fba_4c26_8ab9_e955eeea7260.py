@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='a9eae52c-5fba-4c26-8ab9-e955eeea7260'
 SOURCE_PATH='icon_set/work/todo-references/real estate market house increase_a9eae52c-5fba-4c26-8ab9-e955eeea7260.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three ascending market bars under an upward diagonal arrow.'
 OMISSIONS='No house added: the supplied reference contains only chart bars and arrow.'
 LUCIDE_REFERENCE='chart-no-axes-column-increasing'

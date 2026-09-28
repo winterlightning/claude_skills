@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3c23a43b-4a6b-55be-b95b-bc7bc22223cd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/specialty eye_3c23a43b-4a6b-55be-b95b-bc7bc22223cd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'eye-with-iris-and-pupil'

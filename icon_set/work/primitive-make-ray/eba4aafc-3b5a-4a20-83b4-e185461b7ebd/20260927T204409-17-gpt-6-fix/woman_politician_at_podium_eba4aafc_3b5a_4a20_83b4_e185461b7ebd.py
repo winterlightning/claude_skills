@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'eba4aafc-3b5a-4a20-83b4-e185461b7ebd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-politician-at-podium/20260927T133645Z-thuan-mac-1/reference/election politician podium woman_eba4aafc-3b5a-4a20-83b4-e185461b7ebd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class WomanPoliticianAtPodium(Solo48):

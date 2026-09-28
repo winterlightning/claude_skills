@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='db3bca6b-db6e-54f4-a4d9-700a3c6b0783'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sailing-bark-on-waves/20260924T101756Z-thuan-mac/reference/bark_db3bca6b-db6e-54f4-a4d9-700a3c6b0783.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='sailboat: shared mast attachment and broad hull'
 DESIGN_PLAN='A bellied square sail on a mast above an open hull and a wave. SQUARE centerlines (6,6)-(42,42). Shared sail extrema and smooth wave quarters replace the uneven earlier wave.'
 OMISSIONS='Lower hull edge omitted as in the open source; small sail area rebalanced for clearance.'

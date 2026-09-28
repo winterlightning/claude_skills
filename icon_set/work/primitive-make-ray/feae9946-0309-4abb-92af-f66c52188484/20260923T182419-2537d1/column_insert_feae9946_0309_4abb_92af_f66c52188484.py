@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 
 SOURCE_ICON_ID = 'feae9946-0309-4abb-92af-f66c52188484'
 SOURCE_PATH = 'icon_set/work/todo-references/column insert_feae9946-0309-4abb-92af-f66c52188484.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'column-insert'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ab37d703-44f6-4eec-9a9a-969ad9012fc3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__triceratops-head-side/20260924T071425Z-thuan-mac/reference/dinosaur triceratop head_ab37d703-44f6-4eec-9a9a-969ad9012fc3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'triceratops-head-side'

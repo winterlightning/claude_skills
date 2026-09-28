@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a9a5d583-7e2c-4aa1-9897-1ceb247057f6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__formal-shoe-facing-right-batch-045/20260927T160114Z-thuan-mac-1/reference/footwear_a9a5d583-7e2c-4aa1-9897-1ceb247057f6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Batch045Icon3(Solo48):
     icon_id = 'formal-shoe-facing-right-batch-045'
     keyshape = Keyshape.HRECT_M

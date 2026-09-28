@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '48c88512-d494-4400-aa6e-1031313b1bfb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fish-facing-left/20260924T165054Z-thuan-mac/reference/fishery_48c88512-d494-4400-aa6e-1031313b1bfb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'fish-facing-left'
     keyshape = Keyshape.HRECT_M

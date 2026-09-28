@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8f73b2a6-4779-44dc-b31b-ecfec5449a1d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rainy-night/20260927T170540Z-thuan-mac-1/reference/weather night snow_8f73b2a6-4779-44dc-b31b-ecfec5449a1d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rainy-night'

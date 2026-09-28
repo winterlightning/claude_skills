@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b5768591-30d0-458a-8f42-f8fa19890c4e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__book-open-b5768591/20260926T073831Z-thuan-mac/reference/book open_b5768591-30d0-458a-8f42-f8fa19890c4e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BookOpenB5768591(Solo48):
     icon_id = 'book-open-b5768591'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f6112893-74f5-4941-8d09-471ef8c89a26'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__triangular-ozone-molecule/20260924T160658Z-thuan-mac/reference/ozone_f6112893-74f5-4941-8d09-471ef8c89a26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'triangular-ozone-molecule'

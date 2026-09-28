@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4b284e33-1157-4dce-944f-a2e54396e19b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arched-eyebrow/20260927T160834Z-thuan-mac-1/reference/eyebrow_4b284e33-1157-4dce-944f-a2e54396e19b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'arched-eyebrow'

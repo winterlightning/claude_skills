@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '20f6e6a2-1290-47ff-bba7-e87ab03f93c6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chow-chow-face/20260927T071330Z-thuan-mac-1/reference/chow chow_20f6e6a2-1290-47ff-bba7-e87ab03f93c6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChowChowFace(Solo48):
     icon_id = 'chow-chow-face'

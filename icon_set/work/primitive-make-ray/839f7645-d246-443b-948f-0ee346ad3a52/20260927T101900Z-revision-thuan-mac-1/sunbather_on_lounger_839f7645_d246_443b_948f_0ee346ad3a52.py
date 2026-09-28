@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '839f7645-d246-443b-948f-0ee346ad3a52'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sunbather-on-lounger/20260927T101636Z-thuan-mac-1/reference/sunbathe_839f7645-d246-443b-948f-0ee346ad3a52.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SunbatherOnLounger(Solo48):

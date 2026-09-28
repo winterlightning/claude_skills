@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '56435dba-6f8c-40dc-9770-3098c81d92d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mecha-head-with-v-antennae/20260927T164916Z-thuan-mac-1/reference/robot war crime gundam_56435dba-6f8c-40dc-9770-3098c81d92d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

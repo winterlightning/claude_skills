@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='54a12c47-2b42-4009-a41b-1b8ab3a9ef93'
 SOURCE_PATH='icon_set/work/todo-references/circle rupee_54a12c47-2b42-4009-a41b-1b8ab3a9ef93.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='circle-rupee'
     keyshape=Keyshape.CIRCLE

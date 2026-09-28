@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '958637b4-0216-5d2f-a6a7-e9708b032af8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__damaged-shipping-box/20260925T083122Z-thuan-mac/reference/logistic damaged package_958637b4-0216-5d2f-a6a7-e9708b032af8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Retain the diagonal tape and visible jagged torn seam that identify a damaged package. The tape has 3.16px ink clearance and a short local tear/lid gap is below the 4px target; these remain distinct at 48px. The tear end stays visibly separate from the bottom edge.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'dd435467b89b80deac960b11f0bdde51caaf71b6e89acab20839f3cd65be0842'}

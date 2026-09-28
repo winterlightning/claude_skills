@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '01de5f64-efc7-56f2-9f0d-055a9d213112'
 SOURCE_PATH = 'icon_set/work/todo-references/story button_01de5f64-efc7-56f2-9f0d-055a9d213112.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'story-button'

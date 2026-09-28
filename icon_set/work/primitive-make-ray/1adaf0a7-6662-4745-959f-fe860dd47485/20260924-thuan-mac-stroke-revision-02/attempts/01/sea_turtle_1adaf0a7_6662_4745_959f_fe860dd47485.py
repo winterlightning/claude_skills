@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1adaf0a7-6662-4745-959f-fe860dd47485'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sea-turtle/20260924T101756Z-thuan-mac/reference/turtle_1adaf0a7-6662-4745-959f-fe860dd47485.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='turtle: shell with attached limbs; source owns the top view'
 DESIGN_PLAN='Top-view sea turtle with an elongated head, divided shell and four swept flippers. Shared mirror axis x24 and equal limb curves. SQUARE centerlines (6,6)-(42,42).'
 OMISSIONS='None; fine shell pattern reduced to the source central seam.'

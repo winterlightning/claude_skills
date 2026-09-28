@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='228264ac-5026-43da-8759-cb87af800439'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__long-rounded-tip-kitchen-knife/20260924T115443Z-thuan-mac/reference/blade_228264ac-5026-43da-8759-cb87af800439.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='long-rounded-tip-kitchen-knife'

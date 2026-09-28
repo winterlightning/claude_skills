@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4527205d-f4e9-4989-85e1-f0ba94c4cdd5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__konjac-sponge/20260924T162030Z-thuan-mac/reference/vegetable konjac_4527205d-f4e9-4989-85e1-f0ba94c4cdd5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='konjac-sponge'

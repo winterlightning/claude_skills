@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e3790624-117b-4c1d-b9c8-c78c2822511c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-masked-faces/20260927T155415Z-thuan-mac-1/reference/organized crime_e3790624-117b-4c1d-b9c8-c78c2822511c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ThreeMaskedFaces(Solo48):

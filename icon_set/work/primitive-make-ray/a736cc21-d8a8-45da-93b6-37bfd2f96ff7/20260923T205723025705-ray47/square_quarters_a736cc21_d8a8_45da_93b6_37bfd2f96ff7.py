@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a736cc21-d8a8-45da-93b6-37bfd2f96ff7'
 SOURCE_PATH = 'icon_set/work/todo-references/square quarters_a736cc21-d8a8-45da-93b6-37bfd2f96ff7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square enclosing a smaller rounded square divided into four quarters.
 # References: Shared rectangular grid geometry; central cross joins the inner border.
 # Reduction: No parts omitted.

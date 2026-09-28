@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '697554f1-3afd-5c1d-87a3-50b358ece127'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cargo-bicycle-rear-box/20260927T032022Z-thuan-mac-1/reference/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'
 SOURCE_REFERENCES = (('697554f1-3afd-5c1d-87a3-50b358ece127', 'pictographic-primitives/transportation/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'),)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CargoBicycleRearBox(Solo48):
     icon_id = 'cargo-bicycle-rear-box'

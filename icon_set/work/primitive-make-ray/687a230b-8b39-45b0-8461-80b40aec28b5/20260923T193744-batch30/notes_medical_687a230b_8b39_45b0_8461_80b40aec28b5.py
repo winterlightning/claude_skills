@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '687a230b-8b39-45b0-8461-80b40aec28b5'
 SOURCE_PATH = 'icon_set/work/todo-references/notes medical_687a230b-8b39-45b0-8461-80b40aec28b5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'notes-medical'

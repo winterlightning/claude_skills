@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ebb7d89a-2d4a-5589-bf87-f5864b4b5ccf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crested-bird/20260924T071425Z-thuan-mac/reference/chicken body_ebb7d89a-2d4a-5589-bf87-f5864b4b5ccf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crested-bird'

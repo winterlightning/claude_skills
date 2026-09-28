@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4ea86669-dd94-4c67-81eb-5997c3e0caf5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__security-key-with-notched-shaft/20260924T163012Z-thuan-mac/reference/crypto encryption key_4ea86669-dd94-4c67-81eb-5997c3e0caf5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='security-key-with-notched-shaft'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e886dcde-7af5-41c6-a333-6a6ddf119555'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-right-data-flow/20260925T060602Z-thuan-mac/reference/coding apps website big data arrow_e886dcde-7af5-41c6-a333-6a6ddf119555.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'arrow-right-data-flow'

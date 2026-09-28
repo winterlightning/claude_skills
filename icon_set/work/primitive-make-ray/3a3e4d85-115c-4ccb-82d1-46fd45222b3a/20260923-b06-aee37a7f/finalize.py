@@ -4,7 +4,7 @@ import html
 import os
 from PIL import Image
 
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 FIRST = Path(__file__).parent
 ENTRIES = json.loads((FIRST / 'batch-inputs.json').read_text())
 SOURCE_ICON_ID = tuple(e['source_uuid'] for e in ENTRIES)

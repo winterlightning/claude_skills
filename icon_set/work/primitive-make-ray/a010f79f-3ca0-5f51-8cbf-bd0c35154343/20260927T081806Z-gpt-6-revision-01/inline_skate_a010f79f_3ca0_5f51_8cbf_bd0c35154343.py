@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a010f79f-3ca0-5f51-8cbf-bd0c35154343'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__inline-skate/20260927T081503Z-thuan-mac-1/reference/rollerblades_a010f79f-3ca0-5f51-8cbf-bd0c35154343.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class InlineSkate(Solo48):
     icon_id='inline-skate'

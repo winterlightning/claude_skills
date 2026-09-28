@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '52786bcf-1504-49f9-a5c7-0a9a8ad3d047'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__trillium-flower/20260927T173930Z-thuan-mac-1/reference/trillium_52786bcf-1504-49f9-a5c7-0a9a8ad3d047.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'trillium-flower'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e9b350be-f0e4-49b9-8413-4a4d1c678f43'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/rupee sign_e9b350be-f0e4-49b9-8413-4a4d1c678f43.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'The Indian rupee currency sign.'
 OMISSIONS = 'No defining part omitted. Bowl now leaves the right end of the top rule vertically, avoiding a grazing upper curve.'
 CONSTRUCTION_REFERENCES = 'Lucide indian-rupee: two horizontal bars, rounded bowl and descending diagonal leg.'

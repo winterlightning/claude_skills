@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8ba14a04-c8da-5278-9772-abe74358faf2'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/color picker_8ba14a04-c8da-5278-9772-abe74358faf2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'broad-diagonal-eyedropper-with-crossbar'
     keyshape = Keyshape.SQUARE

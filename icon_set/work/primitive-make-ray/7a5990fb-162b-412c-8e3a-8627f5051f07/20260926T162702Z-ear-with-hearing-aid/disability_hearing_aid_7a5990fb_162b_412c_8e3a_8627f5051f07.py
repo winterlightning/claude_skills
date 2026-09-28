@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7a5990fb-162b-412c-8e3a-8627f5051f07'
 SOURCE_PATH = 'pictographic-primitives/wayfinding/disability hearing aid_7a5990fb-162b-412c-8e3a-8627f5051f07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class EarWithHearingAid(Solo48):
     icon_id = 'ear-with-hearing-aid'

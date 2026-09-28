@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6e9efce0-e06e-5c20-b86e-023f6e8af489'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__single-seat-armchair-slim-legs/20260927T133815Z-thuan-mac-1/reference/sofa couch_6e9efce0-e06e-5c20-b86e-023f6e8af489.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SingleSeatArmchairSlimLegs(Solo48):
     icon_id = 'single-seat-armchair-slim-legs'

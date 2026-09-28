@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e9337ccf-6e62-4109-8b9f-fb9a7582cfcb'
 SOURCE_PATH='pictographic-primitives/avatars/detective woman_e9337ccf-6e62-4109-8b9f-fb9a7582cfcb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restore the reference rounded cap and curved visor, circular lower face, flipped bob hair and V-neck shoulders.'
 CONSTRUCTION_REFERENCES='Lucide hat-glasses: separate crown and brim construction; human_ref/user.svg owns round jaw and shoulder vocabulary.'
 OMISSIONS=[]

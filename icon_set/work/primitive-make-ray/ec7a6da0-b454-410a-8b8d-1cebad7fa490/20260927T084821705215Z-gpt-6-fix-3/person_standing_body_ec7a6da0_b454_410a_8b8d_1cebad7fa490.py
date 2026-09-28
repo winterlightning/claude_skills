@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ec7a6da0-b454-410a-8b8d-1cebad7fa490'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-standing-body/20260927T083143Z-thuan-mac-1/reference/person body 1_ec7a6da0-b454-410a-8b8d-1cebad7fa490.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonStandingBody(Solo48):

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1d59a930-4893-4b9f-8208-3db738cc0478'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dashboard-with-foreground-steering-wheel/20260927T174057Z-thuan-mac-1/reference/cockpit_1d59a930-4893-4b9f-8208-3db738cc0478.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'dashboard-with-foreground-steering-wheel'

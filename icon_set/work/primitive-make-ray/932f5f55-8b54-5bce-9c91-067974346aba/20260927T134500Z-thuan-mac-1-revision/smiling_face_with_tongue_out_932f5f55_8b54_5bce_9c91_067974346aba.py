@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '932f5f55-8b54-5bce-9c91-067974346aba'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-face-with-tongue-out/20260927T133815Z-thuan-mac-1/reference/tongue sticking_932f5f55-8b54-5bce-9c91-067974346aba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SmilingFaceWithTongueOut(Solo48):

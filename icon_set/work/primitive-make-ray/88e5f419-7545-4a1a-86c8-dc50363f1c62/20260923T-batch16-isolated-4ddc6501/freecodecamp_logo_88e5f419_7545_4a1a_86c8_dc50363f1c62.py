@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='88e5f419-7545-4a1a-86c8-dc50363f1c62'
 SOURCE_PATH='icon_set/work/todo-references/freecodecamp logo_88e5f419-7545-4a1a-86c8-dc50363f1c62.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='freecodecamp-logo'
     keyshape=Keyshape.HRECT_L

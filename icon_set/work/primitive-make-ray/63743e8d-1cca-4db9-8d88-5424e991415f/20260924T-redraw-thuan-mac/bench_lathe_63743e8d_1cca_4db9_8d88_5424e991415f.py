@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='63743e8d-1cca-4db9-8d88-5424e991415f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__bench-lathe/20260924T142441Z-thuan-mac/reference/lathe_63743e8d-1cca-4db9-8d88-5424e991415f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='bench-lathe'

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='778556a1-f207-5e49-9e02-977c5f493d53'
 SOURCE_PATH='pictographic-primitives/servers/server choose_778556a1-f207-5e49-9e02-977c5f493d53.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three stacked tiers with separate convex rounded ends; preserve the scalloped sides rather than a single rounded box.'
 CONSTRUCTION_REFERENCES='Lucide server: repeated horizontal trays; source owns the shared rails and bulging ends.'
 OMISSIONS=[]

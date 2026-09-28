@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e4e00065-3df8-4a4e-8fb9-e6dda357af8f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__open-hands-beneath-floating-heart/20260924T162030Z-thuan-mac/reference/donation charity hand care heart_e4e00065-3df8-4a4e-8fb9-e6dda357af8f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='open-hands-beneath-floating-heart'

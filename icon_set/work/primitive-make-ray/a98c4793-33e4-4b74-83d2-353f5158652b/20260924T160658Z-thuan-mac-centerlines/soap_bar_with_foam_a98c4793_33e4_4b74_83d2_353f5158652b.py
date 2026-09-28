@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a98c4793-33e4-4b74-83d2-353f5158652b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__soap-bar-with-foam/20260924T160658Z-thuan-mac/reference/sponge soap_a98c4793-33e4-4b74-83d2-353f5158652b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'soap-bar-with-foam'

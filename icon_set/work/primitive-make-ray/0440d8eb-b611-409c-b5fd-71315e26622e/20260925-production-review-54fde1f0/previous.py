@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '0440d8eb-b611-409c-b5fd-71315e26622e'
 SOURCE_PATH = 'pictographic-primitives/other/5g (text)_0440d8eb-b611-409c-b5fd-71315e26622e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'five-g-wireless-network'

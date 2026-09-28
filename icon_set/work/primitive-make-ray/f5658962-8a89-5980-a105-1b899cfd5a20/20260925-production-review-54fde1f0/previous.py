@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f5658962-8a89-5980-a105-1b899cfd5a20'
 SOURCE_PATH = 'pictographic-primitives/mobile/3g_f5658962-8a89-5980-a105-1b899cfd5a20.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-g-mobile-network'

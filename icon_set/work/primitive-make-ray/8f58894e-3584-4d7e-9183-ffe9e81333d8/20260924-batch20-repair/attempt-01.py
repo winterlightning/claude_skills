@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8f58894e-3584-4d7e-9183-ffe9e81333d8'
 SOURCE_PATH='pictographic-primitives/war/tools tear gas_8f58894e-3584-4d7e-9183-ffe9e81333d8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Tear gas: upper-left eye joins full falling tear, open gas plume above horizontal canister at right. HRECT_L4,8–44,40. Pupil, lower eyelid and small gas dot omitted for clearance; Lucide eye/droplet/spray-can geometric construction.'
 class Drawing(Solo48):
     icon_id='tools-tear-gas'

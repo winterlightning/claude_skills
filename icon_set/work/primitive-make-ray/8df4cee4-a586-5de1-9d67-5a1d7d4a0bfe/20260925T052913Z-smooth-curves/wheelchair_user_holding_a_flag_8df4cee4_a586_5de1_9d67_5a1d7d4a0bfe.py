@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8df4cee4-a586-5de1-9d67-5a1d7d4a0bfe'
 SOURCE_PATH = 'pictographic-primitives/rewards/flag_8df4cee4-a586-5de1-9d67-5a1d7d4a0bfe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'wheelchair-user-holding-a-flag'

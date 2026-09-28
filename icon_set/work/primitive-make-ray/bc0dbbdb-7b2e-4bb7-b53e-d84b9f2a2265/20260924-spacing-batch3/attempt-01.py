@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bc0dbbdb-7b2e-4bb7-b53e-d84b9f2a2265'
 SOURCE_PATH='pictographic-primitives/_uncategorized_29/online doctor laptop facetime_bc0dbbdb-7b2e-4bb7-b53e-d84b9f2a2265.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Doctor head bottom18, shoulder top26 gives exact8 gap; left laptop and right medical cross; simplified keyboard.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg; Lucide laptop tapered base'
 class Drawing(Solo48):

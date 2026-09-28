@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='47a2b590-49ff-4756-986c-0ff92fb659e6'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__braille-book-batch-020-09/20260924T142441Z-thuan-mac/reference/blind book close_47a2b590-49ff-4756-986c-0ff92fb659e6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='braille-book-batch-020-09'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1fd053b8-c577-5911-9707-fcba592859d3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mammoth-head/20260924T093935Z-thuan-mac/reference/mammoth elephant_1fd053b8-c577-5911-9707-fcba592859d3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'No useful local mammoth match; source crescent tusk and domed head.'
 OMISSIONS = 'Eye omitted as absent in reference.'
 

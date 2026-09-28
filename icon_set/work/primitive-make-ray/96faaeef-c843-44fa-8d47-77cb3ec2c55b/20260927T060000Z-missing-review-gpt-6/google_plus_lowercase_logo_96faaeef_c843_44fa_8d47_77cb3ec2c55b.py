@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '96faaeef-c843-44fa-8d47-77cb3ec2c55b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-plus-lowercase-logo/20260927T055654Z-thuan-mac-1/reference/google plus logo 2_96faaeef-c843-44fa-8d47-77cb3ec2c55b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GooglePlusLowercaseLogo(Solo48):

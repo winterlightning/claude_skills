@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1a77b164-d1b5-40f6-89b4-9b211524fbb0'
 SOURCE_PATH = 'pictographic-primitives/travel/plane_1a77b164-d1b5-40f6-89b4-9b211524fbb0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/airplane_top_view_swept_wings_1a77b164_d1b5_40f6_89b4_9b211524fbb0.py'
 class Drawing(Solo48):
     icon_id = 'airplane-top-view-swept-wings'

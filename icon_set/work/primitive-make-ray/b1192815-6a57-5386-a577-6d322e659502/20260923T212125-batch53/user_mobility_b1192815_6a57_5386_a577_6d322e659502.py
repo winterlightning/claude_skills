@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b1192815-6a57-5386-a577-6d322e659502'
 SOURCE_PATH='icon_set/work/todo-references/user mobility_b1192815-6a57-5386-a577-6d322e659502.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='user-mobility'

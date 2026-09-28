@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='881b2542-a602-49a4-a701-fe557a244491'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__water-polo-player/20260927T145855Z-thuan-mac-1/reference/swimming waterpolo_881b2542-a602-49a4-a701-fe557a244491.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class WaterPoloPlayer(Solo48):
     icon_id='water-polo-player'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '7e3b79f2-dcc5-4988-ab08-8460306de315'
 SOURCE_PATH = 'pictographic-primitives/other/house with play button_7e3b79f2-dcc5-4988-ab08-8460306de315.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded house with its original circular play medallion restored.'
 OMISSIONS = 'No defining omissions; nested play medallion may require a spacing exception after visual review.'
 CONSTRUCTION_REFERENCES = ['house']

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '32295af4-defa-5f3c-af21-d930830f3a88'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-pierced-by-arrow/20260927T061835Z-thuan-mac-1/reference/love heart arrow_32295af4-defa-5f3c-af21-d930830f3a88.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HeartPiercedByArrow(Solo48):
     icon_id = 'heart-pierced-by-arrow'

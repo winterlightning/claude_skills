@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '58f87e29-b0b5-42be-b412-f3b9d5882e0e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__award-flower-rosette/20260926T073831Z-thuan-mac/reference/award flower shape_58f87e29-b0b5-42be-b412-f3b9d5882e0e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AwardFlowerRosette(Solo48):
     icon_id = 'award-flower-rosette'

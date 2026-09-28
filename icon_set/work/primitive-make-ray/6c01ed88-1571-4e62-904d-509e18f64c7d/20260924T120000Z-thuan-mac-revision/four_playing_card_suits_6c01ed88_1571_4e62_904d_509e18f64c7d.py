@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6c01ed88-1571-4e62-904d-509e18f64c7d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__four-playing-card-suits/20260924T115443Z-thuan-mac/reference/card game symbols_6c01ed88-1571-4e62-904d-509e18f64c7d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='four-playing-card-suits'

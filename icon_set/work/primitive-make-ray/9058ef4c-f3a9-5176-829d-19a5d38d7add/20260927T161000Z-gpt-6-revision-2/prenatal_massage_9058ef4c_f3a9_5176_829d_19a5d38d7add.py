@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9058ef4c-f3a9-5176-829d-19a5d38d7add'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__prenatal-massage-9058ef4c/20260927T153803Z-thuan-mac-1/reference/prenatal massage_9058ef4c-f3a9-5176-829d-19a5d38d7add.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'prenatal-massage-9058ef4c'

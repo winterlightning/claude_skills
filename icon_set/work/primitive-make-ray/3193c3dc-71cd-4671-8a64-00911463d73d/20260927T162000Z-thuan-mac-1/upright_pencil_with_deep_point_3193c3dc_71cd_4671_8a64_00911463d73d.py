@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3193c3dc-71cd-4671-8a64-00911463d73d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-pencil-with-deep-point/20260927T160114Z-thuan-mac-1/reference/design monitor pencil_3193c3dc-71cd-4671-8a64-00911463d73d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CATALOG_REFERENCE = 'pictographic-primitives/design/design monitor pencil_3193c3dc-71cd-4671-8a64-00911463d73d.svg'
 
 def _run(icon, name, *points):

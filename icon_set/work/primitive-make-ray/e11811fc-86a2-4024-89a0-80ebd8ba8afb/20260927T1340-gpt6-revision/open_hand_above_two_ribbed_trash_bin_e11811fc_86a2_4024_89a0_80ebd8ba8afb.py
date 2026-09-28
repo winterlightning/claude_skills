@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e11811fc-86a2-4024-89a0-80ebd8ba8afb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-hand-above-two-ribbed-trash-bin/20260927T133654Z-thuan-mac-1/reference/recycling hand trash_e11811fc-86a2-4024-89a0-80ebd8ba8afb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'open-hand-above-two-ribbed-trash-bin'

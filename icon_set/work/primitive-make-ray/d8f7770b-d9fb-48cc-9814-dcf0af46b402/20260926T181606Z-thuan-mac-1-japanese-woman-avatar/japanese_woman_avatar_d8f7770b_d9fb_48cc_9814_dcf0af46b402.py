@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'd8f7770b-d9fb-48cc-9814-dcf0af46b402'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__japanese-woman-avatar/20260926T175531Z-thuan-mac-1/reference/japanese woman_d8f7770b-d9fb-48cc-9814-dcf0af46b402.svg'
 SOURCE_HEAD_ICON_ID = 'japanese-woman'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 22
 
 class JapaneseWomanAvatar(Solo48):

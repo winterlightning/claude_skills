@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6e8fe73c-8e53-54a3-b333-d7a046bafd5f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__truck-tall-cab/20260927T032022Z-thuan-mac-1/reference/truck empty_6e8fe73c-8e53-54a3-b333-d7a046bafd5f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class TruckTallCab(Solo48):

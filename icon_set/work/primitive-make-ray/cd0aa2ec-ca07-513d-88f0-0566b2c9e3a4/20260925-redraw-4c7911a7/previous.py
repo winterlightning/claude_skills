@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'cd0aa2ec-ca07-513d-88f0-0566b2c9e3a4'
 SOURCE_PATH = 'pictographic-primitives/pets/dog_cd0aa2ec-ca07-513d-88f0-0566b2c9e3a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SittingDogTuckedPaw(Solo48):
     icon_id = 'sitting-dog-tucked-paw'

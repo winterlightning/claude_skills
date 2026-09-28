@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c7971940-e005-4274-8ce0-42bb52c2d398'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__perspective-sugar-cube-above-spoon/20260927T165437Z-thuan-mac-1/reference/drinks extra add sugar 1_c7971940-e005-4274-8ce0-42bb52c2d398.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'perspective-sugar-cube-above-spoon'

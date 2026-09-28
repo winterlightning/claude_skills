@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b4920684-b8a7-4041-8e84-67476dd1c016'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__meerkat/20260924T093935Z-thuan-mac/reference/meerkat_b4920684-b8a7-4041-8e84-67476dd1c016.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'No useful local meerkat match; source open back/tail and small snout.'
 OMISSIONS = 'No invented eye, paw or closed baseline.'
 

@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '544f8a60-ccee-42bc-8507-07936210e82f'
 SOURCE_PATH = 'icon_set/work/todo-references/browser pound sign_544f8a60-ccee-42bc-8507-07936210e82f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['panels-top-left', 'pound-sterling']
 class Drawing(Solo48):
     icon_id = 'browser-pound-sign'

@@ -8,7 +8,7 @@ SOURCE_ICON_ID='3b2a855e-6ab2-51bc-8612-b388126ed3ff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__global-network-nodes-solo-b017/20260927T142529Z-thuan-mac-1/reference/cross region data delivery_3b2a855e-6ab2-51bc-8612-b388126ed3ff.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/networks/cross region data delivery_3b2a855e-6ab2-51bc-8612-b388126ed3ff.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-017/references/cross region data delivery_3b2a855e-6ab2-51bc-8612-b388126ed3ff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class BatchIcon(Solo48):
     icon_id='global-network-nodes-solo-b017'
     keyshape=Keyshape.CIRCLE

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a576eae9-10c6-460b-afb1-570ec971a498'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__circular-arrow/20260924T083211Z-thuan-mac/reference/circular arrow_a576eae9-10c6-460b-afb1-570ec971a498.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='circular-arrow'

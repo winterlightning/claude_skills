@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='16b19145-212f-42bd-b9b5-ab0936754a35'
 SOURCE_PATH='icon_set/work/todo-references/tv control previous_16b19145-212f-42bd-b9b5-ab0936754a35.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Television with a previous-track bar and left-pointing triangle.'
 CONSTRUCTION_REFERENCE='monitor: screen and stand construction'
 

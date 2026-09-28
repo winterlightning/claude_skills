@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='2739b613-55fd-4f47-af97-f5cf90cb523d'
 SOURCE_PATH='pictographic-primitives/other/poverty person_2739b613-55fd-4f47-af97-f5cf90cb523d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Seated huddled stick figure with arms separated clearly from the raised knees.'
 CONSTRUCTION_REFERENCE='human_ref/full_body_ref.png: seated pose and round-ended limbs; supplied huddled action.'
 class Drawing(Solo48):

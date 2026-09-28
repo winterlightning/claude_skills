@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='7ecac39c-d98d-4ff3-af33-ae4cbc274cb3'
 SOURCE_PATH='icon_set/work/todo-references/rectangle buy text_7ecac39c-d98d-4ff3-af33-ae4cbc274cb3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='BUY lettering inside a purchase button.'
 OMISSIONS='All three letters retained; hand-built centerline glyphs.'
 LUCIDE_REFERENCE=None

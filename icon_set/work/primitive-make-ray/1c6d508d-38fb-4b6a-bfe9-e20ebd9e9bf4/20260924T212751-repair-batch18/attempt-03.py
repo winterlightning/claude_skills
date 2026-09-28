@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4'
 SOURCE_PATH = 'pictographic-primitives/outdoors/outdoors pig apple_1c6d508d-38fb-4b6a-bfe9-e20ebd9e9bf4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Pig head facing an apple pictured on a rectangular panel. Preserve the overlapping snout.'
 CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; source supplies pig/apple arrangement.'
 OMISSIONS = 'Tiny nostril and panel portion behind snout omitted.'

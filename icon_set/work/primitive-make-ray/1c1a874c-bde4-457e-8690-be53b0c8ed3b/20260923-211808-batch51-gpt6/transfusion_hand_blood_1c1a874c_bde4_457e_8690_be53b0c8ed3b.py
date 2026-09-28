@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1c1a874c-bde4-457e-8690-be53b0c8ed3b'
 SOURCE_PATH = 'icon_set/work/todo-references/transfusion hand blood_1c1a874c-bde4-457e-8690-be53b0c8ed3b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'transfusion-hand-blood'
     keyshape = Keyshape.SQUARE

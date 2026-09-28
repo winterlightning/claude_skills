@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4a12d6a5-374a-5c49-8bd7-4bf52793db57'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bell-with-ringing-strokes/20260925T060624Z-thuan-mac/reference/alarm bell ring_4a12d6a5-374a-5c49-8bd7-4bf52793db57.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'bell-with-ringing-strokes'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5f68a3f0-5127-5b63-9f70-98a1a48b1ef2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hub/20260927T070849Z-thuan-mac-1/reference/hub_5f68a3f0-5127-5b63-9f70-98a1a48b1ef2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Hub(Solo48):
     icon_id = 'hub'

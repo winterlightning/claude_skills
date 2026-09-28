@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='30cd9303-dbd1-4ff5-9b6d-c3de44b1a7e4'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/smart refrigerator device_30cd9303-dbd1-4ff5-9b6d-c3de44b1a7e4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Fridge behind smartphone and wireless arc. SQUARE6,6–42,42. Lucide refrigerator door division and wifi arch inform construction; handles reduced to dots, phone footer and inner radio arc omitted.'
 class Drawing(Solo48):
     icon_id='smart-refrigerator-device'

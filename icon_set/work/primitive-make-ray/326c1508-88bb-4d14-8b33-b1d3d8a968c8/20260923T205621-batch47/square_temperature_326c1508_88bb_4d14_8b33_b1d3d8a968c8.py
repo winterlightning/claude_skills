@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '326c1508-88bb-4d14-8b33-b1d3d8a968c8'
 SOURCE_PATH = 'icon_set/work/todo-references/square temperature_326c1508-88bb-4d14-8b33-b1d3d8a968c8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-temperature'

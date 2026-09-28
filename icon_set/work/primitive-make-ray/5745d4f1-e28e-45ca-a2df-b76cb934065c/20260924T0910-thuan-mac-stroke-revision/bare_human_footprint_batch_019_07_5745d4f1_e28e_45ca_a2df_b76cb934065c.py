@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5745d4f1-e28e-45ca-a2df-b76cb934065c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bare-human-footprint-batch-019-07/20260924T090615Z-thuan-mac/reference/foot_5745d4f1-e28e-45ca-a2df-b76cb934065c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'bare-human-footprint-batch-019-07'
     keyshape = Keyshape.VRECT_L

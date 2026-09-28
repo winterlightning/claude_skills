@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b29c9138-b839-4d16-85c8-dd78ec3254c1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__rounded-car-under-sun/20260924T152553Z-thuan-mac/reference/car sun_b29c9138-b839-4d16-85c8-dd78ec3254c1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='rounded-car-under-sun'

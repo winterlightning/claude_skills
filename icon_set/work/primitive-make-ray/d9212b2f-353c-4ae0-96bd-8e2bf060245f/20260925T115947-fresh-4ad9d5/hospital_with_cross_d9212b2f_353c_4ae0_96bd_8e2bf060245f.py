@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='d9212b2f-353c-4ae0-96bd-8e2bf060245f'
 SOURCE_PATH='pictographic-primitives/other/hospital 1_d9212b2f-353c-4ae0-96bd-8e2bf060245f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='The cross arms are larger, both side-wing divisions are restored, and the central doorway is retained. Equal wing widths and a shared center axis control all details.'
 CONSTRUCTION_REFERENCE='hospital original and atomic-debug: cross, side blocks and central entry.'
 OMISSIONS='No defining parts omitted. Overall building is wider and lower than the source to preserve cross clearance.'

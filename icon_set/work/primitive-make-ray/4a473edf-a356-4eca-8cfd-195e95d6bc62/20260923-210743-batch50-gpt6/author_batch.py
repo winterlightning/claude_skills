@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 
 SOURCE_ICON_ID = '4a473edf-a356-4eca-8cfd-195e95d6bc62'
 SOURCE_PATH = 'icon_set/work/todo-references/team approve disapprove_4a473edf-a356-4eca-8cfd-195e95d6bc62.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ROOT = Path(__file__).resolve().parent
 ROWS = json.loads((ROOT/'batch-inputs.json').read_text())
 

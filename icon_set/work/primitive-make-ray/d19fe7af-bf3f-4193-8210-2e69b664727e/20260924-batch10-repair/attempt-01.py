@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d19fe7af-bf3f-4193-8210-2e69b664727e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/side road angle right 2_d19fe7af-bf3f-4193-8210-2e69b664727e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Diamond sign with upward road arrow and lower right branch. Radial CIRCLE envelope20; shared true branch node24,25. Shorter branch keeps full source arrangement.'
 class Drawing(Solo48):
     icon_id='side-road-angle-right-2'

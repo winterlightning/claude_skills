@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3cb36a1f-8edb-4e21-9623-b8c8fac724c3'
 SOURCE_PATH = 'pictographic-primitives/other/car flash_3cb36a1f-8edb-4e21-9623-b8c8fac724c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/car_flash_3cb36a1f_8edb_4e21_9623_b8c8fac724c3.py'
 
 class Drawing(Solo48):

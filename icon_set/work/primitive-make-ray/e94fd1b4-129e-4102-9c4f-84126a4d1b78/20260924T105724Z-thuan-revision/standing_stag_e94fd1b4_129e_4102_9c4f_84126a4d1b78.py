@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e94fd1b4-129e-4102-9c4f-84126a4d1b78'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-stag/20260924T105724Z-thuan-mac/reference/deer body_e94fd1b4-129e-4102-9c4f-84126a4d1b78.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'standing-stag'

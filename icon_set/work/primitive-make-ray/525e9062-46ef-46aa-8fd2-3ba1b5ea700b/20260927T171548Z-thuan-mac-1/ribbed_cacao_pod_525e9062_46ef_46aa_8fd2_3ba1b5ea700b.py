@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '525e9062-46ef-46aa-8fd2-3ba1b5ea700b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ribbed-cacao-pod/20260927T171300Z-thuan-mac-1/reference/cacao_525e9062-46ef-46aa-8fd2-3ba1b5ea700b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ribbed-cacao-pod'

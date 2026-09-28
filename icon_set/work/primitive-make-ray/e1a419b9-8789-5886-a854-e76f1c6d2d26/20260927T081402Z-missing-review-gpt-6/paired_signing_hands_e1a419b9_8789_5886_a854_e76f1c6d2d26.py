@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e1a419b9-8789-5886-a854-e76f1c6d2d26'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__paired-signing-hands/20260927T074149Z-thuan-mac-1/reference/hands language_e1a419b9-8789-5886-a854-e76f1c6d2d26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PairedSigningHands(Solo48):
     icon_id = 'paired-signing-hands'

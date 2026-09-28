@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='4a625cc1-8989-433b-89db-ddf1b6a98ffe'
 SOURCE_PATH='pictographic-primitives/other/airplane_4a625cc1-8989-433b-89db-ddf1b6a98ffe.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Side-view airliner climbs rightward with a broad round nose, long lower edge, angular upper-left wing and a deep notch above its left tail.'
 CONSTRUCTION_REFERENCE='plane-takeoff original and atomic-debug: sloping fuselage, single visible wing and rear fin.'
 OMISSIONS='No defining features omitted; ground line is not in the supplied reference and is not added.'

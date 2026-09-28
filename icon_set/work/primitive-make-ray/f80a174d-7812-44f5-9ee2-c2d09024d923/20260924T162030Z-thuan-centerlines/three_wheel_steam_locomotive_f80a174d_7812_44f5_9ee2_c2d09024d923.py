@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f80a174d-7812-44f5-9ee2-c2d09024d923'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__three-wheel-steam-locomotive/20260924T162030Z-thuan-mac/reference/steam engine_f80a174d-7812-44f5-9ee2-c2d09024d923.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='three-wheel-steam-locomotive'

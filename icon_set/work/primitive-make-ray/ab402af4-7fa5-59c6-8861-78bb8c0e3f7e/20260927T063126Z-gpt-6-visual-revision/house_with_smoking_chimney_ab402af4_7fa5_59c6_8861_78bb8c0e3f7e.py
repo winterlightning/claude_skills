@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = 'ab402af4-7fa5-59c6-8861-78bb8c0e3f7e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-with-smoking-chimney/20260927T061852Z-thuan-mac-1/reference/house chimney smoke_ab402af4-7fa5-59c6-8861-78bb8c0e3f7e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'house-with-smoking-chimney'

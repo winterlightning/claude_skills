@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6a48516f-37fb-5770-a751-dc63f628421b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-hatchback/20260927T084430Z-thuan-mac-1/reference/car voyage_6a48516f-37fb-5770-a751-dc63f628421b.svg'
 SOURCE_REFERENCES = (('6a48516f-37fb-5770-a751-dc63f628421b', 'pictographic-primitives/transportation/car voyage_6a48516f-37fb-5770-a751-dc63f628421b.svg'),)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RoundedHatchback(Solo48):
     icon_id = 'rounded-hatchback'

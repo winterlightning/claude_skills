@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='eb47004b-f404-423b-86db-835fad7f0bcb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__redux-three-lobed-emblem/20260924T150007Z-thuan-mac/reference/redux logo_eb47004b-f404-423b-86db-835fad7f0bcb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='redux-three-lobed-emblem'
     keyshape=Keyshape.SQUARE

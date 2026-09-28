@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bce3f8f6-b015-42a5-94c3-92f3bb3be306'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-reaching-for-diamond/20260927T075452Z-thuan-mac-1/reference/diamond hold_bce3f8f6-b015-42a5-94c3-92f3bb3be306.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch30Icon(Solo48):
     icon_id = 'hand-reaching-for-diamond'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '13ea825f-ae04-4150-a4b6-56b3bed9dc5d'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone phone_13ea825f-ae04-4150-a4b6-56b3bed9dc5d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Phone with a recognizable curved telephone receiver and angled earpieces.'
 OMISSIONS = 'Tiny earpiece panel seams omitted; retain full receiver silhouette.'
 CONSTRUCTION_REFERENCES = ['smartphone', 'phone']

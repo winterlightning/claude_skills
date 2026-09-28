@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '958445fb-294c-5b85-9463-6a253bbd6c31'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__office-worker-with-long-tie/20260927T133815Z-thuan-mac-1/reference/man office_958445fb-294c-5b85-9463-6a253bbd6c31.svg'
 SOURCE_CATEGORY = 'avatars'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'office-worker-with-long-tie'

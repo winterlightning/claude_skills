@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '22174314-84c2-4a0b-ab71-585364fe91f9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__angel-and-kneeling-person/20260927T150142Z-thuan-mac-1/reference/feast of the annunciation_22174314-84c2-4a0b-ab71-585364fe91f9.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

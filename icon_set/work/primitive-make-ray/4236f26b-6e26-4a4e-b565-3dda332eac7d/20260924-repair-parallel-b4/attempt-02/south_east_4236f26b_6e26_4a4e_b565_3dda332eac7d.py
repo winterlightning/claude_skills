@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4236f26b-6e26-4a4e-b565-3dda332eac7d'
 SOURCE_PATH='pictographic-primitives/_uncategorized_35/south east_4236f26b-6e26-4a4e-b565-3dda332eac7d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='south-east'
     keyshape=Keyshape.VRECT_M

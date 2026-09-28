@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='4c602b7b-4759-408d-85ec-47eb4b50b541'
 SOURCE_PATH='icon_set/work/todo-references/rearrange column_4c602b7b-4759-408d-85ec-47eb4b50b541.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three segmented columns below a curved two-ended rearrangement arrow.'
 OMISSIONS='Rows reduced to two per column.'
 LUCIDE_REFERENCE=None

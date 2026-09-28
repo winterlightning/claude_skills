@@ -20,7 +20,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8e40565d-c7b2-4420-8d5b-1b493254eb23'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mimosa-branch-with-berries-and-pointed-leaves/20260926T125429Z-thuan-mac/reference/mimosa_8e40565d-c7b2-4420-8d5b-1b493254eb23.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 BERRY_R = 3
 BASE = (27, 42)

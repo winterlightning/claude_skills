@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3f07500-0d8f-5bbb-b806-122fe5e29847'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__quad-bike/20260927T153833Z-thuan-mac-1/reference/atv_b3f07500-0d8f-5bbb-b806-122fe5e29847.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class QuadBike(Solo48):
     icon_id = 'quad-bike'

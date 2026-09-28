@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f404c979-1c1a-47d8-a682-5c3d8c7994bf'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'weather-app-sun-cloud-location'

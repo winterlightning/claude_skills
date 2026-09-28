@@ -25,7 +25,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '54079a5b-25ea-4346-8fc4-d2b5f8239da0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__capped-delivery-rider-on-scooter/20260926T125429Z-thuan-mac/reference/delivery person motorcycle_54079a5b-25ea-4346-8fc4-d2b5f8239da0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 WHEEL_R = 3
 REAR_C, FRONT_C = (11, 39), (39, 39)

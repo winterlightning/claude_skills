@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e517945d-ae7e-42b9-a786-86c12ecffafd'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__eye-and-contact-lens-batch-012-07/20260924T093128Z-thuan-mac/reference/ophthalmic contact lens_e517945d-ae7e-42b9-a786-86c12ecffafd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='eye-and-contact-lens-batch-012-07'
     keyshape=Keyshape.SQUARE

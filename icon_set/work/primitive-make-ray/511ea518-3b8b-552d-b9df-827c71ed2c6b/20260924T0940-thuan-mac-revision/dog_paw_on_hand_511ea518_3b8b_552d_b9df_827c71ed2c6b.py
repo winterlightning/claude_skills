@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='511ea518-3b8b-552d-b9df-827c71ed2c6b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__dog-paw-on-hand/20260924T093128Z-thuan-mac/reference/dog training giving hand paw_511ea518-3b8b-552d-b9df-827c71ed2c6b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='dog-paw-on-hand'
     keyshape=Keyshape.SQUARE

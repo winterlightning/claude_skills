@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7a3a8b0a-72cc-50fc-8d70-d02028b9db8a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pumpkin/20260927T153803Z-thuan-mac-1/reference/pumpkin_7a3a8b0a-72cc-50fc-8d70-d02028b9db8a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconPumpkin(Solo48):

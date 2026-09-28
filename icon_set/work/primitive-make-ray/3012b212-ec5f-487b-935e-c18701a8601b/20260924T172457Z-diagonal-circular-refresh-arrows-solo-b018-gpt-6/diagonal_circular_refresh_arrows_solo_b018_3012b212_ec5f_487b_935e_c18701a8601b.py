@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3012b212-ec5f-487b-935e-c18701a8601b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-circular-refresh-arrows-solo-b018/20260924T172457Z-thuan-mac/reference/arrows spin_3012b212-ec5f-487b-935e-c18701a8601b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'diagonal-circular-refresh-arrows-solo-b018'
     keyshape = Keyshape.SQUARE

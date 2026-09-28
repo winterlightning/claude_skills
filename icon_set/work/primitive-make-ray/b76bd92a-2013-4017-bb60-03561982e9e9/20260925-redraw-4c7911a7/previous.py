@@ -8,7 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'b76bd92a-2013-4017-bb60-03561982e9e9'
 SOURCE_PATH = 'pictographic-primitives/pets/dog_b76bd92a-2013-4017-bb60-03561982e9e9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SittingDogWithGroundLine(Solo48):
     icon_id = 'sitting-dog-with-ground-line'

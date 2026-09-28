@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f3ea07b5-bded-5f43-9c71-2bfbcee72d76'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shovel-in-two-soil-mounds/20260927T092933Z-thuan-mac-1/reference/construction shovel_f3ea07b5-bded-5f43-9c71-2bfbcee72d76.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ShovelInTwoSoilMounds(Solo48):

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7ab89ad7-86f2-56d0-9d06-1c301854cdbc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__equalizer-audio/20260924T165054Z-thuan-mac/reference/equalizer_7ab89ad7-86f2-56d0-9d06-1c301854cdbc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'equalizer-audio'
     keyshape = Keyshape.HRECT_L

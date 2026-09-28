@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '313ebe34-419d-4e83-bfde-cdb1855f8abe'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kaios-logo/20260927T070927Z-thuan-mac-1/reference/kai os logo_313ebe34-419d-4e83-bfde-cdb1855f8abe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KaiosLogo(Solo48):
     icon_id = 'kaios-logo'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8fbdf83e-7f75-5f64-b826-fc7b55c55a27'
 SOURCE_PATH = 'pictographic-primitives/money/crypto currency bitcoin_8fbdf83e-7f75-5f64-b826-fc7b55c55a27.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Circular bitcoin coin with two generous B counters, aligned stem and twin currency bars.'
 OMISSIONS = 'No omitted defining features; narrow currency bars are reported if they cannot meet spacing.'
 CONSTRUCTION_REFERENCES = ['circle']

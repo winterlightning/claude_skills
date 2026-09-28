@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '20339a75-190c-4916-aca5-b1978d81d7c4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-shaping-pottery/20260927T135945Z-thuan-mac-1/reference/crafts pottery_20339a75-190c-4916-aca5-b1978d81d7c4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsShapingPottery(Solo48):
     icon_id = 'hands-shaping-pottery'

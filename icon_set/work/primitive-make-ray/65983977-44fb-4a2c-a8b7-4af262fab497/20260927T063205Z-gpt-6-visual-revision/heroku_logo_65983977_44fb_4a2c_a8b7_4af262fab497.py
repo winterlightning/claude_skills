@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '65983977-44fb-4a2c-a8b7-4af262fab497'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heroku-logo/20260927T061852Z-thuan-mac-1/reference/heroku logo_65983977-44fb-4a2c-a8b7-4af262fab497.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HerokuLogo(Solo48):
     icon_id = 'heroku-logo'

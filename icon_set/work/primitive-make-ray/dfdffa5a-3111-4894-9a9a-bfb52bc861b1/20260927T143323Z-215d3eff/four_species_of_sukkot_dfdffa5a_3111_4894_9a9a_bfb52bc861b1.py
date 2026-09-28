@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dfdffa5a-3111-4894-9a9a-bfb52bc861b1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__four-species-of-sukkot/20260927T142529Z-thuan-mac-1/reference/sukkot feast of tabernacles_dfdffa5a-3111-4894-9a9a-bfb52bc861b1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'four-species-of-sukkot'

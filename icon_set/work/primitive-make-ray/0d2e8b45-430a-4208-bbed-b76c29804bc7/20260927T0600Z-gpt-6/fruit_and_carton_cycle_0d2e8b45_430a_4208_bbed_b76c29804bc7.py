@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0d2e8b45-430a-4208-bbed-b76c29804bc7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fruit-and-carton-cycle/20260927T055558Z-thuan-mac-1/reference/supply chain distributor fruit juice_0d2e8b45-430a-4208-bbed-b76c29804bc7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('0d2e8b45-430a-4208-bbed-b76c29804bc7', 'pictographic-primitives/business/supply chain distributor fruit juice_0d2e8b45-430a-4208-bbed-b76c29804bc7.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

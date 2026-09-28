@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '765f4935-d388-462f-ab4d-ad786a029631'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__goalkeeper-glove-sports/20260927T075459Z-thuan-mac-1/reference/goalkeeper glove_765f4935-d388-462f-ab4d-ad786a029631.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GoalkeeperGloveSports(Solo48):
     icon_id = 'goalkeeper-glove-sports'

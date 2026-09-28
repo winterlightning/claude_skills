@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='eba62204-89c9-492a-958f-b4f34fbc386d'
 SOURCE_PATH='icon_set/work/todo-references/square dot top_eba62204-89c9-492a-958f-b4f34fbc386d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ROWS=json.loads((ROOT/'batch-inputs.json').read_text())
 HELPERS='''

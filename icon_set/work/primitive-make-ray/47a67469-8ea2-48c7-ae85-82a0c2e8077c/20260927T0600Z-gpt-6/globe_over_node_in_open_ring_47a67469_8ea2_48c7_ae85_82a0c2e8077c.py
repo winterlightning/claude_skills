@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '47a67469-8ea2-48c7-ae85-82a0c2e8077c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__globe-over-node-in-open-ring/20260927T055558Z-thuan-mac-1/reference/amazon web service cross region data delivery 1_47a67469-8ea2-48c7-ae85-82a0c2e8077c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GlobeOverNodeInOpenRing(Solo48):
     icon_id = 'globe-over-node-in-open-ring'

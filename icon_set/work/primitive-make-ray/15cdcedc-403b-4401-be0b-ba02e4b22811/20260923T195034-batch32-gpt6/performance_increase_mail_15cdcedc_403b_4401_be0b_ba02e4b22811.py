@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '15cdcedc-403b-4401-be0b-ba02e4b22811'
 SOURCE_PATH = 'icon_set/work/todo-references/performance increase mail_15cdcedc-403b-4401-be0b-ba02e4b22811.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """An envelope holding an increasing chart.

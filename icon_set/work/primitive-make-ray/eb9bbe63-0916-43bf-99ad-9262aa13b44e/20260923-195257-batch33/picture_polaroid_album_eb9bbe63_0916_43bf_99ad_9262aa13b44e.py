@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='eb9bbe63-0916-43bf-99ad-9262aa13b44e'
 SOURCE_PATH='icon_set/work/todo-references/picture polaroid album_eb9bbe63-0916-43bf-99ad-9262aa13b44e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A photo album page with a two-by-two array of square image slots.'
 OMISSIONS='No defining features omitted.'
 LUCIDE_REFERENCE='gallery-vertical-end'

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '959341bb-93a4-4207-a514-99f7bd37b9b4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-jet-ski-rider/20260927T091411Z-thuan-mac-1/reference/sport jet skiing_959341bb-93a4-4207-a514-99f7bd37b9b4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SeatedJetSkiRider(Solo48):

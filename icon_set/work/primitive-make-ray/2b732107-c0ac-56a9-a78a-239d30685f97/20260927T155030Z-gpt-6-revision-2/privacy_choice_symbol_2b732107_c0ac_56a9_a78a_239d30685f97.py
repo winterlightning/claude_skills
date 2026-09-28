@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2b732107-c0ac-56a9-a78a-239d30685f97'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__privacy-choice-symbol/20260927T153803Z-thuan-mac-1/reference/ccpa opt out_2b732107-c0ac-56a9-a78a-239d30685f97.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PrivacyChoiceSymbol(Solo48):
     icon_id = 'privacy-choice-symbol'

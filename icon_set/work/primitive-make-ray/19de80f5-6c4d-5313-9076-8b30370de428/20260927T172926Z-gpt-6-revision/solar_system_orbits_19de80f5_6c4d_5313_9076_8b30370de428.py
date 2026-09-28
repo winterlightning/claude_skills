@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '19de80f5-6c4d-5313-9076-8b30370de428'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__solar-system-orbits/20260927T172707Z-thuan-mac-1/reference/astronomy solar system_19de80f5-6c4d-5313-9076-8b30370de428.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SolarSystemOrbits(Solo48):
     icon_id = 'solar-system-orbits'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b100eb65-29b9-42da-a61f-4629d1676fd9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gaming-console-and-controller/20260925T034349Z-thuan-mac/reference/xbox series x joy_b100eb65-29b9-42da-a61f-4629d1676fd9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'gaming-console-and-controller'

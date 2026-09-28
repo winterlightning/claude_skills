@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='6341f7cd-9be8-48da-9d1f-bb8141ad4804'
 SOURCE_PATH='icon_set/work/todo-references/christmas postcard 2_6341f7cd-9be8-48da-9d1f-bb8141ad4804.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='christmas-postcard-2'
     keyshape=Keyshape.HRECT_L

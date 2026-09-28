@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'deb50b30-8dc9-43c7-9d32-ad3dac6a9642'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__apple-on-weighing-scale-batch-009-14/20260924T090148Z-thuan-mac/reference/scale apple_deb50b30-8dc9-43c7-9d32-ad3dac6a9642.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'apple-on-weighing-scale-batch-009-14'

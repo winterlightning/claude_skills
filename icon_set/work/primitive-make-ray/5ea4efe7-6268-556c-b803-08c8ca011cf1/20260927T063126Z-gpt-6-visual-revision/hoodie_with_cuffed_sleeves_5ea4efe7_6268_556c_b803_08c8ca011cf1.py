@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '5ea4efe7-6268-556c-b803-08c8ca011cf1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hoodie-with-cuffed-sleeves/20260927T061852Z-thuan-mac-1/reference/hoodie_5ea4efe7-6268-556c-b803-08c8ca011cf1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'hoodie-with-cuffed-sleeves'

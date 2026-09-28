@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '80d9152e-7c3d-4bfe-8c06-1a9d8b17db38'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__downward-reflection-diagram/20260924T165054Z-thuan-mac/reference/reflect down_80d9152e-7c3d-4bfe-8c06-1a9d8b17db38.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'downward-reflection-diagram'
     keyshape = Keyshape.HRECT_L

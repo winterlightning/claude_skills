@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._payments_batch01 import compact_currency
 from icon_set.model.icons.solo._sub_preparation_symbols import bubble, document, wireless_phone, banknote, moneybag, house, monitor, baht, currency, compact, diagonal_dollar
 SOURCE_ICON_ID='8d317b81-2d88-4d5c-9090-0c063df565b3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-contactless-payment-solo/20260927T153322Z-thuan-mac-1/reference/mobile phone dollar sign wireless_8d317b81-2d88-4d5c-9090-0c063df565b3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='mobile-contactless-payment-solo'
     keyshape=Keyshape.VRECT_L

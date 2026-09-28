@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='84ea8179-ecd2-5ac3-8140-a585e67f26c1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__electric-slow-cooker-batch-011-03/20260925T085649Z-thuan-mac/reference/appliances slow cooker_84ea8179-ecd2-5ac3-8140-a585e67f26c1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='electric-slow-cooker-batch-011-03'

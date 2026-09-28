@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3f5c0a54-044c-49ec-b70a-9297048b4eec'
 SOURCE_PATH = 'icon_set/work/todo-references/science apple gravity_3f5c0a54-044c-49ec-b70a-9297048b4eec.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Apple with a short curved stem and three downward gravity arrows.
 # Reference: apple: mirrored lobes, full shoulders and indented base; arrow construction.
 # Reduction: No defining parts omitted.

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd6731d45-e9f7-4836-bc3f-af5734247f8c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__christ-the-redeemer/20260927T032022Z-thuan-mac-1/reference/christ the reedemer_d6731d45-e9f7-4836-bc3f-af5734247f8c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChristTheRedeemer(Solo48):
     icon_id = 'christ-the-redeemer'

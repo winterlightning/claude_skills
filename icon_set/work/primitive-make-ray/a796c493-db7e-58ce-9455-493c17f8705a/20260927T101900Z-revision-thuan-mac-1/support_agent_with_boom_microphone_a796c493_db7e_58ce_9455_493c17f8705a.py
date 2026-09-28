@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a796c493-db7e-58ce-9455-493c17f8705a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__support-agent-with-boom-microphone/20260927T101636Z-thuan-mac-1/reference/headphones customer support_a796c493-db7e-58ce-9455-493c17f8705a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'support-agent-with-boom-microphone'

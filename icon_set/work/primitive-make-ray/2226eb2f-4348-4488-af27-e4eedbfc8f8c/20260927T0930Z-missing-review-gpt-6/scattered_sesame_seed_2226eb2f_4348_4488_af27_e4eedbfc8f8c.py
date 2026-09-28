@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2226eb2f-4348-4488-af27-e4eedbfc8f8c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__scattered-sesame-seed/20260927T084430Z-thuan-mac-1/reference/sesame_2226eb2f-4348-4488-af27-e4eedbfc8f8c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'scattered-sesame-seed'

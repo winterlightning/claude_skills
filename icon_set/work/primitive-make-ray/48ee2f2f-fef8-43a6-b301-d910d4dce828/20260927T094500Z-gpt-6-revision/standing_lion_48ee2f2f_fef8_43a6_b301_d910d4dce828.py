@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '48ee2f2f-fef8-43a6-b301-d910d4dce828'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-lion/20260927T093533Z-thuan-mac-1/reference/lion body_48ee2f2f-fef8-43a6-b301-d910d4dce828.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StandingLion(Solo48):
     icon_id = 'standing-lion'

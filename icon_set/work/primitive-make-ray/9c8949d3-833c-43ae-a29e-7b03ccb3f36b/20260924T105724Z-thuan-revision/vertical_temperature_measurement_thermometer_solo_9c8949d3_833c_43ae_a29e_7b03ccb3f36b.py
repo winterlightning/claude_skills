@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9c8949d3-833c-43ae-a29e-7b03ccb3f36b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__vertical-temperature-measurement-thermometer-solo/20260924T105724Z-thuan-mac/reference/thermometer_9c8949d3-833c-43ae-a29e-7b03ccb3f36b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'vertical-temperature-measurement-thermometer-solo'

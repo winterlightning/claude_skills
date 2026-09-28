@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ec05ecd3-fd02-4b5d-ae99-33f8a6f16464'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/user live_ec05ecd3-fd02-4b5d-ae99-33f8a6f16464.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'user-live'
     keyshape = Keyshape.VRECT_L

@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='84f3f807-398a-4f6c-9d2e-58805a5192a4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-spoon-and-folk/20260927T142540Z-thuan-mac-1/reference/monitor spoon and folk_84f3f807-398a-4f6c-9d2e-58805a5192a4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Landscape monitor with full stand; separate round spoon bowl and two-prong fork with joined stems.'
 class Drawing(Solo48):
     icon_id='monitor-spoon-and-folk'

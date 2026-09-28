@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c6485cd4-824d-44f8-a250-201a66d4bd70'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-thermometer/20260927T142529Z-thuan-mac-1/reference/house thermometer_c6485cd4-824d-44f8-a250-201a66d4bd70.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/house_thermometer_c6485cd4_824d_44f8_a250_201a66d4bd70.py'
 
 class Drawing(Solo48):

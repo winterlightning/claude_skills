@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c77144a9-35d2-4377-bddd-6845d3a0bbad'
 SOURCE_PATH = 'pictographic-primitives/other/phone vertical_c77144a9-35d2-4377-bddd-6845d3a0bbad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'vertical-telephone-handset'

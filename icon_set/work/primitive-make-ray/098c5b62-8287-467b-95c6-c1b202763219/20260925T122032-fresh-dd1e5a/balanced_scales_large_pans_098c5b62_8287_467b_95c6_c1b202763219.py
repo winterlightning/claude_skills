@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='098c5b62-8287-467b-95c6-c1b202763219'
 SOURCE_PATH='pictographic-primitives/business/scale_098c5b62-8287-467b-95c6-c1b202763219.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Balanced justice scale with two enlarged deep bowls and matching triangular suspensions.'
 CONSTRUCTION_REFERENCE='scale original and atomic-debug: matched suspended bowls and shared post.'
 OMISSIONS='No omissions. Pan width increases from 10 to 12 and depth from 6 to 8 centerline units.'

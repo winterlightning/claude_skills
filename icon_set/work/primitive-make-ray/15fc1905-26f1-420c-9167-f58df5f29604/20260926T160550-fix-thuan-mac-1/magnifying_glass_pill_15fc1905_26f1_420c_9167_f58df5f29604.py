@@ -17,7 +17,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '15fc1905-26f1-420c-9167-f58df5f29604'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__magnifying-glass-pill/20260926T160211Z-thuan-mac-1/reference/magnifying glass pill_15fc1905-26f1-420c-9167-f58df5f29604.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 LENS, LENS_R = (21, 21), 15
 HANDLE_ROOT, HANDLE_END = (30, 33), (42, 42)   # LENS + (9, 12); handle along (4, 3)

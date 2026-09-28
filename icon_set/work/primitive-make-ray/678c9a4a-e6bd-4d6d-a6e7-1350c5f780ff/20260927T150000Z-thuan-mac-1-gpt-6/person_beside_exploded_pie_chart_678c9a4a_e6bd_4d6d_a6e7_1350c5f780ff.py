@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '678c9a4a-e6bd-4d6d-a6e7-1350c5f780ff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-beside-exploded-pie-chart/20260927T145836Z-thuan-mac-1/reference/segmentation pie chart_678c9a4a-e6bd-4d6d-a6e7-1350c5f780ff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('678c9a4a-e6bd-4d6d-a6e7-1350c5f780ff', 'pictographic-primitives/business/segmentation pie chart_678c9a4a-e6bd-4d6d-a6e7-1350c5f780ff.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9c232443-1304-41d8-b531-e6b54e649616'
 SOURCE_PATH='pictographic-primitives/wayfinding/liquid detergent_9c232443-1304-41d8-b531-e6b54e649616.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/liquid_detergent_bottle_9c232443_1304_41d8_b531_e6b54e649616.py'
 class Drawing(Solo48):
     icon_id='liquid-detergent-bottle'

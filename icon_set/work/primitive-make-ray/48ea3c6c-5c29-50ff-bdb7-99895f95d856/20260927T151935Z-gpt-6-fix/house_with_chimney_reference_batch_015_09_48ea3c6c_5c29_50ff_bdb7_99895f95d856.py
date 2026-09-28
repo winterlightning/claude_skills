@@ -13,7 +13,7 @@ SOURCE_ICON_ID = '48ea3c6c-5c29-50ff-bdb7-99895f95d856'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-with-chimney-reference-batch-015-09/20260927T151732Z-thuan-mac-1/reference/house chimney_48ea3c6c-5c29-50ff-bdb7-99895f95d856.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/house chimney_48ea3c6c-5c29-50ff-bdb7-99895f95d856.svg'
 EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-015/references/house chimney_48ea3c6c-5c29-50ff-bdb7-99895f95d856.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 BATCH_AUTHORING_RUN = "20260917-011-015"
 
 

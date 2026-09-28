@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '244421bb-c32b-5af3-987b-280541039efa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-bird-in-profile/20260927T171905Z-thuan-mac-1/reference/goblin_244421bb-c32b-5af3-987b-280541039efa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

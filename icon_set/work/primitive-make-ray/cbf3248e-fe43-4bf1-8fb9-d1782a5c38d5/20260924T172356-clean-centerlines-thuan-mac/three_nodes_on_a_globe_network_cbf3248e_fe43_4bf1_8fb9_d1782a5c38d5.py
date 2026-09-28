@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cbf3248e-fe43-4bf1-8fb9-d1782a5c38d5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__three-nodes-on-a-globe-network/20260924T172356Z-thuan-mac/reference/amazon cloud front_cbf3248e-fe43-4bf1-8fb9-d1782a5c38d5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='three-nodes-on-a-globe-network'

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line, poly, contacts
 SOURCE_ICON_ID = '5802ffd8-7306-4609-a53e-bc51b5281303'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__table-row-selected/20260927T094425Z-thuan-mac-1/reference/table row selected_5802ffd8-7306-4609-a53e-bc51b5281303.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected table lost the source’s vertical column divider and introduced a dot.'
 REVISION_CHANGE = 'Restored the center column and four-cell layout.'
 

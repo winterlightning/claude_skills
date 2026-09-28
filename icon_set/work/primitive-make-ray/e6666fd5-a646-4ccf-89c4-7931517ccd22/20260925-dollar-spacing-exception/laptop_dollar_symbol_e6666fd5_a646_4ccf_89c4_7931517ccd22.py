@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e6666fd5-a646-4ccf-89c4-7931517ccd22'
 SOURCE_PATH = 'pictographic-primitives/other/laptop dollar sign_e6666fd5-a646-4ccf-89c4-7931517ccd22.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/laptop_dollar_symbol_e6666fd5_a646_4ccf_89c4_7931517ccd22.py'
 class Drawing(Solo48):
     exception = {'approved_by': 'user', 'reason': 'User approved the smaller dollar sign shown in Proposed currency alternatives — 2-unit spacing. Exception applies to dollar geometry and its spacing within the unchanged device.', 'svg_sha256': 'd5fa95fd28ef8176fd671d423762e670bba8ac2d7a5b6e57aac80c7185cfd86c'}

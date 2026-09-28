@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='704fbfc7-8565-458d-83d3-502a2bedf683'
 SOURCE_PATH='pictographic-primitives/other/house paw print_704fbfc7-8565-458d-83d3-502a2bedf683.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='house-paw-print'
     keyshape=Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7d2f2187-9fda-4709-9797-8fc491eb3114'
 SOURCE_PATH = 'icon_set/work/todo-references/square chevron right_7d2f2187-9fda-4709-9797-8fc491eb3114.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-chevron-right'

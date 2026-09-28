@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2f5e3a2a-b080-44eb-8eed-c982e8b70e84'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-running-down-fire-escape-stairs/20260927T174057Z-thuan-mac-1/reference/safety fire exit stairs_2f5e3a2a-b080-44eb-8eed-c982e8b70e84.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'person-running-down-fire-escape-stairs'

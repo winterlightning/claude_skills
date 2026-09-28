@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e3d7b5b6-09dd-4914-98aa-6e9e8e9481e4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__arrow-thick-top-symbol/20260924T142441Z-thuan-mac/reference/arrow thick top_e3d7b5b6-09dd-4914-98aa-6e9e8e9481e4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='arrow-thick-top-symbol'

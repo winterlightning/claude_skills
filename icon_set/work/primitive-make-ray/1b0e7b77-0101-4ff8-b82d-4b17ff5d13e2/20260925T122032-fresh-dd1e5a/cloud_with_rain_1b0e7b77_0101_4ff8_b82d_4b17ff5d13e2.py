@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1b0e7b77-0101-4ff8-b82d-4b17ff5d13e2'
 SOURCE_PATH='pictographic-primitives/_uncategorized_11/cloud rain_1b0e7b77-0101-4ff8-b82d-4b17ff5d13e2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded rain cloud with a prominent central dome and three equally spaced slanted drops.'
 CONSTRUCTION_REFERENCE='cloud-rain original and atomic-debug: dominant cloud lobe and regular rain series.'
 OMISSIONS='No omissions.'

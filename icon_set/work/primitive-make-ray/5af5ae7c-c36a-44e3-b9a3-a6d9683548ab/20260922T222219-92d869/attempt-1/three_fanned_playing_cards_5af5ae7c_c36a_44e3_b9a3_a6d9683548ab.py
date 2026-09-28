@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5af5ae7c-c36a-44e3-b9a3-a6d9683548ab'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/card game cards_5af5ae7c-c36a-44e3-b9a3-a6d9683548ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-fanned-playing-cards'

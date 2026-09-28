@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c8779f6f-62fb-4888-8a71-929e3faf4151'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-scoop-ice-cream-cone/20260924T160658Z-thuan-mac/reference/ice cream_c8779f6f-62fb-4888-8a71-929e3faf4151.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-scoop-ice-cream-cone'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7ba30cb2-a7ee-5783-ac87-e8a711683857'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__trilobite-fossil/20260927T094425Z-thuan-mac-1/reference/trilobite fossil shell_7ba30cb2-a7ee-5783-ac87-e8a711683857.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected fossil’s side legs were rigid diagonal strokes.'
 REVISION_CHANGE = 'Curved the paired legs to follow the segmented shell.'
 

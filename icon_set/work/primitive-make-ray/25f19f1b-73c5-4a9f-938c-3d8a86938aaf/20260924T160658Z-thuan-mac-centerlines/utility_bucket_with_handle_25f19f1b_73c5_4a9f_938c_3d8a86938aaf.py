@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '25f19f1b-73c5-4a9f-938c-3d8a86938aaf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__utility-bucket-with-handle/20260924T160658Z-thuan-mac/reference/pail_25f19f1b-73c5-4a9f-938c-3d8a86938aaf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'utility-bucket-with-handle'

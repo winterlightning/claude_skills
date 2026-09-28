@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2000d10a-a193-4355-bf76-3a121de4ad3f'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/user signal_2000d10a-a193-4355-bf76-3a121de4ad3f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='user-signal'

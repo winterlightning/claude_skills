@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '89d827d8-1f4b-40fc-aad1-858c1f8fb087'
 SOURCE_PATH = 'icon_set/work/todo-references/kanda matsuri_89d827d8-1f4b-40fc-aad1-858c1f8fb087.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'kanda-matsuri'
     keyshape = Keyshape.VRECT_L

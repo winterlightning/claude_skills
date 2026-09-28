@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '8cae4a5a-3789-5381-a527-c8750fce7a6f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horizontal-blind-with-right-pull/20260927T061852Z-thuan-mac-1/reference/blinds horizontal closed_8cae4a5a-3789-5381-a527-c8750fce7a6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HorizontalBlindWithRightPull(Solo48):
     icon_id = 'horizontal-blind-with-right-pull'

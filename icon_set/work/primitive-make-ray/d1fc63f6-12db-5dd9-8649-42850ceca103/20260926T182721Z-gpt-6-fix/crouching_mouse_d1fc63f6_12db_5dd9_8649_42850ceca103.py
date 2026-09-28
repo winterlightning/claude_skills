@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd1fc63f6-12db-5dd9-8649-42850ceca103'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crouching-mouse/20260926T182517Z-thuan-mac-1/reference/mouse 1_d1fc63f6-12db-5dd9-8649-42850ceca103.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CrouchingMouse(Solo48):
     icon_id = 'crouching-mouse'

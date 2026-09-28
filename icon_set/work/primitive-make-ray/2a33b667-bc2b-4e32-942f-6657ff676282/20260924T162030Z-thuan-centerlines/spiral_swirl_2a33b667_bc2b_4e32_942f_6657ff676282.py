@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2a33b667-bc2b-4e32-942f-6657ff676282'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__spiral-swirl/20260924T162030Z-thuan-mac/reference/logo heartstone_2a33b667-bc2b-4e32-942f-6657ff676282.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='spiral-swirl'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cc035e5f-5b48-4659-93ae-3cdb21c1bf16'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wide-leg-inversion-pose/20260927T145855Z-thuan-mac-1/reference/wide seat inversion pose_cc035e5f-5b48-4659-93ae-3cdb21c1bf16.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WideLegInversionPose(Solo48):
     icon_id = 'wide-leg-inversion-pose'

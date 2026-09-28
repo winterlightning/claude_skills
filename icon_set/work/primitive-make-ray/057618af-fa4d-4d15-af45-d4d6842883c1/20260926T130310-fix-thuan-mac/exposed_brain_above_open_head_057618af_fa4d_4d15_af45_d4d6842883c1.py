@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '057618af-fa4d-4d15-af45-d4d6842883c1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__exposed-brain-above-open-head/20260926T125430Z-thuan-mac/reference/brain open skill_057618af-fa4d-4d15-af45-d4d6842883c1.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

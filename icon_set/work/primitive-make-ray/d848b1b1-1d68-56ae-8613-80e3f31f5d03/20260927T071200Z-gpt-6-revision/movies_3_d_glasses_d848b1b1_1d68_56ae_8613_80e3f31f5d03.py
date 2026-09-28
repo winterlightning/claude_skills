@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd848b1b1-1d68-56ae-8613-80e3f31f5d03'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__movies-3-d-glasses/20260927T070927Z-thuan-mac-1/reference/movies 3 d glasses_d848b1b1-1d68-56ae-8613-80e3f31f5d03.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Movies3DGlasses(Solo48):
     icon_id = 'movies-3-d-glasses'

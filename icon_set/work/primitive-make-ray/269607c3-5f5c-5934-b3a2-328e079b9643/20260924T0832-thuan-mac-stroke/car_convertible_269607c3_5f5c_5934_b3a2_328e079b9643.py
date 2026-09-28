@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '269607c3-5f5c-5934-b3a2-328e079b9643'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__roadster-convertible/20260924T083118Z-thuan-mac/reference/car convertible_269607c3-5f5c-5934-b3a2-328e079b9643.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'roadster-convertible'

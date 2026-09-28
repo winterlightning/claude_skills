@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3ddff631-620c-4c4c-8ee1-e6f8d0e88303'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fried-egg-in-round-pan/20260927T075459Z-thuan-mac-1/reference/fried egg pan_3ddff631-620c-4c4c-8ee1-e6f8d0e88303.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'fried-egg-in-round-pan'

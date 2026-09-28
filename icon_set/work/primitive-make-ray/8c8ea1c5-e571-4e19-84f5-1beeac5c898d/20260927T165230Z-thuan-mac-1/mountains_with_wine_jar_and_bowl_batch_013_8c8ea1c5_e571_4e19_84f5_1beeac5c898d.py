@@ -9,7 +9,7 @@ SOURCE_ICON_ID = '8c8ea1c5-e571-4e19-84f5-1beeac5c898d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mountains-with-wine-jar-and-bowl-batch-013/20260927T164916Z-thuan-mac-1/reference/double ninth festival drink_8c8ea1c5-e571-4e19-84f5-1beeac5c898d.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/holidays/double ninth festival drink_8c8ea1c5-e571-4e19-84f5-1beeac5c898d.svg'
 EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-013/references/double ninth festival drink_8c8ea1c5-e571-4e19-84f5-1beeac5c898d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'mountains-with-wine-jar-and-bowl-batch-013'

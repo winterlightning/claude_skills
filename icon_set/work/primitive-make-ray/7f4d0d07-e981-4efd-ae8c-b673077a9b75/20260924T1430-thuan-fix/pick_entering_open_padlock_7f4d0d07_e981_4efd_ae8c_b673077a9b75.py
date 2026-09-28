@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7f4d0d07-e981-4efd-ae8c-b673077a9b75'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__pick-entering-open-padlock/20260924T142504Z-thuan-mac/reference/crime tools loackpick unlock_7f4d0d07-e981-4efd-ae8c-b673077a9b75.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='pick-entering-open-padlock'
     keyshape=Keyshape.SQUARE

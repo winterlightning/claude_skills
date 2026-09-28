@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bcaaf2a2-b7c9-450b-836e-e0c294ab0564'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/business card hand 3_bcaaf2a2-b7c9-450b-836e-e0c294ab0564.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'hand-holding-business-card'

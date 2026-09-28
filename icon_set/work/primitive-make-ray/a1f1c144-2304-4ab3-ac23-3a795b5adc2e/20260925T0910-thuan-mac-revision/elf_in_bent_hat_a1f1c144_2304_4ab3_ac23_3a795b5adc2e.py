@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a1f1c144-2304-4ab3-ac23-3a795b5adc2e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__elf-in-bent-hat/20260925T085649Z-thuan-mac/reference/elf elves_a1f1c144-2304-4ab3-ac23-3a795b5adc2e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='elf-in-bent-hat'

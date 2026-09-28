@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '01dfab52-1214-532b-8f84-ea5dce7a2998'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bunch-of-bananas-batch-010-10/20260924T090148Z-thuan-mac/reference/banana_01dfab52-1214-532b-8f84-ea5dce7a2998.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bunch-of-bananas-batch-010-10'

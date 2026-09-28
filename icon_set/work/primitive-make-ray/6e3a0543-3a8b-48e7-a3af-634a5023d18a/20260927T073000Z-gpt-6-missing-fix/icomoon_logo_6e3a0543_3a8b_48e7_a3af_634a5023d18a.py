@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6e3a0543-3a8b-48e7-a3af-634a5023d18a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__icomoon-logo/20260927T070849Z-thuan-mac-1/reference/icomoon logo_6e3a0543-3a8b-48e7-a3af-634a5023d18a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IcomoonLogo(Solo48):

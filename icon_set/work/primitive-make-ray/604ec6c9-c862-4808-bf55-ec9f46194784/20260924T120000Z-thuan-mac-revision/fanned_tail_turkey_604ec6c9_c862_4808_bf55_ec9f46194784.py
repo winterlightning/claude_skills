@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='604ec6c9-c862-4808-bf55-ec9f46194784'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__fanned-tail-turkey/20260924T115443Z-thuan-mac/reference/gobbler_604ec6c9-c862-4808-bf55-ec9f46194784.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='fanned-tail-turkey'

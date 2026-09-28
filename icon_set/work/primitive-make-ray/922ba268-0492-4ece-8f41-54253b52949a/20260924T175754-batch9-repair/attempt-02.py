@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='922ba268-0492-4ece-8f41-54253b52949a'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/refugee immigration war 2_922ba268-0492-4ece-8f41-54253b52949a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN='Explosion with a diagonal capsule inside, beside a small house with an arched door. Preserve the full war/displacement scene.'
 CONSTRUCTION_REFERENCES='No useful exact Lucide match; starburst and house contours reconstructed from source.'
 OMISSIONS='Two short peripheral impact rays omitted to reduce nonessential clutter.'

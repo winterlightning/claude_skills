@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9ee58df5-c0c8-43b8-ac76-5d6d676e8615'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-paper-booklet/20260924T171114Z-thuan-mac/reference/booklet_9ee58df5-c0c8-43b8-ac76-5d6d676e8615.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'open-paper-booklet'
     keyshape = Keyshape.VRECT_M

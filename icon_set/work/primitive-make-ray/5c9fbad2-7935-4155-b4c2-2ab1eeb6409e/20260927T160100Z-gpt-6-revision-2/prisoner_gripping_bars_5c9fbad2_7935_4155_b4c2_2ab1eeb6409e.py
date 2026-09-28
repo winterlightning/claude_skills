@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5c9fbad2-7935-4155-b4c2-2ab1eeb6409e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__prisoner-gripping-bars/20260927T153803Z-thuan-mac-1/reference/prisoner bars_5c9fbad2-7935-4155-b4c2-2ab1eeb6409e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PrisonerGrippingBars(Solo48):

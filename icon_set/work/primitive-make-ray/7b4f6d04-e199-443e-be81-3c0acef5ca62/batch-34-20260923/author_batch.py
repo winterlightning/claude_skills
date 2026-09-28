@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='7b4f6d04-e199-443e-be81-3c0acef5ca62'
 SOURCE_PATH='icon_set/work/todo-references/picture polaroid landscape_7b4f6d04-e199-443e-be81-3c0acef5ca62.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ROWS=json.loads((ROOT/'batch-inputs.json').read_text())
 HELPERS='''

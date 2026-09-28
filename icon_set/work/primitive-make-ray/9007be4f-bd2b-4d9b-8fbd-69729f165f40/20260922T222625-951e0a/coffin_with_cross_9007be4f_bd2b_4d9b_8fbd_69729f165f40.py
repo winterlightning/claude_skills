@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9007be4f-bd2b-4d9b-8fbd-69729f165f40'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/casket_9007be4f-bd2b-4d9b-8fbd-69729f165f40.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'coffin-with-cross'

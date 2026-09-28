@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '385c6908-a197-4341-bf8b-45327ba1ea69'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__figure-with-outstretched-limbs/20260927T075452Z-thuan-mac-1/reference/warrior_385c6908-a197-4341-bf8b-45327ba1ea69.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FigureWithOutstretchedLimbs(Solo48):
     icon_id = 'figure-with-outstretched-limbs'

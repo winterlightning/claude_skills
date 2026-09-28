@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f498c216-bd74-4c20-ae57-aae3ee60475d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-performer-between-open-stage-curtains/20260927T093533Z-thuan-mac-1/reference/show person_f498c216-bd74-4c20-ae57-aae3ee60475d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'standing-performer-between-open-stage-curtains'

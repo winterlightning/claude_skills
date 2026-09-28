@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0c3535ed-6772-4bdc-aea7-fb01cc99793c'
 SOURCE_PATH = 'icon_set/work/todo-references/ribbon 2_0c3535ed-6772-4bdc-aea7-fb01cc99793c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ribbon-2'

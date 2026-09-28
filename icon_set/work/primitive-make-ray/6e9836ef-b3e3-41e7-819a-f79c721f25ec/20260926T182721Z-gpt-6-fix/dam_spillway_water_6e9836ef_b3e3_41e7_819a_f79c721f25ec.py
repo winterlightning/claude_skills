@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6e9836ef-b3e3-41e7-819a-f79c721f25ec'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dam-spillway-water/20260926T182517Z-thuan-mac-1/reference/renewable energy water dam_6e9836ef-b3e3-41e7-819a-f79c721f25ec.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DamSpillwayWater(Solo48):
     icon_id = 'dam-spillway-water'

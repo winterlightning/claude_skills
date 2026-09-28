@@ -9,7 +9,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05e2ce47-0cc9-49ed-8c9a-44eadff51505'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone wrench_05e2ce47-0cc9-49ed-8c9a-44eadff51505.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'mobile-phone-wrench'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d48f86f5-12a6-47ce-a5d0-968db65faf5e'
 SOURCE_PATH='pictographic-primitives/other/file data bars_d48f86f5-12a6-47ce-a5d0-968db65faf5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three descending bars join one shared, slightly extended baseline; shared series retains their exact spacing.'
 CONSTRUCTION_REFERENCE='file-chart-column original and atomic-debug: equally spaced vertical chart members; source controls descending order.'
 OMISSIONS='Document proportions broadened to preserve three clear bars.'

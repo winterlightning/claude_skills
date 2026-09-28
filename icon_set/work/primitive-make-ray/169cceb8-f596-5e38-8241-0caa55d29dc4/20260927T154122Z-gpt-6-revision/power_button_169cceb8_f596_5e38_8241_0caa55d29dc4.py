@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '169cceb8-f596-5e38-8241-0caa55d29dc4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__power-button/20260927T153747Z-thuan-mac-1/reference/power button_169cceb8-f596-5e38-8241-0caa55d29dc4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PowerButton(Solo48):
     icon_id = 'power-button'

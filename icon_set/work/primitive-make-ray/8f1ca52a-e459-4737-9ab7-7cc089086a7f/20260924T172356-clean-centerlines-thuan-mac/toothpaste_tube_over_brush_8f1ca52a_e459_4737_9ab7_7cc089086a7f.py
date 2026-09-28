@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8f1ca52a-e459-4737-9ab7-7cc089086a7f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__toothpaste-tube-over-brush/20260924T172356Z-thuan-mac/reference/brush toothpaste 2_8f1ca52a-e459-4737-9ab7-7cc089086a7f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='toothpaste-tube-over-brush'

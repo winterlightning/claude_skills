@@ -3,7 +3,7 @@ from pathlib import Path
 import importlib.util,json,textwrap
 SOURCE_ICON_ID='c301d7dd-6085-4b9d-94b3-1ce712942ed5'
 SOURCE_PATH='icon_set/work/todo-references/underground_c301d7dd-6085-4b9d-94b3-1ce712942ed5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ENTRIES=json.loads((ROOT/'batch-inputs.json').read_text())
 # Reuse only the generic geometry/export machinery, never a previous icon drawing.

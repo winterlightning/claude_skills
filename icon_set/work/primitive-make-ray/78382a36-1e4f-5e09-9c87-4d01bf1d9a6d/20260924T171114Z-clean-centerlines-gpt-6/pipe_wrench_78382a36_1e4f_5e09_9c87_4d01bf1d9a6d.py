@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '78382a36-1e4f-5e09-9c87-4d01bf1d9a6d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pipe-wrench/20260924T171114Z-thuan-mac/reference/tools vice grip_78382a36-1e4f-5e09-9c87-4d01bf1d9a6d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'pipe-wrench'
     keyshape = Keyshape.SQUARE

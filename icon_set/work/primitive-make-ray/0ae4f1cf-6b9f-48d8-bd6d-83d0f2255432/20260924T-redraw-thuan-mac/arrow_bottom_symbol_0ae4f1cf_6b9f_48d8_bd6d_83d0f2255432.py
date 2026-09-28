@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0ae4f1cf-6b9f-48d8-bd6d-83d0f2255432'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__arrow-bottom-symbol/20260924T142441Z-thuan-mac/reference/arrow bottom_0ae4f1cf-6b9f-48d8-bd6d-83d0f2255432.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='arrow-bottom-symbol'

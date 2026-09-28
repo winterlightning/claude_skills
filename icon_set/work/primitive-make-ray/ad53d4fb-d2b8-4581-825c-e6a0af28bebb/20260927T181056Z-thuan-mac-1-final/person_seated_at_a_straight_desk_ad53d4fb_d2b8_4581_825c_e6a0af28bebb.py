@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ad53d4fb-d2b8-4581-825c-e6a0af28bebb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-seated-at-a-straight-desk/20260927T174057Z-thuan-mac-1/reference/bandage rehab_ad53d4fb-d2b8-4581-825c-e6a0af28bebb.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class BatchIcon(Solo48):
     icon_id = 'person-seated-at-a-straight-desk'

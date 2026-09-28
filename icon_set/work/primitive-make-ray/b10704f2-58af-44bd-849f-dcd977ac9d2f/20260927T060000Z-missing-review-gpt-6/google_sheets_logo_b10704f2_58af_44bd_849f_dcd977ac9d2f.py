@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b10704f2-58af-44bd-849f-dcd977ac9d2f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-sheets-logo/20260927T055654Z-thuan-mac-1/reference/google sheets logo_b10704f2-58af-44bd-849f-dcd977ac9d2f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleSheetsLogo(Solo48):

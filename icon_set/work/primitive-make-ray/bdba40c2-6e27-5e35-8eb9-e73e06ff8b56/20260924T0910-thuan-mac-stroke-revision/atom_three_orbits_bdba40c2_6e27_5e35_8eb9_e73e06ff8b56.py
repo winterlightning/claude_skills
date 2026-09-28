@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bdba40c2-6e27-5e35-8eb9-e73e06ff8b56'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__atom-three-orbits/20260924T090615Z-thuan-mac/reference/molecule_bdba40c2-6e27-5e35-8eb9-e73e06ff8b56.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'atom-three-orbits'
     keyshape = Keyshape.VRECT_L

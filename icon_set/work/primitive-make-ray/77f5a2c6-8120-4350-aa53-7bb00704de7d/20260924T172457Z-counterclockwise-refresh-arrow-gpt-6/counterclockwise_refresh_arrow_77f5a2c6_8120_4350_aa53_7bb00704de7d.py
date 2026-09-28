@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '77f5a2c6-8120-4350-aa53-7bb00704de7d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__counterclockwise-refresh-arrow/20260924T172457Z-thuan-mac/reference/synchronize refresh arrow_77f5a2c6-8120-4350-aa53-7bb00704de7d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'counterclockwise-refresh-arrow'
     keyshape = Keyshape.SQUARE

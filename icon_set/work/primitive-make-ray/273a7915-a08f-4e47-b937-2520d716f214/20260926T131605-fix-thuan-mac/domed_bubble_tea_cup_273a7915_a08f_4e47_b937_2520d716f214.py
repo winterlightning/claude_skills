@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '273a7915-a08f-4e47-b937-2520d716f214'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__domed-bubble-tea-cup/20260926T125429Z-thuan-mac/reference/bubble tea shake_273a7915-a08f-4e47-b937-2520d716f214.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 RIM_Y = 18

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ca0b86cd-f823-4251-8d27-7775eddb1f7a'
 SOURCE_PATH='pictographic-primitives/other/lock person_ca0b86cd-f823-4251-8d27-7775eddb1f7a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restored a fully closed, rounded lock body and distinct broad shoulders. Circular head center(24,26), radius4; shoulders crest38 gives exactly4 ink clearance from head bottom30. Flat base and person symbol remain separately readable.'
 CONSTRUCTION_REFERENCES='Lucide lock original and atomic-debug: rounded shackle. icon_set/references/human_ref/user.svg: circular head and broad symmetric shoulders.'
 OMISSIONS=[]

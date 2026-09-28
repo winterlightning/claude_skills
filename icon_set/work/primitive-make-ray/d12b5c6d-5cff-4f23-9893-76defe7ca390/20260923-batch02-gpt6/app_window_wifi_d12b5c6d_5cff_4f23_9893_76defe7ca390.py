@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd12b5c6d-5cff-4f23-9893-76defe7ca390'
 SOURCE_PATH = 'icon_set/work/todo-references/app window wifi_d12b5c6d-5cff-4f23-9893-76defe7ca390.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'app-window-wifi'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c3f914af-7c9b-4941-8e99-c5be9d251a91'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horse-head/20260927T081503Z-thuan-mac-1/reference/zebra head_c3f914af-7c9b-4941-8e99-c5be9d251a91.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HorseHead(Solo48):
     icon_id = 'horse-head'

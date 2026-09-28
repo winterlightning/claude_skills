@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ebaeb4ff-d25c-4ebd-91eb-0f8877362e5b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bitcoin-and-dollar-seesaw-comparison/20260925T060602Z-thuan-mac/reference/crypto currency bitcoin dollar unequal_ebaeb4ff-d25c-4ebd-91eb-0f8877362e5b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'bitcoin-and-dollar-seesaw-comparison'

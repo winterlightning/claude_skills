@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '94f17916-461c-598b-b681-c05b07b91a3d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stage-microphone-on-stand/20260927T094403Z-thuan-mac-1/reference/microphone stage_94f17916-461c-598b-b681-c05b07b91a3d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stage-microphone-on-stand'

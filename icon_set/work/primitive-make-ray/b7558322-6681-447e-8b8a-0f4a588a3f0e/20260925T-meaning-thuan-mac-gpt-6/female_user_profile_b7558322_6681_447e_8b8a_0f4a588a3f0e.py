@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b7558322-6681-447e-8b8a-0f4a588a3f0e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__female-user-profile/20260925T034349Z-thuan-mac/reference/woman_b7558322-6681-447e-8b8a-0f4a588a3f0e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'female-user-profile'

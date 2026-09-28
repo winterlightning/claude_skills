@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = 'a0d79a66-6868-4e26-b83d-e5a2df3d0530'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horn-curled/20260927T061852Z-thuan-mac-1/reference/horn 1_a0d79a66-6868-4e26-b83d-e5a2df3d0530.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HornCurled(Solo48):
     icon_id = 'horn-curled'

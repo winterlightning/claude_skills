@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6d731820-468b-5c38-b10b-859f24a8eab3'
 SOURCE_PATH = 'icon_set/work/todo-references/tournament bracket_6d731820-468b-5c38-b10b-859f24a8eab3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'tournament-bracket'
     keyshape = Keyshape.SQUARE

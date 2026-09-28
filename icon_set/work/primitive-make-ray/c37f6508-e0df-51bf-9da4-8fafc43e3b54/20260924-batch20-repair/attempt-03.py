@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c37f6508-e0df-51bf-9da4-8fafc43e3b54'
 SOURCE_PATH='pictographic-primitives/war/death rip_c37f6508-e0df-51bf-9da4-8fafc43e3b54.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Repair3 enlarges R and P bowls to improve their enclosed openings; HRECT_L maximum horizontal budget. Inscription still fully retained.'
 class Drawing(Solo48):
     icon_id='death-rip'

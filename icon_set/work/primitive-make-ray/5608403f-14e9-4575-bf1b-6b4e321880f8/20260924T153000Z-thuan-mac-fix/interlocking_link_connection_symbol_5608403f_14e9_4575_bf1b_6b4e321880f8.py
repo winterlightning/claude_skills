@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5608403f-14e9-4575-bf1b-6b4e321880f8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__interlocking-link-connection-symbol/20260924T152540Z-thuan-mac/reference/lining_5608403f-14e9-4575-bf1b-6b4e321880f8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'interlocking-link-connection-symbol'
     keyshape = Keyshape.SQUARE

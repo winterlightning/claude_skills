@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9'
 SOURCE_PATH = 'pictographic-primitives/combination/smart watch square yuan sign_130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Separate rounded square dial and trapezoid straps; longer yuan stem and clear fork.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['watch']

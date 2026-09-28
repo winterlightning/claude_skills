@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID = '0c5f3dea-2094-4910-b7ce-4aff29f0f695'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__oil-dipstick-with-rounded-end-grips/20260927T164916Z-thuan-mac-1/reference/dipstick_0c5f3dea-2094-4910-b7ce-4aff29f0f695.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'oil-dipstick-with-rounded-end-grips'
     keyshape = Keyshape.VRECT_M

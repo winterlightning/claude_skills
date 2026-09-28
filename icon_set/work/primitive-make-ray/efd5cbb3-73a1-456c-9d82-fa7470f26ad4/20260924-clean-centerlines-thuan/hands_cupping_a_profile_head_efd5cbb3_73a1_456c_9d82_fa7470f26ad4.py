@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='efd5cbb3-73a1-456c-9d82-fa7470f26ad4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hands-cupping-a-profile-head/20260924T160939Z-thuan-mac/reference/self care 2_efd5cbb3-73a1-456c-9d82-fa7470f26ad4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='hands-cupping-a-profile-head'

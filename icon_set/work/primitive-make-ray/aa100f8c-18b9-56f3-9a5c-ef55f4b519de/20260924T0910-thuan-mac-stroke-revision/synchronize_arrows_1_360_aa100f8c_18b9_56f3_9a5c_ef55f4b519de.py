@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'aa100f8c-18b9-56f3-9a5c-ef55f4b519de'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__synchronize-arrows-1-360/20260924T090615Z-thuan-mac/reference/synchronize arrows 1 360_aa100f8c-18b9-56f3-9a5c-ef55f4b519de.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'synchronize-arrows-1-360'
     keyshape = Keyshape.SQUARE

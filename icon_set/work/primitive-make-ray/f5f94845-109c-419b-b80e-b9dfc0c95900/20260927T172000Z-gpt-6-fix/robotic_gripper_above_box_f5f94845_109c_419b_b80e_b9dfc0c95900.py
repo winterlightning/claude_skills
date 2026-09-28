@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f5f94845-109c-419b-b80e-b9dfc0c95900'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__robotic-gripper-above-box/20260927T171905Z-thuan-mac-1/reference/factory robot arm box_f5f94845-109c-419b-b80e-b9dfc0c95900.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RoboticGripperAboveBox(Solo48):
     icon_id = 'robotic-gripper-above-box'

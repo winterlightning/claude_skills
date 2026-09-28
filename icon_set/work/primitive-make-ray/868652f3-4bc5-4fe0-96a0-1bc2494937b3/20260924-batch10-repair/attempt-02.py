@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='868652f3-4bc5-4fe0-96a0-1bc2494937b3'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/single woman hierachy_868652f3-4bc5-4fe0-96a0-1bc2494937b3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Woman plus three-node hierarchy. Human reference full_body_ref dress silhouette, head radius6 bottom18 to shoulder26 gives4 ink gap. Narrower body opens9-unit space beside spine and circle nodes. SQUARE6,6–42,42; Lucide network shared branch knots.'
 class Drawing(Solo48):
     icon_id='single-woman-hierachy'

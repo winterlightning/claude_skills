@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '661d6088-acae-42a5-befa-89bd8e41af99'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-q/20260925T034659Z-thuan-mac/reference/square q_661d6088-acae-42a5-befa-89bd8e41af99.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Open Q bowl and clear diagonal tail; distinguish Q from magnifier.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

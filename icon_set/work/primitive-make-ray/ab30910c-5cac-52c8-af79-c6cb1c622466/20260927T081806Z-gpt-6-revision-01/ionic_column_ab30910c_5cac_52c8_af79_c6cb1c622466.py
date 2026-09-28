@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ab30910c-5cac-52c8-af79-c6cb1c622466'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ionic-column/20260927T081503Z-thuan-mac-1/reference/empire_ab30910c-5cac-52c8-af79-c6cb1c622466.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class IonicColumn(Solo48):
     icon_id = 'ionic-column'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a2ad7637-7eca-4441-9689-f3b3c74e0207'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-one-logo/20260926T171651Z-thuan-mac-1/reference/google one logo_a2ad7637-7eca-4441-9689-f3b3c74e0207.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

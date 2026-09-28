@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a440cb03-a795-5a15-9bc2-11c255685591'
 SOURCE_PATH = 'pictographic-primitives/pets/dog sit_a440cb03-a795-5a15-9bc2-11c255685591.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SittingDogProfile(Solo48):
     icon_id = 'sitting-dog-profile'

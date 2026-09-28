@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '74c318d1-397c-4a33-9a8b-1a68e1da926e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sailboat-curved-sail/20260927T084430Z-thuan-mac-1/reference/sailing boat_74c318d1-397c-4a33-9a8b-1a68e1da926e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SailboatCurvedSail(Solo48):
     icon_id = 'sailboat-curved-sail'

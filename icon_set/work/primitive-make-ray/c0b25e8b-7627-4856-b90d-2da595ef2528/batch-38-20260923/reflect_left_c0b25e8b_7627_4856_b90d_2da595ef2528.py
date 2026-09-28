@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c0b25e8b-7627-4856-b90d-2da595ef2528'
 SOURCE_PATH='icon_set/work/todo-references/reflect left_c0b25e8b-7627-4856-b90d-2da595ef2528.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Mirrored triangles separated by a vertical axis, with an arched arrow pointing left overhead.'
 CONSTRUCTION_REFERENCES='Lucide flip-horizontal-2: mirrored triangles and center axis. Source supplies the overhead directional arrow.'
 OMISSIONS='None.'

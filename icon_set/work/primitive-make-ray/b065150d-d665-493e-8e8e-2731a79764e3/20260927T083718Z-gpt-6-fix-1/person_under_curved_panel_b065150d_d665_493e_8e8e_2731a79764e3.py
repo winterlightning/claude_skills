@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b065150d-d665-493e-8e8e-2731a79764e3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-under-curved-panel/20260927T083143Z-thuan-mac-1/reference/immersive reality monitor_b065150d-d665-493e-8e8e-2731a79764e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonUnderCurvedPanel(Solo48):
     icon_id = 'person-under-curved-panel'

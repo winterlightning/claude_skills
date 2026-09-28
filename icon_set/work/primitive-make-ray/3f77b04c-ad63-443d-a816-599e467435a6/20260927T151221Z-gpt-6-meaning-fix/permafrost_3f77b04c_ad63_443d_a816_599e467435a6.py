@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3f77b04c-ad63-443d-a816-599e467435a6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__permafrost/20260927T143814Z-thuan-mac-1/reference/permafrost_3f77b04c-ad63-443d-a816-599e467435a6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'permafrost'

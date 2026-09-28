@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7f49e587-5694-459a-a2f0-058051056846'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__round-gift-with-tied-ribbon/20260924T152553Z-thuan-mac/reference/gift circle_7f49e587-5694-459a-a2f0-058051056846.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='round-gift-with-tied-ribbon'

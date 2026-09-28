@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9'
 SOURCE_PATH = 'pictographic-primitives/combination/smart watch square yuan sign_130ae17c-e9b2-44fc-bcbf-03cd5a3dc1d9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'smartwatch-yuan-sign'

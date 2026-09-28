@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '00cb164f-b36d-4ff3-a847-c9dbc18a9239'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__baby-head-curl/20260925T060602Z-thuan-mac/reference/kid period_00cb164f-b36d-4ff3-a847-c9dbc18a9239.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'baby-head-curl'

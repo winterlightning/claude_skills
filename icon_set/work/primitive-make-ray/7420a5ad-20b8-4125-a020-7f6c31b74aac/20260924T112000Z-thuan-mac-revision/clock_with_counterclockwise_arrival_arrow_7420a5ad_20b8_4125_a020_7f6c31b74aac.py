@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7420a5ad-20b8-4125-a020-7f6c31b74aac'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clock-with-counterclockwise-arrival-arrow/20260924T111346Z-thuan-mac/reference/shipping logistic estimate time arrival 1_7420a5ad-20b8-4125-a020-7f6c31b74aac.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'clock-with-counterclockwise-arrival-arrow'

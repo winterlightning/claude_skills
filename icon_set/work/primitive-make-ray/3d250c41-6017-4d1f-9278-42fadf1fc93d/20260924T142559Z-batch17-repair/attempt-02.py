@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3d250c41-6017-4d1f-9278-42fadf1fc93d'
 SOURCE_PATH='icon_set/work/todo-references/rectangle like text_3d250c41-6017-4d1f-9278-42fadf1fc93d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='LIKE lettering inside a rectangular social button.'
 OMISSIONS='All four letters retained; hand-built centerline glyphs.'
 LUCIDE_REFERENCE=None

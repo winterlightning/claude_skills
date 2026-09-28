@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ec421b89-c7d9-573b-bec3-256a6da2bdb4'
 SOURCE_PATH = 'pictographic-primitives/hotels/hotel single bed_ec421b89-c7d9-573b-bec3-256a6da2bdb4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'single-bed-with-pillow'

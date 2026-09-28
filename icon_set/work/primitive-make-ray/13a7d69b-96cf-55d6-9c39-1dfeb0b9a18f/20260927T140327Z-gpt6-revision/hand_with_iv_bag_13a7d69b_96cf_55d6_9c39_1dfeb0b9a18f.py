@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '13a7d69b-96cf-55d6-9c39-1dfeb0b9a18f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-with-iv-bag-13a7d69b/20260927T135945Z-thuan-mac-1/reference/transfusion hand_13a7d69b-96cf-55d6-9c39-1dfeb0b9a18f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

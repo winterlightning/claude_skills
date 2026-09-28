@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a44a1df3-4ccd-4137-a15d-3cccc3022c7a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chevron-inward-vertical/20260925T070532Z-thuan-mac/reference/move shrink vertical_a44a1df3-4ccd-4137-a15d-3cccc3022c7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'chevron-inward-vertical'

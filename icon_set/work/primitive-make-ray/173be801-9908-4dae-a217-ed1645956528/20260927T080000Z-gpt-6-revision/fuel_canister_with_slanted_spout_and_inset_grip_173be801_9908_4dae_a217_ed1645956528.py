@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '173be801-9908-4dae-a217-ed1645956528'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fuel-canister-with-slanted-spout-and-inset-grip/20260927T075452Z-thuan-mac-1/reference/fossil energy gas can_173be801-9908-4dae-a217-ed1645956528.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'fuel-canister-with-slanted-spout-and-inset-grip'

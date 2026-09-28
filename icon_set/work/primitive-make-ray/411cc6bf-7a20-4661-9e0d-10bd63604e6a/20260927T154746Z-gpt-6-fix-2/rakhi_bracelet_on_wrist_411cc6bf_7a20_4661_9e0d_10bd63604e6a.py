@@ -13,7 +13,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '411cc6bf-7a20-4661-9e0d-10bd63604e6a'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__rakhi-bracelet-on-wrist/20260927T153833Z-thuan-mac-1/reference/raksha bandhan_411cc6bf-7a20-4661-9e0d-10bd63604e6a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconRakhiBraceletOnWrist(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e8a92325-dd41-4476-a644-c39a3f2a9173'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shaking-house/20260927T091435Z-thuan-mac-1/reference/earthquake house shaking_e8a92325-dd41-4476-a644-c39a3f2a9173.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShakingHouse(Solo48):
     icon_id = 'shaking-house'

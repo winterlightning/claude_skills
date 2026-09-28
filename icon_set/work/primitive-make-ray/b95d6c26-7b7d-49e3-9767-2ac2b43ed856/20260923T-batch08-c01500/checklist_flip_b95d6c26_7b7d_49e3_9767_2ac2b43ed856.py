@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b95d6c26-7b7d-49e3-9767-2ac2b43ed856'
 SOURCE_PATH = 'icon_set/work/todo-references/checklist flip_b95d6c26-7b7d-49e3-9767-2ac2b43ed856.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'checklist-flip'

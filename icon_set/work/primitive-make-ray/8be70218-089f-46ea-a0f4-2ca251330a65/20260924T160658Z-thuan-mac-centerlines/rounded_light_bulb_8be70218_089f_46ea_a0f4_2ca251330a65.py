@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8be70218-089f-46ea-a0f4-2ca251330a65'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-light-bulb/20260924T160658Z-thuan-mac/reference/lightbulb_8be70218-089f-46ea-a0f4-2ca251330a65.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-light-bulb'

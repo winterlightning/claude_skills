@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '76f5ee0d-8275-463e-9169-cf2623f4cc81'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-hangouts-logo/20260927T055654Z-thuan-mac-1/reference/google hangouts logo_76f5ee0d-8275-463e-9169-cf2623f4cc81.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleHangoutsLogo(Solo48):

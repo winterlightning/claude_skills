@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e365094b-61bd-5f0a-a1d1-1a7c9525470b'
 SOURCE_PATH='pictographic-primitives/avatars/woman nurse_e365094b-61bd-5f0a-a1d1-1a7c9525470b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='The cap is shorter and gently domed, the circular jaw grows from radius 8 to 10, and the shoulders are larger and smoother. Jaw bottom y26 and shoulder top y30 give zero visible ink gap with a direct scoped contact, as required for avatars.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg and user-round original/atomic-debug: circular jaw and smooth shoulders.'
 OMISSIONS='Hat/face dividing seam, collar seams and fastening are omitted to avoid crowded enclosed spaces. The cross sits near the lower cap edge.'

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6a537336-3a61-589f-bdab-c6977b97e933'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__angry-bird/20260927T160114Z-thuan-mac-1/reference/angry birds_6a537336-3a61-589f-bdab-c6977b97e933.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class AngryBird(Solo48):
     icon_id = 'angry-bird'

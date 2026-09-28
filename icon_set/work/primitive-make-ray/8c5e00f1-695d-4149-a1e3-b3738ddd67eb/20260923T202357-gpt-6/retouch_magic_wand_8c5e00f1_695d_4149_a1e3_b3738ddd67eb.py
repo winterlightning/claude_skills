@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8c5e00f1-695d-4149-a1e3-b3738ddd67eb'
 SOURCE_PATH = 'icon_set/work/todo-references/retouch magic wand_8c5e00f1-695d-4149-a1e3-b3738ddd67eb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Circular enclosure with diagonal wand and three plus-shaped glints.
 # Reference reduction: No defining parts omitted; simplified wand tip.
 # Construction references: ['wand-sparkles']

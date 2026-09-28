@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8b44e93a-d821-47ef-ba9f-726236b08971'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__soldier-behind-sandbags/20260927T093533Z-thuan-mac-1/reference/sand bag soldier_8b44e93a-d821-47ef-ba9f-726236b08971.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SoldierBehindSandbags(Solo48):
     icon_id = 'soldier-behind-sandbags'

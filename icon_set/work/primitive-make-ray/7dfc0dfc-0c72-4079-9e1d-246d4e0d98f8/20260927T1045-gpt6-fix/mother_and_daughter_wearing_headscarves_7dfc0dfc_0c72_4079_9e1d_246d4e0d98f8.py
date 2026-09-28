@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7dfc0dfc-0c72-4079-9e1d-246d4e0d98f8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mother-and-daughter-wearing-headscarves/20260927T104148Z-thuan-mac-1/reference/muslim mom daughter_7dfc0dfc-0c72-4079-9e1d-246d4e0d98f8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'mother-and-daughter-wearing-headscarves'

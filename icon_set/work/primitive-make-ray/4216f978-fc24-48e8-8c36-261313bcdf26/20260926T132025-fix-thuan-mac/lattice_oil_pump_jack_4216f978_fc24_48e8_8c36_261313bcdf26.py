@@ -20,7 +20,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4216f978-fc24-48e8-8c36-261313bcdf26'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lattice-oil-pump-jack/20260926T125429Z-thuan-mac/reference/oil well_4216f978-fc24-48e8-8c36-261313bcdf26.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 GROUND = 42
 APEX = (26, 18)

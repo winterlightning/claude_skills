@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b3e6da36-8854-5386-bdfa-2a4580a6fb27'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__elephant-with-howdah/20260927T135945Z-thuan-mac-1/reference/mysore dasara_b3e6da36-8854-5386-bdfa-2a4580a6fb27.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ElephantWithHowdah(Solo48):
     icon_id = 'elephant-with-howdah'

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='e91a4b42-5376-4b1a-ab2d-8d86c029fcca'
 SOURCE_PATH='icon_set/work/todo-references/compass east_e91a4b42-5376-4b1a-ab2d-8d86c029fcca.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='compass-east'
     keyshape=Keyshape.HRECT_M

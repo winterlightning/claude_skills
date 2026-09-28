@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1f180a84-a846-4671-b767-dbb6041f800a'
 SOURCE_PATH = 'pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Passport booklet with globe and rear-cover reveal.'
 CONSTRUCTION_REFERENCES = 'Lucide monitor rounded enclosure principle; symmetric globe construction.'
 OMISSIONS = 'Rear-cover reveal simplified.'

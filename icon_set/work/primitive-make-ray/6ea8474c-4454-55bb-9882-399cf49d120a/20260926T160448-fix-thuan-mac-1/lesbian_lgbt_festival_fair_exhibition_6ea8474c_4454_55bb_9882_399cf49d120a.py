@@ -18,7 +18,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6ea8474c-4454-55bb-9882-399cf49d120a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lesbian-lgbt-festival-fair-exhibition/20260926T160211Z-thuan-mac-1/reference/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 STRING_Y, PENNANT_W, PENNANT_D = 6, 12, 10
 PENNANT_XS = (6, 30)              # left corner of each pennant

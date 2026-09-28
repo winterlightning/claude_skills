@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7ad26951-3ebc-43be-a582-43053440b4d2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dental-mouth-mirror-angled-handle/20260925T083122Z-thuan-mac/reference/dentistry tooth mirror_7ad26951-3ebc-43be-a582-43053440b4d2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Retain a smoothly rounded diagonal grip and perspective oval mirror. Their natural bounds differ slightly from SQUARE, while all geometry remains within 48px and all spacing checks pass.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '5faa4c000a0fe9774361a61780ce783f7ca2c3cf312367aefaeb59069a1ab83a'}

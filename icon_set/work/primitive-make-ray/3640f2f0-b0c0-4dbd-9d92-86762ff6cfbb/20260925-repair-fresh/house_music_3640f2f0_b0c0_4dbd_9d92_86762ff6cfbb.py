@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3640f2f0-b0c0-4dbd-9d92-86762ff6cfbb'
 SOURCE_PATH = 'pictographic-primitives/other/house music_3640f2f0-b0c0-4dbd-9d92-86762ff6cfbb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/house_music_3640f2f0_b0c0_4dbd_9d92_86762ff6cfbb.py'
 
 class Drawing(Solo48):

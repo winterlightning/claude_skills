@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5d1e690d-7cb8-4583-96b6-60ab81cb1101'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__angle-down/20260924T142441Z-thuan-mac/reference/angle down_5d1e690d-7cb8-4583-96b6-60ab81cb1101.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='angle-down'

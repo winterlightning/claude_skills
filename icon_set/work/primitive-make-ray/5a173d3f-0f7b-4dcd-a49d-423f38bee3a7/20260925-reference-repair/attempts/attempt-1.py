@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='5a173d3f-0f7b-4dcd-a49d-423f38bee3a7'
 SOURCE_PATH='pictographic-primitives/transportation/e scooter_5a173d3f-0f7b-4dcd-a49d-423f38bee3a7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Tall slim scooter steering stem, short T handle, small circular wheels, rising deck and upper platform mark.'
 CONSTRUCTION_REFERENCES='Lucide scooter: coherent stem/deck and circular wheels; source controls tall proportions and additional platform line.'
 OMISSIONS=[]

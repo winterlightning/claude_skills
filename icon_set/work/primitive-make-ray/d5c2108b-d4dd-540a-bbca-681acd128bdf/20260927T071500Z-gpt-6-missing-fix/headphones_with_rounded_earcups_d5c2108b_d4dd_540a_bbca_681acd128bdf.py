@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd5c2108b-d4dd-540a-bbca-681acd128bdf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__headphones-with-rounded-earcups/20260927T061835Z-thuan-mac-1/reference/headphones_d5c2108b-d4dd-540a-bbca-681acd128bdf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 SOURCE_REFERENCES = (('d5c2108b-d4dd-540a-bbca-681acd128bdf', 'pictographic-primitives/audio/headphones_d5c2108b-d4dd-540a-bbca-681acd128bdf.svg'), ('d790d911-eb1f-58e5-91ac-7d9fb1a04fe9', 'pictographic-primitives/audio/headphones_d790d911-eb1f-58e5-91ac-7d9fb1a04fe9.svg'))
 

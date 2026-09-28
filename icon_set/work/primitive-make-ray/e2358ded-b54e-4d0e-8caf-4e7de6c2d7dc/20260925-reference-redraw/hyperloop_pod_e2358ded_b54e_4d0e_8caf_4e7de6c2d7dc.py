@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e2358ded-b54e-4d0e-8caf-4e7de6c2d7dc'
 SOURCE_PATH='pictographic-primitives/technology/hyperloop_e2358ded-b54e-4d0e-8caf-4e7de6c2d7dc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PARENT_MODULE='icon_set/model/icons/solo/hyperloop_pod_e2358ded_b54e_4d0e_8caf_4e7de6c2d7dc.py'
 class Drawing(Solo48):
     icon_id='hyperloop-pod'

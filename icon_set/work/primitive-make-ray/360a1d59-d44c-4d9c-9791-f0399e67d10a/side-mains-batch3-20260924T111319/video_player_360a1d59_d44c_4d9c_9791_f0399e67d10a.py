@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '360a1d59-d44c-4d9c-9791-f0399e67d10a'
 SOURCE_PATH = 'pictographic-primitives/video/video player_360a1d59-d44c-4d9c-9791-f0399e67d10a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded video player with central play triangle.'
 CONSTRUCTION_REFERENCES = 'Lucide monitor: tangent rounded enclosure.'
 OMISSIONS = 'No omissions.'

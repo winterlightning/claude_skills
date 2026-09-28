@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bf8f6fdd-5ee3-4cb9-9a0f-3104f1eeaa48'
 SOURCE_PATH = 'icon_set/work/todo-references/insurance expensive_bf8f6fdd-5ee3-4cb9-9a0f-3104f1eeaa48.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A balance with a raised dollar coin and lower medical cross, indicating expensive insurance.'
 CONSTRUCTION_PLAN = 'Use the same balance construction and reverse its tilt.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

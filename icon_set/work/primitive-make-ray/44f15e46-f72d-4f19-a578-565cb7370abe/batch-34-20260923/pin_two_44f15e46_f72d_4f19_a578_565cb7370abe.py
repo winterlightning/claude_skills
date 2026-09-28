@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='44f15e46-f72d-4f19-a578-565cb7370abe'
 SOURCE_PATH='icon_set/work/todo-references/pin two_44f15e46-f72d-4f19-a578-565cb7370abe.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Blank teardrop pin with broad sweeping lower sides. Shared axis x=24.'
 CONSTRUCTION_REFERENCES='Lucide map-pin: circular dome and coherent pointed contour.'
 OMISSIONS='None; no inner mark exists in the reference.'

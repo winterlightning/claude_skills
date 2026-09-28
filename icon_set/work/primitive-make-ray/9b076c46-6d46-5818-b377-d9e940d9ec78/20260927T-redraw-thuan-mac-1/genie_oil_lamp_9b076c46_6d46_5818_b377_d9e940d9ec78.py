@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9b076c46-6d46-5818-b377-d9e940d9ec78'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__genie-oil-lamp/20260926T173134Z-thuan-mac-1/reference/lamp genie_9b076c46-6d46-5818-b377-d9e940d9ec78.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GenieOilLamp(Solo48):
     icon_id = 'genie-oil-lamp'

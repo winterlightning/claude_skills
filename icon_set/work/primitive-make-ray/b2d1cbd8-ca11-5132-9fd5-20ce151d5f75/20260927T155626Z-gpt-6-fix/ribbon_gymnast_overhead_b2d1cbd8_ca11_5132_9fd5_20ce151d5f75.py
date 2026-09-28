@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b2d1cbd8-ca11-5132-9fd5-20ce151d5f75'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ribbon-gymnast-overhead/20260927T155415Z-thuan-mac-1/reference/rhythmic ribbon_b2d1cbd8-ca11-5132-9fd5-20ce151d5f75.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class RibbonGymnastOverhead(Solo48):
     icon_id='ribbon-gymnast-overhead'

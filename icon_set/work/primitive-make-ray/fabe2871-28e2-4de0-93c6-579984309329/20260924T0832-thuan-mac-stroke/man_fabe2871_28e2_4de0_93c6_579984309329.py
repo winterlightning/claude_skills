@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fabe2871-28e2-4de0-93c6-579984309329'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__man-head-shoulders-outline/20260924T083118Z-thuan-mac/reference/man_fabe2871-28e2-4de0-93c6-579984309329.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'man-head-shoulders-outline'

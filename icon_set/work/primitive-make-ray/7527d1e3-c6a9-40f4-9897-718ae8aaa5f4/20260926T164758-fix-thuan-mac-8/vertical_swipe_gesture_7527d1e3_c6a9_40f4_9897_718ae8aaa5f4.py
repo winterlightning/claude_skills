@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7527d1e3-c6a9-40f4-9897-718ae8aaa5f4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__vertical-swipe-gesture-solo/20260926T164653Z-thuan-mac/reference/gesture tap all direction 1_7527d1e3-c6a9-40f4-9897-718ae8aaa5f4.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

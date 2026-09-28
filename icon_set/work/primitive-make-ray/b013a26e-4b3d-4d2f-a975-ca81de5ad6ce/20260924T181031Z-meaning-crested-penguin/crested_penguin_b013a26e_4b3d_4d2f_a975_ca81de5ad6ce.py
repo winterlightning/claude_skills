@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b013a26e-4b3d-4d2f-a975-ca81de5ad6ce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crested-penguin/20260924T181031Z-thuan-mac/reference/penguin crested_b013a26e-4b3d-4d2f-a975-ca81de5ad6ce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crested-penguin'

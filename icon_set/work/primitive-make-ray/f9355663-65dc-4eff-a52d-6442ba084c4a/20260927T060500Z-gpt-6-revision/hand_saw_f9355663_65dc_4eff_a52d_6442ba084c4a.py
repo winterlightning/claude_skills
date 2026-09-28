@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f9355663-65dc-4eff-a52d-6442ba084c4a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-saw/20260927T060349Z-thuan-mac-1/reference/saw_f9355663-65dc-4eff-a52d-6442ba084c4a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandSaw(Solo48):

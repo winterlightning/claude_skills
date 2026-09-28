@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='61ff9a13-427d-5090-8120-195d42206c3b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__eyedropper-with-open-pointed-outline/20260924T093128Z-thuan-mac/reference/color picker 1_61ff9a13-427d-5090-8120-195d42206c3b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='eyedropper-with-open-pointed-outline'
     keyshape=Keyshape.SQUARE

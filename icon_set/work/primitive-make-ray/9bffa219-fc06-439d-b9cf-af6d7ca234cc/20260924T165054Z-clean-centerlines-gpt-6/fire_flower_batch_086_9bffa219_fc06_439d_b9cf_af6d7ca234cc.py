@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9bffa219-fc06-439d-b9cf-af6d7ca234cc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fire-flower-batch-086/20260924T165054Z-thuan-mac/reference/mario flower_9bffa219-fc06-439d-b9cf-af6d7ca234cc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'fire-flower-batch-086'
     keyshape = Keyshape.VRECT_L

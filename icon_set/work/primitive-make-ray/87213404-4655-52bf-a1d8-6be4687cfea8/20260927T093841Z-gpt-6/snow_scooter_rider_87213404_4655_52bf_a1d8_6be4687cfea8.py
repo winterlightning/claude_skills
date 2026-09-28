@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '87213404-4655-52bf-a1d8-6be4687cfea8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__snow-scooter-rider/20260927T093511Z-thuan-mac-1/reference/skiing snow scooter person_87213404-4655-52bf-a1d8-6be4687cfea8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SnowScooterRider(Solo48):
     icon_id = 'snow-scooter-rider'

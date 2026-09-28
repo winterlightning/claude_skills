@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c9a32a88-1037-4cb5-8b11-265935d5449f'
 SOURCE_PATH='pictographic-primitives/weather/visibility_c9a32a88-1037-4cb5-8b11-265935d5449f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Visibility mark with closed left triangle, dashed range and100 below. HRECT_L4,8–44,40 opens digit counters and gaps. Dash count reduced from3 to2, numeral1 serif/base omitted; all three digits retained. No useful exact Lucide match.'
 class Drawing(Solo48):
     icon_id='visibility'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6a37668f-13b0-58ea-bd40-b5dba7f5d7fe'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__patient-wearing-oxygen-mask-6a37668f/20260924T093935Z-thuan-mac/reference/oxygen mask head_6a37668f-13b0-58ea-bd40-b5dba7f5d7fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'human_ref/user.svg: round head and broad curved shoulders; Lucide stethoscope: hose turn.'
 OMISSIONS = 'Small valve ring omitted; open shoulders and actual hose crossing preserved.'
 

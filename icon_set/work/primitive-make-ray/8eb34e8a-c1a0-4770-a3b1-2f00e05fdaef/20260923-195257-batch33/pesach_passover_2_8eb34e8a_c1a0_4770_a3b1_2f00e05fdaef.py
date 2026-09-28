@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8eb34e8a-c1a0-4770-a3b1-2f00e05fdaef'
 SOURCE_PATH='icon_set/work/todo-references/pesach passover 2_8eb34e8a-c1a0-4770-a3b1-2f00e05fdaef.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Passover star on a round plate behind a segmented matzo tile.'
 OMISSIONS='Tile rows reduced to one split; plate hidden behind foreground tile.'
 LUCIDE_REFERENCE='star'

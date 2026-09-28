@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a70db137-a446-4f4c-b656-4fea14660981'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone pound sign_a70db137-a446-4f4c-b656-4fea14660981.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-pound-sign'
     keyshape = Keyshape.VRECT_L

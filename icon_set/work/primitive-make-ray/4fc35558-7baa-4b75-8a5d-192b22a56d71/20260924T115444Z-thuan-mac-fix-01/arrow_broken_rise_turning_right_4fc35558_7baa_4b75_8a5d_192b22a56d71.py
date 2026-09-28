@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4fc35558-7baa-4b75-8a5d-192b22a56d71'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-broken-rise-turning-right/20260924T115444Z-thuan-mac/reference/diagram dash up steady large head_4fc35558-7baa-4b75-8a5d-192b22a56d71.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'arrow-broken-rise-turning-right'
     keyshape = Keyshape.SQUARE

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd670eb75-f1dd-5bf4-9a7e-58d5a10de8f0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__earth-1-maps/20260924T165054Z-thuan-mac/reference/earth 1_d670eb75-f1dd-5bf4-9a7e-58d5a10de8f0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'earth-1-maps'
     keyshape = Keyshape.CIRCLE

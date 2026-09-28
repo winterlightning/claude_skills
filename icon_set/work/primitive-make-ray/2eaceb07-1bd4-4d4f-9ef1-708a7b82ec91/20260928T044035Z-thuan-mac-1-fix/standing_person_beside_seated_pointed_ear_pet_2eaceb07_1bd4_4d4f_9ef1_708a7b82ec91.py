@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "2eaceb07-1bd4-4d4f-9ef1-708a7b82ec91"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__standing-person-beside-seated-pointed-ear-pet/20260928T042745Z-thuan-mac-1/reference/dog sit trainer side_2eaceb07-1bd4-4d4f-9ef1-708a7b82ec91.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class StandingPersonBesideSeatedPointedEarPet(Solo48):

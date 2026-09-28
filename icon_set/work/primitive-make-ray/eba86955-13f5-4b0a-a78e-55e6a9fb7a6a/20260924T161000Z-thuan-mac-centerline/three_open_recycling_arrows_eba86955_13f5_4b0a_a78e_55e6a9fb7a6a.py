@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='eba86955-13f5-4b0a-a78e-55e6a9fb7a6a'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__three-open-recycling-arrows/20260924T160711Z-thuan-mac/reference/recycling symbol_eba86955-13f5-4b0a-a78e-55e6a9fb7a6a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='three-open-recycling-arrows'

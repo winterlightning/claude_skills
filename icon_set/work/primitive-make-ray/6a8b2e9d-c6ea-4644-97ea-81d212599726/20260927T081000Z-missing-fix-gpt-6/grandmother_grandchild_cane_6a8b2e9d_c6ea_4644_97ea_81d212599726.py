@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6a8b2e9d-c6ea-4644-97ea-81d212599726'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grandmother-grandchild-cane/20260927T075459Z-thuan-mac-1/reference/family grandmother_6a8b2e9d-c6ea-4644-97ea-81d212599726.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Batch26Icon(Solo48):

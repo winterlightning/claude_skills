@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2f96d275-e002-410c-8e4f-d4365a7661ad'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-duckling-profile-batch-057/20260924T092136Z-thuan-mac/reference/gosling_2f96d275-e002-410c-8e4f-d4365a7661ad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'standing-duckling-profile-batch-057'
     keyshape = Keyshape.SQUARE

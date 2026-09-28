@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b4068396-30fc-5e9b-8eca-c9272d55decc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__all-terrain-vehicle-batch-025-14/20260927T160834Z-thuan-mac-1/reference/car atv_b4068396-30fc-5e9b-8eca-c9272d55decc.svg'
 EXPORTED_REFERENCE = 'work/brief-exports/20260918-all-todo-batches-15/batches/batch-025/references/car atv_b4068396-30fc-5e9b-8eca-c9272d55decc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch025Icon(Solo48):
     icon_id = 'all-terrain-vehicle-batch-025-14'

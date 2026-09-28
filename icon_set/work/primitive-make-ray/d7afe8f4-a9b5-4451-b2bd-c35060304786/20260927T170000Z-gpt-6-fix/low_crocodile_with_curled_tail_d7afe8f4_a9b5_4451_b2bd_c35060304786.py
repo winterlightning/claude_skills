@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd7afe8f4-a9b5-4451-b2bd-c35060304786'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__low-crocodile-with-curled-tail/20260927T164353Z-thuan-mac-1/reference/crocodile_d7afe8f4-a9b5-4451-b2bd-c35060304786.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'low-crocodile-with-curled-tail'

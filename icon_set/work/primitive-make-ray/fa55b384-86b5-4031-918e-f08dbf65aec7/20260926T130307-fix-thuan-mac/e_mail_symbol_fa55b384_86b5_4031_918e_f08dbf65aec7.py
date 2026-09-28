@@ -12,7 +12,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fa55b384-86b5-4031-918e-f08dbf65aec7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__e-mail-symbol/20260926T125430Z-thuan-mac/reference/e mail_fa55b384-86b5-4031-918e-f08dbf65aec7.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

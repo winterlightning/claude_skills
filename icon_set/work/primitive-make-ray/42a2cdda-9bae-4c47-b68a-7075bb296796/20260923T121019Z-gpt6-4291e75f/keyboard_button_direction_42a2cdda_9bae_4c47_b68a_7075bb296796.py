@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '42a2cdda-9bae-4c47-b68a-7075bb296796'
 SOURCE_PATH = 'icon_set/work/todo-references/keyboard button direction_42a2cdda-9bae-4c47-b68a-7075bb296796.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'Three keyboard direction keys arranged with up above left and right.'
 CONSTRUCTION_PLAN = 'Repeated rounded keys share dimensions and arrow lengths; bottom arrows mirror.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

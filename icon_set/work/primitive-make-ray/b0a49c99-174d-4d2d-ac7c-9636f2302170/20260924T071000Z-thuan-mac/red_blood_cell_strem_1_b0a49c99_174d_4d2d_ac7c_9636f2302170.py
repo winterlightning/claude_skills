@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b0a49c99-174d-4d2d-ac7c-9636f2302170'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__red-blood-cell-strem-1/20260924T065933Z-thuan-mac/reference/red blood cell strem 1_b0a49c99-174d-4d2d-ac7c-9636f2302170.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='red-blood-cell-strem-1'

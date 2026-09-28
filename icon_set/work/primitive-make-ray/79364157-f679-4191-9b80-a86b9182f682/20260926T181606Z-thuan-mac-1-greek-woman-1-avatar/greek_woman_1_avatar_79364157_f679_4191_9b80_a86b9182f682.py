@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '79364157-f679-4191-9b80-a86b9182f682'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__greek-woman-1-avatar/20260926T175531Z-thuan-mac-1/reference/greek woman_79364157-f679-4191-9b80-a86b9182f682.svg'
 SOURCE_HEAD_ICON_ID = 'greek-woman-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 26
 
 class GreekWoman1Avatar(Solo48):

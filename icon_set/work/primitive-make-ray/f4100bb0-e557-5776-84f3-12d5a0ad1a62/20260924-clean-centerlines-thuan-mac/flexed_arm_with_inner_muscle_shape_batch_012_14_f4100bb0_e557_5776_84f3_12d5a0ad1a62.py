@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f4100bb0-e557-5776-84f3-12d5a0ad1a62'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__flexed-arm-with-inner-muscle-shape-batch-012-14/20260924T171046Z-thuan-mac/reference/massage muscle_f4100bb0-e557-5776-84f3-12d5a0ad1a62.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='flexed-arm-with-inner-muscle-shape-batch-012-14'

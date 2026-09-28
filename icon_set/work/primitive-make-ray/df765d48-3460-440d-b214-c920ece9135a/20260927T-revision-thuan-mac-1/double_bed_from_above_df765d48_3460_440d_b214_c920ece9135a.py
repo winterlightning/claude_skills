@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'df765d48-3460-440d-b214-c920ece9135a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__double-bed-from-above/20260927T150749Z-thuan-mac-1/reference/hotel double bed_df765d48-3460-440d-b214-c920ece9135a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconDoubleBedFromAbove(Solo48):

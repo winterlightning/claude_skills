@@ -13,7 +13,7 @@ SOURCE_ICON_ID = '93d527dc-470b-58d5-8ae9-b6db1ca51be0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chisel-carving-wood-batch-013-08/20260927T151732Z-thuan-mac-1/reference/wood carving_93d527dc-470b-58d5-8ae9-b6db1ca51be0.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/hobbies/wood carving_93d527dc-470b-58d5-8ae9-b6db1ca51be0.svg'
 EXPORTED_REFERENCE_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-013/references/wood carving_93d527dc-470b-58d5-8ae9-b6db1ca51be0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 BATCH_AUTHORING_RUN = "20260917-011-015"
 
 

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5fda1d00-7833-4fcb-89e8-8b235809140b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__truck-carrying-a-house/20260927T173930Z-thuan-mac-1/reference/real estate truck house_5fda1d00-7833-4fcb-89e8-8b235809140b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'truck-carrying-a-house'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4a1b8b06-db68-40b2-adfe-7ecac75aaa72'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/shoemaker_4a1b8b06-db68-40b2-adfe-7ecac75aaa72.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='shoemaker'
     keyshape=Keyshape.SQUARE

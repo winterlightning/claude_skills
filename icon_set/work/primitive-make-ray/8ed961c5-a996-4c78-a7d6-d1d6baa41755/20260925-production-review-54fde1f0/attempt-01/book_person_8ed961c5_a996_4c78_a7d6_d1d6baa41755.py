@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8ed961c5-a996-4c78-a7d6-d1d6baa41755'
 SOURCE_PATH = 'pictographic-primitives/other/book person_8ed961c5-a996-4c78-a7d6-d1d6baa41755.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Book cover and page band with a larger outlined head and coherent upward arms; exact4u detached gap.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['book-user', 'human_ref/user.svg']

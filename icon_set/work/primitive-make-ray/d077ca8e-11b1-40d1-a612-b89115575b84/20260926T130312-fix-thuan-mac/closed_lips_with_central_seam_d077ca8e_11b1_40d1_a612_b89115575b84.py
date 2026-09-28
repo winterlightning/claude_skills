@@ -17,7 +17,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd077ca8e-11b1-40d1-a612-b89115575b84'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__closed-lips-with-central-seam/20260926T125430Z-thuan-mac/reference/lip_d077ca8e-11b1-40d1-a612-b89115575b84.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

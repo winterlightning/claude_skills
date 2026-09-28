@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='9fea270f-2e24-4304-9328-79e02032c303'
 SOURCE_PATH='pictographic-primitives/health/medical file_9fea270f-2e24-4304-9328-79e02032c303.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Beveled document with a balanced outlined medical cross; equal horizontal and vertical arms.'
 CONSTRUCTION_REFERENCES='Lucide file-plus: page corners and medical placement; source cross remains outlined.'
 OMISSIONS=['No extra inner fold seam added: source has only the beveled outline.']

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fda97562-f1db-4338-8a72-deba11736c45'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-writing-pens-with-distinct-nibs/20260927T155415Z-thuan-mac-1/reference/pens_fda97562-f1db-4338-8a72-deba11736c45.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='448ae7e7-230e-5858-9857-5a4d7a93f188'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__elephant-head/20260925T085649Z-thuan-mac/reference/elephant head_448ae7e7-230e-5858-9857-5a4d7a93f188.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='elephant-head'

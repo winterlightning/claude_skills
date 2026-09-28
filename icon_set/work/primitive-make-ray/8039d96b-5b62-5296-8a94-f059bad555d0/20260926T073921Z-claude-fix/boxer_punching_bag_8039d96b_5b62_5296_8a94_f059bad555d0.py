@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8039d96b-5b62-5296-8a94-f059bad555d0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boxer-punching-bag/20260926T073831Z-thuan-mac/reference/boxing boxer bag_8039d96b-5b62-5296-8a94-f059bad555d0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BoxerPunchingBag(Solo48):
     icon_id = 'boxer-punching-bag'

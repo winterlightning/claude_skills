@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0998d16d-9a1b-484a-9195-ce50de19084e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opposing-pointing-hands/20260927T164305Z-thuan-mac-1/reference/fingers point opposite direction_0998d16d-9a1b-484a-9195-ce50de19084e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'opposing-pointing-hands'

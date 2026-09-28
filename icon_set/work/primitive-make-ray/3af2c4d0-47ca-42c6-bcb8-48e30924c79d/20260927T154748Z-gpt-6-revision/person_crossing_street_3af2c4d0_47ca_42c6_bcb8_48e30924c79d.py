@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3af2c4d0-47ca-42c6-bcb8-48e30924c79d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-crossing-street/20260927T153747Z-thuan-mac-1/reference/walking cross street_3af2c4d0-47ca-42c6-bcb8-48e30924c79d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonCrossingStreet(Solo48):
     icon_id = 'person-crossing-street'

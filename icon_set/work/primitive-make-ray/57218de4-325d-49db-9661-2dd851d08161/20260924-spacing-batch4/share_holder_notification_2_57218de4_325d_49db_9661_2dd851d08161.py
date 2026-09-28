@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='57218de4-325d-49db-9661-2dd851d08161'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/share holder notification 2_57218de4-325d-49db-9661-2dd851d08161.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A notification bell above three shareholder busts. Shared human_ref/user.svg proportions and round heads. Head bottoms29, shoulder crests37 give exact8 centerline /4 visible ink gap. All three busts retained, symmetric about x24.'
 CONSTRUCTION_REFERENCE='Lucide bell flared silhouette; human_ref/user.svg circular heads and broad shoulders'
 class Drawing(Solo48):

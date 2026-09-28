@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5dbc67dd-052a-418b-bbef-04f986d75411'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-people-walking-together/20260927T133645Z-thuan-mac-1/reference/refugee immigration_5dbc67dd-052a-418b-bbef-04f986d75411.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class TwoPeopleWalkingTogether(Solo48):

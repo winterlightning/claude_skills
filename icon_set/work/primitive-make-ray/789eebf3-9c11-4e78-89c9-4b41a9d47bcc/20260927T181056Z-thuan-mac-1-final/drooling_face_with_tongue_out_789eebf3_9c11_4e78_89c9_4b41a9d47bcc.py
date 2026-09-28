@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '789eebf3-9c11-4e78-89c9-4b41a9d47bcc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__drooling-face-with-tongue-out/20260927T174057Z-thuan-mac-1/reference/face drooling_789eebf3-9c11-4e78-89c9-4b41a9d47bcc.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'drooling-face-with-tongue-out'

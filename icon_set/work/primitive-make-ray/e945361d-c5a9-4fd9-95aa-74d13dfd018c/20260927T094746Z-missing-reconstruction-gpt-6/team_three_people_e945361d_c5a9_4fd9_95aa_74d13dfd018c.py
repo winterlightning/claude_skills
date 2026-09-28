@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e945361d-c5a9-4fd9-95aa-74d13dfd018c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__team-three-people/20260927T094425Z-thuan-mac-1/reference/three persons_e945361d-c5a9-4fd9-95aa-74d13dfd018c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected arrangement put two heads high and one low, reversing the reference.'
 REVISION_CHANGE = 'Placed the central head above two peers and aligned each with its shoulder arc.'
 

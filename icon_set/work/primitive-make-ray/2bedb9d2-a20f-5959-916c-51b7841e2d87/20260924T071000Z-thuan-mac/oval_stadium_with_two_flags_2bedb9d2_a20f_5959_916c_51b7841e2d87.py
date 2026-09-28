@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2bedb9d2-a20f-5959-916c-51b7841e2d87'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__oval-stadium-with-two-flags/20260924T065933Z-thuan-mac/reference/stadium classic_2bedb9d2-a20f-5959-916c-51b7841e2d87.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='oval-stadium-with-two-flags'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a049528e-fa8f-4ccb-a020-8a2719585427'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__electric-kettle-with-oval-water-window/20260925T085649Z-thuan-mac/reference/tea kettle_a049528e-fa8f-4ccb-a020-8a2719585427.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='electric-kettle-with-oval-water-window'

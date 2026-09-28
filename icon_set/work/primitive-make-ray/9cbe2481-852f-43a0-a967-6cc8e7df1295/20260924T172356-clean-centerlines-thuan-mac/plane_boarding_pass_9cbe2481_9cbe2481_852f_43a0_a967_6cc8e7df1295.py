@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9cbe2481-852f-43a0-a967-6cc8e7df1295'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__plane-boarding-pass-9cbe2481/20260924T172356Z-thuan-mac/reference/plane boarding pass_9cbe2481-852f-43a0-a967-6cc8e7df1295.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='plane-boarding-pass-9cbe2481'

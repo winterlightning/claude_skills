@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c489d854-1f8e-43c0-9352-5f289afbebf9'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__raised-top-photo-camera/20260924T150007Z-thuan-mac/reference/camera settings rotate_c489d854-1f8e-43c0-9352-5f289afbebf9.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='raised-top-photo-camera'
     keyshape=Keyshape.HRECT_L

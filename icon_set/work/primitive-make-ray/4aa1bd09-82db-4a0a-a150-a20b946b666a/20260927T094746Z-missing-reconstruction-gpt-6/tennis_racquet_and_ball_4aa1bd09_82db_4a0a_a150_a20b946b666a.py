@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4aa1bd09-82db-4a0a-a150-a20b946b666a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tennis-racquet-and-ball/20260927T094425Z-thuan-mac-1/reference/tennis_4aa1bd09-82db-4a0a-a150-a20b946b666a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected crossed strings dominated the plain oval head in the source.'
 REVISION_CHANGE = 'Removed the X so the oval racket head and detached ball read clearly.'
 

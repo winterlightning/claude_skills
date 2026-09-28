@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '25a68e69-255f-4309-949c-f73d27e485d2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__json-web-token-logo/20260927T070927Z-thuan-mac-1/reference/json web token logo_25a68e69-255f-4309-949c-f73d27e485d2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class JsonWebTokenLogo(Solo48):

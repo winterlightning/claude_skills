@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3b617167-6bc8-47b6-8ca4-ece9d9067e8d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__broad-recycling-arrow-loop/20260924T111346Z-thuan-mac/reference/recycle_3b617167-6bc8-47b6-8ca4-ece9d9067e8d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'broad-recycling-arrow-loop'

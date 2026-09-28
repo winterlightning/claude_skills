@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6d15a563-3b53-5c98-9c19-753f5d8814f8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__marionette-suspended-from-crossed-control-bars/20260927T074149Z-thuan-mac-1/reference/puppet_6d15a563-3b53-5c98-9c19-753f5d8814f8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'marionette-suspended-from-crossed-control-bars'

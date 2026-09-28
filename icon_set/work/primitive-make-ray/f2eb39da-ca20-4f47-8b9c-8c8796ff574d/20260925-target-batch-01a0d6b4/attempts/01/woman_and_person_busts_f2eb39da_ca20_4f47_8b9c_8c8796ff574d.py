@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='f2eb39da-ca20-4f47-8b9c-8c8796ff574d'
 SOURCE_PATH='pictographic-primitives/other/two users woman_f2eb39da-ca20-4f47-8b9c-8c8796ff574d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Larger woman at front-left, smaller person lower behind-right; smooth parted hair and layered curved shoulders with touching head/body ink.'
 CONSTRUCTION_REFERENCES='human_ref/user.svg and Lucide users-round: circular faces and overlapping busts. Reference owns the relative head heights.'
 OMISSIONS=['Small hair tips and V-neck seam omitted to avoid crowded extra strokes.']

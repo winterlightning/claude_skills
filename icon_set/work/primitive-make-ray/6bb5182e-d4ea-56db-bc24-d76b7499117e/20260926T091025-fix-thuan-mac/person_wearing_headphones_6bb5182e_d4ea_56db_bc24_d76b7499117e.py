@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6bb5182e-d4ea-56db-bc24-d76b7499117e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-wearing-headphones/20260926T085631Z-thuan-mac/reference/meeting headphones_6bb5182e-d4ea-56db-bc24-d76b7499117e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class PersonWearingHeadphones(Solo48):
     icon_id = 'person-wearing-headphones'

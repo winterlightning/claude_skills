@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='7e75fbd6-3a21-50f8-aff0-6aa26d0669a8'
 SOURCE_PATH='pictographic-primitives/programing/deep learning frameworks_7e75fbd6-3a21-50f8-aff0-6aa26d0669a8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class NeuralNetworkNodes(Solo48):
     icon_id='neural-network-nodes'

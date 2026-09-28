@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7db2d7b5-d033-4d27-9946-8454fc7d5e75'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-bullet-cartridge/20260927T174057Z-thuan-mac-1/reference/ammunition_7db2d7b5-d033-4d27-9946-8454fc7d5e75.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'upright-bullet-cartridge'

@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = '276a5bb3-9c51-4aac-a389-6621c8e62c4f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mascara-wand-beside-open-tube/20260927T074149Z-thuan-mac-1/reference/mascara_276a5bb3-9c51-4aac-a389-6621c8e62c4f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'mascara-wand-beside-open-tube'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f9cc745f-989b-5241-9fd0-090475a8c137'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clenched-fist-batch-020-08/20260927T150749Z-thuan-mac-1/reference/hand fist bump_f9cc745f-989b-5241-9fd0-090475a8c137.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/references/hand fist bump_f9cc745f-989b-5241-9fd0-090475a8c137.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/08-clenched-hand-fist--f9cc745f-989b-5241-9fd0-090475a8c137.md'
 DESIGN_PLAN = 'One coherent outline; shared dimensions own repeated parts.'

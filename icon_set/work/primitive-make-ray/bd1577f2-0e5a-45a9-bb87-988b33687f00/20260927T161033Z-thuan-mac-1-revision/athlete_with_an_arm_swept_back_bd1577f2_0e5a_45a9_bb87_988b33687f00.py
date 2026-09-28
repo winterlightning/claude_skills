@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bd1577f2-0e5a-45a9-bb87-988b33687f00'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__athlete-with-an-arm-swept-back/20260927T160834Z-thuan-mac-1/reference/athletics discus throwing_bd1577f2-0e5a-45a9-bb87-988b33687f00.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'athlete-with-an-arm-swept-back'

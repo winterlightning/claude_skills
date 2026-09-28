@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '49aa3ae9-4599-4f0a-839e-996103c1a778'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wireless-mouse-with-signal/20260927T083044Z-thuan-mac-1/reference/mouse remote_49aa3ae9-4599-4f0a-839e-996103c1a778.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

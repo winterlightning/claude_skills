@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0ceae122-4d52-44c0-84da-c9168dce14c9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-artist-paintbrush-solo-b017/20260924T092136Z-thuan-mac/reference/brush_0ceae122-4d52-44c0-84da-c9168dce14c9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'rounded-artist-paintbrush-solo-b017'
     keyshape = Keyshape.SQUARE

@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'df91a888-ce29-4b72-a6a9-d9fd7c079490'
 SOURCE_PATH = 'pictographic-primitives/users/man podium_df91a888-ce29-4b72-a6a9-d9fd7c079490.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ManAtPodium(Solo48):

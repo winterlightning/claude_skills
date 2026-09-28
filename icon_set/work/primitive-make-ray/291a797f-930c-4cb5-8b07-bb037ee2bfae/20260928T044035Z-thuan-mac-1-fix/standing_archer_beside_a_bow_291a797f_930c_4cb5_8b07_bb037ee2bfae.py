@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "291a797f-930c-4cb5-8b07-bb037ee2bfae"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__standing-archer-beside-a-bow/20260928T042745Z-thuan-mac-1/reference/archery person_291a797f-930c-4cb5-8b07-bb037ee2bfae.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class StandingArcherBesideABow(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd505ed8f-f924-4068-9011-370ecf2f026a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-height-measurement-d505ed8f/20260927T153747Z-thuan-mac-1/reference/virtual measuring_d505ed8f-f924-4068-9011-370ecf2f026a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-height-measurement-d505ed8f'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '13718512-f145-41c1-8a96-ce57c5ff8408'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__information/20260927T081503Z-thuan-mac-1/reference/information_13718512-f145-41c1-8a96-ce57c5ff8408.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-reconstructed'

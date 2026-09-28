@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '189b26f6-a537-476e-9cd3-8f0672ed5fca'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__havana-cathedral/20260926T172218Z-thuan-mac-1/reference/cathedral of havana cuba_189b26f6-a537-476e-9cd3-8f0672ed5fca.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Landmark(Solo48):

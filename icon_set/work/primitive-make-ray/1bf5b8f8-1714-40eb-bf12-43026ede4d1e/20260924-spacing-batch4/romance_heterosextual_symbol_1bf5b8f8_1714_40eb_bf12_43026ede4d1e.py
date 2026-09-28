@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1bf5b8f8-1714-40eb-bf12-43026ede4d1e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/romance heterosextual symbol_1bf5b8f8-1714-40eb-bf12-43026ede4d1e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A romance heart with male and female gender attachments. Heart, male shaft and female stem use actual shared nodes. Arrow and cross remain distinct; intentional upper-right male arrow.'
 CONSTRUCTION_REFERENCE='Lucide heart paired circular lobes; source male/female attachments'
 class Drawing(Solo48):

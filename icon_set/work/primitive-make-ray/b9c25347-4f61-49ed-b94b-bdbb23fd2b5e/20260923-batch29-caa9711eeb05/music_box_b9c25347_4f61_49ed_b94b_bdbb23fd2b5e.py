@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b9c25347-4f61-49ed-b94b-bdbb23fd2b5e'
 SOURCE_PATH='icon_set/work/todo-references/music box_b9c25347-4f61-49ed-b94b-bdbb23fd2b5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='music-box'
     keyshape=Keyshape.SQUARE

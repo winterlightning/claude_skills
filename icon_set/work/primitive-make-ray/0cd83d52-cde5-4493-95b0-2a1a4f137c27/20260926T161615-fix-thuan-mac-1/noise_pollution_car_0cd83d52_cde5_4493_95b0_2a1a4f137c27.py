@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0cd83d52-cde5-4493-95b0-2a1a4f137c27'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__noise-pollution-car/20260926T160211Z-thuan-mac-1/reference/noise pollution car_0cd83d52-cde5-4493-95b0-2a1a4f137c27.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 FLOOR, WAIST, ROOF = 34, 26, 16
 BODY = [(6, FLOOR), (6, WAIST), (12, WAIST), (17, ROOF), (29, ROOF), (35, WAIST), (42, WAIST), (42, FLOOR)]

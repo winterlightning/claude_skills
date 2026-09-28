@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '912f29e9-3e6b-45a8-8e4a-679dc1578b19'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__joomla-logo/20260927T070927Z-thuan-mac-1/reference/joomla logo_912f29e9-3e6b-45a8-8e4a-679dc1578b19.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class JoomlaLogo(Solo48):

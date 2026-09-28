@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3352f8c5-b764-483d-b1b4-cbbf08da871f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shopping-cart-angular-open-wheels/20260927T172707Z-thuan-mac-1/reference/cart 1_3352f8c5-b764-483d-b1b4-cbbf08da871f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

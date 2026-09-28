@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f455b9a8-f5df-5ef0-8c51-c9d25db58703'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-ruler/20260927T133645Z-thuan-mac-1/reference/measure ruler_f455b9a8-f5df-5ef0-8c51-c9d25db58703.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class UprightRuler(Solo48):
     icon_id = 'upright-ruler'

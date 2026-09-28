@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd9771273-b5c2-40b1-a06f-961a455869bf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__man-above-two-women/20260924T093935Z-thuan-mac/reference/user multiple half male female_d9771273-b5c2-40b1-a06f-961a455869bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'human_ref/user.svg: equal circular heads with open shoulder arches.'
 OMISSIONS = 'Fringes omitted to avoid filling small faces; top shoulders shortened between women.'
 

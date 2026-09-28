@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8f42561d-3649-4f13-8301-cc0387582a7d'
 SOURCE_PATH='icon_set/work/todo-references/rectangle paragraph_8f42561d-3649-4f13-8301-cc0387582a7d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wide rounded text panel with a long upper rule and shorter lower rule, both left-aligned.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: rounded panel proportions; list: aligned text runs.'
 OMISSIONS='None.'

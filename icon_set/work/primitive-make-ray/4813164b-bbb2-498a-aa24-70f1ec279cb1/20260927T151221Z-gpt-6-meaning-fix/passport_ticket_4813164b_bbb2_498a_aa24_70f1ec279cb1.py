@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4813164b-bbb2-498a-aa24-70f1ec279cb1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__passport-ticket/20260927T143814Z-thuan-mac-1/reference/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'passport-ticket'

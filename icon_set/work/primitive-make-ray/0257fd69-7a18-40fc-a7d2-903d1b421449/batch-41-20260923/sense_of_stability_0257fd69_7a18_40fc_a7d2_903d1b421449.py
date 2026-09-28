@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0257fd69-7a18-40fc-a7d2-903d1b421449'
 SOURCE_PATH='icon_set/work/todo-references/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Person with outstretched arms in an open-front cylindrical enclosure. Rim, side bands, window edges and figure are one complete scene.'
 CONSTRUCTION_REFERENCES='Shared human-reference.md/full_body_ref.png: round head and coherent torso/limbs. Cylinder reconstructed from source.'
 OMISSIONS='Tiny upper rim ticks omitted; front opening, side bands and person retained.'

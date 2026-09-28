@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='94ee19fa-6c64-4340-9c2b-4d23bc7e3842'
 SOURCE_PATH='pictographic-primitives/_uncategorized_01/airship_94ee19fa-6c64-4340-9c2b-4d23bc7e3842.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restored a rounded balloon envelope with a pointed rear, two distinct triangular fins and an attached gondola below the forward half. The fins are no longer fused into a rocket-like silhouette.'
 CONSTRUCTION_REFERENCE='No useful local Lucide airship match; supplied reference owns pointed tail and rounded balloon proportions.'
 OMISSIONS='No defining parts omitted. Gondola moved forward slightly to clear the lower tail fin. Directional asymmetry is intentional.'

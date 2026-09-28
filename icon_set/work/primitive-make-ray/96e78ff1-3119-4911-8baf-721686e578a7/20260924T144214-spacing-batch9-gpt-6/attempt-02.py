@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='96e78ff1-3119-4911-8baf-721686e578a7'
 SOURCE_PATH='pictographic-primitives/other/file person_96e78ff1-3119-4911-8baf-721686e578a7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='file-person'
     keyshape=Keyshape.VRECT_L

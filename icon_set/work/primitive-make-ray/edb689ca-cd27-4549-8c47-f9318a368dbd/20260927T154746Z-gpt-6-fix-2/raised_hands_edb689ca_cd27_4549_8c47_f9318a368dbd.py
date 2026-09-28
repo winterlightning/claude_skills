@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'edb689ca-cd27-4549-8c47-f9318a368dbd'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__raised-hands/20260927T153833Z-thuan-mac-1/reference/hand raise_edb689ca-cd27-4549-8c47-f9318a368dbd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RaisedHands(Solo48):
     icon_id = 'raised-hands'

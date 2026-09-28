@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '37c9c7c4-1962-4de6-b4dc-99162f467f6a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__broad-knot-necktie/20260925T070522Z-thuan-mac/reference/necktie_37c9c7c4-1962-4de6-b4dc-99162f467f6a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'broad-knot-necktie'

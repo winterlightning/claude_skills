@@ -15,7 +15,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '42e0445b-86b9-4a5a-b1c7-898db65d5c28'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crossed-knitting-needles-with-fabric-batch-013-12/20260926T125429Z-thuan-mac/reference/sewing_42e0445b-86b9-4a5a-b1c7-898db65d5c28.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 KNOB_R = 3

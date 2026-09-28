@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '7e7928dc-c2b2-4979-be45-5ca674afd12d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__female-user-profile-icon-solo/20260927T151732Z-thuan-mac-1/reference/full body women_7e7928dc-c2b2-4979-be45-5ca674afd12d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'female-user-profile-icon-solo'

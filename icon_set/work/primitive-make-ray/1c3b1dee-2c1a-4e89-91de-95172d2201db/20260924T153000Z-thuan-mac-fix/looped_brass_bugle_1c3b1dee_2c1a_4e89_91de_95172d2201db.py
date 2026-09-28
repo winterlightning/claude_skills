@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1c3b1dee-2c1a-4e89-91de-95172d2201db'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__looped-brass-bugle/20260924T152540Z-thuan-mac/reference/brass_1c3b1dee-2c1a-4e89-91de-95172d2201db.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'looped-brass-bugle'
     keyshape = Keyshape.HRECT_L

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ff75519b-afd0-4da5-b995-1999fe2b031a'
 SOURCE_PATH = 'icon_set/work/todo-references/stack unstack column_ff75519b-afd0-4da5-b995-1999fe2b031a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A descending staircase of stacked column cells with two downward curved arrows.'
 CONSTRUCTION_REFERENCE = 'No useful Lucide subject match; shared cell widths and repeated arrow construction'
 

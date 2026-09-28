@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5de932db-9cc5-44c6-b9d7-4ae36e88165f'
 SOURCE_PATH='icon_set/work/todo-references/task list pin 1_5de932db-9cc5-44c6-b9d7-4ae36e88165f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='task-list-pin-1'

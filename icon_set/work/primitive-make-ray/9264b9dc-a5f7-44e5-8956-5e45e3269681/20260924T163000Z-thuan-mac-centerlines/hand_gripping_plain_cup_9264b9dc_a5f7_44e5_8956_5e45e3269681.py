@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='9264b9dc-a5f7-44e5-8956-5e45e3269681'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hand-gripping-plain-cup/20260924T162241Z-thuan-mac/reference/ceramic making_9264b9dc-a5f7-44e5-8956-5e45e3269681.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='hand-gripping-plain-cup'
     keyshape=Keyshape.SQUARE

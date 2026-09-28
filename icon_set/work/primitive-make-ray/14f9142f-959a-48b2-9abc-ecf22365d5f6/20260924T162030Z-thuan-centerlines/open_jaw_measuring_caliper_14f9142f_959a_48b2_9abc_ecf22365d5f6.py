@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='14f9142f-959a-48b2-9abc-ecf22365d5f6'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__open-jaw-measuring-caliper/20260924T162030Z-thuan-mac/reference/caliper_14f9142f-959a-48b2-9abc-ecf22365d5f6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='open-jaw-measuring-caliper'

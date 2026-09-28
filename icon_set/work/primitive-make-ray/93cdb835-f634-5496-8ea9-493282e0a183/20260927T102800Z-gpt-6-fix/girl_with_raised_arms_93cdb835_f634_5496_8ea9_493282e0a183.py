@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '93cdb835-f634-5496-8ea9-493282e0a183'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__girl-with-raised-arms/20260927T101626Z-thuan-mac-1/reference/kids girl_93cdb835-f634-5496-8ea9-493282e0a183.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'girl-with-raised-arms'

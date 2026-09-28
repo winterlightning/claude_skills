@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d97ce210-8c87-47ca-ad69-8c331dcbc800'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__controls-previous-video/20260924T164246Z-thuan-mac/reference/controls previous_d97ce210-8c87-47ca-ad69-8c331dcbc800.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='controls-previous-video'

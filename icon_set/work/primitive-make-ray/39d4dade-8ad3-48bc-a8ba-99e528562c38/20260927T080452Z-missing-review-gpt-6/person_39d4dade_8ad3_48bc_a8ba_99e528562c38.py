@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '39d4dade-8ad3-48bc-a8ba-99e528562c38'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person/20260927T074149Z-thuan-mac-1/reference/person_39d4dade-8ad3-48bc-a8ba-99e528562c38.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Person(Solo48):

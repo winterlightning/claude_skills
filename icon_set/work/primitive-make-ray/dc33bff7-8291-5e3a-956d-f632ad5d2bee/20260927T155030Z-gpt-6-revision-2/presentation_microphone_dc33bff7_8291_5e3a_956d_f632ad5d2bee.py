@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dc33bff7-8291-5e3a-956d-f632ad5d2bee'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__presentation-microphone/20260927T153803Z-thuan-mac-1/reference/presentation microphone_dc33bff7-8291-5e3a-956d-f632ad5d2bee.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PresentationMicrophone(Solo48):
     icon_id = 'presentation-microphone'

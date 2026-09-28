@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3f1a2fcc-b8bd-5d0d-8a3f-ff4bd2741fbf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__baby-chick/20260924T090615Z-thuan-mac/reference/chick_3f1a2fcc-b8bd-5d0d-8a3f-ff4bd2741fbf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'baby-chick'
     keyshape = Keyshape.SQUARE

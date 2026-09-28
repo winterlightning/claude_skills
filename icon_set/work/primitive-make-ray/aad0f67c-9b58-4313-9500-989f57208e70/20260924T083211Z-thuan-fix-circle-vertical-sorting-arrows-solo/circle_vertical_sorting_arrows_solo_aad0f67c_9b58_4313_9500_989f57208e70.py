@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aad0f67c-9b58-4313-9500-989f57208e70'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__circle-vertical-sorting-arrows-solo/20260924T083211Z-thuan-mac/reference/circle opposite arrows_aad0f67c-9b58-4313-9500-989f57208e70.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='circle-vertical-sorting-arrows-solo'

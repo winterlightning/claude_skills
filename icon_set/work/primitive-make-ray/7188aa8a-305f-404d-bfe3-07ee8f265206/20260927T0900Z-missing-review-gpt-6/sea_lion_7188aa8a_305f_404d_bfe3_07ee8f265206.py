@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7188aa8a-305f-404d-bfe3-07ee8f265206'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sea-lion/20260927T084430Z-thuan-mac-1/reference/seal body_7188aa8a-305f-404d-bfe3-07ee8f265206.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeaLion(Solo48):
     icon_id = 'sea-lion'

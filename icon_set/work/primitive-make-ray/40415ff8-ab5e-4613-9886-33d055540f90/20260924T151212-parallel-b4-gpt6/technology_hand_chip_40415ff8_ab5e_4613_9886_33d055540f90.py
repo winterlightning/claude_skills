@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='40415ff8-ab5e-4613-9886-33d055540f90'
 SOURCE_PATH='pictographic-primitives/_uncategorized_37/technology hand chip_40415ff8-ab5e-4613-9886-33d055540f90.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='technology-hand-chip'
     keyshape=Keyshape.HRECT_L

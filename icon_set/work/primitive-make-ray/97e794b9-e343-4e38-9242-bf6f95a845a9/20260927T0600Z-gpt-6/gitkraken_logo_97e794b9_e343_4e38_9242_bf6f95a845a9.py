@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '97e794b9-e343-4e38-9242-bf6f95a845a9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gitkraken-logo/20260927T055558Z-thuan-mac-1/reference/gitkraken logo_97e794b9-e343-4e38-9242-bf6f95a845a9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GitkrakenLogo(Solo48):
     icon_id = 'gitkraken-logo'

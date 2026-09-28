@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6d77d3d0-6bee-4348-b189-fc45ae2e6768'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__finger-tapping-projected-panel/20260927T032037Z-thuan-mac-1/reference/virtual tap finger_6d77d3d0-6bee-4348-b189-fc45ae2e6768.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

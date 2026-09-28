@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5b6e5baa-d86e-4627-abf5-975ed777ad4f'
 SOURCE_PATH='icon_set/work/todo-references/square j_5b6e5baa-d86e-4627-abf5-975ed777ad4f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing the right arrow shown in the source.'
 CONSTRUCTION_REFERENCES='Lucide arrow-down construction rotated by authoring coordinates.'
 OMISSIONS='Source direction preserved despite square j filename.'

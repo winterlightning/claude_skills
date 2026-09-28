@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5b3e332a-d46c-498c-b0ae-13caae896b54'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horned-demon-face/20260925T034349Z-thuan-mac/reference/smiley face horns demon_5b3e332a-d46c-498c-b0ae-13caae896b54.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'horned-demon-face'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c09c4db6-f5a3-4264-8d21-6ab3263d70b9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-round-berries-on-a-leafy-stem/20260924T160658Z-thuan-mac/reference/berry_c09c4db6-f5a3-4264-8d21-6ab3263d70b9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-round-berries-on-a-leafy-stem'

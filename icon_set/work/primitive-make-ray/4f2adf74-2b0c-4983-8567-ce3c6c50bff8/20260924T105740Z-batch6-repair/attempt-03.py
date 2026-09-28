@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4f2adf74-2b0c-4983-8567-ce3c6c50bff8'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/nightclub_4f2adf74-2b0c-4983-8567-ce3c6c50bff8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='nightclub'
     keyshape=Keyshape.HRECT_L

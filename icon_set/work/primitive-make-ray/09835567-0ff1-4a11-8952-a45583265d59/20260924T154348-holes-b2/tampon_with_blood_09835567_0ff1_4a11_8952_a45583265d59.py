@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='09835567-0ff1-4a11-8952-a45583265d59'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/tampon with blood_09835567-0ff1-4a11-8952-a45583265d59.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tampon-with-blood'

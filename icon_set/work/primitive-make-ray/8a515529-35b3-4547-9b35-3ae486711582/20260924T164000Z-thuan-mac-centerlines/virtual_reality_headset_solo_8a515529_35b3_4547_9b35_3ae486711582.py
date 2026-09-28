@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8a515529-35b3-4547-9b35-3ae486711582'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__virtual-reality-headset-solo/20260924T163448Z-thuan-mac/reference/device wearable vr goggles_8a515529-35b3-4547-9b35-3ae486711582.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='virtual-reality-headset-solo'
     keyshape=Keyshape.HRECT_L

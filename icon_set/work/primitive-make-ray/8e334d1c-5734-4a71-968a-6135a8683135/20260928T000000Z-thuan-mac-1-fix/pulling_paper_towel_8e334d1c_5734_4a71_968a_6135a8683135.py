@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8e334d1c-5734-4a71-968a-6135a8683135'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pulling-paper-towel/20260927T170540Z-thuan-mac-1/reference/wayfinding tissue_8e334d1c-5734-4a71-968a-6135a8683135.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pulling-paper-towel'

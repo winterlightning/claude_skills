@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '28224ccf-feb2-49a6-bf5c-c7e555b234fd'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_15/draw polygon_28224ccf-feb2-49a6-bf5c-c7e555b234fd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PentagonOutline(Solo48):
     icon_id = 'pentagon-outline'

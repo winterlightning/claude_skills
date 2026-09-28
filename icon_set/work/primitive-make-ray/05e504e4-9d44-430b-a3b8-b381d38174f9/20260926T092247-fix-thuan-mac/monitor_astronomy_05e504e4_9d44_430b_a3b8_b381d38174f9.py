@@ -9,7 +9,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05e504e4-9d44-430b-a3b8-b381d38174f9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-astronomy/20260926T085631Z-thuan-mac/reference/monitor astronomy_05e504e4-9d44-430b-a3b8-b381d38174f9.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Drawing(Solo48):
     icon_id = 'monitor-astronomy'

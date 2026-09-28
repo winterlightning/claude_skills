@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='c13f56ce-6122-4d6d-a9c9-6c8420a3e38e'
 SOURCE_PATH='icon_set/work/todo-references/picture landscape_c13f56ce-6122-4d6d-a9c9-6c8420a3e38e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A landscape print with cloud, two mountains and a lower caption band.'
 OMISSIONS='Cloud reduced to two rounded lobes; caption band left blank as in reference.'
 LUCIDE_REFERENCE='image'

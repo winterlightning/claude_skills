@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '46fff59c-84bf-4526-bd9b-33201133c81c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__baby-bottle-with-handles/20260926T085631Z-thuan-mac/reference/milk bottle handle_46fff59c-84bf-4526-bd9b-33201133c81c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class BabyBottleWithHandles(Solo48):
     icon_id = 'baby-bottle-with-handles'

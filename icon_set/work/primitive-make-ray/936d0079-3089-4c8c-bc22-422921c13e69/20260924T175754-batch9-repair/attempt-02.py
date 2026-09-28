@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '936d0079-3089-4c8c-bc22-422921c13e69'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/saving bull_936d0079-3089-4c8c-bc22-422921c13e69.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Charging bull silhouette with a curved horn and upward trend arrow behind its back.
 # Reference: No useful exact local Lucide bull match; supplied reference controls asymmetric animal pose.
 # Reduction: Omitted minor rear-leg crease; retained horn, head, body, legs, tail and trend.

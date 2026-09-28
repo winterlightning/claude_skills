@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ac409f41-db55-4174-adc1-189d24e36f0d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__radiating-gear/20260924T065933Z-thuan-mac/reference/workflow teamwork cog share_ac409f41-db55-4174-adc1-189d24e36f0d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='radiating-gear'

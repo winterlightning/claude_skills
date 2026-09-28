@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='65e3fe01-2acf-45bd-91bb-84820fe24a5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dj-hand-on-record/20260927T133815Z-thuan-mac-1/reference/modern music dj tape_65e3fe01-2acf-45bd-91bb-84820fe24a5a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DjHandOnRecord(Solo48):
     icon_id='dj-hand-on-record'

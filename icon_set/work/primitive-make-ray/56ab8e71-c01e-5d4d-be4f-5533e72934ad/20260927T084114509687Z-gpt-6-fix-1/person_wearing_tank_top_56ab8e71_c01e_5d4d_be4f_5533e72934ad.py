@@ -14,7 +14,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '56ab8e71-c01e-5d4d-be4f-5533e72934ad'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-wearing-tank-top/20260927T083143Z-thuan-mac-1/reference/tank top female_56ab8e71-c01e-5d4d-be4f-5533e72934ad.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SOURCE_REFERENCES = (('56ab8e71-c01e-5d4d-be4f-5533e72934ad', 'pictographic-primitives/clothes/tank top female_56ab8e71-c01e-5d4d-be4f-5533e72934ad.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

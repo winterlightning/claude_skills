@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cfeb8507-5e5b-46a9-af59-f98caa686202'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__vertical-telephone-receiver/20260927T133645Z-thuan-mac-1/reference/phone vertical_cfeb8507-5e5b-46a9-af59-f98caa686202.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class VerticalTelephoneReceiver(Solo48):
     icon_id = 'vertical-telephone-receiver'

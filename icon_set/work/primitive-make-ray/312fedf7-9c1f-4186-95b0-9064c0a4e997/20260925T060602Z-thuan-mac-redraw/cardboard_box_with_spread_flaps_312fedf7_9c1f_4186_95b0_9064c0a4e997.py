@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '312fedf7-9c1f-4186-95b0-9064c0a4e997'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cardboard-box-with-spread-flaps/20260925T060602Z-thuan-mac/reference/box open_312fedf7-9c1f-4186-95b0-9064c0a4e997.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'cardboard-box-with-spread-flaps'

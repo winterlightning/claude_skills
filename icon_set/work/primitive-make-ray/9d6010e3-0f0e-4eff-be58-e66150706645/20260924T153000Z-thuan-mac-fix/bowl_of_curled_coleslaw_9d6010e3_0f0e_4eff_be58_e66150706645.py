@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9d6010e3-0f0e-4eff-be58-e66150706645'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bowl-of-curled-coleslaw/20260924T152540Z-thuan-mac/reference/coleslaw_9d6010e3-0f0e-4eff-be58-e66150706645.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'bowl-of-curled-coleslaw'
     keyshape = Keyshape.HRECT_L

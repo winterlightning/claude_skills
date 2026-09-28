@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'f678de75-b4a9-4ef4-b0b6-aa17cdb9100d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__football-player-avatar/20260926T175531Z-thuan-mac-1/reference/football player_f678de75-b4a9-4ef4-b0b6-aa17cdb9100d.svg'
 SOURCE_HEAD_ICON_ID = 'football-player'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 
 class FootballPlayerAvatar(Solo48):

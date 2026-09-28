@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7ade5dac-3851-477f-ac45-3ecabf8df504'
 SOURCE_PATH = 'icon_set/work/todo-references/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A car under an overlapping circular P parking badge.'
 OMISSIONS = 'Small bumper marks omitted.'
 LUCIDE_REFERENCE = 'square-parking'

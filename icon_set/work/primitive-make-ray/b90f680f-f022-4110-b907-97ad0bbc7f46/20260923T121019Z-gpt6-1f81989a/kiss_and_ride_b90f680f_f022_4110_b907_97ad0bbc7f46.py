@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b90f680f-f022-4110-b907-97ad0bbc7f46'
 SOURCE_PATH = 'icon_set/work/todo-references/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'The letters K and R separated by a plus sign for kiss and ride.'
 CONSTRUCTION_PLAN = 'Hand-authored letter strokes preserve the literal K+R sign; no useful Lucide match.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

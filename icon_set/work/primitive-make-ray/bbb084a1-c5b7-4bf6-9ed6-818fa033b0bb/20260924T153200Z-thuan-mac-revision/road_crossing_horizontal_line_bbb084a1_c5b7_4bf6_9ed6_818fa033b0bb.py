@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bbb084a1-c5b7-4bf6-9ed6-818fa033b0bb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__road-crossing-horizontal-line/20260924T152553Z-thuan-mac/reference/highway_bbb084a1-c5b7-4bf6-9ed6-818fa033b0bb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='road-crossing-horizontal-line'

@@ -4,7 +4,7 @@ from ._base import Solo48
 SOURCE_ICON_ID = '9d24ac7b-c494-5a05-b347-45c5044a4d57'
 SOURCE_PATH = 'pictographic-primitives/transportation/car_9d24ac7b-c494-5a05-b347-45c5044a4d57.svg'
 SOURCE_REFERENCES = (('9d24ac7b-c494-5a05-b347-45c5044a4d57', 'pictographic-primitives/transportation/car_9d24ac7b-c494-5a05-b347-45c5044a4d57.svg'),)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class AtvSideView(Solo48):
     icon_id = 'atv-side-view'

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='8788efae-9ba8-4acc-a2e4-90bca5c7c8d4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__two-hands-cupping-a-building/20260924T163448Z-thuan-mac/reference/real estate favorite hold building_8788efae-9ba8-4acc-a2e4-90bca5c7c8d4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='two-hands-cupping-a-building'
     keyshape=Keyshape.SQUARE

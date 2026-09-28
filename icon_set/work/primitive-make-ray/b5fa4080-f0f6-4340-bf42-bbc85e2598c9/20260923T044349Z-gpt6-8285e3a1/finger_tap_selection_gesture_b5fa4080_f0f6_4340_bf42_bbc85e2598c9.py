@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b5fa4080-f0f6-4340-bf42-bbc85e2598c9'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/finger tap_b5fa4080-f0f6-4340-bf42-bbc85e2598c9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FingerTapSelectionGesture(Solo48):
     icon_id = 'finger-tap-selection-gesture'

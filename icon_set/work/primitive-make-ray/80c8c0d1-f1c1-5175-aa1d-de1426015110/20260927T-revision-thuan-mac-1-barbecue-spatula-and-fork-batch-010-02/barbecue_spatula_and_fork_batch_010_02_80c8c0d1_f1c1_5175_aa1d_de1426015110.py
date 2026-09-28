@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '80c8c0d1-f1c1-5175-aa1d-de1426015110'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__barbecue-spatula-and-fork-batch-010-02/20260927T152212Z-thuan-mac-1/reference/barbecue set_80c8c0d1-f1c1-5175-aa1d-de1426015110.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GeneratedSolo(Solo48):

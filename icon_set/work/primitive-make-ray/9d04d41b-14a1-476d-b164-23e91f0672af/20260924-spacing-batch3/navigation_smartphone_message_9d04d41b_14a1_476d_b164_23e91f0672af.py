@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9d04d41b-14a1-476d-b164-23e91f0672af'
 SOURCE_PATH='pictographic-primitives/_uncategorized_28/navigation smartphone message_9d04d41b-14a1-476d-b164-23e91f0672af.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A smartphone with a location message bubble. Pin is clear inside bubble; actual shared phone/bubble endpoints. Deliberate offset overlap.'
 CONSTRUCTION_REFERENCE='Lucide smartphone coherent enclosure; map-pin dome'
 class Drawing(Solo48):

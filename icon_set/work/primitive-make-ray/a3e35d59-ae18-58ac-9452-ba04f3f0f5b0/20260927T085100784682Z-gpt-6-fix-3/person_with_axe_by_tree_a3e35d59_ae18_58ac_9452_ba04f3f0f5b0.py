@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a3e35d59-ae18-58ac-9452-ba04f3f0f5b0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-axe-by-tree/20260927T083143Z-thuan-mac-1/reference/cut wood_a3e35d59-ae18-58ac-9452-ba04f3f0f5b0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonWithAxeByTree(Solo48):

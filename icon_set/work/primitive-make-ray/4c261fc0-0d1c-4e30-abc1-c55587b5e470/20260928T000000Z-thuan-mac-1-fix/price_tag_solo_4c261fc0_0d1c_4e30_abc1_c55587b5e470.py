@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4c261fc0-0d1c-4e30-abc1-c55587b5e470'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__price-tag-solo/20260927T170540Z-thuan-mac-1/reference/tag_4c261fc0-0d1c-4e30-abc1-c55587b5e470.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'price-tag-solo'

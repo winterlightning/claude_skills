@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5b7b83d9-cb29-47fc-bdfd-7a84082e0931'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__exploding-head/20260927T101626Z-thuan-mac-1/reference/explosion_5b7b83d9-cb29-47fc-bdfd-7a84082e0931.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ExplodingHead(Solo48):

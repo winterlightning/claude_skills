@@ -9,7 +9,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3648786c-989b-4daf-b5c8-46f46ae599ce'
 SOURCE_PATH = 'pictographic-primitives/other/monitor bug 1_3648786c-989b-4daf-b5c8-46f46ae599ce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'monitor-bug-1'

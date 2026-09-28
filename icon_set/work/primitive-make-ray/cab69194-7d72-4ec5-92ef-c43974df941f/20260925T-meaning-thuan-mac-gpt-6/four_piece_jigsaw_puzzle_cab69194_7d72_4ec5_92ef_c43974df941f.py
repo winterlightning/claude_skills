@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cab69194-7d72-4ec5-92ef-c43974df941f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__four-piece-jigsaw-puzzle/20260925T034349Z-thuan-mac/reference/jigsaw_cab69194-7d72-4ec5-92ef-c43974df941f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'four-piece-jigsaw-puzzle'

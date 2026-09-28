@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b56ce568-c6d4-4e2e-b35b-f5527cc44703'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__asymmetric-branched-snowflake/20260924T181031Z-thuan-mac/reference/temperature snowflake_b56ce568-c6d4-4e2e-b35b-f5527cc44703.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'asymmetric-branched-snowflake'

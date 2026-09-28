@@ -8,7 +8,7 @@ from ._base import Solo48
 from ._payments_batch01 import circle, rounded_rect
 SOURCE_ICON_ID = '147e6d81-0d21-49c9-8726-0fadea0fff54'
 SOURCE_PATH = 'pictographic-primitives/symbol/messages bubble with heart_147e6d81-0d21-49c9-8726-0fadea0fff54.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'heart-message-77-solo'

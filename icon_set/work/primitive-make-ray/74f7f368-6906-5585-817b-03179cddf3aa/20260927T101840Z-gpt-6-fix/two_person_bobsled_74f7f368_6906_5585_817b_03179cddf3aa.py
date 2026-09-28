@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='74f7f368-6906-5585-817b-03179cddf3aa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-person-bobsled/20260927T101610Z-thuan-mac-1/reference/skiing bobsled_74f7f368-6906-5585-817b-03179cddf3aa.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class TwoPersonBobsled(Solo48):
     icon_id='two-person-bobsled'

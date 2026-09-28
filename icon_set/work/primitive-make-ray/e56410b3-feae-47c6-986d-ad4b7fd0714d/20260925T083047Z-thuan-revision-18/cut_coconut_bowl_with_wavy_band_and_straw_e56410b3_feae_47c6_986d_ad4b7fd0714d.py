@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e56410b3-feae-47c6-986d-ad4b7fd0714d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cut-coconut-bowl-with-wavy-band-and-straw/20260925T083047Z-thuan-mac/reference/coconut_e56410b3-feae-47c6-986d-ad4b7fd0714d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cut-coconut-bowl-with-wavy-band-and-straw'

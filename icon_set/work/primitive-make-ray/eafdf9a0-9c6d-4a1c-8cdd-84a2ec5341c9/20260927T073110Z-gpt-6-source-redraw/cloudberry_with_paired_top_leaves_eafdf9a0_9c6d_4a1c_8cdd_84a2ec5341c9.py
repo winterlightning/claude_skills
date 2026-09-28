@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = 'eafdf9a0-9c6d-4a1c-8cdd-84a2ec5341c9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cloudberry-with-paired-top-leaves/20260927T071330Z-thuan-mac-1/reference/cloud berry_eafdf9a0-9c6d-4a1c-8cdd-84a2ec5341c9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cloudberry-with-paired-top-leaves'

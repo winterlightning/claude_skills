@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8fab7f82-51e0-4305-bfa1-6b9204f89476'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-pattypan-squashes/20260927T133645Z-thuan-mac-1/reference/patty pan squashes_8fab7f82-51e0-4305-bfa1-6b9204f89476.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TwoPattypanSquashes(Solo48):
     icon_id = 'two-pattypan-squashes'

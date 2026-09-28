@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd972c303-2754-4efe-82ae-c0b2f535370b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bowling-pins-row/20260924T181031Z-thuan-mac/reference/three bowlings_d972c303-2754-4efe-82ae-c0b2f535370b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bowling-pins-row'

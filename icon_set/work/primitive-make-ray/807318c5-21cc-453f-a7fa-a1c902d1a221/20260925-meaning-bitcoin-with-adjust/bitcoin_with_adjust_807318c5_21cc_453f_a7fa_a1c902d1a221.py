@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '807318c5-21cc-453f-a7fa-a1c902d1a221'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bitcoin-with-adjust/20260925T034659Z-thuan-mac/reference/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Recognizable Bitcoin B with two top and bottom currency ticks; omit adjustment controls to prioritize reviewer request for bitcoin.
 # Construction reference: Lucide bitcoin double currency ticks and two bowls.
 # Envelope: VRECT_M; bounds are defined by its outer contour/extreme tips.

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c8efae77-e5b8-5ed8-8b2c-fc36676d796b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sickle-detached-grip-junction/20260927T091435Z-thuan-mac-1/reference/forensic science sickle_c8efae77-e5b8-5ed8-8b2c-fc36676d796b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch29Icon(Solo48):
     icon_id = 'sickle-detached-grip-junction'

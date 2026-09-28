@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '296b5f00-e7ed-4fd2-89bc-24a40e833f79'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__radiant-disco-ball/20260927T170540Z-thuan-mac-1/reference/night club disco ball_296b5f00-e7ed-4fd2-89bc-24a40e833f79.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'radiant-disco-ball'

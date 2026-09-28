@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd63b4e68-3e3c-4320-ad5b-85484116fc79'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horizontal-double-ended-wrench/20260927T151732Z-thuan-mac-1/reference/wrench_d63b4e68-3e3c-4320-ad5b-85484116fc79.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'horizontal-double-ended-wrench'
     keyshape = Keyshape.HRECT_M

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '71f146eb-120f-4812-b011-8e70a9d931ab'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__protective-glove/20260927T153803Z-thuan-mac-1/reference/gloves_71f146eb-120f-4812-b011-8e70a9d931ab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ProtectiveGlove(Solo48):
     icon_id = 'protective-glove'

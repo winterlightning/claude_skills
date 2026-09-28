@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b65f68ff-83c3-5c4a-9b2d-bb76e66ff665'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__iot-pin-markers/20260926T164653Z-thuan-mac/reference/internet of thing analytics services_b65f68ff-83c3-5c4a-9b2d-bb76e66ff665.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

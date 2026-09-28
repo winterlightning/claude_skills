@@ -5,7 +5,7 @@ from PIL import Image,ImageDraw,ImageOps
 
 SOURCE_ICON_ID='8eb34e8a-c1a0-4770-a3b1-2f00e05fdaef'
 SOURCE_PATH='icon_set/work/todo-references/pesach passover 2_8eb34e8a-c1a0-4770-a3b1-2f00e05fdaef.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 ROWS=json.loads((ROOT/'batch.json').read_text())
 HELPERS='''

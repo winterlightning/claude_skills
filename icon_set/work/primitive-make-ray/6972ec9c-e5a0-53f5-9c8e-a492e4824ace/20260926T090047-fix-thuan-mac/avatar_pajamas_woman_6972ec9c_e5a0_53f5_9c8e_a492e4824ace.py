@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6972ec9c-e5a0-53f5-9c8e-a492e4824ace'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__avatar-pajamas-woman/20260926T085631Z-thuan-mac/reference/avatar pajamas woman_6972ec9c-e5a0-53f5-9c8e-a492e4824ace.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AvatarPajamasWoman(Solo48):
     icon_id = 'avatar-pajamas-woman'

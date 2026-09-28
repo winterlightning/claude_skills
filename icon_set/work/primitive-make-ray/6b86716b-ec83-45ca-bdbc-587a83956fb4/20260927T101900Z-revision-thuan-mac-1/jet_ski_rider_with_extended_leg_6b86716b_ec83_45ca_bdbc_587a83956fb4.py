@@ -14,7 +14,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6b86716b-ec83-45ca-bdbc-587a83956fb4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__jet-ski-rider-with-extended-leg/20260927T101636Z-thuan-mac-1/reference/sport jet skiing 1_6b86716b-ec83-45ca-bdbc-587a83956fb4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class JetSkiRiderWithExtendedLeg(Solo48):
     icon_id = 'jet-ski-rider-with-extended-leg'

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b16280dc-c5f8-496c-99d7-eaecc0358b57'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__starfruit-with-star-cross-section/20260927T093533Z-thuan-mac-1/reference/starfruit_b16280dc-c5f8-496c-99d7-eaecc0358b57.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StarfruitWithStarCrossSection(Solo48):
     icon_id = 'starfruit-with-star-cross-section'

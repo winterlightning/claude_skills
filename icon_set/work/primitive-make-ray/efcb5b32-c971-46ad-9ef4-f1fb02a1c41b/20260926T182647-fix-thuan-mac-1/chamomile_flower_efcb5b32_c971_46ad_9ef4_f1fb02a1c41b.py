@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'efcb5b32-c971-46ad-9ef4-f1fb02a1c41b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chamomile-flower/20260926T182452Z-thuan-mac-1/reference/chamomile_efcb5b32-c971-46ad-9ef4-f1fb02a1c41b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

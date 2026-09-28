@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2ee8f5f0-6cf6-43a9-8839-ed970895cf00'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__woman-explorer-with-a-brimmed-hat/20260924T163721Z-thuan-mac/reference/avatar adventure woman_2ee8f5f0-6cf6-43a9-8839-ed970895cf00.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='woman-explorer-with-a-brimmed-hat'

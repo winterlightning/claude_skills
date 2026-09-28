@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chat-medical-cross-left/20260926T125429Z-thuan-mac/reference/chat medical cross left_5c963504-9db5-4ed1-bcfa-7f38ac3f5fb1.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Drawing(Solo48):
     icon_id = 'chat-medical-cross-left'

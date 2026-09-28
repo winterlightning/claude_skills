@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3d250c41-6017-4d1f-9278-42fadf1fc93d'
 SOURCE_PATH = 'pictographic-primitives/other/rectangle like text_3d250c41-6017-4d1f-9278-42fadf1fc93d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'rectangle-ellipsis'
 
 class Drawing(Solo48):

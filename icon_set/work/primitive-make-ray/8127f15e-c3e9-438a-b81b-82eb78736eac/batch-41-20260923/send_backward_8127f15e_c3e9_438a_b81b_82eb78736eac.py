@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8127f15e-c3e9-438a-b81b-82eb78736eac'
 SOURCE_PATH='icon_set/work/todo-references/send backward_8127f15e-c3e9-438a-b81b-82eb78736eac.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square containing a right-pointing arrow, preserving the supplied send-backward reference.'
 CONSTRUCTION_REFERENCES='Lucide monitor: equal frame corners; arrow mirrors send back.'
 OMISSIONS='None; source direction preserved even though filename says backward.'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e1893637-f6ac-4602-b63a-d7fd5a641510'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__ear-with-round-hearing-device-and-waves/20260924T150246Z-thuan-mac/reference/disability hearing aid t_e1893637-f6ac-4602-b63a-d7fd5a641510.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='ear-with-round-hearing-device-and-waves'

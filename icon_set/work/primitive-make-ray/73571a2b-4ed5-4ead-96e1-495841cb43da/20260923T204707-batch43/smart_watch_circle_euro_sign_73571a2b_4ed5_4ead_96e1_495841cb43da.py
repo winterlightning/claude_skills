@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='73571a2b-4ed5-4ead-96e1-495841cb43da'
 SOURCE_PATH='icon_set/work/todo-references/smart watch circle euro sign_73571a2b-4ed5-4ead-96e1-495841cb43da.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='smart-watch-circle-euro-sign'

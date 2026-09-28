@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='b7fa34ad-e511-4f03-9aa0-b88e31deb2f8'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__jet-ski-motion/20260924T162241Z-thuan-mac/reference/water scooter_b7fa34ad-e511-4f03-9aa0-b88e31deb2f8.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='jet-ski-motion'
     keyshape=Keyshape.SQUARE

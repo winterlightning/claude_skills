@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9ef48cbe-cc4f-4534-9267-a5b1a90c74e3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tanjirou-head/20260924T164246Z-thuan-mac/reference/demon slayer kamado tanjirou_9ef48cbe-cc4f-4534-9267-a5b1a90c74e3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tanjirou-head'

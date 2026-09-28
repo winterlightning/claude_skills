@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4836dd68-7a04-4bdf-9a6e-f17bd69f11c0'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__gherkin-tower-silhouette/20260924T171046Z-thuan-mac/reference/gherik london_4836dd68-7a04-4bdf-9a6e-f17bd69f11c0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='gherkin-tower-silhouette'

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3301608a-a147-46b0-a517-f5efd7544a92'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__doctor-with-chest-cross/20260927T060349Z-thuan-mac-1/reference/doctor man 1_3301608a-a147-46b0-a517-f5efd7544a92.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class DoctorWithChestCross(Solo48):

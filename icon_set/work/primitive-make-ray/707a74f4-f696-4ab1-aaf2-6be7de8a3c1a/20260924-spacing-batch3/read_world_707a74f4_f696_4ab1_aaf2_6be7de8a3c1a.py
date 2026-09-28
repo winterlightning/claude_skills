@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='707a74f4-f696-4ab1-aaf2-6be7de8a3c1a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/read world_707a74f4-f696-4ab1-aaf2-6be7de8a3c1a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='An open book below a globe. Paired page curves and globe quadrants mirror about x=24. Globe reads as a globe, rather than the earlier umbrella-like dome.'
 CONSTRUCTION_REFERENCE='Lucide book-open paired curved pages and shared spine'
 class Drawing(Solo48):

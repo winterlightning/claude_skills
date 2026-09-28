@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ad5f17ec-d6f2-402a-8907-dbd8532598e6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handcuffs-with-curved-link/20260927T075459Z-thuan-mac-1/reference/tools shackle_ad5f17ec-d6f2-402a-8907-dbd8532598e6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HandcuffsWithCurvedLink(Solo48):

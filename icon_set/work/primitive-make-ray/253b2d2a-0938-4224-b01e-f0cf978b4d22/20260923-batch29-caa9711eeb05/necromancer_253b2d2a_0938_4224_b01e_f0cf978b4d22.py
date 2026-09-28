@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='253b2d2a-0938-4224-b01e-f0cf978b4d22'
 SOURCE_PATH='icon_set/work/todo-references/necromancer_253b2d2a-0938-4224-b01e-f0cf978b4d22.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='necromancer'
     keyshape=Keyshape.VRECT_L

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '3334fbb0-436e-4762-bc8a-40fa2559c98c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__currency-dollar/20260927T071330Z-thuan-mac-1/reference/currency dollar_3334fbb0-436e-4762-bc8a-40fa2559c98c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CurrencyDollar(Solo48):
     icon_id = 'currency-dollar'

@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '14b5dacf-2ae7-4b43-b032-7129b3d49037'
 SOURCE_PATH = 'icon_set/work/todo-references/calendar math_14b5dacf-2ae7-4b43-b032-7129b3d49037.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCES = ['calendar']
 PLAN = 'Three-binding calendar with 2+1; redistribute the three glyphs across a wide keyshape.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/14b5dacf-2ae7-4b43-b032-7129b3d49037/20260923-b06-3c258fc8/result.json'

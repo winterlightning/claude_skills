@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='6ce17d6f-0a53-4eaa-b433-061d444307dc'
 SOURCE_PATH='pictographic-primitives/transportation/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Two equal large wheels with the source open frame, distinct saddle, and smoothly returned handlebar.'
 CONSTRUCTION_REFERENCES='Lucide bike: circular wheel construction; supplied reference controls the open frame without a rider.'
 OMISSIONS=[]

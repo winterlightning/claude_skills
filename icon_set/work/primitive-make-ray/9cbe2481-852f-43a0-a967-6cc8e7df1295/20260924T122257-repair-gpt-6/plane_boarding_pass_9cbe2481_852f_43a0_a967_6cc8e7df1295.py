@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9cbe2481-852f-43a0-a967-6cc8e7df1295'
 SOURCE_PATH = 'pictographic-primitives/travel/plane boarding pass_9cbe2481-852f-43a0-a967-6cc8e7df1295.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Notched pass and rising aircraft, preserving asymmetric direction and side cutouts. Lucide tickets-plane informs open plane construction.'
 OMISSIONS = ['Tear-off divider omitted; airplane outline reduced to open strokes.']
 class Drawing(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '508c3764-36f1-4a78-b476-81ce4a08ec31'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__decision-flowchart/20260927T091421Z-thuan-mac-1/reference/workflow gantt chart_508c3764-36f1-4a78-b476-81ce4a08ec31.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

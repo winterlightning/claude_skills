@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6c185482-97c6-496c-a205-3d684b0ecf72'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__transmitting-satellite-dish/20260924T105724Z-thuan-mac/reference/antenna_6c185482-97c6-496c-a205-3d684b0ecf72.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'transmitting-satellite-dish'

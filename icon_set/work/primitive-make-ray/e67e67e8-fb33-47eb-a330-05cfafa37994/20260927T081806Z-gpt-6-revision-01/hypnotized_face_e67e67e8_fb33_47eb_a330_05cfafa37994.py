@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e67e67e8-fb33-47eb-a330-05cfafa37994'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hypnotized-face/20260927T081503Z-thuan-mac-1/reference/hypnotized_e67e67e8-fb33-47eb-a330-05cfafa37994.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HypnotizedFace(Solo48):

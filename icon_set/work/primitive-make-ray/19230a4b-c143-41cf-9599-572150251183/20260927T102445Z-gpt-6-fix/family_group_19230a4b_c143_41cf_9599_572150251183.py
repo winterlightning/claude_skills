@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '19230a4b-c143-41cf-9599-572150251183'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__family-group/20260927T101626Z-thuan-mac-1/reference/family_19230a4b-c143-41cf-9599-572150251183.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FamilyGroup(Solo48):

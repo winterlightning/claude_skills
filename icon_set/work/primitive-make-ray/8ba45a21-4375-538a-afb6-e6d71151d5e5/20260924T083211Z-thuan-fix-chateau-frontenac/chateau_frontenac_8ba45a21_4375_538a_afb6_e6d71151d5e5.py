@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8ba45a21-4375-538a-afb6-e6d71151d5e5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__chateau-frontenac/20260924T083211Z-thuan-mac/reference/chateau frontenac canada_8ba45a21-4375-538a-afb6-e6d71151d5e5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='chateau-frontenac'

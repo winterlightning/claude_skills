@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2c2ce02e-d93f-4086-969c-7135c5b08d1b'
 SOURCE_PATH = 'pictographic-primitives/other/self payment computer dollar_2c2ce02e-d93f-4086-969c-7135c5b08d1b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Payment monitor with dollar sign and two menu rules.'
 CONSTRUCTION_REFERENCES = 'Lucide monitor: screen and stand.'
 OMISSIONS = 'Compact currency glyph; no semantic omissions.'

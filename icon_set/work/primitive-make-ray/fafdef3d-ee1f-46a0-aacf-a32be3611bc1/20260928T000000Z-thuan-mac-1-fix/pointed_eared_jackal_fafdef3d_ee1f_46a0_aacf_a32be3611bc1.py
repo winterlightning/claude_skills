@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fafdef3d-ee1f-46a0-aacf-a32be3611bc1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pointed-eared-jackal/20260927T170540Z-thuan-mac-1/reference/jackal_fafdef3d-ee1f-46a0-aacf-a32be3611bc1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PointedEaredJackal(Solo48):
     icon_id = 'pointed-eared-jackal'

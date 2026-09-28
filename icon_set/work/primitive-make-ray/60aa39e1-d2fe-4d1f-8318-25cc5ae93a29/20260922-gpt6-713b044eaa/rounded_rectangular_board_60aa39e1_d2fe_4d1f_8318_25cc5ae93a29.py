@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '60aa39e1-d2fe-4d1f-8318-25cc5ae93a29'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/board_60aa39e1-d2fe-4d1f-8318-25cc5ae93a29.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rounded-rectangular-board'

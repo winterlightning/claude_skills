@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='21f148ad-8725-429c-aa23-cad9257d7f13'
 SOURCE_PATH='pictographic-primitives/other/give hand 1_21f148ad-8725-429c-aa23-cad9257d7f13.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Open palm with rounded fingertips, horizontal thumb crease and open right wrist.'
 CONSTRUCTION_REFERENCE='Lucide hand-helping: smooth palm and crease construction; supplied gesture controls orientation.'
 class Drawing(Solo48):

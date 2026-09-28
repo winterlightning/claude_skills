@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8ec365ec-24ce-4d98-9b7f-1d62e79035fa'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__karate-high-kick/20260927T101636Z-thuan-mac-1/reference/karate_8ec365ec-24ce-4d98-9b7f-1d62e79035fa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KarateHighKick(Solo48):
     icon_id = 'karate-high-kick'

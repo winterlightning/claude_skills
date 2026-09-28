@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '9f65fdf9-6ec9-4955-abbe-bcde5675a5a5'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/person_9f65fdf9-6ec9-4955-abbe-bcde5675a5a5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-wearing-skullcap'

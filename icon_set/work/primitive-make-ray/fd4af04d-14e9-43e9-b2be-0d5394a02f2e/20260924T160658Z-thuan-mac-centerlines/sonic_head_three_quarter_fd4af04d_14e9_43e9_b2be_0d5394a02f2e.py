@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fd4af04d-14e9-43e9-b2be-0d5394a02f2e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__sonic-head-three-quarter/20260924T160658Z-thuan-mac/reference/sonic_fd4af04d-14e9-43e9-b2be-0d5394a02f2e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'sonic-head-three-quarter'

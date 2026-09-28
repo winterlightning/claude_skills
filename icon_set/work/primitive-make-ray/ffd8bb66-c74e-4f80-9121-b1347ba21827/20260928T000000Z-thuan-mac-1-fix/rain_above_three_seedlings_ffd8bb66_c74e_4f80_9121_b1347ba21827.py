@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ffd8bb66-c74e-4f80-9121-b1347ba21827'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rain-above-three-seedlings/20260927T170540Z-thuan-mac-1/reference/organic rain growth_ffd8bb66-c74e-4f80-9121-b1347ba21827.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rain-above-three-seedlings'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '63675998-808b-5a45-8289-50d26d3668d5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cannon-block-carriage/20260925T070522Z-thuan-mac/reference/modern weapon cannon_63675998-808b-5a45-8289-50d26d3668d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cannon-block-carriage'

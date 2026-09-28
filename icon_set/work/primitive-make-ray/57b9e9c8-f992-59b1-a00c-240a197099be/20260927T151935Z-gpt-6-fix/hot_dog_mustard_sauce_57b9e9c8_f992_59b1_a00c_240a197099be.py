@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57b9e9c8-f992-59b1-a00c-240a197099be'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hot-dog-mustard-sauce/20260927T151732Z-thuan-mac-1/reference/hot dog sausage_57b9e9c8-f992-59b1-a00c-240a197099be.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HotDogMustardSauce(Solo48):
     icon_id = 'hot-dog-mustard-sauce'

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7d7d172d-b4f6-4dd0-8a05-cbf34601aa34'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dog-face-with-drooping-ears-and-tongue/20260927T174057Z-thuan-mac-1/reference/doggie_7d7d172d-b4f6-4dd0-8a05-cbf34601aa34.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'dog-face-with-drooping-ears-and-tongue'

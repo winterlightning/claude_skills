@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7531c3ff-b529-46cd-ad18-210cb444c4fb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__warrior-pose-raised-arms/20260927T160114Z-thuan-mac-1/reference/yoga warrior pose_7531c3ff-b529-46cd-ad18-210cb444c4fb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WarriorPoseRaisedArms(Solo48):
     icon_id = 'warrior-pose-raised-arms'

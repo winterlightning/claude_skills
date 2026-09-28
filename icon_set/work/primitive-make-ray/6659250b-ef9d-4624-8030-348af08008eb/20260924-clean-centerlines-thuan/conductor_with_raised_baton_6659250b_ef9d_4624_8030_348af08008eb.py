@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6659250b-ef9d-4624-8030-348af08008eb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__conductor-with-raised-baton/20260924T160718Z-thuan-mac/reference/conductor_6659250b-ef9d-4624-8030-348af08008eb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='conductor-with-raised-baton'

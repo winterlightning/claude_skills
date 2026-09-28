@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2eeb887b-b913-41a8-aaf8-0d8866ba6edb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-figures-raised-arm/20260927T101610Z-thuan-mac-1/reference/pass through_2eeb887b-b913-41a8-aaf8-0d8866ba6edb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TwoFiguresRaisedArm(Solo48):
     icon_id = 'two-figures-raised-arm'

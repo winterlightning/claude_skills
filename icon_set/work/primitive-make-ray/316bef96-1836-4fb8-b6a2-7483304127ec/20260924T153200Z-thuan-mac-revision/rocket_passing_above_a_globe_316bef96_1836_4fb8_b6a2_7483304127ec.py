@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='316bef96-1836-4fb8-b6a2-7483304127ec'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__rocket-passing-above-a-globe/20260924T152553Z-thuan-mac/reference/rocket attack global_316bef96-1836-4fb8-b6a2-7483304127ec.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='rocket-passing-above-a-globe'

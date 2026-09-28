@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ebc9eed0-03aa-44c8-b4c7-1edc6eeb278b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-outward-tilting-bells/20260927T174057Z-thuan-mac-1/reference/christmas bells 1_ebc9eed0-03aa-44c8-b4c7-1edc6eeb278b.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'two-outward-tilting-bells'

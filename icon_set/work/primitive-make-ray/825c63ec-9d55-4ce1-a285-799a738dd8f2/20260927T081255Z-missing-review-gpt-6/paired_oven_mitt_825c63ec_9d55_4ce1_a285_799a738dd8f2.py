@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '825c63ec-9d55-4ce1-a285-799a738dd8f2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__paired-oven-mitt/20260927T074149Z-thuan-mac-1/reference/chef gear gloves_825c63ec-9d55-4ce1-a285-799a738dd8f2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PairedOvenMitt(Solo48):
     icon_id = 'paired-oven-mitt'

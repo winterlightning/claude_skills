@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 
 SOURCE_ICON_ID = '9c2120ce-007e-416d-a659-5f5577147e92'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-broad-rounded-bend-down/20260927T164337Z-thuan-mac-1/reference/diagram arrow bend down_9c2120ce-007e-416d-a659-5f5577147e92.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'arrow-broad-rounded-bend-down'

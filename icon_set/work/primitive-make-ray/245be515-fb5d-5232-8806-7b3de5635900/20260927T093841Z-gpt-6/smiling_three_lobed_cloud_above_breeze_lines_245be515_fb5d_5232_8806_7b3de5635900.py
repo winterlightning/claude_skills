@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '245be515-fb5d-5232-8806-7b3de5635900'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-three-lobed-cloud-above-breeze-lines/20260927T093511Z-thuan-mac-1/reference/air quality_245be515-fb5d-5232-8806-7b3de5635900.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'smiling-three-lobed-cloud-above-breeze-lines'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b70b7993-149f-4dd9-95d6-fe029f2c8b42'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/saving bear increase_b70b7993-149f-4dd9-95d6-fe029f2c8b42.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Bear with round equal-radius ears below upward financial arrow. Drop crowded muzzle outline, retain central nose; balanced face around x27.'
 CONSTRUCTION_REFERENCE='Lucide trending-up; supplied bear round-ear silhouette'
 class Drawing(Solo48):

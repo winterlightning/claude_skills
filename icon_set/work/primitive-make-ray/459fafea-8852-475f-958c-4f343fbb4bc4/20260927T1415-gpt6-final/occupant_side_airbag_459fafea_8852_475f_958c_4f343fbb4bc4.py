@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '459fafea-8852-475f-958c-4f343fbb4bc4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__occupant-side-airbag/20260927T133654Z-thuan-mac-1/reference/side airbag_459fafea-8852-475f-958c-4f343fbb4bc4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OccupantSideAirbag(Solo48):
     icon_id = 'occupant-side-airbag'

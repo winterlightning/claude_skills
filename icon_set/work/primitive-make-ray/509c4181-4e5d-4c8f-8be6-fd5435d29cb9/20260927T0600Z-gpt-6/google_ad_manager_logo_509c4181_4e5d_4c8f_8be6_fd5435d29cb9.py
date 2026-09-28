@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '509c4181-4e5d-4c8f-8be6-fd5435d29cb9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-ad-manager-logo/20260927T055558Z-thuan-mac-1/reference/google ad manager logo_509c4181-4e5d-4c8f-8be6-fd5435d29cb9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GoogleAdManagerLogo(Solo48):
     icon_id = 'google-ad-manager-logo'

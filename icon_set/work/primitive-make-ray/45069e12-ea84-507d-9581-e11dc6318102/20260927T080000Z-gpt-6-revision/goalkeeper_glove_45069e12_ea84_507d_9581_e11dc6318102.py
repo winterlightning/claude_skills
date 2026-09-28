@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='45069e12-ea84-507d-9581-e11dc6318102'
 SOURCE_PATH='pictographic-primitives/sports/soccer goalkeeper glove_45069e12-ea84-507d-9581-e11dc6318102.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class GoalkeeperGlove(Solo48):
     icon_id='goalkeeper-glove'

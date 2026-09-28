@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dd05972e-63bf-5995-a2f2-388ee81ff8fb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-counterclockwise-around-circle/20260926T073831Z-thuan-mac/reference/rotate back_dd05972e-63bf-5995-a2f2-388ee81ff8fb.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 SOURCE_REFERENCES = (('dd05972e-63bf-5995-a2f2-388ee81ff8fb', 'pictographic-primitives/arrows/rotate back_dd05972e-63bf-5995-a2f2-388ee81ff8fb.svg'), ('0b53a87a-e04b-4e3c-adfd-dcf1fbf284e1', 'pictographic-primitives/arrows/rotate_0b53a87a-e04b-4e3c-adfd-dcf1fbf284e1.svg'), ('f16056b7-da9d-4235-8ea0-1437b5422e2d', 'pictographic-primitives/arrows/rotate_f16056b7-da9d-4235-8ea0-1437b5422e2d.svg'))
 
 def _circle(icon, name, cx, cy, radius):

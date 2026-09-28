@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '628e2485-fa55-4e32-b7c2-f281f700d7b3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__traveler-reaching-toward-a-conveyor-bag/20260927T173930Z-thuan-mac-1/reference/baggage leave_628e2485-fa55-4e32-b7c2-f281f700d7b3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'traveler-reaching-toward-a-conveyor-bag'

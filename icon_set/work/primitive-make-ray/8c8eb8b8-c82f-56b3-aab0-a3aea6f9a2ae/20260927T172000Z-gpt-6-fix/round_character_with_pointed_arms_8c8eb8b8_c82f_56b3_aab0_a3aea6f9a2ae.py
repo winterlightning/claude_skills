@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8c8eb8b8-c82f-56b3-aab0-a3aea6f9a2ae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-character-with-pointed-arms/20260927T171905Z-thuan-mac-1/reference/kirby_8c8eb8b8-c82f-56b3-aab0-a3aea6f9a2ae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'round-character-with-pointed-arms'

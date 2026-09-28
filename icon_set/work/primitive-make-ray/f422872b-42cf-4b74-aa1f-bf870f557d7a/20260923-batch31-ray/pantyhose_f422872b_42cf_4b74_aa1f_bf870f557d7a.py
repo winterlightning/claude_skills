@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f422872b-42cf-4b74-aa1f-bf870f557d7a'
 SOURCE_PATH = 'icon_set/work/todo-references/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Pantyhose with one straight leg and one bent leg in side view.'
 OMISSIONS = 'Toe and ankle folds simplified; asymmetry preserves the crossed pose.'
 LUCIDE_REFERENCE = None

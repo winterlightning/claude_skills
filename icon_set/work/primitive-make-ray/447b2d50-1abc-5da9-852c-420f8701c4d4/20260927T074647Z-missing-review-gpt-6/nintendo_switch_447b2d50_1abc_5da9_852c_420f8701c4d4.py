@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '447b2d50-1abc-5da9-852c-420f8701c4d4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__nintendo-switch/20260927T074149Z-thuan-mac-1/reference/nintendo switch_447b2d50-1abc-5da9-852c-420f8701c4d4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class NintendoSwitch(Solo48):
     icon_id = 'nintendo-switch'

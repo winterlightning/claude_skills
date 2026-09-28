@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3792f25a-9089-4cd6-9389-b22b47f0380b'
 SOURCE_PATH = 'pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Ranking banner crowned with star and folded ribbon ends.'
 CONSTRUCTION_REFERENCES = 'Lucide star: alternating points and shared mirror axis.'
 OMISSIONS = 'Simplified side-tail folds.'

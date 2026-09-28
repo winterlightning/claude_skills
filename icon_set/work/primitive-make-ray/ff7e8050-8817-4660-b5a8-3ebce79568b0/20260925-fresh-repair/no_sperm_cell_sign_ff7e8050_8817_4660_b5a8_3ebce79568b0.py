@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='ff7e8050-8817-4660-b5a8-3ebce79568b0'
 SOURCE_PATH='pictographic-primitives/state/slash sperm_ff7e8050-8817-4660-b5a8-3ebce79568b0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular prohibition rim with separated slash ends surrounds a circular sperm head and attached curved tail.'
 CONSTRUCTION_REFERENCES='No useful Lucide organic-cell match; supplied reference governs the sperm and interrupted slash.'
 OMISSIONS=['Irregular egg-shaped head simplified to a circular head.']

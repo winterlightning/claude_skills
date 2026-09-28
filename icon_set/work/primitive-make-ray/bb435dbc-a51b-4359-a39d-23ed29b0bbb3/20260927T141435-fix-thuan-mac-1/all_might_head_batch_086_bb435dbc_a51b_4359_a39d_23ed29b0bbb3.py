@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bb435dbc-a51b-4359-a39d-23ed29b0bbb3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__all-might-head-batch-086/20260927T141159Z-thuan-mac-1/reference/my hero acadiamia allmight_bb435dbc-a51b-4359-a39d-23ed29b0bbb3.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

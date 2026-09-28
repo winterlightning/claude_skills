@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0592309c-696b-46e7-b80b-faf3ea17d049'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chinese-ghost-mask/20260924T152540Z-thuan-mac/reference/hungry ghost festival_0592309c-696b-46e7-b80b-faf3ea17d049.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'chinese-ghost-mask'
     keyshape = Keyshape.VRECT_L

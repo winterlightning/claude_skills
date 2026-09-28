@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '79f348d4-5577-4448-833a-8c8974aee7f1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__falling-pine-tree-above-broken-stump/20260927T101626Z-thuan-mac-1/reference/deforestation cut tree_79f348d4-5577-4448-833a-8c8974aee7f1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'falling-pine-tree-above-broken-stump'

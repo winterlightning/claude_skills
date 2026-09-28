@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='cf969d29-b35a-425d-bec1-f3067a6600b5'
 SOURCE_PATH='pictographic-primitives/_uncategorized_17/face dizzy_cf969d29-b35a-425d-bec1-f3067a6600b5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='dizzy-hypnotized-face'
     keyshape=Keyshape.HRECT_L

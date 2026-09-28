@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '947547ca-2668-5370-8ab0-93b823725d21'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-eyes-face/20260926T172218Z-thuan-mac-1/reference/in love_947547ca-2668-5370-8ab0-93b823725d21.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeartEyesFace(Solo48):

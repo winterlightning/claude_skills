@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a83ae7ee-8a41-4fef-9868-438ff298dd07'
 SOURCE_PATH = 'pictographic-primitives/ecology/air purifier 1_a83ae7ee-8a41-4fef-9868-438ff298dd07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Air purifier with coherent slender airflow curves, smooth body and upright indicator.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['smartphone']

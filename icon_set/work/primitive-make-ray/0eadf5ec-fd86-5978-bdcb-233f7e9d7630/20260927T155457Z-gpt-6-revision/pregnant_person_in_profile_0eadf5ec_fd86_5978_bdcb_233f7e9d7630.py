@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0eadf5ec-fd86-5978-bdcb-233f7e9d7630'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pregnant-person-in-profile-0eadf5ec/20260927T153747Z-thuan-mac-1/reference/specialty pregnancy_0eadf5ec-fd86-5978-bdcb-233f7e9d7630.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pregnant-person-in-profile-0eadf5ec'

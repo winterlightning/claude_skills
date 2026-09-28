@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c4945396-13ec-470f-9338-45638fe16eb2'
 SOURCE_PATH = 'icon_set/work/todo-references/amazon web service elemental medialive_c4945396-13ec-470f-9338-45638fe16eb2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'amazon-web-service-elemental-medialive'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7942fb7d-f97e-4aa6-b28d-93461f5f8eb8'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/fill_7942fb7d-f97e-4aa6-b28d-93461f5f8eb8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DocumentWithFoldedCorner(Solo48):
     icon_id = 'document-with-folded-corner-7942fb7d'

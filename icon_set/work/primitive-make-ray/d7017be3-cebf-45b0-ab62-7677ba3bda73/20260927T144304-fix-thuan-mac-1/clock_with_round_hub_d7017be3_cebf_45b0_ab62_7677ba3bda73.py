@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd7017be3-cebf-45b0-ab62-7677ba3bda73'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clock-with-round-hub/20260927T144116Z-thuan-mac-1/reference/time clock circle 1_d7017be3-cebf-45b0-ab62-7677ba3bda73.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

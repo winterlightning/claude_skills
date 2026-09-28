@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '36050eda-0953-5f1d-b828-3b3c917e1c94'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-kneeling-beside-bowl/20260927T153747Z-thuan-mac-1/reference/party throw up_36050eda-0953-5f1d-b828-3b3c917e1c94.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Batch26Icon(Solo48):

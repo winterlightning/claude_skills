@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8fffde25-08b0-46d2-9123-537377f28274'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lamp/20260926T152509Z-thuan-mac-1/reference/lamp_8fffde25-08b0-46d2-9123-537377f28274.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 BACK_A, BACK_B = (20, 6), (26, 12)
 MOUTH_A, MOUTH_B = (6, 14), (18, 26)

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='4598ad0a-e61f-4a07-a594-114ea751a1b7'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__single-drumstick-with-bulbous-tip/20260924T163448Z-thuan-mac/reference/drumstick_4598ad0a-e61f-4a07-a594-114ea751a1b7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='single-drumstick-with-bulbous-tip'
     keyshape=Keyshape.SQUARE

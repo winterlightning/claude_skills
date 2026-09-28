@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '14e0f209-1f73-4be1-9637-df2de37b666b'
 SOURCE_PATH = 'pictographic-primitives/holidays/hand_14e0f209-1f73-4be1-9637-df2de37b666b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/open_palm_hand_14e0f209_1f73_4be1_9637_df2de37b666b.py'
 class Drawing(Solo48):
     icon_id = 'open-palm-hand'

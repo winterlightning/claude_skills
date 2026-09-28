@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='959794ae-1023-4273-a3cf-8add9155265b'
 SOURCE_PATH='pictographic-primitives/other/paw print_959794ae-1023-4273-a3cf-8add9155265b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Four oval toe pads above a broad, smoothly rounded triangular paw pad, with a shallow lower notch.'
 CONSTRUCTION_REFERENCES='Lucide paw-print: independent pads; supplied source controls the four upright ovals and centered broad pad.'
 OMISSIONS=[]

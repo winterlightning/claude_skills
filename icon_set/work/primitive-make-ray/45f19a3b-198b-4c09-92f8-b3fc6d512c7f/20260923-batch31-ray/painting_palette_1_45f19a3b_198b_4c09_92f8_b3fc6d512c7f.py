@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '45f19a3b-198b-4c09-92f8-b3fc6d512c7f'
 SOURCE_PATH = 'icon_set/work/todo-references/painting palette 1_45f19a3b-198b-4c09-92f8-b3fc6d512c7f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Circular painting palette with three circular wells in a triangular pattern.'
 OMISSIONS = 'No defining features omitted.'
 LUCIDE_REFERENCE = 'palette'

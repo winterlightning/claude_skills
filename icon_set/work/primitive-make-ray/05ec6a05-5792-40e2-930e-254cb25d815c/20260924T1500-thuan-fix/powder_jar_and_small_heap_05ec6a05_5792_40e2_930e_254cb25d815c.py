@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='05ec6a05-5792-40e2-930e-254cb25d815c'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__powder-jar-and-small-heap/20260924T150007Z-thuan-mac/reference/powder_05ec6a05-5792-40e2-930e-254cb25d815c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='powder-jar-and-small-heap'
     keyshape=Keyshape.SQUARE

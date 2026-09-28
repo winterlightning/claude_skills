@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '49a99532-87a4-4620-9412-a0a544789c05'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__medium-battery/20260927T133815Z-thuan-mac-1/reference/charging battery medium_49a99532-87a4-4620-9412-a0a544789c05.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MobileIcon(Solo48):
     icon_id = 'medium-battery'

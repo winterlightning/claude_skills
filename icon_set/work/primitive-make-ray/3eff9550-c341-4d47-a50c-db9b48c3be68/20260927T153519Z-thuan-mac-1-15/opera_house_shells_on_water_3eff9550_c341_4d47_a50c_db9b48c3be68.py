@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3eff9550-c341-4d47-a50c-db9b48c3be68'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opera-house-shells-on-water/20260927T153322Z-thuan-mac-1/reference/sydney opera house_3eff9550-c341-4d47-a50c-db9b48c3be68.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OperaHouseShellsOnWater(Solo48):
     icon_id = 'opera-house-shells-on-water'

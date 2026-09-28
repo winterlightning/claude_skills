@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9aef2fa3-a180-440e-8f69-2d6f71b6f2b3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gpon-splitter-1/20260926T160438Z-thuan-mac-2/reference/gpon splitter 1_9aef2fa3-a180-440e-8f69-2d6f71b6f2b3.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

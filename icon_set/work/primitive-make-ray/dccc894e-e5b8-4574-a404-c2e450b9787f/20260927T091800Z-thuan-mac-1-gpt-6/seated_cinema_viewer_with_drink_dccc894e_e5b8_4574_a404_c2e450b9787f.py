@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dccc894e-e5b8-4574-a404-c2e450b9787f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-cinema-viewer-with-drink/20260927T091411Z-thuan-mac-1/reference/movies sit drink_dccc894e-e5b8-4574-a404-c2e450b9787f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedCinemaViewerWithDrink(Solo48):
     icon_id = 'seated-cinema-viewer-with-drink'

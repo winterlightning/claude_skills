@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '559fae17-bef3-4dfd-a513-8e884c846916'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__standing-hippo/20260927T094403Z-thuan-mac-1/reference/hippo body_559fae17-bef3-4dfd-a513-8e884c846916.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class StandingHippo(Solo48):

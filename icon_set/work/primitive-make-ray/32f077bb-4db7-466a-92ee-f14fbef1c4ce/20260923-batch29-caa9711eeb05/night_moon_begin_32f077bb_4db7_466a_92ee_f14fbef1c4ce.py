@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='32f077bb-4db7-466a-92ee-f14fbef1c4ce'
 SOURCE_PATH='icon_set/work/todo-references/night moon begin_32f077bb-4db7-466a-92ee-f14fbef1c4ce.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='night-moon-begin'
     keyshape=Keyshape.SQUARE

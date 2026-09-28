@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='485264e5-d5d9-4af5-a33a-88ae3ae2126e'
 SOURCE_PATH='icon_set/work/todo-references/rectangle employee resume_485264e5-d5d9-4af5-a33a-88ae3ae2126e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A résumé portrait has two short text lines beside it and two below.'
 OMISSIONS='All four text rows retained; repeated line definitions.'
 LUCIDE_REFERENCE='user'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='090386bc-ec29-43fe-9dba-5fd9ed1f0f5e'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/scooter parking shade roof_090386bc-ec29-43fe-9dba-5fd9ed1f0f5e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A scooter under a pitched shelter roof. Equal wheel radii and baseline; wheel tops and seat attachment are explicit shared nodes. Symmetric roof with intentionally directional scooter.'
 CONSTRUCTION_REFERENCE='Lucide bike equal wheels and coherent steering construction'
 class Drawing(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f24969f4-c5f7-4b83-8736-feb310ab0664'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__power-symbol/20260927T153747Z-thuan-mac-1/reference/power_f24969f4-c5f7-4b83-8736-feb310ab0664.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PowerSymbol(Solo48):
     icon_id = 'power-symbol'

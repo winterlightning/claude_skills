@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='799bdd89-191b-47de-b592-f0b9b831e18c'
 SOURCE_PATH='icon_set/work/todo-references/smart tv app_799bdd89-191b-47de-b592-f0b9b831e18c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='smart-tv-app'

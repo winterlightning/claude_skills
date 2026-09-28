@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cbffa972-bda1-56ed-9c77-cf75b93eefd1'
 SOURCE_PATH = 'pictographic-primitives/work/task list plain_cbffa972-bda1-56ed-9c77-cf75b93eefd1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Plain task list with two repeated open square checkboxes and paired short text strokes. Shared box size and row pitch retain a regular series.'
 OMISSIONS = ['Third checkbox row omitted to fit 8-unit checkbox openings; text strokes reduced to dots within the remaining width.']
 class Drawing(Solo48):

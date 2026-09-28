@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '071aaf26-8eda-48a8-938b-59a2ab4e23d3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__brake-disc-with-caliper/20260925T060624Z-thuan-mac/reference/brake_071aaf26-8eda-48a8-938b-59a2ab4e23d3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'brake-disc-with-caliper'

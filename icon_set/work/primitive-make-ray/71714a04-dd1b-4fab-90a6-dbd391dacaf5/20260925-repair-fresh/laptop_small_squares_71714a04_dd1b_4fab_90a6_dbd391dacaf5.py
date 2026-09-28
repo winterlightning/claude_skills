@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '71714a04-dd1b-4fab-90a6-dbd391dacaf5'
 SOURCE_PATH = 'pictographic-primitives/other/laptop small squares_71714a04-dd1b-4fab-90a6-dbd391dacaf5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/laptop_small_squares_71714a04_dd1b_4fab_90a6_dbd391dacaf5.py'
 
 class Drawing(Solo48):

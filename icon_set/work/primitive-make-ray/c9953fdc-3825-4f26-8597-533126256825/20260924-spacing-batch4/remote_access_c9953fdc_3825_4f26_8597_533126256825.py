@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c9953fdc-3825-4f26-8597-533126256825'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/remote access_c9953fdc-3825-4f26-8597-533126256825.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Nested hexagons around a central remote-access dot. Both hexagons share axes and paired dimensions. Even bands and centered point remain clear at48px.'
 CONSTRUCTION_REFERENCE='No useful exact Lucide match; regular paired polygon construction from source'
 class Drawing(Solo48):

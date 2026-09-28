@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a3acc8b0-54db-4bd5-a00e-eb2c72c03c16'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__remaining-range-indicator/20260927T171300Z-thuan-mac-1/reference/e car battery driving length 1_a3acc8b0-54db-4bd5-a00e-eb2c72c03c16.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RemainingRangeIndicator(Solo48):
     icon_id = 'remaining-range-indicator'

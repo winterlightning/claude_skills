@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b83a54a7-f655-5ac7-ad66-bf165be4729b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__box-truck-with-square-side-panel/20260924T090148Z-thuan-mac/reference/delivery truck_b83a54a7-f655-5ac7-ad66-bf165be4729b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'box-truck-with-square-side-panel'

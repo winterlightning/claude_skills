@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '056e95ba-9b54-434f-b98d-cc6da34d9db8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-meditation-upright/20260927T091411Z-thuan-mac-1/reference/yoga meditation pose 1_056e95ba-9b54-434f-b98d-cc6da34d9db8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedMeditationUpright(Solo48):
     icon_id = 'seated-meditation-upright'

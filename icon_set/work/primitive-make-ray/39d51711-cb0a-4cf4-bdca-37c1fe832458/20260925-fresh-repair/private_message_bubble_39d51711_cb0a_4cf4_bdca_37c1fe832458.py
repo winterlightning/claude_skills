@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='39d51711-cb0a-4cf4-bdca-37c1fe832458'
 SOURCE_PATH='pictographic-primitives/other/bubble message pm text_39d51711-cb0a-4cf4-bdca-37c1fe832458.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Full PM text sits in a rounded speech bubble with an integral lower-left tail. M retains slanted outer strokes from the reference.'
 CONSTRUCTION_REFERENCES='Lucide message-square original and atomic-debug: rounded enclosure and integrated tail; supplied reference governs PM.'
 OMISSIONS=[]

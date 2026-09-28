@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '045a0447-9d31-4ac4-8345-6b457d6d7fdb'
 SOURCE_PATH = 'icon_set/work/todo-references/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor displaying an unlocked padlock.'
 CONSTRUCTION_PLAN = 'Rounded lock body with an open circular shackle above it, inside the shared monitor.'
 KEYSHAPE_CENTERLINE_BOUNDS = [6, 6, 42, 42]

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '41eb4d71-9a8e-5daf-8163-d05363fb7a8c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-long-biscuits/20260927T133645Z-thuan-mac-1/reference/chef gear biscuits_41eb4d71-9a8e-5daf-8163-d05363fb7a8c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TwoLongBiscuits(Solo48):
     icon_id = 'two-long-biscuits'

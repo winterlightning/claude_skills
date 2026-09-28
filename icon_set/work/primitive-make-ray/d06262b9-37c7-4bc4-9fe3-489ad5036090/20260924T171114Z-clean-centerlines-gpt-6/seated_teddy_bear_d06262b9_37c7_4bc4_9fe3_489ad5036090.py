@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd06262b9-37c7-4bc4-9fe3-489ad5036090'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-teddy-bear/20260924T171114Z-thuan-mac/reference/teddy bear_d06262b9-37c7-4bc4-9fe3-489ad5036090.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'seated-teddy-bear'
     keyshape = Keyshape.VRECT_L

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4457d45a-d996-492d-949d-ff0115d87338'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__time-nine-to-five-1/20260924T105724Z-thuan-mac/reference/time nine to five 1_4457d45a-d996-492d-949d-ff0115d87338.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'time-nine-to-five-1'

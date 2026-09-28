@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1bc0a357-ae8c-5287-a849-d7b91c2e7aff'
 SOURCE_PATH='pictographic-primitives/other/device wearable vr goggles_1bc0a357-ae8c-5287-a849-d7b91c2e7aff.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Front-facing VR portrait with nose notch, circular jaw and broad touching shoulders.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg and Lucide user-round: circular jaw and broad shoulders; supplied visor notch.'
 class Drawing(Solo48):

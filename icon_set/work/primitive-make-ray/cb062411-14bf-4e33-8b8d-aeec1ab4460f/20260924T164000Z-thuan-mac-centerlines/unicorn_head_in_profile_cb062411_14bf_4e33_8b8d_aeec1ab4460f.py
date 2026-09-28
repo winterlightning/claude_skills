@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='cb062411-14bf-4e33-8b8d-aeec1ab4460f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__unicorn-head-in-profile/20260924T163448Z-thuan-mac/reference/fantasy unicorn_cb062411-14bf-4e33-8b8d-aeec1ab4460f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='unicorn-head-in-profile'
     keyshape=Keyshape.VRECT_L

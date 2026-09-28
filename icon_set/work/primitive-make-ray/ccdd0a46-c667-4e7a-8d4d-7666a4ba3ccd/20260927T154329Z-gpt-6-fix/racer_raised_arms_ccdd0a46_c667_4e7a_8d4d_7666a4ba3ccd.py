@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ccdd0a46-c667-4e7a-8d4d-7666a4ba3ccd'
 SOURCE_PATH='pictographic-primitives/sports/race_ccdd0a46-c667-4e7a-8d4d-7666a4ba3ccd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class RacerRaisedArms(Solo48):
     icon_id='racer-raised-arms'

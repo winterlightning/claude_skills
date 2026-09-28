@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '20af476c-a57f-4ace-b516-465f1fa2eefd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__claw-hammer-on-diagonal/20260927T032242Z-thuan-mac-1/reference/hammer_20af476c-a57f-4ace-b516-465f1fa2eefd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'claw-hammer-on-diagonal'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '38f5f3f1-85e8-450a-a8ab-23c97cd150d2'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square sliders_38f5f3f1-85e8-450a-a8ab-23c97cd150d2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Taller rounded panel gives three shared rows 10 units of separation.
 # VRECT_L centerline extremes (8,4)-(40,44); equal knobs with alternating x=20,28.
 # Deliberate alternating settings preserve the reference; no parts dropped.

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bbab0c61-cd66-44e3-8954-bcb31ddc3d23'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/athletics running 1_bbab0c61-cd66-44e3-8954-bcb31ddc3d23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'running-track-curve-arrow'

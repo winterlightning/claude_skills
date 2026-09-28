@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ff395100-6a6e-4dfe-9ba1-32d4e787d90a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upward-growth-trend-arrow/20260924T160658Z-thuan-mac/reference/arrow trend up_ff395100-6a6e-4dfe-9ba1-32d4e787d90a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'upward-growth-trend-arrow'

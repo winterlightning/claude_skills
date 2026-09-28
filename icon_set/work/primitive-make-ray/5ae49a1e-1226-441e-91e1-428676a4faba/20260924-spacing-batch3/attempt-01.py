@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5ae49a1e-1226-441e-91e1-428676a4faba'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/pegboard_5ae49a1e-1226-441e-91e1-428676a4faba.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square board owns a centered three-by-three series at pitch9. Reduce tiny hole outlines to solid circular perforation marks.'
 CONSTRUCTION_REFERENCE='No exact Lucide match; shared rounded-frame construction from image'
 class Drawing(Solo48):

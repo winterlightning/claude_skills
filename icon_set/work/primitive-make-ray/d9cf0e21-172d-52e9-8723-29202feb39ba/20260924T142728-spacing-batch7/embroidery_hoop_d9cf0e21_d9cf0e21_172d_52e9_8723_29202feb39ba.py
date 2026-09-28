@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd9cf0e21-172d-52e9-8723-29202feb39ba'
 SOURCE_PATH = 'pictographic-primitives/hobbies/embroidery hoop_d9cf0e21-172d-52e9-8723-29202feb39ba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'embroidery-hoop-d9cf0e21'

@@ -13,7 +13,7 @@ from icon_set.scripts.side_text import native_text
 
 SOURCE_ICON_ID = 'dd80ecbb-13f8-47dc-9883-44bd19aa7cc6'
 SOURCE_PATH = 'pictographic-primitives/other/monitor letters_dd80ecbb-13f8-47dc-9883-44bd19aa7cc6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SIZE_EXCEPTION = {'approved_by': 'user', 'request': 'for abc monitor , could you use our typeface v2, they could be exceptional size', 'canvas': [68,52], 'typeface': 'v2', 'glyph_scale': 1}
 NS='http://www.w3.org/2000/svg'
 ET.register_namespace('',NS)

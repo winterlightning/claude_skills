@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '490f19a8-c170-4914-bea1-18cbfb479033'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__real-estate-deal-shake/20260927T144036Z-thuan-mac-1/reference/real estate deal shake_490f19a8-c170-4914-bea1-18cbfb479033.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'real-estate-deal-shake'

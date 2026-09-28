@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5bc18c17-387b-4bc2-86e7-a3fd9d5fed98'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tap-filling-glass/20260927T094425Z-thuan-mac-1/reference/water fountain fill_5bc18c17-387b-4bc2-86e7-a3fd9d5fed98.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected glass was empty and lacked the source’s waterline.'
 REVISION_CHANGE = 'Added a shallow water wave below the falling drop.'
 

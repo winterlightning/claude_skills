@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '47e8f9f9-c339-4825-8fce-d38cee3698d9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crying-face-with-raised-brows/20260927T160834Z-thuan-mac-1/reference/face sad tear_47e8f9f9-c339-4825-8fce-d38cee3698d9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crying-face-with-raised-brows'

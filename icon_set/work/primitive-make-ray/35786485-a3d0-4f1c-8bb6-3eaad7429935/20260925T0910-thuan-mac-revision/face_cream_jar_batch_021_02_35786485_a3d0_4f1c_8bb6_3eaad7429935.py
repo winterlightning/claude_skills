@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='35786485-a3d0-4f1c-8bb6-3eaad7429935'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__face-cream-jar-batch-021-02/20260925T085649Z-thuan-mac/reference/face cream_35786485-a3d0-4f1c-8bb6-3eaad7429935.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='face-cream-jar-batch-021-02'

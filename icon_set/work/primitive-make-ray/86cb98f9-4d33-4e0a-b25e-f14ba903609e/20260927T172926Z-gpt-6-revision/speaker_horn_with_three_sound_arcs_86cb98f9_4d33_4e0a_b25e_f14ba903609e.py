@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '86cb98f9-4d33-4e0a-b25e-f14ba903609e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__speaker-horn-with-three-sound-arcs/20260927T172707Z-thuan-mac-1/reference/emitter_86cb98f9-4d33-4e0a-b25e-f14ba903609e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'speaker-horn-with-three-sound-arcs'

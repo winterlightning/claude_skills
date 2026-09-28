@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9f3c217e-f110-4527-83a4-e1b1e349f29d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__six-node-molecular-ring/20260927T093511Z-thuan-mac-1/reference/cells_9f3c217e-f110-4527-83a4-e1b1e349f29d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SixNodeMolecularRing(Solo48):
     icon_id = 'six-node-molecular-ring'

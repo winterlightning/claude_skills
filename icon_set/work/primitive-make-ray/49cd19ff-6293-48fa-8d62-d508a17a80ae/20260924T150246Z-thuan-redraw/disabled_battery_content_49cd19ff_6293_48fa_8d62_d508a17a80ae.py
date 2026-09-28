@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='49cd19ff-6293-48fa-8d62-d508a17a80ae'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__disabled-battery-content/20260924T150246Z-thuan-mac/reference/slash battery_49cd19ff-6293-48fa-8d62-d508a17a80ae.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='disabled-battery-content'

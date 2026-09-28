@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '8e5f188b-2874-56f0-8538-ccc3b48f76fc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hat-lady-cowboy-avatar/20260926T175531Z-thuan-mac-1/reference/hat lady cowboy_8e5f188b-2874-56f0-8538-ccc3b48f76fc.svg'
 SOURCE_HEAD_ICON_ID = 'hat-lady-cowboy'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HatLadyCowboyAvatar(Solo48):
     icon_id = 'hat-lady-cowboy-avatar'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0b19900b-2f50-4eb1-8024-c7cb4c3c1ae7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-oval-coffee-bean/20260925T085629Z-thuan-mac/reference/bean_0b19900b-2f50-4eb1-8024-c7cb4c3c1ae7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'diagonal-oval-coffee-bean'

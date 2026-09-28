@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9f2464f7-258f-5a66-a48b-a08297ea0c92'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__fairy-with-butterfly-wings/20260924T160939Z-thuan-mac/reference/fairy butterfly wing_9f2464f7-258f-5a66-a48b-a08297ea0c92.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='fairy-with-butterfly-wings'

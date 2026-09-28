@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3191e728-462d-507c-a5f1-052df6e82cf4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__barbecue-fork-two-tines/20260924T142441Z-thuan-mac/reference/barbecue stick_3191e728-462d-507c-a5f1-052df6e82cf4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='barbecue-fork-two-tines'

@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='f238b6ea-82d0-5437-a344-0ec38b16a28d'
 SOURCE_PATH='pictographic-primitives/health/monitoring heart beat hand_f238b6ea-82d0-5437-a344-0ec38b16a28d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Heart-pulse lobes and trace, hand gripping lower right; Lucide heart-pulse and hand principles, deliberate grip asymmetry.'
 class Drawing(Solo48):
     icon_id='monitoring-heart-beat-hand'

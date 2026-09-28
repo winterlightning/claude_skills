@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'cf44aeae-72fb-497d-bced-a85ff3fd1594'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__construction-worker-with-bob-and-v-neck/20260927T032242Z-thuan-mac-1/reference/woman construction_cf44aeae-72fb-497d-bced-a85ff3fd1594.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 def path(icon, name, start, *steps, closed=False):
     """Emit one coherent stroke; each knot belongs to its owning shape."""

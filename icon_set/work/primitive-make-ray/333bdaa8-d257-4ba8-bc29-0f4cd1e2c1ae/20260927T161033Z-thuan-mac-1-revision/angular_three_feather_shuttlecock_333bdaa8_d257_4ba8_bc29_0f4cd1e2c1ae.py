@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '333bdaa8-d257-4ba8-bc29-0f4cd1e2c1ae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__angular-three-feather-shuttlecock/20260927T160834Z-thuan-mac-1/reference/badminton shuttlecock_333bdaa8-d257-4ba8-bc29-0f4cd1e2c1ae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'angular-three-feather-shuttlecock'

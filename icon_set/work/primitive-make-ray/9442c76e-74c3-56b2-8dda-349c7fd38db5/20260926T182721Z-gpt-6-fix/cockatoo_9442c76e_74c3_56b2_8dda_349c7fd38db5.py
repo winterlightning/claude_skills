@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9442c76e-74c3-56b2-8dda-349c7fd38db5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cockatoo/20260926T182517Z-thuan-mac-1/reference/parrot_9442c76e-74c3-56b2-8dda-349c7fd38db5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Cockatoo(Solo48):
     icon_id = 'cockatoo'

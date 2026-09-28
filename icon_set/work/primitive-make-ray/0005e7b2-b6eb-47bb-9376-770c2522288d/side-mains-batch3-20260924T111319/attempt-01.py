@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0005e7b2-b6eb-47bb-9376-770c2522288d'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/monitor upload_0005e7b2-b6eb-47bb-9376-770c2522288d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Monitor with an upward upload arrow.'
 CONSTRUCTION_REFERENCES = 'Lucide monitor: rounded screen, central stem and foot.'
 OMISSIONS = 'No omissions.'

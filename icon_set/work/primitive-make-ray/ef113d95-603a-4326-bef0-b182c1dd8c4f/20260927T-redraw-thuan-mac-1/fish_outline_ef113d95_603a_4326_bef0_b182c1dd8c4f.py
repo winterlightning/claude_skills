@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ef113d95-603a-4326-bef0-b182c1dd8c4f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fish-outline/20260926T173134Z-thuan-mac-1/reference/fish with two small circle_ef113d95-603a-4326-bef0-b182c1dd8c4f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FishOutline(Solo48):

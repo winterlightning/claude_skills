@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b1834755-7ac4-419d-9946-381d945149e1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__javelin-thrower/20260927T101636Z-thuan-mac-1/reference/javelin throwing_b1834755-7ac4-419d-9946-381d945149e1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class JavelinThrower(Solo48):
     icon_id = 'javelin-thrower'

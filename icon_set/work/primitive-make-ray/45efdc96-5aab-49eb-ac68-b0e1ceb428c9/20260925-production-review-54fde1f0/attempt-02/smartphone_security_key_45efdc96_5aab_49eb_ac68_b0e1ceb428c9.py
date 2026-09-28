@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '45efdc96-5aab-49eb-ac68-b0e1ceb428c9'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone key_45efdc96-5aab-49eb-ac68-b0e1ceb428c9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Phone security key has an open circular bow, diagonal shaft and one clear tooth.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['smartphone', 'key-round']

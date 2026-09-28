@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '07e1bb79-331c-4f70-8f6d-2c162b0b2d9a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__human-profile-bust-batch-025-08/20260927T145836Z-thuan-mac-1/reference/person 1_07e1bb79-331c-4f70-8f6d-2c162b0b2d9a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (6, 2, 42, 46); centerline (8, 4, 40, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/person 1_07e1bb79-331c-4f70-8f6d-2c162b0b2d9a.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-025/08-human-user-profile-icon--07e1bb79-331c-4f70-8f6d-2c162b0b2d9a.md'

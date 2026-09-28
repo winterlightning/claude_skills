@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7f1ad0e2-4f9e-423b-9473-4df26eae6fed'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/arch linux logo_7f1ad0e2-4f9e-423b-9473-4df26eae6fed.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pointed-arch-linux-emblem'

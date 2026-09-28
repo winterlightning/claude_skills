@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '099a478f-4287-40bc-a508-fc3894c1428a'
 SOURCE_PATH = 'pictographic-primitives/finance/virtual coin crypto algorand_099a478f-4287-40bc-a508-fc3894c1428a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'virtual-coin-crypto-algorand'

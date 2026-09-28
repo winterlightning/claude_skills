@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '65d8507f-531a-4e81-bd3e-1e2516aebe33'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/route interstate_65d8507f-531a-4e81-bd3e-1e2516aebe33.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Interstate shield with scalloped top, header rule and road center dashes.
 # Reference: shield: mirrored protective silhouette with a pointed base.
 # Reduction: Two center dashes retained; no text added because source contains none.

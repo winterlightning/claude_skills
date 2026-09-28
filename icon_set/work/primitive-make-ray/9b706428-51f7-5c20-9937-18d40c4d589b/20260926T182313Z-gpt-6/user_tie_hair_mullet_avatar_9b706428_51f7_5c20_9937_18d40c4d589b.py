@@ -14,7 +14,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = "9b706428-51f7-5c20-9937-18d40c4d589b"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__user-tie-hair-mullet-avatar/20260926T181756Z-thuan-mac-1/reference/user-tie-hair-mullet-avatar_9b706428-51f7-5c20-9937-18d40c4d589b.svg"
 SOURCE_HEAD_ICON_ID = 'user-tie-hair-mullet'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 24
 class UserTieHairMulletAvatar(Solo48):
     icon_id = 'user-tie-hair-mullet-avatar'

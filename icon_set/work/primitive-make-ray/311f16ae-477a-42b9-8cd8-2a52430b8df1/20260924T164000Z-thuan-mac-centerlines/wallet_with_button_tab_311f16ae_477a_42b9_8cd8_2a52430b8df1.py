@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='311f16ae-477a-42b9-8cd8-2a52430b8df1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__wallet-with-button-tab/20260924T163448Z-thuan-mac/reference/ewallet_311f16ae-477a-42b9-8cd8-2a52430b8df1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='wallet-with-button-tab'
     keyshape=Keyshape.HRECT_L

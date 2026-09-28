@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2d6aea0f-956f-475c-983c-4883f1ff0ac5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__iterative-workflow-arrows/20260927T070909Z-thuan-mac-1/reference/workflow scrum_2d6aea0f-956f-475c-983c-4883f1ff0ac5.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

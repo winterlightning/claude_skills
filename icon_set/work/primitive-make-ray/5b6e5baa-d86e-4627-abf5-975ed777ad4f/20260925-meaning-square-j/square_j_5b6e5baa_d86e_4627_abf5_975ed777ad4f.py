@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5b6e5baa-d86e-4627-abf5-975ed777ad4f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-j/20260925T034659Z-thuan-mac/reference/square j_5b6e5baa-d86e-4627-abf5-975ed777ad4f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Conventional capital J with top bar and rounded lower hook; remove misleading right arrow.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e3fab3c5-ba7f-5ddc-bffc-006d5f47d770'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-using-urinal/20260927T082307Z-thuan-mac-1/reference/wayfinding urinal_e3fab3c5-ba7f-5ddc-bffc-006d5f47d770.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonUsingUrinal(Solo48):
     icon_id = 'person-using-urinal'

@@ -18,7 +18,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b484255b-2a40-40d1-9943-7e27cfb9f399'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cog-double/20260926T125430Z-thuan-mac/reference/cog double_b484255b-2a40-40d1-9943-7e27cfb9f399.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='eba62204-89c9-492a-958f-b4f34fbc386d'
 SOURCE_PATH='icon_set/work/todo-references/square dot top_eba62204-89c9-492a-958f-b4f34fbc386d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square with a hollow circular tab interrupting its top edge.'
 CONSTRUCTION_REFERENCES='Source silhouette; circular tab and equal corner arcs.'
 OMISSIONS='Frame is shortened vertically to accommodate the circular top tab.'

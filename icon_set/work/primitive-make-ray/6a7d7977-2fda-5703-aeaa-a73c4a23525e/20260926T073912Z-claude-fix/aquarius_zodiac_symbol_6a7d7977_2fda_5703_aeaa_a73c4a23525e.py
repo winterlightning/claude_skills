@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6a7d7977-2fda-5703-aeaa-a73c4a23525e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__aquarius-zodiac-symbol/20260926T073831Z-thuan-mac/reference/astrology aquarius_6a7d7977-2fda-5703-aeaa-a73c4a23525e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class AquariusZodiacSymbol(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '58b70697-62ea-4501-873d-8e51b3416d7a'
 SOURCE_PATH = 'pictographic-primitives/health/insurance cheap_58b70697-62ea-4501-873d-8e51b3416d7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'insurance-cheap'

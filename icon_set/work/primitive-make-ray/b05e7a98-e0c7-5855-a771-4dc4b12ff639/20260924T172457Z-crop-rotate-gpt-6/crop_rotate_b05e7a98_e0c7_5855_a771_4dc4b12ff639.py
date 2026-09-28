@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b05e7a98-e0c7-5855-a771-4dc4b12ff639'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crop-rotate/20260924T172457Z-thuan-mac/reference/crop rotate_b05e7a98-e0c7-5855-a771-4dc4b12ff639.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'crop-rotate'
     keyshape = Keyshape.SQUARE

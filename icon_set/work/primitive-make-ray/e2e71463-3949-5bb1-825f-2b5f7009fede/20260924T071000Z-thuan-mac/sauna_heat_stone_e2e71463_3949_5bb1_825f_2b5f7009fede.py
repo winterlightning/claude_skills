@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e2e71463-3949-5bb1-825f-2b5f7009fede'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sauna-heat-stone/20260924T065933Z-thuan-mac/reference/sauna heat stone_e2e71463-3949-5bb1-825f-2b5f7009fede.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='sauna-heat-stone'

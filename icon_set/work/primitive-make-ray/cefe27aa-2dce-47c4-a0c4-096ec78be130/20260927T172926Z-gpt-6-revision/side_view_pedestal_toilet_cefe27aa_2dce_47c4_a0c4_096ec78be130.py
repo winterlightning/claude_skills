@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cefe27aa-2dce-47c4-a0c4-096ec78be130'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__side-view-pedestal-toilet/20260927T172707Z-thuan-mac-1/reference/bidet_cefe27aa-2dce-47c4-a0c4-096ec78be130.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'side-view-pedestal-toilet'

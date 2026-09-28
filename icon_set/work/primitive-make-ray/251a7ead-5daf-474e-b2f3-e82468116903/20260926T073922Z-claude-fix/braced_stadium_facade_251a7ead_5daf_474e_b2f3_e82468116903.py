@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '251a7ead-5daf-474e-b2f3-e82468116903'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__braced-stadium-facade/20260926T073831Z-thuan-mac/reference/stadium 2_251a7ead-5daf-474e-b2f3-e82468116903.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 SOURCE_REFERENCES = (('251a7ead-5daf-474e-b2f3-e82468116903', 'pictographic-primitives/building/stadium 2_251a7ead-5daf-474e-b2f3-e82468116903.svg'),)
 
 def _circle(icon, name, cx, cy, radius):

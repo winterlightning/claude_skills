@@ -13,7 +13,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e3784f07-e09a-57a7-a89e-249e8d5c4a3c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-walking-down-slope/20260927T083143Z-thuan-mac-1/reference/walking descend_e3784f07-e09a-57a7-a89e-249e8d5c4a3c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonWalkingDownSlope(Solo48):
     icon_id = 'person-walking-down-slope'

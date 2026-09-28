@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '99bf430b-dcc2-4f99-a7e0-484696e566a4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__neuron-with-branching-axon/20260927T164916Z-thuan-mac-1/reference/neuron_99bf430b-dcc2-4f99-a7e0-484696e566a4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'neuron-with-branching-axon'

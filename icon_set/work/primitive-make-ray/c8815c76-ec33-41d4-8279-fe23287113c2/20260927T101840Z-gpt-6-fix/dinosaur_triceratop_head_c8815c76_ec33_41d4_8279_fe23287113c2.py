@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c8815c76-ec33-41d4-8279-fe23287113c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__triceratops-frill-head/20260927T101610Z-thuan-mac-1/reference/dinosaur triceratop head_c8815c76-ec33-41d4-8279-fe23287113c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class TriceratopsFrillHead(Solo48):

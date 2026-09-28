@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3f77b04c-ad63-443d-a816-599e467435a6'
 SOURCE_PATH='pictographic-primitives/_uncategorized_30/permafrost_3f77b04c-ad63-443d-a816-599e467435a6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Six-way snowflake in rounded square, common center junction. Omit fork twigs to keep at least8 from frame.'
 CONSTRUCTION_REFERENCE='Lucide snowflake radial repeat definition'
 class Drawing(Solo48):

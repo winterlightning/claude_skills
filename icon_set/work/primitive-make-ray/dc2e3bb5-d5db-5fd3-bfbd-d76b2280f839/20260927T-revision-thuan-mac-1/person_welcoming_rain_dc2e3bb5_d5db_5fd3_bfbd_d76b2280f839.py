@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'dc2e3bb5-d5db-5fd3-bfbd-d76b2280f839'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-welcoming-rain/20260927T145855Z-thuan-mac-1/reference/blessed rainy day_dc2e3bb5-d5db-5fd3-bfbd-d76b2280f839.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconPersonWelcomingRain(Solo48):

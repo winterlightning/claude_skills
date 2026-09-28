@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2dcda804-d52b-4984-9a4e-b6abdfa0030f'
 SOURCE_PATH='icon_set/work/todo-references/video edit split_2dcda804-d52b-4984-9a4e-b6abdfa0030f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='video-edit-split'

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '745277a4-cc7e-4a07-bdc7-f4c194cbbb03'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pointed-nozzle-condiment-bottle/20260927T170540Z-thuan-mac-1/reference/catsup_745277a4-cc7e-4a07-bdc7-f4c194cbbb03.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pointed-nozzle-condiment-bottle'

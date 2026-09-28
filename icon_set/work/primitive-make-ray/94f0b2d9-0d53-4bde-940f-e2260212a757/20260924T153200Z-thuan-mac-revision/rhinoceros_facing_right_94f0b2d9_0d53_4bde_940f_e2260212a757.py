@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='94f0b2d9-0d53-4bde-940f-e2260212a757'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__rhinoceros-facing-right/20260924T152553Z-thuan-mac/reference/rhinoceros_94f0b2d9-0d53-4bde-940f-e2260212a757.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='rhinoceros-facing-right'

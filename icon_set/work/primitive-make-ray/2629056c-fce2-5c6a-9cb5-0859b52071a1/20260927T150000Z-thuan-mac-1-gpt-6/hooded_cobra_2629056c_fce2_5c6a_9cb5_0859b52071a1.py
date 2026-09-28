@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2629056c-fce2-5c6a-9cb5-0859b52071a1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hooded-cobra/20260927T145836Z-thuan-mac-1/reference/reptile cobra_2629056c-fce2-5c6a-9cb5-0859b52071a1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HoodedCobra(Solo48):
     icon_id = 'hooded-cobra'

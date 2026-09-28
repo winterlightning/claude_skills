@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='513ef66c-4b4f-5bab-8e0c-b825fb43e517'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__drop-earrings-with-diamond-beads/20260924T093128Z-thuan-mac/reference/accessories earrings oriental_513ef66c-4b4f-5bab-8e0c-b825fb43e517.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='drop-earrings-with-diamond-beads'
     keyshape=Keyshape.SQUARE

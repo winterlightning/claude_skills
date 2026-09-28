@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5f25920b-ce98-5b89-a827-60e4dee4611e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__motorboat-on-waves/20260927T032022Z-thuan-mac-1/reference/small boat_5f25920b-ce98-5b89-a827-60e4dee4611e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class MotorboatOnWaves(Solo48):

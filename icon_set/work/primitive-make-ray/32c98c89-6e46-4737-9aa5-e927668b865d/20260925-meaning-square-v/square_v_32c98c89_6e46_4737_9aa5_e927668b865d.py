@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '32c98c89-6e46-4737-9aa5-e927668b865d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-v/20260925T034659Z-thuan-mac/reference/square v_32c98c89-6e46-4737-9aa5-e927668b865d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Symmetric capital V, replacing asymmetric check mark.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4a1112c6-2f20-434b-b756-511460d08610'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__aerial-yoga-bow-pose/20260925T034142Z-thuan-mac/reference/aerial yoga bow pose_4a1112c6-2f20-434b-b756-511460d08610.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='aerial-yoga-bow-pose'

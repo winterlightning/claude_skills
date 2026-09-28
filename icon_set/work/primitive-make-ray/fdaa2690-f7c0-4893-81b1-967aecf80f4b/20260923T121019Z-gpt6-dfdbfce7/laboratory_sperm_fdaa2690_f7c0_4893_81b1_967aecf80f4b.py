@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fdaa2690-f7c0-4893-81b1-967aecf80f4b'
 SOURCE_PATH = 'icon_set/work/todo-references/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A circular laboratory field containing two sperm and an isolated oval cell.'
 CONSTRUCTION_PLAN = 'Circular field with two repeated curved sperm symbols; no useful Lucide match.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

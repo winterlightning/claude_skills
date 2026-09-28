@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='571135a9-8294-425e-b2d7-526d9f1ec44f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__diagonal-shovel-with-broad-d-grip/20260924T150246Z-thuan-mac/reference/dig_571135a9-8294-425e-b2d7-526d9f1ec44f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='diagonal-shovel-with-broad-d-grip'

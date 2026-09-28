@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4b380f58-586b-45bc-8749-b86c9b2f3e5c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ichthys-fish/20260927T070849Z-thuan-mac-1/reference/fish_4b380f58-586b-45bc-8749-b86c9b2f3e5c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IchthysFish(Solo48):

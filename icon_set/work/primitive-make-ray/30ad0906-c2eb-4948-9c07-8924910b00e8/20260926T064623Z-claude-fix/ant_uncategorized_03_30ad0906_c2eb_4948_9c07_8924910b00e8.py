@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '30ad0906-c2eb-4948-9c07-8924910b00e8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ant-uncategorized-03/20260926T064521Z-thuan-mac/reference/ant_30ad0906-c2eb-4948-9c07-8924910b00e8.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AntUncategorized03(Solo48):
     icon_id = 'ant-uncategorized-03'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e26b4fae-5159-5626-a3fd-b6d33103328d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hurricane-oil-lantern/20260927T070849Z-thuan-mac-1/reference/outdoors flame lantern_e26b4fae-5159-5626-a3fd-b6d33103328d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HurricaneOilLantern(Solo48):

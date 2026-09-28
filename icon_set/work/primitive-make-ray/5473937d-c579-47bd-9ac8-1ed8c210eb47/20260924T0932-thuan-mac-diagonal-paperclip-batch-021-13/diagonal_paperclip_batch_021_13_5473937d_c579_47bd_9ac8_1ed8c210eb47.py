@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5473937d-c579-47bd-9ac8-1ed8c210eb47'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-paperclip-batch-021-13/20260924T093003Z-thuan-mac/reference/attached file_5473937d-c579-47bd-9ac8-1ed8c210eb47.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-paperclip-batch-021-13'
     keyshape = Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='46cfdeb4-afd1-4e8a-bdcd-54952c7a1dab'
 SOURCE_PATH='icon_set/work/todo-references/house drop_46cfdeb4-afd1-4e8a-bdcd-54952c7a1dab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='house-drop'
     keyshape=Keyshape.SQUARE

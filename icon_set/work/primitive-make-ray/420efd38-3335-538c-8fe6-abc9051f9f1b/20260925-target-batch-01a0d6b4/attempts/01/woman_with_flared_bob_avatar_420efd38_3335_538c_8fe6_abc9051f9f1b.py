@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='420efd38-3335-538c-8fe6-abc9051f9f1b'
 SOURCE_PATH='pictographic-primitives/avatars/woman_420efd38-3335-538c-8fe6-abc9051f9f1b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Larger centered circular face, smooth parted fringe and flared bob ends on broad touching shoulders.'
 CONSTRUCTION_REFERENCES='icon-avatar and human_ref/user.svg: circular jaw and touching curved shoulders; Lucide user-round: cardinal arcs.'
 OMISSIONS=['Tiny turned-back hair ends and neckline seam omitted; each bob side is one smooth outward curve.']

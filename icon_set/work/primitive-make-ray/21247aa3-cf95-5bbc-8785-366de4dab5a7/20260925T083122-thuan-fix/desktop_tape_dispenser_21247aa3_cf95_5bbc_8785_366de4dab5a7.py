@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '21247aa3-cf95-5bbc-8785-366de4dab5a7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__desktop-tape-dispenser/20260925T083122Z-thuan-mac/reference/office tape_21247aa3-cf95-5bbc-8785-366de4dab5a7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Allow the base to extend 2 units below HRECT_L to preserve clearance beneath the tape roll. Concentric radii 13 and 5 analytically give 4px ink clearance; the sampled checker reports 7.99927 centerline units. The large open hub and stepped cutter remain clear at native size.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': '00446f7f43b308297965e326e5c12e9bf69c33a1050c12d92bcf880ad3f72870'}

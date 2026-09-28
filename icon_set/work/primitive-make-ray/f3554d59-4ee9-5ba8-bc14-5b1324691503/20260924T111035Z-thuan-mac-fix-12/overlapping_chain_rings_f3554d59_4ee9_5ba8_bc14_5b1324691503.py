@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f3554d59-4ee9-5ba8-bc14-5b1324691503'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__overlapping-chain-rings/20260924T111035Z-thuan-mac/reference/attachment_f3554d59-4ee9-5ba8-bc14-5b1324691503.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'overlapping-chain-rings'
     keyshape = Keyshape.SQUARE

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0132e556-8fca-4176-ada0-9c09e12b3777'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tablet-with-two-connected-phones/20260927T094425Z-thuan-mac-1/reference/devicefarm ipad_0132e556-8fca-4176-ada0-9c09e12b3777.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected frame and phone tops looked blocky beside the rounded source.'
 REVISION_CHANGE = 'Rounded the tablet shoulders while retaining both wired phones.'
 

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '12edf723-8a13-4cc8-b4a8-b00184931821'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dragonfly/20260925T085629Z-thuan-mac/reference/dragonfly_12edf723-8a13-4cc8-b4a8-b00184931821.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'dragonfly'

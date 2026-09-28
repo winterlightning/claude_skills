@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e101e849-9e14-4d6e-9afb-b2a07c50a1df'
 SOURCE_PATH = 'icon_set/work/todo-references/mobile phone circle add_e101e849-9e14-4d6e-9afb-b2a07c50a1df.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-circle-add'
     keyshape = Keyshape.VRECT_L

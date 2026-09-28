@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ead0127e-785f-551a-9d22-8b8a0dce0b51'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__jumping-dolphin/20260924T164246Z-thuan-mac/reference/dolphin_ead0127e-785f-551a-9d22-8b8a0dce0b51.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='jumping-dolphin'

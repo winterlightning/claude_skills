@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e88202f4-9f66-425e-9f51-77c3ceeb6085'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__duck-on-water/20260926T173134Z-thuan-mac-1/reference/duck water_e88202f4-9f66-425e-9f51-77c3ceeb6085.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class DuckOnWater(Solo48):

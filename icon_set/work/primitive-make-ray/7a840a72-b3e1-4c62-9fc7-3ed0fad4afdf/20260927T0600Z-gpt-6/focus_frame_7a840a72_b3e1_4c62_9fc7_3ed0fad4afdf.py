@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '7a840a72-b3e1-4c62-9fc7-3ed0fad4afdf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__focus-frame/20260927T055558Z-thuan-mac-1/reference/focus frame_7a840a72-b3e1-4c62-9fc7-3ed0fad4afdf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FocusFrame(Solo48):

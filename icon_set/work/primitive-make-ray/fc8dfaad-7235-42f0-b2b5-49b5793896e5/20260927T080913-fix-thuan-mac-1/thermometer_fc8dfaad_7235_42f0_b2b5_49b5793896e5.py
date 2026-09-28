@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fc8dfaad-7235-42f0-b2b5-49b5793896e5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__thermometer/20260927T080754Z-thuan-mac-1/reference/temperature thermometer_fc8dfaad-7235-42f0-b2b5-49b5793896e5.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

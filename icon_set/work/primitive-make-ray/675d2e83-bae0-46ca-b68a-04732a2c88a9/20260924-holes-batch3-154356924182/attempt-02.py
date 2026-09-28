@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '675d2e83-bae0-46ca-b68a-04732a2c88a9'
 SOURCE_PATH = 'pictographic-primitives/other/monitor shuttlecock_675d2e83-bae0-46ca-b68a-04732a2c88a9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A monitor showing a diagonal badminton shuttlecock.'
 CONSTRUCTION_PLAN = 'Shared monitor enclosure with a rounded shuttle base and three feather lobes; diagonal subject orientation retained.'
 KEYSHAPE_CENTERLINE_BOUNDS = [8, 4, 40, 44]

@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4c828b75-2ce2-5271-b9ae-3111238b215a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stationary-bike-rider/20260927T094403Z-thuan-mac-1/reference/sport gym cycling_4c828b75-2ce2-5271-b9ae-3111238b215a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StationaryBikeRider(Solo48):
     icon_id = 'stationary-bike-rider'

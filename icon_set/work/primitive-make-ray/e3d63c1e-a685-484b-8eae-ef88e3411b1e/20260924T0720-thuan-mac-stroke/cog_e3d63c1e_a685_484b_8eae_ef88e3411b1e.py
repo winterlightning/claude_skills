@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e3d63c1e-a685-484b-8eae-ef88e3411b1e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__six-lobed-cog-e3d63c1e-a685-484b-8eae-ef88e3411b1e/20260924T071425Z-thuan-mac/reference/cog_e3d63c1e-a685-484b-8eae-ef88e3411b1e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'six-lobed-cog-e3d63c1e-a685-484b-8eae-ef88e3411b1e'

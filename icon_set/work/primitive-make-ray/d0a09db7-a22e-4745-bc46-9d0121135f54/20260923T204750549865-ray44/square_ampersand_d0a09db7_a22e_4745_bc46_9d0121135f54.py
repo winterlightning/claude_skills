@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd0a09db7-a22e-4745-bc46-9d0121135f54'
 SOURCE_PATH = 'icon_set/work/todo-references/square ampersand_d0a09db7-a22e-4745-bc46-9d0121135f54.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rounded square enclosing a hand-drawn ampersand with crossed lower loop.
 # References: No exact local Lucide ampersand match; smooth handwritten loops and canonical rounded frame.
 # Reduction: No defining parts omitted.

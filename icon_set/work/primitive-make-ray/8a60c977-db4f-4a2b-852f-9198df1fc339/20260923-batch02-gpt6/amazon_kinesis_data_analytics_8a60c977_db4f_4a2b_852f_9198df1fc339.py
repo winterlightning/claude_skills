@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8a60c977-db4f-4a2b-852f-9198df1fc339'
 SOURCE_PATH = 'icon_set/work/todo-references/amazon kinesis data analytics_8a60c977-db4f-4a2b-852f-9198df1fc339.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'amazon-kinesis-data-analytics'

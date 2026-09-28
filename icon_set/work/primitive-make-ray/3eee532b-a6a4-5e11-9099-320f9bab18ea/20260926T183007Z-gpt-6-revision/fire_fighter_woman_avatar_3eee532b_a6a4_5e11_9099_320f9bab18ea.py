@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '3eee532b-a6a4-5e11-9099-320f9bab18ea'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fire-fighter-woman-avatar/20260926T182452Z-thuan-mac-1/reference/avatar fire fighter woman_3eee532b-a6a4-5e11-9099-320f9bab18ea.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-fire-fighter-woman'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 HEAD_BOTTOM = 26
 

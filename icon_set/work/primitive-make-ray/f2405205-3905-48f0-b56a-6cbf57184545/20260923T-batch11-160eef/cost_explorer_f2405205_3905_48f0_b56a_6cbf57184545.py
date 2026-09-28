@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f2405205-3905-48f0-b56a-6cbf57184545'
 SOURCE_PATH = 'icon_set/work/todo-references/cost explorer_f2405205-3905-48f0-b56a-6cbf57184545.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cost-explorer'

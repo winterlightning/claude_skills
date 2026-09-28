@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '82fb3003-56b5-5594-a35c-f4552fbc42d8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__beetle/20260924T090615Z-thuan-mac/reference/insect_82fb3003-56b5-5594-a35c-f4552fbc42d8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'beetle'
     keyshape = Keyshape.VRECT_L

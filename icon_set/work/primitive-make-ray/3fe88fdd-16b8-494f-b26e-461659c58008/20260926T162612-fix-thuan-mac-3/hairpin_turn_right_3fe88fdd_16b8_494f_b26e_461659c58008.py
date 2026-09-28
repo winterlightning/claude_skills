@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3fe88fdd-16b8-494f-b26e-461659c58008'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hairpin-turn-right/20260926T162509Z-thuan-mac/reference/hairpin turn right_3fe88fdd-16b8-494f-b26e-461659c58008.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

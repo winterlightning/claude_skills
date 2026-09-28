@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "b13ef0ee-32e3-468d-876a-7e9b08b10fa2"
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-on-rising-escalator/20260927T143814Z-thuan-mac-1/reference/moving walkway_b13ef0ee-32e3-468d-876a-7e9b08b10fa2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonOnRisingEscalator(Solo48):

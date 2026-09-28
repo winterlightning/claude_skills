@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c8e04970-7ef3-408d-aa2e-0b6ea0ec0b65'
 SOURCE_PATH='icon_set/work/todo-references/seat find_c8e04970-7ef3-408d-aa2e-0b6ea0ec0b65.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Walking person, rightward direction arrow and empty chair. Keep the complete find-seat scene.'
 CONSTRUCTION_REFERENCES='Shared human-reference.md/full_body_ref.png: round head and coherent walking limbs; Lucide armchair informs the seat construction.'
 OMISSIONS='Outlined person and chair material thickness reduced to coherent strokes; chair foot retained as a baseline.'

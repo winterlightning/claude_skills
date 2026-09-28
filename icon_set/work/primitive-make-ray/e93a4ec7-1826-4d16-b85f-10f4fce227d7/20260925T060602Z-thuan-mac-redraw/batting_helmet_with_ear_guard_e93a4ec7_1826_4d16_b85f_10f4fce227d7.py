@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e93a4ec7-1826-4d16-b85f-10f4fce227d7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__batting-helmet-with-ear-guard/20260925T060602Z-thuan-mac/reference/baseball helmet_e93a4ec7-1826-4d16-b85f-10f4fce227d7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'batting-helmet-with-ear-guard'

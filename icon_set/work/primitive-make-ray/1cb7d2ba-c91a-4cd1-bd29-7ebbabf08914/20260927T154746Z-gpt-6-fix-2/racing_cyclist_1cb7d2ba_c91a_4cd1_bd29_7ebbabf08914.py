@@ -14,7 +14,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1cb7d2ba-c91a-4cd1-bd29-7ebbabf08914'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__racing-cyclist/20260927T153833Z-thuan-mac-1/reference/race_1cb7d2ba-c91a-4cd1-bd29-7ebbabf08914.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RacingCyclist(Solo48):
     icon_id = 'racing-cyclist'

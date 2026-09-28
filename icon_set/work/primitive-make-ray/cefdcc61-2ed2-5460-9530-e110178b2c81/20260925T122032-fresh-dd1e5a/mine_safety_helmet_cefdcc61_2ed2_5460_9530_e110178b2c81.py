@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='cefdcc61-2ed2-5460-9530-e110178b2c81'
 SOURCE_PATH='pictographic-primitives/construction/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Round mining helmet with a raised tapering central ridge and broad shallow curved brim.'
 CONSTRUCTION_REFERENCE='hard-hat original and atomic-debug: raised ridge separated from dome shoulders.'
 OMISSIONS='No defining features omitted.'

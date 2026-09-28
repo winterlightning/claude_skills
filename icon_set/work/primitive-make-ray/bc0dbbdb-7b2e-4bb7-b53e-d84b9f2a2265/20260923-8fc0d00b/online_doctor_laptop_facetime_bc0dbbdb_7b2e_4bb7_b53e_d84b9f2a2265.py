@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bc0dbbdb-7b2e-4bb7-b53e-d84b9f2a2265'
 SOURCE_PATH = 'icon_set/work/todo-references/online doctor laptop facetime_bc0dbbdb-7b2e-4bb7-b53e-d84b9f2a2265.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Remote doctor bust above a laptop at lower left, with medical cross at right. Detached head/body gap is 8 centerline units, 4 visible units.
 # Keyshape visible extremes are supplied by Keyshape.SQUARE.bounds_for(SOLO48).
 # Lucide construction reference: laptop.

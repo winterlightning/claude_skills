@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'eb88680c-5ee9-4d55-be29-e2b4ccc7cdf1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kitchen-blender-with-round-front-control/20260924T100528Z-thuan-mac/reference/vitamix_eb88680c-5ee9-4d55-be29-e2b4ccc7cdf1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'blender'
 DESIGN_PLAN = 'Tapered jug, open curved handle and broad motor housing with an outlined round control. VRECT_L centerlines (8,4)-(40,44). Restore the circular control; one shared divider avoids double painting. Omit tiny feet and lid thickness.'
 class Drawing(Solo48):

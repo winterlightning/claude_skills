@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4bd2f046-d00e-4c3d-99dd-153eae347474'
 SOURCE_PATH='icon_set/work/todo-references/seo search eye_4bd2f046-d00e-4c3d-99dd-153eae347474.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Magnifying glass containing a complete eye lens and circular iris. Preserve all three nested outlines and handle.'
 CONSTRUCTION_REFERENCES='Lucide search: round magnifier; previously inspected Lucide eye: symmetric lens and circular iris.'
 OMISSIONS='None.'

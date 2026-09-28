@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2e0fbeaa-154e-4e0a-860a-5b0e0542cf5f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__state-question/20260924T172356Z-thuan-mac/reference/state question_2e0fbeaa-154e-4e0a-860a-5b0e0542cf5f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='state-question'

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '58573359-f61e-52a8-b710-7818357fd8e0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__airport-signal-antenna/20260926T064521Z-thuan-mac/reference/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class AirportSignalAntenna(Solo48):

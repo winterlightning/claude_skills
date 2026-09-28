@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='793e902f-88a8-4473-bf76-f80306c7a173'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/snake_793e902f-88a8-4473-bf76-f80306c7a173.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Outlined snake with widened neck and tail, exact SQUARE6,6–42,42 curve extrema. Retains raised head and lower curl. Deliberate source asymmetry.'
 class Drawing(Solo48):
     icon_id='upright-snake-with-curled-lower-body'

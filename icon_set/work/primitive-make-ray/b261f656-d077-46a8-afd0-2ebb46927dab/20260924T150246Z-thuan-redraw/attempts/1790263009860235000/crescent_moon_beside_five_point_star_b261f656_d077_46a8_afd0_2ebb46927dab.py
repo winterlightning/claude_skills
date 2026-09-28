@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b261f656-d077-46a8-afd0-2ebb46927dab'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__crescent-moon-beside-five-point-star/20260924T150246Z-thuan-mac/reference/star and crescent_b261f656-d077-46a8-afd0-2ebb46927dab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='crescent-moon-beside-five-point-star'

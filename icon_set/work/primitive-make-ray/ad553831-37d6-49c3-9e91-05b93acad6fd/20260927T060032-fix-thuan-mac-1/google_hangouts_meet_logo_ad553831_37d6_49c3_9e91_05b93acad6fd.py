@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ad553831-37d6-49c3-9e91-05b93acad6fd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-hangouts-meet-logo/20260927T055624Z-thuan-mac-1/reference/google hangouts meet logo_ad553831-37d6-49c3-9e91-05b93acad6fd.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

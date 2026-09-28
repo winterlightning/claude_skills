@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='dd1e6365-7d94-41e2-84d6-66c8ad75ede1'
 SOURCE_PATH='icon_set/work/todo-references/rectangle sub text_dd1e6365-7d94-41e2-84d6-66c8ad75ede1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded panel containing the full uppercase text SUB. Each glyph is authored as a coherent stroke or connected bowls.'
 CONSTRUCTION_REFERENCES='Lucide rectangle-ellipsis: outer panel; letters hand-authored from supplied source.'
 OMISSIONS='None; all three letters retained.'

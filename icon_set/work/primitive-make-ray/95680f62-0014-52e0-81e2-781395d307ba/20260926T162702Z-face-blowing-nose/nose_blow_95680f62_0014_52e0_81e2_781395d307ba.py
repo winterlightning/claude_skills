@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '95680f62-0014-52e0-81e2-781395d307ba'
 SOURCE_PATH = 'pictographic-primitives/smileys/nose blow_95680f62-0014-52e0-81e2-781395d307ba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class FaceBlowingNose(Solo48):

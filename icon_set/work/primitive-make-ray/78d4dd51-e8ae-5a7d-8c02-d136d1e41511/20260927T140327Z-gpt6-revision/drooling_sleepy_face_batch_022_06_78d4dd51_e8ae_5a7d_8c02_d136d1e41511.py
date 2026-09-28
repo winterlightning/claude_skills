@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '78d4dd51-e8ae-5a7d-8c02-d136d1e41511'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__drooling-sleepy-face-batch-022-06/20260927T135945Z-thuan-mac-1/reference/mouth drop_78d4dd51-e8ae-5a7d-8c02-d136d1e41511.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Keyshape design bounds: visible (2, 2, 46, 46); centerline (4, 4, 44, 44).
 SAVED_SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/mouth drop_78d4dd51-e8ae-5a7d-8c02-d136d1e41511.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-022/06-drooling-sleepy-face-emoji--78d4dd51-e8ae-5a7d-8c02-d136d1e41511.md'

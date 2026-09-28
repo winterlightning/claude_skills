@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9054ec3e-f004-5184-ac44-b9bbd5e2b1a7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shushing-face/20260927T091435Z-thuan-mac-1/reference/shushing face quiet silent_9054ec3e-f004-5184-ac44-b9bbd5e2b1a7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ShushingFace(Solo48):

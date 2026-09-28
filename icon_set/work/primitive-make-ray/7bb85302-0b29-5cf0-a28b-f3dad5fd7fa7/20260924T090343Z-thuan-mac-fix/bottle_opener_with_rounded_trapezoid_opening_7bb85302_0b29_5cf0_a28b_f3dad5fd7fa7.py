@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7bb85302-0b29-5cf0-a28b-f3dad5fd7fa7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bottle-opener-with-rounded-trapezoid-opening/20260924T090148Z-thuan-mac/reference/beer opener_7bb85302-0b29-5cf0-a28b-f3dad5fd7fa7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bottle-opener-with-rounded-trapezoid-opening'

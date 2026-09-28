@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f01deac7-5a3c-444d-afd1-140101459b43'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__food-truck-overhead-bunting/20260927T075459Z-thuan-mac-1/reference/food truck_f01deac7-5a3c-444d-afd1-140101459b43.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Batch25Icon(Solo48):

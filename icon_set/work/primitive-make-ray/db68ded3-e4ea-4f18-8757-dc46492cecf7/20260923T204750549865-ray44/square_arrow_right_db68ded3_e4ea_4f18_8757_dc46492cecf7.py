@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'db68ded3-e4ea-4f18-8757-dc46492cecf7'
 SOURCE_PATH = 'icon_set/work/todo-references/square arrow right_db68ded3-e4ea-4f18-8757-dc46492cecf7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Rightward arrow in a rounded square.
 # References: square-arrow-right: consistent rounded frame and joined arrow shaft/head.
 # Reduction: No defining parts omitted.

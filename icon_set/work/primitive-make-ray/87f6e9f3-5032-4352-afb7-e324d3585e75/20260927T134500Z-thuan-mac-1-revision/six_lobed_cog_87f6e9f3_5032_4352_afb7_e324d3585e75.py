@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '87f6e9f3-5032-4352-afb7-e324d3585e75'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__six-lobed-cog-87f6e9f3-5032-4352-afb7-e324d3585e75/20260927T133815Z-thuan-mac-1/reference/cog_87f6e9f3-5032-4352-afb7-e324d3585e75.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'six-lobed-cog-87f6e9f3-5032-4352-afb7-e324d3585e75'

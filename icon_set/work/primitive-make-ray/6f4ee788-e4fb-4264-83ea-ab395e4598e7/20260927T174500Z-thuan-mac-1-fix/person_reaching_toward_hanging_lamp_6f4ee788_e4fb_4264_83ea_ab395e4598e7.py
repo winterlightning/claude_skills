@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6f4ee788-e4fb-4264-83ea-ab395e4598e7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-reaching-toward-hanging-lamp/20260927T174057Z-thuan-mac-1/reference/home improvement 9_6f4ee788-e4fb-4264-83ea-ab395e4598e7.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class PersonReachingTowardHangingLamp(Solo48):
     icon_id = 'person-reaching-toward-hanging-lamp'

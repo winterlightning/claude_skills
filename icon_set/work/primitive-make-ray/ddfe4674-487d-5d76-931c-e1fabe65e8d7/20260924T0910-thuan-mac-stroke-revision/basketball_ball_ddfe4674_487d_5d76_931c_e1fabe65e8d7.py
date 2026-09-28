@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ddfe4674-487d-5d76-931c-e1fabe65e8d7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__basketball-ball/20260924T090615Z-thuan-mac/reference/basketball ball_ddfe4674-487d-5d76-931c-e1fabe65e8d7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'basketball-ball'
     keyshape = Keyshape.CIRCLE

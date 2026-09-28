@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bfe29c74-cefc-4213-a209-87416455983b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__single-diagonal-feather/20260924T160711Z-thuan-mac/reference/plume_bfe29c74-cefc-4213-a209-87416455983b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='single-diagonal-feather'

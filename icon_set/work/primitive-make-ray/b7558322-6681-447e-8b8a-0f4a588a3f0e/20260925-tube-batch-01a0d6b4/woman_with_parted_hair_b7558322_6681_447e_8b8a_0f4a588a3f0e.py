@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='b7558322-6681-447e-8b8a-0f4a588a3f0e'
 SOURCE_PATH='pictographic-primitives/images/woman_b7558322-6681-447e-8b8a-0f4a588a3f0e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Parted fringe above a circular lower face, flared hair ends and broad detached shoulders; restore the identifying hair missing from the current drawing.'
 CONSTRUCTION_REFERENCES='human_ref/user.svg: circular jaw and broad shoulders; Lucide user-round: cardinal arc construction. Source owns the parted fringe.'
 OMISSIONS=[]

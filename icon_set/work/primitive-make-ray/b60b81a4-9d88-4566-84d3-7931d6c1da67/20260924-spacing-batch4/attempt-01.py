@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b60b81a4-9d88-4566-84d3-7931d6c1da67'
 SOURCE_PATH='pictographic-primitives/_uncategorized_33/sass circle logo_b60b81a4-9d88-4566-84d3-7931d6c1da67.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular Sass badge with calligraphic S; raise lower loop and simplify terminal curl while retaining both loops.'
 CONSTRUCTION_REFERENCE='No useful Lucide logo match; supplied Sass silhouette owns script'
 class Drawing(Solo48):

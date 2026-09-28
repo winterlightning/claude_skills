@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b0d17f74-4c9a-4f28-9e4f-254a27312c2d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__inscribed-stone-tablet/20260927T081503Z-thuan-mac-1/reference/resetta stone_b0d17f74-4c9a-4f28-9e4f-254a27312c2d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class InscribedStoneTablet(Solo48):
     icon_id = 'inscribed-stone-tablet'

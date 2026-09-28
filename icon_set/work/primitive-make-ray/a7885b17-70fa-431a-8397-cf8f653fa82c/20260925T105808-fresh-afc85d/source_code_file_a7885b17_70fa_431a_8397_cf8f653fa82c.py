@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a7885b17-70fa-431a-8397-cf8f653fa82c'
 SOURCE_PATH='pictographic-primitives/other/file code left_a7885b17-70fa-431a-8397-cf8f653fa82c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Bracket tips lie at x15 and x33, with endpoints at x20 and x28. Matching angles are wider and clearer than the old narrow glyphs.'
 CONSTRUCTION_REFERENCE='file-code original and atomic-debug: opposing chevrons and continuous paper contour.'
 OMISSIONS='No defining features omitted. Document proportions broadened.'

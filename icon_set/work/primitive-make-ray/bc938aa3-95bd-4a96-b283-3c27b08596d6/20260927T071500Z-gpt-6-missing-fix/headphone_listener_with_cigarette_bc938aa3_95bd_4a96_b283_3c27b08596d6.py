@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bc938aa3-95bd-4a96-b283-3c27b08596d6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__headphone-listener-with-cigarette/20260927T061835Z-thuan-mac-1/reference/music genre smoke_bc938aa3-95bd-4a96-b283-3c27b08596d6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'headphone-listener-with-cigarette'

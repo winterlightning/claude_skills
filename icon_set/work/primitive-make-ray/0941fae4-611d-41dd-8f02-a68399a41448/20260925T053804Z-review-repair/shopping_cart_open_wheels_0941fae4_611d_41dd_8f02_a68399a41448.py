@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0941fae4-611d-41dd-8f02-a68399a41448'
 SOURCE_PATH = 'pictographic-primitives/shopping/cart_0941fae4-611d-41dd-8f02-a68399a41448.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'shopping-cart-open-wheels'
     keyshape = Keyshape.HRECT_L

@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4a5d4a34-afe6-4020-b1fa-c429eb47cc78'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/spellbook_4a5d4a34-afe6-4020-b1fa-c429eb47cc78.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Open spellbook with a star on its left page and a lower cover edge.
 # References: book-open: mirrored page contours with a central gutter.
 # Reduction: No defining parts omitted.

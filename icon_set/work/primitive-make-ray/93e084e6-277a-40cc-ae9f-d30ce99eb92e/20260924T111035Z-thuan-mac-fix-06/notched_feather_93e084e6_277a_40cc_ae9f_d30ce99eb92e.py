@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '93e084e6-277a-40cc-ae9f-d30ce99eb92e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__notched-feather/20260924T111035Z-thuan-mac/reference/feather_93e084e6-277a-40cc-ae9f-d30ce99eb92e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'notched-feather'
     keyshape = Keyshape.SQUARE

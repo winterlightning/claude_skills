@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='449c7cfd-5f9c-48e0-b0b3-0622be2b53fa'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__open-robotic-hand/20260924T162030Z-thuan-mac/reference/robot hand_449c7cfd-5f9c-48e0-b0b3-0622be2b53fa.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='open-robotic-hand'

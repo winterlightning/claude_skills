@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '59f997a9-32d8-436a-ae34-06535681b16e'
 SOURCE_PATH = 'icon_set/work/todo-references/shipment approve smartphone_59f997a9-32d8-436a-ae34-06535681b16e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Parcel cube behind a smartphone with an approval tick and bottom home mark.
 # Construction references: package: three visible faces with a shared center seam; rounded phone contour.
 # Reduction: Omitted box seam hidden behind phone; retained tick and home mark.

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='219024ce-9973-4736-8ba2-b73e81755a00'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hand-pinching-acupuncture-needle/20260924T162241Z-thuan-mac/reference/acupuncture hand_219024ce-9973-4736-8ba2-b73e81755a00.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='hand-pinching-acupuncture-needle'
     keyshape=Keyshape.SQUARE

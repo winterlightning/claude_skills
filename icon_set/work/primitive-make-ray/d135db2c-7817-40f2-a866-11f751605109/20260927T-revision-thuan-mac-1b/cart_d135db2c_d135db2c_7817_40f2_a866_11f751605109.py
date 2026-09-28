@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd135db2c-7817-40f2-a866-11f751605109'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cart-d135db2c/20260927T145855Z-thuan-mac-1/reference/cart_d135db2c-7817-40f2-a866-11f751605109.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CartD135db2c(Solo48):
     icon_id = 'cart-d135db2c'

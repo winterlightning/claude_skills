@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d91aa870-d162-59ac-ae8f-ebb2fbe18fc5'
 SOURCE_PATH='icon_set/work/todo-references/love heart keyhole_d91aa870-d162-59ac-ae8f-ebb2fbe18fc5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='love-heart-keyhole'
     keyshape=Keyshape.SQUARE

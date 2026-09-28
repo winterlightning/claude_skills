@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ca6a591c-ff28-52f1-afee-3a6b95328acd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crocodile-in-water/20260926T182517Z-thuan-mac-1/reference/reptile crocodile water_ca6a591c-ff28-52f1-afee-3a6b95328acd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CrocodileInWater(Solo48):
     icon_id = 'crocodile-in-water'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9b6fab8e-708f-4b35-8546-5e50516ba8c5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-cleaning-squeegee/20260927T145855Z-thuan-mac-1/reference/window washer and wiper_9b6fab8e-708f-4b35-8546-5e50516ba8c5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonCleaningSqueegee(Solo48):

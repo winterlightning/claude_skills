@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6765de1f-1adc-4a6a-bbb4-c497deffd007'
 SOURCE_PATH='pictographic-primitives/other/ui webpage social profile_6765de1f-1adc-4a6a-bbb4-c497deffd007.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Head center (20,22), radius 2; shoulders top y32. Exact detached head-to-shoulder gap: 32-(22+2)-4=4. Rounded portrait shoulders remain separate from page bottom.'
 CONSTRUCTION_REFERENCE='human_ref/user.svg for circular head and shoulder proportions; panels-top-left original and atomic-debug for chrome.'
 OMISSIONS='Header dashes omitted; source text lines reduced to short dashes; small head uses the existing complete-circle exception.'

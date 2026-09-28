@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd9eb1be5-4fde-486e-a74d-a5906997b2f2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__small-fish-facing-left/20260927T172707Z-thuan-mac-1/reference/anchovy_d9eb1be5-4fde-486e-a74d-a5906997b2f2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'small-fish-facing-left'

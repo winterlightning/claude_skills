@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '11f12d81-7f9c-589f-99c1-4d862f93acd8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stacking-ring-toy/20260927T094403Z-thuan-mac-1/reference/toy_11f12d81-7f9c-589f-99c1-4d862f93acd8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StackingRingToy(Solo48):
     icon_id = 'stacking-ring-toy'

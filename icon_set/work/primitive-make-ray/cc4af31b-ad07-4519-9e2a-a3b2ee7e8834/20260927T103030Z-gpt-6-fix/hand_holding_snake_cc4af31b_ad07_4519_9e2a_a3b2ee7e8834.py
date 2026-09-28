@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cc4af31b-ad07-4519-9e2a-a3b2ee7e8834'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-holding-snake/20260927T101626Z-thuan-mac-1/reference/herping_cc4af31b-ad07-4519-9e2a-a3b2ee7e8834.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandHoldingSnake(Solo48):
     icon_id = 'hand-holding-snake'

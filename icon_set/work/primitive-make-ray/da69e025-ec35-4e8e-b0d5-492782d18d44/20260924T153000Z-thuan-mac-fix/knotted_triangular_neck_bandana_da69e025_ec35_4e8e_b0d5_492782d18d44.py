@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'da69e025-ec35-4e8e-b0d5-492782d18d44'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__knotted-triangular-neck-bandana/20260924T152540Z-thuan-mac/reference/bandana_da69e025-ec35-4e8e-b0d5-492782d18d44.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'knotted-triangular-neck-bandana'
     keyshape = Keyshape.SQUARE

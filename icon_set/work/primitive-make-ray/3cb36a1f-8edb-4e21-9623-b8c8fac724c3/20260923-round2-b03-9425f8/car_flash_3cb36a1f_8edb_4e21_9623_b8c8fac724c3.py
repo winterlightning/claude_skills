@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3cb36a1f-8edb-4e21-9623-b8c8fac724c3'
 SOURCE_PATH = 'icon_set/work/todo-references/car flash_3cb36a1f-8edb-4e21-9623-b8c8fac724c3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Mirrored car body and lightning zigzag; leave real clearance at the roof and base.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/3cb36a1f-8edb-4e21-9623-b8c8fac724c3/20260923-batch07-0c05b2/result.json'

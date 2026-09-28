@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5eccea6a-8969-5c4b-a202-3accdc0f67c2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-eyedropper-beside-liquid-drop/20260924T093003Z-thuan-mac/reference/color drop pick_5eccea6a-8969-5c4b-a202-3accdc0f67c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-eyedropper-beside-liquid-drop'
     keyshape = Keyshape.SQUARE

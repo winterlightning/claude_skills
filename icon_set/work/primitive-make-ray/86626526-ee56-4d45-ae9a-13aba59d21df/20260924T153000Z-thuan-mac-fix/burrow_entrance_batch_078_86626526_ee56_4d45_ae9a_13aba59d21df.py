@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '86626526-ee56-4d45-ae9a-13aba59d21df'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__burrow-entrance-batch-078/20260924T152540Z-thuan-mac/reference/warren_86626526-ee56-4d45-ae9a-13aba59d21df.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'burrow-entrance-batch-078'
     keyshape = Keyshape.HRECT_M

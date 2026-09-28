@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6dfa119a-7ff9-4daf-b2d5-bc196f42deb1'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__pickup-beneath-three-pines/20260924T163721Z-thuan-mac/reference/car truck woods_6dfa119a-7ff9-4daf-b2d5-bc196f42deb1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='pickup-beneath-three-pines'

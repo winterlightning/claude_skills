@@ -15,7 +15,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = "da9767df-57b1-5252-b669-e19d80294903"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__user-nurse-hair-2-avatar/20260926T181756Z-thuan-mac-1/reference/user-nurse-hair-2-avatar_da9767df-57b1-5252-b669-e19d80294903.svg"
 SOURCE_HEAD_ICON_ID = 'user-nurse-hair-2'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 32
 class UserNurseHair2Avatar(Solo48):
     icon_id = 'user-nurse-hair-2-avatar'

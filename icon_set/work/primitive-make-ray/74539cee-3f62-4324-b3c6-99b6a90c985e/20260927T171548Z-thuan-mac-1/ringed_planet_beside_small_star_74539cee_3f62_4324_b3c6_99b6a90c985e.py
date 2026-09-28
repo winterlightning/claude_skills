@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '74539cee-3f62-4324-b3c6-99b6a90c985e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ringed-planet-beside-small-star/20260927T171300Z-thuan-mac-1/reference/mars_74539cee-3f62-4324-b3c6-99b6a90c985e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'ringed-planet-beside-small-star'

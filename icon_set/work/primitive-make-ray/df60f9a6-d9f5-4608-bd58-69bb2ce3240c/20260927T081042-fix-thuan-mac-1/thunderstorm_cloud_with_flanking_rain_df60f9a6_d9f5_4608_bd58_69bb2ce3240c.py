@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'df60f9a6-d9f5-4608-bd58-69bb2ce3240c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__thunderstorm-cloud-with-flanking-rain/20260927T080808Z-thuan-mac-1/reference/weather cloud thunder rain_df60f9a6-d9f5-4608-bd58-69bb2ce3240c.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

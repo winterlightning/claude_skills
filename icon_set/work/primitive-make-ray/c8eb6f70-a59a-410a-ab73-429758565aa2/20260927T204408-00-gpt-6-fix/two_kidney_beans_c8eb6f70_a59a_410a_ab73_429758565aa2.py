@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c8eb6f70-a59a-410a-ab73-429758565aa2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-kidney-beans/20260927T133645Z-thuan-mac-1/reference/kidney bean_c8eb6f70-a59a-410a-ab73-429758565aa2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class TwoKidneyBeans(Solo48):
     icon_id = 'two-kidney-beans'

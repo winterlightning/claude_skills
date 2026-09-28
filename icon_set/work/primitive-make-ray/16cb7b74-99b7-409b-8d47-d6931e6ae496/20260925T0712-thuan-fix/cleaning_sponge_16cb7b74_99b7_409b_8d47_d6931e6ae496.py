@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '16cb7b74-99b7-409b-8d47-d6931e6ae496'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cleaning-sponge/20260925T070532Z-thuan-mac/reference/sponge_16cb7b74-99b7-409b-8d47-d6931e6ae496.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Retain two open, unequal circular pores instead of a solid dot. Approximately 3.1px outer ink clearance remains clear in native light and dark themes.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'b115025c77cf753842a908f9b8712987d97323fee9318f9b60699c8975c2bbfc'}

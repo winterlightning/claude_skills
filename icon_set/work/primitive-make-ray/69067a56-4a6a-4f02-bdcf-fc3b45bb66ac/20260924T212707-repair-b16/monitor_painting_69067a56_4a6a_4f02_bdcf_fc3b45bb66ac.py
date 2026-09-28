@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='69067a56-4a6a-4f02-bdcf-fc3b45bb66ac'
 SOURCE_PATH='pictographic-primitives/other/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Wider screen; Lucide palette kidney curve and monitor vocabulary. Omit pigment dots and horizontal foot bar. Brush bristle outline reduced to a round head with a joined handle.'
 class Drawing(Solo48):
     icon_id='monitor-painting'

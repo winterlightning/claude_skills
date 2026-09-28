@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b2b68499-c753-44d3-a700-fb019d713669'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__spring-roll-stack/20260927T093533Z-thuan-mac-1/reference/exotic food rolls_b2b68499-c753-44d3-a700-fb019d713669.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'spring-roll-stack'

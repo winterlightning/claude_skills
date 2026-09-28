@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ca2e907d-e297-46ef-946a-c08a49756d52'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stacked-hands/20260926T163748Z-thuan-mac/reference/workflow teamwork hand gather_ca2e907d-e297-46ef-946a-c08a49756d52.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stacked-hands'

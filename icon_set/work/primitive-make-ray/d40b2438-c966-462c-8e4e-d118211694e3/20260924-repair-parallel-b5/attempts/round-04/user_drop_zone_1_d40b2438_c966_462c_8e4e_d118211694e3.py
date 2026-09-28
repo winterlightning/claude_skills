@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'd40b2438-c966-462c-8e4e-d118211694e3'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'user-drop-zone-1'
     keyshape = Keyshape.HRECT_L

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c302c027-d345-469d-98e7-0e924b296946'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__binoculars/20260924T142441Z-thuan-mac/reference/binoculars_c302c027-d345-469d-98e7-0e924b296946.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='binoculars'

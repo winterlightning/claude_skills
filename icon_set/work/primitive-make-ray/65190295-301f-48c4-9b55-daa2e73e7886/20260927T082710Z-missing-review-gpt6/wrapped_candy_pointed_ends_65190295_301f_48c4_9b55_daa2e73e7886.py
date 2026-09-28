@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '65190295-301f-48c4-9b55-daa2e73e7886'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__wrapped-candy-pointed-ends/20260927T082307Z-thuan-mac-1/reference/candy_65190295-301f-48c4-9b55-daa2e73e7886.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class WrappedCandyPointedEnds(Solo48):
     icon_id = 'wrapped-candy-pointed-ends'

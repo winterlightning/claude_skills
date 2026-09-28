@@ -11,7 +11,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '022ed6ca-1bba-4414-9cf4-8d828d81df26'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__overlapping-clapping-hands/20260927T074149Z-thuan-mac-1/reference/reward claps hand_022ed6ca-1bba-4414-9cf4-8d828d81df26.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ClappingHands(Solo48):
     icon_id = 'overlapping-clapping-hands'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1bafc453-5bc6-415b-bdab-800770f2d87b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__classical-statue-bust/20260924T092136Z-thuan-mac/reference/greek statue_1bafc453-5bc6-415b-bdab-800770f2d87b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'classical-statue-bust'
     keyshape = Keyshape.VRECT_L

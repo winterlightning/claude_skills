@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'fdb61354-d224-4d50-a10a-6f7b6bebc996'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__moustached-spy-in-notched-hat/20260927T070927Z-thuan-mac-1/reference/police man spy 1_fdb61354-d224-4d50-a10a-6f7b6bebc996.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'moustached-spy-in-notched-hat'

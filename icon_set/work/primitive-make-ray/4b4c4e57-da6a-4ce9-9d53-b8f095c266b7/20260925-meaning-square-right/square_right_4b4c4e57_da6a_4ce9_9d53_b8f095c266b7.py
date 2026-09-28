@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4b4c4e57-da6a-4ce9-9d53-b8f095c266b7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-right/20260925T034659Z-thuan-mac/reference/square right_4b4c4e57-da6a-4ce9-9d53-b8f095c266b7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Right-pointing arrow inside a true square, replacing tag-like frame.
 # Construction reference: Lucide square-arrow-right rounded enclosure and joined arrow construction.
 # Envelope: SQUARE; bounds are defined by its outer contour/extreme tips.

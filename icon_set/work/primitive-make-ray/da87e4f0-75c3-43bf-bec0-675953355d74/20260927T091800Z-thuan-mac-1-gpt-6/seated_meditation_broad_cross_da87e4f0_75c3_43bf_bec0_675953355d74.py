@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'da87e4f0-75c3-43bf-bec0-675953355d74'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-meditation-broad-cross/20260927T091411Z-thuan-mac-1/reference/yoga meditation pose_da87e4f0-75c3-43bf-bec0-675953355d74.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedMeditationBroadCross(Solo48):
     icon_id = 'seated-meditation-broad-cross'

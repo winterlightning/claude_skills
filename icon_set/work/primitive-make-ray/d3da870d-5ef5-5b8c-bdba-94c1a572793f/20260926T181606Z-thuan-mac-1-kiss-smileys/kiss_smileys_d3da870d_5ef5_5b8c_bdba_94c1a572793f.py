@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd3da870d-5ef5-5b8c-bdba-94c1a572793f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kiss-smileys/20260926T175531Z-thuan-mac-1/reference/kiss_d3da870d-5ef5-5b8c-bdba-94c1a572793f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KissSmileys(Solo48):
     icon_id = 'kiss-smileys'

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1a45a2c2-48bb-46eb-8254-41a46db5b27d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chicken-biryani-rice-bowl-batch-010-14/20260927T150749Z-thuan-mac-1/reference/chicken biryani muslim yellow rice with chicken_1a45a2c2-48bb-46eb-8254-41a46db5b27d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GeneratedSolo(Solo48):

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9a82529d-511b-4d79-a95b-f2a9eb05812c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lawn-tractor/20260927T164305Z-thuan-mac-1/reference/lawn tractor_9a82529d-511b-4d79-a95b-f2a9eb05812c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class LawnTractor(Solo48):
     icon_id = 'lawn-tractor'

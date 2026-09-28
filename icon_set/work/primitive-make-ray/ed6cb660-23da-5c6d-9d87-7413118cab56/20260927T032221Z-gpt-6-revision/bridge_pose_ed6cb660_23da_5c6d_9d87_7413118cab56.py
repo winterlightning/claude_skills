@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ed6cb660-23da-5c6d-9d87-7413118cab56'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bridge-pose/20260927T032022Z-thuan-mac-1/reference/yoga bridge pose_ed6cb660-23da-5c6d-9d87-7413118cab56.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BridgePose(Solo48):
     icon_id = 'bridge-pose'

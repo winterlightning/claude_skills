@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bae3cd4c-6954-5fed-9b94-9b4a7fbb195a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__knee-joint-bae3cd4c/20260924T100528Z-thuan-mac/reference/specialty knee_bae3cd4c-6954-5fed-9b94-9b4a7fbb195a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'bone; human_ref/user.svg and full_body_ref.png'
 DESIGN_PLAN = 'Two open bone shafts with smooth uneven articular lobes and a clear joint space. VRECT_M centerlines (10,4)-(38,44). Preserve anatomical asymmetry; no detached head or body is present, so the human head gap does not apply. No omissions.'
 class Drawing(Solo48):

@@ -20,7 +20,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '14a80802-3bb5-4ed7-8896-0c8f64e4e53d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__eagle-profile-with-hooked-beak/20260926T125429Z-thuan-mac/reference/eagle_14a80802-3bb5-4ed7-8896-0c8f64e4e53d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 BASE_L = (6, 42)
 NAPE = (12, 24)        # where the wing leaves the back

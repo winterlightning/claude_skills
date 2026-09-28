@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c4f5ba1f-68f6-4541-ad2f-2718ffc31448'
 SOURCE_PATH = 'icon_set/work/todo-references/food allegic vegan meal 2_c4f5ba1f-68f6-4541-ad2f-2718ffc31448.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'food-allegic-vegan-meal-2'

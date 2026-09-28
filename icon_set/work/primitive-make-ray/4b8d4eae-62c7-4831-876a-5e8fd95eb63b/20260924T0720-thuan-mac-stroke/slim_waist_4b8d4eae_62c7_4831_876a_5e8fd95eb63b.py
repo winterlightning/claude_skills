@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4b8d4eae-62c7-4831-876a-5e8fd95eb63b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__slim-waist/20260924T071425Z-thuan-mac/reference/slim waist_4b8d4eae-62c7-4831-876a-5e8fd95eb63b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'slim-waist'

@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '24fd53e6-156c-4466-9207-a789aa1d1627'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-catalog-with-dollar-sign-solo-b002-10/20260927T133654Z-thuan-mac-1/reference/workflow coaching product catalog_24fd53e6-156c-4466-9207-a789aa1d1627.svg'
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-002/references/workflow coaching product catalog_24fd53e6-156c-4466-9207-a789aa1d1627.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REQUIRED_TYPEFACE_GLYPH = 'symbol-dollar'
 TYPEFACE_SOURCE = 'icon_set/typeface/glyphs.json'
 INCOMPLETE_REASON = 'Existing dollar glyph uses fractional cubic coordinates and spans 46 units vertically; legal placement in the narrow catalog page is unresolved without altering glyph geometry or violating SOLO48 grid/clearance.'

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1ab060e9-c06b-4685-accc-1613efe7f365'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__factory-worker-holding-control/20260927T032256Z-thuan-mac-1/reference/factory manufacturing control_1ab060e9-c06b-4685-accc-1613efe7f365.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FactoryWorkerHoldingControl(Solo48):
     icon_id = 'factory-worker-holding-control'

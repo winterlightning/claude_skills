@@ -11,7 +11,7 @@ SOURCE_ICON_ID = 'a73e4821-31f4-57d4-a0bb-b281fc0c8840'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__amazon-appflow/20260926T064521Z-thuan-mac/reference/amazon appflow_a73e4821-31f4-57d4-a0bb-b281fc0c8840.svg'
 SOURCE_ICON_IDS = ('a73e4821-31f4-57d4-a0bb-b281fc0c8840',)
 SOURCE_PATHS = ('pictographic-primitives/apps/amazon appflow_a73e4821-31f4-57d4-a0bb-b281fc0c8840.svg',)
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class AmazonAppflow(Solo48):

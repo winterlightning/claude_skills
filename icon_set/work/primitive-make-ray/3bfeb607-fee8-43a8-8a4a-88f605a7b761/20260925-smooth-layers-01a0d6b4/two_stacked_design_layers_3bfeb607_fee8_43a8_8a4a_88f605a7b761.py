@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3bfeb607-fee8-43a8-8a4a-88f605a7b761'
 SOURCE_PATH='pictographic-primitives/design/fill adjustment layer_3bfeb607-fee8-43a8-8a4a-88f605a7b761.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN = 'Two diamond layers with broader tangent-continuous corner curves, mirrored around the center axis.'
 CONSTRUCTION_REFERENCES='Lucide layers: repeated rhombus proportions and open lower layer.'
 OMISSIONS = []

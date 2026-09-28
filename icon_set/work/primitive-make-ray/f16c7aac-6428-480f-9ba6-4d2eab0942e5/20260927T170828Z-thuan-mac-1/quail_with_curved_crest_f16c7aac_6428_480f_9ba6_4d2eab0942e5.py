@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'f16c7aac-6428-480f-9ba6-4d2eab0942e5'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__quail-with-curved-crest/20260927T170540Z-thuan-mac-1/reference/quail_f16c7aac-6428-480f-9ba6-4d2eab0942e5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'quail-with-curved-crest'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '861e17b0-a761-4ce1-aadb-ee4995755d3f'
 SOURCE_PATH = 'icon_set/work/todo-references/video game controller monitor_861e17b0-a761-4ce1-aadb-ee4995755d3f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-game-controller-monitor'
     keyshape = Keyshape.SQUARE

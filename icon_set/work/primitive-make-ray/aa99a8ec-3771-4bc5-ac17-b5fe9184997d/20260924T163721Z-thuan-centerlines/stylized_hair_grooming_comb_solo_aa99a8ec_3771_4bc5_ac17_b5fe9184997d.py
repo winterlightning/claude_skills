@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='aa99a8ec-3771-4bc5-ac17-b5fe9184997d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__stylized-hair-grooming-comb-solo/20260924T163721Z-thuan-mac/reference/comb_aa99a8ec-3771-4bc5-ac17-b5fe9184997d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='stylized-hair-grooming-comb-solo'

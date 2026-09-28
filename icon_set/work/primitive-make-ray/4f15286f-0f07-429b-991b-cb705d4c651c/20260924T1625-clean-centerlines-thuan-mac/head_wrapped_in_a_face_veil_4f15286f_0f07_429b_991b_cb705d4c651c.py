@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4f15286f-0f07-429b-991b-cb705d4c651c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-wrapped-in-a-face-veil/20260924T162025Z-thuan-mac/reference/avatar islamic women niqab 2_4f15286f-0f07-429b-991b-cb705d4c651c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'head-wrapped-in-a-face-veil'

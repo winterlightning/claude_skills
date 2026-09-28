@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='09607ac7-b37f-4b62-b326-fae1e3a476e7'
 SOURCE_PATH='icon_set/work/todo-references/square o_09607ac7-b37f-4b62-b326-fae1e3a476e7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing a centered circular O.'
 CONSTRUCTION_REFERENCES='Source circle: symmetric semicircular arcs.'
 OMISSIONS='None.'

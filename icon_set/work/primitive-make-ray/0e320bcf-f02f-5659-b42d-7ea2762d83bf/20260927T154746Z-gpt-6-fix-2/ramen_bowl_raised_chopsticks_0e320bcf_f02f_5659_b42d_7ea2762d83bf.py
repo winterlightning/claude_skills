@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0e320bcf-f02f-5659-b42d-7ea2762d83bf'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__ramen-bowl-raised-chopsticks/20260927T153833Z-thuan-mac-1/reference/asian food noodles_0e320bcf-f02f-5659-b42d-7ea2762d83bf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'ramen-bowl-raised-chopsticks'

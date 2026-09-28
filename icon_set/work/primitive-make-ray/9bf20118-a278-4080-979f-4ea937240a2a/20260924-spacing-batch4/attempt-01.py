@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9bf20118-a278-4080-979f-4ea937240a2a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_32/retouch landscape_9bf20118-a278-4080-979f-4ea937240a2a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Open picture boundary, sun and mountain, upper-right retouch wand and sparkle. Drop second mountain to open spacing.'
 CONSTRUCTION_REFERENCE='Lucide wand-sparkles diagonal wand; image frame'
 class Drawing(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f4812ef0-fce6-4380-9124-384916ee103d'
 SOURCE_PATH = 'icon_set/work/todo-references/crawdad_f4812ef0-fce6-4380-9124-384916ee103d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'crawdad'

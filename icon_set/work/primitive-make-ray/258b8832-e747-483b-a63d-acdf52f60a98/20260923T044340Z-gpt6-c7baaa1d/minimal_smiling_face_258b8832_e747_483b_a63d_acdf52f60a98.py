@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '258b8832-e747-483b-a63d-acdf52f60a98'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_16/emoji great_258b8832-e747-483b-a63d-acdf52f60a98.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MinimalSmilingFace(Solo48):
     icon_id = 'minimal-smiling-face'

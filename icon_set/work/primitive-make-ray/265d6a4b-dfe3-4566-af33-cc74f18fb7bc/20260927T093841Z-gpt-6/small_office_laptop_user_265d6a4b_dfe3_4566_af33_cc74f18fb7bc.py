@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '265d6a4b-dfe3-4566-af33-cc74f18fb7bc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__small-office-laptop-user/20260927T093511Z-thuan-mac-1/reference/small office laptop user_265d6a4b-dfe3-4566-af33-cc74f18fb7bc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SmallOfficeLaptopUser(Solo48):
     icon_id = 'small-office-laptop-user'

@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '8036406b-7914-54c1-be92-c2585863d8f4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-thief-avatar/20260926T182452Z-thuan-mac-1/reference/woman thief_8036406b-7914-54c1-be92-c2585863d8f4.svg'
 SOURCE_HEAD_ICON_ID = 'woman-thief'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 30
 class WomanThiefAvatar(Solo48):
     icon_id = 'woman-thief-avatar'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='0a6ea07b-96af-593d-a5c6-dbc342111877'
 SOURCE_PATH='pictographic-primitives/design/color palette sample_0a6ea07b-96af-593d-a5c6-dbc342111877.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Organic circular kidney palette with a thumb indentation and three paint wells.'
 CONSTRUCTION_REFERENCE='palette original and atomic-debug: circular outer contour and smooth inward thumb turn.'
 OMISSIONS='Outlined wells reduced to small circular paint dots.'

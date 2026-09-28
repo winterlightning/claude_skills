@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='e8bd0685-39d5-42cb-96ed-39a556fbf8e3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__syringe-wide-barrel/20260927T094403Z-thuan-mac-1/reference/syringe_e8bd0685-39d5-42cb-96ed-39a556fbf8e3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SyringeWideBarrel(Solo48):
     icon_id='syringe-wide-barrel'

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "f542e864-60e7-4015-8097-2c14a14c8f14"
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon emr_f542e864-60e7-4015-8097-2c14a14c8f14.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class AmazonEmr(Solo48):

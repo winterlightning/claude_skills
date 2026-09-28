@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='b5768591-30d0-458a-8f42-f8fa19890c4e'
 SOURCE_PATH='pictographic-primitives/content/book open_b5768591-30d0-458a-8f42-f8fa19890c4e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Outer contour reaches (6,6)-(42,42) on centerlines. Paired curves mirror about x24. All inside strokes are removed.'
 CONSTRUCTION_REFERENCE='book-open original and atomic-debug: paired page outlines; requested empty interior overrides the usual spine.'
 OMISSIONS='Spine and all page-layer/interior strokes removed per reviewer feedback.'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='24fe2386-b951-48d1-8a50-9d4e65f27e91'
 SOURCE_PATH='pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Squared A restores an open counter; D is restored to a taller bowl. The original undersized-hole/pinch finding is resolved. Header-to-A and bottom-to-letters clearance remains 2 ink units, below 4.'
 CONSTRUCTION_REFERENCE='panels-top-left original and atomic-debug: coherent rounded enclosure and joined header.'
 OMISSIONS='Header dashes omitted. A uses a rectangular cap instead of the source triangular apex.'

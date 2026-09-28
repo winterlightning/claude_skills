@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bf3695d0-7417-50cb-93e5-008403f18c82'
 SOURCE_PATH = 'icon_set/work/todo-references/bomb explode_bf3695d0-7417-50cb-93e5-008403f18c82.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bomb-explode'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '68c9a911-9c9b-57a2-b9c1-85dc1f98044d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-paintbrush-with-ferrule-band/20260925T085629Z-thuan-mac/reference/color brush_68c9a911-9c9b-57a2-b9c1-85dc1f98044d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'diagonal-paintbrush-with-ferrule-band'

@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4a8d494e-32cc-4073-96a3-0c1ca2d67952'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/astronomy telescope stars_4a8d494e-32cc-4073-96a3-0c1ca2d67952.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'astronomy-telescope-stars'

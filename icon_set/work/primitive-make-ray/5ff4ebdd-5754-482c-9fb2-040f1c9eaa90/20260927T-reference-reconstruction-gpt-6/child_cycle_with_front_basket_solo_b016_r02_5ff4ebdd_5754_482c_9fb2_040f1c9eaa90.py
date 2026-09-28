@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5ff4ebdd-5754-482c-9fb2-040f1c9eaa90'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__child-cycle-with-front-basket-solo-b016-r02/20260926T165410Z-thuan-mac/reference/tricycle_5ff4ebdd-5754-482c-9fb2-040f1c9eaa90.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'child-cycle-with-front-basket-solo-b016-r02'
     keyshape = Keyshape.SQUARE

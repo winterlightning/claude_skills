@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4b6ec7ff-fa5a-4489-9bab-e1e940ac236f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__file-shield/20260924T171046Z-thuan-mac/reference/file shield_4b6ec7ff-fa5a-4489-9bab-e1e940ac236f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='file-shield'

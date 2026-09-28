@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '270dd300-e8ad-4129-b17f-dbddcb024c7a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-above-three-circular-nodes/20260927T074149Z-thuan-mac-1/reference/human resources hierarchy_270dd300-e8ad-4129-b17f-dbddcb024c7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'person-above-three-circular-nodes'

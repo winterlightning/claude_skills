@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='1f180a84-a846-4671-b767-dbb6041f800a'
 SOURCE_PATH='pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded passport cover with a large centered globe. One straight longitude and equator retain geographic graticule with four larger openings.'
 CONSTRUCTION_REFERENCES='globe: circle plus cardinal graticule; rounded cover follows panel construction.'
 OMISSIONS=['Back-cover reveal omitted to enlarge globe.', 'Paired curved meridians replaced with one straight longitude.']

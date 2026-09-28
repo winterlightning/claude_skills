@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1a804c88-15f7-4476-b406-236f03484b85'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cao-dai/20260926T182452Z-thuan-mac-1/reference/cao dai_1a804c88-15f7-4476-b406-236f03484b85.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CaoDai(Solo48):
     icon_id = 'cao-dai'

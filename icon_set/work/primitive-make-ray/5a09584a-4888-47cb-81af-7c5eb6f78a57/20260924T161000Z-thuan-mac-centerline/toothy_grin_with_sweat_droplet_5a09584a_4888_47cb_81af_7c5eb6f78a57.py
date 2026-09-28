@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5a09584a-4888-47cb-81af-7c5eb6f78a57'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__toothy-grin-with-sweat-droplet/20260924T160711Z-thuan-mac/reference/face grin beam sweat_5a09584a-4888-47cb-81af-7c5eb6f78a57.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='toothy-grin-with-sweat-droplet'

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='db5d0816-6bfc-489d-95c5-5623b4efb1c5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__round-bottom-flask-solo/20260924T152553Z-thuan-mac/reference/beaker_db5d0816-6bfc-489d-95c5-5623b4efb1c5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='round-bottom-flask-solo'

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8dab56ea-1c91-48e4-9197-a2a2de0bb76d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__apple-with-upright-leaf/20260927T160834Z-thuan-mac-1/reference/codling_8dab56ea-1c91-48e4-9197-a2a2de0bb76d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'apple-with-upright-leaf'

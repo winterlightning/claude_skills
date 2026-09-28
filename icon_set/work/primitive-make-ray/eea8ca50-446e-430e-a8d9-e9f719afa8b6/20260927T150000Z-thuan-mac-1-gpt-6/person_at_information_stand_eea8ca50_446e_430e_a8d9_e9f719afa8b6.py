@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.solo._symmetry_curves import path as _path, ellipse, box as _box, contacts
 SOURCE_ICON_ID = 'eea8ca50-446e-430e-a8d9-e9f719afa8b6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-at-information-stand/20260927T145836Z-thuan-mac-1/reference/watcher_eea8ca50-446e-430e-a8d9-e9f719afa8b6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'person-at-information-stand'

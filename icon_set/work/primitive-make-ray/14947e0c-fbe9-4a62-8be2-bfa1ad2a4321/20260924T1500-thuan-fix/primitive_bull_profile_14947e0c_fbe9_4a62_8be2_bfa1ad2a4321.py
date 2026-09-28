@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='14947e0c-fbe9-4a62-8be2-bfa1ad2a4321'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__primitive-bull-profile/20260924T150007Z-thuan-mac/reference/primitive symbols bull_14947e0c-fbe9-4a62-8be2-bfa1ad2a4321.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='primitive-bull-profile'
     keyshape=Keyshape.HRECT_L

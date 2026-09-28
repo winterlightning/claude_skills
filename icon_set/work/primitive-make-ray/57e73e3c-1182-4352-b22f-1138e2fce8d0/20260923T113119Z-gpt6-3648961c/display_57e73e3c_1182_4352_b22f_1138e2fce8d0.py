@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '57e73e3c-1182-4352-b22f-1138e2fce8d0'
 SOURCE_PATH = 'icon_set/work/todo-references/display_57e73e3c-1182-4352-b22f-1138e2fce8d0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'display'

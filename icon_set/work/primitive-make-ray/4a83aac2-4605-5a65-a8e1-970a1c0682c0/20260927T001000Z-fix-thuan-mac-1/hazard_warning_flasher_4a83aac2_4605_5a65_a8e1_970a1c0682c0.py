@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4a83aac2-4605-5a65-a8e1-970a1c0682c0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hazard-warning-triangle/20260926T172218Z-thuan-mac-1/reference/hazard warning flasher_4a83aac2-4605-5a65-a8e1-970a1c0682c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HazardWarningTriangle(Solo48):
     icon_id = 'hazard-warning-triangle'

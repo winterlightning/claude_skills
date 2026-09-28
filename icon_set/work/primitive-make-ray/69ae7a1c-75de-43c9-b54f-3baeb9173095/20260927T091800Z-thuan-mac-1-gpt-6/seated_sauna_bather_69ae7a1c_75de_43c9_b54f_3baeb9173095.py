@@ -13,7 +13,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '69ae7a1c-75de-43c9-b54f-3baeb9173095'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-sauna-bather/20260927T091411Z-thuan-mac-1/reference/sauna heat person_69ae7a1c-75de-43c9-b54f-3baeb9173095.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedSaunaBather(Solo48):
     icon_id = 'seated-sauna-bather'

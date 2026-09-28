@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6240b6c0-fd4e-4024-ab33-07b7c402a8da'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__notched-lapel-suit-jacket/20260927T164916Z-thuan-mac-1/reference/blazer 1_6240b6c0-fd4e-4024-ab33-07b7c402a8da.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'notched-lapel-suit-jacket'

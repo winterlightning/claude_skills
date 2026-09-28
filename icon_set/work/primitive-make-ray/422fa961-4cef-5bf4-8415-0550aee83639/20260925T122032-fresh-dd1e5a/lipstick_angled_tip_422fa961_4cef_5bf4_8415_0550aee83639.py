@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='422fa961-4cef-5bf4-8415-0550aee83639'
 SOURCE_PATH='pictographic-primitives/beauty/make up lipstick_422fa961-4cef-5bf4-8415-0550aee83639.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Upright lipstick with a straight angled cut, narrow stepped collar and tall rounded case.'
 CONSTRUCTION_REFERENCE='No local Lucide lipstick match; supplied reference governs the angled tip and stepped case.'
 OMISSIONS='No defining features omitted.'

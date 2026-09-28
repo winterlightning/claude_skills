@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='86d364a5-4269-4e31-96c0-ecd253882fab'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__table-tennis-paddle-ball/20260924T162030Z-thuan-mac/reference/ping pong paddle_86d364a5-4269-4e31-96c0-ecd253882fab.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='table-tennis-paddle-ball'

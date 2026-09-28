@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1a5b7cc4-9e67-503a-9bf6-f1cf9ac354ce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__judge-with-gavel/20260927T101636Z-thuan-mac-1/reference/legal judge_1a5b7cc4-9e67-503a-9bf6-f1cf9ac354ce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class JudgeWithGavel(Solo48):
     icon_id = 'judge-with-gavel'

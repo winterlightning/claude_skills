@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4951d915-1048-4d07-8908-3f70b952de8a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__parcel-platform-cart/20260927T093511Z-thuan-mac-1/reference/warehouse cart package ribbon_4951d915-1048-4d07-8908-3f70b952de8a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ParcelPlatformCart(Solo48):

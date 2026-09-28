@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "42b12b6f-2553-44dd-a12a-6bb7230c3387"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__standing-beachgoer-beside-sun-and-waves/20260928T042745Z-thuan-mac-1/reference/beach activitiies_42b12b6f-2553-44dd-a12a-6bb7230c3387.svg"
-AUTHOR = "claude-fable-5-1"
+AUTHOR = "claude-opus-5-5"
 
 
 class StandingBeachgoerBesideSunAndWaves(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '89d827d8-1f4b-40fc-aad1-858c1f8fb087'
 SOURCE_PATH = 'icon_set/work/todo-references/kanda matsuri_89d827d8-1f4b-40fc-aad1-858c1f8fb087.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A Kanda Matsuri festival crest with three inward-facing rounded lobes and lower hanging strokes.'
 CONSTRUCTION_PLAN = 'Retain the crest arrangement and circular border; no useful direct Lucide subject match.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

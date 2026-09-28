@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0ac6eab3-edb2-4665-bd3e-457b68195821'
 SOURCE_PATH='icon_set/work/todo-references/square info_0ac6eab3-edb2-4665-bd3e-457b68195821.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square enclosing a lower-case information i.'
 CONSTRUCTION_REFERENCES='Lucide info: detached dot over vertical stem.'
 OMISSIONS='Hollow source dot and outlined stem reduced to a solid dot and single stroke.'

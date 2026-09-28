@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '314dcf43-c8b9-4ecf-b0ac-34ec596e757f'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/hammer_314dcf43-c8b9-4ecf-b0ac-34ec596e757f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-retained-after-visual-review'

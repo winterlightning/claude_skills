@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '30e56ade-c3d8-5998-a5e2-8711b05ffd45'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__deepfake-rotate/20260925T083122Z-thuan-mac/reference/deepfake rotate_30e56ade-c3d8-5998-a5e2-8711b05ffd45.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     exception = {'reason': 'Allow a 2-unit wider loop than VRECT_L so the rotation mark remains circular rather than an elongated oval. The 48px canvas and 4px stroke are retained; loop, arrow and inner sweep are clear at native size in both themes.', 'approved_by': 'user-delegated-to-gpt-6', 'approved_on': '2026-09-25', 'svg_sha256': 'df6ee87dcbfe64d898df1524504aef0a1e82f4e044e925693a5d5acd48c7e5e5'}

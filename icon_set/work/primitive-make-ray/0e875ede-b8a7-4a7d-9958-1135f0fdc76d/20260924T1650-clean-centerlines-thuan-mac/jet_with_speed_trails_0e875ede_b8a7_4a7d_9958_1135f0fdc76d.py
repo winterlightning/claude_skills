@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0e875ede-b8a7-4a7d-9958-1135f0fdc76d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__jet-with-speed-trails/20260924T164246Z-thuan-mac/reference/jet_0e875ede-b8a7-4a7d-9958-1135f0fdc76d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='jet-with-speed-trails'

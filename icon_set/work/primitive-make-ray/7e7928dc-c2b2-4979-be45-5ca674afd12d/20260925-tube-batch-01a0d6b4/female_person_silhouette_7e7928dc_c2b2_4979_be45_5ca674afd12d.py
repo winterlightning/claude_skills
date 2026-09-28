@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='7e7928dc-c2b2-4979-be45-5ca674afd12d'
 SOURCE_PATH='pictographic-primitives/other/full body women_7e7928dc-c2b2-4979-be45-5ca674afd12d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Circular detached head above rounded shoulders, sloped blouse sides and tapered lower section; remove the prior arrow-like shoulder corners.'
 CONSTRUCTION_REFERENCES='human_ref/user.svg and full_body_ref.png: circular head and simple coherent body; source owns the blouse and lower outline.'
 OMISSIONS=[]

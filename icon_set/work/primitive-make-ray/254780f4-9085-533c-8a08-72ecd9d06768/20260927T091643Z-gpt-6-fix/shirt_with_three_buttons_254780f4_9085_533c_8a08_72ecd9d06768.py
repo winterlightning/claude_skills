@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '254780f4-9085-533c-8a08-72ecd9d06768'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shirt-with-three-buttons/20260927T091435Z-thuan-mac-1/reference/clothes design button_254780f4-9085-533c-8a08-72ecd9d06768.svg'
 SOURCE_ICON_IDS = ('254780f4-9085-533c-8a08-72ecd9d06768',)
 SOURCE_PATHS = ('pictographic-primitives/clothes/clothes design button_254780f4-9085-533c-8a08-72ecd9d06768.svg',)
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class ShirtWithThreeButtons(Solo48):

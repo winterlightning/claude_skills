@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7eb37a5d-4cd8-4996-8500-94d9331cc88f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__fist-bump/20260927T075452Z-thuan-mac-1/reference/workflow teamwork fistbump_7eb37a5d-4cd8-4996-8500-94d9331cc88f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FistBump(Solo48):
     icon_id = 'fist-bump'

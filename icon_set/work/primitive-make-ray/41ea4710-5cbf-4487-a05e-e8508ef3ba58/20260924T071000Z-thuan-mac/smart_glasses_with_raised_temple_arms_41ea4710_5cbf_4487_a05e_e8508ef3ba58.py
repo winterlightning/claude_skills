@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='41ea4710-5cbf-4487-a05e-e8508ef3ba58'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__smart-glasses-with-raised-temple-arms/20260924T065933Z-thuan-mac/reference/google glass_41ea4710-5cbf-4487-a05e-e8508ef3ba58.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='smart-glasses-with-raised-temple-arms'

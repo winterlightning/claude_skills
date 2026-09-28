@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '46e03166-e81b-449b-9574-b852a8046251'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__question-and-exclamation-speech-bubbles/20260924T171114Z-thuan-mac/reference/conversation question warning_46e03166-e81b-449b-9574-b852a8046251.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'question-and-exclamation-speech-bubbles'
     keyshape = Keyshape.HRECT_L

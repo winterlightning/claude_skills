@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='42b9620f-0b8b-4f52-bd79-c77bb05931cb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__handheld-flared-megaphone/20260924T115443Z-thuan-mac/reference/bullhorn_42b9620f-0b8b-4f52-bd79-c77bb05931cb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='handheld-flared-megaphone'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '3f82561f-9d37-4d45-ae59-9435eee5c605'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hail-cloud/20260926T171659Z-thuan-mac-1/reference/weather cloud hail_3f82561f-9d37-4d45-ae59-9435eee5c605.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

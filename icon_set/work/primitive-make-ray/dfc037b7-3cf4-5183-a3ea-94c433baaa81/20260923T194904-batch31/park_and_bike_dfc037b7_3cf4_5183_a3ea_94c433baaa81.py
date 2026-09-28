@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dfc037b7-3cf4-5183-a3ea-94c433baaa81'
 SOURCE_PATH = 'icon_set/work/todo-references/park and bike_dfc037b7-3cf4-5183-a3ea-94c433baaa81.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'park-and-bike'

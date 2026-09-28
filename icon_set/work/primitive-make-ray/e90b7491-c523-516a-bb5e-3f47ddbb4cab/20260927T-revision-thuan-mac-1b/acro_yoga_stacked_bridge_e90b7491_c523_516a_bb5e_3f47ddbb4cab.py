@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e90b7491-c523-516a-bb5e-3f47ddbb4cab'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__acro-yoga-stacked-bridge/20260927T145855Z-thuan-mac-1/reference/acro yoga pose_e90b7491-c523-516a-bb5e-3f47ddbb4cab.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class AcroYogaStackedBridge(Solo48):
     icon_id = 'acro-yoga-stacked-bridge'

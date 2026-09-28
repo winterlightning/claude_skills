@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '7895f6a0-0d28-4ebd-9d17-c0b740f48b84'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dust-cloud-gusts/20260927T135945Z-thuan-mac-1/reference/dust storm_7895f6a0-0d28-4ebd-9d17-c0b740f48b84.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DustCloudGusts(Solo48):
     icon_id = 'dust-cloud-gusts'

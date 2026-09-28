@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9a8233aa-73bc-4671-8ec9-7e47018e6d50'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pair-of-kidneys-9a8233aa/20260927T182642Z-thuan-mac-1/reference/kidney_9a8233aa-73bc-4671-8ec9-7e47018e6d50.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pair-of-kidneys-9a8233aa'

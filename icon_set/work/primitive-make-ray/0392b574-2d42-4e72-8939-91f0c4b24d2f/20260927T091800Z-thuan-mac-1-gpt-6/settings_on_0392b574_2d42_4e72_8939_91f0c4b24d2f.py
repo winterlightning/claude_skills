@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '0392b574-2d42-4e72-8939-91f0c4b24d2f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__settings-on/20260927T091411Z-thuan-mac-1/reference/settings on_0392b574-2d42-4e72-8939-91f0c4b24d2f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class SettingsOn(Solo48):

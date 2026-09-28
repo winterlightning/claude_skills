@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a2f7b8c2-0fe1-4df7-acc9-6ea542c9ad2e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__laurel-crowned-head-in-profile/20260927T164305Z-thuan-mac-1/reference/greek god head wreath 1_a2f7b8c2-0fe1-4df7-acc9-6ea542c9ad2e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

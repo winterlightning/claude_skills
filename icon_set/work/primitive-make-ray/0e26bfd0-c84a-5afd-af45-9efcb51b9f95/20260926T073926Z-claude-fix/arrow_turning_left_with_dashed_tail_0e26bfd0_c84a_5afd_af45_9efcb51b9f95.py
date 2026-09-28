@@ -11,7 +11,7 @@ SOURCE_ICON_ID = '0e26bfd0-c84a-5afd-af45-9efcb51b9f95'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-turning-left-with-dashed-tail/20260926T073831Z-thuan-mac/reference/arrow dash corner point left_0e26bfd0-c84a-5afd-af45-9efcb51b9f95.svg'
 SOURCE_ICON_IDS = ('0e26bfd0-c84a-5afd-af45-9efcb51b9f95',)
 SOURCE_PATHS = ('pictographic-primitives/arrows/arrow dash corner point left_0e26bfd0-c84a-5afd-af45-9efcb51b9f95.svg',)
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class ArrowTurningLeftWithDashedTail(Solo48):

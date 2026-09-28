@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e6789468-9cc2-4444-a388-10e9ec1fdcb5'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__electric-waves-1/20260925T085649Z-thuan-mac/reference/electric waves 1_e6789468-9cc2-4444-a388-10e9ec1fdcb5.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='electric-waves-1'

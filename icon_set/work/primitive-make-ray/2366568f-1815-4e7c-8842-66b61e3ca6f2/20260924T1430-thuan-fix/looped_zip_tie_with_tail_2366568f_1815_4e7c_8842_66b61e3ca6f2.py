@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='2366568f-1815-4e7c-8842-66b61e3ca6f2'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__looped-zip-tie-with-tail/20260924T142504Z-thuan-mac/reference/cable zip tie 1_2366568f-1815-4e7c-8842-66b61e3ca6f2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='looped-zip-tie-with-tail'
     keyshape=Keyshape.SQUARE

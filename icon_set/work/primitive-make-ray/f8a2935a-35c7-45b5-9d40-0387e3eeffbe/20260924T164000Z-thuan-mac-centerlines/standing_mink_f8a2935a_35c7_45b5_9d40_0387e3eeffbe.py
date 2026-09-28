@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='f8a2935a-35c7-45b5-9d40-0387e3eeffbe'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__standing-mink/20260924T163448Z-thuan-mac/reference/mink_f8a2935a-35c7-45b5-9d40-0387e3eeffbe.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='standing-mink'
     keyshape=Keyshape.HRECT_M

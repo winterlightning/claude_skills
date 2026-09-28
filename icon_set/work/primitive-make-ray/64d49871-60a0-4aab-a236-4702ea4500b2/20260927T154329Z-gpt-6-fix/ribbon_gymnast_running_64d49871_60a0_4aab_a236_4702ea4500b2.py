@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='64d49871-60a0-4aab-a236-4702ea4500b2'
 SOURCE_PATH='pictographic-primitives/sports/ribbon person_64d49871-60a0-4aab-a236-4702ea4500b2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class RibbonGymnastRunning(Solo48):
     icon_id='ribbon-gymnast-running'

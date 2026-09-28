@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ef26ac2a-67ca-4e82-9052-f1f383659603'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-on-descending-escalator/20260927T143814Z-thuan-mac-1/reference/escalator descend person_ef26ac2a-67ca-4e82-9052-f1f383659603.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id='person-on-descending-escalator'

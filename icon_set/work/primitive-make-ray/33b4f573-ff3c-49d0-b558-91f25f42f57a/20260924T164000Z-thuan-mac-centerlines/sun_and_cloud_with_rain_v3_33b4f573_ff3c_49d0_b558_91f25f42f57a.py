@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='33b4f573-ff3c-49d0-b558-91f25f42f57a'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__sun-and-cloud-with-rain-v3/20260924T163448Z-thuan-mac/reference/cloud sun rain_33b4f573-ff3c-49d0-b558-91f25f42f57a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='sun-and-cloud-with-rain-v3'
     keyshape=Keyshape.SQUARE

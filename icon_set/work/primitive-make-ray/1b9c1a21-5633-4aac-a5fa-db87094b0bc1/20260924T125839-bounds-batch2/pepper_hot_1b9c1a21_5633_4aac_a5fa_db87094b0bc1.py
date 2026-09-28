@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1b9c1a21-5633-4aac-a5fa-db87094b0bc1'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pepper hot_1b9c1a21-5633-4aac-a5fa-db87094b0bc1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     """A hot chili pepper beside a flame.

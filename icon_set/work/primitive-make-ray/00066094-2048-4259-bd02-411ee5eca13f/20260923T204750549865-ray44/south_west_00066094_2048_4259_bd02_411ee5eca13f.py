@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '00066094-2048-4259-bd02-411ee5eca13f'
 SOURCE_PATH = 'icon_set/work/todo-references/south west_00066094-2048-4259-bd02-411ee5eca13f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Compass dial with four ticks and a pointer above the label SW.
 # References: compass: circular dial and geometric pointer; letters authored as strokes.
 # Reduction: No parts omitted; pointer direction follows the supplied reference.

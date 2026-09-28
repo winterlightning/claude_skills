@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd582f271-48e8-45e5-a52a-ac9827b9bff7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horizontal-closed-book-batch-020-10/20260927T145836Z-thuan-mac-1/reference/book close lines_d582f271-48e8-45e5-a52a-ac9827b9bff7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 EXPORTED_REFERENCE = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/references/book close lines_d582f271-48e8-45e5-a52a-ac9827b9bff7.svg'
 BRIEF_PATH = 'work/brief-exports/20260917-all-todo-batches-15/batches/batch-020/10-closed-horizontal-book--d582f271-48e8-45e5-a52a-ac9827b9bff7.md'
 DESIGN_PLAN = 'One coherent outline; shared dimensions own repeated parts.'

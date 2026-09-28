@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '90d90e0e-aba7-45e7-989c-2016fb704666'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-curved-pruning-shears/20260924T111035Z-thuan-mac/reference/prune_90d90e0e-aba7-45e7-989c-2016fb704666.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'open-curved-pruning-shears'
     keyshape = Keyshape.SQUARE

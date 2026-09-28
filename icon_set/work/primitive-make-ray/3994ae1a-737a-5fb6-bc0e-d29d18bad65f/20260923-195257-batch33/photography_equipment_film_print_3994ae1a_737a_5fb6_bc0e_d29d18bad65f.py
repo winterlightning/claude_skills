@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3994ae1a-737a-5fb6-bc0e-d29d18bad65f'
 SOURCE_PATH='icon_set/work/todo-references/photography equipment film print_3994ae1a-737a-5fb6-bc0e-d29d18bad65f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A photographic landscape print with large left peak, smaller right peak and upper-right sun.'
 OMISSIONS='No defining features omitted.'
 LUCIDE_REFERENCE='image'

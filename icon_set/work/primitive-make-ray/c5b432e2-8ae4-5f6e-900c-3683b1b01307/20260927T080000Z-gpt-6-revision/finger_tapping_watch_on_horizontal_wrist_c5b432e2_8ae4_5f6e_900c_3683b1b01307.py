@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c5b432e2-8ae4-5f6e-900c-3683b1b01307'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__finger-tapping-watch-on-horizontal-wrist/20260927T075452Z-thuan-mac-1/reference/wearable smart watch touch_c5b432e2-8ae4-5f6e-900c-3683b1b01307.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '94b3e7fa-f694-4a00-98df-de4a2dbb212b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__avalanche-beside-a-steep-mountain-slope/20260925T060602Z-thuan-mac/reference/avalanche 1_94b3e7fa-f694-4a00-98df-de4a2dbb212b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Revision(Solo48):
     icon_id = 'avalanche-beside-a-steep-mountain-slope'

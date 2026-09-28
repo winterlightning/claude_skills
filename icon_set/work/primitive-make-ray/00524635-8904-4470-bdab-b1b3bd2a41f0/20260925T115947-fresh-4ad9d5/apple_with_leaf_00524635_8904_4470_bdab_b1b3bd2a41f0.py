@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='00524635-8904-4470-bdab-b1b3bd2a41f0'
 SOURCE_PATH='pictographic-primitives/_uncategorized_03/apple whole_00524635-8904-4470-bdab-b1b3bd2a41f0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Restored the leaf with an open pointed oval, kept a connecting stem, and rebuilt the apple with smooth upper and lower dimples instead of angular bottom joints.'
 CONSTRUCTION_REFERENCE='apple original and atomic-debug: organic paired lobes and shallow bottom dimple.'
 OMISSIONS='No defining features omitted; the body is shortened to reserve leaf and stem clearance.'

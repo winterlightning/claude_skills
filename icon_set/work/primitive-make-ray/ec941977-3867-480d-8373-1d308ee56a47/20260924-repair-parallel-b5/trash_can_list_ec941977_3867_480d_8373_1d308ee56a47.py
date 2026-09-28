@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ec941977-3867-480d-8373-1d308ee56a47'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/trash can list_ec941977-3867-480d-8373-1d308ee56a47.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'trash-can-list'
     keyshape = Keyshape.VRECT_L

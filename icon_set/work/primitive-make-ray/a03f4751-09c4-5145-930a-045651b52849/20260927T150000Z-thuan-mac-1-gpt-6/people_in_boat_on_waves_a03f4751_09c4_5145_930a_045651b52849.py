@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a03f4751-09c4-5145-930a-045651b52849'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__people-in-boat-on-waves/20260927T145836Z-thuan-mac-1/reference/refugee immigration sea boat_a03f4751-09c4-5145-930a-045651b52849.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PeopleInBoatOnWaves(Solo48):

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e5c047d5-bb67-43ec-8917-118d98836012'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__movie-director-film-clapperboard/20260924T111035Z-thuan-mac/reference/clapperboard_e5c047d5-bb67-43ec-8917-118d98836012.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'movie-director-film-clapperboard'
     keyshape = Keyshape.SQUARE

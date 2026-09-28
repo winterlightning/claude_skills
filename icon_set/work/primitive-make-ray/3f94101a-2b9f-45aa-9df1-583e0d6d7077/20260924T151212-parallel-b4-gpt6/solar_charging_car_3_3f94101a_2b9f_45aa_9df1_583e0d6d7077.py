@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='3f94101a-2b9f-45aa-9df1-583e0d6d7077'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/solar charging car 3_3f94101a-2b9f-45aa-9df1-583e0d6d7077.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='solar-charging-car-3'
     keyshape=Keyshape.SQUARE

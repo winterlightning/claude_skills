@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a322931e-aa9b-59e9-8a03-20657747f732'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-palm-hand-gesture-solo-b002-11/20260924T093935Z-thuan-mac/reference/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide hand-helping: rounded thumb returning into palm and long finger edge.'
 OMISSIONS = 'Finger divisions omitted as in source.'
 

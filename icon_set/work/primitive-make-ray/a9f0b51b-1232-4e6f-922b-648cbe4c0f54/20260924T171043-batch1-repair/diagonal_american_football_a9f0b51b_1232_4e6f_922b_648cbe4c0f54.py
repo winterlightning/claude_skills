@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a9f0b51b-1232-4e6f-922b-648cbe4c0f54'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/american football ball 1_a9f0b51b-1232-4e6f-922b-648cbe4c0f54.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'diagonal-american-football'

@@ -3,7 +3,7 @@ import json,importlib.util,cairosvg
 from PIL import Image,ImageDraw
 SOURCE_ICON_ID='0005e7b2-b6eb-47bb-9376-770c2522288d'
 SOURCE_PATH='pictographic-primitives/computers/batch-06/monitor upload_0005e7b2-b6eb-47bb-9376-770c2522288d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 BASE=Path(__file__).parent
 entries=json.loads((BASE/'batch-inputs.json').read_text())
 HELPERS='''

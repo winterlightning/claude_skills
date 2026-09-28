@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '776da6f9-d7d4-597a-a158-44ea69d4fbb8'
 SOURCE_PATH = 'pictographic-primitives/finance/saving money flower_776da6f9-d7d4-597a-a158-44ea69d4fbb8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'saving-money-flower'

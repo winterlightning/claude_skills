@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '40b98251-aea4-4c5f-93da-0386f9de3967'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__judge-woman-1-avatar/20260926T175531Z-thuan-mac-1/reference/judge woman_40b98251-aea4-4c5f-93da-0386f9de3967.svg'
 SOURCE_HEAD_ICON_ID = 'judge-woman-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 22
 
 class JudgeWoman1Avatar(Solo48):

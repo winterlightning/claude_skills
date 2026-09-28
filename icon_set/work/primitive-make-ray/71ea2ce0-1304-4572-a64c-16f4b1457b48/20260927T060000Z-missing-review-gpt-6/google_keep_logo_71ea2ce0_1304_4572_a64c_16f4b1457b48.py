@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '71ea2ce0-1304-4572-a64c-16f4b1457b48'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-keep-logo/20260927T055654Z-thuan-mac-1/reference/google keep logo_71ea2ce0-1304-4572-a64c-16f4b1457b48.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleKeepLogo(Solo48):

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='567f7df5-55ba-4b86-8f69-4c5a4f43e848'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__counterclockwise-circular-arrow-batch-021-03/20260924T083211Z-thuan-mac/reference/go backward_567f7df5-55ba-4b86-8f69-4c5a4f43e848.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='counterclockwise-circular-arrow-batch-021-03'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '84c261a3-7abc-40bc-a142-dc7275ce0a7e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cinema-showtime-with-audience-batch-007-15/20260924T115444Z-thuan-mac/reference/movie cinema clock_84c261a3-7abc-40bc-a142-dc7275ce0a7e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'cinema-showtime-with-audience-batch-007-15'
     keyshape = Keyshape.SQUARE

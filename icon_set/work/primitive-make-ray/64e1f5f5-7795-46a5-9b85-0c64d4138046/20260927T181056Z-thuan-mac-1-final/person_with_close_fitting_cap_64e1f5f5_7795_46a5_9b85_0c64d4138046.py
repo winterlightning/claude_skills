@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '64e1f5f5-7795-46a5-9b85-0c64d4138046'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-close-fitting-cap/20260927T174057Z-thuan-mac-1/reference/crewman_64e1f5f5-7795-46a5-9b85-0c64d4138046.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class BatchIcon(Solo48):
     icon_id = 'person-with-close-fitting-cap'

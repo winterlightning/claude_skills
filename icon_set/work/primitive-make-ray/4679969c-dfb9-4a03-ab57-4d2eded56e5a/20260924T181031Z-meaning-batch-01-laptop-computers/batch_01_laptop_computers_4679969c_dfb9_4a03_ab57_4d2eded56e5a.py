@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4679969c-dfb9-4a03-ab57-4d2eded56e5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__batch-01-laptop-computers/20260924T181031Z-thuan-mac/reference/laptop_4679969c-dfb9-4a03-ab57-4d2eded56e5a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'batch-01-laptop-computers'

@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1b8310a2-51b7-40c4-b347-f5ebe42d0640'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__kitchen-masher/20260924T115443Z-thuan-mac/reference/kitchenware masher_1b8310a2-51b7-40c4-b347-f5ebe42d0640.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='kitchen-masher'

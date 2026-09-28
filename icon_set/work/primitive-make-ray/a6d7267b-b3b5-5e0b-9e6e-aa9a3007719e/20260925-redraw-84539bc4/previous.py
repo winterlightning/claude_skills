@@ -7,7 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a6d7267b-b3b5-5e0b-9e6e-aa9a3007719e'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/furnitures/chair_a6d7267b-b3b5-5e0b-9e6e-aa9a3007719e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class LoungeChairSideProfile(Solo48):
     icon_id = 'lounge-chair-side-profile'

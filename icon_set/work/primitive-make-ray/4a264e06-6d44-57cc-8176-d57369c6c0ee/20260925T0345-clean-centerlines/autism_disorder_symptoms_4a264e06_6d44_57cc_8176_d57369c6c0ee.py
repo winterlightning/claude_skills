@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4a264e06-6d44-57cc-8176-d57369c6c0ee'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__autism-disorder-symptoms/20260925T034142Z-thuan-mac/reference/autism disorder symptoms_4a264e06-6d44-57cc-8176-d57369c6c0ee.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='autism-disorder-symptoms'

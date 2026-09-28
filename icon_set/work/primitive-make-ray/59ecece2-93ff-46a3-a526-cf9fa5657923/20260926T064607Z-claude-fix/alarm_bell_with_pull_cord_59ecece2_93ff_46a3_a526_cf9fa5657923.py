@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '59ecece2-93ff-46a3-a526-cf9fa5657923'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__alarm-bell-with-pull-cord/20260926T064521Z-thuan-mac/reference/safety bell_59ecece2-93ff-46a3-a526-cf9fa5657923.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AlarmBellWithPullCord(Solo48):
     icon_id = 'alarm-bell-with-pull-cord'

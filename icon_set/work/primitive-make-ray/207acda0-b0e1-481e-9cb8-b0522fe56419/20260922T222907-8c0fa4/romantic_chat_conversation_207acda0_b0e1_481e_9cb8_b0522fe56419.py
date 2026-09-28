@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '207acda0-b0e1-481e-9cb8-b0522fe56419'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/chat conversation love romance talk_207acda0-b0e1-481e-9cb8-b0522fe56419.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'romantic-chat-conversation'

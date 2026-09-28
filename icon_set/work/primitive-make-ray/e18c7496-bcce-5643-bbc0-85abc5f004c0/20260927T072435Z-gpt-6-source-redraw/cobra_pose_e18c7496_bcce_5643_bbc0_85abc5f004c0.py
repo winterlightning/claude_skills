@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = 'e18c7496-bcce-5643-bbc0-85abc5f004c0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cobra-pose/20260927T071330Z-thuan-mac-1/reference/yoga cobra pose_e18c7496-bcce-5643-bbc0-85abc5f004c0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CobraPose(Solo48):
     icon_id = 'cobra-pose'

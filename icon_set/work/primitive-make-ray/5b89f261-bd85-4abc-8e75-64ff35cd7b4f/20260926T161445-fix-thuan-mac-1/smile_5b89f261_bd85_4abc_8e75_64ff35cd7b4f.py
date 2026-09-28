@@ -15,7 +15,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '5b89f261-bd85-4abc-8e75-64ff35cd7b4f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smile/20260926T160211Z-thuan-mac-1/reference/smile_5b89f261-bd85-4abc-8e75-64ff35cd7b4f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 L, T, R, B, C = 4, 10, 30, 38, 4
 LENS_ROOT_T, LENS_ROOT_B = 19, 29

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'af364946-e7cb-459d-bbf8-0922a9261f34'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__forklift-facing-right/20260927T164305Z-thuan-mac-1/reference/forklift_af364946-e7cb-459d-bbf8-0922a9261f34.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ForkliftFacingRight(Solo48):
     icon_id = 'forklift-facing-right'

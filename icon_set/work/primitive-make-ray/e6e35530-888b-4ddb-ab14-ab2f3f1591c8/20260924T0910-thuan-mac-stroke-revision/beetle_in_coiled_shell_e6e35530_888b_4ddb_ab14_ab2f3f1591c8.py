@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e6e35530-888b-4ddb-ab14-ab2f3f1591c8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__beetle-in-coiled-shell/20260924T090615Z-thuan-mac/reference/insect earth_e6e35530-888b-4ddb-ab14-ab2f3f1591c8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'beetle-in-coiled-shell'
     keyshape = Keyshape.SQUARE

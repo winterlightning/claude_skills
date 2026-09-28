@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5d79cc8a-4808-4bd3-b4ad-2b3d5cc4d5c4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shapes-on-3d-platform/20260927T092933Z-thuan-mac-1/reference/tools reality kit_5d79cc8a-4808-4bd3-b4ad-2b3d5cc4d5c4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShapesOn3DPlatform(Solo48):
     icon_id = 'shapes-on-3d-platform'

@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1e1fac7c-54c5-4468-baea-d2c722f0520d'
 SOURCE_PATH = 'pictographic-primitives/other/self payment computer pound_1e1fac7c-54c5-4468-baea-d2c722f0520d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'pound-sterling'
 
 class Drawing(Solo48):

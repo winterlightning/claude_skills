@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 
 SOURCE_ICON_ID = '08acfc76-564e-418d-abde-1f5766d10cdc'
 SOURCE_PATH = 'icon_set/work/todo-references/square xmark_08acfc76-564e-418d-abde-1f5766d10cdc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ROOT = Path(__file__).resolve().parent
 ROWS = json.loads((ROOT / 'batch-inputs.json').read_text())
 

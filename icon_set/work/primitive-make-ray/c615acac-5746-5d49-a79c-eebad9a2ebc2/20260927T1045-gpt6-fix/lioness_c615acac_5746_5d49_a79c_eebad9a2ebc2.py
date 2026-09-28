@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c615acac-5746-5d49-a79c-eebad9a2ebc2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lioness-face/20260927T104148Z-thuan-mac-1/reference/lioness_c615acac-5746-5d49-a79c-eebad9a2ebc2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class LionessFace(Solo48):

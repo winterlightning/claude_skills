@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e445dc8e-d77f-47cd-abd6-2ae8c4e0029d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__amazon-web-service-app-mesh/20260926T064521Z-thuan-mac/reference/amazon web service app mesh_e445dc8e-d77f-47cd-abd6-2ae8c4e0029d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-reconstructed'

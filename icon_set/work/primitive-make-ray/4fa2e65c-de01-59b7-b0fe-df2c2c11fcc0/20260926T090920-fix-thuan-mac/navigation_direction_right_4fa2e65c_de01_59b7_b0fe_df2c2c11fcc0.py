@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4fa2e65c-de01-59b7-b0fe-df2c2c11fcc0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__navigation-direction-right/20260926T085631Z-thuan-mac/reference/navigation direction right_4fa2e65c-de01-59b7-b0fe-df2c2c11fcc0.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class NavigationDirectionRight(Solo48):
     icon_id = 'navigation-direction-right'

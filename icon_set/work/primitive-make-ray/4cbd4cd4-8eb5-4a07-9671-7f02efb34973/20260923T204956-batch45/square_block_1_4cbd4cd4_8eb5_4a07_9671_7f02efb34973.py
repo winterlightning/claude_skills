@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4cbd4cd4-8eb5-4a07-9671-7f02efb34973'
 SOURCE_PATH = 'icon_set/work/todo-references/square block 1_4cbd4cd4-8eb5-4a07-9671-7f02efb34973.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'square-block-1'

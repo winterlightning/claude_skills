@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'eebf9355-e5dd-4833-b849-ec1865cc85fe'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/seeker_eebf9355-e5dd-4833-b849-ec1865cc85fe.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A person with a large search magnifier in front.'
 OMISSIONS = 'Right torso edge omitted behind the lens; visible arm line shortened. Head and lens separated, and the handle joins the lens radially.'
 CONSTRUCTION_REFERENCES = 'Shared human user.svg: circular head and shoulder; Lucide search: round lens with a radial handle.'

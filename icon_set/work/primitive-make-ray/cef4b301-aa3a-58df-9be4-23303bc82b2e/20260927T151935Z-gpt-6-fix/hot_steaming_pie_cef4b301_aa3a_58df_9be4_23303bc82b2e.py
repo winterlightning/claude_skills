@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'cef4b301-aa3a-58df-9be4-23303bc82b2e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hot-steaming-pie/20260927T151732Z-thuan-mac-1/reference/pie_cef4b301-aa3a-58df-9be4-23303bc82b2e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HotSteamingPie(Solo48):
     icon_id = 'hot-steaming-pie'

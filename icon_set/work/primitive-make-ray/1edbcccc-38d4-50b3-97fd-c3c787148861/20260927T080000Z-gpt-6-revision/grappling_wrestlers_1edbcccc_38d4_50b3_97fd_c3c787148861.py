@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1edbcccc-38d4-50b3-97fd-c3c787148861'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grappling-wrestlers/20260927T075452Z-thuan-mac-1/reference/wrestling fight_1edbcccc-38d4-50b3-97fd-c3c787148861.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class GrapplingWrestlers(Solo48):
     icon_id = 'grappling-wrestlers'

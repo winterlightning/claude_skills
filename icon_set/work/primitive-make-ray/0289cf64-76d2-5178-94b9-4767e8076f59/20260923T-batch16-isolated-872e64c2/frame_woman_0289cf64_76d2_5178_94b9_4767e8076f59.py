@@ -9,7 +9,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0289cf64-76d2-5178-94b9-4767e8076f59'
 SOURCE_PATH='icon_set/work/todo-references/frame woman_0289cf64-76d2-5178-94b9-4767e8076f59.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='frame-woman'
     keyshape=Keyshape.SQUARE

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd6cf2782-fc66-4fca-b290-0ffad68032d9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__telephoto-lens-side-view/20260927T094425Z-thuan-mac-1/reference/lens horizontal_d6cf2782-fc66-4fca-b290-0ffad68032d9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected rear barrel was too broad and blunt against the tapered reference.'
 REVISION_CHANGE = 'Narrowed the rear taper while retaining the focus band and front lens oval.'
 

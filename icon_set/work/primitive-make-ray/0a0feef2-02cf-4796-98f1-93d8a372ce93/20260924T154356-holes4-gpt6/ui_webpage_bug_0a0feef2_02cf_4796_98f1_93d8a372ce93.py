@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='0a0feef2-02cf-4796-98f1-93d8a372ce93'
 SOURCE_PATH = 'pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A browser window containing a round bug with six legs.'
 CONSTRUCTION_REFERENCE='panels-top-left and bug: browser frame and repeated bilateral legs'
 

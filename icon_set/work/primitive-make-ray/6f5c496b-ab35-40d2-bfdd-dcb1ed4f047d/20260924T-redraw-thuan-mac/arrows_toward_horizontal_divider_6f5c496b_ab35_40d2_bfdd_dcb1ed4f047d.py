@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6f5c496b-ab35-40d2-bfdd-dcb1ed4f047d'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__arrows-toward-horizontal-divider/20260924T142441Z-thuan-mac/reference/shrink vertical_6f5c496b-ab35-40d2-bfdd-dcb1ed4f047d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='arrows-toward-horizontal-divider'

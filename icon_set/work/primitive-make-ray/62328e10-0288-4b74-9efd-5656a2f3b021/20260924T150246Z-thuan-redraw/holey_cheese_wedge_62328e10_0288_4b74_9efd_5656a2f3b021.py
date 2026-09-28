@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='62328e10-0288-4b74-9efd-5656a2f3b021'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__holey-cheese-wedge/20260924T150246Z-thuan-mac/reference/cheddar_62328e10-0288-4b74-9efd-5656a2f3b021.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='holey-cheese-wedge'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd266c763-9fe0-4ff3-af2a-db0d0256c7cb'
 SOURCE_PATH = 'icon_set/work/todo-references/Rh_d266c763-9fe0-4ff3-af2a-db0d0256c7cb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rh-lettering'

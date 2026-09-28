@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '36097aaf-e256-48a1-aaeb-0f09bc96bc72'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clover-symbol/20260927T071330Z-thuan-mac-1/reference/clover_36097aaf-e256-48a1-aaeb-0f09bc96bc72.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CloverSymbol(Solo48):
     icon_id = 'clover-symbol'

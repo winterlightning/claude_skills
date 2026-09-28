@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2a6eda08-c10d-4226-80a2-1ca03654ee6e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cuffed-hands-supporting-faceted-diamond/20260926T152509Z-thuan-mac-1/reference/diamond give_2a6eda08-c10d-4226-80a2-1ca03654ee6e.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 TABLE_L, GIRDLE_L, CULET = (19, 8), (15, 16), (24, 24)

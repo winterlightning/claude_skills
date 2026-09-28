@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'b7134d6f-1d86-40a4-ba79-82ee018f9bfd'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__statue-with-flag/20260927T094403Z-thuan-mac-1/reference/landmarks statue flag_b7134d6f-1d86-40a4-ba79-82ee018f9bfd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class StatueWithFlag(Solo48):

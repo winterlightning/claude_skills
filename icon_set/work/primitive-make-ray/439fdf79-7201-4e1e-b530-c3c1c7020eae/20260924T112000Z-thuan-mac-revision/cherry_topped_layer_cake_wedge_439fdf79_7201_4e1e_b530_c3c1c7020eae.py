@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '439fdf79-7201-4e1e-b530-c3c1c7020eae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cherry-topped-layer-cake-wedge/20260924T111346Z-thuan-mac/reference/dessert_439fdf79-7201-4e1e-b530-c3c1c7020eae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'cherry-topped-layer-cake-wedge'

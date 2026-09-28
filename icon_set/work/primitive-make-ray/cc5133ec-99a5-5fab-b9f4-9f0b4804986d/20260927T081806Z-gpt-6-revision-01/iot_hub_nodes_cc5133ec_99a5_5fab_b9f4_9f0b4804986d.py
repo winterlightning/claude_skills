@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='cc5133ec-99a5-5fab-b9f4-9f0b4804986d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__iot-hub-nodes/20260927T081503Z-thuan-mac-1/reference/internet of thing analytics services_cc5133ec-99a5-5fab-b9f4-9f0b4804986d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class IotHubNodes(Solo48):
     icon_id='iot-hub-nodes'

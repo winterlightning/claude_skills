@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '81f5c526-61a1-4426-afae-2fec80a31cb2'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__burning-crashed-aircraft/20260927T071330Z-thuan-mac-1/reference/plane crashed_81f5c526-61a1-4426-afae-2fec80a31cb2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BurningCrashedAircraft(Solo48):
     icon_id = 'burning-crashed-aircraft'

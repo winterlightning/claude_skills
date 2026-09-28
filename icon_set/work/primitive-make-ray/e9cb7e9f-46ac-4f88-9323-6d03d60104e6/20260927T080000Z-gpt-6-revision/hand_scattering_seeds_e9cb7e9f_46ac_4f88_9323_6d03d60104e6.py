@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'e9cb7e9f-46ac-4f88-9323-6d03d60104e6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-scattering-seeds/20260927T075452Z-thuan-mac-1/reference/seed hand_e9cb7e9f-46ac-4f88-9323-6d03d60104e6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch28Icon(Solo48):
     icon_id = 'hand-scattering-seeds'

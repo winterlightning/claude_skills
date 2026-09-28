@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'df04551f-f9b1-422f-a44f-8a7dfd1d0dda'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/chinchilla_df04551f-f9b1-422f-a44f-8a7dfd1d0dda.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'seated-chinchilla-with-curved-tail'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='1c2356aa-7b35-4413-8da6-14723a4d3aae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__xylophone-with-mallet/20260927T082307Z-thuan-mac-1/reference/xylophone_1c2356aa-7b35-4413-8da6-14723a4d3aae.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class XylophoneWithMallet(Solo48):
     icon_id='xylophone-with-mallet'

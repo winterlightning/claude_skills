@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '449c7cfd-5f9c-48e0-b0b3-0622be2b53fa'
 SOURCE_PATH = 'pictographic-primitives/other/robot hand_449c7cfd-5f9c-48e0-b0b3-0622be2b53fa.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Open robotic hand in side profile: coherent palm, bent thumb and extended finger; no crossed wrist.'
 OMISSIONS = 'Mechanical panel seams omitted; the palm, wrist, thumb and extended finger remain.'
 CONSTRUCTION_REFERENCES = ['hand']

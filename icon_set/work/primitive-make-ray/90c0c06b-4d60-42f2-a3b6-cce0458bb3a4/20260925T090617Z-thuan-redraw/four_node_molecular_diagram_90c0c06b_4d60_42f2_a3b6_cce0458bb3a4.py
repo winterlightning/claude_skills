@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='90c0c06b-4d60-42f2-a3b6-cce0458bb3a4'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__four-node-molecular-diagram/20260925T090617Z-thuan-mac/reference/glutamate_90c0c06b-4d60-42f2-a3b6-cce0458bb3a4.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='four-node-molecular-diagram'
     keyshape=Keyshape.VRECT_L

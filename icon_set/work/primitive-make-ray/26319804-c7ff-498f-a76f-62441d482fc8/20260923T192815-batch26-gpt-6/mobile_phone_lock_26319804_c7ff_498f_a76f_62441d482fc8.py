@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '26319804-c7ff-498f-a76f-62441d482fc8'
 SOURCE_PATH = 'icon_set/work/todo-references/mobile phone lock_26319804-c7ff-498f-a76f-62441d482fc8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-lock'
     keyshape = Keyshape.VRECT_L

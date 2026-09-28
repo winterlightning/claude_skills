@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7443f092-4834-4d07-9b5b-1b7914777905'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chicken-face/20260926T173134Z-thuan-mac-1/reference/chicken_7443f092-4834-4d07-9b5b-1b7914777905.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ChickenFace(Solo48):
     icon_id = 'chicken-face'

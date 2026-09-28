@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '2e3cad1b-f9fc-43b2-b7f0-4c06b892a8b9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__low-crescent-with-two-sparkles/20260927T164353Z-thuan-mac-1/reference/astrology stars_2e3cad1b-f9fc-43b2-b7f0-4c06b892a8b9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'low-crescent-with-two-sparkles'

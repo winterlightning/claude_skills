@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '86ff6696-4ddd-4dd2-abe4-b1bbb2a48273'
 SOURCE_PATH = 'icon_set/work/todo-references/charging battery flash empty_86ff6696-4ddd-4dd2-abe4-b1bbb2a48273.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 PLAN = 'Interrupted battery and charge bar with central lightning; use a centerline bolt to release clearance while retaining the terminal.'
 PARENT_RESULT = 'icon_set/work/primitive-make-ray/86ff6696-4ddd-4dd2-abe4-b1bbb2a48273/20260923-batch07-60a38b/result.json'

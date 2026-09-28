@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dd81b6db-6dd5-4927-8f6a-80c73d19c8cd'
 SOURCE_PATH = 'pictographic-primitives/messages/messages bubble square question_dd81b6db-6dd5-4927-8f6a-80c73d19c8cd.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Smooth speech bubble with a diagonal tail and clear hook-to-dot separation.'
 OMISSIONS = 'None.'
 CONSTRUCTION_REFERENCES = ['message-square']

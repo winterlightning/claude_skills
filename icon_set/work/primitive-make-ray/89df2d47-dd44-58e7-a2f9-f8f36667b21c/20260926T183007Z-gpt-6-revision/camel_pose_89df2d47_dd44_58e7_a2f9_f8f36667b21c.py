@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '89df2d47-dd44-58e7-a2f9-f8f36667b21c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__camel-pose/20260926T182452Z-thuan-mac-1/reference/yoga camel pose_89df2d47-dd44-58e7-a2f9-f8f36667b21c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CamelPose(Solo48):
     icon_id = 'camel-pose'

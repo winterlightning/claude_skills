@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1f7ae7d3-ecbe-4b15-9965-79c8913e76e0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cyclist-climbing-a-sloping-path-1f7ae7d3/20260927T174057Z-thuan-mac-1/reference/biking mountain_1f7ae7d3-ecbe-4b15-9965-79c8913e76e0.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class BatchIcon(Solo48):
     icon_id = 'cyclist-climbing-a-sloping-path-1f7ae7d3'

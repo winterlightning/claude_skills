@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='ff183e37-2bed-4312-ad52-11655fc8a512'
 SOURCE_PATH='icon_set/work/todo-references/bower logo_ff183e37-2bed-4312-ad52-11655fc8a512.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='bower-logo'
     keyshape=Keyshape.SQUARE

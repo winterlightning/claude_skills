@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e18ed81a-df3e-442f-9876-54ac0d744866'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__interlocking-handshake/20260924T162030Z-thuan-mac/reference/clasp_e18ed81a-df3e-442f-9876-54ac0d744866.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='interlocking-handshake'

@@ -15,7 +15,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = "d4ca3757-85be-50f0-aa3f-a02641568628"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__wide-hat-girl-1-avatar/20260926T181756Z-thuan-mac-1/reference/wide-hat-girl-1-avatar_d4ca3757-85be-50f0-aa3f-a02641568628.svg"
 SOURCE_HEAD_ICON_ID = 'wide-hat-girl-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 26
 class WideHatGirl1Avatar(Solo48):
     icon_id = 'wide-hat-girl-1-avatar'

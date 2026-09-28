@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='4f00181e-9f16-4ce7-b529-18053abcaa47'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__euro-currency-coin-solo/20260925T085649Z-thuan-mac/reference/circle euro_4f00181e-9f16-4ce7-b529-18053abcaa47.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='euro-currency-coin-solo'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e3172eb9-da83-4f83-a7f8-416647bd23e6'
 SOURCE_PATH='pictographic-primitives/photography/battery_e3172eb9-da83-4f83-a7f8-416647bd23e6.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='The empty cell has matched small-radius corners and a smaller rounded right terminal. Both terminal joins are real connections to the cell.'
 CONSTRUCTION_REFERENCE='battery original and atomic-debug: simple cell silhouette; source owns attached terminal.'
 OMISSIONS='No omissions.'

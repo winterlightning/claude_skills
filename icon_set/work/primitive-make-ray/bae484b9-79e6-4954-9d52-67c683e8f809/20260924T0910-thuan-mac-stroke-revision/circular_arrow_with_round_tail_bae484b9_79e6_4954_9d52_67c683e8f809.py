@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'bae484b9-79e6-4954-9d52-67c683e8f809'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__circular-arrow-with-round-tail/20260924T090615Z-thuan-mac/reference/volume down_bae484b9-79e6-4954-9d52-67c683e8f809.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'circular-arrow-with-round-tail'
     keyshape = Keyshape.SQUARE

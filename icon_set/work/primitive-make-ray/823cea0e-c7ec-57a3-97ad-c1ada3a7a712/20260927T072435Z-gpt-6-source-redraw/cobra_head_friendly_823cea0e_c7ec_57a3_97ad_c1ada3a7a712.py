@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '823cea0e-c7ec-57a3-97ad-c1ada3a7a712'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cobra-head-friendly/20260927T071330Z-thuan-mac-1/reference/cobra-head-friendly_823cea0e-c7ec-57a3-97ad-c1ada3a7a712.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CobraHeadFriendly(Solo48):
     icon_id = 'cobra-head-friendly'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '146cf283-3304-46a9-8cae-29ee66a6a52f'
 SOURCE_PATH = 'icon_set/work/todo-references/certificate_146cf283-3304-46a9-8cae-29ee66a6a52f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'certificate'

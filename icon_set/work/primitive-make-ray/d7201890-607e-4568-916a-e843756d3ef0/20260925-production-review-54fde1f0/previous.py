@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d7201890-607e-4568-916a-e843756d3ef0'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__calendar-number-seven/20260924T171046Z-thuan-mac/reference/calendar number seven_d7201890-607e-4568-916a-e843756d3ef0.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='calendar-number-seven'

@@ -4,7 +4,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a053cd16-d4e9-4fa2-8cbc-8e8c60de043b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hand-with-round-wrist-ornament/20260924T160939Z-thuan-mac/reference/bracelet with hand_a053cd16-d4e9-4fa2-8cbc-8e8c60de043b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='hand-with-round-wrist-ornament'

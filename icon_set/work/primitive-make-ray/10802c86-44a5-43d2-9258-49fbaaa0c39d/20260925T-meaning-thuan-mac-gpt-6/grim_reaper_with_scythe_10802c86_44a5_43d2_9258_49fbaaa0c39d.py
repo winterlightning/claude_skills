@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '10802c86-44a5-43d2-9258-49fbaaa0c39d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__grim-reaper-with-scythe/20260925T034349Z-thuan-mac/reference/grim reaper_10802c86-44a5-43d2-9258-49fbaaa0c39d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'grim-reaper-with-scythe'

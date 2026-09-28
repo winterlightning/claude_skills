@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '00eb0d5d-7557-4801-bb6f-304ff4b914ce'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-wearing-crown/20260926T085631Z-thuan-mac/reference/workflow manager female crown_00eb0d5d-7557-4801-bb6f-304ff4b914ce.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class WomanWearingCrown(Solo48):
     icon_id = 'woman-wearing-crown'

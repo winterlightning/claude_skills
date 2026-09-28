@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6e31cce6-f749-4014-8bc4-bf1b7d5d439c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__money-bag/20260927T104148Z-thuan-mac-1/reference/money bag_6e31cce6-f749-4014-8bc4-bf1b7d5d439c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class MoneyBag(Solo48):

@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
 SOURCE_PATH='icon_set/work/todo-references/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='video-game-bowl-city'

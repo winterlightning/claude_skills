@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'da1dc22a-d712-50d8-b7bf-bb9850b68366'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crouching-windsurfer/20260926T182517Z-thuan-mac-1/reference/sport windsurfing_da1dc22a-d712-50d8-b7bf-bb9850b68366.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_CONSTRUCTION = 'stick-figure'
 
 class CrouchingWindsurfer(Solo48):

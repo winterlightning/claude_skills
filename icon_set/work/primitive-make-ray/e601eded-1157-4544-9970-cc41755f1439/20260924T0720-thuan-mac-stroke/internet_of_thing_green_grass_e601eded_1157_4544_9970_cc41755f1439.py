@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e601eded-1157-4544-9970-cc41755f1439'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__merge-arrow-nodes/20260924T071425Z-thuan-mac/reference/internet of thing green grass_e601eded-1157-4544-9970-cc41755f1439.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'merge-arrow-nodes'

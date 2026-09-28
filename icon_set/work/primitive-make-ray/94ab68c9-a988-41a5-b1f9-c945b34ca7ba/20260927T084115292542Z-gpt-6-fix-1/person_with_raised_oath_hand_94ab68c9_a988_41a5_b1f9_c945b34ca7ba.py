@@ -14,7 +14,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '94ab68c9-a988-41a5-b1f9-c945b34ca7ba'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-raised-oath-hand/20260927T083143Z-thuan-mac-1/reference/oath 1_94ab68c9-a988-41a5-b1f9-c945b34ca7ba.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class PersonWithRaisedOathHand(Solo48):

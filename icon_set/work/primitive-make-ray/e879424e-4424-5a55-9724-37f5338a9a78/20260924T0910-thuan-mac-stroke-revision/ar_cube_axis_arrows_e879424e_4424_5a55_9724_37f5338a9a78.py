@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e879424e-4424-5a55-9724-37f5338a9a78'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ar-cube-axis-arrows/20260924T090615Z-thuan-mac/reference/tools ar kit_e879424e-4424-5a55-9724-37f5338a9a78.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'ar-cube-axis-arrows'
     keyshape = Keyshape.VRECT_L

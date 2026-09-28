@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='195158ad-68fb-43f8-82c7-2767217ded9c'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__laptop-worker-beneath-sun-and-horizon/20260924T162030Z-thuan-mac/reference/digital nomad sun_195158ad-68fb-43f8-82c7-2767217ded9c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='laptop-worker-beneath-sun-and-horizon'

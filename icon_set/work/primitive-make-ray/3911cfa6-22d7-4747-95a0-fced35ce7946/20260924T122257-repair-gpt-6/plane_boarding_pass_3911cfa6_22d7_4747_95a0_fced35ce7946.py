@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '3911cfa6-22d7-4747-95a0-fced35ce7946'
 SOURCE_PATH = 'pictographic-primitives/travel/plane boarding pass_3911cfa6-22d7-4747-95a0-fced35ce7946.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded boarding pass and rising airplane, with open stroked wings. Lucide tickets-plane informs the open aircraft; plane informs swept wings.'
 OMISSIONS = ['Text ticks omitted to prioritize aircraft; outlined aircraft reduced to open strokes.']
 class Drawing(Solo48):

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'a4ac6021-31ac-4b55-8c99-d25a6ba3e475'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__four-hexagonal-nanobots/20260926T125429Z-thuan-mac/reference/nanobots 1_a4ac6021-31ac-4b55-8c99-d25a6ba3e475.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Drawing(Solo48):
     icon_id = 'four-hexagonal-nanobots'

@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='9c7c74da-c103-4fea-9bf5-13a249aa772b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__walking-turtle/20260924T163448Z-thuan-mac/reference/mario turtle_9c7c74da-c103-4fea-9bf5-13a249aa772b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='walking-turtle'
     keyshape=Keyshape.HRECT_L

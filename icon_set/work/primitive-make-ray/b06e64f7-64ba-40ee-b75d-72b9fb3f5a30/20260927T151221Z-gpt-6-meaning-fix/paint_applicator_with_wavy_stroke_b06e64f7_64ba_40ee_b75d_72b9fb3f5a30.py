@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b06e64f7-64ba-40ee-b75d-72b9fb3f5a30'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__paint-applicator-with-wavy-stroke/20260927T143814Z-thuan-mac-1/reference/tube painting_b06e64f7-64ba-40ee-b75d-72b9fb3f5a30.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide paintbrush: distinct handle and bristle regions; source wavy paint.'
 OMISSIONS = 'Top barrel seam omitted to open space.'
 

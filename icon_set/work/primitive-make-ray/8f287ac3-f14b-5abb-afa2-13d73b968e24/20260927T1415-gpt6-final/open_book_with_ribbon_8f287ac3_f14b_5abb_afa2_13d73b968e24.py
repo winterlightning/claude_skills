@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8f287ac3-f14b-5abb-afa2-13d73b968e24'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-book-with-ribbon/20260927T133654Z-thuan-mac-1/reference/book open bookmark_8f287ac3-f14b-5abb-afa2-13d73b968e24.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Batch06Icon3(Solo48):
     icon_id = 'open-book-with-ribbon'
     keyshape = Keyshape.HRECT_L

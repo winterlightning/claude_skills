@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e1beff0b-613f-4495-8b2d-c0b3036fad7e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__steaming-car-with-raised-hood/20260924T160658Z-thuan-mac/reference/car repair engine_e1beff0b-613f-4495-8b2d-c0b3036fad7e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'steaming-car-with-raised-hood'

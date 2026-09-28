@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '98f12741-22af-40d9-ac63-b267d9991649'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_15/doorbell_98f12741-22af-40d9-ac63-b267d9991649.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ModernDoorbellButton(Solo48):
     icon_id = 'modern-doorbell-button'

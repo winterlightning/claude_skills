@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'f2b86052-f36b-478c-97db-5c1032939b7f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__peace-sign-hand/20260927T145836Z-thuan-mac-1/reference/mood peace_f2b86052-f36b-478c-97db-5c1032939b7f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PeaceSignHand(Solo48):
     icon_id = 'peace-sign-hand'

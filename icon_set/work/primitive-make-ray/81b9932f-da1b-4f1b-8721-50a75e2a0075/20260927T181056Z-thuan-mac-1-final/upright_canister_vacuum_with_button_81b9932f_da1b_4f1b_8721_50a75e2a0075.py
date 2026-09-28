@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '81b9932f-da1b-4f1b-8721-50a75e2a0075'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-canister-vacuum-with-button/20260927T174057Z-thuan-mac-1/reference/cleaning vacuum_81b9932f-da1b-4f1b-8721-50a75e2a0075.svg'
-AUTHOR = 'gpt-6-astra'
+AUTHOR = "gpt-6-astra"
 
 class Drawing(Solo48):
     icon_id = 'upright-canister-vacuum-with-button'

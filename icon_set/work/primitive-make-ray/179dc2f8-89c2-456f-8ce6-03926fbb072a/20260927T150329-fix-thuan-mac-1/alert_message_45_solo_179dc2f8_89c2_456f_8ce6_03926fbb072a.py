@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '179dc2f8-89c2-456f-8ce6-03926fbb072a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__alert-message-45-solo/20260927T150142Z-thuan-mac-1/reference/speech bubble with exclamation mark_179dc2f8-89c2-456f-8ce6-03926fbb072a.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

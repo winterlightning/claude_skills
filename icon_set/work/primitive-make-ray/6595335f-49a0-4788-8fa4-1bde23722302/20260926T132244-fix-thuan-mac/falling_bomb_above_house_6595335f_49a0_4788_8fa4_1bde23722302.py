@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6595335f-49a0-4788-8fa4-1bde23722302'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__falling-bomb-above-house/20260926T125429Z-thuan-mac/reference/refugee immigration war 1_6595335f-49a0-4788-8fa4-1bde23722302.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 NOSE_C, NOSE_R = (17, 17), 5
 BODY_LEN = 6

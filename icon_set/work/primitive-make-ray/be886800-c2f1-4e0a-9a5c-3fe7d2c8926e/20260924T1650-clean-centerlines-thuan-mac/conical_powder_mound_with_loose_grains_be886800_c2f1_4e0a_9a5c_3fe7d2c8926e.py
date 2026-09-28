@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='be886800-c2f1-4e0a-9a5c-3fe7d2c8926e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__conical-powder-mound-with-loose-grains/20260924T164246Z-thuan-mac/reference/cornmeal_be886800-c2f1-4e0a-9a5c-3fe7d2c8926e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='conical-powder-mound-with-loose-grains'

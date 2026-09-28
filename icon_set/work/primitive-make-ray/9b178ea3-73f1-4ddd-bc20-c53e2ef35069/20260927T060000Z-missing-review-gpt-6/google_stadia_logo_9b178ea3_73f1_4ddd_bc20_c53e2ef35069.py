@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9b178ea3-73f1-4ddd-bc20-c53e2ef35069'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__google-stadia-logo/20260927T055654Z-thuan-mac-1/reference/google stadia logo_9b178ea3-73f1-4ddd-bc20-c53e2ef35069.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class GoogleStadiaLogo(Solo48):

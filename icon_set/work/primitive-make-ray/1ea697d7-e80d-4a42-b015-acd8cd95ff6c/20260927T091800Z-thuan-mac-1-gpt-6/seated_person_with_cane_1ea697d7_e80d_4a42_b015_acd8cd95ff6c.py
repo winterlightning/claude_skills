@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1ea697d7-e80d-4a42-b015-acd8cd95ff6c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-person-with-cane/20260927T091411Z-thuan-mac-1/reference/disability sit cane_1ea697d7-e80d-4a42-b015-acd8cd95ff6c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedPersonWithCane(Solo48):
     icon_id = 'seated-person-with-cane'

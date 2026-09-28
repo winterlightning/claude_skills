@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._payments_batch02 import small_dollar
 
 SOURCE_ICON_ID = '6e120b10-f09c-4f71-9e1d-244b8eb9fd47'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__car-horn/20260927T071330Z-thuan-mac-1/reference/horn_6e120b10-f09c-4f71-9e1d-244b8eb9fd47.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class CarHorn(Solo48):
     icon_id = 'car-horn'

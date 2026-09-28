@@ -4,7 +4,7 @@ from ._base import Solo48
 SOURCE_ICON_ID = '71cc0503-f8f3-434e-9c8e-e1524bb2498d'
 SOURCE_PATH = 'pictographic-primitives/transportation/bicycle_71cc0503-f8f3-434e-9c8e-e1524bb2498d.svg'
 SOURCE_REFERENCES = (('71cc0503-f8f3-434e-9c8e-e1524bb2498d', 'pictographic-primitives/transportation/bicycle_71cc0503-f8f3-434e-9c8e-e1524bb2498d.svg'), ('7e9c7c99-94c3-4ae5-a57d-56a00190f3e6', 'pictographic-primitives/transportation/bicycle_7e9c7c99-94c3-4ae5-a57d-56a00190f3e6.svg'))
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BicycleAngledHandlebar(Solo48):
     icon_id = 'bicycle-angled-handlebar'

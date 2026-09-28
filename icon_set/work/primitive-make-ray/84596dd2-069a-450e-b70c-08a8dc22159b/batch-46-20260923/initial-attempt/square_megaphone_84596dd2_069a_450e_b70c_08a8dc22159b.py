@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='84596dd2-069a-450e-b70c-08a8dc22159b'
 SOURCE_PATH='icon_set/work/todo-references/square megaphone_84596dd2-069a-450e-b70c-08a8dc22159b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing a diagonally raised megaphone and rounded grip.'
 CONSTRUCTION_REFERENCES='Lucide megaphone: widening cone and lower attached handle.'
 OMISSIONS='None.'

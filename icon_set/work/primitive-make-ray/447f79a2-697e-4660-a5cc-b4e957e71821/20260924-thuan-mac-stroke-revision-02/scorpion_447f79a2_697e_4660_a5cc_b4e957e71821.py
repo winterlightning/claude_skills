@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='447f79a2-697e-4660-a5cc-b4e957e71821'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__scorpion/20260924T101756Z-thuan-mac/reference/insect scorpion_447f79a2-697e-4660-a5cc-b4e957e71821.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 CONSTRUCTION_REFERENCE='bug: paired limb construction; source owns pincers and curled sting'
 DESIGN_PLAN='Scorpion with two open pincers, an oval body, paired legs and a curled tail with a barb. SQUARE centerlines (6,6)-(42,42). Share mirrored claw construction and keep the tail intentionally asymmetric.'
 OMISSIONS='Three leg pairs reduced to two pairs for spacing.'

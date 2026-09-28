@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9d22466c-f3d2-483e-8d05-604dbca040ce'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/circle notch_9d22466c-f3d2-483e-8d05-604dbca040ce.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circular-loading-progress-indicator'

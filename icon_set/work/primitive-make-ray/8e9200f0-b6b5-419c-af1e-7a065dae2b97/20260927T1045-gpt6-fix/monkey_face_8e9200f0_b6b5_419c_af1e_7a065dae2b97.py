@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8e9200f0-b6b5-419c-af1e-7a065dae2b97'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monkey-face/20260927T104148Z-thuan-mac-1/reference/monkey 2_8e9200f0-b6b5-419c-af1e-7a065dae2b97.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class MonkeyFace(Solo48):
     icon_id = 'monkey-face'

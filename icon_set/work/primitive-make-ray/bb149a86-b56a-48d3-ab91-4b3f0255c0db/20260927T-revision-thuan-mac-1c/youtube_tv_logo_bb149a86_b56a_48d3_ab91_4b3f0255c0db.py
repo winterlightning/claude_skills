@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'bb149a86-b56a-48d3-ab91-4b3f0255c0db'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__youtube-tv-logo/20260927T145855Z-thuan-mac-1/reference/youtube tv logo_bb149a86-b56a-48d3-ab91-4b3f0255c0db.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class YoutubeTvLogo(Solo48):
     icon_id = 'youtube-tv-logo'

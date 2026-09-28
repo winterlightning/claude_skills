@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9c7a9373-6b14-416c-b4ee-37335d7a0f46'
 SOURCE_PATH='icon_set/work/todo-references/single neutral actions process_9c7a9373-6b14-416c-b4ee-37335d7a0f46.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='single-neutral-actions-process'

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ae952df2-68f4-565e-b88a-dcfb00a56475'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__foaming-beer-mug-with-two-vertical-ribs/20260924T093128Z-thuan-mac/reference/beer mug_ae952df2-68f4-565e-b88a-dcfb00a56475.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='foaming-beer-mug-with-two-vertical-ribs'
     keyshape=Keyshape.SQUARE

@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'fa3ca15f-b005-4f2a-a7fa-abd754bde34f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shopping-cart-shallow-basket/20260927T093511Z-thuan-mac-1/reference/cart_fa3ca15f-b005-4f2a-a7fa-abd754bde34f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ShoppingCartShallowBasket(Solo48):
     icon_id = 'shopping-cart-shallow-basket'

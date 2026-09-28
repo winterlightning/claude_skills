@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '22ba9936-54d3-4de1-815f-e80d16f43ff1'
 SOURCE_PATH = 'pictographic-primitives/shopping/shopping cart_22ba9936-54d3-4de1-815f-e80d16f43ff1.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_MODULE = 'icon_set/model/icons/solo/shopping_cart_right_grip_lower_rail_22ba9936_54d3_4de1_815f_e80d16f43ff1.py'
 class Drawing(Solo48):
     icon_id = 'shopping-cart-right-grip-lower-rail'

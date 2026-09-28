@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='9046ec78-1a6b-4029-a2e9-be0d10843436'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__bareheaded-delivery-rider-on-scooter/20260924T160711Z-thuan-mac/reference/delivery person motorcycle 1_9046ec78-1a6b-4029-a2e9-be0d10843436.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='bareheaded-delivery-rider-on-scooter'

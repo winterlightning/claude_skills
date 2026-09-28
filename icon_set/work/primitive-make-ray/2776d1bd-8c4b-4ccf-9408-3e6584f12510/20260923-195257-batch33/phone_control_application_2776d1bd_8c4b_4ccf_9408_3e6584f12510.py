@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='2776d1bd-8c4b-4ccf-9408-3e6584f12510'
 SOURCE_PATH='icon_set/work/todo-references/phone control application_2776d1bd-8c4b-4ccf-9408-3e6584f12510.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='A horizontal wireless phone controller with two equal round buttons.'
 OMISSIONS='Narrow right seam and second wireless arc omitted to preserve clearance.'
 LUCIDE_REFERENCE=None

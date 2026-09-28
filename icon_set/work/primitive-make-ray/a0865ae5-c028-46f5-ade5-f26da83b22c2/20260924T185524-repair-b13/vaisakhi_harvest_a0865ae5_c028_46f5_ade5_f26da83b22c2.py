@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a0865ae5-c028-46f5-ade5-f26da83b22c2'
 SOURCE_PATH='pictographic-primitives/holidays/vaisakhi harvest_a0865ae5-c028-46f5-ade5-f26da83b22c2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Drum hoop series spaced 8; pair of beaters above. Wheat two joints spaced 8; squared drum simplified from curved barrel. No useful exact Lucide match.'
 class Drawing(Solo48):
     icon_id='vaisakhi-harvest'

@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '34f87da9-e584-47f7-8fe0-ca66e9aa7da9'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon eventbridge_34f87da9-e584-47f7-8fe0-ca66e9aa7da9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'amazon-eventbridge'

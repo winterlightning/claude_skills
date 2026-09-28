@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='038671a5-e4b2-47c1-9b89-3dc45061018d'
 SOURCE_PATH='icon_set/work/todo-references/picture stack landscape_038671a5-e4b2-47c1-9b89-3dc45061018d.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Three stacked landscape pictures. Front owns sun, two mountain peaks and lower caption margin; two rear L outlines retain the layer count.'
 CONSTRUCTION_REFERENCES='Lucide image: frame, round sun, joined peaks.'
 OMISSIONS='No layers omitted; minor corner rounding simplified.'

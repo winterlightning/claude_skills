@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a6f3f418-9129-4fb0-abbb-79cc66b9dabb'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__spiral-lollipop-on-upright-stick/20260924T162030Z-thuan-mac/reference/lollipop_a6f3f418-9129-4fb0-abbb-79cc66b9dabb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='spiral-lollipop-on-upright-stick'

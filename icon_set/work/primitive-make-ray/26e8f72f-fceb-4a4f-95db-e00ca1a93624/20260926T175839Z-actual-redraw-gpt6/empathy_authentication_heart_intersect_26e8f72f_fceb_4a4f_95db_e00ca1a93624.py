@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '26e8f72f-fceb-4a4f-95db-e00ca1a93624'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-profiles-with-heart/20260926T172218Z-thuan-mac-1/reference/empathy authentication heart intersect_26e8f72f-fceb-4a4f-95db-e00ca1a93624.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeadProfilesWithHeart(Solo48):

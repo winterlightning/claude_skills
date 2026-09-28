@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='01aff74c-6e7d-4c53-9e84-005da220b852'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__person-silhouette-wavy/20260924T065933Z-thuan-mac/reference/sub square_01aff74c-6e7d-4c53-9e84-005da220b852.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='person-silhouette-wavy'

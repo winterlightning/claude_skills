@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '67bf7fb1-ed00-461a-9eb2-9b3fb1ab73b4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-left-right/20260926T073831Z-thuan-mac/reference/arrows left right_67bf7fb1-ed00-461a-9eb2-9b3fb1ab73b4.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class ArrowLeftRight(Solo48):
     icon_id = 'arrow-left-right'

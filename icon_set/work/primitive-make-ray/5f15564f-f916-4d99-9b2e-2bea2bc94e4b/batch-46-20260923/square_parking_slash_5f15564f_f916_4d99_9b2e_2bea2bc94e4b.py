@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5f15564f-f916-4d99-9b2e-2bea2bc94e4b'
 SOURCE_PATH='icon_set/work/todo-references/square parking slash_5f15564f-f916-4d99-9b2e-2bea2bc94e4b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Square containing a single-stroke R as actually pictured.'
 CONSTRUCTION_REFERENCES='Lucide square-parking bowl construction plus diagonal R leg.'
 OMISSIONS='Source R retained despite parking slash filename.'

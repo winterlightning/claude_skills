@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '644f0939-3147-4db6-b0af-b342b3de1e9e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-machine-track-with-two-wheels/20260927T070927Z-thuan-mac-1/reference/equipment machine track_644f0939-3147-4db6-b0af-b342b3de1e9e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class DiagonalMachineTrackWithTwoWheels(Solo48):
     icon_id = 'diagonal-machine-track-with-two-wheels'

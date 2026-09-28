@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'dfa6681e-c282-4464-9e3f-8da4256d4f83'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__buffalo-head/20260924T090148Z-thuan-mac/reference/buffalo_dfa6681e-c282-4464-9e3f-8da4256d4f83.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'buffalo-head'

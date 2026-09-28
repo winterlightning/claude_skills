@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e464a014-40c8-48ee-807f-4831de2ebb07'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pump-action-shotgun/20260927T153803Z-thuan-mac-1/reference/shotgun_e464a014-40c8-48ee-807f-4831de2ebb07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PumpActionShotgun(Solo48):
     icon_id = 'pump-action-shotgun'

@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'cabc5985-10ec-4ff6-97df-f2868406a44f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-bindle/20260927T083143Z-thuan-mac-1/reference/user homeless poverty 1_cabc5985-10ec-4ff6-97df-f2868406a44f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonWithBindle(Solo48):
     icon_id = 'person-with-bindle'

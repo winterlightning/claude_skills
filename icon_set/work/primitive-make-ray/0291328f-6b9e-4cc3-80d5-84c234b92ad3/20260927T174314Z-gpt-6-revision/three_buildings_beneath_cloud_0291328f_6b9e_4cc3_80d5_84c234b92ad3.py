@@ -5,7 +5,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0291328f-6b9e-4cc3-80d5-84c234b92ad3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-buildings-beneath-cloud/20260927T173930Z-thuan-mac-1/reference/building cloudy_0291328f-6b9e-4cc3-80d5-84c234b92ad3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-buildings-beneath-cloud'

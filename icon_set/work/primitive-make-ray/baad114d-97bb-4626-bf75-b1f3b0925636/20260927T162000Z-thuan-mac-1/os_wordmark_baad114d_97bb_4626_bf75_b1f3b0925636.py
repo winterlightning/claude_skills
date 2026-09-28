@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'baad114d-97bb-4626-bf75-b1f3b0925636'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__os-wordmark/20260927T160114Z-thuan-mac-1/reference/ios logo 1_baad114d-97bb-4626-bf75-b1f3b0925636.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class OsWordmark(Solo48):

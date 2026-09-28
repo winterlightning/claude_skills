@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0e434293-d74f-5213-b6de-208f8ec14318'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ok-hand-gesture/20260927T133654Z-thuan-mac-1/reference/ok hand_0e434293-d74f-5213-b6de-208f8ec14318.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class OkHandGesture(Solo48):
     icon_id = 'ok-hand-gesture'

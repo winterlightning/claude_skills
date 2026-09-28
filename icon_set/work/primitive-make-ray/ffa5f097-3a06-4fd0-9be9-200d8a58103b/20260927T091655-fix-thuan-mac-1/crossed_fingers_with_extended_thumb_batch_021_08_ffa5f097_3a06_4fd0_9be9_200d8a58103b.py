@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ffa5f097-3a06-4fd0-9be9-200d8a58103b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__crossed-fingers-with-extended-thumb-batch-021-08/20260927T091424Z-thuan-mac-1/reference/finger crossed_ffa5f097-3a06-4fd0-9be9-200d8a58103b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

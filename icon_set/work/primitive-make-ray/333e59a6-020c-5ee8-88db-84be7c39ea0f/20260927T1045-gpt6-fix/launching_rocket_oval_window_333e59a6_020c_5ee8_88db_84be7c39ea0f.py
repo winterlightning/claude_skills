@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '333e59a6-020c-5ee8-88db-84be7c39ea0f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__launching-rocket-oval-window/20260927T104148Z-thuan-mac-1/reference/rocket_333e59a6-020c-5ee8-88db-84be7c39ea0f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class LaunchingRocketOvalWindow(Solo48):
     icon_id = 'launching-rocket-oval-window'

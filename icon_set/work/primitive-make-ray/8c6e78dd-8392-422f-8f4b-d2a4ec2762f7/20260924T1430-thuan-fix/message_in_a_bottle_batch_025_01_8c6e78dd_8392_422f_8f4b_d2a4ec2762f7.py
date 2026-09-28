@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8c6e78dd-8392-422f-8f4b-d2a4ec2762f7'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__message-in-a-bottle-batch-025-01/20260924T142504Z-thuan-mac/reference/message bottle_8c6e78dd-8392-422f-8f4b-d2a4ec2762f7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='message-in-a-bottle-batch-025-01'
     keyshape=Keyshape.SQUARE

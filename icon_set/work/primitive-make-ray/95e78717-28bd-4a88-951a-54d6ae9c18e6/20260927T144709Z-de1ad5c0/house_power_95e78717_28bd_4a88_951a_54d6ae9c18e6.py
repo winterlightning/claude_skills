@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='95e78717-28bd-4a88-951a-54d6ae9c18e6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-power/20260927T142529Z-thuan-mac-1/reference/house power_95e78717-28bd-4a88-951a-54d6ae9c18e6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN='An open continuous curved ring replaces the squared-off U ends; the centered stem and rounded lower house corners have clear spacing. The ring is slightly flattened to fit below the roof.'
 CONSTRUCTION_REFERENCE='house and power originals; power atomic-debug informs a continuous open ring.'
 OMISSIONS='No defining features omitted.'

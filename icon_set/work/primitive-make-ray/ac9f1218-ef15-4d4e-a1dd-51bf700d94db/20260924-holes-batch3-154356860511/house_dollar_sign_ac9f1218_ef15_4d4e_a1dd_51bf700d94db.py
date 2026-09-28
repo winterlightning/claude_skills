@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='ac9f1218-ef15-4d4e-a1dd-51bf700d94db'
 SOURCE_PATH = 'pictographic-primitives/other/house dollar sign_ac9f1218-ef15-4d4e-a1dd-51bf700d94db.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='house-dollar-sign'
     keyshape=Keyshape.VRECT_L

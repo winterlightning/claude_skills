@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '18c142d2-e82e-43f2-97e5-93f5983b8bd6'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_07/boss desk document_18c142d2-e82e-43f2-97e5-93f5983b8bd6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'office-desk-with-document'

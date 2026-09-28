@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '01454827-9baf-4788-a0fd-482b8da6c50f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__security-officer-holding-passport/20260927T091411Z-thuan-mac-1/reference/security officer passport_01454827-9baf-4788-a0fd-482b8da6c50f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_CONSTRUCTION = 'bust'
 
 class SecurityOfficerHoldingPassport(Solo48):

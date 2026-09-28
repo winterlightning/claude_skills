@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6827ce25-bda1-54bb-bc4b-11e435eb0b3f'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__chess-rook-batch-013-15/20260924T083211Z-thuan-mac/reference/chess rook_6827ce25-bda1-54bb-bc4b-11e435eb0b3f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='chess-rook-batch-013-15'

@@ -10,7 +10,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a682a55e-d458-5bde-89cf-3cf9460d58a9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__massage-figure-beneath-stacked-stones/20260927T074149Z-thuan-mac-1/reference/hot stone massage point_a682a55e-d458-5bde-89cf-3cf9460d58a9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'massage-figure-beneath-stacked-stones'

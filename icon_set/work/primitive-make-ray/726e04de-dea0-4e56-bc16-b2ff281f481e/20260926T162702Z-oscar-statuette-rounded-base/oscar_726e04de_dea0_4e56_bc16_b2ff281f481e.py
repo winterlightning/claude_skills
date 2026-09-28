@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='726e04de-dea0-4e56-bc16-b2ff281f481e'
 SOURCE_PATH='pictographic-primitives/rewards/oscar_726e04de-dea0-4e56-bc16-b2ff281f481e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class OscarStatuetteRoundedBase(Solo48):
     icon_id='oscar-statuette-rounded-base'

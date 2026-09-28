@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '465fa6c6-5f8b-4335-a186-c938fe764751'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face kiss wink heart_465fa6c6-5f8b-4335-a186-c938fe764751.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class KissingFaceWinkHeart(Solo48):
     icon_id = 'kissing-face-wink-heart'

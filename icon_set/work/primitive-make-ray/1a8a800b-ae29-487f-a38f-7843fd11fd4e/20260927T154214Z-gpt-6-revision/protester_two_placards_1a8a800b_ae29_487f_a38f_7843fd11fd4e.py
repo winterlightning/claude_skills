@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '1a8a800b-ae29-487f-a38f-7843fd11fd4e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__protester-two-placards/20260927T153803Z-thuan-mac-1/reference/protest_1a8a800b-ae29-487f-a38f-7843fd11fd4e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ProtesterTwoPlacards(Solo48):
     icon_id = 'protester-two-placards'

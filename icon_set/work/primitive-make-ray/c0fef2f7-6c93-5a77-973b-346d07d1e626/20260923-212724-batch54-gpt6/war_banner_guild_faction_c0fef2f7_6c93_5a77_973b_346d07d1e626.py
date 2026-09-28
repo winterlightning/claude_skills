@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'c0fef2f7-6c93-5a77-973b-346d07d1e626'
 SOURCE_PATH = 'icon_set/work/todo-references/war banner guild faction_c0fef2f7-6c93-5a77-973b-346d07d1e626.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'war-banner-guild-faction'
     keyshape = Keyshape.SQUARE

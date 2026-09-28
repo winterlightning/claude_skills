@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='60df543d-dca5-4914-a5c9-114df422b161'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__witch-in-pointed-hat/20260924T163721Z-thuan-mac/reference/witch_60df543d-dca5-4914-a5c9-114df422b161.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='witch-in-pointed-hat'

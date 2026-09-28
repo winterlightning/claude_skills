@@ -3,7 +3,7 @@ import json,importlib.util,traceback,cairosvg
 from PIL import Image,ImageDraw
 SOURCE_ICON_ID='4813164b-bbb2-498a-aa24-70f1ec279cb1'
 SOURCE_PATH='icon_set/work/todo-references/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 ROOT=Path(__file__).parent
 rows=json.loads((ROOT/'batch.json').read_text())
 helpers='''

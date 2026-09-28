@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'fa7b7f99-3071-4d51-9441-0a401cfe97ef'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__orange-leaf-slice/20260924T093935Z-thuan-mac/reference/orange grapefruit citrus_fa7b7f99-3071-4d51-9441-0a401cfe97ef.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide citrus: diagonal chord, round rind and radial divider.'
 OMISSIONS = 'Double rind and extra segment lines omitted.'
 

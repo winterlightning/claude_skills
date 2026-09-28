@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8ab1cb04-f795-4ebc-818d-6255c2998131'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__medium-temperature-thermometer-8ab1cb04/20260927T165437Z-thuan-mac-1/reference/temperature thermometer medium_8ab1cb04-f795-4ebc-818d-6255c2998131.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'medium-temperature-thermometer-8ab1cb04'

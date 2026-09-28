@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7d002be2-8db0-591d-9e62-868a56fdf240'
 SOURCE_PATH = 'pictographic-primitives/health/blood bag_7d002be2-8db0-591d-9e62-868a56fdf240.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/blood_bag_7d002be2_8db0_591d_9e62_868a56fdf240.py'
 
 class Drawing(Solo48):

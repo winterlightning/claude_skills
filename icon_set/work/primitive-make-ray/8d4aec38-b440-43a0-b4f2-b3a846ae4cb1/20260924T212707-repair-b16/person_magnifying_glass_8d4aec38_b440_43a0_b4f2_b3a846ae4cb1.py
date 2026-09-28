@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='8d4aec38-b440-43a0-b4f2-b3a846ae4cb1'
 SOURCE_PATH='pictographic-primitives/other/person magnifying glass_8d4aec38-b440-43a0-b4f2-b3a846ae4cb1.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Larger circular lens with eight mirrored cubic octants and radial handle at37,37. Human-reference user.svg: round head radius3, shoulder apex29 and head bottom21 => exact8 centerline/4 ink gap. Short open bust inside lens; deliberate handle asymmetry.'
 class Drawing(Solo48):
     icon_id='person-magnifying-glass-solo'

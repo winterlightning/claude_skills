@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd7d0c512-9297-5dff-b9e6-c0a7c8665c4f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__right-facing-lion-leaping-through-upright-hoop/20260927T171300Z-thuan-mac-1/reference/circus lion ring_d7d0c512-9297-5dff-b9e6-c0a7c8665c4f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'right-facing-lion-leaping-through-upright-hoop'

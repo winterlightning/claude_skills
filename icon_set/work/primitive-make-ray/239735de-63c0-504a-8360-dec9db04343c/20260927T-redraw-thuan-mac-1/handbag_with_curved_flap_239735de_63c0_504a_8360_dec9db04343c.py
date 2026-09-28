@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '239735de-63c0-504a-8360-dec9db04343c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__handbag-with-curved-flap/20260926T173134Z-thuan-mac-1/reference/bag elegant_239735de-63c0-504a-8360-dec9db04343c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandbagWithCurvedFlap(Solo48):
     icon_id = 'handbag-with-curved-flap'

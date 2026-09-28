@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='919f7b7f-3788-4327-997e-bf56456e04cd'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__urinary-system/20260924T163448Z-thuan-mac/reference/urinary system_919f7b7f-3788-4327-997e-bf56456e04cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='urinary-system'
     keyshape=Keyshape.VRECT_L

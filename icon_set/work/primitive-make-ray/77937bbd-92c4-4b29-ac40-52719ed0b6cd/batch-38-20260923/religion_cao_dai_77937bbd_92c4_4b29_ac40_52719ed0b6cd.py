@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='77937bbd-92c4-4b29-ac40-52719ed0b6cd'
 SOURCE_PATH='icon_set/work/todo-references/religion cao dai_77937bbd-92c4-4b29-ac40-52719ed0b6cd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Cao Dai eye inside an upright triangle. Outer triangle, symmetrical lens and circular iris share the vertical axis.'
 CONSTRUCTION_REFERENCES='Lucide eye: smooth lens and circular iris; source owns the triangular enclosure.'
 OMISSIONS='None.'

@@ -7,7 +7,7 @@ SOURCE_ICON_ID='0d0d1025-1418-574d-b291-75e0e612531c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cube-with-three-connected-nodes-solo-b017/20260927T160114Z-thuan-mac-1/reference/rotate d_0d0d1025-1418-574d-b291-75e0e612531c.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/other/rotate d_0d0d1025-1418-574d-b291-75e0e612531c.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-017/references/rotate d_0d0d1025-1418-574d-b291-75e0e612531c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class BatchIcon(Solo48):
     icon_id='cube-with-three-connected-nodes-solo-b017'
     keyshape=Keyshape.HRECT_L

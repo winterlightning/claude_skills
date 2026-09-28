@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Numbered list with rows one, two and three.'
 CONSTRUCTION_REFERENCES = 'Lucide list-ordered: numeral column and repeated rules.'
 OMISSIONS = 'Compact monoline numerals.'

@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '938032ae-5024-5ede-94da-88527f48269f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__honey-dipper-drip/20260927T151732Z-thuan-mac-1/reference/honey_938032ae-5024-5ede-94da-88527f48269f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HoneyDipperDrip(Solo48):
     icon_id = 'honey-dipper-drip'

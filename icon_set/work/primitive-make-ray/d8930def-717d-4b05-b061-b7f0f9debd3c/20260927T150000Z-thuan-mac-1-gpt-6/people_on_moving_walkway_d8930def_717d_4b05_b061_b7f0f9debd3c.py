@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd8930def-717d-4b05-b061-b7f0f9debd3c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__people-on-moving-walkway/20260927T145836Z-thuan-mac-1/reference/moving walkway people_d8930def-717d-4b05-b061-b7f0f9debd3c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PeopleOnMovingWalkway(Solo48):
     icon_id = 'people-on-moving-walkway'

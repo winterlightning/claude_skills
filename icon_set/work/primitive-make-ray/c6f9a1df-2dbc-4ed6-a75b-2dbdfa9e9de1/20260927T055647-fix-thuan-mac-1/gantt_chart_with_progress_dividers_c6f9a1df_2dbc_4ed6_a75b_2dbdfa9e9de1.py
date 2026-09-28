@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c6f9a1df-2dbc-4ed6-a75b-2dbdfa9e9de1'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__gantt-chart-with-progress-dividers/20260927T055612Z-thuan-mac-1/reference/workflow gantt chart_c6f9a1df-2dbc-4ed6-a75b-2dbdfa9e9de1.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

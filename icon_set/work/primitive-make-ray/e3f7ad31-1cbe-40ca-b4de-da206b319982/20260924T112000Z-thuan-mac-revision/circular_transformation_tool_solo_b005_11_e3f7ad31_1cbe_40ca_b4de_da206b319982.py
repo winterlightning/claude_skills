@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e3f7ad31-1cbe-40ca-b4de-da206b319982'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__circular-transformation-tool-solo-b005-11/20260924T111346Z-thuan-mac/reference/transform shrink_e3f7ad31-1cbe-40ca-b4de-da206b319982.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'circular-transformation-tool-solo-b005-11'

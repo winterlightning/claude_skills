@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '94b0b30d-4817-43f4-9e38-d4b8d2336e21'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__push-mower-straight-handle/20260927T153833Z-thuan-mac-1/reference/lawn mower_94b0b30d-4817-43f4-9e38-d4b8d2336e21.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Batch29Icon(Solo48):
     icon_id = 'push-mower-straight-handle'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='d25557be-d198-406c-ac40-686ab3f61c2a'
 SOURCE_PATH='pictographic-primitives/_uncategorized_34/smiley bright_d25557be-d198-406c-ac40-686ab3f61c2a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='sparkle-eyed-face-with-uneven-smile'
     keyshape=Keyshape.CIRCLE

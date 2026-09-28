@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4fe6a86e-b26a-405a-9e35-84f3c5a12b9e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__adjacent-teeth-with-braces/20260924T092136Z-thuan-mac/reference/dental brace_4fe6a86e-b26a-405a-9e35-84f3c5a12b9e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'adjacent-teeth-with-braces'
     keyshape = Keyshape.HRECT_L

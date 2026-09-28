@@ -4,7 +4,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a119cf45-d021-460f-b469-9d1f28774714'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__multiple-users-wifi/20260927T142540Z-thuan-mac-1/reference/multiple users wifi_a119cf45-d021-460f-b469-9d1f28774714.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'multiple-users-wifi'

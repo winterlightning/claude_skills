@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c9a32a88-1037-4cb5-8b11-265935d5449f'
 SOURCE_PATH='pictographic-primitives/weather/visibility_c9a32a88-1037-4cb5-8b11-265935d5449f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Visibility with larger closed triangular marker, two dotted range marks and100 below. SQUARE6,6–42,42. Numerals use short1 and complete circular zeros of diameter6, the explicitly supported small-circle shape. No useful exact Lucide match.'
 class Drawing(Solo48):
     icon_id='visibility'

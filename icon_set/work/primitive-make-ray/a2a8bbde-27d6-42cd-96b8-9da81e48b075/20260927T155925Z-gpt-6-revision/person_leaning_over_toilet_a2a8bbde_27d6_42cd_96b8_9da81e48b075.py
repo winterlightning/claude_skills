@@ -12,7 +12,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a2a8bbde-27d6-42cd-96b8-9da81e48b075'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-leaning-over-toilet/20260927T153747Z-thuan-mac-1/reference/vomit toilet_a2a8bbde-27d6-42cd-96b8-9da81e48b075.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PersonLeaningOverToilet(Solo48):
     icon_id = 'person-leaning-over-toilet'

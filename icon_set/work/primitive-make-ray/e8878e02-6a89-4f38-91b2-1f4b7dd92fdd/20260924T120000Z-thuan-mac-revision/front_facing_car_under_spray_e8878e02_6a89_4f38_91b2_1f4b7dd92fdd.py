@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='e8878e02-6a89-4f38-91b2-1f4b7dd92fdd'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__front-facing-car-under-spray/20260924T115443Z-thuan-mac/reference/car repair wash 1_e8878e02-6a89-4f38-91b2-1f4b7dd92fdd.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='front-facing-car-under-spray'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '94b02a29-f0e3-482a-8b4a-725005a9332e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__keyhole/20260924T100528Z-thuan-mac/reference/keyhole_94b02a29-f0e3-482a-8b4a-725005a9332e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'key-round'
 DESIGN_PLAN = 'Symmetric keyhole with a circular crown and flared stem. VRECT_M centerlines (10,4)-(38,44); replace segmented crown with one shared circle. No omissions.'
 class Drawing(Solo48):

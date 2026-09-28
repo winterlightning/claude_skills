@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4f082a54-6814-536d-bc23-2e2c1cc34d2f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shofar-horn-with-sound/20260927T101542Z-thuan-mac-1/reference/rosh hashanah feast of trumpets_4f082a54-6814-536d-bc23-2e2c1cc34d2f.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

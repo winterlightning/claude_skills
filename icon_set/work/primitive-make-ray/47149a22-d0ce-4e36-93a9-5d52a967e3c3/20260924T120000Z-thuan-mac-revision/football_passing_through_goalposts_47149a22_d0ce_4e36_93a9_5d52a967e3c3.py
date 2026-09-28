@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='47149a22-d0ce-4e36-93a9-5d52a967e3c3'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__football-passing-through-goalposts/20260924T115443Z-thuan-mac/reference/american football score_47149a22-d0ce-4e36-93a9-5d52a967e3c3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='football-passing-through-goalposts'

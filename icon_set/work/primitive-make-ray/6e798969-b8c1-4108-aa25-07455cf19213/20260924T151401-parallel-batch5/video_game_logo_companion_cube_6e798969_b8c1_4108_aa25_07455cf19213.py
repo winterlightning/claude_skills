@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6e798969-b8c1-4108-aa25-07455cf19213'
 SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game logo companion cube_6e798969-b8c1-4108-aa25-07455cf19213.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='video-game-logo-companion-cube'
     keyshape=Keyshape.SQUARE

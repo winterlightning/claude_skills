@@ -17,7 +17,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'faabe7b6-2ce7-47c5-a31b-881b93ad2845'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cupped-hands-share-component/20260926T152509Z-thuan-mac-1/reference/e learning share_faabe7b6-2ce7-47c5-a31b-881b93ad2845.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 AXIS = 24
 HUB, HUB_R = (24, 20), 4

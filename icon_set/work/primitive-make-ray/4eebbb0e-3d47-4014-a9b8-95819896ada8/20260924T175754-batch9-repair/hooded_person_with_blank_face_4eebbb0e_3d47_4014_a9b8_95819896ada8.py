@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4eebbb0e-3d47-4014-a9b8-95819896ada8'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_33/rogue_4eebbb0e-3d47-4014-a9b8-95819896ada8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A hooded person with a blank circular face.'
 OMISSIONS = 'Sleeve lines omitted and jacket seam shortened. Shoulders rebuilt as a centered ellipse with explicit hood attachment nodes.'
 CONSTRUCTION_REFERENCES = 'Shared human user.svg and human-reference.md: circular face, curved shoulders and touching bust construction.'

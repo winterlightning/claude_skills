@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bcaab976-a053-4420-bd38-48bdf4e984d6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pool-player-aiming/20260927T153747Z-thuan-mac-1/reference/pool player_bcaab976-a053-4420-bd38-48bdf4e984d6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class PoolPlayerAiming(Solo48):
     icon_id='pool-player-aiming'

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4756649f-fa81-4c81-bfa9-f4206356d978'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__underwater-drone-twin-thrusters/20260927T133645Z-thuan-mac-1/reference/underwater drone_4756649f-fa81-4c81-bfa9-f4206356d978.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class UnderwaterDroneTwinThrusters(Solo48):
     icon_id = 'underwater-drone-twin-thrusters'

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '321ddc46-d254-44b0-be3f-5fad65e304d5'
 SOURCE_PATH = 'icon_set/work/todo-references/remove row_321ddc46-d254-44b0-be3f-5fad65e304d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Two row boundaries and a detached deletion cross; direction intentionally left weighted.
 # Reference reduction: No defining parts omitted.
 # Construction references: ['table']

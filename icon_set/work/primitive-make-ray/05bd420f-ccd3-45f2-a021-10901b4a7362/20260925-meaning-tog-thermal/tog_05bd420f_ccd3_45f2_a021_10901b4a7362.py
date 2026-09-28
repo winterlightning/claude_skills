@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '05bd420f-ccd3-45f2-a021-10901b4a7362'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tog/20260925T034659Z-thuan-mac/reference/tog_05bd420f-ccd3-45f2-a021-10901b4a7362.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: folded duvet with three equal rising warmth waves; user clarified thermal tog rating.
 # HRECT_L extremes (4,8)-(44,40); 10-unit centerline wave-to-duvet gap.
 # Lucide heater: repeated rising heat strokes, reauthored with tangent circular arcs.

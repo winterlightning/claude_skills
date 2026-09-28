@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='fc535717-5e07-564a-aad9-923ace667ffb'
 SOURCE_PATH='pictographic-primitives/holidays/star_fc535717-5e07-564a-aad9-923ace667ffb.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Five-point star centered in a round award medal, with paired ribbon ends beneath. Wider star and deeper lower notch increase internal space.'
 CONSTRUCTION_REFERENCES='star: mirrored alternating outer points and inner valleys; supplied medal owns ribbon.'
 OMISSIONS=[]

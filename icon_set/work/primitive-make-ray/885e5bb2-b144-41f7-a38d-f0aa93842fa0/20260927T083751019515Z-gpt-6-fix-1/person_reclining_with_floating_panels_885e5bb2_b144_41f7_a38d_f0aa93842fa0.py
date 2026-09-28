@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '885e5bb2-b144-41f7-a38d-f0aa93842fa0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-reclining-with-floating-panels/20260927T083143Z-thuan-mac-1/reference/immersive reality chair_885e5bb2-b144-41f7-a38d-f0aa93842fa0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HUMAN_CONSTRUCTION = 'stick-figure'
 
 class PersonRecliningWithFloatingPanels(Solo48):

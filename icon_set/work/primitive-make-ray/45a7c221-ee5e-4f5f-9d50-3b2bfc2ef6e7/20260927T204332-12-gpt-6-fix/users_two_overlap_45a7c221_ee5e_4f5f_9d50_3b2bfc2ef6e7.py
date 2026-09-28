@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='45a7c221-ee5e-4f5f-9d50-3b2bfc2ef6e7'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__users-two-overlap/20260927T133645Z-thuan-mac-1/reference/two persons_45a7c221-ee5e-4f5f-9d50-3b2bfc2ef6e7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class UsersTwoOverlap(Solo48):
     icon_id='users-two-overlap'

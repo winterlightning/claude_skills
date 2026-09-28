@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='3352f8c5-b764-483d-b1b4-cbbf08da871f'
 SOURCE_PATH='pictographic-primitives/other/cart 1_3352f8c5-b764-483d-b1b4-cbbf08da871f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Cart with angular basket, curled support and equal open wheels.'
 CONSTRUCTION_REFERENCE='Lucide shopping-cart: basket, curled undercarriage and circular wheels.'
 class Drawing(Solo48):

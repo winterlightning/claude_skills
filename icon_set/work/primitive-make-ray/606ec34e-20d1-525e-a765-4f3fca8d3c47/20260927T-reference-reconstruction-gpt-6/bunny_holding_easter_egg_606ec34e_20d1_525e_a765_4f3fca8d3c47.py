@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '606ec34e-20d1-525e-a765-4f3fca8d3c47'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bunny-holding-easter-egg/20260926T165410Z-thuan-mac/reference/easter egg bunny_606ec34e-20d1-525e-a765-4f3fca8d3c47.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bunny-holding-easter-egg'

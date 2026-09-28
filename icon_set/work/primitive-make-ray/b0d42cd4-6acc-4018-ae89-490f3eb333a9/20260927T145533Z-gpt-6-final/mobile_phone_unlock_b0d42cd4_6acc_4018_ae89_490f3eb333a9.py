@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'b0d42cd4-6acc-4018-ae89-490f3eb333a9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-unlock/20260927T142540Z-thuan-mac-1/reference/mobile phone unlock_b0d42cd4-6acc-4018-ae89-490f3eb333a9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-unlock'
     keyshape = Keyshape.VRECT_L

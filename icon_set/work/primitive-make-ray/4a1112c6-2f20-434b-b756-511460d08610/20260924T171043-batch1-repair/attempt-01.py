@@ -16,7 +16,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = "4a1112c6-2f20-434b-b756-511460d08610"
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/aerial yoga bow pose_4a1112c6-2f20-434b-b756-511460d08610.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class AerialYogaBowPose(Solo48):

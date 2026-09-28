@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a92b9733-23c6-4903-9f3a-c893edb5e9f4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__two-falling-bombs-solo/20260924T160658Z-thuan-mac/reference/bombs_a92b9733-23c6-4903-9f3a-c893edb5e9f4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'two-falling-bombs-solo'

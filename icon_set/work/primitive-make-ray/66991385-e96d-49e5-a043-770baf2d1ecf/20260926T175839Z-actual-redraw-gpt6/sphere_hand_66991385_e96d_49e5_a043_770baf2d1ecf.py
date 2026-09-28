@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '66991385-e96d-49e5-a043-770baf2d1ecf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-cupping-sphere/20260926T172218Z-thuan-mac-1/reference/sphere hand_66991385-e96d-49e5-a043-770baf2d1ecf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsCuppingSphere(Solo48):
     icon_id = 'hands-cupping-sphere'

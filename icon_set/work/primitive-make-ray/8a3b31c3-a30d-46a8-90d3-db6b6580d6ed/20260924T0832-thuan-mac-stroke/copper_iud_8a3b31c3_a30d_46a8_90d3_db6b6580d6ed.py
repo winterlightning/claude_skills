@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '8a3b31c3-a30d-46a8-90d3-db6b6580d6ed'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__copper-iud-rounded-arms/20260924T083118Z-thuan-mac/reference/copper iud_8a3b31c3-a30d-46a8-90d3-db6b6580d6ed.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'copper-iud-rounded-arms'

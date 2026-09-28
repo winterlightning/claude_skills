@@ -6,7 +6,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '748d6e5f-8942-4061-a602-5b499075202e'
 SOURCE_PATH = 'pictographic-primitives/other/rectangle single man focus_748d6e5f-8942-4061-a602-5b499075202e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'scan-face'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 

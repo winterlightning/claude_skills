@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '8013a3c2-dcf3-475e-98f6-cb6db629e137'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__jigsaw-light-bulb/20260927T070909Z-thuan-mac-1/reference/workflow coaching puzzle lightbulb_8013a3c2-dcf3-475e-98f6-cb6db629e137.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

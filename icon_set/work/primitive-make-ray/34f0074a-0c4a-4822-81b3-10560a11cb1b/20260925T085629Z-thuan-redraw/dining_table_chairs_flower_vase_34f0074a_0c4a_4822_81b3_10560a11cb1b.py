@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '34f0074a-0c4a-4822-81b3-10560a11cb1b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dining-table-chairs-flower-vase/20260925T085629Z-thuan-mac/reference/eating table_34f0074a-0c4a-4822-81b3-10560a11cb1b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'dining-table-chairs-flower-vase'

@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6c2435e0-bbe9-5122-8cf7-2b3eb32963f3'
 SOURCE_PATH='pictographic-primitives/holidays/snow globe_6c2435e0-bbe9-5122-8cf7-2b3eb32963f3.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Globe lower arc terminates at pedestal joints instead of overlapping base. Symmetric about x24. Lucide tree-pine triangle reduced to one tier; trunk retained.'
 class Drawing(Solo48):
     icon_id='snow-globe'

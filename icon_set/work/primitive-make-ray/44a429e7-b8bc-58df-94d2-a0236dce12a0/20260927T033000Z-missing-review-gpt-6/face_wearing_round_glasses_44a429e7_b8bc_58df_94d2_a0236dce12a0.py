@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '44a429e7-b8bc-58df-94d2-a0236dce12a0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__face-wearing-round-glasses/20260927T032256Z-thuan-mac-1/reference/glasses_44a429e7-b8bc-58df-94d2-a0236dce12a0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class FaceWearingRoundGlasses(Solo48):
     icon_id = 'face-wearing-round-glasses'

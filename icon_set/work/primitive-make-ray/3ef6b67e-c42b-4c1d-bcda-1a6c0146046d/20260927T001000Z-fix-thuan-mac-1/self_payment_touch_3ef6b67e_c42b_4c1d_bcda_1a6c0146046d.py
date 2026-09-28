@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._payments_batch01 import rounded_rect
 from icon_set.model.icons.solo._payments_batch02 import small_dollar
 SOURCE_ICON_ID='3ef6b67e-c42b-4c1d-bcda-1a6c0146046d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-touching-payment-kiosk/20260926T172218Z-thuan-mac-1/reference/self payment touch_3ef6b67e-c42b-4c1d-bcda-1a6c0146046d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandTouchingPaymentKiosk(Solo48):
     icon_id='hand-touching-payment-kiosk'

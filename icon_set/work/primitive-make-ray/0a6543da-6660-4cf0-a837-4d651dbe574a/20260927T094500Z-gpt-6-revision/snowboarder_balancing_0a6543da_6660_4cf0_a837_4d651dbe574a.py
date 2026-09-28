@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '0a6543da-6660-4cf0-a837-4d651dbe574a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__snowboarder-balancing/20260927T093533Z-thuan-mac-1/reference/skiing board slide_0a6543da-6660-4cf0-a837-4d651dbe574a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SnowboarderBalancing(Solo48):
     icon_id = 'snowboarder-balancing'

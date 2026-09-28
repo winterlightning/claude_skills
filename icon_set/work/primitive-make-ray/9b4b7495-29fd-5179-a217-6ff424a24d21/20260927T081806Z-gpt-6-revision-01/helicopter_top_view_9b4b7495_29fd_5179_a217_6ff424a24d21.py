@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9b4b7495-29fd-5179-a217-6ff424a24d21'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__helicopter-top-view/20260927T081503Z-thuan-mac-1/reference/helicopter top view_9b4b7495-29fd-5179-a217-6ff424a24d21.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HelicopterTopView(Solo48):
     icon_id = 'helicopter-top-view'

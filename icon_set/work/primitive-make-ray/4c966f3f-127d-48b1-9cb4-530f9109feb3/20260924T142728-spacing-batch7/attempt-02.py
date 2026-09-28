@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '4c966f3f-127d-48b1-9cb4-530f9109feb3'
 SOURCE_PATH = 'pictographic-primitives/health/specialty hearing_4c966f3f-127d-48b1-9cb4-530f9109feb3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'specialty-hearing'

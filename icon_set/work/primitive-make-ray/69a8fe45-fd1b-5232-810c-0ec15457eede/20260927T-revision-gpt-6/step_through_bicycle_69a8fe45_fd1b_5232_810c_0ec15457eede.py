@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '69a8fe45-fd1b-5232-810c-0ec15457eede'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__step-through-bicycle/20260927T094403Z-thuan-mac-1/reference/fitness bicycle_69a8fe45-fd1b-5232-810c-0ec15457eede.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class StepThroughBicycle(Solo48):
     icon_id = 'step-through-bicycle'

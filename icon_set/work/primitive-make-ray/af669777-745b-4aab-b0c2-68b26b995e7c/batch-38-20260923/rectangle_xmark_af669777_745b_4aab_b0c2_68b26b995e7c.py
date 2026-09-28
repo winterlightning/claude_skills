@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='af669777-745b-4aab-b0c2-68b26b995e7c'
 SOURCE_PATH='icon_set/work/todo-references/rectangle xmark_af669777-745b-4aab-b0c2-68b26b995e7c.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Rounded square panel containing a centered X with equal diagonal arms.'
 CONSTRUCTION_REFERENCES='Lucide square-x: equal diagonals and matched enclosure corners.'
 OMISSIONS='None.'

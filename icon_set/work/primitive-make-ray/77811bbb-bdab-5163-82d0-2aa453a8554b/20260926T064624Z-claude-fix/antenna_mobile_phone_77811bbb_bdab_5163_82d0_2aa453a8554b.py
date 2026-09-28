@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '77811bbb-bdab-5163-82d0-2aa453a8554b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__antenna-mobile-phone/20260926T064521Z-thuan-mac/reference/mobile phone blackberry_77811bbb-bdab-5163-82d0-2aa453a8554b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AntennaMobilePhone(Solo48):
     icon_id = 'antenna-mobile-phone'

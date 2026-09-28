@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='692731e6-c96e-4519-9f33-286ad47aea95'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__kraken-silhouette-reference-692731e6/20260924T115443Z-thuan-mac/reference/kraken_692731e6-c96e-4519-9f33-286ad47aea95.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='kraken-silhouette-reference-692731e6'

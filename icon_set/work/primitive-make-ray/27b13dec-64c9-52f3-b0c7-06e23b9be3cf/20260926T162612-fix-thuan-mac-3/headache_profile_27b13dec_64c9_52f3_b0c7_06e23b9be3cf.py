@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '27b13dec-64c9-52f3-b0c7-06e23b9be3cf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__headache-profile-27b13dec/20260926T162509Z-thuan-mac/reference/medical condition head pain_27b13dec-64c9-52f3-b0c7-06e23b9be3cf.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

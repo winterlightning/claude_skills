@@ -3,7 +3,7 @@ from pathlib import Path
 import json, textwrap, importlib.util
 import cairosvg
 
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 HERE=Path(__file__).parent
 INPUTS=json.loads((HERE/'batch-inputs.json').read_text())
 SOURCE_ICON_ID=tuple(r['source_uuid'] for r in INPUTS)

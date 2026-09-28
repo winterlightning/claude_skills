@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '666300f8-51fb-417d-a15c-04ca5345354f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__envelope-and-document-letter-batch-008-08/20260924T165054Z-thuan-mac/reference/read email letter_666300f8-51fb-417d-a15c-04ca5345354f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'envelope-and-document-letter-batch-008-08'
     keyshape = Keyshape.SQUARE

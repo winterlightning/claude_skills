@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '86ee206a-80e8-4959-a6ec-c45dd3bfc655'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__arrow-dashed-counterclockwise-circle/20260924T115444Z-thuan-mac/reference/diagram dash circle_86ee206a-80e8-4959-a6ec-c45dd3bfc655.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'arrow-dashed-counterclockwise-circle'
     keyshape = Keyshape.SQUARE

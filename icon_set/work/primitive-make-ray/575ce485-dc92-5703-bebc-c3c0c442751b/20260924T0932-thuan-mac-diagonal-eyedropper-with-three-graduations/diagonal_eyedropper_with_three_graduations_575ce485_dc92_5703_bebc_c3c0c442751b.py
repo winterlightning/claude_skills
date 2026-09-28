@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '575ce485-dc92-5703-bebc-c3c0c442751b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-eyedropper-with-three-graduations/20260924T093003Z-thuan-mac/reference/picker_575ce485-dc92-5703-bebc-c3c0c442751b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Revision(Solo48):
     icon_id = 'diagonal-eyedropper-with-three-graduations'
     keyshape = Keyshape.SQUARE

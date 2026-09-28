@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '58b70697-62ea-4501-873d-8e51b3416d7a'
 SOURCE_PATH = 'icon_set/work/todo-references/insurance cheap_58b70697-62ea-4501-873d-8e51b3416d7a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 SUBJECT = 'A balance with a low dollar coin and raised medical cross, indicating cheap insurance.'
 CONSTRUCTION_PLAN = 'Keep the tilted beam and triangle fulcrum; plus uses open equal-length strokes to reduce detail.'
 # Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.

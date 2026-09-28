@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'e56d856b-d6f4-5ba1-af0b-3ed9dcdf53ff'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__diagonal-side-handle-nightstick/20260925T085629Z-thuan-mac/reference/police nightstick_e56d856b-d6f4-5ba1-af0b-3ed9dcdf53ff.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'diagonal-side-handle-nightstick'

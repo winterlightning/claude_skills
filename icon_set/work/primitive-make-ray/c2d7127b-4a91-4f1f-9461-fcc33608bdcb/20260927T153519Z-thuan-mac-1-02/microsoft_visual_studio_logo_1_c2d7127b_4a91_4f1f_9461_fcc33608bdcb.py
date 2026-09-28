@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'c2d7127b-4a91-4f1f-9461-fcc33608bdcb'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__microsoft-visual-studio-logo-1/20260927T153322Z-thuan-mac-1/reference/microsoft visual studio logo 1_c2d7127b-4a91-4f1f-9461-fcc33608bdcb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
 REVIEW_ACTION = 'geometry-reconstructed'

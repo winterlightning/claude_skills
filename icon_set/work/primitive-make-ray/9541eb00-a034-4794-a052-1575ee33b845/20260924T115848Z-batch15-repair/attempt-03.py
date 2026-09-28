@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9541eb00-a034-4794-a052-1575ee33b845'
 SOURCE_PATH = 'pictographic-primitives/other/mobile phone music note_9541eb00-a034-4794-a052-1575ee33b845.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-music-note'
     keyshape = Keyshape.VRECT_L

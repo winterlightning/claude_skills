@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='65881da4-e2b5-4025-8419-8ee364d9b2ba'
 SOURCE_PATH='pictographic-primitives/hotels/hotel bed_65881da4-e2b5-4025-8419-8ee364d9b2ba.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Sleeping head and rounded blanket above a two-rail bed with posts.'
 CONSTRUCTION_REFERENCE='human_ref/full_body_ref.png: circular head; Lucide bed-single: separate mattress rail and posts.'
 class Drawing(Solo48):

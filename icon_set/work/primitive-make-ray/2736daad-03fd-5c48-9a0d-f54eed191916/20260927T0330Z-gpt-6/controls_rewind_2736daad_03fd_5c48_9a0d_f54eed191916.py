@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '2736daad-03fd-5c48-9a0d-f54eed191916'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__controls-rewind/20260927T032242Z-thuan-mac-1/reference/controls rewind_2736daad-03fd-5c48-9a0d-f54eed191916.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class ControlsRewind(Solo48):
     icon_id = 'controls-rewind'

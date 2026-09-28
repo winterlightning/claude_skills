@@ -12,7 +12,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '5174c77c-52dd-5cd9-9502-9d515b49067c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__avatar-judo-athlete-woman/20260926T073831Z-thuan-mac/reference/avatar judo athlete woman_5174c77c-52dd-5cd9-9502-9d515b49067c.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-judo-athlete-woman'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 HEAD_BOTTOM = 22
 

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line,
 
 SOURCE_ICON_ID = '8287521a-3079-4a79-bfd5-354b8067a810'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__round-teapot-with-curved-spout-and-domed-lid/20260927T084430Z-thuan-mac-1/reference/tea pot_8287521a-3079-4a79-bfd5-354b8067a810.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class Drawing(Solo48):

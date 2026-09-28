@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='7d27b436-d05f-41d3-b72f-2e31759f48e2'
 SOURCE_PATH='pictographic-primitives/_uncategorized_29/onam 1_7d27b436-d05f-41d3-b72f-2e31759f48e2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Six flower lobes form one coherent outline inside circular rim; omit central hexagon to open negative space.'
 CONSTRUCTION_REFERENCE='Lucide flower coherent petal boundary'
 class Drawing(Solo48):

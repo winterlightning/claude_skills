@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID='f213d74b-e15b-42ab-953a-a7a36392d15b'
 SOURCE_PATH='icon_set/work/todo-references/tv retro_f213d74b-e15b-42ab-953a-a7a36392d15b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Retro television with rabbit-ear antenna, inset screen, two buttons and two feet.'
 CONSTRUCTION_REFERENCE='tv: antenna junction and rounded cabinet'
 

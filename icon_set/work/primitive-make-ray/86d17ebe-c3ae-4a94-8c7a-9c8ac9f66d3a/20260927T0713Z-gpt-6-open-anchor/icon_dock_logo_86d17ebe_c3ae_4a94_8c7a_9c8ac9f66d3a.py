@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._symmetry_curves import ellipse, line, poly, cont
 
 SOURCE_ICON_ID = '86d17ebe-c3ae-4a94-8c7a-9c8ac9f66d3a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__icon-dock-logo/20260927T070901Z-thuan-mac-1/reference/icon dock logo_86d17ebe-c3ae-4a94-8c7a-9c8ac9f66d3a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class IconDockLogo(Solo48):
     icon_id = 'icon-dock-logo'

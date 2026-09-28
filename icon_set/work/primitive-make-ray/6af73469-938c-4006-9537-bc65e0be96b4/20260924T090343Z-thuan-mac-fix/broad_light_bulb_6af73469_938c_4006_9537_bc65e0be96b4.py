@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '6af73469-938c-4006-9537-bc65e0be96b4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__broad-light-bulb/20260924T090148Z-thuan-mac/reference/bulb 1_6af73469-938c-4006-9537-bc65e0be96b4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'broad-light-bulb'

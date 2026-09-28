@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'ede2fe9e-b299-44e2-90dd-71980708f31f'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/people conflict 1_ede2fe9e-b299-44e2-90dd-71980708f31f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'people-conflict-1'

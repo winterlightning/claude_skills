@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2'
 SOURCE_PATH='pictographic-primitives/_uncategorized_39/video slash_6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='video-slash'
     keyshape=Keyshape.SQUARE

@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='0eedad4e-672e-40c7-9399-bd5db48d8049'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__flamingo/20260924T093128Z-thuan-mac/reference/wild bird flamingo_0eedad4e-672e-40c7-9399-bd5db48d8049.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='flamingo'
     keyshape=Keyshape.VRECT_L

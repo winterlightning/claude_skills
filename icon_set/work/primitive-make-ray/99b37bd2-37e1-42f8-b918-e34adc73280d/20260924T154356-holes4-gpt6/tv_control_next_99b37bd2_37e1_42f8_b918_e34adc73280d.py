@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '99b37bd2-37e1-42f8-b918-e34adc73280d'
 SOURCE_PATH = 'pictographic-primitives/other/tv control next_99b37bd2-37e1-42f8-b918-e34adc73280d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A screen and stand with a rightward next-track triangle and bar.'
 CONSTRUCTION_REFERENCES = 'Local Lucide monitor: coherent contours and shared attachments; original and atomic-debug inspected.'
 OMISSIONS = 'Triangle widened by one unit; no defining parts omitted. Intentional rightward direction.'

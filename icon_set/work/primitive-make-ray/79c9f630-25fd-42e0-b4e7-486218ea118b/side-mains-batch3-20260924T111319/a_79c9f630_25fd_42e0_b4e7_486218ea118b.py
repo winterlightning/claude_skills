@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '79c9f630-25fd-42e0-b4e7-486218ea118b'
 SOURCE_PATH = 'pictographic-primitives/typeface/A_79c9f630-25fd-42e0-b4e7-486218ea118b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Uppercase A with rounded apex and horizontal crossbar.'
 CONSTRUCTION_REFERENCES = 'No useful Lucide letter match; monoline letter authored directly.'
 OMISSIONS = 'No omissions.'

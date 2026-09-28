@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'dd459eaf-90a6-4872-a777-772bcbc71cdf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__compact-pickup-side-view/20260926T085631Z-thuan-mac/reference/pickup_dd459eaf-90a6-4872-a777-772bcbc71cdf.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class Drawing(Solo48):
     icon_id = 'compact-pickup-side-view'

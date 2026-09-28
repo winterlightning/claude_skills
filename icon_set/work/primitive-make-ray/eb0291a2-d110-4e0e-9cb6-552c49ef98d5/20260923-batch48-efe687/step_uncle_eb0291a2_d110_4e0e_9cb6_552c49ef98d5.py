@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'eb0291a2-d110-4e0e-9cb6-552c49ef98d5'
 SOURCE_PATH = 'icon_set/work/todo-references/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'Bald male bust with circular lower-right relationship badge.'
 CONSTRUCTION_REFERENCE = 'human_ref/user.svg: round head, broad shoulders, detached 4-unit ink gap'
 

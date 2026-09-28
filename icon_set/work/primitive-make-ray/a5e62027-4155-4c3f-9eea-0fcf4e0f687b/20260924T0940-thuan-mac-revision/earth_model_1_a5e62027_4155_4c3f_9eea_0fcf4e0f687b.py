@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='a5e62027-4155-4c3f-9eea-0fcf4e0f687b'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__earth-model-1/20260924T093128Z-thuan-mac/reference/earth model 1_a5e62027-4155-4c3f-9eea-0fcf4e0f687b.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='earth-model-1'
     keyshape=Keyshape.VRECT_L

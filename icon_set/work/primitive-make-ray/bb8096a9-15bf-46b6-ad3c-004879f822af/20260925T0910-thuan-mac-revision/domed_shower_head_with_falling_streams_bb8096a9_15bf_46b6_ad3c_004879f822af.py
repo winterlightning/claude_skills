@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='bb8096a9-15bf-46b6-ad3c-004879f822af'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__domed-shower-head-with-falling-streams/20260925T085649Z-thuan-mac/reference/shower_bb8096a9-15bf-46b6-ad3c-004879f822af.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='domed-shower-head-with-falling-streams'

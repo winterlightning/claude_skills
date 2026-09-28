@@ -19,7 +19,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '41472ab4-d5b7-4320-9072-c062ba84ab5d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cookie-tray-in-oven/20260926T125430Z-thuan-mac/reference/cooking baking tray oven_41472ab4-d5b7-4320-9072-c062ba84ab5d.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 class _Shapes:

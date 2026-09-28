@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '33cb52e5-93d5-46af-84aa-58da87b89511'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rabbit-riding-a-kick-scooter/20260927T170540Z-thuan-mac-1/reference/scooter faster rabbit_33cb52e5-93d5-46af-84aa-58da87b89511.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'rabbit-riding-a-kick-scooter'

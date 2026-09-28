@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='23e4bb5e-d3ef-5855-950c-33bdbdf61648'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__eyedropper-beside-round-sample/20260924T093128Z-thuan-mac/reference/color picker 3_23e4bb5e-d3ef-5855-950c-33bdbdf61648.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='eyedropper-beside-round-sample'
     keyshape=Keyshape.SQUARE

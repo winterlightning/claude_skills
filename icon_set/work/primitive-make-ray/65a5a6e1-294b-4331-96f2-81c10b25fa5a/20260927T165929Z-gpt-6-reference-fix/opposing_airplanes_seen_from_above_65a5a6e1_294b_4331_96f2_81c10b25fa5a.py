@@ -8,7 +8,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '65a5a6e1-294b-4331-96f2-81c10b25fa5a'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__opposing-airplanes-seen-from-above/20260927T165437Z-thuan-mac-1/reference/plane trip return 1_65a5a6e1-294b-4331-96f2-81c10b25fa5a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'opposing-airplanes-seen-from-above'

@@ -3,7 +3,7 @@ from icon_set.model.profiles import Profile
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='da3a18cb-9766-5ab1-b651-eb447e6f30a2'
 SOURCE_PATH='pictographic-primitives/interface-essential/multiple tags 2_da3a18cb-9766-5ab1-b651-eb447e6f30a2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Lucide tags: diagonal front tag with hole and offset partial rear outline. Shared overlap nodes; rear edge eight units from foreground edge.'
 class Drawing(Solo48):
     icon_id='multiple-tags-2'

@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'a1a67209-da16-4d81-b455-f1e69aae865c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__message-bubble-with-text/20260924T171114Z-thuan-mac/reference/messages bubble text 1_a1a67209-da16-4d81-b455-f1e69aae865c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'message-bubble-with-text'
     keyshape = Keyshape.SQUARE

@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '9f60d217-caba-47c7-be7c-5f630e4024ae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__nautilus-shell/20260927T133651Z-thuan-mac-1/reference/squid shell_9f60d217-caba-47c7-be7c-5f630e4024ae.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 
 def _path(icon, name, start, steps, closed=False):

@@ -10,7 +10,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '2b208a3b-47e8-47f4-b99a-2f4763a0e031'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-telecommunicator-1-avatar/20260926T182452Z-thuan-mac-1/reference/woman telecommunicator_2b208a3b-47e8-47f4-b99a-2f4763a0e031.svg'
 SOURCE_HEAD_ICON_ID = 'woman-telecommunicator-1'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 28
 class WomanTelecommunicator1Avatar(Solo48):
     icon_id = 'woman-telecommunicator-1-avatar'

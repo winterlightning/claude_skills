@@ -15,7 +15,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = "f1f40b20-c790-5f25-948d-694ea33beda7"
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__user-hair-long-avatar/20260926T181756Z-thuan-mac-1/reference/user-hair-long-avatar_f1f40b20-c790-5f25-948d-694ea33beda7.svg"
 SOURCE_HEAD_ICON_ID = 'user-hair-long'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 22
 class UserHairLongAvatar(Solo48):
     icon_id = 'user-hair-long-avatar'

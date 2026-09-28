@@ -7,7 +7,7 @@ SOURCE_ICON_ID='5aacf220-3104-5628-83e3-8dddf6e85cbc'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__capsule-switch-with-two-strokes-solo-b015/20260927T164337Z-thuan-mac-1/reference/settings off_5aacf220-3104-5628-83e3-8dddf6e85cbc.svg'
 SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/settings off_5aacf220-3104-5628-83e3-8dddf6e85cbc.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-015/references/settings off_5aacf220-3104-5628-83e3-8dddf6e85cbc.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 class BatchIcon(Solo48):
     icon_id='capsule-switch-with-two-strokes-solo-b015'
     keyshape=Keyshape.HRECT_M

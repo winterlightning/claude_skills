@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8fbdf83e-7f75-5f64-b826-fc7b55c55a27'
 SOURCE_PATH = 'pictographic-primitives/money/crypto currency bitcoin_8fbdf83e-7f75-5f64-b826-fc7b55c55a27.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'bitcoin-cryptocurrency-coin'

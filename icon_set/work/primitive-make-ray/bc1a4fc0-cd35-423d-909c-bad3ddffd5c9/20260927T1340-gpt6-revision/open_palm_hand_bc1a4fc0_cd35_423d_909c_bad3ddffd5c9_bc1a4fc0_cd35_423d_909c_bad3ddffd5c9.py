@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'bc1a4fc0-cd35-423d-909c-bad3ddffd5c9'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-palm-hand-bc1a4fc0-cd35-423d-909c-bad3ddffd5c9/20260927T133654Z-thuan-mac-1/reference/hand_bc1a4fc0-cd35-423d-909c-bad3ddffd5c9.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class IconOpenPalmHand(Solo48):

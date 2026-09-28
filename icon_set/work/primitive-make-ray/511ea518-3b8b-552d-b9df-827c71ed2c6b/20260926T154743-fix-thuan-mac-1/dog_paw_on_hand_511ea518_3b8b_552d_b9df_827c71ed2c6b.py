@@ -19,7 +19,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '511ea518-3b8b-552d-b9df-827c71ed2c6b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dog-paw-on-hand/20260926T152509Z-thuan-mac-1/reference/dog training giving hand paw_511ea518-3b8b-552d-b9df-827c71ed2c6b.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 PAW_AXIS = 22
 PAD_L, PAD_R, PAD_RX, PAD_RY = (16, 24), (28, 24), 6, 7

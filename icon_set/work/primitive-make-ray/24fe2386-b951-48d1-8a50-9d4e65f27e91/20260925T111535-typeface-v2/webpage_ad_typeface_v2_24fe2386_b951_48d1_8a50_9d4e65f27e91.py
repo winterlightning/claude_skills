@@ -7,7 +7,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.primitives import Bezier,Point
 SOURCE_ICON_ID='24fe2386-b951-48d1-8a50-9d4e65f27e91'
 SOURCE_PATH='pictographic-primitives/other/ui webpage ad text_24fe2386-b951-48d1-8a50-9d4e65f27e91.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 TYPEFACE_SOURCE='icon_set/typeface/glyphs-v2.json'
 GLYPH_PROVENANCE={'A': {'source_path': 'Letters/new/A.svg', 'svg_sha256': '958cc5c66707801c397be5d2ab77f3acfe8b4d828d20846827d30369d71b9c05'}, 'D': {'source_path': 'Letters/new/D.svg', 'svg_sha256': '81d4ead52b6a385f2ec5f17b91748e14ed0c9832884948a0cba5b70c43b4b0bc'}}
 class Drawing(Solo48):

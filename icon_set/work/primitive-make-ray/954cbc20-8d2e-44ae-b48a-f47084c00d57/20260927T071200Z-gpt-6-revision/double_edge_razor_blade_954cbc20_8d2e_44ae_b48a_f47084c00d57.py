@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '954cbc20-8d2e-44ae-b48a-f47084c00d57'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__double-edge-razor-blade/20260927T070927Z-thuan-mac-1/reference/razor tool_954cbc20-8d2e-44ae-b48a-f47084c00d57.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'double-edge-razor-blade'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='c37f6508-e0df-51bf-9da4-8fafc43e3b54'
 SOURCE_PATH='pictographic-primitives/war/death rip_c37f6508-e0df-51bf-9da4-8fafc43e3b54.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN='Repair4 enlarges enclosed letter counters further rather than squeezing them; preserves RIP and full stone. HRECT_L horizontal maximum.'
 class Drawing(Solo48):
     icon_id='death-rip'

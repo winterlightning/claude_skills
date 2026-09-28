@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = 'ad6a0427-9dcf-56bc-a271-c70f6694c4d6'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__aiming-rifle-shooter/20260926T064521Z-thuan-mac/reference/shooting rifle person aim_ad6a0427-9dcf-56bc-a271-c70f6694c4d6.svg'
-AUTHOR = 'claude-opus-5-5'
+AUTHOR = "claude-opus-5-5"
 
 class AimingRifleShooter(Solo48):
     icon_id = 'aiming-rifle-shooter'

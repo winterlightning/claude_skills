@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '9f46f877-d423-44a2-8686-524a628ad952'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__profile-taking-a-sip-from-tilted-cup/20260927T170540Z-thuan-mac-1/reference/sip_9f46f877-d423-44a2-8686-524a628ad952.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchIcon(Solo48):
     icon_id = 'profile-taking-a-sip-from-tilted-cup'

@@ -2,7 +2,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '5d1e690d-7cb8-4583-96b6-60ab81cb1101'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__angle-down/20260925T034659Z-thuan-mac/reference/angle down_5d1e690d-7cb8-4583-96b6-60ab81cb1101.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Plan: Conventional downward chevron; equal mirrored arms replace diagonal arrow.
 # Construction reference: Lucide chevron-down mirrored continuous stroke.
 # Envelope: HRECT_M; bounds are defined by its outer contour/extreme tips.

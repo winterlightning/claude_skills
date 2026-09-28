@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '1488ab61-9200-53bd-99b7-47e825038f3b'
 SOURCE_PATH = 'icon_set/work/todo-references/notepad_1488ab61-9200-53bd-99b7-47e825038f3b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'notepad'

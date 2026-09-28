@@ -8,7 +8,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '02c8cd9c-8d66-45f3-bbdc-68f20c6e211a'
 SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__pirate-with-eyepatch-and-broad-hat/20260927T170245Z-thuan-mac-1/reference/pirate_02c8cd9c-8d66-45f3-bbdc-68f20c6e211a.svg"
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'pirate-with-eyepatch-and-broad-hat'

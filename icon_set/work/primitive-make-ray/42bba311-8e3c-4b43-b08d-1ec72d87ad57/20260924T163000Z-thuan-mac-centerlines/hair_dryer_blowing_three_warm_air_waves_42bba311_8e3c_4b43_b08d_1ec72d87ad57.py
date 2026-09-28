@@ -6,7 +6,7 @@ from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='42bba311-8e3c-4b43-b08d-1ec72d87ad57'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__hair-dryer-blowing-three-warm-air-waves/20260924T162241Z-thuan-mac/reference/dryer_42bba311-8e3c-4b43-b08d-1ec72d87ad57.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id='hair-dryer-blowing-three-warm-air-waves'
     keyshape=Keyshape.HRECT_L

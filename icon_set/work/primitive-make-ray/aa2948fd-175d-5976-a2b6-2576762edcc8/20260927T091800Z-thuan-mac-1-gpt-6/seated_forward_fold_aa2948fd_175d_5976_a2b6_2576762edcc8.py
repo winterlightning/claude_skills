@@ -4,7 +4,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'aa2948fd-175d-5976-a2b6-2576762edcc8'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seated-forward-fold/20260927T091411Z-thuan-mac-1/reference/yoga seated forward fold pose_aa2948fd-175d-5976-a2b6-2576762edcc8.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class SeatedForwardFold(Solo48):
     icon_id = 'seated-forward-fold'

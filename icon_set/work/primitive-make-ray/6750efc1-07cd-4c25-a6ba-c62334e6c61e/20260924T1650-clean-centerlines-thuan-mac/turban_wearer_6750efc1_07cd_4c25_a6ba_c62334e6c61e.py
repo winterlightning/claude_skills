@@ -5,7 +5,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='6750efc1-07cd-4c25-a6ba-c62334e6c61e'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__turban-wearer/20260924T164246Z-thuan-mac/reference/sultan_6750efc1-07cd-4c25-a6ba-c62334e6c61e.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='turban-wearer'

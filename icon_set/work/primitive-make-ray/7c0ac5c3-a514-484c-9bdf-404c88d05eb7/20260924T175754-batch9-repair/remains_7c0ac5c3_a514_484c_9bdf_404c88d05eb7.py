@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '7c0ac5c3-a514-484c-9bdf-404c88d05eb7'
 SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/remains_7c0ac5c3-a514-484c-9bdf-404c88d05eb7.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 PLAN = 'A bone beside a leaf.'
 OMISSIONS = 'Bone made upright and its shaft widened; no subject omitted. Leaf and stem retained.'
 CONSTRUCTION_REFERENCES = 'Lucide bone: paired end lobes around a straight shaft; leaf: a coherent pointed outline and stem.'

@@ -2,7 +2,7 @@ from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 from icon_set.model.keyshapes import Keyshape
 SOURCE_ICON_ID='e50dd243-25aa-43e1-a7df-40fa0e7aacf2'
 SOURCE_PATH='pictographic-primitives/video/video player adjust_e50dd243-25aa-43e1-a7df-40fa0e7aacf2.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 PLAN = 'Rounded video player with a visible play triangle, timeline and short scrubber tick.'
 CONSTRUCTION_REFERENCES='Lucide video: rounded screen construction; supplied reference owns the central play triangle and timeline.'
 OMISSIONS = []

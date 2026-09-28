@@ -5,7 +5,7 @@ import cairosvg
 from PIL import Image,ImageDraw,ImageOps
 SOURCE_ICON_ID='177bdc8f-a349-4eb2-9256-4dda4aaf2d56'
 SOURCE_PATH='icon_set/work/todo-references/house bulb_177bdc8f-a349-4eb2-9256-4dda4aaf2d56.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 BASE=Path(__file__).parent
 ROWS=json.loads((BASE/'batch-inputs.json').read_text())
 HELPERS="""

@@ -3,7 +3,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID = '265af8e7-ec02-4865-b96a-7f40d0446cd3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__running-person-motion-marks/20260927T084430Z-thuan-mac-1/reference/motion sensor person_265af8e7-ec02-4865-b96a-7f40d0446cd3.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class RunningPersonMotionMarks(Solo48):
     icon_id = 'running-person-motion-marks'

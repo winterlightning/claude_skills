@@ -7,7 +7,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '0b9c24dd-f3e9-5017-bdd5-c22d677a5a29'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tethered-astronaut/20260927T094425Z-thuan-mac-1/reference/astronaut_0b9c24dd-f3e9-5017-bdd5-c22d677a5a29.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 REVISION_COMPARISON = 'The rejected limbs crossed the helmet and tether, obscuring the floating person.'
 REVISION_CHANGE = 'Rebuilt an open diagonal suit pose with aligned helmet, backpack, two legs, and a separate tether.'
 

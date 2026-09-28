@@ -6,7 +6,7 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.icons.solo._base import Solo48
 SOURCE_ICON_ID='5fba6994-83b3-4c8e-872d-6f2fc2d663b7'
 SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__tooth-beside-bent-dental-stick/20260924T172356Z-thuan-mac/reference/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
     icon_id='tooth-beside-bent-dental-stick'

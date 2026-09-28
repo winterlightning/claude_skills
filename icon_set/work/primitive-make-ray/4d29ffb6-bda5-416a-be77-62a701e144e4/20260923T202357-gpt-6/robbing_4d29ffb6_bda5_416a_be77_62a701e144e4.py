@@ -3,7 +3,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '4d29ffb6-bda5-416a-be77-62a701e144e4'
 SOURCE_PATH = 'icon_set/work/todo-references/robbing_4d29ffb6-bda5-416a-be77-62a701e144e4.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 # Construction plan: Robber facing victim, with forward gun and money mark; heads share size and body gap.
 # Reference reduction: Omitted tiny angry eyebrows and hand-outline folds; retained two people, weapon and money sign.
 # Construction references: ['human_ref/full_body_ref.png']
