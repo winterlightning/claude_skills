@@ -16,7 +16,12 @@ takes over promoted.json.
 
 An icon id already owned by another family gets the ``-<family>`` suffix, so a
 solo main drawn for a source that also has a container icon becomes
-``<id>-solo``. Pass --no-suffix to skip those instead.
+``<id>-solo``. Pass --no-suffix to skip those instead. An id already owned by a
+module of the *same* family (a run saved under a different file name than the
+tree copy) is a duplicate, and the newer run wins: it replaces that module in
+place under the same id rather than landing beside it and breaking the build.
+Every ``icon_id =`` line is renamed, since a class body may assign it twice and
+Python keeps the last one.
 
 Note the skills validate with ``validate_icon()`` only; the build also runs the
 hole/pinch and internal-spacing gates, so some promoted icons land in the
@@ -51,6 +56,24 @@ SKILLS = {  # work folder -> (family, base class)
     'primitive-make-ray': ('solo', 'Solo48'),
 }
 ICON_ID = re.compile(r'''^(\s*)icon_id\s*=\s*(['"])([^'"]+)\2''', re.MULTILINE)
+
+
+def _set_icon_id(text: str, icon_id: str) -> str:
+    """Rewrite every ``icon_id = ...`` line: a class body may assign it twice and the last one wins."""
+    return ICON_ID.sub(lambda m: f"{m[1]}icon_id = {m[2]}{icon_id}{m[2]}", text)
+
+
+def _owner_module(factory: type) -> Path | None:
+    """The model-tree file that defines a registered icon class."""
+    module = sys.modules.get(factory.__module__)
+    path = Path(getattr(module, '__file__', '') or '')
+    return path if path.is_file() else None
+
+
+def _icon_module_id(path: Path) -> str | None:
+    """The effective icon_id a module assigns (the last assignment wins in a class body)."""
+    found = ICON_ID.findall(path.read_text(encoding='utf-8'))
+    return found[-1][2] if found else None
 
 
 def _relative_imports(text: str, family: str, base: str) -> str:
@@ -139,7 +162,7 @@ def _promote_repair(source_dir: Path, family: str, base: str, *, dry_run: bool) 
     if current is None or match is None:
         return None
     icon_id = current[3]
-    text = _relative_imports(text[:match.start(3)] + icon_id + text[match.end(3):], family, base)
+    text = _relative_imports(_set_icon_id(text, icon_id), family, base)
     if not dry_run:
         now = datetime.now(timezone.utc).isoformat()
         target.write_text(text, encoding='utf-8')
@@ -203,8 +226,15 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
             if match is None:
                 report['skipped'].append((source_dir.name, f'{module.name}: no icon_id'))
                 continue
-            icon_id = match[3]
+            icon_id = _icon_module_id(module)  # the last assignment is the one Python keeps
+            replacing = None
             if icon_id in taken:
+                owner = registered.get(icon_id)
+                if owner is not None and owner.family == family and _owner_module(owner) is not None:
+                    # The same family already ships this id: the newer run is the drawing to keep,
+                    # so it replaces that module in place instead of landing beside it as a duplicate.
+                    target = replacing = _owner_module(owner)
+            if icon_id in taken and replacing is None:
                 owner = registered.get(icon_id)
                 where = f'registered in {owner.family}' if owner is not None else 'promoted from another run in this batch'
                 # A clash inside this batch is two sources naming the same subject; the uuid tells them apart.
@@ -214,8 +244,10 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
                 if not suffix or new_id in taken:
                     report['skipped'].append((source_dir.name, f'{icon_id} already {where}; rename the icon_id in {module.name}'))
                     continue
-                text = text[:match.start(3)] + new_id + text[match.end(3):]
+                text = _set_icon_id(text, new_id)
                 icon_id = new_id
+            else:
+                text = _set_icon_id(text, icon_id)  # a stray second assignment must not resurrect another id
             if strict:
                 # Check the copy as the build will see it, in a scratch location.
                 scratch = run / f'.strict-{module.name}'
@@ -229,7 +261,8 @@ def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool, onl
                     continue
             taken.add(icon_id)
             text = _relative_imports(text, family, base)
-            report['promoted'].append((source_dir.name, icon_id, str(target.relative_to(REPO_ROOT))))
+            bucket = 'replaced' if replacing is not None else 'promoted'
+            report[bucket].append((source_dir.name, icon_id, str(target.relative_to(REPO_ROOT))))
             report['families'].add(family)
             if dry_run:
                 continue

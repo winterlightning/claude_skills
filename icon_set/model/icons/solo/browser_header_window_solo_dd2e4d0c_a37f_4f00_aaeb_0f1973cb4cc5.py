@@ -1,12 +1,12 @@
-from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48
+from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID = 'dd2e4d0c-a37f-4f00-aaeb-0f1973cb4cc5'
-SOURCE_PATH = 'pictographic-primitives/other/ui webpage bank_dd2e4d0c-a37f-4f00-aaeb-0f1973cb4cc5.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__browser-header-window-solo-dd2e4d0c/20260927T140835Z-thuan-mac-1/reference/ui webpage bank_dd2e4d0c-a37f-4f00-aaeb-0f1973cb4cc5.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'browser-header-window-solo-dd2e4d0c'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
@@ -16,12 +16,12 @@ class Drawing(Solo48):
     def build(self):
         # Restore the complete banking website, including the missing temple symbol.
         # Lucide panel-top informs browser frame; compact pediment and three columns.
-        self.box("window",6,6,36,36,4)
-        self.add_line("header",(6,14),(42,14));self.relate("connect","header","window")
-        self.add_polyline("roof",(15,25),(24,22),(33,25))
-        self.add_line("base",(15,33),(33,33))
-        for x in (16,24,32):
-            self.add_line(f"column-{x}",(x,22 if x==24 else 25),(x,33));self.relate("connect",f"column-{x}","base");self.relate("connect",f"column-{x}","roof")
+        self.box("window",8,4,32,40,4)
+        self.add_line("header",(8,12),(40,12));self.relate("connect","header","window")
+        self.add_polyline("roof",(17,27),(24,20),(31,27))
+        self.add_line("base",(17,35),(31,35))
+        for x in (17,31):
+            self.add_line(f"column-{x}",(x,27),(x,35));self.relate("connect",f"column-{x}","base");self.relate("connect",f"column-{x}","roof")
 
     def path(self,name,start,commands,closed=False):
         members=[]
