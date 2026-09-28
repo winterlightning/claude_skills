@@ -311,8 +311,9 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
                             {record['icon_id']: record for record in failed_records})
     from icon_set.scripts.combination_catalog import write_catalog as write_combinations
     combinations = write_combinations(target, catalog, records)
-    from icon_set.scripts.side_components import write as write_side_components
+    from icon_set.scripts.side_components import write as write_side_components, annotate_side_roles
     write_side_components(target, combinations, records, failed_records)
+    annotate_side_roles(records + failed_records, target)
     if catalog['warning']:
         print('Primitives page: ' + catalog['warning'])
     return catalog

@@ -143,6 +143,47 @@ def write(target: Path, combinations: dict, records: list[dict], failed_records:
     return result
 
 
+def annotate_side_roles(records: list[dict], gallery: Path) -> int:
+    """Tag gallery records that side pairs use: side_role, side_uses, side_source.
+
+    A virtual family for Icon review only; the record keeps its real family and key, so a
+    solo icon and its side-main role share one review decision. Drawings are matched by
+    key, then by source UUID so a freshly authored drawing is tagged before the next full
+    side-components rebuild.
+    """
+    path = gallery / 'side-components.json'
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return 0
+    by_key: dict[str, tuple[str, dict]] = {}
+    by_source: dict[str, tuple[str, dict]] = {}
+    for role, plural in (('main', 'mains'), ('sub', 'subs')):
+        for item in data.get(plural, []):
+            for drawing in item.get('drawings', []):
+                by_key.setdefault(drawing['key'], (role, item))
+            for uuid in {item['id'], *item.get('source_ids', [])}:
+                by_source.setdefault(uuid.lower(), (role, item))
+    tagged = 0
+    for record in records:
+        for field in ('side_role', 'side_uses', 'side_source'):
+            record.pop(field, None)
+        key = record.get('key') or f"{record.get('family')}/{record.get('icon_id')}"
+        match = by_key.get(key)
+        if match is None:
+            for uuid in _source_ids(record):
+                candidate = by_source.get(uuid.lower())
+                if candidate and record.get('family') in (MAIN_FAMILIES if candidate[0] == 'main' else SUB_FAMILIES):
+                    match = candidate
+                    break
+        if match is None:
+            continue
+        role, item = match
+        record.update(side_role=role, side_uses=item.get('uses', 0), side_source=item['id'])
+        tagged += 1
+    return tagged
+
+
 def refresh(gallery: Path) -> dict:
     """Rebuild side-components.json from an existing gallery, e.g. after a discard."""
     icons = json.loads((gallery / 'icons.json').read_text())

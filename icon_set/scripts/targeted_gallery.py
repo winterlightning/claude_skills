@@ -107,6 +107,8 @@ def stage_targeted_gallery(staged: Path, published: Path, folders, only) -> Path
     annotate_sub_references(changed + failed)
     annotate_records(changed + failed)
     annotate(changed + failed)
+    from .side_components import annotate_side_roles
+    annotate_side_roles(changed + failed, target)
     write(target / 'icons.json', data)
 
     preview = read(target / 'preview-icons.json', {'icons': []})

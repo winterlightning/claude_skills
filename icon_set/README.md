@@ -575,6 +575,12 @@ family/ID, SVG revision hash, and timestamp. The inspector shows the latest
 100 submissions for that icon. Unsaved drafts stay in the current browser when
 local storage is available. Feedback records requests; it does not edit icons.
 
+The Family filter also offers two virtual families with no Python model of their
+own: **Side main (solo)** and **Side sub** list the solo and sub icons that side
+pairs use (tagged `side_role` at build time from `side-components.json`). They are
+the same records and keys as under Solo / Sub, so one review decision covers both
+views; the inspector shows how many side pairs use the icon and links to them.
+
 From the repository root:
 
 ```bash
