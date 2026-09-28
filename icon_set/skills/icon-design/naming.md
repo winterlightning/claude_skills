@@ -80,7 +80,10 @@ Known values so far:
 | `astra-chatgpt` | Astra, on a ChatGPT model — every icon authored before this field existed |
 
 Use an existing value when it names your model; add a new lowercase, hyphenated
-one when it does not, and say in your reply that you introduced it. When you
+one when it does not, and say in your reply that you introduced it.
+A production fix made through /primitive-fix-thuan instead records who fixed it
+as `<worker>/<model>` (for example `thuan-mac/claude-fable-5-1`), the worker
+name before the model ID; the gallery shows this value as the icon's author. When you
 patch an existing module, `AUTHOR` becomes yours: you are the one who drew the
 geometry that ships. A module with no `AUTHOR` predates the field; add it.
 

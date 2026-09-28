@@ -91,11 +91,20 @@ def run_module(run_dir):
     raise RuntimeError(f'expected one module named *{suffix} in {run_dir}, found {[path.name for path in modules]}')
 
 
+def author_names_worker(author, worker):
+    """The fix skill writes ``AUTHOR = '<worker>/<model>'``; both parts must be present."""
+    if not isinstance(author, str) or '/' not in author:
+        return False
+    who, _, model = author.partition('/')
+    return who.strip().lower() == worker.strip().lower() and bool(model.strip())
+
+
 def load_icon(module_path):
     """Instantiate the Solo48 class a /primitive-make-ray module defines, loaded by file path."""
     from icon_set.model.icons.solo._base import Solo48
     spec = importlib.util.spec_from_file_location(f'primitive_fix_run_{Path(module_path).stem}', module_path)
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module  # so the class's module (and its AUTHOR) can be looked up later
     spec.loader.exec_module(module)
     classes = [value for value in vars(module).values()
                if inspect.isclass(value) and issubclass(value, Solo48) and value is not Solo48
@@ -305,6 +314,9 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['artifacts'].append(f'after/{module_copy.name}')
         icon = load_icon(module_path)
         icon_id = getattr(icon, 'icon_id', None) or icon_id
+        # Who fixed it: the skill writes AUTHOR = '<worker>/<model>' so the gallery credits the fixer.
+        findings['author'] = getattr(sys.modules.get(type(icon).__module__), 'AUTHOR', None)
+        findings['author_ok'] = author_names_worker(findings['author'], worker)
         report = icon.validate_icon()
         findings['validation_status'] = report.status
         findings['validation_errors'] = list(getattr(report, 'errors', []) or [])
@@ -336,13 +348,15 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
         findings['error'] = f'{type(error).__name__}: {error}'
         (run / 'finish-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
     gate_status = (findings.get('build_gate') or {}).get('status')
-    clean = ('error' not in findings and gate_status == 'pass' and (
+    clean = ('error' not in findings and gate_status == 'pass' and findings.get('author_ok') and (
         findings.get('accepted_exception') or (
             findings['validation_status'] == 'valid' and not findings['validation_warnings'])))
     if outcome == 'done' and not clean:
         findings['outcome'] = 'refused'
         (run / 'result.json.refused').write_text(json.dumps(findings, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
         problem = findings.get('error') or (
+            f"AUTHOR {findings.get('author')!r} must be '<worker>/<model>', starting with {worker!r}/"
+            if not findings.get('author_ok') else
             f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
             if findings['validation_status'] != 'valid' or findings['validation_warnings'] else
             f"build gate {gate_status}: " + '; '.join((findings['build_gate']['errors'] + findings['build_gate']['warnings'])[:3]))

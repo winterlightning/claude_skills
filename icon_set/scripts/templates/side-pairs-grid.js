@@ -466,16 +466,28 @@ function sideIconSummary(pairCount){
   const mains=sideComponents.mains,subs=sideComponents.subs,textSubs=subs.filter(isText),iconSubs=subs.filter(i=>!isText(i));
   const count=(list,status)=>list.filter(i=>i.status===status).length;
   const wrap=node('section','side-icon-summary');
-  wrap.append(node('p','side-icon-total',`${pairCount.toLocaleString()} side pairs, made from ${mains.length.toLocaleString()} main icons and ${subs.length.toLocaleString()} sub icons.`));
-  const group=(title,total,page,cells)=>{
+  // One source icon can have several drawings (alternative redraws or revised versions) and one drawing can serve
+  // several sources; a pair uses one. Icon review lists distinct drawings, so these counts match its Side main / Side sub families.
+  const drawings=list=>[...new Map(list.flatMap(i=>i.drawings).filter(d=>d.status!=='fail'&&d.svg_sha256).map(d=>[d.key,d])).values()];
+  const mainDrawings=drawings(mains),subDrawings=drawings(subs);
+  wrap.append(node('p','side-icon-total',`${pairCount.toLocaleString()} side pairs, made from ${mains.length.toLocaleString()} main icons (${mainDrawings.length.toLocaleString()} drawings) and ${subs.length.toLocaleString()} sub icons (${subDrawings.length.toLocaleString()} drawings). A source with several drawings has alternative redraws or versions; each pair uses one.`));
+  const cells=(row,page,items)=>{for(const [label,value,status,tone] of items){const a=node('a','side-icon-cell '+tone);a.href=page+(page.includes('?')?'&':'?')+'status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));row.append(a);}};
+  const group=(title,total,page,items)=>{
     const box=node('div','side-icon-group'),head=node('a','side-icon-head');head.href=page;head.append(node('strong','',title),node('span','',total.toLocaleString()+' icons →'));box.append(head);
-    const row=node('div','side-icon-cells');
-    for(const [label,value,status,tone] of cells){const a=node('a','side-icon-cell '+tone);a.href=page+'?status='+status;a.append(node('strong','',value.toLocaleString()),node('span','',label));row.append(a);}
+    const row=node('div','side-icon-cells');cells(row,page,items);
     box.append(row);return box;
   };
+  // Review decisions per drawing, the same states as Icon review (iconState there); cells open its Side main / Side sub family.
+  const reviewState=d=>{const s=sideReviews[d.key]||'ready';return s==='re-generated'?'ready':s==='disapprove'||s==='claimed'?'pending':s;};
+  const reviewRow=(box,list,family)=>{
+    const tally=Object.fromEntries(['approve','ready','pending','rejected'].map(s=>[s,0]));for(const d of list)tally[reviewState(d)]=(tally[reviewState(d)]||0)+1;
+    const head=node('a','side-icon-subhead');head.href='index.html?family='+family;head.append(node('strong','','Icon review'),node('span','',`${list.length.toLocaleString()} drawings →`));
+    const row=node('div','side-icon-cells');cells(row,'index.html?family='+family,[['Approved',tally.approve,'approve','ok'],['To review',tally.ready,'ready','todo'],['Needs fix',tally.pending,'pending','fix'],['Rejected',tally.rejected,'rejected','rej']]);
+    box.append(head,row);return box;
+  };
   wrap.append(
-    group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),
-    group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]));
+    reviewRow(group('Main icons',mains.length,'side-mains.html',[['Generated',count(mains,'done'),'done','ok'],['Needs fix',count(mains,'failing'),'failing','fix'],['Not generated',count(mains,'missing'),'missing','todo']]),mainDrawings,'side_main'),
+    reviewRow(group('Sub icons',subs.length,'side-subs.html',[['Generated',count(iconSubs,'done'),'done','ok'],['Text',textSubs.length,'text','text'],['Needs fix',count(iconSubs,'failing'),'failing','fix'],['Not generated',count(iconSubs,'missing'),'missing','todo']]),subDrawings,'side_sub'));
   if(sideRun){
     // Combined icons: the count links to Experiment, the review cells to Icon review's Side combination 64 family.
     const state=icon=>({approve:'approve','re-generated':'ready',disapprove:'pending',claimed:'pending'})[sideReviews[icon.key]]||sideReviews[icon.key]||'ready';
