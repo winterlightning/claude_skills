@@ -1,50 +1,52 @@
-'Front-facing VR portrait with nose notch, circular jaw and broad touching shoulders.'
-from ._base import Solo48
+'Person Wearing VR Headset.\nPlan: Circular head interrupted by broad rectangular VR visor, above curved touching shoulders. Jaw24,22 r8 bottom30, bodytop34.\nConstruction reference: human_ref/user.svg circular jaw and rounded shoulders; source eye-covering VR visor.\nReduction: Omit visor nose notch and neck crease.\nKeyshape: VRECT_L; use exact SOLO48 centerline extremes from the contract.'
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='1bc0a357-ae8c-5287-a849-d7b91c2e7aff'
-SOURCE_PATH='pictographic-primitives/other/device wearable vr goggles_1bc0a357-ae8c-5287-a849-d7b91c2e7aff.svg'
-AUTHOR='gpt-6'
-PLAN='Front-facing VR portrait with nose notch, circular jaw and broad touching shoulders.'
-CONSTRUCTION_REFERENCE='human_ref/user.svg and Lucide user-round: circular jaw and broad shoulders; supplied visor notch.'
+from ._base import Solo48
+
+SOURCE_ICON_ID = '1bc0a357-ae8c-5287-a849-d7b91c2e7aff'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-wearing-vr-headset/20260927T174057Z-thuan-mac-1/reference/device wearable vr goggles_1bc0a357-ae8c-5287-a849-d7b91c2e7aff.svg'
+AUTHOR = 'gpt-6-astra'
+
 class Drawing(Solo48):
-    icon_id='vr-headset-portrait'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
+    icon_id = 'vr-headset-portrait'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    human_construction = "bust"
     category = 'primitives-generate'
     categories = ('other', 'primitives-generate')
-    aliases=()
-    keywords=('device', 'wearable', 'vr', 'goggles')
-    human_construction='bust'
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,start,commands,closed=False):
-        ids=[];here=start
-        for i,c in enumerate(commands):
-            tag,end,*args=c; eid=f'{n}-{i}'
-            if tag=='L': self.add_line(eid,here,end)
-            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid);here=end
-        self.add_contour(n,*ids,closed=closed)
-
-    def box(self,n,l,t,r,b,rad=4):
-        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-
-    def file(self,l=8,t=4,r=40,b=44):
-        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+    aliases = ()
+    keywords = ('person', 'wearing', 'vr', 'headset')
 
     def build(self):
-        self.add_arc('crown',(16,12),(32,12),radius_x=8)
-        self.path('visor',(11,12),[('L',(16,12)),('L',(32,12)),('L',(37,12)),('A',(40,15),3,3,True),('L',(40,21)),('A',(37,24),3,3,True),('L',(32,24)),('L',(30,24)),('C',(24,21),(27,24),(27,21)),('C',(18,24),(21,21),(21,24)),('L',(16,24)),('L',(11,24)),('A',(8,21),3,3,True),('L',(8,15)),('A',(11,12),3,3,True)],True)
-        self.add_arc('jaw',(32,24),(16,24),radius_x=8)
-        self.add_arc('shoulders',(8,44),(40,44),radius_x=20,radius_y=20)
-        for a,b in [('visor','crown'),('visor','jaw'),('jaw','shoulders')]:self.relate('connect',a,b)
 
-# Keyshape: VRECT_L fits crown, broad visor, circular jaw and touching shoulders.
-# Visual review: Restored the central nose notch; circular jaw and curved shoulders meet at the required ink tangency.
-OMISSIONS='Neck crease and garment neckline omitted to preserve the circular jaw and shoulder tangency.'
-HUMAN_REVIEW={'reference': 'icon_set/references/human_ref/user.svg', 'construction': 'bust', 'jaw_center': [24, 24], 'jaw_radius': 8, 'jaw_bottom': 32, 'shoulder_top': 36, 'centerline_gap': 4, 'ink_gap': 0, 'proof': 'Circular jaw bottom32 and shoulder arc top36 are vertically aligned; two strokes of radius2 meet tangentially.'}
+        def path(name, start, steps, closed=False):
+            members, point = [], start
+            for index, step in enumerate(steps):
+                member = f"{name}-{index}"
+                if len(step) == 2:
+                    self.add_line(member, point, step)
+                    point = step
+                else:
+                    end, rx, ry, sweep = step
+                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                    point = end
+                members.append(member)
+            self.add_contour(name, *members, closed=closed)
+
+        def ellipse(name, x, y, rx, ry):
+            path(name, (x-rx,y), [((x+rx,y),rx,ry,True), ((x-rx,y),rx,ry,True)], True)
+
+        def circle(name, x, y, radius):
+            ellipse(name,x,y,radius,radius)
+
+        def box(name, left, top, right, bottom, radius=4):
+            r = radius
+            path(name, (left+r,top), [(right-r,top), ((right,top+r),r,r,True),
+                 (right,bottom-r), ((right-r,bottom),r,r,True), (left+r,bottom),
+                 ((left,bottom-r),r,r,True), (left,top+r), ((left+r,top),r,r,True)], True)
+
+        self.add_arc('crown',(16,12),(32,12),radius_x=8)
+        path('visor',(12,12),[(16,12),(32,12),(36,12),((39,15),3,3,True),(39,19),((36,22),3,3,True),(32,22),(16,22),(12,22),((9,19),3,3,True),(9,15),((12,12),3,3,True)],True)
+        self.add_arc('jaw',(32,22),(16,22),radius_x=8)
+        self.relate('connect','visor','crown');self.relate('connect','visor','jaw')
+        self.add_arc('body',(8,44),(40,44),radius_x=16,radius_y=10);self.relate('connect','jaw','body')

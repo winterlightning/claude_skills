@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '48149687-aa67-49b2-9c81-78cd430cefd6'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-dollar-solo/20260927T140026Z-thuan-mac-1/reference/square dollar_48149687-aa67-49b2-9c81-78cd430cefd6.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -21,15 +21,15 @@ class Drawing(Solo48):
 
     def build(self):
         self.box('frame',rad=5)
-        self.add_bezier('s-top',(30,18),((28,16),(26,16),(24,16)))
+        self.add_bezier('s-top',(31,18),((28,16),(26,16),(24,16)))
         self.add_bezier('s-upper',(24,16),((16,16),(16,22),(24,24)))
         self.add_bezier('s-lower',(24,24),((32,26),(32,32),(24,32)))
-        self.add_bezier('s-bottom',(24,32),((22,32),(20,32),(18,30)))
+        self.add_bezier('s-bottom',(24,32),((22,32),(20,32),(17,30)))
         self.add_contour('s','s-top','s-upper','s-lower','s-bottom')
         self.add_line('stem-top',(24,15),(24,16))
         self.add_line('stem-bottom',(24,32),(24,33))
-        for part in ('s-top','s-upper'):self.relate('connect','stem-top',part)
-        for part in ('s-lower','s-bottom'):self.relate('connect','stem-bottom',part)
+        self.relate('connect','s','stem-top')
+        self.relate('connect','s','stem-bottom')
 
     def box(self,name,l=6,t=6,r=42,b=42,rad=4):
         mx,my=(l+r)//2,(t+b)//2

@@ -1,51 +1,55 @@
-"""Circular face beneath parted hair above a long simple dress with short sleeves; symmetric full-body silhouette."""
+"""Revision of the claimed reference after comparing original and rejected drawing."""
+"""A front-facing girl with a visible centre part, blank circular face, side curls, short sleeves and long garment.
+The hair lobes form the part without a tiny interior hole. The face touches the garment as in the source.
+VRECT_L centreline bounds (8,4)-(40,44). Human reference: icon_set/references/human_ref/full_body_ref.png and user.svg.
+No useful Lucide subject match; balanced arcs and mirrored garment sides follow the shared geometry style.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='45881775-2179-41cc-98a1-78a598c550c1'
-SOURCE_PATH='pictographic-primitives/avatars/girl full body_45881775-2179-41cc-98a1-78a598c550c1.svg'
-AUTHOR='gpt-6'
-PLAN='Circular face with outward hair curls; sleeves and long central torso replace the old skirt and added legs. Head bottom y20 and body top y28 give exactly 4 units of detached ink gap. Paired arcs mirror about x24.'
-CONSTRUCTION_REFERENCE='human_ref/user.svg and full_body_ref.png: circular head and coherent symmetric body; source retains sleeves and hair curls. This is an outlined figure, not a stick figure.'
-OMISSIONS='Interior hair part and duplicate hair cap omitted to avoid a pinched cap opening. No legs added, matching the source.'
+SOURCE_ICON_ID = '45881775-2179-41cc-98a1-78a598c550c1'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__girl-full-body/20260927T142529Z-thuan-mac-1/reference/girl full body_45881775-2179-41cc-98a1-78a598c550c1.svg'
+AUTHOR = 'gpt-6'
+SOURCE_CATEGORY = 'avatars'
 
-class Drawing(Solo48):
-    icon_id='girl-full-body'
-    keyshape=Keyshape.VRECT_M
-    semantic_role='MAIN'
-    semantic_kind='noun'
+class BatchSolo(Solo48):
+    icon_id = 'girl-full-body'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = 'avatars'
     categories = ('avatars', 'other', 'primitives-generate')
-    aliases=()
-    keywords=('girl', 'full', 'body')
-
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,start,commands,closed=False):
-        ids=[];here=start
-        for i,c in enumerate(commands):
-            tag,end,*args=c; eid=f'{n}-{i}'
-            if tag=='L': self.add_line(eid,here,end)
-            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid);here=end
-        self.add_contour(n,*ids,closed=closed)
-
-    def box(self,n,l,t,r,b,rad=4):
-        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-
-    def file(self,l=8,t=4,r=40,b=44):
-        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+    aliases = ()
+    keywords = ('girl', 'with', 'centre', 'parted', 'hair')
 
     def build(self):
-        self.circle('head',24,12,8)
-        self.add_arc('hair-left',(16,12),(10,20),radius_x=8)
-        self.add_arc('hair-right',(38,20),(32,12),radius_x=8)
+        # Rounded paired hair lobes reveal a centre part above a blank circular face.
+        self.add_bezier('head-top-1',(17,11),((17,7),(17,4),(19,4)))
+        self.add_line('head-top-2',(19,4),(24,7))
+        self.add_line('head-top-3',(24,7),(29,4))
+        self.add_bezier('head-top-4',(29,4),((31,4),(31,7),(31,11)))
+        self.add_arc('face-bottom',(31,11),(17,11),radius_x=7)
+        self.add_contour('head','head-top-1','head-top-2','head-top-3','head-top-4','face-bottom',closed=True)
+        self.add_arc('hair-left',(17,11),(8,17),radius_x=9)
+        self.add_arc('hair-right',(40,17),(31,11),radius_x=9)
         self.relate('connect','head','hair-left')
         self.relate('connect','head','hair-right')
-        self.path('body',(24,28),[('A',(10,36),14,8,False),('L',(18,36)),('L',(18,44)),('L',(30,44)),('L',(30,36)),('L',(38,36)),('A',(24,28),14,8,False)],True)
-
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': '6047873f9ca7839e308473aa87fb3445ffd14b2eede10c031387a6473484ed6c', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '45881775-2179-41cc-98a1-78a598c550c1'}
+        # The face touches a broad upper garment, matching the source portrait.
+        self.add_bezier('left-shoulder',(20,27),((17,23),(16,25),(16,28)))
+        self.add_line('left-arm',(16,28),(12,37))
+        self.add_line('left-cuff',(12,37),(20,37))
+        self.add_line('left-torso',(20,37),(20,42))
+        self.add_arc('left-hem',(20,42),(20,44),radius_x=2)
+        self.add_line('hem',(20,44),(28,44))
+        self.add_arc('right-hem',(28,44),(28,42),radius_x=2)
+        self.add_line('right-torso',(28,42),(28,37))
+        self.add_line('right-cuff',(28,37),(36,37))
+        self.add_line('right-arm',(36,37),(32,28))
+        self.add_bezier('right-shoulder',(32,28),((32,25),(31,23),(28,27)))
+        self.add_line('body-top-right',(28,27),(24,27))
+        self.add_line('body-top-left',(24,27),(20,27))
+        self.add_line('neck',(24,18),(24,27))
+        self.add_contour('dress','left-shoulder','left-arm','left-cuff','left-torso',
+                         'left-hem','hem','right-hem','right-torso','right-cuff',
+                         'right-arm','right-shoulder','body-top-right','body-top-left',closed=True)
+        self.relate('connect','head','neck')
+        self.relate('connect','neck','dress')

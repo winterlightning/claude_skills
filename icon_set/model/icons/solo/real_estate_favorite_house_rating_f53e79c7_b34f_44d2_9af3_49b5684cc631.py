@@ -6,8 +6,8 @@ Layout: Main star and house share x24; smaller sparkles form a mirrored pair. Ho
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f53e79c7-b34f-44d2-9af3-49b5684cc631'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__real-estate-favorite-house-rating/20260927T144036Z-thuan-mac-1/reference/real estate favorite house rating_f53e79c7-b34f-44d2-9af3-49b5684cc631.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'real-estate-favorite-house-rating'
@@ -20,13 +20,13 @@ class Drawing(Solo48):
     keywords = ('real', 'estate', 'favorite', 'house', 'rating')
 
     def build(self):
-        # VRECT_L (8,4)-(40,44); full house, one rating star and two sparkles.
+        # Three rating stars above a house with a clear doorway.
         self.add_polyline('main-star',(24,4),(27,10),(32,10),(28,14),(29,20),(24,16),(19,20),(20,14),(16,10),(21,10),closed=True)
         for x in (10,38):
-            self.add_polyline(f'star-h-{x}',(x-2,24),(x,24),(x+2,24))
-            self.add_polyline(f'star-v-{x}',(x,22),(x,24),(x,26))
+            self.add_polyline(f'star-h-{x}',(x-1,18),(x,18),(x+1,18))
+            self.add_polyline(f'star-v-{x}',(x,16),(x,18),(x,20))
             self.relate('connect',f'star-h-{x}',f'star-v-{x}')
-        self.add_polyline('house',(8,36),(24,28),(40,36),(40,44),(8,44),closed=True)
+        self.add_polyline('house',(8,44),(8,34),(24,28),(40,34),(40,44),(29,44),(29,38),(19,38),(19,44),closed=True)
 
     def circle(self,name,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry

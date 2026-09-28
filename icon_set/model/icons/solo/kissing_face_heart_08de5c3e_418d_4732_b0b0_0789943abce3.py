@@ -1,9 +1,10 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """Closed-eye kissing face with a separate floating heart. Source distinction from beam version retained by omitting the emission line. CIRCLE radial envelope radius22 around24,24."""
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '08de5c3e-418d-4732-b0b0-0789943abce3'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_17/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__kissing-face-heart/20260927T142529Z-thuan-mac-1/reference/face kiss_08de5c3e-418d-4732-b0b0-0789943abce3.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -24,7 +25,7 @@ class Drawing(Solo48):
         self.relate('connect','head-top','head-bottom')
         for name,x in [('left',18),('right',30)]:
             self.add_arc('eye-'+name,(x-2,18),(x+2,18),radius_x=2,radius_y=1,sweep=False)
-        self.add_polyline('kiss',(19,28),(21,30),(19,32))
+        self.add_polyline('kiss',(18,27),(21,29),(18,31))
         self.add_arc('heart-left',(35,33),(29,33),radius_x=3,sweep=False)
         self.add_bezier('heart-tip',(29,33),((29,35),(32,38),(35,40)),((38,38),(41,35),(41,33)))
         self.add_arc('heart-right',(41,33),(35,33),radius_x=3,sweep=False)

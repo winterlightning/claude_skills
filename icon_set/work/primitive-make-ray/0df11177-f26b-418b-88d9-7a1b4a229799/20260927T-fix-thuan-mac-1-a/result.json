@@ -1,0 +1,30 @@
+{
+  "source_uuid": "0df11177-f26b-418b-88d9-7a1b4a229799",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__looped-charging-cable-with-marked-left-connector/20260927T153253Z-thuan-mac-1/reference/thunderbolt cable_0df11177-f26b-418b-88d9-7a1b4a229799.svg",
+  "icon_id": "looped-charging-cable-with-marked-left-connector",
+  "author": "claude-opus-5-5",
+  "validation_status": "invalid",
+  "validation": [
+    "status: invalid",
+    "  ERROR  mic [body]: parallel straight edges body-bottom-left, body-bottom-mid, body-bottom-right and neck-2, neck-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  WARN   mic [body]: body and mark are 8 apart on centerlines nearest (12, 26)<->(12, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "build_gate": "fail",
+  "build_gate_findings": [
+    "mic [body]: parallel straight edges body-bottom-left, body-bottom-mid, body-bottom-right and neck-2, neck-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [body]: body and mark are 8 apart on centerlines nearest (12, 26)<->(12, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [body / neck]: body-bottom-mid and neck-2 have 2 units of ink clearance over 3 units; requires 4; review required",
+    "internal-spacing [body / neck]: body-bottom-mid and neck-3 have 2 units of ink clearance over 3 units; requires 4; review required"
+  ],
+  "visual_review": "Restored the left connector's mark and neck and the right plug's pin around the looped cable, as in the reference.",
+  "omissions": [],
+  "module": "looped_charging_cable_with_marked_left_connector_0df11177_f26b_418b_88d9_7a1b4a229799.py",
+  "svg": "looped-charging-cable-with-marked-left-connector.svg",
+  "reference_svg": "reference.svg",
+  "previews": [
+    "looped-charging-cable-with-marked-left-connector-light-48.png",
+    "looped-charging-cable-with-marked-left-connector-light-384.png",
+    "looped-charging-cable-with-marked-left-connector-dark-48.png",
+    "looped-charging-cable-with-marked-left-connector-dark-384.png"
+  ]
+}

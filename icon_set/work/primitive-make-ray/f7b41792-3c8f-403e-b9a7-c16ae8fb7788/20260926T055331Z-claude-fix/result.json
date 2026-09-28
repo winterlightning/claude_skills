@@ -1,0 +1,36 @@
+{
+  "concept": "disguised face old",
+  "source_uuid": "f7b41792-3c8f-403e-b9a7-c16ae8fb7788",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__disguised-face/20260926T055140Z-thuan-mac/reference/disguised face old_f7b41792-3c8f-403e-b9a7-c16ae8fb7788.svg",
+  "icon_id": "disguised-face",
+  "author": "claude-opus-5-5",
+  "validation_status": "valid",
+  "validation_errors": [],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "disguised-face",
+    "status": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "visual_review": "Inspected 48px and 384px in light and dark: large round glasses on a bridge over a moustache pad with a small nose bump; reads at once as the glasses-nose-moustache disguise. The rejected drawing had tiny filled lenses and a wavy line moustache inside a face circle.",
+  "omissions": "The reference's face circle is dropped. With an r20 rim every feature must stay inside radius 12: lenses shrink to r3 dots and a closed moustache (8 tall for its parallel edges) does not fit; that attempt failed validation (attempts/vA-rim-small-lenses.py.txt, attempts/vA-validation.txt). The nose U is merged into the moustache as an r3 bump.",
+  "drawing_plan": "HRECT_L, symmetric about x=24: lenses r8 at (12,16) and (36,16), bridge (20,16)-(28,16); moustache pad y 32..40, x 17..31 with r4 semicircle ends and r3 nose bump (21,32)-(27,32).",
+  "lucide_reference": "Lucide 'glasses' - two round lenses joined by a bridge.",
+  "fix_claim": "icon_set/work/primitive-fix-thuan/solo__disguised-face/20260926T055140Z-thuan-mac",
+  "artifacts": [
+    "attempts",
+    "disguised-face.metadata.json",
+    "disguised-face.svg",
+    "disguised_face_f7b41792_3c8f_403e_b9a7_c16ae8fb7788.py",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "reference.svg",
+    "validation.txt"
+  ]
+}

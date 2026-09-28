@@ -2,7 +2,7 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='c167b0e7-d4ac-469d-8f57-09582e267096'
-SOURCE_PATH='pictographic-primitives/mobile/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__force-touch-press/20260926T165410Z-thuan-mac/reference/force touch press_c167b0e7-d4ac-469d-8f57-09582e267096.svg'
 AUTHOR='gpt-6'
 PLAN='Lucide hand rounded fingertip; widened bent index silhouette, omitted small secondary knuckle and impact rays. Deliberate directional asymmetry; no detached head.'
 class Drawing(Solo48):

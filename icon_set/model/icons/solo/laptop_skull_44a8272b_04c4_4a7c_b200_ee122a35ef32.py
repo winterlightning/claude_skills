@@ -1,11 +1,12 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """laptop skull, complete SOLO48 composition.
 Symbol plan is recorded in build(). Visible keyshape extremes: (2, 6, 46, 42).
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '44a8272b-04c4-4a7c-b200-ee122a35ef32'
-SOURCE_PATH = 'pictographic-primitives/other/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__laptop-skull/20260927T142529Z-thuan-mac-1/reference/laptop skull_44a8272b-04c4-4a7c-b200-ee122a35ef32.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'laptop-skull'
@@ -38,15 +39,17 @@ class Drawing(Solo48):
         self.relate('connect','screen','base')
 
     def build(self):
-        # Retain the flared laptop base, two eye sockets and three open jaw/tooth strokes.
-        # The larger cranium is still too close to the enclosure and sockets under SOLO48.
-        self.laptop()
-        self.add_arc('cranium',(16,23),(32,23),radius_x=8)
-        self.add_line('jaw-left',(16,23),(16,27));self.add_line('jaw-right',(32,23),(32,27))
-        self.relate('connect','cranium','jaw-left');self.relate('connect','cranium','jaw-right')
-        for x in (20,28):self.add_dot('eye-'+str(x),(x,22))
-        self.add_line('tooth',(24,25),(24,27))
+        # A wider skull sits above an open laptop base, preserving room for eye sockets.
+        self.add_arc('cranium',(8,24),(40,24),radius_x=16,radius_y=16)
+        self.add_polyline('jaw',(8,24),(16,31),(32,31),(40,24))
+        self.relate('connect','cranium','jaw')
+        for x in (19,29): self.add_dot('eye-'+str(x),(x,22))
+        self.add_polyline('screen-left',(8,24),(8,32),(4,40))
+        self.add_polyline('screen-right',(40,24),(40,32),(44,40))
+        self.relate('connect','cranium','screen-left'); self.relate('connect','cranium','screen-right')
+        self.relate('connect','jaw','screen-left'); self.relate('connect','jaw','screen-right')
+        self.add_line('laptop-base',(4,40),(44,40))
+        self.relate('connect','screen-left','laptop-base'); self.relate('connect','screen-right','laptop-base')
 
 
 # Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'cd4d3b384c17d12160ba3bb385d4057271125f35420cb491c3cd93abd8cd0b26', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '44a8272b-04c4-4a7c-b200-ee122a35ef32'}

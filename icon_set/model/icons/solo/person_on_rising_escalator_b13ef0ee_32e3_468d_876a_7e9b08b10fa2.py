@@ -10,8 +10,8 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = "b13ef0ee-32e3-468d-876a-7e9b08b10fa2"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_27/moving walkway_b13ef0ee-32e3-468d-876a-7e9b08b10fa2.svg"
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-on-rising-escalator/20260927T143814Z-thuan-mac-1/reference/moving walkway_b13ef0ee-32e3-468d-876a-7e9b08b10fa2.svg'
+AUTHOR = 'gpt-6'
 
 
 class PersonOnRisingEscalator(Solo48):
@@ -47,6 +47,9 @@ class PersonOnRisingEscalator(Solo48):
         self.relate("connect", "torso", "rail-upper-middle")
 
         self.add_line("direction-shaft", (35, 40), (42, 40))
-        self.add_polyline("direction-head", (38, 38), (42, 40), (38, 42))
+        self.add_polyline("direction-head", (39, 38), (42, 40), (39, 42))
         self.relate("connect", "direction-shaft", "direction-head-1")
         self.relate("connect", "direction-shaft", "direction-head-2")
+
+# Revision comparison: The rejected direction arrow crowded the escalator rail.
+# Revision: Refined the right-pointing arrow tip to read separately from the rising rail.

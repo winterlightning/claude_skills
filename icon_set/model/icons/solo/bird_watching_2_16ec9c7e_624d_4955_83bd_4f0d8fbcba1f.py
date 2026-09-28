@@ -1,45 +1,63 @@
-"""Three birds over a stepped telescope and tripod; angled optical barrel and shared tripod joint retain the scene."""
+"""Birdwatching: a telescope on a tripod, tilted up to the right, beneath
+three small birds in flight.
+
+Symbol plan: the tube is a rectangle on the integer axis (2,-1) with the
+perpendicular (-1,-2)*4 (width 8.9); the eyepiece continues the axis from
+the midpoint of the tube's rear end; the tripod apex is a point on the tube's
+lower edge, with three legs to the ground spaced 8 apart. The three birds
+repeat one 8-wide shallow wing definition; the middle bird flies highest.
+Keyshape SQUARE: eyepiece x=6, right bird x=42, birds y=6, legs y=42.
+Lucide construction: telescope (tilted tube + tripod legs) and bird "v" marks.
+Revision of the rejected drawing ("Bad stroke drawn"): the old drawing used
+heart shapes for birds and a segmented tube; here the birds are chevrons and
+the tube is one clean rectangle.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = '16ec9c7e-624d-4955-83bd-4f0d8fbcba1f'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__birdwatching-telescope-beneath-three-birds/20260925T060624Z-thuan-mac/reference/bird watching 2_16ec9c7e-624d-4955-83bd-4f0d8fbcba1f.svg'
-AUTHOR = 'gpt-6'
 
-class Revision(Solo48):
-    icon_id = 'birdwatching-telescope-beneath-three-birds-solo'
+SOURCE_ICON_ID = "16ec9c7e-624d-4955-83bd-4f0d8fbcba1f"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__birdwatching-telescope-beneath-three-birds-solo/20260927T140835Z-thuan-mac-1/reference/bird watching 2_16ec9c7e-624d-4955-83bd-4f0d8fbcba1f.svg'
+AUTHOR = "gpt-6"
+
+AXIS = (2, -1)          # tube direction, up to the right
+NORMAL = (-4, -8)       # tube width vector (perpendicular to AXIS)
+REAR_LOW = (14, 34)     # rear lower corner of the tube
+LENGTH = 8              # tube length in AXIS steps
+APEX_STEP = 5           # tripod apex position along the lower edge
+GROUND = 42
+BIRDS = ((10, 12), (24, 6), (38, 12))   # (centre x, wing-tip y); middle bird flies highest
+BIRD_HALF, BIRD_DIP = 4, 1
+
+
+def add(p, v, k=1):
+    return (p[0] + k * v[0], p[1] + k * v[1])
+
+
+class BirdwatchingTelescopeBeneathThreeBirds(Solo48):
+    icon_id = "birdwatching-telescope-beneath-three-birds-solo"
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
-    aliases = ()
-    keywords = ('bird watching 2',)
+    aliases = ("bird-watching", "birdwatching")
+    keywords = ("bird", "watching", "telescope", "tripod", "birds", "nature", "observe")
 
-    def build(self):
-        # Plan: Three birds over a stepped telescope and tripod; angled optical barrel and shared tripod joint retain the scene.
-        # Construction reference: telescope: stepped barrel and shared tripod joint
+    def build(self) -> None:
+        low_rear = REAR_LOW
+        low_front = add(low_rear, AXIS, LENGTH)
+        up_front = add(low_front, NORMAL)
+        up_rear = add(low_rear, NORMAL)
+        self.add_polyline("tube", low_rear, low_front, up_front, up_rear, closed=True)
 
-        def path(name, start, commands, closed=False):
-            members=[]; here=start
-            for index, command in enumerate(commands):
-                ident=f'{name}-{index}'; kind,end,*args=command
-                if kind=='L': self.add_line(ident,here,end)
-                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
-                members.append(ident); here=end
-            self.add_contour(name,*members,closed=closed)
-        def circle(name,cx,cy,r):
-            path(name,(cx-r,cy),[('A',(cx+r,cy),r,r,True),('A',(cx-r,cy),r,r,True)],True)
-        def rounded(name,x0,y0,x1,y1,r):
-            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
-        line=self.add_line; poly=self.add_polyline
-        join=lambda a,b:self.relate('connect',a,b)
+        rear_mid = add(low_rear, (NORMAL[0] // 2, NORMAL[1] // 2))
+        self.add_line("eyepiece", rear_mid, add(rear_mid, AXIS, -3))
+        self.relate("connect", "tube", "eyepiece")
 
-        for n,x,y in [('left',8,8),('middle',22,6),('right',36,6)]:
-         poly('bird-'+n,(x-2,y),(x,y+2),(x+2,y))
-        poly('objective',(26,20),(38,16),(42,26),(30,30),(26,20))
-        poly('barrel',(27,21),(16,23),(19,32),(30,28));join('objective','barrel')
-        poly('eyepiece',(16,23),(6,27),(9,36),(19,32));join('eyepiece','barrel')
-        line('mount',(30,30),(30,37));join('mount','objective')
-        poly('tripod',(20,42),(30,37),(40,42));join('tripod','mount')
-        line('center-leg',(30,37),(30,42));join('center-leg','tripod');join('center-leg','mount')
+        apex = add(low_rear, AXIS, APEX_STEP)
+        for name, dx in (("left", -4), ("middle", 4), ("right", 12)):
+            self.add_line(f"leg-{name}", apex, (apex[0] + dx, GROUND))
+            self.relate("connect", "tube", f"leg-{name}")
+        self.relate("connect", "leg-left", "leg-middle", "leg-right")
+
+        for index, (x, y) in enumerate(BIRDS, 1):
+            self.add_polyline(f"bird-{index}", (x - BIRD_HALF, y), (x, y + BIRD_DIP), (x + BIRD_HALF, y))

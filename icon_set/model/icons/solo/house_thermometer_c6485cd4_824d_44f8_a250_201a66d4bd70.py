@@ -1,3 +1,4 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """house thermometer: fresh SOLO48 repair.
 Plan: Mirrored tube and rounded bulb; matched tube walls.
 Keyshape: SQUARE. House surrounds a centered vertical thermometer.
@@ -7,7 +8,7 @@ Construction reference: house: joined roof and rounded base corners.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c6485cd4-824d-44f8-a250-201a66d4bd70'
-SOURCE_PATH = 'pictographic-primitives/other/house thermometer_c6485cd4-824d-44f8-a250-201a66d4bd70.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-thermometer/20260927T142529Z-thuan-mac-1/reference/house thermometer_c6485cd4-824d-44f8-a250-201a66d4bd70.svg'
 AUTHOR = 'gpt-6'
 PARENT_SOURCE = 'icon_set/model/icons/solo/house_thermometer_c6485cd4_824d_44f8_a250_201a66d4bd70.py'
 
@@ -32,10 +33,11 @@ class Drawing(Solo48):
         self.add_contour('house', 'roof-1', 'roof-2', 'wall-right', 'corner-right', 'floor', 'corner-left', 'wall-left', closed=True)
 
     def build(self):
+        # A narrow stem enters a distinct circular bulb.
         self.house()
-        self.add_arc('cap', (20, 20), (28, 20), radius_x=4)
-        self.add_line('tube-right', (28, 20), (28, 27))
-        self.add_bezier('bulb-right', (28, 27), ((32, 30), (30, 33), (24, 33)))
-        self.add_bezier('bulb-left', (24, 33), ((18, 33), (16, 30), (20, 27)))
-        self.add_line('tube-left', (20, 27), (20, 20))
-        self.add_contour('thermometer', 'cap', 'tube-right', 'bulb-right', 'bulb-left', 'tube-left', closed=True)
+        self.add_line('tube',(24,17),(24,25))
+        self.add_arc('bulb-a',(20,29),(24,25),radius_x=4)
+        self.add_arc('bulb-b',(24,25),(28,29),radius_x=4)
+        self.add_arc('bulb-c',(28,29),(20,29),radius_x=4)
+        self.add_contour('bulb','bulb-a','bulb-b','bulb-c',closed=True)
+        self.relate('connect','tube','bulb')

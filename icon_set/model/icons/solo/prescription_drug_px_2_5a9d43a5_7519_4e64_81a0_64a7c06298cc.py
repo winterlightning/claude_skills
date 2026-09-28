@@ -8,8 +8,8 @@ from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5a9d43a5-7519-4e64-81a0-64a7c06298cc'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/prescription drug px 2_5a9d43a5-7519-4e64-81a0-64a7c06298cc.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__prescription-drug-px-2/20260927T144036Z-thuan-mac-1/reference/prescription drug px 2_5a9d43a5-7519-4e64-81a0-64a7c06298cc.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'prescription-drug-px-2'
@@ -25,7 +25,9 @@ class Drawing(Solo48):
     def build(self):
         # SQUARE (6,6)-(42,42). A broad prescription sheet owns an enlarged Rx.
         # Tiny writing lines and the crowded paper roll are omitted.
-        self.add_polyline('paper',(6,6),(42,6),(42,42),(6,42),closed=True)
+        self.add_polyline('paper',(6,6),(34,6),(42,14),(42,42),(6,42),closed=True)
+        self.add_line('fold',(34,6),(34,14))
+        self.relate('connect','fold','paper')
         self.add_polyline('r-stem',(15,31),(15,23),(15,15),(21,15))
         self.add_arc('r-bowl',(21,15),(21,23),radius_x=4)
         self.add_line('r-return',(21,23),(15,23))

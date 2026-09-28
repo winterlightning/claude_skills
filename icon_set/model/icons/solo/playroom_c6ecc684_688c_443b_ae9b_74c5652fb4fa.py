@@ -8,7 +8,7 @@ from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c6ecc684-688c-443b-ae9b-74c5652fb4fa'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/playroom_c6ecc684-688c-443b-ae9b-74c5652fb4fa.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__playroom/20260927T144036Z-thuan-mac-1/reference/playroom_c6ecc684-688c-443b-ae9b-74c5652fb4fa.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -24,12 +24,15 @@ class Drawing(Solo48):
 
     def build(self):
         # Foreground pawn toy has a round knob, short connector and a broad base.
-        self.add_polyline('house',(42,16),(24,6),(6,16),(6,42),(14,42),(22,42),(30,42))
+        self.add_polyline('house',(42,16),(24,6),(6,16),(6,42),(14,42),(22,42),(31,42))
         self.add_polyline('door',(14,42),(14,29),(22,29),(22,42));self.relate('connect','door','house')
         self.circle('toy-knob',36,26,3)
         self.add_line('toy-neck',(36,29),(36,32));self.relate('connect','toy-neck','toy-knob')
-        self.add_polyline('toy-base',(36,32),(42,42),(30,42),closed=True)
-        self.relate('connect','toy-neck','toy-base');self.relate('connect','toy-base','house')
+        self.add_bezier('toy-shoulder-left',(36,32),((31,32),(30,37),(31,42)))
+        self.add_line('toy-bottom',(31,42),(42,42))
+        self.add_bezier('toy-shoulder-right',(42,42),((42,37),(41,32),(36,32)))
+        self.add_contour('toy-body','toy-shoulder-left','toy-bottom','toy-shoulder-right',closed=True)
+        self.relate('connect','toy-neck','toy-body');self.relate('connect','toy-body','house')
 
     def circle(self, name, cx, cy, r):
         points = [(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

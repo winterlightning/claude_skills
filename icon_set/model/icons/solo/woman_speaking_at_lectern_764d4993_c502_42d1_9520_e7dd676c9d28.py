@@ -1,8 +1,8 @@
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='764d4993-c502-42d1-9520-e7dd676c9d28'
-SOURCE_PATH='pictographic-primitives/users/woman podium_764d4993-c502-42d1-9520-e7dd676c9d28.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-speaking-at-lectern/20260927T140835Z-thuan-mac-1/reference/woman podium_764d4993-c502-42d1-9520-e7dd676c9d28.svg'
+AUTHOR = "gpt-6"
 PLAN='Woman with parted bob hair and a real neck behind a broad lectern with inward-tapering sides.'
 CONSTRUCTION_REFERENCES='Lucide presentation: straight podium ledge; human_ref/user.svg owns round jaw and smooth shoulders. Source owns hairstyle and lectern.'
 OMISSIONS=['Hair ends shortened for neck clearance. Cropped lectern completed with a lower edge.']
@@ -49,7 +49,7 @@ class Drawing(Solo48):
         self.path('left-hair',(14,16),[('C',(10,22),(14,18),(12,21))])
         self.path('right-hair',(34,16),[('C',(38,22),(34,18),(36,21))])
         self.add_polyline('ledge',(8,34),(12,34),(36,34),(40,34))
-        self.add_polyline('lectern',(12,34),(16,44),(32,44),(36,34))
+        self.add_polyline('lectern',(8,34),(12,44),(36,44),(40,34))
         for a,b in [('hair-cap','fringe'),('hair-cap','jaw'),('fringe','jaw'),('jaw','left-body'),('jaw','right-body'),('left-body','ledge'),('right-body','ledge'),('lectern','ledge'),('left-hair','jaw'),('right-hair','jaw'),('left-hair','hair-cap'),('right-hair','hair-cap'),('left-hair','fringe'),('right-hair','fringe')]:self.relate('connect',a,b)
 
 HUMAN_CONSTRUCTION_REVIEW = {'reference': 'icon_set/references/human_ref/user.svg', 'jaw_center': [24, 16], 'jaw_radius': 10, 'construction': 'Real neck connects at (18,24)/(30,24), exact points on the circular jaw. Detached-head spacing does not apply.'}

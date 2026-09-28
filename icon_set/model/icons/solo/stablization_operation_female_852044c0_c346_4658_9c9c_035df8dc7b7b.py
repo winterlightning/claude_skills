@@ -6,7 +6,7 @@ Omissions: Outlined blade wedge and blade seam replaced with two open crossing b
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='852044c0-c346-4658-9c9c-035df8dc7b7b'
-SOURCE_PATH='pictographic-primitives/_uncategorized_36/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stablization-operation-female/20260926T163748Z-thuan-mac/reference/stablization operation female_852044c0-c346-4658-9c9c-035df8dc7b7b.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='stablization-operation-female'

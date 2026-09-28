@@ -6,8 +6,8 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='91565135-36f8-42bb-b2ed-6c12f04a7eb5'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__tty-answer/20260927T140835Z-thuan-mac-1/reference/tty answer_91565135-36f8-42bb-b2ed-6c12f04a7eb5.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id='tty-answer'
@@ -86,8 +86,8 @@ class Drawing(Solo48):
         self.add_arc('bubble-tl',(6,14),(14,6),radius_x=8)
         self.add_contour('bubble','bubble-top','bubble-tr','bubble-right','bubble-br','tail-1','tail-2','tail-3','bubble-bl','bubble-left','bubble-tl',closed=True)
         # Open receiver stroke: smooth cradle with short perpendicular ear ends.
-        self.add_line('receiver-ear-left',(20,16),(16,16))
-        self.add_arc('receiver-cradle',(16,16),(27,27),radius_x=11,sweep=False)
-        self.add_polyline('receiver-ear-right',(27,27),(31,27),(31,23))
+        self.add_line('receiver-ear-left',(20,15),(16,15))
+        self.add_arc('receiver-cradle',(16,15),(29,27),radius_x=13,sweep=False)
+        self.add_polyline('receiver-ear-right',(29,27),(33,27),(33,23))
         self.add_contour('receiver','receiver-ear-left','receiver-cradle','receiver-ear-right-1','receiver-ear-right-2')
         self.contours = [c for c in self.contours if c.contour_id not in ['tail', 'receiver-ear-right']]

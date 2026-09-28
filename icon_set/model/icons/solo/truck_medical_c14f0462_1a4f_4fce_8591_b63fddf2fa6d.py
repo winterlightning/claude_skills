@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='c14f0462-1a4f-4fce-8591-b63fddf2fa6d'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__truck-medical/20260927T140835Z-thuan-mac-1/reference/truck medical_c14f0462-1a4f-4fce-8591-b63fddf2fa6d.svg'
 AUTHOR = "gpt-6"
 PLAN='Medical truck with two wheels, right-side cab and a centerline medical cross.'
 CONSTRUCTION_REFERENCE='truck and ambulance: circular wheels, interrupted lower chassis and cab profile'
@@ -80,7 +80,7 @@ class Drawing(Solo48):
 
     def build(self):
         # One centerline medical cross preserves the medical mark at SOLO48.
-        self.add_polyline('cargo',(12,32),(4,24),(4,8),(28,8),(28,16),(28,26))
+        self.add_polyline('cargo',(12,32),(4,32),(4,8),(28,8),(28,16),(28,26))
         self.add_polyline('cab',(28,16),(36,16),(44,24),(44,28),(36,32))
         self.circle('wheel-left',12,36,4)
         self.circle('wheel-right',36,36,4)

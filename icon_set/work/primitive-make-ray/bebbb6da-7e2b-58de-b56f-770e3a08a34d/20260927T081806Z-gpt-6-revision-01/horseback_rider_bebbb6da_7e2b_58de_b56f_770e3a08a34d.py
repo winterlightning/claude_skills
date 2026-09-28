@@ -1,0 +1,58 @@
+# Repair: Reconstruct the horse neck and saddle together; preserve circular rider head, reins and distinct horse/rider legs. Human reference full_body_ref.png; head gap 12-4=8.
+"""Reconstruct horseback rider using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
+Reconstruct horseback rider using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
+Horse Rider. Upright rider on a right-facing horse; retain long muzzle, ear, tail and two visible legs, omit reins and doubled limbs.
+Keyshape VRECT_L, visible extremes (6, 2, 42, 46); centerline envelope inset by 2.
+Construction: Lucide person-standing: a circular head and sparse articulated limbs. Source establishes the subject and pose.
+Shared circles and rounded rectangles keep repeated radii coherent."""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'bebbb6da-7e2b-58de-b56f-770e3a08a34d'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__horseback-rider/20260927T081503Z-thuan-mac-1/reference/outdoors horse_bebbb6da-7e2b-58de-b56f-770e3a08a34d.svg'
+AUTHOR = 'gpt-6'
+
+class HorsebackRider(Solo48):
+    icon_id = 'horseback-rider'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'recreation'
+    categories = ('primitives', 'recreation')
+    aliases = ()
+    keywords = ('horseback', 'rider')
+
+    def ring(self, name, x, y, r):
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def branches(self, branches):
+        parts = []
+        for name, points in branches:
+            members = []
+            for i, (a, b) in enumerate(zip(points, points[1:])):
+                key = f'{name}-{i}'
+                self.add_line(key, a, b)
+                members.append(key)
+                parts.append((key, a, b))
+            if len(members) > 1:
+                self.add_contour(name, *members)
+        for i, (name, a, b) in enumerate(parts):
+            for other, c, d in parts[i + 1:]:
+                if a in (c, d) or b in (c, d):
+                    self.relate('connect', name, other)
+
+    def build(self):
+        from icon_set.model.icons.solo._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(12,8),('A',4,4,True,(20,8)),('A',4,4,True,(12,8)),closed=True)
+        path(self,'torso',(16,20),('C',(16,24),(16,28),(16,30)))
+        poly(self,'arm',(16,20),(24,20),(26,18))
+        path(self,'horse',(8,44),('L',(8,38)),('L',(8,30)),('L',(16,30)),('L',(24,30)),('L',(26,18)),('L',(30,10)),('L',(40,18)),('L',(40,26)),('L',(36,26)),('L',(36,38)),('L',(36,44)))
+        poly(self,'belly',(8,38),(16,38),(36,38))
+        poly(self,'rider-leg',(16,30),(16,38),(16,40))
+        line(self,'tail',(8,30),(8,22))
+        contacts(self)
+        self.mark_human_figure('rider',head='head',torso='torso-1',torso_junction='start')

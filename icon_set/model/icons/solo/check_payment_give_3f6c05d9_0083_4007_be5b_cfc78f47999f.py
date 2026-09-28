@@ -6,7 +6,7 @@ Keyshape SQUARE: exact contract envelope; 4-unit stroke.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3f6c05d9-0083-4007-be5b-cfc78f47999f'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__check-payment-give/20260924T172457Z-thuan-mac/reference/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__check-payment-give/20260926T165410Z-thuan-mac/reference/check payment give_3f6c05d9-0083-4007-be5b-cfc78f47999f.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'check-payment-give'

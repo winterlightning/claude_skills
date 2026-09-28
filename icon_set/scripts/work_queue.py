@@ -35,7 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 TIMEOUT = 30
 CLAIM_ATTEMPTS = 5
 MAX_PAGE = 500
-REASONS = ('bad-stroke', 'meaning', 'manual-fix-request', 'other')
+REASONS = ('bad-stroke', 'meaning', 'manual-fix-request', 'other', 'missing')
 
 
 class ApiError(RuntimeError):
@@ -124,6 +124,33 @@ def upload_result(base_url, worker, key, sha, stage, svg_path, python_path=None,
 
 def take_next(base_url, worker, family=None, category=None, icon_type=None, *, limit=1, offset=0, reason=None):
     """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins."""
+    if reason == 'missing':
+        # Older production servers only filter explicit reasons. Page through
+        # the unfiltered queue so the offset counts missing-reason icons.
+        matches = []
+        page_offset = 0
+        while len(matches) < offset + limit + CLAIM_ATTEMPTS:
+            page = call(base_url, 'GET', '/api/work/queue', query={
+                'family': family, 'category': category, 'type': icon_type,
+                'limit': MAX_PAGE, 'offset': page_offset,
+            })
+            matches.extend(item for item in page['items'] if not item.get('reason'))
+            if page.get('next_offset') is None:
+                break
+            page_offset = page['next_offset']
+        selected = matches[offset:offset + limit + CLAIM_ATTEMPTS]
+        claimed, last = [], None
+        for item in selected:
+            if len(claimed) >= limit:
+                break
+            body = {'icon': item['key'], 'svg_sha256': item['svg_sha256'], 'worker': worker}
+            try:
+                claimed.append(call(base_url, 'POST', '/api/work/claim', body))
+            except ApiError as error:
+                if error.status != 409:
+                    raise
+                last = error
+        return claimed, {'items': selected}, last
     query = {'family': family, 'category': category, 'type': icon_type, 'reason': reason,
              'limit': min(MAX_PAGE, max(limit + CLAIM_ATTEMPTS, 1)), 'offset': offset}
     page = call(base_url, 'GET', '/api/work/queue', query=query)

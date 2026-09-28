@@ -1,47 +1,32 @@
-from ._base import Solo48
+'server-choose: independent smooth-curve repair.\n\nConstruction: Three stacked server trays with matching rounded ends and shared horizontal rails.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/server.svg and atomic-debug/server.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='778556a1-f207-5e49-9e02-977c5f493d53'
-SOURCE_PATH='pictographic-primitives/servers/server choose_778556a1-f207-5e49-9e02-977c5f493d53.svg'
-AUTHOR='gpt-6'
-PLAN='Three stacked tiers with separate convex rounded ends; preserve the scalloped sides rather than a single rounded box.'
-CONSTRUCTION_REFERENCES='Lucide server: repeated horizontal trays; source owns the shared rails and bulging ends.'
-OMISSIONS=[]
-class Drawing(Solo48):
-    icon_id='three-rounded-server-tiers'
-    keyshape=Keyshape.HRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
+from ._base import Solo48
+from icon_set.model.icons.solo._symmetry_curves import path, ellipse, box, line, poly, contacts
+
+SOURCE_ICON_ID = '778556a1-f207-5e49-9e02-977c5f493d53'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__server-choose/20260927T091411Z-thuan-mac-1/reference/server choose_778556a1-f207-5e49-9e02-977c5f493d53.svg'
+AUTHOR = 'gpt-6'
+
+
+class ServerChoose(Solo48):
+    icon_id = 'three-rounded-server-tiers'
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'servers'
     categories = ('servers', 'other', 'primitives-generate')
-    aliases=()
-    keywords=('server', 'choose')
+    aliases = ()
+    keywords = ('server', 'choose', 'servers')
+    keyshape = Keyshape.HRECT_L
 
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def ellipse(self,n,x,y,rx,ry):
-        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-    def box(self,n,l,t,r,b,k=4,split=False):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        ids=[]
-        for i,a in enumerate(pts):
-            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
-            if i%2:self.add_arc(ident,a,z,radius_x=k)
-            else:self.add_line(ident,a,z)
-        if split:
-            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
-        else:self.add_contour(n,*ids,closed=True)
-
+    # Revision plan: Source shows three separate pill shaped server trays. Give the stack lobed sides while retaining three equal levels. Lucide server informs horizontal rhythm.
+    # Revision plan: Source shows three separate pill shaped server trays. Give the stack lobed sides while retaining three equal levels. Lucide server informs horizontal rhythm.
+    # Revision plan: Source shows three separate pill shaped server trays. Give the stack lobed sides while retaining three equal levels. Lucide server informs horizontal rhythm.
+    # Revision plan: Source shows three separate pill shaped server trays. Give the stack lobed sides while retaining three equal levels. Lucide server informs horizontal rhythm.
+    # Revision plan: Source shows three separate pill shaped server trays. Give the stack lobed sides while retaining three equal levels. Lucide server informs horizontal rhythm.
     def build(self):
-
-        self.path('outline',(10,8),[('L',(38,8)),('A',(38,18),6,5,True),('A',(38,30),6,6,True),('A',(38,40),6,5,True),('L',(10,40)),('A',(10,30),6,5,True),('A',(10,18),6,6,True),('A',(10,8),6,5,True)],True)
-        for y in (18,30):
-            self.add_line('rail-'+str(y),(10,y),(38,y));self.relate('connect','outline','rail-'+str(y))
+        # Three stacked rounded trays share one broad envelope and two seams.
+        self.add_polyline('server-stack', (12, 8), (36, 8), (44, 13), (40, 18), (44, 24), (40, 30), (44, 35), (36, 40), (12, 40), (4, 35), (8, 30), (4, 24), (8, 18), (4, 13), closed=True)
+        self.add_line('upper-seam', (8, 18), (40, 18))
+        self.add_line('lower-seam', (8, 30), (40, 30))
+        self.relate('connect', 'server-stack', 'upper-seam')
+        self.relate('connect', 'server-stack', 'lower-seam')

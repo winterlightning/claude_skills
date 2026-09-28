@@ -1,9 +1,10 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """Mirrored house outline enclosing an open curved power ring and separate vertical switch stroke."""
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='95e78717-28bd-4a88-951a-54d6ae9c18e6'
-SOURCE_PATH='pictographic-primitives/other/house power_95e78717-28bd-4a88-951a-54d6ae9c18e6.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-power/20260927T142529Z-thuan-mac-1/reference/house power_95e78717-28bd-4a88-951a-54d6ae9c18e6.svg'
+AUTHOR = 'gpt-6'
 PLAN='An open continuous curved ring replaces the squared-off U ends; the centered stem and rounded lower house corners have clear spacing. The ring is slightly flattened to fit below the roof.'
 CONSTRUCTION_REFERENCE='house and power originals; power atomic-debug informs a continuous open ring.'
 OMISSIONS='No defining features omitted.'
@@ -41,4 +42,4 @@ class Drawing(Solo48):
     def build(self):
         self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4,4,True),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,18))],True)
         self.add_arc('power-ring',(16,23),(32,23),radius_x=9,radius_y=6,large_arc=True,sweep=False)
-        self.add_line('power-stem',(24,16),(24,20))
+        self.add_line('power-stem',(24,16),(24,22))

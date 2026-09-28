@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6498afd8-8355-4072-b42d-b96eef9111b1'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__street-view/20260926T163748Z-thuan-mac/reference/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg'
 AUTHOR = "gpt-6"
 PLAN = 'Standing person beside a map pin and short road line.'
 CONSTRUCTION_REFERENCE = 'human_ref/full_body_ref.png and map-pin: outlined head, connected limbs, pointed marker'

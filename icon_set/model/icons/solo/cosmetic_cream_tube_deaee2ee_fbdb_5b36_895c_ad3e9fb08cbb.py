@@ -1,49 +1,57 @@
-from ._base import Solo48
+"""Cosmetic Tube with Oval Label.
+
+Plan: Upright cosmetic tube with narrow top cap, widening body, oval label and bottom band. Bounds (8,4)-(40,44).
+Construction references: Lucide watch: narrow attachment atop a rounded body; oval label reauthored separately.
+Simplification: Small shoulder facets and cap side seams; oval label turned horizontal to open its surrounding space.
+"""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb'
-SOURCE_PATH='pictographic-primitives/beauty/tube_deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb.svg'
-AUTHOR='gpt-6'
-PLAN='Restore the sloped shoulders between cap and tapered tube, upright oval label and lower crimp band.'
-CONSTRUCTION_REFERENCES='Lucide pipette: rounded end and narrow attachment; source owns tube silhouette.'
-OMISSIONS=['Upper horizontal shoulder seam omitted to preserve room for the upright label; sloped shoulders retained.']
-class Drawing(Solo48):
-    icon_id='cosmetic-cream-tube'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cosmetic-tube-with-oval-label/20260927T032242Z-thuan-mac-1/reference/tube_deaee2ee-fbdb-5b36-895c-ad3e9fb08cbb.svg'
+AUTHOR = 'gpt-6'
+
+def path(icon, name, start, *steps, closed=False):
+    """Emit one coherent stroke; each knot belongs to its owning shape."""
+    members = []
+    point = start
+    for index, step in enumerate(steps):
+        member = f"{name}-{index + 1}"
+        kind, end, *args = step
+        if kind == "L":
+            icon.add_line(member, point, end)
+        elif kind == "A":
+            rx, ry, sweep = args
+            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
+        elif kind == "B":
+            icon.add_bezier(member, point, (args[0], args[1], end))
+        members.append(member)
+        point = end
+    icon.add_contour(name, *members, closed=closed)
+
+
+def circle(icon, name, cx, cy, radius):
+    path(icon, name, (cx-radius, cy),
+         ("A", (cx, cy-radius), radius, radius, True),
+         ("A", (cx+radius, cy), radius, radius, True),
+         ("A", (cx, cy+radius), radius, radius, True),
+         ("A", (cx-radius, cy), radius, radius, True), closed=True)
+
+
+class CosmeticTubeWithOvalLabel(Solo48):
+    icon_id = 'cosmetic-cream-tube'
+    keyshape = Keyshape.VRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = 'beauty'
     categories = ('primitives', 'beauty')
-    aliases=()
-    keywords=('tube',)
-
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def ellipse(self,n,x,y,rx,ry):
-        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-    def box(self,n,l,t,r,b,k=4,split=False):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        ids=[]
-        for i,a in enumerate(pts):
-            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
-            if i%2:self.add_arc(ident,a,z,radius_x=k)
-            else:self.add_line(ident,a,z)
-        if split:
-            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
-        else:self.add_contour(n,*ids,closed=True)
+    aliases = ()
+    keywords = ('cosmetic', 'tube', 'with', 'oval', 'label')
 
     def build(self):
-
-        self.path('body',(16,12),[('L',(12,16)),('L',(8,36)),('L',(8,40)),('A',(12,44),4,4,False),('L',(36,44)),('A',(40,40),4,4,False),('L',(40,36)),('L',(36,16)),('L',(32,12))])
-        self.add_polyline('cap',(16,12),(16,4),(32,4),(32,12),(16,12))
-        self.add_line('band',(8,36),(40,36))
-        self.ellipse('label',24,24,3,4)
-        self.relate('connect','body','cap');self.relate('connect','body','band')
+        self.add_polyline('cap',(16,12),(16,4),(32,4),(32,12))
+        path(self,'body',(16,12),('L',(32,12)),('L',(36,12)),('L',(38,36)),('L',(38,40)),('A',(34,44),4,4,True),('L',(14,44)),('A',(10,40),4,4,True),('L',(10,36)),('L',(12,12)),('L',(16,12)),closed=True)
+        self.add_line('band',(10,36),(38,36))
+        path(self,'label',(20,24),('A',(28,24),4,3,True),('A',(20,24),4,3,True),closed=True)
+        self.relate('connect','cap','body')
+        self.relate('connect','band','body')

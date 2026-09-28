@@ -1,7 +1,8 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b'
-SOURCE_PATH = 'pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__list-numbers/20260927T142529Z-thuan-mac-1/reference/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg'
 AUTHOR = 'gpt-6'
 PLAN = 'Numbered list with rows one, two and three.'
 CONSTRUCTION_REFERENCES = 'Lucide list-ordered: numeral column and repeated rules.'
@@ -43,7 +44,7 @@ class Drawing(Solo48):
 
     def build(self):
         # Taller list gives each numeral eight units and two full inter-row gaps.
-        self.add_polyline('one',(8,6),(12,4),(12,10))
+        self.add_polyline('one',(8,8),(12,4),(12,10))
         self.add_bezier('two-top',(8,20),((14,17),(19,21),(14,24)))
         self.add_polyline('two-base',(14,24),(8,29),(16,29));self.relate('connect','two-top','two-base')
         self.add_bezier('three',(8,37),((17,37),(17,40),(12,40)),((17,40),(17,44),(8,44)))

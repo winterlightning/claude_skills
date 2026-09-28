@@ -6,8 +6,8 @@ Review: Approved in both themes at 48px and enlarged size. The handle and case a
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa'
-SOURCE_PATH = 'pictographic-primitives/other/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__suitcase-pill/20260927T140835Z-thuan-mac-1/reference/suitcase pill_4c57be23-fe0b-4cb8-b06e-9aed4bc5f3aa.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id='suitcase-pill'
@@ -23,14 +23,11 @@ class Drawing(Solo48):
     def build(self):
         # A short diagonal capsule with matched rounded ends and a shared seam.
         self.suitcase()
-        self.add_bezier('cap-low',(20,26),((16,30),(22,36),(26,32)))
-        self.add_polyline('side-low',(26,32),(27,31),(28,30))
-        self.add_bezier('cap-high',(28,30),((32,26),(26,20),(22,24)))
-        self.add_polyline('side-high',(22,24),(21,25),(20,26))
-        self.add_contour('pill','cap-low','side-low-1','side-low-2','cap-high','side-high-1','side-high-2',closed=True)
-        self.contours=[c for c in self.contours if c.contour_id not in ['side-low','side-high']]
-        # Omit the central seam to leave one readable capsule opening.
-
+        self.add_bezier('cap-low',(16,27),((14,29),(20,35),(23,33)))
+        self.add_line('side-low',(23,33),(33,29))
+        self.add_bezier('cap-high',(33,29),((34,27),(28,21),(26,23)))
+        self.add_line('side-high',(26,23),(16,27))
+        self.add_contour('pill','cap-low','side-low','cap-high','side-high',closed=True)
 
 
     def path(self,n,start,segments,closed=False):

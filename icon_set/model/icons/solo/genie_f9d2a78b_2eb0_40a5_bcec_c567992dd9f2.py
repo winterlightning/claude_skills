@@ -5,7 +5,7 @@ Keyshape VRECT_L: visible bounds (6, 2, 42, 46); centerlines inset 2 from these 
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='f9d2a78b-2eb0-40a5-bcec-c567992dd9f2'
-SOURCE_PATH='pictographic-primitives/_uncategorized_20/genie_f9d2a78b-2eb0-40a5-bcec-c567992dd9f2.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__genie/20260926T165410Z-thuan-mac/reference/genie_f9d2a78b-2eb0-40a5-bcec-c567992dd9f2.svg'
 AUTHOR="gpt-6"
 
 class Drawing(Solo48):

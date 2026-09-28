@@ -4,7 +4,7 @@ Kept the banknote enclosure and sterling denomination; removed four decorative c
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a2425a69-d3ed-4c10-8e19-41a99038d49e'
-SOURCE_PATH = 'pictographic-primitives/other/money bill pound_a2425a69-d3ed-4c10-8e19-41a99038d49e.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__money-bill-pound/20260927T142540Z-thuan-mac-1/reference/money bill pound_a2425a69-d3ed-4c10-8e19-41a99038d49e.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -21,7 +21,7 @@ class Drawing(Solo48):
 
 
     def banknote(self):
-        self.add_polyline('note',(4,8),(44,8),(44,40),(4,40),closed=True)
+        self.add_polyline('note',(8,8),(40,8),(44,12),(44,36),(40,40),(8,40),(4,36),(4,12),closed=True)
     def build(self):
         # Banknote corner decoration and a hand-authored pound sterling symbol.
         self.banknote()

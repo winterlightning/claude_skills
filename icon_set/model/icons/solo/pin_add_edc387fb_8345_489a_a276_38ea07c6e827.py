@@ -1,34 +1,45 @@
-"""SQUARE centerline6,6,42,42. Empty pin angled left beneath a foreground radius12 badge. Pin endpoints30,18 and18,30 share the badge wall without duplicate ink. Plus arms3 leave9 units radial clearance."""
-from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
-from ._base import Solo48
-SOURCE_ICON_ID = 'edc387fb-8345-489a-a276-38ea07c6e827'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pin add_edc387fb-8345-489a-a276-38ea07c6e827.svg'
-AUTHOR = 'gpt-6'
+"""Pin add: a map pin with a plus sign at its lower right - add a location.
 
-class Drawing(Solo48):
-    icon_id = 'pin-add'
+Symbol plan: the pin is one closed outline - a radius-10 half-circle
+head about (16,16) and two mirrored convex cubic flanks leaving its widest
+points vertically and meeting in a pointed tip at (16,42). The plus is four
+arms of length 6 sharing its
+centre node, 8+ from the pin. The reference's ring around the plus is
+omitted: a ring needs radius 11+ to hold a readable plus 8 inside it, and
+at that size it would collide with the pin.
+Keyshape SQUARE, centerline box (6,6)-(42,42).
+Lucide construction: map-pin-plus (pin head and flanks into a tip, plus
+beside it).
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = "edc387fb-8345-489a-a276-38ea07c6e827"
+SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__pin-add/20260925T092530Z-thuan-mac/reference/pin add_edc387fb-8345-489a-a276-38ea07c6e827.svg"
+AUTHOR = "claude-opus-5-5"
+
+
+class PinAdd(Solo48):
+    icon_id = "pin-add"
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ()
-    # Keyshape chosen first; stroke centerlines inset 2 from the ink bounds.
-    chosen_bounds = Keyshape.SQUARE.bounds_for(Profile.SOLO48)
-    def build(self):
-        self.add_arc('pin-cap',(6,17),(28,17),radius_x=11)
-        self.add_bezier('pin-right',(28,17),((28,18),(29,18),(30,18)))
-        self.add_line('pin-tip',(18,30),(10,36))
-        self.add_bezier('pin-left',(10,36),((8,27),(6,23),(6,17)))
-        self.add_contour('pin','pin-tip','pin-left','pin-cap','pin-right')
-        pts=[(18,30),(30,18),(42,30),(30,42),(18,30)]
-        ids=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            name='badge-'+str(i);ids.append(name);self.add_arc(name,a,b,radius_x=12)
-        self.add_contour('badge',*ids,closed=True)
-        self.relate('connect','pin','badge')
-        self.add_polyline('plus-h',(27,30),(30,30),(33,30))
-        self.add_polyline('plus-v',(30,27),(30,30),(30,33))
-        self.relate('connect','plus-h','plus-v')
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "maps"
+    aliases = ("add location", "map pin plus", "new place")
+    keywords = ("pin", "add", "location", "map", "plus", "marker")
+
+    def build(self) -> None:
+        cx, cy, r = 16, 16, 10
+        tip = (cx, 42)
+        self.add_arc("pin-1", (cx - r, cy), (cx, cy - r), radius_x=r)
+        self.add_arc("pin-2", (cx, cy - r), (cx + r, cy), radius_x=r)
+        # Convex flanks leave the head's widest points vertically and meet
+        # at the tip at about 53 degrees.
+        self.add_bezier("pin-3", (cx + r, cy), ((cx + r, 26), (cx + 4, 34), tip))
+        self.add_bezier("pin-4", tip, ((cx - 4, 34), (cx - r, 26), (cx - r, cy)))
+        self.add_contour("pin", *[f"pin-{i}" for i in range(1, 5)], closed=True)
+        px, py, arm = 36, 36, 6
+        for name, end in (("plus-left", (px - arm, py)), ("plus-right", (px + arm, py)),
+                          ("plus-up", (px, py - arm)), ("plus-down", (px, py + arm))):
+            self.add_line(name, (px, py), end)
+        self.relate("connect", "plus-left", "plus-right", "plus-up", "plus-down")

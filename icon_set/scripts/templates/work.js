@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {working: 'Working', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
+  const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
   const stateOf = row => row.work.state || '';
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
@@ -25,14 +25,14 @@
     const me = worker() || 'thuan-mac';
     const setup = 'API_BASE=' + quote(base) + '\nWORKER=' + quote(me);
     const post = (route, body) => 'curl --fail-with-body -H \'Content-Type: application/json\' \\\n  --data ' + quote(JSON.stringify(body)) + ' \\\n  "$API_BASE' + route + '"';
-    const claim = {icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1', worker: me};
-    $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"';
+    const claim = {icon: 'solo/plus', svg_sha256: 'HASH_FROM_STEP_1', worker: me};
+    $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=solo&state=open&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=solo&limit=5"';
     $('docClaim').textContent = post('/api/work/claim', claim);
-    $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'sub/minus']});
-    $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json\ngit commit -m "Fix sub/plus" && git push origin icon-lib';
-    $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
-    $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon sub/plus --stage after \\\n  --svg published/sub32/plus.svg --python icon_set/model/icons/sub/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
-    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review\ncurl --fail-with-body "$API_BASE/api/work/fixes"                             # uploaded fixes the gallery shows until the rebuilt model lands';
+    $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'solo/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'solo/minus']});
+    $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/solo/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/solo/plus_v3.py published/solo48 published/gallery/icons.json published/release.json\ngit commit -m "Fix solo/plus" && git push origin icon-lib';
+    $('docDone').textContent = post('/api/work/done', {...claim, note: 'solo/plus-v3, commit abc1234'});
+    $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon solo/plus --stage after \\\n  --svg published/solo48/plus.svg --python icon_set/model/icons/solo/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=solo/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
+    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=solo/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=solo/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=solo/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=solo/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review\ncurl --fail-with-body "$API_BASE/api/work/fixes"                             # uploaded fixes the gallery shows until the rebuilt model lands';
     $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke\n\n# --disapprove-status: bad-stroke | meaning | manual-fix-request | other';
   }
   $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); if ($('workMine').checked) reload(); else render(); });
@@ -107,11 +107,13 @@
   }
 
   function render() {
-    $('workSummary').replaceChildren(...['', 'working', 'done', 'cannot-fix'].map(state => {
+    // open = rows with no work state; the server counts only the other states.
+    const openCount = Math.max(0, all - ['working', 'done', 'cannot-fix'].reduce((sum, key) => sum + (counts[key] || 0), 0));
+    $('workSummary').replaceChildren(...['', 'open', 'working', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
-      button.innerHTML = (state ? STATE_LABELS[state] : 'All') + ' <b>' + (state ? counts[state] || 0 : all) + '</b>';
+      button.innerHTML = (state ? STATE_LABELS[state] : 'All') + ' <b>' + (state === 'open' ? openCount : state ? counts[state] || 0 : all) + '</b>';
       button.onclick = () => { $('workState').value = state; reload(); };
       return button;
     }));

@@ -346,7 +346,7 @@ def queue(connection, catalog, decisions, query, now, *, claimable_only=True) ->
     # Side combination 64 icons have no Python model to fix; they are fixed through their main and sub,
     # so fix workers only get them when they ask for that family.
     rows = [item for item in items if item['status'] in ('disapprove', 'claimed') and (not claimable_only or item['work']['state'] in CLAIMABLE)
-            and (not state or item['work']['state'] == state)
+            and (not state or item['work']['state'] == (None if state == 'open' else state))
             and (one('family') or item['family'] != 'side_combination64')]
     rows.sort(key=lambda item: (item['disapproved_at'] or '', item['key']))
     page = rows[offset:offset + limit]

@@ -6,8 +6,8 @@ Layout: Star and cover are centered; rear-page offset intentionally indicates mu
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd9776d01-07f9-402d-ac77-fc73a405a509'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rating-booklet/20260927T144036Z-thuan-mac-1/reference/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'rating-booklet'
@@ -21,7 +21,7 @@ class Drawing(Solo48):
 
     def build(self):
         self.add_polyline('cover',(8,12),(36,12),(40,12),(40,44),(8,44),closed=True)
-        self.add_polyline('rear-leaf',(16,4),(36,4),(36,12))
+        self.add_polyline('rear-leaf',(10,4),(36,4),(36,12))
         self.relate('connect','rear-leaf','cover')
         self.add_polyline('rating-star',(24,20),(27,26),(32,26),(28,30),(29,36),(24,32),(19,36),(20,30),(16,26),(21,26),closed=True)
 

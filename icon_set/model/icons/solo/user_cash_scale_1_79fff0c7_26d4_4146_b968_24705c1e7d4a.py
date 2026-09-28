@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='79fff0c7-26d4-4146-b968-24705c1e7d4a'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/user cash scale 1_79fff0c7-26d4-4146-b968-24705c1e7d4a.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__user-cash-scale-1/20260927T140026Z-thuan-mac-1/reference/user cash scale 1_79fff0c7-26d4-4146-b968-24705c1e7d4a.svg'
 AUTHOR='gpt-6'
 
 class Drawing(Solo48):
@@ -24,12 +24,15 @@ class Drawing(Solo48):
     def build(self):
         # Human circle and broad shoulders, exact head-bottom 14 to shoulder-top 22.
         self.circle('head',10,11,3)
-        self.add_arc('shoulders',(4,30),(16,30),radius_x=6,radius_y=8)
+        self.add_line('shoulders',(5,22),(15,22))
+        self.add_line('torso',(10,22),(10,30))
+        self.relate('connect','shoulders','torso')
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
         for n,cx in [('left',10),('right',38)]:
             self.add_polyline(n+'-rim',(cx-6,30),(cx,30),(cx+6,30))
             self.add_arc(n+'-pan',(cx+6,30),(cx-6,30),radius_x=6,radius_y=8)
             self.relate('connect',n+'-rim',n+'-pan')
-        self.relate('connect','shoulders','left-rim')
+        self.relate('connect','torso','left-rim')
         self.add_polyline('base',(20,40),(24,40),(28,40))
         self.add_line('stem',(24,40),(24,30))
         self.add_polyline('beam',(16,30),(24,30),(32,30))

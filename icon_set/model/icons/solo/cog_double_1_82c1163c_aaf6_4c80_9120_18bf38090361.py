@@ -1,52 +1,57 @@
-"""Two diagonal toothed gears with open centers.
-Plan: SQUARE balances equal gears on a rising diagonal.
-Reduction: Eight narrow teeth reduced to four broad teeth per gear; separate inner hub contour omitted, leaving one large central opening.
-Construction: settings: repeated toothed silhouette and open center. Shared quarter construction and identical sizes.
+"""Two cogs on a rising diagonal.
+
+SOLO48 SQUARE: visible (4, 4)-(44, 44), centerline (6, 6)-(42, 42).
+
+Symbol plan: each cog is a hub ring (r5) with seven radial teeth reaching r10,
+built on the ring's integer points (cardinal and 3-4-5 directions), as in
+Lucide `cog` (rim ring plus radial tooth strokes). The upper-right cog sits at
+(32,16) and the lower-left one is its point reflection through (24,24), so
+the pair has 180-degree symmetry. Each cog leaves its tooth gap facing the
+other cog (where gears mesh), which keeps every part 8+ apart.
+Revision: the earlier four-tooth octagon outlines read as blobs; radial teeth
+around an open hub now read as gears.
+Reduction: eight teeth per gear become seven (the eighth would face the other
+gear within 8 units); the separate inner hub circle is the ring's opening.
+Construction reference: Lucide `cog`.
 """
-from ._base import Solo48
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
-SOURCE_ICON_ID='82c1163c-aaf6-4c80-9120-18bf38090361'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_12/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg'
-AUTHOR='gpt-6'
+from ._base import Solo48
+
+SOURCE_ICON_ID = '82c1163c-aaf6-4c80-9120-18bf38090361'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cog-double-1/20260926T125429Z-thuan-mac/reference/cog double 1_82c1163c-aaf6-4c80-9120-18bf38090361.svg'
+AUTHOR = 'claude-opus-5-5'
+
+RING_R = 5
+TOOTH_SCALE = 2           # tooth tips at 2 x the ring point: radius 10
+UPPER = (32, 16)
+# tooth directions for the upper-right cog, as ring offsets of length 5, in
+# clockwise (screen) order; the gap at 90-180 degrees faces the other cog
+TEETH = [(5, 0), (3, 4), (0, 5), (-5, 0), (-4, -3), (0, -5), (4, -3)]
+
+
 class Drawing(Solo48):
-    icon_id='cog-double-1'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
+    icon_id = 'cog-double-1'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'primitives-generate'
     categories = ('primitives', 'primitives-generate')
-    aliases=()
-    keywords=('cog', 'double', '1')
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+    aliases = ('gears', 'cogs', 'settings')
+    keywords = ('cog', 'double', 'gear', 'gears', 'settings', 'mechanism')
+
+    def cog(self, name, c, teeth):
+        cx, cy = c
+        bases = [(cx + dx, cy + dy) for dx, dy in teeth]
+        n = len(bases)
+        for i in range(n):
+            self.add_arc(f'{name}-rim-{i}', bases[i], bases[(i + 1) % n], radius_x=RING_R, sweep=True)
+        self.add_contour(f'{name}-rim', *(f'{name}-rim-{i}' for i in range(n)), closed=True)
+        for i, (dx, dy) in enumerate(teeth):
+            tip = (cx + TOOTH_SCALE * dx, cy + TOOTH_SCALE * dy)
+            self.add_line(f'{name}-tooth-{i}', bases[i], tip)
+            self.relate('connect', f'{name}-tooth-{i}', f'{name}-rim-{i}')
+            self.relate('connect', f'{name}-tooth-{i}', f'{name}-rim-{(i - 1) % n}')
+
     def build(self):
-        # Shared four broad teeth; enlarged open hub is the negative space inside each contour.
-        quarter=[(-4,-8),(4,-8),(4,-6),(6,-4),(8,-4)]
-        for i,(cx,cy) in enumerate(((14,34),(34,14))):
-            pts=[]
-            for turn in range(4):
-                for x,y in quarter[:-1]:
-                    for _ in range(turn):x,y=-y,x
-                    pts.append((cx+x,cy+y))
-            self.add_polyline(f'gear-{i}',*pts,closed=True)
-
-    def circle(self,name,cx,cy,r):
-        pts=[(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]
-        members=[]
-        for i,(a,b) in enumerate(zip(pts,pts[1:])):
-            m=f'{name}-{i}';self.add_arc(m,a,b,radius_x=r);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
-    def rounded(self,name,l,t,r,b,rad,breaks=None):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad),(l+rad,t)]
-        members=[];breaks=breaks or {}
-        for i,(a,z) in enumerate(zip(pts,pts[1:])):
-            if i%2:
-                m=f'{name}-{i}';self.add_arc(m,a,z,radius_x=rad);members.append(m)
-            else:
-                nodes=[a]+breaks.get(i,[])+[z]
-                for j,(start,end) in enumerate(zip(nodes,nodes[1:])):
-                    if start==end:continue
-                    m=f'{name}-{i}-{j}';self.add_line(m,start,end);members.append(m)
-        self.add_contour(name,*members,closed=True)
-
+        self.cog('cog-upper', UPPER, TEETH)
+        self.cog('cog-lower', (48 - UPPER[0], 48 - UPPER[1]), [(-dx, -dy) for dx, dy in TEETH])

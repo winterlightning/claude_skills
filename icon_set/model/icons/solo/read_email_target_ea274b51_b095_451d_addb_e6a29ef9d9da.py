@@ -5,7 +5,7 @@ Omissions: Top horizontal envelope edge.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ea274b51-b095-451d-addb-e6a29ef9d9da'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__read-email-target/20260927T144036Z-thuan-mac-1/reference/read email target_ea274b51-b095-451d-addb-e6a29ef9d9da.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -27,7 +27,10 @@ class Drawing(Solo48):
         self.add_bezier('ring-right',(41,18),((48-c,22),(48-c,26),(41,30)))
         for i,(a,b) in enumerate((((6,6),(10,10)),((42,6),(38,10)),((6,42),(10,38)),((42,42),(38,38)))):self.add_line(f'target-tick-{i}',a,b)
         self.add_polyline('envelope',(16,17),(16,31),(32,31),(32,17))
-        self.add_polyline('flap',(16,17),(24,22),(32,17))
+        self.add_line('top-edge',(16,17),(32,17))
+        self.add_polyline('flap',(16,17),(24,25),(32,17))
+        self.relate('connect','top-edge','envelope')
+        self.relate('connect','top-edge','flap')
         self.relate('connect','flap','envelope')
 
     def circle(self,name,cx,cy,rx,ry=None):

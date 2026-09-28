@@ -3,7 +3,7 @@ Plan: shared dimensions and attachment nodes; exact SQUARE envelope."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='b67f4e19-f005-4972-8fd5-b3a7a1f67e76'
-SOURCE_PATH='pictographic-primitives/_uncategorized_35/square dashed circle plus_b67f4e19-f005-4972-8fd5-b3a7a1f67e76.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-dashed-circle-plus/20260927T140026Z-thuan-mac-1/reference/square dashed circle plus_b67f4e19-f005-4972-8fd5-b3a7a1f67e76.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='square-dashed-circle-plus'
@@ -16,8 +16,8 @@ class Drawing(Solo48):
     keywords=('square dashed circle plus',)
     def build(self):
         self.box('frame')
-        for i,(a,b) in enumerate([((16,18),(18,16)),((30,16),(32,18)),((32,30),(30,32)),((18,32),(16,30))]):
-            self.add_arc(f'dash-{i}',a,b,radius_x=10)
+        for i,(a,b) in enumerate([((15,19),(19,15)),((29,15),(33,19)),((33,29),(29,33)),((19,33),(15,29))]):
+            self.add_arc(f'dash-{i}',a,b,radius_x=11)
         self.cross('plus',24,24,2)
 
     def circle(self,n,x,y,r):

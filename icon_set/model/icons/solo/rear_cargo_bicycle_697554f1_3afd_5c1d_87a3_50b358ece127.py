@@ -1,49 +1,44 @@
-"""Bicycle with two equal wheels, a mounted rear box, step-through frame and straight forward handlebar."""
-from ._base import Solo48
+"""A cargo bicycle with a rounded rear carrier and hooked handlebar. SQUARE ink (6,6)-(42,42). Lucide bike informed equal wheels. The mounted carrier is intrinsic cargo, not a modifier; lower frame detail omitted."""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='697554f1-3afd-5c1d-87a3-50b358ece127'
-SOURCE_PATH='pictographic-primitives/transportation/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'
-AUTHOR='gpt-6'
-PLAN='Bicycle with two equal wheels, a mounted rear box, step-through frame and straight forward handlebar.'
-CONSTRUCTION_REFERENCE='bike original: balanced equal wheels; supplied reference owns the rear carrier and step-through frame.'
-OMISSIONS='Lower hub-level frame, internal wheel spokes and fine pedal detail omitted to retain clear wheel openings; shallow step-through connection retained.'
-class Drawing(Solo48):
-    icon_id='rear-cargo-bicycle'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
+from ._base import Solo48
+
+SOURCE_ICON_ID = '697554f1-3afd-5c1d-87a3-50b358ece127'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__cargo-bicycle-rear-box/20260927T032022Z-thuan-mac-1/reference/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'
+SOURCE_REFERENCES = (('697554f1-3afd-5c1d-87a3-50b358ece127', 'pictographic-primitives/transportation/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg'),)
+AUTHOR = 'gpt-6'
+
+class CargoBicycleRearBox(Solo48):
+    icon_id = 'rear-cargo-bicycle'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'transportation'
     categories = ('transportation', 'primitives')
-    aliases=()
-    keywords=('bike', 'cargo', 'back')
+    aliases = ()
+    keywords = ('cargo bike', 'bicycle', 'delivery', 'box', 'carrier', 'cycling', 'transport', 'courier')
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,start,commands,closed=False):
-        ids=[];here=start
-        for i,c in enumerate(commands):
-            tag,end,*args=c; eid=f'{n}-{i}'
-            if tag=='L': self.add_line(eid,here,end)
-            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid);here=end
-        self.add_contour(n,*ids,closed=closed)
-
-    def box(self,n,l,t,r,b,rad=4):
-        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-
-    def file(self,l=8,t=4,r=40,b=44):
-        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
-
-    def build(self):
-        for n,x in [('rear',13),('front',35)]:self.circle(n+'-wheel',x,35,7)
-        self.box('cargo',6,6,18,19,3)
-        self.add_line('rack',(13,19),(13,28));self.relate('connect','rack','cargo');self.relate('connect','rack','rear-wheel')
-        self.add_polyline('fork',(35,28),(31,19),(29,11),(29,6),(35,6));self.relate('connect','fork','front-wheel')
-        self.add_polyline('frame',(18,19),(26,22),(31,19));self.relate('connect','frame','cargo');self.relate('connect','frame','fork')
-
-# Keyshape rationale: SQUARE balances equal wheels below the rear cargo and handlebar.
-# Visual review: Rear cargo, two equal wheels and forward handlebar read at native size. Frame simplified to a shallow step-through; wheel spokes and lower hub-level frame omitted to prevent crowding.
+    def build(self) -> None:
+        for side,x in [('rear',12),('front',36)]:
+            self.add_arc(side+'-right',(x,30),(x,42),radius_x=6)
+            self.add_arc(side+'-left',(x,42),(x,30),radius_x=6)
+            self.add_contour(side+'-wheel',side+'-right',side+'-left',closed=True)
+        # The box owns repeated corner radii and explicit frame/rack attachment nodes.
+        self.add_line('box-top',(9,6),(21,6))
+        self.add_arc('box-tr',(21,6),(24,9),radius_x=3)
+        self.add_line('box-right-1',(24, 9),(24, 12))
+        self.add_line('box-right-2',(24, 12),(24, 15))
+        self.add_arc('box-br',(24,15),(21,18),radius_x=3)
+        self.add_line('box-bottom-1',(21, 18),(12, 18))
+        self.add_line('box-bottom-2',(12, 18),(9, 18))
+        self.add_arc('box-bl',(9,18),(6,15),radius_x=3)
+        self.add_line('box-left',(6,15),(6,9))
+        self.add_arc('box-tl',(6,9),(9,6),radius_x=3)
+        self.add_contour('box','box-top','box-tr','box-right-1','box-right-2','box-br','box-bottom-1','box-bottom-2','box-bl','box-left','box-tl',closed=True)
+        self.add_line('rack',(12,18),(12,30))
+        self.add_line('top-tube',(24,12),(33,12))
+        self.add_polyline('fork',(36,30),(33,12),(33,6),(39,6))
+        # The source has an open diagonal frame between carrier and front hub.
+        self.add_line('frame-diagonal',(24,18),(36,30))
+        self.add_arc('bar-curl',(39,6),(39,12),radius_x=3)
+        for a,b in [('rack','box'),('rack','rear-wheel'),('top-tube','box'),('top-tube','fork'),('fork','front-wheel'),('fork','bar-curl'),('frame-diagonal','box'),('frame-diagonal','front-wheel')]:
+            self.relate('connect',a,b)

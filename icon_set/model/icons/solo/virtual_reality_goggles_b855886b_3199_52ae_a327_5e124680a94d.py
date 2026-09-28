@@ -1,44 +1,36 @@
-"""Broad visor has smooth rounded ends, a centered nose notch and short lateral straps."""
-from ._base import Solo48
+"""Virtual Reality Goggles.
+
+Symbol plan: VR goggles with broad empty visor, shallow central nose notch and two short single-stroke side straps. Shared x=24 axis and radius-6 outer corners. Lucide glasses informs paired contour balance. Drop hollow strap interiors.
+Keyshape HRECT_M; exact visible bounds (2, 8, 46, 40).
+"""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='b855886b-3199-52ae-a327-5e124680a94d'
-SOURCE_PATH='pictographic-primitives/devices/device wearable vr goggles_b855886b-3199-52ae-a327-5e124680a94d.svg'
-AUTHOR='gpt-6'
-PLAN='Widened the visor from 32 to 36 centerline units. Matched radius-10 ends and smooth mirrored nose curves remove the old block-like corners.'
-CONSTRUCTION_REFERENCE='glasses original and atomic-debug: paired curves and bilateral balance.'
-OMISSIONS='Hollow side straps become short solid tabs. The visor is taller relative to its width than the source because of the prescribed keyshape.'
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b855886b-3199-52ae-a327-5e124680a94d'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rounded-vr-goggles-with-short-side-straps/20260927T084430Z-thuan-mac-1/reference/device wearable vr goggles_b855886b-3199-52ae-a327-5e124680a94d.svg'
+AUTHOR = 'gpt-6'
+
+
 class Drawing(Solo48):
-    icon_id='virtual-reality-goggles'
-    keyshape=Keyshape.HRECT_M
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    aliases=()
-    keywords=('device', 'wearable', 'vr', 'goggles')
+    icon_id = 'virtual-reality-goggles'
+    keyshape = Keyshape.HRECT_M
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'devices'
     categories = ('devices', 'other', 'primitives-generate')
-
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,start,commands,closed=False):
-        ids=[];here=start
-        for i,c in enumerate(commands):
-            tag,end,*args=c; eid=f'{n}-{i}'
-            if tag=='L': self.add_line(eid,here,end)
-            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid);here=end
-        self.add_contour(n,*ids,closed=closed)
-
-    def box(self,n,l,t,r,b,rad=4):
-        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-
-    def file(self,l=8,t=4,r=40,b=44):
-        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+    aliases = ()
+    keywords = ('virtual', 'reality', 'goggles')
 
     def build(self):
-        self.path('visor',(16,10),[('L',(32,10)),('A',(42,20),10,10,True),('L',(42,28)),('A',(32,38),10,10,True),('C',(24,32),(28,38),(28,32)),('C',(16,38),(20,32),(20,38)),('A',(6,28),10,10,True),('L',(6,20)),('A',(16,10),10,10,True)],True)
-        for n,a,b in [('left',(4,24),(6,24)),('right',(42,24),(44,24))]:
-            self.add_line('strap-'+n,a,b);self.relate('connect','strap-'+n,'visor')
+        self.add_line('top',(14,10),(34,10));self.add_arc('tr',(34,10),(40,16),radius_x=6)
+        self.run('right',(40,16),(40,24),(40,32));self.add_arc('br',(40,32),(34,38),radius_x=6)
+        self.add_line('bottom-r',(34,38),(32,38));self.add_arc('nose-r',(32,38),(29,34),radius_x=6)
+        self.add_arc('nose',(29,34),(19,34),radius_x=6,sweep=False)
+        self.add_arc('nose-l',(19,34),(16,38),radius_x=6);self.add_line('bottom-l',(16,38),(14,38))
+        self.add_arc('bl',(14,38),(8,32),radius_x=6);self.run('left',(8,32),(8,24),(8,16));self.add_arc('tl',(8,16),(14,10),radius_x=6)
+        self.add_contour('visor','top','tr','right-1','right-2','br','bottom-r','nose-r','nose','nose-l','bottom-l','bl','left-1','left-2','tl',closed=True)
+        for i,(a,b) in enumerate([((4,24),(8,24)),((40,24),(44,24))]):
+            self.add_line(f'strap-{i}',a,b);self.relate('connect',f'strap-{i}','visor')
+
+    def run(self,name,*points):
+        for i,(a,b) in enumerate(zip(points,points[1:]),1):self.add_line(f'{name}-{i}',a,b)

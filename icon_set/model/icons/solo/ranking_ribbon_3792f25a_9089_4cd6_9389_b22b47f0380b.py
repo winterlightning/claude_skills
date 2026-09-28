@@ -7,8 +7,8 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '3792f25a-9089-4cd6-9389-b22b47f0380b'
-SOURCE_PATH = 'pictographic-primitives/rewards/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg'
-AUTHOR = "gpt-6"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ranking-ribbon/20260927T144036Z-thuan-mac-1/reference/ranking ribbon_3792f25a-9089-4cd6-9389-b22b47f0380b.svg'
+AUTHOR = 'gpt-6'
 CONSTRUCTION_REFERENCES = 'star'
 
 class Drawing(Solo48):
@@ -22,6 +22,15 @@ class Drawing(Solo48):
     keywords = ('ranking', 'ribbon')
 
     def build(self):
-        axis = 24
-        self.add_polyline('star', (axis, 8), (27, 13), (34, 14), (29, 18), (30, 24), (axis, 21), (18, 24), (19, 18), (14, 14), (21, 13), closed=True)
-        self.add_polyline('ribbon', (4, 32), (44, 32), (40, 36), (44, 40), (4, 40), (8, 36), closed=True)
+        # A five-point rank star sits above a bowed banner with folded tips.
+        self.add_polyline('star',(24,8),(27,13),(34,14),(29,17),(30,22),(24,20),(18,22),(19,17),(14,14),(21,13),closed=True)
+        self.add_bezier('banner-top',(10,32),((18,29),(30,29),(38,32)))
+        self.add_line('banner-right',(38,32),(38,40))
+        self.add_bezier('banner-bottom',(38,40),((30,38),(18,38),(10,40)))
+        self.add_line('banner-left',(10,40),(10,32))
+        self.add_contour('ribbon','banner-top','banner-right','banner-bottom','banner-left',closed=True)
+        self.add_polyline('tail-left',(10,32),(4,40))
+        self.add_polyline('tail-right',(38,32),(44,40))
+        self.relate('connect','tail-left','ribbon')
+        self.relate('connect','tail-right','ribbon')
+

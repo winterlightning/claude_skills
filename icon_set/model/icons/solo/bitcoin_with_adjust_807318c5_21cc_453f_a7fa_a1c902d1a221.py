@@ -1,14 +1,14 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '807318c5-21cc-453f-a7fa-a1c902d1a221'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bitcoin-with-adjust/20260925T034659Z-thuan-mac/reference/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__bitcoin-with-adjust/20260927T140835Z-thuan-mac-1/reference/bitcoin with adjust_807318c5-21cc-453f-a7fa-a1c902d1a221.svg'
+AUTHOR = "gpt-6"
 # Plan: Recognizable Bitcoin B with two top and bottom currency ticks; omit adjustment controls to prioritize reviewer request for bitcoin.
 # Construction reference: Lucide bitcoin double currency ticks and two bowls.
 # Envelope: VRECT_M; bounds are defined by its outer contour/extreme tips.
 class AuthoredIcon(Solo48):
     icon_id = 'bitcoin-with-adjust'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
@@ -16,19 +16,26 @@ class AuthoredIcon(Solo48):
     aliases = ()
     keywords = ('bitcoin', 'with', 'adjust')
     def build(self):
-        self.add_polyline('spine',(14,12),(14,24),(14,36))
-        self.add_line('top',(10,12),(32,12))
-        self.add_arc('upper',(32,12),(32,24),radius_x=6)
-        self.add_line('mid',(14,24),(32,24))
-        self.add_arc('lower',(32,24),(32,36),radius_x=6)
-        self.add_line('bottom',(32,36),(10,36))
+        # Two slider rails and a compact Bitcoin B reproduce the source layout.
+        self.add_polyline('spine',(26,14),(26,26),(26,38))
+        self.add_line('top',(26,14),(36,14))
+        self.add_arc('upper',(36,14),(36,26),radius_x=6)
+        self.add_line('mid',(26,26),(36,26))
+        self.add_arc('lower',(36,26),(36,38),radius_x=6)
+        self.add_line('bottom',(36,38),(26,38))
         for a,b in [('spine','top'),('spine','mid'),('spine','bottom'),('top','upper'),('upper','mid'),('upper','lower'),('mid','lower'),('lower','bottom')]:
             self.relate('connect',a,b)
-        for x in (18,26):
-            self.add_line(f'top-tick-{x}',(x,4),(x,12))
-            self.add_line(f'bottom-tick-{x}',(x,36),(x,44))
+        for x in (26,34):
+            self.add_line(f'top-tick-{x}',(x,6),(x,14))
+            self.add_line(f'bottom-tick-{x}',(x,38),(x,42))
             self.relate('connect',f'top-tick-{x}','top')
             self.relate('connect',f'bottom-tick-{x}','bottom')
+        self.add_line('slider-one',(6,10),(6,36))
+        self.add_line('slider-two',(18,10),(18,36))
+        self.add_line('knob-one',(6,18),(10,18))
+        self.add_line('knob-two',(14,30),(18,30))
+        self.relate('connect','slider-one','knob-one')
+        self.relate('connect','slider-two','knob-two')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

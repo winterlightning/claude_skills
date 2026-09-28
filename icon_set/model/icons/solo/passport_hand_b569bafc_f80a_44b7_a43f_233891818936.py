@@ -6,7 +6,7 @@ Construction: globe: a round outline and cardinal grid intersections; mirrored e
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b569bafc-f80a-44b7-a43f-233891818936'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/passport hand_b569bafc-f80a-44b7-a43f-233891818936.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__passport-hand/20260927T143814Z-thuan-mac-1/reference/passport hand_b569bafc-f80a-44b7-a43f-233891818936.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -20,14 +20,12 @@ class Drawing(Solo48):
     keywords = ('passport', 'hand')
 
     def build(self):
-        # Full globe takes priority over the small offset binding stripe.
-        self.box('cover',6,6,42,42,4)
-        nodes=[(15,24),(24,15),(33,24),(24,33)]
-        for i,a in enumerate(nodes):self.add_arc(f'globe-{i}',a,nodes[(i+1)%4],radius_x=9)
-        self.add_contour('globe',*[f'globe-{i}' for i in range(4)],closed=True)
-        self.add_polyline('equator',(15,24),(24,24),(33,24))
-        self.add_polyline('meridian',(24,15),(24,24),(24,33))
-        self.relate('connect','equator','globe');self.relate('connect','meridian','globe');self.relate('connect','equator','meridian')
+        # The left hand wraps around a separate passport cover.
+        self.box('cover',14,6,42,42,4)
+        self.add_polyline('hand',(14,19),(10,19),(6,23),(6,32),(10,36),(14,36))
+        self.relate('connect','hand','cover')
+        self.circle('globe',28,24,5)
+
 
     def circle(self, name, cx, cy, rx, ry=None):
         ry = rx if ry is None else ry
@@ -65,3 +63,6 @@ class Drawing(Solo48):
             for prev in names:self.relate('connect',n,prev)
             names.append(n)
 
+
+# Revision comparison: The rejected drawing showed a passport without a holding hand.
+# Revision: Moved the cover right and drew a hand gripping its left edge.

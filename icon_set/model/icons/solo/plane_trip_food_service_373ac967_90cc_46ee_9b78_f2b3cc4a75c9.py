@@ -6,8 +6,8 @@ Construction: plane: fuselage/wing/tail hierarchy; utensils: fork bowl with stem
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='373ac967-90cc-46ee-9b78-f2b3cc4a75c9'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/plane trip food service_373ac967-90cc-46ee-9b78-f2b3cc4a75c9.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plane-trip-food-service/20260927T143814Z-thuan-mac-1/reference/plane trip food service_373ac967-90cc-46ee-9b78-f2b3cc4a75c9.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id='plane-trip-food-service'
@@ -58,6 +58,7 @@ class Drawing(Solo48):
         self.add_polyline('aircraft',(8,16),(14,14),(20,12),(26,10),(32,8),(40,8))
         self.add_polyline('wings',(16,4),(26,10),(22,18));self.relate('connect','aircraft','wings')
         self.add_polyline('tail',(10,8),(14,14),(10,18));self.relate('connect','aircraft','tail')
+        self.add_line('nose',(40,8),(40,14));self.relate('connect','aircraft','nose')
         self.add_line('fork-left',(12,26),(12,30))
         self.add_arc('fork-bl',(12,30),(16,34),radius_x=4,sweep=False)
         self.add_arc('fork-br',(16,34),(20,30),radius_x=4,sweep=False)
@@ -67,3 +68,6 @@ class Drawing(Solo48):
         self.add_polyline('knife-back',(32,44),(32,34),(32,26))
         self.add_arc('blade',(32,26),(40,34),radius_x=8)
         self.add_line('blade-bottom',(40,34),(32,34));self.relate('connect','knife-back','blade');self.relate('connect','blade','blade-bottom');self.relate('connect','knife-back','blade-bottom')
+
+# Revision comparison: The rejected aircraft had an indistinct open nose above the meal symbols.
+# Revision: Defined the aircraft nose while preserving the wing, tail and food service.

@@ -2,8 +2,8 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='a0865ae5-c028-46f5-ade5-f26da83b22c2'
-SOURCE_PATH='pictographic-primitives/holidays/vaisakhi harvest_a0865ae5-c028-46f5-ade5-f26da83b22c2.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__vaisakhi-harvest/20260927T140835Z-thuan-mac-1/reference/vaisakhi harvest_a0865ae5-c028-46f5-ade5-f26da83b22c2.svg'
+AUTHOR = "gpt-6"
 PLAN='Drum hoop series spaced 8; pair of beaters above. Wheat two joints spaced 8; squared drum simplified from curved barrel. No useful exact Lucide match.'
 class Drawing(Solo48):
     icon_id='vaisakhi-harvest'
@@ -18,11 +18,11 @@ class Drawing(Solo48):
     def build(self):
         self.add_line('beater-left',(6,6),(12,10))
         self.add_line('beater-right',(30,6),(22,10))
-        self.add_polyline('drum',(6,18),(26,18),(26,26),(26,34),(26,42),(6,42),(6,34),(6,26),closed=True)
+        self.add_polyline('drum',(10,18),(24,18),(28,26),(28,34),(26,42),(10,42),(6,34),(6,26),closed=True)
         for y in (26,34):
-            n=f'hoop-{y}';self.add_line(n,(6,y),(26,y));self.relate('connect','drum',n)
-        self.add_polyline('wheat',(26,42),(34,34),(42,26),(42,18))
-        self.add_polyline('grain',(34,26),(34,34),(42,34))
+            n=f'hoop-{y}';self.add_line(n,(6,y),(28,y));self.relate('connect','drum',n)
+        self.add_polyline('wheat',(26,42),(37,31),(42,26))
+        self.add_line('grain',(37,23),(37,31))
         self.relate('connect','wheat','grain');self.relate('connect','wheat','drum')
 
     def circle(self,n,x,y,r):

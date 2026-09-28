@@ -8,7 +8,7 @@ Lucide originals and atomic-debug construction reference: car-front.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7ade5dac-3851-477f-ac45-3ecabf8df504'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__parking-p/20260927T143814Z-thuan-mac-1/reference/parking p_7ade5dac-3851-477f-ac45-3ecabf8df504.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -55,8 +55,8 @@ class Drawing(Solo48):
         self.add_arc('badge-c',(40,17),(27,30),radius_x=13)
         self.add_arc('badge-d',(27,30),(15,22),radius_x=13)
         self.add_contour('badge','badge-a','badge-b','badge-c','badge-d',closed=True)
-        self.circle('p-bowl',27,15,2)
-        self.add_line('p-stem',(25,15),(25,21))
+        self.circle('p-bowl',28,16,3)
+        self.add_line('p-stem',(25,16),(25,21))
         self.relate('connect','p-stem','p-bowl')
         self.add_polyline('car',(15,22),(8,32),(8,40),(12,40),(36,40),(40,40),(40,34))
         self.relate('connect','car','badge-a')
@@ -64,3 +64,6 @@ class Drawing(Solo48):
         for i,x in enumerate((12,36)):
             self.add_line(f'wheel-{i}',(x,40),(x,44))
             self.relate('connect',f'wheel-{i}','car')
+
+# Revision comparison: The rejected parking badge used a tiny dot and stem that obscured the P.
+# Revision: Rebuilt the P with a larger circular bowl and a visible descending stem.

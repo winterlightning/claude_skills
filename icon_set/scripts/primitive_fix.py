@@ -37,6 +37,7 @@ import re
 import shutil
 import sys
 import traceback
+import uuid as uuid_module
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urljoin
 from urllib.request import Request, urlopen
@@ -144,11 +145,29 @@ def stage_reference(base_url, item, target):
     return None
 
 
-def describe_block(item, result_dir, module_path, reference=None):
+def stage_current_as_reference(item, before_svg, target):
+    """No original on production: the current drawing becomes the reference, named with a stable UUID so
+    /primitive-make-ray can run on it. The fix still happens; nothing is finished as cannot-fix for this."""
+    if not before_svg.is_file():
+        return None
+    target.mkdir(exist_ok=True)
+    source_uuid = str(uuid_module.uuid5(uuid_module.NAMESPACE_URL, 'pictographic:' + item['key']))
+    path = target / f"{slug(item.get('icon_id') or key_folder(item['key']))}_{source_uuid}.svg"
+    shutil.copyfile(before_svg, path)
+    return path
+
+
+def describe_block(item, result_dir, module_path, reference=None, reference_is_current=False):
     work = item.get('work') or {}
+    if reference is None:
+        reference_line = 'none (no original and no current drawing; redraw from the icon_id and feedback)'
+    elif reference_is_current:
+        reference_line = f'{reference} (no original on production: this is the current drawing; fix it anyway)'
+    else:
+        reference_line = str(reference)
     lines = [f"icon: {item['key']}",
              f"icon_id: {item.get('icon_id') or ''}",
-             f"reference: {reference or 'none (no UUID-named original reference; finish with --outcome cannot-fix)'}",
+             f"reference: {reference_line}",
              f"before: {result_dir / 'before'}",
              f"registered module: {module_path or 'unknown (no python_source on production)'}",
              f"result dir: {result_dir}",
@@ -195,10 +214,15 @@ def start(base_url, worker, limit, offset=0, reason=None, results_root=None):
             upload_error = f'{type(error).__name__}: {error}'
             (result_dir / 'before-upload-error.txt').write_text(upload_error + '\n', encoding='utf-8')
         reference = stage_reference(base_url, item, result_dir / 'reference')
+        reference_is_current = False
+        if reference is None:
+            reference = stage_current_as_reference(item, svg_path, result_dir / 'reference')
+            reference_is_current = reference is not None
         if reference is not None:
             reference = reference.relative_to(REPO_ROOT) if reference.is_relative_to(REPO_ROOT) else reference
         started.append({'key': key, 'result_dir': result_dir, 'module': module_path, 'item': item,
-                        'reference': reference, 'upload_error': upload_error})
+                        'reference': reference, 'reference_is_current': reference_is_current,
+                        'upload_error': upload_error})
     return started
 
 
@@ -322,7 +346,7 @@ def finish(base_url, worker, key, outcome, note='', results_root=None, ray_run=N
             f"validation {findings['validation_status']} with {len(findings['validation_warnings'])} warning(s)"
             if findings['validation_status'] != 'valid' or findings['validation_warnings'] else
             f"build gate {gate_status}: " + '; '.join((findings['build_gate']['errors'] + findings['build_gate']['warnings'])[:3]))
-        print(f'refused: {key} is not clean ({problem}); nothing uploaded or reported. Fix the model or finish with --outcome cannot-fix.',
+        print(f'refused: {key} is not clean ({problem}); nothing uploaded or reported. Keep fixing the model in a fresh /primitive-make-ray run and finish again.',
               file=sys.stderr)
         return 2
     if svg_path is not None:
@@ -346,16 +370,21 @@ def report_outcome(base_url, worker, key, sha, outcome, note, run, findings):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
-    parser.add_argument('--base-url', default=None, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
-    parser.add_argument('--worker', default=None, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
+    # --base-url and --worker are accepted before or after the subcommand (the skills write them after).
+    shared = argparse.ArgumentParser(add_help=False)
+    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
+    shared.add_argument('--worker', default=argparse.SUPPRESS, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
+    parser.set_defaults(base_url=None, worker=None)
+    for action in shared._actions:
+        parser._add_action(action)
     parser.add_argument('--results-root', type=Path, default=None, help=argparse.SUPPRESS)
     commands = parser.add_subparsers(dest='command', required=True)
-    begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version')
+    begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version', parents=[shared])
     begin.add_argument('--limit', type=int, required=True, help='how many icons to claim')
     begin.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     begin.add_argument('--disapprove-status', '--reason', dest='reason', choices=work_queue.REASONS,
                        help='only icons disapproved for this reason')
-    end = commands.add_parser('finish', help='validate, record and report one fixed icon')
+    end = commands.add_parser('finish', help='validate, record and report one fixed icon', parents=[shared])
     end.add_argument('--icon', required=True)
     end.add_argument('--run', default=None, help='the /primitive-make-ray RESULT_DIR holding the fixed module (required for done)')
     end.add_argument('--outcome', required=True, choices=('done', 'cannot-fix'))
@@ -373,7 +402,8 @@ def main(argv=None):
                       + (f' with reason {args.reason}' if args.reason else '') + '.', file=sys.stderr)
                 return 3
             for entry in started:
-                print(describe_block(entry['item'], entry['result_dir'], entry['module'], entry['reference']))
+                print(describe_block(entry['item'], entry['result_dir'], entry['module'], entry['reference'],
+                                     entry['reference_is_current']))
                 if entry['upload_error']:
                     print(f"warning: the before result was not uploaded: {entry['upload_error']}\n", file=sys.stderr)
             print(f'claimed {len(started)} icon' + ('s' if len(started) != 1 else '') + f' for {worker}')

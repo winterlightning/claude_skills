@@ -1,0 +1,65 @@
+"""Dragonfly with round eyes: a dragonfly from above -- two big round eyes, four
+long wings spread from the thorax, and a long thin tail.
+
+Revision (disapproved, reason not recorded): the rejected drawing drew the wings
+as four straight-edged triangles crossing in an X and squeezed the eyes into a
+tiny blob, so it read as an asterisk or a bow tie; the original has two large
+round eyes side by side and four long rounded wings on a thin body with a long
+tail. Round eyes, lens-shaped wings and the tail are restored.
+
+Symbol plan: mirror axis x=24. Eyes: two radius-3 rings about (21,11)/(27,11),
+touching at (24,11) on the axis. Body: x=24 from the eyes (24,14) to the tail tip
+(24,40). Wings: four long single strokes from the thorax -- the forewings sweep
+slightly up from (24,23) to the wing tips (4,19)/(44,19), the shorter hindwings
+angle down from (24,31) to (8,37)/(40,37) -- so the pairs spread apart like the
+reference's.
+Four closed wing outlines do not fit: each needs 10 units of thickness plus 8
+between pairs and 8 below the eyes (attempts/lens-wings-attempt.* crowded the
+eyes and pinched between the pairs).
+Open wing loops (attempts/open-loop-wings.*) read as a glyph, not wings.
+Omissions: the wing outlines (drawn as single strokes) and the thorax capsule.
+Lucide construction: no dragonfly glyph in Lucide.
+Keyshape HRECT_L: centerline x 4..44 (wing tips), y 8 (eyes) .. 40 (tail).
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = "d6685301-6b89-4411-b0fe-9a3e331aecd9"
+SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__dragonfly-with-round-eyes/20260926T182653Z-thuan-mac-1/reference/dragonfly_d6685301-6b89-4411-b0fe-9a3e331aecd9.svg"
+AUTHOR = "claude-opus-5-5"
+
+def mirror(p):
+    return (48 - p[0], p[1])
+
+
+class DragonflyWithRoundEyes(Solo48):
+    icon_id = "dragonfly-with-round-eyes-solo"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/insects"
+    aliases = ("dragonfly", "damselfly")
+    keywords = ("dragonfly", "insect", "wings", "eyes", "bug", "pond")
+
+    def ring(self, name, cx, cy, r):
+        self.add_arc(f"{name}-a", (cx - r, cy), (cx, cy - r), radius_x=r)
+        self.add_arc(f"{name}-b", (cx, cy - r), (cx + r, cy), radius_x=r)
+        self.add_arc(f"{name}-c", (cx + r, cy), (cx, cy + r), radius_x=r)
+        self.add_arc(f"{name}-d", (cx, cy + r), (cx - r, cy), radius_x=r)
+        self.add_contour(name, f"{name}-a", f"{name}-b", f"{name}-c", f"{name}-d", closed=True)
+
+    def build(self) -> None:
+        self.ring("eye-left", 21, 11, 3)
+        self.ring("eye-right", 27, 11, 3)
+        self.relate("connect", "eye-left", "eye-right")
+        self.add_line("body-thorax", (24, 14), (24, 23))
+        self.add_line("body-waist", (24, 23), (24, 31))
+        self.add_line("body-tail", (24, 31), (24, 40))
+        self.add_contour("body", "body-thorax", "body-waist", "body-tail")
+        self.relate("connect", "body", "eye-left")
+        self.relate("connect", "body", "eye-right")
+        for side, m in (("left", lambda p: p), ("right", mirror)):
+            self.add_line(f"forewing-{side}", (24, 23), m((4, 19)))
+            self.add_line(f"hindwing-{side}", (24, 31), m((8, 37)))
+            self.relate("connect", "body", f"forewing-{side}")
+            self.relate("connect", "body", f"hindwing-{side}")

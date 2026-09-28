@@ -1,12 +1,22 @@
+"""Head-and-body portrait corresponding to boxer.
+
+SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
+Circular face; head and shoulder ink touch with zero visible gap.
+References: human_ref/user.svg for head/body proportions and open shoulders;
+Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
+arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
+omit facial microdetails at 48. Body: raised boxing gloves and bent forearms.
+"""
 from ...keyshapes import Keyshape
-from ._base import Solo48
+from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'c2a64d8a-ca70-53b9-b450-150287c2bfc6'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boxer-avatar/20260925T034659Z-thuan-mac/reference/boxer_c2a64d8a-ca70-53b9-b450-150287c2bfc6.svg'
-AUTHOR = 'gpt-6'
-# Plan: Boxer portrait with broad shoulders and headguard framing the face; omit facial microdetails.
-# Construction reference: human_ref/user.svg broad shoulders and circular jaw; headguard retained from original.
-# Envelope: VRECT_L; bounds are defined by its outer contour/extreme tips.
-class AuthoredIcon(Solo48):
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__boxer-avatar/20260927T140835Z-thuan-mac-1/reference/boxer_c2a64d8a-ca70-53b9-b450-150287c2bfc6.svg'
+SOURCE_HEAD_ICON_ID = 'boxer'
+AUTHOR = "gpt-6"
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
+HEAD_BOTTOM = 28
+
+class BoxerAvatar(Solo48):
     icon_id = 'boxer-avatar-solo'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
@@ -14,28 +24,16 @@ class AuthoredIcon(Solo48):
     category = 'avatars'
     categories = ('primitives', 'avatars')
     aliases = ()
-    keywords = ('boxer', 'avatar')
+    keywords = ('boxer', 'bust', 'body', 'portrait')
+
     def build(self):
-        self.add_arc('helmet',(10,18),(38,18),radius_x=14)
-        self.add_polyline('left-pad',(10,18),(10,24),(18,24),(18,18))
-        self.add_polyline('right-pad',(38,18),(38,24),(30,24),(30,18))
-        self.relate('connect','helmet','left-pad')
-        self.relate('connect','helmet','right-pad')
-        self.add_arc('jaw',(18,18),(30,18),radius_x=6,sweep=False)
-        self.relate('connect','jaw','left-pad')
-        self.relate('connect','jaw','right-pad')
-        self.add_arc('shoulder',(8,44),(40,44),radius_x=16,radius_y=12)
-
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def box(self,n,l,t,r,b,q=4):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
+        # One continuous bob hairstyle frames a deliberately blank portrait.
+        # The source avatar has no facial marks; hair shape and shoulders carry it.
+        self.add_arc('crown',(14,14),(34,14),radius_x=10)
+        self.add_bezier('hair-right',(34,14),((36,18),(38,23),(36,28)))
+        self.add_bezier('hair-left',(12,28),((10,23),(12,18),(14,14)))
+        self.add_contour('hair','hair-left','crown','hair-right')
+        self.add_bezier('body-left',(8,44),((9,38),(16,36),(20,36)))
+        self.add_line('shoulders',(20,36),(28,36))
+        self.add_bezier('body-right',(28,36),((32,36),(39,38),(40,44)))
+        self.add_contour('bust','body-left','shoulders','body-right')

@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4813164b-bbb2-498a-aa24-70f1ec279cb1'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__passport-ticket/20260927T143814Z-thuan-mac-1/reference/passport ticket_4813164b-bbb2-498a-aa24-70f1ec279cb1.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -58,4 +58,7 @@ class Drawing(Solo48):
         self.add_polyline('ticket-lower',(42,26),(42,38),(30,38))
         self.relate('connect','passport','ticket-upper');self.relate('connect','passport','ticket-lower')
         self.relate('connect','ticket-upper','ticket-notch');self.relate('connect','ticket-lower','ticket-notch')
-        self.circle('globe',18,28,3)
+        self.circle('globe',18,28,4)
+
+# Revision comparison: The rejected passport globe was reduced to a tiny spot, weakening the travel document cue.
+# Revision: Enlarged the globe mark while keeping the ticket notch and overlapping covers clear.

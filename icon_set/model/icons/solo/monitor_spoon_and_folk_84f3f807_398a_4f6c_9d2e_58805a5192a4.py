@@ -2,12 +2,12 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='84f3f807-398a-4f6c-9d2e-58805a5192a4'
-SOURCE_PATH='pictographic-primitives/other/monitor spoon and folk_84f3f807-398a-4f6c-9d2e-58805a5192a4.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-spoon-and-folk/20260927T142540Z-thuan-mac-1/reference/monitor spoon and folk_84f3f807-398a-4f6c-9d2e-58805a5192a4.svg'
 AUTHOR='gpt-6'
-PLAN='Lucide monitor; circular spoon bowl with joined handle and open knife blade contour. Omit rear blade line to remove tiny enclosed wedge, retaining curved cutting edge and handle.'
+PLAN='Landscape monitor with full stand; separate round spoon bowl and two-prong fork with joined stems.'
 class Drawing(Solo48):
     icon_id='monitor-spoon-and-folk'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
@@ -16,10 +16,12 @@ class Drawing(Solo48):
     keywords=('monitor', 'spoon', 'and', 'folk')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.monitor()
-        self.circle('spoon-bowl',18,18,3)
-        self.add_line('spoon-handle',(18,21),(18,25));self.relate('connect','spoon-bowl','spoon-handle')
-        self.path('knife',(30,15),[('B',(33,22),(32,17),(33,20)),('L',(30,22)),('L',(30,25))])
+        self.monitor(4,8,44,32,40)
+        self.circle('spoon-bowl',15,19,2)
+        self.add_line('spoon-handle',(15,21),(15,23));self.relate('connect','spoon-bowl','spoon-handle')
+        self.add_polyline('fork-head',(26,17),(26,20),(30,22),(34,20),(34,17))
+        self.add_line('fork-handle',(30,22),(30,23))
+        self.relate('connect','fork-head','fork-handle')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

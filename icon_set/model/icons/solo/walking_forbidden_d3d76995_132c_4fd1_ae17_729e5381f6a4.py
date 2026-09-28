@@ -6,11 +6,11 @@ Construction references: Shared human_ref/full_body_ref.png and user.svg; Lucide
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d3d76995-132c-4fd1-ae17-729e5381f6a4'
-SOURCE_PATH='pictographic-primitives/_uncategorized_39/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__walking-forbidden/20260927T140835Z-thuan-mac-1/reference/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='walking-forbidden'
-    keyshape=Keyshape.SQUARE
+    keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
     category = 'primitives-generate'
@@ -45,17 +45,14 @@ class Drawing(Solo48):
         self.path(n,(l+k,t),ops,True)
 
     def build(self):
-        # Separate straight frame rails retain exact certified8-unit clearances.
-        self.add_line('frame-top',(10,6),(38,6))
-        self.add_line('frame-bottom',(38,42),(10,42))
-        self.path('frame-right',(38,6),[('A',(42,10),4,4,True),('L',(42,38)),('A',(38,42),4,4,True)])
-        self.path('frame-left',(10,42),[('A',(6,38),4,4,True),('L',(6,10)),('A',(10,6),4,4,True)])
-        for rail in ('frame-top','frame-bottom'):
-            for side in ('frame-left','frame-right'):self.relate('connect',rail,side)
-        self.add_polyline('slash',(6,10),(26,26),(30,29),(42,38))
-        self.relate('connect','slash','frame-left');self.relate('connect','slash','frame-right')
-        self.circle('head',30,16,2)
-        self.add_line('torso',(30,26),(30,29));self.relate('connect','torso','slash')
-        self.add_line('arm',(22,26),(26,26));self.relate('connect','arm','slash')
-        self.add_polyline('legs',(22,34),(30,29),(34,34));self.relate('connect','legs','torso');self.relate('connect','legs','slash')
-        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        # Circular prohibition ring crossed over a compact walking figure.
+        self.circle('sign',24,24,20)
+        self.add_polyline('slash',(8,12),(28,28),(40,36))
+        self.relate('connect','sign','slash')
+        self.circle('head',28,15,2)
+        self.add_line('torso-upper',(28,25),(28,28))
+        self.add_line('torso-lower',(28,28),(28,31))
+        self.add_line('walking-leg',(28,31),(20,34))
+        self.relate('connect','slash','torso-upper','torso-lower')
+        self.relate('connect','torso-lower','walking-leg')
+        self.mark_human_figure('person',head='head',torso='torso-upper',torso_junction='start')

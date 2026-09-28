@@ -1,10 +1,11 @@
+"""Revision of the claimed reference after comparing original and rejected drawing."""
 """mobile phone lock: complete SOLO48 repair.
 Enlarged the lock body and shackle opening. Removed the lower phone divider.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '26319804-c7ff-498f-a76f-62441d482fc8'
-SOURCE_PATH = 'pictographic-primitives/other/mobile phone lock_26319804-c7ff-498f-a76f-62441d482fc8.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-lock/20260927T142529Z-thuan-mac-1/reference/mobile phone lock_26319804-c7ff-498f-a76f-62441d482fc8.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'mobile-phone-lock'
@@ -31,14 +32,12 @@ class Drawing(Solo48):
         self.add_contour(name,*names,closed=True)
 
     def build(self):
-
-        # Plan: rounded upright phone and lower band; content owns its own geometry.
+        # The bottom phone band and clear lock body follow the reference.
         self.rect('phone',8,4,32,40)
-
-        # Rounded body and tangent shackle, with exact shared attachment endpoints.
-        self.rect('lock-body',17,24,14,10)
-        self.add_line('shackle-left',(20,24),(20,17))
+        self.add_line('bezel',(8,36),(40,36)); self.relate('connect','phone','bezel')
+        self.add_polyline('lock-body',(20,20),(17,20),(17,28),(31,28),(31,20),(28,20))
+        self.add_line('shackle-left',(20,20),(20,17))
         self.add_arc('shackle-top',(20,17),(28,17),radius_x=4)
-        self.add_line('shackle-right',(28,17),(28,24))
+        self.add_line('shackle-right',(28,17),(28,20))
         self.add_contour('shackle','shackle-left','shackle-top','shackle-right')
         self.relate('connect','shackle','lock-body')

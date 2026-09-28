@@ -5,7 +5,7 @@ Construction: No local Lucide history original was available; quarter-circle con
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '69099a2e-0b2c-47a9-931c-af42c66da3a2'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_32/rectangle vertical history_69099a2e-0b2c-47a9-931c-af42c66da3a2.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__rectangle-vertical-history/20260927T144036Z-thuan-mac-1/reference/rectangle vertical history_69099a2e-0b2c-47a9-931c-af42c66da3a2.svg'
 AUTHOR = 'gpt-6'
 PLAN = 'A history clock mark inside a panel.'
 OMISSIONS = 'Hour hand omitted; one radial clock hand retained and joined to the arc at an explicit endpoint. Arrowhead shortened.'
@@ -14,7 +14,7 @@ KEYSHAPE_INK_BOUNDS = (4, 4, 44, 44)
 
 class Drawing(Solo48):
     icon_id = 'rectangle-vertical-history'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
@@ -36,12 +36,12 @@ class Drawing(Solo48):
         self.add_contour(name, *members, closed=True)
 
     def build(self):
-        self.box('panel', 6, 6, 36, 36, 4)
-        pts = [(24, 33), (15, 24), (24, 15), (33, 24)]
-        for (j, (a, b)) in enumerate(zip(pts, pts[1:])):
-            self.add_arc(f'history-{j}', a, b, radius_x=9)
-        self.add_contour('history', *(f'history-{j}' for j in range(3)))
-        self.add_polyline('arrow', (32, 22), (33, 24), (33, 21))
-        self.relate('connect', 'history', 'arrow')
-        self.add_line('clock-hand', (24, 15), (24, 24))
-        self.relate('connect', 'history', 'clock-hand')
+        # Tall panel contains a circular history arrow and one clear clock hand.
+        self.box('panel',8,4,32,40,4)
+        pts=[(24,31),(17,24),(24,17),(31,24)]
+        for j,(a,b) in enumerate(zip(pts,pts[1:])):
+            self.add_arc(f'history-{j}',a,b,radius_x=7)
+        self.add_contour('history',*(f'history-{j}' for j in range(3)))
+        self.add_line('clock-hand',(24,17),(24,24))
+        self.relate('connect','history','clock-hand')
+

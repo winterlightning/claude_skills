@@ -1,8 +1,8 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='aec06f81-4835-4b96-93f1-57f1ca360f5e'
-SOURCE_PATH='pictographic-primitives/_uncategorized_32/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = "aec06f81-4835-4b96-93f1-57f1ca360f5e"
+SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__recycling-label/20260926T093246Z-thuan-mac/reference/recycling label_aec06f81-4835-4b96-93f1-57f1ca360f5e.svg"
+AUTHOR = "claude-opus-5-5"
 PLAN='A diagonal recycling tag with a separate leaf. Leaf halves and stem share the explicit node30,39. Intentional diagonal tag and offset leaf; clear negative space in both themes.'
 CONSTRUCTION_REFERENCE='Lucide tag clipped tip; leaf coherent outline'
 class Drawing(Solo48):
@@ -34,12 +34,15 @@ class Drawing(Solo48):
             m=f'{n}-{j}';ns.append(m);self.add_line(m,(x,y),p)
         self.relate('connect',*ns)
     def build(self):
-        self.add_polyline('tag',(6,22),(22,6),(38,6),(38,14),(14,38),closed=True)
-        self.add_dot('eyelet',(25,15))
-        self.add_bezier('leaf-left',(42,30),((32,29),(27,35),(30,39)))
-        self.add_bezier('leaf-right',(30,39),((34,44),(42,42),(42,30)))
-        self.add_contour('leaf','leaf-left','leaf-right',closed=True)
-        self.add_line('stem',(26,42),(30,39));self.relate('connect','stem','leaf')
-
-FINAL_OMISSIONS = 'Reduce eyelet to a dot and drop leaf vein; rebalance tag edges.'
-VISUAL_REVIEW = 'Leaf halves and stem share the explicit node30,39. Intentional diagonal tag and offset leaf; clear negative space in both themes.'
+        # Symbol plan (SQUARE 6..42): tag on the 45-degree axis, pointed end at
+        # the top right. Long edges x+y=28 and x+y=52 (centre x+y=40), square tip
+        # (34,6) with equal 12-long horizontal and vertical chamfers, end edge
+        # (6,22)-(18,34). Eyelet dot (26,14), 8 from the chamfers and 8.5 from
+        # the long edges. Leaf: lens mirrored about x+y=72 from base (32,40) to
+        # tip (42,30), with a short stem to (30,42).
+        self.add_polyline('tag', (22, 6), (34, 6), (34, 18), (18, 34), (6, 22), closed=True)
+        self.add_dot('eyelet', (26, 14))
+        self.add_bezier('leaf-outer', (32, 40), ((39, 40), (42, 35), (42, 30)))
+        self.add_bezier('leaf-inner', (42, 30), ((37, 30), (32, 33), (32, 40)))
+        self.add_contour('leaf', 'leaf-outer', 'leaf-inner', closed=True)
+        self.add_line('stem', (32, 40), (30, 42)); self.relate('connect', 'stem', 'leaf')

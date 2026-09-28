@@ -1,54 +1,55 @@
-"""lesbian lgbt festival fair exhibition, complete SOLO48 composition.
-Symbol plan is recorded in build(). Visible keyshape extremes: (4, 4, 44, 44).
+"""Festival bunting strung above a big heart: a pride fair / exhibition.
+
+SOLO48 SQUARE: visible (4, 4)-(44, 44), centerline (6, 6)-(42, 42).
+
+Symbol plan: mirrored about x=24. A bunting string runs across the top at
+y=6 with two pennants hanging from its ends, each a triangle 12 wide and 10
+deep (inradius 3.4), 12 apart so they read as separate flags (three
+pennants 8 apart would need 52 units). Below, the
+library heart (the `hand-holding-heart` heart at r6): two r6 lobes meeting
+in a notch, r5 shoulders and straight sides to the tip at (24,42).
+Revision: the rejected drawing merged three pennants into a solid zigzag and
+flattened the heart into a bowl; the pennants are now open flags on a
+string and the heart has full lobes and a point.
+Construction reference: Lucide `heart` and `party-popper` bunting.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
+
 SOURCE_ICON_ID = '6ea8474c-4454-55bb-9882-399cf49d120a'
-SOURCE_PATH = 'pictographic-primitives/romance/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__lesbian-lgbt-festival-fair-exhibition/20260926T160211Z-thuan-mac-1/reference/lesbian lgbt festival fair exhibition_6ea8474c-4454-55bb-9882-399cf49d120a.svg'
+AUTHOR = 'claude-opus-5-5'
+
+STRING_Y, PENNANT_W, PENNANT_D = 6, 12, 10
+PENNANT_XS = (6, 30)              # left corner of each pennant
+HEART_CX, HEART_Y, HEART_R, HEART_TIP = 24, 30, 6, 42
+
 
 class Drawing(Solo48):
     icon_id = 'lesbian-lgbt-festival-fair-exhibition'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "romance"
-    categories = ("primitives", "romance")
-    aliases = ()
-    keywords = ('lesbian lgbt festival fair exhibition',)
-
-    def rounded(self,n,x,y,w,h,r):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        for i in range(8):
-            a,b=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(n+str(i),a,b,radius_x=r)
-            else:self.add_line(n+str(i),a,b)
-        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
-
-    def laptop(self):
-        # Screen and base own shared hinge endpoints; repeated corner radius 4.
-        self.add_line('screen-left',(8,32),(8,12))
-        self.add_arc('screen-tl',(8,12),(12,8),radius_x=4)
-        self.add_line('screen-top',(12,8),(36,8))
-        self.add_arc('screen-tr',(36,8),(40,12),radius_x=4)
-        self.add_line('screen-right',(40,12),(40,32))
-        self.add_line('hinge',(40,32),(8,32))
-        self.add_contour('screen','screen-left','screen-tl','screen-top','screen-tr','screen-right','hinge',closed=True)
-        self.add_polyline('base',(8,32),(4,40),(44,40),(40,32))
-        self.relate('connect','screen','base')
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    categories = ('primitives', 'primitives-generate')
+    aliases = ('lesbian lgbt festival fair exhibition', 'pride festival')
+    keywords = ('lgbt', 'lesbian', 'pride', 'festival', 'fair', 'bunting', 'heart', 'love', 'celebration')
 
     def build(self):
-        # Three equal bunting triangles above a heart; shared horizontal cord.
-        for i,x in enumerate((6,18,30)):
-            self.add_polyline('flag-'+str(i),(x,6),(x+12,6),(x+6,16),closed=True)
-        for i in range(2):self.relate('connect','flag-'+str(i),'flag-'+str(i+1))
-        self.add_arc('heart-left',(24,30),(8,30),radius_x=8,radius_y=6,sweep=False)
-        self.add_line('heart-side-left',(8,30),(24,42))
-        self.add_line('heart-side-right',(24,42),(40,30))
-        self.add_arc('heart-right',(40,30),(24,30),radius_x=8,radius_y=6,sweep=False)
-        self.add_contour('heart','heart-left','heart-side-left','heart-side-right','heart-right',closed=True)
-
-# Final repair review: Three bunting triangles hang over a heart.
-# SQUARE accommodates the full bunting row and heart.
-# Changes: Flags made taller and heart moved down; no defining components omitted.
-# validate_icon: valid; build gate: pass with zero errors and zero warnings.
+        for i, x in enumerate(PENNANT_XS):
+            a, b, tip = (x, STRING_Y), (x + PENNANT_W, STRING_Y), (x + PENNANT_W // 2, STRING_Y + PENNANT_D)
+            self.add_line(f'pennant-{i}-top', a, b)
+            self.add_line(f'pennant-{i}-r', b, tip)
+            self.add_line(f'pennant-{i}-l', tip, a)
+            self.add_contour(f'pennant-{i}', f'pennant-{i}-top', f'pennant-{i}-r', f'pennant-{i}-l', closed=True)
+        self.add_line('string', (PENNANT_XS[0] + PENNANT_W, STRING_Y), (PENNANT_XS[1], STRING_Y))
+        self.relate('connect', 'string', 'pennant-0')
+        self.relate('connect', 'string', 'pennant-1')
+        cx, y, r, tip = HEART_CX, HEART_Y, HEART_R, HEART_TIP
+        self.add_arc('heart-l', (cx, y), (cx - 2 * r, y), radius_x=r, sweep=False)
+        self.add_arc('heart-shl', (cx - 2 * r, y), (cx - 2 * r + 2, y + 4), radius_x=5, sweep=False)
+        self.add_line('heart-sl', (cx - 2 * r + 2, y + 4), (cx, tip))
+        self.add_line('heart-sr', (cx, tip), (cx + 2 * r - 2, y + 4))
+        self.add_arc('heart-shr', (cx + 2 * r - 2, y + 4), (cx + 2 * r, y), radius_x=5, sweep=False)
+        self.add_arc('heart-r', (cx + 2 * r, y), (cx, y), radius_x=r, sweep=False)
+        self.add_contour('heart', 'heart-l', 'heart-shl', 'heart-sl', 'heart-sr', 'heart-shr', 'heart-r', closed=True)

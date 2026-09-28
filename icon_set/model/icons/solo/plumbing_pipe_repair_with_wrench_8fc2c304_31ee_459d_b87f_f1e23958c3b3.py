@@ -6,7 +6,7 @@ Keyshape HRECT_L: exact contract envelope; 4-unit stroke.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8fc2c304-31ee-459d-b87f-f1e23958c3b3'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plumbing-pipe-repair-with-wrench/20260924T171114Z-thuan-mac/reference/home improvement 14_8fc2c304-31ee-459d-b87f-f1e23958c3b3.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plumbing-pipe-repair-with-wrench/20260927T144036Z-thuan-mac-1/reference/home improvement 14_8fc2c304-31ee-459d-b87f-f1e23958c3b3.svg'
 AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'plumbing-pipe-repair-with-wrench'
@@ -38,5 +38,7 @@ class Drawing(Solo48):
 
         path('pipe',(44,12),[('L',(18,12)),('L',(18,8)),('L',(8,8)),('A',(4,12),4,4,False),('L',(4,16)),('A',(8,20),4,4,False),('L',(44,20))])
         path('drop',(10,28),[('C',(16,35),(13,31),(16,33)),('C',(10,40),(16,38),(13,40)),('C',(4,35),(7,40),(4,38)),('C',(10,28),(4,33),(7,31))],True)
-        path('jaw',(24,29),[('L',(24,31)),('A',(30,37),6,6,False),('C',(36,30),(34,37),(36,33))])
-        line('handle',(30,37),(44,40));join('jaw','handle')
+        poly('jaw-left',(24,29),(24,31),(28,35),(32,35))
+        poly('jaw-right',(36,29),(36,31),(32,35))
+        line('handle',(32,35),(44,40))
+        join('jaw-left','jaw-right');join('jaw-left','handle');join('jaw-right','handle')

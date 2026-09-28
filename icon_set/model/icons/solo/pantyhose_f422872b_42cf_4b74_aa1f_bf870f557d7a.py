@@ -8,7 +8,7 @@ human_ref/full_body_ref.png informs coherent bent limb anatomy. No head; detache
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f422872b-42cf-4b74-aa1f-bf870f557d7a'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_29/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pantyhose/20260927T143814Z-thuan-mac-1/reference/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -48,14 +48,9 @@ class Drawing(Solo48):
         self.relate('connect',name+'-return',name+'-stem')
 
     def build(self):
-        # Human-reference.md: coherent bent limb; no head or detached-head rule applies.
-        self.add_line('waist-1',(16,4),(28,4));self.add_line('waist-2',(28,4),(28,12))
-        self.add_bezier('outer-thigh',(28,12),((32,15),(40,17),(40,22)),((40,26),(34,30),(28,34)))
-        self.add_line('outer-calf',(28,34),(12,44))
-        self.add_line('toe-1',(12,44),(8,36));self.add_line('toe-2',(8,36),(28,24))
-        self.add_bezier('inner-thigh',(28,24),((24,23),(17,22),(14,19)),((10,15),(16,9),(16,4)))
-        self.add_contour('bent-leg','waist-1','waist-2','outer-thigh','outer-calf','toe-1','toe-2','inner-thigh',closed=True)
-        self.add_line('rear-thigh',(14,19),(14,24));self.relate('connect','bent-leg','rear-thigh')
-        self.add_bezier('rear-shin',(28,34),((28,40),(30,44),(34,44)),((35,44),(37,44),(38,44)))
-        self.relate('connect','bent-leg','rear-shin')
+        # One waistband and two separated full-length hosiery legs.
+        self.add_polyline('tights',(14,4),(34,4),(40,14),(40,44),(30,44),(30,18),
+                          (18,18),(18,44),(8,44),(8,14),closed=True)
 
+# Revision comparison: The rejected drawing read as a single tangled bent leg rather than a pair of hosiery legs.
+# Revision: Redrew one waistband with two long, separated legs.

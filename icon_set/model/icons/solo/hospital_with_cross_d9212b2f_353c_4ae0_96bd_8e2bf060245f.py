@@ -1,45 +1,59 @@
-"""Hospital with a tall center block, lower side wings, clear medical cross and central doorway."""
-from ._base import Solo48
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='d9212b2f-353c-4ae0-96bd-8e2bf060245f'
-SOURCE_PATH='pictographic-primitives/other/hospital 1_d9212b2f-353c-4ae0-96bd-8e2bf060245f.svg'
-AUTHOR='gpt-6'
-PLAN='The cross arms are larger, both side-wing divisions are restored, and the central doorway is retained. Equal wing widths and a shared center axis control all details.'
-CONSTRUCTION_REFERENCE='hospital original and atomic-debug: cross, side blocks and central entry.'
-OMISSIONS='No defining parts omitted. Overall building is wider and lower than the source to preserve cross clearance.'
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'd9212b2f-353c-4ae0-96bd-8e2bf060245f'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hospital-building-batch-025-02/20260926T164653Z-thuan-mac/reference/hospital 1_d9212b2f-353c-4ae0-96bd-8e2bf060245f.svg'
+AUTHOR = 'claude-opus-5-5'
+
+
+def _path(icon, name, start, steps, closed=False):
+    """steps: (x, y) line | ((x, y), rx, ry, sweep[, large]) arc | ('c', c1, c2, end) cubic."""
+    members, point = [], start
+    for i, step in enumerate(steps):
+        member = f"{name}-{i + 1}"
+        if step[0] == 'c':
+            icon.add_bezier(member, point, (step[1], step[2], step[3])); point = step[3]
+        elif isinstance(step[0], (int, float)):
+            icon.add_line(member, point, step); point = step
+        else:
+            end, rx, ry, sweep = step[:4]
+            large = step[4] if len(step) > 4 else False
+            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep, large_arc=large); point = end
+        members.append(member)
+    icon.add_contour(name, *members, closed=closed)
+    return members
+
+
+def _circle(icon, name, cx, cy, r):
+    """Full circle from four cardinal quarter arcs (certifiable spacing)."""
+    return _path(icon, name, (cx, cy - r), [((cx + r, cy), r, r, True), ((cx, cy + r), r, r, True),
+                                            ((cx - r, cy), r, r, True), ((cx, cy - r), r, r, True)], True)
+
+
 class Drawing(Solo48):
-    icon_id='hospital-with-cross'
-    keyshape=Keyshape.HRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    aliases=()
-    keywords=('hospital', '1')
+    icon_id = 'hospital-with-cross'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
     category = 'primitives-generate'
     categories = ('other', 'primitives-generate')
+    aliases = ()
+    keywords = ('hospital', 'building')
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
-
-    def path(self,n,start,commands,closed=False):
-        ids=[];here=start
-        for i,c in enumerate(commands):
-            tag,end,*args=c; eid=f'{n}-{i}'
-            if tag=='L': self.add_line(eid,here,end)
-            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid);here=end
-        self.add_contour(n,*ids,closed=closed)
-
-    def box(self,n,l,t,r,b,rad=4):
-        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-
-    def file(self,l=8,t=4,r=40,b=44):
-        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
-
-    def build(self):
-        self.add_polyline('center',(12,40),(12,24),(12,8),(36,8),(36,24),(36,40),(28,40),(28,32),(20,32),(20,40),(12,40))
-        self.add_polyline('wing-l',(12,24),(4,24),(4,40),(12,40));self.relate('connect','wing-l','center')
-        self.add_polyline('wing-r',(36,24),(44,24),(44,40),(36,40));self.relate('connect','wing-r','center')
-        self.add_line('cross-h',(20,20),(28,20));self.add_line('cross-v',(24,16),(24,24));self.relate('connect','cross-h','cross-v')
+    def build(self) -> None:
+        # Plan: hospital as in the reference, on HRECT_L (x 4..44, y 8..40): a
+        # tall central block (x 12..36, roof y=8) flanked by two lower wings
+        # (roof y=20) whose shared walls run to the ground, a plus cross in the
+        # block (arms 8, centre (24,20), 8 from roof and walls) and a door
+        # (x 20..28, top y=32) cut into the ground line.
+        _path(self, 'outline', (4, 40), [
+            (4, 20), (12, 20), (12, 8), (36, 8), (36, 20), (44, 20), (44, 40),
+            (36, 40), (28, 40), (28, 32), (20, 32), (20, 40), (12, 40), (4, 40),
+        ], closed=True)
+        self.add_line('left-wall', (12, 20), (12, 40))
+        self.add_line('right-wall', (36, 20), (36, 40))
+        self.relate('connect', 'outline', 'left-wall')
+        self.relate('connect', 'outline', 'right-wall')
+        _path(self, 'cross', (24, 16), [(24, 20), (24, 24)])
+        self.add_line('cross-bar', (20, 20), (28, 20))
+        self.relate('connect', 'cross', 'cross-bar')

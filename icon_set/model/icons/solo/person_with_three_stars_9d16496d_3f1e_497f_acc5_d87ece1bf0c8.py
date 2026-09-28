@@ -10,7 +10,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = "9d16496d-3f1e-497f-acc5-d87ece1bf0c8"
-SOURCE_PATH = "pictographic-primitives/_uncategorized_26/male star_9d16496d-3f1e-497f-acc5-d87ece1bf0c8.svg"
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-with-three-stars/20260926T163748Z-thuan-mac/reference/male star_9d16496d-3f1e-497f-acc5-d87ece1bf0c8.svg'
 AUTHOR = "gpt-6"
 
 

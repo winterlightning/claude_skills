@@ -1,49 +1,33 @@
-from ._base import Solo48
+"""Revision of minimal-bicycle. Pulled the frame crank left to remove the pinch against the front tire while preserving a triangular frame and two equal wheels.
+Symbol plan: redraw the original subject with one coherent SOLO48 construction.
+"""
+"""A minimal bicycle with plain wheels, an open frame and a handlebar turned back toward the rider. HRECT_L ink (6,6)-(42,42). Lucide bike informed equal circular wheels; all three identical source references are retained."""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='6ce17d6f-0a53-4eaa-b433-061d444307dc'
-SOURCE_PATH='pictographic-primitives/transportation/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'
-AUTHOR='gpt-6'
-PLAN='Two equal large wheels with the source open frame, distinct saddle, and smoothly returned handlebar.'
-CONSTRUCTION_REFERENCES='Lucide bike: circular wheel construction; supplied reference controls the open frame without a rider.'
-OMISSIONS=[]
-class Drawing(Solo48):
-    icon_id='simple-two-wheeled-bicycle'
-    keyshape=Keyshape.HRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
+from ._base import Solo48
+
+SOURCE_ICON_ID = '6ce17d6f-0a53-4eaa-b433-061d444307dc'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__minimal-bicycle/20260927T074149Z-thuan-mac-1/reference/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'
+SOURCE_REFERENCES = (('6ce17d6f-0a53-4eaa-b433-061d444307dc', 'pictographic-primitives/transportation/bicycle_6ce17d6f-0a53-4eaa-b433-061d444307dc.svg'), ('809ac450-efd8-4c1a-94b3-ed96c86e92df', 'pictographic-primitives/transportation/bicycle_809ac450-efd8-4c1a-94b3-ed96c86e92df.svg'), ('c94a3698-f47d-459c-afbc-fc5e64f7a783', 'pictographic-primitives/transportation/bicycle_c94a3698-f47d-459c-afbc-fc5e64f7a783.svg'))
+AUTHOR = 'gpt-6'
+
+class MinimalBicycle(Solo48):
+    icon_id = 'simple-two-wheeled-bicycle'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'transportation'
     categories = ('transportation', 'primitives')
-    aliases=()
-    keywords=('bicycle',)
-
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def ellipse(self,n,x,y,rx,ry):
-        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
-    def box(self,n,l,t,r,b,k=4,split=False):
-        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
-        ids=[]
-        for i,a in enumerate(pts):
-            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
-            if i%2:self.add_arc(ident,a,z,radius_x=k)
-            else:self.add_line(ident,a,z)
-        if split:
-            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
-        else:self.add_contour(n,*ids,closed=True)
+    aliases = ()
+    keywords = ('bicycle', 'bike', 'cycling', 'simple', 'pedal', 'transport', 'two wheels', 'ride')
 
     def build(self):
-        for n,x in [('rear',12),('front',36)]:self.circle(n+'-wheel',x,32,8)
-        self.add_polyline('frame',(12,24),(20,16),(33,16));self.relate('connect','frame','rear-wheel')
-        self.add_polyline('saddle',(12,10),(16,10),(18,10));self.add_line('seat-post',(16,10),(20,16))
-        self.relate('connect','saddle','seat-post');self.relate('connect','seat-post','frame')
-        self.path('fork',(26,8),[('L',(30,8)),('C',(33,16),(32,8),(32,12)),('C',(36,24),(34,20),(35,22))])
-        self.relate('connect','fork','frame');self.relate('connect','fork','front-wheel')
+        for side,x in [('rear',10),('front',38)]:
+            self.add_arc(side+'-right',(x,28),(x,40),radius_x=6)
+            self.add_arc(side+'-left',(x,40),(x,28),radius_x=6)
+            self.add_contour(side+'-wheel',side+'-right',side+'-left',closed=True)
+        self.add_polyline('frame',(10,28),(19,16),(24,28),(10,28))
+        self.add_polyline('seat',(16,8),(22,8),(19,16))
+        self.add_polyline('fork',(24,28),(31,16),(38,16),(38,28))
+        self.add_polyline('handlebar',(31,16),(29,8),(25,8))
+        for a,b in [('frame','rear-wheel'),('seat','frame'),('fork','frame'),('fork','front-wheel'),('handlebar','fork')]:
+            self.relate('connect',a,b)

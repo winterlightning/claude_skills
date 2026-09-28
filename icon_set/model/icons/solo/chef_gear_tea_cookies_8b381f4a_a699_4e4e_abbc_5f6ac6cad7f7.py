@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_11/chef gear tea cookies_8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__chef-gear-tea-cookies/20260926T165410Z-thuan-mac/reference/chef gear tea cookies_8b381f4a-a699-4e4e-abbc-5f6ac6cad7f7.svg'
 AUTHOR = 'gpt-6'
 
 PLAN = 'Three overlapping wafer-like pieces above a bowl; separate stacked edges and attach the right flourish at a true contour point.'

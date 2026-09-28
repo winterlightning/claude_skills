@@ -2,8 +2,8 @@
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='cd308a08-5d16-5ba7-ba3b-4c7cff751329'
-SOURCE_PATH='pictographic-primitives/sports/yoga tree pose_cd308a08-5d16-5ba7-ba3b-4c7cff751329.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__yoga-tree-pose/20260927T140835Z-thuan-mac-1/reference/yoga tree pose_cd308a08-5d16-5ba7-ba3b-4c7cff751329.svg'
+AUTHOR = "gpt-6"
 PLAN='Circular head framed by curved overhead arms, straight support leg and outward bent knee.'
 CONSTRUCTION_REFERENCE='human_ref/full_body_ref.png: outlined head and simple limbs; Lucide person-standing shared joints.'
 class Drawing(Solo48):
@@ -42,7 +42,7 @@ class Drawing(Solo48):
         self.path('right-arm',(32,26),[('A',(40,18),8,8,False),('L',(40,16)),('C',(32,4),(40,10),(38,4))])
         self.add_polyline('shoulders',(16,26),(24,26),(32,26))
         self.add_line('torso',(24,26),(24,44))
-        self.add_polyline('bent-leg',(24,34),(40,37),(24,44))
+        self.add_polyline('bent-leg',(24,34),(36,36),(24,44))
         for a,b in [('left-arm','shoulders'),('right-arm','shoulders'),('shoulders','torso'),('torso','bent-leg')]:self.relate('connect',a,b)
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
 

@@ -6,8 +6,8 @@ Construction references: No useful Lucide exact game logo; geometric reconstruct
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
-SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__video-game-bowl-city/20260927T140835Z-thuan-mac-1/reference/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='video-game-bowl-city'
     keyshape=Keyshape.SQUARE
@@ -48,3 +48,4 @@ class Drawing(Solo48):
         self.path('bowl',(18,10),[('C',(6,28),(10,12),(6,21)),('C',(24,42),(6,36),(14,42)),('C',(42,28),(34,42),(42,36)),('C',(30,10),(42,21),(38,12))])
         self.add_polyline('neck',(18,10),(18,6),(30,6),(30,10));self.relate('connect','bowl','neck')
         self.add_polyline('city',(16,31),(16,30),(24,30),(24,22),(32,22),(32,31))
+        self.add_dot('ball',(40,6))

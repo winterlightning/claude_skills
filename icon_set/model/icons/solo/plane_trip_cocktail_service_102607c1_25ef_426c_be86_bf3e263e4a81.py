@@ -6,8 +6,8 @@ Construction: plane: fuselage/wing/tail hierarchy; martini: bowl, stem and foot 
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='102607c1-25ef-426c-be86-bf3e263e4a81'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/plane trip cocktail service_102607c1-25ef-426c-be86-bf3e263e4a81.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__plane-trip-cocktail-service/20260927T143814Z-thuan-mac-1/reference/plane trip cocktail service_102607c1-25ef-426c-be86-bf3e263e4a81.svg'
+AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id='plane-trip-cocktail-service'
@@ -58,6 +58,7 @@ class Drawing(Solo48):
         self.add_polyline('aircraft',(8,16),(14,14),(20,12),(26,10),(32,8),(40,8))
         self.add_polyline('wings',(16,4),(26,10),(22,18));self.relate('connect','aircraft','wings')
         self.add_polyline('tail',(10,8),(14,14),(10,18));self.relate('connect','aircraft','tail')
+        self.add_line('nose',(40,8),(40,14));self.relate('connect','aircraft','nose')
         self.add_arc('bowl-left',(14,26),(23,35),radius_x=9,sweep=False)
         self.add_arc('bowl-right',(23,35),(32,26),radius_x=9,sweep=False)
         self.add_contour('bowl','bowl-left','bowl-right')
@@ -66,3 +67,6 @@ class Drawing(Solo48):
         self.add_polyline('foot',(17,44),(23,44),(29,44));self.relate('connect','stem','foot')
         self.add_arc('citrus',(32,26),(40,26),radius_x=4)
         self.relate('connect','citrus','rim');self.relate('connect','citrus','bowl')
+
+# Revision comparison: The rejected aircraft had an indistinct open nose above the cocktail.
+# Revision: Defined the aircraft nose while preserving the wing, tail and cocktail glass.

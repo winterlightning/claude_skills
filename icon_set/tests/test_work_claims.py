@@ -163,6 +163,8 @@ class StateRuleTests(unittest.TestCase):
         everything = work_claims.queue(self.connection, catalog, decisions, {}, NOW, claimable_only=False)
         self.assertEqual([(item['key'], item['status'], item['work']['state']) for item in everything['items']],
                          [('sub/b', 'disapprove', None), ('sub/a', 'disapprove', None), ('solo/c', 'claimed', 'working')])
+        opened = work_claims.queue(self.connection, catalog, decisions, {'state': ['open']}, NOW, claimable_only=False)
+        self.assertEqual([item['key'] for item in opened['items']], ['sub/b', 'sub/a'], 'state=open means no work state yet')
         paged = work_claims.queue(self.connection, catalog, decisions, {'limit': ['1']}, NOW)
         self.assertEqual((paged['total'], paged['next_offset'], paged['items'][0]['key']), (2, 1, 'sub/b'))
         rows = work_claims.listing(self.connection, catalog, decisions, NOW)['claims']

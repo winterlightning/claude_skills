@@ -1,0 +1,35 @@
+{
+  "concept": "airport signal",
+  "source_uuid": "58573359-f61e-52a8-b710-7818357fd8e0",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__airport-signal-antenna/20260926T064521Z-thuan-mac/reference/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg",
+  "icon_id": "airport-signal-antenna",
+  "author": "claude-opus-5-5",
+  "validation_status": "valid",
+  "validation_errors": [],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "airport-signal-antenna",
+    "status": "pass",
+    "errors": [],
+    "warnings": []
+  },
+  "visual_review": "Inspected 48px and 384px in light and dark: the attempt has the requested wide rounded-rectangle head on the stem and base, but only one signal arc per side. The review's second, shorter inner arc on each side cannot be added: each arc and the head need 8 units of centerline clearance, so two arcs a side need about 46 units of width before the head, and SOLO48 is 40 wide at most. Concentric arcs around the head fail the same way (outer radius 23 or more).",
+  "omissions": "The second (inner) signal arc on each side: blocked by MIC (8-unit clearance) versus the canvas width.",
+  "drawing_plan": "SQUARE: arcs rx4 ry10 (10,6)-(10,26) and mirror; head rounded rect (19,6)-(29,14) r3; stem (24,14)-(24,30); base trapezoid (18,30)-(30,30)-(36,42)-(12,42).",
+  "lucide_reference": "Lucide 'radio-tower' construction.",
+  "fix_claim": "icon_set/work/primitive-fix-thuan/solo__airport-signal-antenna/20260926T064521Z-thuan-mac",
+  "artifacts": [
+    "airport-signal-antenna.metadata.json",
+    "airport-signal-antenna.svg",
+    "airport_signal_antenna_58573359_f61e_52a8_b710_7818357fd8e0.py",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "reference.svg",
+    "validation.txt"
+  ]
+}

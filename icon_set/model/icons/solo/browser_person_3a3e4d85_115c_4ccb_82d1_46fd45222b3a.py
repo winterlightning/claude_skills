@@ -7,8 +7,8 @@ from ._base import Solo48
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 SOURCE_ICON_ID='3a3e4d85-115c-4ccb-82d1-46fd45222b3a'
-SOURCE_PATH='icon_set/work/todo-references/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__browser-person/20260927T140835Z-thuan-mac-1/reference/browser person_3a3e4d85-115c-4ccb-82d1-46fd45222b3a.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id='browser-person'
     keyshape=Keyshape.VRECT_L
@@ -21,9 +21,9 @@ class Drawing(Solo48):
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
         self.browser()
-        self.circle('head',24,23,3)
-        self.add_arc('shoulder-left',(17,35),(24,34),radius_x=7,radius_y=1)
-        self.add_arc('shoulder-right',(24,34),(31,35),radius_x=7,radius_y=1)
+        self.circle('head',24,20,5)
+        self.add_bezier('shoulder-left',(17,35),((18,35),(21,34),(24,34)))
+        self.add_bezier('shoulder-right',(24,34),((27,34),(30,35),(31,35)))
         self.add_contour('shoulders','shoulder-left','shoulder-right')
         # Circular head bottom26; shoulder apex34 => exact8 centerline /4 ink gap.
 
@@ -49,8 +49,7 @@ class Drawing(Solo48):
 
 
     def browser(self):
-        self.rounded('window',8,4,40,44,4,breaks={2:[(40,12)],6:[(8,12)]})
-        self.add_line('header',(8,12),(40,12));self.relate('connect','header','window')
+        self.rounded('window',8,4,40,44,4)
 
     def dollar(self,x,y):
         self.add_bezier('dollar',(x+4,y-6),((x+2,y-7),(x+1,y-7),(x,y-7)),((x-7,y-7),(x-7,y),(x,y)),((x+7,y),(x+7,y+7),(x,y+7)),((x-1,y+7),(x-2,y+7),(x-4,y+6)))

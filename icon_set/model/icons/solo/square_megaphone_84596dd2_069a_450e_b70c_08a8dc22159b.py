@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '84596dd2-069a-450e-b70c-08a8dc22159b'
-SOURCE_PATH = 'pictographic-primitives/other/square megaphone_84596dd2-069a-450e-b70c-08a8dc22159b.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-megaphone/20260927T140026Z-thuan-mac-1/reference/square megaphone_84596dd2-069a-450e-b70c-08a8dc22159b.svg'
 AUTHOR = 'gpt-6'
 CONSTRUCTION_REFERENCE = 'megaphone'
 
@@ -36,6 +36,6 @@ class Drawing(Solo48):
     def build(self):
         self.box('frame',6,6,36,36,4)
         self.add_polyline('cone',(15,28),(28,15),(33,29),(30,30),(22,32),(18,33),closed=True)
-        self.add_line('grip',(30,30),(30,33))
+        self.add_line('grip',(30,30),(28,33))
         self.relate('connect','cone','grip')
 

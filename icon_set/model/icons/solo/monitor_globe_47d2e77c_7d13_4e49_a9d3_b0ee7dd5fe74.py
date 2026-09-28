@@ -1,19 +1,19 @@
-"""monitor globe. Expanded screen with short pedestal, maximizing circular globe diameter.
+"""monitor globe. Complete monitor pedestal with a circular globe and an equator inside the screen.
 Symbol plan: enclosure and content use shared parameters and genuine attachment nodes.
 Construction: Lucide smartphone/monitor/megaphone geometric enclosures and joins;
 human_ref/user.svg supplies circular heads and open shoulder proportions where applicable.
-Omissions: Second latitude and horizontal monitor foot omitted.
+Omissions: Meridian omitted because four tiny globe openings fail the hole gate.
 """
 from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '47d2e77c-7d13-4e49-a9d3-b0ee7dd5fe74'
-SOURCE_PATH = 'pictographic-primitives/other/monitor globe_47d2e77c-7d13-4e49-a9d3-b0ee7dd5fe74.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-globe/20260927T142540Z-thuan-mac-1/reference/monitor globe_47d2e77c-7d13-4e49-a9d3-b0ee7dd5fe74.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'monitor-globe'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
@@ -58,10 +58,7 @@ class Drawing(Solo48):
         self.add_contour(n+'-shoulders',n+'-shoulder-l',n+'-shoulder-r')
 
     def build(self):
-        self.box('screen',6,6,42,40,3,{4:[(24,40)]})
-        self.add_line('stand',(24,40),(24,42))
-        self.relate('connect','screen','stand')
-        self.circle('globe',24,23,8)
-        self.add_polyline('meridian',(24,15),(24,23),(24,31))
-        self.add_polyline('equator',(16,23),(24,23),(32,23))
-        self.relate('connect','globe','meridian');self.relate('connect','globe','equator');self.relate('connect','meridian','equator')
+        self.monitor(8,4,40,36,44)
+        self.circle('globe',24,20,7)
+        self.add_line('equator',(17,20),(31,20))
+        self.relate('connect','globe','equator')

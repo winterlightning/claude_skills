@@ -2,9 +2,9 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='69067a56-4a6a-4f02-bdcf-fc3b45bb66ac'
-SOURCE_PATH='pictographic-primitives/other/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-painting/20260927T142540Z-thuan-mac-1/reference/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg'
 AUTHOR='gpt-6'
-PLAN='Wider screen; Lucide palette kidney curve and monitor vocabulary. Omit pigment dots and horizontal foot bar. Brush bristle outline reduced to a round head with a joined handle.'
+PLAN='Landscape monitor with a full stand, oval palette, and a separate diagonal paintbrush. Tiny pigment dots are omitted.'
 class Drawing(Solo48):
     icon_id='monitor-painting'
     keyshape=Keyshape.HRECT_L
@@ -16,11 +16,19 @@ class Drawing(Solo48):
     keywords=('monitor', 'painting')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.add_polyline('screen',(4,8),(44,8),(44,36),(24,36),(4,36),closed=True)
-        self.add_line('stand',(24,36),(24,40));self.relate('connect','screen','stand')
-        self.path('palette',(19,17),[('A',(13,22),6,5,False),('A',(19,27),6,5,False),('B',(24,25),(23,27),(24,27)),('B',(23,22),(24,23),(23,24)),('B',(19,17),(25,18),(23,17))],True)
-        self.circle('brush-head',34,18,2)
-        self.add_line('brush-handle',(34,20),(33,28));self.relate('connect','brush-head','brush-handle')
+        # A landscape monitor with a complete pedestal. The palette and angled
+        # brush are separate marks with room to read at native size.
+        self.add_polyline('screen',(4,8),(44,8),(44,32),(24,32),(4,32),closed=True)
+        self.add_line('stand',(24,32),(24,40))
+        self.add_polyline('foot',(16,40),(24,40),(32,40))
+        self.relate('connect','screen','stand')
+        self.relate('connect','stand','foot')
+        self.add_arc('palette-top',(13,20),(21,20),radius_x=4,radius_y=3)
+        self.add_arc('palette-bottom',(21,20),(13,20),radius_x=4,radius_y=3)
+        self.add_contour('palette','palette-top','palette-bottom',closed=True)
+        self.add_dot('brush-tip',(35,17))
+        self.add_line('brush-handle',(35,17),(30,23))
+        self.relate('connect','brush-tip','brush-handle')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

@@ -6,7 +6,7 @@ Omissions: Narrow tank outline reduced to its back edge; seat and thigh share on
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='53c92910-6cf3-4deb-8c80-dce8bbb9cc11'
-SOURCE_PATH='pictographic-primitives/_uncategorized_38/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__toilet-use-wrong/20260927T140026Z-thuan-mac-1/reference/toilet use wrong_53c92910-6cf3-4deb-8c80-dce8bbb9cc11.svg'
 AUTHOR='gpt-6'
 class Drawing(Solo48):
     icon_id='toilet-use-wrong'
@@ -51,10 +51,10 @@ class Drawing(Solo48):
 
     def build(self):
         self.circle('head',20,11,5)
-        self.add_line('torso',(20,24),(18,34))
+        self.add_bezier('torso',(20,24),((18,27),(16,31),(18,34)))
         self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
         self.add_polyline('leg',(18,34),(24,34),(34,34),(34,42))
-        self.add_polyline('tank',(6,24),(6,34),(6,42))
+        self.add_polyline('tank',(12,24),(6,24),(6,34),(6,42))
         self.add_line('seat',(6,34),(18,34))
         self.add_bezier('bowl',(24,34),((24,39),(20,39),(20,42)))
         for a,b in [('torso','leg'),('tank','seat'),('seat','torso'),('seat','leg'),('leg','bowl')]:self.relate('connect',a,b)

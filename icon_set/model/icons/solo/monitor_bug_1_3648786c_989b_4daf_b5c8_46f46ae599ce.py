@@ -8,12 +8,12 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '3648786c-989b-4daf-b5c8-46f46ae599ce'
-SOURCE_PATH = 'pictographic-primitives/other/monitor bug 1_3648786c-989b-4daf-b5c8-46f46ae599ce.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-bug-1/20260927T142540Z-thuan-mac-1/reference/monitor bug 1_3648786c-989b-4daf-b5c8-46f46ae599ce.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'monitor-bug-1'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
@@ -58,12 +58,12 @@ class Drawing(Solo48):
         self.add_contour(n+'-shoulders',n+'-shoulder-l',n+'-shoulder-r')
 
     def build(self):
-        self.monitor(8,4,40,36,44)
+        self.monitor(6,6,42,34,42)
         # Bug has a broad oval body, four diagonal legs with genuine corner nodes.
         pts=[(20,16),(28,16),(28,24),(20,24),(20,16)]
         for j,(a,b) in enumerate(zip(pts,pts[1:])):
             self.add_arc('body-'+str(j),a,b,radius_x=6)
         self.add_contour('bug',*(f'body-{j}' for j in range(4)),closed=True)
-        for j,(a,b) in enumerate([((20,16),(17,13)),((28,16),(31,13)),((28,24),(31,27)),((20,24),(17,27))]):
+        for j,(a,b) in enumerate([((20,16),(17,15)),((28,16),(31,15)),((28,24),(31,25)),((20,24),(17,25))]):
             self.add_line('leg-'+str(j),a,b)
             self.relate('connect','bug','leg-'+str(j))

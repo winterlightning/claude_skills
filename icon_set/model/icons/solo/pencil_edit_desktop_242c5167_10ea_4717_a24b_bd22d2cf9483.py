@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '242c5167-10ea-4717-a24b-bd22d2cf9483'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pencil-edit-desktop/20260927T143814Z-thuan-mac-1/reference/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -66,3 +66,8 @@ class Drawing(Solo48):
         self.add_line('band',(24,11),(34,24));self.relate('connect','band','pencil')
 
         self.relate("connect","screen","pencil")
+        self.add_line('edit-mark',(14,24),(18,26))
+        self.relate('connect','edit-mark','pencil')
+
+# Revision comparison: The rejected pencil sat over the screen without a visible editing contact.
+# Revision: Added a short mark from the pencil point onto the desktop screen.
