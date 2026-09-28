@@ -4,16 +4,15 @@ Retained the arched headband and two downward ear ends; replaced the tiny outlin
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e65c555e-8915-44b9-98b2-344d81aac941'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-headphone/20260927T142540Z-thuan-mac-1/reference/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/mobile phone headphone_e65c555e-8915-44b9-98b2-344d81aac941.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-headphone'
     keyshape = Keyshape.VRECT_L
     # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category = 'objects'
     aliases = ()
     keywords = ('mobile', 'phone', 'headphone')
 
@@ -43,7 +42,3 @@ class Drawing(Solo48):
         self.add_line('ear-right',(31,22),(31,28))
         self.relate('connect','headband','ear-left')
         self.relate('connect','headband','ear-right')
-        self.add_line('left-cushion',(17,28),(18,28))
-        self.add_line('right-cushion',(30,28),(31,28))
-        self.relate('connect','ear-left','left-cushion')
-        self.relate('connect','ear-right','right-cushion')

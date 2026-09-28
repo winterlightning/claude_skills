@@ -1,18 +1,17 @@
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='7812933e-4da0-4067-9131-d948a045fef8'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__movie-production-clapperboard/20260927T142540Z-thuan-mac-1/reference/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg'
-AUTHOR='gpt-6'
-PLAN='A broad raised clapper pivots from the left over a complete slate with one horizontal band.'
+SOURCE_PATH='pictographic-primitives/_uncategorized_11/clapboard_7812933e-4da0-4067-9131-d948a045fef8.svg'
+AUTHOR="gpt-6"
+PLAN='Raised clapper opens steeply from the left hinge. One stripe crosses each band; a blank rounded slate remains beneath.'
 CONSTRUCTION_REFERENCES='Lucide clapperboard original and atomic-debug: raised striped blade and rounded slate.'
-OMISSIONS=['Fine blade stripes omitted because they close at 48 pixels.']
+OMISSIONS=['Stripe count reduced from two to one per band for larger openings.']
 class Drawing(Solo48):
-    icon_id='movie-production-clapperboard'
+    icon_id = 'movie-production-clapperboard'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('clapboard',)
 
@@ -31,11 +30,10 @@ class Drawing(Solo48):
         self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
-        # Wide raised clapper pivots at the left rim of a complete slate.
-        self.add_polyline('blade',(6,16),(36,6),(40,6),(42,14),(8,25),closed=True)
-        self.path('slate',(8,25),[('L',(42,25)),('L',(42,38)),
-                     ('A',(38,42),4,4,True),('L',(12,42)),
-                     ('A',(8,38),4,4,True),('L',(8,25))],True)
-        self.add_line('slate-band',(8,33),(42,33))
-        self.relate('connect','blade','slate')
-        self.relate('connect','slate','slate-band')
+        # Upright raised blade has one transverse stripe; lower slate keeps a full band.
+        self.add_polyline('clapper',(6,22),(11,14),(16,6),(24,10),(19,18),(14,26),closed=True)
+        self.add_line('upper-stripe',(11,14),(19,18));self.relate('connect','upper-stripe','clapper')
+        self.path('slate',(14,26),[('L',(34,26)),('L',(42,26)),('L',(42,34)),('L',(42,38)),('A',(38,42),4,4,True),('L',(18,42)),('A',(14,38),4,4,True),('L',(14,34)),('L',(14,26))],True)
+        self.add_polyline('band-bottom',(14,34),(26,34),(42,34));self.relate('connect','band-bottom','slate')
+        self.add_line('lower-stripe',(34,26),(26,34));self.relate('connect','lower-stripe','slate');self.relate('connect','lower-stripe','band-bottom')
+        self.relate('connect','clapper','slate')

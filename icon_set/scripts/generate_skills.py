@@ -753,6 +753,14 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     content = re.sub(r"(?<![\w./-])/icon-", "$icon-", content)
     content = content.replace("\0", "skills/icon-design")
     content = content.replace(
+        "Request (name and reference path pairs): $ARGUMENTS",
+        "Use the name and reference path pairs from the user's skill invocation or request.",
+    )
+    content = content.replace(
+        "Request (one or more subjects): $ARGUMENTS",
+        "Use the subjects named in the user's skill invocation or request.",
+    )
+    content = content.replace(
         "Queue offset argument: $ARGUMENTS",
         "Read the queue offset from the user's skill invocation or request.",
     )
@@ -1257,7 +1265,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
                 render_codex(sub).replace("# /side-sub-make-thuan —", "# $side-sub-make-thuan —", 1)
             )
     if agent in ("all", "codex"):
-        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue"):
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue", "fix-icon-sub", "fix-icon-queue", "generate-png-solo", "generate-png-solo-with-reference"):
             if skill is not None and skill != name:
                 continue
             source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")

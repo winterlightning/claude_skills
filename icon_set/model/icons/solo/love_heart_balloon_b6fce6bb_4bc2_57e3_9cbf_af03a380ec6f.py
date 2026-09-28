@@ -1,4 +1,4 @@
-"""A heart balloon has a knot and a gently bending string; the knot is an open chevron.
+"""A heart balloon has a narrow neck and a gently bending string; the bulky knot is omitted for clarity.
 
 Construction references: Lucide heart, hand-heart, sprout and balloon as applicable.
 SOLO48 live-contract centerline bounds: VRECT_L (8,4)-(40,44),
@@ -9,7 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'b6fce6bb-4bc2-57e3-9cbf-af03a380ec6f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-balloon/20260926T172218Z-thuan-mac-1/reference/love heart balloon_b6fce6bb-4bc2-57e3-9cbf-af03a380ec6f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeartBalloon(Solo48):
@@ -30,10 +30,8 @@ class HeartBalloon(Solo48):
         self.add_arc('shoulder-r',(36,20),(40,12),radius_x=10,sweep=False)
         self.add_arc('lobe-r',(40,12),(24,12),radius_x=8,sweep=False)
         self.add_contour('balloon','lobe-l','shoulder-l','side-l','side-r','shoulder-r','lobe-r',closed=True)
-        self.add_polyline('knot',(20,34),(24,30),(28,34))
-        self.relate('connect','balloon','knot')
-        self.add_arc('string-a',(24,30),(22,37),radius_x=10,sweep=False)
-        self.add_arc('string-b',(22,37),(24,44),radius_x=10)
-        self.add_contour('string','string-a','string-b')
-        self.relate('connect','balloon','string')
-        self.relate('connect','knot','string')
+        # One narrow neck and one curved string avoid the inked-over crossing.
+        self.add_line('neck',(24,30),(24,34))
+        self.relate('connect','balloon','neck')
+        self.add_arc('string',(24,34),(24,44),radius_x=8,sweep=False)
+        self.relate('connect','neck','string')

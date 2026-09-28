@@ -1,57 +1,50 @@
-"""A right arrow between two open brackets.
-
-Plan: Mirrored brackets enclose an independent directional arrow.
-Construction: log-in: open bracket with directed shaft
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0bd98d1c-2291-4610-be55-e9292563a85a'
 SOURCE_PATH = 'icon_set/work/todo-references/right to bracket_0bd98d1c-2291-4610-be55-e9292563a85a.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
+# Construction plan: Opposed open brackets surrounding a rightward arrow.
+# Reference reduction: No defining parts omitted.
+# Construction references: ['arrow-right', 'table']
 
-class Drawing(Solo48):
+class AuthoredIcon(Solo48):
     icon_id = 'right-to-bracket'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "objects/general"
     aliases = ()
     keywords = ('right', 'to', 'bracket')
 
     def build(self):
-        for side in (0,1):
-            def p(x,y):return (48-x if side else x,y)
-            n=f'bracket-{side}'
-            self.add_line(n+'-top',p(14,6),p(10,6))
-            self.add_arc(n+'-upper',p(10,6),p(6,10),radius_x=4,sweep=bool(side))
-            self.add_line(n+'-wall',p(6,10),p(6,38))
-            self.add_arc(n+'-lower',p(6,38),p(10,42),radius_x=4,sweep=bool(side))
-            self.add_line(n+'-bottom',p(10,42),p(14,42))
-            self.add_contour(n,*(n+s for s in ('-top','-upper','-wall','-lower','-bottom')))
-        self.arrow('right',(15,24),(32,24),(24,16),(24,32))
+        self.add_polyline('left-bracket',(10,10),(4,10),(4,38),(10,38))
+        self.add_polyline('right-bracket',(38,10),(44,10),(44,38),(38,38))
+        self.add_line('shaft',(14,24),(34,24))
+        self.add_polyline('arrow',(26,16),(34,24),(26,32))
+        self.relate('connect','shaft','arrow')
 
     def circle(self, name, x, y, r):
-        self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
+        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(name,name+'-a',name+'-b',closed=True)
 
-    def box(self, name, l, t, r, b, rad=2):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-        for i in range(8):
-            a,z=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(f'{name}-{i}',a,z,radius_x=rad)
-            else:self.add_line(f'{name}-{i}',a,z)
-        self.add_contour(name,*(f'{name}-{i}' for i in range(8)),closed=True)
+    def box(self, name, l, t, r, b, radius=3):
+        q=radius
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{name}-{k}'; ids.append(ident)
+            a,z=pts[k],pts[(k+1)%8]
+            if k%2: self.add_arc(ident,a,z,radius_x=q)
+            else: self.add_line(ident,a,z)
+        self.add_contour(name,*ids,closed=True)
 
-    def arrow(self, name, start, tip, wing1, wing2):
-        self.add_line(name+'-shaft',start,tip)
-        self.add_polyline(name+'-head',wing1,tip,wing2)
-        for i in (1,2):self.relate('connect',name+'-shaft',f'{name}-head-{i}')
-
-    def heart(self, name, x, top, half, bottom):
-        # Mirrored lobes share dimensions and meet the pointed lower silhouette.
-        self.add_bezier(name+'-left',(x,top+2),((x-half,top-5),(x-half-3,top+4),(x-half,top+7)),((x-half+2,top+10),(x, bottom),(x,bottom)))
-        self.add_bezier(name+'-right',(x,bottom),((x,bottom),(x+half-2,top+10),(x+half,top+7)),((x+half+3,top+4),(x+half,top-5),(x,top+2)))
-        self.add_contour(name,name+'-left',name+'-right',closed=True)
+    def heart(self, name, cx, top, half, bottom):
+        # Mirrored lobes and tangent downward shoulders share one outline.
+        l=cx-half; r=cx+half; y=top+half//2
+        self.add_bezier(name,(cx,top+3),
+            ((cx-half//2,top-3),(l,top),(l,y)),
+            ((l,y+4),(cx-half//2,bottom-4),(cx,bottom)),
+            ((cx+half//2,bottom-4),(r,y+4),(r,y)),
+            ((r,top),(cx+half//2,top-3),(cx,top+3)))

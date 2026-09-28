@@ -1,25 +1,21 @@
 """video slash.
-Plan: Diagonal slash genuinely joins camera contour at upper-left and lower-right; lens sits above slash.
-Construction: Source camera layout; actual shared endpoints replace nearby floating cut ends.
-Omissions: Camera lower-left gap enlarged.
+Plan: Diagonal slash with camera and lens outlines genuinely interrupted by generous gaps; omit lens lower edge obscured by slash.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video slash_6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video slash_6fd86d6a-33c2-48c8-8e2b-48ffc1882ec2.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-slash'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('video', 'slash')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('video', 'slash')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,11 +69,6 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.path('body-upper',(10,10),[('L',(30,10)),('A',(34,14),4,4,True),('L',(34,16)),('L',(34,20)),('L',(34,34))])
-        self.path('body-lower',(34,34),[('A',(30,38),4,4,True),('L',(10,38)),('A',(6,34),4,4,True),('L',(6,20))])
-        self.add_polyline('lens',(34,16),(42,10),(42,24),(34,20))
-        self.relate('connect','body-upper','lens')
-        self.add_polyline('slash',(6,6),(10,10),(34,34),(42,42))
-        self.relate('connect','slash','body-upper')
-        self.relate('connect','slash','body-lower')
-        self.relate('connect','body-upper','body-lower')
+        self.path('body-upper',(22,10),[('L',(30,10)),('A',(34,14),4,4,True),('L',(34,20)),('L',(42,14)),('L',(42,30))])
+        self.path('body-lower',(6,22),[('L',(6,34)),('A',(10,38),4,4,False),('L',(24,38))])
+        self.add_line('slash',(6,6),(42,42))

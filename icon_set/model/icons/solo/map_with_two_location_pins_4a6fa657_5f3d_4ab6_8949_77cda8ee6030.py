@@ -1,10 +1,8 @@
-"""map marks: standalone repair of supplied reference.
+"""A folded map with two staggered location markers.
 
-Plan: Two staggered markers over map base. Keyshape SQUARE.
-Reduction: Omitted pin counters; compressed map to a folded base and retained staggered pin placement.
-Construction references: local Lucide originals and atomic-debug: map-pin.
-
-All geometry is authored for SOLO48; earlier runs remain unchanged.
+Plan: the map panel has shared fold spacing; two identical teardrop markers
+are staggered diagonally, with the right tip meeting the map's upper edge.
+Lucide map-pin informed the two pointed silhouettes; Lucide map informed folds.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -15,17 +13,16 @@ AUTHOR = "gpt-6"
 
 
 class MapWithTwoLocationPins(Solo48):
-    icon_id = 'map-with-two-location-pins'
+    icon_id = "map-with-two-location-pins"
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "places/maps"
     aliases = ("map-marks",)
     keywords = ("map", "pins", "locations", "route")
 
     def build(self) -> None:
-        for index, (cx, cy, tip_y) in enumerate(((14, 13, 25), (34, 21, 33))):
+        for index, (cx, cy, tip_y) in enumerate(((14, 13, 26), (35, 21, 34))):
             self.add_arc(f"pin-crown-{index}", (cx-6, cy), (cx+6, cy),
                          radius_x=6, radius_y=7, sweep=True)
             self.add_line(f"pin-right-{index}", (cx+6, cy), (cx, tip_y))
@@ -33,7 +30,7 @@ class MapWithTwoLocationPins(Solo48):
             self.add_contour(f"pin-{index}", f"pin-crown-{index}",
                              f"pin-right-{index}", f"pin-left-{index}", closed=True)
         self.add_polyline("map", (6, 34), (18, 34), (26, 34),
-                          (34, 33), (42, 33), (42, 42),
+                          (35, 34), (42, 34), (42, 42),
                           (26, 42), (18, 42), (6, 42), closed=True)
         for index, x in enumerate((18, 26)):
             self.add_line(f"fold-{index}", (x, 34), (x, 42))

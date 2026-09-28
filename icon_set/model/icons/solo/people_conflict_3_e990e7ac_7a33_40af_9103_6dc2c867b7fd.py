@@ -3,16 +3,15 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = 'e990e7ac-7a33-40af-9103-6dc2c867b7fd'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__people-conflict-3/20260926T163748Z-thuan-mac/reference/people conflict 3_e990e7ac-7a33-40af-9103-6dc2c867b7fd.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/people conflict 3_e990e7ac-7a33-40af-9103-6dc2c867b7fd.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'people-conflict-3'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/symbol'
     aliases = ()
     keywords = ()
     # Keyshape chosen first; stroke centerlines inset 2 from the ink bounds.

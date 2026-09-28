@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'de60e1f2-af2e-4767-8c36-a496548541ae'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-face-with-halo/20260928T042731Z-thuan-mac-1/reference/face smile halo_de60e1f2-af2e-4767-8c36-a496548541ae.svg'
-AUTHOR = "claude-fable-5-1"
+AUTHOR = 'claude-fable-5-1'
 
 
 class SmilingFaceWithHalo(Solo48):

@@ -1,44 +1,45 @@
-"""Folded map alongside four-node learning network. Reduce redundant root-to-node edges to one spanning chain; preserve all four circular nodes and map fold. No useful exact Lucide match.
-Plan: shared dimensions and attachment nodes; exact HRECT_L envelope."""
+"""start your machine learning journey. Folded map remains above-left of the network. Simplified four-node network to three connected nodes; preserve cyclic learning diagram.
+Symbol plan: shared circle/rounded-frame parameters; meaningful joints reuse endpoints.
+Reference: supplied SVG; Lucide shopping-basket and square-user construction inspected.
+Human construction uses human_ref/user.svg where applicable.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='ef84068a-8813-43c3-b7d5-546375fbf309'
 SOURCE_PATH='pictographic-primitives/_uncategorized_36/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='start-your-machine-learning-journey'
+    icon_id = 'start-your-machine-learning-journey'
     keyshape=Keyshape.HRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('start your machine learning journey',)
     def build(self):
-        self.add_polyline('map',(4,19),(4,8),(12,12),(20,8),(20,19))
-        self.add_line('fold',(12,12),(12,19));self.relate('connect','map','fold')
-        self.circle('root',13,35,5)
-        self.circle('top',34,11,3)
-        self.circle('right',41,24,3)
-        self.circle('bottom',34,37,3)
-        self.add_line('root-link',(18,35),(31,37));self.relate('connect','root','root-link');self.relate('connect','bottom','root-link')
-        self.add_line('upper-link',(34,14),(38,24));self.relate('connect','top','upper-link');self.relate('connect','right','upper-link')
-        self.relate('connect','upper-link','lower-link')
-        self.add_line('lower-link',(38,24),(34,34));self.relate('connect','right','lower-link');self.relate('connect','bottom','lower-link')
+        self.add_polyline('map',(4,24),(4,8),(12,12),(20,8),(20,16))
+        self.add_line('fold',(12,12),(12,20));self.relate('connect','map','fold')
+        self.circle('root',20,34,6)
+        self.circle('upper-node',41,16,3)
+        self.circle('lower-node',41,37,3)
+        self.add_line('upper-link',(20,28),(38,16))
+        self.add_line('lower-link',(26,34),(38,37))
+        self.add_line('chain',(41,19),(41,34))
+        for link,node in [('upper-link','root'),('upper-link','upper-node'),('lower-link','root'),('lower-link','lower-node'),('chain','upper-node'),('chain','lower-node')]:self.relate('connect',link,node)
 
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def box(self,n,l=6,t=6,r=42,b=42,q=4):
+        pts=[(x-r,y),(x,y-r),(x+r,y),(x,y+r),(x-r,y)]
+        for i in range(4): self.add_arc(f'{n}-{i}',pts[i],pts[i+1],radius_x=r)
+        self.add_contour(n,*(f'{n}-{i}' for i in range(4)),closed=True)
+    def box(self,n,l,t,r,b,q=4):
         pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        for k in range(8):
-            if k%2:self.add_arc(f'{n}-{k}',pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(f'{n}-{k}',pts[k],pts[(k+1)%8])
-        self.add_contour(n,*(f'{n}-{k}' for k in range(8)),closed=True)
+        for i in range(8):
+            if i%2:self.add_arc(f'{n}-{i}',pts[i],pts[(i+1)%8],radius_x=q)
+            else:self.add_line(f'{n}-{i}',pts[i],pts[(i+1)%8])
+        self.add_contour(n,*(f'{n}-{i}' for i in range(8)),closed=True)
     def cross(self,n,x,y,r):
-        ids=[]
-        for k,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
-            ident=f'{n}-{k}';self.add_line(ident,(x,y),(x+dx,y+dy));ids.append(ident)
-        for k,a in enumerate(ids):
-            for b in ids[k+1:]:self.relate('connect',a,b)
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i):self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+
+# Contract keyshape visible bounds: (2, 6, 46, 42).

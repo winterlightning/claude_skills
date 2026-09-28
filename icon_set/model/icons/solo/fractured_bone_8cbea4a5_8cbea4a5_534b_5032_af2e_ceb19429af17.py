@@ -2,9 +2,8 @@
 
 Symbol plan: the bone axis is x+y=48 (bottom-left to top-right). The shaft
 edges are x+y=42 and x+y=54 (8.5 apart). Each end is a two-lobe knob of r4
-semicircles centred on the shaft edge lines, (38,16) and (32,10), joined by
-a concave r2 notch about (38,10) and eased into the shaft by short cubics
-(Lucide `bone` construction). The fracture is a stair-step (horizontal and
+semicircles centred (38,14)/(34,10) meeting at the notch (38,10), eased into
+the shaft edges by short cubics. The fracture is a stair-step (horizontal and
 vertical steps, which read as a jagged crack across the diagonal shaft); the
 lower half is the half-turn of the upper half, so the two breaks are parallel
 translations 8.9 apart.
@@ -39,12 +38,11 @@ class FracturedBone(Solo48):
             self.add_line(f"{n}-break-2", p(26, 20), p(30, 20))
             self.add_line(f"{n}-break-3", p(30, 20), p(30, 24))
             self.add_line(f"{n}-edge-a", p(30, 24), p(35, 19))
-            self.add_bezier(f"{n}-ease-a", p(35, 19), (p(35.7, 19.7), p(36.5, 20), p(38, 20)))
-            self.add_arc(f"{n}-lobe-a", p(38, 20), p(38, 12), radius_x=4, sweep=False)
-            self.add_arc(f"{n}-notch", p(38, 12), p(36, 10), radius_x=2, sweep=True)
-            self.add_arc(f"{n}-lobe-b", p(36, 10), p(28, 10), radius_x=4, sweep=False)
-            self.add_bezier(f"{n}-ease-b", p(28, 10), (p(28, 11.5), p(28.3, 12.3), p(29, 13)))
+            self.add_bezier(f"{n}-ease-a", p(35, 19), (p(35.7, 18.3), p(37, 18), p(38, 18)))
+            self.add_arc(f"{n}-lobe-a", p(38, 18), p(38, 10), radius_x=4, sweep=False)
+            self.add_arc(f"{n}-lobe-b", p(38, 10), p(30, 10), radius_x=4, sweep=False)
+            self.add_bezier(f"{n}-ease-b", p(30, 10), (p(30, 11), p(29.7, 12.3), p(29, 13)))
             self.add_line(f"{n}-edge-b", p(29, 13), p(26, 16))
             self.add_contour(n, *(f"{n}-{k}" for k in (
                 "break-1", "break-2", "break-3", "edge-a", "ease-a",
-                "lobe-a", "notch", "lobe-b", "ease-b", "edge-b")), closed=True)
+                "lobe-a", "lobe-b", "ease-b", "edge-b")), closed=True)

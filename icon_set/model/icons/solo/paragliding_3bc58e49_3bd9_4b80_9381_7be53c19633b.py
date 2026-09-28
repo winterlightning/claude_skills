@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3bc58e49-3bd9-4b80-9381-7be53c19633b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hang-glider-rider/20260926T172218Z-thuan-mac-1/reference/paragliding_3bc58e49-3bd9-4b80-9381-7be53c19633b.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HangGliderRider(Solo48):
@@ -21,7 +21,7 @@ class HangGliderRider(Solo48):
         self.add_polyline('wing',(4,8),(44,8),(30,15),(16,22),(4,8),closed=True)
         self.add_polyline('support',(30,15),(28,30),(32,40))
         self.relate('connect','wing','support')
-        self.add_arc('trail',(4,36),(20,34),radius_x=24,radius_y=8,sweep=False)
+        self.add_arc('trail',(4,36),(20,34),radius_x=20,radius_y=8,sweep=False)
         self.add_line('body',(20,34),(28,30))
         self.add_contour('rider','trail','body')
         self.relate('connect','rider','support')

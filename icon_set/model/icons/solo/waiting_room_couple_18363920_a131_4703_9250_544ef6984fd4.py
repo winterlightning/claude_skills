@@ -1,25 +1,21 @@
 """waiting room couple.
-Plan: Clock at left with two seated figures at right, shared three-unit head radii and exact four-unit head/torso ink gaps.
-Construction: human_ref/full_body_ref.png supplies outlined heads and simple connected seated limbs; source supplies scene.
-Omissions: Second clock hand and extra left leg omitted. Clock minute hand reaches its actual top boundary.
+Plan: Enlarge both human heads to radius3 and separate centers by14. Clock has an open semicircular dial to free seated pair. Head outline bottom25 to torso33 gives exact four-unit ink gap. Shared full_body_ref.png construction; omit duplicate left leg.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '18363920-a131-4703-9250-544ef6984fd4'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/waiting room couple_18363920-a131-4703-9250-544ef6984fd4.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='18363920-a131-4703-9250-544ef6984fd4'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/waiting room couple_18363920-a131-4703-9250-544ef6984fd4.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'waiting-room-couple'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('waiting', 'room', 'couple')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('waiting', 'room', 'couple')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,14 +69,11 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.path('clock',(10,14),[('A',(10,26),6,6,True),('A',(10,14),6,6,True)],True)
-        self.add_line('clock-hand',(10,14),(10,20))
-        self.relate('connect','clock','clock-hand')
-        for i,x in enumerate((26,41)):
-            self.circle(f'head-{i}',x,11,3)
-            self.add_line(f'torso-{i}',(x,22),(x,32))
+        self.add_arc('clock',(15,8),(15,30),radius_x=11,sweep=False)
+        self.add_polyline('clock-hands',(15,17),(15,19),(16,19))
+        for i,x in enumerate((27,41)):
+            self.circle(f'head-{i}',x,22,3)
+            self.add_line(f'torso-{i}',(x,33),(x,35))
             self.mark_human_figure(f'person-{i}',head=f'head-{i}',torso=f'torso-{i}',torso_junction='start')
-        self.add_polyline('legs-left',(26,32),(22,32),(22,40))
-        self.add_polyline('legs-right',(41,32),(44,32),(44,40))
-        self.relate('connect','torso-0','legs-left')
-        self.relate('connect','torso-1','legs-right')
+        self.add_polyline('legs-left',(27,35),(22,35),(18,40));self.join('torso-0','legs-left')
+        self.add_polyline('legs-right',(41,35),(44,35),(44,40));self.join('torso-1','legs-right')

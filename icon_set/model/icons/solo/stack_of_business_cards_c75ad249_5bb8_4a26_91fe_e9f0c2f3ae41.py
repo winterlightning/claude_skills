@@ -2,16 +2,15 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__stack-of-business-cards/20260927T140026Z-thuan-mac-1/reference/business card stack 1_c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_08/business card stack 1_c75ad249-5bb8-4a26-91fe-e9f0c2f3ae41.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'stack-of-business-cards'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/general'
     aliases = ()
     keywords = ('stack', 'of', 'business', 'cards')
 
@@ -33,6 +32,7 @@ class Drawing(Solo48):
             self.add_line(n+'-l',(l,b-k),(l,t+k))
             self.add_arc(n+'-tl',(l,t+k),(l+k,t),radius_x=k)
             self.add_contour(n,*[n+'-'+s for s in ['t','tr','r','br','b','bl','l','tl']],closed=True)
-        self.add_polyline('rear-card',(11,9),(14,4),(37,7),(40,9))
-        rounded('front-card',8,18,40,44,4)
-        self.add_line('label',(17,31),(31,31))
+        self.add_line('rear-card',(16,4),(40,4))
+        rounded('front-card',8,14,40,44,4)
+        x,y,r=24,29,6
+        self.add_polyline('diamond',(x,y-r),(x+r,y),(x,y+r),(x-r,y),closed=True)

@@ -8,28 +8,32 @@ from icon_set.model.profiles import Profile
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f5badc78-84c0-4392-89e1-d9fa0712f0cb'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__programming-hold-code-2/20260927T144036Z-thuan-mac-1/reference/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_31/programming hold code 2_f5badc78-84c0-4392-89e1-d9fa0712f0cb.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'programming-hold-code-2'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "objects/general"
     aliases = ()
     keywords = ('programming', 'hold', 'code', '2')
     ink_extremes = keyshape.bounds_for(Profile.SOLO48)
 
     def build(self):
-        # Code brackets are held above a mirrored pair of open cupped hands.
+        axis=24
         self.add_polyline('code-left',(12,6),(6,12),(12,18))
         self.add_polyline('code-right',(36,6),(42,12),(36,18))
         self.add_line('code-slash',(26,6),(22,18))
         for side,sign in [('left',1),('right',-1)]:
-            def p(x,y): return (24+sign*(x-24),y)
-            self.add_polyline('hand-'+side,p(14,28),p(14,34),p(20,40),p(20,42),p(10,40),p(6,34),p(6,28))
+            def p(x,y): return (axis+sign*(x-axis),y)
+            self.add_bezier('hand-'+side,p(10,42),(p(10,38),p(6,37),p(6,32)))
+            self.add_line('outer-'+side,p(6,32),p(6,30))
+            self.add_arc('tip-'+side,p(6,30),p(14,30),radius_x=4,sweep=sign==1)
+            self.add_line('finger-'+side,p(14,30),p(14,32))
+            self.add_bezier('palm-'+side,p(14,32),(p(16,33),p(20,35),p(20,39)),(p(20,40),p(20,41),p(20,42)))
+            self.add_contour('cupped-'+side,'hand-'+side,'outer-'+side,'tip-'+side,'finger-'+side,'palm-'+side)
 
     def circle(self, name, cx, cy, r):
         points = [(cx-r,cy),(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy)]

@@ -1,25 +1,21 @@
 """veterinarian.
-Plan: Doctor bust at upper-left with attached stethoscope; cat head at lower-right.
-Construction: Human user.svg owns head/shoulder proportions and exact four-unit ink gap; source supplies stethoscope and cat.
-Omissions: Outer cat badge circle, collar and occluded right shoulder omitted.
+Plan: Restore stethoscope tube and circular bell from shoulder endpoint. Shared human user.svg proportions: circular head bottom18, shoulders top26, exact four-unit ink gap. Omit collar, body baseline and badge rim; retain clinician and cat.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'veterinarian'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('veterinarian',)
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('veterinarian',)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,11 +69,8 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        # Human reference user.svg: head radius 6, lower head y18, shoulder top y26: ink gap 4.
-        self.circle('head',16,12,6)
-        self.path('shoulders',(6,42),[('L',(6,36)),('A',(16,26),10,10,True),('L',(19,26))])
-        self.add_line('stethoscope-tube',(16,26),(16,37))
-        self.relate('connect','shoulders','stethoscope-tube')
-        self.path('stethoscope-bell',(16,37),[('A',(16,41),2,2,True),('A',(16,37),2,2,True)],True)
-        self.relate('connect','stethoscope-tube','stethoscope-bell')
-        self.path('cat',(28,34),[('L',(28,26)),('L',(33,29)),('L',(37,29)),('L',(42,26)),('L',(42,34)),('A',(28,34),7,8,True)],True)
+        self.circle('head',14,12,6)
+        self.path('shoulders',(6,42),[('L',(6,34)),('A',(14,26),8,8,True),('L',(18,26))])
+        self.add_line('stethoscope-tube',(18,26),(17,34));self.join('shoulders','stethoscope-tube')
+        self.path('stethoscope-bell',(17,34),[('A',(19,36),2,2,True),('A',(17,38),2,2,True),('A',(15,36),2,2,True),('A',(17,34),2,2,True)],True);self.join('stethoscope-tube','stethoscope-bell')
+        self.path('cat',(28,32),[('L',(28,24)),('L',(34,28)),('L',(36,28)),('L',(42,24)),('L',(42,35)),('C',(42,39),(40,42),(35,42)),('C',(30,42),(28,39),(28,35)),('L',(28,32))],True)

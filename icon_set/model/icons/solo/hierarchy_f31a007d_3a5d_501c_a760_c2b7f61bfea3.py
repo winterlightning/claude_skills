@@ -1,4 +1,4 @@
-"""Three list bars connect to a right-hand bracket spine extending above the first row. Lucide list-tree informs the three-level rhythm. Bar frames reduce to single strokes while all three levels and the raised spine remain.
+"""Three list bars connect to a right-hand bracket spine extending above the first row. Lucide list-tree informs the three-level rhythm. Bar frames reduce to three bullet-and-stroke rows while the raised spine remains.
 SOLO48 HRECT_L, designed directly against the live contract bounds.
 """
 from ...keyshapes import Keyshape
@@ -6,10 +6,10 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='f31a007d-3a5d-501c-a760-c2b7f61bfea3'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hierarchy-bracket-list/20260926T172218Z-thuan-mac-1/reference/hierarchy_f31a007d-3a5d-501c-a760-c2b7f61bfea3.svg'
-AUTHOR='gpt-6'
+AUTHOR = "gpt-6"
 
 class HierarchyBracketList(Solo48):
-    icon_id='hierarchy-bracket-list-solo'
+    icon_id = 'hierarchy-bracket-list-solo'
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
@@ -37,5 +37,6 @@ class HierarchyBracketList(Solo48):
         self.add_line('spine-bottom',(44,28),(44,40))
         self.add_contour('spine','spine-top','spine-middle','spine-bottom')
         for i,y in enumerate(ys):
-            self.add_line(f'level-{i}',(4,y),(44,y))
+            self.add_dot(f'item-{i}',(4,y))
+            self.add_line(f'level-{i}',(14,y),(44,y))
             join(f'level-{i}','spine')

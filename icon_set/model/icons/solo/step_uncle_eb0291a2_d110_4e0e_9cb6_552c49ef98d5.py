@@ -1,55 +1,62 @@
-"""Step uncle: a user bust (round head over smooth shoulders) with a small
-relation badge circle resting on the right shoulder.
-
-Symbol plan: shared human user bust (human_ref/user.svg): head circle r=9 at
-(24,13), exact 8-unit centerline gap to the flat shoulder top at y=30, smooth
-cubic shoulders; the right shoulder ends on the badge circle at an integer
-point of its radius-5 (3-4-5) circle, a declared connection.
-Keyshape VRECT_L: shoulder x=8, badge right x=40, head top y=4, base y=44.
-Lucide construction: user / user-round (circle head, arched shoulders) and
-circle for the badge.
-Revision of the rejected drawing ("Bad stroke drawn"): the old drawing used a
-flat bottom bar and a badge joined by a tangent smear; here the bust follows
-the shared user reference and the badge meets the shoulder cleanly.
-"""
+"""A bust with a circular lower-right relationship badge.
+Plan: SQUARE fits the large detached head, shoulders and badge.
+Reduction: Neck detail omitted; lower hem shortened to leave clear space beside the badge.
+Construction: human_ref/user.svg: round head and broad shoulders.
+Layout: Head bottom centerline y22 and shoulder top y30 provide exactly four units of ink clearance. Badge deliberately occludes the right shoulder."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-SOURCE_ICON_ID = "eb0291a2-d110-4e0e-9cb6-552c49ef98d5"
-SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__step-uncle/20260925T092544Z-thuan-mac/reference/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg"
-AUTHOR = "claude-opus-5-5"
+SOURCE_ICON_ID = 'eb0291a2-d110-4e0e-9cb6-552c49ef98d5'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_36/step uncle_eb0291a2-d110-4e0e-9cb6-552c49ef98d5.svg'
+AUTHOR = "gpt-6"
+PLAN = 'Bald male bust with circular lower-right relationship badge.'
+CONSTRUCTION_REFERENCE = 'human_ref/user.svg: round head, broad shoulders, detached 4-unit ink gap'
 
-HEAD = (24, 13)
-HEAD_R = 9
-SHOULDER_TOP = 30
-BADGE = (35, 39)
-BADGE_R = 5
-
-
-class StepUncle(Solo48):
-    icon_id = "step-uncle"
-    keyshape = Keyshape.VRECT_L
+class Drawing(Solo48):
+    icon_id = 'step-uncle'
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    aliases = ("stepuncle",)
-    keywords = ("step", "uncle", "family", "relative", "person", "user")
+    category = "objects/general"
+    aliases = ()
+    keywords = ('step', 'uncle')
 
-    def build(self) -> None:
-        hx, hy = HEAD
-        self.add_arc("head-top", (hx - HEAD_R, hy), (hx + HEAD_R, hy), radius_x=HEAD_R)
-        self.add_arc("head-bottom", (hx + HEAD_R, hy), (hx - HEAD_R, hy), radius_x=HEAD_R)
-        self.add_contour("head", "head-top", "head-bottom", closed=True)
+    def circle(self, name, x, y, r):
+        self.add_arc(name+'-upper', (x-r,y), (x+r,y), radius_x=r)
+        self.add_arc(name+'-lower', (x+r,y), (x-r,y), radius_x=r)
+        self.add_contour(name, name+'-upper', name+'-lower', closed=True)
 
-        bx, by = BADGE
-        contact = (bx - 3, by - 4)          # 3-4-5 point on the badge circle
-        self.add_bezier("shoulder-left", (8, 44), ((8, 36), (14, SHOULDER_TOP), (20, SHOULDER_TOP)))
-        self.add_line("shoulder-top", (20, SHOULDER_TOP), (28, SHOULDER_TOP))
-        self.add_bezier("shoulder-right", (28, SHOULDER_TOP), ((30.5, SHOULDER_TOP), (31.5, 33), contact))
-        self.add_contour("body", "shoulder-left", "shoulder-top", "shoulder-right")
+    def box(self, name, left, top, right, bottom, r):
+        # One rounded rectangle definition owns all matching corners.
+        points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),
+                (right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
+        members=[]
+        for i,start in enumerate(points):
+            end=points[(i+1)%8]; member=f'{name}-{i}'
+            if i%2: self.add_arc(member,start,end,radius_x=r)
+            else: self.add_line(member,start,end)
+            members.append(member)
+        self.add_contour(name,*members,closed=True)
 
-        self.add_arc("badge-upper", contact, (bx + BADGE_R, by), radius_x=BADGE_R, sweep=True)
-        self.add_arc("badge-lower", (bx + BADGE_R, by), contact, radius_x=BADGE_R, large_arc=True, sweep=True)
-        self.add_contour("badge", "badge-upper", "badge-lower", closed=True)
-        self.relate("connect", "body", "badge")
-        self.mark_human_figure("person", head="head", torso="shoulder-top", torso_junction="start")
+    def cross(self, name, x, y, r, diagonal=False):
+        ends = [(-r,-r),(r,r),(r,-r),(-r,r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        for i,(dx,dy) in enumerate(ends):
+            self.add_line(f'{name}-{i}',(x,y),(x+dx,y+dy))
+        self.relate('connect',*[f'{name}-{i}' for i in range(4)])
+
+    def bust_body(self):
+        # Shared shoulder radii; badge occludes the right shoulder and hem.
+        self.add_line('body-left',(6,42),(6,40))
+        self.add_arc('shoulder-left',(6,40),(16,30),radius_x=10)
+        self.add_line('shoulder-top',(16,30),(24,30))
+        self.add_arc('shoulder-right',(24,30),(30,36),radius_x=6)
+        self.add_contour('shoulders','body-left','shoulder-left','shoulder-top','shoulder-right')
+        self.add_line('hem',(6,42),(21,42))
+        self.circle('badge',36,36,6)
+        self.relate('connect','hem','body-left')
+        self.relate('connect','shoulder-right','badge-upper','badge-lower')
+
+    def build(self):
+        self.bust_body()
+        self.circle('head',22,14,8)
+        # Head bottom y=22; shoulder centerline y=30; ink gap=30-22-4=4.

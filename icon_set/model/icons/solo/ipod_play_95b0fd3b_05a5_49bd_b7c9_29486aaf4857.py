@@ -1,20 +1,18 @@
-"""Revision of the claimed reference after comparing original and rejected drawing."""
 """Portable player with play triangle and circular control.
 Plan: Separate vertical control bands. Play triangle and circular button remain recognizable at 48px.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '95b0fd3b-05a5-49bd-b7c9-29486aaf4857'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__ipod-play/20260927T142529Z-thuan-mac-1/reference/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/music/ipod play_95b0fd3b-05a5-49bd-b7c9-29486aaf4857.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'ipod-play'
     keyshape = Keyshape.VRECT_L
     # Visible ink extremes: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'music'
-    categories = ('primitives', 'music')
+    category = 'objects'
     aliases = ()
     keywords = ('ipod', 'play')
 
@@ -33,12 +31,11 @@ class Drawing(Solo48):
         self.add_contour(name,*names,closed=True)
 
     def build(self):
-        # Two content bands restore the line that separates display and control.
+        # The body contains a generous play band and the circular control below.
+        # Omit the screen separator to allocate clearance to both controls.
         self.rect('body',8,4,32,40)
-        self.add_polyline('play',(18,13),(29,16),(18,19))
-        self.add_line('screen-divider',(8,27),(40,27))
-        self.relate('connect','body','screen-divider')
-        self.add_dot('control',(24,35))
+        self.add_polyline('play',(17,13),(29,19),(17,25),closed=True)
+        self.circle('button',24,33,2)
 
 PLAN = 'Portable player with play triangle and circular control. Separate vertical control bands.'
 OMISSIONS = 'Screen separator omitted.'

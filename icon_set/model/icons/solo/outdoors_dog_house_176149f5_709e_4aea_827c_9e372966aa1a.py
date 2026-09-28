@@ -1,58 +1,49 @@
-"""A dog standing in its lean-to kennel.
-
-SOLO48 SQUARE: visible (4, 4)-(44, 44), centerline (6, 6)-(42, 42).
-
-Symbol plan: the kennel is a back wall at x=6 under a roof sloping from
-(6,16) up to (42,6), over a floor at y=42. The dog stands on the floor in
-side view, facing right: a level back from (16,28) to (32,28), a hind and a
-front leg dropping to the floor (split floor nodes), a tail cocked up from
-the rump, a neck rising to the head at (35,20), a long snout forward to the
-right edge and a floppy ear hanging behind the head.
-Revision: the rejected drawing's dog was a zigzag outline that did not read
-(feedback: "dog"); the dog is now a simple side-view figure with legs,
-tail, snout and ear.
-Construction reference: no useful Lucide match (`dog` is a frontal face).
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '176149f5-709e-4aea-827c-9e372966aa1a'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__outdoors-dog-house/20260926T160211Z-thuan-mac-1/reference/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg'
-AUTHOR = 'claude-opus-5-5'
-
-FLOOR, WALL_X, ROOF_L, ROOF_R = 42, 6, (6, 16), (42, 6)
-RUMP, SHOULDER = (16, 28), (32, 28)
-TAIL, HEAD, SNOUT, EAR = (14, 22), (35, 20), (42, 23), (31, 24)
-
+SOURCE_PATH = 'icon_set/work/todo-references/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg'
+AUTHOR = "gpt-6"
+PLAN = 'Dog standing under an open sloped kennel roof; intentional side profile.'
+OMISSIONS = 'Far legs and belly stroke omitted to keep the near legs distinct.'
+LUCIDE_REFERENCE = 'house'
 
 class Drawing(Solo48):
     icon_id = 'outdoors-dog-house'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ('outdoors dog house', 'kennel')
-    keywords = ('dog', 'kennel', 'dog house', 'pet', 'shelter', 'outdoors', 'animal')
+    category = 'objects'
+    aliases = ()
+    keywords = ('outdoors', 'dog', 'house')
+    # Pantyhose anatomy reference: icon_set/references/human_ref/full_body_ref.png; no detached head.
+
+    def circle(self, n, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(n+'-a', (x-r,y), (x+r,y), radius_x=r, radius_y=ry)
+        self.add_arc(n+'-b', (x+r,y), (x-r,y), radius_x=r, radius_y=ry)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=3):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        names=[]
+        for j,a in enumerate(points):
+            b=points[(j+1)%8];name=f'{n}-{j}';names.append(name)
+            if j%2: self.add_arc(name,a,b,radius_x=r)
+            else: self.add_line(name,a,b)
+        self.add_contour(n,*names,closed=True)
+
+    def p(self,n,x,y,w,h):
+        # Open P stem and a tangent semicircular bowl share the upper node.
+        self.add_line(n+'-stem-1',(x,y+h),(x,y))
+        self.add_line(n+'-stem-2',(x,y),(x+w//2,y))
+        self.add_arc(n+'-bowl',(x+w//2,y),(x+w//2,y+h//2),radius_x=w//2,radius_y=h//4)
+        self.add_line(n+'-return',(x+w//2,y+h//2),(x,y+h//2))
+        self.add_contour(n,n+'-stem-1',n+'-stem-2',n+'-bowl',n+'-return')
 
     def build(self):
-        self.add_line('roof', ROOF_L, ROOF_R)
-        self.add_line('wall', (WALL_X, FLOOR), ROOF_L)
-        self.add_contour('kennel', 'wall', 'roof')
-        self.add_line('floor-a', (WALL_X, FLOOR), (RUMP[0], FLOOR))
-        self.add_line('floor-b', (RUMP[0], FLOOR), (SHOULDER[0], FLOOR))
-        self.add_line('floor-c', (SHOULDER[0], FLOOR), (42, FLOOR))
-        self.add_contour('floor', 'floor-a', 'floor-b', 'floor-c')
-        self.relate('connect', 'floor', 'kennel')
-        self.add_line('tail', TAIL, RUMP)
-        self.add_line('back', RUMP, SHOULDER)
-        self.add_line('neck', SHOULDER, HEAD)
-        self.add_line('snout', HEAD, SNOUT)
-        self.add_contour('dog', 'tail', 'back', 'neck', 'snout')
-        self.add_line('ear', HEAD, EAR)
-        self.add_line('hind-leg', RUMP, (RUMP[0], FLOOR))
-        self.add_line('front-leg', SHOULDER, (SHOULDER[0], FLOOR))
-        for part in ('ear', 'hind-leg', 'front-leg'):
-            self.relate('connect', part, 'dog')
-        self.relate('connect', 'hind-leg', 'floor')
-        self.relate('connect', 'front-leg', 'floor')
+        # Symbol plan: Dog standing under an open sloped kennel roof; intentional side profile.
+
+        self.add_polyline('kennel',(42,6),(6,16),(6,42),(42,42))
+        self.add_polyline('dog',(14,34),(14,27),(18,24),(28,24),(33,19),(34,23),(40,25),(37,29),(31,29),(29,34))
+        # Open lower silhouette retains the two leg ends.
+

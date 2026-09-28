@@ -5,8 +5,8 @@ Square accommodates offset objects. Rounded cover clears the background arc; glo
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'df632f40-c8e3-4ae9-9986-caca559c4210'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__passport-globe/20260927T143814Z-thuan-mac-1/reference/passport globe_df632f40-c8e3-4ae9-9986-caca559c4210.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_30/passport globe_df632f40-c8e3-4ae9-9986-caca559c4210.svg'
+AUTHOR = "gpt-6"
 PLAN = 'Rounded passport with a divided circular globe emblem and a partial background globe.'
 CONSTRUCTION_REFERENCES = 'No additional useful local Lucide match used for this revision.'
 OMISSIONS = 'Background continent and globe meridians omitted; one equator retained.'
@@ -16,8 +16,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/general'
     aliases = ()
     keywords = ('passport', 'globe')
 
@@ -52,10 +51,7 @@ class Drawing(Solo48):
         self.add_arc('world-top',(6,20),(20,6),radius_x=14)
         self.add_line('world-side',(6,20),(6,28))
         self.relate('connect','world-top','world-side')
-        self.add_arc('world-bottom',(6,28),(14,34),radius_x=8,radius_y=6,sweep=False)
-        self.relate('connect','world-bottom','world-side')
         self.box('passport',14,14,28,28,8)
-        self.relate('connect','world-bottom','passport-5')
         self.circle('globe',28,28,6)
         self.add_line('equator',(22,28),(34,28))
         self.relate('connect','globe','equator')
@@ -64,6 +60,3 @@ class Drawing(Solo48):
 # Omissions: Background continent and globe meridians omitted; one equator retained.
 # Construction references: No additional useful local Lucide match used for this revision.
 # Keyshape and proportions: Square accommodates offset objects. Rounded cover clears the background arc; globe diameter12 keeps both enclosed halves open.
-
-# Revision comparison: The background globe in the rejected drawing stopped as an open hook.
-# Revision: Continued the globe outline behind the passport to restore the two-object arrangement.

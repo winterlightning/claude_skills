@@ -1,25 +1,21 @@
 """trash plus.
-Plan: Mirrored bin with a single-stroke lid, rectangular handle and centered plus.
-Construction: Lucide trash-2: broad connected enclosure and simple rounded corners.
-Omissions: Double lid wall removed to enlarge the symbol area.
+Plan: Single trash lid and widened bin with central plus; nine-unit side margins. Lucide trash-2 informs lid and rounded lower corners.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '38a24b73-5041-4ea2-83f6-2bbac1782a14'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/trash plus_38a24b73-5041-4ea2-83f6-2bbac1782a14.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='38a24b73-5041-4ea2-83f6-2bbac1782a14'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/trash plus_38a24b73-5041-4ea2-83f6-2bbac1782a14.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'trash-plus'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('trash', 'plus')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('trash', 'plus')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,9 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.add_polyline('lid',(8,12),(16,12),(32,12),(40,12))
-        self.add_polyline('handle',(16,12),(16,4),(32,4),(32,12))
-        self.relate('connect','lid','handle')
-        self.path('bin',(8,12),[('L',(8,40)),('A',(12,44),4,4,False),('L',(36,44)),('A',(40,40),4,4,False),('L',(40,12))])
-        self.relate('connect','lid','bin')
-        self.cross('plus',24,28,6)
+        self.add_polyline('lid',(8,12),(10,12),(18,12),(30,12),(38,12),(40,12))
+        self.add_polyline('handle',(18,12),(18,4),(30,4),(30,12));self.join('lid','handle')
+        self.path('bin',(10,12),[('L',(10,40)),('A',(14,44),4,4,False),('L',(34,44)),('A',(38,40),4,4,False),('L',(38,12))]);self.join('lid','bin')
+        self.cross('plus',24,29,5)

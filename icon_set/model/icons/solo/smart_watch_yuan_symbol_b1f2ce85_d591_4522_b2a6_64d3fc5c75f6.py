@@ -1,37 +1,46 @@
+"""A round smartwatch with a yuan symbol.
+Repair plan: Joined strap and face silhouette eliminates both small strap pockets; face sides and bands remain mirrored.
+Omissions: Upper and lower internal face arcs behind the bands.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='b1f2ce85-d591-4522-b2a6-64d3fc5c75f6'
-SOURCE_PATH='pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg'
-AUTHOR="gpt-6"
-PARENT_RESULT='icon_set/work/primitive-make-ray/b1f2ce85-d591-4522-b2a6-64d3fc5c75f6/20260925-feedback-fed4a5e4/result.json'
-class Drawing(Solo48):
-    icon_id='smart-watch-yuan-symbol'
-    keyshape=Keyshape.VRECT_L
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category = "combination"
-    categories = ("combination", "primitives")
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def box(self,n,l,t,r,b,rad=3):
-        points=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-        for i,a in enumerate(points):
-            z=points[(i+1)%8]
-            if i%2:self.add_arc(n+str(i),a,z,radius_x=rad)
-            else:self.add_line(n+str(i),a,z)
-        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
-    def build(self):
-        # Exact circle: centre (24,24), radius 16. Strap caps terminate inside the bezel ink; no tiny tips enter the dial.
-        self.circle('dial',24,24,16)
-        contact=10
-        for x in (16,32):
-            for name,y,end in [('top',contact,4),('bottom',48-contact,44)]:
-                n=f'band-{name}-{x}';self.add_line(n,(x,y),(x,end));self.relate('connect','dial',n)
-        self.add_polyline('yuan-fork',(19,19),(24,25),(29,19))
-        self.add_polyline('yuan-bar',(20,25),(24,25),(28,25))
-        self.add_line('yuan-stem',(24,25),(24,31));self.relate('connect','yuan-fork','yuan-bar','yuan-stem')
 
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'f46a74136b12ce4fd2bcd57003d51d5eaefb9c117bf8bff774c97b8540e05d8a', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': 'b1f2ce85-d591-4522-b2a6-64d3fc5c75f6'}
+SOURCE_ICON_ID = "b1f2ce85-d591-4522-b2a6-64d3fc5c75f6"
+SOURCE_PATH = 'pictographic-primitives/combination/smart watch circle yuan sign_b1f2ce85-d591-4522-b2a6-64d3fc5c75f6.svg'
+AUTHOR = "gpt-6"
+
+
+class SmartWatchYuanSymbol(Solo48):
+    icon_id = "smart-watch-yuan-symbol"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/device"
+    aliases = ("yuan smartwatch", "watch payment")
+    keywords = ("watch", "smartwatch", "yuan", "currency", "payment")
+
+    def build(self) -> None:
+        curves = [
+            ((8, 24), (8, 17), (11, 12), (16, 10)),
+            ((16, 10), (20, 7), (28, 7), (32, 10)),
+            ((32, 10), (37, 12), (40, 17), (40, 24)),
+            ((40, 24), (40, 31), (37, 36), (32, 38)),
+            ((32, 38), (28, 41), (20, 41), (16, 38)),
+            ((16, 38), (11, 36), (8, 31), (8, 24)),
+        ]
+        for index, (start, c1, c2, end) in enumerate(curves, 1):
+            if index not in (2,5): self.add_bezier(f"face-{index}", start, (c1, c2, end))
+        self.add_contour("face-left", "face-6", "face-1")
+        self.add_contour("face-right", "face-3", "face-4")
+        self.add_polyline("upper-band", (16, 10), (17, 4), (31, 4), (32, 10))
+        self.add_polyline("lower-band", (16, 38), (17, 44), (31, 44), (32, 38))
+        self.relate("connect", "face-left", "upper-band")
+        self.relate("connect", "face-right", "upper-band")
+        self.relate("connect", "face-left", "lower-band")
+        self.relate("connect", "face-right", "lower-band")
+        self.add_polyline("yuan-forks", (19, 18), (24, 25), (29, 18))
+        self.add_line("yuan-bar", (20, 25), (28, 25))
+        self.add_line("yuan-stem", (24, 25), (24, 32))
+        self.relate("connect", "yuan-forks", "yuan-bar")
+        self.relate("connect", "yuan-forks", "yuan-stem")
+        self.relate("connect", "yuan-bar", "yuan-stem")

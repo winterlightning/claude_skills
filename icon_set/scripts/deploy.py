@@ -760,7 +760,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         if parsed.path == '/api/combination-refresh':
             from icon_set.scripts.combination_refresh_job import status
-            return self.json_response(status())
+            from icon_set.scripts.side_combination_approval import plan
+            result = status()
+            if result['status'] != 'running':
+                try:
+                    result['eligible_count'] = len(plan(self))
+                except (OSError, ValueError, sqlite3.Error) as error:
+                    return self.json_response({'error': str(error)}, 503)
+            return self.json_response(result)
         if parsed.path == '/api/icon-families':
             try:
                 return self.json_response({'families': self.upload_families()})
@@ -1203,7 +1210,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/review-detail':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
-                catalog = self.catalog()
+                catalog = self.catalog(include_failed=True)
                 if key not in catalog:
                     return self.json_response({'error': 'Unknown icon'}, 404)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -1305,7 +1312,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Could not save combination previews'}, 503)
             if route == '/api/combination-refresh':
                 from icon_set.scripts.combination_refresh_job import start
-                return self.json_response(start(), 202)
+                from icon_set.scripts.side_combination_approval import plan
+                try:
+                    return self.json_response(start(plan(self)), 202)
+                except ValueError as error:
+                    return self.json_response({'error': str(error)}, 409)
             if route == '/api/combination-experiment':
                 from icon_set.scripts.combination_experiment import render
                 try:

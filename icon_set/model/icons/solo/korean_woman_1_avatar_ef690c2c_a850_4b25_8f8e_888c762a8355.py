@@ -1,17 +1,18 @@
-"""korean-woman-1-avatar: revised SOLO48 drawing from the claimed source.
+"""korean-woman: revised SOLO48 drawing from the claimed source.
 
-Comparison: The rejected top bun and shirt seam contradicted the side bun head reference.
-Revision: Redrew the center parted head with the bun on the right.
+Comparison: The rejected full bust replaced a head only reference with a side bun.
+Revision: Redrew the center parted circular head and attached side bun.
 Human construction: icon_set/references/human_ref/user.svg; Lucide user-round supplies simple circular head and shoulder arcs.
 The emitted primitives use a shared axis where the reference is symmetric.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+
 SOURCE_ICON_ID = 'ef690c2c-a850-4b25-8f8e-888c762a8355'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__korean-woman-1-avatar/20260926T175531Z-thuan-mac-1/reference/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.svg'
-SOURCE_HEAD_ICON_ID = 'korean-woman-1'
-AUTHOR = 'gpt-6'
-class KoreanWoman1Avatar(Solo48):
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__korean-woman/20260926T175531Z-thuan-mac-1/reference/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.svg'
+AUTHOR = "gpt-6"
+
+class KoreanWoman(Solo48):
     icon_id = 'korean-woman-1-avatar-solo'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
@@ -19,7 +20,8 @@ class KoreanWoman1Avatar(Solo48):
     category = 'avatars'
     categories = ('primitives', 'avatars')
     aliases = ()
-    keywords = ('korean', 'woman', '1', 'portrait', 'bust')
+    keywords = ('korean', 'woman', 'avatars')
+
     def build(self):
         # Broad round hair cap, center part, and the source's right side bun.
         cx, cy, radius = 20, 24, 16

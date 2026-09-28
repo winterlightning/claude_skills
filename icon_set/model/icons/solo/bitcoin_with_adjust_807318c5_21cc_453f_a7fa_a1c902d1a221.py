@@ -18,11 +18,11 @@ class AuthoredIcon(Solo48):
     def build(self):
         # Two slider rails and a compact Bitcoin B reproduce the source layout.
         self.add_polyline('spine',(26,14),(26,26),(26,38))
-        self.add_line('top',(26,14),(36,14))
+        self.add_line('top',(22,14),(36,14))
         self.add_arc('upper',(36,14),(36,26),radius_x=6)
         self.add_line('mid',(26,26),(36,26))
         self.add_arc('lower',(36,26),(36,38),radius_x=6)
-        self.add_line('bottom',(36,38),(26,38))
+        self.add_line('bottom',(36,38),(22,38))
         for a,b in [('spine','top'),('spine','mid'),('spine','bottom'),('top','upper'),('upper','mid'),('upper','lower'),('mid','lower'),('lower','bottom')]:
             self.relate('connect',a,b)
         for x in (26,34):
@@ -30,10 +30,10 @@ class AuthoredIcon(Solo48):
             self.add_line(f'bottom-tick-{x}',(x,38),(x,42))
             self.relate('connect',f'top-tick-{x}','top')
             self.relate('connect',f'bottom-tick-{x}','bottom')
-        self.add_line('slider-one',(6,10),(6,36))
-        self.add_line('slider-two',(18,10),(18,36))
-        self.add_line('knob-one',(6,18),(10,18))
-        self.add_line('knob-two',(14,30),(18,30))
+        self.add_line('slider-one',(8,10),(8,36))
+        self.add_line('slider-two',(16,10),(16,36))
+        self.add_polyline('knob-one',(6,26),(10,26),(10,30),(6,30),closed=True)
+        self.add_polyline('knob-two',(14,16),(18,16),(18,20),(14,20),closed=True)
         self.relate('connect','slider-one','knob-one')
         self.relate('connect','slider-two','knob-two')
 

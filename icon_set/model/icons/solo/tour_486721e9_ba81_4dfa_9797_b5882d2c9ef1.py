@@ -1,25 +1,21 @@
 """tour.
-Plan: Upper-right location pin over an open trapezoidal map; one broad route bend.
-Construction: Lucide geometric enclosure principles; source provides pin/map arrangement.
-Omissions: Winding route omitted after spacing failures; map and pin retained.
+Plan: Drop minor pin eye after enlarging and rebalancing attempts. Preserve map, pin silhouette and curved route; route bottom join is perpendicular.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '486721e9-ba81-4dfa-9797-b5882d2c9ef1'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='486721e9-ba81-4dfa-9797-b5882d2c9ef1'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/tour_486721e9-ba81-4dfa-9797-b5882d2c9ef1.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'tour'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('tour',)
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('tour',)
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,6 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.add_polyline('map',(11,18),(10,18),(6,42),(23,42),(42,42),(41,35))
-        self.path('pin',(20,17),[('A',(42,17),11,11,True),('C',(42,23),(35,29),(31,33)),('C',(27,29),(20,23),(20,17))],True)
-        self.circle('pin-hole',31,17,2)
+        self.add_polyline('map',(12,22),(10,22),(6,42),(22,42),(42,42),(40,35))
+        self.path('pin',(20,17),[('A',(42,17),11,11,True),('C',(42,22),(36,25),(31,28)),('C',(26,25),(20,22),(20,17))],True)
+        self.path('route',(17,30),[('C',(17,33),(22,30),(22,33)),('L',(22,42))])
+        self.join('map','route')

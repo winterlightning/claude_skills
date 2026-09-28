@@ -6,7 +6,7 @@ Layout: Directional receiver is intentionally asymmetric inside the symmetric fr
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '746eedc8-eb0c-4e03-8d4c-d25625ee4a35'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__square-phone/20260927T140026Z-thuan-mac-1/reference/square phone_746eedc8-eb0c-4e03-8d4c-d25625ee4a35.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_35/square phone_746eedc8-eb0c-4e03-8d4c-d25625ee4a35.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
@@ -14,8 +14,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/signage'
     aliases = ()
     keywords = ('square', 'phone')
 
@@ -23,7 +22,7 @@ class Drawing(Solo48):
         self.frame()
         # Rounded outer sweep with flared earpieces and a broad inner return.
         for j,(a,b) in enumerate(zip([(15,15),(23,15),(25,17)],[(23,15),(25,17),(24,18)])): self.add_line(f'upper-ear-{j}',a,b)
-        self.add_bezier('inner-bend',(24,18),((26,20),(28,22),(30,24)))
+        self.add_bezier('inner-bend',(24,18),((25,21),(27,23),(30,24)))
         for j,(a,b) in enumerate(zip([(30,24),(31,23),(33,25)],[(31,23),(33,25),(33,33)])): self.add_line(f'lower-ear-{j}',a,b)
         self.add_arc('outer-bend',(33,33),(15,15),radius_x=18,sweep=True)
         self.add_contour('handset','upper-ear-0','upper-ear-1','upper-ear-2','inner-bend','lower-ear-0','lower-ear-1','lower-ear-2','outer-bend',closed=True)

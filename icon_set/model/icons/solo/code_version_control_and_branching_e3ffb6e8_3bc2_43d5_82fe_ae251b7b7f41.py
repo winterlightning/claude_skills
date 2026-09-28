@@ -1,59 +1,73 @@
-"""Code version control and branching: a commit graph - a main line of commits
-with a branch curving off to a second commit.
-Review (meaning): the earlier broken strokes did not read as anything. The
-reference is a git graph (commits on a vertical line, a branch curve to
-another commit); this revision draws it with the canonical Lucide
-`git-branch` construction at 2x, which lands exactly on the SQUARE box.
-Keyshape SQUARE (6,6)-(42,42).
-Symbol plan: two r6 commit rings, the main line ending on the lower ring's top
-node, the r18 branch arc running from the upper ring's bottom node to the
-lower ring's right node, so every join is a shared cardinal node.
-Lucide construction: git-branch (line 6,3-6,15; circles r3 at 18,6 and 6,18;
-arc r9) scaled by 2.
-Omissions: the reference's third commit, arrow and code document; three commits
-on a 36-unit line leave no 8-unit gaps, and the branch graph alone carries
-"version control and branching".
-"""
+"""A branching revision graph beside an open panel containing a code mark."""
+
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
+
+
 SOURCE_ICON_ID = "e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41"
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__code-version-control-and-branching/20260926T125430Z-thuan-mac/reference/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg'
-AUTHOR = 'claude-opus-5-5'
+SOURCE_PATH = "pictographic-primitives/_uncategorized_02/amazon web service code commit_e3ffb6e8-3bc2-43d5-82fe-ae251b7b7f41.svg"
+AUTHOR = "gpt-5"
 
 
-class _Shapes:
-    def circle(self, n, x, y, r):
-        pts = [(x - r, y), (x, y - r), (x + r, y), (x, y + r), (x - r, y)]
-        for i, (a, b) in enumerate(zip(pts, pts[1:])):
-            self.add_arc(f"{n}-{i}", a, b, radius_x=r)
-        self.add_contour(n, *(f"{n}-{i}" for i in range(4)), closed=True)
+class CodeVersionControlAndBranching(Solo48):
+    icon_id = "code-version-control-and-branching"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "technology/development"
+    aliases = ("code-commit", "version-control-code-panel")
+    keywords = ("code", "git", "branch", "commit", "revision", "panel")
 
-    def lines(self, n, *pts, closed=False):
-        """Plain add_line segments grouped in one contour (members joinable by relate)."""
-        seq = list(pts) + ([pts[0]] if closed else [])
-        ids = []
-        for i, (a, b) in enumerate(zip(seq, seq[1:])):
-            self.add_line(f"{n}-{i}", a, b)
-            ids.append(f"{n}-{i}")
-        self.add_contour(n, *ids, closed=closed)
-        return ids
+    def build(self) -> None:
+        # Plan: the left graph owns a three-node vertical series and one branch
+        # node leading to an upper-left arrow. The right panel is an open rounded
+        # contour hosting a single continuous </>-like code stroke.
+        chain_nodes = ((4, 8), (4, 22), (4, 36))
+        self.add_line("chain-upper", chain_nodes[0], chain_nodes[1])
+        self.add_line("chain-lower", chain_nodes[1], chain_nodes[2])
+        for index, node in enumerate(chain_nodes):
+            dot = f"chain-node-{index}"
+            self.add_dot(dot, node)
+            if index > 0:
+                self.relate("connect", f"chain-{'upper' if index == 1 else 'lower'}", dot)
+            if index < 2:
+                self.relate("connect", f"chain-{'upper' if index == 0 else 'lower'}", dot)
 
-class CodeVersionControlAndBranching(_Shapes, Solo48):
-    icon_id = 'code-version-control-and-branching'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'technology/code'
-    categories = ('technology',)
-    aliases = ('git branch', 'code commit', 'amazon web service code commit')
-    keywords = ('git', 'branch', 'commit', 'version', 'control', 'code', 'repository', 'merge')
+        branch_node = (14, 22)
+        self.add_polyline("branch-path", chain_nodes[2], (10, 28), branch_node)
+        self.add_dot("branch-node", branch_node)
+        self.relate("connect", "branch-path", "chain-node-2")
+        self.relate("connect", "branch-path", "branch-node")
 
-    def build(self):
-        self.circle('commit-branch', 36, 12, 6)
-        self.circle('commit-main', 12, 36, 6)
-        self.add_line('main-line', (12, 6), (12, 30))
-        self.add_arc('branch', (36, 18), (18, 36), radius_x=18)
-        self.relate('connect', 'main-line', 'commit-main')
-        self.relate('connect', 'branch', 'commit-branch')
-        self.relate('connect', 'branch', 'commit-main')
+        self.add_line("branch-arrow-shaft", branch_node, (12, 14))
+        self.add_line("branch-arrow-horizontal", (12, 14), (18, 14))
+        self.add_line("branch-arrow-vertical", (12, 14), (12, 8))
+        self.relate("connect", "branch-arrow-shaft", "branch-node")
+        self.relate("connect", "branch-arrow-shaft", "branch-arrow-horizontal")
+        self.relate("connect", "branch-arrow-shaft", "branch-arrow-vertical")
+
+        self.add_line("panel-top", (38, 14), (40, 14))
+        self.add_arc("panel-top-right", (40, 14), (44, 18), radius_x=4)
+        self.add_line("panel-right", (44, 18), (44, 36))
+        self.add_arc("panel-bottom-right", (44, 36), (40, 40), radius_x=4)
+        self.add_line("panel-bottom", (40, 40), (22, 40))
+        self.add_arc("panel-bottom-left", (22, 40), (18, 36), radius_x=4)
+        self.add_contour(
+            "code-panel",
+            "panel-top",
+            "panel-top-right",
+            "panel-right",
+            "panel-bottom-right",
+            "panel-bottom",
+            "panel-bottom-left",
+        )
+
+        self.add_polyline(
+            "code-mark",
+            (26, 22),
+            (22, 27),
+            (26, 31),
+            (30, 20),
+            (34, 27),
+            (30, 31),
+        )

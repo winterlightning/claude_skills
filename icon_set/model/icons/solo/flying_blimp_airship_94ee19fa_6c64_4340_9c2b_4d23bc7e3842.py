@@ -1,68 +1,44 @@
-"""Airship (blimp) in flight, side view: an elliptical envelope, two triangular
-tail fins at the back and a gondola slung under the belly.
-Review (meaning): the earlier flat-topped pill with a chevron tail read as a
-megaphone. This revision follows the reference: a true 3:2 ellipse
-(rx15, ry10), separate upper and lower fin triangles, and a tapered gondola.
-Keyshape HRECT_L (4,8)-(44,40): the swept fins need the extra height.
-Symbol plan: the ellipse is split only at integer points of the 3-4-5 family
-(centre (29,22) +/-(9,8), +(-15,0)) so fins and gondola share real nodes;
-fins sweep back to tips at (4,8)/(4,36), mirrored about y=22;
-fins mirror about y=20.
-Lucide construction: no blimp original; ellipse-and-fin construction follows
-Lucide plane/rocket fin joins.
-Omissions: window details on the gondola.
-"""
-from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
+"""A long rounded balloon envelope, rear triangular tail fins and an attached hanging gondola."""
 from ._base import Solo48
-SOURCE_ICON_ID = '94ee19fa-6c64-4340-9c2b-4d23bc7e3842'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__flying-blimp-airship-batch-033/20260926T125430Z-thuan-mac/reference/airship_94ee19fa-6c64-4340-9c2b-4d23bc7e3842.svg'
-AUTHOR = 'claude-opus-5-5'
-
-
-class _Shapes:
-    def circle(self, n, x, y, r):
-        pts = [(x - r, y), (x, y - r), (x + r, y), (x, y + r), (x - r, y)]
-        for i, (a, b) in enumerate(zip(pts, pts[1:])):
-            self.add_arc(f"{n}-{i}", a, b, radius_x=r)
-        self.add_contour(n, *(f"{n}-{i}" for i in range(4)), closed=True)
-
-    def lines(self, n, *pts, closed=False):
-        """Plain add_line segments grouped in one contour (members joinable by relate)."""
-        seq = list(pts) + ([pts[0]] if closed else [])
-        ids = []
-        for i, (a, b) in enumerate(zip(seq, seq[1:])):
-            self.add_line(f"{n}-{i}", a, b)
-            ids.append(f"{n}-{i}")
-        self.add_contour(n, *ids, closed=closed)
-        return ids
-
-class FlyingBlimpAirship(_Shapes, Solo48):
+from ...keyshapes import Keyshape
+SOURCE_ICON_ID='94ee19fa-6c64-4340-9c2b-4d23bc7e3842'
+SOURCE_PATH='pictographic-primitives/_uncategorized_01/airship_94ee19fa-6c64-4340-9c2b-4d23bc7e3842.svg'
+AUTHOR="gpt-6"
+PLAN='Restored a rounded balloon envelope with a pointed rear, two distinct triangular fins and an attached gondola below the forward half. The fins are no longer fused into a rocket-like silhouette.'
+CONSTRUCTION_REFERENCE='No useful local Lucide airship match; supplied reference owns pointed tail and rounded balloon proportions.'
+OMISSIONS='No defining parts omitted. Gondola moved forward slightly to clear the lower tail fin. Directional asymmetry is intentional.'
+class Drawing(Solo48):
     icon_id = 'flying-blimp-airship'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'transport/air'
-    categories = ('transport',)
-    aliases = ('airship', 'blimp', 'zeppelin', 'dirigible')
-    keywords = ('airship', 'blimp', 'zeppelin', 'flying', 'aircraft', 'balloon')
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=('airship',)
+    category='objects/general'
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
 
     def build(self):
-        cx, cy, rx, ry = 29, 22, 15, 10
-        a = lambda n, s, e: self.add_arc(n, s, e, radius_x=rx, radius_y=ry)
-        ul, nose_t, ll = (cx - 9, cy - 8), (cx, cy - ry), (cx - 9, cy + 8)
-        back, nose, lr = (cx - rx, cy), (cx + rx, cy), (cx + 9, cy + 8)
-        a('env-1', back, ul)
-        a('env-2', ul, nose_t)
-        a('env-3', nose_t, nose)
-        a('env-4', nose, lr)
-        a('env-5', lr, ll)
-        a('env-6', ll, back)
-        self.add_contour('envelope', *(f'env-{i}' for i in range(1, 7)), closed=True)
-        self.lines('fin-top', ul, (4, cy - 14), back)
-        self.lines('fin-bottom', ll, (4, cy + 14), back)
-        self.lines('gondola', ll, (26, 40), (32, 40), lr)
-        for part in ('fin-top', 'fin-bottom', 'gondola'):
-            self.relate('connect', 'envelope', part)
-        self.relate('connect', 'fin-top', 'fin-bottom')
-        
+        self.path('envelope',(8,22),[('C',(16,14),(10,20),(12,16)),('C',(24,12),(18,13),(20,12)),('A',(44,22),20,10,True),('A',(36,30),20,10,True),('A',(24,32),20,10,True),('C',(16,30),(20,32),(18,31)),('C',(8,22),(12,28),(10,24))],True)
+        self.add_polyline('upper-fin',(16,14),(4,8),(8,22));self.relate('connect','upper-fin','envelope')
+        self.add_polyline('lower-fin',(8,22),(4,36),(16,30));self.relate('connect','lower-fin','envelope')
+        self.path('gondola',(24,32),[('L',(26,40)),('L',(34,40)),('L',(36,30))]);self.relate('connect','gondola','envelope')

@@ -7,7 +7,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0bed2a31-9297-4a65-99ad-c1ed293776b1'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__user-centered-shape-diagram/20260927T140026Z-thuan-mac-1/reference/user experience design_0bed2a31-9297-4a65-99ad-c1ed293776b1.svg'
+SOURCE_PATH = 'pictographic-primitives/users/user experience design_0bed2a31-9297-4a65-99ad-c1ed293776b1.svg'
 AUTHOR = "gpt-6"
 
 
@@ -16,8 +16,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "users"
-    categories = ("users", "primitives")
+    category = "objects"
     aliases = ()
     keywords = ('user', 'centered', 'shape', 'diagram')
 
@@ -46,8 +45,8 @@ class Drawing(Solo48):
         def join(a,b): self.relate('connect',a,b)
         rect('square',20,6,8,8)
         circle('circle',8,29,2)
-        poly('triangle',(33,42),(42,42),(38,28),closed=True)
-        circle('head',20,26,2)
-        path('shoulders',(16,42),[('A',(24,42),4,6,True)])
+        poly('triangle',(30,42),(42,42),(37,26),closed=True)
+        circle('head',19,24,2)
+        path('shoulders',(15,38),[('A',(23,38),4,4,True)])
         path('orbit-left',(6,19),[('C',(11,10),(6,15),(8,12))])
         path('orbit-right',(37,10),[('C',(42,17),(40,11),(42,14))])

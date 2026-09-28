@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8c354f7c-447b-4033-85e4-6924e236563c'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-with-monocle/20260926T172218Z-thuan-mac-1/reference/face with monocle_8c354f7c-447b-4033-85e4-6924e236563c.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeadWithMonocle(Solo48):
@@ -25,6 +25,6 @@ class HeadWithMonocle(Solo48):
         self.add_arc("lens-lower-right",(37,18),(31,24),radius_x=6)
         self.add_arc("lens-lower-left",(31,24),(25,18),radius_x=6)
         self.add_contour("monocle","lens-upper","lens-lower-right","lens-lower-left",closed=True)
-        self.add_line("cord",(31,24),(31,32))
+        self.add_arc("cord",(31,24),(34,32),radius_x=8,sweep=False)
         self.relate("connect","cord","lens-lower-right")
         self.relate("connect","cord","lens-lower-left")

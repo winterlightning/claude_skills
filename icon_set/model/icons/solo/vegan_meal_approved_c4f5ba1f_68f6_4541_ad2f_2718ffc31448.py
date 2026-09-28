@@ -1,41 +1,44 @@
-"""Circular approval mark with a rising check.
-Symbol plan: preserve the reference's complete composition; shared parameters own repeated elements.
-Keyshape CIRCLE; exact profile envelope supplied by Keyshape.bounds_for.
-Omissions: No semantic elements omitted.
-Lucide: none; rounded contour and coherent stroke construction where applicable.
-Human reference: icon_set/references/human_ref/user.svg for portrait modules.
+"""A large check mark entering an open approval circle.
+Construction: circle-check. None; the open ring and extended check are retained.
+Keyshape CIRCLE; extremes are fixed by SOLO48. All dimensions are authored locally.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='c4f5ba1f-68f6-4541-ad2f-2718ffc31448'
-SOURCE_PATH='icon_set/work/todo-references/food allegic vegan meal 2_c4f5ba1f-68f6-4541-ad2f-2718ffc31448.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = 'c4f5ba1f-68f6-4541-ad2f-2718ffc31448'
+SOURCE_PATH = 'icon_set/work/todo-references/food allegic vegan meal 2_c4f5ba1f-68f6-4541-ad2f-2718ffc31448.svg'
+AUTHOR = "gpt-6"
+
 class Drawing(Solo48):
-    icon_id='vegan-meal-approved'
-    keyshape=Keyshape.CIRCLE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
-    aliases=()
-    keywords=('food', 'allegic', 'vegan', 'meal', '2')
+    icon_id = 'vegan-meal-approved'
+    keyshape = Keyshape.CIRCLE
+    # Declared visible-ink extrema: (2, 2, 46, 46).
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('food', 'allegic', 'vegan', 'meal', '2')
 
-    def circle(self, name, x, y, r):
-        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
+    def circle(self, name, cx, cy, r):
+        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r)
+        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r)
+        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
 
-    def box(self, name, x, y, w, h, r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        ids=[]
-        for i in range(8):
-            eid=f'{name}-{i}';ids.append(eid)
-            if i%2:self.add_arc(eid,pts[i],pts[(i+1)%8],radius_x=r)
-            else:self.add_line(eid,pts[i],pts[(i+1)%8])
-        self.add_contour(name,*ids,closed=True)
+    def rect(self, name, x, y, w, h, r=2):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
+                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i,a in enumerate(points):
+            b=points[(i+1)%8]; n=f'{name}-{i}'
+            if i%2: self.add_arc(n,a,b,radius_x=r)
+            else: self.add_line(n,a,b)
+            members.append(n)
+        self.add_contour(name,*members,closed=True)
 
     def build(self):
 
-        self.add_arc('ring',(24,4),(44,24),radius_x=20,large_arc=True,sweep=False)
-        self.add_polyline('check',(14,22),(24,32),(36,8))
-
+        # Plan: cardinal three-quarter circle plus an independently drawn check.
+        self.add_arc('ring-top',(4,24),(24,4),radius_x=20)
+        self.add_arc('ring-bottom',(24,44),(4,24),radius_x=20)
+        self.add_arc('ring-right',(44,24),(24,44),radius_x=20)
+        self.add_contour('ring','ring-right','ring-bottom','ring-top')
+        self.add_polyline('check',(15,22),(24,32),(36,8))

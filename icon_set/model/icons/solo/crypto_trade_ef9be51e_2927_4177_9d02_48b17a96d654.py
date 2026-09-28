@@ -7,10 +7,10 @@ from icon_set.model.icons.solo._payments_batch01 import rounded_rect
 from icon_set.model.icons.solo._payments_batch02 import small_dollar
 SOURCE_ICON_ID='ef9be51e-2927-4177-9d02-48b17a96d654'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-exchanging-bitcoin/20260926T172218Z-thuan-mac-1/reference/crypto trade_ef9be51e-2927-4177-9d02-48b17a96d654.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsExchangingBitcoin(Solo48):
-    icon_id='hands-exchanging-bitcoin-solo'
+    icon_id = 'hands-exchanging-bitcoin-solo'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
@@ -35,7 +35,7 @@ class HandsExchangingBitcoin(Solo48):
             self.relate('connect','hand-'+prefix,coin_side)
             self.relate('connect','hand-'+prefix+'-bridge','coin-top-right' if not flipped else 'coin-bottom-left')
         for name,y in [('b-upper',16),('b-lower',24)]:
-            self.add_arc(name,(20,y),(20,y+8),radius_x=8,radius_y=4)
+            self.add_arc(name,(20,y),(20,y+8),radius_x=7,radius_y=4)
         self.add_line('b-back-lower',(20,32),(20,24))
         self.add_line('b-back-upper',(20,24),(20,16))
         self.add_contour('bitcoin','b-upper','b-lower','b-back-lower','b-back-upper',closed=True)

@@ -1,20 +1,22 @@
-'Airplane taking off.\nPlan: HRECT_L preserves the wide climbing silhouette. Widened wings and fuselage; raised tail is intentionally asymmetric.\nReference: plane-takeoff; Coherent fuselage, broad swept wings and round nose.\nChanges: No defining parts omitted; proportions broadened for clearance.'
+"""Side-view climbing airplane, with a smooth round nose, upper swept wing, broad lower wing and raised tail. Bounds4,8 to44,40.
+Construction reference: Lucide plane-takeoff: coherent fuselage and tapered wings.
+Omissions: No windows in source; retained both wings.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8fe19626-3dae-5f95-be02-4dbe10f65534'
-SOURCE_PATH = 'pictographic-primitives/travel/plane 1_8fe19626-3dae-5f95-be02-4dbe10f65534.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__climbing-airplane-rounded-nose/20260924T092136Z-thuan-mac/reference/plane 1_8fe19626-3dae-5f95-be02-4dbe10f65534.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'climbing-airplane-rounded-nose'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'travel'
-    categories = ('travel', 'other', 'primitives-generate')
+    category = 'objects/other'
     aliases = ()
     keywords = ('plane', '1')
     def build(self):
-        self.path('plane',(4,16),[('L',(8,16)),('L',(12,22)),('L',(23,18)),('L',(12,8)),('L',(26,8)),('L',(33,18)),('L',(36,17)),('C',(44,22),(40,16),(44,19)),('C',(38,27),(44,25),(42,26)),('L',(32,28)),('L',(27,40)),('L',(17,40)),('L',(22,29)),('L',(12,32)),('C',(4,24),(8,33),(4,28)),('L',(4,16))],True)
+        self.path('plane',(4,22),[('L',(9,21)),('L',(14,25)),('L',(21,23)),('L',(13,10)),('L',(19,8)),('L',(31,20)),('L',(36,18)),('C',(44,23),(40,17),(44,20)),('C',(39,27),(44,25),(42,26)),('L',(29,30)),('L',(23,40)),('L',(16,40)),('L',(20,31)),('L',(13,35)),('C',(7,29),(10,36),(8,32)),('L',(4,22))],True)
 
     def path(self, name, start, commands, closed=False):
         members=[]
@@ -31,8 +33,3 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=closed)
     def circle(self,name,x,y,r):
         self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-
-PARENT_MODULE = 'icon_set/model/icons/solo/climbing_airplane_rounded_nose_8fe19626_3dae_5f95_be02_4dbe10f65534.py'
-
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'b276d60d5308a3e3b35a8f27721128866939a81fea119ade7c8f2e63544aa057', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '8fe19626-3dae-5f95-be02-4dbe10f65534'}

@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = 'd6e818ba-d5c0-428b-965b-c68e132721e4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__peacock-head-broad-crest/20260928T042731Z-thuan-mac-1/reference/peacock head_d6e818ba-d5c0-428b-965b-c68e132721e4.svg'
-AUTHOR = "claude-fable-5-1"
+AUTHOR = 'claude-fable-5-1'
 
 
 class PeacockHeadBroadCrest(Solo48):

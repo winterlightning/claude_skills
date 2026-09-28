@@ -1,10 +1,8 @@
-"""maya logo: standalone repair of supplied reference.
+"""Outlined block capital M with a deep central valley.
 
-Plan: Full-height outlined capital M. Keyshape SQUARE.
-Reduction: Opened diagonal bands and flattened lower valley while retaining outlined letter.
-Construction references: local Lucide originals and atomic-debug: none.
-
-All geometry is authored for SOLO48; earlier runs remain unchanged.
+Symbol plan: one closed letter contour; paired outer stems and diagonals
+share a vertical axis at x=24. The central lower opening is flattened.
+Lucide type-outline informed the continuous rounded-join contour.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -15,12 +13,11 @@ AUTHOR = "gpt-6"
 
 
 class OutlinedCapitalM(Solo48):
-    icon_id = 'outlined-capital-m'
+    icon_id = "outlined-capital-m"
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "symbols/letters"
     aliases = ("capital m", "maya logo")
     keywords = ("letter", "alphabet", "uppercase", "outlined")
 
@@ -30,8 +27,8 @@ class OutlinedCapitalM(Solo48):
         outer_right, inner_right = 2 * axis - outer_left, 2 * axis - inner_left
         self.add_polyline(
             "letter-outline",
-            (outer_left, 6), (15, 6), (axis, 21), (33, 6),
+            (outer_left, 6), (15, 6), (axis, 25), (33, 6),
             (outer_right, 6), (outer_right, 42), (inner_right, 42),
-            (inner_right, 29), (27, 38), (21, 38), (inner_left, 29),
+            (inner_right, 19), (27, 34), (21, 34), (inner_left, 19),
             (inner_left, 42), (outer_left, 42), closed=True,
         )

@@ -1,4 +1,3 @@
-"""Revision of the claimed reference after comparing original and rejected drawing."""
 """microphone podcast international 1: fresh spacing repair.
 Plan: Mirrored globe sectors and microphone support. Lucide mic construction with true bottom stand attachment.
 Keyshape VRECT_L: extrema derived from the profile's standard envelope.
@@ -7,15 +6,14 @@ Omissions: One meridian, hemisphere globe, compact round microphone and no horiz
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='1b529eb2-ba2a-4b82-8816-bb0f813a06d5'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__microphone-podcast-international-1/20260927T142529Z-thuan-mac-1/reference/microphone podcast international 1_1b529eb2-ba2a-4b82-8816-bb0f813a06d5.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH='pictographic-primitives/audio/microphone podcast international 1_1b529eb2-ba2a-4b82-8816-bb0f813a06d5.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='microphone-podcast-international-1'
+    icon_id = 'microphone-podcast-international-1'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'audio'
-    categories = ('audio', 'primitives')
+    category='objects/general'
     aliases=()
     keywords=('microphone', 'podcast', 'international', '1')
 
@@ -39,19 +37,14 @@ class Drawing(Solo48):
             for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
 
     def build(self):
-        # Globe cap, central microphone capsule, curved cradle and foot.
         self.add_arc('globe-left',(8,14),(24,4),radius_x=16,radius_y=10)
         self.add_arc('globe-right',(24,4),(40,14),radius_x=16,radius_y=10)
         self.add_contour('globe','globe-left','globe-right')
-        self.add_line('meridian',(24,4),(24,14)); self.relate('connect','globe','meridian')
+        self.add_line('meridian',(24,4),(24,14));self.relate('connect','globe','meridian')
         self.add_polyline('equator',(8,14),(24,14),(40,14))
-        self.relate('connect','globe','equator'); self.relate('connect','meridian','equator')
-        self.add_arc('mic-top',(20,26),(28,26),radius_x=4)
-        self.add_line('mic-right',(28,26),(28,29))
-        self.add_arc('mic-bottom',(28,29),(20,29),radius_x=4)
-        self.add_line('mic-left',(20,29),(20,26))
-        self.add_contour('microphone','mic-top','mic-right','mic-bottom','mic-left',closed=True)
+        self.relate('connect','globe','equator');self.relate('connect','meridian','equator')
+        self.path('microphone',(20,27),[('A',(28,27),4),('L',(28,29)),('A',(20,29),4),('L',(20,27))],True)
         self.add_arc('support-left',(8,23),(24,42),radius_x=16,radius_y=19,sweep=False)
         self.add_arc('support-right',(24,42),(40,23),radius_x=16,radius_y=19,sweep=False)
         self.add_contour('support','support-left','support-right')
-        self.add_line('stand',(24,42),(24,44)); self.relate('connect','support','stand')
+        self.add_line('stand',(24,42),(24,44));self.relate('connect','support','stand')

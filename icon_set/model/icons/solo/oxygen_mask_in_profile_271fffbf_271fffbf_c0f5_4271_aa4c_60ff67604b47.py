@@ -1,63 +1,56 @@
-"""A head in left-facing profile wearing an oxygen mask with a strap.
-
-SOLO48 VRECT_L: visible (6, 2)-(42, 46), centerline (8, 4)-(40, 44).
-
-Symbol plan: the head is one open profile outline: the neck front rising
-from the ground to the jaw, the jaw meeting the mask's lower corner, the
-mask's straight back edge up the face (x=15), the forehead, a r13 skull
-dome about (27,17) and the back of the head slanting into the neck. The
-mask is a r7 half-disc cup about (15,27) bulging forward to x=8 over the
-nose and mouth; the strap runs from the mask's back edge across the cheek
-to the back of the head.
-Revision: the rejected drawing's mask merged into the face and read as a
-hook; the mask is now a distinct cup with a strap around the head.
-Human reference: `full_body_ref.png` (round skull, simple profile).
-Construction reference: no useful Lucide match.
-"""
+'Side-facing head with rounded oxygen mask, cheek strap and long curved hose. Centerline8,4 to40,44.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+SOURCE_ICON_ID = "271fffbf-c0f5-4271-aa4c-60ff67604b47"
+SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__oxygen-mask-in-profile-271fffbf-solo/20260926T093246Z-thuan-mac/reference/oxygen mask head side_271fffbf-c0f5-4271-aa4c-60ff67604b47.svg"
+AUTHOR = "claude-opus-5-5"
+CONSTRUCTION_REFERENCE = 'human_ref/user.svg: smooth round head; Lucide stethoscope: round tubing.'
+OMISSIONS = 'Eye omitted, source continuous head/neck retained.'
 
-SOURCE_ICON_ID = '271fffbf-c0f5-4271-aa4c-60ff67604b47'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__oxygen-mask-in-profile-271fffbf/20260926T160211Z-thuan-mac-1/reference/oxygen mask head side_271fffbf-c0f5-4271-aa4c-60ff67604b47.svg'
-AUTHOR = 'claude-opus-5-5'
-
-SKULL, SKULL_R = (27, 17), 13
-MASK_C, MASK_R = (15, 27), 7
-STRAP_FACE, STRAP_BACK = (15, 23), (38, 25)
-BACK = [(40, 17), (38, 25), (36, 33), (36, 44)]
-JAW, NECK_FRONT = (22, 36), (22, 44)
-
+def path(s,n,p,cs,closed=False):
+    ids=[]
+    for j,c in enumerate(cs):
+        eid=f'{n}-{j}';q=c[-1]
+        if c[0]=='L':s.add_line(eid,p,q)
+        elif c[0]=='A':s.add_arc(eid,p,q,radius_x=c[1],radius_y=c[2],sweep=c[3])
+        elif c[0]=='C':s.add_bezier(eid,p,(c[1],c[2],q))
+        ids.append(eid);p=q
+    s.add_contour(n,*ids,closed=closed)
+def circle(s,n,x,y,r):
+    path(s,n,(x-r,y),[('A',r,r,True,(x+r,y)),('A',r,r,True,(x-r,y))],True)
 
 class Drawing(Solo48):
     icon_id = 'oxygen-mask-in-profile-271fffbf-solo'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ('oxygen mask head side',)
-    keywords = ('oxygen', 'mask', 'breathing', 'medical', 'hospital', 'patient', 'respirator', 'head')
-
+    category = 'health'
+    categories = ('health', 'primitives')
+    aliases = ()
+    keywords = ('oxygen', 'mask', 'head', 'side')
     def build(self):
-        sx, sy = SKULL
-        forehead, top, back = (sx - SKULL_R, sy), (sx, sy - SKULL_R), (sx + SKULL_R, sy)
-        mx, my = MASK_C
-        m_top, m_bot, m_front = (mx, my - MASK_R), (mx, my + MASK_R), (mx - MASK_R, my)
-        self.add_line('neck-front', NECK_FRONT, JAW)
-        self.add_line('jaw', JAW, m_bot)
-        self.add_line('mask-back-low', m_bot, STRAP_FACE)
-        self.add_line('mask-back-high', STRAP_FACE, m_top)
-        self.add_line('brow', m_top, forehead)
-        self.add_arc('skull-front', forehead, top, radius_x=SKULL_R, sweep=True)
-        self.add_arc('skull-back', top, back, radius_x=SKULL_R, sweep=True)
-        members = ['neck-front', 'jaw', 'mask-back-low', 'mask-back-high', 'brow', 'skull-front', 'skull-back']
-        for i in range(len(BACK) - 1):
-            self.add_line(f'back-{i}', BACK[i], BACK[i + 1])
-            members.append(f'back-{i}')
-        self.add_contour('head', *members)
-        self.add_arc('mask-cup-low', m_bot, m_front, radius_x=MASK_R, sweep=True)
-        self.add_arc('mask-cup-high', m_front, m_top, radius_x=MASK_R, sweep=True)
-        self.add_contour('mask-cup', 'mask-cup-low', 'mask-cup-high')
-        self.relate('connect', 'mask-cup', 'head')
-        self.add_line('strap', STRAP_FACE, STRAP_BACK)
-        self.relate('connect', 'strap', 'head')
+        # Symbol plan (VRECT_L x8..44 wide 8..40, y4..44): head in profile facing
+        # left. Head: forehead (14,18) up over the crown (26,4), round back of the
+        # head at x40, nape curving in to the neck x36 down to y44.
+        # Mask: cup from the nose bridge (14,18) out to x8 and round to a flat
+        # bottom y36 (x12..20), cheek edge back up to (22,31) and the bridge.
+        # Strap: (22,31) back toward the ear, free end (29,26).
+        # Tube connector: box x12..20 from the mask bottom to y44.
+        B = self.add_bezier
+        L = self.add_line
+        join = lambda a, b: self.relate('connect', a, b)
+        B('head-front', (14, 18), ((14, 10), (19, 4), (26, 4)))
+        B('head-crown', (26, 4), ((34, 4), (40, 10), (40, 18)))
+        B('head-back', (40, 18), ((40, 26), (36, 32), (36, 36)))
+        L('neck', (36, 36), (36, 44))
+        self.add_contour('head', 'head-front', 'head-crown', 'head-back', 'neck')
+        B('mask-front', (14, 18), ((11, 21), (8, 25), (8, 30)))
+        B('mask-chin', (8, 30), ((8, 34), (9, 36), (12, 36)))
+        L('mask-bottom', (12, 36), (20, 36))
+        B('mask-corner', (20, 36), ((22, 36), (22, 34), (22, 31)))
+        B('mask-cheek', (22, 31), ((22, 24), (18, 20), (14, 18)))
+        self.add_contour('mask', 'mask-front', 'mask-chin', 'mask-bottom', 'mask-corner', 'mask-cheek', closed=True)
+        join('head', 'mask')
+        L('strap', (22, 31), (29, 26)); join('strap', 'mask')
+        self.add_polyline('tube', (12, 36), (12, 44), (20, 44), (20, 36))
+        join('tube', 'mask')

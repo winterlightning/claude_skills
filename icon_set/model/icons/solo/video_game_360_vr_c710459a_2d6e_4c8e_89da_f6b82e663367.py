@@ -1,25 +1,21 @@
 """video game 360 vr.
-Plan: Three widely separated numerals above an open headset band; digits share top and baseline.
-Construction: Source numeral forms re-authored with paired elliptical lobes and coherent open headset silhouette.
-Omissions: Pac-Man insignia and top band seam omitted because interior detail needs a larger band.
+Plan: Full-height 360 with narrowed three, eight-unit six internal run, rounded open band sides and enlarged upward-facing game mouth. Band rim omitted where symbols need clearance.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = 'c710459a-2d6e-4c8e-89da-f6b82e663367'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='c710459a-2d6e-4c8e-89da-f6b82e663367'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game 360 vr_c710459a-2d6e-4c8e-89da-f6b82e663367.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'video-game-360-vr'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('video', 'game', '360', 'vr')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('video', 'game', '360', 'vr')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,9 +69,11 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.path('three',(4,8),[('A',(4,16),7,4,True),('A',(4,24),7,4,True)])
-        self.path('six-stem',(28,8),[('L',(20,8)),('L',(20,20))])
-        self.circle('six-loop',24,20,4)
-        self.relate('connect','six-stem','six-loop')
-        self.path('zero',(36,16),[('A',(44,16),4,8,True),('A',(36,16),4,8,True)],True)
-        self.path('band',(4,34),[('L',(4,36)),('A',(8,40),4,4,False),('L',(40,40)),('A',(44,36),4,4,False),('L',(44,34))])
+        self.add_polyline('three',(6,6),(10,6),(10,14),(6,14))
+        self.add_polyline('three-bottom',(10,14),(10,22),(6,22));self.join('three','three-bottom')
+        self.circle('six-loop',22,18,4);self.add_polyline('six-stem',(18,18),(18,6),(26,6));self.join('six-loop','six-stem')
+        self.path('zero',(34,10),[('A',(42,10),4,4,True),('L',(42,18)),('A',(34,18),4,4,True),('L',(34,10))],True)
+        self.path('band-left',(10,30),[('A',(6,34),4,4,False),('L',(6,38)),('A',(10,42),4,4,False)])
+        self.path('band-right',(38,30),[('A',(42,34),4,4,True),('L',(42,38)),('A',(38,42),4,4,True)])
+        self.add_arc('game-arc',(24,30),(30,36),radius_x=6,large_arc=True,sweep=False)
+        self.add_polyline('game-mouth',(30,36),(24,36),(24,30));self.join('game-arc','game-mouth')

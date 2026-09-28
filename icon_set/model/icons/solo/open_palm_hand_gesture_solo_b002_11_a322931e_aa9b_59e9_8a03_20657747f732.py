@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a322931e-aa9b-59e9-8a03-20657747f732'
-SOURCE_PATH = 'pictographic-primitives/business/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__open-palm-hand-gesture-solo-b002-11/20260924T093935Z-thuan-mac/reference/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg'
 AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'Lucide hand-helping: rounded thumb returning into palm and long finger edge.'
 OMISSIONS = 'Finger divisions omitted as in source.'
@@ -24,16 +24,10 @@ class Drawing(Solo48):
     keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'business'
-    categories = ('business', 'other', 'primitives-generate')
+    category = 'objects'
     aliases = ()
     keywords = ('begging', 'hand', 'ask')
     def build(self):
-        # Continuous palm contour; thumb meets the finger at a shared endpoint without overlap.
-        path(self,'hand',(4,34),[('L',(4,16)),('C',(10,14),(13,10),(18,10)),('C',(23,10),(27,12),(27,17)),('A',7,7,True,(20,24)),('L',(14,22))])
-        path(self,'fingers',(27,17),[('L',(35,12)),('C',(40,9),(44,12),(44,17)),('C',(44,21),(42,24),(39,26)),('L',(27,35)),('C',(24,38),(21,38),(19,38)),('L',(4,34))])
+        path(self,'hand',(4,34),[('L',(4,16)),('C',(10,14),(13,10),(18,10)),('C',(22,10),(26,12),(28,14)),('A',5,5,True,(24,24)),('L',(17,22))])
+        path(self,'fingers',(24,24),[('L',(37,16)),('C',(41,13),(44,15),(44,19)),('C',(44,21),(43,23),(41,24)),('L',(27,35)),('C',(24,38),(21,38),(19,38)),('C',(18,38),(17,37),(16,37)),('L',(4,34))])
         self.relate('connect','hand','fingers')
-
-
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': '8f1f863c84d4c082a05d3011fad8281d4f6d86ac612a53e71b7e4983048e58fe', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': 'a322931e-aa9b-59e9-8a03-20657747f732'}

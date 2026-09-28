@@ -318,7 +318,11 @@ server once. Later edits and approvals need no rebuild or restart.
 
 ## Side combination 64 (combine run → Experiment → review)
 
-**Combine all side pairs** (Progression › Side pairs) runs `refresh_combination_pairs --previews`.
+**Combine approved side pairs** (Progression › Side pairs) shows the number of available pairs
+whose chosen main and sub drawings both have current **Approve** reviews. The button snapshots
+those approved drawing revisions, runs `refresh_combination_pairs --previews` and renders only
+that set. An expired approval, failed drawing or pair without both approvals is excluded.
+The final combined count can be lower if a selected pair cannot be rendered.
 Each run replaces the previous set of combined icons. `build_combination_previews.build()` deletes
 previews of pairs that are no longer combined. `experiment_gallery.stage_side_combination64()` then
 rewrites `published/gallery/side-combination64.json`, which lists only the pairs that actually rendered.

@@ -1,46 +1,29 @@
+"""smartwatch circle: repaired SOLO48 composition.
+Plan: Paired strap attachments and dominant round face.
+Keyshape: VRECT_M keeps the near-circular face broad while reserving strap clearance.
+Reduction: No defining parts omitted; face is mildly flattened to make room for the strap openings.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'db3fcec3-cc75-47da-9ae3-062e38521adb'
 SOURCE_PATH = 'pictographic-primitives/other/smartwatch circle_db3fcec3-cc75-47da-9ae3-062e38521adb.svg'
-AUTHOR = 'gpt-6'
-# Plan: Circular smartwatch face with paired upper and lower strap loops.
-# References: watch: dominant circular face with symmetric strap attachments.
-# Reduction: No parts omitted; source has an empty watch face.
+AUTHOR = "gpt-6"
+CONSTRUCTION_REFERENCES = 'watch'
 
 class AuthoredIcon(Solo48):
     icon_id = 'smartwatch-circle'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("container", "other", "primitives-generate")
+    keyshape = Keyshape.VRECT_M
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
     aliases = ()
     keywords = ('smartwatch', 'circle')
 
     def build(self):
-        # Rounded watch face and symmetric straps; broad upper/lower openings.
-        self.add_bezier('face',(12,16),((16,11),(32,11),(36,16)),((39,19),(40,21),(40,24)),((40,27),(39,29),(36,32)),((32,37),(16,37),(12,32)),((9,29),(8,27),(8,24)),((8,21),(9,19),(12,16)))
-        self.add_contour('face-outline','face',closed=True)
-        for n,pts in [('upper',((12,16),(12,4),(36,4),(36,16))),('lower',((12,32),(12,44),(36,44),(36,32)))]:
-            self.add_polyline(n,*pts)
-            self.relate('connect',n,'face-outline')
-
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-
-    def box(self,n,l,t,r,b,q=3):
-        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
-        ids=[]
-        for k in range(8):
-            ident=f'{n}-{k}';ids.append(ident)
-            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
-            else:self.add_line(ident,pts[k],pts[(k+1)%8])
-        self.add_contour(n,*ids,closed=True)
-
-# Final repair review: Paired straps around a broad, rounded face; symmetric attachments.
-# VRECT_L keeps full strap height while widening the face.
-# Changes: Face made wider and shallower to enlarge both strap openings; no parts omitted.
-# validate_icon: valid; build gate: pass with zero errors and zero warnings.
+        self.add_bezier('face-top', (10, 24), ((10, 20), (12, 16), (16, 14)), ((20, 12), (28, 12), (32, 14)), ((36, 16), (38, 20), (38, 24)))
+        self.add_bezier('face-bottom', (38, 24), ((38, 28), (36, 32), (32, 34)), ((28, 36), (20, 36), (16, 34)), ((12, 32), (10, 28), (10, 24)))
+        self.add_contour('face', 'face-top', 'face-bottom', closed=True)
+        for (n, pts) in [('upper', ((16, 14), (16, 4), (32, 4), (32, 14))), ('lower', ((16, 34), (16, 44), (32, 44), (32, 34)))]:
+            self.add_polyline(n, *pts)
+            self.relate('connect', n, 'face')

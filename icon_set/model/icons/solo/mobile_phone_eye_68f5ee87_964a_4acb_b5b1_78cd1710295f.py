@@ -1,42 +1,51 @@
-"""mobile-phone-eye: Visual repair: flatten mirrored lids to source almond proportions; no pupil because source eye is empty.
-Symbol plan: shared shape helpers and mirrored coordinates. Keyshape VRECT_L; exact bounds from contract.
-Local Lucide originals and atomic-debug: bluetooth, skull, file-user, shield-plus, heart, house, paw-print, search, bug, smartphone, eye, fingerprint-pattern. Coherent outlines and shared junctions inform construction.
+"""mobile phone eye: fresh spacing repair.
+Plan: Wide almond-shaped eye reads clearly inside the phone; native review prompted a flatter eye contour.
+Keyshape VRECT_L: VRECT_L preserves the upright phone and lower band.
+Omissions: Tiny pupil omitted; lid curves widened relative to height.
 """
-from ._base import Solo48
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
+from ._base import Solo48
 SOURCE_ICON_ID='68f5ee87-964a-4acb-b5b1-78cd1710295f'
 SOURCE_PATH='pictographic-primitives/other/mobile phone eye_68f5ee87-964a-4acb-b5b1-78cd1710295f.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='mobile-phone-eye'
+    icon_id = 'mobile-phone-eye'
     keyshape=Keyshape.VRECT_L
-    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category='objects/general'
     aliases=()
-    keywords=('mobile-phone-eye',)
-    def build(self):
-        self.add_polyline('phone',(8,4),(40,4),(40,36),(40,44),(8,44),(8,36),closed=True)
-        self.add_line('separator',(8,36),(40,36))
-        self.relate('connect','phone','separator')
-        self.add_bezier('eye',(17,20),((21,14),(27,14),(31,20)),((27,26),(21,26),(17,20)))
-        self.add_contour('eye-outline','eye',closed=True)
+    keywords=('mobile', 'phone', 'eye')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
         self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
         self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def rect(self,n,l,t,r,b,rad=2):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-        for i,a in enumerate(pts):
-            z=pts[(i+1)%8]
-            if i%2:self.add_arc(n+str(i),a,z,radius_x=rad)
-            else:self.add_line(n+str(i),a,z)
-        self.add_contour(n,*(n+str(i) for i in range(8)),closed=True)
-    def house(self):
-        self.add_polyline('house',(6,42),(6,18),(24,6),(42,18),(42,42),closed=True)
+    def path(self,n,start,segments,closed=False):
+        at=start; members=[]
+        for i,s in enumerate(segments):
+            eid=f'{n}-{i}'; kind,end,*args=s
+            if end==at: continue
+            if kind=='L': self.add_line(eid,at,end)
+            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
+            at=end; members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def cross(self,n,x,y,r):
+        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
+            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
+        for i in range(4):
+            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+
     def page(self):
-        self.add_polyline('page',(8,44),(8,4),(28,4),(40,16),(40,44),closed=True)
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
+    def phone(self,band=True):
+        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
+        if band:
+            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
+    def house(self):
+        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
+
+    def build(self):
+        self.phone()
+        self.add_bezier('eye',(17,20),((21,15),(27,15),(31,20)),((27,25),(21,25),(17,20)))
+        self.add_contour('eye-outline','eye',closed=True)

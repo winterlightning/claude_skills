@@ -1,25 +1,21 @@
 """tire pressure warning.
-Plan: A broad U-shaped tire cross section with centered warning stem; mirrored sides.
-Construction: No useful exact Lucide match; coherent U with circular lower bowl.
-Omissions: Second tire wall and tiny tread stems simplified into a single U outline.
+Plan: Single open tire silhouette; paired tread stems share explicit bottom endpoints. Doubled wall removed for clear pressure mark.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '992df6cb-53a3-42d8-b584-7ec4584f57b0'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='992df6cb-53a3-42d8-b584-7ec4584f57b0'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/tire pressure warning_992df6cb-53a3-42d8-b584-7ec4584f57b0.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'tire-pressure-warning'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('tire', 'pressure', 'warning')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('tire', 'pressure', 'warning')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,5 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.path('tire',(12,4),[('L',(8,20)),('L',(8,28)),('A',(40,28),16,16,False),('L',(40,20)),('L',(36,4))])
-        self.add_line('warning',(24,12),(24,26))
+        self.path('tire',(14,4),[('C',(14,15),(8,18),(8,28)),('C',(8,36),(12,40),(18,40)),('L',(30,40)),('C',(36,40),(40,36),(40,28)),('C',(40,18),(34,15),(34,4))])
+        self.add_line('warning',(24,13),(24,27))
+        for n,x in [('left',18),('right',30)]:
+            self.add_line('tread-'+n,(x,40),(x,44));self.join('tire','tread-'+n)

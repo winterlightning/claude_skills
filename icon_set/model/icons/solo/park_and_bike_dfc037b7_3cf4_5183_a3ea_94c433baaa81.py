@@ -1,58 +1,67 @@
+"""The letters P and B separated by a plus sign.
+Symbol plan: Two upright hand-built letterforms flank a centered plus. Shared bowl dimensions preserve the text series. Ink extremes (2,8)-(46,40).
+Construction: square-parking: open stem and smooth P bowl; B/R authored using the same bowl definition.
+Human construction: Not applicable.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dfc037b7-3cf4-5183-a3ea-94c433baaa81'
 SOURCE_PATH = 'icon_set/work/todo-references/park and bike_dfc037b7-3cf4-5183-a3ea-94c433baaa81.svg'
-AUTHOR = 'gpt-6'
-PLAN = 'Park and bike represented by P plus B. Letters retain two B bowls.'
-CONSTRUCTION_REFERENCES = 'No useful exact Lucide match; letter stems and tangent semicircular bowls authored on integer grid.'
-OMISSIONS = 'No letters omitted; narrow semicircular bowls make room for the plus.'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'park-and-bike'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'transportation'
-    categories = ('transportation', 'primitives')
+    keyshape = Keyshape.HRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
     aliases = ()
     keywords = ('park', 'and', 'bike')
 
-    def circle(self, name, cx, cy, r, ry=None):
-        ry = r if ry is None else ry
-        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r, radius_y=ry)
-        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r, radius_y=ry)
-        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+    def build(self):
+        self.parking_letter('p',4,10,38,10,14)
+        self.plus(24,24)
+        self.parking_letter('right',35,10,38,9,14)
+        # Lower bowl reuses the existing upper-bowl return edge.
+        self.add_arc('b-lower-bowl',(38,24),(38,38),radius_x=6,radius_y=7)
+        self.add_line('b-base',(38,38),(35,38))
+        self.add_contour('lower-bowl','b-lower-bowl','b-base')
+        self.relate('connect','lower-bowl','right-loop')
+        self.relate('connect','lower-bowl','right-stem-lower')
 
-    def box(self, name, x, y, w, h, r=3):
-        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
-                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+    def circle(self, name, cx, cy, rx, ry=None):
+        ry = rx if ry is None else ry
+        self.add_arc(name+'-upper',(cx-rx,cy),(cx+rx,cy),radius_x=rx,radius_y=ry)
+        self.add_arc(name+'-lower',(cx+rx,cy),(cx-rx,cy),radius_x=rx,radius_y=ry)
+        self.add_contour(name,name+'-upper',name+'-lower',closed=True)
+
+    def box(self, name, x, y, right, bottom, r=4):
+        pts=[(x+r,y),(right-r,y),(right,y+r),(right,bottom-r),(right-r,bottom),(x+r,bottom),(x,bottom-r),(x,y+r)]
         members=[]
-        for i,a in enumerate(points):
-            b=points[(i+1)%8]; part=f'{name}-{i}'; members.append(part)
-            if i%2: self.add_arc(part,a,b,radius_x=r)
-            else: self.add_line(part,a,b)
+        for i in range(8):
+            a,b=pts[i],pts[(i+1)%8]
+            if a==b: continue
+            n=f'{name}-{i}'
+            if i%2: self.add_arc(n,a,b,radius_x=r)
+            else: self.add_line(n,a,b)
+            members.append(n)
         self.add_contour(name,*members,closed=True)
 
-    def letter_p(self, name, x, y, w, h):
-        # Stem and semicircular bowl share explicit shoulder nodes.
-        mid=y+h//2; rr=h//4
-        self.add_polyline(name+'-stem',(x,y+h),(x,mid),(x,y),(x+w-rr,y))
-        self.add_arc(name+'-bowl',(x+w-rr,y),(x+w-rr,mid),radius_x=rr)
-        self.add_line(name+'-return',(x+w-rr,mid),(x,mid))
-        self.relate('connect',name+'-stem',name+'-bowl')
-        self.relate('connect',name+'-bowl',name+'-return')
-        self.relate('connect',name+'-return',name+'-stem')
+    def parking_letter(self,name,x,top,bottom,width=10,bowl_height=14):
+        # Vertical stem split at the bowl attachment; one smooth half-ellipse owns its loop.
+        mid=top+bowl_height; shoulder=x+3
+        self.add_line(name+'-stem-upper',(x,mid),(x,top))
+        self.add_line(name+'-top',(x,top),(shoulder,top))
+        self.add_arc(name+'-bowl',(shoulder,top),(shoulder,mid),radius_x=width-3,radius_y=bowl_height//2)
+        self.add_line(name+'-return',(shoulder,mid),(x,mid))
+        self.add_contour(name+'-loop',name+'-stem-upper',name+'-top',name+'-bowl',name+'-return',closed=True)
+        self.add_line(name+'-stem-lower',(x,mid),(x,bottom))
+        self.relate('connect',name+'-loop',name+'-stem-lower')
 
-    def build(self):
-        self.add_polyline('p-stem',(4,40),(4,24),(4,8))
-        self.add_arc('p-bowl',(4,8),(4,24),radius_x=8);self.relate('connect','p-stem','p-bowl')
-        self.add_polyline('plus-horizontal',(21,24),(24,24),(27,24))
-        self.add_polyline('plus-vertical',(24,21),(24,24),(24,27));self.relate('connect','plus-horizontal','plus-vertical')
-        self.add_polyline('b-stem',(36,40),(36,24),(36,8))
-        for i,y in enumerate((8,24)):
-         self.add_arc(f'b-bowl-{i}',(36,y),(36,y+16),radius_x=8)
-         self.relate('connect','b-stem',f'b-bowl-{i}')
-        self.relate('connect','b-bowl-0','b-bowl-1')
+    def plus(self,x,y,r=2):
+        names=[]
+        for i,p in enumerate(((x-r,y),(x+r,y),(x,y-4),(x,y+4))):
+            n=f'plus-{i}';self.add_line(n,p,(x,y))
+            for prev in names:self.relate('connect',n,prev)
+            names.append(n)
 
-KEYSHAPE_INK_BOUNDS = (2, 6, 46, 42)
-KEYSHAPE_REASON = 'The side-by-side lettering uses the wide 40×32 centerline envelope.'

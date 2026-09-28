@@ -6,10 +6,10 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='a46a65c8-4a95-55ac-8668-317d0b3a148f'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hierarchy-arched-branches/20260926T172218Z-thuan-mac-1/reference/hierarchy_a46a65c8-4a95-55ac-8668-317d0b3a148f.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HierarchyArchedBranches(Solo48):
-    icon_id='hierarchy-arched-branches-solo'
+    icon_id = 'hierarchy-arched-branches-solo'
     keyshape=Keyshape.HRECT_L
     semantic_role="MAIN"
     semantic_kind="noun"
@@ -32,8 +32,8 @@ class HierarchyArchedBranches(Solo48):
             for a,b in combinations(names,2): self.relate('connect',a,b)
 
         node('parent',20,8,8,8)
-        self.add_arc('left-arch',(24,16),(8,32),radius_x=16,sweep=False)
-        self.add_arc('right-arch',(24,16),(40,32),radius_x=16)
+        self.add_arc('left-arch',(24,16),(8,32),radius_x=15,sweep=False)
+        self.add_arc('right-arch',(24,16),(40,32),radius_x=15)
         self.add_line('middle-stem',(24,16),(24,32))
         join('parent','left-arch','right-arch','middle-stem')
         for name,x,branch in (('left',8,'left-arch'),('middle',24,'middle-stem'),('right',40,'right-arch')):

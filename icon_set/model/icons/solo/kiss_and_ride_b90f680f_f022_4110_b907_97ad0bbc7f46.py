@@ -1,51 +1,53 @@
-"""K plus R, the kiss-and-ride designation.
-Plan: HRECT_M gives each glyph and the plus room across the canvas.
-Reduction: No glyph omitted; R leg moved to the shared stem/bowl junction to open its lower gap.
-Construction: Source lettering; no useful exact Lucide construction match.
-Layout: K and R are deliberately different letterforms; plus strokes meet at an explicit central node."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
+
 SOURCE_ICON_ID = 'b90f680f-f022-4110-b907-97ad0bbc7f46'
-SOURCE_PATH = 'pictographic-primitives/transportation/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg'
+SOURCE_PATH = 'icon_set/work/todo-references/kiss and ride_b90f680f-f022-4110-b907-97ad0bbc7f46.svg'
 AUTHOR = "gpt-6"
+SUBJECT = 'The letters K and R separated by a plus sign for kiss and ride.'
+CONSTRUCTION_PLAN = 'Hand-authored letter strokes preserve the literal K+R sign; no useful Lucide match.'
+# Keyshape extremes are fixed by SOLO48; all geometry authored directly at 48.
+
+def circle(icon, name, cx, cy, radius):
+    icon.add_arc(name+'-a', (cx-radius,cy), (cx+radius,cy), radius_x=radius)
+    icon.add_arc(name+'-b', (cx+radius,cy), (cx-radius,cy), radius_x=radius)
+    icon.add_contour(name, name+'-a', name+'-b', closed=True)
+
+def rounded_rect(icon, name, left, top, right, bottom, radius=4):
+    r=radius
+    points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),(right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
+    members=[]
+    for i,start in enumerate(points):
+        end=points[(i+1)%8]; member=f'{name}-{i}'; members.append(member)
+        if i%2: icon.add_arc(member,start,end,radius_x=r)
+        else: icon.add_line(member,start,end)
+    icon.add_contour(name,*members,closed=True)
+
 class Drawing(Solo48):
     icon_id = 'kiss-and-ride'
     keyshape = Keyshape.HRECT_M
-    # Visible ink extremes: (2, 8, 46, 40).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'transportation'
-    categories = ('transportation', 'primitives')
+    category = 'objects/general'
     aliases = ()
     keywords = ('kiss', 'and', 'ride')
 
-    def circle(self,name,cx,cy,r):
-        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
-        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
-        self.add_contour(name,name+'-a',name+'-b',closed=True)
-    def rect(self,name,x,y,w,h,r=2):
-        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-        names=[]
-        for i,a in enumerate(pts):
-            n=f'{name}-{i}';b=pts[(i+1)%8]
-            if i%2:self.add_arc(n,a,b,radius_x=r)
-            else:self.add_line(n,a,b)
-            names.append(n)
-        self.add_contour(name,*names,closed=True)
-
     def build(self):
+        self.add_line('k-upper',(4,10),(4,24))
+        self.add_line('k-lower',(4,24),(4,38))
+        self.add_polyline('k-arms',(14,10),(4,24),(14,38))
+        self.relate('connect','k-upper','k-lower','k-arms')
+        self.add_line('plus-horizontal',(18,24),(26,24))
+        self.add_line('plus-vertical',(22,20),(22,28))
+        self.relate('connect','plus-horizontal','plus-vertical')
+        self.add_line('r-upper',(35,10),(35,24))
+        self.add_line('r-lower',(35,24),(35,38))
+        self.add_line('r-top',(35,10),(37,10))
+        self.add_arc('r-round',(37,10),(37,24),radius_x=7)
+        self.add_line('r-middle',(37,24),(35,24))
+        self.add_contour('r-bowl','r-top','r-round','r-middle')
+        self.add_line('r-leg',(37,24),(44,38))
+        self.relate('connect','r-upper','r-lower','r-bowl')
+        self.relate('connect','r-bowl','r-leg')
 
-        # Plan: monoline letterforms on shared cap and baseline; plus at midheight.
-        self.add_polyline('k-stem',(4,10),(4,24),(4,38))
-        self.add_polyline('k-arms',(16,10),(4,24),(16,38))
-        self.relate('connect','k-stem','k-arms')
-        self.add_polyline('plus-h',(20,24),(23,24),(26,24))
-        self.add_polyline('plus-v',(23,18),(23,24),(23,30))
-        self.relate('connect','plus-h','plus-v')
-        self.add_polyline('r-stem',(34,38),(34,26),(34,10),(38,10))
-        self.add_arc('r-bowl',(38,10),(38,26),radius_x=6,radius_y=8)
-        self.add_line('r-bar',(38,26),(34,26))
-        self.add_line('r-leg',(34,26),(44,38))
-        self.relate('connect','r-stem','r-bowl')
-        self.relate('connect','r-stem','r-bar')
-        self.relate('connect','r-bowl','r-bar');self.relate('connect','r-leg','r-bar');self.relate('connect','r-leg','r-stem')
+KEYSHAPE_CENTERLINE_BOUNDS = [4, 10, 44, 38]

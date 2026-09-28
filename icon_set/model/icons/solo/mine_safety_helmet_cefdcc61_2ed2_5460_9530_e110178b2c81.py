@@ -1,78 +1,47 @@
-"""Hard Hat with Wide Curved Brim.
-
-Plan: Symmetric circular crown, single central ridge, broad half-ellipse brim. Centerline extremes (4,8)-(44,40).
-Reduction: Raised ridge becomes a single central rib; the wide curved brim is retained.
-Construction reference: Lucide hard-hat.
-"""
-from ...keyshapes import Keyshape
+"""Round mining helmet with a raised tapering central ridge and broad shallow curved brim."""
 from ._base import Solo48
-
-SOURCE_ICON_ID = 'cefdcc61-2ed2-5460-9530-e110178b2c81'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hard-hat-with-wide-curved-brim/20260927T061835Z-thuan-mac-1/reference/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'
-AUTHOR = 'gpt-6'
-SOURCE_REFERENCES = (('cefdcc61-2ed2-5460-9530-e110178b2c81', 'pictographic-primitives/construction/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'),)
-
-def _circle(icon, name, cx, cy, radius):
-    left, right = (cx-radius, cy), (cx+radius, cy)
-    icon.add_arc(name+'-upper', left, right, radius_x=radius)
-    icon.add_arc(name+'-lower', right, left, radius_x=radius)
-    icon.add_contour(name, name+'-upper', name+'-lower', closed=True)
-
-
-def _box(icon, name, left, top, right, bottom, radius, attachments=()):
-    # One rounded rectangle owns all corners and cardinal attachment nodes.
-    cx, cy = (left+right)//2, (top+bottom)//2
-    points = [(cx,top),(right-radius,top),(right,top+radius),
-              (right,cy),(right,bottom-radius),(right-radius,bottom),
-              (cx,bottom),(left+radius,bottom),(left,bottom-radius),
-              (left,cy),(left,top+radius),(left+radius,top),(cx,top)]
-    members = []
-    for index, (start,end) in enumerate(zip(points,points[1:])):
-        if start == end:
-            continue
-        member = f'{name}-{index}'
-        if index in (1,4,7,10):
-            icon.add_arc(member, start, end, radius_x=radius)
-        else:
-            dx,dy=end[0]-start[0],end[1]-start[1]
-            inside=[p for p in attachments if (p[0]-start[0])*dy == (p[1]-start[1])*dx
-                    and 0 < (p[0]-start[0])*dx+(p[1]-start[1])*dy < dx*dx+dy*dy]
-            inside.sort(key=lambda p:(p[0]-start[0])*dx+(p[1]-start[1])*dy)
-            nodes=[start]+inside+[end]
-            for j,(a,b) in enumerate(zip(nodes,nodes[1:])):
-                part=member+f'-split-{j}'
-                icon.add_line(part,a,b)
-                members.append(part)
-            continue
-        members.append(member)
-    icon.add_contour(name, *members, closed=True)
-
-
-class HardHatWithWideCurvedBrim(Solo48):
+from ...keyshapes import Keyshape
+SOURCE_ICON_ID='cefdcc61-2ed2-5460-9530-e110178b2c81'
+SOURCE_PATH='pictographic-primitives/construction/safety helmet mine_cefdcc61-2ed2-5460-9530-e110178b2c81.svg'
+AUTHOR="gpt-6"
+PLAN='Round mining helmet with a raised tapering central ridge and broad shallow curved brim.'
+CONSTRUCTION_REFERENCE='hard-hat original and atomic-debug: raised ridge separated from dome shoulders.'
+OMISSIONS='No defining features omitted.'
+class Drawing(Solo48):
     icon_id = 'mine-safety-helmet'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'construction'
-    categories = ('construction', 'other', 'primitives-generate')
-    aliases = ()
-    keywords = ('hard', 'hat', 'with', 'wide', 'curved', 'brim')
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('safety', 'helmet', 'mine')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
 
     def build(self):
-        # Raised crown ridge follows the distinct original mine helmet.
-        self.add_line('side-left',(8,29),(8,24))
-        self.add_bezier('crown-left',(8,24),((8,17),(12,11),(18,9)))
-        self.add_line('ridge-top-left',(18,9),(20,8))
-        self.add_line('ridge-top',(20,8),(28,8))
-        self.add_line('ridge-top-right',(28,8),(30,9))
-        self.add_bezier('crown-right',(30,9),((36,11),(40,17),(40,24)))
-        self.add_line('side-right',(40,24),(40,29))
-        self.add_contour('shell','side-left','crown-left','ridge-top-left','ridge-top','ridge-top-right','crown-right','side-right')
-        self.add_polyline('brim-top',(4,29),(8,29),(40,29),(44,29))
-        self.add_arc('brim-bottom',(44,29),(4,29),radius_x=20,radius_y=11)
-        self.relate('connect','shell','brim-top')
-        self.relate('connect','brim-top','brim-bottom')
-        self.add_line('ridge-left',(18,9),(20,19))
-        self.add_line('ridge-right',(30,9),(28,19))
-        self.relate('connect','ridge-left','shell')
-        self.relate('connect','ridge-right','shell')
+        self.path('ridge',(18,20),[('L',(16,14)),('L',(16,11)),('A',(19,8),3,3,True),('L',(29,8)),('A',(32,11),3,3,True),('L',(32,14)),('L',(30,20))])
+        self.path('dome-l',(8,28),[('C',(16,14),(8,23),(10,17))]);self.path('dome-r',(32,14),[('C',(40,28),(38,17),(40,23))])
+        self.path('brim',(4,28),[('L',(8,28)),('L',(40,28)),('L',(44,28)),('A',(4,28),20,12,True)],True)
+        for a,b in [('ridge','dome-l'),('ridge','dome-r'),('dome-l','brim'),('dome-r','brim')]:self.relate('connect',a,b)
+
+# Keyshape rationale: HRECT_L balances the tapered ridge and curved brim.
+# Visual review: Tapered central ridge restored above the shell; curved brim deepened for clearance.

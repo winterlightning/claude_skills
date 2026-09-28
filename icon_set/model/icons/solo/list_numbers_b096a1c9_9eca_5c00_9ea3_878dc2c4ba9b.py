@@ -1,20 +1,18 @@
-"""Revision of the claimed reference after comparing original and rejected drawing."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__list-numbers/20260927T142529Z-thuan-mac-1/reference/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/list numbers_b096a1c9-9eca-5c00-9ea3-878dc2c4ba9b.svg'
+AUTHOR = "gpt-6"
 PLAN = 'Numbered list with rows one, two and three.'
 CONSTRUCTION_REFERENCES = 'Lucide list-ordered: numeral column and repeated rules.'
 OMISSIONS = 'Compact monoline numerals.'
 
 class Drawing(Solo48):
     icon_id = 'list-numbers'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface-essential"
-    categories = ("interface-essential", "other", "primitives-generate")
+    category = "objects/general"
     aliases = ()
     keywords = ('list', 'numbers')
 
@@ -43,9 +41,8 @@ class Drawing(Solo48):
         self.add_polyline('play',(x,y),(x+w,y+h//2),(x,y+h),closed=True)
 
     def build(self):
-        # Taller list gives each numeral eight units and two full inter-row gaps.
-        self.add_polyline('one',(8,8),(12,4),(12,10))
-        self.add_bezier('two-top',(8,20),((14,17),(19,21),(14,24)))
-        self.add_polyline('two-base',(14,24),(8,29),(16,29));self.relate('connect','two-top','two-base')
-        self.add_bezier('three',(8,37),((17,37),(17,40),(12,40)),((17,40),(17,44),(8,44)))
-        for i,y in enumerate((8,24,40)):self.add_line('row-'+str(i),(26,y),(40,y))
+        self.add_polyline('one',(6,8),(9,6),(9,12))
+        self.add_arc('two-top',(6,23),(12,23),radius_x=3)
+        self.add_polyline('two-base',(12,23),(6,27),(12,27));self.relate('connect','two-top','two-base')
+        self.add_bezier('three',(6,35),((13,35),(13,38),(9,38)),((13,38),(13,42),(6,42)))
+        for i,y in enumerate((9,24,39)):self.add_line('row-'+str(i),(22,y),(42,y))

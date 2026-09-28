@@ -1,57 +1,77 @@
-"""User drop zone 1.
-Symbol plan: Main circle center19,24 radius15; diagonal9-12-15 attachment points31,15 and31,33 meet links to two radius2 satellites. P stem15,19..29 and bowl pitch8. HRECT_L extremes4,8..44,40.
-Omissions: Satellite circles reduced to radius2; P descender shortened for clearance.
-Construction references: Lucide network: node and link hierarchy; supplied reference for P and circular arrangement.
+"""user drop zone 1. Plan: Widen P bowl and move opening down; retain descending stem. Shorten descending stem by one to clear the main circle.
+Keyshape HRECT_L; shared parameters own repeated elements and genuine junctions.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='d40b2438-c966-462c-8e4e-d118211694e3'
-SOURCE_PATH='pictographic-primitives/_uncategorized_39/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = 'd40b2438-c966-462c-8e4e-d118211694e3'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_39/user drop zone 1_d40b2438-c966-462c-8e4e-d118211694e3.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
-    icon_id='user-drop-zone-1'
-    keyshape=Keyshape.HRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases=()
-    keywords=('user', 'drop', 'zone', '1')
+    icon_id = 'user-drop-zone-1'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('user', 'drop', 'zone', '1')
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
 
-    def path(self,n,start,ops,closed=False):
-        at=start; members=[]
-        for i,op in enumerate(ops):
-            kind,end,*args=op
-            if at==end: continue
-            m=f'{n}-{i}'
-            if kind=='L': self.add_line(m,at,end)
-            elif kind=='A': self.add_arc(m,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            else: self.add_bezier(m,at,(args[0],args[1],end))
-            members.append(m);at=end
-        if closed and at!=start:
-            self.add_line(n+'-close',at,start);members.append(n+'-close')
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        ops=[('L',(x,t)) for x in sorted(top) if l+k<x<r-k]
-        ops += [('L',(r-k,t)),('A',(r,t+k),k,k,True)]
-        ops += [('L',(r,y)) for y in sorted(right) if t+k<y<b-k]
-        ops += [('L',(r,b-k)),('A',(r-k,b),k,k,True)]
-        ops += [('L',(x,b)) for x in sorted(bottom,reverse=True) if l+k<x<r-k]
-        ops += [('L',(l+k,b)),('A',(l,b-k),k,k,True)]
-        ops += [('L',(l,y)) for y in sorted(left,reverse=True) if t+k<y<b-k]
-        ops += [('L',(l,t+k)),('A',(l+k,t),k,k,True)]
-        self.path(n,(l+k,t),ops,True)
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
+
 
     def build(self):
-        # Radius15 diagonal attachment points use the exact9-12-15 triangle.
-        self.path('main',(31,15),[('A',(31,33),15,15,True),('A',(4,24),15,15,True),('A',(31,15),15,15,True)],True)
-        for side,y,sy in [('upper',10,15),('lower',38,33)]:
-            self.circle('node-'+side,42,y,2)
-            self.add_line('link-'+side,(31,sy),(40,y))
-            self.relate('connect','link-'+side,'main');self.relate('connect','link-'+side,'node-'+side)
-        self.add_polyline('p-stem',(15,29),(15,27),(15,19),(21,19))
-        self.add_arc('p-bowl',(21,19),(21,27),radius_x=4)
-        self.add_line('p-return',(21,27),(15,27))
-        self.relate('connect','p-stem','p-bowl');self.relate('connect','p-stem','p-return');self.relate('connect','p-bowl','p-return')
+        self.circle('main',20,24,16)
+        for name,y in [('upper',10),('lower',38)]:
+            self.circle('node-'+name,42,y,2)
+            self.add_line('link-'+name,(36,24),(42,12 if y==10 else 36))
+            self.join('link-'+name,'main');self.join('link-'+name,'node-'+name)
+        self.add_polyline('p-stem',(16,30),(16,28),(16,18),(20,18))
+        self.path('p-bowl',(20,18),[('A',(20,28),5,5,True),('L',(16,28))]);self.join('p-stem','p-bowl')

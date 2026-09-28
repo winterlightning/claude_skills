@@ -1,57 +1,44 @@
-"""square person confined: fresh parallel-spacing repair.
-Plan: Small head and open shoulders remain legible inside the square enclosure.
-Keyshape SQUARE: Square envelope preserves the confined-person frame.
-Omissions: Closed body base and crowded arm seams omitted.
+"""Frontal bust enclosed in a square. Shared head/body axis24; head bottom21, shoulder top29: exactly4 units of visible gap.
+Symbol plan: shared contour owners and attachment nodes; repeated marks share a spacing parameter.
+Omissions: Arm slits and lower closing edge removed to retain open negative space.
+Construction: Shared human_ref/user.svg: circular head and open smooth shoulders; Lucide square-parking: rounded outer frame.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='405a762c-b2c7-43c2-8ccd-42ddd4967863'
 SOURCE_PATH='pictographic-primitives/_uncategorized_35/square person confined_405a762c-b2c7-43c2-8ccd-42ddd4967863.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='square-person-confined'
+    icon_id = 'square-person-confined'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('square', 'person', 'confined')
+    ink_extremes=keyshape.bounds_for(Profile.SOLO48)
+    def build(self):
+        self.box('frame',6,6,42,42,4)
+        self.circle('head',24,18,3)
+        self.add_arc('shoulder-left',(15,33),(24,29),radius_x=9,radius_y=4)
+        self.add_arc('shoulder-right',(24,29),(33,33),radius_x=9,radius_y=4)
+        self.add_contour('body','shoulder-left','shoulder-right')
 
     def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def path(self,n,start,segments,closed=False):
-        at=start; members=[]
-        for i,s in enumerate(segments):
-            eid=f'{n}-{i}'; kind,end,*args=s
-            if end==at: continue
-            if kind=='L': self.add_line(eid,at,end)
-            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
-            at=end; members.append(eid)
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+    def path(self,n,start,ops,closed=False):
+        p=start;members=[]
+        for i,op in enumerate(ops):
+            name=f'{n}-{i}';end=op[1]
+            if op[0]=='L':self.add_line(name,p,end)
+            elif op[0]=='A':self.add_arc(name,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            elif op[0]=='B':self.add_bezier(name,p,(op[2],op[3],end))
+            members.append(name);p=end
+        if closed and p!=start:
+            self.add_line(n+'-close',p,start);members.append(n+'-close')
         self.add_contour(n,*members,closed=closed)
-    def cross(self,n,x,y,r):
-        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
-            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
-        for i in range(4):
-            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
-
-    def page(self):
-        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,8)),('A',(12,4),4)],True)
-    def phone(self,band=True):
-        self.path('phone',(12,4),[('L',(36,4)),('A',(40,8),4),('L',(40,36)),('L',(40,40)),('A',(36,44),4),('L',(12,44)),('A',(8,40),4),('L',(8,36)),('L',(8,8)),('A',(12,4),4)],True)
-        if band:
-            self.add_line('separator',(8,36),(40,36));self.relate('connect','phone','separator')
-    def house(self):
-        self.path('house',(6,18),[('L',(24,6)),('L',(42,18)),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,18))],True)
-
-    def frame(self):
-        self.path('frame',(10,6),[('L',(38,6)),('A',(42,10),4),('L',(42,38)),('A',(38,42),4),('L',(10,42)),('A',(6,38),4),('L',(6,10)),('A',(10,6),4)],True)
-
-    def build(self):
-        self.frame()
-        self.circle('head',24,17,2)
-        self.add_arc('shoulders-left',(16,33),(24,27),radius_x=8,radius_y=6)
-        self.add_arc('shoulders-right',(24,27),(32,33),radius_x=8,radius_y=6)
-        self.add_contour('shoulders','shoulders-left','shoulders-right')

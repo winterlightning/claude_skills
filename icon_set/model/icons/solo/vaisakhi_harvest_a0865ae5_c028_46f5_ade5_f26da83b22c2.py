@@ -6,7 +6,7 @@ SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__vaisakhi-harvest/20260927
 AUTHOR = "gpt-6"
 PLAN='Drum hoop series spaced 8; pair of beaters above. Wheat two joints spaced 8; squared drum simplified from curved barrel. No useful exact Lucide match.'
 class Drawing(Solo48):
-    icon_id='vaisakhi-harvest'
+    icon_id = 'vaisakhi-harvest'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
@@ -21,8 +21,8 @@ class Drawing(Solo48):
         self.add_polyline('drum',(10,18),(24,18),(28,26),(28,34),(26,42),(10,42),(6,34),(6,26),closed=True)
         for y in (26,34):
             n=f'hoop-{y}';self.add_line(n,(6,y),(28,y));self.relate('connect','drum',n)
-        self.add_polyline('wheat',(26,42),(37,31),(42,26))
-        self.add_line('grain',(37,23),(37,31))
+        self.add_polyline('wheat',(26,42),(34,34),(42,26),(42,18))
+        self.add_polyline('grain',(34,26),(34,34),(42,34))
         self.relate('connect','wheat','grain');self.relate('connect','wheat','drum')
 
     def circle(self,n,x,y,r):

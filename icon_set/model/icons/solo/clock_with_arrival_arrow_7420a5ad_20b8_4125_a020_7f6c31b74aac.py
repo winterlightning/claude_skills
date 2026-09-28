@@ -1,42 +1,37 @@
-"""Estimated-arrival clock: a clock face whose rim is an arrow. The rim starts
-near half past ten, runs clockwise round the dial and ends at nine o'clock in
-an upward arrowhead; two hands read three o'clock.
-
-Symbol plan: rim = one short elliptical arc into twelve o'clock and three
-quarter arcs about (26,24) with radii 16 x 18; the arrowhead is a symmetric
-chevron whose apex is the rim's end, arms at 45 degrees either side of the
-vertical travel direction. The rim is 2 units narrower than it is tall so the
-arrowhead's outer arm fits inside the square without shrinking the dial.
-Hands share the centre node. Keyshape SQUARE, centerline box (6,6)-(42,42).
-Lucide construction: rotate-ccw / history (open rim, chevron at its end,
-hands from the centre).
+"""Counterclockwise arrival clock uses centered circular rim and inward opening at upper left.
+Construction: refresh-cw: continuous circular rim and attached head
+Reduction: No omissions.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
+SOURCE_ICON_ID = '7420a5ad-20b8-4125-a020-7f6c31b74aac'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__clock-with-counterclockwise-arrival-arrow/20260924T111346Z-thuan-mac/reference/shipping logistic estimate time arrival 1_7420a5ad-20b8-4125-a020-7f6c31b74aac.svg'
+AUTHOR = "gpt-6"
 
-SOURCE_ICON_ID = "7420a5ad-20b8-4125-a020-7f6c31b74aac"
-SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__clock-with-counterclockwise-arrival-arrow/20260925T092530Z-thuan-mac/reference/shipping logistic estimate time arrival 1_7420a5ad-20b8-4125-a020-7f6c31b74aac.svg"
-AUTHOR = "claude-opus-5-5"
-
-
-class ClockWithArrivalArrow(Solo48):
-    icon_id = "clock-with-counterclockwise-arrival-arrow-solo"
+class Drawing(Solo48):
+    icon_id = 'clock-with-counterclockwise-arrival-arrow-solo'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "time"
-    aliases = ("estimated time of arrival", "eta")
-    keywords = ("clock", "arrival", "estimate", "time", "shipping", "arrow")
+    category = "objects"
+    aliases = ()
+    keywords = ('clock', 'with', 'counterclockwise', 'arrival', 'arrow')
+    def build(self):
 
-    def build(self) -> None:
-        cx, cy, rx, ry = 26, 24, 16, 18
-        tip = (cx - rx, cy)
-        arm = 4
-        self.add_arc("rim-1", (15, 11), (cx, cy - ry), radius_x=rx, radius_y=ry)
-        self.add_arc("rim-2", (cx, cy - ry), (cx + rx, cy), radius_x=rx, radius_y=ry)
-        self.add_arc("rim-3", (cx + rx, cy), (cx, cy + ry), radius_x=rx, radius_y=ry)
-        self.add_arc("rim-4", (cx, cy + ry), tip, radius_x=rx, radius_y=ry)
-        self.add_contour("rim", "rim-1", "rim-2", "rim-3", "rim-4")
-        self.add_polyline("head", (tip[0] - arm, tip[1] + arm), tip, (tip[0] + arm, tip[1] + arm))
-        self.relate("connect", "rim", "head")
-        self.add_polyline("hands", (cx, cy - 9), (cx, cy), (cx + 6, cy))
+        def path(name, start, steps, closed=False):
+            here=start; members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{name}-{j}'
+                if kind=='L': self.add_line(m,here,end)
+                else: self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2],large_arc=args[3] if len(args)>3 else False)
+                members.append(m); here=end
+            self.add_contour(name,*members,closed=closed)
+        def poly(name,*pts,closed=False): self.add_polyline(name,*pts,closed=closed)
+        def line(name,a,b): self.add_line(name,a,b)
+        def join(a,b): self.relate('connect',a,b)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+        path('rim',(24,6),[('A',(42,24),18,18,True),('A',(24,42),18,18,True),('A',(6,24),18,18,True)])
+        poly('tip',(6,34),(6,24),(16,24));join('rim','tip')
+        poly('hands',(24,15),(24,26),(33,26))

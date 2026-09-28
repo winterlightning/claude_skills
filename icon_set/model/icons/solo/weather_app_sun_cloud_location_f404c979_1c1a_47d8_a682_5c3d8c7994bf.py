@@ -1,25 +1,21 @@
 """weather app sun cloud location.
-Plan: Exposed sun cap above left cloud; large pin overlays lower-right and shares a genuine cloud endpoint.
-Construction: Source sun/cloud/pin arrangement, circular sun cap and smooth coherent cloud boundary.
-Omissions: Sun rays removed; location center ring reduced to a dot.
+Plan: Restore four sun rays with genuine shared endpoint joins to quarter-circle sun. Separate cloud and pin; omit minor pin eye. Preserve all three recognizable weather/location symbols.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = 'f404c979-1c1a-47d8-a682-5c3d8c7994bf'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='f404c979-1c1a-47d8-a682-5c3d8c7994bf'
+SOURCE_PATH='pictographic-primitives/_uncategorized_40/weather app sun cloud location_f404c979-1c1a-47d8-a682-5c3d8c7994bf.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'weather-app-sun-cloud-location'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('weather', 'app', 'sun', 'cloud', 'location')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('weather', 'app', 'sun', 'cloud', 'location')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,9 +69,8 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.add_arc('sun',(6,13),(20,13),radius_x=7)
-        self.path('cloud',(16,42),[('L',(14,42)),('A',(6,34),8,8,True),('A',(14,26),8,8,True),('C',(14,19),(15,13),(20,13)),('C',(25,13),(29,14),(32,18))])
-        self.relate('connect','sun','cloud')
-        self.path('pin',(32,18),[('A',(42,28),10,10,True),('C',(42,33),(36,39),(32,42)),('C',(28,39),(22,33),(22,28)),('A',(32,18),10,10,True)],True)
-        self.relate('connect','cloud','pin')
-        self.add_dot('pin-center',(32,28))
+        self.path('sun',(9,12),[('A',(12,9),3,3,True),('A',(15,12),3,3,True),('A',(12,15),3,3,True),('A',(9,12),3,3,True)],True)
+        for n,a,b in [('west',(9,12),(6,12)),('north',(12,9),(12,6)),('east',(15,12),(18,12)),('south',(12,15),(12,18))]:
+            self.add_line('ray-'+n,a,b);self.join('sun','ray-'+n)
+        self.path('pin',(26,14),[('A',(42,14),8,8,True),('C',(42,20),(37,26),(34,30)),('C',(31,26),(26,20),(26,14))],True)
+        self.path('cloud',(12,42),[('C',(8,42),(6,40),(6,36)),('C',(6,32),(8,30),(12,30)),('C',(12,26),(20,26),(20,32)),('C',(26,32),(26,42),(20,42)),('L',(12,42))],True)

@@ -2,16 +2,15 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5e1048c9-9d25-56a8-b734-5d83dac9ce83'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-folded-arrows-forming-recycling-loop/20260927T140026Z-thuan-mac-1/reference/recycling sign_5e1048c9-9d25-56a8-b734-5d83dac9ce83.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__three-folded-arrows-forming-recycling-loop/20260924T105724Z-thuan-mac/reference/recycling sign_5e1048c9-9d25-56a8-b734-5d83dac9ce83.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'three-folded-arrows-forming-recycling-loop-solo'
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'ecology'
-    categories = ('primitives', 'ecology')
+    category = 'objects'
     aliases = ()
     keywords = ('three', 'folded', 'arrows', 'forming', 'recycling', 'loop')
 
@@ -31,8 +30,8 @@ class Drawing(Solo48):
         line=self.add_line; poly=self.add_polyline
         def join(a,b): self.relate('connect',a,b)
         path('top',(18,12),[('L',(21,8)),('A',(27,8),3,2,True),('L',(36,22))])
-        poly('top-head',(26,19),(36,22),(40,14));join('top','top-head')
+        poly('top-head',(27,20),(36,22),(39,13));join('top','top-head')
         path('right',(42,29),[('L',(38,37)),('A',(33,42),5,5,True),('L',(20,42))])
-        poly('right-head',(29,34),(20,42),(31,42));join('right','right-head')
+        poly('right-head',(27,35),(20,42),(29,42));join('right','right-head')
         path('left',(12,42),[('L',(7,32)),('C',(7,27),(6,30),(6,29)),('L',(12,19))])
-        poly('left-head',(6,21),(12,19),(17,28));join('left','left-head')
+        poly('left-head',(6,21),(12,19),(15,27));join('left','left-head')

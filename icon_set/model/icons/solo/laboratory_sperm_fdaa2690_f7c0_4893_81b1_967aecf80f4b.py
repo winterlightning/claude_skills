@@ -1,45 +1,80 @@
-"""laboratory sperm: fresh spacing repair.
-Plan: Two offset repeated sperm cells inside the circular field. Heads expose actual lower tail attachment; organic diagonal arrangement preserved. No useful Lucide match.
-Keyshape CIRCLE: extrema derived from the profile's standard envelope.
-Omissions: Detached third cell omitted; sperm heads simplified to small circular outlines.
+"""laboratory sperm.
+Plan: Two sperm cells with circular heads and smooth downward tails within a circular observation field.
+Construction: Source microscope field and cell arrangement; Lucide circle geometry, shared radii and smooth tail strokes.
+Omissions: Third isolated oval removed; oval heads normalized to shared small-circle construction.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID='fdaa2690-f7c0-4893-81b1-967aecf80f4b'
-SOURCE_PATH='pictographic-primitives/health/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
-AUTHOR='gpt-6'
-class Drawing(Solo48):
-    icon_id='laboratory-sperm'
-    keyshape=Keyshape.CIRCLE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'health'
-    categories = ('health', 'primitives')
-    aliases=()
-    keywords=('laboratory', 'sperm')
+SOURCE_ICON_ID = 'fdaa2690-f7c0-4893-81b1-967aecf80f4b'
+SOURCE_PATH = 'pictographic-primitives/health/laboratory sperm_fdaa2690-f7c0-4893-81b1-967aecf80f4b.svg'
+AUTHOR = "gpt-6"
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def path(self,n,start,segments,closed=False):
-        at=start; members=[]
-        for i,s in enumerate(segments):
-            eid=f'{n}-{i}'; kind,end,*args=s
-            if end==at: continue
-            if kind=='L': self.add_line(eid,at,end)
-            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
-            at=end; members.append(eid)
-        self.add_contour(n,*members,closed=closed)
-    def cross(self,n,x,y,r):
-        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
-            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
-        for i in range(4):
-            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+class Drawing(Solo48):
+    icon_id = 'laboratory-sperm'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('laboratory', 'sperm')
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
 
     def build(self):
         self.circle('field',24,24,20)
-        for n,x,y in [('left',18,18),('right',30,22)]:
-            self.path(n+'-head',(x,y-2),[('A',(x+2,y),2),('A',(x,y+2),2),('A',(x-2,y),2),('A',(x,y-2),2)],True)
-            self.add_bezier(n+'-tail',(x,y+2),((x-3,y+5),(x,y+7),(x-3,y+9)))
-            self.relate('connect',n+'-head',n+'-tail')
+        for n,x,y in [('left',17,19),('right',31,22)]:
+            self.path('head-'+n,(x,y+3),[('A',(x,y-3),3,3,True),('A',(x,y+3),3,3,True)],True)
+        self.add_bezier('tail-left',(17,22),((17,25),(18,27),(16,29)))
+        self.add_bezier('tail-right',(31,25),((31,29),(30,32),(27,34)))
+        self.relate('connect','head-left','tail-left');self.relate('connect','head-right','tail-right')

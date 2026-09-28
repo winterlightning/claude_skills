@@ -1,33 +1,50 @@
-"""Side-view delivery truck with cargo box, angled cab, and two wheels joined to the undercarriage. Local Lucide truck original and atomic debug informed the body and wheel attachment."""
+"""Cargo rectangle and rounded cab with wheel-sized gaps in the chassis; equal circular wheels attach on horizontal diameters."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID = 'ee45281c-9d60-448b-b6b0-b5db76f72c3b'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__shipping-delivery-truck-solo/20260927T172707Z-thuan-mac-1/reference/truck_ee45281c-9d60-448b-b6b0-b5db76f72c3b.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='ee45281c-9d60-448b-b6b0-b5db76f72c3b'
+SOURCE_PATH='pictographic-primitives/transportation/truck_ee45281c-9d60-448b-b6b0-b5db76f72c3b.svg'
+AUTHOR="gpt-6"
+PLAN='Equal wheel centers (16,36),(32,36), radius 4. Chassis ends at wheel sides rather than continuing behind or tangent along them. Rounded cab retained.'
+CONSTRUCTION_REFERENCE='truck original and atomic-debug: horizontal chassis segments attach at wheel sides; coherent curved cab.'
+OMISSIONS='Cargo divider stops above the chassis to leave wheel clearance. Wheels moved inward and reduced slightly.'
 
 class Drawing(Solo48):
     icon_id = 'shipping-delivery-truck'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'transportation'
-    categories = ('transportation', 'other', 'primitives-generate')
-    tags = ('sub icon',)
-    keywords = ('sub icon', 'shipping delivery truck')
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('truck',)
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+
     def build(self):
-        # Wheels meet the undercarriage at shared centerline points, as in the source.
-        nodes=((6,25),(6,6),(26,6),(26,16),(35,16),(42,25),
-               (34,25),(14,25),(6,25))
-        for j,(a,b) in enumerate(zip(nodes,nodes[1:]),1):
-            self.add_line(f'shell-{j}',a,b)
-        self.add_contour('shell',*(f'shell-{j}' for j in range(1,len(nodes))),closed=True)
-        self.add_line('cab-divider',(26,16),(26,25))
-        self.relate('connect','shell','cab-divider')
-        for name,x in (('rear',14),('front',34)):
-            points=((x,34),(x+4,38),(x,42),(x-4,38),(x,34))
-            for j,(a,b) in enumerate(zip(points,points[1:]),1):
-                self.add_arc(f'{name}-wheel-{j}',a,b,radius_x=4)
-            self.add_contour(f'{name}-wheel',*(f'{name}-wheel-{j}' for j in range(1,5)),closed=True)
-            self.add_line(f'{name}-axle',(x,25),(x,34))
-            self.relate('connect','shell',f'{name}-axle')
-            self.relate('connect',f'{name}-wheel',f'{name}-axle')
+        self.path('cargo',(12,36),[('L',(4,36)),('L',(4,8)),('L',(24,8)),('L',(24,16)),('L',(24,24))])
+        self.path('cab',(24,16),[('L',(34,16)),('C',(44,26),(39,16),(44,21)),('L',(44,36)),('L',(36,36))])
+        self.add_line('chassis',(20,36),(28,36))
+        for x in (16,32):self.circle(f'wheel-{x}',x,36,4)
+        self.relate('connect','cargo','wheel-16')
+        self.relate('connect','cab','cargo')
+        self.relate('connect','chassis','wheel-16')
+        self.relate('connect','chassis','wheel-32')
+        self.relate('connect','cab','wheel-32')

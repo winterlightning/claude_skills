@@ -1,22 +1,20 @@
-"""Desktop monitor with a diagonal editing pencil.
-Plan: SQUARE includes screen, stand and pencil.
-Reduction: Pencil shortened within the screen opening; small tip divider omitted; eraser band retained.
-Construction: pencil: coherent diagonal shaft and cap; monitor: screen and centered stand. Intentional pencil diagonal.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '242c5167-10ea-4717-a24b-bd22d2cf9483'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pencil-edit-desktop/20260927T143814Z-thuan-mac-1/reference/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/todo-references/pencil edit desktop_242c5167-10ea-4717-a24b-bd22d2cf9483.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
+    """A desktop monitor with a large diagonal editing pencil.
+    Plan: Open screen boundary around pencil; centered monitor stand; diagonal pencil with rounded eraser.
+    Reference: pencil: diagonal shaft and rounded eraser; monitor: screen with centered support.
+    """
     icon_id = 'pencil-edit-desktop'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "objects"
     aliases = ()
     keywords = ('pencil', 'edit', 'desktop')
 
@@ -52,22 +50,18 @@ class Drawing(Solo48):
 
     def build(self):
 
-        self.add_polyline('screen',(18,16),(6,16),(6,34),(20,34),(34,34),(34,24))
+        self.add_polyline('screen',(18,16),(6,16),(6,34),(34,34),(34,24))
         self.add_line('stand',(20,34),(20,42));self.relate('connect','stand','screen')
         self.add_polyline('foot',(12,42),(20,42),(28,42));self.relate('connect','foot','stand')
-        self.add_line('pencil-a-1',(14, 24),(18, 16))
+        self.add_line('pencil-a-1',(14, 28),(18, 16))
         self.add_line('pencil-a-2',(18,16),(24,11))
         self.add_line('pencil-a-3',(24,11),(30,6))
         self.add_arc('eraser',(30,6),(42,18),radius_x=12)
         self.add_line('pencil-b-1',(42,18),(34,24))
-        self.add_line('pencil-b-mid',(34,24),(26,24))
-        self.add_line('pencil-b-2',(26, 24),(14, 24))
+        self.add_line('pencil-b-mid',(34,24),(26,30))
+        self.add_line('pencil-b-2',(26, 30),(14, 28))
         self.add_contour('pencil','pencil-a-1','pencil-a-2','pencil-a-3','eraser','pencil-b-1','pencil-b-mid','pencil-b-2',closed=True)
         self.add_line('band',(24,11),(34,24));self.relate('connect','band','pencil')
+        self.add_line('tip',(18,16),(26,30));self.relate('connect','tip','pencil')
 
         self.relate("connect","screen","pencil")
-        self.add_line('edit-mark',(14,24),(18,26))
-        self.relate('connect','edit-mark','pencil')
-
-# Revision comparison: The rejected pencil sat over the screen without a visible editing contact.
-# Revision: Added a short mark from the pencil point onto the desktop screen.

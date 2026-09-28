@@ -2,20 +2,19 @@
 from ._base import Solo48
 from ...keyshapes import Keyshape
 SOURCE_ICON_ID='ac5e07e4-9e24-406e-8500-ef19796d1933'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smartwatch-euro/20260927T140026Z-thuan-mac-1/reference/smart watch square euro sign_ac5e07e4-9e24-406e-8500-ef19796d1933.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH='pictographic-primitives/other/smart watch square euro sign_ac5e07e4-9e24-406e-8500-ef19796d1933.svg'
+AUTHOR="gpt-6"
 PLAN='Restored the missing single-bar euro. Paired strap extensions are integrated into the outer contour, with matching rounded case corners.'
 CONSTRUCTION_REFERENCE='watch original and atomic-debug: paired straps and central face; source supplies single-bar euro.'
 OMISSIONS='The source strap/face dividing rails are omitted; short outlined top and bottom extensions preserve the wristwatch silhouette.'
 class Drawing(Solo48):
-    icon_id='smartwatch-euro'
+    icon_id = 'smartwatch-euro'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
     aliases=()
     keywords=('smart', 'watch', 'square', 'euro', 'sign')
-    category = 'primitives-generate'
-    categories = ('combination', 'other', 'primitives-generate')
+    category='objects/general'
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
@@ -40,9 +39,5 @@ class Drawing(Solo48):
 
     def build(self):
         self.path('watch',(11,7),[('L',(16,7)),('L',(16,4)),('L',(32,4)),('L',(32,7)),('L',(37,7)),('A',(40,10),3,3,True),('L',(40,38)),('A',(37,41),3,3,True),('L',(32,41)),('L',(32,44)),('L',(16,44)),('L',(16,41)),('L',(11,41)),('A',(8,38),3,3,True),('L',(8,10)),('A',(11,7),3,3,True)],True)
-        self.add_bezier('euro-upper',(31,16),((25,14),(20,16),(20,20)))
-        self.add_line('euro-spine',(20,20),(20,28))
-        self.add_bezier('euro-lower',(20,28),((20,32),(25,34),(31,32)))
-        self.add_contour('euro','euro-upper','euro-spine','euro-lower')
-        self.add_line('euro-bar',(17,24),(26,24))
-        self.relate('connect','euro','euro-bar')
+        self.path('euro',(31,16),[('L',(24,16)),('A',(20,20),4,4,False),('L',(20,24)),('L',(20,28)),('A',(24,32),4,4,False),('L',(31,32))])
+        self.add_line('euro-bar',(17,24),(26,24));self.relate('connect','euro','euro-bar')

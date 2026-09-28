@@ -11,7 +11,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '20533df1-caff-43dd-9667-20cbd37a2bd0'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-horned-face/20260928T042731Z-thuan-mac-1/reference/face smile horns_20533df1-caff-43dd-9667-20cbd37a2bd0.svg'
-AUTHOR = "claude-fable-5-1"
+AUTHOR = 'claude-fable-5-1'
 
 
 class SmilingHornedFace(Solo48):

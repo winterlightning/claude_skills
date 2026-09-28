@@ -2,18 +2,17 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID='0a0feef2-02cf-4796-98f1-93d8a372ce93'
-SOURCE_PATH = 'pictographic-primitives/other/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg'
-AUTHOR = 'gpt-6'
-PLAN = 'A browser window containing a round bug with six legs.'
+SOURCE_PATH='icon_set/work/todo-references/ui webpage bug_0a0feef2-02cf-4796-98f1-93d8a372ce93.svg'
+AUTHOR="gpt-6"
+PLAN='Browser page containing a round bug with three paired legs and a horizontal crossbar.'
 CONSTRUCTION_REFERENCE='panels-top-left and bug: browser frame and repeated bilateral legs'
 
 class Drawing(Solo48):
-    icon_id='ui-webpage-bug'
+    icon_id = 'ui-webpage-bug'
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category = "primitives-generate"
-    categories = ("other", "primitives-generate")
+    category="objects/general"
     aliases=()
     keywords=('ui', 'webpage', 'bug')
 
@@ -84,12 +83,5 @@ class Drawing(Solo48):
         for name,start,end in [('tl',(21,24),(18,22)),('tr',(27,24),(30,22)),('bl',(21,32),(18,33)),('br',(27,32),(30,33))]:
             self.add_line('leg-'+name,start,end)
             self.relate('connect','leg-'+name,'bug-body')
-        # Keep six legs; omit the body-crossing divider to leave one clear body opening.
-        for n,a,b in [('left',(16,28),(19,28)),('right',(29,28),(32,28))]:
-            self.add_line('leg-'+n,a,b)
-            self.relate('connect','leg-'+n,'bug-body')
-
-# Final repair review: A browser window containing a round bug with six legs.
-# SQUARE preserves the browser frame.
-# Changes: Removed the divider across the bug body and omitted the two tiny browser chrome dashes.
-# validate_icon: valid; build gate: pass with zero errors and zero warnings.
+        self.add_polyline('crossbar',(16,28),(19,28),(29,28),(32,28))
+        self.relate('connect','crossbar','bug-body')

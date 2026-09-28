@@ -1,84 +1,88 @@
-"""Calendar with Telephone Handset. Calendar with a recognizable curved telephone receiver and angled earpieces.
-Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: Tiny earpiece panel seams omitted; retain full receiver silhouette.
-"""
-from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+"""A calendar containing a diagonal telephone handset.
+Plan: Calendar plus continuous handset silhouette; diagonal receiver preserves the source's lower-left to upper-right bends."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID = 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'
-SOURCE_PATH = 'pictographic-primitives/other/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
-AUTHOR = 'gpt-6'
-PLAN = 'Calendar with a recognizable curved telephone receiver and angled earpieces.'
-OMISSIONS = 'Tiny earpiece panel seams omitted; retain full receiver silhouette.'
-CONSTRUCTION_REFERENCES = ['calendar-check', 'phone']
-PARENT_MODULE = 'icon_set/model/icons/solo/calendar_phone_fd8eb806_4d12_4ad0_bb86_c0aaf66d08bc.py'
+SOURCE_PATH = 'icon_set/work/todo-references/calendar phone_fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc.svg'
+AUTHOR = "gpt-6"
+CONSTRUCTION_REFERENCES = ['calendar']
+PLAN = 'Calendar with a continuous telephone receiver; simplify the handset to a centerline hook with distinct earpiece ends.'
+PARENT_RESULT = 'icon_set/work/primitive-make-ray/fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc/20260923-b06-4cafeaf5/result.json'
 
 class Drawing(Solo48):
     icon_id = 'calendar-phone'
     keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = "primitives-generate"
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/media"
     aliases = ()
     keywords = ('calendar', 'phone')
 
-    def path(self,n,start,commands,closed=False):
-        ids=[]; here=start
-        for i,c in enumerate(commands):
-            eid=f'{n}-{i}'; kind,end,*args=c
-            if kind=='L' and here==end: continue
-            if kind=='L': self.add_line(eid,here,end)
-            elif kind=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif kind=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid); here=end
-        self.add_contour(n,*ids,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def box(self,n,l,t,r,b,k=4):
-        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
-    def phone(self):
-        self.box('phone',8,4,40,44,4)
-        self.add_line('phone-band',(8,36),(40,36))
-    def calendar(self,wide=False):
-        l,t,r,b,bind,divider=(6,10,42,42,6,18) if wide else (8,8,40,44,4,16)
-        self.box('calendar',l,t,r,b,4)
-        self.add_line('divider',(l,divider),(r,divider))
-        for x in (16,32): self.add_line(f'binding-{x}',(x,bind),(x,t))
-    def dollar(self,x=24,y=24):
-        self.path('dollar',(x+4,y-5),[('C',(x,y-6),(x+3,y-6),(x+1,y-6)),('C',(x,y),(x-8,y-6),(x-8,y-1)),('C',(x,y+6),(x+8,y+1),(x+8,y+6)),('C',(x-4,y+5),(x-1,y+6),(x-3,y+6))])
-        self.add_line('dollar-top',(x,y-8),(x,y-6))
-        self.add_line('dollar-bottom',(x,y+6),(x,y+8))
-    def cross(self,n,x,y,r):
-        for j,(dx,dy) in enumerate(((-r,0),(r,0),(0,-r),(0,r))):self.add_line(f'{n}-{j}',(x,y),(x+dx,y+dy))
-    def handset(self,x=24,y=23):
-        self.path('handset',(x-3,y-5),[('L',(x-6,y-6)),('L',(x-7,y-6)),('C',(x+4,y+5),(x-7,y),(x-1,y+5)),('L',(x+7,y+2)),('L',(x+4,y-1))])
-    def contacts(self):
-        # Split only actual straight attachment nodes; connect exact shared endpoints.
-        from icon_set.model.primitives import Line
-        from dataclasses import replace
-        points={p.start for p in self.primitives}|{p.end for p in self.primitives}
-        changes={}; fresh=[]
-        for p in self.primitives:
-            if isinstance(p,Line) and p.start!=p.end:
-                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
-                cuts=[q for q in points if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
-                if cuts:
-                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]; ids=[]
-                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
-                        name=f'{p.element_id}-join-{j}'; fresh.append(Line(name,u,v));ids.append(name)
-                    changes[p.element_id]=ids;continue
-            fresh.append(p)
-        self.primitives[:]=fresh
-        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in changes.get(m,[m]))) for c in self.contours]
-        for j,a in enumerate(self.primitives):
-            for b in self.primitives[j+1:]:
-                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
+    def path(self, name, start, commands, closed=False):
+        members = []
+        point = start
+        for i, command in enumerate(commands):
+            member = f"{name}-{i}"
+            target = command[1]
+            if command[0] == "L":
+                self.add_line(member, point, target)
+            else:
+                self.add_arc(member, point, target, radius_x=command[2],
+                             radius_y=command[3], sweep=command[4])
+            members.append(member)
+            point = target
+        self.add_contour(name, *members, closed=closed)
+
+    def circle(self, name, x, y, r):
+        self.path(name, (x-r,y), [("A",(x+r,y),r,r,True),
+                                  ("A",(x-r,y),r,r,True)], True)
+
+    def browser(self):
+        # VRECT_L gives the enclosed marks a taller content area.
+        self.path("browser-top", (8,12), [("L",(8,8)),
+            ("A",(12,4),4,4,True),("L",(36,4)),
+            ("A",(40,8),4,4,True),("L",(40,12))])
+        self.path("browser-right", (40,12), [("L",(40,40)),
+            ("A",(36,44),4,4,True)])
+        self.add_line("browser-bottom",(36,44),(12,44))
+        self.path("browser-left", (12,44), [
+            ("A",(8,40),4,4,True),("L",(8,12))])
+        self.add_line("header",(8,12),(40,12))
+        for name in ("browser-right","browser-left"):
+            self.relate("connect",name,"browser-bottom")
+            self.relate("connect",name,"browser-top")
+        for name in ("browser-top","browser-right","browser-left"):
+            self.relate("connect", name, "header")
+
+    def calendar(self, header=True, three=False):
+        # Repeated bindings terminate at the top rim; retain exact 8-unit header.
+        rings = (14,24,34) if three else (14,34)
+        top = [("L",(x,10)) for x in rings] + [("L",(38,10)),
+            ("A",(42,14),4,4,True),("L",(42,18))]
+        self.path("calendar-top",(6,18),[("L",(6,14)),
+            ("A",(10,10),4,4,True)]+top)
+        self.path("calendar-body",(42,18),[("L",(42,38)),
+            ("A",(38,42),4,4,True),("L",(10,42)),
+            ("A",(6,38),4,4,True),("L",(6,18))])
+        self.relate("connect","calendar-top","calendar-body")
+        for x in rings:
+            name=f"binding-{x}"
+            self.add_line(name,(x,6),(x,10))
+            self.relate("connect",name,"calendar-top")
+        if header:
+            self.add_line("header",(6,18),(42,18))
+            for name in ("calendar-top","calendar-body"):
+                self.relate("connect",name,"header")
 
     def build(self):
-        self.calendar()
-
-        def pt(x,v):return (x+1,v+9)
-        self.path('receiver',pt(17,12),[('L',pt(20,12)),('A',pt(22,14),2,2,True),('L',pt(22,16)),('L',pt(21,18)),('C',pt(25,22),pt(22,20),pt(23,21)),('L',pt(27,21)),('L',pt(29,21)),('A',pt(31,23),2,2,True),('L',pt(31,26)),('A',pt(29,28),2,2,True),('C',pt(15,14),pt(21,28),pt(15,22)),('A',pt(17,12),2,2,True)],True)
-
-        self.contacts()
-
-Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': '6c8a97220b9306e502f3ebe69f3b161c9b3ffa9078c4f746532234c5b5e9de65', 'source_uuid': 'fd8eb806-4d12-4ad0-bb86-c0aaf66d08bc'}
+        self.path('frame',(12,8),[('L',(16,8)),('L',(32,8)),('L',(36,8)),('A',(40,12),4,4,True),('L',(40,16)),('L',(40,40)),('A',(36,44),4,4,True),('L',(12,44)),('A',(8,40),4,4,True),('L',(8,16)),('L',(8,12)),('A',(12,8),4,4,True)],True)
+        self.add_line('header',(8,16),(40,16))
+        self.relate('connect','header','frame')
+        for x in (16,32):
+            self.add_line(f'binding-{x}',(x,4),(x,8))
+            self.relate('connect',f'binding-{x}','frame')
+        self.add_polyline('earpiece',(20,25),(17,28),(19,30))
+        self.add_bezier('receiver',(19,30),((21,34),(25,35),(28,35)))
+        self.add_polyline('mouthpiece',(28,35),(31,32),(28,29))
+        self.relate('connect','earpiece','receiver')
+        self.relate('connect','receiver','mouthpiece')

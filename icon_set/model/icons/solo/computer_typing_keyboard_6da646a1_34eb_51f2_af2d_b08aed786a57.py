@@ -1,50 +1,46 @@
-from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID = '6da646a1-34eb-51f2-af2d-b08aed786a57'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__simple-computer-keyboard/20260927T072849Z-thuan-mac-1/reference/keyboard_6da646a1-34eb-51f2-af2d-b08aed786a57.svg'
-AUTHOR = 'claude-opus-5-5'
-
-
-def _path(icon, name, start, steps, closed=False):
-    """steps: (x, y) line | ((x, y), rx, ry, sweep[, large]) arc | ('c', c1, c2, end) cubic."""
-    members, point = [], start
-    for i, step in enumerate(steps):
-        member = f"{name}-{i + 1}"
-        if step[0] == 'c':
-            icon.add_bezier(member, point, (step[1], step[2], step[3])); point = step[3]
-        elif isinstance(step[0], (int, float)):
-            icon.add_line(member, point, step); point = step
-        else:
-            end, rx, ry, sweep = step[:4]
-            large = step[4] if len(step) > 4 else False
-            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep, large_arc=large); point = end
-        members.append(member)
-    icon.add_contour(name, *members, closed=closed)
-    return members
-
-
-def _circle(icon, name, cx, cy, r):
-    """Full circle from four cardinal quarter arcs (certifiable spacing)."""
-    return _path(icon, name, (cx, cy - r), [((cx + r, cy), r, r, True), ((cx, cy + r), r, r, True),
-                                            ((cx - r, cy), r, r, True), ((cx, cy - r), r, r, True)], True)
-
-
+from ...keyshapes import Keyshape
+SOURCE_ICON_ID='6da646a1-34eb-51f2-af2d-b08aed786a57'
+SOURCE_PATH='pictographic-primitives/computers/batch-06/keyboard_6da646a1-34eb-51f2-af2d-b08aed786a57.svg'
+AUTHOR="gpt-6"
+PLAN='Rounded keyboard with two aligned rows of short key marks and a separate broad spacebar.'
+CONSTRUCTION_REFERENCES='Lucide keyboard: two key rows and spacebar; supplied source uses short dash keys.'
+OMISSIONS=['Four keys per row reduced to three to retain legal spacing; both rows preserved.']
 class Drawing(Solo48):
     icon_id = 'computer-typing-keyboard'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'computers'
-    categories = ('computers', 'primitives')
-    aliases = ()
-    keywords = ('keyboard', 'typing', 'input', 'keys', 'peripheral', 'computer', 'hardware', 'text')
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('keyboard',)
 
-    def build(self) -> None:
-        # Keyboard body: square-cornered frame (4,8)-(44,40).
-        _path(self, 'frame', (4, 8), [(44, 8), (44, 40), (4, 40), (4, 8)], True)
-        # Two rows of four keys, 8 apart, and a space bar.
-        for y in (16, 24):
-            for x in (12, 20, 28, 36):
-                self.add_dot(f'key-{x}-{y}', (x, y))
-        self.add_line('space', (16, 32), (32, 32))
+    def path(self,n,start,commands,closed=False):
+        here=start;members=[]
+        for i,(kind,end,*a) in enumerate(commands):
+            k=f'{n}-{i}';members.append(k)
+            if kind=='L':self.add_line(k,here,end)
+            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
+            here=end
+        self.add_contour(n,*members,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def ellipse(self,n,x,y,rx,ry):
+        self.path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+    def box(self,n,l,t,r,b,k=4,split=False):
+        pts=[(l+k,t),(r-k,t),(r,t+k),(r,b-k),(r-k,b),(l+k,b),(l,b-k),(l,t+k)]
+        ids=[]
+        for i,a in enumerate(pts):
+            ident=f'{n}-{i}';ids.append(ident);z=pts[(i+1)%8]
+            if i%2:self.add_arc(ident,a,z,radius_x=k)
+            else:self.add_line(ident,a,z)
+        if split:
+            for i in range(8):self.relate('connect',ids[i],ids[(i+1)%8])
+        else:self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+        self.box('case',4,8,44,40,4,split=True)
+        for row,y in enumerate((16,24)):
+            for col,x in enumerate((14,24,34)):self.add_line(f'key-{row}-{col}',(x-1,y),(x+1,y))
+        self.add_line('spacebar',(14,32),(34,32))

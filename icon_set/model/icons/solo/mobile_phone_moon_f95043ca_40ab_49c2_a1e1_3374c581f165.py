@@ -4,16 +4,15 @@ Construction reference: moon.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f95043ca-40ab-49c2-a1e1-3374c581f165'
-SOURCE_PATH = 'pictographic-primitives/other/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/todo-references/mobile phone moon_f95043ca-40ab-49c2-a1e1-3374c581f165.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-moon'
     keyshape = Keyshape.VRECT_L
     # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category = 'objects'
     aliases = ()
     keywords = ('mobile', 'phone', 'moon')
 
@@ -39,5 +38,5 @@ class Drawing(Solo48):
         self.relate('connect','phone','separator')
 
         # Closed crescent; intentional asymmetry is the moon phase.
-        self.add_bezier('crescent',(30,13),((12,12),(12,28),(30,27)),((25,24),(25,17),(30,13)))
+        self.add_bezier('crescent',(28,13),((14,12),(14,28),(28,27)),((21,24),(21,17),(28,13)))
         self.add_contour('moon','crescent',closed=True)

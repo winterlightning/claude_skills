@@ -1,7 +1,9 @@
 """Publish default 64px results for the Experiment combinations grid."""
 import hashlib
 import json
+import re
 import threading
+import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from .combination_experiment import DATA, ROOT, render
@@ -16,6 +18,41 @@ else:
 
 
 _PUBLISH_LOCK=threading.Lock()
+
+
+def _inline_class_styles(document):
+    """Give the stroke-only combiner presentation attributes from simple SVG class rules."""
+    root=ET.fromstring(document)
+    styles={}
+    for parent in root.iter():
+        for child in list(parent):
+            if child.tag.rsplit('}',1)[-1]!='style':
+                continue
+            css=child.text or ''
+            rules=re.findall(r'([^{}]+)\{([^{}]*)\}',css)
+            if re.sub(r'[^{}]+\{[^{}]*\}','',css).strip():
+                return document
+            for selectors,declarations in rules:
+                attrs={}
+                for declaration in declarations.split(';'):
+                    if declaration.strip():
+                        if ':' not in declaration:
+                            return document
+                        key,value=(part.strip() for part in declaration.split(':',1))
+                        attrs[key]=value
+                for selector in selectors.split(','):
+                    selector=selector.strip()
+                    if not re.fullmatch(r'\.[a-zA-Z_][\w-]*',selector):
+                        return document
+                    styles.setdefault(selector[1:],{}).update(attrs)
+            parent.remove(child)
+    if not styles:
+        return document
+    for element in root.iter():
+        for name in element.attrib.pop('class','').split():
+            for key,value in styles.get(name,{}).items():
+                element.set(key,value)
+    return ET.tostring(root,encoding='unicode')
 
 
 def _engine():
@@ -62,8 +99,50 @@ def build_one(pair_id, result=None):
     return item
 
 
-def build(*, force=False):
+def build(*, force=False, approved_plan=None):
     rows=json.loads(DATA.read_text())['rows']
+    preflight_failures={}
+    if approved_plan is not None:
+        from .combination_experiment import custom_item
+        from .side_combination_approval import drawing_key
+        planned=[]
+        measured_artwork={}
+        for row in rows:
+            choice=approved_plan.get(row['id'])
+            if not choice:
+                continue
+            row=dict(row)
+            try:
+                for role,group in (('main','mains'),('sub','subs')):
+                    wanted=choice[role]
+                    item=next((item for item in row[group] if item['icon']==wanted['icon']
+                               and drawing_key(item)==wanted['key']),None)
+                    if item is None:
+                        raise ValueError(f'Approved {role} changed.')
+                    if document:=wanted.get('document'):
+                        artwork_key=(role,wanted['svg_sha256'])
+                        if artwork_key not in measured_artwork:
+                            try:
+                                measured_artwork[artwork_key]=custom_item({'document':_inline_class_styles(document)},role)
+                            except ValueError as error:
+                                measured_artwork[artwork_key]=error
+                        measured=measured_artwork[artwork_key]
+                        if isinstance(measured,ValueError):
+                            raise measured
+                        item={**measured,
+                              'icon':item['icon'],'family':item['family'],
+                              'sha256':wanted['svg_sha256']}
+                    elif item.get('sha256')!=wanted['svg_sha256']:
+                        raise ValueError(f'Approved {role} drawing changed.')
+                    row[group]=[item]
+            except ValueError as error:
+                preflight_failures[row['id']]={'error':str(error),'concept':row['concept']}
+                print(f'Skipped {row["id"]}: {error}',flush=True)
+                continue
+            planned.append(row)
+        if len(planned)+len(preflight_failures)!=len(approved_plan):
+            raise ValueError('Approved pair availability changed. Reload and try again.')
+        rows=planned
     folder=build_dist(ROOT.parent) / 'gallery/combination-previews';folder.mkdir(parents=True,exist_ok=True)
     cache=ROOT/'data/combination-previews.json'
     old=json.loads(cache.read_text()) if cache.exists() else {}
@@ -114,7 +193,7 @@ def build(*, force=False):
         print('Rendered '+row['concept'],flush=True)
         return row['id'],{'fingerprint':key,'url':'combination-previews/'+file.name,'result':result}
     results={}
-    failures={}
+    failures=dict(preflight_failures)
     completed=0
     with ThreadPoolExecutor(max_workers=4) as pool:
         for key,item in pool.map(one,rows):

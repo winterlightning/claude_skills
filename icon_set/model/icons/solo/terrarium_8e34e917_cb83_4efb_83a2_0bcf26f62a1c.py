@@ -1,20 +1,20 @@
-"""A plant inside a house-shaped terrarium.
-Repair plan: Two open curved leaf strokes attach to a central stem; soil band remains. Staggered leaves intentionally follow source asymmetry.
-Omissions: Return edges of small leaf outlines.
+"""A two-leaf plant grows inside a house-shaped terrarium.
+Plan: A pointed enclosure owns a lower soil band; paired lens leaves attach to a central stem.
+Keyshape: VRECT_L. Exact envelope: {'ink': [6, 2, 42, 46], 'centerline': [8, 4, 40, 44]}.
+Construction references: icon_set/references/lucide/original/leaf.svg and atomic-debug/leaf.svg: coherent contours, shared junctions, and consistent rounding; re-authored on SOLO48.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8e34e917-cb83-4efb-83a2-0bcf26f62a1c'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/todo-references/terrarium_8e34e917-cb83-4efb-83a2-0bcf26f62a1c.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'terrarium'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/general'
     aliases = ()
     keywords = ('terrarium',)
 
@@ -75,6 +75,6 @@ class Drawing(Solo48):
         self.path('glass',(24,4),[('L',(40,16)),('L',(40,36)),('L',(40,40)),('A',(36,44),4,4,True),('L',(12,44)),('A',(8,40),4,4,True),('L',(8,36)),('L',(8,16))],True)
         self.add_polyline('soil',(8,36),(24,36),(40,36));self.join('glass','soil')
         self.add_polyline('stem',(24,36),(24,28),(24,24));self.join('stem','soil')
-        self.path('leaf-left',(24,28),[('A',(16,20),8,8,True)])
-        self.path('leaf-right',(24,24),[('A',(32,16),8,8,False)])
+        self.path('leaf-left',(24,28),[('A',(16,20),8,8,True),('A',(24,28),8,8,True)],True)
+        self.path('leaf-right',(24,24),[('A',(32,16),8,8,False),('A',(24,24),8,8,False)],True)
         self.join('stem','leaf-left');self.join('stem','leaf-right')

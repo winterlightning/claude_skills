@@ -12,7 +12,8 @@ let items=[],statuses={},reviews={},counts={},page=1;
 // A drawing counts as generated only when it passes validation and no reviewer marked it Needs fix
 // (review status pending) or rejected it. Same rule as the Side pairs summary in side-pairs-grid.js.
 const flagged=d=>['pending','rejected'].includes(reviews[d.key]);
-const usable=d=>d.status==='pass'&&!flagged(d);
+// A failing drawing counts once a reviewer approved it as an exception (Icon review · Failed check).
+const usable=d=>(d.status==='pass'||reviews[d.key]==='approve')&&!flagged(d);
 function restatus(item){item.failing_variants=item.drawings.filter(d=>!usable(d)).length;item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';}
 const params=new URLSearchParams(location.search);
 const state={status:BUCKETS.some(b=>b[0]===params.get('status'))?params.get('status'):'missing',q:params.get('q')||'',sort:params.get('sort')==='name'?'name':'uses'};

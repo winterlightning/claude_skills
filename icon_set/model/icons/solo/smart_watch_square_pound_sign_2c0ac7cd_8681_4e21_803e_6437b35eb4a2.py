@@ -5,17 +5,16 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID = '2c0ac7cd-8681-4e21-803e-6437b35eb4a2'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smart-watch-square-pound-sign/20260927T140026Z-thuan-mac-1/reference/smart watch square pound sign_2c0ac7cd-8681-4e21-803e-6437b35eb4a2.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/smart watch square pound sign_2c0ac7cd-8681-4e21-803e-6437b35eb4a2.svg'
+AUTHOR = "gpt-6"
 CONSTRUCTION_REFERENCE = 'pound-sterling'
 
 class Drawing(Solo48):
-    icon_id='smart-watch-square-pound-sign'
+    icon_id = 'smart-watch-square-pound-sign'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('combination', 'other', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('smart', 'watch', 'square', 'pound', 'sign')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
@@ -52,17 +51,17 @@ class Drawing(Solo48):
             self.add_polyline('strap-bottom',(16,38),(18,44),(30,44),(32,38))
         else:
             self.rounded('case',8,8,40,40,5,breaks={0:[(16,8),(32,8)],4:[(32,40),(16,40)]})
-            self.add_line('strap-top-left',(16,8),(18,4))
-            self.add_line('strap-top-right',(32,8),(30,4))
-            self.add_line('strap-bottom-left',(16,40),(18,44))
-            self.add_line('strap-bottom-right',(32,40),(30,44))
+            self.add_line('strap-top-left',(16,8),(17,4))
+            self.add_line('strap-top-right',(32,8),(31,4))
+            self.add_line('strap-bottom-left',(16,40),(17,44))
+            self.add_line('strap-bottom-right',(32,40),(31,44))
         for n in ['strap-top-left','strap-top-right','strap-bottom-left','strap-bottom-right']:self.relate('connect','case',n)
 
 
     def pound(self):
         self.add_arc('pound-hook',(28,20),(22,20),radius_x=3,sweep=False)
         self.add_polyline('pound-stem',(22,20),(22,23),(22,31))
-        self.add_polyline('pound-bar',(17,23),(22,23),(24,23))
-        self.add_polyline('pound-base',(18,31),(22,31),(27,31))
+        self.add_polyline('pound-bar',(18,23),(22,23),(24,23))
+        self.add_polyline('pound-base',(20,31),(22,31),(27,31))
         self.relate('connect','pound-hook','pound-stem');self.relate('connect','pound-stem','pound-bar');self.relate('connect','pound-stem','pound-base')
 

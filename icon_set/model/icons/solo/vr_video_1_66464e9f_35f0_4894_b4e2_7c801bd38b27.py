@@ -1,54 +1,38 @@
-"""Vr video 1.
-Symbol plan: Upper-left stylus and cube meet foreground goggles at explicit occlusion endpoints; paired lens dots. Bounds6,6..42,42.
-Omissions: Stylus double outline, headset extra rim and nose notch removed; lens rings reduced to dots.
-Construction references: Lucide box original/atomic-debug: three-dimensional faces with shared vertices; source establishes headset foreground.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
+
 SOURCE_ICON_ID='66464e9f-35f0-4894-b4e2-7c801bd38b27'
 SOURCE_PATH='pictographic-primitives/_uncategorized_39/vr video 1_66464e9f-35f0-4894-b4e2-7c801bd38b27.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
+PLAN='Pen reduced to diagonal stroke; cube right edge, headset rim and lenses omitted; cube and nose-notch goggle outline retained.'
 class Drawing(Solo48):
-    icon_id='vr-video-1'
+    icon_id = 'vr-video-1'
     keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
     aliases=()
-    keywords=('vr', 'video', '1')
+    keywords=()
 
-    def path(self,n,start,ops,closed=False):
-        at=start; members=[]
-        for i,op in enumerate(ops):
-            kind,end,*args=op
-            if at==end: continue
-            m=f'{n}-{i}'
-            if kind=='L': self.add_line(m,at,end)
-            elif kind=='A': self.add_arc(m,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            else: self.add_bezier(m,at,(args[0],args[1],end))
-            members.append(m);at=end
-        if closed and at!=start:
-            self.add_line(n+'-close',at,start);members.append(n+'-close')
-        self.add_contour(n,*members,closed=closed)
     def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        ops=[('L',(x,t)) for x in sorted(top) if l+k<x<r-k]
-        ops += [('L',(r-k,t)),('A',(r,t+k),k,k,True)]
-        ops += [('L',(r,y)) for y in sorted(right) if t+k<y<b-k]
-        ops += [('L',(r,b-k)),('A',(r-k,b),k,k,True)]
-        ops += [('L',(x,b)) for x in sorted(bottom,reverse=True) if l+k<x<r-k]
-        ops += [('L',(l+k,b)),('A',(l,b-k),k,k,True)]
-        ops += [('L',(l,y)) for y in sorted(left,reverse=True) if t+k<y<b-k]
-        ops += [('L',(l,t+k)),('A',(l+k,t),k,k,True)]
-        self.path(n,(l+k,t),ops,True)
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';end=op[1]
+            if op[0]=='L': self.add_line(eid,p,end)
+            elif op[0]=='A': self.add_arc(eid,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            else: self.add_bezier(eid,p,(op[2],op[3],end))
+            p=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
-        # Cube is behind the goggles; visible edges terminate at actual frame nodes.
-        self.add_polyline('cube-top',(6,16),(12,12),(18,8),(30,16),(18,24),closed=True)
-        self.add_polyline('cube-left',(6,16),(6,32),(14,36));self.relate('connect','cube-top','cube-left')
-        self.add_line('stylus',(6,6),(12,12));self.relate('connect','stylus','cube-top')
-        self.rect('headset',14,24,42,42,4,top=(18,),left=(36,))
-        self.relate('connect','cube-top','headset');self.relate('connect','cube-left','headset')
-        for j,x in enumerate((23,33)):self.add_dot(f'lens-{j}',(x,33))
+        self.add_polyline('stylus',(6,6),(12,8))
+        self.add_polyline('cube-top',(6,24),(14,18),(22,24),(14,30),(6,24))
+        self.add_polyline('cube-left',(6,24),(6,34),(14,40),(14,30))
+        self.relate('connect','cube-top','cube-left')
+        self.path('headset',(30,32),[('L',(38,32)),('A',(42,36),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(34,38)),('L',(30,42)),('A',(26,38),4,4,True),('L',(26,36)),('A',(30,32),4,4,True)],True)

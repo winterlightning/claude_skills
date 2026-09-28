@@ -8,7 +8,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '422fa961-4cef-5bf4-8415-0550aee83639'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__upright-lipstick-with-angled-tip/20260927T133645Z-thuan-mac-1/reference/make up lipstick_422fa961-4cef-5bf4-8415-0550aee83639.svg'
 SOURCE_CATEGORY = 'beauty'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class BatchSolo(Solo48):
     icon_id = 'lipstick-angled-tip'
@@ -85,5 +85,5 @@ class BatchSolo(Solo48):
         self.add_arc('case-right-corner',(36,36),(32,40),radius_x=4)
         self.add_line('case-bottom',(32,40),(16,40));self.add_arc('case-left-corner',(16,40),(12,36),radius_x=4)
         self.add_line('case-left',(12,36),(12,24));self.add_contour('case','case-top-1','case-top-2','case-top-3','case-top-4','case-right-corner','case-bottom','case-left-corner','case-left',closed=True)
-        segments('stick-left',(16,24),(16,13),(24,4));self.add_arc('stick-tip',(24,4),(32,16),radius_x=8,radius_y=12)
+        segments('stick-left',(16,24),(16,12),(24,4));self.add_arc('stick-tip',(24,4),(32,16),radius_x=8,radius_y=12)
         self.add_line('stick-right',(32,16),(32,24));self.add_contour('stick','stick-left-1','stick-left-2','stick-tip','stick-right');self.relate('connect','stick','case')

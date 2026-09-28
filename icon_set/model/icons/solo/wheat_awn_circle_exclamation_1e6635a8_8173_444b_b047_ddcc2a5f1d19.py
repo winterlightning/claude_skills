@@ -1,25 +1,21 @@
 """wheat awn circle exclamation.
-Plan: Circular wheat emblem with centered upright stalk and two paired awn rows. Shared axis and repeat step preserve symmetry.
-Construction: Source circular wheat emblem; mirrored repeated geometry and wide radial clearance.
-Omissions: Closed grain outlines simplified into open awns to remove small holes and pinches; no exclamation exists in the reference.
+Plan: Circular wheat emblem, no exclamation present in supplied reference. Merge closed grains into paired open awn strokes, with repeated eight-by-six offsets and ten-unit row step. Ring clearances exceed minimum.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '1e6635a8-8173-444b-b047-ddcc2a5f1d19'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/wheat awn circle exclamation_1e6635a8-8173-444b-b047-ddcc2a5f1d19.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='1e6635a8-8173-444b-b047-ddcc2a5f1d19'
+SOURCE_PATH='pictographic-primitives/_uncategorized_40/wheat awn circle exclamation_1e6635a8-8173-444b-b047-ddcc2a5f1d19.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'wheat-awn-circle-exclamation'
-    keyshape = Keyshape.CIRCLE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('wheat', 'awn', 'circle', 'exclamation')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.CIRCLE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('wheat', 'awn', 'circle', 'exclamation')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -74,7 +70,7 @@ class Drawing(Solo48):
 
     def build(self):
         self.circle('ring',24,24,20)
-        self.add_polyline('stem',(24,13),(24,24),(24,33))
-        for i,y in enumerate((24,33)):
-            self.add_polyline(f'awns-{i}',(16,y-3),(24,y),(32,y-3))
-            self.relate('connect','stem',f'awns-{i}')
+        self.add_polyline('stem',(24,14),(24,24),(24,34))
+        self.add_polyline('grain-upper',(16,18),(24,24),(32,18))
+        self.add_polyline('grain-lower',(16,28),(24,34),(32,28))
+        self.join('stem','grain-upper');self.join('stem','grain-lower')

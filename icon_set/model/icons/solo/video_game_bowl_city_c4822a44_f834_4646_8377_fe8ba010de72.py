@@ -1,51 +1,38 @@
-"""Video game bowl city.
-Symbol plan: Wide round necked vessel contains a two-step open skyline. Shared mirrored bowl controls reach6,6..42,42. City step pitch8; no skyline baseline.
-Omissions: Floating ball, city baseline and third stair removed so the defining bowl and stepped skyline retain clearance.
-Construction references: No useful Lucide exact game logo; geometric reconstruction from supplied silhouette.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__video-game-bowl-city/20260927T140835Z-thuan-mac-1/reference/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
-AUTHOR = "gpt-6"
-class Drawing(Solo48):
-    icon_id='video-game-bowl-city'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases=()
-    keywords=('video', 'game', 'bowl', 'city')
 
-    def path(self,n,start,ops,closed=False):
-        at=start; members=[]
-        for i,op in enumerate(ops):
-            kind,end,*args=op
-            if at==end: continue
-            m=f'{n}-{i}'
-            if kind=='L': self.add_line(m,at,end)
-            elif kind=='A': self.add_arc(m,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            else: self.add_bezier(m,at,(args[0],args[1],end))
-            members.append(m);at=end
-        if closed and at!=start:
-            self.add_line(n+'-close',at,start);members.append(n+'-close')
-        self.add_contour(n,*members,closed=closed)
+SOURCE_ICON_ID='c4822a44-f834-4646-8377-fe8ba010de72'
+SOURCE_PATH='pictographic-primitives/_uncategorized_39/video game bowl city_c4822a44-f834-4646-8377-fe8ba010de72.svg'
+AUTHOR="gpt-6"
+PLAN='City reduced to one broad building with low wings; ball reduced to dot; bowl and neck retained.'
+class Drawing(Solo48):
+    icon_id = 'video-game-bowl-city'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="objects/general"
+    aliases=()
+    keywords=()
+
     def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def rect(self,n,l,t,r,b,k=4,top=(),right=(),bottom=(),left=()):
-        ops=[('L',(x,t)) for x in sorted(top) if l+k<x<r-k]
-        ops += [('L',(r-k,t)),('A',(r,t+k),k,k,True)]
-        ops += [('L',(r,y)) for y in sorted(right) if t+k<y<b-k]
-        ops += [('L',(r,b-k)),('A',(r-k,b),k,k,True)]
-        ops += [('L',(x,b)) for x in sorted(bottom,reverse=True) if l+k<x<r-k]
-        ops += [('L',(l+k,b)),('A',(l,b-k),k,k,True)]
-        ops += [('L',(l,y)) for y in sorted(left,reverse=True) if t+k<y<b-k]
-        ops += [('L',(l,t+k)),('A',(l+k,t),k,k,True)]
-        self.path(n,(l+k,t),ops,True)
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+    def path(self,n,p,ops,closed=False):
+        members=[]
+        for i,op in enumerate(ops):
+            eid=f'{n}-{i}';end=op[1]
+            if op[0]=='L': self.add_line(eid,p,end)
+            elif op[0]=='A': self.add_arc(eid,p,end,radius_x=op[2],radius_y=op[3],sweep=op[4])
+            else: self.add_bezier(eid,p,(op[2],op[3],end))
+            p=end;members.append(eid)
+        self.add_contour(n,*members,closed=closed)
+    def rect(self,n,l,t,r,b,k=4):
+        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
 
     def build(self):
-        self.path('bowl',(18,10),[('C',(6,28),(10,12),(6,21)),('C',(24,42),(6,36),(14,42)),('C',(42,28),(34,42),(42,36)),('C',(30,10),(42,21),(38,12))])
-        self.add_polyline('neck',(18,10),(18,6),(30,6),(30,10));self.relate('connect','bowl','neck')
-        self.add_polyline('city',(16,31),(16,30),(24,30),(24,22),(32,22),(32,31))
-        self.add_dot('ball',(40,6))
+        self.path('bowl',(16,14),[('C',(6,26),(6,16),(6,20)),('C',(24,42),(6,36),(14,42)),('C',(42,26),(34,42),(42,36)),('C',(32,14),(42,20),(42,16))])
+        self.add_polyline('neck',(16,14),(16,6),(32,6),(32,14))
+        self.relate('connect','bowl','neck')
+        self.add_dot('ball',(42,6))
+        self.add_polyline('city',(17,32),(20,32),(20,23),(28,23),(28,32),(31,32))

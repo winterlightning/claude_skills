@@ -6,10 +6,10 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='e9326841-b6b1-432e-a99d-c2065849139b'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hex-nut-cluster/20260926T172218Z-thuan-mac-1/reference/well architected tools_e9326841-b6b1-432e-a99d-c2065849139b.svg'
-AUTHOR='gpt-6'
+AUTHOR = "gpt-6"
 
 class HexNutCluster(Solo48):
-    icon_id='hex-nut-cluster-solo'
+    icon_id = 'hex-nut-cluster-solo'
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
@@ -32,5 +32,5 @@ class HexNutCluster(Solo48):
             from itertools import combinations
             for a,b in combinations(names,2): self.relate('connect',a,b)
 
-        for name,x,y in (('upper',13,12),('lower',13,36),('right',35,24)):
-            self.add_polyline(name+'-nut',(x-7,y),(x-3,y-6),(x+3,y-6),(x+7,y),(x+3,y+6),(x-3,y+6),closed=True)
+        for name,x,y in (('upper',14,12),('lower',14,36),('right',34,24)):
+            self.add_polyline(name+'-nut',(x-8,y),(x-4,y-6),(x+4,y-6),(x+8,y),(x+4,y+6),(x-4,y+6),closed=True)

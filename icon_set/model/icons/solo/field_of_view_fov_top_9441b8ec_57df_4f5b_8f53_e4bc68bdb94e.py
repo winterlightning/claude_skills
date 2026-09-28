@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9441b8ec-57df-4f5b-8f53-e4bc68bdb94e'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-field-of-view-top/20260926T172218Z-thuan-mac-1/reference/field of view fov top_9441b8ec-57df-4f5b-8f53-e4bc68bdb94e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HeadFieldOfViewTop(Solo48):
     icon_id = 'head-field-of-view-top-solo'
@@ -38,5 +38,5 @@ class HeadFieldOfViewTop(Solo48):
         contour('head','head-right','lower','head-left','nose-1','nose-2',closed=True)
         line('ear-left',(11,29),(9,29));connect('ear-left','head')
         line('ear-right',(37,29),(39,29));connect('ear-right','head')
-        line('ray-left',(6,6),(12,12))
-        line('ray-right',(42,6),(36,12))
+        line('ray-left',(6,6),(13,13))
+        line('ray-right',(42,6),(35,13))

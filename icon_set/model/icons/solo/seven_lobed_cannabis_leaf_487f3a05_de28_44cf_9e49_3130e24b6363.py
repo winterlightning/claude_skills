@@ -5,24 +5,24 @@ Omissions: None.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '487f3a05-de28-44cf-9e49-3130e24b6363'
-SOURCE_PATH = 'pictographic-primitives/cannabis/cannabis_487f3a05-de28-44cf-9e49-3130e24b6363.svg'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__seven-lobed-cannabis-leaf/20260924T083118Z-thuan-mac/reference/cannabis_487f3a05-de28-44cf-9e49-3130e24b6363.svg'
 AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'seven-lobed-cannabis-leaf'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "cannabis"
-    categories = ("primitives", "cannabis")
+    category = "objects"
     aliases = ()
     keywords = ('cannabis',)
 
     def build(self):
-        # Seven lobes mirror about the centre axis; shorter lobes open the narrow valleys.
-        self.mirror('leaf',(24,6),[('C',(29,20),(29,12),(30,16)),('C',(40,13),(33,16),(37,13)),('C',(34,26),(40,19),(37,23)),('C',(42,31),(38,28),(40,29)),('C',(32,35),(39,35),(35,35)),('C',(34,40),(33,36),(34,38)),('C',(24,36),(30,40),(26,38))])
-        self.add_line('stem',(24,36),(24,42));self.relate('connect','stem','leaf')
-
+        # Symbol plan: Seven pointed cannabis lobes around a tall narrow center leaflet. Mirror tapered curves while retaining deliberate sharp valleys and a short stem.
+        p=self.path; oval=self.oval; line=self.add_line; poly=self.add_polyline; dot=self.add_dot
+        join=lambda a,b:self.relate("connect",a,b)
+        self.mirror('leaf',(24,4),[('C',(27,24),(29,12),(29,18)),('C',(38,14),(31,19),(35,15)),('C',(31,29),(38,21),(34,26)),('C',(40,32),(35,29),(38,30)),('C',(30,35),(37,35),(33,36)),('C',(32,41),(31,37),(32,39)),('C',(24,37),(28,41),(26,39))])
+        line('stem',(24,37),(24,44));join('stem','leaf')
 
     def path(self, name, start, commands, closed=False):
         members=[]
@@ -46,6 +46,3 @@ class Drawing(Solo48):
             elif k=='A':rev.append((k,m(nodes[i]),*args))
             else:rev.append((k,m(nodes[i])))
         self.path(n,start,commands+rev,closed)
-
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'd76000aa412eb6307813ea2af05496c09115de8d0c7ddb508c673ce6c37861cc', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '487f3a05-de28-44cf-9e49-3130e24b6363'}

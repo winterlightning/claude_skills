@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '66991385-e96d-49e5-a043-770baf2d1ecf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hands-cupping-sphere/20260926T172218Z-thuan-mac-1/reference/sphere hand_66991385-e96d-49e5-a043-770baf2d1ecf.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandsCuppingSphere(Solo48):
     icon_id = 'hands-cupping-sphere-solo'
@@ -28,6 +28,8 @@ class HandsCuppingSphere(Solo48):
         for side in (-1,1):
          def point(x,y):return (24+side*x,y)
          name='hand-'+str(side)
-         self.add_polyline(name,point(16,24),point(16,28),point(16,33),point(12,44))
-         self.add_polyline(name+'-thumb',point(16,28),point(4,36),point(4,44))
+         self.add_polyline(name,point(16,24),point(16,28),point(16,33),point(13,44))
+         self.add_arc(name+'-thumb-curve',point(16,28),point(5,36),radius_x=14,sweep=side < 0)
+         self.add_line(name+'-thumb-stem',point(5,36),point(5,44))
+         self.add_contour(name+'-thumb',name+'-thumb-curve',name+'-thumb-stem')
          self.relate('connect',name,name+'-thumb')

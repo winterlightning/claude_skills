@@ -1,49 +1,46 @@
-"""Enlarged the cross on the nurse cap.
-Compared the reference and current drawing. Anatomy follows human_ref/user.svg.
-Lucide user-round informed circular and shoulder construction.
-"""
+"""Nurse with a gently domed cap bearing a cross, circular lower face, curled hair and open rounded shoulders."""
+from ._base import Solo48
 from ...keyshapes import Keyshape
-from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = 'e365094b-61bd-5f0a-a1d1-1a7c9525470b'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-nurse-avatar/20260926T181831Z-thuan-mac-1/reference/woman nurse_e365094b-61bd-5f0a-a1d1-1a7c9525470b.svg'
-SOURCE_HEAD_ICON_ID = 'woman-nurse'
-AUTHOR = 'gpt-6'
-HEAD_BOTTOM = 32
-class WomanNurseAvatar(Solo48):
+SOURCE_ICON_ID='e365094b-61bd-5f0a-a1d1-1a7c9525470b'
+SOURCE_PATH='pictographic-primitives/avatars/woman nurse_e365094b-61bd-5f0a-a1d1-1a7c9525470b.svg'
+AUTHOR="gpt-6"
+PLAN='The cap is shorter and gently domed, the circular jaw grows from radius 8 to 10, and the shoulders are larger and smoother. Jaw bottom y26 and shoulder top y30 give zero visible ink gap with a direct scoped contact, as required for avatars.'
+CONSTRUCTION_REFERENCE='human_ref/user.svg and user-round original/atomic-debug: circular jaw and smooth shoulders.'
+OMISSIONS='Hat/face dividing seam, collar seams and fastening are omitted to avoid crowded enclosed spaces. The cross sits near the lower cap edge.'
+class Drawing(Solo48):
     icon_id = 'female-nurse'
-    keyshape = Keyshape.VRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'avatars'
-    categories = ('primitives', 'avatars')
-    aliases = ()
-    keywords = ('woman', 'nurse', 'portrait', 'bust')
-    def build(self):
-        self.add_polyline('cap',(12,24),(8,4),(40,4),(36,24),(32,24),(16,24),(12,24))
-        self.add_arc('face',(32,24),(16,24),radius_x=8)
-        self.relate('connect','face','cap')
-        self.add_line('cross-horizontal',(21,14),(27,14))
-        self.add_line('cross-vertical',(24,12),(24,16))
-        self.relate('connect','cross-horizontal','cross-vertical')
-        for side,sign in [('left',-1),('right',1)]:
-            self.add_bezier('hair-'+side,(24+sign*8,24),((24+sign*10,26),(24+sign*12,28),(24+sign*16,28)))
-            self.relate('connect','hair-'+side,'cap')
-            self.relate('connect','hair-'+side,'face')
-        top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
-        self.add_line('body-left-side',(8,44),(8,42))
-        self.add_arc('body-left-shoulder',(8,42),(18,top),radius_x=10,radius_y=42-top)
-        self.add_contour('body-left','body-left-side','body-left-shoulder')
-        self.add_line('body-top',(18,top),(24,top))
-        self.add_line('body-top-right',(24,top),(30,top))
-        self.add_arc('body-right-shoulder',(30,top),(40,42),radius_x=10,radius_y=42-top)
-        self.add_line('body-right-side',(40,42),(40,44))
-        self.add_contour('body-right','body-right-shoulder','body-right-side')
-        self.relate('connect','body-left','body-top')
-        self.relate('connect','body-top','body-top-right')
-        self.relate('connect','body-top-right','body-right')
-        self.add_line('body-fastening',(24,top),(24,44))
-        self.relate('connect','body-fastening','body-top')
-        self.relate('connect','body-fastening','body-top-right')
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    aliases=()
+    keywords=('woman', 'nurse')
+    category='avatars'
 
-        self.relate('connect','face','body-top')
-        self.relate('connect','face','body-top-right')
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+
+    def build(self):
+        self.path('head',(12,16),[('L',(8,8)),('C',(40,8),(18,8/3),(30,8/3)),('L',(36,16)),('L',(34,16)),('A',(14,16),10,10,True),('L',(12,16))],True)
+        self.add_line('cross-h',(22,15),(26,15));self.add_line('cross-v',(24,13),(24,17));self.relate('connect','cross-h','cross-v')
+        self.add_arc('hair-l',(14,16),(8,26),radius_x=10);self.add_arc('hair-r',(40,26),(34,16),radius_x=10)
+        self.relate('connect','hair-l','head');self.relate('connect','hair-r','head')
+        self.add_arc('shoulders',(8,44),(40,44),radius_x=16,radius_y=14)
+        self.relate('connect','head','shoulders')

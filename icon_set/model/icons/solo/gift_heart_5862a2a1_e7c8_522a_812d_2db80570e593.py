@@ -1,36 +1,38 @@
-"""Reconstruction of the reference gift box, tied bow, and front heart."""
+"""gift heart: repaired SOLO48 composition.
+Plan: Paired bow loops, central ribbon and mirrored heart lobes.
+Keyshape: VRECT_L reserves height for bow, box and hanging heart.
+Reduction: Double lid reduced to one top edge; heart narrowed to separate it from the box sides.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-SOURCE_ICON_ID = "5862a2a1-e7c8-522a-812d-2db80570e593"
-SOURCE_PATH = "icon_set/work/primitive-fix-thuan/solo__gift-heart/20260926T165410Z-thuan-mac/reference/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg"
+SOURCE_ICON_ID = '5862a2a1-e7c8-522a-812d-2db80570e593'
+SOURCE_PATH = 'pictographic-primitives/rewards/gift heart_5862a2a1-e7c8-522a-812d-2db80570e593.svg'
 AUTHOR = "gpt-6"
+CONSTRUCTION_REFERENCES = 'gift, heart'
 
 class Drawing(Solo48):
-    icon_id = "gift-heart"
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "rewards"
+    icon_id = 'gift-heart'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
     aliases = ()
-    keywords = ("gift", "box", "bow", "heart")
+    keywords = ('gift', 'heart')
 
     def build(self):
-        # Reference fit: two bow loops above a broad lid and box, a centered
-        # ribbon, and a heart hanging through the lower front edge.
-        self.add_arc("bow-left", (12,13), (24,13), radius_x=6, radius_y=7)
-        self.add_arc("bow-right", (24,13), (36,13), radius_x=6, radius_y=7)
-        self.add_polyline("lid", (8,13),(40,13),(42,15),(42,20),(40,22),(8,22),(6,20),(6,15),closed=True)
-        self.add_polyline("box-left", (6,22),(6,38),(21,38))
-        self.add_polyline("box-right", (42,22),(42,38),(27,38))
-        self.add_line("ribbon", (24,13),(24,22))
-        self.add_bezier("heart-left", (24,32), ((21,30),(17,30),(15,30)))
-        self.add_line("heart-lower-left", (15,30),(24,42))
-        self.add_line("heart-lower-right", (24,42),(33,30))
-        self.add_bezier("heart-right", (33,30), ((31,30),(27,30),(24,32)))
-        self.add_contour("heart", "heart-left", "heart-lower-left", "heart-lower-right", "heart-right", closed=True)
-        for part in ("bow-left", "bow-right", "box-left", "box-right", "ribbon"):
-            self.relate("connect", part, "lid")
-        self.relate("connect", "bow-left", "bow-right")
-        self.relate("connect", "box-left", "heart-lower-left")
-        self.relate("connect", "box-right", "heart-lower-right")
+        self.add_arc('bow-l', (16, 16), (16, 4), radius_x=6)
+        self.add_line('bow-l-diagonal', (16, 4), (24, 16))
+        self.add_line('bow-l-base', (24, 16), (16, 16))
+        self.add_contour('bow-left', 'bow-l', 'bow-l-diagonal', 'bow-l-base', closed=True)
+        self.add_arc('bow-r', (32, 4), (32, 16), radius_x=6)
+        self.add_line('bow-r-base', (32, 16), (24, 16))
+        self.add_line('bow-r-diagonal', (24, 16), (32, 4))
+        self.add_contour('bow-right', 'bow-r', 'bow-r-base', 'bow-r-diagonal', closed=True)
+        self.add_polyline('box', (18, 40), (8, 40), (8, 16), (16, 16), (24, 16), (32, 16), (40, 16), (40, 40), (30, 40))
+        self.relate('connect', 'bow-left', 'bow-right', 'box')
+        self.add_line('ribbon', (24, 16), (24, 30))
+        self.add_bezier('heart', (24, 30), ((17, 23), (13, 34), (24, 44)), ((35, 34), (31, 23), (24, 30)))
+        self.add_contour('heart-outline', 'heart', closed=True)
+        self.relate('connect', 'ribbon', 'box')
+        self.relate('connect', 'ribbon', 'heart-outline')

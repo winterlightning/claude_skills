@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f361cec1-680c-41d1-8ef8-1055d54cab23'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hanging-toilet-paper-roll/20260926T172218Z-thuan-mac-1/reference/toilet paper_f361cec1-680c-41d1-8ef8-1055d54cab23.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HangingToiletPaperRoll(Solo48):
     icon_id = 'hanging-toilet-paper-roll-solo'
@@ -31,3 +31,4 @@ class HangingToiletPaperRoll(Solo48):
         self.add_arc('core-bottom', (31, 16), (25, 16), radius_x=3, radius_y=3, large_arc=False, sweep=True)
         self.add_contour('outline', 'roll-top', 'roll-roof', 'roll-end-top', 'roll-end-bottom', 'sheet-side', 'torn-1', 'torn-2', 'torn-3', 'torn-4', closed=True)
         self.add_contour('core', 'core-top', 'core-bottom', closed=True)
+        self.add_line('perforation', (17, 32), (20, 32))

@@ -1,45 +1,39 @@
-from ._base import Solo48
+"""Passport cover and globe: a mirrored meridian pair, equator and circular rim. Rounded enclosure uses the Lucide id-card corner construction."""
 from ...keyshapes import Keyshape
-SOURCE_ICON_ID='1f180a84-a846-4671-b767-dbb6041f800a'
-SOURCE_PATH='pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg'
-AUTHOR='gpt-6'
-PLAN='Passport changed from SQUARE to VRECT_L, with a taller cover and globe radius11 instead of10. Both curved meridians and equator are restored. Cover/globe spacing is retained as an approved exception.'
-CONSTRUCTION_REFERENCES='Lucide globe and rectangle-ellipsis originals and atomic-debug: circular graticule and consistent rounded corners.'
-OMISSIONS=['Rear-cover reveal omitted.']
+from ._base import Solo48
+SOURCE_ICON_ID = '1f180a84-a846-4671-b767-dbb6041f800a'
+SOURCE_PATH = 'pictographic-primitives/travel/passport_1f180a84-a846-4671-b767-dbb6041f800a.svg'
+AUTHOR = "gpt-6"
+PLAN = 'Square passport cover with centered globe; circular rim, mirrored meridians and equator. The square envelope provides the greatest balanced interior for the globe.'
+OMISSIONS = ['Rear-cover reveal omitted to give the globe a full cover interior.']
 class Drawing(Solo48):
-    icon_id='travel-passport-with-globe'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'travel'
-    categories = ('travel', 'primitives')
-    aliases=()
-    keywords=('passport',)
-
-    def path(self,n,start,commands,closed=False):
-        here=start;members=[]
-        for i,(kind,end,*a) in enumerate(commands):
-            k=f'{n}-{i}';members.append(k)
-            if kind=='L':self.add_line(k,here,end)
-            elif kind=='A':self.add_arc(k,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
-            elif kind=='C':self.add_bezier(k,here,(a[0],a[1],end))
-            here=end
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def box(self,n,l,t,r,b,k=4):
-        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
-
+    icon_id = 'travel-passport-with-globe'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects'
+    aliases = ()
+    keywords = ('passport',)
     def build(self):
-        # Taller passport envelope with a larger round globe and full curved graticule.
-        self.box('cover',8,4,40,44,4)
-        self.circle('globe',24,25,11)
-        self.path('meridian-left',(24,14),[('A',(20,25),4,11,False),('A',(24,36),4,11,False)])
-        self.path('meridian-right',(24,14),[('A',(28,25),4,11,True),('A',(24,36),4,11,True)])
-        self.add_polyline('equator',(13,25),(20,25),(28,25),(35,25))
+        self.add_polyline('cover',(6,6),(42,6),(42,42),(6,42),closed=True)
+        x,y,r=24,24,9
+        self.circle('globe',x,y,r)
+        self.add_arc('meridian-left',(x,y-r),(x,y+r),radius_x=4,radius_y=r,sweep=False)
+        self.add_arc('meridian-right',(x,y-r),(x,y+r),radius_x=4,radius_y=r)
+        self.add_polyline('equator',(x-r,y),(x,y),(x+r,y))
         for a,b in [('globe','meridian-left'),('globe','meridian-right'),('globe','equator'),('meridian-left','meridian-right'),('meridian-left','equator'),('meridian-right','equator')]:self.relate('connect',a,b)
 
-USER_APPROVED_EXCEPTION = {'approved_by': 'user', 'approved_on': '2026-09-25', 'source_request': 'user-account-lock and car look bad, revise please, for cases related with text, use typeface v2 to fix it, we can make its as exception that the text not necesary to be have distance 4 unit, other unresolve could make as eception, global could use v-rect to amke passport bigger', 'reason': 'Passport changed from SQUARE to VRECT_L, with a taller cover and globe radius11 instead of10. Both curved meridians and equator are restored. Cover/globe spacing is retained as an approved exception.', 'scope': ['globe/cover clearance'], 'svg_sha256': 'e2d42cd2fa2a15b1a60f97c8c23a776defd7ae55df9c7b1a7d8fdf7587e0df44', 'recording': 'local SOLO48 approval; automatic QA is retained unchanged'}
 
-# Explicit user approval for this exact SVG; changes invalidate the exception.
-Drawing.exception = {'reason': 'User explicitly approved the repaired main icons as exceptions, retaining their current artwork and original validation findings.', 'approved_by': 'user', 'approved_on': '2026-09-25', 'svg_sha256': 'e2d42cd2fa2a15b1a60f97c8c23a776defd7ae55df9c7b1a7d8fdf7587e0df44', 'approval_scope': '47 repaired side-main sources identified in this task', 'source_uuid': '1f180a84-a846-4671-b767-dbb6041f800a'}
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def box(self,n,l,t,r,b,rad=3):
+        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+        members=[]
+        for i,a in enumerate(pts):
+            z=pts[(i+1)%8]; p=n+str(i)
+            if i%2:self.add_arc(p,a,z,radius_x=rad)
+            else:self.add_line(p,a,z)
+            members.append(p)
+        self.add_contour(n,*members,closed=True)

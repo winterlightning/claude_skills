@@ -9,7 +9,7 @@ from icon_set.model.icons.solo._base import Solo48
 
 SOURCE_ICON_ID = '6b207644-924b-4415-9162-5bfe9adfd9bf'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__smiling-face-wearing-sunglasses/20260928T042731Z-thuan-mac-1/reference/face sunglasses_6b207644-924b-4415-9162-5bfe9adfd9bf.svg'
-AUTHOR = "claude-fable-5-1"
+AUTHOR = 'claude-fable-5-1'
 
 
 class SmilingFaceWearingSunglasses(Solo48):

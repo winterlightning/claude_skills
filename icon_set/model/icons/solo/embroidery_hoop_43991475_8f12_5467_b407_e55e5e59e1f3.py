@@ -1,46 +1,81 @@
-"""embroidery hoop: fresh spacing repair.
-Plan: Concentric hoop outlines with 9-unit minimum radial separation. Top clamp joins exposed outer-hoop endpoint, screw is split at clamp.
-Keyshape VRECT_L: extrema derived from the profile's standard envelope.
-Omissions: Paired narrow clamp ears merged into a central clamp; hoop made subtly oval.
+"""embroidery hoop.
+Plan: Concentric embroidery rings and split upper clamp; hoop shoulders end exactly at each clamp ear.
+Construction: Source paired clamp and concentric hoops; Lucide circle construction with explicit attachment nodes.
+Omissions: Round outer top changed to tangent shoulder arcs supporting the real clamp endpoints.
 """
 from ...keyshapes import Keyshape
+from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID='43991475-8f12-5467-b407-e55e5e59e1f3'
-SOURCE_PATH='pictographic-primitives/hobbies/embroidery hoop_43991475-8f12-5467-b407-e55e5e59e1f3.svg'
-AUTHOR='gpt-6'
-class Drawing(Solo48):
-    icon_id='embroidery-hoop'
-    keyshape=Keyshape.VRECT_L
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'hobbies'
-    categories = ('primitives', 'hobbies')
-    aliases=()
-    keywords=('embroidery', 'hoop')
+SOURCE_ICON_ID = '43991475-8f12-5467-b407-e55e5e59e1f3'
+SOURCE_PATH = 'pictographic-primitives/hobbies/embroidery hoop_43991475-8f12-5467-b407-e55e5e59e1f3.svg'
+AUTHOR = "gpt-6"
 
-    def circle(self,n,x,y,r):
-        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(n,n+'-a',n+'-b',closed=True)
-    def path(self,n,start,segments,closed=False):
-        at=start; members=[]
-        for i,s in enumerate(segments):
-            eid=f'{n}-{i}'; kind,end,*args=s
-            if end==at: continue
-            if kind=='L': self.add_line(eid,at,end)
-            else: self.add_arc(eid,at,end,radius_x=args[0],sweep=args[1] if len(args)>1 else True)
-            at=end; members.append(eid)
-        self.add_contour(n,*members,closed=closed)
-    def cross(self,n,x,y,r):
-        for i,(dx,dy) in enumerate([(-r,0),(r,0),(0,-r),(0,r)]):
-            self.add_line(f'{n}-{i}',(x,y),(x+dx,y+dy))
-        for i in range(4):
-            for j in range(i): self.relate('connect',f'{n}-{i}',f'{n}-{j}')
+class Drawing(Solo48):
+    icon_id = 'embroidery-hoop'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/general'
+    aliases = ()
+    keywords = ('embroidery', 'hoop')
+    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    def path(self, name, start, operations, closed=False):
+        # A coherent path owns its members exactly once.
+        current=start; members=[]
+        for i,op in enumerate(operations):
+            n=f'{name}-{i}'
+            if op[0]=='L':
+                end=op[1]; self.add_line(n,current,end)
+            elif op[0]=='A':
+                end,rx,ry,sweep=op[1:]; self.add_arc(n,current,end,radius_x=rx,radius_y=ry,sweep=sweep)
+            else:
+                c1,c2,end=op[1:]; self.add_bezier(n,current,(c1,c2,end))
+            members.append(n);current=end
+        if closed and current!=start:
+            n=f'{name}-close';self.add_line(n,current,start);members.append(n)
+        self.add_contour(name,*members,closed=closed)
+
+    def circle(self,name,x,y,r):
+        self.path(name,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+
+    def rect(self,name,x,y,w,h,r=4,split_x=(),split_y=()):
+        ops=[]
+        for xx in sorted(v for v in split_x if x+r<v<x+w-r): ops.append(('L',(xx,y)))
+        ops += [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True)]
+        for yy in sorted(v for v in split_y if y+r<v<y+h-r): ops.append(('L',(x+w,yy)))
+        ops += [('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True)]
+        for xx in sorted((v for v in split_x if x+r<v<x+w-r),reverse=True): ops.append(('L',(xx,y+h)))
+        ops += [('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True)]
+        for yy in sorted((v for v in split_y if y+r<v<y+h-r),reverse=True): ops.append(('L',(x,yy)))
+        ops += [('L',(x,y+r)),('A',(x+r,y),r,r,True)]
+        # Capsules can have zero-length straight runs; omit those.
+        cleaned=[];p=(x+r,y)
+        for op in ops:
+            if op[0]!='L' or op[1]!=p: cleaned.append(op)
+            p=op[1]
+        self.path(name,(x+r,y),cleaned,True)
+
+    def join(self,*names):
+        for i,a in enumerate(names):
+            for b in names[i+1:]: self.relate('connect',a,b)
+
+    def cross(self,name,x,y,r,diagonal=False):
+        offsets=[(-r,-r),(r,r),(-r,r),(r,-r)] if diagonal else [(-r,0),(r,0),(0,-r),(0,r)]
+        names=[]
+        for i,(dx,dy) in enumerate(offsets):
+            n=f'{name}-{i}';self.add_line(n,(x,y),(x+dx,y+dy));names.append(n)
+        self.join(*names)
+
+    def letter_a(self,name,apex,left,right,bar_left,bar_right):
+        self.add_polyline(name,left,bar_left,apex,bar_right,right)
+        self.add_line(name+'-bar',bar_left,bar_right)
+        self.join(name,name+'-bar')
 
     def build(self):
-        points=[(24,14),(40,29),(24,44),(8,29)]
-        for i in range(4): self.add_arc(f'hoop-{i}',points[i],points[(i+1)%4],radius_x=16,radius_y=15)
-        self.add_contour('outer-hoop',*(f'hoop-{i}' for i in range(4)),closed=True)
-        self.circle('inner-hoop',24,29,6)
-        self.add_line('clamp',(24,4),(24,14));self.relate('connect','clamp','outer-hoop')
-        self.add_polyline('screw',(18,4),(24,4),(36,4));self.relate('connect','screw','clamp')
+        self.path('outer-hoop',(20,12),[('A',(8,28),12,16,False),('A',(40,28),16,16,False),('A',(28,12),12,16,False)])
+        self.circle('inner-hoop',24,28,7)
+        for x in (20,28):
+            self.add_line('ear-'+str(x),(x,4),(x,12))
+            self.relate('connect','outer-hoop','ear-'+str(x))
+        self.add_polyline('screw',(20,4),(28,4),(36,4))
+        for x in (20,28):self.relate('connect','ear-'+str(x),'screw')

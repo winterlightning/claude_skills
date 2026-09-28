@@ -1,23 +1,18 @@
-"""pantyhose: standalone SOLO48 repair.
-Plan: Stockinged legs, one bent across the other.
-Keyshape: VRECT_L; shared dimensions and nodes own repeated elements.
-Reduction: Widened bent calf, rebalanced the rear shin, and omitted fine wrinkles. Asymmetric crossing pose preserved.
-Lucide originals and atomic-debug construction reference: none.
-human_ref/full_body_ref.png informs coherent bent limb anatomy. No head; detached-head rule does not apply.
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f422872b-42cf-4b74-aa1f-bf870f557d7a'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__pantyhose/20260927T143814Z-thuan-mac-1/reference/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/todo-references/pantyhose_f422872b-42cf-4b74-aa1f-bf870f557d7a.svg'
+AUTHOR = "gpt-6"
+PLAN = 'Pantyhose with one straight leg and one bent crossing leg, open at the waist.'
+CONSTRUCTION_REFERENCES = 'Shared human-reference.md/full_body_ref.png: coherent bent limb strokes and simple anatomy. No detached head.'
+OMISSIONS = 'Fine ankle wrinkles omitted; crossing leg and toe shapes retained.'
 
 class Drawing(Solo48):
     icon_id = 'pantyhose'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
+    category = 'objects/general'
     aliases = ()
     keywords = ('pantyhose',)
 
@@ -48,9 +43,16 @@ class Drawing(Solo48):
         self.relate('connect',name+'-return',name+'-stem')
 
     def build(self):
-        # One waistband and two separated full-length hosiery legs.
-        self.add_polyline('tights',(14,4),(34,4),(40,14),(40,44),(30,44),(30,18),
-                          (18,18),(18,44),(8,44),(8,14),closed=True)
+        # Human-reference.md: coherent bent limb; no head or detached-head rule applies.
+        self.add_line('waist-1',(16,4),(28,4));self.add_line('waist-2',(28,4),(28,12))
+        self.add_bezier('outer-thigh',(28,12),((32,15),(38,17),(38,22)),((38,24),(34,27),(25,32)))
+        self.add_line('outer-calf',(25,32),(12,40))
+        self.add_line('toe-1',(12,40),(10,36));self.add_line('toe-2',(10,36),(28,25))
+        self.add_bezier('inner-thigh',(28,25),((24,23),(17,22),(14,19)),((10,15),(16,9),(16,4)))
+        self.add_contour('bent-leg','waist-1','waist-2','outer-thigh','outer-calf','toe-1','toe-2','inner-thigh',closed=True)
+        self.add_line('rear-thigh',(14,19),(14,30));self.relate('connect','bent-leg','rear-thigh')
+        self.add_bezier('rear-shin',(25,32),((24,35),(24,39),(25,40)),((26,42),(29,43),(31,43)),((28,44),(24,44),(20,44)))
+        self.relate('connect','bent-leg','rear-shin')
 
-# Revision comparison: The rejected drawing read as a single tangled bent leg rather than a pair of hosiery legs.
-# Revision: Redrew one waistband with two long, separated legs.
+KEYSHAPE_INK_BOUNDS = (8, 2, 40, 46)
+KEYSHAPE_REASON = 'The tall, narrow subject uses the 28×40 centerline envelope.'

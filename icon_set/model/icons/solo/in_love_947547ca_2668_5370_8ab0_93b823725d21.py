@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '947547ca-2668-5370-8ab0-93b823725d21'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__heart-eyes-face/20260926T172218Z-thuan-mac-1/reference/in love_947547ca-2668-5370-8ab0-93b823725d21.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeartEyesFace(Solo48):
@@ -18,15 +18,10 @@ class HeartEyesFace(Solo48):
     keywords = ('love', 'heart', 'smile', 'adoring', 'face', 'emoji')
 
     def build(self) -> None:
-
-        # Open cheek sectors leave the two actual heart apertures readable.
-        self.add_arc("crown",(12,8),(36,8),radius_x=20)
-        self.add_arc("chin",(40,36),(8,36),radius_x=20)
-        for side,sign in (("left",1),("right",-1)):
-            def p(x,y): return (24+sign*(x-24),y)
-            self.add_arc(f"heart-{side}-a",p(14,17),p(9,20),radius_x=3,sweep=sign<0)
-            self.add_line(f"heart-{side}-b",p(9,20),p(14,26))
-            self.add_line(f"heart-{side}-c",p(14,26),p(19,20))
-            self.add_arc(f"heart-{side}-d",p(19,20),p(14,17),radius_x=3,sweep=sign<0)
-            self.add_contour(f"heart-{side}",*(f"heart-{side}-{c}" for c in "abcd"),closed=True)
-        self.add_arc("smile",(20,33),(28,33),radius_x=5,sweep=False)
+        # The original is a round face with paired heart eyes and a low smile.
+        self.add_arc('face-top',(4,24),(44,24),radius_x=20)
+        self.add_arc('face-bottom',(44,24),(4,24),radius_x=20)
+        self.add_contour('face','face-top','face-bottom',closed=True)
+        for side,cx in (('left',17),('right',31)):
+            self.add_polyline(f'heart-{side}',(cx-2,18),(cx,24),(cx+2,18))
+        self.add_arc('smile',(17,33),(31,33),radius_x=10,sweep=False)

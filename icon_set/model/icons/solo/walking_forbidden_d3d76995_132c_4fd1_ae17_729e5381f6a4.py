@@ -9,7 +9,7 @@ SOURCE_ICON_ID='d3d76995-132c-4fd1-ae17-729e5381f6a4'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__walking-forbidden/20260927T140835Z-thuan-mac-1/reference/walking forbidden_d3d76995-132c-4fd1-ae17-729e5381f6a4.svg'
 AUTHOR = "gpt-6"
 class Drawing(Solo48):
-    icon_id='walking-forbidden'
+    icon_id = 'walking-forbidden'
     keyshape=Keyshape.CIRCLE
     semantic_role='MAIN'
     semantic_kind='noun'
@@ -45,14 +45,15 @@ class Drawing(Solo48):
         self.path(n,(l+k,t),ops,True)
 
     def build(self):
-        # Circular prohibition ring crossed over a compact walking figure.
+        # Circular prohibition ring and a compact walking figure from the source.
         self.circle('sign',24,24,20)
-        self.add_polyline('slash',(8,12),(28,28),(40,36))
+        self.add_polyline('slash',(8,12),(24,25),(40,36))
         self.relate('connect','sign','slash')
-        self.circle('head',28,15,2)
-        self.add_line('torso-upper',(28,25),(28,28))
-        self.add_line('torso-lower',(28,28),(28,31))
-        self.add_line('walking-leg',(28,31),(20,34))
-        self.relate('connect','slash','torso-upper','torso-lower')
-        self.relate('connect','torso-lower','walking-leg')
-        self.mark_human_figure('person',head='head',torso='torso-upper',torso_junction='start')
+        self.circle('head',24,15,2)
+        self.add_line('torso',(24,25),(24,32))
+        self.add_line('arm-left',(24,27),(18,29))
+        self.add_polyline('legs',(18,34),(24,32),(30,34))
+        self.relate('connect','slash','torso')
+        self.relate('connect','torso','arm-left')
+        self.relate('connect','torso','legs')
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')

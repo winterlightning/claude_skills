@@ -1,49 +1,49 @@
-"""A right-pointing arrow inside a rounded square.
-
-Plan: Centered arrow nested in a single rounded square.
-Construction: log-out: horizontal shaft and symmetric chevron
-"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bc2a6778-ef25-47fb-9edd-73d0b5963727'
 SOURCE_PATH = 'icon_set/work/todo-references/right from bracket_bc2a6778-ef25-47fb-9edd-73d0b5963727.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
+# Construction plan: Closed rounded square surrounding a right arrow, as in the supplied image.
+# Reference reduction: No defining parts omitted.
+# Construction references: ['table', 'arrow-right']
 
-class Drawing(Solo48):
+class AuthoredIcon(Solo48):
     icon_id = 'right-from-bracket'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category = "objects/general"
     aliases = ()
     keywords = ('right', 'from', 'bracket')
 
     def build(self):
         self.box('frame',6,6,42,42,4)
-        self.arrow('right',(15,24),(33,24),(26,16),(26,32))
+        self.add_line('shaft',(15,24),(33,24))
+        self.add_polyline('arrow',(25,16),(33,24),(25,32))
+        self.relate('connect','shaft','arrow')
 
     def circle(self, name, x, y, r):
-        self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
-        self.add_arc(name+'-bottom',(x+r,y),(x-r,y),radius_x=r)
-        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
+        self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(name,name+'-a',name+'-b',closed=True)
 
-    def box(self, name, l, t, r, b, rad=2):
-        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-        for i in range(8):
-            a,z=pts[i],pts[(i+1)%8]
-            if i%2:self.add_arc(f'{name}-{i}',a,z,radius_x=rad)
-            else:self.add_line(f'{name}-{i}',a,z)
-        self.add_contour(name,*(f'{name}-{i}' for i in range(8)),closed=True)
+    def box(self, name, l, t, r, b, radius=3):
+        q=radius
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{name}-{k}'; ids.append(ident)
+            a,z=pts[k],pts[(k+1)%8]
+            if k%2: self.add_arc(ident,a,z,radius_x=q)
+            else: self.add_line(ident,a,z)
+        self.add_contour(name,*ids,closed=True)
 
-    def arrow(self, name, start, tip, wing1, wing2):
-        self.add_line(name+'-shaft',start,tip)
-        self.add_polyline(name+'-head',wing1,tip,wing2)
-        for i in (1,2):self.relate('connect',name+'-shaft',f'{name}-head-{i}')
-
-    def heart(self, name, x, top, half, bottom):
-        # Mirrored lobes share dimensions and meet the pointed lower silhouette.
-        self.add_bezier(name+'-left',(x,top+2),((x-half,top-5),(x-half-3,top+4),(x-half,top+7)),((x-half+2,top+10),(x, bottom),(x,bottom)))
-        self.add_bezier(name+'-right',(x,bottom),((x,bottom),(x+half-2,top+10),(x+half,top+7)),((x+half+3,top+4),(x+half,top-5),(x,top+2)))
-        self.add_contour(name,name+'-left',name+'-right',closed=True)
+    def heart(self, name, cx, top, half, bottom):
+        # Mirrored lobes and tangent downward shoulders share one outline.
+        l=cx-half; r=cx+half; y=top+half//2
+        self.add_bezier(name,(cx,top+3),
+            ((cx-half//2,top-3),(l,top),(l,y)),
+            ((l,y+4),(cx-half//2,bottom-4),(cx,bottom)),
+            ((cx+half//2,bottom-4),(r,y+4),(r,y)),
+            ((r,top),(cx+half//2,top-3),(cx,top+3)))

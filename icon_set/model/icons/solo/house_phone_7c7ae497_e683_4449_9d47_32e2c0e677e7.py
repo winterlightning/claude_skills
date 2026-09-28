@@ -1,4 +1,3 @@
-"""Revision of the claimed reference after comparing original and rejected drawing."""
 """house phone: fresh SOLO48 repair.
 Plan: Mirrored house with lower eaves; a curved handset and two joined terminal strokes.
 Keyshape: SQUARE. Equal-width house provides space for the diagonal receiver.
@@ -8,8 +7,8 @@ Construction reference: house and phone: coherent roof/wall contour and curved r
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7c7ae497-e683-4449-9d47-32e2c0e677e7'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__house-phone/20260927T142529Z-thuan-mac-1/reference/house phone_7c7ae497-e683-4449-9d47-32e2c0e677e7.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/house phone_7c7ae497-e683-4449-9d47-32e2c0e677e7.svg'
+AUTHOR = "gpt-6"
 PARENT_SOURCE = 'icon_set/model/icons/solo/house_phone_7c7ae497_e683_4449_9d47_32e2c0e677e7.py'
 
 class Drawing(Solo48):
@@ -17,8 +16,7 @@ class Drawing(Solo48):
     keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category = 'objects/buildings'
     aliases = ()
     keywords = ('house', 'phone')
 
@@ -34,10 +32,8 @@ class Drawing(Solo48):
 
     def build(self):
         self.house()
-        self.add_arc('receiver', (15, 20), (33, 32), radius_x=18, sweep=False)
-        self.add_polyline('earpiece',(15,19),(15,20),(19,23))
-        self.add_line('mouthpiece',(33,32),(29,28))
+        self.add_arc('receiver', (16, 21), (31, 33), radius_x=15, sweep=False)
+        self.add_line('earpiece', (16, 21), (20, 24))
+        self.add_line('mouthpiece', (31, 33), (28, 29))
         self.relate('connect', 'receiver', 'earpiece')
         self.relate('connect', 'receiver', 'mouthpiece')
-
-# Explicit user approval for this exact SVG; changes invalidate the exception.

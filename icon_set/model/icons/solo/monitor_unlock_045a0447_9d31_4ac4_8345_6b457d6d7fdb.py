@@ -2,28 +2,24 @@ from ...keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 from ._base import Solo48
 SOURCE_ICON_ID='045a0447-9d31-4ac4-8345-6b457d6d7fdb'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__monitor-unlock/20260927T142540Z-thuan-mac-1/reference/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
-AUTHOR='gpt-6'
-PLAN='Monitor with full pedestal and a open lock body below a visibly open shackle.'
+SOURCE_PATH='pictographic-primitives/other/monitor unlock_045a0447-9d31-4ac4-8345-6b457d6d7fdb.svg'
+AUTHOR="gpt-6"
+PLAN='Taller monitor screen permits an open padlock. Lucide lock-keyhole-open shackle; omit keyhole absent in source and horizontal foot bar to preserve the open lock.'
 class Drawing(Solo48):
-    icon_id='monitor-unlock'
+    icon_id = 'monitor-unlock'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('monitor', 'unlock')
     ink_extremes=keyshape.bounds_for(Profile.SOLO48)
     def build(self):
-        self.monitor(8,4,40,36,44)
-        # The open body and raised shackle read as an unlocked padlock.
-        self.add_polyline('lock-body',(18,21),(18,27),(30,27),(30,21))
-        self.add_line('shackle-stem',(18,21),(18,17))
-        self.add_arc('shackle-bend',(18,17),(22,13),radius_x=4)
-        self.add_line('shackle-tip',(22,13),(28,13))
-        self.add_contour('open-shackle','shackle-stem','shackle-bend','shackle-tip')
-        self.relate('connect','lock-body','open-shackle')
+        self.add_polyline('screen',(8,4),(40,4),(40,40),(24,40),(8,40),closed=True)
+        self.add_line('stand',(24,40),(24,44));self.relate('connect','screen','stand')
+        self.path('lock',(19,22),[('L',(20,22)),('L',(29,22)),('A',(31,24),2,2,True),('L',(31,28)),('A',(29,30),2,2,True),('L',(19,30)),('A',(17,28),2,2,True),('L',(17,24)),('A',(19,22),2,2,True)],True)
+        self.path('shackle',(20,22),[('L',(20,17)),('A',(24,13),4,4,True),('L',(28,13))])
+        self.relate('connect','lock','shackle')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)

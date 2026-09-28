@@ -5,16 +5,15 @@ Keyshape SQUARE: visible bounds (4, 4, 44, 44); centerlines inset 2 from these b
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='ef26ac2a-67ca-4e82-9052-f1f383659603'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-on-descending-escalator/20260927T143814Z-thuan-mac-1/reference/escalator descend person_ef26ac2a-67ca-4e82-9052-f1f383659603.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH='pictographic-primitives/_uncategorized_17/escalator descend person_ef26ac2a-67ca-4e82-9052-f1f383659603.svg'
+AUTHOR="gpt-6"
 
 class Drawing(Solo48):
-    icon_id='person-on-descending-escalator'
+    icon_id = 'person-on-descending-escalator'
     keyshape=Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
-    category = "primitives-generate"
-    categories = ("primitives", "primitives-generate")
+    category="objects/general"
     aliases=()
     keywords=('escalator', 'descend', 'person')
     def build(self):
@@ -24,7 +23,7 @@ class Drawing(Solo48):
         self.path('rail',(12,30),[('L',(14,30)),('L',(32,12)),('L',(36,12)),('A',(36,24),6,6,True),('L',(18,42)),('L',(12,42)),('A',(12,30),6,6,True)],True)
         self.relate('connect','torso','rail')
         self.add_polyline('down-arrow',(34,38),(34,42),(38,42))
-        self.add_line('arrow-shaft',(42,32),(34,42));self.relate('connect','arrow-shaft','down-arrow')
+        self.add_line('arrow-shaft',(42,34),(34,42));self.relate('connect','arrow-shaft','down-arrow')
 
     def circle(self,n,x,y,r):
         self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
@@ -39,6 +38,3 @@ class Drawing(Solo48):
             elif kind=='A':self.add_arc(eid,at,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
             at=end;members.append(eid)
         self.add_contour(n,*members,closed=closed)
-
-# Revision comparison: The rejected direction cue was small beside the descending rail.
-# Revision: Lengthened the descending arrow shaft while keeping the person and rail separate.

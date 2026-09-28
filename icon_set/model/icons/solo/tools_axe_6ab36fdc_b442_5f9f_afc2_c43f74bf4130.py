@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6ab36fdc-b442-5f9f-afc2-c43f74bf4130'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hatchet/20260926T172218Z-thuan-mac-1/reference/tools axe_6ab36fdc-b442-5f9f-afc2-c43f74bf4130.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class Hatchet(Solo48):
     icon_id = 'hatchet-solo'
@@ -24,5 +24,5 @@ class Hatchet(Solo48):
         self.add_line('head-back-1',(42, 22),(32, 20))
         self.add_line('head-back-2',(32, 20),(18, 6))
         self.add_contour('head','head-upper-1','head-upper-2','head-upper-3','edge','head-back-1','head-back-2',closed=True)
-        self.add_polyline('handle',(14,18),(6,34),(6,42),(14,40),(24,28))
+        self.add_polyline('handle',(14,18),(6,34),(6,42),(15,39),(24,28))
         self.relate('connect','handle','head')

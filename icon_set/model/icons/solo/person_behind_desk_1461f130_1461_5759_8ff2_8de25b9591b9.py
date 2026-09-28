@@ -1,58 +1,48 @@
-from ...keyshapes import Keyshape
+'Circular head and curved shoulders separated from a wide desk with splayed legs.'
 from ._base import Solo48
-
-SOURCE_ICON_ID = '1461f130-1461-5759-8ff2-8de25b9591b9'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__person-at-podium/20260927T072841Z-thuan-mac-1/reference/neutral podium_1461f130-1461-5759-8ff2-8de25b9591b9.svg'
-AUTHOR = 'claude-opus-5-5'
-
-
-def _path(icon, name, start, steps, closed=False):
-    """steps: (x, y) line | ((x, y), rx, ry, sweep[, large]) arc | ('c', c1, c2, end) cubic."""
-    members, point = [], start
-    for i, step in enumerate(steps):
-        member = f"{name}-{i + 1}"
-        if step[0] == 'c':
-            icon.add_bezier(member, point, (step[1], step[2], step[3])); point = step[3]
-        elif isinstance(step[0], (int, float)):
-            icon.add_line(member, point, step); point = step
-        else:
-            end, rx, ry, sweep = step[:4]
-            large = step[4] if len(step) > 4 else False
-            icon.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep, large_arc=large); point = end
-        members.append(member)
-    icon.add_contour(name, *members, closed=closed)
-    return members
-
-
-def _circle(icon, name, cx, cy, r):
-    """Full circle from four cardinal quarter arcs (certifiable spacing)."""
-    return _path(icon, name, (cx, cy - r), [((cx + r, cy), r, r, True), ((cx, cy + r), r, r, True),
-                                            ((cx - r, cy), r, r, True), ((cx, cy - r), r, r, True)], True)
-
-
+from ...keyshapes import Keyshape
+SOURCE_ICON_ID='1461f130-1461-5759-8ff2-8de25b9591b9'
+SOURCE_PATH='pictographic-primitives/users/neutral podium_1461f130-1461-5759-8ff2-8de25b9591b9.svg'
+AUTHOR="gpt-6"
+PLAN='Circular head and curved shoulders separated from a wide desk with splayed legs.'
+CONSTRUCTION_REFERENCE='human_ref/user.svg: circular head and arched shoulders; source desk separation.'
 class Drawing(Solo48):
     icon_id = 'person-behind-desk'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = 'users'
-    categories = ('users', 'primitives')
-    aliases = ()
-    keywords = ('person', 'podium', 'lectern', 'speaker', 'presentation', 'speech', 'talk', 'conference')
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('neutral', 'podium')
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-top',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-bottom',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
 
-    def build(self) -> None:
-        # speaker behind a podium (human ref user.svg): r4 head, shoulder arch 8 below it rising from the
-        # podium top; podium narrowing to its base
-        _circle(self, "head", 24, 10, 4)
-        self.add_arc("shoulders", (16, 29), (32, 29), radius_x=8, radius_y=7)
-        self.mark_human_figure("person", head="head", torso="shoulders", torso_junction="start")
-        xs = (6, 10, 16, 32, 38, 42)
-        for n, (a, b) in enumerate(zip(xs, xs[1:])):
-            self.add_line(f"top-{n}", (a, 29), (b, 29))
-        self.add_polyline("podium", (10, 29), (14, 42), (34, 42), (38, 29))
-        for n in range(4):
-            self.relate("connect", f"top-{n}", f"top-{n + 1}")
-        for t in ("top-1", "top-2", "top-3"):
-            self.relate("connect", "shoulders", t)
-        for t in ("top-0", "top-1", "top-3", "top-4"):
-            self.relate("connect", "podium", t)
+    def path(self,n,start,commands,closed=False):
+        ids=[];here=start
+        for i,c in enumerate(commands):
+            tag,end,*args=c; eid=f'{n}-{i}'
+            if tag=='L': self.add_line(eid,here,end)
+            elif tag=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+            elif tag=='C': self.add_bezier(eid,here,(args[0],args[1],end))
+            ids.append(eid);here=end
+        self.add_contour(n,*ids,closed=closed)
+
+    def box(self,n,l,t,r,b,rad=4):
+        self.path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+    def file(self,l=8,t=4,r=40,b=44):
+        self.path('page',(l+4,t),[('L',(r-10,t)),('L',(r,t+10)),('L',(r,b-4)),('A',(r-4,b),4,4,True),('L',(l+4,b)),('A',(l,b-4),4,4,True),('L',(l,t+4)),('A',(l+4,t),4,4,True)],True)
+
+    def build(self):
+        self.circle('head',24,9,5)
+        self.path('shoulders',(14,28),[('C',(24,22),(14,24),(19,22)),('C',(34,28),(29,22),(34,24))])
+        self.add_polyline('desk',(8,36),(12,36),(36,36),(40,36))
+        for n,x,end in [('left',12,10),('right',36,38)]:
+            self.add_line(n+'-leg',(x,36),(end,44));self.relate('connect','desk',n+'-leg')
+
+# Keyshape: VRECT_L accommodates head, shoulders, table clearance and splayed legs.
+# Visual review: Shoulders are separated from the tabletop as in the reference; equal splayed legs and centered head.
+OMISSIONS='No defining parts omitted; shoulder mass reduced to an open arch.'
+HUMAN_REVIEW={'reference': 'icon_set/references/human_ref/user.svg', 'head_center': [24, 9], 'radius': 5, 'shoulder_top': [24, 22], 'centerline_gap': 8, 'ink_gap': 4, 'proof': '22-(9+5)=8. Symmetric shoulder curves attain their nearest point at their top junction.'}

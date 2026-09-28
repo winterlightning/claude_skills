@@ -9,14 +9,13 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='d468b110-3c09-45a7-a6de-e6ecf180916a'
 SOURCE_PATH='icon_set/work/todo-references/frame man_d468b110-3c09-45a7-a6de-e6ecf180916a.svg'
-AUTHOR='gpt-6'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
-    icon_id='frame-man'
+    icon_id = 'frame-man'
     keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'images'
-    categories = ('images', 'primitives')
+    category='objects'
     aliases=()
     keywords=('frame', 'man')
 
@@ -43,3 +42,6 @@ class Drawing(Solo48):
         self.add_bezier('shoulders',(14,42),((14,38),(19,36),(24,36)),((29,36),(34,38),(34,42)))
         self.relate('connect','shoulders','frame')
 
+
+# Detached circular head bottom y=28; shoulder crest y=36.
+# Exact centerline gap 8, visible ink gap 4; symmetry axis x=24.

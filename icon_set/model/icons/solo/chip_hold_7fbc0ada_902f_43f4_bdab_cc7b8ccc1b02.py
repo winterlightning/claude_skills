@@ -6,7 +6,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-pinching-chip/20260926T172218Z-thuan-mac-1/reference/chip hold_7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandPinchingChip(Solo48):
     icon_id = 'hand-pinching-chip-solo'
@@ -43,5 +43,5 @@ class HandPinchingChip(Solo48):
         self.add_line('thumb-tip',(26,29),(22,27))
         self.add_contour('grasp','finger-tip','inner-upper','inner-lower','thumb-tip')
         self.relate('connect','grasp','chip')
-        self.add_polyline('thumb-arm',(10,27),(26,42))
+        self.add_arc('thumb-arm',(10,27),(26,42),radius_x=22,sweep=False)
         self.relate('connect','thumb-arm','chip')

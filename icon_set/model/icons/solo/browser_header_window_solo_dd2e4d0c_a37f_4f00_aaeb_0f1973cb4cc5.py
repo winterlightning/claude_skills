@@ -6,7 +6,7 @@ AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'browser-header-window-solo-dd2e4d0c'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "primitives-generate"
@@ -16,12 +16,12 @@ class Drawing(Solo48):
     def build(self):
         # Restore the complete banking website, including the missing temple symbol.
         # Lucide panel-top informs browser frame; compact pediment and three columns.
-        self.box("window",8,4,32,40,4)
-        self.add_line("header",(8,12),(40,12));self.relate("connect","header","window")
-        self.add_polyline("roof",(17,27),(24,20),(31,27))
-        self.add_line("base",(17,35),(31,35))
-        for x in (17,31):
-            self.add_line(f"column-{x}",(x,27),(x,35));self.relate("connect",f"column-{x}","base");self.relate("connect",f"column-{x}","roof")
+        self.box("window",6,6,36,36,4)
+        self.add_line("header",(6,14),(42,14));self.relate("connect","header","window")
+        self.add_polyline("roof",(15,27),(24,22),(33,27))
+        self.add_line("base",(15,33),(33,33))
+        for x in (16,24,32):
+            self.add_line(f"column-{x}",(x,22 if x==24 else 27),(x,33));self.relate("connect",f"column-{x}","base");self.relate("connect",f"column-{x}","roof")
 
     def path(self,name,start,commands,closed=False):
         members=[]

@@ -1,85 +1,43 @@
-"""Mobile Phone Airplane Mode. Airplane mode shown by a clear rising fuselage, wide swept wings and tailplane inside the phone.
-Keyshape VRECT_L: extremes authored from its SOLO48 centerline box.
-Omissions: Replaced ambiguous source-like stroke with recognizable airplane silhouette at user request.
+"""A mobile phone displaying plane icon.
+Construction reference: smartphone.
 """
-from icon_set.model.keyshapes import Keyshape
-from icon_set.model.icons.solo._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+from ...keyshapes import Keyshape
+from ._base import Solo48
 SOURCE_ICON_ID = '0a850f90-2953-422f-b95d-65062508b5a1'
-SOURCE_PATH = 'pictographic-primitives/other/mobile phone plane_0a850f90-2953-422f-b95d-65062508b5a1.svg'
-AUTHOR = 'gpt-6'
-PLAN = 'Airplane mode shown by a clear rising fuselage, wide swept wings and tailplane inside the phone.'
-OMISSIONS = 'Replaced ambiguous source-like stroke with recognizable airplane silhouette at user request.'
-CONSTRUCTION_REFERENCES = ['smartphone']
-PARENT_MODULE = 'icon_set/model/icons/solo/mobile_phone_plane_0a850f90_2953_422f_b95d_65062508b5a1.py'
-
+SOURCE_PATH = 'icon_set/work/todo-references/mobile phone plane_0a850f90-2953-422f-b95d-65062508b5a1.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-plane'
     keyshape = Keyshape.VRECT_L
+    # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
+    category = 'objects'
     aliases = ()
     keywords = ('mobile', 'phone', 'plane')
 
-    def path(self,n,start,commands,closed=False):
-        ids=[]; here=start
-        for i,c in enumerate(commands):
-            eid=f'{n}-{i}'; kind,end,*args=c
-            if kind=='L' and here==end: continue
-            if kind=='L': self.add_line(eid,here,end)
-            elif kind=='A': self.add_arc(eid,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
-            elif kind=='C': self.add_bezier(eid,here,(args[0],args[1],end))
-            ids.append(eid); here=end
-        self.add_contour(n,*ids,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def box(self,n,l,t,r,b,k=4):
-        self.path(n,(l+k,t),[('L',(r-k,t)),('A',(r,t+k),k,k,True),('L',(r,b-k)),('A',(r-k,b),k,k,True),('L',(l+k,b)),('A',(l,b-k),k,k,True),('L',(l,t+k)),('A',(l+k,t),k,k,True)],True)
-    def phone(self):
-        self.box('phone',8,4,40,44,4)
-        self.add_line('phone-band',(8,36),(40,36))
-    def calendar(self,wide=False):
-        l,t,r,b,bind,divider=(6,10,42,42,6,18) if wide else (8,8,40,44,4,16)
-        self.box('calendar',l,t,r,b,4)
-        self.add_line('divider',(l,divider),(r,divider))
-        for x in (16,32): self.add_line(f'binding-{x}',(x,bind),(x,t))
-    def dollar(self,x=24,y=24):
-        self.path('dollar',(x+4,y-5),[('C',(x,y-6),(x+3,y-6),(x+1,y-6)),('C',(x,y),(x-8,y-6),(x-8,y-1)),('C',(x,y+6),(x+8,y+1),(x+8,y+6)),('C',(x-4,y+5),(x-1,y+6),(x-3,y+6))])
-        self.add_line('dollar-top',(x,y-8),(x,y-6))
-        self.add_line('dollar-bottom',(x,y+6),(x,y+8))
-    def cross(self,n,x,y,r):
-        for j,(dx,dy) in enumerate(((-r,0),(r,0),(0,-r),(0,r))):self.add_line(f'{n}-{j}',(x,y),(x+dx,y+dy))
-    def handset(self,x=24,y=23):
-        self.path('handset',(x-3,y-5),[('L',(x-6,y-6)),('L',(x-7,y-6)),('C',(x+4,y+5),(x-7,y),(x-1,y+5)),('L',(x+7,y+2)),('L',(x+4,y-1))])
-    def contacts(self):
-        # Split only actual straight attachment nodes; connect exact shared endpoints.
-        from icon_set.model.primitives import Line
-        from dataclasses import replace
-        points={p.start for p in self.primitives}|{p.end for p in self.primitives}
-        changes={}; fresh=[]
-        for p in self.primitives:
-            if isinstance(p,Line) and p.start!=p.end:
-                a,b=p.start,p.end;dx,dy=b.x-a.x,b.y-a.y
-                cuts=[q for q in points if q not in (a,b) and (q.x-a.x)*dy==(q.y-a.y)*dx and 0<(q.x-a.x)*dx+(q.y-a.y)*dy<dx*dx+dy*dy]
-                if cuts:
-                    nodes=[a]+sorted(cuts,key=lambda q:(q.x-a.x)*dx+(q.y-a.y)*dy)+[b]; ids=[]
-                    for j,(u,v) in enumerate(zip(nodes,nodes[1:])):
-                        name=f'{p.element_id}-join-{j}'; fresh.append(Line(name,u,v));ids.append(name)
-                    changes[p.element_id]=ids;continue
-            fresh.append(p)
-        self.primitives[:]=fresh
-        self.contours[:]=[replace(c,members=tuple(k for m in c.members for k in changes.get(m,[m]))) for c in self.contours]
-        for j,a in enumerate(self.primitives):
-            for b in self.primitives[j+1:]:
-                if {a.start,a.end}&{b.start,b.end}:self.relate('connect',a.element_id,b.element_id)
+    def circle(self,name,cx,cy,r):
+        self.add_arc(name+'-a',(cx-r,cy),(cx+r,cy),radius_x=r)
+        self.add_arc(name+'-b',(cx+r,cy),(cx-r,cy),radius_x=r)
+        self.add_contour(name,name+'-a',name+'-b',closed=True)
+    def rect(self,name,x,y,w,h,r=2):
+        pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        names=[]
+        for i,a in enumerate(pts):
+            n=f'{name}-{i}';b=pts[(i+1)%8]
+            if i%2:self.add_arc(n,a,b,radius_x=r)
+            else:self.add_line(n,a,b)
+            names.append(n)
+        self.add_contour(name,*names,closed=True)
 
     def build(self):
 
-        self.phone()
-        self.add_polyline('fuselage',(19,25),(25,19),(31,13))
-        self.add_polyline('wings',(16,15),(25,19),(29,28))
-        self.add_polyline('tail',(16,22),(19,25),(22,28))
+        # Plan: rounded upright phone and lower band; content owns its own geometry.
+        self.rect('phone',8,4,32,40)
+        self.add_line('separator',(8,36),(40,36))
+        self.relate('connect','phone','separator')
 
-        self.contacts()
-
-Drawing.exception = {'approved_by': 'user', 'approved_on': '2026-09-25', 'reason': 'User approved all 36 reviewed main icons and explicitly requested exceptions for every remaining failure so none remain in side-mains Needs fix. Preserve all automatic validation findings.', 'svg_sha256': 'e2e187a379e50aebaf0bb1194e1f0767e8db1555e0aedce568ab302b7c517624', 'source_uuid': '0a850f90-2953-422f-b95d-65062508b5a1'}
+        # Source is a minimal side-profile aircraft, intentionally diagonal.
+        self.add_bezier('fuselage',(17,26),((20,28),(22,27),(25,26)),((28,24),(31,22),(31,18)))
+        self.add_line('wing',(18,18),(27,24))
+        self.relate('connect','fuselage','wing')

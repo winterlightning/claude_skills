@@ -7,7 +7,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '00932023-8394-5a44-a022-548441776c82'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-indian-avatar/20260926T181831Z-thuan-mac-1/reference/woman indian_00932023-8394-5a44-a022-548441776c82.svg'
 SOURCE_HEAD_ICON_ID = 'woman-indian'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 32
 class WomanIndianAvatar(Solo48):
     icon_id = 'woman-indian-avatar-solo'
@@ -37,9 +37,8 @@ class WomanIndianAvatar(Solo48):
         self.relate('connect','body-left','body-top')
         self.relate('connect','body-top','body-top-right')
         self.relate('connect','body-top-right','body-right')
-        self.add_line('sari-drape',(24,top),(28,44))
+        self.add_line('sari-drape',(18,top),(30,44))
         self.relate('connect','sari-drape','body-top')
-        self.relate('connect','sari-drape','body-top-right')
 
         self.relate('connect','head','body-top')
         self.relate('connect','head','body-top-right')

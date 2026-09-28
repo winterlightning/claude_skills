@@ -1,20 +1,19 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='bc216d11-8cf2-4ba4-93cc-9f69078fdc84'
-SOURCE_PATH = 'pictographic-primitives/other/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg'
-AUTHOR='gpt-6'
+SOURCE_PATH='icon_set/work/todo-references/play button_bc216d11-8cf2-4ba4-93cc-9f69078fdc84.svg'
+AUTHOR="gpt-6"
 PLAN='Television play button: antenna pair, rectangular screen, two feet and central play triangle. Symmetry axis x=24.'
 CONSTRUCTION_REFERENCES='Lucide tv: paired antenna and screen; circle-play: simple triangular play glyph.'
 OMISSIONS='Rounded screen corners reduced to round stroke joins; triangle compressed vertically for the screen.'
 KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
 
 class Drawing(Solo48):
-    icon_id='play-button'
-    keyshape=Keyshape.VRECT_L
+    icon_id = 'play-button'
+    keyshape=Keyshape.SQUARE
     semantic_role='MAIN'
     semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('other', 'primitives-generate')
+    category='objects/general'
     aliases=()
     keywords=('play', 'button')
 
@@ -53,10 +52,10 @@ class Drawing(Solo48):
         self.add_contour(name,name+'-dome',name+'-right',name+'-left',closed=True)
 
     def build(self):
-        self.add_polyline('screen',(8,12),(24,12),(40,12),(40,42),(32,42),(16,42),(8,42),closed=True)
-        self.add_polyline('antenna',(15,4),(24,12),(33,4));self.relate('connect','screen','antenna')
-        for i,x in enumerate((16,32)):
-         self.add_line(f'foot-{i}',(x,42),(x,44));self.relate('connect','screen',f'foot-{i}')
-        self.add_polyline('play',(17,20),(31,27),(17,34),closed=True)
+        self.add_polyline('screen',(6,14),(24,14),(42,14),(42,38),(36,38),(12,38),(6,38),closed=True)
+        self.add_polyline('antenna',(15,6),(24,14),(33,6));self.relate('connect','screen','antenna')
+        for i,x in enumerate((12,36)):
+         self.add_line(f'foot-{i}',(x,38),(x,42));self.relate('connect','screen',f'foot-{i}')
+        self.add_polyline('play',(18,22),(30,26),(18,30),closed=True)
 
 KEYSHAPE_REASON='The whole composition is approximately square; the centerline extremes are (6,6)–(42,42).'

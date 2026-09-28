@@ -1,37 +1,150 @@
-"""adjustable-brightness-light-bulb. Reconstructed clean centerlines from the original reference.
-Construction reference: lightbulb. Keyshape SQUARE chosen for the composition.
-"""
+"""Adjustable-brightness bulb reconstructed from the supplied reference."""
+
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID='afa0c105-3fb7-4c77-b44d-80888cf292ec'
-SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__adjustable-brightness-light-bulb/20260925T034142Z-thuan-mac/reference/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg'
-AUTHOR='gpt-6'
 
-class Drawing(Solo48):
-    icon_id='adjustable-brightness-light-bulb'
-    keyshape=Keyshape.SQUARE
-    semantic_role='MAIN'
-    semantic_kind='noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases=()
-    keywords=('adjustable', 'brightness', 'light', 'bulb')
-    def build(self):
-        # Root owns a circular dial arc, centered bulb, and detached dial indicator.
-        self.path('dial',(6,24),[('A',(24,6),18,18,True),('C',(39,14),(30,6),(36,9))])
-        self.path('bulb',(15,23),[('A',(27,23),6,6,True),('C',(26,32),(27,27),(26,28)),('L',(26,34)),('A',(21,39),5,5,True),('A',(16,34),5,5,True),('L',(16,32)),('C',(15,23),(16,28),(15,27))],True)
-        self.add_line('contact',(21,39),(21,42));self.join('bulb','contact')
-        self.circle('indicator',39,30,3)
 
-    def path(self,n,p,ops,closed=False):
-        members=[]
-        for i,(kind,q,*v) in enumerate(ops):
-            eid=f'{n}-{i}'
-            if kind=='L': self.add_line(eid,p,q)
-            elif kind=='A': self.add_arc(eid,p,q,radius_x=v[0],radius_y=v[1],sweep=v[2])
-            elif kind=='C': self.add_bezier(eid,p,(v[0],v[1],q))
-            members.append(eid);p=q
-        self.add_contour(n,*members,closed=closed)
-    def circle(self,n,x,y,r):
-        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
-    def join(self,a,b): self.relate('connect',a,b)
+SOURCE_ICON_ID = "afa0c105-3fb7-4c77-b44d-80888cf292ec"
+SOURCE_PATH = "pictographic-primitives/_uncategorized_01/adjustable lamp 1_afa0c105-3fb7-4c77-b44d-80888cf292ec.svg"
+AUTHOR = "gpt-5"
+
+
+class AdjustableBrightnessLightBulb(Solo48):
+    icon_id = "adjustable-brightness-light-bulb"
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/lighting"
+    aliases = ("dimmable-light-bulb", "adjustable-lamp")
+    keywords = ("bulb", "brightness", "dimmer", "lamp", "light", "control")
+
+    def build(self) -> None:
+        # Plan: the root owns three siblings: a broad three-arc adjustment
+        # stroke, a vertically symmetric bulb, and one circular indicator.
+        # The arc sections share tangent directions at their exact endpoints;
+        # the bulb derives mirrored shoulders and necks from axis_x.
+        axis_x = 21
+
+        self.add_arc(
+            "adjustment-lower-left",
+            (10, 36),
+            (6, 24),
+            radius_x=4,
+            radius_y=12,
+        )
+        self.add_arc(
+            "adjustment-upper-left",
+            (6, 24),
+            (24, 6),
+            radius_x=18,
+        )
+        self.add_arc(
+            "adjustment-upper-right",
+            (24, 6),
+            (38, 12),
+            radius_x=14,
+            radius_y=6,
+        )
+        self.add_contour(
+            "adjustment-arc",
+            "adjustment-lower-left",
+            "adjustment-upper-left",
+            "adjustment-upper-right",
+        )
+
+        head_rx, head_ry, head_y = 6, 6, 23
+        shoulder_radius = 5
+        shoulder_offset, shoulder_step = 2, 4
+        neck_half_width = 3
+        seam_y = 31
+        base_depth = 8
+
+        self.add_arc(
+            "bulb-head",
+            (axis_x - head_rx, head_y),
+            (axis_x + head_rx, head_y),
+            radius_x=head_rx,
+            radius_y=head_ry,
+        )
+        self.add_arc(
+            "bulb-right-shoulder",
+            (axis_x + head_rx, head_y),
+            (axis_x + head_rx - shoulder_offset, head_y + shoulder_step),
+            radius_x=shoulder_radius,
+        )
+        self.add_arc(
+            "bulb-right-neck",
+            (axis_x + head_rx - shoulder_offset, head_y + shoulder_step),
+            (axis_x + neck_half_width, seam_y),
+            radius_x=shoulder_radius,
+            sweep=False,
+        )
+        self.add_arc(
+            "bulb-base-right",
+            (axis_x + neck_half_width, seam_y),
+            (axis_x, seam_y + base_depth),
+            radius_x=neck_half_width,
+            radius_y=base_depth,
+        )
+        self.add_arc(
+            "bulb-base-left",
+            (axis_x, seam_y + base_depth),
+            (axis_x - neck_half_width, seam_y),
+            radius_x=neck_half_width,
+            radius_y=base_depth,
+        )
+        self.add_arc(
+            "bulb-left-neck",
+            (axis_x - neck_half_width, seam_y),
+            (axis_x - head_rx + shoulder_offset, head_y + shoulder_step),
+            radius_x=shoulder_radius,
+            sweep=False,
+        )
+        self.add_arc(
+            "bulb-left-shoulder",
+            (axis_x - head_rx + shoulder_offset, head_y + shoulder_step),
+            (axis_x - head_rx, head_y),
+            radius_x=shoulder_radius,
+        )
+        self.add_contour(
+            "bulb-outline",
+            "bulb-head",
+            "bulb-right-shoulder",
+            "bulb-right-neck",
+            "bulb-base-right",
+            "bulb-base-left",
+            "bulb-left-neck",
+            "bulb-left-shoulder",
+            closed=True,
+        )
+        self.add_line(
+            "bulb-socket-seam",
+            (axis_x - neck_half_width, seam_y),
+            (axis_x + neck_half_width, seam_y),
+        )
+        self.relate("connect", "bulb-outline", "bulb-socket-seam")
+
+        self.add_line("bulb-contact", (axis_x, seam_y + base_depth), (axis_x, 42))
+        self.relate("connect", "bulb-base-right", "bulb-contact")
+        self.relate("connect", "bulb-base-left", "bulb-contact")
+
+        indicator_center = (39, 30)
+        indicator_radius = 3
+        self.add_arc(
+            "indicator-top",
+            (indicator_center[0] - indicator_radius, indicator_center[1]),
+            (indicator_center[0] + indicator_radius, indicator_center[1]),
+            radius_x=indicator_radius,
+        )
+        self.add_arc(
+            "indicator-bottom",
+            (indicator_center[0] + indicator_radius, indicator_center[1]),
+            (indicator_center[0] - indicator_radius, indicator_center[1]),
+            radius_x=indicator_radius,
+        )
+        self.add_contour(
+            "brightness-indicator",
+            "indicator-top",
+            "indicator-bottom",
+            closed=True,
+        )

@@ -1,25 +1,21 @@
 """triangle exclamation.
-Plan: Symmetric rounded triangle and centered exclamation; move marks upward together to clear curved base.
-Construction: Lucide triangle-alert: rounded triangular silhouette and centered punctuation.
-Omissions: 
+Plan: Mirrored rounded warning triangle; lift exclamation dot one unit and shorten stem to preserve eight-unit mark gap and nine-unit base gap.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '3ed0411c-4d4d-4b46-9ef9-41c8004000c9'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='3ed0411c-4d4d-4b46-9ef9-41c8004000c9'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/triangle exclamation_3ed0411c-4d4d-4b46-9ef9-41c8004000c9.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'triangle-exclamation'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('triangle', 'exclamation')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('triangle', 'exclamation')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -74,5 +70,4 @@ class Drawing(Solo48):
 
     def build(self):
         self.path('triangle',(24,8),[('C',(26,8),(27,10),(28,12)),('L',(42,34)),('C',(43,36),(44,37),(44,38)),('C',(44,40),(42,40),(40,40)),('L',(8,40)),('C',(6,40),(4,40),(4,38)),('C',(4,37),(5,36),(6,34)),('L',(20,12)),('C',(21,10),(22,8),(24,8))],True)
-        self.add_line('stem',(24,21),(24,23))
-        self.add_dot('dot',(24,31))
+        self.add_line('stem',(24,22),(24,23));self.add_dot('dot',(24,31))

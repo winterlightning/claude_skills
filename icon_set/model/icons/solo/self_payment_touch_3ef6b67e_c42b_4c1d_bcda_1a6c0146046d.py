@@ -7,10 +7,10 @@ from icon_set.model.icons.solo._payments_batch01 import rounded_rect
 from icon_set.model.icons.solo._payments_batch02 import small_dollar
 SOURCE_ICON_ID='3ef6b67e-c42b-4c1d-bcda-1a6c0146046d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__hand-touching-payment-kiosk/20260926T172218Z-thuan-mac-1/reference/self payment touch_3ef6b67e-c42b-4c1d-bcda-1a6c0146046d.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 class HandTouchingPaymentKiosk(Solo48):
-    icon_id='hand-touching-payment-kiosk-solo'
+    icon_id = 'hand-touching-payment-kiosk-solo'
     keyshape=Keyshape.VRECT_L
     semantic_role='MAIN'
     semantic_kind='noun'
@@ -35,8 +35,8 @@ class HandTouchingPaymentKiosk(Solo48):
         self.add_polyline('base',(8,44),(14,44),(22,44))
         self.relate('connect','screen-lower','neck')
         self.relate('connect','neck','base')
-        self.add_line('finger-left',(32,40),(32,28))
-        self.add_arc('finger-tip',(32,28),(40,28),radius_x=4)
-        self.add_line('hand-right',(40,28),(40,44))
+        self.add_line('finger-left',(31,40),(31,28))
+        self.add_arc('finger-tip',(31,28),(39,28),radius_x=4)
+        self.add_line('hand-right',(39,28),(39,44))
         self.add_contour('hand','finger-left','finger-tip','hand-right')
         small_dollar(self,20,20)

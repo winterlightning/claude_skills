@@ -5,11 +5,11 @@ Lucide user-round informed circular and shoulder construction.
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '26a1c09d-ea15-43a7-9d47-728e74a2e340'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-japan-avatar/20260926T181831Z-thuan-mac-1/reference/woman japan_26a1c09d-ea15-43a7-9d47-728e74a2e340.svg'
-SOURCE_HEAD_ICON_ID = 'woman-japan'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-japan-2-avatar/20260926T181831Z-thuan-mac-1/reference/woman japan_26a1c09d-ea15-43a7-9d47-728e74a2e340.svg'
+SOURCE_HEAD_ICON_ID = 'woman-japan-2'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 26
-class WomanJapanAvatar(Solo48):
+class WomanJapan2Avatar(Solo48):
     icon_id = 'woman-japan-avatar-solo'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
@@ -17,7 +17,7 @@ class WomanJapanAvatar(Solo48):
     category = 'avatars'
     categories = ('primitives', 'avatars')
     aliases = ()
-    keywords = ('woman', 'japan', 'portrait', 'bust')
+    keywords = ('woman', 'japan', '2', 'portrait', 'bust')
     def build(self):
         self.add_polyline('conical-hat',(8,16),(24,4),(40,16),(8,16))
         self.add_arc('face',(34,16),(14,16),radius_x=10)
@@ -34,8 +34,8 @@ class WomanJapanAvatar(Solo48):
         self.relate('connect', 'body-left', 'body-top')
         self.relate('connect', 'body-top', 'body-top-right')
         self.relate('connect', 'body-top-right', 'body-right')
-        self.add_polyline('body-wrap', (36,top), (24,44))
-        self.relate('connect', 'body-wrap', 'body-top-right')
+        self.add_polyline('body-wrap', (12,top), (24,44))
+        self.relate('connect', 'body-wrap', 'body-top')
 
         self.relate('connect','face','body-top')
         self.relate('connect','face','body-top-right')

@@ -1,20 +1,18 @@
-"""Revision of the claimed reference after comparing original and rejected drawing."""
 """mobile phone euro sign: complete SOLO48 repair.
 Opened the euro curve and joined its crossbar at an explicit curve endpoint. Removed the lower phone divider.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1c0f91c5-ddcd-4057-9258-33ab46aaac34'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__mobile-phone-euro-sign/20260927T142529Z-thuan-mac-1/reference/mobile phone euro sign_1c0f91c5-ddcd-4057-9258-33ab46aaac34.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/mobile phone euro sign_1c0f91c5-ddcd-4057-9258-33ab46aaac34.svg'
+AUTHOR = "gpt-6"
 class Drawing(Solo48):
     icon_id = 'mobile-phone-euro-sign'
     keyshape = Keyshape.VRECT_L
     # Visible ink extrema: (6, 2, 42, 46).
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('combination', 'other', 'primitives-generate')
+    category = 'objects'
     aliases = ()
     keywords = ('mobile', 'phone', 'euro', 'sign')
 
@@ -29,10 +27,9 @@ class Drawing(Solo48):
         self.add_contour(name,*names,closed=True)
 
     def build(self):
-        # Restored bottom bezel and moved the euro sign clear of it.
         self.rect('phone',8,4,32,40)
-        self.add_line('bezel',(8,36),(40,36)); self.relate('connect','phone','bezel')
-        self.add_bezier('euro-upper',(31,14),((23,12),(17,15),(17,21)))
-        self.add_bezier('euro-lower',(17,21),((17,26),(23,28),(31,26)))
+        self.add_bezier('euro-upper',(31,13),((23,10),(17,14),(17,22)))
+        self.add_bezier('euro-lower',(17,22),((17,30),(23,34),(31,31)))
         self.add_contour('euro','euro-upper','euro-lower')
-        self.add_line('euro-bar',(17,21),(27,21)); self.relate('connect','euro','euro-bar')
+        self.add_line('euro-bar',(17,22),(27,22))
+        self.relate('connect','euro','euro-bar')

@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '26e8f72f-fceb-4a4f-95db-e00ca1a93624'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__head-profiles-with-heart/20260926T172218Z-thuan-mac-1/reference/empathy authentication heart intersect_26e8f72f-fceb-4a4f-95db-e00ca1a93624.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 
 
 class HeadProfilesWithHeart(Solo48):
@@ -35,7 +35,7 @@ class HeadProfilesWithHeart(Solo48):
         self.add_line('front-face-5',(17,38),(17,42))
         self.add_contour('front','front-crown','front-face-1','front-face-2','front-face-3','front-face-4','front-face-5')
         self.add_arc('heart-left',(24,20),(18,23),radius_x=4,sweep=False)
-        self.add_line('heart-left-tip',(18,23),(24,29))
-        self.add_line('heart-right-tip',(24,29),(30,23))
+        self.add_line('heart-left-tip',(18,23),(24,30))
+        self.add_line('heart-right-tip',(24,30),(30,23))
         self.add_arc('heart-right',(30,23),(24,20),radius_x=4,sweep=False)
         self.add_contour('heart','heart-left','heart-left-tip','heart-right-tip','heart-right',closed=True)

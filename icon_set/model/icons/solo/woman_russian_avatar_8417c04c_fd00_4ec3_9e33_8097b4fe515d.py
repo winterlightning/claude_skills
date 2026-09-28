@@ -7,7 +7,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = '8417c04c-fd00-4ec3-9e33-8097b4fe515d'
 SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-russian-avatar/20260926T181831Z-thuan-mac-1/reference/woman russian_8417c04c-fd00-4ec3-9e33-8097b4fe515d.svg'
 SOURCE_HEAD_ICON_ID = 'woman-russian'
-AUTHOR = 'gpt-6'
+AUTHOR = "gpt-6"
 HEAD_BOTTOM = 30
 class WomanRussianAvatar(Solo48):
     icon_id = 'woman-russian-avatar-solo'
@@ -23,7 +23,7 @@ class WomanRussianAvatar(Solo48):
         self.add_line('hood-left',(8,28),(8,20))
         self.add_line('hood-right',(40,20),(40,28))
         self.add_contour('hood','hood-left','fur-hood','hood-right')
-        self.add_arc('face',(31,23),(17,23),radius_x=7)
+        self.add_arc('face',(34,20),(14,20),radius_x=10)
         self.relate('connect','face','hood')
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
         self.add_line('body-left-side',(8,44),(8,42))

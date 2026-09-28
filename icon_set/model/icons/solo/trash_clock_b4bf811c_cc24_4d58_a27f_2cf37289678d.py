@@ -1,25 +1,21 @@
 """trash clock.
-Plan: Wide trash-bin lid and lower-left body frame an enlarged lower-right clock.
-Construction: Lucide trash-2 bin silhouette with clock from supplied reference.
-Omissions: Handle and occluded bin walls omitted; clock hands shortened for nine-unit clearance.
+Plan: Trash silhouette with clock hands; bin serves as time enclosure. Omit nested clock ring to preserve generous internal clearance; Lucide trash-2 single lid construction.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = 'b4bf811c-cc24-4d58-a27f-2cf37289678d'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_38/trash clock_b4bf811c-cc24-4d58-a27f-2cf37289678d.svg'
-AUTHOR = 'gpt-6'
-
+SOURCE_ICON_ID='b4bf811c-cc24-4d58-a27f-2cf37289678d'
+SOURCE_PATH='pictographic-primitives/_uncategorized_38/trash clock_b4bf811c-cc24-4d58-a27f-2cf37289678d.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'trash-clock'
-    keyshape = Keyshape.HRECT_L
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('trash', 'clock')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.VRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('trash', 'clock')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,8 +69,7 @@ class Drawing(Solo48):
         self.join(name,name+'-bar')
 
     def build(self):
-        self.add_polyline('lid',(4,8),(8,8),(28,8))
-        self.path('bin',(8,8),[('L',(8,36)),('A',(12,40),4,4,False),('L',(16,40))])
-        self.relate('connect','lid','bin')
-        self.circle('clock',33,29,11)
-        self.add_polyline('hands',(33,27),(33,29),(35,29))
+        self.add_polyline('lid',(8,12),(10,12),(18,12),(30,12),(38,12),(40,12))
+        self.add_polyline('handle',(18,12),(18,4),(30,4),(30,12));self.join('lid','handle')
+        self.path('bin',(10,12),[('L',(10,40)),('A',(14,44),4,4,False),('L',(34,44)),('A',(38,40),4,4,False),('L',(38,12))]);self.join('lid','bin')
+        self.add_polyline('clock-hands',(24,23),(24,31),(29,31))

@@ -5,16 +5,15 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ac8740e0-9a7e-4e67-901d-18b0353d7000'
-SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__dial-finger/20260926T165410Z-thuan-mac/reference/dial finger_ac8740e0-9a7e-4e67-901d-18b0353d7000.svg'
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/dial finger_ac8740e0-9a7e-4e67-901d-18b0353d7000.svg'
+AUTHOR = "gpt-6"
 
 class Drawing(Solo48):
     icon_id = 'dial-finger'
     keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
-    category = "interface-essential"
-    categories = ("interface-essential", "primitives")
+    category = "objects/devices"
     aliases = ()
     keywords = ('dial', 'finger')
 

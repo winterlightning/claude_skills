@@ -1,24 +1,21 @@
 """technology ar searching finger touch.
-Symbol plan: Cube above left and pointing hand below right; remove short obscured lower cube edge.
-Lucide originals and atomic-debug inspected: hand, type, map-pin, trash-2, triangle-alert, video-off, cloud, wheat, clock.
-Shared geometric contours and explicit attachment nodes; intentional scene asymmetry retained.
+Plan: Cube upper left; finger lower right. Omit obscured cube edges and simplify bent thumb.
+Fresh SOLO48 repair. Shared human reference applies to people.
+Lucide trash-2 informs simple lid and rounded bin construction where applicable.
 """
 from ...keyshapes import Keyshape
-from icon_set.model.profiles import Profile
 from ._base import Solo48
-SOURCE_ICON_ID = '505403c5-6a6b-4a09-8ee4-eac7ce3a505f'
-SOURCE_PATH = 'pictographic-primitives/_uncategorized_37/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg'
-AUTHOR = 'gpt-6'
+SOURCE_ICON_ID='505403c5-6a6b-4a09-8ee4-eac7ce3a505f'
+SOURCE_PATH='pictographic-primitives/_uncategorized_37/technology ar searching finger touch_505403c5-6a6b-4a09-8ee4-eac7ce3a505f.svg'
+AUTHOR="gpt-6"
 class Drawing(Solo48):
     icon_id = 'technology-ar-searching-finger-touch'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
-    category = 'primitives-generate'
-    categories = ('primitives', 'primitives-generate')
-    aliases = ()
-    keywords = ('technology', 'ar', 'searching', 'finger', 'touch')
-    ink_extremes = keyshape.bounds_for(Profile.SOLO48)
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('technology', 'ar', 'searching', 'finger', 'touch')
     def path(self, name, start, operations, closed=False):
         # A coherent path owns its members exactly once.
         current=start; members=[]
@@ -73,6 +70,6 @@ class Drawing(Solo48):
 
     def build(self):
         self.add_polyline('cube-top',(6,12),(18,6),(30,12),(18,18),(6,12))
-        self.add_polyline('cube-left',(6,12),(6,24),(18,30),(18,18))
+        self.add_polyline('cube-left',(6,12),(6,22),(18,28),(18,18))
         self.join('cube-top','cube-left')
-        self.path('hand',(28,42),[('L',(24,36)),('L',(32,40)),('L',(32,24)),('A',(40,24),4,4,True),('L',(40,32)),('L',(42,34)),('L',(42,42))])
+        self.path('hand',(26,42),[('L',(21,36)),('L',(30,36)),('L',(30,24)),('A',(38,24),4,4,True),('L',(38,33)),('A',(42,37),4,4,True),('L',(42,42))])

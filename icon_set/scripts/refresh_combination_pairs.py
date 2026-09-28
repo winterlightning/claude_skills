@@ -5,6 +5,7 @@ import sys
 import shutil
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from pathlib import Path
 from .category_report import REPO_ROOT, model_catalog, source_id
 from .primitives_catalog import load_aliases, resolve
 from .combination_experiment import DATA, ROOT
@@ -31,6 +32,11 @@ def refresh():
     profiles = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'container': 'container64', 'combination_main':'combination_main48'}
     for model in model_catalog():
         path = build_dist(REPO_ROOT) / profiles[model['family']] / (model['icon_id'] + '.svg')
+        # A drawing that fails the build check is exported under failed/. Keep it as a candidate:
+        # combining uses it only after a reviewer approves it as an exception.
+        failed = not path.exists()
+        if failed:
+            path = build_dist(REPO_ROOT) / 'failed' / profiles[model['family']] / (model['icon_id'] + '.svg')
         if not path.exists():
             continue
         ids = {model['source_id']}
@@ -40,7 +46,8 @@ def refresh():
             ids.add(uid)
             if reference:
                 ids.add(source_id(reference))
-        item = {'icon': model['icon_id'], 'family': model['family'], 'svg': path.relative_to(REPO_ROOT).as_posix()}
+        item = {'icon': model['icon_id'], 'family': model['family'], 'svg': path.relative_to(REPO_ROOT).as_posix(),
+                **({'build_failed': True} if failed else {})}
         for uid in ids:
             if uid:
                 index[uid.lower()].append(item)
@@ -136,10 +143,11 @@ def refresh():
             fragment = row['id'][:18] if rule['role'] == 'main' else row['id'][19:34]
             if not row.get(field) and fragment == rule['fragment']:
                 row[field] = rule['reference_id']
-        mains = sorted(lookup(index, row.get('main_id')), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
+        # Passing drawings first, so default previews and first choices never pick a failing one.
+        mains = sorted(lookup(index, row.get('main_id')), key=lambda m: (bool(m.get('build_failed')), {'solo':0,'combination_main':0,'container':1,'sub':2,'symbol':2}[m['family']],m['icon']))
         sub_id = (row.get('sub_id') or '').lower()
         state_id = next((u for u in (sub_id, resolve(sub_id, aliases)) if u in state_subs), None)
-        subs = sorted(state_subs[state_id] if state_id else lookup(index, sub_id), key=lambda m: ({'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
+        subs = sorted(state_subs[state_id] if state_id else lookup(index, sub_id), key=lambda m: (bool(m.get('build_failed')), {'sub':0,'symbol':1,'solo':2,'combination_main':2,'container':3}[m['family']],m['icon']))
         if not mains or not subs:
             continue
         try:
@@ -160,7 +168,12 @@ def refresh():
 
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--previews', action='store_true')
+    parser.add_argument('--approved-plan')
+    args = parser.parse_args()
     refresh()
-    if '--previews' in sys.argv:
+    if args.previews:
         from .build_combination_previews import build
-        build()
+        build(approved_plan=json.loads(Path(args.approved_plan).read_text()) if args.approved_plan else None)
