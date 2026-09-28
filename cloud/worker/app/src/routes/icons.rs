@@ -1,0 +1,299 @@
+//! Icon metadata routes: runtime, families, categories, types, flags, uploads, drawings.
+
+use crate::args;
+use crate::data;
+use crate::db::{self, details};
+use crate::http::{self, Ctx};
+use pictographic_core::reviews::public_status;
+use pictographic_core::time::iso_utc;
+use pictographic_core::work as rules;
+use serde::Deserialize;
+use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
+use std::collections::BTreeSet;
+use worker::{Response, Result};
+
+pub fn runtime() -> Result<Response> {
+    // The cloud is the single production authority; generation and editing run on local machines.
+    http::json(200, &json!({"mode": "production", "can_generate": false, "can_edit": true, "can_upload": true,
+                            "production_api": "", "storage": "cloudflare"}))
+}
+
+/// Built-in families from the BUILTIN_FAMILIES variable (`[["sub", 32], ...]`), then custom ones.
+async fn families(ctx: &Ctx) -> Result<Vec<Value>> {
+    let builtins: Vec<(String, i64)> = ctx.var("BUILTIN_FAMILIES").and_then(|t| serde_json::from_str(&t).ok()).unwrap_or_default();
+    let mut result: Vec<Value> = builtins.into_iter().map(|(key, size)| {
+        let title = key.replace('_', " ").split(' ').map(|w| {
+            let mut chars = w.chars();
+            chars.next().map(|c| c.to_uppercase().collect::<String>() + &chars.as_str().to_lowercase()).unwrap_or_default()
+        }).collect::<Vec<_>>().join(" ");
+        json!({"id": key, "name": title, "canvas_size": size, "builtin": true})
+    }).collect();
+    #[derive(Deserialize)]
+    struct Row { id: String, name: String, canvas_size: f64 }
+    let custom: Vec<Row> = db::all(&ctx.db, "SELECT id, name, canvas_size FROM upload_families ORDER BY name, id", vec![]).await?;
+    result.extend(custom.into_iter().map(|r| json!({"id": r.id, "name": r.name, "canvas_size": r.canvas_size as i64, "builtin": false})));
+    Ok(result)
+}
+
+pub async fn get_families(ctx: &Ctx) -> Result<Response> {
+    http::json(200, &json!({"families": families(ctx).await?}))
+}
+
+pub async fn post_family(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    let key = data.get("id").and_then(Value::as_str).unwrap_or("");
+    let valid_key = !key.is_empty() && key.len() <= 64 && key.as_bytes()[0].is_ascii_lowercase()
+        && key.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_' || b == b'-');
+    if !valid_key {
+        return http::error(400, "Family id must be 1–64 lowercase letters, digits, underscores or hyphens, starting with a letter.");
+    }
+    let name = data.get("name").and_then(Value::as_str).map(str::trim).filter(|n| (1..=120).contains(&n.chars().count()));
+    let Some(name) = name else { return http::error(400, "Enter a family name up to 120 characters.") };
+    let canvas = data.get("canvas_size").filter(|v| v.is_i64()).and_then(Value::as_i64).filter(|c| (16..=256).contains(c));
+    let Some(canvas) = canvas else { return http::error(400, "canvas_size must be an integer from 16 to 256.") };
+    if families(ctx).await?.iter().any(|f| f["id"] == key) {
+        return http::error(409, "Family id already exists. Choose it for your upload or use a different id.");
+    }
+    let inserted = db::run(&ctx.db, "INSERT OR IGNORE INTO upload_families VALUES (?, ?, ?, ?, ?)",
+                           args![key, name, canvas, iso_utc(chrono::Utc::now()), user]).await?;
+    if inserted == 0 {
+        return http::error(409, "Family id already exists.");
+    }
+    http::json(201, &json!({"family": {"id": key, "name": name, "canvas_size": canvas, "builtin": false}}))
+}
+
+pub async fn get_categories(ctx: &Ctx) -> Result<Response> {
+    #[derive(Deserialize)]
+    struct Row { category: Option<String> }
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT DISTINCT category FROM icons", vec![]).await?;
+    let mut categories: BTreeSet<String> = rows.into_iter().filter_map(|r| r.category)
+        .map(|c| c.trim().to_string()).filter(|c| !c.is_empty()).collect();
+    categories.insert("manual_upload".into());
+    let mut sorted: Vec<String> = categories.into_iter().collect();
+    sorted.sort_by(|a, b| (a.to_lowercase(), a).cmp(&(b.to_lowercase(), b)));
+    http::json(200, &json!({"categories": sorted}))
+}
+
+pub async fn get_icon_types(ctx: &Ctx) -> Result<Response> {
+    let wanted = ctx.param("type");
+    let wanted_status = ctx.param("status");
+    let catalog = data::catalog(&ctx.db, true).await?;
+    #[derive(Deserialize)]
+    struct Row { icon: String, icon_type: String, updated_at: String, updated_by: String }
+    let types: Vec<Row> = db::all(&ctx.db, "SELECT icon, icon_type, updated_at, updated_by FROM icon_types WHERE icon_type != ''", vec![]).await?;
+    let rows = data::review_rows(&ctx.db).await?;
+    let splits = data::active_splits(&ctx.db).await?;
+    let index = data::DetailIndex::new(&rows, &splits);
+    let row_map = data::row_map(&rows);
+    let feedback = data::latest_feedback(&ctx.db).await?;
+    let now = chrono::Utc::now();
+    let mut result = Vec::new();
+    for row in types {
+        let Some(icon) = catalog.get(&row.icon) else { continue };
+        if wanted.is_some_and(|t| t != row.icon_type) {
+            continue;
+        }
+        let detail = index.detail(&row.icon, &icon.svg_sha256);
+        let status = public_status(&detail.status);
+        if wanted_status.is_some_and(|s| s != status) {
+            continue;
+        }
+        let pair = (row.icon.clone(), icon.svg_sha256.clone());
+        let latest = feedback.get(&pair);
+        let review_row = row_map.get(&pair);
+        result.push(json!({"icon": row.icon, "icon_type": row.icon_type, "status": status,
+            "python_source": icon.python_source, "svg_sha256": icon.svg_sha256,
+            "reason": latest.and_then(|f| f.reason.clone()), "feedback": latest.and_then(|f| f.feedback.clone()),
+            "updated_at": row.updated_at, "updated_by": row.updated_by,
+            "work": rules::work_field(review_row, rules::work_state(review_row, now))}));
+    }
+    http::json(200, &json!({"icons": result}))
+}
+
+pub async fn get_icon_type(ctx: &Ctx) -> Result<Response> {
+    let key = ctx.param("icon").unwrap_or("");
+    if data::icon(&ctx.db, key, false).await?.is_none() {
+        return http::error(404, "Unknown icon");
+    }
+    #[derive(Deserialize)]
+    struct Row { icon_type: String, updated_by: String, updated_at: String }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT icon_type, updated_by, updated_at FROM icon_types WHERE icon = ?", args![key]).await?;
+    http::json(200, &match row {
+        Some(r) => json!({"icon_type": r.icon_type, "updated_by": r.updated_by, "updated_at": r.updated_at}),
+        None => json!({"icon_type": "", "updated_by": null, "updated_at": null}),
+    })
+}
+
+pub async fn post_icon_type(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    let key = data.get("icon").and_then(Value::as_str);
+    let icon_type = data.get("icon_type").and_then(Value::as_str).filter(|t| t.chars().count() <= 200);
+    let (Some(key), Some(icon_type)) = (key, icon_type) else { return http::error(400, "Enter an icon type of up to 200 characters.") };
+    let icon_type = icon_type.trim();
+    if data::icon(&ctx.db, key, false).await?.is_none() {
+        return http::error(404, "Unknown icon");
+    }
+    let now = iso_utc(chrono::Utc::now());
+    db::batch(&ctx.db, vec![
+        db::stmt(&ctx.db, "INSERT INTO icon_types(icon, icon_type, updated_at, updated_by) VALUES (?, ?, ?, ?) \
+            ON CONFLICT(icon) DO UPDATE SET icon_type = excluded.icon_type, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
+            args![key, icon_type, now.clone(), user])?,
+        db::activity(&ctx.db, user, "icon_type", Some(key), details(vec![("icon_type", json!(icon_type))]))?,
+    ]).await?;
+    http::json(200, &json!({"icon_type": icon_type, "updated_by": user, "updated_at": now}))
+}
+
+pub async fn get_icon_flag(ctx: &Ctx) -> Result<Response> {
+    let key = ctx.param("icon").unwrap_or("");
+    if data::icon(&ctx.db, key, false).await?.is_none() {
+        return http::error(404, "Unknown icon");
+    }
+    #[derive(Deserialize)]
+    struct Row { flag: String, updated_by: Option<String>, updated_at: String }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT flag, updated_by, updated_at FROM icon_flags WHERE icon = ?", args![key]).await?;
+    http::json(200, &match row {
+        Some(r) => json!({"flag": r.flag, "updated_by": r.updated_by, "updated_at": r.updated_at}),
+        None => json!({"flag": "", "updated_by": null, "updated_at": null}),
+    })
+}
+
+const FLAGS: [&str; 7] = ["", "container_combination", "combination", "text", "number", "other", "exception"];
+
+pub async fn post_icon_flag(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    let key = data.get("icon").and_then(Value::as_str);
+    let flag = data.get("flag").and_then(Value::as_str).filter(|f| FLAGS.contains(f));
+    let (Some(key), Some(flag)) = (key, flag) else { return http::error(400, "Choose a valid icon flag.") };
+    if data::icon(&ctx.db, key, false).await?.is_none() {
+        return http::error(404, "Unknown icon");
+    }
+    let now = iso_utc(chrono::Utc::now());
+    let write = if flag.is_empty() {
+        db::stmt(&ctx.db, "DELETE FROM icon_flags WHERE icon = ?", args![key])?
+    } else {
+        db::stmt(&ctx.db, "INSERT INTO icon_flags(icon, flag, updated_at, updated_by) VALUES (?, ?, ?, ?) \
+            ON CONFLICT(icon) DO UPDATE SET flag = excluded.flag, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
+            args![key, flag, now.clone(), user])?
+    };
+    db::batch(&ctx.db, vec![write,
+        db::activity(&ctx.db, user, if flag.is_empty() { "unflag" } else { "flag" }, Some(key), details(vec![("flag", json!(flag))]))?]).await?;
+    http::json(200, &json!({"flag": flag, "updated_by": if flag.is_empty() { Value::Null } else { json!(user) },
+                            "updated_at": if flag.is_empty() { Value::Null } else { json!(now) }}))
+}
+
+fn hex_token(bytes: usize) -> Result<String> {
+    let mut buffer = vec![0u8; bytes];
+    getrandom::getrandom(&mut buffer).map_err(|e| worker::Error::RustError(e.to_string()))?;
+    Ok(hex::encode(buffer))
+}
+
+/// POST /api/icons/upload: a persistent SVG-only icon and its initial Ready review, atomically.
+pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    let name = data.get("name").and_then(Value::as_str).filter(|n| (1..=120).contains(&n.trim().chars().count()));
+    let Some(name) = name else { return http::error(400, "Enter an icon name up to 120 characters.") };
+    let all = families(ctx).await?;
+    let family_id = data.get("family").and_then(Value::as_str);
+    let Some(family) = family_id.and_then(|f| all.iter().find(|row| row["id"] == f)) else {
+        return http::error(400, "Unknown family. Create it with POST /api/icon-families first.");
+    };
+    let family_id = family_id.unwrap();
+    let category = match data.get("category") {
+        None => "manual_upload".to_string(),
+        Some(Value::String(c)) if c.chars().count() <= 100 => c.clone(),
+        _ => return http::error(400, "Enter a category up to 100 characters."),
+    };
+    let bypass = match data.get("bypass_validation") {
+        None => true,
+        Some(Value::Bool(b)) => *b,
+        _ => return http::error(400, "bypass_validation must be a JSON boolean: true or false."),
+    };
+    let canvas = family["canvas_size"].as_i64().unwrap_or(48);
+    let svg_input = data.get("svg").and_then(Value::as_str).unwrap_or("");
+    let document = match pictographic_core::svg::safe_svg(svg_input, canvas) {
+        Ok(document) => document,
+        Err(message) => return http::error(400, &message),
+    };
+    let digest = hex::encode(Sha256::digest(document.as_bytes()));
+    let now = iso_utc(chrono::Utc::now());
+    let mut validation = json!({
+        "status": "not-run", "bypassed": bypass, "checks_run": ["static SVG", "canvas"], "errors": [],
+        "warnings": ["Uploaded artwork requires human review."],
+        "scope": "Uploaded SVG safety and rendering; optional rendered holes/pinches QA.",
+        "checks_not_run": ["render (runs on local machines)", "authored primitive grid/style", "keyshape fit", "vector spacing", "geometry symmetry"],
+        "svg_sha256": digest, "checked_at": now});
+    if !bypass {
+        validation["status"] = json!("error");
+        validation["errors"] = json!(["Holes/pinches validation renders the SVG, which runs on local machines. \
+            Upload through a local gallery (deploy.py --cloud-api) or choose bypass."]);
+        return http::json(503, &json!({"error": "Upload validation is unavailable.", "validation": validation}));
+    }
+    let slug: String = {
+        let lowered = name.to_lowercase();
+        let mut slug = String::new();
+        let mut dash = false;
+        for c in lowered.chars() {
+            if c.is_ascii_lowercase() || c.is_ascii_digit() { slug.push(c); dash = false; }
+            else if !dash { slug.push('-'); dash = true; }
+        }
+        let trimmed: String = slug.trim_matches('-').chars().take(80).collect();
+        if trimmed.is_empty() { "icon".into() } else { trimmed }
+    };
+    let icon_id = format!("{slug}-upload-{}", hex_token(8)?);
+    let key = format!("{family_id}/{icon_id}");
+    let category = if category.trim().is_empty() { "manual_upload".to_string() } else { category.trim().to_string() };
+    let preview_url = format!("../api/icon-artwork/svg?icon={key}&v={digest}");
+    let record = json!({
+        "key": key, "icon_id": icon_id, "name": name.trim(), "family": family_id,
+        "profile": format!("{}{}", family_id.to_uppercase(), canvas), "canvas_size": canvas,
+        "category": category, "icon_type": "uploaded", "keywords": [], "aliases": [],
+        "svg_sha256": digest, "uploaded_icon": true, "artwork_source": "use_org",
+        "preview_url": preview_url, "author": user, "created_at": now, "modified_at": now, "original_sources": [],
+        "primitives": [], "contours": [], "relationships": [], "anchors": {},
+        "style": {"stroke_width": 4}, "keyshape": "FREE", "keyshape_bounds": [0, 0, canvas, canvas],
+        "bypass_validation": bypass, "validation": validation});
+    let record_text = serde_json::to_string(&record).unwrap();
+    let db = &ctx.db;
+    db::batch(db, vec![
+        db::stmt(db, "INSERT INTO uploaded_icons VALUES (?, ?, ?)", args![key.clone(), record_text.clone(), document.clone()])?,
+        db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
+            original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '[]', 1, ?, ?)",
+            args![key.clone(), icon_id.clone(), name.trim(), family_id, category.clone(), record["profile"].as_str(), canvas,
+                  digest.clone(), preview_url.clone(), record_text, now.clone()])?,
+        db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
+                 args![digest.clone(), key.clone(), document, now.clone()])?,
+        db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'ready', ?, ?)",
+                 args![key.clone(), digest.clone(), now.clone(), user])?,
+        db::stmt(db, "INSERT INTO icon_types(icon, icon_type, updated_at, updated_by) VALUES (?, 'uploaded', ?, ?)",
+                 args![key.clone(), now.clone(), user])?,
+        db::activity(db, user, "upload", Some(&key), details(vec![("svg_sha256", json!(digest)), ("status", json!("ready")),
+            ("category", json!(category)), ("icon_type", json!("uploaded"))]))?,
+    ]).await?;
+    http::json(201, &json!({"record": record, "status": "ready"}))
+}
+
+/// GET /api/uploaded-icons: upload records for the gallery catalog (without the SVG text).
+pub async fn get_uploaded(ctx: &Ctx) -> Result<Response> {
+    #[derive(Deserialize)]
+    struct Row { record: String }
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    let records: Vec<Value> = rows.into_iter().filter_map(|r| serde_json::from_str(&r.record).ok()).collect();
+    http::json(200, &json!({"icons": records}))
+}
+
+/// GET /api/icon-artwork/svg: the current drawing, stored inline in D1.
+pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
+    let key = ctx.param("icon").unwrap_or("");
+    if ctx.param("variant").is_some() {
+        return http::error(400, "Artwork variants are rendered by the local gallery.");
+    }
+    let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Icon not found.") };
+    #[derive(Deserialize)]
+    struct Row { svg: String }
+    let row: Option<Row> = if icon.uploaded {
+        db::first(&ctx.db, "SELECT svg FROM uploaded_icons WHERE icon = ?", args![key]).await?
+    } else {
+        db::first(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![icon.svg_sha256.clone()]).await?
+    };
+    match row {
+        Some(row) => http::svg(&row.svg),
+        None => http::error(503, "Artwork is unavailable on this server."),
+    }
+}

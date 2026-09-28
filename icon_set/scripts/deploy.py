@@ -187,6 +187,11 @@ def init_database(path: Path) -> None:
     migrate_legacy_reviewers(path)
 
 
+def quote_key(key):
+    from urllib.parse import quote
+    return quote(str(key), safe='')
+
+
 def utc_now():
     return datetime.now(timezone.utc).isoformat()
 
@@ -445,6 +450,20 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.wfile.write(content)
 
     def current_user(self):
+        if self.cloud:
+            raw = self.headers.get('Cookie', '')
+            if 'pictographic_session=' not in raw:
+                return None
+            cache = self.server.__dict__.setdefault('session_cache', {})
+            hit = cache.get(raw)
+            if hit and hit[0] > time.monotonic():
+                return hit[1]
+            try:
+                user = self.cloud.session_user(raw)
+            except OSError:
+                return None
+            cache[raw] = (time.monotonic() + 30, user)
+            return user
         cookie = SimpleCookie()
         try:
             cookie.load(self.headers.get('Cookie', ''))
@@ -502,6 +521,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             cached = (stamp, json.loads(path.read_text(encoding='utf-8')))
             self.server.catalog_cache = cached
         data = dict(cached[1])
+        if self.cloud:
+            hit = getattr(self.server, 'cloud_uploads', None)
+            if not hit or hit[0] < time.monotonic():
+                hit = (time.monotonic() + 30, self.cloud.get('/api/uploaded-icons')['icons'])
+                self.server.cloud_uploads = hit
+            data['icons'] = data['icons'] + hit[1]
+            return data
         with closing(sqlite3.connect(self.database, timeout=10)) as connection:
             uploads = [dict(json.loads(record), uploaded_svg=svg)
                        for record, svg in connection.execute('SELECT record, svg FROM uploaded_icons')]
@@ -592,6 +618,43 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.command != 'HEAD':
             self.wfile.write(content)
 
+    def activity(self, connection, user, action, icon=None, **details):
+        """record_activity, written to the cloud's log in cloud mode."""
+        if self.cloud:
+            self.cloud.record(user, action, icon, **details)
+        else:
+            record_activity(connection, user, action, icon, **details)
+
+    def cloud_rejected(self, key):
+        """is_rejected for the current revision, from the cloud's review decision."""
+        return self.cloud.get('/api/review-detail?icon=' + quote_key(key)).get('status') == 'rejected'
+
+    def cloud_statuses(self):
+        """Primitive decisions, saved briefs and user classification history from the cloud."""
+        from icon_set.scripts.primitive_decision_history import load_history
+        statuses = self.cloud.get('/api/primitives/status')
+        briefs = self.cloud.get('/api/primitives/briefs')
+        rows = self.cloud.get('/api/activity?icon_prefix=primitive:', internal=True)
+        with closing(sqlite3.connect(':memory:')) as memory:
+            memory.execute('CREATE TABLE activity_log (id INTEGER PRIMARY KEY, username TEXT, action TEXT, icon TEXT, details TEXT, created_at TEXT)')
+            memory.executemany('INSERT INTO activity_log VALUES (?,?,?,?,?,?)',
+                               [(r['id'], r['username'], r['action'], r['icon'], r['details'], r['created_at']) for r in rows])
+            history = load_history(memory, ADMIN_USERS)
+        return statuses, briefs, history
+
+    def discard_connection(self, keys):
+        """An in-memory stand-in for the database during a cloud-mode discard: discard_many reads each
+        icon's feedback (to archive it) and deletes its rows; the cloud then deletes the real rows."""
+        memory = sqlite3.connect(':memory:')
+        for table in ('reviews', 'icon_flags', 'icon_types'):
+            memory.execute(f'CREATE TABLE {table} (icon TEXT)')
+        memory.execute('CREATE TABLE feedback (id INTEGER, icon TEXT, feedback TEXT, svg_sha256 TEXT, created_at TEXT, author TEXT)')
+        for key in keys:
+            for row in self.cloud.get('/api/feedback?icon=' + quote_key(key)):
+                memory.execute('INSERT INTO feedback VALUES (?,?,?,?,?,?)',
+                               (row['id'], key, row['feedback'], row['svg_sha256'], row['created_at'], row.get('author')))
+        return memory
+
     def is_rejected(self, connection, key, sha):
         return bool(connection.execute(
             "SELECT 1 FROM reviews WHERE icon=? AND status='rejected' "
@@ -607,6 +670,26 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                              '/api/combination-refresh', '/api/combination-experiment',
                              '/api/symbols/copy-from-sub'))
 
+    @property
+    def cloud(self):
+        """The Cloudflare Worker client when running with --cloud-api (all shared data lives there)."""
+        return getattr(getattr(self, 'server', None), 'cloud', None)
+
+    # Graphics processing and local files; everything else reads or writes shared data in the cloud.
+    CLOUD_LOCAL_PREFIXES = ('/api/generation', '/api/ai-feedback', '/api/qa-evidence', '/api/combinations/container/',
+                            '/api/stroke-edits')
+    CLOUD_LOCAL_ROUTES = ('/api/runtime', '/api/icon-artwork', '/api/icons/discard', '/api/combinations/side/keep-sub',
+                          '/api/symbols/copy-from-sub', '/api/combination-refresh', '/api/combination-experiment',
+                          '/api/primitives/generation-queue', '/api/combinations/generation-queue',
+                          '/api/pending-briefs/download')
+
+    def runs_locally(self, path, query=''):
+        if not path.startswith('/api/'):
+            return path != '/gallery/primitives.json'
+        if path == '/api/icon-artwork/svg':
+            return 'variant=' in query  # alternative drawings are rendered here
+        return path.startswith(self.CLOUD_LOCAL_PREFIXES) or path in self.CLOUD_LOCAL_ROUTES
+
     def do_GET(self):
         parsed = urlsplit(self.path)
         if parsed.path == '/api/runtime':
@@ -614,7 +697,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'mode': 'production' if production else 'development',
                                        'can_generate': not production, 'can_edit': True, 'can_upload': True,
                                        # Where work claims live: this server in production, its sync source in development.
-                                       'production_api': '' if production else self.work_origin()})
+                                       'production_api': '' if production else self.work_origin(),
+                                       'storage': 'cloudflare' if self.cloud else 'sqlite'})
+        if self.cloud and not self.runs_locally(parsed.path, parsed.query):
+            return self.forward_to_production('GET', self.path)
         # Primitive progress has one authority, just like the shared work queue.
         if (not getattr(self.server, 'production', False) and parsed.path in (
                 '/gallery/primitives.json', '/api/primitives', '/api/primitives/status',
@@ -796,8 +882,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 from icon_set.scripts.container_symbol_queue import generation_queue as symbol_queue
                 combinations = json.loads((self.root / 'gallery/combinations.json').read_text())
                 manifest = json.loads((self.root / 'symbol32/manifest.json').read_text())
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    statuses = load_status(connection)
+                if self.cloud:
+                    statuses = self.cloud.get('/api/primitives/status')
+                else:
+                    with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                        statuses = load_status(connection)
                 return self.json_response(symbol_queue(
                     combinations, manifest, self.primitives_catalog(), parse_qs(parsed.query), statuses))
             except ValueError as error:
@@ -807,10 +896,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/primitives/generation-queue':
             try:
                 from icon_set.scripts.primitive_decision_history import load_history
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    statuses = load_status(connection)
-                    briefs = load_primitive_briefs(connection)
-                    classification_history = load_history(connection, ADMIN_USERS)
+                if self.cloud:
+                    statuses, briefs, classification_history = self.cloud_statuses()
+                else:
+                    with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                        statuses = load_status(connection)
+                        briefs = load_primitive_briefs(connection)
+                        classification_history = load_history(connection, ADMIN_USERS)
                 return self.json_response(generation_queue(
                     self.primitives_catalog(), statuses, briefs, parse_qs(parsed.query), classification_history))
             except ValueError as error:
@@ -941,8 +1033,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Could not load icon flag.'}, 503)
         if parsed.path == '/api/pending-briefs/download':
             try:
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    rows = list_briefs(connection)
+                if self.cloud:
+                    rows = self.cloud.get('/api/pending-briefs')
+                else:
+                    with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                        rows = list_briefs(connection)
                 if not rows:
                     return self.json_response({'error': 'No briefs to download yet.'}, 404)
                 content = brief_archive(rows, self.catalog(), self.root, PACKAGE_ROOT.parent)
@@ -1063,6 +1158,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
+        if self.cloud and not self.runs_locally(route):
+            try:
+                size = int(self.headers.get('Content-Length', '0'))
+            except ValueError:
+                size = 0
+            if not 0 < size <= MAX_WORK_RESULT_BODY * 2:
+                return self.json_response({'error': 'Invalid request size'}, 413)
+            return self.forward_to_production('POST', self.path, raw=self.rfile.read(size))
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
@@ -1145,7 +1248,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 try:
                     if route == '/api/generation' and data.get('mode') == 'fix':
                         icon = self.catalog().get(data.get('icon'))
-                        if icon:
+                        if icon and self.cloud and self.cloud_rejected(icon['key']):
+                            return self.json_response({'error': 'Restore this rejected icon before regenerating it.'}, 409)
+                        if icon and not self.cloud:
                             with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                                 if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
                                     return self.json_response({'error': 'Restore this rejected icon before regenerating it.'}, 409)
@@ -1156,8 +1261,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     else:
                         result = manager.decide(data.get('id'), route.endswith('/accept'), user)
                         action, details = 'generation_' + route.rsplit('/', 1)[1], {'job': result['id'], 'name': result['name']}
-                    with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
-                        record_activity(connection, user, action, (result.get('source') or {}).get('key'), **details)
+                    if self.cloud:
+                        self.activity(None, user, action, (result.get('source') or {}).get('key'), **details)
+                    else:
+                        with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                            record_activity(connection, user, action, (result.get('source') or {}).get('key'), **details)
                     return self.json_response(result, 202)
                 except (OSError, ValueError) as error:
                     return self.json_response({'error': str(error)}, 400)
@@ -1285,15 +1393,22 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def work_origin(self):
         return (getattr(self.server, 'sync_source', None) or DEFAULT_SYNC_SOURCE).rstrip('/')
 
-    def forward_to_production(self, method, path, body=None):
-        """Relay a shared-state request to production and return its answer unchanged."""
+    def forward_to_production(self, method, path, body=None, raw=None):
+        """Relay a shared-state request to production and return its answer unchanged.
+
+        In cloud mode the reviewer's session cookie travels both ways, so actions stay attributed."""
         origin = self.work_origin()
-        request = urllib.request.Request(origin + path, method=method,
-                                         data=json.dumps(body).encode('utf-8') if body is not None else None,
-                                         headers={'Content-Type': 'application/json', 'Accept': 'application/json, image/svg+xml'})
+        headers = {'Content-Type': self.headers.get('Content-Type', 'application/json') if raw is not None else 'application/json',
+                   'Accept': 'application/json, image/svg+xml', 'User-Agent': 'pictographic-gallery/1.0'}
+        if self.cloud and self.headers.get('Cookie'):
+            headers['Cookie'] = self.headers['Cookie']
+        data = raw if raw is not None else (json.dumps(body).encode('utf-8') if body is not None else None)
+        request = urllib.request.Request(origin + path, method=method, data=data, headers=headers)
+        cookie = None
         try:
             with urllib.request.urlopen(request, timeout=WORK_FORWARD_TIMEOUT) as response:
                 content, status, mime = response.read(), response.status, response.headers.get('Content-Type', 'application/json')
+                cookie = response.headers.get('Set-Cookie')
         except urllib.error.HTTPError as error:
             content, status, mime = error.read(), error.code, error.headers.get('Content-Type', 'application/json')
             if not mime.startswith('application/json'):
@@ -1306,6 +1421,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         self.send_header('Content-Type', mime)
         self.send_header('Content-Length', str(len(content)))
         self.send_header('Cache-Control', 'no-store')
+        if cookie and self.cloud:
+            self.send_header('Set-Cookie', cookie)
         if mime.startswith('image/svg'):
             self.send_header('X-Content-Type-Options', 'nosniff')
             self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
@@ -1667,6 +1784,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
 
     def save_artwork(self, data, user):
+        if self.cloud:
+            return self.save_artwork_cloud(data, user)
         with DISCARD_LOCK:
             try:
                 icon = self.catalog_icon(data.get('icon'))
@@ -1701,6 +1820,63 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, ImportError):
                 return self.json_response({'error': 'Could not store artwork. Check the persistent storage and SVG rendering dependencies.'}, 503)
 
+    def save_artwork_cloud(self, data, user):
+        """Pick artwork here (rendering, validation), then tell the cloud: the icon's new drawing, then its approval."""
+        from icon_set.scripts.cloud_client import CloudError, catalog_row
+        with DISCARD_LOCK:
+            try:
+                icon = self.catalog_icon(data.get('icon'))
+                if not icon:
+                    return self.json_response({'error': 'Icon not found.'}, 404)
+                if data.get('action') == 'upload':
+                    self.server.artwork.save(icon, data, user, self.stroke_edits)
+                    return self.json_response(self.artwork_response(icon))
+                if self.cloud_rejected(icon['key']):
+                    return self.json_response({'error': 'Restore this rejected icon before picking and approving its artwork.'}, 409)
+                self.server.artwork.save(icon, data, user, self.stroke_edits)
+                result = self.artwork_response(icon)
+                record = result['record']
+                selected = resolve_artwork(baseline(icon), self.server.artwork.get(icon['key']))
+                self.cloud.push_icons([catalog_row(record, selected['svg'] if selected else None, origin='artwork')])
+                self.cloud.post('/api/reviews', {'icon': icon['key'], 'svg_sha256': record['svg_sha256'], 'status': 'approve'},
+                                cookie=self.headers.get('Cookie'))
+                record.update(review_status='approve', review_updated_by=user, review_updated_at=utc_now())
+                self.refresh_cloud_catalog()
+                return self.json_response(result)
+            except EditConflict as error:
+                return self.json_response({'error': str(error)}, 409)
+            except CloudError as error:
+                return self.json_response({'error': f'The cloud refused the change: {error}'}, error.status if error.status < 500 else 502)
+            except (ValueError, TypeError, KeyError) as error:
+                return self.json_response({'error': str(error)}, 400)
+            except (OSError, ImportError):
+                return self.json_response({'error': 'Could not store artwork. Check the SVG rendering dependencies and the cloud connection.'}, 503)
+
+    def refresh_cloud_catalog(self):
+        """Re-upload the effective gallery catalog after artwork changes, at most every 30 seconds, in the background."""
+        server = self.server
+        if getattr(server, 'catalog_refresh_pending', False):
+            return
+        server.catalog_refresh_pending = True
+        handler = self
+
+        def upload():
+            time.sleep(30)
+            server.catalog_refresh_pending = False
+            try:
+                from icon_set.scripts.cloud_client import catalog_json
+                data = handler.catalog_data()
+                built = dict(data, icons=[handler.artwork_record(r) for r in data['icons'] if not r.get('uploaded_icon')],
+                             failed_icons=[handler.artwork_record(r) for r in data.get('failed_icons', [])])
+                content = catalog_json(built)
+                status, body, _ = server.cloud.request('PUT', '/api/files/site/gallery/icons.json', raw=content, internal=True)
+                if status >= 400:
+                    print(f'cloud catalog refresh failed: HTTP {status} {body[:200]!r}', flush=True)
+            except Exception as error:  # a background refresh must never take the server down
+                print(f'cloud catalog refresh failed: {error}', flush=True)
+
+        threading.Thread(target=upload, daemon=True).start()
+
     def save_stroke_edits(self, data, user, validate_only=False):
         if not isinstance(data.get('icon'), str):
             return self.json_response({'error': 'An icon key is required.'}, 400)
@@ -1733,6 +1909,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if not isinstance(requests, list) or not 1 <= len(requests) <= MAX_DISCARD_BATCH or \
                 not all(isinstance(item, dict) and isinstance(item.get('icon'), str) for item in requests):
             return self.json_response({'error': f'Choose between 1 and {MAX_DISCARD_BATCH} icons to discard.'}, 400)
+        if self.cloud:
+            return self.discard_icon_cloud(data, user, batch, requests)
         with DISCARD_LOCK:
             try:
                 catalog = self.catalog(include_failed=True)
@@ -1772,6 +1950,54 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
+    def discard_icon_cloud(self, data, user, batch, requests):
+        """discard_icon with local file removal and the cloud's review rows."""
+        from icon_set.scripts.cloud_client import CloudError
+        with DISCARD_LOCK:
+            try:
+                catalog = self.catalog(include_failed=True)
+                statuses = self.cloud.get('/api/reviews')
+                icons, failed = [], []
+                for item in requests:
+                    key, icon = item['icon'], catalog.get(item['icon'])
+                    error = ('Unknown icon' if icon is None else
+                             'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon.get('svg_sha256') else
+                             'Only rejected icons can be discarded. Reject it first.'
+                             if not icon.get('build_failed') and statuses.get(key) != 'rejected' else None)
+                    if error:
+                        failed.append({'icon': key, 'name': icon['name'] if icon else key, 'error': error})
+                    elif all(existing['key'] != key for existing in icons):
+                        icons.append(icon)
+                if not batch and failed:
+                    return self.json_response({'error': failed[0]['error']}, 404 if failed[0]['error'] == 'Unknown icon' else 409)
+                result = self.discard_in_cloud(icons, user, catalog, detach=data.get('detach_variants') is True)
+                result['failed'] = failed + result['failed']
+                if not batch and result['failed']:
+                    return self.json_response({'error': result['failed'][0]['error']}, 409)
+                return self.json_response(result)
+            except CloudError as error:
+                return self.json_response({'error': f'The cloud refused the discard: {error}'}, 502)
+            except (OSError, SyntaxError, sqlite3.Error):
+                return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
+
+    def discard_in_cloud(self, icons, user, catalog, detach=False):
+        """Remove sources and published files here, then the icons' review rows in the cloud."""
+        source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
+        with closing(self.discard_connection([icon['key'] for icon in icons])) as memory:
+            result = discard_many(icons, source_root=source_root, dist=self.root, archive=self.database.parent / 'discarded-icons',
+                                  connection=memory, user=user, detach_variants=detach)
+        if result['discarded']:
+            self.cloud.post('/api/icons/discard-record', {'user': user, 'icons': [
+                {'icon': row['icon'], 'svg_sha256': catalog[row['icon']].get('svg_sha256'), 'source': row['source'],
+                 'archive': row['archive']} for row in result['discarded']]}, internal=True)
+            if (self.root / 'gallery/side-components.json').is_file():
+                try:
+                    from icon_set.scripts.side_components import refresh as refresh_side_components
+                    refresh_side_components(self.root / 'gallery')
+                except (OSError, ValueError, KeyError) as error:
+                    print(f'side-components refresh failed after discard: {error}', flush=True)
+        return result
+
     def keep_side_sub(self, data, user):
         """Keep one sub for a side pair; reject and discard its alternatives everywhere they are used.
 
@@ -1799,6 +2025,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     else:
                         icons.append(icon)
                 now = datetime.now(timezone.utc).isoformat()
+                if self.cloud:
+                    cookie = self.headers.get('Cookie')
+                    for icon in icons:
+                        self.cloud.post('/api/reviews', {'icon': icon['key'], 'svg_sha256': icon.get('svg_sha256'),
+                                                         'status': 'rejected'}, cookie=cookie)
+                    outcome = self.discard_in_cloud(icons, user, catalog)
+                    removed = [row['icon'] for row in outcome['discarded']]
+                    for path in (pairs, self.root / 'gallery/experiment-combination.json'):
+                        strip_file(path, removed)
+                    return self.json_response({'removed': removed, 'failed': failed + outcome['failed'],
+                                               'affected_pairs': result['affected_pairs']})
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     for icon in icons:
                         record_activity(connection, user, 'review', icon['key'], status='rejected',
@@ -1886,10 +2123,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         except OSError:
             return self.json_response({'error': 'Could not write the new symbol file. Please retry.'}, 503)
         try:
-            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
-                record_activity(connection, user, 'symbol_role_copy', 'symbol/' + result['icon_id'],
-                                 source_icon_id=result['source_icon_id'], path=result['path'])
-        except sqlite3.Error:
+            if self.cloud:
+                self.activity(None, user, 'symbol_role_copy', 'symbol/' + result['icon_id'],
+                              source_icon_id=result['source_icon_id'], path=result['path'])
+            else:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                    record_activity(connection, user, 'symbol_role_copy', 'symbol/' + result['icon_id'],
+                                    source_icon_id=result['source_icon_id'], path=result['path'])
+        except (sqlite3.Error, OSError):
             pass
         return self.json_response(result, 201)
 
@@ -2023,7 +2264,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not update pending briefs.'}, 503)
 
 
-def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE, *, production=False, live_release_root=None):
+def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE, *, production=False, live_release_root=None, cloud_api=None):
     dist, database = dist.resolve(), database.resolve()
     if live_release_root is not None:
         dist = live_directory(dist, live_release_root)
@@ -2048,8 +2289,15 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
             raise ValueError('Live catalog updates require production mode.')
         from icon_set.scripts.automatic_deploy import validate_paths
         live_release_root, _ = validate_paths(PACKAGE_ROOT.parent, live_release_root, database)
-    init_database(database)
-    if not production:
+    if cloud_api and production:
+        raise ValueError('The cloud is the production server; run --cloud-api without --production.')
+    if cloud_api:
+        # No local review data at all: a forgotten SQLite call fails loudly instead of writing locally.
+        database = database.parent / 'cloud-cache' / 'no-local-data.sqlite3'
+        database.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        init_database(database)
+    if not production and not cloud_api:
         with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
             import_snapshot(connection)
     server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
@@ -2061,6 +2309,15 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)
     server.sync_source = sync_source
+    server.cloud = None
+    if cloud_api:
+        # Shared data and status live in the cloud; this machine renders, validates and builds.
+        from icon_set.scripts.cloud_client import CloudClient, CloudArtworkStore, CloudReferenceStore, CloudStrokeEditStore
+        server.cloud = CloudClient(cloud_api)
+        server.sync_source = cloud_api
+        server.references = CloudReferenceStore(server.cloud, database.parent / 'reference-images')
+        server.artwork = CloudArtworkStore(server.cloud, database.parent / 'icon-artwork')
+        server.stroke_edits = CloudStrokeEditStore(server.cloud, database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
     if not production:
         server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
         server.ai_feedback = FeedbackReviewManager(server.generation, database.parent / 'ai-feedback-jobs')
@@ -2078,17 +2335,21 @@ def main(argv=None):
     parser.add_argument('--open', action='store_true', help='Open the local browser')
     parser.add_argument('--primitives', type=Path, help='Original primitives folder for the Primitives page '
                                                         '(default $PICTOGRAPHIC_PRIMITIVES or claude_skills/pictographic-primitives)')
+    parser.add_argument('--cloud-api', default=os.environ.get('PICTOGRAPHIC_CLOUD_API'),
+                        help='Cloudflare Worker URL: keep all shared data there and do only graphics processing here '
+                             '(default $PICTOGRAPHIC_CLOUD_API)')
     parser.add_argument('--sync-source', default=DEFAULT_SYNC_SOURCE,
                         help='Production gallery to pull reviewing data from (default $PICTOGRAPHIC_SYNC_SOURCE)')
     args = parser.parse_args(argv)
     try:
-        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source, production=args.production, live_release_root=args.live_release_root)
+        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source, production=args.production, live_release_root=args.live_release_root, cloud_api=args.cloud_api)
     except (OSError, ValueError, sqlite3.Error) as error:
         parser.exit(1, f'error: {error}\n')
     port = server.server_address[1]
     browser_host = '127.0.0.1' if args.host == '0.0.0.0' else args.host
     url = f'http://{browser_host}:{port}/'
-    print(f'Gallery: {url}\nListening on {args.host}:{port}\nFeedback: {args.database.resolve()}', flush=True)
+    storage = f'cloud {args.cloud_api}' if args.cloud_api else args.database.resolve()
+    print(f'Gallery: {url}\nListening on {args.host}:{port}\nFeedback: {storage}', flush=True)
     if args.open:
         webbrowser.open(url)
     try:

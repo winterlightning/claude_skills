@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pictographic — Data Model</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0; --card: #fff;
+    --accent: #3b5bdb; --meaning: #e8f0ff; --form: #fff4e0; --draw: #eafaf0; --work: #fdecef; --ship: #f1ecff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151517; --fg: #ececf0; --muted: #9a9aa2; --line: #2c2c31; --card: #1c1c20;
+            --accent: #8ea6ff; --meaning: #1d2740; --form: #3a2e17; --draw: #173323; --work: #3b1c23; --ship: #28213f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+  header { padding: 48px 24px 24px; max-width: 1100px; margin: auto; }
+  header h1 { margin: 0 0 4px; font-size: 30px; letter-spacing: -.02em; }
+  header p { margin: 0; color: var(--muted); }
+  nav { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
+        backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  nav div { max-width: 1100px; margin: auto; padding: 10px 24px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; }
+  nav a { color: var(--muted); text-decoration: none; } nav a:hover { color: var(--accent); }
+  main { max-width: 1100px; margin: auto; padding: 8px 24px 80px; }
+  section { margin-top: 48px; }
+  h2 { font-size: 21px; margin: 0 0 6px; letter-spacing: -.01em; }
+  h2 + p.lede { color: var(--muted); margin-top: 0; }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; background: var(--card);
+          border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; background: color-mix(in srgb, var(--line) 40%, var(--card)); }
+  tr:last-child td { border-bottom: 0; }
+  code { font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+         background: color-mix(in srgb, var(--line) 55%, transparent); padding: 1px 5px; border-radius: 4px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+  .diagram { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .term { border-radius: 10px; padding: 14px 16px; border: 1px solid var(--line); }
+  .term b { display: block; font-size: 15px; } .term small { color: var(--muted); }
+  .meaning { background: var(--meaning); } .form { background: var(--form); } .draw { background: var(--draw); }
+  .work { background: var(--work); } .ship { background: var(--ship); }
+  .pill { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+  .schema { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(470px, 1fr)); }
+  .schema .card h3 { margin-top: 0; }
+  .schema pre { margin: 0; font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre; overflow-x: auto; }
+  .k { color: var(--accent); font-weight: 600; }
+  ul.tight { margin: 6px 0; padding-left: 20px; } ul.tight li { margin: 2px 0; }
+  .note { border-left: 3px solid var(--accent); padding: 8px 14px; background: var(--card); border-radius: 0 8px 8px 0; }
+  .mermaid { text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pictographic — Data Model</h1>
+  <p>Generate icons → approve them → serve them through search, API and MCP. Design draft, branch <code>cloudflare-db</code>, 2026-09-25.</p>
+</header>
+<nav><div>
+  <a href="#pipeline">Pipeline</a><a href="#vocabulary">Vocabulary</a><a href="#model">Core model</a>
+  <a href="#composite">Composites</a><a href="#schema">Tables</a><a href="#example">Example</a>
+  <a href="#mapping">From today's data</a><a href="#physicals">Organizing physicals</a>
+  <a href="#cloudflare">Cloudflare</a><a href="#decisions">Open decisions</a>
+</div></nav>
+<main>
+
+<section id="pipeline">
+  <h2>The pipeline</h2>
+  <p class="lede">One idea ties the system together: a <b>concept</b> is what someone searches for, a <b>physical</b> is the form that expresses it, an <b>icon</b> is an approved drawing of that form, and a <b>release</b> is the frozen set users rely on.</p>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  R["References<br/>original SVGs"] --> B["Briefs"]
+  B --> G["Generate<br/>skills / agents"]
+  G --> V["Revisions<br/>by sha256"]
+  V --> Q{"Review"}
+  Q -- disapprove --> F["Fix queue"] --> V
+  Q -- approve --> REL["Release<br/>frozen set"]
+  REL --> S["Search<br/>keywords + vectors"]
+  REL --> A["API / CDN"]
+  REL --> M["MCP server<br/>for vibe coders"]
+  S -.->|misses → new concepts| B
+  </pre></div>
+</section>
+
+<section id="vocabulary">
+  <h2>Vocabulary</h2>
+  <p class="lede">Every term used in code, data and conversation. Colors match the layers in later diagrams.</p>
+  <div class="grid">
+    <div class="term meaning"><b>Concept</b>A meaning; what someone searches for.<br/><small>love, parking, upload</small></div>
+    <div class="term form"><b>Physical</b>A recognizable form, independent of how it is drawn. <i>Single</i> (heart) or <i>composite</i> (cloud-on-monitor).<br/><small>heart, cloud, shield</small></div>
+    <div class="term draw"><b>Icon</b>One drawing design of a physical, in one <i>form</i>.<br/><small>solo/heart-a</small></div>
+    <div class="term draw"><b>Primitive</b>Full-size icon (48), complete on its own, not a combination.</div>
+    <div class="term draw"><b>Subicon</b>Small icon (32), used only inside side combinations, never alone.</div>
+    <div class="term draw"><b>Container</b>A frame that hosts content (64).<br/><small>shield, screen, speech bubble</small></div>
+    <div class="term draw"><b>Symbol</b>Content placed inside a container (32).<br/><small>check mark in a shield</small></div>
+    <div class="term draw"><b>Combination</b>An icon assembled from other icons. <i>Side</i>: main + subicon at a corner. <i>Container</i>: container + symbol at the center.</div>
+    <div class="term draw"><b>Variant</b>Alternative designs of the same physical that exist at the same time.<br/><small>cloud with 2 bumps vs 3 bumps</small></div>
+    <div class="term draw"><b>Revision</b>One exact version of an icon over time, identified by its SVG sha256. Never changed.</div>
+    <div class="term work"><b>Reference</b>An original source SVG, used as evidence. Never shipped.</div>
+    <div class="term ship"><b>Release</b>A frozen, versioned set of approved revisions.</div>
+  </div>
+  <h3>Rules</h3>
+  <ul class="tight">
+    <li>Meaning lives only on physicals: <b>icon → physical → concept</b>. Adding "favorite" to <i>heart</i> makes every heart icon findable.</li>
+    <li>A different design of the same form is a <b>variant</b>; a different form (broken heart) is a different <b>physical</b>.</li>
+    <li>If a drawing splits into two independent forms it is a <b>combination</b>; if it is one inseparable form it is a <b>physical</b>.</li>
+    <li>Form (primitive, subicon, container, symbol) belongs to the icon: <i>check</i> can have a primitive, a subicon and a symbol.</li>
+  </ul>
+</section>
+
+<section id="model">
+  <h2>Core model</h2>
+  <p class="lede">Many-to-many between meaning and form; one-to-many from form to drawings to versions.</p>
+  <div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph Meaning
+    C["Concept<br/>love · favorite · health"]
+  end
+  subgraph Form
+    P1["Physical: heart<br/>single"]
+    P2["Physical: heart-pulse<br/>composite"]
+  end
+  subgraph Drawings
+    I1["Icon solo/heart-a<br/>primitive"]
+    I2["Icon solo/heart-b<br/>primitive · variant"]
+    I3["Icon sub/heart-a<br/>subicon"]
+  end
+  subgraph Versions
+    R1["rev 4be… approved"]
+    R2["rev 91c… in review"]
+  end
+  C <-- "many-to-many" --> P1
+  C <--> P2
+  P2 -- "parts" --> P1
+  P1 --> I1 & I2 & I3
+  I1 --> R1 --> R2
+  classDef m fill:#e8f0ff,stroke:#8aa4e8,color:#1d1d1f
+  classDef f fill:#fff4e0,stroke:#e2b35c,color:#1d1d1f
+  classDef d fill:#eafaf0,stroke:#6cc08b,color:#1d1d1f
+  class C m
+  class P1,P2 f
+  class I1,I2,I3,R1,R2 d
+  </pre></div>
+</section>
+
+<section id="composite">
+  <h2>Composites: two levels</h2>
+  <p class="lede">A combination is described <b>abstractly</b> as a composite physical (<i>what</i> it is made of — searchable, stable) and <b>concretely</b> as a combination icon (<i>which drawings</i> — renderable, swappable).</p>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  subgraph Abstract["Physical level — meaning"]
+    CP["cloud-on-monitor<br/>composite"]
+    PM["monitor"]
+    PC["cloud"]
+    CP -- "main" --> PM
+    CP -- "sub · tr" --> PC
+  end
+  subgraph Concrete["Icon level — drawing"]
+    CI["combo/cloud-monitor<br/>combination"]
+    IM["solo/monitor-a<br/>primitive"]
+    IC["sub/cloud-a<br/>subicon"]
+    CI -- "main" --> IM
+    CI -- "sub · tr" --> IC
+  end
+  subgraph Pinned["Revision level — exact build"]
+    RC["rev 9f3…<br/>assembled"]
+    RM["monitor-a @ 4be…"]
+    RS["cloud-a @ c71…"]
+    RC --> RM & RS
+  end
+  CP -.-|icon of| CI
+  CI -.-|revision| RC
+  </pre></div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card"><b>Side combination</b><br/>exactly one <code>main</code> (primitive) + one <code>sub</code> (subicon) at <code>tl · tr · bl · br</code>.</div>
+    <div class="card"><b>Container combination</b><br/>exactly one <code>container</code> + one <code>symbol</code> at <code>center</code>.</div>
+    <div class="card"><b>Consistency</b><br/>a combination icon's parts must be icons of its composite physical's parts. Combinations are one level deep.</div>
+    <div class="card"><b>Rebuilds</b><br/>when <code>cloud-a</code> gets a new revision, <code>revision_parts</code> lists every combination built from the old one.</div>
+  </div>
+</section>
+
+<section id="schema">
+  <h2>Tables</h2>
+  <div class="diagram"><pre class="mermaid">
+erDiagram
+  CONCEPTS ||--o{ CONCEPT_ALIASES : has
+  CONCEPTS ||--o{ CONCEPT_CATEGORIES : in
+  CATEGORIES ||--o{ CONCEPT_CATEGORIES : groups
+  CATEGORIES ||--o{ CATEGORIES : parent
+  CONCEPTS ||--o{ CONCEPT_PHYSICALS : "expressed by"
+  PHYSICALS ||--o{ CONCEPT_PHYSICALS : expresses
+  PHYSICALS ||--o{ PHYSICAL_PARTS : "composite of"
+  PHYSICALS ||--o{ ICONS : "drawn as"
+  ICONS ||--o{ ICON_PARTS : "combination of"
+  STYLE_SETS ||--o{ ICONS : styles
+  ICONS ||--o{ REVISIONS : versions
+  REVISIONS ||--o{ REVISION_PARTS : "built from"
+  PHYSICALS ||--o{ REFERENCES : evidence
+  REFERENCES ||--o{ REFERENCE_PARTS : "combination of"
+  ICONS ||--o{ ICON_REFERENCES : "drawn from"
+  REFERENCES ||--o{ ICON_REFERENCES : source
+  REVISIONS ||--o{ REVIEW_EVENTS : reviewed
+  REVISIONS ||--o{ FEEDBACK : comments
+  REVISIONS ||--o{ WORK_CLAIMS : "fix queue"
+  RELEASES ||--o{ RELEASE_ICONS : contains
+  REVISIONS ||--o{ RELEASE_ICONS : shipped
+  REVISIONS ||--o{ ASSETS : "built as"
+
+  CONCEPTS { string concept_id PK
+             string slug UK
+             string name
+             string status }
+  PHYSICALS { string physical_id PK
+              string slug UK
+              string kind "single | composite" }
+  PHYSICAL_PARTS { string composite_id FK
+                   string part_id FK
+                   string role
+                   string position }
+  ICONS { string icon_id PK
+          string physical_id FK
+          string form
+          string profile
+          boolean is_default
+          string current_revision FK }
+  ICON_PARTS { string combination_id FK
+               string part_id FK
+               string role
+               string position }
+  REVISIONS { string sha256 PK
+              string icon_id FK
+              string origin
+              string svg_r2_key }
+  REFERENCES { string reference_id PK "original UUID"
+               string physical_id FK
+               string kind }
+  </pre></div>
+
+  <h3>Definitions</h3>
+  <div class="schema">
+    <div class="card meaning"><h3>Meaning</h3><pre>
+<span class="k">concepts</span>           concept_id PK, slug UNIQUE, name,
+                   description, status (active|merged|retired)
+<span class="k">concept_aliases</span>    concept_id FK, alias, lang
+<span class="k">categories</span>         category_id PK, parent_id FK, slug, name
+<span class="k">concept_categories</span> concept_id FK, category_id FK, is_primary
+<span class="k">concept_physicals</span>  concept_id FK, physical_id FK, rank</pre></div>
+    <div class="card form"><h3>Physicals</h3><pre>
+<span class="k">physicals</span>          physical_id PK, slug UNIQUE, name,
+                   description, kind (single|composite), status
+<span class="k">physical_parts</span>     composite_id FK, part_id FK,
+                   role (main|sub|container|symbol),
+                   position (tl|tr|bl|br|center),
+                   PK(composite_id, role)</pre></div>
+    <div class="card draw"><h3>Icons</h3><pre>
+<span class="k">icons</span>              icon_id PK, physical_id FK, slug UNIQUE,
+                   form (primitive|subicon|container|
+                         symbol|combination),
+                   profile (SOLO48|SUB32|CONTAINER64|SYMBOL32),
+                   variant_label, is_default, style_set_id FK,
+                   current_revision FK, status
+<span class="k">icon_parts</span>         combination_id FK, part_id FK, role,
+                   position, transform JSON,
+                   PK(combination_id, role)
+<span class="k">style_sets</span>         style_set_id PK, name</pre></div>
+    <div class="card draw"><h3>Revisions (never changed)</h3><pre>
+<span class="k">revisions</span>          sha256 PK, icon_id FK, svg_r2_key, graph JSON,
+                   origin (hand_drawn|assembled|stroke_edit|upload),
+                   source_module, git_commit, validation JSON,
+                   created_by, created_at, parent_sha FK
+<span class="k">revision_parts</span>     revision_sha FK, role, part_revision_sha FK</pre></div>
+    <div class="card work"><h3>References (internal)</h3><pre>
+<span class="k">references</span>         reference_id PK (original UUID), physical_id FK,
+                   concept_id FK, kind (single|combination),
+                   r2_key, source, license, old_concept
+<span class="k">reference_parts</span>    reference_id FK, role, part_reference_id FK,
+                   position
+<span class="k">icon_references</span>    icon_id FK, reference_id FK
+<span class="k">reference_decisions</span> reference_id FK, decision, reason, by, at</pre></div>
+    <div class="card work"><h3>Workflow (internal)</h3><pre>
+<span class="k">review_events</span>      revision_sha FK, action, reason, by, at
+<span class="k">feedback</span>           revision_sha FK, text, reason, images, by, at
+<span class="k">work_claims</span>        revision_sha FK, worker, state, claimed_at,
+                   expires_at
+<span class="k">users</span>              user_id PK, name, kind (human|agent)
+<span class="k">activity_log</span>       user_id FK, action, subject, details, at</pre></div>
+    <div class="card ship"><h3>Distribution (public)</h3><pre>
+<span class="k">releases</span>           version PK, created_at, notes, status
+<span class="k">release_icons</span>      version FK, icon_id FK, revision_sha FK,
+                   public_name
+<span class="k">assets</span>             revision_sha FK, format (svg|png|react|…),
+                   r2_key
+<span class="k">collections</span>        collection_id PK, name, description
+<span class="k">collection_icons</span>   collection_id FK, icon_id FK</pre></div>
+    <div class="card ship"><h3>Search (public)</h3><pre>
+<span class="k">search_fts</span>         FTS5 over concept name, aliases, tags,
+                   category, description
+<span class="k">vectors</span>            Vectorize index, one embedding per concept
+                   (+ optional per icon image)
+<span class="k">search_log</span>         query, results, picked, at
+                   → misses become new concepts</pre></div>
+  </div>
+</section>
+
+<section id="example">
+  <h2>Worked example — <i>cloud monitor upload</i></h2>
+  <table>
+    <tr><th>Table</th><th>Rows</th></tr>
+    <tr><td><code>concepts</code></td><td>cloud-upload, remote-display</td></tr>
+    <tr><td><code>physicals</code></td><td>monitor <span class="pill">single</span> · cloud <span class="pill">single</span> · cloud-on-monitor <span class="pill">composite</span></td></tr>
+    <tr><td><code>physical_parts</code></td><td>cloud-on-monitor → monitor <code>main</code><br/>cloud-on-monitor → cloud <code>sub</code> <code>tr</code></td></tr>
+    <tr><td><code>icons</code></td><td>solo/monitor-a <span class="pill">primitive</span> · sub/cloud-a <span class="pill">subicon</span> · combo/cloud-monitor <span class="pill">combination</span></td></tr>
+    <tr><td><code>icon_parts</code></td><td>combo/cloud-monitor → solo/monitor-a <code>main</code><br/>combo/cloud-monitor → sub/cloud-a <code>sub</code> <code>tr</code></td></tr>
+    <tr><td><code>revisions</code></td><td>9f3… <span class="pill">assembled</span></td></tr>
+    <tr><td><code>revision_parts</code></td><td>9f3… main → monitor-a@4be… · sub → cloud-a@c71…</td></tr>
+    <tr><td><code>references</code></td><td>0005e7b2-…09tr <span class="pill">combination</span>, parts from <code>combination_data.json</code></td></tr>
+  </table>
+</section>
+
+<section id="mapping">
+  <h2>From today's data</h2>
+  <table>
+    <tr><th>Today</th><th>Size</th><th>Becomes</th></tr>
+    <tr><td><code>pictographic-primitives/_manifest.csv</code> + folder manifests</td><td>14,204 SVGs</td><td><code>references</code>, <code>briefs</code></td></tr>
+    <tr><td><code>concepts_streamline.json</code></td><td>13,240 concepts</td><td><code>concepts</code>, <code>categories</code>, <code>concept_physicals</code>; <code>main_icon</code>/<code>sub_icon</code> seed <code>physicals</code></td></tr>
+    <tr><td><code>combination_data.json</code>, <code>pictographic-combinations/_decoded.csv</code></td><td>2,773 container · 3,534 side</td><td><code>references</code> + <code>reference_parts</code></td></tr>
+    <tr><td><code>icon_set/data/combination-pairs.json</code></td><td>3,090 pairs</td><td><code>icons</code> + <code>icon_parts</code> + <code>revision_parts</code></td></tr>
+    <tr><td><code>icon_set/metadata/*/*.json</code></td><td>10,767 files</td><td><code>icons</code> fields, <code>concept_aliases</code>, tags</td></tr>
+    <tr><td><code>icon_set/model/icons/**</code> Python modules</td><td>~14.6k</td><td>stay as source; the build writes <code>revisions</code> + SVGs to R2</td></tr>
+    <tr><td><code>published/</code></td><td>1 GB</td><td>R2 assets</td></tr>
+    <tr><td><code>feedback.sqlite3</code> reviews, feedback, work claims</td><td>25 MB · 18k reviews</td><td><code>review_events</code>, <code>feedback</code>, <code>work_claims</code>, <code>activity_log</code></td></tr>
+    <tr><td><code>icon-artwork/</code>, <code>stroke-edits/</code>, <code>reference-images/</code></td><td>folders</td><td><code>revisions</code> (origin stroke_edit / upload) + R2</td></tr>
+  </table>
+</section>
+
+<section id="physicals">
+  <h2>Organizing physicals from today's data</h2>
+  <div class="diagram"><pre class="mermaid">
+flowchart TB
+  S1["1 · Seed<br/>streamline main_icon + sub_icon<br/>~7.7k names, typos fixed"]
+  S2["2 · Group variants<br/>cog_1…3 → cog ×3<br/>dice_1…6 → 6 physicals<br/>visual similarity + human review"]
+  S3["3 · Split singles from combinations<br/>two independent forms → combination"]
+  S4["4 · Link references<br/>59% match by name<br/>rest: concept column, LLM, review"]
+  S5["5 · Link authored icons<br/>via reference UUID → primitive / subicon variants"]
+  S6["6 · Link concepts<br/>streamline concept → main_icon<br/>concepts with no physical = to draw"]
+  S1 --> S2 --> S3 --> S4 --> S5 --> S6
+  </pre></div>
+  <h3>Example — hearts in the current set</h3>
+  <table>
+    <tr><th>Authored icon</th><th>Classification</th></tr>
+    <tr><td><code>heart-b74d773d</code>, <code>heart-0104273d</code></td><td><b>heart</b> physical, two variants</td></tr>
+    <tr><td><code>striped-heart</code></td><td><b>heart</b> variant (decoration)</td></tr>
+    <tr><td><code>heart-pulse</code>, <code>heart-with-pulse-wave-solo</code></td><td>heart + pulse <b>combination</b>, or a physical if always one fused form</td></tr>
+    <tr><td><code>hand-holding-heart</code>, <code>hands-passing-a-heart</code></td><td>needs a decision: combination or own physical</td></tr>
+    <tr><td><code>bangle-with-heart-charm</code>, <code>swan-couple-heart</code></td><td>separate physicals with a heart detail</td></tr>
+  </table>
+  <h3>Expected size (estimates)</h3>
+  <table>
+    <tr><th>Concepts</th><th>Physicals</th><th>Primitive variants</th><th>Subicon variants</th><th>Combinations</th></tr>
+    <tr><td>~13k</td><td>~5–7k</td><td>~8.5k</td><td>~2k</td><td>~6.3k</td></tr>
+  </table>
+</section>
+
+<section id="cloudflare">
+  <h2>On Cloudflare</h2>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  subgraph Users
+    U1["Reviewers<br/>gallery"]
+    U2["Workers<br/>agents / skills"]
+    U3["Designers & vibe coders<br/>search · MCP"]
+  end
+  subgraph CF["Cloudflare"]
+    W["Worker API"]
+    D1I[("D1 · internal<br/>references · workflow")]
+    D1P[("D1 · public<br/>concepts · physicals · icons<br/>revisions · releases")]
+    R2[("R2<br/>SVG · PNG · references")]
+    VEC[("Vectorize<br/>embeddings")]
+    PG["Pages / static<br/>gallery UI"]
+  end
+  subgraph Local["Local machines"]
+    PY["Python model + build<br/>generation, validation"]
+  end
+  U1 --> PG --> W
+  U2 --> W
+  U3 --> W
+  W --> D1I & D1P & R2 & VEC
+  PY -- "push revisions + SVGs" --> W
+  </pre></div>
+  <p class="note">Public and internal data are two D1 databases, so the public API can never expose work in progress. The original <code>feedback.sqlite3</code> is only ever read; the migration loads a copy.</p>
+</section>
+
+<section id="decisions">
+  <h2>Open decisions</h2>
+  <table>
+    <tr><th>#</th><th>Question</th><th>Current assumption</th></tr>
+    <tr><td>1</td><td>Is primitive vs subicon two separate forms, or is a subicon a kind of primitive?</td><td>Separate forms of an icon</td></tr>
+    <tr><td>2</td><td>Is a side combination's main the reused primitive, or a special <code>combination_main</code> drawing?</td><td>Reused primitive</td></tr>
+    <tr><td>3</td><td>Can combinations nest?</td><td>No — one level deep</td></tr>
+    <tr><td>4</td><td>Are combination SVGs assembled, hand-drawn, or both?</td><td>Assembled; hand-drawn allowed as a revision</td></tr>
+    <tr><td>5</td><td>Which variant does search return?</td><td>A default per physical, overridden by a style set</td></tr>
+    <tr><td>6</td><td>One canonical concept ID — how to merge UUID, name key and <code>icon_id</code>?</td><td>One-time merge, reviewed</td></tr>
+    <tr><td>7</td><td>Store stroke graph in D1 or only SVG?</td><td>Both: graph JSON + SVG in R2</td></tr>
+    <tr><td>8</td><td>Licensing of Lucide and other references</td><td>Record per reference before shipping</td></tr>
+  </table>
+</section>
+
+</main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict',
+                       flowchart: { curve: 'basis' }, er: { layoutDirection: 'TB', useMaxWidth: false } });
+</script>
+</body>
+</html>
