@@ -1,0 +1,84 @@
+[17:44:32] > Bash: List run folder and show metrics
+[17:45:02] > Bash: Show metrics issues and raw svg
+[17:45:24] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1737-airplane-taking-off/airplane-taking-off.png
+[17:45:25] > Bash: Inspect example redraw module and related icons
+[17:45:34] > Bash: Read pipeline process and a side-view aircraft redraw
+[17:45:38] > Bash: Read rest of example and model API
+[17:45:39] Reading the model API next, then drafting the airplane geometry.
+[17:45:41] > Bash: Locate model API functions
+[17:45:47] > Bash: Read harness script and primitive API
+[17:47:16] > Bash: Read build gate trap memories
+[17:48:27] Plan set: HRECT_M, climbing fuselage on a 1:2 slope, pointed fin, swept triangular wing, runway at y=38. Writing the model and a render/gate harness.
+[17:48:41] > Bash: Write first draft model and run validation harness
+[17:48:45] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1737-airplane-taking-off/airplane-taking-off_redraw.png
+[17:48:50] Passes the gate on the first draft. I'll try a more swept wing (tip at (14,10)) to match the image's backswept wing, and compare.
+[17:48:53] > Bash: Try swept wing variant and compare side by side
+[17:48:53] > Read: /tmp/ato/pair.png
+[17:48:57] The swept variant trips internal-spacing (wing trailing edge vs fin leading edge) and barely changes the read, so I'm keeping v1.
+[17:48:59] > Bash: Restore v1, re-render, make native 48px light/dark sheet
+[17:48:59] > Read: /tmp/ato/n48.png
+[17:49:05] It reads clearly at 48 px in both themes. Now the docstring.
+[17:49:13] > Bash: Write final docstring and re-verify
+[17:49:18] > Bash: Remove bytecode cache created by the harness
+[17:49:27] I redrew the airplane as a Solo48 model. `validate_icon()` returns `valid` and `build_gate.py` passes with 0 errors and 0 warnings. All four output files are in `new-pipeline-test/output_png/20260928-1737-airplane-taking-off/`.
+
+**Subject:** a side-view airliner climbing up-right over a level runway line. I used the suggested **HRECT_M** keyshape, and all four extremes land exactly on its box:
+- The fin tip sets the left edge (x=4).
+- The rounded nose sets the right edge (x=44).
+- The wing tip and the top of the nose set the top (y=10).
+- The runway sets the bottom (y=38).
+
+**How it's built:**
+- **Fuselage and fin:** one closed outline. The top and bottom edges are parallel lines climbing at 1:2, 8.94 apart. The top edge levels out into a rounded nose, and the pointed tail fin is part of the same outline.
+- **Wing:** a swept triangle standing on the top of the fuselage, joined at both ends.
+- **Runway:** one flat line from (6,38) to (42,38).
+
+**Metric issues:** all fixed.
+- **Stroke width (info):** redrawn at stroke 4, with every gap re-measured at that width.
+- **Short y axis (warn, 66% filled):** fixed without stretching the plane. The wing tip and nose reach y=10 and the runway sits on y=38.
+- **Tail too close to the runway (5.29 apart, need 8):** the tail's lowest point is now exactly 8 above the runway.
+- **Four holes that were too small (0.57 to 1.71 wide, need 6):** the tiny pockets the trace made where lines crossed are gone. The only holes left are the inside of the fuselage and the wing triangle, and both are big enough.
+
+**Dropped:** the wing edge that crossed over the fuselage in the generated image, and the short stub line after it. These made the tiny holes.
+
+**Other attempts:** I tried a more swept-back wing. It failed the gate because the wing's back edge came too close to the fin's front edge, and it didn't read noticeably better, so I kept the first version. At native 48 px it reads clearly in both light and dark themes.
+
+I used Lucide `plane-takeoff` as the model for a climbing side view over a runway line. I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260928-1737-airplane-taking-off/`:
+- `airplane_taking_off_redraw.py`
+- `airplane-taking-off_redraw.svg`
+- `airplane-taking-off_redraw.png`
+- `airplane-taking-off_redraw-48.png`
+
+[17:49:27] === success in 305s, $1.14 ===
+I redrew the airplane as a Solo48 model. `validate_icon()` returns `valid` and `build_gate.py` passes with 0 errors and 0 warnings. All four output files are in `new-pipeline-test/output_png/20260928-1737-airplane-taking-off/`.
+
+**Subject:** a side-view airliner climbing up-right over a level runway line. I used the suggested **HRECT_M** keyshape, and all four extremes land exactly on its box:
+- The fin tip sets the left edge (x=4).
+- The rounded nose sets the right edge (x=44).
+- The wing tip and the top of the nose set the top (y=10).
+- The runway sets the bottom (y=38).
+
+**How it's built:**
+- **Fuselage and fin:** one closed outline. The top and bottom edges are parallel lines climbing at 1:2, 8.94 apart. The top edge levels out into a rounded nose, and the pointed tail fin is part of the same outline.
+- **Wing:** a swept triangle standing on the top of the fuselage, joined at both ends.
+- **Runway:** one flat line from (6,38) to (42,38).
+
+**Metric issues:** all fixed.
+- **Stroke width (info):** redrawn at stroke 4, with every gap re-measured at that width.
+- **Short y axis (warn, 66% filled):** fixed without stretching the plane. The wing tip and nose reach y=10 and the runway sits on y=38.
+- **Tail too close to the runway (5.29 apart, need 8):** the tail's lowest point is now exactly 8 above the runway.
+- **Four holes that were too small (0.57 to 1.71 wide, need 6):** the tiny pockets the trace made where lines crossed are gone. The only holes left are the inside of the fuselage and the wing triangle, and both are big enough.
+
+**Dropped:** the wing edge that crossed over the fuselage in the generated image, and the short stub line after it. These made the tiny holes.
+
+**Other attempts:** I tried a more swept-back wing. It failed the gate because the wing's back edge came too close to the fin's front edge, and it didn't read noticeably better, so I kept the first version. At native 48 px it reads clearly in both light and dark themes.
+
+I used Lucide `plane-takeoff` as the model for a climbing side view over a runway line. I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260928-1737-airplane-taking-off/`:
+- `airplane_taking_off_redraw.py`
+- `airplane-taking-off_redraw.svg`
+- `airplane-taking-off_redraw.png`
+- `airplane-taking-off_redraw-48.png`

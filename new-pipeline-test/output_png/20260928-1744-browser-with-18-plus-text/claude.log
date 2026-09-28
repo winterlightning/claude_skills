@@ -1,0 +1,102 @@
+[17:47:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; ls $D; cat $D/*_metrics.json ...
+[17:47:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; python3 -c " import json;m=js...
+[17:47:52] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/browser-with-18-plus-text.png
+[17:47:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/skills/icon-design/typeface.md; python3 -c " import json;g=json.load(open('icon_set/type...
+[17:47:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/typeface-versions.m...
+[17:48:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "glyphs\.json\|typeface" icon_set/model | head; grep -rn "def add_\|def mark_\|def relate" ...
+[17:48:06] I'm looking at how existing models embed the stored typeface glyphs so the "18+" reuses them rather than inventing digit shapes.
+[17:48:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,200p icon_set/model/typeface.py | head -150; grep -rl "from ...typeface\|typeface import" ic...
+[17:48:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p icon_set/model/icons/sub/monitor_with_dollar_symbol_solo_profile32_v4_a113d58d_e6b9_465b...
+[17:48:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -l "glyph\|typeface" new-pipeline-test/output_png/*/*_redraw.py | head; ls new-pipeline-test/out...
+[17:48:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1330-github-logo/github_logo_redraw.py; python3 -c " import...
+[17:48:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "TYPEFACE_GLYPH_IDS\|typeface" icon_set/model/validation/*.py icon_set/model/*.py | grep -v ...
+[17:48:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/icons/solo | grep -i "18\|adult\|age_restr\|plus_text\|browser" | head -20; grep -r...
+[17:48:37] Checking how an existing solo icon places typeface glyphs (letter C + digit 5) so I follow the same pattern.
+[17:48:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/letter_c_and_number_5_batch_033_259c0878_528e_42fb_8d9f_56fe04a84b03.py...
+[17:49:46] Plan settled: HRECT_L browser frame with a connected title bar, "18+" from the stored 6×20 glyphs (translated only, never scaled). Writing the module and validating now.
+[17:49:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,40p icon_set/model/icons/solo/_base.py; grep -n "class Bezier\|class Line\|class Arc\|def __...
+[17:49:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -20; sed -n 20,80p icon_set/model/primitive...
+[17:50:21] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/browser_with_18_plus_text_redraw.py
+[17:50:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; /opt/home...
+[17:50:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; cat $D/browser-with-18-plus-t...
+[17:50:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/browser-with-18-plus-text_redraw.png
+[17:50:36] > Read: /tmp/b48.png
+[17:50:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json g=json.load(open('icon_set/typeface/glyphs-v2.json'));print(g['case_policy']...
+[17:50:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "fallback" icon_set/scripts/build_typeface.py | head; grep -rln "fallback" published/gallery...
+[17:50:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "fallback" published/gallery/experiment.js | head;
+[17:50:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "glyphs-v2" published/gallery icon_set/scripts 2>/dev/null | head; f=$(grep -rln "glyphs-v2...
+[17:51:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "v2\|fallback\|v1" icon_set/scripts/side_text.py | head -30
+[17:51:11] Found the project's own v2 text layout convention (native glyphs, translation only, 4-unit ink gap between characters). Reading how it places glyphs so I lay out "18+" the same way.
+[17:51:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 15,100p icon_set/scripts/side_text.py
+[17:51:53] > Bash: cd /tmp; cat > /tmp/cand.py <<'EOF' import json,sys,subprocess R='/Applications/Workspaces/pictographic/claude_skills/icon_set/typeface/' v1={g['character']:...
+[17:51:57] > Read: /tmp/cmp.png
+[17:52:05] Candidate B ("18" only, v2 digits) reads cleanly at 48 px; with the plus, it becomes an unreadable bar. Updating the module to B.
+[17:52:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; /opt/homebrew/bin/python3 - <...
+[17:52:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; /opt/homebrew/bin/python3 - <...
+[17:52:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p='new-pipeline-test/output_png/20260928-1744-browser-with-18-plu...
+[17:52:45] > Read: /tmp/themes.png
+[17:52:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text | grep redraw; /opt/homebrew/...
+[17:53:01] I redrew the browser as a Solo48 model, but it does not validate, and I dropped the "+" from "18+". The icon now shows **"18"** in a browser window. There was no way to fit the stored typeface's "18+" into a browser window on the 48 grid with the required spacing.
+
+**What's drawn:** a rounded browser window on `HRECT_L` (centerline box (4,8)–(44,40)), one title bar at y=13 that joins both side walls, and the digits "1" and "8". The digits are the stored native glyphs from `icon_set/typeface/glyphs-v2.json`, moved into place but not scaled or redrawn. I laid them out the way `icon_set/scripts/side_text.py` lays out native text. The frame and bar follow Lucide `app-window` / `panel-top`.
+
+**Why the "+" is gone:** the only stored plus is the old 6×20 glyph. At the typeface's normal spacing, "18+" is 40 units wide, which is the whole window interior. I rendered a tight "18+" to check, and at 48 px the plus merges with the right wall into a bar. "18" alone in a browser still reads as age-restricted content, and I didn't want to invent a plus outside the typeface. The older 6×20 glyphs were also tried; they read as "1B+".
+
+**Metric issues fixed:**
+- Stroke count went from 7 to 4 and strokes are now width 4.
+- The frame now sits exactly on the `HRECT_L` box; the short-axis warning is gone.
+- All clearance errors from the traced "+" strokes are gone, including the one at 0.0.
+- The digits are now 8 apart; they were 3.6–4.1.
+
+**Improved but not fixed:**
+- **Bar to top edge:** 5 apart, was 4.3.
+- **Text to bar and to bottom wall:** 6 each, were 4.4–4.8.
+- **Why these stop short of 8:** the digits are 15 tall. The bar plus the text with 8 of clearance on every side needs 39 units of height, and the tallest wide box has 32. The typeface can't be scaled.
+
+**Not fixed:**
+- **Title-strip corners:** they leave small holes about 1 wide. Opening them to 6 would push the bar down until it merges with the text.
+- **The "8":** its counters are small, because that's the stored glyph shape.
+- **Glyph points:** they aren't on the integer grid, because they're the stored paths.
+
+**Validation:** `validate_icon()` is **invalid** with 43 errors. The grid check flags the off-grid glyph points. The spacing check flags "1" and "8" as 6 from the bottom wall instead of 8. At native 48 px the icon reads clearly in both light and dark themes.
+
+Everything is in `new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/`. Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build was run.
+
+Files are in that folder:
+- `browser_with_18_plus_text_redraw.py`
+- `browser-with-18-plus-text_redraw.svg`
+- `browser-with-18-plus-text_redraw.png`
+- `browser-with-18-plus-text_redraw-48.png`
+
+[17:53:01] === success in 346s, $1.64 ===
+I redrew the browser as a Solo48 model, but it does not validate, and I dropped the "+" from "18+". The icon now shows **"18"** in a browser window. There was no way to fit the stored typeface's "18+" into a browser window on the 48 grid with the required spacing.
+
+**What's drawn:** a rounded browser window on `HRECT_L` (centerline box (4,8)–(44,40)), one title bar at y=13 that joins both side walls, and the digits "1" and "8". The digits are the stored native glyphs from `icon_set/typeface/glyphs-v2.json`, moved into place but not scaled or redrawn. I laid them out the way `icon_set/scripts/side_text.py` lays out native text. The frame and bar follow Lucide `app-window` / `panel-top`.
+
+**Why the "+" is gone:** the only stored plus is the old 6×20 glyph. At the typeface's normal spacing, "18+" is 40 units wide, which is the whole window interior. I rendered a tight "18+" to check, and at 48 px the plus merges with the right wall into a bar. "18" alone in a browser still reads as age-restricted content, and I didn't want to invent a plus outside the typeface. The older 6×20 glyphs were also tried; they read as "1B+".
+
+**Metric issues fixed:**
+- Stroke count went from 7 to 4 and strokes are now width 4.
+- The frame now sits exactly on the `HRECT_L` box; the short-axis warning is gone.
+- All clearance errors from the traced "+" strokes are gone, including the one at 0.0.
+- The digits are now 8 apart; they were 3.6–4.1.
+
+**Improved but not fixed:**
+- **Bar to top edge:** 5 apart, was 4.3.
+- **Text to bar and to bottom wall:** 6 each, were 4.4–4.8.
+- **Why these stop short of 8:** the digits are 15 tall. The bar plus the text with 8 of clearance on every side needs 39 units of height, and the tallest wide box has 32. The typeface can't be scaled.
+
+**Not fixed:**
+- **Title-strip corners:** they leave small holes about 1 wide. Opening them to 6 would push the bar down until it merges with the text.
+- **The "8":** its counters are small, because that's the stored glyph shape.
+- **Glyph points:** they aren't on the integer grid, because they're the stored paths.
+
+**Validation:** `validate_icon()` is **invalid** with 43 errors. The grid check flags the off-grid glyph points. The spacing check flags "1" and "8" as 6 from the bottom wall instead of 8. At native 48 px the icon reads clearly in both light and dark themes.
+
+Everything is in `new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/`. Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build was run.
+
+Files are in that folder:
+- `browser_with_18_plus_text_redraw.py`
+- `browser-with-18-plus-text_redraw.svg`
+- `browser-with-18-plus-text_redraw.png`
+- `browser-with-18-plus-text_redraw-48.png`

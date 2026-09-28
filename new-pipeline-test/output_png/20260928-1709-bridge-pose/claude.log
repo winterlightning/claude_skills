@@ -1,0 +1,101 @@
+[17:15:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1709-bridge-pose; ls; cat bridge-pose_metrics.json | head -c 600...
+[17:15:32] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1709-bridge-pose/bridge-pose.png
+[17:15:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; python3 -c " import json;d=json.load(open('output_png/20260928-1709-bridge-pose/bri...
+[17:16:14] Let me look at a similar prior redraw (a human pose) to reuse the module/render conventions.
+[17:16:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260928-1656-acro-yoga-stacked-bridge/acro_yoga_stacked_bridge_redr...
+[17:16:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 1,80p process.md; ls; cat output_png/20260928-1656-acro-yoga-stacked-bridge/...
+[17:16:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def render_svg\|def to_svg\|def s...
+[17:18:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_\|def relate\|def mark_human" icon_set/model/icons/base.py icon_set/model/*.py | hea...
+[17:18:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 95,215p icon_set/model/icons/base.py; sed -n 250,300p icon_set/model/icons/base.py
+[17:18:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def render_png" -A25 icon_set/renderers/png.py | head -40; ls new-pipeline-test/output_png/2...
+[17:18:33] > Bash: mkdir -p /tmp/bp && cd /tmp/bp && cat > render.py <<'EOF' import sys, importlib.util, io sys.path.insert(0, "/Applications/Workspaces/pictographic/claude_ski...
+[17:18:38] > Bash: cat > /tmp/bp/v1.py <<'EOF' from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Solo48 HEAD_C = (8, 34); HEAD_R = 4 SHO...
+[17:18:42] > Read: /tmp/bp/v1.png
+[17:18:42] > Read: /tmp/bp/v1-48.png
+[17:19:07] > Bash: cd /tmp/bp && sed -e 's/((24, 25), (29, 10), KNEE)/((26, 25), (31, 10), KNEE)/' -e 's/^KNEE = (38, 10)/KNEE = (40, 10)/' -e 's/^HAND = (32, 38)/HAND = (32, 3...
+[17:19:10] > Read: /tmp/bp/cmp.png
+[17:19:21] Three curved-arch drafts all validate, but at 48 px they read as a shark fin, not a person. I'm now testing segmented versions with a visible hip, a knee corner and a planted foot.
+[17:19:28] > Bash: cd /tmp/bp && cat > gen.py <<'EOF' import sys name, head, sh, pts, hand = sys.argv[1], eval(sys.argv[2]), eval(sys.argv[3]), eval(sys.argv[4]), eval(sys.argv...
+[17:19:32] > Read: /tmp/bp/cmp.png
+[17:19:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 $P /tmp/bp/gen.py v7 "(9,33,5)" "(21,38)" "[(30,16),(38,10),(40,38),(44,3...
+[17:19:56] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md
+[17:19:57] > Read: /tmp/bp/cmp.png
+[17:20:31] > Bash: cd /tmp/bp && cat > gen2.py <<'EOF' import sys name, head, pts, arm = sys.argv[1], eval(sys.argv[2]), eval(sys.argv[3]), eval(sys.argv[4]) open(f"/tmp/bp/{na...
+[17:20:47] > Read: /tmp/bp/cmp.png
+[17:21:52] > Bash: cd /tmp/bp && sed -i '' 's/Keyshape.HRECT_M/Keyshape.CIRCLE/' gen2.py && cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 ...
+[17:21:57] > Read: /tmp/bp/cmp.png
+[17:22:13] The CIRCLE layouts are flat, but they're small and the arm makes a "<" at the shoulder. I'm trying a lower floor, a taller figure, and a curved arched back like the generated image.
+[17:22:21] > Bash: cd /tmp/bp && cat > gen3.py <<'EOF' import sys name, ks, head, neck, sh, torso, legs, hand = sys.argv[1:9] open(f"/tmp/bp/{name}.py","w").write(f''' from ico...
+[17:22:24] > Read: /tmp/bp/cmp.png
+[17:22:40] Still reading as "o4": the short arm closes a triangle with the shin. Next I'm laying the shoulders, arm and feet on one floor line so the figure reads as lying down, in both CIRCLE and HRECT_M.
+[17:22:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 $P /tmp/bp/gen3.py f1 CIRCLE "(9,28,4)" "(21,28)" "(24,28)" "[((27,20),(3...
+[17:22:52] > Read: /tmp/bp/cmp.png
+[17:23:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 $P /tmp/bp/gen3.py g1 CIRCLE "(9,30,4)" "(21,30)" "(24,30)" "[((26,19),(3...
+[17:23:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 $P /tmp/bp/gen3.py g1 CIRCLE "(10,30,4)" "(22,30)" "(25,30)" "[((27,19),(...
+[17:23:26] > Read: /tmp/bp/cmp.png
+[17:23:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=/opt/homebrew/bin/python3 $P /tmp/bp/gen3.py h1 CIRCLE "(9,30,3)" "(20,30)" "(23,30)" "[((27,19),(3...
+[17:23:39] > Read: /tmp/bp/cmp.png
+[17:23:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import json;d=json.load(open('new-pipeline-test/output_png/20260928-17...
+[17:23:47] > Read: /tmp/bp/dark.png
+[17:24:11] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1709-bridge-pose/bridge_pose_redraw.py
+[17:24:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1709-bridge-pose; /opt/homebrew/bin/python3 /tmp/bp/render.py...
+[17:24:17] > Read: /tmp/bp/final48.png
+[17:24:18] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1709-bridge-pose/bridge-pose_redraw.png
+[17:24:28] I've redrawn the bridge pose as a Solo48 model on HRECT_M, and `validate_icon()` returns **valid with no warnings**. It reads as a person lying down with the back arched, but only weakly: at 48 px it still looks a bit like "o Λ".
+
+**What it shows:** one stick figure seen from the side, lying face-up.
+- **Head:** a ring of radius 4 at (8,34), resting on the floor level.
+- **Body:** one path. A short level neck, then a curved back that rises from the shoulder at (23,34) to the knee at (40,10). The shin folds back to the heel at (38,34) and the foot runs forward to (44,34).
+- **Arm:** one stroke along the floor from the shoulder to (30,34). The shoulders, arm and foot all sit on the same floor line, so no separate mat stroke is needed.
+- **Head gap:** exactly 8 units between stroke centrelines (4 units of visible ink). I checked this in the SVG: the head's edge is at x=12 and the neck starts at x=20. The figure is marked with `mark_human_figure`.
+
+**Keyshape:** I kept the suggested HRECT_M. The head sets the left and bottom edges, the knee the top and the toe the right, all exactly on the box. I also tried CIRCLE, which fits a flat pose more naturally, but the figure came out much smaller at 48 px and read worse.
+
+**Metric issues fixed:** all 11 errors (8 of them crowding), both warnings and all 4 info items.
+- **Crowding and the head gap:** the doubled arms and legs are now one arm and one leg, with shared joints. The head is now exactly 8 from the neck.
+- **Holes:** both undersized holes are gone. Nothing is enclosed, because the hand stops 8 short of the heel.
+- **Narrow and loose joins:** every join is now a shared point declared with `connect`.
+- **Height (y only 46% filled):** fixed; the drawing now spans the full height.
+- **Stroke width:** the drawing is at stroke 4, with every gap planned for 8.
+
+**Could not keep:**
+- **Second leg and second arm:** at the required 8-unit spacing they don't fit within 28 units of height, so I dropped them.
+- **Natural proportions:** HRECT_M makes the pose taller than a real bridge, so the shin is long and the back arch steep. Every straight-line version I tried read as "o4" or "o∏".
+
+I used the shared human reference (`icon_set/references/human_ref`) and found no useful Lucide match, since Lucide has no yoga or lying figure. I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260928-1709-bridge-pose/`:
+- `bridge_pose_redraw.py`
+- `bridge-pose_redraw.svg`
+- `bridge-pose_redraw.png`
+- `bridge-pose_redraw-48.png`
+
+[17:24:28] === success in 543s, $2.18 ===
+I've redrawn the bridge pose as a Solo48 model on HRECT_M, and `validate_icon()` returns **valid with no warnings**. It reads as a person lying down with the back arched, but only weakly: at 48 px it still looks a bit like "o Λ".
+
+**What it shows:** one stick figure seen from the side, lying face-up.
+- **Head:** a ring of radius 4 at (8,34), resting on the floor level.
+- **Body:** one path. A short level neck, then a curved back that rises from the shoulder at (23,34) to the knee at (40,10). The shin folds back to the heel at (38,34) and the foot runs forward to (44,34).
+- **Arm:** one stroke along the floor from the shoulder to (30,34). The shoulders, arm and foot all sit on the same floor line, so no separate mat stroke is needed.
+- **Head gap:** exactly 8 units between stroke centrelines (4 units of visible ink). I checked this in the SVG: the head's edge is at x=12 and the neck starts at x=20. The figure is marked with `mark_human_figure`.
+
+**Keyshape:** I kept the suggested HRECT_M. The head sets the left and bottom edges, the knee the top and the toe the right, all exactly on the box. I also tried CIRCLE, which fits a flat pose more naturally, but the figure came out much smaller at 48 px and read worse.
+
+**Metric issues fixed:** all 11 errors (8 of them crowding), both warnings and all 4 info items.
+- **Crowding and the head gap:** the doubled arms and legs are now one arm and one leg, with shared joints. The head is now exactly 8 from the neck.
+- **Holes:** both undersized holes are gone. Nothing is enclosed, because the hand stops 8 short of the heel.
+- **Narrow and loose joins:** every join is now a shared point declared with `connect`.
+- **Height (y only 46% filled):** fixed; the drawing now spans the full height.
+- **Stroke width:** the drawing is at stroke 4, with every gap planned for 8.
+
+**Could not keep:**
+- **Second leg and second arm:** at the required 8-unit spacing they don't fit within 28 units of height, so I dropped them.
+- **Natural proportions:** HRECT_M makes the pose taller than a real bridge, so the shin is long and the back arch steep. Every straight-line version I tried read as "o4" or "o∏".
+
+I used the shared human reference (`icon_set/references/human_ref`) and found no useful Lucide match, since Lucide has no yoga or lying figure. I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260928-1709-bridge-pose/`:
+- `bridge_pose_redraw.py`
+- `bridge-pose_redraw.svg`
+- `bridge-pose_redraw.png`
+- `bridge-pose_redraw-48.png`

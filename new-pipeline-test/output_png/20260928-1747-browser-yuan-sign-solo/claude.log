@@ -1,0 +1,97 @@
+[17:50:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo; ls $D; cat $D/browser-yuan-sign-...
+[17:51:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo; python3 -c " import json;m=json....
+[17:51:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json;g=json.load(open('icon_set/typeface/glyphs.json'));print(type(g), list(g)[:1...
+[17:51:40] There's an existing module for this exact source ID; let me check it and the tail of the redraw template (for the render step).
+[17:51:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/browser_yuan_sign_f3a40f08_7124_46f5_9ed2_b85ee4e25e73.py; sed -n 80,20...
+[17:51:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test; grep -n -i -A15 "redraw" new-pipeline-test/process.md | head -80
+[17:52:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -20; ls new-pipeline-test/output_png/202609...
+[17:52:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1712-camera-drone-front/claude.log | tail -40
+[17:52:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; tail -30 new-pipeline-test/output_png/20260928-1712-camera-drone-front/camera_drone_front_redraw.py; ...
+[17:52:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def .*svg" icon_set/model/*.py icon_set/model/icons/solo/_base.py icon_set/model/**/*.py 2>...
+[17:52:55] Looking up how the model renders its SVG so I can write the preview files.
+[17:52:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def " icon_set/model/icons/base.py | head -60; cat /tmp/ray-huddle-redraw-check.py | head -40
+[17:53:23] Now checking the typeface `Y` glyph and how the existing yuan/browser modules validate, to budget the interior.
+[17:53:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import json;g=json.load(open('icon_set/typeface/glyphs.json'));print(j...
+[17:53:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p icon_set/model/icons/solo/browser_yuan_sign_fea32660_18d8_471e_9f27_73b635d24732.py; gre...
+[17:54:06] Existing browser-yuan modules all fall back to VRECT_L with a single bar, so a two-bar yuan clearly can't fit SQUARE. I'll try two-bar variants on VRECT_L and validate them.
+[17:54:17] > Bash: mkdir -p /tmp/yuan && cd /Applications/Workspaces/pictographic/claude_skills && cat > /tmp/yuan/try.py <<'EOF' import sys, cairosvg sys.path.insert(0,'.') fr...
+[17:54:37] Every candidate trips the same exact-8 `review` between the stem tip and the frame bottom. My notes cover this trap, so I'm checking them.
+[17:54:38] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md | head -40
+[17:54:41] The fix is to make the frame bottom a standalone line (connected), as the passing browser modules do. Retrying.
+[17:54:44] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import re p='/tmp/yuan/try.py'; s=open(p).read() s=s.replace(''' s.add_contour("frame","tl","top","tr","ru","rl","br","bo...
+[17:55:00] All four validate, including the SQUARE one. Rendering them side by side to compare.
+[17:55:02] > Bash: cd /tmp/yuan && /opt/homebrew/bin/python3 -c " from PIL import Image ks='ABCS'; W=Image.new('RGB',(4*200+4*60,2*200+48),'gray') for i,k in enumerate(ks): for...
+[17:55:03] > Read: /tmp/yuan/strip.png
+[17:55:24] B reads best as a real ¥ (stem continues below the second bar) and matches the trace, which also puts bar 1 at the fork junction. Trying a slightly wider fork to open the V.
+[17:55:28] > Bash: sed -i '' 's/^ "S": dict/ "B2": dict(ks=Keyshape.VRECT_L, box=(8,4,40,44), header=12, ft=20, tip=7, junc=26, bar1=26, bar2=34, stem_end=36, half=7),\n "S": d...
+[17:55:28] > Read: /tmp/yuan/b.png
+[17:55:44] B2 reads more clearly at 48 px. Writing the final module and outputs.
+[17:56:02] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser_yuan_sign_solo_redraw.py
+[17:56:09] > Bash: D=new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo && /opt/homebrew/bin/python3 - <<EOF import importlib.util, sys, cairosvg sys.path.insert...
+[17:56:09] > Read: /tmp/yuan/final.png
+[17:56:26] > Bash: rm -rf /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/__pycache__
+[17:56:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import json;m=json.load(open('new-pipeline-test/output_png/20260928-17...
+[17:56:57] The loose join also needs a line in the docstring.
+[17:56:58] > Edit: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser_yuan_sign_solo_redraw.py
+[17:57:09] I redrew the traced browser-with-yuan-sign icon as a Solo48 model, and `validate_icon()` returns **valid** with no warnings. I checked it at 48 px in both light and dark themes.
+
+**Subject:** a rounded browser window with a toolbar line across the top, and a centred ¥ sign with two bars, mirrored about x=24.
+
+**Keyshape: VRECT_L, not the suggested SQUARE.**
+- On SQUARE, the toolbar line needs 8 units of space on each side. That leaves only 12 units of height for the sign, and it needs 16: the fork, 8 units between the two bars, and the stem below them.
+- I built a SQUARE version and it passed, but at 48 px the fork ran into the bars and the sign looked squashed.
+- VRECT_L gives the 16 units. The library's other browser-currency icons use it too.
+
+**Construction:** the window and toolbar follow Lucide `panels-top-left`, and the ¥ follows `japanese-yen`, both rebuilt on this grid. The sign's forked top meets the stem at (24,26), and the first bar crosses at that same point, as in the trace. The second bar sits at y=34, and the stem continues to y=36, exactly 8 above the window's bottom edge.
+
+**Metric issues fixed (all 9 errors and both infos):**
+- **Toolbar line 6.66 from the top edge:** moved to 8 below it.
+- **Fork 4.9 under the toolbar line:** the fork's tips now sit 8 below it.
+- **Stem 4.7 from the bottom edge:** the stem now ends 8 above it.
+- **Bars 0.0 and 0.1 from the stem, where they cross it:** the bars now share the stem's points and are declared connected to it.
+- **Bars 3.84 apart, and the second bar 4.92 from the fork:** the bars are now 8 apart, and the first bar sits on the fork's meeting point.
+- **2.8-wide hole in the corner above the toolbar:** the toolbar band is now 8 tall, so that pocket no longer exists.
+- **Fork arm stopping 1.08 short of the first bar (loose join):** they now share the exact point and are declared connected.
+- **Trace stroke width 2.77:** the icon is drawn at stroke 4, with gaps sized for it.
+
+**One trap to know about:** with the window as one closed outline, the exact 8-unit gap between the stem's end and the bottom edge came back as `review`, not a pass. Making the bottom edge its own line, connected to the sides, made it pass. Nothing was left unfixed.
+
+The module wasn't registered under `icon_set/model/icons`, and I didn't touch `published/` or run the build or gallery updates. `published/` already had uncommitted changes from another session, which I left alone.
+
+Files are in `new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/`:
+- `browser_yuan_sign_solo_redraw.py`: the model (id `browser-yuan-sign-solo-redraw`, with the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` values you gave); the plan and the fixes are in its docstring
+- `browser-yuan-sign-solo_redraw.svg`
+- `browser-yuan-sign-solo_redraw.png` (512 px preview)
+- `browser-yuan-sign-solo_redraw-48.png` (48 px)
+
+[17:57:09] === success in 386s, $1.10 ===
+I redrew the traced browser-with-yuan-sign icon as a Solo48 model, and `validate_icon()` returns **valid** with no warnings. I checked it at 48 px in both light and dark themes.
+
+**Subject:** a rounded browser window with a toolbar line across the top, and a centred ¥ sign with two bars, mirrored about x=24.
+
+**Keyshape: VRECT_L, not the suggested SQUARE.**
+- On SQUARE, the toolbar line needs 8 units of space on each side. That leaves only 12 units of height for the sign, and it needs 16: the fork, 8 units between the two bars, and the stem below them.
+- I built a SQUARE version and it passed, but at 48 px the fork ran into the bars and the sign looked squashed.
+- VRECT_L gives the 16 units. The library's other browser-currency icons use it too.
+
+**Construction:** the window and toolbar follow Lucide `panels-top-left`, and the ¥ follows `japanese-yen`, both rebuilt on this grid. The sign's forked top meets the stem at (24,26), and the first bar crosses at that same point, as in the trace. The second bar sits at y=34, and the stem continues to y=36, exactly 8 above the window's bottom edge.
+
+**Metric issues fixed (all 9 errors and both infos):**
+- **Toolbar line 6.66 from the top edge:** moved to 8 below it.
+- **Fork 4.9 under the toolbar line:** the fork's tips now sit 8 below it.
+- **Stem 4.7 from the bottom edge:** the stem now ends 8 above it.
+- **Bars 0.0 and 0.1 from the stem, where they cross it:** the bars now share the stem's points and are declared connected to it.
+- **Bars 3.84 apart, and the second bar 4.92 from the fork:** the bars are now 8 apart, and the first bar sits on the fork's meeting point.
+- **2.8-wide hole in the corner above the toolbar:** the toolbar band is now 8 tall, so that pocket no longer exists.
+- **Fork arm stopping 1.08 short of the first bar (loose join):** they now share the exact point and are declared connected.
+- **Trace stroke width 2.77:** the icon is drawn at stroke 4, with gaps sized for it.
+
+**One trap to know about:** with the window as one closed outline, the exact 8-unit gap between the stem's end and the bottom edge came back as `review`, not a pass. Making the bottom edge its own line, connected to the sides, made it pass. Nothing was left unfixed.
+
+The module wasn't registered under `icon_set/model/icons`, and I didn't touch `published/` or run the build or gallery updates. `published/` already had uncommitted changes from another session, which I left alone.
+
+Files are in `new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/`:
+- `browser_yuan_sign_solo_redraw.py`: the model (id `browser-yuan-sign-solo-redraw`, with the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` values you gave); the plan and the fixes are in its docstring
+- `browser-yuan-sign-solo_redraw.svg`
+- `browser-yuan-sign-solo_redraw.png` (512 px preview)
+- `browser-yuan-sign-solo_redraw-48.png` (48 px)

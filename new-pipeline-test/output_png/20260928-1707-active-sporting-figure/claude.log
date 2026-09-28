@@ -1,0 +1,94 @@
+[17:10:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1707-active-sporting-figure; ls $D; cat $D/active-sporting-fi...
+[17:10:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1707-active-sporting-figure; python3 -c " import json;m=json....
+[17:11:01] Let me look at the image and a prior human-figure redraw for the render pattern.
+[17:11:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-active-sporting-figure/active-sporting-figure.png
+[17:11:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1337-hiker-with-trekking-pole/hiker_with_trekking_pole_redr...
+[17:11:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260928-1700-acro-yoga-supported-balance/; ls; grep -rl "redraw-48" ...
+[17:11:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -B3 -A30 "redraw-48" run_pipeline.sh | head -80; tail -c 1500 output_png/20...
+[17:11:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|render\|svg\|emit\)" -r icon_set/model/*.py icon_set/model/icons/*.py | head; ...
+[17:11:30] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md normal48-geometry-floors.md...
+[17:12:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,260p icon_set/model/icons/base.py | grep -n "def \|sweep\|large" | head -30; grep -n "rend...
+[17:12:23] I've read the metrics and the image and planned the runner on SQUARE. Next I'm writing the model and validating it.
+[17:12:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1707-active-sporting-figure; cat > $D/active_sporting_figure_...
+[17:12:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/asf_run.py
+[17:12:49] > Read: /tmp/asf_sheet.png
+[17:13:06] I redrew the traced runner as a Solo48 model, and `validate_icon()` returns **valid** with no warnings.
+
+**Subject:** a running stick figure facing right, with a detached round head, a body leaning forward, arms swinging opposite ways, the front knee lifted and the rear leg stretched back.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. The centerline box is (6,6)-(42,42) and each edge is reached exactly:
+- the top of the head at y=6;
+- the rear foot at (6,42), which sets both the left edge and the bottom;
+- the front hand at x=42, which sets the right edge.
+
+**Construction:** I rebuilt the figure on the grid rather than copying the trace.
+- **Head:** a radius-4 circle made of four quarter arcs, centred at (30,10).
+- **Torso:** a short vertical neck stub from (30,22) to (30,24), then a forward lean down to the hip at (24,34).
+- **Arms:** both start at (30,24), just below the neck. The back arm runs level and then drops. The front arm bends down to the elbow and swings up to the hand.
+- **Legs:** the rear leg is one straight stroke. The front leg bends at the knee.
+- All joins share an endpoint and are declared with `connect`.
+- The figure is marked with `mark_human_figure("runner", ...)`.
+
+**Metric issues fixed (all 9):**
+- **Stroke width:** redrawn at stroke 4, with every gap planned at 8 between centerlines.
+- **Keyshape width (x filled only 87%):** fixed; x now fills 100%.
+- **Head gap and the head clearances (e0/e1, e0/e2):** the head sits straight above the neck at exactly 8 between centerlines, which is a 4-unit ink gap. I checked this in the saved SVG: the bottom of the head is at y=14 and the neck starts at y=22. Both arms start 14 or more from the head centre.
+- **Limb clearances (e1/e2, e1/e3, e2/e3):** the separate traced strokes are now one connected figure. The back hand, front elbow and front knee each stay at least 8 from the other limbs.
+- **Hole 3.26 wide:** the only enclosed shape left is the head ring, which falls under the small-circle exemption.
+
+**Nothing was left unfixed.** Two deliberate changes from the source image:
+- The front leg now starts at the hip rather than floating at the middle of the torso.
+- The body is shorter than in the image, because the required 4-unit gap under the head uses up height.
+
+**References:** I used `icon_set/references/human_ref/full_body_ref.png` for the round head and single-stroke limbs. The only Lucide idea used is the stick-figure construction of `person-standing`; no closer Lucide match was useful. The pose is lopsided on purpose, since the figure is running.
+
+**Review:** at 48 px it reads clearly as a runner in both light and dark themes. The head sits visibly apart from the body because of the required gap.
+
+Files are in `new-pipeline-test/output_png/20260928-1707-active-sporting-figure/`:
+- `active_sporting_figure_redraw.py`
+- `active-sporting-figure_redraw.svg`
+- `active-sporting-figure_redraw.png` (480 px preview)
+- `active-sporting-figure_redraw-48.png`
+
+As instructed, I did not register the module, touch `published/`, run the build or unit tests, or update the gallery. The only other files I wrote are scratch render files in `/tmp`.
+
+[17:13:06] === success in 174s, $0.81 ===
+I redrew the traced runner as a Solo48 model, and `validate_icon()` returns **valid** with no warnings.
+
+**Subject:** a running stick figure facing right, with a detached round head, a body leaning forward, arms swinging opposite ways, the front knee lifted and the rear leg stretched back.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. The centerline box is (6,6)-(42,42) and each edge is reached exactly:
+- the top of the head at y=6;
+- the rear foot at (6,42), which sets both the left edge and the bottom;
+- the front hand at x=42, which sets the right edge.
+
+**Construction:** I rebuilt the figure on the grid rather than copying the trace.
+- **Head:** a radius-4 circle made of four quarter arcs, centred at (30,10).
+- **Torso:** a short vertical neck stub from (30,22) to (30,24), then a forward lean down to the hip at (24,34).
+- **Arms:** both start at (30,24), just below the neck. The back arm runs level and then drops. The front arm bends down to the elbow and swings up to the hand.
+- **Legs:** the rear leg is one straight stroke. The front leg bends at the knee.
+- All joins share an endpoint and are declared with `connect`.
+- The figure is marked with `mark_human_figure("runner", ...)`.
+
+**Metric issues fixed (all 9):**
+- **Stroke width:** redrawn at stroke 4, with every gap planned at 8 between centerlines.
+- **Keyshape width (x filled only 87%):** fixed; x now fills 100%.
+- **Head gap and the head clearances (e0/e1, e0/e2):** the head sits straight above the neck at exactly 8 between centerlines, which is a 4-unit ink gap. I checked this in the saved SVG: the bottom of the head is at y=14 and the neck starts at y=22. Both arms start 14 or more from the head centre.
+- **Limb clearances (e1/e2, e1/e3, e2/e3):** the separate traced strokes are now one connected figure. The back hand, front elbow and front knee each stay at least 8 from the other limbs.
+- **Hole 3.26 wide:** the only enclosed shape left is the head ring, which falls under the small-circle exemption.
+
+**Nothing was left unfixed.** Two deliberate changes from the source image:
+- The front leg now starts at the hip rather than floating at the middle of the torso.
+- The body is shorter than in the image, because the required 4-unit gap under the head uses up height.
+
+**References:** I used `icon_set/references/human_ref/full_body_ref.png` for the round head and single-stroke limbs. The only Lucide idea used is the stick-figure construction of `person-standing`; no closer Lucide match was useful. The pose is lopsided on purpose, since the figure is running.
+
+**Review:** at 48 px it reads clearly as a runner in both light and dark themes. The head sits visibly apart from the body because of the required gap.
+
+Files are in `new-pipeline-test/output_png/20260928-1707-active-sporting-figure/`:
+- `active_sporting_figure_redraw.py`
+- `active-sporting-figure_redraw.svg`
+- `active-sporting-figure_redraw.png` (480 px preview)
+- `active-sporting-figure_redraw-48.png`
+
+As instructed, I did not register the module, touch `published/`, run the build or unit tests, or update the gallery. The only other files I wrote are scratch render files in `/tmp`.

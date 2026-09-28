@@ -1,0 +1,86 @@
+[17:17:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1712-camera-drone-front; ls $D; cat $D/camera-drone-front_met...
+[17:18:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1712-camera-drone-front; python3 -c " import json;m=json.load...
+[17:18:32] Let me look at the image and how the glider redraw was rendered.
+[17:18:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1712-camera-drone-front/camera-drone-front.png
+[17:18:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/*glider*/; grep -n "redraw" new-pipeline-test/process.md | head -30; ...
+[17:18:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -i "connect" icon_set/skills/icon-design/validation.md | head -40; ls new-pipeline-test/outpu...
+[17:18:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,130p icon_set/skills/icon-design/validation.md; grep -rn "def to_svg\|def render_svg\|def ...
+[17:20:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def add_\| def relate\| def mark" icon_set/model/icons/base.py; grep -n "render\|cairosvg\|...
+[17:20:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py; sed -n 250,275p icon_set/model/icons/base.py
+[17:20:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 275,300p icon_set/model/icons/base.py; head -30 new-pipeline-test/output_png/*glider*/glider_r...
+[17:20:34] Checking the layout budget: hollow oval rotors plus a ringed camera won't fit the 28-unit HRECT_M height with 8-unit gaps. I'm testing variants against the validator.
+[17:20:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; mkdir -p /tmp/drone; cat > /tmp/drone/t.py <<'EOF' import sys from icon_set.model.keyshapes import Ke...
+[17:20:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for v in tangent stem; do PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/drone/t.py $v 2>&1 | tail -25; ...
+[17:20:54] > Bash: cd /tmp/drone; file *.png; /opt/homebrew/bin/python3 -c " from PIL import Image for v in ['tangent','stem']: im=Image.open(v+'.png').convert('RGB'); im.resiz...
+[17:20:54] > Read: /tmp/drone/tangent.png
+[17:20:55] > Read: /tmp/drone/stem.png
+[17:20:59] > Bash: cd /tmp/drone; /opt/homebrew/bin/python3 -c " import cairosvg from PIL import Image for v in ['tangent','stem']: s=open(v+'.svg').read().replace('currentColo...
+[17:20:59] > Read: /tmp/drone/cmp.png
+[17:21:15] The stem variant (visible camera neck) reads better at 48 px. Writing the final module and outputs.
+[17:21:33] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1712-camera-drone-front/camera_drone_front_redraw.py
+[17:21:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1712-camera-drone-front; PYTHONPATH=. /opt/homebrew/bin/pytho...
+[17:21:39] > Read: /tmp/drone/final48.png
+[17:21:50] I redrew the camera drone as a Solo48 model, and it passes `validate_icon()` as **valid** with no warnings. I checked it at native 48 px in both light and dark themes.
+
+**Subject:** a quadcopter seen from the front: two rotor blades, two arms with motor posts, a rounded body, and a camera hanging below on a short stem. It's mirrored about x=24.
+
+**Keyshape:** HRECT_M, as the metrics suggested. It fits the box exactly: the blades sit on y=10, the camera bottom on y=38, and the blade tips reach x=4 and x=44.
+
+**One change from the brief:** the rotors are flat blade lines, not hollow ovals.
+- An oval needs a radius of at least 5 to keep its 6-unit hole, so each rotor is 10 units tall.
+- Rotors (10) + an 8-unit gap + body (10) + stem + camera (10) is taller than HRECT_M's 28 units, and also taller than HRECT_L's 32.
+- The body would also sit closer than 8 units to the inner lower part of each oval.
+- Seen edge-on from the front, a spinning rotor really is a flat line, so this is the true front view.
+
+**Metric issues fixed:**
+- **All 13 clearance errors:** every separate part is now at least 8 units apart on centerlines. Parts that touch share an endpoint and are declared connected.
+- **Body hole (0.4 inscribed):** the body is now a rounded pill with a 6-unit hole.
+- **Short y axis (47% fill):** the parts are re-spaced to reach the top and bottom of the box.
+- **Trace stroke width (2.61):** the drawing uses stroke 4 throughout, with gaps sized for it.
+
+**Not fixed:**
+- **Stroke count:** it drops from 8 to 7 parts, still one over the budget of 6. The stem is the extra part. A version without it also validated, but the camera then touches the body with no visible neck at 48 px, so I kept the stem.
+- **Camera lens dot:** dropped. A dot inside a radius-5 ring would be only 5 units from it (8 needed), and a ring big enough to hold one doesn't fit the height.
+
+**Lucide:** I didn't find a useful match (Lucide has no drone icon).
+
+**Files** (all in `new-pipeline-test/output_png/20260928-1712-camera-drone-front/`):
+- `camera_drone_front_redraw.py`: the model (`CameraDroneFrontRedraw`, id `camera-drone-front-redraw`, with the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` values you gave), with the plan and fixes in its docstring
+- `camera-drone-front_redraw.svg`
+- `camera-drone-front_redraw.png` (512 px preview)
+- `camera-drone-front_redraw-48.png` (48 px)
+
+As asked, I didn't register the module, touch `published/`, or run the build.
+
+[17:21:50] === success in 244s, $1.02 ===
+I redrew the camera drone as a Solo48 model, and it passes `validate_icon()` as **valid** with no warnings. I checked it at native 48 px in both light and dark themes.
+
+**Subject:** a quadcopter seen from the front: two rotor blades, two arms with motor posts, a rounded body, and a camera hanging below on a short stem. It's mirrored about x=24.
+
+**Keyshape:** HRECT_M, as the metrics suggested. It fits the box exactly: the blades sit on y=10, the camera bottom on y=38, and the blade tips reach x=4 and x=44.
+
+**One change from the brief:** the rotors are flat blade lines, not hollow ovals.
+- An oval needs a radius of at least 5 to keep its 6-unit hole, so each rotor is 10 units tall.
+- Rotors (10) + an 8-unit gap + body (10) + stem + camera (10) is taller than HRECT_M's 28 units, and also taller than HRECT_L's 32.
+- The body would also sit closer than 8 units to the inner lower part of each oval.
+- Seen edge-on from the front, a spinning rotor really is a flat line, so this is the true front view.
+
+**Metric issues fixed:**
+- **All 13 clearance errors:** every separate part is now at least 8 units apart on centerlines. Parts that touch share an endpoint and are declared connected.
+- **Body hole (0.4 inscribed):** the body is now a rounded pill with a 6-unit hole.
+- **Short y axis (47% fill):** the parts are re-spaced to reach the top and bottom of the box.
+- **Trace stroke width (2.61):** the drawing uses stroke 4 throughout, with gaps sized for it.
+
+**Not fixed:**
+- **Stroke count:** it drops from 8 to 7 parts, still one over the budget of 6. The stem is the extra part. A version without it also validated, but the camera then touches the body with no visible neck at 48 px, so I kept the stem.
+- **Camera lens dot:** dropped. A dot inside a radius-5 ring would be only 5 units from it (8 needed), and a ring big enough to hold one doesn't fit the height.
+
+**Lucide:** I didn't find a useful match (Lucide has no drone icon).
+
+**Files** (all in `new-pipeline-test/output_png/20260928-1712-camera-drone-front/`):
+- `camera_drone_front_redraw.py`: the model (`CameraDroneFrontRedraw`, id `camera-drone-front-redraw`, with the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` values you gave), with the plan and fixes in its docstring
+- `camera-drone-front_redraw.svg`
+- `camera-drone-front_redraw.png` (512 px preview)
+- `camera-drone-front_redraw-48.png` (48 px)
+
+As asked, I didn't register the module, touch `published/`, or run the build.

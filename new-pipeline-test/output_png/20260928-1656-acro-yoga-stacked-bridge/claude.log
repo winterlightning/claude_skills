@@ -1,0 +1,100 @@
+[17:00:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1656-acro-yoga-stacked-bridge; ls $D; cat $D/acro-yoga-stacke...
+[17:01:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1656-acro-yoga-stacked-bridge; python3 -c " import json;m=jso...
+[17:01:39] Let me look at the generated image and a sibling acro-yoga redraw for conventions.
+[17:01:40] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge/acro-yoga-stacked-bridge.png
+[17:01:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1651-acro-yoga-folded-balance/acro_yoga_folded_balance_redr...
+[17:01:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -l "redraw-48" *.py *.sh 2>/dev/null; cat output_png/20260928-1651-acro-yo...
+[17:01:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "render\|redraw\|cairo\|rsvg" run_pipeline.sh | head -40; cat ../icon_se...
+[17:01:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=/Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/6adf1624-a39f-...
+[17:01:57] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md normal48-geometry-floors.md solo48-build-...
+[17:02:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/6ad...
+[17:02:06] Reviewing conventions done; now finding the SVG export API, then drafting the model.
+[17:02:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|svg\|render\|emit\|draw\)" -r icon_set/model/*.py icon_set/model/icons/solo/_b...
+[17:02:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model; grep -rn "def to_svg\|def svg\b\|def render_svg\|def svg_text\|def emit_svg" icon_...
+[17:04:59] Drafting a layout now; checking the geometry API (Bezier support, relate, mark_human_figure) first.
+[17:05:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def [a-z]" icon_set/model/icons/_icon.py 2>/dev/null | head -40 || true; grep -rn "def add_...
+[17:05:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,215p icon_set/model/icons/base.py
+[17:05:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,60p icon_set/renderers/svg.py | head -30; sed -n 150,175p icon_set/renderers/svg.py; grep -n...
+[17:05:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge; cat > /tmp/render_ay.py <<'EOF...
+[17:06:01] > Read: /tmp/ay_sheet.png
+[17:07:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge; /opt/homebrew/bin/python3 - <<...
+[17:07:37] Draft 2 validates; checking the render now.
+[17:07:38] > Read: /tmp/ay_sheet.png
+[17:08:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-b...
+[17:08:08] > Read: /tmp/ay_sheet.png
+[17:08:22] Draft 3 reads as two stacked bridges with a head beside each shoulder. Checking for warnings and measuring the head gaps in the emitted SVG.
+[17:08:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge; cat $D/acro-yoga-stacked-bridg...
+[17:08:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-b...
+[17:08:43] > Read: /tmp/ay_sheet.png
+[17:08:45] Final geometry is set. Writing the docstring with the plan and the issue-by-issue repairs.
+[17:08:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-b...
+[17:09:13] The icon is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings and zero findings**. It shows two people in a backbend (bridge pose): the base bridges on the ground, and the flyer bridges on top, with feet and hands on the base's back.
+
+**Keyshape:** I used `SQUARE`, as the metrics suggested. The drawing reaches all four edges exactly: the base's leg on the left (6), the base's head on the right (42), the flyer's torso at the top (6), and the base's foot and hand at the bottom (42).
+
+**Construction:**
+- **Base:** a straight leg, a round arch for the torso (radius 10), and a straight arm. The arch is split at (10,24) and (22,24), where the flyer's feet and hands land, so each contact is a shared point declared with `connect`.
+- **Flyer:** legs and arms angle up from those two points to a rounded torso arch whose top is the top edge of the icon.
+- **Heads:** each is a small ring that sits level beside a short neck at the shoulder. The gap is exactly 8 units between stroke centrelines (4 units of visible ink), which I checked in the output SVG: 36−28 for the base and 35−27 for the flyer. Both figures are marked with `mark_human_figure`.
+- **Paths:** each body is one path, so there are 6 in total: two bodies, two necks and two heads.
+
+**Metric issues fixed:** all 12 errors, all 3 warnings and both info items.
+- **Crowding at the hips and back (e0/e1–e4, e2/e3, e2/e4, 3.5–7.1 apart):** the doubled leg strokes are now one leg and one arm per figure, with the flyer's contacts on shared points.
+- **Foot marks and the base's head against its body (e5/e7, e1/e5, e0/e7, e1/e7, and the head-gap error):** I dropped the short horizontal foot strokes, and both heads now sit exactly 8 from their necks.
+- **The flyer's head traced as a dot (e0/e6):** it is now a real ring.
+- **Narrow and loose join (e3/e4):** the split leg is now one straight leg.
+- **Width (x axis only 86% filled):** fixed, since the drawing now spans the full width.
+- **Stroke count (8, budget 6):** now 6.
+- **Stroke width (the info item):** the drawing is at stroke 4, with every gap planned for 8.
+
+Nothing was left unfixed.
+
+**Design choices:**
+- **Smaller heads:** I used a ring radius of 3 instead of the usual 4, which is close to the traced head size (2.4). With radius 4 heads plus the required gap, the base's arch had only 18 units of width and read as a keyhole.
+- **First draft rejected:** it put the flyer's hands on the base's shoulders. It passed validation, but at 48 px it read as "Я:".
+- **Heads stacked on the right:** I kept both heads to the right of the arms, as in the generated image. At 48 px they still look a little like a colon beside the two stacked arches.
+- **Straight legs:** the image's knee bends are left out.
+
+I used the shared human reference (`icon_set/references/human_ref`) and found no useful Lucide match. I didn't register the module, run the build, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge/`:
+- `acro_yoga_stacked_bridge_redraw.py`
+- `acro-yoga-stacked-bridge_redraw.svg`
+- `acro-yoga-stacked-bridge_redraw.png`
+- `acro-yoga-stacked-bridge_redraw-48.png`
+
+[17:09:13] === success in 515s, $1.87 ===
+The icon is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings and zero findings**. It shows two people in a backbend (bridge pose): the base bridges on the ground, and the flyer bridges on top, with feet and hands on the base's back.
+
+**Keyshape:** I used `SQUARE`, as the metrics suggested. The drawing reaches all four edges exactly: the base's leg on the left (6), the base's head on the right (42), the flyer's torso at the top (6), and the base's foot and hand at the bottom (42).
+
+**Construction:**
+- **Base:** a straight leg, a round arch for the torso (radius 10), and a straight arm. The arch is split at (10,24) and (22,24), where the flyer's feet and hands land, so each contact is a shared point declared with `connect`.
+- **Flyer:** legs and arms angle up from those two points to a rounded torso arch whose top is the top edge of the icon.
+- **Heads:** each is a small ring that sits level beside a short neck at the shoulder. The gap is exactly 8 units between stroke centrelines (4 units of visible ink), which I checked in the output SVG: 36−28 for the base and 35−27 for the flyer. Both figures are marked with `mark_human_figure`.
+- **Paths:** each body is one path, so there are 6 in total: two bodies, two necks and two heads.
+
+**Metric issues fixed:** all 12 errors, all 3 warnings and both info items.
+- **Crowding at the hips and back (e0/e1–e4, e2/e3, e2/e4, 3.5–7.1 apart):** the doubled leg strokes are now one leg and one arm per figure, with the flyer's contacts on shared points.
+- **Foot marks and the base's head against its body (e5/e7, e1/e5, e0/e7, e1/e7, and the head-gap error):** I dropped the short horizontal foot strokes, and both heads now sit exactly 8 from their necks.
+- **The flyer's head traced as a dot (e0/e6):** it is now a real ring.
+- **Narrow and loose join (e3/e4):** the split leg is now one straight leg.
+- **Width (x axis only 86% filled):** fixed, since the drawing now spans the full width.
+- **Stroke count (8, budget 6):** now 6.
+- **Stroke width (the info item):** the drawing is at stroke 4, with every gap planned for 8.
+
+Nothing was left unfixed.
+
+**Design choices:**
+- **Smaller heads:** I used a ring radius of 3 instead of the usual 4, which is close to the traced head size (2.4). With radius 4 heads plus the required gap, the base's arch had only 18 units of width and read as a keyhole.
+- **First draft rejected:** it put the flyer's hands on the base's shoulders. It passed validation, but at 48 px it read as "Я:".
+- **Heads stacked on the right:** I kept both heads to the right of the arms, as in the generated image. At 48 px they still look a little like a colon beside the two stacked arches.
+- **Straight legs:** the image's knee bends are left out.
+
+I used the shared human reference (`icon_set/references/human_ref`) and found no useful Lucide match. I didn't register the module, run the build, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge/`:
+- `acro_yoga_stacked_bridge_redraw.py`
+- `acro-yoga-stacked-bridge_redraw.svg`
+- `acro-yoga-stacked-bridge_redraw.png`
+- `acro-yoga-stacked-bridge_redraw-48.png`

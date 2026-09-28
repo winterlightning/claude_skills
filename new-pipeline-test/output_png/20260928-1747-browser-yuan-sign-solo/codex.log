@@ -1,0 +1,2383 @@
+Reading additional input from stdin...
+OpenAI Codex v0.157.1
+--------
+workdir: /Applications/Workspaces/pictographic/claude_skills
+model: gpt-6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0e7a0-22ba-7d00-90dc-498a259f4792
+--------
+user
+$generate-png-solo Browser yuan sign solo --source-id f3a40f08-7124-46f5-9ed2-b85ee4e25e73
+
+This is exactly one item. Subject: Browser yuan sign solo
+Source icon id (the original icon this replaces): f3a40f08-7124-46f5-9ed2-b85ee4e25e73. Record it as source_icon_id in choice.json exactly as given.
+
+Work without asking questions. Save the reference (if any) as reference.svg or reference.png in the run folder.
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  project (/Applications/Workspaces/pictographic/claude_skills/.codex/config.toml): `network_access` is ignored.
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  project (/Applications/Workspaces/pictographic/claude_skills/.codex/config.toml): `network_access` is ignored.
+codex
+I’m using the generate-png-solo and imagegen skills for this one icon. I’ll save the generated PNG, its vector trace, and the source ID in a new run folder.
+exec
+/bin/zsh -lc 'cat /Users/jakesdev/.codex/RTK.md' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+# RTK - Rust Token Killer (Codex CLI)
+
+**Usage**: Token-optimized CLI proxy for shell commands.
+
+## Rule
+
+Always prefix shell commands with `rtk`.
+
+Examples:
+
+```bash
+rtk git status
+rtk cargo test
+rtk npm run build
+rtk pytest -q
+```
+
+## Meta Commands
+
+```bash
+rtk gain            # Token savings analytics
+rtk gain --history  # Recent command savings history
+rtk proxy <cmd>     # Run raw command without filtering
+```
+
+## Verification
+
+```bash
+rtk --version
+rtk gain
+which rtk
+```
+
+exec
+/bin/zsh -lc 'cat .agents/skills/generate-png-solo/SKILL.md' in /Applications/Workspaces/pictographic/claude_skills
+exec
+/bin/zsh -lc 'cat /Users/jakesdev/.codex/skills/.system/imagegen/SKILL.md' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+---
+name: generate-png-solo
+description: Draw a clean 48x48-ready solo line icon PNG for one or more subjects (black Lucide / Feather style strokes on white, uniform width, natural proportions) and save it under new-pipeline-test/output_png. The model picks the 2 to 4 recognizable parts and the overall shape, follows the fixed prompt as its drawing brief, generates the PNG with an image generation model (never hand-drawn code, never a library icon), checks it at 48 px, vectorizes it to <slug>_raw.svg in the same folder with new-pipeline-test/vectorize/process.sh, and reports. Use when asked to generate a PNG icon, draw an icon as PNG, or start the PNG -> vectorize -> redraw pipeline. Generated from .claude/skills/generate-png-solo/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
+---
+
+# /generate-png-solo — subject in, PNG icon out
+
+Use the subjects named in the user's skill invocation or request.
+
+Run from the repository root containing `icon_set/`. The deliverable is a PNG made by an image generation model from the filled
+brief. Do not stop at writing a prompt, do not draw the icon by hand in code,
+and do not touch `published/`, the registered icon folders, or the build.
+
+## Parse the request
+
+- Split the arguments on commas or newlines. Each piece is one subject, a short
+  noun phrase such as `coffee mug` or `paper plane`. Trim it.
+- `--shape tall|wide|square|round` applies to every subject in the call and
+  overrides the shape you would pick. Anything else is part of the subject text.
+- If a piece is a path to an SVG or PNG, use `/generate-png-solo-with-reference`
+  for that piece instead.
+- `--source-id <uuid>` inside a piece is the original icon id that this
+  drawing replaces or fixes; it belongs to that piece only. It becomes
+  `SOURCE_ICON_ID` on the Solo48 model the redraw step writes, so it cannot be
+  left out silently. Take it out of the piece before reading the rest.
+- A piece without `--source-id`: ask the user for its original icon id before
+  generating anything, one question listing every piece that lacks one.
+  If the user says there is none (a brand-new concept), record
+  `source_icon_id: null` and add a warning to the report. When you cannot ask
+  (non-interactive run), do not guess an id: use `null` and warn.
+- Never invent, derive or look up an id yourself; only the user or the
+  caller supplies it. Keep it exactly as given.
+- No subjects: say so and stop.
+
+## Decide the drawing
+
+For each subject decide, in Lucide / Feather terms:
+
+1. **Parts.** The 2 to 4 features that make the subject recognizable at 48 px.
+   Name concrete shapes and positions: "a rounded cup open at the top, a
+   C-shaped handle on the right, two short steam lines above". Prefer the most
+   common front or side view. No decoration, texture, brand marks, text or
+   digits. Drop anything thinner than one stroke width or closer than one
+   stroke width to another line.
+2. **Shape.** One word for the overall silhouette: `tall` (portrait
+   rectangle), `wide` (landscape rectangle), `square`, or `round`. Pick from the
+   subject's natural proportions: a pencil is tall, a bus is wide, a clock is
+   round, a mug is square.
+3. **Stroke count.** At most 6 strokes or closed shapes. Merge or drop parts
+   until they fit.
+4. **People.** Any person, user, worker, athlete or body part in a pose is a
+   stick figure, as in `icon_set/references/human_ref/full_body_ref.png`:
+   detached circle head, single-line torso and limbs, round ends, no face or
+   clothes. A bust is the circle head over one shoulder arc
+   (`human_ref/user.svg`). Say "stick figure" in the parts sentence and
+   describe the pose by limb positions ("left arm raised, legs apart").
+   Held objects stay simple outlines next to the hand end of the arm.
+
+A combination (a screen with an upload arrow, a folder with a plus badge) is
+still one drawing; keep the hosted mark large and well separated. Text-only
+subjects and logos get drawn too, with a one-line warning in the report.
+
+## The brief you draw against
+
+Fill this brief and follow every line of it while drawing. It is
+`new-pipeline-test/prompt.md` with three lines filled: the shape word in
+front, the parts sentence instead of "Reduce the subject...", and the exact
+save path on the last line. The numbers are the SOLO48 rules: 1/12 stroke and
+margin are 4 of 48 units, one stroke width of gap is the 8-unit spacing the
+build gate enforces, half a stroke width is the 6-unit opening minimum.
+
+```
+{{SHAPE_WORD}} minimal line icon of {{SUBJECT}}, in the style of Lucide / Feather icons.
+Show only {{PARTS}}, nothing else.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/{{RUN_FOLDER}}/{{SLUG}}.png'
+```
+
+`{{RUN_FOLDER}}` is `<YYYYMMDD-HHMM>-<subject-slug>` (local time, e.g. `20260928-1435-coffee-mug`) and `{{SLUG}}` the subject
+slug (lowercase, hyphens). Shape words: `Tall`, `Wide`, `Square`, `Round`.
+
+## Generate the PNG with an image model
+
+The point of this pipeline is a **freshly generated picture**, not another
+hand-constructed drawing. Therefore:
+
+- Never author the icon as SVG, path data, PIL/cairo/matplotlib drawing code,
+  or any other geometry you write yourself.
+- Never open, copy, trace or adapt an existing icon from `icon_set/`,
+  `published/`, `pictographic-primitives/`, Lucide, Feather or any other
+  library file. The reference (with-reference skill only) is looked at, not
+  reused.
+- The PNG must come out of an image generation model, using the filled brief
+  as the prompt, verbatim.
+
+Use the first of these that is available in the host:
+
+1. **In Codex: you must trigger the `$imagegen` skill** (its built-in
+   `image_gen` tool). Invoke it explicitly for every subject; do not decide on
+   your own that the subject is "an icon better done in SVG". The imagegen
+   skill's "when not to use" note about icon systems does **not** apply here:
+   this pipeline exists to get a generated bitmap that is vectorized later,
+   and the user has asked for it. Pass the filled brief as the prompt,
+   unchanged, and ask for 1024x1024, PNG, opaque white background, no
+   transparency.
+   The tool saves under `$CODEX_HOME/generated_images/`; copy the selected
+   output into the run folder as `<slug>.png` before finishing. Never leave
+   the result only in `$CODEX_HOME`.
+   In another host, use its native image generation tool the same way.
+2. The OpenAI Images API when `OPENAI_API_KEY` is set (model `gpt-image-1`
+   unless `IMAGE_MODEL` says otherwise):
+
+   ```bash
+   python3 - <<'PY'
+   import base64, json, os, pathlib, urllib.request
+   prompt = pathlib.Path("prompt.txt").read_text()
+   req = urllib.request.Request(
+       "https://api.openai.com/v1/images/generations",
+       data=json.dumps({"model": os.environ.get("IMAGE_MODEL", "gpt-image-1"),
+                        "prompt": prompt, "size": "1024x1024",
+                        "background": "opaque", "output_format": "png"}).encode(),
+       headers={"Authorization": f"Bearer {os.environ['OPENAI_API_KEY']}",
+                "Content-Type": "application/json"})
+   data = json.load(urllib.request.urlopen(req))["data"][0]["b64_json"]
+   pathlib.Path("SLUG.png").write_bytes(base64.b64decode(data))
+   PY
+   ```
+   Run it inside the run folder with `SLUG` replaced.
+3. Neither exists: stop, write `prompt.txt` and `choice.json` anyway, and
+   report that no image generation model was available. Do **not** fall back
+   to drawing the icon yourself, and do not treat "imagegen says not for
+   icons" as the tool being unavailable.
+
+After generation:
+
+- Flatten to opaque white and collapse ink to black if needed
+  (`new-pipeline-test/vectorize/pre_process_input.py` does this), keep the
+  result as `<slug>.png` at 1024x1024.
+- Check readability at 48 px without producing a 48 px deliverable: view the
+  1024 PNG scaled down (a temporary downscale in your scratch directory, or
+  the host's image viewer zoomed out). Never save a 48 px PNG into the run
+  folder; 48x48 is the target the icon must survive, not an output.
+- At 48 px every part must be identifiable and every gap visible; at 1024 px
+  the strokes must be one width, unfilled, black on white, one icon with no
+  tile or text. If not, adjust the prompt with one fix from
+  "Fixing a bad result" and generate again, up to three times. Only the
+  generation you judge best for vectorizing is kept, as `<slug>.png`. Rejected
+  attempts stay in your scratch directory or `$CODEX_HOME/generated_images`;
+  never copy them into the run folder. If none of the three is good, keep the
+  best one and say what is still wrong.
+
+## Vectorize the PNG
+
+Every final `<slug>.png` is traced to SVG right away, in the same run folder,
+so the redraw step in `new-pipeline-test/process.md` finds the PNG and its
+SVG side by side. Run from the repository root:
+
+```bash
+new-pipeline-test/vectorize/process.sh \
+  new-pipeline-test/output_png/<run-folder>/<slug>.png
+```
+
+The SVG is always written next to the PNG. Feed the 1024 px final PNG. The script flattens the PNG, traces one SVG per
+connected component, merges them, fits the drawing onto a 1024x1024 canvas and
+snaps it to the nearest keyshape. It saves only the finished
+**`<slug>_raw.svg`**; the intermediates stay in a temp folder that is deleted
+afterwards. The `done:` line reports the part count, e.g.
+`done: .../<slug>_raw.svg (3 parts)`. A re-run overwrites `<slug>_raw.svg`.
+
+Then check the result:
+
+- View `<slug>_raw.svg` scaled to 48 px the same temporary way and compare it
+  with the PNG. Do not save that render into the run folder either.
+- Read the part count on the `done:` line. More parts than separate objects in the drawing
+  means a stroke broke apart; fewer means two parts fused. A broken or fused
+  drawing is a bad result: apply one fix from "Fixing a bad result" (usually
+  the stroke or gap line), generate again, and vectorize the new final.
+- If `process.sh` fails (no object SVGs, or the snap falls back to the
+  pre-snap drawing), say so in the report; do not hand-edit the SVG.
+
+## Save and report
+
+- Folder `new-pipeline-test/output_png/<YYYYMMDD-HHMM>-<subject-slug>/` per
+  subject. Never overwrite an earlier folder; a second run in the same minute adds `-2`, `-3`.
+- Files: `<slug>.png` (1024, the one final generation), the vectorize output
+  `<slug>_raw.svg` (nothing
+  else from the vectorizer), `prompt.txt` (the filled brief that produced
+  the final image), and `choice.json` with `subject`, `source_icon_id` (the
+  original icon id as given, or `null`), `parts`, `shape`,
+  `stroke_count`, `shape_source` (`user` or `agent`), `image_model` (`codex:image_gen`,
+  an API model id, or the host tool name), `attempts`, and `created_at`.
+- Reply with one line per subject: the PNG path, the `<slug>_raw.svg` path
+  with its part count, the image model used, the parts you chose, and any
+  warning. Show the 1024 PNG when the host can display images.
+
+## Fixing a bad result
+
+Change the prompt, then generate again. One change per attempt:
+
+- Filled or silhouetted shapes: move "outline strokes only, hollow interior"
+  to the first line.
+- Uneven or tapered line width: lower "at most 6 strokes" to 4.
+- Drawn on a rounded tile, button or with a shadow: add "on a plain white
+  page, not on a button".
+- Lines too thin to trace: change the stroke to "about 1/10 of the icon size".
+- Tall or wide subject squashed square: repeat the shape word in the second
+  sentence ("Show only ..., as a tall upright drawing").
+- Parts merge at 48 px: drop the smallest part from the parts sentence.
+- Wrong parts chosen: rewrite the parts sentence, more literal about position
+  and count.
+- Person came back with a face, hands, clothes or a filled body: start the
+  parts sentence with "a stick figure with" and add "no face, no hands" to
+  the do-not-draw line.
+
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+
+exec
+/bin/zsh -lc 'pwd && git status --short && ls -ld new-pipeline-test/output_png new-pipeline-test/vectorize/process.sh' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 9705ms:
+ M .agents/skills/generate-png-solo-with-reference/SKILL.md
+ M .agents/skills/generate-png-solo/SKILL.md
+ M .claude/skills/generate-png-solo-with-reference/SKILL.md
+ M .claude/skills/generate-png-solo/SKILL.md
+M  .gitignore
+UD TASKS.md
+A  cloud/.gitignore
+A  cloud/MIGRATION.md
+A  cloud/README.md
+A  cloud/data-model.html
+A  cloud/migrate/build_d1_import.py
+A  cloud/migrate/cloudapi.py
+A  cloud/migrate/export_snapshot.py
+A  cloud/migrate/push_catalog.py
+A  cloud/migrate/push_files.py
+A  cloud/migrate/push_stores.py
+A  cloud/migrate/seed_reference.py
+A  cloud/migrate/verify.py
+A  cloud/worker/Cargo.lock
+A  cloud/worker/Cargo.toml
+A  cloud/worker/app/Cargo.toml
+A  cloud/worker/app/src/auth.rs
+A  cloud/worker/app/src/data.rs
+A  cloud/worker/app/src/db.rs
+A  cloud/worker/app/src/http.rs
+A  cloud/worker/app/src/lib.rs
+A  cloud/worker/app/src/routes/briefs.rs
+A  cloud/worker/app/src/routes/files.rs
+A  cloud/worker/app/src/routes/icons.rs
+A  cloud/worker/app/src/routes/internal.rs
+A  cloud/worker/app/src/routes/mod.rs
+A  cloud/worker/app/src/routes/primitives.rs
+A  cloud/worker/app/src/routes/reviews.rs
+A  cloud/worker/app/src/routes/work.rs
+A  cloud/worker/core/Cargo.toml
+A  cloud/worker/core/src/briefs.rs
+A  cloud/worker/core/src/catalog.rs
+A  cloud/worker/core/src/lib.rs
+A  cloud/worker/core/src/primitives.rs
+A  cloud/worker/core/src/query.rs
+A  cloud/worker/core/src/refimg.rs
+A  cloud/worker/core/src/reviews.rs
+A  cloud/worker/core/src/stats.rs
+A  cloud/worker/core/src/svg.rs
+A  cloud/worker/core/src/time.rs
+A  cloud/worker/core/src/work.rs
+A  cloud/worker/migrations/0001_schema.sql
+A  cloud/worker/migrations/0002_drawings_by_name.sql
+A  cloud/worker/tests/http/test_parity_writes.py
+A  cloud/worker/wrangler.toml
+ M icon_set/assets/combination-sub32/solo--ascending-commercial-airplane.svg
+ M icon_set/assets/combination-sub32/solo--atom.svg
+ M icon_set/assets/combination-sub32/solo--car-side.svg
+ M icon_set/assets/combination-sub32/solo--charging-battery-104-solo.svg
+ M icon_set/assets/combination-sub32/solo--circle-bluetooth.svg
+ M icon_set/assets/combination-sub32/solo--female-person-silhouette.svg
+ M icon_set/assets/combination-sub32/solo--magic-wand.svg
+ M icon_set/assets/combination-sub32/solo--shipping-delivery-truck.svg
+ M icon_set/assets/combination-sub32/solo--slash-sperm.svg
+ M icon_set/assets/combination-sub32/solo--two-falling-bombs-solo.svg
+ M icon_set/assets/combination-sub32/solo--wrench-double-open-end.svg
+ M icon_set/data/combination-pairs.json
+ M icon_set/data/combination-previews.json
+ M icon_set/data/combination-sub32.json
+ M icon_set/data/sub-deduplication.json
+ M icon_set/data/sub-profile-aliases.json
+A  icon_set/scripts/cloud_client.py
+UU icon_set/scripts/deploy.py
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal-192-dark.png
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal-192-light.png
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal-48-dark.png
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal-48-light.png
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal.metadata.json
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot-car-signal.svg
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/autopilot_car_signal_148a6d3d_6e93_44b0_ad9c_3c3c30856f29.py
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/148a6d3d-6e93-44b0-ad9c-3c3c30856f29/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text-192-dark.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text-192-light.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text-48-dark.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text-48-light.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text.metadata.json
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto-text.svg
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/auto_text_46e5998f_10dd_4ed4_a1d2_36de7f900099.py
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/result.json
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T000000Z-mimo-v2.6-pro/validation.txt
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text-192-dark.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text-192-light.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text-48-dark.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text-48-light.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text.metadata.json
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto-text.svg
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/auto_text_46e5998f_10dd_4ed4_a1d2_36de7f900099.py
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/46e5998f-10dd-4ed4-a1d2-36de7f900099/20260925T084354Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award-192-dark.png
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award-192-light.png
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award-48-dark.png
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award-48-light.png
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award.metadata.json
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award.svg
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/award_4be122ae_6b9c_44a4_84d9_7652d7d7eac8.py
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/4be122ae-6b9c-44a4-84d9-7652d7d7eac8/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width-192-dark.png
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width-192-light.png
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width-48-dark.png
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width-48-light.png
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width.metadata.json
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto-column-width.svg
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/auto_column_width_64ed5636_8e1f_4fbd_8a7a_ba14ed99b301.py
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/64ed5636-8e1f-4fbd-8a7a-ba14ed99b301/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass-192-dark.png
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass-192-light.png
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass-48-dark.png
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass-48-light.png
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass.metadata.json
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria-magnifying-glass.svg
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/bacteria_magnifying_glass_713363eb_bbe5_4962_bce9_7de2465bfdd4.py
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/713363eb-bbe5-4962-bce9-7de2465bfdd4/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1-192-dark.png
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1-192-light.png
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1-48-dark.png
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1-48-light.png
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1.metadata.json
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge-1.svg
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/badge_1_83414ae1_83ad_4f09_a7d9_9c6c5864840a.py
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/83414ae1-83ad-4f09-a7d9-9c6c5864840a/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius-192-dark.png
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius-192-light.png
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius-48-dark.png
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius-48-light.png
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius.metadata.json
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot-car-radius.svg
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/autopilot_car_radius_8a6f5388_93e2_4e87_bb21_8db3666f5c20.py
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/8a6f5388-93e2-4e87-bb21-8db3666f5c20/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall-192-dark.png
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall-192-light.png
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall-48-dark.png
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall-48-light.png
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall.metadata.json
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award-wall.svg
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/award_wall_8e659963_5f68_4c80_963b_528218ccf29f.py
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/8e659963-5f68-4c80-963b-528218ccf29f/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/claude-vs-codex-20260925.html
+A  icon_set/work/primitive-make-ray/claude-vs-codex-20260925.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow-192-dark.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow-192-light.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow-48-dark.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow-48-light.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow.metadata.json
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge-arrow.svg
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/badge_arrow_e3f9f300_de1e_4ac4_b7f3_ccd3ca9455b8.py
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/e3f9f300-de1e-4ac4-b7f3-ccd3ca9455b8/20260925T090000Z-claude-opus-5-5/validation.txt
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear-192-dark.png
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear-192-light.png
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear-48-dark.png
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear-48-light.png
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear.metadata.json
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic-drive-gear.svg
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/automatic_drive_gear_f89489d3_928e_4d8e_8a13_9ff760315c90.py
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/reference-192.png
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/result.json
+A  icon_set/work/primitive-make-ray/f89489d3-928e-4d8e-8a13-9ff760315c90/20260925T090000Z-claude-opus-5-5/validation.txt
+ M new-pipeline-test/build_report.py
+ M new-pipeline-test/output_png/report.html
+ M new-pipeline-test/run_pipeline.sh
+ M published/failed/solo48/manifest.json
+ M published/gallery/combination-sub32/solo--ascending-commercial-airplane.svg
+ M published/gallery/combination-sub32/solo--atom.svg
+ M published/gallery/combination-sub32/solo--car-side.svg
+ M published/gallery/combination-sub32/solo--charging-battery-104-solo.svg
+ M published/gallery/combination-sub32/solo--circle-bluetooth.svg
+ M published/gallery/combination-sub32/solo--female-person-silhouette.svg
+ M published/gallery/combination-sub32/solo--magic-wand.svg
+ M published/gallery/combination-sub32/solo--shipping-delivery-truck.svg
+ M published/gallery/combination-sub32/solo--slash-sperm.svg
+ M published/gallery/combination-sub32/solo--two-falling-bombs-solo.svg
+ M published/gallery/combination-sub32/solo--wrench-double-open-end.svg
+ M published/gallery/combinations.json
+ M published/gallery/experiment-combination.json
+ M published/gallery/experiment-container.json
+ M published/gallery/experiment-typeface-v2.json
+ M published/gallery/experiment-typeface.json
+ M published/gallery/experiment.html
+ M published/gallery/experiments.json
+ M published/gallery/icons.json
+ M published/gallery/primitives.json
+ M published/gallery/side-combination-progress.html
+ M published/gallery/side-combination-progress.json
+ M published/gallery/side-combination64.json
+ M published/gallery/side-components.json
+ M published/gallery/typeface/sizes/typeface-6x20.zip
+ M published/solo48/manifest.json
+ M skills/generate-png-solo-with-reference/SKILL.md
+ M skills/generate-png-solo/SKILL.md
+?? icon_set/assets/combination-sub32/solo--bluetooth-wireless-connectivity-symbol-solo.svg
+?? icon_set/assets/combination-sub32/solo--charging-battery-104-solo-v2.svg
+?? icon_set/assets/combination-sub32/solo--charging-battery-110-solo.svg
+?? icon_set/assets/combination-sub32/solo--chat-bubble-with-clock-solo.svg
+?? icon_set/assets/combination-sub32/solo--check-and-cross-square-solo.svg
+?? icon_set/assets/combination-sub32/solo--circular-refresh-arrows-solo.svg
+?? icon_set/assets/combination-sub32/solo--circular-thumbs-down-symbol-solo.svg
+?? icon_set/assets/combination-sub32/solo--computer-mouse-arrow-cursor-solo.svg
+?? icon_set/assets/combination-sub32/solo--crescent-moon-card-solo.svg
+?? icon_set/assets/combination-sub32/solo--financial-candlestick-chart-solo.svg
+?? icon_set/assets/combination-sub32/solo--geometric-shapes-in-rounded-square-solo.svg
+?? icon_set/assets/combination-sub32/solo--hand-facing-down-solo.svg
+?? icon_set/assets/combination-sub32/solo--hand-pointing-upwards-solo.svg
+?? icon_set/assets/combination-sub32/solo--hand-with-index-finger-pointing-up-solo.svg
+?? icon_set/assets/combination-sub32/solo--happy-person-in-a-circle-solo.svg
+?? icon_set/assets/combination-sub32/solo--heart-gift-box-solo.svg
+?? icon_set/assets/combination-sub32/solo--infinity-symbol-balaclava-solo.svg
+?? icon_set/assets/combination-sub32/solo--laptop-user-profile-solo.svg
+?? icon_set/assets/combination-sub32/solo--letter-c-and-number-5-batch-033.svg
+?? icon_set/assets/combination-sub32/solo--male-gender-symbol-with-slash-solo.svg
+?? icon_set/assets/combination-sub32/solo--rectangle-ad-text.svg
+?? icon_set/assets/combination-sub32/solo--sending-mail-envelope-solo.svg
+?? icon_set/assets/combination-sub32/solo--shipping-delivery-truck-batch-033.svg
+?? icon_set/assets/combination-sub32/solo--skull-and-crossbones-danger-circle-solo.svg
+?? icon_set/assets/combination-sub32/solo--skull-security-protection-shield-solo.svg
+?? icon_set/assets/combination-sub32/solo--skull-speech-bubble-solo.svg
+?? icon_set/assets/combination-sub32/solo--square-spoon-and-knife-solo.svg
+?? icon_set/assets/combination-sub32/solo--starred-message-bubble-solo.svg
+?? icon_set/assets/combination-sub32/solo--thumbs-up-approval-symbol-solo.svg
+?? icon_set/assets/combination-sub32/solo--zero-percent-sign-batch-033.svg
+?? icon_set/assets/combination-sub32/sub--bitcoin-oval-message-sub32.svg
+?? icon_set/assets/combination-sub32/sub--bitcoin-square-message-sub32.svg
+?? icon_set/assets/combination-sub32/sub--bluetooth-circle-sub32.svg
+?? icon_set/assets/combination-sub32/sub--charging-battery-sub32.svg
+?? icon_set/assets/combination-sub32/sub--check-cross-square-sub32.svg
+?? icon_set/assets/combination-sub32/sub--circle-skull-crossbones-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--circle-skull-crossbones-sub32.svg
+?? icon_set/assets/combination-sub32/sub--circle-thumbs-up-sub32.svg
+?? icon_set/assets/combination-sub32/sub--clock-square-message-sub32.svg
+?? icon_set/assets/combination-sub32/sub--css-web-styling-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--css-web-styling-sub32.svg
+?? icon_set/assets/combination-sub32/sub--dining-fork-knife-sub32.svg
+?? icon_set/assets/combination-sub32/sub--distance-two-meters-lowercase-sub32.svg
+?? icon_set/assets/combination-sub32/sub--distance-two-meters-uppercase-sub32.svg
+?? icon_set/assets/combination-sub32/sub--first-place-podium-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--first-place-podium-sub32.svg
+?? icon_set/assets/combination-sub32/sub--fork-knife-circle-sub32.svg
+?? icon_set/assets/combination-sub32/sub--heart-gift-box-sub32.svg
+?? icon_set/assets/combination-sub32/sub--heart-speech-bubble-sub32.svg
+?? icon_set/assets/combination-sub32/sub--internal-server-error-500-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--internal-server-error-500-sub32.svg
+?? icon_set/assets/combination-sub32/sub--laptop-user-profile-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--laptop-user-profile-sub32.svg
+?? icon_set/assets/combination-sub32/sub--male-gender-slash-sub32.svg
+?? icon_set/assets/combination-sub32/sub--medicine-search-sub32.svg
+?? icon_set/assets/combination-sub32/sub--otp-square-message-sub32.svg
+?? icon_set/assets/combination-sub32/sub--page-404-warning-sub32.svg
+?? icon_set/assets/combination-sub32/sub--server-500-warning-sub32.svg
+?? icon_set/assets/combination-sub32/sub--skull-security-shield-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--skull-security-shield-sub32.svg
+?? icon_set/assets/combination-sub32/sub--skull-speech-bubble-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--skull-speech-bubble-sub32.svg
+?? icon_set/assets/combination-sub32/sub--south-korean-won-sub32.svg
+?? icon_set/assets/combination-sub32/sub--square-advertisement-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--square-advertisement-sub32.svg
+?? icon_set/assets/combination-sub32/sub--square-spoon-knife-sub32.svg
+?? icon_set/assets/combination-sub32/sub--starred-message-bubble-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--starred-message-bubble-sub32.svg
+?? icon_set/assets/combination-sub32/sub--text-search-magnifier-sub32-v2.svg
+?? icon_set/assets/combination-sub32/sub--text-search-magnifier-sub32.svg
+?? icon_set/assets/combination-sub32/symbol--baby-head-sub32-v2-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--bed-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--biometric-fingerprint-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--blind-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--bug-beetle-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--bus-front-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--camera-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--charging-battery-104-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--chilli-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--chip-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--circles-three-trefoil-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--clock-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--cow-head-front-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--cube-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--database-servers-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--desktop-monitor-curved-pedestal-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--diagonal-paintbrush-with-curved-bristles-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--diamond-money-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--digital-facial-recognition-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--dollar-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--drop-smileys-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--e-mail-symbol-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--eighth-note-wavy-flag-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--exclamation-point-warning-triangle-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--file-emails-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--first-aid-medical-case-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--flame-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--flame-with-inner-drop-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--fork-and-knife-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--fork-spoon-crossed-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--geometric-three-toed-paw-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--heart-pulse-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--helmet-d5b67122-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--hierarchy-circle-leaves-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--hierarchy-two-square-nodes-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--horse-head-symbol-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--hryvnia-sign-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--human-eye-160ed52a-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--key-round-bow-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--kips-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--lab-flask-experiment-science-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--lgbt-heart-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--liras-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--loading-bar-interface-essential-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--lock-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--mail-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--megaphone-9e81b14e-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--message-bubble-lines-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--messages-bubble-with-dots-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--mountain-landscape-picture-icon-solo-profile32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--notification-bell-reference-072a73b7-1a6e-4972-9c99-c1bf69a5e759-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--pen-50e47373-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--pie-chart-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--pin-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--pound-sign-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--prescription-px-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--radiation-trefoil-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--robot-3b4771f4-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--rupee-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--seated-electric-scooter-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--shield-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--shopping-bag-1b586bc1-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--single-tail-award-badge-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--skull-1-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--skull-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--state32-6d29f24a-3e64-4196-858e-9eff669a98f5-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--stethoscope-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--synchronize-refresh-arrow-a0553293-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--t-shirt-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--tall-crescent-moon-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--thermometer-mercury-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--three-leaf-sprout-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--three-left-aligned-text-lines-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--three-petal-bud-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--three-toed-animal-paw-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--thumb-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--thumbs-up-symbol-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--trash-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--trash-symbol-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--tulip-with-curved-leaves-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--two-people-figures-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--two-prong-electrical-plug-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--two-standing-people-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--unlock-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--users-two-overlap-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--video-cross-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--vr-headset-video-games-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--wallet-clasp-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--wheelchair-accessible-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--wifi-sub32-symbol.svg
+?? icon_set/assets/combination-sub32/symbol--won-sub32-symbol.svg
+?? new-pipeline-test/claude_log.py
+?? new-pipeline-test/disapproved/
+?? new-pipeline-test/fetch_repeat_disapproved.py
+?? new-pipeline-test/output_png/20260928-1543-box-delivery-truck/
+?? new-pipeline-test/output_png/20260928-1549-blackberry-cluster-with-a-single-leaf/
+?? new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/
+?? new-pipeline-test/output_png/20260928-1636-acro-yoga-folded-balance/
+?? new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/
+?? new-pipeline-test/output_png/20260928-1637-arrow-turn-right/
+?? new-pipeline-test/output_png/20260928-1637-braided-yarn-skein/
+?? new-pipeline-test/output_png/20260928-1638-bunch-of-bananas-batch-010-10/
+?? new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/
+?? new-pipeline-test/output_png/20260928-1643-dash-circle-large-head/
+?? new-pipeline-test/output_png/20260928-1651-acro-yoga-folded-balance/
+?? new-pipeline-test/output_png/20260928-1651-airport-signal-antenna/
+?? new-pipeline-test/output_png/20260928-1651-arrow-turn-right/
+?? new-pipeline-test/output_png/20260928-1651-beer-mug-with-bread/
+?? new-pipeline-test/output_png/20260928-1651-braided-yarn-skein/
+?? new-pipeline-test/output_png/20260928-1652-bunny-holding-easter-egg/
+?? new-pipeline-test/output_png/20260928-1653-alien-head-angular-eyes/
+?? new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge/
+?? new-pipeline-test/output_png/20260928-1656-astronomy-planet-pluto/
+?? new-pipeline-test/output_png/20260928-1657-beetle-in-coiled-shell/
+?? new-pipeline-test/output_png/20260928-1657-brain-circuit/
+?? new-pipeline-test/output_png/20260928-1658-astronomy-telescope-stars/
+?? new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup/
+?? new-pipeline-test/output_png/20260928-1659-alien-head-slanted-eyes/
+?? new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/
+?? new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome/
+?? new-pipeline-test/output_png/20260928-1702-align-top-bottom/
+?? new-pipeline-test/output_png/20260928-1702-burning-crashed-aircraft/
+?? new-pipeline-test/output_png/20260928-1703-brain-with-undivided-centre/
+?? new-pipeline-test/output_png/20260928-1704-athlete-pole-vaulting/
+?? new-pipeline-test/output_png/20260928-1705-bicycle-parked-in-rack/
+?? new-pipeline-test/output_png/20260928-1706-camel-pose/
+?? new-pipeline-test/output_png/20260928-1707-active-sporting-figure/
+?? new-pipeline-test/output_png/20260928-1707-all-terrain-vehicle-batch-025-14/
+?? new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/
+?? new-pipeline-test/output_png/20260928-1709-bridge-pose/
+?? new-pipeline-test/output_png/20260928-1710-adblue-fluid-level-wave/
+?? new-pipeline-test/output_png/20260928-1711-amazon-eventbridge/
+?? new-pipeline-test/output_png/20260928-1711-bird-egg-nest/
+?? new-pipeline-test/output_png/20260928-1712-camera-drone-front/
+?? new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/
+?? new-pipeline-test/output_png/20260928-1714-bittorrent-concentric-open-emblem/
+?? new-pipeline-test/output_png/20260928-1715-briefcase-carrying-hailing-person/
+?? new-pipeline-test/output_png/20260928-1716-angled-handlebar-road-bicycle/
+?? new-pipeline-test/output_png/20260928-1717-adjacent-teeth-with-braces/
+?? new-pipeline-test/output_png/20260928-1717-camera-image-file/
+?? new-pipeline-test/output_png/20260928-1718-baby-bottle-with-handles/
+?? new-pipeline-test/output_png/20260928-1720-armored-hero-with-pointed-helmet-batch-086/
+?? new-pipeline-test/output_png/20260928-1720-blackberry-cluster-with-a-single-leaf/
+?? new-pipeline-test/output_png/20260928-1721-broccoli-and-carrot/
+?? new-pipeline-test/output_png/20260928-1722-camera-with-carry-strap/
+?? new-pipeline-test/output_png/20260928-1723-adult-child-high-five-hands/
+?? new-pipeline-test/output_png/20260928-1723-baby-face-with-bow/
+?? new-pipeline-test/output_png/20260928-1724-bow-tie-suit/
+?? new-pipeline-test/output_png/20260928-1725-browser-user-profile/
+?? new-pipeline-test/output_png/20260928-1727-aerial-yoga-bow-pose/
+?? new-pipeline-test/output_png/20260928-1728-camera-with-shaking-lines/
+?? new-pipeline-test/output_png/20260928-1729-bareheaded-delivery-rider-on-scooter/
+?? new-pipeline-test/output_png/20260928-1729-bowling-pins-row/
+?? new-pipeline-test/output_png/20260928-1730-arrow-down-rounded-outline/
+?? new-pipeline-test/output_png/20260928-1732-airplane-rising-above-ground-line/
+?? new-pipeline-test/output_png/20260928-1732-bearded-pirate-behind-a-laptop/
+?? new-pipeline-test/output_png/20260928-1732-camper-behind-flagged-tent/
+?? new-pipeline-test/output_png/20260928-1736-box-delivery-truck/
+?? new-pipeline-test/output_png/20260928-1737-airplane-taking-off/
+?? new-pipeline-test/output_png/20260928-1739-canoe/
+?? new-pipeline-test/output_png/20260928-1743-arrow-horizontal-with-two-open-heads/
+?? new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text/
+?? new-pipeline-test/run_batches.sh
+?? published/gallery/combination-sub32/solo--bluetooth-wireless-connectivity-symbol-solo.svg
+?? published/gallery/combination-sub32/solo--charging-battery-104-solo-v2.svg
+?? published/gallery/combination-sub32/solo--charging-battery-110-solo.svg
+?? published/gallery/combination-sub32/solo--chat-bubble-with-clock-solo.svg
+?? published/gallery/combination-sub32/solo--check-and-cross-square-solo.svg
+?? published/gallery/combination-sub32/solo--circular-refresh-arrows-solo.svg
+?? published/gallery/combination-sub32/solo--circular-thumbs-down-symbol-solo.svg
+?? published/gallery/combination-sub32/solo--computer-mouse-arrow-cursor-solo.svg
+?? published/gallery/combination-sub32/solo--crescent-moon-card-solo.svg
+?? published/gallery/combination-sub32/solo--financial-candlestick-chart-solo.svg
+?? published/gallery/combination-sub32/solo--geometric-shapes-in-rounded-square-solo.svg
+?? published/gallery/combination-sub32/solo--hand-facing-down-solo.svg
+?? published/gallery/combination-sub32/solo--hand-pointing-upwards-solo.svg
+?? published/gallery/combination-sub32/solo--hand-with-index-finger-pointing-up-solo.svg
+?? published/gallery/combination-sub32/solo--happy-person-in-a-circle-solo.svg
+?? published/gallery/combination-sub32/solo--heart-gift-box-solo.svg
+?? published/gallery/combination-sub32/solo--infinity-symbol-balaclava-solo.svg
+?? published/gallery/combination-sub32/solo--laptop-user-profile-solo.svg
+?? published/gallery/combination-sub32/solo--letter-c-and-number-5-batch-033.svg
+?? published/gallery/combination-sub32/solo--male-gender-symbol-with-slash-solo.svg
+?? published/gallery/combination-sub32/solo--rectangle-ad-text.svg
+?? published/gallery/combination-sub32/solo--sending-mail-envelope-solo.svg
+?? published/gallery/combination-sub32/solo--shipping-delivery-truck-batch-033.svg
+?? published/gallery/combination-sub32/solo--skull-and-crossbones-danger-circle-solo.svg
+?? published/gallery/combination-sub32/solo--skull-security-protection-shield-solo.svg
+?? published/gallery/combination-sub32/solo--skull-speech-bubble-solo.svg
+?? published/gallery/combination-sub32/solo--square-spoon-and-knife-solo.svg
+?? published/gallery/combination-sub32/solo--starred-message-bubble-solo.svg
+?? published/gallery/combination-sub32/solo--thumbs-up-approval-symbol-solo.svg
+?? published/gallery/combination-sub32/solo--zero-percent-sign-batch-033.svg
+?? published/gallery/combination-sub32/sub--bitcoin-oval-message-sub32.svg
+?? published/gallery/combination-sub32/sub--bitcoin-square-message-sub32.svg
+?? published/gallery/combination-sub32/sub--bluetooth-circle-sub32.svg
+?? published/gallery/combination-sub32/sub--charging-battery-sub32.svg
+?? published/gallery/combination-sub32/sub--check-cross-square-sub32.svg
+?? published/gallery/combination-sub32/sub--circle-skull-crossbones-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--circle-skull-crossbones-sub32.svg
+?? published/gallery/combination-sub32/sub--circle-thumbs-up-sub32.svg
+?? published/gallery/combination-sub32/sub--clock-square-message-sub32.svg
+?? published/gallery/combination-sub32/sub--css-web-styling-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--css-web-styling-sub32.svg
+?? published/gallery/combination-sub32/sub--dining-fork-knife-sub32.svg
+?? published/gallery/combination-sub32/sub--distance-two-meters-lowercase-sub32.svg
+?? published/gallery/combination-sub32/sub--distance-two-meters-uppercase-sub32.svg
+?? published/gallery/combination-sub32/sub--first-place-podium-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--first-place-podium-sub32.svg
+?? published/gallery/combination-sub32/sub--fork-knife-circle-sub32.svg
+?? published/gallery/combination-sub32/sub--heart-gift-box-sub32.svg
+?? published/gallery/combination-sub32/sub--heart-speech-bubble-sub32.svg
+?? published/gallery/combination-sub32/sub--internal-server-error-500-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--internal-server-error-500-sub32.svg
+?? published/gallery/combination-sub32/sub--laptop-user-profile-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--laptop-user-profile-sub32.svg
+?? published/gallery/combination-sub32/sub--male-gender-slash-sub32.svg
+?? published/gallery/combination-sub32/sub--medicine-search-sub32.svg
+?? published/gallery/combination-sub32/sub--otp-square-message-sub32.svg
+?? published/gallery/combination-sub32/sub--page-404-warning-sub32.svg
+?? published/gallery/combination-sub32/sub--server-500-warning-sub32.svg
+?? published/gallery/combination-sub32/sub--skull-security-shield-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--skull-security-shield-sub32.svg
+?? published/gallery/combination-sub32/sub--skull-speech-bubble-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--skull-speech-bubble-sub32.svg
+?? published/gallery/combination-sub32/sub--south-korean-won-sub32.svg
+?? published/gallery/combination-sub32/sub--square-advertisement-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--square-advertisement-sub32.svg
+?? published/gallery/combination-sub32/sub--square-spoon-knife-sub32.svg
+?? published/gallery/combination-sub32/sub--starred-message-bubble-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--starred-message-bubble-sub32.svg
+?? published/gallery/combination-sub32/sub--text-search-magnifier-sub32-v2.svg
+?? published/gallery/combination-sub32/sub--text-search-magnifier-sub32.svg
+?? published/gallery/combination-sub32/symbol--baby-head-sub32-v2-symbol.svg
+?? published/gallery/combination-sub32/symbol--bed-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--biometric-fingerprint-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--blind-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--bug-beetle-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--bus-front-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--camera-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--charging-battery-104-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--chilli-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--chip-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--circles-three-trefoil-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--clock-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--cow-head-front-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--cube-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--database-servers-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--desktop-monitor-curved-pedestal-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--diagonal-paintbrush-with-curved-bristles-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--diamond-money-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--digital-facial-recognition-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--dollar-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--drop-smileys-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--e-mail-symbol-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--eighth-note-wavy-flag-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--exclamation-point-warning-triangle-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--file-emails-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--first-aid-medical-case-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--flame-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--flame-with-inner-drop-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--fork-and-knife-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--fork-spoon-crossed-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--geometric-three-toed-paw-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--heart-pulse-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--helmet-d5b67122-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--hierarchy-circle-leaves-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--hierarchy-two-square-nodes-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--horse-head-symbol-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--hryvnia-sign-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--human-eye-160ed52a-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--key-round-bow-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--kips-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--lab-flask-experiment-science-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--lgbt-heart-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--liras-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--loading-bar-interface-essential-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--lock-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--mail-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--megaphone-9e81b14e-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--message-bubble-lines-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--messages-bubble-with-dots-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--mountain-landscape-picture-icon-solo-profile32-symbol.svg
+?? published/gallery/combination-sub32/symbol--notification-bell-reference-072a73b7-1a6e-4972-9c99-c1bf69a5e759-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--open-palm-hand-14e0f209-1f73-4be1-9637-df2de37b666b-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--pen-50e47373-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--pie-chart-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--pin-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--pound-sign-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--prescription-px-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--radiation-trefoil-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--robot-3b4771f4-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--rupee-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--seated-electric-scooter-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--shield-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--shopping-bag-1b586bc1-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--single-tail-award-badge-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--skull-1-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--skull-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--state32-6d29f24a-3e64-4196-858e-9eff669a98f5-symbol.svg
+?? published/gallery/combination-sub32/symbol--stethoscope-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--synchronize-refresh-arrow-a0553293-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--t-shirt-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--tall-crescent-moon-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--thermometer-mercury-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--three-leaf-sprout-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--three-left-aligned-text-lines-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--three-petal-bud-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--three-toed-animal-paw-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--thumb-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--thumbs-up-symbol-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--trash-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--trash-symbol-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--tulip-with-curved-leaves-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--two-people-figures-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--two-prong-electrical-plug-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--two-standing-people-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--unlock-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--users-two-overlap-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--video-cross-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--vr-headset-video-games-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--wallet-clasp-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--wheelchair-accessible-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--wifi-sub32-symbol.svg
+?? published/gallery/combination-sub32/symbol--won-sub32-symbol.svg
+?? published/gallery/sub-deduplication.html
+drwxr-xr-x@ 82 jakesdev  admin  2624 Sep 28 17:44 new-pipeline-test/output_png
+-rwxr-xr-x@  1 jakesdev  admin  2460 Sep 28 14:05 new-pipeline-test/vectorize/process.sh
+
+exec
+/bin/zsh -lc 'rtk cat new-pipeline-test/prompt.md' in /Applications/Workspaces/pictographic/claude_skills
+exec
+/bin/zsh -lc "rtk date '+%Y%m%d-%H%M|%Y-%m-%dT%H:%M:%S%z'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+Minimal line icon of {{SUBJECT}}, in the style of Lucide / Feather icons.
+Reduce the subject to its 2 to 4 most recognizable parts and draw only those. Nothing else.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output in '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png'
+
+exec
+/bin/zsh -lc 'rtk ls new-pipeline-test/output_png' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+20260928-1747|2026-09-28T17:47:40+0700
+
+ succeeded in 0ms:
+20260928-1330-github-logo/
+20260928-1337-hiker-with-trekking-pole/
+20260928-1347-swimming-athletes/
+20260928-1357-diagonal-cleaver-with-hanging-hole/
+20260928-1422-easter-egg-wrapped-with-ribbon-bow-middle/
+20260928-1428-fanned-scallop-shell/
+20260928-1437-glider/
+20260928-1437-grim-reaper-with-scythe/
+20260928-1439-jumbo-jet/
+20260928-1443-mexican-hard-shell-taco/
+20260928-1543-box-delivery-truck/
+20260928-1549-blackberry-cluster-with-a-single-leaf/
+20260928-1635-dancing-person-with-music-notes/
+20260928-1636-acro-yoga-folded-balance/
+20260928-1636-airport-signal-antenna/
+20260928-1637-arrow-turn-right/
+20260928-1637-braided-yarn-skein/
+20260928-1638-bunch-of-bananas-batch-010-10/
+20260928-1639-dancing-woman-with-music-notes/
+20260928-1643-dash-circle-large-head/
+20260928-1651-acro-yoga-folded-balance/
+20260928-1651-airport-signal-antenna/
+20260928-1651-arrow-turn-right/
+20260928-1651-beer-mug-with-bread/
+20260928-1651-braided-yarn-skein/
+20260928-1652-bunny-holding-easter-egg/
+20260928-1653-alien-head-angular-eyes/
+20260928-1656-acro-yoga-stacked-bridge/
+20260928-1656-astronomy-planet-pluto/
+20260928-1657-beetle-in-coiled-shell/
+20260928-1657-brain-circuit/
+20260928-1658-astronomy-telescope-stars/
+20260928-1658-burger-beside-drink-cup/
+20260928-1659-alien-head-slanted-eyes/
+20260928-1700-acro-yoga-supported-balance/
+20260928-1701-beetle-in-glass-dome/
+20260928-1702-align-top-bottom/
+20260928-1702-burning-crashed-aircraft/
+20260928-1703-brain-with-undivided-centre/
+20260928-1704-athlete-pole-vaulting/
+20260928-1705-bicycle-parked-in-rack/
+20260928-1706-camel-pose/
+20260928-1707-active-sporting-figure/
+20260928-1707-all-terrain-vehicle-batch-025-14/
+20260928-1707-augmented-reality-glasses-with-corner-display/
+20260928-1709-bridge-pose/
+20260928-1710-adblue-fluid-level-wave/
+20260928-1711-amazon-eventbridge/
+20260928-1711-bird-egg-nest/
+20260928-1712-camera-drone-front/
+20260928-1713-autonomous-domed-car-with-signal/
+20260928-1714-bittorrent-concentric-open-emblem/
+20260928-1715-briefcase-carrying-hailing-person/
+20260928-1716-angled-handlebar-road-bicycle/
+20260928-1717-adjacent-teeth-with-braces/
+20260928-1717-camera-image-file/
+20260928-1718-baby-bottle-with-handles/
+20260928-1720-armored-hero-with-pointed-helmet-batch-086/
+20260928-1720-blackberry-cluster-with-a-single-leaf/
+20260928-1721-broccoli-and-carrot/
+20260928-1722-camera-with-carry-strap/
+20260928-1723-adult-child-high-five-hands/
+20260928-1723-baby-face-with-bow/
+20260928-1724-bow-tie-suit/
+20260928-1725-browser-user-profile/
+20260928-1727-aerial-yoga-bow-pose/
+20260928-1728-camera-with-shaking-lines/
+20260928-1729-bareheaded-delivery-rider-on-scooter/
+20260928-1729-bowling-pins-row/
+20260928-1730-arrow-down-rounded-outline/
+20260928-1732-airplane-rising-above-ground-line/
+20260928-1732-bearded-pirate-behind-a-laptop/
+20260928-1732-camper-behind-flagged-tent/
+20260928-1736-box-delivery-truck/
+20260928-1737-airplane-taking-off/
+20260928-1739-canoe/
+20260928-1743-arrow-horizontal-with-two-open-heads/
+20260928-1744-browser-with-18-plus-text/
+report.html  196.0K
+
+exec
+/bin/zsh -lc "rtk date '+%Y%m%d-%H%M|%Y-%m-%dT%H:%M:%S%z'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+20260928-1747|2026-09-28T17:47:49+0700
+
+apply patch
+patch: completed
+/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+codex
+The drawing brief is set: a simple browser window with a centered yuan sign. I’ve recorded the source ID exactly as supplied and am generating the bitmap now.
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc 'rtk ls -la new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+644  choice.json  445B
+644  prompt.txt  1.7K
+
+exec
+/bin/zsh -lc 'rtk ls -lt /Users/jakesdev/.codex/generated_images' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+755  01a0e7a0-22ba-7d00-90dc-498a259f4792/
+755  01a0e79c-0d2b-7d72-81ed-e147ecbd26e4/
+755  01a0e79c-cb6a-7a50-93b1-da5708b8073c/
+755  01a0e6ec-98ad-7b02-acae-b476ea1ee4ac/
+755  01a0e798-5d4b-7640-9d63-4baa3493f50b/
+755  01a0e795-ab0b-7d41-87d3-7cfe0e5c3589/
+755  01a0e796-815d-7450-9ece-8a1d5552dfbe/
+755  01a0e792-717f-7a90-8fda-e3da5ccbdd06/
+755  01a0e792-bc68-7fd1-985c-3862038bf9ed/
+755  01a0e792-3494-7d02-9f12-5a4ce936f971/
+755  01a0e78f-f194-79f0-b578-835daed26dbb/
+755  01a0e790-c230-7843-b449-a72d60facfac/
+755  01a0e78b-7a94-7092-91c6-b0cd99457c59/
+755  01a0e78d-7475-7f32-bfd2-43b367c1fb1a/
+755  01a0e78e-c599-7081-a833-7357c1c800c5/
+755  01a0e78f-7652-7510-a3a6-c49f457f4c12/
+755  01a0e78a-b276-7db1-8281-2f26c24eb23d/
+755  01a0e787-594f-7c60-a4aa-f6f1318bd376/
+755  01a0e789-418e-71d2-b5be-be9f2728d5aa/
+755  01a0e789-f97d-78d1-9d61-db7b480026cb/
+755  01a0e789-e011-74c1-a037-97f70446ae27/
+755  01a0e787-d9ea-71a3-a4ee-63234982c203/
+755  01a0e784-53d9-77e1-b3e5-6863aba59d15/
+755  01a0e787-ae20-7f51-b904-a91272261a8b/
+755  01a0e785-767f-72c0-b114-e4eb72437c01/
+755  01a0e785-1cfa-7c91-95df-2d7810e3d6b0/
+755  01a0e783-a129-77e0-a0f9-57c1b1a78bc0/
+755  01a0e782-f852-7c43-8ab8-dab8a11042d3/
+755  01a0e781-d06d-7392-8691-8f35b248f4ca/
+755  01a0e77f-ca66-7d33-8ff1-16d9ed07533f/
+755  01a0e780-9eb8-7ac2-a3b6-fb43b71c0012/
+755  01a0e77e-251b-7eb1-a8aa-76ce084f17ca/
+755  01a0e77f-4fdc-74f3-90e1-3553bd230781/
+755  01a0e77d-7396-71e1-9d71-245d36962d66/
+755  01a0e77f-0568-7553-b6b2-dbe8dc0d87d3/
+755  01a0e77b-ba1f-7f80-9e3c-81b2f9472ee6/
+755  01a0e77a-6a42-7f31-8de0-988c3cd0da57/
+755  01a0e77b-a7b3-7b71-8203-ac4b92ecd64e/
+755  01a0e779-04f9-7a62-8143-d0b091023060/
+755  01a0e77b-655f-7aa3-a2f1-ed6b945c7979/
+755  01a0e778-927d-7052-a6e6-3de88e0352f5/
+755  01a0e775-5f6d-7c01-b00d-bed8acc0030b/
+755  01a0e776-4828-7d81-b6a6-b2c1c2103486/
+755  01a0e776-7b46-7bd2-89fb-c15f3c550ea1/
+755  01a0e777-57c1-77f1-9a14-59b3f8e6ed71/
+755  01a0e776-1b66-7af3-ba91-386edad98f9e/
+755  01a0e773-65ec-7b63-a8e0-299ff71aebfb/
+755  01a0e772-b46c-73e2-83cb-68a5e92cda64/
+755  01a0e772-ad11-76c0-a87b-8e2a7ab6c561/
+755  01a0e773-a2bd-7f10-b581-3be52ef1bf2c/
+755  01a0e771-ddf5-7d61-9269-a50a08d1651f/
+755  01a0e770-f5a2-71e0-a912-07f143618fbd/
+755  01a0e770-dfed-7ea2-ad0e-1c5439db907d/
+755  01a0e76f-228c-7151-adf3-d8ddda6dc1c5/
+755  01a0e76d-4385-7681-b100-01534375aaf0/
+755  01a0e76d-3145-7121-b4a1-0bd37fabe0c4/
+755  01a0e76c-dea0-7f93-85b1-0a43a99a8131/
+755  01a0e76c-c6d1-7b81-98c1-71ede15de74c/
+755  01a0e76c-b51c-7291-ac1f-8d9a95f6fcfa/
+755  01a0e76c-b896-7470-bdfe-bf74cb75b3da/
+755  01a0e765-4cec-7303-9efd-858615790215/
+755  01a0e760-38b3-7070-b774-044a965bf08a/
+755  01a0e760-5ddd-76a1-856b-e6d3f388d65f/
+755  01a0e761-4904-76a1-971a-68fef2b83763/
+755  01a0e75e-b8e2-78e0-86eb-bcf3398e2414/
+755  01a0e75e-1f93-79c3-a79f-f067ac7ee72e/
+755  01a0e75f-2b4d-7c11-9ad7-4ac148bb072d/
+755  01a0e75d-cb16-7070-af13-78bacf780faf/
+755  01a0e32e-33a1-78e2-ac83-5b8ab553f4a6/
+755  01a0e734-0145-7530-b775-aa3ede4c1cc5/
+755  01a0e72e-b9c8-7d22-bf26-bf345ae3da6d/
+755  01a0e6f8-01ee-7bb0-8a91-a3243a629f70/
+755  01a0e685-a1a0-7013-a823-50f73e94763e/
+755  01a0e6f2-d8d9-7832-a58a-088898cc7b0a/
+755  01a0e6f2-1618-7e43-9565-ea1bf8fa0873/
+755  01a0e6f2-57cb-7702-91e1-1c01b53c1c3e/
+755  01a0e6e8-c55c-7eb3-a9fd-90d632a4e3ba/
+755  01a0e6e0-6463-7bd0-92cf-8862da7d2ef8/
+755  01a0e6cd-9936-74e2-a604-50ef0b2fd203/
+755  01a0e6c4-609d-7fc2-97e2-7712d09e2e38/
+755  01a0e6ba-d2b3-7c70-85ce-761caceb012f/
+755  01a0e6b4-cc1f-77d3-a64d-9e858b58576a/
+755  01a0e32f-d52b-7683-b121-60cb088ecd34/
+755  01a0dec6-d68a-7c80-8133-c5ac41011966/
+755  01a0de21-f10c-75c2-a3f1-4f296076e379/
+755  01a0dbf4-b5ae-7ec0-ad23-3718dce09773/
+755  01a0d95a-6748-7412-bea0-ca41bff2f3dc/
+755  01a0d94a-9f06-7b02-883c-515356a08a4a/
+755  01a0bfb5-c04b-72e0-a73d-addd84147752/
+755  01a0bf7b-7213-76e1-b590-cf181a74fd1b/
+755  01a0ba6f-b6b3-73e2-8283-f336cf3bda3b/
+755  01a0ba6f-62f2-7b80-b8ac-18946ef78c4f/
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'import pathlib; p=pathlib.Path(\"/Users/jakesdev/.codex/generated_images\"); a=sorted(p.iterdir(),key=lambda x:x.stat().st_mtime,reverse=True)[:3]; print(\"\\n\".join(str(x)+\" \"+str(x.stat().st_mtime)+\" -> \"+str(list(x.iterdir())[:4]) for x in a))'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 183ms:
+/Users/jakesdev/.codex/generated_images/01a0e7a0-22ba-7d00-90dc-498a259f4792 1790592545.1018956 -> [PosixPath('/Users/jakesdev/.codex/generated_images/01a0e7a0-22ba-7d00-90dc-498a259f4792/exec-4f001dff-8007-402e-aba2-79b3016c2a4b.png')]
+/Users/jakesdev/.codex/generated_images/01a0e79c-0d2b-7d72-81ed-e147ecbd26e4 1790592422.8811321 -> [PosixPath('/Users/jakesdev/.codex/generated_images/01a0e79c-0d2b-7d72-81ed-e147ecbd26e4/exec-233268f7-bc26-4a6a-8780-eed1e5c90859.png'), PosixPath('/Users/jakesdev/.codex/generated_images/01a0e79c-0d2b-7d72-81ed-e147ecbd26e4/exec-c6d83ae8-56c5-4be5-b215-7aa0799d2e62.png'), PosixPath('/Users/jakesdev/.codex/generated_images/01a0e79c-0d2b-7d72-81ed-e147ecbd26e4/exec-957295bb-d18a-427c-b1f1-aebf8581b194.png')]
+/Users/jakesdev/.codex/generated_images/01a0e79c-cb6a-7a50-93b1-da5708b8073c 1790592320.9009984 -> [PosixPath('/Users/jakesdev/.codex/generated_images/01a0e79c-cb6a-7a50-93b1-da5708b8073c/exec-ac21e0e1-6b56-464a-91a7-e693cb15cf41.png')]
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'from PIL import Image; p=\"/Users/jakesdev/.codex/generated_images/01a0e7a0-22ba-7d00-90dc-498a259f4792/exec-4f001dff-8007-402e-aba2-79b3016c2a4b.png\"; im=Image.open(p); print(im.size, im.mode, im.getpixel((0,0)), im.getpixel((600,500)))'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 439ms:
+(1254, 1254) RGBA (0, 0, 0, 0) (0, 0, 0, 0)
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'from PIL import Image; p=\"/Users/jakesdev/.codex/generated_images/01a0e7a0-22ba-7d00-90dc-498a259f4792/exec-4f001dff-8007-402e-aba2-79b3016c2a4b.png\"; im=Image.open(p).convert(\"RGBA\"); bg=Image.new(\"RGBA\",im.size,\"white\"); bg.alpha_composite(im); bg.convert(\"RGB\").resize((1024,1024),Image.Resampling.LANCZOS).save(\"/tmp/browser-yuan-sign-solo-candidate.png\")'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 871ms:
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'from PIL import Image; im=Image.open(\"/tmp/browser-yuan-sign-solo-candidate.png\"); im.resize((48,48),Image.Resampling.LANCZOS).save(\"/tmp/browser-yuan-sign-solo-48.png\")'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 719ms:
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+codex
+The generated image reads clearly at 48 px. The image model returned transparency and a larger canvas, so I’ve flattened it onto white and resized it to the required 1024 px before tracing.
+exec
+/bin/zsh -lc 'rtk cp /tmp/browser-yuan-sign-solo-candidate.png new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc 'rtk proxy new-pipeline-test/vectorize/process.sh new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 8444ms:
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.cdkO5h/browser-yuan-sign-solo/prepped/browser-yuan-sign-solo.png: 2 object(s)
+  sym: V cx=510.5 cy=511.0 iou=0.968/0.664
+  merge: + full shape (cand 11) dF1=0.8868 F1=0.8868
+  merge: + full shape (cand 11) dF1=0.1031 F1=0.9899
+  merge: cand 0 (legacy) C=97.27 adj=91.27 band=93.79/99.42 holes=99.94 inter=91078 out=4649 miss=516
+  merge: cand 1 (plain) C=97.52 adj=97.52 band=94.33/99.51 holes=99.91 inter=91149 out=4411 miss=445
+  merge: cand 2 (plain) C=97.83 adj=97.83 band=96.60/97.99 holes=99.95 inter=89995 out=2719 miss=1599
+  merge: cand 3 (sym) C=98.71 adj=98.71 band=97.32/99.48 holes=99.97 inter=91136 out=2512 miss=458
+  merge: cand 4 (sym) C=99.08 adj=99.08 band=99.10/98.64 holes=99.92 inter=90384 out=774 miss=1210
+  merge: cand 5 (geo) C=97.63 adj=97.63 band=94.65/99.45 holes=99.93 inter=91095 out=4096 miss=499
+  merge: cand 6 (geo) C=98.06 adj=98.06 band=96.57/98.61 holes=99.93 inter=90361 out=2782 miss=1233
+  merge: cand 7 (geo) C=98.66 adj=98.66 band=97.26/99.41 holes=99.98 inter=91078 out=2550 miss=516
+  merge: cand 8 (geo) C=99.14 adj=99.14 band=98.93/98.93 holes=99.99 inter=90643 out=977 miss=951
+  merge: cand 9 (full) C=96.53 adj=96.53 band=92.53/99.07 holes=99.46 inter=90755 out=4436 miss=839
+  merge: cand 10 (full) C=97.79 adj=97.79 band=95.88/98.63 holes=99.93 inter=90369 out=3453 miss=1225
+  merge: cand 11 (full) C=98.68 adj=98.68 band=97.50/99.20 holes=99.98 inter=90879 out=2311 miss=715
+  merge: cand 12 (full) C=99.15 adj=99.15 band=99.17/98.72 holes=99.99 inter=90456 out=750 miss=1138
+  merge: 2 shapes C_merged=98.68 adj=98.68 legacy_frac=0.00 C_best_single=99.15 (full) veto=below_best_single
+  merge: + plain shape (cand 2) dF1=0.5717 F1=0.5717
+  merge: + full shape (cand 5) dF1=0.1752 F1=0.7469
+  merge: + full shape (cand 5) dF1=0.1301 F1=0.8770
+  merge: + full shape (cand 4) dF1=0.1021 F1=0.9791
+  merge: cand 0 (legacy) C=77.16 adj=65.16 band=94.11/98.80 holes=0.00 inter=35255 out=1529 miss=417
+  merge: cand 1 (plain) C=95.04 adj=95.04 band=97.41/92.67 holes=-1.00 inter=34434 out=645 miss=1238
+  merge: cand 2 (plain) C=97.59 adj=97.59 band=98.34/96.85 holes=-1.00 inter=34597 out=433 miss=1075
+  merge: cand 3 (geo) C=94.45 adj=94.45 band=97.41/91.49 holes=-1.00 inter=34369 out=645 miss=1303
+  merge: cand 4 (full) C=46.93 adj=46.93 band=93.86/0.00 holes=-1.00 inter=32142 out=1110 miss=3530
+  merge: cand 5 (full) C=34.34 adj=34.34 band=39.54/29.15 holes=-1.00 inter=30582 out=4212 miss=5090
+  merge: 4 shapes C_merged=97.59 adj=97.59 legacy_frac=0.00 C_best_single=97.59 (plain) veto=-
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.cdkO5h/browser-yuan-sign-solo/prepped/browser-yuan-sign-solo.png: 2 svg(s)
+=== SVG TRANSFORMATION WITH PADDING ===
+SVG transformation with padding applied:
+  Original content: 739.5 x 733.9
+  Max original dimension: 739.5
+  Available space (with padding): 1016
+  Scale factor: 1.3740
+  Scaled content: 1016.0 x 1008.3
+  Final canvas: 1024 x 1024
+  Padding: 4px
+  Content centered at: (4.0, 7.8)
+✅ Transformed SVG saved to: /var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.cdkO5h/browser-yuan-sign-solo/browser-yuan-sign-solo_final.svg
+stretch-to-fit snap: square (pre-snap kept as /var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.cdkO5h/browser-yuan-sign-solo/browser-yuan-sign-solo_final.pre_snap.svg)
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.cdkO5h/browser-yuan-sign-solo/browser-yuan-sign-solo_final.svg: combined 2 object(s), step-8 fit to 1024x1024, keyshape-snapped
+done: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo_raw.svg (2 parts)
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'import cairosvg; cairosvg.svg2png(url=\"new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo_raw.svg\",write_to=\"/tmp/browser-yuan-sign-solo-svg-48.png\",output_width=48,output_height=48)'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 1186ms:
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'from PIL import Image; im=Image.open(\"/tmp/browser-yuan-sign-solo-svg-48.png\").convert(\"RGBA\"); bg=Image.new(\"RGBA\",im.size,\"white\"); bg.alpha_composite(im); bg.convert(\"RGB\").save(\"/tmp/browser-yuan-sign-solo-svg-48-white.png\")'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 111ms:
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+exec
+/bin/zsh -lc "rtk python3 -c 'import json,pathlib; from PIL import Image; p=pathlib.Path(\"new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo\"); c=json.loads((p/\"choice.json\").read_text()); print(\"source_icon_id:\",c[\"source_icon_id\"]); print(\"png:\",Image.open(p/\"browser-yuan-sign-solo.png\").size,Image.open(p/\"browser-yuan-sign-solo.png\").mode); print(\"files:\",\", \".join(sorted(x.name for x in p.iterdir())))'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 56ms:
+source_icon_id: f3a40f08-7124-46f5-9ed2-b85ee4e25e73
+png: (1024, 1024) RGB
+files: browser-yuan-sign-solo.png, browser-yuan-sign-solo_raw.svg, choice.json, prompt.txt
+
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+codex
+Created **Browser yuan sign solo** with `codex:image_gen`: a browser window outline, toolbar divider, and centered yuan sign. The 1024 px PNG and vector trace both read clearly at 48 px; the trace has **2 parts**.
+
+[PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png) · [SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo_raw.svg) · [choice.json](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json)
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..830ed892ac73892f1cd24f3a0a65129c5b02b9b8
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json
+@@ -0,0 +1,11 @@
++{
++  "subject": "Browser yuan sign solo",
++  "source_icon_id": "f3a40f08-7124-46f5-9ed2-b85ee4e25e73",
++  "parts": "a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars",
++  "shape": "square",
++  "stroke_count": 5,
++  "shape_source": "agent",
++  "image_model": "codex:image_gen",
++  "attempts": 1,
++  "created_at": "2026-09-28T17:47:49+07:00"
++}
+diff --git a/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3e9a2ab89b30164a3bd8734a2f59356da886953
+--- /dev/null
++++ b/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/prompt.txt
+@@ -0,0 +1,20 @@
++Square minimal line icon of Browser yuan sign solo, in the style of Lucide / Feather icons.
++Show only a rounded square browser window outline with a top toolbar divider, and a large centered yuan currency sign with a forked upper stem and two horizontal crossbars, nothing else.
++
++Style:
++- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
++- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
++- Flat front view. Simple geometric lines, right angles and circular arcs.
++- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
++
++Layout:
++- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
++- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
++- At least one stroke width of clear white space between separate lines.
++- Openings and holes at least half a stroke width wide.
++- At most 6 strokes. Drop any detail smaller than one stroke width.
++
++Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
++The icon will be displayed at 48x48 pixels and must stay readable there.
++
++Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png'
+
+tokens used
+44,634
+Created **Browser yuan sign solo** with `codex:image_gen`: a browser window outline, toolbar divider, and centered yuan sign. The 1024 px PNG and vector trace both read clearly at 48 px; the trace has **2 parts**.
+
+[PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo.png) · [SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/browser-yuan-sign-solo_raw.svg) · [choice.json](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1747-browser-yuan-sign-solo/choice.json)

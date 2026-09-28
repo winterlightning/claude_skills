@@ -1,0 +1,86 @@
+[17:13:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1707-augmented-reality-glasses-with-corner-display; ls $D; ca...
+[17:13:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1707-augmented-reality-glasses-with-corner-display; python3 -...
+[17:13:27] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/augmented-realit...
+[17:13:43] Let me look at a prior redraw module to match conventions (imports, rendering).
+[17:13:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls -t output_png/*/*_redraw.py | head -3; f=$(ls -t output_png/*/*_redraw.py | head...
+[17:14:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -n -i "redraw" run_pipeline.sh | head -20; grep -rn "def add_rounded_rect\...
+[17:14:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,240p icon_set/model/icons/base.py; grep -n "def " icon_set/model/icons/base.py | head -60
+[17:16:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; find . -path ./published -prune -o -iname "*glasses*" -print 2>/dev/null | grep -v output_png | head ...
+[17:16:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/icons/solo | grep -i -E "glass|goggle|vr|smart" | head;
+[17:16:15] An existing module covers this source ID; let me see how it was built and whether it validates.
+[17:16:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/augmented_reality_glasses_with_corner_display_f3f157a4_4ba4_56cb_af69_3...
+[17:17:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c "import cairosvg; print('ok')"; which rsvg-convert; ls -la new-pipeline-...
+[17:17:30] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/augmented_realit...
+[17:17:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display; S=augment...
+[17:17:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/augmented-realit...
+[17:17:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display; F=$D/augm...
+[17:17:49] I widened the display so it starts where the lens corner curve ends. Next I'm re-validating and re-rendering.
+[17:17:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display; S=augment...
+[17:17:53] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/augmented-realit...
+[17:17:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/augmented-realit...
+[17:18:05] I redrew the AR glasses as a Solo48 model. `validate_icon()` returns **valid** with no warnings. I viewed the 480 px and native 48 px renders, but only on white; I didn't check the dark theme.
+
+**What it is:** a front view of smart glasses: two lenses joined by a bridge, with a display housing standing on the upper outer corner of the right lens, like Google Glass.
+
+**Keyshape:** `HRECT_M` (the suggested one), with centerline box (4,10)–(44,38).
+- The lenses are mirrored rounded rectangles, 16×16 with corner radius 4, at x 4–20 and 28–44, y 22–38.
+- The bridge is a level line at y=28.
+- The display housing covers x 32–44, y 10–22. Its left wall rises from the point where the lens corner curve ends, and its right wall continues the lens's outer edge.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| clearance e0/e1 (5.23 apart) | Fixed: the lenses are now 8 apart on centerlines. |
+| clearance e1/e5 and e3/e5 (2.04 apart) | Fixed by changing the design. The free-floating L-shaped display mark from the trace can't fit: every keyshape is at most 40 units wide, so each lens is at most 16 wide, and a mark needing 8 from both side walls has zero width left. The display became a housing joined to the lens. Its window is 12×12 on centerlines, which clears the minimum hole size of 6. |
+| keyshape-short-axis (y filled 47%) | Fixed: the housing top reaches y=10 and the lens bottoms reach y=38. |
+| loose-join e4/e0 and e4/e1 | Fixed: the bridge shares split points on the lens walls, and both joins are declared with `relate('connect')`. |
+| stroke-width | Redrawn at stroke 4. |
+
+**Dropped:** the short horizontal temple arms. With the lenses at 16 wide there is no room for them inside the 40-unit width. The icon is deliberately lopsided because the display sits on one side only, as on the real device.
+
+**References:** I took construction from the Lucide glasses icon (rounded lenses and a bridge). The existing module for this source ID in `icon_set/model/icons/solo/` also connects its corner display to the frame. I left that module untouched.
+
+**Visual note:** at 48 px it reads as glasses with a raised block on the right, which could be taken for a "d" shape.
+
+As instructed, I didn't register the module, run the build or gallery updates, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/`:
+- `augmented_reality_glasses_with_corner_display_redraw.py`
+- `augmented-reality-glasses-with-corner-display_redraw.svg`
+- `augmented-reality-glasses-with-corner-display_redraw.png`
+- `augmented-reality-glasses-with-corner-display_redraw-48.png`
+
+[17:18:05] === success in 311s, $1.11 ===
+I redrew the AR glasses as a Solo48 model. `validate_icon()` returns **valid** with no warnings. I viewed the 480 px and native 48 px renders, but only on white; I didn't check the dark theme.
+
+**What it is:** a front view of smart glasses: two lenses joined by a bridge, with a display housing standing on the upper outer corner of the right lens, like Google Glass.
+
+**Keyshape:** `HRECT_M` (the suggested one), with centerline box (4,10)–(44,38).
+- The lenses are mirrored rounded rectangles, 16×16 with corner radius 4, at x 4–20 and 28–44, y 22–38.
+- The bridge is a level line at y=28.
+- The display housing covers x 32–44, y 10–22. Its left wall rises from the point where the lens corner curve ends, and its right wall continues the lens's outer edge.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| clearance e0/e1 (5.23 apart) | Fixed: the lenses are now 8 apart on centerlines. |
+| clearance e1/e5 and e3/e5 (2.04 apart) | Fixed by changing the design. The free-floating L-shaped display mark from the trace can't fit: every keyshape is at most 40 units wide, so each lens is at most 16 wide, and a mark needing 8 from both side walls has zero width left. The display became a housing joined to the lens. Its window is 12×12 on centerlines, which clears the minimum hole size of 6. |
+| keyshape-short-axis (y filled 47%) | Fixed: the housing top reaches y=10 and the lens bottoms reach y=38. |
+| loose-join e4/e0 and e4/e1 | Fixed: the bridge shares split points on the lens walls, and both joins are declared with `relate('connect')`. |
+| stroke-width | Redrawn at stroke 4. |
+
+**Dropped:** the short horizontal temple arms. With the lenses at 16 wide there is no room for them inside the 40-unit width. The icon is deliberately lopsided because the display sits on one side only, as on the real device.
+
+**References:** I took construction from the Lucide glasses icon (rounded lenses and a bridge). The existing module for this source ID in `icon_set/model/icons/solo/` also connects its corner display to the frame. I left that module untouched.
+
+**Visual note:** at 48 px it reads as glasses with a raised block on the right, which could be taken for a "d" shape.
+
+As instructed, I didn't register the module, run the build or gallery updates, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260928-1707-augmented-reality-glasses-with-corner-display/`:
+- `augmented_reality_glasses_with_corner_display_redraw.py`
+- `augmented-reality-glasses-with-corner-display_redraw.svg`
+- `augmented-reality-glasses-with-corner-display_redraw.png`
+- `augmented-reality-glasses-with-corner-display_redraw-48.png`

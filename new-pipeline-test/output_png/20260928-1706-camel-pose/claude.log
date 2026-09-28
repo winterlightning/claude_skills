@@ -1,0 +1,94 @@
+[17:12:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose; ls; cat camel-pose_metrics.json | head -c 6000;...
+[17:12:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose; python3 -c " import json;d=json.load(open('came...
+[17:12:26] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose/camel-pose.png
+[17:12:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/*/*_redraw.py | head -30; f=$(ls output_png/*/hiker_with_trekking_pol...
+[17:13:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -rl "redraw-48" --include=*.py --include=*.sh . | head; ls ../icon_set/ref...
+[17:13:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw" run_pipeline.sh | head -30; cat ../icon_set/skills/icon-design/...
+[17:13:31] I've read the inputs; the generated image is a kneeling forward bend rather than a true camel pose, so I'll rebuild it as an actual Ustrasana (kneeling backbend). Checking the render helpers next.
+[17:13:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -o '"command":"[^"]*redraw[^"]*"' new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-b...
+[17:13:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; head -c 3000 new-pipeline-test/output_png/20260928-1656-acro-yoga-stacked-bridge/claude.log; grep -o ...
+[17:13:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,215p icon_set/model/icons/base.py; sed -n 250,275p icon_set/model/icons/base.py; cat /tmp/r...
+[17:16:50] > Bash: cat > /tmp/camel_search.py <<'EOF' import math, itertools def triples(n): out=[] for a in range(-n,n+1): b2=n*n-a*a; b=int(round(math.sqrt(b2))) if b*b==b2: ...
+[17:17:02] > Bash: cat > /tmp/camel_search2.py <<'EOF' import math def triples(n): out=set() for a in range(-n,n+1): b2=n*n-a*a; b=int(round(math.sqrt(b2))) if b*b==b2: out|={(...
+[17:17:52] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose/camel_pose_redraw.py
+[17:17:54] Module drafted; now validating and rendering the preview sheet.
+[17:17:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -e 's#20260928-1656-acro-yoga-stacked-bridge#20260928-1706-camel-pose#; s#acro_yoga_stacked_bridg...
+[17:17:59] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md avatar-contact-certification.md | head -80
+[17:18:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose; /opt/homebrew/bin/python3 - <<'EOF' p='camel_po...
+[17:18:37] Valid with zero warnings. Looking at the render.
+[17:18:37] > Read: /tmp/camel_sheet.png
+[17:19:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose; /opt/homebrew/bin/python3 - <<'EOF' p='camel_po...
+[17:19:33] > Read: /tmp/camel_sheet.png
+[17:19:45] Much better — kneeling L, arched back, head hanging behind, arm to heel. Trying one variant: extend the foot 4 units past the hand so the hand clearly sits on the heel rather than a box corner.
+[17:19:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cp new-pipeline-test/output_png/20260928-1706-camel-pose/camel_pose_redraw.py /tmp/camel_v3.py; cp /t...
+[17:19:49] > Read: /tmp/camel_sheet.png
+[17:19:51] The foot variant reads better (hand on heel, foot on the floor); keeping it. Updating the docstring to the final construction.
+[17:20:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1706-camel-pose; /opt/homebrew/bin/python3 - <<'EOF' p='camel_po...
+[17:20:13] I redrew the camel pose as a Solo48 model. It validates as `valid` with zero warnings, and the SVG and PNGs are written. I didn't use the suggested HRECT_L keyshape and switched to SQUARE, for the reasons below.
+
+**What the subject is:** a person in yoga camel pose (Ustrasana), seen from the side facing right. They kneel with the shins on the floor, the thigh upright, the back arched, the head hanging back and a hand resting on the heel. The generated PNG actually showed a forward-leaning kneel, not a backbend, so I rebuilt the pose from the brief rather than from the trace.
+
+**Keyshape: SQUARE, not HRECT_L.** The HRECT_L suggestion was fitted to that forward kneel. A real camel pose needs 36 units of height (thigh 20 + arch 16) with a readable head, and HRECT_L only has 32. The drawing touches all four SQUARE edges exactly: head on the left (x=6), chest top (y=6), thigh on the right (x=42), floor (y=42).
+
+**How it's built:**
+- **Body:** one stroke running toes → heel → knee → thigh, then curving smoothly into two arcs over the back that end pointing straight down at the nape.
+- **Neck:** a short separate vertical line. The head (radius 5) hangs below it at exactly the required 8-unit gap. This is flagged with `mark_human_figure`.
+- **Arm:** one straight line from the shoulder down to the heel, 14.2 units from the head centre.
+- **References:** proportions come from `icon_set/references/human_ref/full_body_ref.png`. No Lucide icon was a useful match.
+
+**Metric issues (all fixed):**
+- **Five clearance errors:** the tangle of strokes around the head, hands and feet is replaced by separate, well-spaced parts that meet only at declared joints.
+- **Hole too small (3.44):** the head is now a true circle of radius 5, which passes the 6-unit minimum.
+- **No head detected:** the head is a real circle and is flagged as the figure's head.
+- **Keyshape short axis:** resolved by the switch to SQUARE, as above.
+- **Stroke width:** drawn at the profile stroke of 4.
+
+**Design iterations:**
+- **First draft:** the head gap came back `review` because the neck was curved. A straight vertical neck line fixed that.
+- **Second draft:** a level head beside a boxy arch read as "°D" at 48 px, so I rebuilt it with the head hanging below the arch.
+- **Final tweak:** I extended the foot 4 units past the hand so the hand clearly rests on the heel.
+
+I checked it at native size in both light and dark themes. It reads as a kneeling backbend, though it's fairly abstract at 48 px.
+
+Nothing was registered under `icon_set/model/icons` and nothing in `published/` was touched. The modified `published/` files in `git status` were already modified before this run. I didn't run the build or the unit tests.
+
+Files are in `new-pipeline-test/output_png/20260928-1706-camel-pose/`:
+- camel_pose_redraw.py
+- camel-pose_redraw.svg
+- camel-pose_redraw.png
+- camel-pose_redraw-48.png
+
+[17:20:13] === success in 493s, $1.83 ===
+I redrew the camel pose as a Solo48 model. It validates as `valid` with zero warnings, and the SVG and PNGs are written. I didn't use the suggested HRECT_L keyshape and switched to SQUARE, for the reasons below.
+
+**What the subject is:** a person in yoga camel pose (Ustrasana), seen from the side facing right. They kneel with the shins on the floor, the thigh upright, the back arched, the head hanging back and a hand resting on the heel. The generated PNG actually showed a forward-leaning kneel, not a backbend, so I rebuilt the pose from the brief rather than from the trace.
+
+**Keyshape: SQUARE, not HRECT_L.** The HRECT_L suggestion was fitted to that forward kneel. A real camel pose needs 36 units of height (thigh 20 + arch 16) with a readable head, and HRECT_L only has 32. The drawing touches all four SQUARE edges exactly: head on the left (x=6), chest top (y=6), thigh on the right (x=42), floor (y=42).
+
+**How it's built:**
+- **Body:** one stroke running toes → heel → knee → thigh, then curving smoothly into two arcs over the back that end pointing straight down at the nape.
+- **Neck:** a short separate vertical line. The head (radius 5) hangs below it at exactly the required 8-unit gap. This is flagged with `mark_human_figure`.
+- **Arm:** one straight line from the shoulder down to the heel, 14.2 units from the head centre.
+- **References:** proportions come from `icon_set/references/human_ref/full_body_ref.png`. No Lucide icon was a useful match.
+
+**Metric issues (all fixed):**
+- **Five clearance errors:** the tangle of strokes around the head, hands and feet is replaced by separate, well-spaced parts that meet only at declared joints.
+- **Hole too small (3.44):** the head is now a true circle of radius 5, which passes the 6-unit minimum.
+- **No head detected:** the head is a real circle and is flagged as the figure's head.
+- **Keyshape short axis:** resolved by the switch to SQUARE, as above.
+- **Stroke width:** drawn at the profile stroke of 4.
+
+**Design iterations:**
+- **First draft:** the head gap came back `review` because the neck was curved. A straight vertical neck line fixed that.
+- **Second draft:** a level head beside a boxy arch read as "°D" at 48 px, so I rebuilt it with the head hanging below the arch.
+- **Final tweak:** I extended the foot 4 units past the hand so the hand clearly rests on the heel.
+
+I checked it at native size in both light and dark themes. It reads as a kneeling backbend, though it's fairly abstract at 48 px.
+
+Nothing was registered under `icon_set/model/icons` and nothing in `published/` was touched. The modified `published/` files in `git status` were already modified before this run. I didn't run the build or the unit tests.
+
+Files are in `new-pipeline-test/output_png/20260928-1706-camel-pose/`:
+- camel_pose_redraw.py
+- camel-pose_redraw.svg
+- camel-pose_redraw.png
+- camel-pose_redraw-48.png

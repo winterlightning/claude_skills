@@ -1,0 +1,83 @@
+[16:43:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1639-dancing-woman-with-music-notes; ls $D; cat $D/*_metrics....
+[16:43:21] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/dancing-woman-with-music-notes.png
+[16:43:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1639-dancing-woman-with-music-notes; python3 -c " import json...
+[16:44:00] The sibling dancing-person run is a close analogue; let me look at its redraw and how it rendered outputs.
+[16:44:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; S=output_png/20260928-1635-dancing-person-with-music-notes; cat $S/dancing_person_w...
+[16:44:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/dancing-person-with-music-note...
+[16:44:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -l "redraw" *.py *.sh 2>/dev/null; grep -n "redraw" run_pipeline.sh | head...
+[16:44:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def \(to_svg\|svg\|render\|emit_svg\|draw\)\b" icon_set/model/*.py icon_set/model/icons/*.p...
+[16:44:52] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md avatar-contact-certificatio...
+[16:44:55] > Bash: grep -n -i -E "head|neck" /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/4b8e6228-dd78-4d52-b77d-fb8b5e6b8a8c/tool-resu...
+[16:45:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 225,300p icon_set/model/icons/base.py; /opt/homebrew/bin/python3 -c "import cairosvg; print('o...
+[16:45:55] I've laid out the grid plan (SQUARE keyshape, r4 head straight above a vertical neck, leaning torso, notes on the right). Next I'm writing the model and validating it.
+[16:46:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes; cat > $D/dancing_woman_w...
+[16:46:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/dw_render.py
+[16:46:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes; sed -i '' 's/NOTES = {"u...
+[16:46:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/dancing-woman-with-music-notes_...
+[16:46:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/dancing-woman-with-music-notes_...
+[16:46:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes; F=$D/dancing_woman_with_...
+[16:46:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/dancing-woman-with-music-notes_...
+[16:47:02] I redrew the dancing woman with music notes as a Solo48 model, and `validate_icon()` returns **valid** with no warnings. At 48 px it reads as a stick dancer leaning into a step, with one arm up and one down, next to two music notes.
+
+**Keyshape:** I used `SQUARE`, as the metrics suggested (it scored 1.25; the next best, `CIRCLE`, scored 0.82). The four extremes land exactly on the box: x=6 is the lowered hand, x=42 the end of the note flag, y=6 the top of the head, and y=42 both feet.
+
+**Construction:**
+- **Head and neck:** a circle of radius 4 at (15,10), sitting straight above a short vertical neck starting at (15,22). That gives the exact 8-unit gap between centerlines (4 units of visible space). I put the head straight above the neck because a diagonal head-to-neck gap does not pass the check.
+- **Torso:** from the shoulder at (15,24) it leans down and right to the hip at (20,32), following the lean in the generated image.
+- **Arms:** both start at the shoulder. The raised arm bends at (24,19) and ends at (30,9), with its forearm more than 8 units from the head. The other arm sweeps down to (6,32).
+- **Legs:** both are bent. The left foot steps out to (11,42); the right knee pushes out to (27,37) before the shin drops to (25,42).
+- **Notes:** both use one shared definition, a small circle with the stem on its right side. The upper note is an eighth note with a (4,3) flag. The lower one is a quarter note, set lower and 2 units to the right.
+- **References:** the human reference sheet (`icon_set/references/human_ref/full_body_ref.png`) for the round head and single-stroke limbs, and Lucide `music` for how the stem and flag attach. The pose is asymmetric on purpose because the subject is.
+
+**Metric issues fixed:**
+- **Stroke width (info):** the redraw uses stroke 4, with every gap sized for it.
+- **Stroke count:** 9 traced strokes cut to 6 parts (head, torso, arms, legs, two notes).
+- **Head crowding the neck and arms (e0/e1, e0/e3, e0/e6, e1/e6, e3/e6):** the head is now detached at the exact gap, and the arms leave the shoulder 2 units below the neck.
+- **Torso too close to the raised arm (e2/e3):** they now share the shoulder point and are declared connected.
+- **Upper note too close to the lower note's stem (e5/e7):** the stem top is now more than 8 units from the upper note.
+- **Flag not reaching the stem (e4/e5):** the stem and flag are now one stroke.
+- **3.1-wide hole at the head:** the head is now a proper ring, and the noteheads draw as solid dots, so no small holes remain.
+- **No head detected:** the head is now a real circle, flagged as the figure's head.
+
+Every issue in the list was fixed. The low arm and the left leg run nearly parallel. They are well over 8 units apart, but the lower-left looks a little busy.
+
+I checked the preview only against a white background, not the dark theme. I didn't register the module, change `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/`:
+- dancing_woman_with_music_notes_redraw.py
+- dancing-woman-with-music-notes_redraw.svg
+- dancing-woman-with-music-notes_redraw.png
+- dancing-woman-with-music-notes_redraw-48.png
+
+[16:47:02] === success in 232s, $0.98 ===
+I redrew the dancing woman with music notes as a Solo48 model, and `validate_icon()` returns **valid** with no warnings. At 48 px it reads as a stick dancer leaning into a step, with one arm up and one down, next to two music notes.
+
+**Keyshape:** I used `SQUARE`, as the metrics suggested (it scored 1.25; the next best, `CIRCLE`, scored 0.82). The four extremes land exactly on the box: x=6 is the lowered hand, x=42 the end of the note flag, y=6 the top of the head, and y=42 both feet.
+
+**Construction:**
+- **Head and neck:** a circle of radius 4 at (15,10), sitting straight above a short vertical neck starting at (15,22). That gives the exact 8-unit gap between centerlines (4 units of visible space). I put the head straight above the neck because a diagonal head-to-neck gap does not pass the check.
+- **Torso:** from the shoulder at (15,24) it leans down and right to the hip at (20,32), following the lean in the generated image.
+- **Arms:** both start at the shoulder. The raised arm bends at (24,19) and ends at (30,9), with its forearm more than 8 units from the head. The other arm sweeps down to (6,32).
+- **Legs:** both are bent. The left foot steps out to (11,42); the right knee pushes out to (27,37) before the shin drops to (25,42).
+- **Notes:** both use one shared definition, a small circle with the stem on its right side. The upper note is an eighth note with a (4,3) flag. The lower one is a quarter note, set lower and 2 units to the right.
+- **References:** the human reference sheet (`icon_set/references/human_ref/full_body_ref.png`) for the round head and single-stroke limbs, and Lucide `music` for how the stem and flag attach. The pose is asymmetric on purpose because the subject is.
+
+**Metric issues fixed:**
+- **Stroke width (info):** the redraw uses stroke 4, with every gap sized for it.
+- **Stroke count:** 9 traced strokes cut to 6 parts (head, torso, arms, legs, two notes).
+- **Head crowding the neck and arms (e0/e1, e0/e3, e0/e6, e1/e6, e3/e6):** the head is now detached at the exact gap, and the arms leave the shoulder 2 units below the neck.
+- **Torso too close to the raised arm (e2/e3):** they now share the shoulder point and are declared connected.
+- **Upper note too close to the lower note's stem (e5/e7):** the stem top is now more than 8 units from the upper note.
+- **Flag not reaching the stem (e4/e5):** the stem and flag are now one stroke.
+- **3.1-wide hole at the head:** the head is now a proper ring, and the noteheads draw as solid dots, so no small holes remain.
+- **No head detected:** the head is now a real circle, flagged as the figure's head.
+
+Every issue in the list was fixed. The low arm and the left leg run nearly parallel. They are well over 8 units apart, but the lower-left looks a little busy.
+
+I checked the preview only against a white background, not the dark theme. I didn't register the module, change `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260928-1639-dancing-woman-with-music-notes/`:
+- dancing_woman_with_music_notes_redraw.py
+- dancing-woman-with-music-notes_redraw.svg
+- dancing-woman-with-music-notes_redraw.png
+- dancing-woman-with-music-notes_redraw-48.png

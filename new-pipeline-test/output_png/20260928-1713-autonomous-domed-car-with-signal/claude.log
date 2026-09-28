@@ -1,0 +1,101 @@
+[17:18:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1713-autonomous-domed-car-with-signal; ls $D; cat $D/*_metric...
+[17:18:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1713-autonomous-domed-car-with-signal; python3 -c " import js...
+[17:18:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/autonomous-domed-car-with-sig...
+[17:18:53] Let me look at a recent redraw module for the established pattern (imports, rendering).
+[17:18:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1711-bird-egg-nest/bird_egg_nest_redraw.py; grep -l "car" ....
+[17:19:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/autonomous_domed_car_with_signal_148a6d3d_6e93_44b0_ad9c_3c3c30856f29.p...
+[17:19:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260928-1711-bird-egg-nest/; grep -n "def \(to_svg\|svg\|render\|emi...
+[17:19:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1711-bird-egg-nest/claude.log; grep -rn "def to_svg\|def sv...
+[17:19:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,175p icon_set/model/icons/base.py; sed -n 250,320p icon_set/model/icons/base.py; which rsvg...
+[17:22:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/icons/solo/ | grep -i "car_\|_car\|sedan\|vehicle" | head -40; ls new-pipeline-test...
+[17:22:34] The trace doesn't fit at stroke 4 (wheel, body-end and signal clearances), so I'm checking which existing side-view car models pass validation, to borrow a construction that works.
+[17:22:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/vc.py <<'EOF' import importlib, glob, os, sys from icon_set.model.icons.solo._base import ...
+[17:22:44] The existing GPT model for this source validates, and so does `small_toy_car` (HRECT_L). I'll render both to compare constructions.
+[17:22:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '/def build/,$p' icon_set/model/icons/solo/small_toy_car_d1de5b2f_36ec_527f_955b_8bc1cdf7333a....
+[17:22:48] > Read: /tmp/cc.png
+[17:25:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/validation/; grep -n "connect" icon_set/validation/*.py | grep -i "clear\|exempt\|skip\|n...
+[17:26:25] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/autonomous_domed_car_with_sig...
+[17:26:30] Now validating and rendering the SVG and PNGs.
+[17:26:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; cat > /tmp/adc.py <<EO...
+[17:26:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; S=autonomous-domed-car-wi...
+[17:26:37] > Read: /tmp/adc_cmp.png
+[17:27:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; F=autonomous_domed_car_wi...
+[17:27:30] > Read: /tmp/adc_cmp.png
+[17:27:57] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/autonomous_domed_car_with_sig...
+[17:28:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; /opt/homebrew/bin/python3...
+[17:28:04] > Read: /tmp/adc_cmp.png
+[17:28:09] Valid, and it now reads as a car. Checking the dark theme at native size.
+[17:28:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; S=autonomous-domed-car-wi...
+[17:28:12] > Read: /tmp/dk.png
+[17:28:15] Both themes read cleanly at 48 px. Updating the docstring to the final geometry.
+[17:28:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal; /opt/homebrew/bin/python3...
+[17:28:47] I redrew the domed autonomous car as a Solo48 model on HRECT_L. `validate_icon()` returns **valid** with no warnings, and I checked it at 48 px in both light and dark themes.
+
+**Subject:** a long, low side-view car with a dome cabin, two ring wheels, a short roof antenna and one broad radio arc on each side of the roof. Everything is mirrored about x=24.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** At stroke 4 the parts stack up to 32 units of height: wheel 10, gap from wheel to roofline 9, dome 7, antenna 6. HRECT_M only has 28. HRECT_L is filled exactly on all four sides. I also tried SQUARE with a bigger dome; it passed validation but looked like a bell, not a car.
+
+**Construction:**
+- **Wheels:** circles of radius 5 at (12,35) and (36,35), with a straight axle line between their inner sides.
+- **Body:** a half-circle nose and tail that end on each wheel, a flat shoulder at y=21, and a round dome (radius 7, top at (24,14)).
+- **Antenna:** a line from (24,14) up to (24,8).
+- **Signal:** two arcs that share the dome's centre, sitting over the roof's shoulders.
+
+The idea of the body ending on the wheels came from the existing `small_toy_car` model; with a straight end wall, the body would crowd the wheel. Lucide `car` informed the wheels hanging from the body with an axle between them, and Lucide `radio` informed arcs sharing a centre with their source.
+
+**Metric issues fixed:**
+- **Radio arcs too close to the dome (2.2) and antenna (4.2):** now at least 8.8 from both.
+- **Dome, body and wheel crowding:** the dome sits 9 above the wheel tops, there is no body line under the dome, and the body touches each wheel at a single declared joint.
+- **Hub clearances and the three undersized holes (0.57, 2.8, 3.2):** the hubs are dropped, each wheel keeps a 6-unit hole, and the body shares one large interior with the cabin.
+- **Stroke count:** down from 10 to 6.
+- **Stroke width:** every gap is sized for stroke 4.
+- **Keyshape short axis:** resolved by the switch to HRECT_L.
+
+**Could not repair as traced:**
+- **Arcs beside the antenna tip:** there is no room for the "( | )" arcs hugging the antenna tip to stay 8 from both the antenna and the dome. I moved them outward onto the roof shoulders; there is still one arc on each side of the antenna.
+- **Dome size:** it is smaller than in the trace for the same reason.
+- **Hubs:** a hub can't sit 8 inside a radius-5 wheel, and it would disappear at 48 px anyway.
+
+All four files are in `new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/`:
+- `autonomous_domed_car_with_signal_redraw.py`
+- `autonomous-domed-car-with-signal_redraw.svg`
+- `autonomous-domed-car-with-signal_redraw.png`
+- `autonomous-domed-car-with-signal_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run. A separate GPT-authored module for this same source ID already exists in `icon_set/model/icons/solo/`; I left it unchanged.
+
+[17:28:47] === success in 637s, $2.18 ===
+I redrew the domed autonomous car as a Solo48 model on HRECT_L. `validate_icon()` returns **valid** with no warnings, and I checked it at 48 px in both light and dark themes.
+
+**Subject:** a long, low side-view car with a dome cabin, two ring wheels, a short roof antenna and one broad radio arc on each side of the roof. Everything is mirrored about x=24.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** At stroke 4 the parts stack up to 32 units of height: wheel 10, gap from wheel to roofline 9, dome 7, antenna 6. HRECT_M only has 28. HRECT_L is filled exactly on all four sides. I also tried SQUARE with a bigger dome; it passed validation but looked like a bell, not a car.
+
+**Construction:**
+- **Wheels:** circles of radius 5 at (12,35) and (36,35), with a straight axle line between their inner sides.
+- **Body:** a half-circle nose and tail that end on each wheel, a flat shoulder at y=21, and a round dome (radius 7, top at (24,14)).
+- **Antenna:** a line from (24,14) up to (24,8).
+- **Signal:** two arcs that share the dome's centre, sitting over the roof's shoulders.
+
+The idea of the body ending on the wheels came from the existing `small_toy_car` model; with a straight end wall, the body would crowd the wheel. Lucide `car` informed the wheels hanging from the body with an axle between them, and Lucide `radio` informed arcs sharing a centre with their source.
+
+**Metric issues fixed:**
+- **Radio arcs too close to the dome (2.2) and antenna (4.2):** now at least 8.8 from both.
+- **Dome, body and wheel crowding:** the dome sits 9 above the wheel tops, there is no body line under the dome, and the body touches each wheel at a single declared joint.
+- **Hub clearances and the three undersized holes (0.57, 2.8, 3.2):** the hubs are dropped, each wheel keeps a 6-unit hole, and the body shares one large interior with the cabin.
+- **Stroke count:** down from 10 to 6.
+- **Stroke width:** every gap is sized for stroke 4.
+- **Keyshape short axis:** resolved by the switch to HRECT_L.
+
+**Could not repair as traced:**
+- **Arcs beside the antenna tip:** there is no room for the "( | )" arcs hugging the antenna tip to stay 8 from both the antenna and the dome. I moved them outward onto the roof shoulders; there is still one arc on each side of the antenna.
+- **Dome size:** it is smaller than in the trace for the same reason.
+- **Hubs:** a hub can't sit 8 inside a radius-5 wheel, and it would disappear at 48 px anyway.
+
+All four files are in `new-pipeline-test/output_png/20260928-1713-autonomous-domed-car-with-signal/`:
+- `autonomous_domed_car_with_signal_redraw.py`
+- `autonomous-domed-car-with-signal_redraw.svg`
+- `autonomous-domed-car-with-signal_redraw.png`
+- `autonomous-domed-car-with-signal_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run. A separate GPT-authored module for this same source ID already exists in `icon_set/model/icons/solo/`; I left it unchanged.

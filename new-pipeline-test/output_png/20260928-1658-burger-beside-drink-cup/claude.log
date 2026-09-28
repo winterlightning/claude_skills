@@ -1,0 +1,87 @@
+[17:02:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1658-burger-beside-drink-cup; ls $D; cat $D/*_metrics.json | ...
+[17:02:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1658-burger-beside-drink-cup; python3 -c " import json;m=json...
+[17:02:26] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup/burger-beside-drink-cup.png
+[17:02:40] Let me look at a recent redraw module for the pipeline's conventions (imports, rendering).
+[17:02:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260928-1651-beer-mug-with-bread/beer_mug_with_bread_redraw.py; ls ...
+[17:02:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; cat output_png/20260928-1651-beer-mug-with-bread/claude.log; grep -l "redraw-48...
+[17:02:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n "redraw" run_pipeline.sh | head -30; cat /tmp/val_beer.py 2>/dev/null; grep...
+[17:04:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,200p icon_set/model/icons/base.py; grep -rn "inscribed" icon_set/model --include=*.py | head
+[17:05:02] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup/burger_beside_drink_cup_redraw.py
+[17:05:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup; cat > /tmp/val_burger.py <<EOF ...
+[17:05:13] Validation flags an exact-8 review on the dome corner vs filling; I'm lowering the dome rise to 9 so that gap becomes 9.
+[17:05:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup; F=$D/burger_beside_drink_cup_re...
+[17:05:20] Valid with no warnings. Now the build gate and renders.
+[17:05:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -15; sed -n 9,12p new-pip...
+[17:05:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup; /opt/homebrew/bin/python3 icon_...
+[17:05:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup/burger-beside-drink-cup_redraw.png
+[17:05:30] > Read: /tmp/bbd48.png
+[17:05:33] Reads clearly as a burger and a soda cup at 48 px. I'll update the docstring to match the final dome geometry.
+[17:05:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup; /opt/homebrew/bin/python3 - <<'EOF...
+[17:05:50] I redrew the burger and drink cup as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a burger (domed top bun, filling line, bottom bun) standing next to a tapered soda cup with a straight straw. I checked it at 48 px on dark and light backgrounds and it reads clearly as both.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The burger is 20 wide, the gap to the cup is 8, and the cup is 12 wide at the rim. The drawing touches all four edges of the box:
+- The dome apex and straw top both reach y=10.
+- The bun lines reach x=4 and the cup rim reaches x=44.
+- The cup base and bottom bun reach y=38.
+
+**Construction:**
+- **Top bun:** a 10×9 half ellipse whose corners round smoothly into a flat base at y=21.
+- **Filling and bottom bun:** straight lines at y=30 and y=38.
+- **Cup:** closed and symmetric about x=38, with the rim at y=18 and walls tapering in by 2 on each side.
+- **Straw:** at x=38, joined to the rim and declared as a connection.
+
+No Lucide original fit; its `hamburger` and `cup-soda` layers overlap at 24 px, too tight for the 8-unit spacing here. I only borrowed the idea of a dome over lines.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4 on the integer grid.
+- **Width filled only 96%:** fixed; every extreme now sits on the box edge.
+- **Cup too close to the burger (4 clearances, 4.96–6.08):** fixed; the cup wall is at least 8.3 from every burger part.
+- **Burger layers too close together (6 clearances, 2.5–5.5):** fixed; the dome base is 9 above the filling and the filling is 8 above the bottom bun. The first version had the dome exactly 8 above, which came back as a review warning because a curved corner can't be passed at exactly 8, so I raised it to 9.
+- **0.6-wide hole in the bottom bun:** fixed by drawing the bottom bun as a single line.
+
+**Changed from the image:** the bottom bun is a flat line, not the traced closed shallow shape. A closed bun needs an opening at least 6 wide, so dome, two 8-unit gaps and that bun add up to at least 36 rows, and the box has 28. The flat line keeps the three-layer burger read. The small rounded corners at the cup's base are also gone; it is now a plain shape with rounded joins.
+
+Everything is in `new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup`. I did not register the module, did not touch `published/`, and did not run the build.
+
+Files are in `new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup`:
+- `burger_beside_drink_cup_redraw.py`
+- `burger-beside-drink-cup_redraw.svg`
+- `burger-beside-drink-cup_redraw.png` (512 px)
+- `burger-beside-drink-cup_redraw-48.png`
+
+[17:05:50] === success in 239s, $0.99 ===
+I redrew the burger and drink cup as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a burger (domed top bun, filling line, bottom bun) standing next to a tapered soda cup with a straight straw. I checked it at 48 px on dark and light backgrounds and it reads clearly as both.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The burger is 20 wide, the gap to the cup is 8, and the cup is 12 wide at the rim. The drawing touches all four edges of the box:
+- The dome apex and straw top both reach y=10.
+- The bun lines reach x=4 and the cup rim reaches x=44.
+- The cup base and bottom bun reach y=38.
+
+**Construction:**
+- **Top bun:** a 10×9 half ellipse whose corners round smoothly into a flat base at y=21.
+- **Filling and bottom bun:** straight lines at y=30 and y=38.
+- **Cup:** closed and symmetric about x=38, with the rim at y=18 and walls tapering in by 2 on each side.
+- **Straw:** at x=38, joined to the rim and declared as a connection.
+
+No Lucide original fit; its `hamburger` and `cup-soda` layers overlap at 24 px, too tight for the 8-unit spacing here. I only borrowed the idea of a dome over lines.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4 on the integer grid.
+- **Width filled only 96%:** fixed; every extreme now sits on the box edge.
+- **Cup too close to the burger (4 clearances, 4.96–6.08):** fixed; the cup wall is at least 8.3 from every burger part.
+- **Burger layers too close together (6 clearances, 2.5–5.5):** fixed; the dome base is 9 above the filling and the filling is 8 above the bottom bun. The first version had the dome exactly 8 above, which came back as a review warning because a curved corner can't be passed at exactly 8, so I raised it to 9.
+- **0.6-wide hole in the bottom bun:** fixed by drawing the bottom bun as a single line.
+
+**Changed from the image:** the bottom bun is a flat line, not the traced closed shallow shape. A closed bun needs an opening at least 6 wide, so dome, two 8-unit gaps and that bun add up to at least 36 rows, and the box has 28. The flat line keeps the three-layer burger read. The small rounded corners at the cup's base are also gone; it is now a plain shape with rounded joins.
+
+Everything is in `new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup`. I did not register the module, did not touch `published/`, and did not run the build.
+
+Files are in `new-pipeline-test/output_png/20260928-1658-burger-beside-drink-cup`:
+- `burger_beside_drink_cup_redraw.py`
+- `burger-beside-drink-cup_redraw.svg`
+- `burger-beside-drink-cup_redraw.png` (512 px)
+- `burger-beside-drink-cup_redraw-48.png`

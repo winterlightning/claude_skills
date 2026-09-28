@@ -1,0 +1,85 @@
+[17:36:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row && ls && cat bowling-pins-row_metrics.json...
+[17:36:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling-pins-row.png
+[17:36:19] > Bash: python3 -c " import json;d=json.load(open('bowling-pins-row_metrics.json'));print(d.keys());print(json.dumps(d.get('issues'),indent=1)[:4000])"; ls ../*/ | g...
+[17:36:31] Let me look at an existing redraw to reuse its pattern (imports, rendering).
+[17:36:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && f=$(ls -t */*_redraw.py | head -1); echo $f; cat $f; ls $(dirname $f)
+[17:36:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && ls new-pipeline-test/; grep -rl "redraw-48" new-pipeline-test/*.py new-pipeline-test/*.sh 2>/dev/nu...
+[17:36:50] > Bash: grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def to_svg\|def render_svg\|def svg(\|def emit_svg" icon_set/model | head; cat /Users/jak...
+[17:36:57] > Bash: cat new-pipeline-test/output_png/20260928-1729-bowling-pins-row/choice.json; sed -n 1,80p icon_set/model/icons/solo/_base.py; grep -n "def add_\|def relate\|...
+[17:37:00] > Bash: sed -n 60,200p icon_set/model/icons/base.py; cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/normal48-geometr...
+[17:37:02] > Bash: sed -n 106,200p icon_set/model/icons/base.py; cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/ && cat normal48...
+[17:39:15] Checking for an existing bowling-pin icon in the repo and Lucide originals so I can reuse their construction before I design the three-pin layout.
+[17:39:16] > Bash: ls icon_set/model/icons/solo | grep -i bowl; grep -ril "bowling" --include=*.py icon_set/model/icons | head; find . -path ./node_modules -prune -o -iname "*b...
+[17:39:22] There's already a model for this same source id and a sibling. Let me see how they solved it and whether they validate.
+[17:39:24] > Bash: cat icon_set/model/icons/solo/bowling_pins_row_d972c303_2754_4efe_82ae_c0b2f535370b.py; sed -n 1,200p icon_set/model/icons/solo/bowling_pins_three_012843f4_1...
+[17:39:40] Both existing variants validate but use tube-like 8-wide pins. Rendering the existing `bowling-pins-row` to judge it against the reference.
+[17:39:42] > Bash: /opt/homebrew/bin/python3 -c " from icon_set.model.icons.registry import create import cairosvg for i in ['bowling-pins-row','bowling-pins-three']: s=create(...
+[17:39:42] > Read: /tmp/bowling-pins-row.png
+[17:41:59] > Bash: sed -n 1,60p icon_set/model/icons/solo/_symmetry_curves.py 2>/dev/null | head -5; grep -n "connect\|exempt" icon_set/validation/*.py | grep -i "spacing\|clea...
+[17:42:13] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling_pins_row_redraw.py
+[17:42:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row && /opt/homebrew/bin/python3 - <<'EOF' imp...
+[17:42:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row && /opt/homebrew/bin/python3 - <<'EOF' p='...
+[17:42:55] > Read: /tmp/bpr.png
+[17:42:55] > Read: /tmp/bpr-48.png
+[17:44:44] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling_pins_row_redraw.py
+[17:44:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling_pins_row_redraw.py
+[17:45:12] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling_pins_row_redraw.py
+[17:45:18] > Bash: sed -i '' 's/for p in outer\[1:\]\]/for p in outer]/; s/-head-00"/-head-inner-2"/; s/-head-0"/-head-inner-1"/' bowling_pins_row_redraw.py && /opt/homebrew/bi...
+[17:45:20] > Read: /tmp/bpr.png
+[17:45:21] > Read: /tmp/bpr-48.png
+[17:45:25] The staggered version validates and reads clearly as three pins with the front one overlapping. The file changed on disk after my `sed`, so I'm checking it before I finish the docstring and outputs.
+[17:45:26] > Bash: sed -n 60,130p bowling_pins_row_redraw.py; ls
+[17:45:29] The file matches what I wrote. Now checking for zero warnings, running the build gate, and rendering a dark-theme view.
+[17:45:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && /opt/homebrew/bin/python3 - <<'EOF' import importlib.util, sys d='new-pipeline-test/output_png/2026...
+[17:45:34] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling_pins_row_redraw.py --debug /tmp/...
+[17:45:41] Build gate passes with 0 errors and 0 warnings. Writing the docstring and the output files next.
+[17:45:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row && /opt/homebrew/bin/python3 - <<'EOF' p='...
+[17:45:56] > Read: /tmp/bpr-dark-48.png
+[17:45:57] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1729-bowling-pins-row/bowling-pins-row_redraw-48.png
+[17:46:00] > Bash: rm -rf __pycache__ && cd /Applications/Workspaces/pictographic/claude_skills && /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/ou...
+[17:46:11] I redrew the bowling pins as a Solo48 model. It validates with 0 warnings and passes `build_gate.py` with 0 errors and 0 warnings. One real change to the subject: the three pins now overlap instead of standing apart.
+
+**What it shows:** three identical bowling pins, with the middle one in front. The two side pins sit 9 units out and 3 units higher, as if standing behind it. Each pin has a round head, a narrow neck with one collar line, a belly and a flat foot. All three are built from one shared pin shape, so they match exactly. Every point where two outlines meet lands on a whole-number grid point, and each contact is declared as a connection.
+
+**Keyshape: SQUARE, not the suggested HRECT_L.** HRECT_L leaves 40×32 units to draw in, so three pins would need squat bellies 24 units wide. SQUARE (36×36) gives 36-tall pins with 18-wide bellies, which look like real pins. The metrics had SQUARE as a candidate at 0.99 scale. All four edges of the drawing sit exactly on the SQUARE bounds.
+
+**Metric issues:**
+- **Keyshape only 93% filled on x:** fixed by the switch to SQUARE.
+- **Neighbouring pins 2.5 apart (e2/e5, e5/e6):** fixed by overlapping the pins. Three separate pins can't fit at this size: 3 pins × 14 wide plus 2 gaps × 8 is wider than any Solo48 shape. With separate pins, each would be about 8 wide, which is what the existing `bowling-pins-row` module does, and it reads as three tubes.
+- **Double collar lines 2.6 apart (e0/e1, e3/e4, e7/e8) and the three 2.4-wide holes between them:** fixed with one collar line per pin, which removes the narrow band and its hole.
+- **9 strokes against a budget of 6:** fixed; it now uses exactly 6.
+- **Trace stroke 2.47:** informational only. The redraw uses stroke 4, and all spacing was planned for it.
+
+There was no local Lucide bowling-pin icon to copy from. I checked the drawing at native 48 px on both light and dark backgrounds.
+
+Files are in `new-pipeline-test/output_png/20260928-1729-bowling-pins-row/`:
+- `bowling_pins_row_redraw.py` (icon id `bowling-pins-row-redraw`)
+- `bowling-pins-row_redraw.svg`
+- `bowling-pins-row_redraw.png`
+- `bowling-pins-row_redraw-48.png`
+
+Nothing is registered in `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or the gallery updates.
+
+[17:46:12] === success in 623s, $2.23 ===
+I redrew the bowling pins as a Solo48 model. It validates with 0 warnings and passes `build_gate.py` with 0 errors and 0 warnings. One real change to the subject: the three pins now overlap instead of standing apart.
+
+**What it shows:** three identical bowling pins, with the middle one in front. The two side pins sit 9 units out and 3 units higher, as if standing behind it. Each pin has a round head, a narrow neck with one collar line, a belly and a flat foot. All three are built from one shared pin shape, so they match exactly. Every point where two outlines meet lands on a whole-number grid point, and each contact is declared as a connection.
+
+**Keyshape: SQUARE, not the suggested HRECT_L.** HRECT_L leaves 40×32 units to draw in, so three pins would need squat bellies 24 units wide. SQUARE (36×36) gives 36-tall pins with 18-wide bellies, which look like real pins. The metrics had SQUARE as a candidate at 0.99 scale. All four edges of the drawing sit exactly on the SQUARE bounds.
+
+**Metric issues:**
+- **Keyshape only 93% filled on x:** fixed by the switch to SQUARE.
+- **Neighbouring pins 2.5 apart (e2/e5, e5/e6):** fixed by overlapping the pins. Three separate pins can't fit at this size: 3 pins × 14 wide plus 2 gaps × 8 is wider than any Solo48 shape. With separate pins, each would be about 8 wide, which is what the existing `bowling-pins-row` module does, and it reads as three tubes.
+- **Double collar lines 2.6 apart (e0/e1, e3/e4, e7/e8) and the three 2.4-wide holes between them:** fixed with one collar line per pin, which removes the narrow band and its hole.
+- **9 strokes against a budget of 6:** fixed; it now uses exactly 6.
+- **Trace stroke 2.47:** informational only. The redraw uses stroke 4, and all spacing was planned for it.
+
+There was no local Lucide bowling-pin icon to copy from. I checked the drawing at native 48 px on both light and dark backgrounds.
+
+Files are in `new-pipeline-test/output_png/20260928-1729-bowling-pins-row/`:
+- `bowling_pins_row_redraw.py` (icon id `bowling-pins-row-redraw`)
+- `bowling-pins-row_redraw.svg`
+- `bowling-pins-row_redraw.png`
+- `bowling-pins-row_redraw-48.png`
+
+Nothing is registered in `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or the gallery updates.

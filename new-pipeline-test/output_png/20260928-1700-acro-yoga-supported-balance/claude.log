@@ -1,0 +1,86 @@
+[17:07:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1700-acro-yoga-supported-balance; ls $D; cat $D/*_metrics.jso...
+[17:07:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1700-acro-yoga-supported-balance; python3 -c " import json;m=...
+[17:07:55] Let me look at the generated image and a sibling acro-yoga redraw for the established pattern.
+[17:07:55] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/acro-yoga-supported-balance.png
+[17:07:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260928-1656-acro-yoga-stacked-bridge/acro_yoga_stacked_bridge_redr...
+[17:07:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1656-acro-yoga-stacked-bridge/claude.log; ls; grep -rl "red...
+[17:08:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/render_ay.py 2>/dev/null; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -20; cat...
+[17:08:16] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md diagonal-caps-and-exact-8.md png-solo-pipel...
+[17:08:32] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; sed -n 1,80p diagonal-caps-and-exact-8.md | cut -c1-900
+[17:09:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance; cat > $D/acro_yoga_supporte...
+[17:09:33] The first draft validates with no warnings. Next I'll check the render at 48 px.
+[17:09:33] > Read: /tmp/aysb_sheet.png
+[17:09:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance; F=$D/acro_yoga_supported_ba...
+[17:10:00] > Read: /tmp/aysb_sheet.png
+[17:10:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance; F=$D/acro_yoga_supported_ba...
+[17:10:18] > Read: /tmp/aysb_sheet.png
+[17:10:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance; F=$D/acro_yoga_supported_ba...
+[17:10:32] I'm trying a flyer arm that reaches forward and down, then I'll look at the render.
+[17:10:33] > Read: /tmp/aysb_sheet.png
+[17:10:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance; F=$D/acro_yoga_supported_ba...
+[17:10:50] > Read: /tmp/aysb_sheet.png
+[17:11:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/acro_yoga_supported_balance_...
+[17:11:13] > Read: /tmp/aysb_sheet.png
+[17:11:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cp /tmp/aysb_v4.py new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/acro_yoga_s...
+[17:11:21] I went back to the straight-leg version and am now running the full build gate on it.
+[17:11:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260928-1700-a...
+[17:11:34] Build gate passes. Now I'll update the docstring to match the final layout, then re-render.
+[17:11:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260928-1700-acro-yoga-supported...
+[17:12:07] The acro yoga supported balance is redrawn as a Solo48 model. It is `valid` with zero warnings, and the build gate passes with 0 errors and 0 warnings. As asked, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+**What it shows:** two stick figures in the `HRECT_M` keyshape, the one the metrics suggested. It fit best (score 1.22) and matches the wide shape.
+- **Flyer:** held level on top. The head is at (8,14), the torso is a straight line from x=20 to the hip at x=34, and the legs rise to a foot at (44,10).
+- **Base:** lying on the floor, head at (40,34). One straight leg rises from the hip at (18,34) to (26,14), under the flyer's belly. That shared point is the only place the two figures touch, and it is declared as a connection.
+- **Edges:** all four hit the keyshape exactly: x=4 and y=10 from the flyer's head, x=44 from the flyer's foot, y=38 from the base's head.
+
+**Metric issues, all fixed:**
+- **Three clearance errors** (1.86, 1.65 and 4.54 on centerlines): each head now sits exactly 8 from its own neck, which is a 4-unit visible gap. The base's foot now really joins the flyer's body.
+- **0.8-wide hole:** the flyer's head is now a clean radius-4 ring.
+- **No head found:** both heads are circular outlines, and both figures are marked with `mark_human_figure`.
+- **Width only 97% filled:** fixed by the exact edges above.
+- **Thin trace stroke** (info only): redrawn at stroke 4, with every gap budgeted at 8.
+
+**Where it differs from the generated image, and why:**
+- **Base's head moved to the right.** With both heads on the left, as in the image, the two rings read as a colon (":") at 48 px.
+- **Flyer's arms dropped.** A forward arm either came within 8 of the head or made the drawing read as "π". Having the two figures hold hands closed them into a pentagon.
+- **Base's two legs merged into one.** Two parallel legs would sit less than 8 apart. I also tried a bent knee, but it read as a "2".
+
+**Weakness:** at 48 px the result reads as one person balanced on another's raised leg, but not strongly. The fixed 8-unit gaps in a 40×28 box leave no room for arms, and dropping them costs some of the pose's character.
+
+The construction follows the shared human reference (circular outlined heads, detached from the body). I found no useful Lucide match. The head placement copies the sibling `acro-yoga-stacked-bridge` redraw.
+
+Files are in `new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/`:
+- `acro_yoga_supported_balance_redraw.py`
+- `acro-yoga-supported-balance_redraw.svg`
+- `acro-yoga-supported-balance_redraw.png`
+- `acro-yoga-supported-balance_redraw-48.png`
+
+[17:12:07] === success in 300s, $1.33 ===
+The acro yoga supported balance is redrawn as a Solo48 model. It is `valid` with zero warnings, and the build gate passes with 0 errors and 0 warnings. As asked, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+**What it shows:** two stick figures in the `HRECT_M` keyshape, the one the metrics suggested. It fit best (score 1.22) and matches the wide shape.
+- **Flyer:** held level on top. The head is at (8,14), the torso is a straight line from x=20 to the hip at x=34, and the legs rise to a foot at (44,10).
+- **Base:** lying on the floor, head at (40,34). One straight leg rises from the hip at (18,34) to (26,14), under the flyer's belly. That shared point is the only place the two figures touch, and it is declared as a connection.
+- **Edges:** all four hit the keyshape exactly: x=4 and y=10 from the flyer's head, x=44 from the flyer's foot, y=38 from the base's head.
+
+**Metric issues, all fixed:**
+- **Three clearance errors** (1.86, 1.65 and 4.54 on centerlines): each head now sits exactly 8 from its own neck, which is a 4-unit visible gap. The base's foot now really joins the flyer's body.
+- **0.8-wide hole:** the flyer's head is now a clean radius-4 ring.
+- **No head found:** both heads are circular outlines, and both figures are marked with `mark_human_figure`.
+- **Width only 97% filled:** fixed by the exact edges above.
+- **Thin trace stroke** (info only): redrawn at stroke 4, with every gap budgeted at 8.
+
+**Where it differs from the generated image, and why:**
+- **Base's head moved to the right.** With both heads on the left, as in the image, the two rings read as a colon (":") at 48 px.
+- **Flyer's arms dropped.** A forward arm either came within 8 of the head or made the drawing read as "π". Having the two figures hold hands closed them into a pentagon.
+- **Base's two legs merged into one.** Two parallel legs would sit less than 8 apart. I also tried a bent knee, but it read as a "2".
+
+**Weakness:** at 48 px the result reads as one person balanced on another's raised leg, but not strongly. The fixed 8-unit gaps in a 40×28 box leave no room for arms, and dropping them costs some of the pose's character.
+
+The construction follows the shared human reference (circular outlined heads, detached from the body). I found no useful Lucide match. The head placement copies the sibling `acro-yoga-stacked-bridge` redraw.
+
+Files are in `new-pipeline-test/output_png/20260928-1700-acro-yoga-supported-balance/`:
+- `acro_yoga_supported_balance_redraw.py`
+- `acro-yoga-supported-balance_redraw.svg`
+- `acro-yoga-supported-balance_redraw.png`
+- `acro-yoga-supported-balance_redraw-48.png`

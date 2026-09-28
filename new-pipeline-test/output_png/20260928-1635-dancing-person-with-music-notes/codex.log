@@ -1,0 +1,1239 @@
+Reading additional input from stdin...
+OpenAI Codex v0.157.1
+--------
+workdir: /Applications/Workspaces/pictographic/claude_skills
+model: gpt-6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0e75e-1f93-79c3-a79f-f067ac7ee72e
+--------
+user
+$generate-png-solo-with-reference Airport signal antenna /Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg --source-id 58573359-f61e-52a8-b710-7818357fd8e0
+
+This is exactly one item. Name: Airport signal antenna
+Reference (absolute path, may contain spaces): /Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg
+Source icon id (the original icon this replaces): 58573359-f61e-52a8-b710-7818357fd8e0. Record it as source_icon_id in choice.json exactly as given.
+
+Work without asking questions. Save the reference (if any) as reference.svg or reference.png in the run folder.
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  project (/Applications/Workspaces/pictographic/claude_skills/.codex/config.toml): `network_access` is ignored.
+warning: Codex is ignoring 1 unrecognized configuration setting. Check for typos or deprecated settings.
+  project (/Applications/Workspaces/pictographic/claude_skills/.codex/config.toml): `network_access` is ignored.
+codex
+I’m using the reference based PNG icon workflow. I’ll inspect the SVG, generate one bitmap icon, check it at 48 px, then vectorize and save the run files.
+exec
+/bin/zsh -lc 'cat /Users/jakesdev/.codex/RTK.md' in /Applications/Workspaces/pictographic/claude_skills
+exec
+/bin/zsh -lc 'cat /Users/jakesdev/.codex/skills/.system/imagegen/SKILL.md' in /Applications/Workspaces/pictographic/claude_skills
+exec
+/bin/zsh -lc 'cat new-pipeline-test/prompt.md' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+# RTK - Rust Token Killer (Codex CLI)
+
+**Usage**: Token-optimized CLI proxy for shell commands.
+
+## Rule
+
+Always prefix shell commands with `rtk`.
+
+Examples:
+
+```bash
+rtk git status
+rtk cargo test
+rtk npm run build
+rtk pytest -q
+```
+
+## Meta Commands
+
+```bash
+rtk gain            # Token savings analytics
+rtk gain --history  # Recent command savings history
+rtk proxy <cmd>     # Run raw command without filtering
+```
+
+## Verification
+
+```bash
+rtk --version
+rtk gain
+which rtk
+```
+
+ succeeded in 0ms:
+Minimal line icon of {{SUBJECT}}, in the style of Lucide / Feather icons.
+Reduce the subject to its 2 to 4 most recognizable parts and draw only those. Nothing else.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output in '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png'
+
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+
+exec
+/bin/zsh -lc "ls -l 'pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'; command -v rsvg-convert; date '+%Y%m%d-%H%M %Y-%m-%dT%H:%M:%S%z'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+-rw-r--r--@ 1 jakesdev  admin  3685 Sep 15 13:36 pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg
+/opt/homebrew/bin/rsvg-convert
+20260928-1635 2026-09-28T16:35:18+0700
+
+codex
+I’ve confirmed the reference and source ID. I’m rendering the SVG now so the drawing brief follows the antenna’s actual shape and parts.
+exec
+/bin/zsh -lc 'rtk proxy cat docs/development-workflow.md' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+# Development and production workflow
+
+## One build root, tracked in Git
+
+Python files under `icon_set/model/icons/` are the drawing source. The build
+output is `published/`, and Git tracks it. There is no separate development
+build, no publication staging folder and no copy step: `build`, `dev`,
+`publish` and `release` all read and write `published/`.
+
+```sh
+python3 -m icon_set build --icon icon_set/model/icons/solo/example.py --no-png --no-report
+python3 -m icon_set dev --open            # serves published/ with the local database
+python3 -m icon_set publish --dry-run     # list new, changed and missing icon outputs
+python3 -m icon_set publish               # changed-only build, validate, compact, release.json
+python3 -m icon_set doctor
+git add published icon_set
+git commit -m "Publish updated icon catalog"
+git push origin icon-lib
+```
+
+`publish` builds the changed originals in place, refuses embedded manual
+artwork or runtime files, compacts every JSON catalog so Git diffs stay small,
+and writes `release.json`. Before writing, it reports newly registered icons,
+drawings whose SVG content changed, and missing or stale generated SVG, metadata
+or preview files. It regenerates those outputs across every family and always
+refreshes the gallery links. Validation failures remain visible in the Failed
+build view; their artwork is excluded from the passing family manifests.
+
+On production, keep the **existing production database and all sibling state
+folders** outside the checkout. Pull the same branch, then serve the assets:
+
+```sh
+git pull --ff-only origin icon-lib
+python3 -m icon_set production \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
+```
+
+`production` defaults to `published/`. It does not build, generate icons,
+modify source files, or import the local progression snapshot. Reviews,
+approvals, comments, uploads and selected manual edits stay in its own
+persistent state. Restart the server when Python server code changes; asset-only
+pulls are picked up by the running server.
+
+## Ownership
+
+| Area | Location | Tracked | What belongs here |
+| --- | --- | --- | --- |
+| Authoring | `icon_set/model/icons/` | yes | Python originals created or revised by agents |
+| Editorial source | `icon_set/metadata/` | yes | Curated names, tags and descriptions |
+| Supporting datasets | `icon_set/data/` | yes | Combination pairs, container trials, content areas, profile links |
+| Experiments and evidence | `icon_set/work/`, `icon_set/assets/` | yes | Experiment sources, reference SVGs, experiment snapshots |
+| Build output | `published/` | yes | SVG exports, manifests, gallery, failed builds, reports, PNG previews |
+| Validation evidence | `published/qa/` | no | Per-icon QA overlays and metrics, regenerated by every build |
+| Runtime state | `icon_set/state/` | no | Review database and backups, uploads, stroke edits, agent jobs, keys |
+| Retired output | `icon_set/.local/`, `icon_set/dist/`, `icon_set/assets/previews-png/` | no | Old build folders kept on disk only; nothing uses them |
+| Production state | A separate external directory | no | Persistent production database and manual artwork |
+
+The shared paths live in `icon_set/scripts/workspace.py`: `build_dist()`,
+`preview_dir()`, `state_root()` and the `DEFAULT_*` constants. Use those
+definitions when adding tools. Model contracts still name family subfolders
+(`solo48/`, `sub32/`, ...), independently of the build root.
+
+The editable container/side pair database has an explicit import and export
+workflow under `python3 -m icon_set combinations`. See
+[Combination database](combination-library.md). It lives in runtime state;
+builds never seed it or overwrite its edits.
+
+## Daily work
+
+Disapproved icons are fixed through the shared production work queue so two
+machines never repair the same icon: `python3 icon_set/scripts/work_queue.py next`
+sets one to the review status Claimed on production and prints its brief,
+`done` reports the fix and returns the revision to Ready, `cannot-fix` and
+`abandon` release it. A claim older than six hours goes back to Disapproved. A local
+`dev` server forwards every `/api/work*` request to its `--sync-source`, so the
+review grid on localhost shows production's claims. See
+[Work claims](work-claims.md).
+
+The development Primitives page also reads its catalog, classifications, briefs
+and counts from `--sync-source` through the local server. Primitive edits are
+forwarded to the same production authority. It does not fall back to local
+progress when production is unavailable; local icon builds do not count as
+production completion until deployed.
+
+Read a generation queue page without a running HTTP server using
+`python3 icon_set/scripts/generation_queue.py 40 --offline`. This reads the
+workspace's published primitive catalog and local review database in read-only
+mode, using the same queue logic and classification history as the gallery.
+For another local gallery, supply `--dist PATH --database PATH` with `--offline`;
+both paths must match that gallery. Missing data is an error, not an empty queue.
+Omit `--offline` to keep using the HTTP endpoint.
+
+```sh
+python3 -m icon_set doctor                       # paths, tracked state, uncommitted output
+python3 -m icon_set typeface-sizes               # export the centerline typeface
+python3 -m icon_set build --no-png               # full catalog (rarely needed)
+python3 -m icon_set build --icon icon_set/model/icons/solo/example.py --no-png --no-report
+python3 -m icon_set dev --open                   # local app on published/ with icon_set/state/
+```
+
+For a single authored icon, use the compact verification helper:
+
+```sh
+python3 -m icon_set finish-icon icon_set/model/icons/solo/example.py
+```
+
+It runs one targeted build, reports actionable validation findings, checks the
+export against its manifest hash, and renders a single light/dark preview sheet
+at native and enlarged size. Inspect that sheet for fidelity. Full diagnostics
+are saved beside the previews in a temporary directory (`--out DIR` overrides).
+Use `--dist DIR` for isolated tests. Numeric success is not visual approval.
+
+Targeted builds update only selected metadata, gallery entries, provenance,
+related primitive/combination links and failure summaries. They preserve
+unrelated exports, reference assets, UI files, experiments, sidecars and catalog
+records, including records with no source in the current checkout. Full builds
+and publish still refresh the complete gallery. No Git-based cleanup is needed.
+
+A targeted build keeps previously built icons. Use `--all` when a full
+revalidation is required. Builds do not create source metadata;
+`python3 -m icon_set.scripts.sync_metadata` is an explicit library-wide
+editorial seeding operation, not part of creating one icon.
+
+Agent candidates get private workspaces and build folders, with the same CLI
+and authoring instructions. Accepting a candidate affects the local build only.
+No build imports saved manual artwork unless `--artwork-dir` explicitly requests
+a manual export. Such an export is not accepted as a production baseline.
+
+Build, publish and release-export commands share an output lock on
+`published/`. If the folder is busy, the second operation fails without
+writing a partial result. Retry after the first operation completes.
+
+## Release and rollback
+
+An exported release is an immutable snapshot of `published/` outside the
+checkout, for deployments that need atomic switching rather than a Git pull:
+
+```sh
+python3 -m icon_set release /srv/pictographic/releases/release-001
+python3 -m icon_set production \
+  --dist /srv/pictographic/releases/release-001 \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
+```
+
+Export refuses to replace an existing release, rejects baked-in manual choices,
+and records a catalog fingerprint and icon counts in `release.json`. A build
+refuses to write into an exported release; only `published/` carries a
+`release.json` and accepts builds. To roll back, restart with the previous
+release and the **same state directory**. No database is copied from the
+developer machine as part of release export.
+
+Production enables manual uploads, editing, source selection, and reviews. It
+has no agent manager, and rejects generation, source deletion, catalog
+regeneration, and replacement of its database through the sync endpoint.
+Development-only controls are hidden based on `/api/runtime`; the API enforces
+the boundary too.
+
+## Regression checks
+
+```sh
+python3 -m unittest \
+  icon_set.tests.test_workflow_isolation \
+  icon_set.tests.test_publish \
+  icon_set.tests.test_workspace_layout \
+  icon_set.tests.test_generation \
+  icon_set.tests.test_metadata \
+  icon_set.tests.test_icon_artwork \
+  icon_set.tests.test_sub_usage_categories \
+  icon_set.tests.test_generated_skills
+python3 -m icon_set doctor
+```
+
+Tests use temporary directories and loopback HTTP servers. Do not test by editing
+production data. Regenerate authoring skills with
+`python3 icon_set/scripts/generate_skills.py` after changing their sources.
+
+## Optional legacy workflow: production builds after a push
+
+Use the new automatic release mode instead of the old code-only watcher:
+
+```sh
+python3 watch_deploy.py \
+  --branch icon-lib \
+  --release-root /srv/pictographic/releases \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
+```
+
+Paths are examples; set them to the server's actual persistent directories. The
+server needs the same Python/build dependencies as local development, access to
+`origin`, and sufficient disk space for the current, previous and staged release.
+Run this under the existing service supervisor using the intended Python interpreter.
+Do not leave a separate service also starting `deploy.py` on the same port.
+
+The watcher fetches the named branch without pulling into or modifying its own
+checkout. Committed sources are synchronized into `releases/workspace/source`;
+unchanged files are preserved and deleted sources are removed. The build cache
+at `workspace/source/published` persists across updates and restarts.
+The current build log is always `releases/workspace/build.log`, with unbuffered
+output. It is overwritten each run rather than accumulated.
+
+On first use, the watcher seeds that cache from the active release, or an existing
+`published` or legacy `icon_set/dist` gallery in its checkout. You may
+choose another existing baseline with `--seed-dist /absolute/path/to/dist`.
+This copies built assets only; the original baseline is not modified or deleted.
+If no baseline exists, the watcher stops with an explanation instead of silently
+starting a full-library build. No migration of production state is needed again
+if the previous steps have already copied it successfully.
+
+Automatic builds use `--changed-only --no-report --no-png`. They compare current
+SVG content against saved manifests and actual exported files. Unchanged passing
+and failing drawings reuse their existing validation and exports; new, changed,
+or missing drawings are validated and regenerated. Merely changing timestamps,
+build scripts or validation rules no longer triggers a library-wide revalidation.
+This intentionally keeps old validation results for unchanged drawings. To audit
+the whole library under new rules, run an explicit `build --all` separately.
+Shared geometry changes still rebuild affected drawings whose SVG content changes.
+Gallery indexes and editorial metadata are refreshed each run. This still scans
+the library and computes drawing hashes; it is not an instantaneous operation.
+
+The server starts from the existing gallery **before** fetching commits or building.
+On first startup the existing assets are frozen in a serving slot before the
+working cache is changed. The watcher prints `Server is online on port ...` as
+soon as it is available. Builds run in a background worker; the watcher also
+monitors and restarts the server if it exits during a build.
+
+Production alternates between **two fixed slots**, `releases/slot-a` and
+`releases/slot-b`. Only the inactive slot is updated. After preparation, the
+watcher atomically updates `active.json`. The same running server selects the
+completed gallery at the start of each request. It does not restart or close its
+listening socket for icon updates. A failed HTTP check restores the previous
+pointer without stopping the server. Artwork, stroke-edit validation and QA
+requests use the selected gallery and the same persistent state directory.
+
+One prior catalog is retained for rollback, plus one persistent build cache.
+The log says `Gallery updated to ... Server stayed running.` after publication.
+Refresh the browser to load the updated gallery. This live switch updates assets
+and frontend files; changes to Python server behavior require pulling the installed
+checkout and restarting the watcher intentionally. It does not hot-reload Python
+server code. Keep the watcher running (or run it under your existing service
+supervisor); closing it or shutting down the machine still stops the application.
+
+Drawing-validation failures remain in the Failed build gallery and do not block
+deployment. Build/export crashes or empty catalogs keep the current version;
+the latest failed log is `releases/last-failed.log`. A failed revision is attempted
+once per watcher run; fix and push, or restart after resolving an environment issue.
+Production state stays in the same external database and sibling storage folders.
+Two watchers cannot use the same state directory concurrently.
+
+After a successful switch the watcher removes recognisable retired releases and
+abandoned preparation folders from the older deployment implementation, except
+any active or rollback release. Unknown folders, state directories, migration
+backups and the original seed gallery are preserved. This bounds future storage;
+new icons naturally add files to the active catalog.
+
+To manually roll back, stop the watcher and run the installed `icon_set/scripts/deploy.py`,
+pointing `--dist` at the slot recorded by `active.json` as `previous` and its
+`assets` and using the same production database. Restarting the watcher follows
+the watched branch again, so revert the bad commit before resuming updates.
+The watcher itself stays at its installed version; pull and restart it when
+changing deployment orchestration code.
+
+## Native typeface v2 side text
+
+`icon_set/data/side-text-v2.json` stores the visually checked strings and source
+UUIDs for the text sub list. Rebuild them with
+`python3 -m icon_set side-text --reviews /path/to/review-status.json`, where the
+review file is the target gallery's current `/api/reviews` response. Rejected or
+needs-fix mains are excluded. This writes `published/text-native-v2/`, updates the
+side-component gallery, and saves native combinations under `published/compositions/`.
+Combinations use the shared convex-hull clearance engine with its existing
+8-unit buffer, 2-unit padding and opposite-edge anchoring. Native text pairs
+are also registered in the shared experiment snapshots and preview cache.
+
+These text layouts preserve the existing glyph paths, apply translations only,
+and leave 4 units between character ink bounds (8 between facing centerlines).
+Letters and digits use v2; punctuation absent from v2 uses existing v1 paths at
+native size. They are text layouts, not SUB32 profile drawings. Wide or multiline
+text expands the composition canvas rather than shrinking the letters. The
+report in `published/gallery/side-text-v2.json` records generated pairs and
+references blocked by unavailable mains or non-text symbols.
+
+## Explicit SUB32 and SOLO48 visual exceptions
+
+A user may accept a complete SUB32 32×32 or SOLO48 48×48 drawing that retains 4px strokes despite
+visual spacing, grid, keyshape or small-opening findings. Set the Python icon
+class parameter `exception` to a dictionary containing `reason`, `approved_by`
+and `svg_sha256` (the SHA-256 of `icon.to_svg().encode("utf-8")`). Optional
+`approved_on` records the approval date. This approval belongs to that exact SVG;
+changing its drawing invalidates the exception. Remove the parameter to revoke it.
+
+The build still runs all checks, preserves errors, warnings and the
+`automatic_status`, and exports the approved drawing with its `exception`
+metadata. The side-component gallery labels it **pass · exception**. Checker
+errors, invalid schema, a canvas that does not match its family/profile or non-4px strokes cannot be
+accepted this way. The strict `fix_icon_sub.py check` command continues to report
+the automatic result, so acceptance is never confused with a strict geometry pass.
+
+## Side component review and editing
+
+Main icons and Sub icons offer **Edit icon**, **Approve**, and **Approve as
+exception** on each drawing. The popup reuses Browser Edit, Manual Edit, and
+Pick from the review gallery. Save an edit, then pick that saved version to
+approve and display it. For an intentional validation failure, save with
+**Force pass (human reviewed)** before picking the browser edit.
+
+**Approve as exception** accepts the original drawing with its current SVG
+hash. It preserves the automatic findings and requires the same family canvas
+and 4px strokes as authored exceptions. This approval lives in the production
+artwork database, survives pulls and restarts, and expires when the original
+SVG changes. Live side pages show saved artwork and approvals immediately;
+accepted failed originals are also available in the live icon catalog.
+
+Deploy this feature by pulling the published assets and restarting the Python
+server once. Later edits and approvals need no rebuild or restart.
+
+## Side combination 64 (combine run → Experiment → review)
+
+**Combine approved side pairs** (Progression › Side pairs) shows the number of available pairs
+whose chosen main and sub drawings both have current **Approve** reviews. The button snapshots
+those approved drawing revisions, runs `refresh_combination_pairs --previews` and renders only
+that set. An expired approval, failed drawing or pair without both approvals is excluded.
+The final combined count can be lower if a selected pair cannot be rendered.
+Each run replaces the previous set of combined icons. `build_combination_previews.build()` deletes
+previews of pairs that are no longer combined. `experiment_gallery.stage_side_combination64()` then
+rewrites `published/gallery/side-combination64.json`, which lists only the pairs that actually rendered.
+Its `count` is the number shown on the Experiment tab, in the Experiment grid, and in Progression's
+**Combined · 64** summary. The same records are merged into the review catalog by `deploy.py`
+(`catalog_data`), not into `icons.json`, as the **Side combination 64** family
+(`side_combination64/<pair id>`). Reviews key on the combined SVG's sha, so a pair whose drawing changes
+comes back for review. Disapproved combinations stay out of the default fix queue: they are fixed through
+their main and sub.
+
+exec
+/bin/zsh -lc "rtk proxy rsvg-convert -w 512 -h 512 -o /tmp/airport-signal-reference.png 'pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'" in /Applications/Workspaces/pictographic/claude_skills
+exec
+/bin/zsh -lc 'rtk git status --short' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 194ms:
+ succeeded in 24117ms:
+ M .agents/skills/generate-png-solo-with-reference/SKILL.md
+ M .agents/skills/generate-png-solo/SKILL.md
+ M .claude/skills/generate-png-solo-with-reference/SKILL.md
+ M .claude/skills/generate-png-solo/SKILL.md
+ M new-pipeline-test/output_png/report.html
+ M new-pipeline-test/run_pipeline.sh
+ M published/failed/solo48/manifest.json
+ M published/gallery/experiment-container.json
+ M published/gallery/experiment-typeface-v2.json
+ M published/gallery/experiment-typeface.json
+ M published/gallery/experiment.html
+ M published/gallery/experiments.json
+ M published/gallery/icons.json
+ M published/gallery/primitives.json
+ M published/gallery/side-combination-progress.html
+ M published/gallery/side-combination-progress.json
+ M published/gallery/side-combination64.json
+ M published/gallery/side-components.json
+ M published/gallery/typeface/sizes/typeface-6x20.zip
+ M published/solo48/manifest.json
+ M skills/generate-png-solo-with-reference/SKILL.md
+ M skills/generate-png-solo/SKILL.md
+?? new-pipeline-test/claude_log.py
+?? new-pipeline-test/disapproved/
+?? new-pipeline-test/fetch_repeat_disapproved.py
+?? new-pipeline-test/output_png/20260928-1543-box-delivery-truck/
+?? new-pipeline-test/output_png/20260928-1549-blackberry-cluster-with-a-single-leaf/
+?? new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/
+?? new-pipeline-test/run_batches.sh
+exec
+/bin/zsh -lc "rtk proxy sed -n '1,120p' 'pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+<?xml version='1.0' encoding='utf-8'?>
+<svg width="1024" height="1024" viewBox="-4.0 -4.0 1032.0 1032.0" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="black" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 53.203,20.939 C 43.743,38.582 33.754,61.6 26.598,82.254 C 19.699,107.06 14.707,130.511 11.852,150.087 C 10.321,171.975 9.993,200.543 11.212,223.611 C 13.932,247.177 18.138,269.909 23.429,290.642 C 29.516,309.045 38.099,329.821 45.621,344.813 L 59.183,368.507" data-line="nan" />
+    <path d="M 617.688,1018.803 C 604.9,889.778 598.041,837.544 596.189,831.181 Q 592.153,823.69 581.534,810.902" data-line="nan" />
+    <path d="M 676.995,562.256 C 675.389,553.032 669.716,540.701 663.617,533.388 C 653.778,525.481 644.9,521.264 631.823,518.283 L 609.285,517.601" data-line="nan" />
+    <path d="M 451.122,517.485 Q 404.601,517.325 377.525,520.507" data-line="nan" />
+    <path d="M 377.525,520.507 C 366.833,529.079 359.539,536.754 353.784,547.419 C 350.841,558.151 349.504,568.242 348.851,583.404 Q 349.561,645.432 348.855,686.874" data-line="nan" />
+    <path d="M 612.731,43.096 C 633.399,44.328 648.912,48.522 664.544,55.993 C 680.222,67.574 693.867,82.342 702.886,96.458 Q 709.982,114.415 713.12,132.239" data-line="nan" />
+    <path d="M 713.176,228.111 C 711.67,253.372 709.986,263.834 707.42,272.967 C 699.266,291.308 692.01,301.7 685.225,309.186 C 678.022,315.83 667.094,323.782 657.472,329.093 C 646.801,333.536 637.781,336.211 626.196,338.261 L 599.655,338.941" data-line="nan" />
+    <path d="M 411.139,339.035 C 392.713,337.806 374.386,333.316 360.638,326.778 C 344.05,314.258 330.911,299.679 320.529,282.636 Q 315.027,267.544 312.522,252.177" data-line="nan" />
+    <path d="M 311.973,133.334 C 313.843,120.33 317.283,108.42 321.985,97.913 C 330.152,84.993 338.687,74.952 348.1,66.229 C 358.377,58.804 371.454,51.848 389.667,45.675 C 403.758,43.464 433.892,42.741 525.085,42.971" data-line="nan" />
+    <path d="M 56.42,16.295 L 57.642,16.849" data-line="0.0" />
+    <path d="M 55.864,19.351 L 63.48,7.99" data-line="1.0" />
+    <path d="M 55.864,19.351 L 55.083,21.704" data-line="2.0" />
+    <path d="M 55.083,21.704 L 53.203,20.939" data-line="3.0" />
+    <path d="M 63.48,7.99 Q 65.68299977204711,5.280999704386563 66.602,4.0" data-line="5.0" />
+    <path d="M 962.3950620395509,6.587737131106536 A 350.73243251151223,350.73243251151223 0 0,1 963.989770205538,370.84698730455875" data-line="8.0" />
+    <path d="M 581.534,810.902 L 434.669,811.36" data-line="9.0" />
+    <path d="M 888.8,1020.0 L 136.423,1019.436" data-line="11.0" />
+    <path d="M 434.669,811.36 L 407.867,1019.0" data-line="12.0" />
+    <path d="M 809.89,686.886 L 216.308,688.459" data-line="13.0" />
+    <path d="M 888.8,1020.0 L 809.89,686.886" data-line="14.0" />
+    <path d="M 216.308,688.459 L 136.423,1019.436" data-line="16.0" />
+    <path d="M 677.369,686.633 L 676.995,562.256" data-line="18.0" />
+    <path d="M 609.285,517.601 L 451.122,517.485" data-line="20.0" />
+    <path d="M 512.813,517.511 L 511.49,42.941" data-line="22.0" />
+    <path d="M 525.085,42.971 L 612.731,43.096" data-line="23.0" />
+    <path d="M 713.12,132.239 L 713.176,228.111" data-line="25.0" />
+    <path d="M 312.522,252.177 L 311.973,133.334" data-line="28.0" />
+    <path d="M 853.4702171739257,83.77767266724994 A 206.88316922650853,206.88316922650853 0 0,1 856.7711327021294,293.05758464930295" data-line="37.0" />
+    <path d="M 169.5033015338514,86.72218489985816 A 202.44164627936945,202.44164627936945 0 0,0 169.98053266700185,295.3596887737355" data-line="38.0" />
+    <path d="M 599.655,338.941 L 411.139,339.035" data-line="39.0" />
+  </g>
+</svg>
+exec
+/bin/zsh -lc "rtk proxy rsvg-convert -b white -w 512 -h 512 -o /tmp/airport-signal-reference-white.png 'pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 206ms:
+codex
+The reference shows a rounded antenna head on a short mast, a tapered base, and two signal arcs on each side. I’ll keep those shapes and remove the tiny line fragments that would disappear at 48 px.
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+from datetime import datetime
+import json, shutil
+root = Path('/Applications/Workspaces/pictographic/claude_skills')
+source = root / 'pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg'
+slug = 'airport-signal-antenna'
+stamp = datetime.now().strftime('%Y%m%d-%H%M')
+base = root / 'new-pipeline-test/output_png'
+run = base / f'{stamp}-{slug}'
+i = 2
+while run.exists():
+    run = base / f'{stamp}-{slug}-{i}'
+    i += 1
+run.mkdir(parents=True)
+shutil.copy2(source, run / 'reference.svg')
+parts = 'a rounded rectangular antenna head with a vertical center line, a short straight mast, a broad tapered control-tower base, and two curved signal waves on each side'
+prompt = f'''Square minimal line icon of Airport signal antenna, in the style of Lucide / Feather icons.
+Show only {parts}, nothing else.
+Use the reference image at '{source}' for the subject, its parts and its proportions. Redraw it in the style below; do not copy its line weight, fills or fine detail.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output as '{run / (slug + '.png')}'
+'''
+(run / 'prompt.txt').write_text(prompt)
+choice = {'subject':'Airport signal antenna','source_icon_id':'58573359-f61e-52a8-b710-7818357fd8e0','reference_path':str(source),'parts':parts,'shape':'square','stroke_count':6,'shape_source':'agent','image_model':'codex:image_gen','attempts':1,'created_at':datetime.now().isoformat(timespec='seconds')}
+(run / 'choice.json').write_text(json.dumps(choice,indent=2)+'\\n')
+print(run)
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna
+
+exec
+/bin/zsh -lc 'rtk proxy cat new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/prompt.txt' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+Square minimal line icon of Airport signal antenna, in the style of Lucide / Feather icons.
+Show only a rounded rectangular antenna head with a vertical center line, a short straight mast, a broad tapered control-tower base, and two curved signal waves on each side, nothing else.
+Use the reference image at '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg' for the subject, its parts and its proportions. Redraw it in the style below; do not copy its line weight, fills or fine detail.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png'
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from PIL import Image
+p='/Users/jakesdev/.codex/generated_images/01a0e75e-1f93-79c3-a79f-f067ac7ee72e/exec-2121a4ae-fc32-4cd3-b8cd-b30d57ac43ee.png'
+im=Image.open(p)
+print(im.mode,im.size)
+for xy in [(0,0),(500,100),(500,300),(640,300),(500,800)]: print(xy,im.getpixel(xy))
+im.convert('RGB').resize((48,48)).save('/tmp/airport-signal-attempt1-48.png')
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 363ms:
+RGBA (1254, 1254)
+(0, 0) (0, 0, 0, 0)
+(500, 100) (0, 0, 0, 0)
+(500, 300) (0, 0, 0, 0)
+(640, 300) (77, 77, 78, 255)
+(500, 800) (1, 1, 1, 252)
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from PIL import Image
+p='/Users/jakesdev/.codex/generated_images/01a0e75e-1f93-79c3-a79f-f067ac7ee72e/exec-2121a4ae-fc32-4cd3-b8cd-b30d57ac43ee.png'
+im=Image.open(p).convert('RGBA')
+bg=Image.new('RGBA',im.size,'white'); bg.alpha_composite(im)
+bg.convert('RGB').resize((48,48),Image.Resampling.LANCZOS).save('/tmp/airport-signal-attempt1-white-48.png')
+bg.convert('RGB').resize((512,512),Image.Resampling.LANCZOS).save('/tmp/airport-signal-attempt1-white-512.png')
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 677ms:
+codex
+The first image reads clearly, but its base came back as a tall narrow tower. I’m making one prompt adjustment to keep the reference’s wide, low base before choosing the final PNG.
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+p=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/prompt.txt')
+s=p.read_text()
+s=s.replace('a rounded rectangular antenna head with a vertical center line, a short straight mast, a broad tapered control-tower base, and two curved signal waves on each side','a rounded rectangular antenna head with a vertical center line near the top, a short straight mast, a broad squat trapezoid base across the bottom quarter, and exactly two curved signal waves on each side')
+p.write_text(s)
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 147ms:
+exec
+/bin/zsh -lc 'rtk proxy cat new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/prompt.txt' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+Square minimal line icon of Airport signal antenna, in the style of Lucide / Feather icons.
+Show only a rounded rectangular antenna head with a vertical center line near the top, a short straight mast, a broad squat trapezoid base across the bottom quarter, and exactly two curved signal waves on each side, nothing else.
+Use the reference image at '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg' for the subject, its parts and its proportions. Redraw it in the style below; do not copy its line weight, fills or fine detail.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png'
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+p=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/prompt.txt')
+s=p.read_text()
+s=s.replace('a rounded rectangular antenna head with a vertical center line near the top, a short straight mast, a broad squat trapezoid base across the bottom quarter, and exactly two curved signal waves on each side','a wide horizontal rounded rectangular antenna head about twice as wide as tall near the top, one vertical center divider continuing down as a short mast, a low wide trapezoid base across the bottom quarter, and exactly two curved signal waves on each side')
+p.write_text(s)
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 109ms:
+exec
+/bin/zsh -lc 'rtk proxy cat new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/prompt.txt' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+Square minimal line icon of Airport signal antenna, in the style of Lucide / Feather icons.
+Show only a wide horizontal rounded rectangular antenna head about twice as wide as tall near the top, one vertical center divider continuing down as a short mast, a low wide trapezoid base across the bottom quarter, and exactly two curved signal waves on each side, nothing else.
+Use the reference image at '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg' for the subject, its parts and its proportions. Redraw it in the style below; do not copy its line weight, fills or fine detail.
+
+Style:
+- Black outline strokes on a plain white background. No fill, no shading, no gradient, no color.
+- One uniform stroke width, about 1/12 of the icon size. Round caps, round joins.
+- Flat front view. Simple geometric lines, right angles and circular arcs.
+- People: draw any person as a stick figure. A small outlined circle for the head, floating above the body with a clear gap, one line for the torso, one line per arm and leg with round ends. No face, hair, hands, fingers, clothes or body outline. A head-and-shoulders person is the circle head above one rounded shoulder arc, open at the bottom.
+
+Layout:
+- Keep the subject's natural proportions. A tall subject fits a portrait rectangle, a wide subject a landscape rectangle, a round subject a circle, a compact one a square.
+- One icon, centered. Its longest side reaches a small even margin; the shorter side can leave more white space. Never stretch or squash the subject to fill the square.
+- At least one stroke width of clear white space between separate lines.
+- Openings and holes at least half a stroke width wide.
+- At most 6 strokes. Drop any detail smaller than one stroke width.
+
+Do not draw: text, letters, numbers, a border, a background tile or button, shadows, multiple variants.
+The icon will be displayed at 48x48 pixels and must stay readable there.
+
+Save the output as '/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png'
+
+codex
+The third generation keeps the horizontal head, four signal arcs, and low base. I’m saving that version and checking whether its small scale rendering and traced SVG stay intact.
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from PIL import Image
+from pathlib import Path
+import json
+src=Path('/Users/jakesdev/.codex/generated_images/01a0e75e-1f93-79c3-a79f-f067ac7ee72e/exec-de6ff756-36e0-40aa-9aaf-f0ac31cc4acc.png')
+run=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna')
+im=Image.open(src).convert('RGBA')
+white=Image.new('RGBA',im.size,'white'); white.alpha_composite(im)
+final=white.convert('RGB').resize((1024,1024),Image.Resampling.LANCZOS)
+final.save(run/'airport-signal-antenna.png')
+final.resize((48,48),Image.Resampling.LANCZOS).save('/tmp/airport-signal-final-48.png')
+choice=json.loads((run/'choice.json').read_text())
+choice['parts']='a wide horizontal rounded rectangular antenna head about twice as wide as tall near the top, one vertical center divider continuing down as a short mast, a low wide trapezoid base across the bottom quarter, and exactly two curved signal waves on each side'
+choice['attempts']=3
+(run/'choice.json').write_text(json.dumps(choice,indent=2)+'\\n')
+print(final.size,final.mode,final.getpixel((0,0)))
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 1717ms:
+(1024, 1024) RGB (255, 255, 255)
+
+exec
+/bin/zsh -lc 'rtk proxy new-pipeline-test/vectorize/process.sh new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 17084ms:
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.UKTWQW/airport-signal-antenna/prepped/airport-signal-antenna.png: 5 object(s)
+  sym: H cx=147.0 cy=314.5 iou=0.114/0.966
+  merge: + sym shape (cand 4) dF1=0.9792 F1=0.9792
+  merge: cand 0 (legacy) C=97.14 adj=94.14 band=97.05/97.23 holes=-1.00 inter=7446 out=214 miss=205
+  merge: cand 1 (plain) C=97.25 adj=97.25 band=98.35/96.14 holes=-1.00 inter=7377 out=118 miss=274
+  merge: cand 2 (plain) C=97.24 adj=97.24 band=98.28/96.20 holes=-1.00 inter=7381 out=123 miss=270
+  merge: cand 3 (sym) C=97.02 adj=97.02 band=94.50/99.54 holes=-1.00 inter=7616 out=352 miss=35
+  merge: cand 4 (sym) C=97.55 adj=97.55 band=95.47/99.63 holes=-1.00 inter=7623 out=301 miss=28
+  merge: cand 5 (geo) C=97.25 adj=97.25 band=98.35/96.14 holes=-1.00 inter=7377 out=118 miss=274
+  merge: cand 6 (geo) C=97.24 adj=97.24 band=98.28/96.20 holes=-1.00 inter=7381 out=123 miss=270
+  merge: cand 7 (geo) C=97.01 adj=97.01 band=94.47/99.56 holes=-1.00 inter=7617 out=355 miss=34
+  merge: cand 8 (geo) C=97.53 adj=97.53 band=95.46/99.59 holes=-1.00 inter=7620 out=302 miss=31
+  merge: cand 9 (full) C=97.25 adj=97.25 band=98.35/96.14 holes=-1.00 inter=7377 out=118 miss=274
+  merge: cand 10 (full) C=97.24 adj=97.24 band=98.28/96.20 holes=-1.00 inter=7381 out=123 miss=270
+  merge: cand 11 (full) C=97.01 adj=97.01 band=94.47/99.56 holes=-1.00 inter=7617 out=355 miss=34
+  merge: cand 12 (full) C=97.53 adj=97.53 band=95.46/99.59 holes=-1.00 inter=7620 out=302 miss=31
+  merge: 1 shape(s) -> best single candidate C=97.55 (sym)
+  sym: H cx=873.5 cy=314.0 iou=0.113/0.963
+  merge: + full shape (cand 11) dF1=0.9819 F1=0.9819
+  merge: cand 0 (legacy) C=98.10 adj=95.10 band=99.09/97.11 holes=-1.00 inter=7489 out=68 miss=213
+  merge: cand 1 (plain) C=97.04 adj=97.04 band=97.61/96.48 holes=-1.00 inter=7448 out=152 miss=254
+  merge: cand 2 (plain) C=97.66 adj=97.66 band=98.21/97.12 holes=-1.00 inter=7494 out=120 miss=208
+  merge: cand 3 (sym) C=98.14 adj=98.14 band=97.27/99.01 holes=-1.00 inter=7626 out=199 miss=76
+  merge: cand 4 (sym) C=98.15 adj=98.15 band=97.21/99.08 holes=-1.00 inter=7631 out=204 miss=71
+  merge: cand 5 (geo) C=97.04 adj=97.04 band=97.61/96.48 holes=-1.00 inter=7448 out=152 miss=254
+  merge: cand 6 (geo) C=97.66 adj=97.66 band=98.21/97.12 holes=-1.00 inter=7494 out=120 miss=208
+  merge: cand 7 (geo) C=98.14 adj=98.14 band=97.29/98.99 holes=-1.00 inter=7624 out=197 miss=78
+  merge: cand 8 (geo) C=98.13 adj=98.13 band=97.26/99.01 holes=-1.00 inter=7626 out=200 miss=76
+  merge: cand 9 (full) C=97.04 adj=97.04 band=97.61/96.48 holes=-1.00 inter=7448 out=152 miss=254
+  merge: cand 10 (full) C=97.66 adj=97.66 band=98.21/97.12 holes=-1.00 inter=7494 out=120 miss=208
+  merge: cand 11 (full) C=98.14 adj=98.14 band=97.29/98.99 holes=-1.00 inter=7624 out=197 miss=78
+  merge: cand 12 (full) C=98.13 adj=98.13 band=97.26/99.01 holes=-1.00 inter=7626 out=200 miss=76
+  merge: 1 shape(s) -> best single candidate C=98.15 (sym)
+  sym: H cx=204.0 cy=314.5 iou=0.239/0.965
+  merge: + sym shape (cand 3) dF1=0.9764 F1=0.9764
+  merge: cand 0 (legacy) C=97.30 adj=94.30 band=97.94/96.65 holes=-1.00 inter=4529 out=93 miss=152
+  merge: cand 1 (plain) C=95.74 adj=95.74 band=95.47/96.01 holes=-1.00 inter=4508 out=161 miss=173
+  merge: cand 2 (plain) C=95.95 adj=95.95 band=95.91/95.99 holes=-1.00 inter=4505 out=148 miss=176
+  merge: cand 3 (sym) C=96.94 adj=96.94 band=94.39/99.49 holes=-1.00 inter=4657 out=201 miss=24
+  merge: cand 4 (sym) C=96.78 adj=96.78 band=93.72/99.83 holes=-1.00 inter=4673 out=227 miss=8
+  merge: cand 5 (geo) C=95.74 adj=95.74 band=95.47/96.01 holes=-1.00 inter=4508 out=161 miss=173
+  merge: cand 6 (geo) C=95.95 adj=95.95 band=95.91/95.99 holes=-1.00 inter=4505 out=148 miss=176
+  merge: cand 7 (geo) C=96.88 adj=96.88 band=94.35/99.40 holes=-1.00 inter=4653 out=203 miss=28
+  merge: cand 8 (geo) C=96.73 adj=96.73 band=93.69/99.77 holes=-1.00 inter=4670 out=228 miss=11
+  merge: cand 9 (full) C=95.74 adj=95.74 band=95.47/96.01 holes=-1.00 inter=4508 out=161 miss=173
+  merge: cand 10 (full) C=95.95 adj=95.95 band=95.91/95.99 holes=-1.00 inter=4505 out=148 miss=176
+  merge: cand 11 (full) C=96.88 adj=96.88 band=94.35/99.40 holes=-1.00 inter=4653 out=203 miss=28
+  merge: cand 12 (full) C=96.73 adj=96.73 band=93.69/99.77 holes=-1.00 inter=4670 out=228 miss=11
+  merge: 1 shape(s) -> best single candidate C=96.94 (sym)
+  sym: H cx=817.5 cy=314.0 iou=0.244/0.967
+  merge: + sym shape (cand 3) dF1=0.9823 F1=0.9823
+  merge: cand 0 (legacy) C=98.28 adj=95.28 band=99.22/97.34 holes=-1.00 inter=4588 out=36 miss=124
+  merge: cand 1 (plain) C=96.74 adj=96.74 band=96.82/96.66 holes=-1.00 inter=4563 out=122 miss=149
+  merge: cand 2 (plain) C=97.26 adj=97.26 band=97.37/97.15 holes=-1.00 inter=4581 out=103 miss=131
+  merge: cand 3 (sym) C=97.90 adj=97.90 band=96.56/99.24 holes=-1.00 inter=4676 out=148 miss=36
+  merge: cand 4 (sym) C=97.88 adj=97.88 band=96.36/99.41 holes=-1.00 inter=4684 out=159 miss=28
+  merge: cand 5 (geo) C=96.74 adj=96.74 band=96.82/96.66 holes=-1.00 inter=4563 out=122 miss=149
+  merge: cand 6 (geo) C=97.26 adj=97.26 band=97.37/97.15 holes=-1.00 inter=4581 out=103 miss=131
+  merge: cand 7 (geo) C=97.95 adj=97.95 band=96.53/99.36 holes=-1.00 inter=4682 out=150 miss=30
+  merge: cand 8 (geo) C=97.87 adj=97.87 band=96.19/99.55 holes=-1.00 inter=4691 out=168 miss=21
+  merge: cand 9 (full) C=96.74 adj=96.74 band=96.82/96.66 holes=-1.00 inter=4563 out=122 miss=149
+  merge: cand 10 (full) C=97.26 adj=97.26 band=97.37/97.15 holes=-1.00 inter=4581 out=103 miss=131
+  merge: cand 11 (full) C=97.95 adj=97.95 band=96.53/99.36 holes=-1.00 inter=4682 out=150 miss=30
+  merge: cand 12 (full) C=97.87 adj=97.87 band=96.19/99.55 holes=-1.00 inter=4691 out=168 miss=21
+  merge: 1 shape(s) -> best single candidate C=97.95 (geo)
+  sym: V cx=511.0 cy=543.5 iou=0.965/0.574
+  merge: + sym shape (cand 3) dF1=0.5828 F1=0.5828
+  merge: + full shape (cand 10) dF1=0.3078 F1=0.8906
+  merge: + sym shape (cand 3) dF1=0.0813 F1=0.9718
+  merge: cand 0 (legacy) C=69.32 adj=57.32 band=67.30/58.06 holes=95.87 inter=59081 out=7615 miss=8246
+  merge: cand 1 (plain) C=95.93 adj=95.93 band=92.44/97.72 holes=99.34 inter=66151 out=4215 miss=1176
+  merge: cand 2 (plain) C=97.47 adj=97.47 band=97.28/96.66 holes=99.44 inter=65471 out=1553 miss=1856
+  merge: cand 3 (sym) C=96.56 adj=96.56 band=93.42/98.31 holes=99.32 inter=66606 out=3228 miss=721
+  merge: cand 4 (sym) C=90.88 adj=90.88 band=97.01/97.00 holes=66.37 inter=65755 out=1324 miss=1572
+  merge: cand 5 (geo) C=67.76 adj=67.76 band=64.86/56.63 holes=95.83 inter=58815 out=8081 miss=8512
+  merge: cand 6 (geo) C=69.42 adj=69.42 band=67.79/57.91 holes=95.67 inter=59481 out=7199 miss=7846
+  merge: cand 7 (geo) C=96.50 adj=96.50 band=93.34/98.27 holes=99.29 inter=66600 out=3254 miss=727
+  merge: cand 8 (geo) C=90.92 adj=90.92 band=96.98/97.16 holes=66.31 inter=65930 out=1393 miss=1397
+  merge: cand 9 (full) C=67.95 adj=67.95 band=65.34/56.63 holes=95.83 inter=58815 out=8028 miss=8512
+  merge: cand 10 (full) C=69.22 adj=69.22 band=67.77/57.44 holes=95.67 inter=59435 out=7199 miss=7892
+  merge: cand 11 (full) C=93.59 adj=93.59 band=90.77/93.62 holes=99.19 inter=65441 out=3786 miss=1886
+  merge: cand 12 (full) C=86.14 adj=86.14 band=82.30/84.14 holes=97.82 inter=62928 out=3990 miss=4399
+  merge: 3 shapes C_merged=69.86 adj=69.86 legacy_frac=0.00 C_best_single=97.47 (plain) veto=below_best_single
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.UKTWQW/airport-signal-antenna/prepped/airport-signal-antenna.png: 5 svg(s)
+=== SVG TRANSFORMATION WITH PADDING ===
+SVG transformation with padding applied:
+  Original content: 801.7 x 651.8
+  Max original dimension: 801.7
+  Available space (with padding): 1016
+  Scale factor: 1.2673
+  Scaled content: 1016.0 x 826.0
+  Final canvas: 1024 x 1024
+  Padding: 4px
+  Content centered at: (4.0, 99.0)
+✅ Transformed SVG saved to: /var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.UKTWQW/airport-signal-antenna/airport-signal-antenna_final.svg
+stretch-to-fit snap: horizontal-rect-16x14 (pre-snap kept as /var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.UKTWQW/airport-signal-antenna/airport-signal-antenna_final.pre_snap.svg)
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T//vectorize.UKTWQW/airport-signal-antenna/airport-signal-antenna_final.svg: combined 5 object(s), step-8 fit to 1024x1024, keyshape-snapped
+done: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna_raw.svg (5 parts)
+
+exec
+/bin/zsh -lc 'rtk proxy rsvg-convert -b white -w 48 -h 48 -o /tmp/airport-signal-vector-48.png new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna_raw.svg' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 321ms:
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+from PIL import Image
+import json
+run=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna')
+for p in sorted(run.iterdir()): print(p.name,p.stat().st_size)
+print('PNG',Image.open(run/'airport-signal-antenna.png').mode,Image.open(run/'airport-signal-antenna.png').size)
+choice=json.loads((run/'choice.json').read_text()); print('source_icon_id',choice['source_icon_id'],'attempts',choice['attempts'])
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 1043ms:
+airport-signal-antenna.png 111490
+airport-signal-antenna_raw.svg 1645
+choice.json 695
+codex.log 53235
+prompt.txt 2170
+reference.svg 3685
+PNG RGB (1024, 1024)
+source_icon_id 71810c29-2b03-4b67-8fc7-929b40352813 attempts 3
+
+exec
+/bin/zsh -lc 'rtk proxy cat new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/choice.json' in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 0ms:
+{
+  "subject": "Airport signal antenna",
+  "source_icon_id": "71810c29-2b03-4b67-8fc7-929b40352813",
+  "reference_path": "/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/travel/airport signal_58573359-f61e-52a8-b710-7818357fd8e0.svg",
+  "parts": "a wide horizontal rounded rectangular antenna head about twice as wide as tall near the top, one vertical center divider continuing down as a short mast, a low wide trapezoid base across the bottom quarter, and exactly two curved signal waves on each side",
+  "shape": "square",
+  "stroke_count": 6,
+  "shape_source": "agent",
+  "image_model": "codex:image_gen",
+  "attempts": 3,
+  "created_at": "2026-09-28T16:36:18"
+}
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+p=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/codex.log')
+print('\\n'.join(p.read_text(errors='replace').splitlines()[:12]))
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 289ms:
+Reading additional input from stdin...
+OpenAI Codex v0.157.1
+--------
+workdir: /Applications/Workspaces/pictographic/claude_skills
+model: gpt-6-sol
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0e75d-cb16-7070-af13-78bacf780faf
+--------
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+p=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/codex.log')
+print('\\n'.join(p.read_text(errors='replace').splitlines()[-16:]))
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 215ms:
+svg=folder/'dancing-person-with-music-notes_raw.svg'
+subprocess.run(['rsvg-convert','-w','48','-h','48',str(svg),'-o','/tmp/dancing-person-vector-48-alpha.png'],check=True)
+im=Image.open('/tmp/dancing-person-vector-48-alpha.png').convert('RGBA')
+bg=Image.new('RGBA',im.size,'white'); bg.alpha_composite(im); bg.convert('RGB').save('/tmp/dancing-person-vector-48.png')
+print('files:',[(p.name,p.stat().st_size) for p in folder.iterdir()])
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 518ms:
+files: [('reference.svg', 27846), ('dancing-person-with-music-notes_raw.svg', 1738), ('dancing-person-with-music-notes.png', 560156), ('prompt.txt', 2218), ('choice.json', 656)]
+
+codex
+The selected PNG is saved at 1024×1024. The traced SVG has four connected parts—the head, body, and two notes—and the 48 px check remains readable.
+codex
+**Dancing person with music notes:** [PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/dancing-person-with-music-notes.png) · [raw SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/dancing-person-with-music-notes_raw.svg) (4 parts). Generated with `codex:image_gen`; the stick figure has spread arms and a kicked leg, with two notes on its left. It remained readable at 48 px. The reference copy and the exact `source_icon_id` are saved in the [run folder](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/choice.json).
+tokens used
+40,465
+**Dancing person with music notes:** [PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/dancing-person-with-music-notes.png) · [raw SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/dancing-person-with-music-notes_raw.svg) (4 parts). Generated with `codex:image_gen`; the stick figure has spread arms and a kicked leg, with two notes on its left. It remained readable at 48 px. The reference copy and the exact `source_icon_id` are saved in the [run folder](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1635-dancing-person-with-music-notes/choice.json).
+
+exec
+/bin/zsh -lc "rtk proxy rg -n '71810c29|58573359|airport-signal' new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/codex.log" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 405ms:
+14:$generate-png-solo-with-reference Dancing person with music notes /Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg --source-id 71810c29-2b03-4b67-8fc7-929b40352813
+17:Reference (absolute path, may contain spaces): /Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg
+18:Source icon id (the original icon this replaces): 71810c29-2b03-4b67-8fc7-929b40352813. Record it as source_icon_id in choice.json exactly as given.
+638:/bin/zsh -lc "ls -l 'pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg' new-pipeline-test/vectorize/process.sh && date '+%Y%m%d-%H%M %FT%T%z'" in /Applications/Workspaces/pictographic/claude_skills
+641:-rw-r--r--@ 1 jakesdev  admin  27846 Sep 15 13:36 pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg
+645:/bin/zsh -lc "rtk proxy rsvg-convert -w 512 'pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg' -o /tmp/dancing-person-reference.png" in /Applications/Workspaces/pictographic/claude_skills
+668:ref=root/'pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg'
+695:choice=dict(subject='Dancing person with music notes',source_icon_id='71810c29-2b03-4b67-8fc7-929b40352813',reference_path=str(ref),parts=parts,shape='square',stroke_count=6,shape_source='agent',image_model='codex:image_gen',attempts=1,created_at=datetime.now().astimezone().isoformat())
+720:Use the reference image at '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/entertainment/party music dance_71810c29-2b03-4b67-8fc7-929b40352813.svg' for the subject, its parts and its proportions. Redraw it in the style below; do not copy its line weight, fills or fine detail.
+
+exec
+/bin/zsh -lc "rtk proxy python3 - <<'PY'
+from pathlib import Path
+import json
+p=Path('new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/choice.json')
+choice=json.loads(p.read_text())
+choice['source_icon_id']='58573359-f61e-52a8-b710-7818357fd8e0'
+p.write_text(json.dumps(choice,indent=2)+'\\n')
+print(json.loads(p.read_text())['source_icon_id'])
+PY" in /Applications/Workspaces/pictographic/claude_skills
+ succeeded in 103ms:
+58573359-f61e-52a8-b710-7818357fd8e0
+
+codex
+**Airport signal antenna:** [PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png) · [raw SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna_raw.svg) (5 parts). Generated with `codex:image_gen` using a horizontal antenna head, mast, low base, and two signal arcs per side. Both files read clearly at 48 px. The [run folder](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/choice.json) includes the reference copy and the exact `source_icon_id`.
+tokens used
+45,939
+**Airport signal antenna:** [PNG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna.png) · [raw SVG](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/airport-signal-antenna_raw.svg) (5 parts). Generated with `codex:image_gen` using a horizontal antenna head, mast, low base, and two signal arcs per side. Both files read clearly at 48 px. The [run folder](/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1636-airport-signal-antenna/choice.json) includes the reference copy and the exact `source_icon_id`.

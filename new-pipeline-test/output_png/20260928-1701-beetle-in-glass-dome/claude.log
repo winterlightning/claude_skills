@@ -1,0 +1,91 @@
+[17:04:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1701-beetle-in-glass-dome; ls $D; cat $D/beetle-in-glass-dome...
+[17:05:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260928-1701-beetle-in-glass-dome; python3 -c " import json;m=json.lo...
+[17:05:26] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome/beetle-in-glass-dome.png
+[17:05:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1659-alien-head-slanted-eyes/alien_head_slanted_eyes_redraw...
+[17:05:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -l "redraw" *.py *.sh 2>/dev/null; tail -40 output_png/20260928-1659-alien...
+[17:05:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(validate_icon\|to_svg\|svg\|render\|emit\)" -r icon_set/model/*.py icon_set/model/icon...
+[17:05:47] I've read the inputs; now checking the model's geometry API before drawing the beetle and dome.
+[17:05:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def add_\| def relate\| def mark" icon_set/model/icons/base.py icon_set/model/*.py | head -...
+[17:05:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py
+[17:08:18] Plan settled: VRECT_L dome (arch r16, walls x=8/40, floor y=44) with a reduced beetle (stadium shell, solid head cap, antennae, two leg pairs). Writing the model and validating.
+[17:08:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome; cat > $D/beetle_in_glass_dome_redr...
+[17:08:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/beetle_render.py
+[17:08:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome; sed -i '' 's/^SHELL_BOTTOM_CY = 31...
+[17:08:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome; sed -i '' 's/^FRONT_LEG = .*/FRONT...
+[17:08:48] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome/beetle-in-glass-dome_redraw.png
+[17:09:01] > Bash: cd /tmp; rsvg-convert -w 48 -h 48 -b '#111' /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260928-1701-beetle-in-glass-do...
+[17:09:02] > Read: /tmp/b_both.png
+[17:09:04] The model validates and reads well at 48 px in both themes. Now I'm writing the docstring and doing the final render.
+[17:09:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome; /opt/homebrew/bin/python3 - <<'EOF...
+[17:09:37] I've redrawn the beetle in the glass dome as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and I checked the 48 px render in both light and dark themes.
+
+**Subject:** a beetle under a glass bell jar. It has a rounded shell, a small solid head, two antennae and two pairs of legs.
+
+**Keyshape:** `VRECT_L`, as the metrics suggested.
+- The arch is a half circle of radius 16 centred on (24,20). Its top point (24,4) sits on the top edge of the box.
+- The walls are at x=8 and x=40, and the floor line is at y=44. All four sides of the box are touched exactly.
+- The beetle is drawn fresh on the grid and mirrored on x=24. None of the trace's coordinates were copied.
+
+**Beetle construction:**
+- **Shell:** a rounded oblong 10 units wide with radius-5 ends.
+- **Head:** a radius-3 half circle on the shell's top. The 2-unit sliver under it paints solid, so the head reads as a solid cap.
+- **Antennae:** a V from the head's top point (24,17) out to (20,14) and (28,14).
+- **Legs:** one front and one rear leg on each side, reaching out to x=17 and x=31.
+- The layout follows Lucide's `bug` icon (rounded body, head cap, paired legs, antennae). No useful Lucide match exists for the dome.
+
+**Metric issues fixed:**
+- **Stroke width:** the trace was 2.47; the redraw uses stroke 4.
+- **Keyshape fill:** only 93% of the height was used before; now every edge of the box is touched.
+- **All 26 spacing errors:** every free part is now at least 8 units from every other part. Where a curve or a leg end faces a wall, I used 9, because exactly 8 still came back as a `review` warning. Parts that touch share an endpoint and are declared as connected.
+- **Holes too small (1.4):** the two slivers beside the shell's centre line are gone. The shell's inner opening is now 6 wide by 13 tall.
+- **Stroke count (11, limit 6):** reduced to the dome, shell, head, two antennae and four legs. The dome counts as one closed shape, but the result is still more than 6 strokes, so this one is only partly fixed.
+
+**Issues I could not fix:**
+- **Base plate wider than the dome:** the dome walls already sit at the box's 32-unit width limit, so nothing can stick out past them. A separate plate would also need about 18 units of height that the beetle can't give up. The dome's floor line stands in for the base. Because of this, the jar reads a little like an arched doorway.
+- **Line down the middle of the shell:** splitting the 10-wide shell would leave two openings of about 1 unit each. A shell with that line needs over 20 units of width, and the space inside the dome is only 16.
+- **Middle pair of legs:** a third pair can't sit 8 units from both other pairs along the shell's 13-unit side.
+
+The docstring records the plan and all of the above. I only wrote files in the run folder: nothing was registered under `icon_set/model/icons`, `published/` wasn't touched (its existing changes were already there), and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome/`:
+- `beetle_in_glass_dome_redraw.py`
+- `beetle-in-glass-dome_redraw.svg`
+- `beetle-in-glass-dome_redraw.png`
+- `beetle-in-glass-dome_redraw-48.png`
+
+[17:09:37] === success in 303s, $1.09 ===
+I've redrawn the beetle in the glass dome as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and I checked the 48 px render in both light and dark themes.
+
+**Subject:** a beetle under a glass bell jar. It has a rounded shell, a small solid head, two antennae and two pairs of legs.
+
+**Keyshape:** `VRECT_L`, as the metrics suggested.
+- The arch is a half circle of radius 16 centred on (24,20). Its top point (24,4) sits on the top edge of the box.
+- The walls are at x=8 and x=40, and the floor line is at y=44. All four sides of the box are touched exactly.
+- The beetle is drawn fresh on the grid and mirrored on x=24. None of the trace's coordinates were copied.
+
+**Beetle construction:**
+- **Shell:** a rounded oblong 10 units wide with radius-5 ends.
+- **Head:** a radius-3 half circle on the shell's top. The 2-unit sliver under it paints solid, so the head reads as a solid cap.
+- **Antennae:** a V from the head's top point (24,17) out to (20,14) and (28,14).
+- **Legs:** one front and one rear leg on each side, reaching out to x=17 and x=31.
+- The layout follows Lucide's `bug` icon (rounded body, head cap, paired legs, antennae). No useful Lucide match exists for the dome.
+
+**Metric issues fixed:**
+- **Stroke width:** the trace was 2.47; the redraw uses stroke 4.
+- **Keyshape fill:** only 93% of the height was used before; now every edge of the box is touched.
+- **All 26 spacing errors:** every free part is now at least 8 units from every other part. Where a curve or a leg end faces a wall, I used 9, because exactly 8 still came back as a `review` warning. Parts that touch share an endpoint and are declared as connected.
+- **Holes too small (1.4):** the two slivers beside the shell's centre line are gone. The shell's inner opening is now 6 wide by 13 tall.
+- **Stroke count (11, limit 6):** reduced to the dome, shell, head, two antennae and four legs. The dome counts as one closed shape, but the result is still more than 6 strokes, so this one is only partly fixed.
+
+**Issues I could not fix:**
+- **Base plate wider than the dome:** the dome walls already sit at the box's 32-unit width limit, so nothing can stick out past them. A separate plate would also need about 18 units of height that the beetle can't give up. The dome's floor line stands in for the base. Because of this, the jar reads a little like an arched doorway.
+- **Line down the middle of the shell:** splitting the 10-wide shell would leave two openings of about 1 unit each. A shell with that line needs over 20 units of width, and the space inside the dome is only 16.
+- **Middle pair of legs:** a third pair can't sit 8 units from both other pairs along the shell's 13-unit side.
+
+The docstring records the plan and all of the above. I only wrote files in the run folder: nothing was registered under `icon_set/model/icons`, `published/` wasn't touched (its existing changes were already there), and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260928-1701-beetle-in-glass-dome/`:
+- `beetle_in_glass_dome_redraw.py`
+- `beetle-in-glass-dome_redraw.svg`
+- `beetle-in-glass-dome_redraw.png`
+- `beetle-in-glass-dome_redraw-48.png`
