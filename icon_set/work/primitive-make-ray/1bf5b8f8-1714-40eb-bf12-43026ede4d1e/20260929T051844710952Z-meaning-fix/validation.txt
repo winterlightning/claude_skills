@@ -1,0 +1,28 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 1, 45, 47) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 3.0, 1.0, 3.0], tolerance 0.0)
+  ERROR  mic [symbol-ring]: symbol-ring and male-stem are 0.556349 apart on centerlines nearest (31.6066, 12.3934)<->(32, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [symbol-ring]: symbol-ring and heart are 5.65364 apart on centerlines nearest (32.315, 13.153)<->(28.0567, 16.872); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [male-stem]: male-stem and heart are 6.22831 apart on centerlines nearest (32, 12)<->(27.7535, 16.5563); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [female-stem]: female-stem and heart are 8 apart on centerlines nearest (21, 38)<->(21, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: {
+  "icon_id": "romance-heterosextual-symbol",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 1, 45, 47) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 3.0, 1.0, 3.0], tolerance 0.0)",
+    "mic [symbol-ring]: symbol-ring and male-stem are 0.556349 apart on centerlines nearest (31.6066, 12.3934)<->(32, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [symbol-ring]: symbol-ring and heart are 5.65364 apart on centerlines nearest (32.315, 13.153)<->(28.0567, 16.872); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [male-stem]: male-stem and heart are 6.22831 apart on centerlines nearest (32, 12)<->(27.7535, 16.5563); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [female-stem]: female-stem and heart are 8 apart on centerlines nearest (21, 38)<->(21, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [symbol-ring / female-cross]: symbol-ring-1 and female-cross have 0.0005 units of ink clearance over 11.2198 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Nested heart and gender ring require compact internal spacing and extended directional marks. All defining parts remain clear under the user-authorized visual exception.",
+    "approved_by": "user",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "fd7946e68c2e60aef762e67705d022293bc6363986717b8deb3fe27aff848c6c"
+  },
+  "automatic_status": "fail"
+}

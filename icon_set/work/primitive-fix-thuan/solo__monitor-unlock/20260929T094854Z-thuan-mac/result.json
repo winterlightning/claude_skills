@@ -1,0 +1,65 @@
+{
+  "source_key": "solo/monitor-unlock",
+  "icon_id": "monitor-unlock",
+  "svg_sha256": "dc5fd3854982d4cb2871834231de4d1ed424794b2f081ea66ccbf3da323845f4",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "The lock is an open G-shaped stroke with no separate lock body or recognizable raised shackle. Draw a monitor and stand containing a rectangular padlock body and visibly open round shackle. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/045a0447-9d31-4ac4-8345-6b457d6d7fdb/20260929T100401650095Z-reviewed-04",
+  "module": "icon_set/work/primitive-make-ray/045a0447-9d31-4ac4-8345-6b457d6d7fdb/20260929T100401650095Z-reviewed-04/monitor_unlock_045a0447_9d31_4ac4_8345_6b457d6d7fdb.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [lock-body]: parallel straight edges lock-body-4 and screen-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen]: screen and shackle are 6 apart on centerlines nearest (24, 4)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/monitor_unlock_045a0447_9d31_4ac4_8345_6b457d6d7fdb.py",
+    "validation.txt",
+    "after/monitor-unlock.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T10:05:29.376649+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "monitor-unlock",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [lock-body]: parallel straight edges lock-body-4 and screen-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [screen]: screen and shackle are 6 apart on centerlines nearest (24, 4)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Use a slightly larger optical monitor envelope to retain a clearly open shackle above a separate padlock body. The lock and frame remain visibly separated; 48px canvas and 4px strokes are unchanged.",
+      "approved_by": "user-authorized-agent-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ef4be544fbfeca3c040186234d0ffb5646134468283a4c34c488807a94af9b25"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T10:05:28.530000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__monitor-unlock/20260929T094854Z-thuan-mac/after/monitor_unlock_045a0447_9d31_4ac4_8345_6b457d6d7fdb.py",
+    "note": "The lock is an open G-shaped stroke with no separate lock body or recognizable raised shackle. Draw a monitor and stand containing a rectangular padlock body and visibly open round shackle. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "The lock is an open G-shaped stroke with no separate lock body or recognizable raised shackle. Draw a monitor and stand containing a rectangular padlock body and visibly open round shackle. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:48:45.237000+00:00",
+    "updated_at": "2026-09-29T10:05:29.242000+00:00",
+    "svg_sha256": "dc5fd3854982d4cb2871834231de4d1ed424794b2f081ea66ccbf3da323845f4"
+  },
+  "review_status": "ready"
+}

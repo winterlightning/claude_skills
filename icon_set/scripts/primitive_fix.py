@@ -5,7 +5,7 @@ The two commands behind the /primitive-fix-thuan skill. The drawing itself is
 authored by /primitive-make-ray; this script only claims, records and uploads,
 so the Fix queue page can show the drawing before and after the fix:
 
-    python3 icon_set/scripts/primitive_fix.py start --worker thuan-mac --limit 5 [--offset 0] [--disapprove-status bad-stroke]
+    python3 icon_set/scripts/primitive_fix.py start --worker thuan-mac --limit 5 [--offset 0] [--disapprove-status bad-stroke] [--max-disapprovals 1]
     python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --run icon_set/work/primitive-make-ray/<uuid>/<run> --outcome done --note "equalised the arms"
     python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --outcome cannot-fix --note "MIC 8 impossible with three bars"
 
@@ -40,7 +40,6 @@ import traceback
 import uuid as uuid_module
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urljoin
-from urllib.request import Request, urlopen
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -71,7 +70,7 @@ def fetch_svg(base_url, item):
     failure = None
     for url in urls:
         try:
-            with urlopen(Request(url, headers={'Accept': 'image/svg+xml'}), timeout=work_queue.TIMEOUT) as response:
+            with work_queue.open_url(url, accept='image/svg+xml') as response:
                 return response.read().decode('utf-8')
         except (HTTPError, URLError, OSError) as error:
             failure = error
@@ -147,7 +146,7 @@ def stage_reference(base_url, item, target):
             return path
         if ref.get('url'):
             try:
-                with urlopen(urljoin(base_url.rstrip('/') + '/gallery/', ref['url']), timeout=work_queue.TIMEOUT) as response:
+                with work_queue.open_url(urljoin(base_url.rstrip('/') + '/gallery/', ref['url'])) as response:
                     path.write_bytes(response.read())
                 return path
             except (HTTPError, URLError, OSError):
@@ -191,9 +190,10 @@ def describe_block(item, result_dir, module_path, reference=None, reference_is_c
     return '\n'.join(lines) + '\n'
 
 
-def start(base_url, worker, limit, offset=0, reason=None, results_root=None):
+def start(base_url, worker, limit, offset=0, reason=None, results_root=None, max_disapprovals=None):
     root = Path(results_root) if results_root else primitive_fix_results_dir()
-    claimed, page, last = work_queue.take_next(base_url, worker, family=FAMILY, limit=limit, offset=offset, reason=reason)
+    claimed, page, last = work_queue.take_next(base_url, worker, family=FAMILY, limit=limit, offset=offset, reason=reason,
+                                               max_disapprovals=max_disapprovals)
     if not claimed:
         if last is not None:
             raise work_queue.ApiError(last.status, last.payload)
@@ -387,7 +387,7 @@ def main(argv=None):
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
     # --base-url and --worker are accepted before or after the subcommand (the skills write them after).
     shared = argparse.ArgumentParser(add_help=False)
-    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
+    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production (default: $PICTOGRAPHIC_API or the Cloudflare Worker recorded in deploy.py)')
     shared.add_argument('--worker', default=argparse.SUPPRESS, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
     parser.set_defaults(base_url=None, worker=None)
     for action in shared._actions:
@@ -399,6 +399,8 @@ def main(argv=None):
     begin.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     begin.add_argument('--disapprove-status', '--reason', dest='reason', choices=work_queue.REASONS,
                        help='only icons disapproved for this reason')
+    begin.add_argument('--max-disapprovals', type=int, default=None,
+                       help='only icons disapproved at most this many times (1 = first disapproval only)')
     end = commands.add_parser('finish', help='validate, record and report one fixed icon', parents=[shared])
     end.add_argument('--icon', required=True)
     end.add_argument('--run', default=None, help='the /primitive-make-ray RESULT_DIR holding the fixed module (required for done)')
@@ -411,10 +413,12 @@ def main(argv=None):
         if args.command == 'start':
             if args.limit < 1 or args.offset < 0:
                 parser.error('--limit must be at least 1 and --offset nonnegative')
-            started = start(base_url, worker, args.limit, args.offset, args.reason, args.results_root)
+            started = start(base_url, worker, args.limit, args.offset, args.reason, args.results_root,
+                            args.max_disapprovals)
             if not started:
                 print(f'No claimable disapproved {FAMILY} icons on {base_url}'
-                      + (f' with reason {args.reason}' if args.reason else '') + '.', file=sys.stderr)
+                      + (f' with reason {args.reason}' if args.reason else '')
+                      + (f' disapproved at most {args.max_disapprovals} time(s)' if args.max_disapprovals is not None else '') + '.', file=sys.stderr)
                 return 3
             for entry in started:
                 print(describe_block(entry['item'], entry['result_dir'], entry['module'], entry['reference'],

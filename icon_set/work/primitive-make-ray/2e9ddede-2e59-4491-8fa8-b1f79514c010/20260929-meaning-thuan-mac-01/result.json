@@ -1,0 +1,58 @@
+{
+  "concept": "modern music mix touch",
+  "source_uuid": "2e9ddede-2e59-4491-8fa8-b1f79514c010",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-playing-pad-controller/20260929T025914Z-thuan-mac/reference/modern music mix touch_2e9ddede-2e59-4491-8fa8-b1f79514c010.svg",
+  "icon_id": "hand-playing-pad-controller",
+  "author": "gpt-6",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected pad is an F-shaped fragment rather than a grid, and the hand does not clearly press a pad.",
+  "changes": "Restored a rounded 2-column pad grid, a raised index finger pressing its right pad, a rounded palm and an open musical note.",
+  "construction_reference": "Lucide panels-top-left: regular panel grid; hand: raised index and thumb; music-2: circular note head and upright stem.",
+  "omissions": "Dense source pad matrix reduced to 2 columns and 3 rows; paired notes reduced to one open note.",
+  "keyshape": "SQUARE",
+  "fix_run": "icon_set/work/primitive-fix-thuan/solo__hand-playing-pad-controller/20260929T025914Z-thuan-mac",
+  "run": "icon_set/work/primitive-make-ray/2e9ddede-2e59-4491-8fa8-b1f79514c010/20260929-meaning-thuan-mac-01",
+  "module": "hand_playing_pad_controller_2e9ddede_2e59_4491_8fa8_b1f79514c010.py",
+  "svg": "hand-playing-pad-controller.svg",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "hand-playing-pad-controller",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [hand]: parallel straight edges hand-5 and hand-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [hand]: hand and note are 5.65933 apart on centerlines nearest (31.6684, 19.8222)<->(35.1502, 15.3607); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [grid-vertical]: grid-vertical and hand are 0 apart on centerlines nearest (16, 28)<->(16, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [hand]: hand-0 and hand-2 have 1.7337 units of ink clearance over 7.4359 units; requires 4; review required",
+      "internal-spacing [hand]: hand-3 and hand-5 have 2 units of ink clearance over 7 units; requires 4; review required",
+      "internal-spacing [note / stem]: note-0 and stem-2 have 0.6048 units of ink clearance over 3.4783 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. The pressing hand intentionally overlaps the pad grid. Preserve the visible 2-column grid, raised index and musical note, allowing tight pad cells and note details. The cells and gesture are identifiable at 48px; removing the grid would return the rejected F-shaped fragment. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+      "approved_by": "user: delegated decision to gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ca91d7949884a5e0dfd1457eecafb9f97867356d76cdebd0af9196e2b933be40"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": "The pressing hand intentionally overlaps the pad grid. Preserve the visible 2-column grid, raised index and musical note, allowing tight pad cells and note details. The cells and gesture are identifiable at 48px; removing the grid would return the rejected F-shaped fragment.",
+  "artifacts": [
+    "before-192.png",
+    "before-48.png",
+    "gate.json",
+    "hand-playing-pad-controller.metadata.json",
+    "hand-playing-pad-controller.svg",
+    "hand_playing_pad_controller_2e9ddede_2e59_4491_8fa8_b1f79514c010.py",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "review-before.md",
+    "validation.txt"
+  ]
+}

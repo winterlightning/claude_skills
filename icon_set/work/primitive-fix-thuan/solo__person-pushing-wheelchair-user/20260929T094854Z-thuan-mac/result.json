@@ -1,0 +1,65 @@
+{
+  "source_key": "solo/person-pushing-wheelchair-user",
+  "icon_id": "person-pushing-wheelchair-user",
+  "svg_sha256": "62a63ab4866ea469d6632f6f27c2d4773c1a3f31fde24799bba8048a0e61ecac",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored a walking helper, bent pushing arm, larger open wheelchair wheel and a clear seated figure with a forward leg. User-authorized visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/c41ef721-60c2-4320-a7d5-7a5f29e74c2b/20260929T094854Z-gpt6-02",
+  "module": "icon_set/work/primitive-make-ray/c41ef721-60c2-4320-a7d5-7a5f29e74c2b/20260929T094854Z-gpt6-02/person_pushing_wheelchair_user_c41ef721_60c2_4320_a7d5_7a5f29e74c2b.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 1, 47, 46.6265) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 3.0, 3.0, 2.6265], tolerance 0.0)",
+    "mic [pushing-arm]: pushing-arm and wheel are 3.24367 apart on centerlines nearest (20.7977, 23.7626)<->(21, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/person_pushing_wheelchair_user_c41ef721_60c2_4320_a7d5_7a5f29e74c2b.py",
+    "validation.txt",
+    "after/person-pushing-wheelchair-user.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T10:11:21.350471+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "person-pushing-wheelchair-user",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 1, 47, 46.6265) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 3.0, 3.0, 2.6265], tolerance 0.0)",
+      "mic [pushing-arm]: pushing-arm and wheel are 3.24367 apart on centerlines nearest (20.7977, 23.7626)<->(21, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [helper-front-leg / helper-back-leg]: helper-front-leg-2 and helper-back-leg have 1.7431 units of ink clearance over 5.6081 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve two people in a legible pushing pose with a full wheel. Compact arm/seat/wheel spacing is intentional; both head-to-torso gaps remain exactly4px.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "64acdada8d866594006d7dd35a83648eff002e073d6942e599b7e7d2492f3db4"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T10:11:20.653000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__person-pushing-wheelchair-user/20260929T094854Z-thuan-mac/after/person_pushing_wheelchair_user_c41ef721_60c2_4320_a7d5_7a5f29e74c2b.py",
+    "note": "Restored a walking helper, bent pushing arm, larger open wheelchair wheel and a clear seated figure with a forward leg. User-authorized visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored a walking helper, bent pushing arm, larger open wheelchair wheel and a clear seated figure with a forward leg. User-authorized visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:48:38.997000+00:00",
+    "updated_at": "2026-09-29T10:11:21.186000+00:00",
+    "svg_sha256": "62a63ab4866ea469d6632f6f27c2d4773c1a3f31fde24799bba8048a0e61ecac"
+  },
+  "review_status": "ready"
+}

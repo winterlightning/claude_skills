@@ -1,0 +1,16 @@
+{
+  "icon_id": "seated-jet-ski-rider",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [front-hull]: front-hull and water are 5.5 apart on centerlines nearest (15, 37)<->(15, 42.5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "User explicitly delegated exception decisions. Retain the complete seated rider, hanging leg, hull and water at native 48px. The waterline uses the lower two additional inset pixels and a 1.5px minimum visible gap below the bow. Both themes were visually reviewed: the craft and water remain distinct, with uniform 4px strokes and no canvas overflow. Automatic keyshape and clearance findings are retained.",
+    "approved_by": "gpt-6 under explicit user delegation",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "a5ccd58d96a0a47ca66a5b70338075d230510cd896b7a9f89768deaade250cc3"
+  },
+  "automatic_status": "fail"
+}

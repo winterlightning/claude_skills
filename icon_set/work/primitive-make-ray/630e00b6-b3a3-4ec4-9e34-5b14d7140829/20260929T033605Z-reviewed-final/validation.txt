@@ -1,0 +1,19 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 2, 44, 45) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 1.0], tolerance 0.0)
+  ERROR  mic [back-leg]: parallel straight edges back-leg-2 and back-boot are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [back-boot]: back-boot and wheel-0 are 6 apart on centerlines nearest (6, 35)<->(6, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [back-boot]: back-boot and wheel-1 are 6 apart on centerlines nearest (14, 35)<->(14, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [front-leg]: front-leg and wheel-2 are 6 apart on centerlines nearest (28, 37)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [front-boot]: front-boot and wheel-3 are 6 apart on centerlines nearest (36, 37)<->(36, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Automatic gate: fail
+Drawing-bound exception: Keep the leaning skater, two bent legs, two boots and four small wheels. The rear ankle and boot deliberately form a solid shoe, and boot/wheel gaps are compact but distinct. The detached head has the exact 4-unit gap to its own torso; all ink stays on canvas.
+canvas/keyshape bounds: visible ink (4, 2, 44, 45) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 1.0], tolerance 0.0)
+mic [back-leg]: parallel straight edges back-leg-2 and back-boot are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+mic [back-boot]: back-boot and wheel-0 are 6 apart on centerlines nearest (6, 35)<->(6, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [back-boot]: back-boot and wheel-1 are 6 apart on centerlines nearest (14, 35)<->(14, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [front-leg]: front-leg and wheel-2 are 6 apart on centerlines nearest (28, 37)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [front-boot]: front-boot and wheel-3 are 6 apart on centerlines nearest (36, 37)<->(36, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+internal-spacing [front-leg / front-boot]: front-leg-1 and front-boot have 1.25 units of ink clearance over 2.216 units; requires 4; review required
+internal-spacing [back-leg / back-boot]: back-leg-2 and back-boot have 0 units of ink clearance over 5 units; requires 4; review required

@@ -1,0 +1,22 @@
+
+def generate(indices):
+ for i in indices:
+  row=ROWS[i];design=D[i];dest=Path(row['result_dir']);module=dest/(row['icon_id'].replace('-','_')+'_'+row['source_uuid'].replace('-','_')+'.py')
+  text='from icon_set.model.icons.solo._base import Solo48\nfrom icon_set.model.keyshapes import Keyshape\n'
+  text+=f'SOURCE_ICON_ID = {row["source_uuid"]!r}\nSOURCE_PATH = {row["reference_path"]!r}\nAUTHOR = "gpt-6"\n'
+  text+=f'# Plan: {design["change"]}\n# Keyshape: {design["keyshape"]}; preserve reference arrangement.\n# Construction reference: {design["lucide"]}.\n'+HELPER
+  text+=f'\nclass Revision(Solo48):\n    icon_id = {row["icon_id"]!r}\n    keyshape = Keyshape.{design["keyshape"]}\n    semantic_role = "MAIN"\n    semantic_kind = "noun"\n    category = "objects/general"\n    aliases = ()\n    keywords = ()\n\n    def build(self):\n'
+  for name,path in design['paths'].items():text+=f'        _draw(self, {name!r}, {path!r})\n'
+  # Genuine shared endpoints between contours are contacts; proximity alone is never declared.
+  text+='''        owners = {member: contour.contour_id for contour in self.contours for member in contour.members}
+        for a_index,a in enumerate(self.primitives):
+            for b in self.primitives[a_index+1:]:
+                if owners.get(a.element_id)!=owners.get(b.element_id) and ({a.start,a.end}&{b.start,b.end}):
+                    self.relate("connect",a.element_id,b.element_id)
+'''
+  for figure,head,torso,junction in design['flags']:text+=f'        self.mark_human_figure({figure!r}, head={head!r}, torso={torso!r}, torso_junction={junction!r})\n'
+  module.write_text(text)
+  (dest/'comparison.md').write_text(f'# {row["icon_id"]}\n\nOriginal inspected: {row["reference_path"]}\n\nRejected: {design["wrong"]}\n\nFeedback: Does not convey the intended meaning.\n\nRevision: {design["change"]}\n\nConstruction: {design["lucide"]}; native 48px / 4px strokes.\n')
+  icon=load_icon(module);report=icon.validate_icon();svg=icon.to_svg();(dest/(row['icon_id']+'.svg')).write_text(svg);(dest/'validation.txt').write_text(report.describe());render_previews(svg,row['icon_id'],48,dest)
+  print(i,row['icon_id'],report.status,len(report.errors),len(report.warnings),flush=True)
+if __name__=='__main__':generate([int(x) for x in sys.argv[1:]] if len(sys.argv)>1 else range(20))

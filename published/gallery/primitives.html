@@ -94,6 +94,13 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 .side-row .pair-card-actions{flex-wrap:wrap;gap:8px}.side-row .pair-card-actions>*{flex:0 0 auto;width:auto}.side-combine{align-items:center}
 @media(max-width:700px){.side-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.side-step:nth-child(3)::before{display:none}.side-original,.side-combined{width:96px;height:96px}.side-combined img{width:96px;height:96px}}
 @media(max-width:600px){.side-grid{grid-template-columns:1fr}}
+.side-pair-form{display:grid;gap:8px;margin-top:6px}.side-pair-role{display:grid;gap:4px}.side-pair-role input{font:inherit;padding:5px 6px;border:1px solid var(--line);border-radius:6px}
+.side-pair-candidates{display:flex;flex-wrap:wrap;gap:4px}.side-pair-candidate{display:flex!important;align-items:center;gap:4px;margin:0!important;padding:3px 6px!important;font-size:11px}
+.side-pair-candidate img{width:24px;height:24px}.side-pair-candidate.chosen{border-color:#2f4f8f!important;background:#e8eefb!important}.side-pair-actions{display:flex;flex-wrap:wrap;gap:6px}
+.side-pair-chosen{display:flex;align-items:center;gap:8px;padding:6px;border:1px solid #2f4f8f;border-radius:6px;background:#e8eefb;font-weight:600}.side-pair-chosen img{width:40px;height:40px;background:#fff;border-radius:4px}
+.side-pair-chosen.to-draw{border-color:#b7791f;background:#fdf3e1}.side-pair-chosen.to-draw input{flex:1;font:inherit;font-weight:400;padding:4px 6px;border:1px solid var(--line);border-radius:6px}.side-pair-none{justify-self:start}.side-pair-head{display:flex;align-items:center;gap:6px}
+.side-pair-editor{margin-top:12px;max-width:720px}
+.side-pair-result{display:block;width:96px;height:96px;margin:6px 0;border:1px solid var(--line);border-radius:6px;background:#fff}.side-pair a{color:#2f4f8f}.side-pair-message{color:#4b5560}
 </style>
 <link rel="stylesheet" href="side-component-editor.css"><link rel="stylesheet" href="stroke-editor.css"><script src="icon-guides.js"></script><script src="stroke-fit.js"></script><script src="stroke-editor.js"></script><script src="icon-artwork.js"></script>
 </head>
@@ -195,7 +202,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 </div><input id="artworkMode" type="hidden" value="use_org"><div class="stroke-actions"><button id="artworkApply" class="primary requires-login" disabled>Use and approve selected version</button><button id="artworkReload">Reload versions</button></div><p id="artworkStatus" role="status" aria-live="polite"></p></section>
 </section></div></dialog>
 <script src="side-component-editor.js"></script>
-<script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="progression-combinations.js"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script>
+<script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="progression-combinations.js"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script><script src="side-pair-maker.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const REASONS={combination:'Side combination',container:'Container combination',text_number:'Text / number',other:'Other'};
@@ -347,6 +354,7 @@ function tile(row){
         const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save position');statuses[row.uuid]=data.decisions[row.uuid];renderDetail();
       }catch(error){message.textContent=error.message;select.value=d.sub_position||'';}finally{select.disabled=false;}};
       position.append(select,message);el.append(position);
+      if(window.SidePairMaker)el.append(SidePairMaker.section(row,renderDetail));
     }
     for(const field of ['main_brief','sub_brief']){
       const c=d[field],label=field==='sub_brief'?'Sub icon':(c?.family==='container'||(!c&&d.reason==='container')?'Container icon':'Main icon');
@@ -536,7 +544,7 @@ async function galleryWrite(url,options){
   try{return await fetch(url,options);}
   finally{galleryWrites--;galleryRevision++;}
 }
-function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
+function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!window.SidePairMaker?.editing()&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
 function updateCatalogStatus(){
   $('warning').textContent=catalog.warning||'';$('warning').hidden=!catalog.warning;
   $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`;

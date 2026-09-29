@@ -1,0 +1,50 @@
+{
+  "concept": "sugar apple",
+  "source_uuid": "6eac0ad2-ae25-49cf-88fe-05d8f8b65add",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__round-grape-bunch/20260929T051531Z-thuan-mac/reference/sugar apple_6eac0ad2-ae25-49cf-88fe-05d8f8b65add.svg",
+  "icon_id": "round-grape-bunch",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected drawing was a scalloped flower with one dot. The source contains seven overlapping round fruits and a curved stem.",
+  "plan": "Seven individually readable fruit segments with a smooth central circular opening, occluded rear contours, a curved stem and a canvas-safe outer silhouette.",
+  "author": "gpt-6",
+  "module": "round_grape_bunch_6eac0ad2_ae25_49cf_88fe_05d8f8b65add.py",
+  "svg": "round-grape-bunch.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "round-grape-bunch",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (6.01318, 2, 46.5133, 45.75) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0132, 2.0, 2.5133, 1.75], tolerance 0.0)"
+    ],
+    "warnings": [
+      "mic [upper-right]: upper-right and far-right are 0 apart on centerlines nearest (40.2545, 21.0414)<->(40.2545, 21.0414); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Adjacent fruit contours intentionally meet in the cluster. Compact openings and organic bounds retain all seven berries with4px strokes; user authorized native-size visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "734cb2e71f57c076600af5a409b4a32fd5266b48fa517d996da65a30979b3f38"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "Rear fruit outlines are interrupted at real occlusions to avoid a tangle of full circles.",
+  "construction_references": "Lucide grape original and atomic-debug: individual rounded berries; source controls the seven-fruit cluster.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference.png",
+    "round-grape-bunch.metadata.json",
+    "round-grape-bunch.svg",
+    "round_grape_bunch_6eac0ad2_ae25_49cf_88fe_05d8f8b65add.py",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

@@ -1,0 +1,342 @@
+[
+  {
+    "key": "solo/seated-mermaid-with-raised-tail",
+    "icon_id": "seated-mermaid-with-raised-tail",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-mermaid-with-raised-tail/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-mermaid-with-raised-tail/20260929T085457Z-thuan-mac/reference/fantasy medieval mermaid 2_346b37cf-28b6-4072-96cc-679789ce5ec7.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-mermaid-with-raised-tail/20260929T085457Z-thuan-mac/before/seated-mermaid-with-raised-tail.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/346b37cf-28b6-4072-96cc-679789ce5ec7/20260929T090330330487Z-meaning-fix",
+    "module": "seated_mermaid_with_raised_tail_346b37cf_28b6_4072_96cc_679789ce5ec7.py",
+    "source_uuid": "346b37cf-28b6-4072-96cc-679789ce5ec7",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "A generic stick head and bucket-like tail lost the long hair, human torso and raised split fin.",
+      "change": "Restore long flowing hair, a seated torso, supporting arm and a sweeping fish tail ending in two fin lobes.",
+      "body": "\n        # One flowing silhouette; profile face and hair remain continuous anatomy.\n        self.path('hair', (10,25), ((8,17),7,9,True,False), (10,13), (10,10),\n                  ((22,4),8,7,True,False), ((26,8),5,4,True,False),\n                  ((17,11),8,4,True,False), (17,17), ((13,23),5,7,True,False))\n        self.path('face-neck', (24,10), (25,15), (22,17), (22,21),\n                  ((27,28),7,8,False,False), (31,30))\n        self.path('body-tail', (13,24), (12,36), ((25,44),15,9,False,False),\n                  ((39,27),15,18,False,False))\n        self.path('tail-top', (18,32), ((35,29),14,7,False,False), (35,25))\n        self.path('fin', (35,25), ((29,17),7,8,True,False),\n                  ((36,21),10,8,True,False), ((42,17),9,8,False,False),\n                  ((39,27),6,10,True,False))\n        self.path('support-arm', (10,27), (8,40), (8,44))\n        self.relate('connect','body-tail','tail-top') if False else None\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/seated-person",
+    "icon_id": "seated-person",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-person/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-person/20260929T085457Z-thuan-mac/reference/sitting_29bfafb8-d4e4-426a-8a48-2a24f5d6af8d.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-person/20260929T085457Z-thuan-mac/before/seated-person.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/29bfafb8-d4e4-426a-8a48-2a24f5d6af8d/20260929T090331208265Z-meaning-fix",
+    "module": "seated_person_29bfafb8_d4e4_426a_8a48_2a24f5d6af8d.py",
+    "source_uuid": "29bfafb8-d4e4-426a-8a48-2a24f5d6af8d",
+    "plan": {
+      "keyshape": "VRECT_M",
+      "wrong": "The legs spread backward and forward like a runner, and the raised arm did not read as seated.",
+      "change": "Put both bent legs in front of a rounded seated hip and extend a relaxed arm over the knees.",
+      "body": "\n        self.circle('head',20,9,5)\n        self.path('torso', (20,22), (20,25), ((15,38),11,14,False,False),\n                  ((21,40),6,5,False,False), (29,34), (38,44))\n        self.path('arm', (20,22), (32,22), (32,27))\n        self.path('near-leg', (21,40), (28,40), (31,44))\n        self.relate('connect','torso','arm')\n        self.relate('connect','torso','near-leg')\n        self.mark_human_figure('person',head='head',torso='torso-0',torso_junction='start')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/seated-prayer-pose",
+    "icon_id": "seated-prayer-pose",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-prayer-pose/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-prayer-pose/20260929T085457Z-thuan-mac/reference/yoga meditation pose_a24a87c9-e913-450e-89fa-1364d53ddeea.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-prayer-pose/20260929T085457Z-thuan-mac/before/seated-prayer-pose.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/a24a87c9-e913-450e-89fa-1364d53ddeea/20260929T090331229618Z-meaning-fix",
+    "module": "seated_prayer_pose_a24a87c9_e913_450e_89fa_1364d53ddeea.py",
+    "source_uuid": "a24a87c9-e913-450e-89fa-1364d53ddeea",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "A triangular crossbar replaced praying hands and the crossed legs became a disconnected V.",
+      "change": "Show hands joined upright at the chest, bent elbows and a closed crossed-leg seat.",
+      "body": "\n        self.circle('head',24,9,5)\n        # Mirrored shoulder/elbow arcs leave an explicit upright prayer gesture.\n        self.path('shoulders', (10,30), (12,25), ((19,22),10,5,True,False))\n        self.path('shoulder-right',(29,22),((36,25),10,5,True,False),(38,30))\n        self.path('praying-arms', (10,30), ((15,33),4,4,False,False),\n                  (24,28), (24,22))\n        self.path('right-forearm',(24,28),(33,33),((38,30),4,4,False,False))\n        self.path('crossed-legs',(24,39),(12,35),((6,39),4,4,False,False),\n                  ((11,43),5,4,False,False),(37,43),((42,39),5,4,False,False),\n                  ((36,35),4,4,False,False),(24,39),(31,42))\n        self.relate('connect','shoulders','praying-arms')\n        self.relate('connect','shoulder-right','right-forearm')\n        self.relate('connect','praying-arms','right-forearm')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/seated-sauna-bather",
+    "icon_id": "seated-sauna-bather",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-sauna-bather/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-sauna-bather/20260929T085457Z-thuan-mac/reference/sauna heat person_69ae7a1c-75de-43c9-b54f-3baeb9173095.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-sauna-bather/20260929T085457Z-thuan-mac/before/seated-sauna-bather.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/69ae7a1c-75de-43c9-b54f-3baeb9173095/20260929T090331278851Z-meaning-fix",
+    "module": "seated_sauna_bather_69ae7a1c_75de_43c9_b54f_3baeb9173095.py",
+    "source_uuid": "69ae7a1c-75de-43c9-b54f-3baeb9173095",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The squared torso read as a letter E, and the tiny broken bench did not support the bather.",
+      "change": "Use a relaxed seated pose on a continuous bench and three rising steam strokes.",
+      "body": "\n        self.circle('head',15,11,5)\n        self.path('torso',(15,24),(15,27),((16,34),4,6,False,False),(28,34),(35,44))\n        self.path('arm',(15,24),(22,26),(27,26))\n        self.path('bench',(6,44),(6,34),(16,34))\n        for j,x in enumerate((26,34,42)):\n            self.path(f'steam-{j}',(x,5),((x,11),4,5,True,False),((x,17),4,5,False,False))\n        self.relate('connect','torso','arm')\n        self.mark_human_figure('bather',head='head',torso='torso-0',torso_junction='start')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/seated-shoulder-massage",
+    "icon_id": "seated-shoulder-massage",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-shoulder-massage/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-shoulder-massage/20260929T085457Z-thuan-mac/reference/thai massage_746d13b1-a442-5468-9399-69ec6e6fabf0.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-shoulder-massage/20260929T085457Z-thuan-mac/before/seated-shoulder-massage.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/746d13b1-a442-5468-9399-69ec6e6fabf0/20260929T090331334266Z-meaning-fix",
+    "module": "seated_shoulder_massage_746d13b1_a442_5468_9399_69ec6e6fabf0.py",
+    "source_uuid": "746d13b1-a442-5468-9399-69ec6e6fabf0",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "A single straight connector between two stick figures looked like pushing rather than shoulder massage.",
+      "change": "Place a taller therapist behind the seated recipient, with two bent arms reaching the upper shoulders.",
+      "body": "\n        self.circle('therapist-head',12,8,4)\n        self.add_line('therapist-torso',(12,20),(12,34))\n        self.path('therapist-legs',(7,44),(12,34),(17,44))\n        self.circle('client-head',34,16,4)\n        self.path('client-torso',(34,28),(34,31),(32,35),((35,39),4,4,False,False),(42,39),(42,44))\n        self.path('near-arm',(12,20),(23,24),(30,28))\n        self.path('far-arm',(12,26),(22,31),(29,31))\n        self.add_line('seat',(25,44),(36,44))\n        self.relate('connect','therapist-torso','therapist-legs')\n        self.relate('connect','therapist-torso','near-arm')\n        self.relate('connect','therapist-torso','far-arm')\n        self.mark_human_figure('therapist',head='therapist-head',torso='therapist-torso',torso_junction='start')\n        self.mark_human_figure('recipient',head='client-head',torso='client-torso-0',torso_junction='start')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/seated-teddy-bear",
+    "icon_id": "seated-teddy-bear",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seated-teddy-bear/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seated-teddy-bear/20260929T085457Z-thuan-mac/reference/teddy bear_d06262b9-37c7-4bc4-9fe3-489ad5036090.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seated-teddy-bear/20260929T085457Z-thuan-mac/before/seated-teddy-bear.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/d06262b9-37c7-4bc4-9fe3-489ad5036090/20260929T090752639869Z-meaning-fix",
+    "module": "seated_teddy_bear_d06262b9_37c7_4bc4_9fe3_489ad5036090.py",
+    "source_uuid": "d06262b9-37c7-4bc4-9fe3-489ad5036090",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "The lower outline looked like trousers and the head had no recognizable teddy muzzle.",
+      "change": "Separate two round seated paws, add rounded arms and a small central nose under the domed bear head.",
+      "body": "\n        # Bilateral head, ears and paws use shared dimensions.\n        self.oval('head',24,16,11,10)\n        self.path('left-ear',(14,14),((20,9),5,5,True,True))\n        self.path('right-ear',(28,9),((34,14),5,5,True,True))\n        self.add_dot('nose',(24,17))\n        self.oval('left-paw',13,37,6,7)\n        self.oval('right-paw',35,37,6,7)\n        self.path('left-arm',(16,25),((7,32),10,10,False,False),(8,34))\n        self.path('right-arm',(32,25),((41,32),10,10,True,False),(40,34))\n        self.path('belly',(19,41),((29,41),12,4,False,False))\n     ",
+      "construction_reference": "No useful Lucide teddy match; original reference controls the ears, belly and paws."
+    }
+  },
+  {
+    "key": "solo/security-key-with-notched-shaft",
+    "icon_id": "security-key-with-notched-shaft",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__security-key-with-notched-shaft/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__security-key-with-notched-shaft/20260929T085457Z-thuan-mac/reference/crypto encryption key_4ea86669-dd94-4c67-81eb-5997c3e0caf5.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__security-key-with-notched-shaft/20260929T085457Z-thuan-mac/before/security-key-with-notched-shaft.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/4ea86669-dd94-4c67-81eb-5997c3e0caf5/20260929T090754025033Z-meaning-fix",
+    "module": "security_key_with_notched_shaft_4ea86669_dd94_4c67_81eb_5997c3e0caf5.py",
+    "source_uuid": "4ea86669-dd94-4c67-81eb-5997c3e0caf5",
+    "plan": {
+      "keyshape": "HRECT_M",
+      "wrong": "The short stepped stem did not preserve the long horizontal key shaft and repeated lower teeth.",
+      "change": "Restore the round bow, enclosed keyhole, long shaft, pointed tip and two bottom notches.",
+      "body": "\n        # Circular bow and integrated notched shaft; asymmetric by key function.\n        self.path('outline',(27,18),(39,18),(44,24),(40,30),(36,30),(33,27),\n                  (30,30),(27,30),((27,18),12,12,True,True),closed=True)\n        self.circle('keyhole',17,24,3)\n     ",
+      "construction_reference": "lucide/original/key-round.svg and atomic-debug/key-round.svg: circular bow and integrated toothed contour."
+    }
+  },
+  {
+    "key": "solo/security-officer",
+    "icon_id": "security-officer",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__security-officer/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__security-officer/20260929T085457Z-thuan-mac/reference/security officer_9d5bbeb5-7f3d-5bae-916b-14f4a6619579.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__security-officer/20260929T085457Z-thuan-mac/before/security-officer.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/9d5bbeb5-7f3d-5bae-916b-14f4a6619579/20260929T090331516838Z-meaning-fix",
+    "module": "security_officer_9d5bbeb5_7f3d_5bae_916b_14f4a6619579.py",
+    "source_uuid": "9d5bbeb5-7f3d-5bae-916b-14f4a6619579",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "The skewed top-hat shape and M-shaped torso lost the peaked security cap and uniform.",
+      "change": "Restore a broad peaked cap, circular jaw, open uniform collar and one lowered arm.",
+      "body": "\n        self.path('cap',(16,13),(14,5),(34,8),(32,13),(16,13),closed=True)\n        self.add_line('visor',(11,13),(16,13))\n        self.path('jaw',(17,13),((31,13),7,7,False,False))\n        self.path('uniform',(8,44),(9,36),((17,27),8,9,True,False),\n                  (24,33),(30,27),((39,36),9,9,True,False),(39,44))\n        self.add_line('left-seam',(17,37),(17,44))\n        self.add_line('right-seam',(31,37),(31,44))\n        self.relate('connect','cap','visor')\n     ",
+      "construction_reference": "human_ref/user.svg: circular jaw and broad shoulders; original reference: peaked cap and collar."
+    }
+  },
+  {
+    "key": "solo/security-officer-holding-passport",
+    "icon_id": "security-officer-holding-passport",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__security-officer-holding-passport/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__security-officer-holding-passport/20260929T085457Z-thuan-mac/reference/security officer passport_01454827-9baf-4788-a0fd-482b8da6c50f.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__security-officer-holding-passport/20260929T085457Z-thuan-mac/before/security-officer-holding-passport.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/01454827-9baf-4788-a0fd-482b8da6c50f/20260929T090754689954Z-meaning-fix",
+    "module": "security_officer_holding_passport_01454827_9baf_4788_a0fd_482b8da6c50f.py",
+    "source_uuid": "01454827-9baf-4788-a0fd-482b8da6c50f",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "A thick rectangular block looked like a sign; the officer lacked a peaked cap and uniform collar.",
+      "change": "Restore an open passport booklet, an extended bent arm, peaked cap and uniform neckline.",
+      "body": "\n        self.path('passport',(4,8),(12,11),(12,25),(4,22),(4,8),closed=True)\n        self.path('back-cover',(4,8),(19,6),(19,21),(12,22))\n        self.path('cap',(28,15),(25,8),(43,10),(41,15),(28,15),closed=True)\n        self.add_line('visor',(24,15),(28,15))\n        self.path('jaw',(28,15),((40,15),6,6,False,False))\n        self.path('uniform',(25,44),(25,33),(19,36),(8,29))\n        self.path('shoulders',(25,33),(29,29),(34,33),(39,29),\n                  ((44,36),6,8,True,False),(44,44))\n        self.relate('connect','uniform','shoulders')\n     ",
+      "construction_reference": "human_ref/user.svg: circular jaw and shoulders; original reference: booklet and extended hand."
+    }
+  },
+  {
+    "key": "solo/security-officer-with-bag",
+    "icon_id": "security-officer-with-bag",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__security-officer-with-bag/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__security-officer-with-bag/20260929T085457Z-thuan-mac/reference/security officer luggage_0cf3451d-bb7d-4df0-ac79-82ed86479f64.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__security-officer-with-bag/20260929T085457Z-thuan-mac/before/security-officer-with-bag.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/0cf3451d-bb7d-4df0-ac79-82ed86479f64/20260929T090331569709Z-meaning-fix",
+    "module": "security_officer_with_bag_0cf3451d_bb7d_4df0_ac79_82ed86479f64.py",
+    "source_uuid": "0cf3451d-bb7d-4df0-ac79-82ed86479f64",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The bag looked like a tall bottle and the officer torso collapsed to an M.",
+      "change": "Make a wide handled luggage case beside a uniformed officer with a peaked cap and connected carrying arm.",
+      "body": "\n        self.box('bag',4,29,19,43,3)\n        self.path('bag-handle',(8,29),(8,24),((15,24),4,4,True,False),(15,29))\n        self.path('cap',(28,13),(25,5),(43,8),(41,13),(28,13),closed=True)\n        self.add_line('visor',(24,13),(28,13))\n        self.path('jaw',(28,13),((40,13),6,6,False,False))\n        self.path('body',(27,44),(27,33),(22,37),(19,37))\n        self.path('shoulders',(27,33),(29,27),(34,32),(39,27),\n                  ((44,35),6,9,True,False),(44,44))\n        self.relate('connect','bag','bag-handle')\n        self.relate('connect','body','bag')\n        self.relate('connect','body','shoulders')\n     ",
+      "construction_reference": "human_ref/user.svg: circular jaw and shoulders; original reference: squat handled luggage."
+    }
+  },
+  {
+    "key": "solo/seeker",
+    "icon_id": "seeker",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__seeker/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__seeker/20260929T085457Z-thuan-mac/reference/seeker_eebf9355-e5dd-4833-b849-ec1865cc85fe.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__seeker/20260929T085457Z-thuan-mac/before/seeker.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/eebf9355-e5dd-4833-b849-ec1865cc85fe/20260929T090331604328Z-meaning-fix",
+    "module": "seeker_eebf9355_e5dd_4833_b849_ec1865cc85fe.py",
+    "source_uuid": "eebf9355-e5dd-4833-b849-ec1865cc85fe",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The person was reduced to two disconnected bars beside an oversized magnifier.",
+      "change": "Restore a recognizable head-and-shoulders portrait and a magnifying lens in the foreground.",
+      "body": "\n        self.circle('head',16,11,6)\n        self.path('shoulder',(6,43),(6,33),((15,25),9,8,True,False),(16,25))\n        self.add_line('body-seam',(14,35),(14,43))\n        self.circle('lens',32,29,10)\n        self.add_line('handle',(39,36),(44,43))\n        self.relate('connect','lens','handle')\n     ",
+      "construction_reference": "human_ref/user.svg: circular head and rounded shoulder; original reference: foreground magnifier."
+    }
+  },
+  {
+    "key": "solo/wide-leg-inversion-pose",
+    "icon_id": "wide-leg-inversion-pose",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__wide-leg-inversion-pose/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__wide-leg-inversion-pose/20260929T085457Z-thuan-mac/reference/wide seat inversion pose_cc035e5f-5b48-4659-93ae-3cdb21c1bf16.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__wide-leg-inversion-pose/20260929T085457Z-thuan-mac/before/wide-leg-inversion-pose.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/cc035e5f-5b48-4659-93ae-3cdb21c1bf16/20260929T090525205410Z-meaning-fix",
+    "module": "wide_leg_inversion_pose_cc035e5f_5b48_4659_93ae_3cdb21c1bf16.py",
+    "source_uuid": "cc035e5f-5b48-4659-93ae-3cdb21c1bf16",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "The rigid Y and sideways crossbar did not show the folded pelvis and bent supporting arms of the inverted pose.",
+      "change": "Restore raised spread legs, a short inverted torso, low head, and two bent forearms reaching the floor.",
+      "body": "\n        self.path('legs',(8,4),(24,22),(40,4))\n        self.add_line('torso',(24,22),(24,26))\n        self.circle('head',24,39,5)\n        self.path('left-arm',(24,26),(12,26),(8,34),(11,42))\n        self.path('right-arm',(24,26),(36,26),(40,34),(37,42))\n        self.relate('connect','legs','torso')\n        self.relate('connect','torso','left-arm')\n        self.relate('connect','torso','right-arm')\n        self.mark_human_figure('inverted-person',head='head',torso='torso',torso_junction='end')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/wild-bird",
+    "icon_id": "wild-bird",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__wild-bird/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__wild-bird/20260929T085457Z-thuan-mac/reference/wild bird 2_7e1a8309-f138-49c1-a543-a29fe848c8be.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__wild-bird/20260929T085457Z-thuan-mac/before/wild-bird.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/7e1a8309-f138-49c1-a543-a29fe848c8be/20260929T090754958626Z-meaning-fix",
+    "module": "wild_bird_7e1a8309_f138_49c1_a543_a29fe848c8be.py",
+    "source_uuid": "7e1a8309-f138-49c1-a543-a29fe848c8be",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "The beak and eye were missing, and a blunt tail turned the bird into an abstract leaf.",
+      "change": "Restore the left-facing pointed beak, small eye, rounded breast, swept wing and tapered tail with two legs.",
+      "body": "\n        self.path('body',(13,10),((27,8),9,8,True,False),(41,36),\n                  (32,33),((17,35),15,8,True,False),((11,18),10,18,True,False),(13,10),closed=True)\n        self.path('beak',(12,11),(6,15),(11,18))\n        self.add_dot('eye',(19,14))\n        self.path('wing',(22,23),((28,27),7,6,False,False))\n        self.add_line('leg-left',(20,36),(17,44))\n        self.add_line('leg-right',(29,35),(27,44))\n        self.relate('connect','beak','body')\n     ",
+      "construction_reference": "lucide/original/bird.svg and atomic-debug/bird.svg: simple beak, sweep of breast and two short legs."
+    }
+  },
+  {
+    "key": "solo/windsurfer-on-waves",
+    "icon_id": "windsurfer-on-waves",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__windsurfer-on-waves/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__windsurfer-on-waves/20260929T085457Z-thuan-mac/reference/sport windsurfing_c92ebca1-ceb1-5013-af58-e27dd7afe2b6.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__windsurfer-on-waves/20260929T085457Z-thuan-mac/before/windsurfer-on-waves.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/c92ebca1-ceb1-5013-af58-e27dd7afe2b6/20260929T090755040950Z-meaning-fix",
+    "module": "windsurfer_on_waves_c92ebca1_ceb1_5013_af58_e27dd7afe2b6.py",
+    "source_uuid": "c92ebca1-ceb1-5013-af58-e27dd7afe2b6",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The rigid figure and straight base looked like a person beside a sail, with no wave or bent surfing stance.",
+      "change": "Show a wind-filled sail, hand gripping the boom, bent surfing legs, an angled board and a low wave.",
+      "body": "\n        self.path('sail',(8,32),((29,4),31,32,True,False),(22,33),(8,32),closed=True)\n        self.add_line('mast',(29,4),(21,36))\n        self.circle('head',39,12,4)\n        self.path('torso',(39,24),(39,26),(35,28))\n        self.path('arm',(39,24),(31,24),(25,20))\n        self.path('legs',(27,36),(29,31),(35,28),(42,32),(42,36))\n        self.path('board',(5,36),(44,36))\n        self.path('wave',(5,44),((15,44),8,4,False,False),((25,44),8,4,True,False),\n                  ((35,44),8,4,False,False),((43,44),8,4,True,False))\n        self.relate('connect','mast','sail')\n        self.relate('connect','torso','arm')\n        self.relate('connect','torso','legs')\n        self.mark_human_figure('surfer',head='head',torso='torso-0',torso_junction='start')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/winged-female-demon",
+    "icon_id": "winged-female-demon",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__winged-female-demon/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__winged-female-demon/20260929T085457Z-thuan-mac/reference/succubus_f764c646-54bb-44f8-8f0a-660266f16f3d.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__winged-female-demon/20260929T085457Z-thuan-mac/before/winged-female-demon.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/f764c646-54bb-44f8-8f0a-660266f16f3d/20260929T090331734785Z-meaning-fix",
+    "module": "winged_female_demon_f764c646_54bb_44f8_8f0a_660266f16f3d.py",
+    "source_uuid": "f764c646-54bb-44f8-8f0a-660266f16f3d",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The arrow tail merged into the legs and the body lost the dress; the wings looked like drooping arms.",
+      "change": "Restore two horns, detached bat wings, a flared dress and an independent curved arrow tail.",
+      "body": "\n        self.circle('head',24,10,5)\n        self.path('left-horn',(20,6),(18,3))\n        self.path('right-horn',(28,6),(30,3))\n        self.path('dress',(18,26),(15,38),(33,38),(30,26),((18,26),6,3,False,False),closed=True)\n        self.add_line('left-leg',(20,38),(20,44))\n        self.add_line('right-leg',(28,38),(28,44))\n        self.path('left-wing',(13,25),(10,20),(5,21),(4,12),((14,15),12,6,True,False))\n        self.path('right-wing',(35,25),(38,20),(43,21),(44,12),((34,15),12,6,False,False))\n        self.path('tail',(33,35),((42,29),9,7,False,False),(43,26))\n        self.path('tail-point',(38,28),(43,26),(45,31))\n        self.relate('connect','tail','tail-point')\n        self.relate('connect','head','left-horn')\n        self.relate('connect','head','right-horn')\n        self.relate('connect','dress','left-leg')\n        self.relate('connect','dress','right-leg')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png: flared female silhouette; original reference: horns, bat wings and arrow tail."
+    }
+  },
+  {
+    "key": "solo/winged-harpy-profile",
+    "icon_id": "winged-harpy-profile",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__winged-harpy-profile/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__winged-harpy-profile/20260929T085457Z-thuan-mac/reference/harpy_b87b798c-92b9-4644-b23b-705c2c8cf361.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__winged-harpy-profile/20260929T085457Z-thuan-mac/before/winged-harpy-profile.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/b87b798c-92b9-4644-b23b-705c2c8cf361/20260929T090331782001Z-meaning-fix",
+    "module": "winged_harpy_profile_b87b798c_92b9_4644_b23b_705c2c8cf361.py",
+    "source_uuid": "b87b798c-92b9-4644-b23b-705c2c8cf361",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "A stick person with a horizontal wing box lost the woman\u2019s profile, hair, bird body, feathered wings and talons.",
+      "change": "Restore a profile head with flowing hair, feathered spread wings, tapered bird body and clawed feet.",
+      "body": "\n        self.path('hair',(17,21),(18,9),((27,4),7,6,True,False),\n                  ((29,10),5,6,True,False),((23,12),7,5,True,False),(23,18))\n        self.path('face-body',(29,10),(30,16),(27,18),(27,21),\n                  ((25,33),8,10,True,False),(16,39),(20,30))\n        self.path('left-wing',(18,21),((5,14),24,15,True,False),(6,24),\n                  (10,27),(8,29),((18,31),11,5,False,False))\n        self.path('right-wing',(28,22),((43,14),25,14,False,False),(42,24),\n                  (38,27),(40,29),((29,32),11,5,True,False))\n        self.path('left-claw',(22,36),(23,43),(19,44))\n        self.path('right-claw',(28,35),(32,42),(36,44))\n     ",
+      "construction_reference": "human_ref/user.svg: rounded human face; original reference controls continuous neck, hair and avian anatomy."
+    }
+  },
+  {
+    "key": "solo/winged-person",
+    "icon_id": "winged-person",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__winged-person/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__winged-person/20260929T085457Z-thuan-mac/reference/wingman_81bf1694-b0dd-4a9d-ba64-39817556a8cf.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__winged-person/20260929T085457Z-thuan-mac/before/winged-person.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/81bf1694-b0dd-4a9d-ba64-39817556a8cf/20260929T090331813086Z-meaning-fix",
+    "module": "winged_person_81bf1694_b0dd_4a9d_ba64_39817556a8cf.py",
+    "source_uuid": "81bf1694-b0dd-4a9d-ba64-39817556a8cf",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "Oversized curled shapes replaced feather wings and the tiny body looked like an insect.",
+      "change": "Restore a full-height human body with separate arms and legs and compact scalloped wings attached behind the shoulders.",
+      "body": "\n        self.circle('head',24,9,5)\n        self.path('body',(17,44),(17,24),((24,22),9,3,True,False),\n                  ((31,24),9,3,True,False),(31,44))\n        self.add_line('leg-divider',(24,35),(24,44))\n        self.path('left-wing',(17,24),((4,22),9,6,False,False),\n                  ((8,29),6,6,False,False),((12,33),4,4,False,False))\n        self.path('right-wing',(31,24),((44,22),9,6,True,False),\n                  ((40,29),6,6,True,False),((36,33),4,4,True,False))\n        self.relate('connect','body','left-wing')\n        self.relate('connect','body','right-wing')\n     ",
+      "construction_reference": "human_ref/full_body_ref.png"
+    }
+  },
+  {
+    "key": "solo/winged-serpent-dragon",
+    "icon_id": "winged-serpent-dragon",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__winged-serpent-dragon/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__winged-serpent-dragon/20260929T085457Z-thuan-mac/reference/fantasy amphiptere dragon_73f4cc87-427b-5322-aec8-d42d4ff0929d.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__winged-serpent-dragon/20260929T085457Z-thuan-mac/before/winged-serpent-dragon.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/73f4cc87-427b-5322-aec8-d42d4ff0929d/20260929T090331843803Z-meaning-fix",
+    "module": "winged_serpent_dragon_73f4cc87_427b_5322_aec8_d42d4ff0929d.py",
+    "source_uuid": "73f4cc87-427b-5322-aec8-d42d4ff0929d",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The coiled lines lacked a readable dragon head and bat wing, becoming an abstract loop.",
+      "change": "Restore a left-facing long-snouted serpent with curved belly, a large pointed bat wing and a tapering tail.",
+      "body": "\n        self.path('head-back',(5,29),(5,24),(14,16),(13,22),\n                  ((24,25),12,7,True,False))\n        self.path('belly-tail',(5,29),(12,29),((23,30),11,8,True,False),\n                  (38,40),((14,38),16,11,True,False))\n        self.path('wing',(24,25),((19,4),27,25,False,False),\n                  ((43,15),34,27,True,False),((38,22),7,8,False,False),\n                  ((38,40),29,20,True,False),((29,23),25,22,False,False))\n        self.relate('connect','head-back','belly-tail')\n        self.relate('connect','head-back','wing')\n        self.relate('connect','belly-tail','wing')\n     ",
+      "construction_reference": "No useful Lucide fantasy match; original reference controls the asymmetrical wing and serpentine silhouette."
+    }
+  },
+  {
+    "key": "solo/wireless-mobile-yuan-payment-solo",
+    "icon_id": "wireless-mobile-yuan-payment-solo",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__wireless-mobile-yuan-payment-solo/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__wireless-mobile-yuan-payment-solo/20260929T085457Z-thuan-mac/reference/mobile phone yuan sign wireless_54325bec-9e76-47f3-ae84-9ced16fe0a3a.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__wireless-mobile-yuan-payment-solo/20260929T085457Z-thuan-mac/before/wireless-mobile-yuan-payment-solo.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/54325bec-9e76-47f3-ae84-9ced16fe0a3a/20260929T090755109814Z-meaning-fix",
+    "module": "wireless_mobile_yuan_payment_solo_54325bec_9e76_47f3_ae84_9ced16fe0a3a.py",
+    "source_uuid": "54325bec-9e76-47f3-ae84-9ced16fe0a3a",
+    "plan": {
+      "keyshape": "VRECT_L",
+      "wrong": "An open U-shaped device and one arc looked like a purse; the closed phone and second wireless wave were absent.",
+      "change": "Restore a closed rounded phone, two separated wireless arcs and a legible yuan symbol; omit the crowded bottom divider.",
+      "body": "\n        self.box('phone',13,18,35,44,3)\n        self.path('wireless-outer',(8,8),((40,8),24,18,True,False))\n        self.path('wireless-inner',(16,13),((32,13),14,10,True,False))\n        self.path('yuan',(20,24),(24,30),(28,24))\n        self.add_line('yuan-stem',(24,30),(24,36))\n        self.add_line('yuan-bar',(20,32),(28,32))\n        self.relate('connect','yuan','yuan-stem')\n        self.relate('connect','yuan-stem','yuan-bar')\n     ",
+      "construction_reference": "lucide/original/smartphone.svg and atomic-debug/smartphone.svg: closed rounded phone housing; source: two wireless arcs."
+    }
+  },
+  {
+    "key": "solo/yen-currency-message-bubble-solo",
+    "icon_id": "yen-currency-message-bubble-solo",
+    "claim": "icon_set/work/primitive-fix-thuan/solo__yen-currency-message-bubble-solo/20260929T085457Z-thuan-mac",
+    "reference": "icon_set/work/primitive-fix-thuan/solo__yen-currency-message-bubble-solo/20260929T085457Z-thuan-mac/reference/message yuan sign lines_16791ce0-2910-4e3b-82ee-8dcb1834e398.svg",
+    "before": "icon_set/work/primitive-fix-thuan/solo__yen-currency-message-bubble-solo/20260929T085457Z-thuan-mac/before/yen-currency-message-bubble-solo.svg",
+    "result_dir": "icon_set/work/primitive-make-ray/16791ce0-2910-4e3b-82ee-8dcb1834e398/20260929T090331907487Z-meaning-fix",
+    "module": "yen_currency_message_bubble_solo_16791ce0_2910_4e3b_82ee_8dcb1834e398.py",
+    "source_uuid": "16791ce0-2910-4e3b-82ee-8dcb1834e398",
+    "plan": {
+      "keyshape": "SQUARE",
+      "wrong": "The bubble tail was nearly absent and two tiny dots replaced the message lines.",
+      "change": "Restore a distinct lower-right speech tail, two horizontal text strokes, and an open yuan/yen glyph.",
+      "body": "\n        self.path('bubble',(10,6),(38,6),((43,11),5,5,True,False),(43,32),\n                  ((38,37),5,5,True,False),(34,37),(34,44),(25,37),(10,37),\n                  ((5,32),5,5,True,False),(5,11),((10,6),5,5,True,False),closed=True)\n        self.path('currency',(12,15),(18,23),(24,15))\n        self.add_line('currency-stem',(18,23),(18,30))\n        self.add_line('currency-bar',(13,24),(23,24))\n        self.add_line('message-one',(30,20),(36,20))\n        self.add_line('message-two',(30,28),(36,28))\n        self.relate('connect','currency','currency-stem')\n        self.relate('connect','currency','currency-bar')\n        self.relate('connect','currency-stem','currency-bar')\n     ",
+      "construction_reference": "Original reference: lower-right bubble tail, currency sign and two text lines; no additional Lucide match required."
+    }
+  }
+]

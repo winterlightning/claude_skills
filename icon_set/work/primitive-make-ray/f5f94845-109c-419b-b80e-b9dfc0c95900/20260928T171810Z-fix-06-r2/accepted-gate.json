@@ -1,0 +1,23 @@
+{
+  "icon_id": "robotic-gripper-above-box",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 3, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 1.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [pedestal]: parallel straight edges pedestal-4 and pedestal-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [arm]: parallel straight edges arm-1 and arm-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pedestal]: pedestal and box are 6 apart on centerlines nearest (24, 44)<->(30, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [pedestal]: pedestal-0 and pedestal-4 have 2 units of ink clearance over 17 units; requires 4; review required",
+    "internal-spacing [pedestal]: pedestal-1 and pedestal-3 have 2.1293 units of ink clearance over 2.4973 units; requires 4; review required",
+    "internal-spacing [arm]: arm-1 and arm-3 have 2 units of ink clearance over 19 units; requires 4; review required",
+    "internal-spacing [arm / gripper]: arm-3 and gripper-1 have 1.049 units of ink clearance over 6.5 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "User authorized agent-selected exceptions in this task. Restored outlined arm and pedestal use 2px inner gaps, while the expanded envelope retains the elbow, curved claw and separate box.",
+    "approved_by": "user-authorized-agent",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "d813967706650a538b8d7a01b203abdce274db8e524bd28e102b653638f4ef03"
+  },
+  "automatic_status": "fail"
+}

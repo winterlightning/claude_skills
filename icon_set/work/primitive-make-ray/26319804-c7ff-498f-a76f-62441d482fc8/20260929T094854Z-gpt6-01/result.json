@@ -1,0 +1,45 @@
+{
+  "source_uuid": "26319804-c7ff-498f-a76f-62441d482fc8",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__mobile-phone-lock/20260929T094854Z-thuan-mac/reference/mobile phone lock_26319804-c7ff-498f-a76f-62441d482fc8.svg",
+  "icon_id": "mobile-phone-lock",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "mobile-phone-lock",
+    "status": "pass",
+    "errors": [
+      "mic [phone]: parallel straight edges phone-2 and lock-body-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-6 and phone-6 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-0 and lock-body-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-4 and screen-divider are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [screen-divider]: screen-divider and lock-body are 6 apart on centerlines nearest (29, 35)<->(29, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [lock-body]: lock-body-0 and lock-body-4 have 3 units of ink clearance over 9 units; requires 4; review required",
+      "internal-spacing [lock-body / shackle]: lock-body-0 and shackle-top have 3.3897 units of ink clearance over 5.2354 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The complete closed padlock and phone footer need compact gaps. Preserve the tall phone and lock identity with4px strokes rather than broadening the body into a generic frame.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "dc4bef5c0e1e5f38a08ced451d974a325c435713b0873062884a939c13ef1453"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected at 48px and enlarged in both themes; defining features restored, smooth coherent contours and open negative space.",
+  "omissions": [],
+  "construction_reference": "smartphone: portrait rounded enclosure; lock-keyhole: rounded shackle and distinct lock body",
+  "artifacts": [
+    "mobile_phone_lock_26319804_c7ff_498f_a76f_62441d482fc8.py",
+    "mobile-phone-lock.svg",
+    "mobile-phone-lock.metadata.json",
+    "validation.txt",
+    "build-gate.json",
+    "review-before.md",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "A plain oval and diagonal stroke replaced the artist palette and brush, and the stand was too short.",
+  "change": "Restored a kidney-shaped palette, paint mark and pointed brush head; lengthened the monitor stand.",
+  "body": "# Frame4,4\u201344,33; a true11-unit stand reaches y44 and keeps the screen distinct from its base.\nrounded(self,'monitor',4,4,44,33,4)\nself.add_line('stand',(24,33),(24,44));self.add_line('base',(15,44),(33,44))\nself.relate('connect','monitor','stand');self.relate('connect','stand','base')\n\ncurve(self,'palette',(23,11),((14,7),(8,14),(10,22)),((12,29),(24,30),(24,24)),((21,24),(21,19),(26,18)),((28,14),(27,12),(23,11)),closed=True)\nself.add_dot('paint',(16,17))\ncurve(self,'brush-head',(35,10),((34,14),(30,16),(32,19)),((36,23),(40,18),(35,10)),closed=True)\nself.add_line('brush-handle',(34,21),(29,28))",
+  "refs": "palette: kidney contour and thumb recess; monitor: rounded display and centered pedestal",
+  "exception": "The palette and pointed brush must both remain recognizable inside the screen. Preserve compact inner marks and the longer11-unit monitor stand at4px stroke."
+}

@@ -1,0 +1,52 @@
+{
+  "concept": "language barrier broken bubble",
+  "source_uuid": "9390f65a-a76b-451f-b66d-2d0bd6fbda66",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__broken-speech-bubble-batch-003/20260928T164600Z-thuan-mac/reference/language barrier broken bubble_9390f65a-a76b-451f-b66d-2d0bd6fbda66.svg",
+  "icon_id": "broken-speech-bubble-batch-003",
+  "author": "gpt-6",
+  "claim_dir": "icon_set/work/primitive-fix-thuan/solo__broken-speech-bubble-batch-003/20260928T164600Z-thuan-mac",
+  "result_dir": "icon_set/work/primitive-make-ray/9390f65a-a76b-451f-b66d-2d0bd6fbda66/20260928T170000Z-thuan-fix-r1",
+  "module": "icon_set/work/primitive-make-ray/9390f65a-a76b-451f-b66d-2d0bd6fbda66/20260928T170000Z-thuan-fix-r1/broken_speech_bubble_batch_003_9390f65a_a76b_451f_b66d_2d0bd6fbda66.py",
+  "keyshape": "SQUARE",
+  "subject": "A speech bubble with a lightning-shaped break in its upper edge.",
+  "comparison": "The current broad, short notch resembles a heart indentation; the original has a long angular lightning crack and an inset tail.",
+  "plan": "SQUARE ink extremes (4,4)-(44,44). Restore long tapered lightning fracture and inset lower-left tail while retaining rounded exterior corners.",
+  "construction_reference": "Lucide message-square original and atoms: continuous rounded enclosure and integrated tail. Source determines the lightning fracture.",
+  "accepted_exception": true,
+  "validation_status": "invalid",
+  "build_gate_status": "pass",
+  "exception_reason": "Preserve the long lightning fracture from the source rather than a broad heart-like notch. Its intentional taper and 1.8px narrowest measured parallel gap read clearly in both native-size themes.",
+  "visual_review": "Original and rejected drawing compared before authoring. Final native 48px and enlarged light/dark previews inspected: no unintended merged parts; source-defining details retained; coherent curves and intentional asymmetry.",
+  "omissions": "No additional source-defining omissions.",
+  "artifacts": [
+    "broken_speech_bubble_batch_003_9390f65a_a76b_451f_b66d_2d0bd6fbda66.py",
+    "broken-speech-bubble-batch-003.svg",
+    "broken-speech-bubble-batch-003.metadata.json",
+    "validation.txt",
+    "build-gate.json",
+    "review-before.md",
+    "reference-48.png",
+    "reference-384.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ],
+  "automatic_findings": {
+    "icon_id": "broken-speech-bubble-batch-003",
+    "status": "pass",
+    "errors": [
+      "mic [bubble]: parallel straight edges bubble-2 and bubble-5 are 5.8 apart on centerlines (ink gap 1.8); requires at least 8 centerline / 4 ink (overlap-fallback)"
+    ],
+    "warnings": [
+      "internal-spacing [bubble]: bubble-1 and bubble-6 have 2.3456 units of ink clearance over 5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the long lightning fracture from the source rather than a broad heart-like notch. Its intentional taper and 1.8px narrowest measured parallel gap read clearly in both native-size themes.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-28",
+      "svg_sha256": "e77eea2056e703931c0cb3370de5b11408a3df570b34b484814fb18eb5b4c8db"
+    },
+    "automatic_status": "fail"
+  }
+}

@@ -8,7 +8,7 @@ brief; ``done`` reports the fix (the revision returns to Ready for the
 reviewer); ``cannot-fix`` and ``abandon`` release it. A claim older than the
 lease (six hours) is claimable again; there is no heartbeat.
 
-    python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke [--family sub] [--out fix-input.txt]
+    python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke [--max-disapprovals 1] [--family sub] [--out fix-input.txt]
     python3 icon_set/scripts/work_queue.py done --icon sub/plus --worker "$WORKER" --note "sub/plus-v3"
     python3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --worker "$WORKER" --note "why"
     python3 icon_set/scripts/work_queue.py abandon --icon sub/plus --worker "$WORKER"
@@ -17,7 +17,7 @@ lease (six hours) is claimable again; there is no heartbeat.
     python3 icon_set/scripts/work_queue.py queue [--family sub] [--limit 20]
 
 The base URL defaults to $PICTOGRAPHIC_API, then $PICTOGRAPHIC_SYNC_SOURCE, then
-the production tunnel recorded in deploy.py. The worker name has no default: pass
+the Cloudflare Worker recorded in deploy.py (DEFAULT_SYNC_SOURCE). The worker name has no default: pass
 --worker or export PICTOGRAPHIC_WORKER (for example thuan-mac). See docs/work-claims.md.
 """
 from __future__ import annotations
@@ -66,12 +66,25 @@ def default_worker():
     return worker
 
 
+# Cloudflare's browser integrity check bans the default Python-urllib agent (error 1010).
+USER_AGENT = 'pictographic-work-queue/1.0'
+
+
+def open_url(url, accept=None, timeout=None):
+    """urlopen with the User-Agent production accepts; for raw files (SVG, JSON) outside call()."""
+    headers = {'User-Agent': USER_AGENT}
+    if accept:
+        headers['Accept'] = accept
+    return urlopen(Request(url, headers=headers), timeout=timeout or TIMEOUT)
+
+
 def call(base_url, method, path, body=None, query=None):
     url = base_url.rstrip('/') + path
     if query:
         url += '?' + urlencode({k: v for k, v in query.items() if v is not None})
     request = Request(url, method=method, data=json.dumps(body).encode('utf-8') if body is not None else None,
-                      headers={'Content-Type': 'application/json', 'Accept': 'application/json'})
+                      headers={'Content-Type': 'application/json', 'Accept': 'application/json',
+                               'User-Agent': USER_AGENT})
     try:
         with urlopen(request, timeout=TIMEOUT) as response:
             return json.loads(response.read().decode('utf-8'))
@@ -122,42 +135,53 @@ def upload_result(base_url, worker, key, sha, stage, svg_path, python_path=None,
     return call(base_url, 'POST', '/api/work/result', body)
 
 
-def take_next(base_url, worker, family=None, category=None, icon_type=None, *, limit=1, offset=0, reason=None):
-    """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins."""
-    if reason == 'missing':
-        # Older production servers only filter explicit reasons. Page through
-        # the unfiltered queue so the offset counts missing-reason icons.
-        matches = []
-        page_offset = 0
-        while len(matches) < offset + limit + CLAIM_ATTEMPTS:
-            page = call(base_url, 'GET', '/api/work/queue', query={
-                'family': family, 'category': category, 'type': icon_type,
-                'limit': MAX_PAGE, 'offset': page_offset,
-            })
-            matches.extend(item for item in page['items'] if not item.get('reason'))
-            if page.get('next_offset') is None:
-                break
-            page_offset = page['next_offset']
-        selected = matches[offset:offset + limit + CLAIM_ATTEMPTS]
-        claimed, last = [], None
-        for item in selected:
-            if len(claimed) >= limit:
-                break
-            body = {'icon': item['key'], 'svg_sha256': item['svg_sha256'], 'worker': worker}
-            try:
-                claimed.append(call(base_url, 'POST', '/api/work/claim', body))
-            except ApiError as error:
-                if error.status != 409:
-                    raise
-                last = error
-        return claimed, {'items': selected}, last
-    query = {'family': family, 'category': category, 'type': icon_type, 'reason': reason,
-             'limit': min(MAX_PAGE, max(limit + CLAIM_ATTEMPTS, 1)), 'offset': offset}
-    page = call(base_url, 'GET', '/api/work/queue', query=query)
-    if not page['items']:
-        return [], page, None
+DISAPPROVED_STATUSES = ('pending', 'disapprove')
+FIXED_REVIEW_STATUSES = ('ready', 're-generated', 'approve')
+
+
+def disapproval_count(history):
+    """How many times an icon was disapproved, from its /api/work/history.
+
+    The largest of three signals, because a fix does not always leave a work_done event
+    (a rebuilt drawing arrives as a new revision) and legacy imports put events out of order:
+
+    - episodes in the event log, taken in time order: a disapproval (review or feedback with
+      status pending) after the icon was last fixed (work_done, upload, or a review to
+      ready / re-generated / approve) starts a new one; several notes in one session count once;
+    - distinct drawings (svg_sha256) that were disapproved, the current one included;
+    - 2 when a fix was ever uploaded or reported (an ``after`` work result on any revision,
+      or a work_done event) and the icon is disapproved again now; a ``before`` upload alone
+      is only a claim.
+    """
+    count, fixed_since, fix_reported = 0, True, False
+    shas = set()
+    for event in sorted(history.get('events') or [], key=lambda e: e.get('at') or ''):
+        action, details = event.get('action'), event.get('details') or {}
+        status = details.get('status')
+        if action == 'work_done':
+            fix_reported = True
+        if action in ('work_done', 'upload') or (action == 'review' and status in FIXED_REVIEW_STATUSES):
+            fixed_since = True
+        elif action in ('feedback', 'review') and status in DISAPPROVED_STATUSES:
+            if details.get('svg_sha256'):
+                shas.add(details['svg_sha256'])
+            if fixed_since:
+                count, fixed_since = count + 1, False
+    for revision in history.get('revisions') or []:
+        if ((revision.get('review') or {}).get('status') in DISAPPROVED_STATUSES + ('claimed',)
+                or revision.get('feedback')):
+            shas.add(revision['svg_sha256'])
+        if (revision.get('results') or {}).get('after'):
+            fix_reported = True
+    current = history.get('current') or {}
+    if current.get('status') in DISAPPROVED_STATUSES + ('claimed',) and current.get('svg_sha256'):
+        shas.add(current['svg_sha256'])
+    return max(count, len(shas), 2 if fix_reported else 0)
+
+
+def _claim(base_url, worker, candidates, limit):
     claimed, last = [], None
-    for item in page['items']:
+    for item in candidates:
         if len(claimed) >= limit:
             break
         body = {'icon': item['key'], 'svg_sha256': item['svg_sha256'], 'worker': worker}
@@ -167,6 +191,53 @@ def take_next(base_url, worker, family=None, category=None, icon_type=None, *, l
             if error.status != 409:
                 raise
             last = error
+    return claimed, last
+
+
+def take_next(base_url, worker, family=None, category=None, icon_type=None, *, limit=1, offset=0, reason=None,
+              max_disapprovals=None):
+    """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins.
+
+    ``max_disapprovals`` keeps icons disapproved at most that many times (1 = first
+    disapproval only; repeat disapprovals are handled elsewhere). It costs one history
+    call per candidate, and ``offset`` then counts matching icons only.
+    """
+    if reason == 'missing' or max_disapprovals is not None:
+        # Filter on this side: older production servers only filter explicit reasons,
+        # and the queue does not carry disapproval counts. Page through the queue so
+        # the offset counts matching icons.
+        server_reason = None if reason == 'missing' else reason
+        wanted = offset + limit + CLAIM_ATTEMPTS
+        matches, seen = [], []
+        page_offset = 0
+        while len(matches) < wanted:
+            page = call(base_url, 'GET', '/api/work/queue', query={
+                'family': family, 'category': category, 'type': icon_type, 'reason': server_reason,
+                'limit': MAX_PAGE, 'offset': page_offset,
+            })
+            for item in page['items']:
+                if len(matches) >= wanted:
+                    break
+                if reason == 'missing' and item.get('reason'):
+                    continue
+                if max_disapprovals is not None:
+                    history = call(base_url, 'GET', '/api/work/history', query={'icon': item['key']})
+                    item['disapprovals'] = disapproval_count(history)
+                    if item['disapprovals'] > max_disapprovals:
+                        continue
+                matches.append(item)
+            if page.get('next_offset') is None:
+                break
+            page_offset = page['next_offset']
+        selected = matches[offset:]
+        claimed, last = _claim(base_url, worker, selected, limit)
+        return claimed, {'items': selected}, last
+    query = {'family': family, 'category': category, 'type': icon_type, 'reason': reason,
+             'limit': min(MAX_PAGE, max(limit + CLAIM_ATTEMPTS, 1)), 'offset': offset}
+    page = call(base_url, 'GET', '/api/work/queue', query=query)
+    if not page['items']:
+        return [], page, None
+    claimed, last = _claim(base_url, worker, page['items'], limit)
     return claimed, page, last
 
 
@@ -175,7 +246,7 @@ def main(argv=None):
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
     # --base-url, --worker and --json are accepted before or after the subcommand.
     shared = argparse.ArgumentParser(add_help=False)
-    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
+    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production (default: $PICTOGRAPHIC_API or the Cloudflare Worker recorded in deploy.py)')
     shared.add_argument('--worker', default=argparse.SUPPRESS, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required for claims and reports')
     shared.add_argument('--json', action='store_true', default=argparse.SUPPRESS, help='print the raw API response')
     parser.set_defaults(base_url=None, worker=None, json=False)
@@ -187,6 +258,8 @@ def main(argv=None):
     take.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     take.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS,
                       help='only icons disapproved for this reason')
+    take.add_argument('--max-disapprovals', type=int, default=None,
+                      help='only icons disapproved at most this many times (1 = first disapproval only)')
     take.add_argument('--family')
     take.add_argument('--category')
     take.add_argument('--type', dest='icon_type')
@@ -224,7 +297,8 @@ def main(argv=None):
             if args.limit < 1 or args.offset < 0:
                 parser.error('--limit must be at least 1 and --offset nonnegative')
             results, page, last = take_next(base_url, worker, args.family, args.category, args.icon_type,
-                                            limit=args.limit, offset=args.offset, reason=args.reason)
+                                            limit=args.limit, offset=args.offset, reason=args.reason,
+                                            max_disapprovals=args.max_disapprovals)
             if not results:
                 if last is not None:
                     print(f'Error (409): {last}', file=sys.stderr)

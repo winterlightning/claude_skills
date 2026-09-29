@@ -1,0 +1,51 @@
+{
+  "concept": "marathon running finished goal",
+  "source_uuid": "16b9f2ab-9387-51cc-9d12-6908f0e5c10e",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__runner-finish-ribbon/20260929T084629Z-thuan-mac/reference/marathon running finished goal_16b9f2ab-9387-51cc-9d12-6908f0e5c10e.svg",
+  "icon_id": "runner-finish-ribbon",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected finish pose looks static with two short straight legs and a large rigid bar. Restore bent running legs, raised celebratory arms and a torn finish tape across the waist.",
+  "plan": "Human reference circular head and coherent stick limbs, with raised arms and angled running legs; finish tape crosses the waist. Detached head outline ends at 15, torso begins at 23: 4 ink units.",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Chosen for the dominant subject silhouette; any intentional natural-proportion departure is recorded in the exact-drawing exception.",
+  "validation_status": "invalid",
+  "build_gate_status": "pass",
+  "automatic_status": "fail",
+  "exception": {
+    "reason": "Retain raised arms, bent running legs and a narrow finish tape with concave ends. The head-to-torso ink gap is exactly 4 px; compact arm and tape spacing is intentional.",
+    "approved_by": "user (delegated exception judgment to gpt-6)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "f545e0d82e8c98ef512526e5eb40d1faf8f6ce847211f5631189d2536ddbecd6"
+  },
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 3, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 1.0, 0.0, 0.0], tolerance 0.0)",
+    "mic [tape]: parallel straight edges tape-1 and tape-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tape]: parallel straight edges tape-4 and left-leg-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [head]: head and left-arm are 7.69044 apart on centerlines nearest (22.9045, 14.8785)<->(21.2362, 22.3858); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "visual_review": "Inspected reference, rejected drawing, and final native 48px and enlarged renders in both light and dark themes. Final preserves the identifying silhouette and documented details, with intentional compact gaps recorded rather than hidden.",
+  "omissions": "Used shared human stick-figure limbs, preserving the finish pose and tape.",
+  "lucide_reference": "No subject-specific Lucide drawing was used. Inspected local message-circle and tablet construction for coherent arcs, contours and round joins.",
+  "human_reference": "icon_set/references/human_ref/full_body_ref.png",
+  "human_spacing_evidence": "Head center (24,10), radius 5: bottom 15. Upper torso starts at (24,23). 23 - 15 - 4 = 4 visible units.",
+  "module": "runner_finish_ribbon_16b9f2ab_9387_51cc_9d12_6908f0e5c10e.py",
+  "svg": "runner-finish-ribbon.svg",
+  "artifacts": [
+    "before-384.png",
+    "before-48.png",
+    "comparison.md",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "runner-finish-ribbon.metadata.json",
+    "runner-finish-ribbon.svg",
+    "runner_finish_ribbon_16b9f2ab_9387_51cc_9d12_6908f0e5c10e.py",
+    "validation.txt"
+  ]
+}

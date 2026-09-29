@@ -1,0 +1,24 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 12, 46, 36) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 4.0, 0.0, 4.0], tolerance 0.0)
+  ERROR  mic [case]: case and charge-12 are 6 apart on centerlines nearest (12, 14)<->(12, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [case]: case and charge-20 are 6 apart on centerlines nearest (20, 14)<->(20, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Automatic gate: fail
+{
+  "icon_id": "low-battery",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 12, 46, 36) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 4.0, 0.0, 4.0], tolerance 0.0)",
+    "mic [case]: case and charge-12 are 6 apart on centerlines nearest (12, 14)<->(12, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [case]: case and charge-20 are 6 apart on centerlines nearest (20, 14)<->(20, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Retain the wider battery proportion and two left-aligned charge marks. The shallow envelope and 2-unit top/bottom interior gaps remain readable at 48 px, preserving the source charge count.",
+    "approved_by": "user-delegated:gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "f642ecebab71b7ade226abd98c9c51fd9971b2bffca5d13e42dde99867dbfde9"
+  },
+  "automatic_status": "fail"
+}

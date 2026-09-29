@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "Circular rings replaced the earbuds and the charging lightning symbol became a dot.",
+  "change": "Restored shaped earbud heads with stems entering the case and an explicit lightning bolt on the case.",
+  "body": "# Mirrored earbud housings retain their downward stems; shared geometry maintains equal proportions.\nfor side in (-1,1):\n    def p(x,y):return (24+side*x,y)\n    curve(self,'earbud-'+str(side),p(4,24),(p(4,20),p(4,13),p(4,11)),(p(4,1),p(20,1),p(20,10)),(p(20,15),p(14,16),p(10,14)),(p(10,18),p(10,21),p(10,24)))\n# The stems join the case rim; rounded lower corners give a familiar charging case silhouette.\nself.add_line('rim',(6,24),(42,24))\ncurve(self,'case',(42,24),((42,28),(42,34),(42,37)),((42,44),(35,44),(31,44)),((27,44),(21,44),(17,44)),((13,44),(6,44),(6,37)),((6,34),(6,28),(6,24)))\nself.relate('connect','rim','case')\nfor side in (-1,1):self.relate('connect','rim','earbud-'+str(side))\nself.add_polyline('charge',(25,29),(19,36),(24,36),(23,41),(30,33),(25,33),closed=True)",
+  "refs": "ear: smooth earbud lobes; original: paired stems, rounded case and central lightning bolt",
+  "exception": "A recognizable charging case needs its lightning bolt and shaped earbuds. Preserve compact bolt counter and stem spacing, all at 4px stroke."
+}

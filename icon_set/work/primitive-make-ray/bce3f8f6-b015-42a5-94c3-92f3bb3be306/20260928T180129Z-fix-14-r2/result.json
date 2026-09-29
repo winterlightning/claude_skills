@@ -1,0 +1,58 @@
+{
+  "source_uuid": "bce3f8f6-b015-42a5-94c3-92f3bb3be306",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__hand-reaching-for-diamond/20260928T180129Z-thuan-mac/reference/diamond hold_bce3f8f6-b015-42a5-94c3-92f3bb3be306.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-reaching-for-diamond/20260928T180129Z-thuan-mac/reference/diamond hold_bce3f8f6-b015-42a5-94c3-92f3bb3be306.svg",
+  "icon_id": "hand-reaching-for-diamond",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "hand-reaching-for-diamond",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 4, 44.0816, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 0.0816, 0.0], tolerance 0.0)",
+      "mic [gem]: parallel straight edges gem-2 and facet are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [gem]: gem and hand are 4.83 apart on centerlines nearest (12.8106, 21.1894)<->(16.2259, 24.6047); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [gem / facet]: gem-2 and facet have 3 units of ink clearance over 8 units; requires 4; review required",
+      "internal-spacing [hand]: hand and hand have 0.9236 units of ink clearance over 13.165 units; requires 4; review required",
+      "internal-spacing [hand]: hand and hand have 1.039 units of ink clearance over 8.4197 units; requires 4; review required",
+      "internal-spacing [hand]: hand and hand have 1.7613 units of ink clearance over 7.0454 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the flat-topped faceted gem and a rounded hand reaching around it. Small gem facets and the compact hand contour are intentional.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "4d4085cdcea6c8509bc03dee8252d68cf9c36030ea3c899ddb7d0cdf1c07ec0a"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "The hand had become a hook detached from a generic gem.",
+    "change": "Restored the rounded index finger and thumb pinch, open wrist, and flat-topped diamond with a facet line.",
+    "construction_reference": "hand-grab and gem: rounded finger return and flat-topped jewel.",
+    "findings": "Native-size silhouette and meaning reviewed; rounded contours, open negative spaces and retained identifying features accepted.",
+    "human_gap": null
+  },
+  "omissions": "Secondary creases and fine decorative detail omitted for 48px clarity.",
+  "artifacts": [
+    "hand_reaching_for_diamond_bce3f8f6_b015_42a5_94c3_92f3bb3be306.py",
+    "hand-reaching-for-diamond.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

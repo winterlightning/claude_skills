@@ -1,0 +1,23 @@
+{
+  "icon_id": "mobile-phone-euro-sign",
+  "status": "pass",
+  "errors": [
+    "mic [bar-top]: parallel straight edges bar-top and bar-bottom are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [euro]: parallel straight edges euro-3 and screen-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen-bottom]: screen-bottom and euro are 6 apart on centerlines nearest (28, 36)<->(28, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and bar-top are 7 apart on centerlines nearest (10, 20)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and bar-bottom are 7 apart on centerlines nearest (10, 25)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bar-top]: bar-top and bar-bottom are 5 apart on centerlines nearest (17, 20)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [euro]: euro and bar-top are 0 apart on centerlines nearest (20.2546, 20)<->(20.2546, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [euro]: euro and bar-bottom are 0 apart on centerlines nearest (20.5844, 25)<->(20.5844, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "exception": {
+    "reason": "Keep the recognizable euro with two crossbars inside the phone. The crossbars have a 1px visible gap; native light/dark inspection confirms both and the open C remain legible.",
+    "approved_by": "user-authorized-agent-review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "ea50f3260fabdac3099a30561b4eca41a6a7e804898f2f7ae1d3eba38e22c94f"
+  },
+  "automatic_status": "fail"
+}

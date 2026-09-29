@@ -1,0 +1,54 @@
+{
+  "concept": "rocking-horse-toy-solo",
+  "source_uuid": "8b250624-b4d9-5599-8927-bda7b954f2df",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__rocking-horse-toy-solo/20260929T051531Z-thuan-mac/reference/rocking-horse-toy-solo_8b250624-b4d9-5599-8927-bda7b954f2df.svg",
+  "icon_id": "rocking-horse-toy-solo",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "No original was available; the supplied reference is the rejected drawing. Its triangular head and flat rail obscure the rocking-horse shape.",
+  "plan": "Add a distinct ear and muzzle, a curved chest and hindquarters, hanging tail, angled supports and a pronounced bowed rocker; preserve the left-facing toy.",
+  "author": "gpt-6",
+  "module": "rocking_horse_toy_solo_8b250624_b4d9_5599_8927_bda7b954f2df.py",
+  "svg": "rocking-horse-toy-solo.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "rocking-horse-toy-solo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1.06273, 3, 46, 46.1633) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.9373, 1.0, 2.0, 2.1633], tolerance 0.0)",
+      "mic [rear-support]: rear-support and rocker are 4.82808 apart on centerlines nearest (35, 39)<->(36.0054, 43.7222); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tail]: tail and rocker are 6 apart on centerlines nearest (44, 30)<->(44, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [horse]: horse-0 and horse-2 have 2.2816 units of ink clearance over 4.6792 units; requires 4; review required",
+      "internal-spacing [horse / tail]: horse-8 and tail-0 have 0.3839 units of ink clearance over 4.3474 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Horse anatomy and support-to-rocker relationships need compact spacing. User authorized visual exception for the complete toy silhouette at48px.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "fc8bb1a9a31a0db1ec63cffa3bc1fc99d64fc0836b9e6415dbef5e24969e13b3"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "Tiny eye omitted to avoid a solid head; the muzzle and ear supply recognition.",
+  "construction_references": "No useful Lucide rocking-horse match; supplied current drawing establishes the horse-on-rocker concept.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference.png",
+    "rocking-horse-toy-solo.metadata.json",
+    "rocking-horse-toy-solo.svg",
+    "rocking_horse_toy_solo_8b250624_b4d9_5599_8927_bda7b954f2df.py",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

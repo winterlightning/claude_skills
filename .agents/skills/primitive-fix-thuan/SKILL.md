@@ -1,6 +1,6 @@
 ---
 name: primitive-fix-thuan
-description: Claim a number of disapproved Pictographic solo icons from the shared production fix queue, redraw each one by running $primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Arguments: count, optional --offset, --disapprove-status and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Claim a number of disapproved Pictographic solo icons from the shared production fix queue, redraw each one by running $primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Only icons disapproved once are claimed unless --max-disapprovals says otherwise. Arguments: count, optional --offset, --disapprove-status, --max-disapprovals and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
 # $primitive-fix-thuan — claim, redraw with $primitive-make-ray, upload
@@ -14,8 +14,16 @@ export rules are $primitive-make-ray's; do not author or repair geometry any oth
 Run from the repository containing `icon_set/`. The first number in the arguments is the
 **count** of icons to claim (default 1 when none is given). `--offset N` skips that many
 claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,
-`manual-fix-request`, `other`, `missing`). The **worker name** is passed on every call: take it from
-`--worker`, else from `$PICTOGRAPHIC_WORKER`, else use `thuan-mac`.
+`manual-fix-request`, `other`, `missing`). **Only icons disapproved once** are claimed: pass
+`--max-disapprovals 1` always, or the number given in the arguments. An icon that was fixed (a fix
+uploaded or reported, or a new drawing) and disapproved again counts as twice. Icons disapproved two or more
+times are redrawn through the PNG pipeline (`new-pipeline-test/fetch_repeat_disapproved.py`),
+not by this skill, and `--offset` counts only the matching icons. The **worker name** is passed on every call: take it from
+`--worker`, else from `$PICTOGRAPHIC_WORKER`, else use `thuan-mac`. **Production is the Cloudflare
+Worker** `https://pictographic-review.pictographic.workers.dev` (the old trycloudflare tunnel is
+gone): the scripts use it by default, `$PICTOGRAPHIC_API` or `--base-url` override it. Every call
+goes through `work_queue.py`, which sends the User-Agent Cloudflare accepts; never fetch from
+production with plain `urllib` or another URL.
 
 **Run unattended.** This skill exists to fix the icons reviewers marked wrong, and every
 claimed icon **must be fixed**. Do not ask the user anything, do not pause between icons for
@@ -27,7 +35,7 @@ attempt, as in section 2.
 ## 1. Claim
 
 ```bash
-python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> [--offset N] [--disapprove-status R]
+python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> --max-disapprovals 1 [--offset N] [--disapprove-status R]
 ```
 
 It claims the icons on production (so no other machine fixes them), creates one fix directory

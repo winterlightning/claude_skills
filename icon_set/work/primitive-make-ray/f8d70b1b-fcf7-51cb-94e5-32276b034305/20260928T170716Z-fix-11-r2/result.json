@@ -1,0 +1,68 @@
+{
+  "concept": "screen",
+  "source_uuid": "f8d70b1b-fcf7-51cb-94e5-32276b034305",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__mobile-smartphone-device-solo/20260928T170716Z-thuan-mac/reference/screen_f8d70b1b-fcf7-51cb-94e5-32276b034305.svg",
+  "icon_id": "mobile-smartphone-device-solo",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "mobile-smartphone-device-solo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (10, 4, 38, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [bezel]: parallel straight edges bezel and home are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [home]: parallel straight edges home and phone-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [phone]: phone and home are 6 apart on centerlines nearest (23, 44)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. Feedback explicitly requests a smaller phone and a lower divider; the smaller envelope and 2px home-mark gaps preserve that layout.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "d86500c0d5f8a71c3a232adcaed160cc645800f7a2e57b6b030ea7132fb71bc5"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "mobile-smartphone-device-solo",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (10, 4, 38, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [bezel]: parallel straight edges bezel and home are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [home]: parallel straight edges home and phone-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [phone]: phone and home are 6 apart on centerlines nearest (23, 44)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "The device was too large and its divider much too high, as the feedback says.",
+    "feedback": "Manual fix request\n\n1. The phone is too large.  \n2. The horizontal line inside is too high.",
+    "changes": "Smaller 28\u00d740 visible body, lower divider and subtle home mark.",
+    "construction_reference": "smartphone",
+    "omissions": "None",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "mobile_smartphone_device_solo_f8d70b1b_fcf7_51cb_94e5_32276b034305.py",
+    "before.png",
+    "preview-dark-384.png",
+    "mobile-smartphone-device-solo.svg",
+    "accepted-gate.json",
+    "mobile-smartphone-device-solo.metadata.json",
+    "preview-dark-48.png",
+    "original.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "automatic-gate.json",
+    "review.json",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

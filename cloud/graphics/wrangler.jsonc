@@ -1,0 +1,22 @@
+{
+  "name": "pictographic-graphics",
+  "main": "worker.js",
+  "compatibility_date": "2026-07-17",
+  "account_id": "7a2ab07aab8b5b9a40885fa3546592fa",
+  "workers_dev": false,
+  "containers": [
+    {
+      "class_name": "GraphicsContainer",
+      "image": "./Dockerfile",
+      "image_build_context": "../..",
+      // 1/4 vCPU, 1 GiB. Move to "standard-1" (4 GiB) if validation runs out of memory.
+      "instance_type": "basic",
+      "max_instances": 2
+    }
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "GRAPHICS", "class_name": "GraphicsContainer" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["GraphicsContainer"] }],
+  "observability": { "enabled": true }
+}

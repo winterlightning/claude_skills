@@ -1,0 +1,59 @@
+'The pin had an angular tip and blunt stripe junctions. Restored a rounded tapered pin with exact stripe/fold attachment nodes and a smooth inner bend.\nSymbol plan: typed contours, shared radii and exact attachment nodes; paired features use common dimensions.\nConstruction: Lucide map-pin. Keyshape VRECT_L; any proportional departure is recorded as an exact-drawing exception.'
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='fa153f72-36bd-4f55-b299-fbbd01a43d85'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__google-maps-logo/20260928T173023Z-thuan-mac/reference/google maps logo_fa153f72-36bd-4f55-b299-fbbd01a43d85.svg'
+AUTHOR="gpt-6"
+PARENT_MODULE='icon_set/work/primitive-fix-thuan/solo__google-maps-logo/20260928T173023Z-thuan-mac/before/google_maps_logo_fa153f72_36bd_4f55_b299_fbbd01a43d85.py'
+class Drawing(Solo48):
+    icon_id='google-maps-logo'
+    keyshape=Keyshape.VRECT_L
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="primitives-generate"
+    aliases=()
+    keywords=('google', 'maps', 'logo')
+
+    def path(self,n,p,commands,closed=False):
+        ids=[]
+        for i,c in enumerate(commands):
+            k=f'{n}-{i}';q=c[1]
+            if c[0]=='L':self.add_line(k,p,q)
+            elif c[0]=='A':self.add_arc(k,p,q,radius_x=c[2],radius_y=c[3],sweep=c[4])
+            elif c[0]=='C':self.add_bezier(k,p,(c[2],c[3],q))
+            ids.append(k);p=q
+        self.add_contour(n,*ids,closed=closed)
+    def circle(self,n,x,y,r):
+        self.path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+    def box(self,n,l,t,r,b,rad=4,split=None):
+        pts=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
+        commands=[]
+        for i in range(8):
+            q=pts[(i+1)%8]
+            if i%2:commands.append(('A',q,rad,rad,True))
+            else:
+                for p in (split or {}).get(i,[]):commands.append(('L',p))
+                commands.append(('L',q))
+        self.path(n,pts[0],commands,True)
+
+    def node(self,n,x,y,r,extra=()):
+        import math
+        offsets=set([(-r,0),(0,-r),(r,0),(0,r),*extra])
+        offsets=sorted(offsets,key=lambda p:math.atan2(p[1],p[0]))
+        pts=[(x+dx,y+dy) for dx,dy in offsets]
+        self.path(n,pts[0],[('A',q,r,r,True) for q in pts[1:]+pts[:1]],True)
+
+    def bubble(self):
+        self.path('bubble',(22,38),[('L',(22,44)),('C',(40,22),(33,39),(40,31)),('C',(24,4),(40,12),(33,4)),('C',(8,21),(15,4),(8,11)),('C',(22,38),(8,31),(14,37))],True)
+    def file(self):
+        self.path('page',(12,4),[('L',(28,4)),('L',(40,16)),('L',(40,40)),('A',(36,44),4,4,True),('L',(12,44)),('A',(8,40),4,4,True),('L',(8,8)),('A',(12,4),4,4,True)],True)
+        self.path('fold',(28,4),[('L',(28,12)),('A',(32,16),4,4,False),('L',(40,16))]);self.relate('connect','page','fold')
+
+    def build(self):
+        # Natural pin with a smooth rounded tip; stripe and inner fold meet exact shared nodes.
+        self.path('pin',(9,19),[('A',(24,4),15,15,True),('A',(33,7),15,15,True),('A',(39,19),15,15,True),('C',(33,31),(39,23),(37,26)),('C',(30,35),(32,32),(31,33)),('C',(24,44),(27,40),(26,44)),('C',(18,35),(22,44),(21,40)),('C',(15,31),(17,33),(16,32)),('C',(9,19),(11,26),(9,23))],True)
+        self.add_polyline('stripe',(15,31),(24,19),(33,7));self.relate('connect','pin','stripe')
+        self.path('inner-fold',(24,19),[('C',(31,25),(28,20),(35,22)),('L',(18,35))]);self.relate('connect','stripe','inner-fold');self.relate('connect','pin','inner-fold')
+
+# Exact-drawing visual exception; automatic findings remain in automatic-gate.json.
+Drawing.exception = {'reason': 'User authorized agent-selected exceptions in this task. The reference pin and diagonal ribbon retain their asymmetric proportions and compact internal fold. The widened inner fold has visible negative space at native size; the narrower-than-keyshape silhouette follows the source.', 'approved_by': 'user-authorized-agent', 'approved_on': '2026-09-29', 'svg_sha256': '229127dc54c477cb69289852b16e22ed0bbfb1a7a67222d88eda83f2288589c8'}

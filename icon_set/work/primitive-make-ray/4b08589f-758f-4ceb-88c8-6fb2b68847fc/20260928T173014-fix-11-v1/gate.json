@@ -1,0 +1,17 @@
+{
+  "icon_id": "seated-laptop-worker",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [laptop]: parallel straight edges laptop-2 and desk-1, desk-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [leg]: leg and desk are 6 apart on centerlines nearest (24, 44)<->(18, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Preserve the laptop, seated worker, full desk and pedestal chair. The laptop-to-desk and foot-to-desk ink gaps are 2px. Both remain visibly open at 48px; the head/body gap remains exactly 4px and the natural envelope stays 2px inside the canvas. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+    "approved_by": "user-delegated-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "fbf7b27ef167898b715eced1a7c45b7a8ac729f7b31b78d548bb8c71b705d132"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,26 @@
+status: invalid
+  ERROR  mic [frame]: frame and control-0 are 5 apart on centerlines nearest (14, 6)<->(14, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [frame]: frame and control-1 are 5 apart on centerlines nearest (22, 6)<->(22, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [header]: header and head are 5 apart on centerlines nearest (24, 16)<->(24, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [frame]: frame and shoulders are 4 apart on centerlines nearest (16, 42)<->(16, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "browser-user-profile",
+  "status": "pass",
+  "errors": [
+    "mic [frame]: frame and control-0 are 5 apart on centerlines nearest (14, 6)<->(14, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and control-1 are 5 apart on centerlines nearest (22, 6)<->(22, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [header]: header and head are 5 apart on centerlines nearest (24, 16)<->(24, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [frame]: frame and shoulders are 4 apart on centerlines nearest (16, 42)<->(16, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Full browser chrome and the enclosed profile need compact header spacing; the content remains distinct from the frame. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "0c9cb502430df5452a90715526a4561fcd3bdf5764546b2bbe9db9cacb070a91"
+  },
+  "automatic_status": "fail"
+}

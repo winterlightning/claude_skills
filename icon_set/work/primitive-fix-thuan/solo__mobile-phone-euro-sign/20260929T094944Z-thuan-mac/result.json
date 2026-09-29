@@ -1,0 +1,77 @@
+{
+  "source_key": "solo/mobile-phone-euro-sign",
+  "icon_id": "mobile-phone-euro-sign",
+  "svg_sha256": "ce9d81ef1d0a23a9c9633ef50e27c6742176aac99db45338ce22bb933700c337",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "The currency mark is a thick C with one bar and the handset corners are square. Restore a euro with two crossbars inside a rounded handset with a bottom bezel. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/1c0f91c5-ddcd-4057-9258-33ab46aaac34/20260929T100401650095Z-reviewed-14",
+  "module": "icon_set/work/primitive-make-ray/1c0f91c5-ddcd-4057-9258-33ab46aaac34/20260929T100401650095Z-reviewed-14/mobile_phone_euro_sign_1c0f91c5_ddcd_4057_9258_33ab46aaac34.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [bar-top]: parallel straight edges bar-top and bar-bottom are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [euro]: parallel straight edges euro-3 and screen-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen-bottom]: screen-bottom and euro are 6 apart on centerlines nearest (28, 36)<->(28, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and bar-top are 7 apart on centerlines nearest (10, 20)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and bar-bottom are 7 apart on centerlines nearest (10, 25)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bar-top]: bar-top and bar-bottom are 5 apart on centerlines nearest (17, 20)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [euro]: euro and bar-top are 0 apart on centerlines nearest (20.2546, 20)<->(20.2546, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [euro]: euro and bar-bottom are 0 apart on centerlines nearest (20.5844, 25)<->(20.5844, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/mobile_phone_euro_sign_1c0f91c5_ddcd_4057_9258_33ab46aaac34.py",
+    "validation.txt",
+    "after/mobile-phone-euro-sign.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T10:06:01.749017+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "mobile-phone-euro-sign",
+    "status": "pass",
+    "errors": [
+      "mic [bar-top]: parallel straight edges bar-top and bar-bottom are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [euro]: parallel straight edges euro-3 and screen-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [screen-bottom]: screen-bottom and euro are 6 apart on centerlines nearest (28, 36)<->(28, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [phone]: phone and bar-top are 7 apart on centerlines nearest (10, 20)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [phone]: phone and bar-bottom are 7 apart on centerlines nearest (10, 25)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [bar-top]: bar-top and bar-bottom are 5 apart on centerlines nearest (17, 20)<->(17, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [euro]: euro and bar-top are 0 apart on centerlines nearest (20.2546, 20)<->(20.2546, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [euro]: euro and bar-bottom are 0 apart on centerlines nearest (20.5844, 25)<->(20.5844, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Keep the recognizable euro with two crossbars inside the phone. The crossbars have a 1px visible gap; native light/dark inspection confirms both and the open C remain legible.",
+      "approved_by": "user-authorized-agent-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ea50f3260fabdac3099a30561b4eca41a6a7e804898f2f7ae1d3eba38e22c94f"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T10:06:01.089000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__mobile-phone-euro-sign/20260929T094944Z-thuan-mac/after/mobile_phone_euro_sign_1c0f91c5_ddcd_4057_9258_33ab46aaac34.py",
+    "note": "The currency mark is a thick C with one bar and the handset corners are square. Restore a euro with two crossbars inside a rounded handset with a bottom bezel. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "The currency mark is a thick C with one bar and the handset corners are square. Restore a euro with two crossbars inside a rounded handset with a bottom bezel. User-authorized visual exception, exact SVG hash; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:49:40.095000+00:00",
+    "updated_at": "2026-09-29T10:06:01.605000+00:00",
+    "svg_sha256": "ce9d81ef1d0a23a9c9633ef50e27c6742176aac99db45338ce22bb933700c337"
+  },
+  "review_status": "ready"
+}

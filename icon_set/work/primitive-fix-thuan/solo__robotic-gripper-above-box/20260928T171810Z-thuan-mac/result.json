@@ -1,0 +1,72 @@
+{
+  "source_key": "solo/robotic-gripper-above-box",
+  "icon_id": "robotic-gripper-above-box",
+  "svg_sha256": "2ca45266638c206055da0b8985e802703975e83e15e691ac185cf444d02f47c0",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored the flared pedestal, outlined arm, round elbow and wide curved claw above the box. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/f5f94845-109c-419b-b80e-b9dfc0c95900/20260928T171810Z-fix-06-r2",
+  "module": "icon_set/work/primitive-make-ray/f5f94845-109c-419b-b80e-b9dfc0c95900/20260928T171810Z-fix-06-r2/robotic_gripper_above_box_f5f94845_109c_419b_b80e_b9dfc0c95900.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 3, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 1.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [pedestal]: parallel straight edges pedestal-4 and pedestal-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [arm]: parallel straight edges arm-1 and arm-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pedestal]: pedestal and box are 6 apart on centerlines nearest (24, 44)<->(30, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/robotic_gripper_above_box_f5f94845_109c_419b_b80e_b9dfc0c95900.py",
+    "validation.txt",
+    "after/robotic-gripper-above-box.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-28T17:29:26.200362+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "robotic-gripper-above-box",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 3, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 1.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [pedestal]: parallel straight edges pedestal-4 and pedestal-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [arm]: parallel straight edges arm-1 and arm-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [pedestal]: pedestal and box are 6 apart on centerlines nearest (24, 44)<->(30, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [pedestal]: pedestal-0 and pedestal-4 have 2 units of ink clearance over 17 units; requires 4; review required",
+      "internal-spacing [pedestal]: pedestal-1 and pedestal-3 have 2.1293 units of ink clearance over 2.4973 units; requires 4; review required",
+      "internal-spacing [arm]: arm-1 and arm-3 have 2 units of ink clearance over 19 units; requires 4; review required",
+      "internal-spacing [arm / gripper]: arm-3 and gripper-1 have 1.049 units of ink clearance over 6.5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. Restored outlined arm and pedestal use 2px inner gaps, while the expanded envelope retains the elbow, curved claw and separate box.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "d813967706650a538b8d7a01b203abdce274db8e524bd28e102b653638f4ef03"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-28T17:29:25.870000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__robotic-gripper-above-box/20260928T171810Z-thuan-mac/after/robotic_gripper_above_box_f5f94845_109c_419b_b80e_b9dfc0c95900.py",
+    "note": "Restored the flared pedestal, outlined arm, round elbow and wide curved claw above the box. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored the flared pedestal, outlined arm, round elbow and wide curved claw above the box. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "claimed_at": "2026-09-28T17:18:08.843000+00:00",
+    "updated_at": "2026-09-28T17:29:26.295000+00:00",
+    "svg_sha256": "2ca45266638c206055da0b8985e802703975e83e15e691ac185cf444d02f47c0"
+  },
+  "review_status": "ready"
+}

@@ -1,0 +1,56 @@
+{
+  "concept": "pumpkin",
+  "source_uuid": "7a3a8b0a-72cc-50fc-8d70-d02028b9db8a",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__pumpkin/20260929T051531Z-thuan-mac/reference/pumpkin_7a3a8b0a-72cc-50fc-8d70-d02028b9db8a.svg",
+  "icon_id": "pumpkin",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected pumpkin was a squat three-loop knot and its stem was reduced to a hook. The reference has an elongated central rib, broad side lobes and a shaped stem.",
+  "plan": "Restore three rounded pumpkin lobes, a central vertical rib and a short curved outlined stem; mirror paired side lobes around x24.",
+  "author": "gpt-6",
+  "module": "pumpkin_7a3a8b0a_72cc_50fc_8d70_d02028b9db8a.py",
+  "svg": "pumpkin.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "pumpkin",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 1.99941, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0006, 2.0, 2.0], tolerance 0.0)",
+      "mic [left-lobe]: left-lobe and stem are 4.47214 apart on centerlines nearest (18, 14)<->(22, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [right-lobe]: right-lobe and stem are 4.47214 apart on centerlines nearest (30, 14)<->(26, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [center-lobe]: center-lobe and stem are 0.108176 apart on centerlines nearest (25.9884, 12.1075)<->(26, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "mic [left-lobe]: left-lobe and center-lobe are 0 apart on centerlines nearest (17.1895, 13.7225)<->(17.1895, 13.7225); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [right-lobe]: right-lobe and center-lobe are 0 apart on centerlines nearest (30.8105, 13.7225)<->(30.8105, 13.7225); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [stem]: stem-0 and stem-2 have -0.066 units of ink clearance over 2 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Natural joined pumpkin ribs and the compact stem retain closer spacing than MIC; complete ribbed silhouette is accepted under the user-authorized visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "731df1391aff314b421d08c148f018243535689844242867d0367dfb8c2d8843"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "",
+  "construction_references": "No useful local Lucide pumpkin match. Supplied reference establishes lobes and stem; shared smooth arc construction.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "pumpkin.metadata.json",
+    "pumpkin.svg",
+    "pumpkin_7a3a8b0a_72cc_50fc_8d70_d02028b9db8a.py",
+    "reference.png",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

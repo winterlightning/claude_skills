@@ -1,0 +1,59 @@
+{
+  "concept": "bike cargo back",
+  "source_uuid": "697554f1-3afd-5c1d-87a3-50b358ece127",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__rear-cargo-bicycle/20260929T043927Z-thuan-mac/reference/bike cargo back_697554f1-3afd-5c1d-87a3-50b358ece127.svg",
+  "icon_id": "rear-cargo-bicycle",
+  "author": "gpt-6",
+  "comparison": "The cargo bike lost its frame and broad rear box; the box looked like a sign on a pole. Restore a cargo box over the rear wheel and a connected bicycle frame.",
+  "feedback": "Does not convey the intended meaning",
+  "run": "icon_set/work/primitive-make-ray/697554f1-3afd-5c1d-87a3-50b358ece127/20260929T045150461083Z-reviewed-exception",
+  "module": "icon_set/work/primitive-make-ray/697554f1-3afd-5c1d-87a3-50b358ece127/20260929T045150461083Z-reviewed-exception/rear_cargo_bicycle_697554f1_3afd_5c1d_87a3_50b358ece127.py",
+  "keyshape": "HRECT_L",
+  "gate": {
+    "icon_id": "rear-cargo-bicycle",
+    "status": "pass",
+    "errors": [
+      "holes/pinches: 1 undersized holes; 1 pinches"
+    ],
+    "warnings": [
+      "mic [wheel-12]: wheel-12 and frame are 0 apart on centerlines nearest (20, 32)<->(20, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [wheel-36]: wheel-36 and fork are 0 apart on centerlines nearest (33.4703, 24.4108)<->(33.4703, 24.4108); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Preserve cargo-box placement and bicycle frame crossing the wheels naturally. Wheel/frame intersections and small enclosed chassis spaces are intentional physical structure, not unrelated collisions. Visually reviewed at 48px in light and dark themes under the user's explicit delegated exception authorization.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "84c3ca98d540509959ce315d3c6d69e96f5c186cb807ccfbf594b7585fbfea79"
+    },
+    "automatic_status": "fail"
+  },
+  "validation_status": "review",
+  "parent_run": "icon_set/work/primitive-make-ray/697554f1-3afd-5c1d-87a3-50b358ece127/20260929T044942075862Z-meaning-fix",
+  "accepted_exception": true,
+  "visual_review": "Reviewed light and dark at native 48px and enlarged size. Recognizable semantic silhouette; uniform 4px strokes, intentional asymmetry only for scene placement, directional movement or logo construction.",
+  "omissions": "Wheel spokes omitted; rear cargo box and complete chassis retained.",
+  "human_reference": null,
+  "lucide_references": [
+    "bike"
+  ],
+  "keyshape_reason": "Preserve the supplied subject proportions and relative arrangement. Drawing-bound visual exception records the intentional optical envelope or compact detail requirements.",
+  "reference_notes": "Original and rejected SVG renders compared before authoring. Local Lucide originals and atomic-debug geometry informed bike: clean silhouettes, coherent contours and simple semantic primitives.",
+  "artifacts": [
+    "__pycache__",
+    "before-384.png",
+    "before-48.png",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "rear-cargo-bicycle.metadata.json",
+    "rear-cargo-bicycle.svg",
+    "rear_cargo_bicycle_697554f1_3afd_5c1d_87a3_50b358ece127.py",
+    "reference-384.png",
+    "reference-48.png",
+    "reference-before-comparison.png",
+    "validation.txt",
+    "visual-review.md"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "concept": "workflow teamwork cog share",
+  "source_uuid": "ac409f41-db55-4174-adc1-189d24e36f0d",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__radiating-gear/20260929T042221Z-thuan-mac/reference/workflow teamwork cog share_ac409f41-db55-4174-adc1-189d24e36f0d.svg",
+  "icon_id": "radiating-gear",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected cog used four dots instead of radiating strokes and lost its tooth rhythm. Feedback asks to recover the radiating cog meaning.",
+  "plan": "Rotationally symmetric eight-tooth gear surrounded by eight short radial strokes. Shared quarter-pattern controls tooth equality and spacing.",
+  "author": "gpt-6",
+  "module": "radiating_gear_ac409f41_db55_4174_adc1_189d24e36f0d.py",
+  "svg": "radiating-gear.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "radiating-gear",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 1, 47, 47) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 3.0, 3.0, 3.0], tolerance 0.0)",
+      "mic [gear]: gear and top are 6 apart on centerlines nearest (24, 12)<->(24, 6); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and bottom are 6 apart on centerlines nearest (24, 36)<->(24, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and left are 6 apart on centerlines nearest (12, 24)<->(6, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and right are 6 apart on centerlines nearest (36, 24)<->(42, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Eight rays and cog require compact gaps and a radial envelope slightly larger than SQUARE. All strokes remain4px inside48px; user authorized native-size visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "87d3c405ff0a47df33c1287bae6d8056a2f25461ea9e1f862b3d0d3f42122290"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "Tooth count regularized to eight for a balanced native-size gear; source has no central hub.",
+  "construction_references": "Lucide settings: repeating toothed silhouette; supplied reference controls surrounding radiance."
+}

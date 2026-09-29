@@ -143,7 +143,7 @@ def card(r):
     rate = (f'<div class="rate" role="group" aria-label="Verdict">'
             f'<button type="button" class="like" data-v="like" aria-pressed="false" title="I like this icon">&#10003; Like</button>'
             f'<button type="button" class="dislike" data-v="dislike" aria-pressed="false" title="I do not like this icon">&#10007; No</button></div>')
-    return f'''<article class="run" data-status="{status}" data-verdict="" data-run="{esc(r["dir"])}" data-name="{esc(r["subject"].lower())}">
+    return f'''<article class="run" data-status="{status}" data-verdict="" data-run="{esc(r["dir"])}" data-key="{esc(r["current_key"] or "")}" data-name="{esc(r["subject"].lower())}">
   <header><div><h2>{esc(r["subject"])}</h2>
   <p class="meta">{esc(r["when"])} · <a href="{esc(r["dir"])}/">{esc(r["dir"])}</a>{py}</p></div>
   <div class="side">{rate}<div class="chips">{"".join(chips)}</div></div></header>
@@ -202,25 +202,33 @@ figcaption{display:flex;justify-content:space-between;align-items:center;padding
 """
 
 JS = """
-const KEY='png-report-verdicts';
-let verdicts={};try{verdicts=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){verdicts={}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(verdicts))}catch(e){}}
+const KEY='png-report-verdicts',API=location.protocol.startsWith('http');
+const store=document.getElementById('store');
+let verdicts={};
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(verdicts))}catch(e){}}
+async function saveRemote(run){const r=run.dataset;const body={run:r.run,verdict:verdicts[r.run]||'',subject:r.name,icon_key:r.key||''};
+try{const res=await fetch('/api/verdict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+if(!res.ok)throw new Error(res.status);store.textContent='saved to verdicts.json'}catch(e){store.textContent='save failed: '+e.message}}
 function paint(run){const v=verdicts[run.dataset.run]||'';run.dataset.verdict=v;
 run.querySelectorAll('.rate button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v))}
-document.querySelectorAll('.run').forEach(run=>{paint(run);
-run.querySelectorAll('.rate button').forEach(b=>b.onclick=()=>{const id=run.dataset.run;
-if(verdicts[id]===b.dataset.v)delete verdicts[id];else verdicts[id]=b.dataset.v;save();paint(run);apply()})});
 const q=document.getElementById('q'),btns=[...document.querySelectorAll('[data-f]')],cnt=document.getElementById('cnt');let f='all';
 function apply(){const t=q.value.toLowerCase();let like=0,no=0;document.querySelectorAll('.run').forEach(r=>{
 const v=r.dataset.verdict;if(v==='like')like++;if(v==='dislike')no++;
 const ok=f==='all'||r.dataset.status===f||(f==='like'&&v==='like')||(f==='dislike'&&v==='dislike')||(f==='unrated'&&!v);
 r.hidden=!(ok&&r.dataset.name.includes(t))});cnt.textContent=like+' liked · '+no+' disliked'}
 btns.forEach(b=>b.onclick=()=>{f=b.dataset.f;btns.forEach(x=>x.setAttribute('aria-pressed',x===b));apply()});
-q.oninput=apply;apply();
+q.oninput=apply;
+document.querySelectorAll('.run').forEach(run=>run.querySelectorAll('.rate button').forEach(b=>b.onclick=()=>{
+const id=run.dataset.run;if(verdicts[id]===b.dataset.v)delete verdicts[id];else verdicts[id]=b.dataset.v;
+paint(run);apply();if(API)saveRemote(run);else saveLocal()}));
 document.getElementById('export').onclick=()=>{const rows=[...document.querySelectorAll('.run')]
-.filter(r=>r.dataset.verdict).map(r=>({run:r.dataset.run,subject:r.dataset.name,verdict:r.dataset.verdict}));
+.filter(r=>r.dataset.verdict).map(r=>({run:r.dataset.run,subject:r.dataset.name,icon_key:r.dataset.key,verdict:r.dataset.verdict}));
 const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(rows,null,2)],{type:'application/json'}));
 a.download='verdicts.json';a.click()};
+(async()=>{if(API){try{const res=await fetch('/api/verdicts');if(res.ok){verdicts=await res.json();store.textContent='saving to verdicts.json'}
+else throw new Error(res.status)}catch(e){store.textContent='no server, browser only';try{verdicts=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(x){}}}
+else{store.textContent='browser only · run serve_report.py to save to verdicts.json';try{verdicts=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(x){}}
+document.querySelectorAll('.run').forEach(paint);apply()})();
 """
 
 
@@ -240,7 +248,7 @@ def main():
 <div class="bar"><button data-f="all" aria-pressed="true">All</button><button data-f="done">Redrawn</button>
 <button data-f="pending">Awaiting redraw</button><button data-f="like">&#10003; Liked</button>
 <button data-f="dislike">&#10007; Disliked</button><button data-f="unrated">Unrated</button>
-<input id="q" type="search" placeholder="Filter by subject"><span class="count" id="cnt"></span>
+<input id="q" type="search" placeholder="Filter by subject"><span class="count" id="cnt"></span><span class="count" id="store"></span>
 <button id="export" type="button" title="Download verdicts.json">Export</button></div>
 {"".join(card(r) for r in runs)}
 </main><script>{JS}</script></body></html>"""

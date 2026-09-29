@@ -1,0 +1,58 @@
+{
+  "concept": "farming hay",
+  "source_uuid": "d0b1ee18-ac50-425b-bbc6-08b5ceabf860",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__round-hay-bale-on-cut-field/20260929T084629Z-thuan-mac/reference/farming hay_d0b1ee18-ac50-425b-bbc6-08b5ceabf860.svg",
+  "icon_id": "round-hay-bale-on-cut-field",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected bale looks like a capsule above three floating chevrons; it lost the rolled center and continuous cut field. Restore circular roll detail, bale depth and connected field contour.",
+  "plan": "Circular end and offset cylindrical back share upper/lower levels; field edge supports the bale and owns stubble repeats.",
+  "author": "gpt-6",
+  "keyshape": "HRECT_L",
+  "keyshape_rationale": "Chosen for the dominant subject silhouette; any intentional natural-proportion departure is recorded in the exact-drawing exception.",
+  "validation_status": "invalid",
+  "build_gate_status": "pass",
+  "automatic_status": "fail",
+  "exception": {
+    "reason": "Preserve the rolled bale center, offset cylindrical depth, supporting field and repeated cut stalks. Reduced clearances retain a coherent agricultural scene.",
+    "approved_by": "user (delegated exception judgment to gpt-6)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "3baef09a4e266ed2320ae028d2e5547d14a110218cdc4ba76154e6697f436872"
+  },
+  "validation_errors": [
+    "mic [bale-end]: bale-end and roll are 6.9823 apart on centerlines nearest (7.2984, 11.4332)<->(12.3873, 16.214); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bale-end]: bale-end and stubble-0 are 5.80508 apart on centerlines nearest (11.8069, 31.4833)<->(10, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bale-end]: bale-end and stubble-1 are 5.13202 apart on centerlines nearest (16.3465, 31.9098)<->(17, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [roll]: roll and bale-depth are 7 apart on centerlines nearest (15, 25)<->(15, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [field]: field and stubble-0 are 5 apart on centerlines nearest (6, 32)<->(6, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bale-depth]: bale-depth and stubble-1 are 5 apart on centerlines nearest (17, 32)<->(17, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bale-depth]: bale-depth and stubble-2 are 5 apart on centerlines nearest (28, 32)<->(28, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [stubble-0]: stubble-0 and stubble-1 are 7 apart on centerlines nearest (10, 37)<->(17, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [stubble-1]: stubble-1 and stubble-2 are 7 apart on centerlines nearest (21, 37)<->(28, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [bale-end]: bale-end and bale-depth are 0 apart on centerlines nearest (15, 32)<->(15, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "visual_review": "Inspected reference, rejected drawing, and final native 48px and enlarged renders in both light and dark themes. Final preserves the identifying silhouette and documented details, with intentional compact gaps recorded rather than hidden.",
+  "omissions": "Reduced the field stubble count to three.",
+  "lucide_reference": "No subject-specific Lucide drawing was used. Inspected local message-circle and tablet construction for coherent arcs, contours and round joins.",
+  "human_reference": null,
+  "human_spacing_evidence": null,
+  "module": "round_hay_bale_on_cut_field_d0b1ee18_ac50_425b_bbc6_08b5ceabf860.py",
+  "svg": "round-hay-bale-on-cut-field.svg",
+  "artifacts": [
+    "before-384.png",
+    "before-48.png",
+    "comparison.md",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "round-hay-bale-on-cut-field.metadata.json",
+    "round-hay-bale-on-cut-field.svg",
+    "round_hay_bale_on_cut_field_d0b1ee18_ac50_425b_bbc6_08b5ceabf860.py",
+    "validation.txt"
+  ]
+}

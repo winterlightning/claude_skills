@@ -1,0 +1,50 @@
+{
+  "concept": "tomato",
+  "source_uuid": "48f3e52f-9771-4349-89ba-dada134c9d72",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__round-fresh-tomato/20260929T051531Z-thuan-mac/reference/tomato_48f3e52f-9771-4349-89ba-dada134c9d72.svg",
+  "icon_id": "round-fresh-tomato",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected tomato had a simple two-leaf top and no pointed star calyx or skin highlight, so it resembled a generic round fruit.",
+  "plan": "Round tomato body with a pointed five-lobed calyx, upright stem and one curved skin highlight; maintain the source broad natural silhouette.",
+  "author": "gpt-6",
+  "module": "round_fresh_tomato_48f3e52f_9771_4349_89ba_dada134c9d72.py",
+  "svg": "round-fresh-tomato.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "round-fresh-tomato",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [fruit]: fruit and calyx are 0.632456 apart on centerlines nearest (35, 16)<->(34.8, 15.4); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [fruit]: fruit and highlight are 6.042 apart on centerlines nearest (32.7729, 42.776)<->(31, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "The calyx has tightly connected pointed leaves and compact fruit junctions. Preserve these identifying details with4px strokes using the authorized visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "0cfb711f53eb01cc515be40db2e80dea6a6fbb496bca949521a663c636b1fb50"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "",
+  "construction_references": "No useful local Lucide tomato match; source establishes star-shaped calyx and round body.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference.png",
+    "round-fresh-tomato.metadata.json",
+    "round-fresh-tomato.svg",
+    "round_fresh_tomato_48f3e52f_9771_4349_89ba_dada134c9d72.py",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

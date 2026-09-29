@@ -1,0 +1,24 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 8, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 4.0, 2.0, 2.0], tolerance 0.0)
+  ERROR  mic [lower-packages]: parallel straight edges lower-packages-4 and cab-back are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [canopy]: parallel straight edges canopy and upper-package-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [front-wheel]: front-wheel and flatbed are 0.324716 apart on centerlines nearest (17.6929, 36.1056)<->(18, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+{
+  "icon_id": "left-facing-delivery-truck-with-stacked-boxes",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 8, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 4.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [lower-packages]: parallel straight edges lower-packages-4 and cab-back are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [canopy]: parallel straight edges canopy and upper-package-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [front-wheel]: front-wheel and flatbed are 0.324716 apart on centerlines nearest (17.6929, 36.1056)<->(18, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "The left-facing cab, canopy and stacked packages need compact connected construction with small package openings. Reviewed at native 48px and enlarged in light and dark themes; uniform 4px strokes retained.",
+    "approved_by": "user (delegated visual exception approval in this request)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "a8161654d04d6c598511628d99199268d8e67b0e15a91975a5a56d2aa2e4f506"
+  },
+  "automatic_status": "fail"
+}

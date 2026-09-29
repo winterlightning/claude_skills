@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "The tiny holes and heavy concentric frames read as a face; earth contacts are cramped.",
+  "change": "Balanced the circular recess and clearly separated two pin holes with aligned earth contacts.",
+  "body": "rounded(self,'plate',4,4,44,44,6)\ncircle(self,'recess',24,24,14)\nfor x in (18,30): circle(self,f'pin-{x}',x,24,2)\nself.add_line('earth-top',(24,10),(24,15))\nself.add_line('earth-bottom',(24,33),(24,38))\nself.relate('connect','recess','earth-top')\nself.relate('connect','recess','earth-bottom')",
+  "refs": "plug: paired terminals and rounded housing",
+  "exception": "Retain the defining two circular holes and top/bottom earth tabs within a complete socket plate; compact concentric margins remain visibly open at 48px."
+}

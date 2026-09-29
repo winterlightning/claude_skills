@@ -1,0 +1,61 @@
+{
+  "concept": "scene",
+  "source_uuid": "c897c956-5934-483f-ac07-2cf2fa325d40",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__two-slanted-segmented-strips/20260928T165531Z-thuan-mac/reference/scene_c897c956-5934-483f-ac07-2cf2fa325d40.svg",
+  "icon_id": "two-slanted-segmented-strips",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "module": "two_slanted_segmented_strips_c897c956_5934_483f_ac07_2cf2fa325d40.py",
+  "svg": "two-slanted-segmented-strips.svg",
+  "comparison": "Rejected strips have near-horizontal rails and inconsistent separators. Restore two distinctly slanted bands with parallel rails and consistently spaced diagonal dividers.",
+  "reviewer_feedback": "Manual fix request",
+  "lucide_reference": "clapperboard",
+  "visual_review": "Inspected against original and rejected drawing, enlarged and native 48px in light/dark. Coherent contours, visible openings, directional arrangement and legibility accepted.",
+  "omissions": [
+    "Two separators per strip retain segmentation without crowded small cells."
+  ],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 42, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [upper-top]: parallel straight edges upper-top-1, upper-top-2, upper-top-3 and upper-bottom-1, upper-bottom-2, upper-bottom-3 are 7.76114 apart on centerlines (ink gap 3.76114); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [lower-top]: parallel straight edges lower-top-1, lower-top-2, lower-top-3 and lower-bottom-1, lower-bottom-2, lower-bottom-3 are 7.76114 apart on centerlines (ink gap 3.76114); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [upper-bottom]: upper-bottom and lower-top are 6 apart on centerlines nearest (4, 21)<->(4, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "two-slanted-segmented-strips",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 42, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [upper-top]: parallel straight edges upper-top-1, upper-top-2, upper-top-3 and upper-bottom-1, upper-bottom-2, upper-bottom-3 are 7.76114 apart on centerlines (ink gap 3.76114); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lower-top]: parallel straight edges lower-top-1, lower-top-2, lower-top-3 and lower-bottom-1, lower-bottom-2, lower-bottom-3 are 7.76114 apart on centerlines (ink gap 3.76114); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [upper-bottom]: upper-bottom and lower-top are 6 apart on centerlines nearest (4, 21)<->(4, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [upper-top / upper-bottom]: upper-top-1 and upper-bottom-1 have 3.7611 units of ink clearance over 5.2476 units; requires 4; review required",
+      "internal-spacing [upper-top / upper-bottom]: upper-top-1 and upper-bottom-2 have 3.7611 units of ink clearance over 4.9477 units; requires 4; review required",
+      "internal-spacing [upper-top / upper-bottom]: upper-top-2 and upper-bottom-2 have 3.7611 units of ink clearance over 5.1951 units; requires 4; review required",
+      "internal-spacing [upper-top / upper-bottom]: upper-top-2 and upper-bottom-3 have 3.7611 units of ink clearance over 4.9977 units; requires 4; review required",
+      "internal-spacing [upper-top / upper-bottom]: upper-top-3 and upper-bottom-3 have 3.7611 units of ink clearance over 9.4956 units; requires 4; review required",
+      "internal-spacing [lower-top / lower-bottom]: lower-top-1 and lower-bottom-1 have 3.7611 units of ink clearance over 7.2467 units; requires 4; review required",
+      "internal-spacing [lower-top / lower-bottom]: lower-top-2 and lower-bottom-2 have 3.7611 units of ink clearance over 9.1533 units; requires 4; review required",
+      "internal-spacing [lower-top / lower-bottom]: lower-top-3 and lower-bottom-3 have 3.7611 units of ink clearance over 11.3798 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve two slanted, segmented bands. Parallel rails retain 3.76px visible gaps and the band tips remain separated by 2px; both bands read independently at native size. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "2e387fa7a9a0acbc7fa80be13a4850dc09bc83b9adad8122fc6f90fc0692c9d4"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "production_outcome": "done",
+  "review_status": "ready",
+  "previews": [
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png"
+  ]
+}

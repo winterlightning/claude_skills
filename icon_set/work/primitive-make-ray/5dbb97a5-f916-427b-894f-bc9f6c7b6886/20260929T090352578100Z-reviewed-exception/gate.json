@@ -1,0 +1,18 @@
+{
+  "icon_id": "seated-adult-with-child",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (3, 2, 43, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0, 2.0, 1.0, 2.0], tolerance 0.0)"
+  ],
+  "warnings": [
+    "mic [adult-torso]: adult-torso and chair are 8 apart on centerlines nearest (13, 32)<->(5, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [adult-leg / holding-arm]: adult-leg-1 and holding-arm-2 have 3.061 units of ink clearance over 9.0694 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Keep the smaller child seated on the adult lap and the holding arm. The chair gap is exactly 4px ink; compact arm/lap spacing and natural envelope preserve the family pose.",
+    "approved_by": "user-authorized discretion; gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "1abf77039f92f0ed336a6a5709eb750231d9f989043c19838ac6a837412b2fe6"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,25 @@
+status: invalid
+  ERROR  mic [browser]: browser and control-a are 5 apart on centerlines nearest (16, 4)<->(16, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [browser]: browser and control-b are 5 apart on centerlines nearest (24, 4)<->(24, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [toolbar]: toolbar and head are 6 apart on centerlines nearest (24, 14)<->(24, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [browser]: browser and shoulders are 7 apart on centerlines nearest (16, 44)<->(16, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Accepted exact-SVG visual exception; automatic findings retained.
+{
+  "icon_id": "browser-user-profile",
+  "status": "pass",
+  "errors": [
+    "mic [browser]: browser and control-a are 5 apart on centerlines nearest (16, 4)<->(16, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [browser]: browser and control-b are 5 apart on centerlines nearest (24, 4)<->(24, 9); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [toolbar]: toolbar and head are 6 apart on centerlines nearest (24, 14)<->(24, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [browser]: browser and shoulders are 7 apart on centerlines nearest (16, 44)<->(16, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. Preserve a true browser toolbar with two control dots and a centered detached profile. Toolbar control gaps are intentionally smaller than the general 4px separation. The head and shoulder apex retain an exact 4px ink gap; the profile is visibly separate from the frame at 48px. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+    "approved_by": "user: delegated decision to gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "b6f844e8b6f6daa340f04f1ea3e950c02c3319ef6b8c4c03b32792d97b5dcf67"
+  },
+  "automatic_status": "fail"
+}

@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
-"""Copy the artwork, stroke-edit and reference-image stores of a gallery into the cloud (read-only on the source).
+"""Copy the stores kept beside a feedback database into the cloud (read-only on the source).
 
     python3 cloud/migrate/push_stores.py --state /srv/pictographic/state --base-url https://pictographic.<account>.workers.dev
+    python3 cloud/migrate/push_stores.py --state icon_set/state --base-url <worker> --dry-run    # count only
+
+Artwork choices and stroke edits are read from the ``icon_artwork`` / ``stroke_edits`` tables of
+``<state>/feedback.sqlite3`` when that database has them (deploy.py moved the folders into the
+database with the ``legacy-json-stores-v1`` migration); otherwise from the old folders. Reference
+image metadata comes from the ``reference_images`` table too when it exists (the bytes stay in
+the folder), on top of the folder's ``<sha>.json`` files:
 
 * ``icon-artwork/<hash>/artwork.json``      → store ``icon-artwork``, key = the icon key
 * ``stroke-edits/<hash>/<hash>.json``       → store ``stroke-edits``, key = ``<icon>@<source svg sha256>``
 * ``reference-images/<sha>.<png|svg>`` + meta → POST /api/reference-images (R2 file + D1 row)
 
-Newer servers keep the first two as rows of ``feedback.sqlite3`` (tables ``icon_artwork`` and
-``stroke_edits``) and reference image metadata in ``reference_images`` (the bytes stay in the
-folder); those are read too, opened read-only. Documents are written as they are (their revision
-numbers carry over). Reference images keep their ids because ids are content hashes.
+Documents are written as they are (their revision numbers carry over). Reference images keep
+their ids because ids are content hashes. ``--database`` names another database than
+``<state>/feedback.sqlite3`` (a snapshot, for example).
 """
 from __future__ import annotations
 
@@ -26,48 +32,68 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import cloudapi  # noqa: E402
 
 
+def documents_from_database(database: Path) -> dict[str, list[dict]] | None:
+    """The artwork and stroke-edit documents stored in the database, or None when it has no store tables."""
+    with closing(sqlite3.connect(database.resolve().as_uri() + '?mode=ro', uri=True)) as source:
+        tables = {row[0] for row in source.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        if not {'icon_artwork', 'stroke_edits'} <= tables:
+            return None
+        artwork = [json.loads(row[0]) for row in source.execute('SELECT document FROM icon_artwork ORDER BY icon')]
+        strokes = [json.loads(row[0]) for row in
+                   source.execute('SELECT document FROM stroke_edits ORDER BY icon, source_svg_sha256')]
+        images = ([{'id': image_id, 'kind': kind, 'name': name} for image_id, kind, name in
+                   source.execute('SELECT id, kind, name FROM reference_images ORDER BY id')]
+                  if 'reference_images' in tables else [])
+    return {'icon-artwork': artwork, 'stroke-edits': strokes, 'reference-images': images}
+
+
+def documents_from_folders(state: Path) -> dict[str, list[dict]]:
+    artwork = [json.loads(path.read_text(encoding='utf-8'))
+               for path in sorted((state / 'icon-artwork').glob('*/artwork.json'))]
+    strokes = [json.loads(path.read_text(encoding='utf-8'))
+               for path in sorted((state / 'stroke-edits').glob('*/*.json'))]
+    return {'icon-artwork': artwork, 'stroke-edits': strokes, 'reference-images': []}
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--state', type=Path, required=True, help='folder that holds feedback.sqlite3 and the store folders')
+    parser.add_argument('--database', type=Path, help='database to read the store tables from (default <state>/feedback.sqlite3)')
     parser.add_argument('--base-url', required=True)
+    parser.add_argument('--dry-run', action='store_true', help='count what would be sent; write nothing')
     args = parser.parse_args(argv)
-    token = cloudapi.push_token(args.base_url)
+    database = args.database or args.state / 'feedback.sqlite3'
+    documents = documents_from_database(database) if database.is_file() else None
+    origin = 'database' if documents is not None else 'folders'
+    if documents is None:
+        documents = documents_from_folders(args.state)
+    token = None if args.dry_run else cloudapi.push_token(args.base_url)
     counts = {'icon-artwork': 0, 'stroke-edits': 0, 'reference-images': 0}
-    artwork = [json.loads(path.read_text(encoding='utf-8')) for path in sorted((args.state / 'icon-artwork').glob('*/artwork.json'))]
-    edits = [json.loads(path.read_text(encoding='utf-8')) for path in sorted((args.state / 'stroke-edits').glob('*/*.json'))]
-    metas = {path.stem: json.loads(path.read_text()) for path in sorted((args.state / 'reference-images').glob('*.json'))}
-    database = args.state / 'feedback.sqlite3'
-    if database.is_file():
-        with closing(sqlite3.connect(f'file:{database}?mode=ro', uri=True)) as connection:
-            tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-            if 'icon_artwork' in tables:
-                artwork += [json.loads(text) for (text,) in connection.execute('SELECT document FROM icon_artwork ORDER BY icon')]
-            if 'stroke_edits' in tables:
-                edits += [json.loads(text) for (text,) in connection.execute(
-                    'SELECT document FROM stroke_edits ORDER BY icon, source_svg_sha256')]
-            if 'reference_images' in tables:
-                for image_id, kind, name in connection.execute('SELECT id, kind, name FROM reference_images ORDER BY id'):
-                    metas[image_id] = {'id': image_id, 'kind': kind, 'name': name}
-    for document in artwork:
-        cloudapi.post_json(args.base_url, '/api/store/icon-artwork',
-                           {'key': document['icon'], 'document': document, 'user': document.get('updated_by') or 'migration'}, token)
+    for document in documents['icon-artwork']:
+        if not args.dry_run:
+            cloudapi.post_json(args.base_url, '/api/store/icon-artwork',
+                               {'key': document['icon'], 'document': document, 'user': document.get('updated_by') or 'migration'}, token)
         counts['icon-artwork'] += 1
-    for document in edits:
+    for document in documents['stroke-edits']:
         key = f"{document['icon']}@{document['source_svg_sha256']}"
-        cloudapi.post_json(args.base_url, '/api/store/stroke-edits',
-                           {'key': key, 'document': document, 'user': document.get('updated_by') or 'migration'}, token)
+        if not args.dry_run:
+            cloudapi.post_json(args.base_url, '/api/store/stroke-edits',
+                               {'key': key, 'document': document, 'user': document.get('updated_by') or 'migration'}, token)
         counts['stroke-edits'] += 1
+    metas = {path.stem: json.loads(path.read_text()) for path in sorted((args.state / 'reference-images').glob('*.json'))}
+    metas.update((meta['id'], meta) for meta in documents['reference-images'])
     for meta in metas.values():
         image = args.state / 'reference-images' / f"{meta['id']}.{meta['kind']}"
         if not image.is_file():
             print(f'skipped {meta["id"]}: image file missing', file=sys.stderr)
             continue
-        saved = cloudapi.post_json(args.base_url, '/api/reference-images',
-                                   {'name': meta.get('name'), 'data': base64.b64encode(image.read_bytes()).decode()})
-        if saved['id'] != meta['id']:
-            raise SystemExit(f'error: {image.name} came back as {saved["id"]}')
+        if not args.dry_run:
+            saved = cloudapi.post_json(args.base_url, '/api/reference-images',
+                                       {'name': meta.get('name'), 'data': base64.b64encode(image.read_bytes()).decode()})
+            if saved['id'] != meta['id']:
+                raise SystemExit(f'error: {image.name} came back as {saved["id"]}')
         counts['reference-images'] += 1
-    print(json.dumps(counts, indent=2))
+    print(json.dumps({'source': origin, 'dry_run': args.dry_run, 'counts': counts}, indent=2))
     return 0
 
 

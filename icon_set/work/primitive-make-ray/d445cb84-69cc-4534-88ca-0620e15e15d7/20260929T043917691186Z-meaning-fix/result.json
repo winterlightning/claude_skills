@@ -1,0 +1,79 @@
+{
+  "concept": "peace sign",
+  "source_uuid": "d445cb84-69cc-4534-88ca-0620e15e15d7",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__raised-peace-sign-hand/20260929T043142Z-thuan-mac/reference/peace sign_d445cb84-69cc-4534-88ca-0620e15e15d7.svg",
+  "icon_id": "raised-peace-sign-hand",
+  "author": "gpt-6",
+  "original_vs_rejected": "The folded fingers became edge bumps and the crossing thumb disappeared.",
+  "feedback": "Does not convey the intended meaning",
+  "changes": "Restored two separated raised fingers, two curled knuckles, and a thumb crossing the palm.",
+  "lucide_reference": "hand: connected rounded finger construction; asymmetry preserves the V gesture",
+  "keyshape": "VRECT_L",
+  "omissions": [
+    "Reduced folded-finger micro-contours to one seam and a crossing thumb."
+  ],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (6.82288, 1.83772, 39.0335, 46.5831) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.8229, 0.1623, 2.9665, 0.5831], tolerance 0.0)",
+    "mic [hand]: hand and thumb are 2.18282 apart on centerlines nearest (23, 24)<->(22.4706, 26.1176); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "raised-peace-sign-hand",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (6.82288, 1.83772, 39.0335, 46.5831) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.8229, 0.1623, 2.9665, 0.5831], tolerance 0.0)",
+      "mic [hand]: hand and thumb are 2.18282 apart on centerlines nearest (23, 24)<->(22.4706, 26.1176); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [hand]: hand-0 and hand-2 have 2.4239 units of ink clearance over 13.7136 units; requires 4; review required",
+      "internal-spacing [hand]: hand-3 and hand-5 have 2.3517 units of ink clearance over 16.7268 units; requires 4; review required",
+      "internal-spacing [hand / folded-fingers]: hand-10 and folded-fingers have 2.6079 units of ink clearance over 6.3874 units; requires 4; review required",
+      "internal-spacing [thumb]: thumb-0 and thumb-2 have 1.5214 units of ink clearance over 6.6794 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Narrow channels within the two raised fingers and small thumb/knuckle joins preserve the recognizable peace gesture. The large V opening and open palm remain readable. Reviewed against the original and rejected drawing at 48px and enlarged size in light and dark. User explicitly delegated case-specific exceptions for UI/UX quality.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "9e30d691d2489536ef739dac4c0924c60f28804c323a158a26787016617c8b8e"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "raised-peace-sign-hand",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (6.82288, 1.83772, 39.0335, 46.5831) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.8229, 0.1623, 2.9665, 0.5831], tolerance 0.0)",
+      "mic [hand]: hand and thumb are 2.18282 apart on centerlines nearest (23, 24)<->(22.4706, 26.1176); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [hand]: hand-0 and hand-2 have 2.4239 units of ink clearance over 13.7136 units; requires 4; review required",
+      "internal-spacing [hand]: hand-3 and hand-5 have 2.3517 units of ink clearance over 16.7268 units; requires 4; review required",
+      "internal-spacing [hand / folded-fingers]: hand-10 and folded-fingers have 2.6079 units of ink clearance over 6.3874 units; requires 4; review required",
+      "internal-spacing [thumb]: thumb-0 and thumb-2 have 1.5214 units of ink clearance over 6.6794 units; requires 4; review required"
+    ]
+  },
+  "accepted_exception": true,
+  "exception": {
+    "reason": "Narrow channels within the two raised fingers and small thumb/knuckle joins preserve the recognizable peace gesture. The large V opening and open palm remain readable. Reviewed against the original and rejected drawing at 48px and enlarged size in light and dark. User explicitly delegated case-specific exceptions for UI/UX quality.",
+    "approved_by": "user-delegated-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "9e30d691d2489536ef739dac4c0924c60f28804c323a158a26787016617c8b8e"
+  },
+  "visual_review": "Reviewed original, rejected and revised drawings. Native 48px and enlarged light/dark previews show the intended subject, clear essential openings and consistent 4px strokes. Natural asymmetry is retained for directional gestures, the single-leaf berry, crescent scene and house/hand compositions.",
+  "artifacts": [
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "gate.json",
+    "review-notes.md",
+    "original.png",
+    "__pycache__",
+    "preview-light-384.png",
+    "validation.txt",
+    "raised-peace-sign-hand.svg",
+    "automatic-gate.json",
+    "raised_peace_sign_hand_d445cb84_69cc_4534_88ca_0620e15e15d7.py",
+    "preview-light-48.png",
+    "raised-peace-sign-hand.metadata.json"
+  ]
+}

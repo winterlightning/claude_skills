@@ -1,0 +1,57 @@
+{
+  "concept": "astrology stars",
+  "source_uuid": "2e3cad1b-f9fc-43b2-b7f0-4c06b892a8b9",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__low-crescent-with-two-sparkles/20260928T175139Z-thuan-mac/reference/astrology stars_2e3cad1b-f9fc-43b2-b7f0-4c06b892a8b9.svg",
+  "icon_id": "low-crescent-with-two-sparkles",
+  "author": "gpt-6",
+  "feedback": "Bad stroke drawn",
+  "comparison": "The current crescent is blunt and hooked, and two crosses replace the original four-point sparkles.",
+  "changes": "Restored a clean diagonal crescent and two pointed diamond sparkles, with straight sparkle sides to keep their openings clear at 48px.",
+  "construction_reference": "Lucide moon and sparkles: coherent crescent contour and four-point sparkle construction. Intentional upper-right sparkle arrangement follows the original.",
+  "plan": "One smooth crescent and two diamond sparkle instances, each symmetric about its own axes. Ink extremes (4,4)-(44,44).",
+  "run": "icon_set/work/primitive-make-ray/2e3cad1b-f9fc-43b2-b7f0-4c06b892a8b9/20260928-thuan-mac-fix-03",
+  "module": "low_crescent_with_two_sparkles_2e3cad1b_f9fc_43b2_b7f0_4c06b892a8b9.py",
+  "keyshape": "SQUARE",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "low-crescent-with-two-sparkles",
+    "status": "pass",
+    "errors": [
+      "mic [small]: parallel straight edges small-4 and small-2 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [large]: parallel straight edges large-3 and small-1 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [small]: parallel straight edges small-1 and small-3 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [crescent]: crescent and small are 5.77179 apart on centerlines nearest (13.6616, 23.1944)<->(19, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [large]: large and small are 7.07107 apart on centerlines nearest (30, 12)<->(25, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [small]: small-1 and small-3 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required",
+      "internal-spacing [small]: small-2 and small-4 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized visual exceptions for UI quality. The two diamond sparkles retain visible open centers and distinct silhouettes at 48px. Their 3.07px internal opening and approximately 2\u20133px local gaps preserve the two-star crescent composition. All strokes remain 4px; inspected in both themes. Diamond sides intentionally replace deeply concave sides that closed the small sparkle hole.",
+      "approved_by": "user: delegated visual-exception decision to gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "b8ceae9475a505aaae286304301cf1360c440d77f9760ab898c2c0093df9ca34"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected drawing, and final revision at native 48px and enlarged in both themes. Smooth contours, distinct openings, clear silhouettes and uniform 4px strokes. Documented exceptions preserve identifying details.",
+  "omissions": "Concave sparkle edges replaced with diamond sides to keep open centers.",
+  "svg": "low-crescent-with-two-sparkles.svg",
+  "artifacts": [
+    "before-384.png",
+    "before-48.png",
+    "gate.json",
+    "low-crescent-with-two-sparkles.metadata.json",
+    "low-crescent-with-two-sparkles.svg",
+    "low_crescent_with_two_sparkles_2e3cad1b_f9fc_43b2_b7f0_4c06b892a8b9.py",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "review-before.md",
+    "validation.txt"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "icon_id": "three-person-organization-hierarchy",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (3, 2, 45, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0, 2.0, 1.0, 2.0], tolerance 0.0)",
+    "mic [leader]: parallel straight edges leader-5 and branch-2, branch-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [branch]: branch and left are 1 apart on centerlines nearest (12, 27)<->(12, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [branch]: branch and right are 1 apart on centerlines nearest (36, 27)<->(36, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [leader / branch]: leader-5 and branch-2 have 0 units of ink clearance over 6 units; requires 4; review required",
+    "internal-spacing [leader / branch]: leader-5 and branch-3 have 0 units of ink clearance over 6 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Three continuous-neck portrait outlines and orthogonal connections restore the source organization-chart topology. Their compact openings and linked connections remain recognizable.",
+    "approved_by": "user-authorized visual review by gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "a628a4fdf6dc9135fbe2956517d4ae68a5be1493219bc8cd95d114475dc46df9"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,34 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (1, 2.96648, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 1.0335, 3.0, 2.0], tolerance 0.0)
+  ERROR  mic [brim]: brim and crown are 2.1332 apart on centerlines nearest (12.6219, 19.0994)<->(13, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [brim]: brim and jaw are 0.010865 apart on centerlines nearest (14.0023, 26.9894)<->(14, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [brim]: brim and hair-left are 0.506433 apart on centerlines nearest (12.1416, 26.5138)<->(12, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [brim]: brim and hair-right are 0.506433 apart on centerlines nearest (35.8584, 26.5138)<->(36, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [jaw]: jaw and hair-left are 2 apart on centerlines nearest (14, 27)<->(12, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [jaw]: jaw and hair-right are 2 apart on centerlines nearest (34, 27)<->(36, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "hat-lady-cowboy-avatar",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (1, 2.96648, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 1.0335, 3.0, 2.0], tolerance 0.0)",
+    "mic [brim]: brim and crown are 2.1332 apart on centerlines nearest (12.6219, 19.0994)<->(13, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [brim]: brim and jaw are 0.010865 apart on centerlines nearest (14.0023, 26.9894)<->(14, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [brim]: brim and hair-left are 0.506433 apart on centerlines nearest (12.1416, 26.5138)<->(12, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [brim]: brim and hair-right are 0.506433 apart on centerlines nearest (35.8584, 26.5138)<->(36, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [jaw]: jaw and hair-left are 2 apart on centerlines nearest (14, 27)<->(12, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [jaw]: jaw and hair-right are 2 apart on centerlines nearest (34, 27)<->(36, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [brim]: brim-0 and brim-2 have 1.9137 units of ink clearance over 36.4639 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Curved brim, crown and long hair take precedence over rigid keyshape fit; the hat/face silhouette is preserved. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "196c7518ccee8fab50e8d63266d33516c31bef1a3fbf3415ffaf3d3dd6c657c5"
+  },
+  "automatic_status": "fail"
+}

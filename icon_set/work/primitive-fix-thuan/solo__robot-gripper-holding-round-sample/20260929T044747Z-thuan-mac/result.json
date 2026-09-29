@@ -1,0 +1,72 @@
+{
+  "source_key": "solo/robot-gripper-holding-round-sample",
+  "icon_id": "robot-gripper-holding-round-sample",
+  "svg_sha256": "1042a9f8881298dabe85fad243b6d50199012fba28dc78d3439885c3c41098f8",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Rejected angular claw has a tiny pivot and diagonal rod, losing the reference robot hand. Restore curved gripping jaws around the sample and a broad rounded wrist. Drawing-bound visual exception accepted under user authorization; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/ddb289ec-fc69-4127-b2e2-bb63eae11231/20260929T044747Z-fix-12-reviewed",
+  "module": "icon_set/work/primitive-make-ray/ddb289ec-fc69-4127-b2e2-bb63eae11231/20260929T044747Z-fix-12-reviewed/robot_gripper_holding_round_sample_ddb289ec_fc69_4127_b2e2_bb63eae11231.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (6, 2, 40, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [sample]: sample and feed-top are 2.48528 apart on centerlines nearest (19.7574, 6.75736)<->(18, 5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [sample]: sample and feed-bottom are 6.042 apart on centerlines nearest (18.0197, 11.4816)<->(12, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [jaw-left]: jaw-left and feed-bottom are 6.35315 apart on centerlines nearest (14.2188, 17.9531)<->(12, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [feed-top]: feed-top and feed-bottom are 6.96526 apart on centerlines nearest (8.69307, 4.06931)<->(8, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/robot_gripper_holding_round_sample_ddb289ec_fc69_4127_b2e2_bb63eae11231.py",
+    "validation.txt",
+    "after/robot-gripper-holding-round-sample.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T05:01:20.079056+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "robot-gripper-holding-round-sample",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (6, 2, 40, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [sample]: sample and feed-top are 2.48528 apart on centerlines nearest (19.7574, 6.75736)<->(18, 5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [sample]: sample and feed-bottom are 6.042 apart on centerlines nearest (18.0197, 11.4816)<->(12, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [jaw-left]: jaw-left and feed-bottom are 6.35315 apart on centerlines nearest (14.2188, 17.9531)<->(12, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [feed-top]: feed-top and feed-bottom are 6.96526 apart on centerlines nearest (8.69307, 4.06931)<->(8, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [jaw-left / wrist]: jaw-left-2 and wrist-3 have -4 units of ink clearance over 2 units; requires 4; review required",
+      "internal-spacing [jaw-right / wrist]: jaw-right-2 and wrist-1 have -4 units of ink clearance over 2 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Curved jaws, sample and broad rounded wrist restore the robotic gripper. Feeding lines and compact jaw/wrist joins are intentional mechanical contacts.",
+      "approved_by": "user-authorized gpt-6 visual review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a46c5790f9ef9502b4ec633c7130c1e35cc841f2b07d86e8e01f4abeba593912"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T05:01:19.498000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__robot-gripper-holding-round-sample/20260929T044747Z-thuan-mac/after/robot_gripper_holding_round_sample_ddb289ec_fc69_4127_b2e2_bb63eae11231.py",
+    "note": "Rejected angular claw has a tiny pivot and diagonal rod, losing the reference robot hand. Restore curved gripping jaws around the sample and a broad rounded wrist. Drawing-bound visual exception accepted under user authorization; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Rejected angular claw has a tiny pivot and diagonal rod, losing the reference robot hand. Restore curved gripping jaws around the sample and a broad rounded wrist. Drawing-bound visual exception accepted under user authorization; automatic findings retained.",
+    "claimed_at": "2026-09-29T04:47:44.159000+00:00",
+    "updated_at": "2026-09-29T05:01:19.952000+00:00",
+    "svg_sha256": "1042a9f8881298dabe85fad243b6d50199012fba28dc78d3439885c3c41098f8"
+  },
+  "review_status": "ready"
+}

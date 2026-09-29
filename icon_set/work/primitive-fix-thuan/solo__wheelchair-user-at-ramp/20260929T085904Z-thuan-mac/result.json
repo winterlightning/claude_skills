@@ -1,0 +1,69 @@
+{
+  "source_key": "solo/wheelchair-user-at-ramp",
+  "icon_id": "wheelchair-user-at-ramp",
+  "svg_sha256": "3e9a9d20f375d07c247693764eaecb5dd12839072156f728bc0468fafca67346",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore a circular wheel, aligned head and seated torso with a forward arm and bent leg beside a sloped ramp. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/9dfb6289-487a-4bfa-95e5-fdc48e5dd47a/20260929T085904Z-meaning-v2",
+  "module": "icon_set/work/primitive-make-ray/9dfb6289-487a-4bfa-95e5-fdc48e5dd47a/20260929T085904Z-meaning-v2/wheelchair_user_at_ramp_9dfb6289_487a_4bfa_95e5_fdc48e5dd47a.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [torso]: torso and wheel are 6 apart on centerlines nearest (16, 23)<->(10, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [leg]: leg and ramp are 7.345 apart on centerlines nearest (31, 34)<->(34.1275, 40.6459); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [wheel]: wheel and ramp are 7.07107 apart on centerlines nearest (22, 39)<->(27, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/wheelchair_user_at_ramp_9dfb6289_487a_4bfa_95e5_fdc48e5dd47a.py",
+    "validation.txt",
+    "after/wheelchair-user-at-ramp.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T09:16:03.464933+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "wheelchair-user-at-ramp",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [torso]: torso and wheel are 6 apart on centerlines nearest (16, 23)<->(10, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [leg]: leg and ramp are 7.345 apart on centerlines nearest (31, 34)<->(34.1275, 40.6459); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [wheel]: wheel and ramp are 7.07107 apart on centerlines nearest (22, 39)<->(27, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [leg / arm]: leg-1 and arm have 2.3514 units of ink clearance over 7.2261 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Keep the open wheel, seated leg with foot and ramp; exact torso/head gap is 4px and compact scene spacing preserves each identifying part.",
+      "approved_by": "gpt-6 under explicit user authorization for visual exceptions",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "920151a7e9b586edf18785531582ce8df5ee027074efa27f5b4fd06c2a1867a7"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T09:16:02.355000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__wheelchair-user-at-ramp/20260929T085904Z-thuan-mac/after/wheelchair_user_at_ramp_9dfb6289_487a_4bfa_95e5_fdc48e5dd47a.py",
+    "note": "Restore a circular wheel, aligned head and seated torso with a forward arm and bent leg beside a sloped ramp. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore a circular wheel, aligned head and seated torso with a forward arm and bent leg beside a sloped ramp. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+    "claimed_at": "2026-09-29T08:59:04.235000+00:00",
+    "updated_at": "2026-09-29T09:16:03.138000+00:00",
+    "svg_sha256": "3e9a9d20f375d07c247693764eaecb5dd12839072156f728bc0468fafca67346"
+  },
+  "review_status": "ready"
+}

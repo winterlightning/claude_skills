@@ -1,0 +1,8 @@
+{
+  "keyshape": "HRECT_M",
+  "problem": "The horizontal kitchen knife was changed into a diagonal curved dagger.",
+  "change": "Restored a horizontal straight-backed chef blade with a curved cutting edge and a rounded capsule handle.",
+  "body": "# Natural horizontal profile, with a shared heel and no decorative details.\nself.add_polyline('blade-top-heel',(4,18),(28,18),(28,26),(28,30))\ncurve(self,'cutting-edge',(28,30),((13,30),(7,28),(4,18)))\n# The top/heel polyline is already a joined path; connect the smooth cutting edge at both ends.\nself.relate('connect','blade-top-heel','cutting-edge')\nself.add_line('handle-top',(28,18),(40,18))\nself.add_arc('handle-end',(40,18),(40,26),radius_x=4)\nself.add_line('handle-bottom',(40,26),(28,26))\nself.add_contour('handle','handle-top','handle-end','handle-bottom')\nself.relate('connect','blade-top-heel','handle')",
+  "refs": "No useful local chef-knife match used; original supplies the horizontal silhouette, straight spine and curved cutting edge.",
+  "exception": "Preserve the narrow horizontal chef-knife proportions instead of bending or widening it to fill the keyshape. The drawing retains4px strokes and a clear8-unit handle interior."
+}

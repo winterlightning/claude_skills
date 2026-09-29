@@ -1,0 +1,78 @@
+{
+  "source_uuid": "5e1048c9-9d25-56a8-b734-5d83dac9ce83",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__three-folded-arrows-forming-recycling-loop-solo/20260929T091350Z-thuan-mac/reference/recycling sign_5e1048c9-9d25-56a8-b734-5d83dac9ce83.svg",
+  "icon_id": "three-folded-arrows-forming-recycling-loop-solo",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (1, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [top-arrow]: parallel straight edges top-arrow-1 and top-arrow-8 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bottom-arrow]: parallel straight edges bottom-arrow-8 and bottom-arrow-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bottom-arrow]: parallel straight edges bottom-arrow-9 and bottom-arrow-2 are 6.44981 apart on centerlines (ink gap 2.44981); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [top-arrow]: top-arrow and left-arrow are 5.09902 apart on centerlines nearest (25, 24)<->(20, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [top-arrow]: top-arrow and bottom-arrow are 5.83095 apart on centerlines nearest (35, 26)<->(40, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [left-arrow]: left-arrow and bottom-arrow are 5.83095 apart on centerlines nearest (12, 35)<->(17, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "three-folded-arrows-forming-recycling-loop-solo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [top-arrow]: parallel straight edges top-arrow-1 and top-arrow-8 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [bottom-arrow]: parallel straight edges bottom-arrow-8 and bottom-arrow-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [bottom-arrow]: parallel straight edges bottom-arrow-9 and bottom-arrow-2 are 6.44981 apart on centerlines (ink gap 2.44981); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [top-arrow]: top-arrow and left-arrow are 5.09902 apart on centerlines nearest (25, 24)<->(20, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [top-arrow]: top-arrow and bottom-arrow are 5.83095 apart on centerlines nearest (35, 26)<->(40, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [left-arrow]: left-arrow and bottom-arrow are 5.83095 apart on centerlines nearest (12, 35)<->(17, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [top-arrow]: top-arrow-1 and top-arrow-8 have 2 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [top-arrow]: top-arrow-2 and top-arrow-7 have 1.8724 units of ink clearance over 12.6688 units; requires 4; review required",
+      "internal-spacing [left-arrow]: left-arrow-3 and left-arrow-7 have 2.5462 units of ink clearance over 7.8667 units; requires 4; review required",
+      "internal-spacing [bottom-arrow]: bottom-arrow-2 and bottom-arrow-9 have 2.4498 units of ink clearance over 3.909 units; requires 4; review required",
+      "internal-spacing [bottom-arrow]: bottom-arrow-3 and bottom-arrow-8 have 2 units of ink clearance over 11 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Three broad separated ribbon arrows restore the reference recycling symbol. The thicker ribbons require compact interior clearances and a near-full-canvas envelope.",
+      "approved_by": "user-authorized visual review by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "d52069ffe180c76af3d1bbad017ce7f4204f280e422b365f38112a9586a0b4c0"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "status": "reviewed",
+    "sizes": [
+      48,
+      144,
+      384
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "comparison": "Single-stroke arrows omit the broad folded ribbon construction.",
+    "feedback": "Does not convey the intended meaning",
+    "changes": "Restore three broad closed ribbon arrows in a triangular cycle.",
+    "findings": "Three broad separated ribbon arrows restore the reference recycling symbol. The thicker ribbons require compact interior clearances and a near-full-canvas envelope."
+  },
+  "omissions": "Small folded seam lines omitted; wide three-arrow recycling topology retained.",
+  "keyshape": "SQUARE",
+  "construction_references": "recycle",
+  "artifacts": [
+    "build-gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "three-folded-arrows-forming-recycling-loop-solo.metadata.json",
+    "three-folded-arrows-forming-recycling-loop-solo.svg",
+    "three_folded_arrows_forming_recycling_loop_solo_5e1048c9_9d25_56a8_b734_5d83dac9ce83.py",
+    "validation.txt"
+  ]
+}

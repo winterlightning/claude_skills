@@ -1,0 +1,77 @@
+{
+  "index": 8,
+  "key": "solo/washing-hands",
+  "icon_id": "washing-hands",
+  "fix_dir": "icon_set/work/primitive-fix-thuan/solo__washing-hands/20260929T085904Z-thuan-mac",
+  "reference": "icon_set/work/primitive-fix-thuan/solo__washing-hands/20260929T085904Z-thuan-mac/reference/washing hand_b49d7989-5d86-40cf-8c72-632e8858db04.svg",
+  "before": "icon_set/work/primitive-fix-thuan/solo__washing-hands/20260929T085904Z-thuan-mac/before/washing-hands.svg",
+  "feedback": "Does not convey the intended meaning",
+  "concept": "washing hand",
+  "source_uuid": "b49d7989-5d86-40cf-8c72-632e8858db04",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__washing-hands/20260929T085904Z-thuan-mac/reference/washing hand_b49d7989-5d86-40cf-8c72-632e8858db04.svg",
+  "result_dir": "icon_set/work/primitive-make-ray/b49d7989-5d86-40cf-8c72-632e8858db04/20260929T085904Z-meaning-v2",
+  "module": "icon_set/work/primitive-make-ray/b49d7989-5d86-40cf-8c72-632e8858db04/20260929T085904Z-meaning-v2/washing_hands_b49d7989_5d86_40cf_8c72_632e8858db04.py",
+  "author": "gpt-6",
+  "comparison": "The fingers became an angular zigzag and the second hand became a detached diagonal bar.",
+  "change": "Reconstruct two overlapping rounded hands with visible finger divisions and soap bubbles.",
+  "keyshape": "SQUARE",
+  "validation_status": "invalid",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2.72348, 1, 45.375, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.2765, 3.0, 1.375, 2.0], tolerance 0.0)",
+    "mic [front-hand]: front-hand and back-hand are 4.24621 apart on centerlines nearest (38.8801, 31.0281)<->(43, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [back-hand]: back-hand and bubble-right are 7.00006 apart on centerlines nearest (31, 14)<->(35.2129, 8.40962); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "omissions": "Fewer finger divisions preserve two recognizable hands.",
+  "lucide": "No subject-specific Lucide construction used; general smooth contour principles applied. Original reference is the meaning authority.",
+  "visual_review": "Reviewed the original, rejected drawing and final SVG in light and dark themes at 48px and enlarged size. Defining subject features are retained; all geometry uses uniform 4px strokes.",
+  "build_gate": {
+    "icon_id": "washing-hands",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2.72348, 1, 45.375, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.2765, 3.0, 1.375, 2.0], tolerance 0.0)",
+      "mic [front-hand]: front-hand and back-hand are 4.24621 apart on centerlines nearest (38.8801, 31.0281)<->(43, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [back-hand]: back-hand and bubble-right are 7.00006 apart on centerlines nearest (31, 14)<->(35.2129, 8.40962); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [front-hand]: front-hand-2 and front-hand-4 have 2.1105 units of ink clearance over 7.6262 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Keep both overlapping hands and bubbles; the thumb and two rounded finger divisions are readable despite local clearances below 4px.",
+      "approved_by": "gpt-6 under explicit user authorization for visual exceptions",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "34b3769b8d16e2566b96808d3c234a3715b0f5e359845969ed88d7e278b854c5"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "washing-hands",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2.72348, 1, 45.375, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.2765, 3.0, 1.375, 2.0], tolerance 0.0)",
+      "mic [front-hand]: front-hand and back-hand are 4.24621 apart on centerlines nearest (38.8801, 31.0281)<->(43, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [back-hand]: back-hand and bubble-right are 7.00006 apart on centerlines nearest (31, 14)<->(35.2129, 8.40962); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [front-hand]: front-hand-2 and front-hand-4 have 2.1105 units of ink clearance over 7.6262 units; requires 4; review required"
+    ]
+  },
+  "accepted_exception": true,
+  "exception": {
+    "reason": "Keep both overlapping hands and bubbles; the thumb and two rounded finger divisions are readable despite local clearances below 4px.",
+    "approved_by": "gpt-6 under explicit user authorization for visual exceptions",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "34b3769b8d16e2566b96808d3c234a3715b0f5e359845969ed88d7e278b854c5"
+  },
+  "artifacts": {
+    "module": "washing_hands_b49d7989_5d86_40cf_8c72_632e8858db04.py",
+    "svg": "washing-hands.svg",
+    "metadata": "washing-hands.metadata.json",
+    "previews": [
+      "preview-light-48.png",
+      "preview-dark-48.png",
+      "preview-light-384.png",
+      "preview-dark-384.png"
+    ]
+  }
+}

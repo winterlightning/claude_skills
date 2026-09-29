@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "Unenclosed A/B letters and a small plus lost the game-button arrangement and outlined D-pad.",
+  "change": "Restored circular A/B buttons and a large outlined directional pad with a center mark.",
+  "body": "circle(self,'button-a',12,22,8)\ncircle(self,'button-b',34,10,8)\n# Simple native letterforms are intentionally compact inside their own buttons.\nself.add_polyline('a',(9,25),(12,18),(15,25))\nself.add_line('a-bar',(10,23),(14,23));self.relate('connect','a','a-bar')\nself.add_line('b-stem',(31,6),(31,14))\ncurve(self,'b',(31,6),((39,5),(39,10),(31,10)),((39,10),(39,15),(31,14)))\nself.relate('connect','b-stem','b')\nself.add_polyline('dpad',(28,25),(36,25),(36,31),(42,31),(42,39),(36,39),(36,45),(28,45),(28,39),(22,39),(22,31),(28,31),closed=True)\nself.add_dot('dpad-center',(32,35))",
+  "refs": "gamepad-2: recognizable directional controls; supplied original: circular A/B buttons and outlined cross",
+  "exception": "Complete A/B button circles and the outlined D-pad are the defining composition; use compact letter counters and 4px strokes, with visibly separated buttons."
+}

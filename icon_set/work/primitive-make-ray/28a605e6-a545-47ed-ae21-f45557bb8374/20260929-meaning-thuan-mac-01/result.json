@@ -1,0 +1,56 @@
+{
+  "concept": "playing yoyo",
+  "source_uuid": "28a605e6-a545-47ed-ae21-f45557bb8374",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-playing-yoyo/20260929T025914Z-thuan-mac/reference/playing yoyo_28a605e6-a545-47ed-ae21-f45557bb8374.svg",
+  "icon_id": "hand-playing-yoyo",
+  "author": "gpt-6",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected fingers are disconnected horizontal bars; the string intersects the palm ambiguously and the yoyo loses its center axle.",
+  "changes": "Restored a side-on pinching hand, one clean slanting string, a circular yoyo with axle, and one motion arc.",
+  "construction_reference": "Lucide hand: continuous fingertip-to-palm flow. Source defines taut string, axle circle and swinging motion.",
+  "omissions": "Two motion arcs reduced to one; axle retained as a small circular hole.",
+  "keyshape": "SQUARE",
+  "fix_run": "icon_set/work/primitive-fix-thuan/solo__hand-playing-yoyo/20260929T025914Z-thuan-mac",
+  "run": "icon_set/work/primitive-make-ray/28a605e6-a545-47ed-ae21-f45557bb8374/20260929-meaning-thuan-mac-01",
+  "module": "hand_playing_yoyo_28a605e6_a545_47ed_ae21_f45557bb8374.py",
+  "svg": "hand-playing-yoyo.svg",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "hand-playing-yoyo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (3.37722, 3.11111, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.6228, 0.8889, 0.0, 2.0], tolerance 0.0)",
+      "mic [string]: string and yoyo are 0.0625659 apart on centerlines nearest (25, 32)<->(25.0541, 32.0315); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [string]: string and axle are 6.0628 apart on centerlines nearest (25, 32)<->(30.2752, 34.9883); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [yoyo]: yoyo and axle are 5.99955 apart on centerlines nearest (39.1996, 32.5134)<->(33.808, 35.1449); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [hand-top]: hand-top-2 and hand-top-4 have 3.1159 units of ink clearance over 9.0569 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. Preserve the pinching hand, taut slanting string, round yoyo, center axle and motion arc. The string meets the yoyo visually and narrow finger/axle details remain clear. Natural envelope and close hand contour findings are retained. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+      "approved_by": "user: delegated decision to gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "39cbd7d79261432b2c264121e3e9a49656a7ee5231870189ded6835f4245cc16"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": "Preserve the pinching hand, taut slanting string, round yoyo, center axle and motion arc. The string meets the yoyo visually and narrow finger/axle details remain clear. Natural envelope and close hand contour findings are retained.",
+  "artifacts": [
+    "before-192.png",
+    "before-48.png",
+    "gate.json",
+    "hand-playing-yoyo.metadata.json",
+    "hand-playing-yoyo.svg",
+    "hand_playing_yoyo_28a605e6_a545_47ed_ae21_f45557bb8374.py",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "review-before.md",
+    "validation.txt"
+  ]
+}

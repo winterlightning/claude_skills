@@ -1,0 +1,54 @@
+{
+  "concept": "tools ar kit",
+  "source_uuid": "e879424e-4424-5a55-9724-37f5338a9a78",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__ar-cube-axis-arrows/20260928T165531Z-thuan-mac/reference/tools ar kit_e879424e-4424-5a55-9724-37f5338a9a78.svg",
+  "icon_id": "ar-cube-axis-arrows",
+  "author": "gpt-6",
+  "keyshape": "VRECT_L",
+  "module": "ar_cube_axis_arrows_e879424e_4424_5a55_9724_37f5338a9a78.py",
+  "svg": "ar-cube-axis-arrows.svg",
+  "comparison": "The rejected cube has stubby, filled-looking corner marks and short central axes. Restore open isometric corner junctions and longer center Y.",
+  "reviewer_feedback": "Manual fix request",
+  "lucide_reference": "box",
+  "visual_review": "Inspected against original and rejected drawing, enlarged and native 48px in light/dark. Coherent contours, visible openings, directional arrangement and legibility accepted.",
+  "omissions": [],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [south-axis]: south-axis and center-axis are 7 apart on centerlines nearest (24, 38)<->(24, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [south]: south and left-lower are 7.28011 apart on centerlines nearest (18, 40)<->(11, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [south]: south and right-lower are 7.28011 apart on centerlines nearest (30, 40)<->(37, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [center]: center and left-upper-axis are 7.61577 apart on centerlines nearest (18, 21)<->(11, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [center]: center and right-upper-axis are 7.61577 apart on centerlines nearest (30, 21)<->(37, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "ar-cube-axis-arrows",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [south-axis]: south-axis and center-axis are 7 apart on centerlines nearest (24, 38)<->(24, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [south]: south and left-lower are 7.28011 apart on centerlines nearest (18, 40)<->(11, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [south]: south and right-lower are 7.28011 apart on centerlines nearest (30, 40)<->(37, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [center]: center and left-upper-axis are 7.61577 apart on centerlines nearest (18, 21)<->(11, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [center]: center and right-upper-axis are 7.61577 apart on centerlines nearest (30, 21)<->(37, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Preserve six open isometric corners and the central Y. A 40x44 ink envelope and 3.0\u20133.6px local gaps maintain legibility without shortening the cube into stubs. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "58d17d3231c0ed17ff4cebad25da0c2103f211ef737000e94be94294ac507544"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "production_outcome": "done",
+  "review_status": "ready",
+  "previews": [
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png"
+  ]
+}

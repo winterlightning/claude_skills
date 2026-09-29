@@ -1,0 +1,32 @@
+from revise import *
+replace(2,'''
+rect('frame',6,6,42,42,6)
+path('bubble',(19,15),[('L',(29,15)),('A',(33,19),4,4,True),('L',(33,23)),('A',(29,27),4,4,True),('L',(26,27)),('L',(21,33)),('L',(21,27)),('L',(19,27)),('A',(15,23),4,4,True),('L',(15,19)),('A',(19,15),4,4,True)],True)
+''')
+k,n,p,c=DESIGNS[6];replace(6,c.replace("(24,40),(24,46)","(24,40),(24,44)").replace("(18,46),(30,46)","(18,44),(30,44)"))
+replace(7,'''
+circle('head',24,10,6)
+path('shoulders',(12,32),[('B',(12,28),(17,24),(24,24)),('B',(31,24),(36,28),(36,32))])
+rect('desk',8,32,40,40,2)
+self.add_line('left-leg',(12,40),(12,44));self.add_line('right-leg',(36,40),(36,44))
+join('shoulders','desk');join('desk','left-leg');join('desk','right-leg')
+''');k,n,p,c=DESIGNS[7];DESIGNS[7]=('VRECT_L',n,p,c)
+replace(8,'''
+path('cloud',(8,15),[('B',(3,15),(3,8),(7,8)),('B',(8,2),(16,3),(17,9)),('B',(23,9),(22,15),(18,15)),('L',(8,15))],True)
+circle('sun',35,13,4)
+for name,point in [('top',(35,4)),('right',(44,13)),('lower',(35,22))]:self.add_dot(name,point)
+circle('head',24,25,4)
+path('bust',(12,44),[('B',(12,38),(18,37),(24,37)),('B',(30,37),(36,38),(36,44))])
+''')
+k,n,p,c=DESIGNS[11];replace(11,c.replace('(6,46)','(6,44)').replace('(42,46)','(42,44)'))
+k,n,p,c=DESIGNS[12];begin=c.index("path('butterfly'");end=c.index("join('torso'",begin)
+c=c[:begin]+'''path('butterfly-left',(11,12),[('B',(1,3),(1,21),(11,16))])
+path('butterfly-right',(11,12),[('B',(21,3),(21,21),(11,16))])
+self.add_polyline('antennae',(8,5),(11,8),(14,5))
+self.add_line('butterfly-body',(11,8),(11,20))
+join('butterfly-left','butterfly-body');join('butterfly-right','butterfly-body');join('antennae','butterfly-body')
+'''+c[end:]
+c=c.replace(";join('butterfly','butterfly-body')",'');replace(12,c)
+k,n,p,c=DESIGNS[18];replace(18,c.replace("'head',17,12,5","'head',17,11,5").replace('(29,17)','(29,16)').replace('(37,20)','(37,19)'))
+k,n,p,c=DESIGNS[20];replace(20,c.replace("'head',24,7,4","'head',24,8,4").replace('(24,19)','(24,20)').replace('(17,19)','(17,20)').replace('(9,19)','(9,20)').replace('(31,19)','(31,20)').replace('(39,19)','(39,20)'))
+if __name__=='__main__':author([2,6,7,8,11,12,18,20],'d')

@@ -1,0 +1,68 @@
+{
+  "source_uuid": "0291328f-6b9e-4cc3-80d5-84c234b92ad3",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__three-buildings-beneath-cloud/20260929T091350Z-thuan-mac/reference/building cloudy_0291328f-6b9e-4cc3-80d5-84c234b92ad3.svg",
+  "icon_id": "three-buildings-beneath-cloud",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 3, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 1.0, 0.0, 0.0], tolerance 0.0)",
+    "mic [cloud]: cloud and tower are 6 apart on centerlines nearest (26, 15)<->(32, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tower]: tower and window-16 are 5 apart on centerlines nearest (32, 16)<->(37, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tower]: tower and window-26 are 5 apart on centerlines nearest (32, 26)<->(37, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [house]: house and house-window are 5.6 apart on centerlines nearest (20.64, 27.52)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "three-buildings-beneath-cloud",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 3, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 1.0, 0.0, 0.0], tolerance 0.0)",
+      "mic [cloud]: cloud and tower are 6 apart on centerlines nearest (26, 15)<->(32, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tower]: tower and window-16 are 5 apart on centerlines nearest (32, 16)<->(37, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tower]: tower and window-26 are 5 apart on centerlines nearest (32, 26)<->(37, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [house]: house and house-window are 5.6 apart on centerlines nearest (20.64, 27.52)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Cloud lobes and sparse windows remain recognizable at 48px. The composed skyline needs compact window and cloud clearances and a one-unit keyshape adjustment.",
+      "approved_by": "user-authorized visual review by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ea64e64592433954ad4d28e553b952f80166a3f3ceb09c24707e2d5a2432d086"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "status": "reviewed",
+    "sizes": [
+      48,
+      144,
+      384
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "comparison": "Cloud is a cramped puff; buildings have no window cues.",
+    "feedback": "Does not convey the intended meaning\n\ncloud",
+    "changes": "Enlarge cloud lobes and add sparse windows to three distinct roofs.",
+    "findings": "Cloud lobes and sparse windows remain recognizable at 48px. The composed skyline needs compact window and cloud clearances and a one-unit keyshape adjustment."
+  },
+  "omissions": "Fine reference detail omitted where it would not survive 48px.",
+  "keyshape": "SQUARE",
+  "construction_references": "cloud",
+  "artifacts": [
+    "build-gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "three-buildings-beneath-cloud.metadata.json",
+    "three-buildings-beneath-cloud.svg",
+    "three_buildings_beneath_cloud_0291328f_6b9e_4cc3_80d5_84c234b92ad3.py",
+    "validation.txt"
+  ]
+}

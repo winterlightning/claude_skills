@@ -1,0 +1,59 @@
+{
+  "concept": "e car battery driving length 1",
+  "source_uuid": "a3acc8b0-54db-4bd5-a00e-eb2c72c03c16",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__remaining-range-indicator/20260929T043927Z-thuan-mac/reference/e car battery driving length 1_a3acc8b0-54db-4bd5-a00e-eb2c72c03c16.svg",
+  "icon_id": "remaining-range-indicator",
+  "author": "gpt-6",
+  "comparison": "The number 10 became a bar and dot, and the battery became an angular bracket. Restore the range number, leftward distance arrow and battery silhouette.",
+  "feedback": "Does not convey the intended meaning",
+  "run": "icon_set/work/primitive-make-ray/a3acc8b0-54db-4bd5-a00e-eb2c72c03c16/20260929T045213484700Z-reviewed-exception",
+  "module": "icon_set/work/primitive-make-ray/a3acc8b0-54db-4bd5-a00e-eb2c72c03c16/20260929T045213484700Z-reviewed-exception/remaining_range_indicator_a3acc8b0_54db_4bd5_a00e_eb2c72c03c16.py",
+  "keyshape": "SQUARE",
+  "gate": {
+    "icon_id": "remaining-range-indicator",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [battery]: parallel straight edges battery-5 and battery-3 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [zero]: zero and battery are 7.6619 apart on centerlines nearest (27.4309, 16.0564)<->(34, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [battery]: battery and distance are 6 apart on centerlines nearest (31, 26)<->(31, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [battery]: battery-3 and battery-5 have 3 units of ink clearance over 3 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the readable number 10, battery terminal, and leftward range arrow. The intentionally broken battery edge accommodates the arrow; compact numeral and battery spacing retain the original range meaning. Visually reviewed at 48px in light and dark themes under the user's explicit delegated exception authorization.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "2ff2d63b248583c42ba2e361e93cb48923ff933f8fa35a080134a431af1ceacf"
+    },
+    "automatic_status": "fail"
+  },
+  "validation_status": "invalid",
+  "parent_run": "icon_set/work/primitive-make-ray/a3acc8b0-54db-4bd5-a00e-eb2c72c03c16/20260929T044818789991Z-meaning-fix",
+  "accepted_exception": true,
+  "visual_review": "Reviewed light and dark at native 48px and enlarged size. Recognizable semantic silhouette; uniform 4px strokes, intentional asymmetry only for scene placement, directional movement or logo construction.",
+  "omissions": "No semantic elements omitted; numeral serifs simplified.",
+  "human_reference": null,
+  "lucide_references": [],
+  "keyshape_reason": "Preserve the supplied subject proportions and relative arrangement. Drawing-bound visual exception records the intentional optical envelope or compact detail requirements.",
+  "reference_notes": "Original and rejected SVG renders compared before authoring. No useful exact Lucide match; applied the inspected geometric construction principles without claiming an exact match.",
+  "artifacts": [
+    "__pycache__",
+    "before-384.png",
+    "before-48.png",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference-before-comparison.png",
+    "remaining-range-indicator.metadata.json",
+    "remaining-range-indicator.svg",
+    "remaining_range_indicator_a3acc8b0_54db_4bd5_a00e_eb2c72c03c16.py",
+    "validation.txt",
+    "visual-review.md"
+  ]
+}

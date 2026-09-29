@@ -1,0 +1,44 @@
+{
+  "concept": "synchronize arrows",
+  "source_uuid": "bafc5d96-6820-5892-a08b-927ab58a96ff",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__counterclockwise-synchronize-arrows/20260928T165531Z-thuan-mac/reference/synchronize arrows_bafc5d96-6820-5892-a08b-927ab58a96ff.svg",
+  "icon_id": "counterclockwise-synchronize-arrows",
+  "author": "gpt-6",
+  "keyshape": "SQUARE",
+  "module": "counterclockwise_synchronize_arrows_bafc5d96_6820_5892_a08b_927ab58a96ff.py",
+  "svg": "counterclockwise-synchronize-arrows.svg",
+  "comparison": "Rejected sync arrows have narrow elliptical arcs and large heads. Rebuild a shared round cycle with equal opposing arrowheads.",
+  "reviewer_feedback": "Manual fix request",
+  "lucide_reference": "refresh-ccw",
+  "visual_review": "Inspected against original and rejected drawing, enlarged and native 48px in light/dark. Coherent contours, visible openings, directional arrangement and legibility accepted.",
+  "omissions": [],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "counterclockwise-synchronize-arrows",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Preserve a shared circular cycle and opposing heads instead of compressing it into two ovals; 2px side-envelope extension stays inside the canvas. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a06075fd7176f6bef7bb316853742c23d95780a5670f36b655ade751cf7c56cc"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "production_outcome": "done",
+  "review_status": "ready",
+  "previews": [
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png"
+  ]
+}

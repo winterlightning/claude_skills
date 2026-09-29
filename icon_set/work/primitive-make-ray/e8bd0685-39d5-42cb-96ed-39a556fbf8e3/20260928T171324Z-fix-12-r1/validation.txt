@@ -1,0 +1,24 @@
+status: invalid
+  ERROR  mic [tick-1]: parallel straight edges tick-1 and tick-0 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [tick-0]: parallel straight edges tick-0 and barrel-5, barrel-4 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (overlap-fallback)
+
+Full build gate: pass
+Automatic gate: fail
+{
+  "icon_id": "syringe-wide-barrel",
+  "status": "pass",
+  "errors": [
+    "mic [tick-1]: parallel straight edges tick-1 and tick-0 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tick-0]: parallel straight edges tick-0 and barrel-5, barrel-4 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (overlap-fallback)"
+  ],
+  "warnings": [
+    "internal-spacing [tick-0 / tick-1]: tick-0 and tick-1 have 3.0711 units of ink clearance over 4.6731 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Keep two readable barrel graduation marks instead of the rejected single mark. Their approximately 3-unit visible diagonal spacing and rounded barrel remain clear at 48 px.",
+    "approved_by": "user-delegated:gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "e0890ee2e4836b1af5165d650edcad2b86a0d027a154f1a9447bf6d96d73174c"
+  },
+  "automatic_status": "fail"
+}

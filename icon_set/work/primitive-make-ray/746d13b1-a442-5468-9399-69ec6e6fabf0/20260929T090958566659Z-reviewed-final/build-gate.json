@@ -1,0 +1,22 @@
+{
+  "icon_id": "seated-shoulder-massage",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (5, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0, 2.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [client-torso]: parallel straight edges client-torso-3 and seat are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [near-arm]: near-arm and client-torso are 4 apart on centerlines nearest (30, 28)<->(34, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [client-torso]: client-torso and seat are 5 apart on centerlines nearest (35, 39)<->(35, 44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [client-head]: client-head and client-torso are 8 apart on centerlines nearest (34, 20)<->(34, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [near-arm / far-arm]: near-arm-0 and far-arm-0 have 1.71 units of ink clearance over 8.6958 units; requires 4; review required",
+    "internal-spacing [near-arm / far-arm]: near-arm-1 and far-arm-1 have -0.0909 units of ink clearance over 5.8635 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Keep two therapist arms reaching the recipient and a compact seat. Local arm proximity and hand-to-shoulder contact are necessary to communicate massage. Both head/upper-torso gaps are exactly 4 ink units: 20-(8+4)-4=4 and 28-(16+4)-4=4.",
+    "approved_by": "user-delegated-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "9cceb79c9519eb634095a5d16a559dac7a6d585962c9b26fff4cf70bf44ed38d"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,60 @@
+{
+  "source_uuid": "2384e2e1-cdf9-4683-9a5b-04f5e95f8a86",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__two-overlapping-busts-with-oval-heads/20260929T091350Z-thuan-mac/reference/spouse_2384e2e1-cdf9-4683-9a5b-04f5e95f8a86.svg",
+  "icon_id": "two-overlapping-busts-with-oval-heads",
+  "author": "gpt-6",
+  "validation_status": "review",
+  "validation_errors": [],
+  "validation_warnings": [
+    "mic [rear-head]: rear-head and rear-body are 8 apart on centerlines nearest (35, 18)<->(35, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "build_gate": {
+    "icon_id": "two-overlapping-busts-with-oval-heads",
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "mic [rear-head]: rear-head and rear-body are 8 apart on centerlines nearest (35, 18)<->(35, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "The rear bust is partly occluded by the foreground bust. Both heads retain exact 4-unit detached ink gaps; an exact curved head/shoulder distance remains an automatic advisory.",
+      "approved_by": "user-authorized visual review by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "c6ccb7d0a9b86dffcd8bbd7b0b150cfe2bd28335b2b32039018772877f94ad91"
+    },
+    "automatic_status": "review"
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "status": "reviewed",
+    "sizes": [
+      48,
+      144,
+      384
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "comparison": "Busts merge into a single scalloped trough and do not overlap.",
+    "feedback": "Does not convey the intended meaning",
+    "changes": "Restore a front bust and visibly occluded rear bust with separate round heads.",
+    "findings": "The rear bust is partly occluded by the foreground bust. Both heads retain exact 4-unit detached ink gaps; an exact curved head/shoulder distance remains an automatic advisory."
+  },
+  "omissions": "Bust bottoms left open in the shared user style; oval heads normalized to circular heads.",
+  "keyshape": "SQUARE",
+  "construction_references": "users; human_ref/user.svg",
+  "artifacts": [
+    "build-gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "two-overlapping-busts-with-oval-heads.metadata.json",
+    "two-overlapping-busts-with-oval-heads.svg",
+    "two_overlapping_busts_with_oval_heads_2384e2e1_cdf9_4683_9a5b_04f5e95f8a86.py",
+    "validation.txt"
+  ]
+}

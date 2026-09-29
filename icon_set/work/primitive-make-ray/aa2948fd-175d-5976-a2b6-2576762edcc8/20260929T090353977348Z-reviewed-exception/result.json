@@ -1,0 +1,57 @@
+{
+  "concept": "yoga seated forward fold pose",
+  "source_uuid": "aa2948fd-175d-5976-a2b6-2576762edcc8",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__seated-forward-fold/20260929T084651Z-thuan-mac/reference/yoga seated forward fold pose_aa2948fd-175d-5976-a2b6-2576762edcc8.svg",
+  "icon_id": "seated-forward-fold",
+  "author": "gpt-6",
+  "run": "icon_set/work/primitive-make-ray/aa2948fd-175d-5976-a2b6-2576762edcc8/20260929T090353977348Z-reviewed-exception",
+  "module": "seated_forward_fold_aa2948fd_175d_5976_a2b6_2576762edcc8.py",
+  "svg": "seated-forward-fold.svg",
+  "comparison": "The rejected figure is a D-shaped curve with a detached head and rigid vertical arm. Restore a bent back and arms reaching toward the feet.",
+  "change": "Rebuilt a low folded torso, forward-reaching arm, rounded hip and extended seated legs.",
+  "validation_status": "review",
+  "errors": [],
+  "warnings": [
+    "mic [head]: head and arm are 7.99986 apart on centerlines nearest (16, 16)<->(23.9997, 16.0469); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "visual_review": "Reviewed against original and rejected drawing, at native 48px and enlarged size in both light and dark themes. Recognizable silhouette and intentional feature arrangement retained.",
+  "omissions": "Rebuilt a low folded torso, forward-reaching arm, rounded hip and extended seated legs.",
+  "exception": {
+    "reason": "The head center (10,16), radius 6, and upper torso/arm start (24,16) have exactly 8u centerline clearance. The conservative curved checker reports 7.99986; retain the anatomically exact 4px ink gap and smooth fold.",
+    "approved_by": "user-authorized discretion; gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "d7be35325c6ff0ac6e4c1720ded58301c3527d75e848118e9b5252955237f2b3"
+  },
+  "build_gate": {
+    "icon_id": "seated-forward-fold",
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "mic [head]: head and arm are 7.99986 apart on centerlines nearest (16, 16)<->(23.9997, 16.0469); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "The head center (10,16), radius 6, and upper torso/arm start (24,16) have exactly 8u centerline clearance. The conservative curved checker reports 7.99986; retain the anatomically exact 4px ink gap and smooth fold.",
+      "approved_by": "user-authorized discretion; gpt-6 visual review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "d7be35325c6ff0ac6e4c1720ded58301c3527d75e848118e9b5252955237f2b3"
+    },
+    "automatic_status": "review"
+  },
+  "accepted_exception": true,
+  "human_review": "human_ref/full_body_ref.png: head (10,16), r6, torso starts (24,16): distance 14-6=8 centerline / 4 ink; torso tangent is horizontal away from head. Curved numerical warning retained as an exception.",
+  "parent_run": "icon_set/work/primitive-make-ray/aa2948fd-175d-5976-a2b6-2576762edcc8/20260929T090100982773Z-meaning-fix",
+  "construction_reference": "human_ref/full_body_ref.png: head (10,16), r6, torso starts (24,16): distance 14-6=8 centerline / 4 ink; torso tangent is horizontal away from head. Curved numerical warning retained as an exception.",
+  "keyshape": "HRECT_M",
+  "artifacts": {
+    "module": "seated_forward_fold_aa2948fd_175d_5976_a2b6_2576762edcc8.py",
+    "svg": "seated-forward-fold.svg",
+    "metadata": "seated-forward-fold.metadata.json",
+    "validation": "validation.txt",
+    "gate": "gate.json",
+    "reference": "reference.png",
+    "light_48": "preview-light-48.png",
+    "dark_48": "preview-dark-48.png",
+    "light_384": "preview-light-384.png",
+    "dark_384": "preview-dark-384.png"
+  }
+}

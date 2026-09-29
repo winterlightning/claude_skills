@@ -11,7 +11,7 @@ use pictographic_core::primitives::python_json;
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
-use worker::{Response, Result};
+use worker::{D1Database, D1PreparedStatement, Response, Result};
 
 pub fn authorized(ctx: &Ctx) -> bool {
     let Some(expected) = ctx.env.secret("PUSH_TOKEN").ok().map(|s| s.to_string()).filter(|t| t.len() >= 32) else { return false };
@@ -40,6 +40,8 @@ struct PushedIcon {
     /// The current drawing; stored once per sha in `revisions`.
     #[serde(default)] svg: Option<String>,
     #[serde(default)] origin: Option<String>,
+    /// The generated drawing's editable geometry; stored once per generated sha in `icon_graphs`.
+    #[serde(default)] graph: Option<Value>,
 }
 
 /// POST /api/catalog/push — one chunk of the effective catalog (artwork choices applied locally).
@@ -70,6 +72,12 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
                   (!icon.python_source.is_null()).then(|| icon.python_source.to_string()), icon.preview_url.clone(),
                   sources, icon.variant_of.clone(), icon.variant_root.clone(), icon.variant_label.clone(), icon.build_failed,
                   push_id])?);
+        if let Some(graph) = icon.graph.as_ref().filter(|g| g.is_object()) {
+            if let Some(sha) = graph.get("svg_sha256").and_then(Value::as_str) {
+                statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
+                    args![sha, icon.key.clone(), graph.to_string()])?);
+            }
+        }
         if let Some(svg) = &icon.svg {
             statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, ?, ?)",
                 args![icon.svg_sha256.clone(), icon.key.clone(), svg.clone(), icon.origin.clone().unwrap_or_else(|| "build".into()), now.clone()])?);
@@ -91,7 +99,9 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         }
     }
     if is_final {
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ?", args![push_id])?);
+        // Side combination 64 icons of pairs made on the cloud (side_pairs.rs) are not in any push.
+        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? AND NOT (family = 'side_combination64' \
+            AND COALESCE(icon_id, '') IN (SELECT key FROM store_documents WHERE store = 'side-pairs'))", args![push_id])?);
         let push_details = data.get("details").cloned().unwrap_or(json!({}));
         statements.push(db::stmt(&ctx.db, "INSERT INTO catalog_pushes(pushed_at, pushed_by, details) VALUES (?, ?, ?)",
                                  args![now.clone(), user, python_json(&push_details)])?);
@@ -134,17 +144,7 @@ pub async fn store(ctx: &Ctx, data: Option<&Value>, user: &str) -> Result<Respon
     let document = data.get("document").cloned().unwrap_or(Value::Null);
     let expected = data.get("expected_revision").and_then(Value::as_i64);
     let now = iso_utc(chrono::Utc::now());
-    let write = match (document.is_null(), expected) {
-        (true, _) => db::stmt(&ctx.db, "DELETE FROM store_documents WHERE store = ? AND key = ?", args![store, key])?,
-        (false, Some(0)) => db::stmt(&ctx.db, "INSERT OR IGNORE INTO store_documents(store, key, document, updated_at, updated_by) \
-            VALUES (?, ?, ?, ?, ?)", args![store, key, document.to_string(), now.clone(), actor])?,
-        (false, Some(revision)) => db::stmt(&ctx.db, "UPDATE store_documents SET document = ?, updated_at = ?, updated_by = ? \
-            WHERE store = ? AND key = ? AND json_extract(document, '$.revision') = ?",
-            args![document.to_string(), now.clone(), actor, store, key, revision])?,
-        (false, None) => db::stmt(&ctx.db, "INSERT INTO store_documents(store, key, document, updated_at, updated_by) VALUES (?, ?, ?, ?, ?) \
-            ON CONFLICT(store, key) DO UPDATE SET document = excluded.document, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
-            args![store, key, document.to_string(), now.clone(), actor])?,
-    };
+    let write = put_statement(&ctx.db, store, key, &document, expected, actor, &now)?;
     let results = db::batch(&ctx.db, vec![write]).await?;
     if expected.is_some() && !document.is_null() && db::changes(&results[0]) == 0 {
         let current: Option<Row> = db::first(&ctx.db, &format!("{select} AND key = ?"), args![store, key]).await?;
@@ -152,6 +152,24 @@ pub async fn store(ctx: &Ctx, data: Option<&Value>, user: &str) -> Result<Respon
                                        "current": current.map(|r| entry(r).1)}));
     }
     http::json(200, &json!({"saved": true, "store": store, "key": key, "updated_at": now}))
+}
+
+/// One store write as a batch statement. A null document deletes. With `expected`, the write only
+/// happens when the stored document's `revision` still equals it (0 = must not exist yet): zero
+/// changes then means someone else saved first.
+pub fn put_statement(db: &D1Database, store: &str, key: &str, document: &Value, expected: Option<i64>, actor: &str,
+                     now: &str) -> Result<D1PreparedStatement> {
+    match (document.is_null(), expected) {
+        (true, _) => db::stmt(db, "DELETE FROM store_documents WHERE store = ? AND key = ?", args![store, key]),
+        (false, Some(0)) => db::stmt(db, "INSERT OR IGNORE INTO store_documents(store, key, document, updated_at, updated_by) \
+            VALUES (?, ?, ?, ?, ?)", args![store, key, document.to_string(), now, actor]),
+        (false, Some(revision)) => db::stmt(db, "UPDATE store_documents SET document = ?, updated_at = ?, updated_by = ? \
+            WHERE store = ? AND key = ? AND json_extract(document, '$.revision') = ?",
+            args![document.to_string(), now, actor, store, key, revision]),
+        (false, None) => db::stmt(db, "INSERT INTO store_documents(store, key, document, updated_at, updated_by) VALUES (?, ?, ?, ?, ?) \
+            ON CONFLICT(store, key) DO UPDATE SET document = excluded.document, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
+            args![store, key, document.to_string(), now, actor]),
+    }
 }
 
 /// GET /api/activity?icon=&icon_prefix=&action_prefix= — the activity log, oldest first

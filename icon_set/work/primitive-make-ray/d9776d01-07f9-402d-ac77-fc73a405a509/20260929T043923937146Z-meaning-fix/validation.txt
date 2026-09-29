@@ -1,0 +1,15 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (8, 2, 40, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)
+  ERROR  mic [text-1]: parallel straight edges text-1 and cover-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [cover]: cover and star are 5 apart on centerlines nearest (10, 24)<->(15, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [cover]: cover and text-1 are 6 apart on centerlines nearest (20, 44)<->(20, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [star]: star and text-1 are 4.47214 apart on centerlines nearest (18, 34)<->(20, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full gate: pass
+Accepted visual exception. Automatic findings are retained in automatic-gate.json.
+{
+  "reason": "The five-point rating star and angled back leaf retain small openings within the booklet. One text line is retained and the second omitted to avoid congestion. Reviewed against the original and rejected drawing at 48px and enlarged size in light and dark. User explicitly delegated case-specific exceptions for UI/UX quality.",
+  "approved_by": "user-delegated-gpt-6",
+  "approved_on": "2026-09-29",
+  "svg_sha256": "e491ff153c2aeff2e6bc0c797c4e71b4c8251d80f80ac4f8b2df0bc47ca3d61d"
+}

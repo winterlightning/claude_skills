@@ -1,0 +1,59 @@
+{
+  "source_uuid": "47a67469-8ea2-48c7-ae85-82a0c2e8077c",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__globe-over-node-in-open-ring/20260928T180129Z-thuan-mac/reference/amazon web service cross region data delivery 1_47a67469-8ea2-48c7-ae85-82a0c2e8077c.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__globe-over-node-in-open-ring/20260928T180129Z-thuan-mac/reference/amazon web service cross region data delivery 1_47a67469-8ea2-48c7-ae85-82a0c2e8077c.svg",
+  "icon_id": "globe-over-node-in-open-ring",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "globe-over-node-in-open-ring",
+    "status": "pass",
+    "errors": [
+      "mic [orbit]: orbit and earth are 5.99978 apart on centerlines nearest (23.9481, 4.00045)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [orbit]: orbit and north-land are 5.99978 apart on centerlines nearest (23.9481, 4.00045)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [earth]: earth and south-land are 0.780168 apart on centerlines nearest (14.2367, 22.1616)<->(15, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [earth]: earth and node are 6 apart on centerlines nearest (24, 30)<->(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [north-land]: north-land and south-land are 5.65685 apart on centerlines nearest (25, 18)<->(21, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [south-land]: south-land and node are 7 apart on centerlines nearest (24, 29)<->(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "mic [earth]: earth and north-land are 0 apart on centerlines nearest (24, 10)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Preserve a clear circular earth with simplified land boundaries above a separate node inside the open orbit. Nested globe details require reduced clearance.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "4e2e71b44643c6c0edd3868198898170d9206336afee9f298a253c40595e66cd"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "The earth looked like an abstract swirl and the outer ring overwhelmed the small globe.",
+    "change": "Enlarged the earth and node while keeping a clean open surrounding ring and readable continent strokes.",
+    "construction_reference": "globe: circular global silhouette; source continent arrangement preserved.",
+    "findings": "Native-size silhouette and meaning reviewed; rounded contours, open negative spaces and retained identifying features accepted.",
+    "human_gap": null
+  },
+  "omissions": "Secondary creases and fine decorative detail omitted for 48px clarity.",
+  "artifacts": [
+    "globe_over_node_in_open_ring_47a67469_8ea2_48c7_ae85_82a0c2e8077c.py",
+    "globe-over-node-in-open-ring.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

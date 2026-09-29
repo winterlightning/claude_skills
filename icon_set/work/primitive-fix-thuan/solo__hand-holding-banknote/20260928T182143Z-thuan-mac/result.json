@@ -1,0 +1,70 @@
+{
+  "source_key": "solo/hand-holding-banknote",
+  "icon_id": "hand-holding-banknote",
+  "svg_sha256": "018dc0b236d3598ee02ef90db4cbc0a83dd666c619111ebd4542c4d3cb8bfc90",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored a tall bill with outlined denomination seal, horizontal thumb, cupped palm and cuff. Compared original and rejected drawing; native light/dark visual review passed. User-authorized drawing-bound exception retains automatic findings. AUTHOR=gpt-6.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/5a88b033-48de-5da2-bd8c-9b53bb261082/20260928T182143Z-fix-03-reviewed",
+  "module": "icon_set/work/primitive-make-ray/5a88b033-48de-5da2-bd8c-9b53bb261082/20260928T182143Z-fix-03-reviewed/hand_holding_banknote_5a88b033_48de_5da2_bd8c_9b53bb261082.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 42, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [thumb]: parallel straight edges thumb-3 and thumb-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [thumb]: parallel straight edges thumb-5 and palm-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [note]: note and seal are 6.10217 apart on centerlines nearest (18.9506, 18.0309)<->(25.0193, 17.3921); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/hand_holding_banknote_5a88b033_48de_5da2_bd8c_9b53bb261082.py",
+    "validation.txt",
+    "after/hand-holding-banknote.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-28T18:32:57.303134+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "hand-holding-banknote",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 42, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [thumb]: parallel straight edges thumb-3 and thumb-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [thumb]: parallel straight edges thumb-5 and palm-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [note]: note and seal are 6.10217 apart on centerlines nearest (18.9506, 18.0309)<->(25.0193, 17.3921); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [thumb]: thumb-3 and thumb-5 have 3 units of ink clearance over 10 units; requires 4; review required",
+      "internal-spacing [thumb / palm]: thumb-5 and palm-2 have 3 units of ink clearance over 8 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The note seal and thumb are necessary payment cues; compact thumb spacing is retained with clearly open negative space. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user’s explicit exception authorization; automatic findings are preserved.",
+      "approved_by": "user-authorized-agent-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "6b88ea6e6b4a0b8686c734d357eee718f18dcd2a64016f19d47289f0375a5415"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-28T18:32:56.979000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__hand-holding-banknote/20260928T182143Z-thuan-mac/after/hand_holding_banknote_5a88b033_48de_5da2_bd8c_9b53bb261082.py",
+    "note": "Restored a tall bill with outlined denomination seal, horizontal thumb, cupped palm and cuff. Compared original and rejected drawing; native light/dark visual review passed. User-authorized drawing-bound exception retains automatic findings. AUTHOR=gpt-6.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored a tall bill with outlined denomination seal, horizontal thumb, cupped palm and cuff. Compared original and rejected drawing; native light/dark visual review passed. User-authorized drawing-bound exception retains automatic findings. AUTHOR=gpt-6.",
+    "claimed_at": "2026-09-28T18:21:39.126000+00:00",
+    "updated_at": "2026-09-28T18:32:57.376000+00:00",
+    "svg_sha256": "018dc0b236d3598ee02ef90db4cbc0a83dd666c619111ebd4542c4d3cb8bfc90"
+  },
+  "review_status": "ready"
+}

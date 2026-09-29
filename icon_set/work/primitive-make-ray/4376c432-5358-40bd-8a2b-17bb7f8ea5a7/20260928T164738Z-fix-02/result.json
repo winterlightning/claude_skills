@@ -1,0 +1,66 @@
+{
+  "fix": "icon_set/work/primitive-fix-thuan/solo__arched-fireplace-with-flame/20260928T164738Z-thuan-mac",
+  "run": "icon_set/work/primitive-make-ray/4376c432-5358-40bd-8a2b-17bb7f8ea5a7/20260928T164738Z-fix-02",
+  "module": "icon_set/work/primitive-make-ray/4376c432-5358-40bd-8a2b-17bb7f8ea5a7/20260928T164738Z-fix-02/arched_fireplace_with_flame_4376c432_5358_40bd_8a2b_17bb7f8ea5a7.py",
+  "concept": "hearthside",
+  "source_uuid": "4376c432-5358-40bd-8a2b-17bb7f8ea5a7",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__arched-fireplace-with-flame/20260928T164738Z-thuan-mac/reference/hearthside_4376c432-5358-40bd-8a2b-17bb7f8ea5a7.svg",
+  "icon_id": "arched-fireplace-with-flame",
+  "author": "gpt-6",
+  "feedback": "Manual fix request",
+  "comparison": "The surround had become a single arch and the fire a droplet. Restore a rectangular mantel surround, inset arched opening, and asymmetric flame.",
+  "construction_reference": "Lucide flame: asymmetric lobe and clear flame tip.",
+  "keyshape": "SQUARE",
+  "svg": "arched-fireplace-with-flame.svg",
+  "python_module": "arched_fireplace_with_flame_4376c432_5358_40bd_8a2b_17bb7f8ea5a7.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [surround]: parallel straight edges surround-4 and opening-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [opening]: parallel straight edges opening-0 and surround-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "arched-fireplace-with-flame",
+    "status": "pass",
+    "errors": [
+      "mic [surround]: parallel straight edges surround-4 and opening-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [opening]: parallel straight edges opening-0 and surround-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+    ],
+    "warnings": [
+      "internal-spacing [surround / opening]: surround-0 and opening-0 have 2 units of ink clearance over 15 units; requires 4; review required",
+      "internal-spacing [surround / opening]: surround-0 and opening-1 have 2.0218 units of ink clearance over 8 units; requires 4; review required",
+      "internal-spacing [surround / opening]: surround-4 and opening-1 have 2.0218 units of ink clearance over 8 units; requires 4; review required",
+      "internal-spacing [surround / opening]: surround-4 and opening-2 have 2 units of ink clearance over 15 units; requires 4; review required",
+      "internal-spacing [opening / fire]: opening-0 and fire have 2.9573 units of ink clearance over 9 units; requires 4; review required",
+      "internal-spacing [opening / fire]: opening-2 and fire have 2.0641 units of ink clearance over 10.5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The defining nested fireplace surround needs a 2px wall gap. The revised asymmetric flame stays inside its opening and reads clearly at 48px. User expressly delegated exception decisions for UI/UX quality in this request; reviewed by gpt-6 at native size in light and dark themes.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-28",
+      "svg_sha256": "70c2e136071c72f097b3b202840a38662b61309fdc0961257d03838e0456f5fc"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "svg_sha256": "70c2e136071c72f097b3b202840a38662b61309fdc0961257d03838e0456f5fc",
+  "visual_review": "Compared the original, rejected version and revision; reviewed native 48px and enlarged light/dark previews. Clear subject silhouette, coherent curves and open identifying details.",
+  "omissions": "No defining source feature omitted.",
+  "keyshape_reason": "Chosen for the natural balanced subject proportions.",
+  "artifacts": [
+    "preview-dark-384.png",
+    "reference.svg",
+    "arched_fireplace_with_flame_4376c432_5358_40bd_8a2b_17bb7f8ea5a7.py",
+    "arched-fireplace-with-flame.metadata.json",
+    "preview-dark-48.png",
+    "before-192.png",
+    "gate.json",
+    "review-before.txt",
+    "preview-light-384.png",
+    "validation.txt",
+    "reference-192.png",
+    "arched-fireplace-with-flame.svg",
+    "preview-light-48.png",
+    "reference-48.png"
+  ]
+}

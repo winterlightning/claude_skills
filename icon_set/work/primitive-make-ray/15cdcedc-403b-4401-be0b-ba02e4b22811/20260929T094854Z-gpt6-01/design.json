@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "The chart bars floated above a flat empty envelope and the trend became a detached tiny arrow.",
+  "change": "Restored three outlined columns rising out of an open envelope and a continuous upward trend with arrowhead.",
+  "body": "# Bars terminate exactly on the two envelope-flap diagonals.\nself.add_polyline('envelope',(4,28),(10,31),(16,34),(22,37),(24,38),(28,36),(34,33),(40,30),(44,28),(44,44),(4,44),closed=True)\nfor name,x0,x1,top,y0,y1 in [('low',10,16,22,31,34),('mid',22,28,18,37,36),('high',34,40,14,33,30)]:\n    self.add_polyline(name,(x0,y0),(x0,top),(x1,top),(x1,y1))\n    self.relate('connect','envelope',name)\nself.add_polyline('trend',(6,16),(14,9),(21,12),(29,6),(34,9),(44,3))\nself.add_polyline('arrowhead',(36,3),(44,3),(44,11));self.relate('connect','trend','arrowhead')",
+  "refs": "mail: envelope flap; chart-no-axes-combined: rising columns with an ascending polyline",
+  "exception": "Three visible columns and the trend arrow are the defining meaning. Their compact2px column interiors and gaps are intentional within the complete48px envelope composition."
+}

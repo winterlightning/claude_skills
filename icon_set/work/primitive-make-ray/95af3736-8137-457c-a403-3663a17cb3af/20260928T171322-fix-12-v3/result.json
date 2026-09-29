@@ -1,0 +1,46 @@
+{
+  "concept": "bay",
+  "source_uuid": "95af3736-8137-457c-a403-3663a17cb3af",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__curved-bay-with-two-wave-lines/20260928T171322Z-thuan-mac/reference/bay_95af3736-8137-457c-a403-3663a17cb3af.svg",
+  "icon_id": "curved-bay-with-two-wave-lines",
+  "author": "gpt-6",
+  "keyshape": "HRECT_L",
+  "module": "curved_bay_with_two_wave_lines_95af3736_8137_457c_a403_3663a17cb3af.py",
+  "svg": "curved-bay-with-two-wave-lines.svg",
+  "comparison": "Rejected shoreline is a square step and its waves are thick short blobs. Restore the smooth inlet, broad curved basin and two longer gentle wave lines.",
+  "reviewer_feedback": "Manual fix request",
+  "lucide_reference": "No useful local Lucide bay/waves match",
+  "visual_review": "Inspected against original and rejected drawing, enlarged and native 48px in light/dark. Coherent contours, visible openings, directional arrangement and legibility accepted.",
+  "omissions": [],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [coast]: coast and wave-top are 6 apart on centerlines nearest (4, 20)<->(10, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [coast]: coast and wave-bottom are 7.40223 apart on centerlines nearest (38.5402, 34.4669)<->(32, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "curved-bay-with-two-wave-lines",
+    "status": "pass",
+    "errors": [
+      "mic [coast]: coast and wave-top are 6 apart on centerlines nearest (4, 20)<->(10, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [coast]: coast and wave-bottom are 7.40223 apart on centerlines nearest (38.5402, 34.4669)<->(32, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Keep a smooth inlet, broad basin and two wave lines. The smallest wave-to-shore gap is 2px and the other is about 3.4px; all remain separated in both themes. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a270a872d6b74c828b395d8b42f72271f758d1a1edb2c17f9827c9ba93119219"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "production_outcome": "done",
+  "review_status": "ready",
+  "previews": [
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png"
+  ]
+}

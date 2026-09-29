@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_L",
+  "problem": "The phone lost its top edge and the dollar sign became a zigzag, obscuring contactless payment.",
+  "change": "Restored a complete rounded phone, a smooth dollar sign and two centered wireless arcs.",
+  "body": "curve(self,'wifi-outer',(7,7),((17,0),(31,0),(41,7)))\ncurve(self,'wifi-inner',(15,12),((20,7),(28,7),(33,12)))\nrounded(self,'phone',13,18,35,45,4)\ncurve(self,'dollar',(28,25),((26,22),(20,22),(20,27)),((20,30),(28,29),(28,33)),((28,37),(22,38),(20,35)))\nself.add_line('currency-stem',(24,23),(24,39));self.relate('connect','dollar','currency-stem')",
+  "refs": "smartphone: closed portrait enclosure; original supplies two wireless arcs and a dollar mark",
+  "exception": "A complete phone plus legible dollar sign and wireless arcs needs compact detail spacing. Preserve4px strokes and the currency curves rather than replacing the dollar with a zigzag."
+}

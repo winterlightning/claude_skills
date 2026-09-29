@@ -1,0 +1,66 @@
+{
+  "source_key": "solo/seated-overhead-stretch",
+  "icon_id": "seated-overhead-stretch",
+  "svg_sha256": "346e85ace85cfb64d7517d9cdb38ebe722fde1c8f124dd4864767ecd24633c8a",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore a rounded folded lap with overlapping shins and rebalance the overhead arms around a larger head and short upright torso. User-authorized drawing-bound exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/f67610a5-7a4d-4827-a29e-81df7c544fc5/20260929T085502334499Z-meaning-fix",
+  "module": "icon_set/work/primitive-make-ray/f67610a5-7a4d-4827-a29e-81df7c544fc5/20260929T085502334499Z-meaning-fix/seated_overhead_stretch_f67610a5_7a4d_4827_a29e_81df7c544fc5.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [torso]: torso and rear-shin are 4.46525 apart on centerlines nearest (24, 32)<->(26.2154, 35.8769); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [head]: head and left-arm are 7.99987 apart on centerlines nearest (24, 19)<->(23.9545, 26.9997); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/seated_overhead_stretch_f67610a5_7a4d_4827_a29e_81df7c544fc5.py",
+    "validation.txt",
+    "after/seated-overhead-stretch.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T08:57:59.238918+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "seated-overhead-stretch",
+    "status": "pass",
+    "errors": [
+      "mic [torso]: torso and rear-shin are 4.46525 apart on centerlines nearest (24, 32)<->(26.2154, 35.8769); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [head]: head and left-arm are 7.99987 apart on centerlines nearest (24, 19)<->(23.9545, 26.9997); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [folded-legs / rear-shin]: folded-legs and rear-shin have 2.303 units of ink clearance over 3.4204 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User explicitly delegated exception decisions. Preserve the crossed, rounded seated lap and broad overhead arm curve. The short lap junction and rear shin require local spacing below 4px. The outlined head has an analytical exact 4px gap to the torso: 27-(14+5)-4=4; the arm curves have horizontal tangents at that same neck node and move away from the head. Retain the conservative curved-distance warning and local lap findings. Visually reviewed at 48px in light and dark themes; uniform 4px strokes and full canvas retained.",
+      "approved_by": "gpt-6 under explicit user delegation",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "98304681e82ffd200ad2e1f806dd9cfe1d00708eaf88b798f251b347e74a6d57"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T08:57:58.259000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__seated-overhead-stretch/20260929T084652Z-thuan-mac/after/seated_overhead_stretch_f67610a5_7a4d_4827_a29e_81df7c544fc5.py",
+    "note": "Restore a rounded folded lap with overlapping shins and rebalance the overhead arms around a larger head and short upright torso. User-authorized drawing-bound exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore a rounded folded lap with overlapping shins and rebalance the overhead arms around a larger head and short upright torso. User-authorized drawing-bound exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T08:46:52.359000+00:00",
+    "updated_at": "2026-09-29T08:57:59.184000+00:00",
+    "svg_sha256": "346e85ace85cfb64d7517d9cdb38ebe722fde1c8f124dd4864767ecd24633c8a"
+  },
+  "review_status": "ready"
+}

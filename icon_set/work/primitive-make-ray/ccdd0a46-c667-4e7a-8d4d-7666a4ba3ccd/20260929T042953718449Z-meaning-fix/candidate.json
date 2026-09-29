@@ -1,0 +1,38 @@
+{
+  "concept": "race",
+  "source_uuid": "ccdd0a46-c667-4e7a-8d4d-7666a4ba3ccd",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__racer-raised-arms/20260929T042221Z-thuan-mac/reference/race_ccdd0a46-c667-4e7a-8d4d-7666a4ba3ccd.svg",
+  "icon_id": "racer-raised-arms",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected racer replaced the central front wheel with running legs and omitted the medal and chair axle. The original shows a celebrating seated racer.",
+  "plan": "Raised symmetrical arms, circular head, central medal and a front-facing racing chair with three wheel axes and horizontal axle. Head bottom12 to torso20 gives exact 4px ink gap.",
+  "author": "gpt-6",
+  "module": "racer_raised_arms_ccdd0a46_c667_4e7a_8d4d_7666a4ba3ccd.py",
+  "svg": "racer-raised-arms.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "racer-raised-arms",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 2, 44, 47) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 3.0], tolerance 0.0)",
+      "mic [central-wheel]: parallel straight edges central-wheel-1 and central-wheel-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [torso]: torso and medal are 1 apart on centerlines nearest (24, 23)<->(24, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [medal]: medal and central-wheel are 3 apart on centerlines nearest (24, 30)<->(24, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [axle-left]: axle-left and left-wheel are 1.15865 apart on centerlines nearest (11, 38)<->(9.94521, 37.5205); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [axle-right]: axle-right and right-wheel are 1.15865 apart on centerlines nearest (37, 38)<->(38.0548, 37.5205); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [central-wheel]: central-wheel-1 and central-wheel-3 have 2 units of ink clearance over 5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Medal, chair wheels and axle need compact true overlaps and narrow wheel openings. User authorized meaning-preserving exception; head/torso spacing is retained exactly.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a529b7b081cf693d1e04c3d7fe683503b885d61413fc9d760a73d6851cc041c0"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "Outlined arms reduced to single strokes; retain medal and all three wheels.",
+  "construction_references": "human_ref/full_body_ref.png circular head and round-ended limbs; original controls raised-arm pose and chair."
+}

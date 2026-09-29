@@ -1,0 +1,27 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)
+  ERROR  mic [head]: head and hand are 0.565685 apart on centerlines nearest (25, 12)<->(25.08, 11.44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [neck]: neck and finger-two are 5.46582 apart on centerlines nearest (32, 35)<->(33.2746, 29.6849); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "hand-massaging-scalp-17e8bc26",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [head]: head and hand are 0.565685 apart on centerlines nearest (25, 12)<->(25.08, 11.44); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [neck]: neck and finger-two are 5.46582 apart on centerlines nearest (32, 35)<->(33.2746, 29.6849); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [hand]: hand-2 and hand-4 have 1.8307 units of ink clearance over 8.2182 units; requires 4; review required",
+    "internal-spacing [finger-two]: finger-two-0 and finger-two-2 have 1.3947 units of ink clearance over 8.2031 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Three separate descending fingers and the scalp profile require compact spacing; the face remains unobstructed. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "b37d93b52268995faeeaf02411a00ac8ff2f80674f4225e55e6f982aaa0cbaf0"
+  },
+  "automatic_status": "fail"
+}

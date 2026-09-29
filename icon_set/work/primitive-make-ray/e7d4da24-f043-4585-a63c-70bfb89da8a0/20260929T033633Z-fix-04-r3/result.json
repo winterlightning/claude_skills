@@ -1,0 +1,53 @@
+{
+  "source_uuid": "e7d4da24-f043-4585-a63c-70bfb89da8a0",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__information-message-bubble-solo/20260929T033633Z-thuan-mac/reference/messages bubble square information_e7d4da24-f043-4585-a63c-70bfb89da8a0.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__information-message-bubble-solo/20260929T033633Z-thuan-mac/reference/messages bubble square information_e7d4da24-f043-4585-a63c-70bfb89da8a0.svg",
+  "icon_id": "information-message-bubble-solo",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "information-message-bubble-solo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (3, 3, 44, 45) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0, 1.0, 0.0, 1.0], tolerance 0.0)",
+      "mic [serif]: parallel straight edges serif and bottom-tail-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [bottom-tail]: bottom-tail and info are 5 apart on centerlines nearest (24, 34)<->(24, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Preserve a readable serif lowercase information i and angular speech tail; compact lower-serif-to-frame spacing remains visibly open.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "8bd5cc93c1b69db17f3383b826a071a6087df361e2f847444984d1ef531846af"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "The information glyph resembled a short stem on a broad blob, and the bubble tail was too curved.",
+    "change": "Restored a serif lowercase i, with a separate dot, upper flag and baseline, inside a square message bubble with an angular tail.",
+    "construction_reference": "message-square: rounded box and intentional angular tail.",
+    "human_construction": null,
+    "findings": "Reviewed meaning, coherent curves, identifying details and negative space at native size in both themes."
+  },
+  "omissions": "Secondary contour detail simplified for 48px clarity.",
+  "artifacts": [
+    "information_message_bubble_solo_e7d4da24_f043_4585_a63c_70bfb89da8a0.py",
+    "information-message-bubble-solo.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_L",
+  "problem": "The thermometer has an oversized blunt column and the scale became dots.",
+  "change": "Restored a slender tube, round bulb, fluid stem and horizontal measurement ticks.",
+  "body": "self.add_arc('cap',(10,12),(26,12),radius_x=8)\nself.add_line('tube-right',(26,12),(26,28))\nself.add_arc('bulb',(26,28),(10,28),radius_x=10,large_arc=True)\nself.add_line('tube-left',(10,28),(10,12))\nself.add_contour('thermometer','cap','tube-right','bulb','tube-left',closed=True)\nself.add_line('mercury',(18,19),(18,35))\nself.add_line('scale-top',(35,11),(40,11))\nself.add_line('scale-middle',(35,21),(38,21))",
+  "refs": "thermometer: narrow stem and rounded bulb",
+  "exception": "Exact 4-unit ink clearance between the straight liquid column and tube; preserve the analytical 8-unit centerline gap despite the curved-contour certification warning."
+}

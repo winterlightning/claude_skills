@@ -1,0 +1,56 @@
+{
+  "source_uuid": "6991145f-84e0-41a4-b67e-a6f1b5dd5aba",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__car-on-road/20260928T180129Z-thuan-mac/reference/traveling on road_6991145f-84e0-41a4-b67e-a6f1b5dd5aba.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__car-on-road/20260928T180129Z-thuan-mac/reference/traveling on road_6991145f-84e0-41a4-b67e-a6f1b5dd5aba.svg",
+  "icon_id": "car-on-road",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "car-on-road",
+    "status": "pass",
+    "errors": [
+      "mic [body]: body and lamp14 are 6 apart on centerlines nearest (8, 23)<->(14, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [body]: body and lamp34 are 6 apart on centerlines nearest (40, 23)<->(34, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tire14]: tire14 and road-left are 7.28011 apart on centerlines nearest (14, 32)<->(12, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tire34]: tire34 and road-right are 7.28011 apart on centerlines nearest (34, 32)<->(36, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [body]: body and dash1 are 6 apart on centerlines nearest (24, 30)<->(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [dash1]: dash1 and dash2 are 5 apart on centerlines nearest (24, 38)<->(24, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Retain two headlights, dashed center line and converging road edges beneath the car; these details are distinct at native size despite tighter spacing.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "bf701016ada0b9a90a639bc859d348f2804b49952209cf911406318843dc6056"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "Road markings became a dot and short diagonal fragments; the car had no lamps.",
+    "change": "Restored converging road edges, a dashed center line, and a rounded front car with lamps.",
+    "construction_reference": "car-front: rounded bumper and windscreen.",
+    "findings": "Native-size silhouette and meaning reviewed; rounded contours, open negative spaces and retained identifying features accepted.",
+    "human_gap": null
+  },
+  "omissions": "Secondary creases and fine decorative detail omitted for 48px clarity.",
+  "artifacts": [
+    "car_on_road_6991145f_84e0_41a4_b67e_a6f1b5dd5aba.py",
+    "car-on-road.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "source_key": "solo/toilet-use-right",
+  "icon_id": "toilet-use-right",
+  "svg_sha256": "2897ffa4f7883c37342dd9974718e0d7f27492f4d398a8544d1eec90533f698c",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore a seated person, tank and bowl, with a bent leg and a clear check mark. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/2dff611f-5296-466d-ac68-3fd4303496ea/20260929T091731Z-meaning-v1",
+  "module": "icon_set/work/primitive-make-ray/2dff611f-5296-466d-ac68-3fd4303496ea/20260929T091731Z-meaning-v1/toilet_use_right_2dff611f_5296_466d_ac68_3fd4303496ea.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+    "mic [leg]: parallel straight edges leg-1 and bowl-1-part-1, bowl-1-part-2 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [torso]: torso and bowl are 3 apart on centerlines nearest (22, 31)<->(22, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/toilet_use_right_2dff611f_5296_466d_ac68_3fd4303496ea.py",
+    "validation.txt",
+    "after/toilet-use-right.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T09:32:30.957653+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "toilet-use-right",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+      "mic [leg]: parallel straight edges leg-1 and bowl-1-part-1, bowl-1-part-2 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [torso]: torso and bowl are 3 apart on centerlines nearest (22, 31)<->(22, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [bowl / base-part-2]: bowl-2 and base-part-2 have -0.9879 units of ink clearance over 5.2109 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve a person sitting on the toilet with a check. The torso/head gap is exactly 4px; shared seat/leg ink and a compact pedestal are intentional contacts.",
+      "approved_by": "gpt-6 under explicit user authorization for visual exceptions",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "86b4b99a8eef06c2c4f1c1323cc0273185e1d0b4e2ae8a71db7ddd3c5403139c"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T09:32:29.752000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__toilet-use-right/20260929T091731Z-thuan-mac/after/toilet_use_right_2dff611f_5296_466d_ac68_3fd4303496ea.py",
+    "note": "Restore a seated person, tank and bowl, with a bent leg and a clear check mark. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore a seated person, tank and bowl, with a bent leg and a clear check mark. Author: gpt-6. Reviewed at 48px in light/dark; user-authorized drawing-bound exception, automatic QA retained.",
+    "claimed_at": "2026-09-29T09:17:30.241000+00:00",
+    "updated_at": "2026-09-29T09:32:30.593000+00:00",
+    "svg_sha256": "2897ffa4f7883c37342dd9974718e0d7f27492f4d398a8544d1eec90533f698c"
+  },
+  "review_status": "ready"
+}

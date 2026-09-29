@@ -1,0 +1,60 @@
+{
+  "key": "solo/capped-delivery-rider-on-scooter",
+  "id": "capped-delivery-rider-on-scooter",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__capped-delivery-rider-on-scooter/20260928T175901Z-thuan-mac",
+  "reference": "icon_set/work/primitive-fix-thuan/solo__capped-delivery-rider-on-scooter/20260928T175901Z-thuan-mac/reference/delivery person motorcycle_54079a5b-25ea-4346-8fc4-d2b5f8239da0.svg",
+  "before": "icon_set/work/primitive-fix-thuan/solo__capped-delivery-rider-on-scooter/20260928T175901Z-thuan-mac/before/capped-delivery-rider-on-scooter.svg",
+  "feedback": "Does not convey the intended meaning",
+  "concept": "delivery person motorcycle",
+  "source_uuid": "54079a5b-25ea-4346-8fc4-d2b5f8239da0",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__capped-delivery-rider-on-scooter/20260928T175901Z-thuan-mac/reference/delivery person motorcycle_54079a5b-25ea-4346-8fc4-d2b5f8239da0.svg",
+  "result_dir": "icon_set/work/primitive-make-ray/54079a5b-25ea-4346-8fc4-d2b5f8239da0/20260928T180739Z-meaning-fix",
+  "problem": "The rider became a disconnected head over an angular frame; the seated posture and scooter body were lost.",
+  "change": "Restore the capped head, bent riding arm and leg, rounded scooter shell, parcel box and two open wheels.",
+  "construction_reference": "car + human_ref/full_body_ref.png",
+  "keyshape": "HRECT_L",
+  "author": "gpt-6",
+  "module": "icon_set/work/primitive-make-ray/54079a5b-25ea-4346-8fc4-d2b5f8239da0/20260928T180739Z-meaning-fix/capped_delivery_rider_on_scooter_54079a5b_25ea_4346_8fc4_d2b5f8239da0.py",
+  "validation_status": "invalid",
+  "release_status": "pass-exception",
+  "build_gate": {
+    "icon_id": "capped-delivery-rider-on-scooter",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 4.0, 1.0, 4.0], tolerance 0.0)",
+      "mic [steering]: steering and scooter are 0.0877058 apart on centerlines nearest (39.0846, 27.9769)<->(39, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [steering]: steering and wheel-front are 1 apart on centerlines nearest (41, 35)<->(41, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [scooter]: scooter and wheel-back are 4.60249 apart on centerlines nearest (4, 35)<->(7.73012, 37.6961); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [scooter]: scooter and wheel-front are 0.242641 apart on centerlines nearest (38, 37)<->(38.1716, 37.1716); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 2 undersized holes; 1 pinches"
+    ],
+    "warnings": [
+      "mic [head]: head and cap-brim are 0 apart on centerlines nearest (26, 4)<->(26, 4); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [arm / leg]: arm-1 and leg-1 have 2.8692 units of ink clearance over 5.4659 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Retain the rider, cap, package, scooter shell and two wheels in one UI icon. Intentional mounted-part contacts and compact spacing preserve the delivery scene. Visually reviewed at native 48px in light and dark themes by gpt-6; uniform 4px strokes retained.",
+      "approved_by": "user-delegated visual judgment: gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "0a849994fec0ba2acda7218e7b81e36b335a3abf6eaf79fe004ba53654c509f3"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected complete original and rejected drawing before authoring. Reviewed final light/dark images at native 48px and enlarged size; defining forms, openings and repeated proportions are readable.",
+  "omissions": "Fine scooter trim omitted; parcel, rider, cap, wheels and steering retained.",
+  "human_construction": "Head (26,8), radius 4; neck (26,20): 12 - 4 = 8 centreline / 4 ink. The cap is part of the head; the torso and arm recede below the junction.",
+  "artifacts": {
+    "module": "capped_delivery_rider_on_scooter_54079a5b_25ea_4346_8fc4_d2b5f8239da0.py",
+    "svg": "capped-delivery-rider-on-scooter.svg",
+    "metadata": "capped-delivery-rider-on-scooter.metadata.json",
+    "previews": [
+      "preview-light-48.png",
+      "preview-dark-48.png",
+      "preview-light-384.png",
+      "preview-dark-384.png"
+    ],
+    "validation": "validation.txt",
+    "reference_render": "reference.png",
+    "before_render": "before.png"
+  }
+}

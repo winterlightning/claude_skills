@@ -1,0 +1,14 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 4, 40, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)
+  ERROR  mic [hand]: parallel straight edges hand-4 and hand-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  WARN   mic [fingers]: fingers and handle-end are 0 apart on centerlines nearest (20, 42)<->(20, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+build gate: pass
+  canvas/keyshape bounds: visible ink (4, 4, 40, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)
+  mic [hand]: parallel straight edges hand-4 and hand-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  holes/pinches: 1 undersized holes; 0 pinches
+  mic [fingers]: fingers and handle-end are 0 apart on centerlines nearest (20, 42)<->(20, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  internal-spacing [wrench]: wrench-1 and wrench-4 have 2.9623 units of ink clearance over 9.8299 units; requires 4; review required
+  internal-spacing [hand]: hand-4 and hand-6 have 2 units of ink clearance over 4 units; requires 4; review required
+Accepted drawing-bound visual exception; automatic findings retained.
+{"reason": "The open jaw and wrapped finger divisions take priority over uniform spacing; negative spaces remain visible. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user’s explicit exception authorization; automatic findings are preserved.", "approved_by": "user-authorized-agent-gpt-6", "approved_on": "2026-09-29", "svg_sha256": "53c382545e2825c890e6e477f1cd0bcc9636c90b79b5b6a7da14d83e6d25f6bc"}

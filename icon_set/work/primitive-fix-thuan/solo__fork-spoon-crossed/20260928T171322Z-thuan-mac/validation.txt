@@ -1,0 +1,16 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 2, 45.8114, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 1.8114, 0.0], tolerance 0.0)
+  ERROR  mic [fork]: parallel straight edges fork-3 and middle-tine are 5.65685 apart on centerlines (ink gap 1.65685); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [middle-tine]: parallel straight edges middle-tine and fork-0 are 5.65685 apart on centerlines (ink gap 1.65685); requires at least 8 centerline / 4 ink (midpoint-normal)
+
+build gate: pass
+  canvas/keyshape bounds: visible ink (2, 2, 45.8114, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 1.8114, 0.0], tolerance 0.0)
+  mic [fork]: parallel straight edges fork-3 and middle-tine are 5.65685 apart on centerlines (ink gap 1.65685); requires at least 8 centerline / 4 ink (midpoint-normal)
+  mic [middle-tine]: parallel straight edges middle-tine and fork-0 are 5.65685 apart on centerlines (ink gap 1.65685); requires at least 8 centerline / 4 ink (midpoint-normal)
+  internal-spacing [fork / middle-tine]: fork-0 and middle-tine have 1.6569 units of ink clearance over 10.3299 units; requires 4; review required
+  internal-spacing [fork / spoon-handle]: fork-1 and spoon-handle-2 have 1.7521 units of ink clearance over 4.7418 units; requires 4; review required
+  internal-spacing [fork / spoon]: fork-2 and spoon-0 have 2.8657 units of ink clearance over 4.4504 units; requires 4; review required
+  internal-spacing [fork / spoon-handle]: fork-2 and spoon-handle-1 have 1.7521 units of ink clearance over 4.9913 units; requires 4; review required
+  internal-spacing [fork / middle-tine]: fork-3 and middle-tine have 1.6569 units of ink clearance over 10.3299 units; requires 4; review required
+Accepted drawing-bound visual exception; automatic findings retained.
+{"reason": "Keep three fork tines and the enlarged diagonal spoon. Tines have about 1.66px clear gaps; the spoon/fork head collision was removed and now has about 2.87px clearance. Natural crossed-handle junctions remain intentional. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.", "approved_by": "user-delegated-gpt-6", "approved_on": "2026-09-29", "svg_sha256": "be73c6de5136e9a7d34111fbcdb213fade5170d94305c27fec77aa7cc1e939e2"}

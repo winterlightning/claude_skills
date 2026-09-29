@@ -1,0 +1,54 @@
+{
+  "key": "solo/canoe-paddler",
+  "id": "canoe-paddler",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__canoe-paddler/20260928T175901Z-thuan-mac",
+  "reference": "icon_set/work/primitive-fix-thuan/solo__canoe-paddler/20260928T175901Z-thuan-mac/reference/canoe person_fc6689dd-a028-5cb2-b326-1fe893e5518c.svg",
+  "before": "icon_set/work/primitive-fix-thuan/solo__canoe-paddler/20260928T175901Z-thuan-mac/before/canoe-paddler.svg",
+  "feedback": "Does not convey the intended meaning",
+  "concept": "canoe person",
+  "source_uuid": "fc6689dd-a028-5cb2-b326-1fe893e5518c",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__canoe-paddler/20260928T175901Z-thuan-mac/reference/canoe person_fc6689dd-a028-5cb2-b326-1fe893e5518c.svg",
+  "result_dir": "icon_set/work/primitive-make-ray/fc6689dd-a028-5cb2-b326-1fe893e5518c/20260928T180739Z-meaning-fix",
+  "problem": "The hull read as a bowl and the paddler had no clear bent arm or seated lean; water was omitted.",
+  "change": "Restore the leaning seated figure, bent arm, diagonal paddle, pointed canoe bow and two wave troughs.",
+  "construction_reference": "sailboat + human_ref/full_body_ref.png",
+  "keyshape": "HRECT_L",
+  "author": "gpt-6",
+  "module": "icon_set/work/primitive-make-ray/fc6689dd-a028-5cb2-b326-1fe893e5518c/20260928T180739Z-meaning-fix/canoe_paddler_fc6689dd_a028_5cb2_b326_1fe893e5518c.py",
+  "validation_status": "invalid",
+  "release_status": "pass-exception",
+  "build_gate": {
+    "icon_id": "canoe-paddler",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46.375, 45.1384) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 4.0, 0.375, 3.1384], tolerance 0.0)",
+      "mic [head]: head and paddle are 7.522 apart on centerlines nearest (27.4661, 11.2481)<->(34.194, 14.612); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [paddle]: paddle and water are 6.40312 apart on centerlines nearest (24, 35)<->(28, 40); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Keep the seated paddler, diagonal paddle, upturned canoe bow and detached water. The hand-to-paddle and torso-to-boat contacts and compact water spacing preserve the scene. Visually reviewed at native 48px in light and dark themes by gpt-6; uniform 4px strokes retained.",
+      "approved_by": "user-delegated visual judgment: gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a3bfaaf4bfa28b324053b567fdae95371d76e5c6d28c2d94aed7c5d79494cad0"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected complete original and rejected drawing before authoring. Reviewed final light/dark images at native 48px and enlarged size; defining forms, openings and repeated proportions are readable.",
+  "omissions": "Fine leg detail omitted behind the canoe gunwale.",
+  "human_construction": "Head (23,9), radius 5; neck (18,21): sqrt(5^2+12^2) - 5 = 8 centreline / 4 ink. The diagonal torso follows the seated lean.",
+  "artifacts": {
+    "module": "canoe_paddler_fc6689dd_a028_5cb2_b326_1fe893e5518c.py",
+    "svg": "canoe-paddler.svg",
+    "metadata": "canoe-paddler.metadata.json",
+    "previews": [
+      "preview-light-48.png",
+      "preview-dark-48.png",
+      "preview-light-384.png",
+      "preview-dark-384.png"
+    ],
+    "validation": "validation.txt",
+    "reference_render": "reference.png",
+    "before_render": "before.png"
+  }
+}

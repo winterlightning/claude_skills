@@ -1,0 +1,13 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (10, 4, 38, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)
+  ERROR  mic [bezel]: parallel straight edges bezel and home are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [home]: parallel straight edges home and phone-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [phone]: phone and home are 6 apart on centerlines nearest (23, 44)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+build gate: pass
+  canvas/keyshape bounds: visible ink (10, 4, 38, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [2.0, 2.0, 2.0, 0.0], tolerance 0.0)
+  mic [bezel]: parallel straight edges bezel and home are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  mic [home]: parallel straight edges home and phone-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  mic [phone]: phone and home are 6 apart on centerlines nearest (23, 44)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+Accepted drawing-bound visual exception; automatic findings retained.
+{"reason": "User authorized agent-selected exceptions in this task. Feedback explicitly requests a smaller phone and a lower divider; the smaller envelope and 2px home-mark gaps preserve that layout.", "approved_by": "user-authorized-agent", "approved_on": "2026-09-29", "svg_sha256": "d86500c0d5f8a71c3a232adcaed160cc645800f7a2e57b6b030ea7132fb71bc5"}

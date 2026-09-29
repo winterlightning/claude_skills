@@ -1,0 +1,36 @@
+{
+  "concept": "race",
+  "source_uuid": "1cb7d2ba-c91a-4cd1-bd29-7ebbabf08914",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__racing-cyclist/20260929T042221Z-thuan-mac/reference/race_1cb7d2ba-c91a-4cd1-bd29-7ebbabf08914.svg",
+  "icon_id": "racing-cyclist",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected cyclist used tiny wheels and an upright, broken pose that did not read as racing. The original has full bicycle wheels, a low back and a bent pedaling leg.",
+  "plan": "Restore large paired wheels, low curved racing torso, forward hands, sloped fork and bent pedaling leg. Head (29,8), r4, neck (29,20) gives exact 4px detached ink gap.",
+  "author": "gpt-6",
+  "module": "racing_cyclist_1cb7d2ba_c91a_4cd1_bd29_7ebbabf08914.py",
+  "svg": "racing-cyclist.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "racing-cyclist",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (0, 2, 48, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [4.0, 2.0, 4.0, 2.0], tolerance 0.0)",
+      "mic [rear-wheel]: rear-wheel and pedal are 2.44047 apart on centerlines nearest (17.6561, 38.3203)<->(20, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [leg]: leg and rear-frame are 1.94145 apart on centerlines nearest (21.0769, 28.3846)<->(20, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [rear-wheel]: rear-wheel and rear-frame are 0 apart on centerlines nearest (16.8599, 31.8841)<->(16.8599, 31.8841); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [front-wheel]: front-wheel and fork are 0 apart on centerlines nearest (35.8951, 28.2822)<->(35.8951, 28.2822); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Complete cycling action requires wheel/frame overlaps and compact leg-to-wheel spacing. User authorized visual exception while head-to-torso gap stays exactly 4px and all strokes stay 4px.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a7c341d49509300052ad4e48f9e1821b0e37e119be639419046f1a36876294d1"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "Frame reduced to rear stay and fork; small shoe simplified to pedal stroke.",
+  "construction_references": "human_ref/full_body_ref.png circular head and simple action limbs; Lucide bike wheel/pose construction."
+}

@@ -1,0 +1,72 @@
+{
+  "source_key": "solo/google-slides-logo",
+  "icon_id": "google-slides-logo",
+  "svg_sha256": "5ed3f38f23239b3cc982153f47046da01047f66d396e7c76ea1400bf51f9350f",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored the folded rounded page and a smooth slide frame with a shallower header row. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/367e5840-c83e-4242-a725-8de6b0acb2c8/20260928T173023Z-fix-14-r1",
+  "module": "icon_set/work/primitive-make-ray/367e5840-c83e-4242-a725-8de6b0acb2c8/20260928T173023Z-fix-14-r1/google_slides_logo_367e5840_c83e_4242_a725_8de6b0acb2c8.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [page]: parallel straight edges page-2 and slide-2, slide-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [slide]: parallel straight edges slide-8, slide-7 and page-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [slide]: parallel straight edges slide-0 and slide-header are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [slide]: parallel straight edges slide-5 and page-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [page]: page and slide are 6 apart on centerlines nearest (8, 25)<->(14, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/google_slides_logo_367e5840_c83e_4242_a725_8de6b0acb2c8.py",
+    "validation.txt",
+    "after/google-slides-logo.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-28T17:51:26.708676+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "google-slides-logo",
+    "status": "pass",
+    "errors": [
+      "mic [page]: parallel straight edges page-2 and slide-2, slide-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [slide]: parallel straight edges slide-8, slide-7 and page-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [slide]: parallel straight edges slide-0 and slide-header are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [slide]: parallel straight edges slide-5 and page-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [page]: page and slide are 6 apart on centerlines nearest (8, 25)<->(14, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [page / fold]: page-1 and fold-1 have 2.3109 units of ink clearance over 4.3492 units; requires 4; review required",
+      "internal-spacing [slide / slide-header]: slide-0 and slide-header have 2 units of ink clearance over 13 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The folded document and inner slide header require compact nested clearances. Rounded contours, the fold counter and two slide fields remain open and identifiable in both native themes.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "204bec56f4b5c0e22e68653a521080f5852c0adc3dee215b6a1b21650a384b0e"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-28T17:51:26.591000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__google-slides-logo/20260928T173023Z-thuan-mac/after/google_slides_logo_367e5840_c83e_4242_a725_8de6b0acb2c8.py",
+    "note": "Restored the folded rounded page and a smooth slide frame with a shallower header row. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored the folded rounded page and a smooth slide frame with a shallower header row. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "claimed_at": "2026-09-28T17:30:23.260000+00:00",
+    "updated_at": "2026-09-28T17:51:26.968000+00:00",
+    "svg_sha256": "5ed3f38f23239b3cc982153f47046da01047f66d396e7c76ea1400bf51f9350f"
+  },
+  "review_status": "ready"
+}

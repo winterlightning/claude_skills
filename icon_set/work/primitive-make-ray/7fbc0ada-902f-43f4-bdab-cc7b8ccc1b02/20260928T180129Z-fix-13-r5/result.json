@@ -1,0 +1,59 @@
+{
+  "source_uuid": "7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__hand-pinching-chip/20260928T180129Z-thuan-mac/reference/chip hold_7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-pinching-chip/20260928T180129Z-thuan-mac/reference/chip hold_7fbc0ada-902f-43f4-bdab-cc7b8ccc1b02.svg",
+  "icon_id": "hand-pinching-chip",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "hand-pinching-chip",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 4, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 0.0, 0.0, 0.0], tolerance 0.0)",
+      "mic [b1]: parallel straight edges b1 and b0 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [t1]: parallel straight edges t1 and t0 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [l0]: parallel straight edges l0 and l1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [r0]: parallel straight edges r0 and r1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [chip]: chip and hand are 0.623915 apart on centerlines nearest (16.6394, 25.1445)<->(17.1496, 25.5038); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [hand]: hand and hand have 2.0036 units of ink clearance over 21.2919 units; requires 4; review required",
+      "internal-spacing [hand]: hand and hand have 1.0309 units of ink clearance over 8.6238 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve distinct chip pins and the continuous index-thumb pinch. Close pin spacing and intentional finger-to-chip contact remain clear at 48px.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "3f18c19f830d043fd0f64b12591f54e933b6b68ed20e06dc3808f65e269360f6"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "The square merged into a P-shaped hand and had only one pin.",
+    "change": "Separated a four-sided chip with multiple pins from a recognizable index-thumb pinch and open wrist.",
+    "construction_reference": "hand-grab: rounded finger turns and coherent palm; human_ref/user.svg reviewed.",
+    "findings": "Native-size silhouette and meaning reviewed; rounded contours, open negative spaces and retained identifying features accepted.",
+    "human_gap": null
+  },
+  "omissions": "Secondary creases and fine decorative detail omitted for 48px clarity.",
+  "artifacts": [
+    "hand_pinching_chip_7fbc0ada_902f_43f4_bdab_cc7b8ccc1b02.py",
+    "hand-pinching-chip.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

@@ -28,6 +28,7 @@ from urllib.parse import quote
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "icon_set" / "scripts"))
+import work_queue  # noqa: E402
 from work_queue import ApiError, call, default_base_url  # noqa: E402
 
 PAGE = 500
@@ -100,9 +101,8 @@ def fetch_svg(base, item, path):
 
 
 def download_svg(base, key, path):
-    from urllib.request import urlopen
     url = base.rstrip("/") + "/api/icon-artwork/svg?icon=" + quote(key, safe="")
-    with urlopen(url, timeout=30) as response:
+    with work_queue.open_url(url, timeout=30) as response:
         path.write_bytes(response.read())
 
 

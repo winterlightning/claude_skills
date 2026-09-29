@@ -1,0 +1,68 @@
+{
+  "source_key": "solo/person-presenting-paper-at-counter",
+  "icon_id": "person-presenting-paper-at-counter",
+  "svg_sha256": "864ced037c20540e324fc8014e97e56abf6788a972fdada4935693b7d4a858df",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored the two people facing each other, an angled document held up by the visitor, and the attendant reaching across a tapered counter. User-authorized visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/7af18c91-7234-4e18-a080-60a80cd71587/20260929T094854Z-gpt6-01",
+  "module": "icon_set/work/primitive-make-ray/7af18c91-7234-4e18-a080-60a80cd71587/20260929T094854Z-gpt6-01/person_presenting_paper_at_counter_7af18c91_7234_4e18_a080_60a80cd71587.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (1, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+    "mic [paper]: paper and attendant-head are 7.18054 apart on centerlines nearest (30, 6)<->(37.0592, 7.31433); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/person_presenting_paper_at_counter_7af18c91_7234_4e18_a080_60a80cd71587.py",
+    "validation.txt",
+    "after/person-presenting-paper-at-counter.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T10:11:17.859626+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "person-presenting-paper-at-counter",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+      "mic [paper]: paper and attendant-head are 7.18054 apart on centerlines nearest (30, 6)<->(37.0592, 7.31433); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [counter / attendant-arm]: counter-1 and attendant-arm-2 have -4 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [counter]: counter-2 and counter-4 have 3.3812 units of ink clearance over 2.233 units; requires 4; review required",
+      "internal-spacing [counter / attendant-torso]: counter-2 and attendant-torso have 0.0877 units of ink clearance over 13.1497 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Two full figures, an angled document and a counter require compact spacing at 48px; retain their roles and exact 4px detached head gaps with 4px strokes.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "fc49a25453b1528a12070fd59548c18819a06a730c6de6c9d6a0c908a8d1b0b5"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T10:11:16.755000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__person-presenting-paper-at-counter/20260929T094854Z-thuan-mac/after/person_presenting_paper_at_counter_7af18c91_7234_4e18_a080_60a80cd71587.py",
+    "note": "Restored the two people facing each other, an angled document held up by the visitor, and the attendant reaching across a tapered counter. User-authorized visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored the two people facing each other, an angled document held up by the visitor, and the attendant reaching across a tapered counter. User-authorized visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:48:38.500000+00:00",
+    "updated_at": "2026-09-29T10:11:17.346000+00:00",
+    "svg_sha256": "864ced037c20540e324fc8014e97e56abf6788a972fdada4935693b7d4a858df"
+  },
+  "review_status": "ready"
+}

@@ -1,0 +1,29 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)
+  ERROR  mic [hand]: parallel straight edges hand-5 and hand-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [hand]: hand and note are 5.65933 apart on centerlines nearest (31.6684, 19.8222)<->(35.1502, 15.3607); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [grid-vertical]: grid-vertical and hand are 0 apart on centerlines nearest (16, 28)<->(16, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Accepted exact-SVG visual exception; automatic findings retained.
+{
+  "icon_id": "hand-playing-pad-controller",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [hand]: parallel straight edges hand-5 and hand-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [hand]: hand and note are 5.65933 apart on centerlines nearest (31.6684, 19.8222)<->(35.1502, 15.3607); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [grid-vertical]: grid-vertical and hand are 0 apart on centerlines nearest (16, 28)<->(16, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [hand]: hand-0 and hand-2 have 1.7337 units of ink clearance over 7.4359 units; requires 4; review required",
+    "internal-spacing [hand]: hand-3 and hand-5 have 2 units of ink clearance over 7 units; requires 4; review required",
+    "internal-spacing [note / stem]: note-0 and stem-2 have 0.6048 units of ink clearance over 3.4783 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. The pressing hand intentionally overlaps the pad grid. Preserve the visible 2-column grid, raised index and musical note, allowing tight pad cells and note details. The cells and gesture are identifiable at 48px; removing the grid would return the rejected F-shaped fragment. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+    "approved_by": "user: delegated decision to gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "ca91d7949884a5e0dfd1457eecafb9f97867356d76cdebd0af9196e2b933be40"
+  },
+  "automatic_status": "fail"
+}

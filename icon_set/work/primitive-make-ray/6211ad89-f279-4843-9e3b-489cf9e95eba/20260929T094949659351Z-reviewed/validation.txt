@@ -1,0 +1,22 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)
+
+Full gate: {
+  "icon_id": "person-descending-stairs",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)"
+  ],
+  "warnings": [
+    "internal-spacing [arm / leg-left]: arm-1 and leg-left-1 have 2.6337 units of ink clearance over 5.4819 units; requires 4; review required",
+    "internal-spacing [leg-left / stairs]: leg-left-2 and stairs-2 have -0.5 units of ink clearance over 5.1545 units; requires 4; review required",
+    "internal-spacing [leg-right / stairs]: leg-right-2 and stairs-4 have -1.9324 units of ink clearance over 5.1395 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve the descending step pose with three visible stair levels; natural scene envelope and compact bent knee/step junctions remain legible.",
+    "approved_by": "user (exception discretion explicitly delegated); visual review by gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "69b20105f6d44e7c2ac74625e18b001102b8712780506333c3b5ff54d7227c80"
+  },
+  "automatic_status": "fail"
+}

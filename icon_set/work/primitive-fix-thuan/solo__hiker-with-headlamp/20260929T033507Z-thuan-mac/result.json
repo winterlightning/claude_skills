@@ -1,0 +1,77 @@
+{
+  "source_key": "solo/hiker-with-headlamp",
+  "icon_id": "hiker-with-headlamp",
+  "svg_sha256": "ee927cd42a74a99a35abde36f7c9ddd44afd7a593e0172a1f1b350a03d1096e4",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore a leaning walking pose, slanted backpack, circular head and headlamp with two forward rays. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/a7ad061e-a477-4a15-993d-a60fd5aa42f9/20260929T034205899450Z-meaning-fix",
+  "module": "icon_set/work/primitive-make-ray/a7ad061e-a477-4a15-993d-a60fd5aa42f9/20260929T034205899450Z-meaning-fix/hiker_with_headlamp_a7ad061e_a477_4a15_993d_a60fd5aa42f9.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (5, 2, 45, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.0, 0.0, 3.0, 0.0], tolerance 0.0)",
+    "mic [head]: head and lamp-ray-upper are 5.44035 apart on centerlines nearest (31.7847, 8.54858)<->(37, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [head]: head and lamp-ray-lower are 5.44035 apart on centerlines nearest (31.7847, 11.4514)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [lamp]: lamp and lamp-ray-upper are 4.12311 apart on centerlines nearest (33, 8)<->(37, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [lamp]: lamp and lamp-ray-lower are 6.40312 apart on centerlines nearest (33, 8)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [lamp-ray-upper]: lamp-ray-upper and lamp-ray-lower are 6 apart on centerlines nearest (37, 7)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [torso]: torso and backpack are 4.47214 apart on centerlines nearest (17, 32)<->(13, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [head]: head and lamp are 0 apart on centerlines nearest (31.5823, 8)<->(31.5823, 8); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/hiker_with_headlamp_a7ad061e_a477_4a15_993d_a60fd5aa42f9.py",
+    "validation.txt",
+    "after/hiker-with-headlamp.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T03:47:27.719070+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "hiker-with-headlamp",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (5, 2, 45, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.0, 0.0, 3.0, 0.0], tolerance 0.0)",
+      "mic [head]: head and lamp-ray-upper are 5.44035 apart on centerlines nearest (31.7847, 8.54858)<->(37, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [head]: head and lamp-ray-lower are 5.44035 apart on centerlines nearest (31.7847, 11.4514)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [lamp]: lamp and lamp-ray-upper are 4.12311 apart on centerlines nearest (33, 8)<->(37, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [lamp]: lamp and lamp-ray-lower are 6.40312 apart on centerlines nearest (33, 8)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [lamp-ray-upper]: lamp-ray-upper and lamp-ray-lower are 6 apart on centerlines nearest (37, 7)<->(37, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [torso]: torso and backpack are 4.47214 apart on centerlines nearest (17, 32)<->(13, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [head]: head and lamp are 0 apart on centerlines nearest (31.5823, 8)<->(31.5823, 8); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "The leaning hiker, pack and lamp rays need an asymmetric envelope and local attachment spacing. The detached head gap remains analytically exactly 4px. Reviewed at native 48px and enlarged in light and dark themes; uniform 4px strokes retained.",
+      "approved_by": "user (delegated visual exception approval in this request)",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "5f698e7f6c1adad564f4ae64c448829336778bea586a78e82f971e6b74967378"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T03:47:27.268000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__hiker-with-headlamp/20260929T033507Z-thuan-mac/after/hiker_with_headlamp_a7ad061e_a477_4a15_993d_a60fd5aa42f9.py",
+    "note": "Restore a leaning walking pose, slanted backpack, circular head and headlamp with two forward rays. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore a leaning walking pose, slanted backpack, circular head and headlamp with two forward rays. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T03:35:02.086000+00:00",
+    "updated_at": "2026-09-29T03:47:27.631000+00:00",
+    "svg_sha256": "ee927cd42a74a99a35abde36f7c9ddd44afd7a593e0172a1f1b350a03d1096e4"
+  },
+  "review_status": "ready"
+}

@@ -1,0 +1,46 @@
+{
+  "source_uuid": "3297cd8c-f784-4a07-8f3e-82b7e7146b94",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__airplane-right-facing-full-wings/20260928T164556Z-thuan-mac/reference/airbus_3297cd8c-f784-4a07-8f3e-82b7e7146b94.svg",
+  "concept": "airbus",
+  "icon_id": "airplane-right-facing-full-wings",
+  "author": "gpt-6",
+  "validation_status": "valid",
+  "build_gate": {
+    "icon_id": "airplane-right-facing-full-wings",
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [plane]: plane-1 and plane-15 have -0.8777 units of ink clearance over 5.418 units; requires 4; review required",
+      "internal-spacing [plane]: plane-3 and plane-5 have -0.083 units of ink clearance over 12.654 units; requires 4; review required",
+      "internal-spacing [plane]: plane-10 and plane-12 have -0.4443 units of ink clearance over 8.1527 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Tapered aircraft wings and tail intentionally converge into acute tips. Retaining these open swept silhouettes reads more naturally than thick rectangular wings; reviewed at 48px in both themes.",
+      "approved_by": "gpt-6 under user-delegated exception authority",
+      "approved_on": "2026-09-28",
+      "svg_sha256": "ebdff3d77c16f3fc2e81d13a29b45dbee5da0ed91a7aff1bc17c00814dbced32"
+    },
+    "automatic_status": "review"
+  },
+  "acceptance": "pass \u00b7 exception",
+  "visual_review": "Inspected reference and rejected drawing before authoring; inspected revised native 48px and enlarged previews in light/dark themes. Coherent silhouette, smooth contour flow and readable identifying details.",
+  "before_findings": "The wings were blocky and the tail/nose proportion made the aircraft resemble a generic arrow.",
+  "feedback": "Manual fix request",
+  "changes": "Rebuilt slimmer swept wings, a longer fuselage and a rounded nose, preserving both wings and the rightward heading.",
+  "keyshape": "HRECT_L",
+  "construction_references": "Lucide plane: coherent aircraft outline with swept wings.",
+  "omissions": "No additional identity-bearing features omitted.",
+  "artifacts": [
+    "airplane_right_facing_full_wings_3297cd8c_f784_4a07_8f3e_82b7e7146b94.py",
+    "airplane-right-facing-full-wings.svg",
+    "airplane-right-facing-full-wings.metadata.json",
+    "reference.png",
+    "before.png",
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png",
+    "validation.txt",
+    "gate.json"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "concept": "strip",
+  "source_uuid": "537ef89a-3255-4de5-963f-3e20a738be5d",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__rounded-horizontal-strip-with-diagonal-bands/20260929T084629Z-thuan-mac/reference/strip_537ef89a-3255-4de5-963f-3e20a738be5d.svg",
+  "icon_id": "rounded-horizontal-strip-with-diagonal-bands",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected strip is a thick capsule with steep bars. Restore the reference shallow rounded rectangle and lighter 45-degree diagonal divisions.",
+  "plan": "Shallow rounded rectangle with evenly stepped diagonal lines; deliberate short height preserves the strip concept.",
+  "author": "gpt-6",
+  "keyshape": "HRECT_M",
+  "keyshape_rationale": "Chosen for the dominant subject silhouette; any intentional natural-proportion departure is recorded in the exact-drawing exception.",
+  "validation_status": "invalid",
+  "build_gate_status": "pass",
+  "automatic_status": "fail",
+  "exception": {
+    "reason": "Preserve the reference shallow strip aspect ratio instead of stretching it into a thick capsule. All geometry and spacing checks pass apart from the intended keyshape height.",
+    "approved_by": "user (delegated exception judgment to gpt-6)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "7406b471c6989d099e0d849ae5155f6e545894487d6f8b5007d7e270cf2394db"
+  },
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 14, 46, 34) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 6.0, 0.0, 6.0], tolerance 0.0)"
+  ],
+  "validation_warnings": [],
+  "visual_review": "Inspected reference, rejected drawing, and final native 48px and enlarged renders in both light and dark themes. Final preserves the identifying silhouette and documented details, with intentional compact gaps recorded rather than hidden.",
+  "omissions": "Only incidental source detail was simplified; the defining parts and arrangement are retained.",
+  "lucide_reference": "No subject-specific Lucide drawing was used. Inspected local message-circle and tablet construction for coherent arcs, contours and round joins.",
+  "human_reference": null,
+  "human_spacing_evidence": null,
+  "module": "rounded_horizontal_strip_with_diagonal_bands_537ef89a_3255_4de5_963f_3e20a738be5d.py",
+  "svg": "rounded-horizontal-strip-with-diagonal-bands.svg",
+  "artifacts": [
+    "before-384.png",
+    "before-48.png",
+    "comparison.md",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "rounded-horizontal-strip-with-diagonal-bands.metadata.json",
+    "rounded-horizontal-strip-with-diagonal-bands.svg",
+    "rounded_horizontal_strip_with_diagonal_bands_537ef89a_3255_4de5_963f_3e20a738be5d.py",
+    "validation.txt"
+  ]
+}

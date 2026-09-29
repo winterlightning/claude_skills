@@ -1,0 +1,27 @@
+status: invalid
+  ERROR  mic [body]: body and belly-left are 0.475606 apart on centerlines nearest (19.876, 43.4591)<->(20, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [body]: body and belly-right are 0.475606 apart on centerlines nearest (28.124, 43.4591)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [body]: body and fountain-left are 2.1799e-17 apart on centerlines nearest (24, 12)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [belly-left]: belly-left and belly-right are 8 apart on centerlines nearest (20, 43)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Automatic status: fail
+{
+  "icon_id": "round-whale-solo",
+  "status": "pass",
+  "errors": [
+    "mic [body]: body and belly-left are 0.475606 apart on centerlines nearest (19.876, 43.4591)<->(20, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [body]: body and belly-right are 0.475606 apart on centerlines nearest (28.124, 43.4591)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [body]: body and fountain-left are 2.1799e-17 apart on centerlines nearest (24, 12)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [belly-left]: belly-left and belly-right are 8 apart on centerlines nearest (20, 43)<->(28, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "exception": {
+    "reason": "Retain round whale body, curved fountain, shallow smile and belly seams. Seams intentionally meet the body and smile, preserving the supplied stylized whale.",
+    "approved_by": "user (delegated exception judgment to gpt-6)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "38aa0ac869896ff75f29c7b8796032f68d6c38b562a45ada17d5e13a2dd51c63"
+  },
+  "automatic_status": "fail"
+}

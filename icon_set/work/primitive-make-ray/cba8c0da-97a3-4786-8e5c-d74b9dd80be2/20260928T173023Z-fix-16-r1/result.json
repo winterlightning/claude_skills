@@ -1,0 +1,62 @@
+{
+  "concept": "video",
+  "source_uuid": "cba8c0da-97a3-4786-8e5c-d74b9dd80be2",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__video-cba8c0da/20260928T173023Z-thuan-mac/reference/video_cba8c0da-97a3-4786-8e5c-d74b9dd80be2.svg",
+  "icon_id": "video-cba8c0da",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "video-cba8c0da",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 10, 46, 38) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The source video-camera proportions require a wide low envelope. Smooth rounded body corners and a tapered lens remain balanced and clear despite differing from the standard horizontal keyshape height.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "71ed3851f3f43962bb325efab51a8b97d0c97fbee7dc72c3c7e93055562ca623"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "video-cba8c0da",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 10, 46, 38) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)"
+    ],
+    "warnings": []
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "Angular fitted segments produced visible notches on the camera body.",
+    "feedback": "Bad stroke drawn",
+    "changes": "Replaced those segments with a coherent rounded rectangle and exact lens-root joins.",
+    "construction_reference": "Lucide video",
+    "omissions": "None",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "video_cba8c0da_cba8c0da_97a3_4786_8e5c_d74b9dd80be2.py",
+    "before.png",
+    "preview-dark-384.png",
+    "accepted-gate.json",
+    "preview-dark-48.png",
+    "original.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "automatic-gate.json",
+    "video-cba8c0da.svg",
+    "review.json",
+    "video-cba8c0da.metadata.json",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

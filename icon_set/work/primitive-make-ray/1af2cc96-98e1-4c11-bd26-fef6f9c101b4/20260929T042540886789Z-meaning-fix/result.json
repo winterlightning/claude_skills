@@ -1,0 +1,50 @@
+{
+  "concept": "question mark in chat bubble",
+  "source_uuid": "1af2cc96-98e1-4c11-bd26-fef6f9c101b4",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__question-mark-chat-bubble-solo/20260929T042221Z-thuan-mac/reference/question mark in chat bubble_1af2cc96-98e1-4c11-bd26-fef6f9c101b4.svg",
+  "icon_id": "question-mark-chat-bubble-solo",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected question hook collapsed into a diagonal wedge and crowded the enclosure. Feedback asks to restore the reference question bubble.",
+  "plan": "Smooth rounded bubble with a distinct tail; upright question hook with curved return and a separate dot.",
+  "author": "gpt-6",
+  "module": "question_mark_chat_bubble_solo_1af2cc96_98e1_4c11_bd26_fef6f9c101b4.py",
+  "svg": "question-mark-chat-bubble-solo.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "question-mark-chat-bubble-solo",
+    "status": "pass",
+    "errors": [
+      "mic [bubble]: bubble and question are 5.99991 apart on centerlines nearest (23.9673, 6.00018)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [bubble]: bubble and question-dot are 4.99993 apart on centerlines nearest (24.0273, 37.9999)<->(24, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [question]: question and question-dot are 6 apart on centerlines nearest (24, 27)<->(24, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Question-mark dot and hook retain 2-unit ink separation, and enclosure clearances are locally below 4 to preserve a readable full question sign; user authorized native-size visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "e43bbd6bdd6456981eae055fc9188e84b4fdddbb5385d1ca2aa7fa8c6c9a462c"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "",
+  "construction_references": "Lucide message-circle-question-mark and message-square: coherent enclosure and independently readable question mark.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "question-mark-chat-bubble-solo.metadata.json",
+    "question-mark-chat-bubble-solo.svg",
+    "question_mark_chat_bubble_solo_1af2cc96_98e1_4c11_bd26_fef6f9c101b4.py",
+    "reference.png",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

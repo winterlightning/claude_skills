@@ -1,0 +1,59 @@
+{
+  "concept": "rhythmic ribbon",
+  "source_uuid": "b2d1cbd8-ca11-5132-9fd5-20ce151d5f75",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__ribbon-gymnast-overhead/20260929T043927Z-thuan-mac/reference/rhythmic ribbon_b2d1cbd8-ca11-5132-9fd5-20ce151d5f75.svg",
+  "icon_id": "ribbon-gymnast-overhead",
+  "author": "gpt-6",
+  "comparison": "The gymnast became a squat seated shape and the ribbon lost its loop. Restore a raised hand, standing leg, bent back leg and an overhead ribbon loop.",
+  "feedback": "Does not convey the intended meaning",
+  "run": "icon_set/work/primitive-make-ray/b2d1cbd8-ca11-5132-9fd5-20ce151d5f75/20260929T045219957833Z-reviewed-exception",
+  "module": "icon_set/work/primitive-make-ray/b2d1cbd8-ca11-5132-9fd5-20ce151d5f75/20260929T045219957833Z-reviewed-exception/ribbon_gymnast_overhead_b2d1cbd8_ca11_5132_9fd5_20ce151d5f75.py",
+  "keyshape": "VRECT_L",
+  "gate": {
+    "icon_id": "ribbon-gymnast-overhead",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (3.95741, 0.735476, 42, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [2.0426, 1.2645, 0.0, 0.0], tolerance 0.0)",
+      "mic [head]: head and ribbon are 4.91976 apart on centerlines nearest (29.14, 10.6206)<->(31.7316, 6.43873); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [back-leg / left-arm]: back-leg-1 and left-arm have 1.751 units of ink clearance over 4.3933 units; requires 4; review required",
+      "internal-spacing [ribbon]: ribbon and ribbon have 2.5246 units of ink clearance over 13.6821 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the overhead ribbon loop, upright gymnast and bent back leg. Compact loop spacing and the optical bounds preserve the ribbon action; the torso begins vertically under the head with exactly 4 units of visible head clearance. Visually reviewed at 48px in light and dark themes under the user's explicit delegated exception authorization.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "91e786260bf8b5f8cd73ba85b315c273050a561cb651a1bb2b21171fa020db10"
+    },
+    "automatic_status": "fail"
+  },
+  "validation_status": "invalid",
+  "parent_run": "icon_set/work/primitive-make-ray/b2d1cbd8-ca11-5132-9fd5-20ce151d5f75/20260929T044947997892Z-meaning-fix",
+  "accepted_exception": true,
+  "visual_review": "Reviewed light and dark at native 48px and enlarged size. Recognizable semantic silhouette; uniform 4px strokes, intentional asymmetry only for scene placement, directional movement or logo construction.",
+  "omissions": "Clothing outline and fingers omitted in favor of the shared stick-figure style.",
+  "human_reference": "Head cy=14, r=4, torso starts at y=26 with vertical Bezier tangent; 26-18-4=4.",
+  "lucide_references": [],
+  "keyshape_reason": "Preserve the supplied subject proportions and relative arrangement. Drawing-bound visual exception records the intentional optical envelope or compact detail requirements.",
+  "reference_notes": "Original and rejected SVG renders compared before authoring. No useful exact Lucide match; applied the inspected geometric construction principles without claiming an exact match. Shared human_ref/user.svg and full_body_ref.png informed round heads, coherent limbs and smooth shoulders. Head cy=14, r=4, torso starts at y=26 with vertical Bezier tangent; 26-18-4=4.",
+  "artifacts": [
+    "__pycache__",
+    "before-384.png",
+    "before-48.png",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference-before-comparison.png",
+    "ribbon-gymnast-overhead.metadata.json",
+    "ribbon-gymnast-overhead.svg",
+    "ribbon_gymnast_overhead_b2d1cbd8_ca11_5132_9fd5_20ce151d5f75.py",
+    "validation.txt",
+    "visual-review.md"
+  ]
+}

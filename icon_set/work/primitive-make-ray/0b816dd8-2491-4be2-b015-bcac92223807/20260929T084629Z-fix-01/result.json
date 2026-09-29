@@ -1,0 +1,49 @@
+{
+  "concept": "body",
+  "source_uuid": "0b816dd8-2491-4be2-b015-bcac92223807",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__rounded-standing-person/20260929T084629Z-thuan-mac/reference/body_0b816dd8-2491-4be2-b015-bcac92223807.svg",
+  "icon_id": "rounded-standing-person",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected standing body has rigid box arms and no rounded shoulder outline. Restore a round head, rounded shoulder-and-arm silhouette and two separated lower legs.",
+  "plan": "Outlined full-body reference is retained with mirrored shoulder radii, broad torso and rounded lower body. Human reference informs the circular head and exactly 4-unit detached head gap.",
+  "author": "gpt-6",
+  "keyshape": "VRECT_M",
+  "keyshape_rationale": "Chosen for the dominant subject silhouette; any intentional natural-proportion departure is recorded in the exact-drawing exception.",
+  "validation_status": "invalid",
+  "build_gate_status": "pass",
+  "automatic_status": "fail",
+  "exception": {
+    "reason": "Keep rounded shoulders and narrow outlined arms at natural human proportions. The two arm openings have 2 px ink gaps; detached head-to-body gap is exactly 4 px.",
+    "approved_by": "user (delegated exception judgment to gpt-6)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "a0c90425e536ba0bcea04dede560ce25a47c23b1d83dccaa98e68d5a8912b060"
+  },
+  "validation_errors": [
+    "mic [body]: parallel straight edges body-2 and right-arm-seam are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [left-arm-seam]: parallel straight edges left-arm-seam and body-8 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "validation_warnings": [],
+  "visual_review": "Inspected reference, rejected drawing, and final native 48px and enlarged renders in both light and dark themes. Final preserves the identifying silhouette and documented details, with intentional compact gaps recorded rather than hidden.",
+  "omissions": "Only incidental source detail was simplified; the defining parts and arrangement are retained.",
+  "lucide_reference": "No subject-specific Lucide drawing was used. Inspected local message-circle and tablet construction for coherent arcs, contours and round joins.",
+  "human_reference": "icon_set/references/human_ref/full_body_ref.png",
+  "human_spacing_evidence": "Head center (24,9), radius 5: bottom 14. Shoulder top 22. 22 - 14 - 4 = 4 visible units.",
+  "module": "rounded_standing_person_0b816dd8_2491_4be2_b015_bcac92223807.py",
+  "svg": "rounded-standing-person.svg",
+  "artifacts": [
+    "before-384.png",
+    "before-48.png",
+    "comparison.md",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "rounded-standing-person.metadata.json",
+    "rounded-standing-person.svg",
+    "rounded_standing_person_0b816dd8_2491_4be2_b015_bcac92223807.py",
+    "validation.txt"
+  ]
+}

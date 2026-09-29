@@ -1,0 +1,22 @@
+{
+  "status": "review",
+  "errors": [],
+  "warnings": [
+    "mic [phone]: phone and pound are 8 apart on centerlines nearest (24, 4)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "gate": {
+    "icon_id": "mobile-phone-pound-sign",
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "mic [phone]: phone and pound are 8 apart on centerlines nearest (24, 4)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Exact geometric minimum: the pound upper semicircle reaches y=12 and the phone top is y=4, giving 8 centreline units / 4 ink units. Retain the readable pound rather than distort it for the conservative curved-pair warning. Visually reviewed at native 48px in light and dark themes by gpt-6; uniform 4px strokes retained.",
+      "approved_by": "user-delegated visual judgment: gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "f8518c2ed66f6e5bb856af44d335d60d7435ad75f6b40bc6c18ba06c66d84c15"
+    },
+    "automatic_status": "review"
+  }
+}

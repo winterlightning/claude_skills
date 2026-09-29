@@ -1,0 +1,30 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (5.89343, 1.06202, 44.0503, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.1066, 0.938, 2.0503, 0.0], tolerance 0.0)
+  ERROR  mic [hair]: parallel straight edges hair-6 and hair-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [hair]: hair and face-neck are 0.161806 apart on centerlines nearest (23.9277, 9.85526)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [hair]: hair and body-tail are 1 apart on centerlines nearest (13, 23)<->(13, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [hair]: hair and support-arm are 2 apart on centerlines nearest (10, 25)<->(10, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [face-neck]: face-neck and tail-top are 1.09967 apart on centerlines nearest (31, 30)<->(31.3952, 31.0262); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [body-tail]: body-tail and support-arm are 2.7405 apart on centerlines nearest (12.731, 27.2276)<->(10, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass
+Automatic build gate: fail
+PASS BY DRAWING-BOUND VISUAL EXCEPTION; automatic errors/warnings retained.
+Retain continuous long hair, profile anatomy, the supporting arm and raised split fin. Their anatomical contacts and close hair opening preserve the mermaid identity; the natural outline slightly departs from the rectangular keyshape.
+
+{
+  "icon_id": "seated-mermaid-with-raised-tail",
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (5.89343, 1.06202, 44.0503, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.1066, 0.938, 2.0503, 0.0], tolerance 0.0)",
+    "mic [hair]: parallel straight edges hair-6 and hair-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [hair]: hair and face-neck are 0.161806 apart on centerlines nearest (23.9277, 9.85526)<->(24, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [hair]: hair and body-tail are 1 apart on centerlines nearest (13, 23)<->(13, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [hair]: hair and support-arm are 2 apart on centerlines nearest (10, 25)<->(10, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [face-neck]: face-neck and tail-top are 1.09967 apart on centerlines nearest (31, 30)<->(31.3952, 31.0262); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [body-tail]: body-tail and support-arm are 2.7405 apart on centerlines nearest (12.731, 27.2276)<->(10, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [hair]: hair-3 and hair-5 have 3.5357 units of ink clearance over 2.2348 units; requires 4; review required"
+  ]
+}

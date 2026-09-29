@@ -1,0 +1,51 @@
+{
+  "source_uuid": "3be3c4f1-7eff-4665-918c-5125daa70608",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__isometric-cube-with-three-linked-hexagons/20260929T033633Z-thuan-mac/reference/scale 3d_3be3c4f1-7eff-4665-918c-5125daa70608.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__isometric-cube-with-three-linked-hexagons/20260929T033633Z-thuan-mac/reference/scale 3d_3be3c4f1-7eff-4665-918c-5125daa70608.svg",
+  "icon_id": "isometric-cube-with-three-linked-hexagons",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "isometric-cube-with-three-linked-hexagons",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 0, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 4.0, 3.0, 2.0], tolerance 0.0)"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Preserve three explicit hexagonal nodes around the three-face cube. The exact natural envelope extends beyond the chosen keyshape but remains inside the 48px canvas.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "305874bd74c21052dd48eecd7245312efbbb93c20839d9837a319d8cf6fc4a95"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "The linked hexagonal endpoints became dots and the central cube was skewed.",
+    "change": "Restored a symmetric three-face cube with three explicit hexagonal nodes and straight radial connectors.",
+    "construction_reference": "network: repeated node ownership; the original isometric cube and hexagons define the geometry.",
+    "human_construction": null,
+    "findings": "Reviewed meaning, coherent curves, identifying details and negative space at native size in both themes."
+  },
+  "omissions": "Secondary contour detail simplified for 48px clarity.",
+  "artifacts": [
+    "isometric_cube_with_three_linked_hexagons_3be3c4f1_7eff_4665_918c_5125daa70608.py",
+    "isometric-cube-with-three-linked-hexagons.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

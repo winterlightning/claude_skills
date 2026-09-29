@@ -1,0 +1,19 @@
+{
+  "icon_id": "hanging-toilet-paper-roll",
+  "status": "pass",
+  "errors": [
+    "mic [core]: parallel straight edges core and sheet-6 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [roll-end]: roll-end and core are 6.54735 apart on centerlines nearest (39.2172, 20.0527)<->(33, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [sheet]: sheet and perforation are 8 apart on centerlines nearest (8, 23)<->(16, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [roll-end / sheet]: roll-end-0 and sheet-0 have -3.9558 units of ink clearance over 2.25 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "The side-view roll needs a narrow core, shared paper tangent and perforation. Retain those UI-readable details with a 3px core-to-sheet ink gap.",
+    "approved_by": "user-authorized-agent-review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "7104f353d975da664bec1ca17aa687ffcfd8304ac3c5b7aec39b6b35a215d594"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,85 @@
+{
+  "source_key": "solo/interior-wall-with-door-and-window",
+  "icon_id": "interior-wall-with-door-and-window",
+  "svg_sha256": "d352ed5b65e9f9aecbbaee03a02df7f22b20ddc48551bb7d8595854aeb7284b5",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore the complete room boundary and floor strip, a tall door and a separate four-pane window. Preserve the source orthogonal room layout. AUTHOR gpt-6. Drawing-bound visual exception under user-authorized discretion; original automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/15d7928a-0a97-4ec4-b4c0-f21360f062be/20260929T033605Z-reviewed-final",
+  "module": "icon_set/work/primitive-make-ray/15d7928a-0a97-4ec4-b4c0-f21360f062be/20260929T033605Z-reviewed-final/interior_wall_with_door_and_window_15d7928a_0a97_4ec4_b4c0_f21360f062be.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [room]: parallel straight edges room-2, room-3 and window-3, window-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window]: parallel straight edges window-3, window-4 and window-vertical are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window-vertical]: parallel straight edges window-vertical and window-8, window-7 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [door]: parallel straight edges door-1 and room-6, room-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window]: parallel straight edges window-1, window-2 and window-horizontal are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [window-horizontal]: parallel straight edges window-horizontal and window-6, window-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [room]: room and window are 6 apart on centerlines nearest (44, 14)<->(38, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/interior_wall_with_door_and_window_15d7928a_0a97_4ec4_b4c0_f21360f062be.py",
+    "validation.txt",
+    "after/interior-wall-with-door-and-window.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T03:59:22.605663+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "interior-wall-with-door-and-window",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [room]: parallel straight edges room-2, room-3 and window-3, window-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [window]: parallel straight edges window-3, window-4 and window-vertical are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [window-vertical]: parallel straight edges window-vertical and window-8, window-7 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [door]: parallel straight edges door-1 and room-6, room-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [window]: parallel straight edges window-1, window-2 and window-horizontal are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [window-horizontal]: parallel straight edges window-horizontal and window-6, window-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [room]: room and window are 6 apart on centerlines nearest (44, 14)<->(38, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [room / door]: room-6 and door-1 have 2 units of ink clearance over 21 units; requires 4; review required",
+      "internal-spacing [window / window-horizontal]: window-1 and window-horizontal have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-horizontal]: window-2 and window-horizontal have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-vertical]: window-3 and window-vertical have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-vertical]: window-4 and window-vertical have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-horizontal]: window-5 and window-horizontal have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-horizontal]: window-6 and window-horizontal have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-vertical]: window-7 and window-vertical have 2 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [window / window-vertical]: window-8 and window-vertical have 2 units of ink clearance over 5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Keep the complete wall, floor strip, tall doorway and four-pane window. The four small window counters and compact floor spacing remain visible at 48 px and preserve the source room layout.",
+      "approved_by": "user-delegated-discretion-reviewed-by-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ee39e650375990c835c473cabd7d81d8a58f0a4f2061321bc3de3f933ecad4ee"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T03:59:21.973000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__interior-wall-with-door-and-window/20260929T033618Z-thuan-mac/after/interior_wall_with_door_and_window_15d7928a_0a97_4ec4_b4c0_f21360f062be.py",
+    "note": "Restore the complete room boundary and floor strip, a tall door and a separate four-pane window. Preserve the source orthogonal room layout. AUTHOR gpt-6. Drawing-bound visual exception under user-authorized discretion; original automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore the complete room boundary and floor strip, a tall door and a separate four-pane window. Preserve the source orthogonal room layout. AUTHOR gpt-6. Drawing-bound visual exception under user-authorized discretion; original automatic findings retained.",
+    "claimed_at": "2026-09-29T03:36:18.318000+00:00",
+    "updated_at": "2026-09-29T03:59:22.495000+00:00",
+    "svg_sha256": "d352ed5b65e9f9aecbbaee03a02df7f22b20ddc48551bb7d8595854aeb7284b5"
+  },
+  "review_status": "ready"
+}

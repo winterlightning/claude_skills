@@ -1,0 +1,20 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 12, 46, 37) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 4.0, 0.0, 3.0], tolerance 0.0)
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "canoe",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 12, 46, 37) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 4.0, 0.0, 3.0], tolerance 0.0)"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "A canoe naturally needs a shallow wide envelope; expanding it vertically would recreate the rejected U-shaped frame. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "b80e410afab31dc9233462f6ff17a2bcabf54ee0c8f18ccf8e807f45a6750c08"
+  },
+  "automatic_status": "fail"
+}

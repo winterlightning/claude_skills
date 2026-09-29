@@ -7,12 +7,14 @@ const SIDE_POSITIONS={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-
 // One plain status per pair. Waiting: main and sub are drawn but not in the combine data yet.
 const SIDE_STATES={ready:'Ready',fix:'Fix sub',fixmain:'Fix main',waiting:'Waiting',main:'Needs main',sub:'Needs sub',textsub:'Needs text sub'};
 const SIDE_STATE_HINTS={ready:'Main and sub are drawn and can be combined.',fix:'The sub fails a check. Fix it before combining.',fixmain:'A 48×48 main is drawn but fails validation or was marked needs fix, so it is not in Icon review. Fix it on the Main icons page (Needs fix).',waiting:'Main and sub are drawn but not combined yet.',main:'No 48×48 solo main icon yet.',sub:'No 32×32 sub icon yet.',textsub:'The sub is text or a number and is not drawn yet. It is generated separately.'};
-const SIDE_FILTERS={'':'All',...SIDE_STATES,uncombined:'Not combined',text:'Text sub',multi:'2+ subs'};
+const SIDE_FILTERS={'':'All',...SIDE_STATES,uncombined:'Not combined',text:'Text sub',multi:'2+ subs',made:'From review',changed:'Main / sub changed'};
 const sideParams=new URLSearchParams(location.search);
 // Main / sub status per source UUID from side-components.json, the same data as the Main icons and Sub icons pages.
 let sideComponentStatus={main:new Map(),sub:new Map()},sideComponents=null;
 // The latest Combine all side pairs run (side-combination64.json) and review states, shared with Experiment and Icon review.
 let sideRun=null,sideReviews={};
+// Pairs recombined or hand-adjusted on the server (/api/combinations/side/layouts), by pair id.
+let sideSaved={};
 let sideFilter=SIDE_FILTERS[sideParams.get('side')]?sideParams.get('side'):'', sidePageSize=[24,48,96].includes(Number(sideParams.get('size')))?Number(sideParams.get('size')):24;
 
 async function loadSidePairs(){
@@ -20,6 +22,9 @@ async function loadSidePairs(){
   try{
     const [pairs,previews]=await Promise.all(['experiment-combination.json','experiment-combination-results.json'].map(async url=>{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('Could not load side pair artwork.');return r.json();}));
     sidePairs=new Map(pairs.rows.map(r=>[r.id,r]));sidePreviews=previews.results||{};sideError='';
+    // Pairs made from a combination primitive on the review page (routes/side_pairs.rs): not in the published files.
+    const made=await fetch('/api/combinations/side/pairs',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
+    sideAddMadePairs(made.pairs||[]);
     const components=await fetch('side-components.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Could not load side-components.json.');return r.json();});
     sideComponents=components;
     // Same rule as side-components.js: a passing drawing marked needs fix (review pending) or rejected does not count.
@@ -27,9 +32,15 @@ async function loadSidePairs(){
     sideReviews=reviews;
     if(Object.keys(reviews).length)window.SideRepairFlags?.setReviews(reviews);
     sideRun=await fetch('side-combination64.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+    // A saved pair replaces its published preview while the published pair still has the drawings it pinned.
+    sideSaved=await fetch('/api/combinations/side/layouts',{cache:'no-store'}).then(r=>r.ok?r.json():{}).catch(()=>({}));
+    // The list carries no SVGs; each saved drawing is served at its preview URL.
+    for(const [id,entry] of Object.entries(sideSaved))if(sideSavedActive(sidePairs.get(id),entry)&&entry.svg_sha256)
+      sidePreviews[id]={url:'combination-previews/'+encodeURIComponent(id)+'.svg?v='+entry.svg_sha256.slice(0,12),result:entry.result};
     const usable=sideUsable;
     for(const item of [...components.mains,...components.subs])item.status=item.drawings.some(usable)?'done':item.drawings.length?'failing':'missing';
     for(const [role,list] of [['main',components.mains],['sub',components.subs]])for(const item of list)for(const id of item.source_ids)sideComponentStatus[role].set(id,item.status);
+    sideMadeStatuses();
     // Native text is a separate layout family. Map its exact selected main and
     // sub by source UUID/key, then reuse the already generated native SVG.
     const native=await fetch('side-text-v2.json',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
@@ -40,6 +51,47 @@ async function loadSidePairs(){
   finally{sideLoading=false;sideCombineChecked=false;}
   if(state.view==='side')renderCombinations();
 }
+let sideMadePairs=[];
+function sideAddMadePairs(list){
+  sideMadePairs=list;const refs=combinationCatalog.references,rows=combinationCatalog.rows;
+  for(const made of list){
+    const row=made.row;
+    // The items' previews follow the icons' current drawings.
+    for(const [role,group] of [['main','mains'],['sub','subs']])if(made[role]?.preview_url)row[group][0]={...row[group][0],preview_url:made[role].preview_url};
+    sidePairs.set(row.id,row);
+    const generated=role=>row[role+'s'].map(i=>({key:i.model_key,icon_id:i.icon,preview_url:i.preview_url}));
+    // A changed published pair keeps its published reference.
+    if(!row.published)refs[row.id]={id:row.id,concept:row.concept,reference_url:row.reference_url,generated:[]};
+    // A part not drawn yet is known by the name it was saved with.
+    refs[row.main_id]={id:row.main_id,concept:row.mains[0]?.icon||row.main_name,generated:generated('main')};
+    refs[row.sub_id]={id:row.sub_id,concept:row.subs[0]?.icon||row.sub_name,generated:generated('sub')};
+    const old=rows.find(r=>r.id===row.id);
+    const entry=row.published&&old?{...old,main_id:row.main_id,sub_id:row.sub_id,position:row.position,custom:true,published:true}
+      :{id:row.id,concept:row.concept,main_id:row.main_id,sub_id:row.sub_id,position:row.position,kind:'side',remappings:[],generated:[],custom:true};
+    // Listed first: after 3,500 published pairs they would sit on the last page.
+    const at=rows.findIndex(r=>r.id===row.id);if(at<0)rows.unshift(entry);else rows[at]=entry;
+  }
+}
+// A made pair names its main and sub by icon key: their status is that drawing's.
+function sideMadeStatuses(){
+  for(const made of sideMadePairs)for(const role of ['main','sub']){const d=made[role];
+    sideComponentStatus[role].set(made.row[role+'_id'],!d?'missing':sideUsable({key:d.key,status:d.build_failed?'fail':'pass'})?'done':'failing');}
+}
+// After a made pair's main / sub changed here: reload the made pairs only, and drop what was drawn from the old ones.
+async function sideMadeRefresh(pairId,data){
+  // Back to the published main / sub: reload the published data the change had replaced.
+  if(data?.removed&&sidePairs.get(pairId)?.published){combinationCatalog=null;sidePairs=null;renderCombinations();return;}
+  const made=await fetch('/api/combinations/side/pairs',{cache:'no-store'}).then(r=>r.ok?r.json():{pairs:[]}).catch(()=>({pairs:[]}));
+  sideAddMadePairs(made.pairs||[]);sideMadeStatuses();
+  for(const key of [...sideRendered.keys()])if(key.startsWith(pairId+'|'))sideRendered.delete(key);
+  if(!sideSavedActive(sidePairs.get(pairId),sideSaved[pairId]))delete sidePreviews[pairId];
+  renderCombinations();
+}
+function sideSavedActive(pair,entry){
+  const pinned=(items,pin)=>items?.some(i=>i.icon===pin?.icon&&(i.sha256||'')===(pin?.sha256||''));
+  return !!(pair&&entry&&pinned(pair.mains,entry.main)&&pinned(pair.subs,entry.sub));
+}
+function sideRemember(pairId,saved){if(saved)sideSaved[pairId]=saved;}
 function sideMapNativeText(report,components,usable){
   for(const result of report.pairs||[]){
     const row=combinationCatalog.rows.find(r=>r.id===result.id);
@@ -70,7 +122,9 @@ const sideSubKey=s=>s.model_key||s.family+'/'+s.icon;
 const sideDataURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 const sideRound=n=>Math.round(n*10)/10;
 // Ink box including the 4px stroke; subs report their normalized 32px ink directly.
-function sideInk(item,sub){if(sub&&item.ink32)return [item.ink32.ink_width,item.ink32.ink_height];const b=item.bounds;return [b[2]-b[0]+4,b[3]-b[1]+4];}
+function sideInk(item,sub){if(sub&&item.ink32)return [item.ink32.ink_width,item.ink32.ink_height];const b=item.bounds;
+  // A made pair's items are measured by the combine engine only; its sub is a sub-family icon, checked at 32 by its build.
+  if(!b)return [0,0];return [b[2]-b[0]+4,b[3]-b[1]+4];}
 function sideSubProblems(s){
   const problems=[],[w,h]=sideInk(s,true);
   if(s.model_validation&&s.model_validation!=='pass')problems.push('Model validation: '+s.model_validation);
@@ -80,6 +134,8 @@ function sideSubProblems(s){
   return problems;
 }
 const sideCurrentSub=pair=>pair.subs.find(s=>s.icon===sidePreviewSub.get(pair.id))||pair.subs[0];
+// The main a row shows and combines (the server picks the same one when none is named).
+const sideMain=pair=>pair.mains.find(m=>m.family==='solo'||m.family==='combination_main')||pair.mains[0];
 // A sub is text when its source was marked text / number or its current drawing is sized as text.
 function sideSubIsText(row,pair){
   const refs=combinationCatalog.references;
@@ -104,19 +160,19 @@ function sideCategory(row){
   // Not combined: main and sub are both drawn, but the last Combine all run made no icon for the pair.
   const uncombined=!['main','fixmain','sub','textsub'].includes(key)&&!both&&!sidePreviews[row.id];
   const subNeeded=key==='fixmain'&&sideComponentStatus.sub.get(row.sub_id)==='missing'?(sideSubIsText(row,pair)?'textsub':'sub'):null;
-  return {[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),...(subNeeded?{[subNeeded]:true}:{}),uncombined,multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
+  return {made:!!pair?.custom&&!pair.published,changed:!!pair?.published,[both?'main':key]:true,...(both?{[key==='both'?'sub':'textsub']:true}:{}),...(subNeeded?{[subNeeded]:true}:{}),uncombined,multi:(pair?.subs.length||0)>1,text:sideSubIsText(row,pair)};
 }
 
 function sideCombined(pair,sub){
   const prebuilt=sidePreviews[pair.id],placed=role=>prebuilt?.result?.placements?.find(p=>p.role===role)?.icon;
-  if(prebuilt?.native_text&&prebuilt.sub===sub.icon&&prebuilt.main===pair.mains[0].icon)return prebuilt;
-  if(prebuilt&&placed('sub')===sub.icon&&placed('main')===pair.mains[0].icon)return prebuilt;
+  if(prebuilt?.native_text&&prebuilt.sub===sub.icon&&prebuilt.main===sideMain(pair).icon)return prebuilt;
+  if(prebuilt&&placed('sub')===sub.icon&&placed('main')===sideMain(pair).icon)return prebuilt;
   return sideRendered.get(pair.id+'|'+sub.icon);
 }
 // The hand-set layout the pair's published result was rendered with, when it is for this main and sub.
 function sideAdjusted(pair,sub){
   const result=sidePreviews[pair.id]?.result;
-  return result?.layout&&result.placements?.every(p=>p.icon===(p.role==='main'?pair.mains[0].icon:sub.icon))?result.layout:null;
+  return result?.layout&&result.placements?.every(p=>p.icon===(p.role==='main'?sideMain(pair).icon:sub.icon))?result.layout:null;
 }
 function sideFillCombined(media,pair,sub){
   const found=sideCombined(pair,sub);media.replaceChildren();
@@ -135,7 +191,7 @@ function sideRequestRender(pair,sub,media){
 function sideDrain(){
   while(sideActiveRenders<2&&sideQueue.length){
     const {key,pair,sub}=sideQueue.shift();sideActiveRenders++;
-    fetch('/api/combination-experiment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:pair.id,sub:sub.icon})})
+    fetch('/api/combination-experiment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:pair.id,main:sideMain(pair).icon,sub:sub.icon})})
       .then(async r=>{const data=await r.json();if(!r.ok||data.error)throw Error(data.error||'Preview could not be rendered.');sideRendered.set(key,{result:data});})
       .catch(error=>sideRendered.set(key,{error:location.protocol==='file:'?'Open through the local server to render.':error.message}))
       .finally(()=>{sideActiveRenders--;const media=sideRenderTargets.get(key);sideRenderTargets.delete(key);if(media?.isConnected)sideFillCombined(media,pair,sub);sideDrain();});
@@ -227,7 +283,7 @@ function sideParts(row){
   const refs=combinationCatalog.references,pair=sidePairs.get(row.id);
   const key=sideKey(row),hasMain=!['main','fixmain','both','both-text'].includes(key);
   const hasSub=!['sub','textsub','both','both-text'].includes(key)&&!(key==='fixmain'&&sideComponentStatus.sub.get(row.sub_id)==='missing');
-  if(pair?.mains.length&&pair.subs.length&&hasMain&&hasSub)return {pair,key,main:pair.mains.find(m=>m.family==='solo'||m.family==='combination_main')||pair.mains[0],sub:sideCurrentSub(pair),ready:true};
+  if(pair?.mains.length&&pair.subs.length&&hasMain&&hasSub)return {pair,key,main:sideMain(pair),sub:sideCurrentSub(pair),ready:true};
   const main=combinationMain(row).generated.find(g=>/^(solo|combination_main)\//.test(g.key)),sub=(row.sub_generated??refs[row.sub_id].generated).find(g=>/^(sub|text)\//.test(g.key));
   return {pair,key,main:hasMain&&main&&{icon:main.icon_id,preview_url:main.preview_url,pending:true},sub:hasSub&&sub&&{icon:sub.icon_id,preview_url:sub.preview_url,pending:true},ready:false};
 }
@@ -266,11 +322,22 @@ function sideStep(label,content,name){
 }
 function sideRow(row){
   const refs=combinationCatalog.references,ref=refs[row.id],parts=sideParts(row),{pair,main,sub}=parts;
-  const card=node('article','side-row'),head=node('div','side-row-head'),[label,tone,hint]=sideState(row,parts);
+  const card=node('article','side-row'),head=node('div','side-row-head'),[label,tone,hint]=sideState(row,parts);card.dataset.pairId=row.id;
   head.append(node('h3','',row.concept),node('span','side-meta',(SIDE_POSITIONS[pair?.position]||pair?.position||'Side')+' · '+(pair?.native_text?`${sideRound(pair.canvas_width)}×${sideRound(pair.canvas_height)}`:'64×64')),Object.assign(node('span','side-state '+tone,label),{title:hint}));
   if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
+  if(pair?.published)head.append(Object.assign(node('span','side-state info','Main / sub changed'),{title:'The published main / sub was changed here: '+row.main_id+' + '+row.sub_id+'.'}));
+  else if(pair?.custom)head.append(Object.assign(node('span','side-state info','From review'),{title:'Made from a combination primitive on the review page: '+row.main_id+' + '+row.sub_id+'.'}));
   if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
   if(parts.ready&&sideAdjusted(pair,sub))head.append(Object.assign(node('span','side-state info','Adjusted layout'),{title:'Main / sub positions and sizes were set by hand.'}));
+  // A main or sub picked since this pair was combined (here or in Icon review): the combined icon still shows the old one.
+  const changed=[['main',main],['sub',sub]].filter(([role,item])=>{
+    // A sub combined as a normalized SUB32 copy was made from its catalog drawing (source_sha256).
+    const key=item&&!item.native_text?sideSubKey(item):null,d=key&&item.sha256&&sideEditableDrawing(row,role,item);
+    if(!(key&&d&&d.key===key&&d.svg_sha256))return false;
+    // Compared with the drawing the shown combined icon was rendered from: a saved pair's, else the published one.
+    const entry=sideSaved[pair?.id],rendered=sideSavedActive(pair,entry)&&entry.main.icon===main?.icon&&entry.sub.icon===sub?.icon?entry.drawings?.[role]:null;
+    return rendered?d.svg_sha256!==rendered:![item.sha256,item.source_sha256].includes(d.svg_sha256);}).map(([role])=>role);
+  if(parts.ready&&changed.length)head.append(Object.assign(node('span','side-state info','Outdated: recombine'),{title:`The ${changed.join(' and ')} changed after this icon was combined. Use Recombine this icon (or Adjust layout) to rebuild it from the current drawings.`}));
   card.append(head);
   const original=node('div','side-original');
   if(ref?.reference_url){const img=node('img');img.src=ref.reference_url;img.alt=row.concept+' — original';img.loading='lazy';original.append(img);}
@@ -292,34 +359,48 @@ function sideRow(row){
   if(shownMain)sideInspectable(mainPart,'Main',shownMain,48,row.concept);if(shownSub)sideInspectable(subPart,'Sub',shownSub,32,row.concept);
   const combinedStep=sideStep(pair?.native_text?'Combined · native':'Combined · 64',media);
   if(parts.ready&&!pair.mapped_native){
-    const wrap=node('div','requires-login'),button=node('button','side-edit-component','Recombine this icon'),message=node('p','side-editor-message');
+    const label=changed.length?'Recombine (outdated)':'Recombine this icon';
+    const wrap=node('div','requires-login'),button=node('button','side-edit-component',label),message=node('p','side-editor-message');
     button.type='button';button.title='Use the latest saved main and sub with automatic placement';message.setAttribute('role','status');
     button.onclick=async()=>{
       button.disabled=true;button.textContent='Recombining…';message.textContent='';
       try{
         const response=await fetch('/api/combinations/side/recombine',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pair_id:pair.id,main:main.icon,sub:sub.icon})});
         const data=await response.json();if(!response.ok||data.error)throw Error(data.error||'Could not recombine this icon.');
-        sidePreviews[pair.id]={url:data.url||null,result:data.result};sideRendered.delete(pair.id+'|'+sub.icon);
+        sidePreviews[pair.id]={url:data.url||null,result:data.result};sideRemember(pair.id,data.saved);sideRendered.delete(pair.id+'|'+sub.icon);
         if(card.isConnected)card.replaceWith(sideRow(row));
       }catch(error){message.textContent=error.message;}
-      finally{button.disabled=false;button.textContent='Recombine this icon';}
+      finally{button.disabled=false;button.textContent=label;}
     };
     wrap.append(button,message);combinedStep.append(wrap);
+    const prompt=node('p','login-prompt');prompt.innerHTML='<a href="login.html">Log in</a> to recombine this icon or adjust its layout.';combinedStep.append(prompt);
   }
   // Editing the layout sits right under the combined icon it changes.
   // Native text pairs too, except the ones only mapped in this page (they have no combination row to render).
   if(parts.ready&&window.SideLayoutEditor&&!pair.mapped_native)combinedStep.append(SideLayoutEditor.button(pair,main,sub,data=>{
     // Show the saved layout (or, after a reset, the automatic result) here without a reload. The server
     // serves the same icon to every other page (Experiment, Preview) from now on.
-    if(data.result)sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url||null,result:data.result};
+    if(data.result)sidePreviews[pair.id]={fingerprint:data.fingerprint,url:data.url||null,result:data.result};sideRemember(pair.id,data.saved);
     sideRendered.delete(pair.id+'|'+sub.icon);
     if(card.isConnected)card.replaceWith(sideRow(row));
   },sideAdjusted(pair,sub)));
   const mainStep=sideStep('Main · 48',mainPart,shownMain?.icon),subStep=sideStep(sub?.native_text?'Sub · native':'Sub · 32',subPart,shownSub?.icon);
+  // A pair saved from the review page names the part it still waits for.
+  if(pair?.custom)for(const [role,step] of [['main',mainStep],['sub',subStep]])if(!pair[role+'s'].length&&pair[role+'_name'])step.append(node('p','side-step-name','To draw: '+pair[role+'_name']));
   const editMain=sideEditButton(row,'main',main),editSub=sideEditButton(row,'sub',sub);
   if(editMain)mainStep.append(editMain);if(editSub)subStep.append(editSub);
   steps.append(sideStep('Original',original),mainStep,subStep,combinedStep);
   card.append(steps);
+  // Change the main or sub of any pair here, with the review page's picker (side-pair-maker.js). A published
+  // pair opens with what it uses now; native text pairs keep their typeface layout.
+  if(window.SidePairMaker&&pair&&!pair.native_text&&!pair.mapped_native){
+    const redraw=()=>document.querySelector('.side-row[data-pair-id="'+CSS.escape(row.id)+'"]')?.replaceWith(sideRow(row));
+    const current=(item,family)=>{const key=item&&(item.model_key||item.key||item.family+'/'+item.icon);
+      return key?.startsWith(family+'/')?{key,icon_id:item.icon,name:item.icon.replace(/-/g,' '),preview_url:item.document?sideDataURL(item.document):item.preview_url}:null;};
+    const published=!pair.custom||!!pair.published;
+    card.append(SidePairMaker.editor({uuid:row.id,concept:row.concept,published,position:pair.position,
+      current:published&&!pair.custom?{main:current(main,'solo'),sub:current(sub,'sub')}:null},redraw,data=>sideMadeRefresh(row.id,data)));
+  }
   if(pair?.subs.length>1){
     const resolve=node('details','side-resolve');resolve.append(node('summary','',`${pair.subs.length} subs · keep one`),sidePicker(pair,sub,()=>card.replaceWith(sideRow(row))));
     resolve.open=sidePreviewSub.has(pair.id);card.append(resolve);
@@ -350,7 +431,7 @@ window.SideLayoutEditor?.configure({
     });
   },
   applied(results){
-    for(const r of results){if(!r.ok)continue;sidePreviews[r.pair_id]={fingerprint:r.fingerprint,url:r.url||null,result:r.result};for(const k of [...sideRendered.keys()])if(k.startsWith(r.pair_id+'|'))sideRendered.delete(k);}
+    for(const r of results){if(!r.ok)continue;sidePreviews[r.pair_id]={fingerprint:r.fingerprint,url:r.url||null,result:r.result};sideRemember(r.pair_id,r.saved);for(const k of [...sideRendered.keys()])if(k.startsWith(r.pair_id+'|'))sideRendered.delete(k);}
     renderCombinations();
   }
 });
@@ -449,12 +530,14 @@ let sideCombine={status:'idle',message:''},sideCombinePolling=false,sideCombineC
 function sideCombineShow(){
   const button=document.getElementById('sideCombineAll'),status=document.getElementById('sideCombineStatus');
   const count=sideCombine.eligible_count;
-  if(button){button.textContent=count==null?'Count approved side pairs…':`Combine ${count.toLocaleString()} approved side pair${count===1?'':'s'}`;button.disabled=sideCombine.status==='running'||count===0||count==null;}
-  if(status)status.textContent=sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+(count==null?' Reload to retry.':' You can retry.'):`${count==null?'Counting':count.toLocaleString()+' approved'} side pairs ready. Each run replaces the previous set`+(sideRun?` · last run ${new Date(sideRun.generated_at).toLocaleString()}: ${sideRun.count.toLocaleString()} combined icons`:'')+'.';
+  if(button){button.textContent=count==null?'Count approved side pairs…':`Combine ${count.toLocaleString()} approved side pair${count===1?'':'s'}`;button.disabled=sideCombine.status==='running'||sideCombine.status==='local'||count===0||count==null;if(sideCombine.status==='local')button.textContent='Combine all side pairs';}
+  if(status)status.textContent=sideCombine.status==='local'?sideCombine.message:sideCombine.status==='running'?(sideCombine.message||'Combining…'):sideCombine.status==='error'?sideCombine.message+(count==null?' Reload to retry.':' You can retry.'):`${count==null?'Counting':count.toLocaleString()+' approved'} side pairs ready. Each run replaces the previous set`+(sideRun?` · last run ${new Date(sideRun.generated_at).toLocaleString()}: ${sideRun.count.toLocaleString()} combined icons`:'')+'.';
 }
 async function sideCombineRequest(method){
   const init=method==='POST'?{method,headers:{'Content-Type':'application/json'},body:'{}'}:{method,cache:'no-store'};
   const response=await fetch('/api/combination-refresh',init),data=await response.json();
+  // Production blocks the combine job (403) or leaves it to the local gallery (501).
+  if([403,501].includes(response.status))return {status:'local',message:'Combine all runs on the local gallery.'};
   if(!response.ok)throw Error(data.error||'Could not combine side pairs.');return data;
 }
 async function sideCombinePoll(){

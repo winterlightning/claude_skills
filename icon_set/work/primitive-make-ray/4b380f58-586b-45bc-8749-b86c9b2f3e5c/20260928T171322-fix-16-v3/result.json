@@ -1,0 +1,46 @@
+{
+  "concept": "fish",
+  "source_uuid": "4b380f58-586b-45bc-8749-b86c9b2f3e5c",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__ichthys-fish/20260928T171322Z-thuan-mac/reference/fish_4b380f58-586b-45bc-8749-b86c9b2f3e5c.svg",
+  "icon_id": "ichthys-fish",
+  "author": "gpt-6",
+  "keyshape": "HRECT_M",
+  "module": "ichthys_fish_4b380f58_586b_45bc_8749_b86c9b2f3e5c.py",
+  "svg": "ichthys-fish.svg",
+  "comparison": "Rejected fish changes the reference to an open crossed tail and an eye dot. Restore the closed triangular tail and curved gill inside a natural horizontal fish body.",
+  "reviewer_feedback": "Manual fix request",
+  "lucide_reference": "fish",
+  "visual_review": "Inspected against original and rejected drawing, enlarged and native 48px in light/dark. Coherent contours, visible openings, directional arrangement and legibility accepted.",
+  "omissions": [],
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 14, 46, 34) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 6.0, 0.0, 6.0], tolerance 0.0)",
+    "mic [body]: body and gill are 5.76625 apart on centerlines nearest (31.2412, 16.3689)<->(30, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "ichthys-fish",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 14, 46, 34) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 6.0, 0.0, 6.0], tolerance 0.0)",
+      "mic [body]: body and gill are 5.76625 apart on centerlines nearest (31.2412, 16.3689)<->(30, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Preserve the reference slender horizontal fish body, closed triangular tail and short curved gill. Natural height is smaller than the standard horizontal keyshape; gill clearance is about 1.77px and remains visible in both themes. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+      "approved_by": "user-delegated-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "848b854abafa14b6d763da55ee7fe4fc6faf59a659f173a5a2facb93fb6fb5fd"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "production_outcome": "done",
+  "review_status": "ready",
+  "previews": [
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png"
+  ]
+}

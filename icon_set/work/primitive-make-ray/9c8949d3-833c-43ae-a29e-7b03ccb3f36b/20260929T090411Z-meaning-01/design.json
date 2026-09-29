@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_L",
+  "problem": "The thermometer has an oversized blunt column and the scale became dots.",
+  "change": "Restored a slender tube, round bulb, fluid stem and horizontal measurement ticks.",
+  "body": "curve(self,'thermometer',(12,10),((12,2),(26,2),(26,10)),((26,16),(26,22),(26,27)),((34,34),(30,44),(19,44)),((8,44),(4,34),(12,27)),((12,22),(12,16),(12,10)),closed=True)\nself.add_line('mercury',(19,17),(19,35))\nself.add_line('scale-top',(35,11),(40,11))\nself.add_line('scale-middle',(35,21),(38,21))",
+  "refs": "thermometer: narrow stem and rounded bulb",
+  "exception": "A readable liquid column needs compact spacing inside the 14-unit tube; keep the 4px line and clearly open bulb instead of deleting the measuring cue."
+}

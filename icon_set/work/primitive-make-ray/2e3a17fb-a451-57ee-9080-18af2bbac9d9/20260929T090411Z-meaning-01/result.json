@@ -1,0 +1,41 @@
+{
+  "source_uuid": "2e3a17fb-a451-57ee-9080-18af2bbac9d9",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__walking-stick-figure/20260929T090411Z-thuan-mac/reference/walking_2e3a17fb-a451-57ee-9080-18af2bbac9d9.svg",
+  "icon_id": "walking-stick-figure",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "walking-stick-figure",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (11, 2, 39, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [3.0, 0.0, 1.0, 0.0], tolerance 0.0)"
+    ],
+    "warnings": [
+      "internal-spacing [torso / back-arm]: torso-curve and back-arm-2 have 1.6409 units of ink clearance over 5.9583 units; requires 4; review required",
+      "internal-spacing [back-arm / rear-leg]: back-arm-2 and rear-leg have 1.5898 units of ink clearance over 4.9653 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "A relaxed walking pose has a narrower natural envelope than the prescribed rectangle. Preserve 4px human strokes and the exact 4px detached head gap.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "5451f174a4077c84f6edd012a2dc4f8f8e425b38702be88a8c2c6afa57cfa92e"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected at 48px and enlarged in both themes; defining features restored, smooth coherent contours and open negative space.",
+  "omissions": [],
+  "construction_reference": "human_ref/full_body_ref.png: circular outlined head and coherent round-ended torso/limbs",
+  "artifacts": [
+    "walking_stick_figure_2e3a17fb_a451_57ee_9080_18af2bbac9d9.py",
+    "walking-stick-figure.svg",
+    "walking-stick-figure.metadata.json",
+    "validation.txt",
+    "build-gate.json",
+    "review-before.md",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}

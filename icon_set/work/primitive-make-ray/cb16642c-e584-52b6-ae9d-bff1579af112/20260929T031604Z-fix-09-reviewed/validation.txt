@@ -1,0 +1,32 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 2.0, 2.0], tolerance 0.0)
+  ERROR  mic [hand-top]: parallel straight edges hand-top-3 and thumb-0 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [card]: card and portrait-head are 4 apart on centerlines nearest (18, 18)<->(18, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [card]: card and portrait-shoulders are 5 apart on centerlines nearest (6, 38)<->(11, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [card]: card and thumb are 2.12132 apart on centerlines nearest (25, 18)<->(26.5, 19.5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [portrait-head]: portrait-head and thumb are 4.07875 apart on centerlines nearest (20.8974, 24.2251)<->(24.8284, 23.1373); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "hand-holding-identity-card-solo-b001-03",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [hand-top]: parallel straight edges hand-top-3 and thumb-0 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [card]: card and portrait-head are 4 apart on centerlines nearest (18, 18)<->(18, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [card]: card and portrait-shoulders are 5 apart on centerlines nearest (6, 38)<->(11, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [card]: card and thumb are 2.12132 apart on centerlines nearest (25, 18)<->(26.5, 19.5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [portrait-head]: portrait-head and thumb are 4.07875 apart on centerlines nearest (20.8974, 24.2251)<->(24.8284, 23.1373); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [thumb]: thumb-0 and thumb-2 have 1.7579 units of ink clearance over 7.6192 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "The thumb intentionally overlaps the card; the small portrait remains legible. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "bc657b97e6d8d3412e75ab7a8949e4619e2197164c4041828d23a7d9e62c72d5"
+  },
+  "automatic_status": "fail"
+}

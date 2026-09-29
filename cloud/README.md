@@ -1,13 +1,14 @@
 # Pictographic on Cloudflare
 
 The review server's data and status move from `feedback.sqlite3` on one Mac mini to Cloudflare.
-**The cloud stores data and marks status; all graphics processing stays on local machines.**
+**The cloud stores data and marks status; graphics processing stays on local machines, except the gallery stroke editor, which runs the same Python in a Cloudflare Container (`graphics/`).**
 
 | Where | What |
 |---|---|
 | **D1** (database `pictographic-review`) | reviews, feedback, work claims, activity log, uploads, icon types/flags, primitive decisions and briefs, split briefs, sign-in sessions, the effective catalog (one row per icon) and every authored drawing (SVGs are ~450 bytes, stored inline) |
 | **R2** (bucket `pictographic-review`) | files that never change or are large: the built gallery site (`site/`), reference SVGs (`references/`), uploaded reference images (`stores/reference-images/`), `icons.json` / `primitives.json` / `combinations.json` |
 | **Worker** (`worker/`, Rust) | the same HTTP API as `icon_set/scripts/deploy.py`: same paths, JSON and errors |
+| **Graphics container** (`graphics/`, Python) | the gallery's stroke editor and artwork picks: edit geometry, validation, SVG render, run by the same `icon_set` modules as `deploy.py`, called by the Worker (service binding `GRAPHICS`) |
 | **Local** (`deploy.py --cloud-api URL`) | rendering, validation, stroke-edit geometry, QA evidence, artwork choice, discard of Python sources, generation, AI feedback, combination experiments, builds |
 
 The data model the cloud grows into (concepts, physicals, icons, revisions, releases) is in
@@ -27,6 +28,7 @@ cloud/
     migrations/        D1 schema
     tests/http/        parity tests against the Python server
     wrangler.toml
+  graphics/            Cloudflare Container: Dockerfile (+ allow-list .dockerignore), server.py, host Worker (worker.js, wrangler.jsonc)
   migrate/             Python scripts: snapshot, D1 import, catalog push, file upload, verify
 ```
 
@@ -79,6 +81,34 @@ python3 cloud/migrate/verify.py --old http://127.0.0.1:8799 --new http://127.0.0
 PICTOGRAPHIC_OLD=http://127.0.0.1:8799 PICTOGRAPHIC_NEW=http://127.0.0.1:8787 python3 -m pytest cloud/worker/tests/http -q
 ```
 
+## Graphics container
+
+`graphics/` is a second Worker, `pictographic-graphics`, that only hosts a Cloudflare Container
+(Python 3.12, cairo, OpenCV and the `icon_set` edit/validation/render modules, no authored icon
+modules). It is not public; the review Worker reaches it through its `GRAPHICS` service binding.
+It sleeps after 10 idle minutes (the first request after that waits a few seconds) and needs the
+Workers Paid plan. Deploy it first; Docker must be running and wrangler needs Node 22:
+
+```bash
+cd cloud/graphics && npm install
+npx wrangler deploy                          # builds the image (linux/amd64) from the repo root
+cd ../worker && npx wrangler d1 migrations apply pictographic-review --remote
+npx wrangler deploy
+```
+
+Redeploy it when `icon_set/model`, `validation`, `renderers` or the edit scripts change, so the cloud
+validates exactly like the build. Test the image on its own:
+
+```bash
+docker build --platform linux/amd64 -f cloud/graphics/Dockerfile -t pictographic-graphics:dev .
+docker run --rm -p 8932:8080 pictographic-graphics:dev      # POST /edit, /validate, /render, /artwork
+```
+
+Locally, run both Workers together: `npx wrangler dev -c wrangler.toml -c ../graphics/wrangler.jsonc`
+(from `cloud/worker`). Without a push token, fill `icon_graphs` from a build with
+`python3 cloud/migrate/push_catalog.py --sql /tmp/graphs.sql --graphs-only` and run each
+`/tmp/graphs-NNN.sql` with `npx wrangler d1 execute pictographic-review --remote --file ...`.
+
 ## Secrets
 
 | Name | Where | Used by |
@@ -94,9 +124,15 @@ sign in with them; put the Worker behind Cloudflare Access if that stops being a
 
 ## What differs from deploy.py
 
+* The stroke editor and Pick panel run in the cloud: `/api/stroke-edits*`, `/api/icon-artwork` and
+  `/api/icon-artwork/svg?variant=` call the graphics container for geometry, validation and rendering
+  and store the documents in D1 (`store_documents`, same keys as the local gallery). They need each
+  icon's generated geometry in D1 `icon_graphs`, which every catalog push writes. A pick updates the
+  icon's row, drawing and approval at once; because the built `icons.json` in R2 does not change, the
+  gallery applies `/api/icon-artwork/overrides` after loading it (the next catalog push bakes them in).
+  Uploaded icons' Manual Edit and Pick still run on a local gallery (`501 {"local": true}`).
 * Routes that need Python rendering or local files answer `501 {"local": true}` in the cloud and
-  run in `deploy.py --cloud-api`: `/api/icon-artwork` (JSON and save), `/api/stroke-edits*`,
-  `/api/qa-evidence*`, `/api/combinations/container/*`, the two generation queues, the
+  run in `deploy.py --cloud-api`: `/api/qa-evidence*`, `/api/combinations/container/*`, the two generation queues, the
   pending-brief zip. Development-only routes stay `403` as in production.
 * Side-pair layouts (`/api/combinations/side/layout*`, `/recombine`, `/preview`) render, so they also
   answer `501 {"local": true}`; a local gallery keeps its layouts beside its state directory and

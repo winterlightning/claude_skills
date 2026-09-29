@@ -1,0 +1,20 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4.8638, 2, 48, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.1362, 0.0, 6.0, 0.0], tolerance 0.0)
+  ERROR  mic [house]: parallel straight edges house-3 and door-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [door]: parallel straight edges door-3 and door-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [door]: parallel straight edges door-1 and house-1 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [hand]: parallel straight edges hand-9 and fold-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [fold-2]: parallel straight edges fold-2 and fold-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [fold-1]: parallel straight edges fold-1 and hand-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [hand]: parallel straight edges hand-6 and hand-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [door]: parallel straight edges door-2 and house-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [house]: house and hand are 5.45911 apart on centerlines nearest (30.0544, 20)<->(30.0544, 25.4591); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full gate: pass
+Accepted visual exception. Automatic findings are retained in automatic-gate.json.
+{
+  "reason": "The small house doorway and finger channels need 2px openings. The house is visibly detached from the fingertip and the complete wrist remains readable. Reviewed against the original and rejected drawing at 48px and enlarged size in light and dark. User explicitly delegated case-specific exceptions for UI/UX quality.",
+  "approved_by": "user-delegated-gpt-6",
+  "approved_on": "2026-09-29",
+  "svg_sha256": "ec4336c36cb8b92abaa6df2a82033d1069d5e9b55ca4cb20aab98b3157c7c076"
+}

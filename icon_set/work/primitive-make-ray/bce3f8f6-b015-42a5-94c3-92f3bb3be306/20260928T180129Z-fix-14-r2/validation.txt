@@ -1,0 +1,29 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 4, 44.0816, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 0.0816, 0.0], tolerance 0.0)
+  ERROR  mic [gem]: parallel straight edges gem-2 and facet are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [gem]: gem and hand are 4.83 apart on centerlines nearest (12.8106, 21.1894)<->(16.2259, 24.6047); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Accepted drawing-bound visual exception; automatic findings retained.
+{
+  "icon_id": "hand-reaching-for-diamond",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 4, 44.0816, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 0.0816, 0.0], tolerance 0.0)",
+    "mic [gem]: parallel straight edges gem-2 and facet are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [gem]: gem and hand are 4.83 apart on centerlines nearest (12.8106, 21.1894)<->(16.2259, 24.6047); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [gem / facet]: gem-2 and facet have 3 units of ink clearance over 8 units; requires 4; review required",
+    "internal-spacing [hand]: hand and hand have 0.9236 units of ink clearance over 13.165 units; requires 4; review required",
+    "internal-spacing [hand]: hand and hand have 1.039 units of ink clearance over 8.4197 units; requires 4; review required",
+    "internal-spacing [hand]: hand and hand have 1.7613 units of ink clearance over 7.0454 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve the flat-topped faceted gem and a rounded hand reaching around it. Small gem facets and the compact hand contour are intentional.",
+    "approved_by": "user-authorized-agent-visual-review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "4d4085cdcea6c8509bc03dee8252d68cf9c36030ea3c899ddb7d0cdf1c07ec0a"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,20 @@
+{
+  "icon_id": "bitcoin-cryptocurrency-symbol-solo",
+  "status": "pass",
+  "errors": [
+    "mic [pin-11]: parallel straight edges pin-11 and spine-1, spine-2, spine-3, spine-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pin-31]: parallel straight edges pin-31 and spine-1, spine-2, spine-3, spine-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [coin]: coin and spine are 6.07142 apart on centerlines nearest (16.8497, 5.32211)<->(19, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [spine / pin-11]: spine-1 and pin-11 have 2 units of ink clearance over 3 units; requires 4; review required",
+    "internal-spacing [spine / pin-31]: spine-4 and pin-31 have 2 units of ink clearance over 3 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve both projecting Bitcoin bars inside the coin. Two-bar separation is 2px of ink clearance and the coin remains visually separate. Reviewed at native 48px in both themes.",
+    "approved_by": "user-delegated-gpt-6",
+    "approved_on": "2026-09-28",
+    "svg_sha256": "48366b928108b1ac4b450a1b0443a35c83f68e3c662b2e4095de04c7bd021be8"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,54 @@
+{
+  "concept": "weather clouds rainbow",
+  "source_uuid": "41049662-f336-4650-9604-e8d4818347cc",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__rainbow-between-clouds/20260929T042221Z-thuan-mac/reference/weather clouds rainbow_41049662-f336-4650-9604-e8d4818347cc.svg",
+  "icon_id": "rainbow-between-clouds",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected rainbow had two bands and heavy cloud junctions. Feedback asks to restore its intended meaning.",
+  "plan": "Three concentric-looking upper bands separated from two mirrored cloud ends; preserve all three bands and airy source composition.",
+  "author": "gpt-6",
+  "module": "rainbow_between_clouds_41049662_f336_4650_9604_e8d4818347cc.py",
+  "svg": "rainbow-between-clouds.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "rainbow-between-clouds",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 6, 46, 45) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 0.0, 0.0, 3.0], tolerance 0.0)",
+      "mic [outer]: outer and middle are 6.99989 apart on centerlines nearest (23.9613, 8.00021)<->(24, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [outer]: outer and left-cloud are 6.8363 apart on centerlines nearest (4, 26)<->(5.05389, 32.7546); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [outer]: outer and right-cloud are 6.8363 apart on centerlines nearest (44, 26)<->(42.9461, 32.7546); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [middle]: middle and inner are 6.99955 apart on centerlines nearest (24.0793, 15.0009)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [middle]: middle and left-cloud are 6.42532 apart on centerlines nearest (11, 27)<->(8.92644, 33.0815); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [middle]: middle and right-cloud are 6.42532 apart on centerlines nearest (37, 27)<->(39.0736, 33.0815); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Three bands keep at least approximately 2px visible gaps while retaining 4px strokes. Natural cloud placement slightly exceeds the selected vertical envelope but stays inside 48px; authorized visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "b75876b7d5fce5a8672235520a5a7e52fd3381b9bd8934e86f58c5f6e1232928"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "Cloud ends remain open as in source.",
+  "construction_references": "Lucide rainbow: nested semicircular bands; reference defines opposing open cloud ends.",
+  "keyshape": "HRECT_L",
+  "keyshape_rationale": "Side-by-side subject or rainbow needs horizontal room.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "rainbow-between-clouds.metadata.json",
+    "rainbow-between-clouds.svg",
+    "rainbow_between_clouds_41049662_f336_4650_9604_e8d4818347cc.py",
+    "reference.png",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

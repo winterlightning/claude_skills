@@ -1,0 +1,18 @@
+{
+  "icon_id": "ribbon-gymnast-running",
+  "status": "pass",
+  "errors": [
+    "mic [head]: head and ribbon are 6.70482 apart on centerlines nearest (24.2923, 9.31555)<->(18, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [arm-front / leg-front]: arm-front-1 and leg-front-1 have 2.5015 units of ink clearance over 8.9231 units; requires 4; review required",
+    "internal-spacing [arm-back / leg-front]: arm-back-1 and leg-front-1 have 3.5297 units of ink clearance over 2.2308 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Retain running limbs and a flowing ribbon. The head/torso gap is analytically exactly 4 px; local limb and ribbon clearances retain the action at native size.",
+    "approved_by": "user-authorized gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "4897907c068790057de2cc896ddc44ad766b9d12a8bef3b49a57f9c1e46a33fc"
+  },
+  "automatic_status": "fail"
+}

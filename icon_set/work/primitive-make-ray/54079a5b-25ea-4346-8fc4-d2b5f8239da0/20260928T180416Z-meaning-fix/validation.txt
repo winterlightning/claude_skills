@@ -1,0 +1,28 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 4.0, 1.0, 4.0], tolerance 0.0)
+  ERROR  mic [parcel]: parallel straight edges parcel-4 and scooter-1 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [steering]: steering and scooter are 0.0877058 apart on centerlines nearest (39.0846, 27.9769)<->(39, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [steering]: steering and wheel-front are 1 apart on centerlines nearest (41, 35)<->(41, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [parcel]: parcel and scooter are 3 apart on centerlines nearest (13, 28)<->(13, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [scooter]: scooter and wheel-back are 4.60249 apart on centerlines nearest (4, 35)<->(7.73012, 37.6961); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [scooter]: scooter and wheel-front are 0.242641 apart on centerlines nearest (38, 37)<->(38.1716, 37.1716); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [head]: head and cap-brim are 0 apart on centerlines nearest (29.8727, 7)<->(29.8727, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+{
+  "icon_id": "capped-delivery-rider-on-scooter",
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [0.0, 4.0, 1.0, 4.0], tolerance 0.0)",
+    "mic [parcel]: parallel straight edges parcel-4 and scooter-1 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [steering]: steering and scooter are 0.0877058 apart on centerlines nearest (39.0846, 27.9769)<->(39, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [steering]: steering and wheel-front are 1 apart on centerlines nearest (41, 35)<->(41, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [parcel]: parcel and scooter are 3 apart on centerlines nearest (13, 28)<->(13, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [scooter]: scooter and wheel-back are 4.60249 apart on centerlines nearest (4, 35)<->(7.73012, 37.6961); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [scooter]: scooter and wheel-front are 0.242641 apart on centerlines nearest (38, 37)<->(38.1716, 37.1716); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 4 undersized holes; 2 pinches"
+  ],
+  "warnings": [
+    "mic [head]: head and cap-brim are 0 apart on centerlines nearest (29.8727, 7)<->(29.8727, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [arm / leg]: arm-1 and leg-1 have 2.8692 units of ink clearance over 5.4659 units; requires 4; review required"
+  ]
+}

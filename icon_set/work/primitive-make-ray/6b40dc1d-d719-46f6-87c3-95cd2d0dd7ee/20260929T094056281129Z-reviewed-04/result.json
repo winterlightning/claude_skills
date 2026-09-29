@@ -1,0 +1,77 @@
+{
+  "source_uuid": "6b40dc1d-d719-46f6-87c3-95cd2d0dd7ee",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__standing-person-writing-at-desk/20260929T093049Z-thuan-mac/reference/desk document base work standing user_6b40dc1d-d719-46f6-87c3-95cd2d0dd7ee.svg",
+  "icon_id": "standing-person-writing-at-desk",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [writer]: parallel straight edges writer-1 and writer-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [writer]: parallel straight edges writer-7 and writer-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [paper]: parallel straight edges paper and desk-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [writer]: parallel straight edges writer-5 and desk-2 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [writer]: writer and desk are 2 apart on centerlines nearest (24, 32)<->(24, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [writer]: writer and pen are 2.65945 apart on centerlines nearest (21.4268, 27.4577)<->(19.1464, 26.0894); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [desk]: desk and paper are 6 apart on centerlines nearest (8, 34)<->(8, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "standing-person-writing-at-desk",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 0.0, 2.0], tolerance 0.0)",
+      "mic [writer]: parallel straight edges writer-1 and writer-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [writer]: parallel straight edges writer-7 and writer-5 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [paper]: parallel straight edges paper and desk-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [writer]: parallel straight edges writer-5 and desk-2 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [writer]: writer and desk are 2 apart on centerlines nearest (24, 32)<->(24, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [writer]: writer and pen are 2.65945 apart on centerlines nearest (21.4268, 27.4577)<->(19.1464, 26.0894); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [desk]: desk and paper are 6 apart on centerlines nearest (8, 34)<->(8, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [writer]: writer-1 and writer-3 have 2 units of ink clearance over 11 units; requires 4; review required",
+      "internal-spacing [writer]: writer-5 and writer-7 have 2 units of ink clearance over 5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "A continuous upright body, writing pen and open-legged desk restore the action. Compact forearm, hand/pen/paper contacts and the natural scene envelope are visually accepted; head-to-shoulder ink gap remains exactly 4 units.",
+      "approved_by": "user-authorized visual review by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "f2ea66a1f84afb3577824f3f798232b8075206a6aca79c6bfd05841ad9e9a789"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "status": "reviewed",
+    "sizes": [
+      48,
+      144,
+      384
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "comparison": "The person appears to walk beside a box, with floating bars and no clear writing surface.",
+    "feedback": "Does not convey the intended meaning",
+    "changes": "Restore a stationary standing body, bent writing arm, pen, paper and open-legged desk.",
+    "findings": "A continuous upright body, writing pen and open-legged desk restore the action. Compact forearm, hand/pen/paper contacts and the natural scene envelope are visually accepted; head-to-shoulder ink gap remains exactly 4 units."
+  },
+  "omissions": "Floating source document marks replaced by a paper stroke on the work surface. Upright leg and hand-to-pen relationship carry the action.",
+  "keyshape": "SQUARE",
+  "construction_references": "human_ref/full_body_ref.png; Lucide file-pen-line",
+  "artifacts": [
+    "build-gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "standing-person-writing-at-desk.metadata.json",
+    "standing-person-writing-at-desk.svg",
+    "standing_person_writing_at_desk_6b40dc1d_d719_46f6_87c3_95cd2d0dd7ee.py",
+    "validation.txt"
+  ]
+}

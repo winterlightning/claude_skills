@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "The wheelchair body and arm merged into a heavy block and the flag looked like a rectangular loop.",
+  "change": "Separated the seated figure from its wheel and restored an outstretched hand holding a gently waving flag.",
+  "body": "# Shared human reference: circular r5 head and exact 4px gap at torso junction y23.\ncircle(self,'head',17,10,5)\nself.add_line('torso',(17,23),(17,31))\nself.add_polyline('leg',(17,31),(28,31),(37,43))\nself.add_line('arm',(17,23),(34,23))\nself.relate('connect','torso','leg','arm')\ncurve(self,'wheel',(9,25),((2,28),(3,39),(10,43)),((17,47),(27,42),(27,35)))\nself.add_line('flagpole',(34,4),(34,27))\ncurve(self,'flag',(34,4),((38,7),(41,1),(44,4)),((44,7),(44,11),(44,14)),((40,11),(38,17),(34,14)))\nself.relate('connect','flagpole','flag');self.relate('connect','flagpole','arm')\nself.mark_human_figure('person',head='head',torso='torso',torso_junction='start')",
+  "refs": "human_ref/full_body_ref.png: head/torso proportions; accessibility: open rear wheel and seated leg",
+  "exception": "Retain a seated person, separate visible wheel and waving flag in one 48px scene. Compact wheel/body spacing is visually clear; the detached head gap stays exactly 4px."
+}

@@ -1,0 +1,42 @@
+"""Fresh primitive-make-ray runs for the twenty explicitly claimed references.
+Each generated module records its own SOURCE_ICON_ID, SOURCE_PATH and AUTHOR.
+"""
+from pathlib import Path
+import json, sys, textwrap, io
+from datetime import datetime, timezone
+import cairosvg
+from PIL import Image, ImageDraw
+
+ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parents[2]
+sys.path.insert(0, str(REPO))
+from icon_set.scripts.primitive_fix import load_icon, render_previews
+from icon_set.scripts.build_gate import gate
+
+HELPERS = '''
+    def path(self, name, start, steps, closed=False):
+        members = []
+        here = start
+        for i, step in enumerate(steps):
+            member = f"{name}-{i}"
+            if step[0] == "L":
+                self.add_line(member, here, step[1])
+            else:
+                self.add_arc(member, here, step[1], radius_x=step[2], radius_y=step[3], sweep=step[4])
+            here = step[1]
+            members.append(member)
+        self.add_contour(name, *members, closed=closed)
+
+    def circle(self, name, x, y, r):
+        self.path(name, (x-r,y), [("A",(x+r,y),r,r,True),("A",(x-r,y),r,r,True)], True)
+
+    def oval(self, name, x, y, rx, ry):
+        self.path(name, (x-rx,y), [("A",(x+rx,y),rx,ry,True),("A",(x-rx,y),rx,ry,True)], True)
+
+    def poly(self, name, *points, closed=False):
+        self.add_polyline(name, *points, closed=closed)
+
+    def line(self, name, a, b):
+        self.add_line(name, a, b)
+'''
+

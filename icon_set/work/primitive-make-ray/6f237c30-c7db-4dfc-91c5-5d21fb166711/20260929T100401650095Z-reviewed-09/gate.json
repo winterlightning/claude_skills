@@ -1,0 +1,33 @@
+{
+  "icon_id": "memory-module-with-notch",
+  "status": "pass",
+  "errors": [
+    "mic [board]: parallel straight edges board-0 and chip-0-4 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [board]: parallel straight edges board-2 and chip-1-4 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-0]: parallel straight edges chip-0-4 and chip-0-2 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-1]: parallel straight edges chip-1-4 and chip-1-2 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-0]: parallel straight edges chip-0-2 and board-4 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-1]: parallel straight edges chip-1-2 and board-4 are 6.36396 apart on centerlines (ink gap 2.36396); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [board]: parallel straight edges board-3 and chip-1-1 are 4.94975 apart on centerlines (ink gap 0.949747); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-1]: parallel straight edges chip-1-1 and chip-1-3 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-1]: parallel straight edges chip-1-3 and chip-0-1 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-0]: parallel straight edges chip-0-1 and chip-0-3 are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [chip-0]: parallel straight edges chip-0-3 and board-5 are 4.94975 apart on centerlines (ink gap 0.949747); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [board]: board and chip-0 are 4.94975 apart on centerlines nearest (15.5, 37.5)<->(19, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [board]: board and chip-1 are 4.39839 apart on centerlines nearest (20.6056, 16.2029)<->(24, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [chip-0]: chip-0 and chip-1 are 7.07107 apart on centerlines nearest (24, 29)<->(29, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [chip-0]: chip-0-1 and chip-0-3 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required",
+    "internal-spacing [chip-0]: chip-0-2 and chip-0-4 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required",
+    "internal-spacing [chip-1]: chip-1-1 and chip-1-3 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required",
+    "internal-spacing [chip-1]: chip-1-2 and chip-1-4 have 3.0711 units of ink clearance over 6.0957 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "The diagonal RAM requires two separate outlined chips and an inset side notch. Native review confirms the chip openings and board gaps remain visible; compact diagonal clearances are retained.",
+    "approved_by": "user-authorized-agent-review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "f851fd1581e2db22e92b446de785e3bc578bb9bc0870d665a16be615f2bc54af"
+  },
+  "automatic_status": "fail"
+}

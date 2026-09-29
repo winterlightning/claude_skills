@@ -1,0 +1,11 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (0, 2, 48, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [4.0, 2.0, 4.0, 2.0], tolerance 0.0)
+  ERROR  mic [triangle]: triangle and eye are 5.11244 apart on centerlines nearest (10.7615, 28.07)<->(15.2411, 30.5338); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [eye]: eye and pupil are 5.64089 apart on centerlines nearest (23.9507, 25.3593)<->(24, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+build gate: pass
+  canvas/keyshape bounds: visible ink (0, 2, 48, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [4.0, 2.0, 4.0, 2.0], tolerance 0.0)
+  mic [triangle]: triangle and eye are 5.11244 apart on centerlines nearest (10.7615, 28.07)<->(15.2411, 30.5338); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  mic [eye]: eye and pupil are 5.64089 apart on centerlines nearest (23.9507, 25.3593)<->(24, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+Accepted drawing-bound visual exception; automatic findings retained.
+{"reason": "A complete almond eye inside a triangle requires compact spacing. The pupil is solid rather than outlined so the eye remains open; both eyelids are visibly separated from the triangle. Reviewed against the original and rejected drawing at 48px and enlarged size in light and dark. User explicitly delegated case-specific exceptions for UI/UX quality.", "approved_by": "user-delegated-gpt-6", "approved_on": "2026-09-29", "svg_sha256": "e0d4bb0a463cdcbefe714043072503c665cdc3498e8340f7a2923efe65756f5b"}

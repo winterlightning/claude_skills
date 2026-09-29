@@ -281,10 +281,15 @@ pub async fn get_uploaded(ctx: &Ctx) -> Result<Response> {
 /// GET /api/icon-artwork/svg: the current drawing, stored inline in D1.
 pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
     let key = ctx.param("icon").unwrap_or("");
-    if ctx.param("variant").is_some() {
-        return http::error(400, "Artwork variants are rendered by the local gallery.");
+    if let Some(variant) = ctx.param("variant") {
+        let variant = variant.to_string();
+        return super::edits::get_artwork_variant(ctx, &variant).await;
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Icon not found.") };
+    // A picked version (browser edit or manual SVG) is what the gallery shows, before a worker's fix.
+    if let Some(response) = super::edits::picked_drawing(ctx, &icon).await? {
+        return Ok(response);
+    }
     #[derive(Deserialize)]
     struct Row { svg: String }
     let row: Option<Row> = if icon.uploaded {

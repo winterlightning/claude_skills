@@ -1,0 +1,72 @@
+{
+  "concept": "google maps logo",
+  "source_uuid": "fa153f72-36bd-4f55-b299-fbbd01a43d85",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__google-maps-logo/20260928T173023Z-thuan-mac/reference/google maps logo_fa153f72-36bd-4f55-b299-fbbd01a43d85.svg",
+  "icon_id": "google-maps-logo",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "google-maps-logo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (7, 2, 41, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.0, 0.0, 1.0, 0.0], tolerance 0.0)"
+    ],
+    "warnings": [
+      "internal-spacing [pin / inner-fold]: pin-3 and inner-fold-0 have 1.0439 units of ink clearance over 8.0339 units; requires 4; review required",
+      "internal-spacing [pin / inner-fold]: pin-3 and inner-fold-1 have 1.4249 units of ink clearance over 2.485 units; requires 4; review required",
+      "internal-spacing [pin / inner-fold]: pin-4 and inner-fold-1 have 2.1263 units of ink clearance over 6.2126 units; requires 4; review required",
+      "internal-spacing [stripe / inner-fold]: stripe-1 and inner-fold-1 have 1.1673 units of ink clearance over 10.75 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The reference pin and diagonal ribbon retain their asymmetric proportions and compact internal fold. The widened inner fold has visible negative space at native size; the narrower-than-keyshape silhouette follows the source.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "229127dc54c477cb69289852b16e22ed0bbfb1a7a67222d88eda83f2288589c8"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "google-maps-logo",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (7, 2, 41, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.0, 0.0, 1.0, 0.0], tolerance 0.0)"
+    ],
+    "warnings": [
+      "internal-spacing [pin / inner-fold]: pin-3 and inner-fold-0 have 1.0439 units of ink clearance over 8.0339 units; requires 4; review required",
+      "internal-spacing [pin / inner-fold]: pin-3 and inner-fold-1 have 1.4249 units of ink clearance over 2.485 units; requires 4; review required",
+      "internal-spacing [pin / inner-fold]: pin-4 and inner-fold-1 have 2.1263 units of ink clearance over 6.2126 units; requires 4; review required",
+      "internal-spacing [stripe / inner-fold]: stripe-1 and inner-fold-1 have 1.1673 units of ink clearance over 10.75 units; requires 4; review required"
+    ]
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "The pin had an angular tip and blunt stripe junctions.",
+    "feedback": "Bad stroke drawn",
+    "changes": "Restored a rounded tapered pin with exact stripe/fold attachment nodes and a smooth inner bend.",
+    "construction_reference": "Lucide map-pin",
+    "omissions": "None",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "before.png",
+    "preview-dark-384.png",
+    "accepted-gate.json",
+    "preview-dark-48.png",
+    "original.png",
+    "google-maps-logo.metadata.json",
+    "google-maps-logo.svg",
+    "preview-light-384.png",
+    "validation.txt",
+    "google_maps_logo_fa153f72_36bd_4f55_b299_fbbd01a43d85.py",
+    "automatic-gate.json",
+    "review.json",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

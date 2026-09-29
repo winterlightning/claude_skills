@@ -1,0 +1,19 @@
+{
+  "icon_id": "vibrating-mobile-device-solo-b004-14",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [right-vibration]: parallel straight edges right-vibration and phone-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [phone]: parallel straight edges phone-6 and left-vibration are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [phone]: phone and left-vibration are 6 apart on centerlines nearest (10, 12)<->(4, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and right-vibration are 6 apart on centerlines nearest (38, 12)<->(44, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Preserve the wider portrait phone and two detached vibration strokes. Each side has a readable 2px visible gap; the overall 44px square ink envelope remains inset within the 48px canvas. User explicitly delegated exception decisions for UI/UX quality; reviewed at 48px in light and dark.",
+    "approved_by": "user-delegated-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "f70c0cb9033dbeb88325c30d73bd76e6e4b25aded46fae84df7c7980f3f4d7e9"
+  },
+  "automatic_status": "fail"
+}

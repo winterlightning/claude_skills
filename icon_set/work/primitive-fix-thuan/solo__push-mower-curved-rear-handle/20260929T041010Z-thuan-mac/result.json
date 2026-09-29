@@ -1,0 +1,68 @@
+{
+  "source_key": "solo/push-mower-curved-rear-handle",
+  "icon_id": "push-mower-curved-rear-handle",
+  "svg_sha256": "735f987ada7db2d698e1df9392bd5551a0b6a46607818c327a298dd38550aa62",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Rejected disconnected wheel struts and engine outline read as a cart. Restore a continuous mower deck, underbody and engine, keeping the reference handle direction. Accepted drawing-bound visual exception under user authorization; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/97d53883-97d6-579b-899c-cd9c89b29294/20260929T041010Z-fix-16-reviewed",
+  "module": "icon_set/work/primitive-make-ray/97d53883-97d6-579b-899c-cd9c89b29294/20260929T041010Z-fix-16-reviewed/push_mower_curved_rear_handle_97d53883_97d6_579b_899c_cd9c89b29294.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [rear-wheel]: rear-wheel and handle are 5.04569 apart on centerlines nearest (11.5671, 28.0271)<->(12, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [engine]: engine and handle are 7 apart on centerlines nearest (19, 23)<->(12, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/push_mower_curved_rear_handle_97d53883_97d6_579b_899c_cd9c89b29294.py",
+    "validation.txt",
+    "after/push-mower-curved-rear-handle.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T04:20:04.267198+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "push-mower-curved-rear-handle",
+    "status": "pass",
+    "errors": [
+      "mic [rear-wheel]: rear-wheel and handle are 5.04569 apart on centerlines nearest (11.5671, 28.0271)<->(12, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [engine]: engine and handle are 7 apart on centerlines nearest (19, 23)<->(12, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [rear-wheel / deck]: rear-wheela and deck-1 have 0.6061 units of ink clearance over 4.8639 units; requires 4; review required",
+      "internal-spacing [rear-wheel / deck]: rear-wheela and deck-2 have 1.1826 units of ink clearance over 6.4384 units; requires 4; review required",
+      "internal-spacing [front-wheel / deck]: front-wheela and deck-3 have -2.4957 units of ink clearance over 7.2385 units; requires 4; review required",
+      "internal-spacing [engine / handle]: engine-0 and handle-0 have 3.2128 units of ink clearance over 2.4904 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve the curved rear handle, sloped mower deck and engine. Wheels touch the deck naturally; compact handle/engine spacing remains readable.",
+      "approved_by": "user-authorized gpt-6 visual review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "2d1f1f0170062fea595e62706567e8716abca9103423db6b355ee5cf9ffec1a4"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T04:20:03.668000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__push-mower-curved-rear-handle/20260929T041010Z-thuan-mac/after/push_mower_curved_rear_handle_97d53883_97d6_579b_899c_cd9c89b29294.py",
+    "note": "Rejected disconnected wheel struts and engine outline read as a cart. Restore a continuous mower deck, underbody and engine, keeping the reference handle direction. Accepted drawing-bound visual exception under user authorization; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Rejected disconnected wheel struts and engine outline read as a cart. Restore a continuous mower deck, underbody and engine, keeping the reference handle direction. Accepted drawing-bound visual exception under user authorization; automatic findings retained.",
+    "claimed_at": "2026-09-29T04:10:08.884000+00:00",
+    "updated_at": "2026-09-29T04:20:04.248000+00:00",
+    "svg_sha256": "735f987ada7db2d698e1df9392bd5551a0b6a46607818c327a298dd38550aa62"
+  },
+  "review_status": "ready"
+}

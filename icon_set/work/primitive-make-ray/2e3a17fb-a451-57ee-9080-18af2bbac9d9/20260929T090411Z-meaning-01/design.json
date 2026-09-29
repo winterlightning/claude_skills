@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_M",
+  "problem": "The rejected figure has a tiny head and an exaggerated wide stride; its straight angular arms read as running.",
+  "change": "Restored a proportionate circular head, gently leaning torso, relaxed opposite arm swing and natural walking step.",
+  "body": "# Human reference: full_body_ref.png. Head r5; junction (27,22): 22-(9+5)=8 centerline, 4 ink.\ncircle(self,'head',27,9,5)\ncurve(self,'torso',(27,22),((27,27),(23,29),(23,32)))\nself.add_polyline('back-arm',(27,22),(20,25),(15,33))\nself.add_polyline('front-arm',(27,22),(32,28),(37,31))\nself.add_line('rear-leg',(23,32),(13,44))\nself.add_polyline('front-leg',(23,32),(31,43),(35,43))\nfor part in ('back-arm','front-arm','rear-leg','front-leg'):self.relate('connect','torso',part)\nself.relate('connect','back-arm','front-arm');self.relate('connect','rear-leg','front-leg')\nself.mark_human_figure('person',head='head',torso='torso-curve',torso_junction='start')",
+  "refs": "human_ref/full_body_ref.png: circular outlined head and coherent round-ended torso/limbs",
+  "exception": "A relaxed walking pose has a narrower natural envelope than the prescribed rectangle. Preserve 4px human strokes and the exact 4px detached head gap."
+}

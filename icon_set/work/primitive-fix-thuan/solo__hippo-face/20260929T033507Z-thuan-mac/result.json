@@ -1,0 +1,77 @@
+{
+  "source_key": "solo/hippo-face",
+  "icon_id": "hippo-face",
+  "svg_sha256": "1419824c5311f36529b8b3bc63a287a77521368edb80b344b96b6d300f64e6ab",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore round ears, domed head, wide rounded muzzle, separate eyes and nostrils. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/fa6b0258-1bc2-51ef-819c-45e3b36a42d4/20260929T033859840850Z-meaning-fix",
+  "module": "icon_set/work/primitive-make-ray/fa6b0258-1bc2-51ef-819c-45e3b36a42d4/20260929T033859840850Z-meaning-fix/hippo_face_fa6b0258_1bc2_51ef_819c_45e3b36a42d4.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (3, 2, 45, 45.5119) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [3.0, 0.0, 3.0, 0.4881], tolerance 0.0)",
+    "mic [ear-left]: ear-left and head are 1.32415 apart on centerlines nearest (13.0762, 12.9417)<->(13.8949, 13.9824); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [ear-right]: ear-right and head are 1.32415 apart on centerlines nearest (34.9238, 12.9417)<->(34.1051, 13.9824); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [head]: head and eye-17 are 6.51002 apart on centerlines nearest (11.8946, 15.9607)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [head]: head and eye-31 are 6.51002 apart on centerlines nearest (36.1054, 15.9607)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [muzzle]: muzzle and eye-17 are 4.86375 apart on centerlines nearest (17.3453, 24.8515)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [muzzle]: muzzle and eye-31 are 4.86375 apart on centerlines nearest (30.6547, 24.8515)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [head]: head and muzzle are 0 apart on centerlines nearest (9.71426, 26.7484)<->(9.71426, 26.7484); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/hippo_face_fa6b0258_1bc2_51ef_819c_45e3b36a42d4.py",
+    "validation.txt",
+    "after/hippo-face.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T03:47:32.785299+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "hippo-face",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (3, 2, 45, 45.5119) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [3.0, 0.0, 3.0, 0.4881], tolerance 0.0)",
+      "mic [ear-left]: ear-left and head are 1.32415 apart on centerlines nearest (13.0762, 12.9417)<->(13.8949, 13.9824); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [ear-right]: ear-right and head are 1.32415 apart on centerlines nearest (34.9238, 12.9417)<->(34.1051, 13.9824); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [head]: head and eye-17 are 6.51002 apart on centerlines nearest (11.8946, 15.9607)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [head]: head and eye-31 are 6.51002 apart on centerlines nearest (36.1054, 15.9607)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [muzzle]: muzzle and eye-17 are 4.86375 apart on centerlines nearest (17.3453, 24.8515)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [muzzle]: muzzle and eye-31 are 4.86375 apart on centerlines nearest (30.6547, 24.8515)<->(31, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [head]: head and muzzle are 0 apart on centerlines nearest (9.71426, 26.7484)<->(9.71426, 26.7484); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "The ears, eyes, broad muzzle and nostrils need compact facial spacing to retain a recognizable hippo. Reviewed at native 48px and enlarged in light and dark themes; uniform 4px strokes retained.",
+      "approved_by": "user (delegated visual exception approval in this request)",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "d372e3a561ddea4e6b18a48098edd9cb75f13e7e1743b804d23e2c2d0a71860d"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T03:47:32.267000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__hippo-face/20260929T033507Z-thuan-mac/after/hippo_face_fa6b0258_1bc2_51ef_819c_45e3b36a42d4.py",
+    "note": "Restore round ears, domed head, wide rounded muzzle, separate eyes and nostrils. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore round ears, domed head, wide rounded muzzle, separate eyes and nostrils. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T03:35:03.127000+00:00",
+    "updated_at": "2026-09-29T03:47:32.664000+00:00",
+    "svg_sha256": "1419824c5311f36529b8b3bc63a287a77521368edb80b344b96b6d300f64e6ab"
+  },
+  "review_status": "ready"
+}

@@ -1,0 +1,38 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4.70711, 4, 42, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.2929, 2.0, 0.0, 0.0], tolerance 0.0)
+  ERROR  mic [outline]: parallel straight edges outline-2 and finger-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [finger-0]: parallel straight edges finger-0 and finger-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [outline]: parallel straight edges outline-4 and finger-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [finger-1]: parallel straight edges finger-1 and finger-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [outline]: parallel straight edges outline-6 and finger-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+
+Build gate: pass (drawing-bound visual exception)
+Automatic gate: fail
+{
+  "icon_id": "hand-pointing-down-batch-024-04",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4.70711, 4, 42, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [1.2929, 2.0, 0.0, 0.0], tolerance 0.0)",
+    "mic [outline]: parallel straight edges outline-2 and finger-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [finger-0]: parallel straight edges finger-0 and finger-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [outline]: parallel straight edges outline-4 and finger-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [finger-1]: parallel straight edges finger-1 and finger-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [outline]: parallel straight edges outline-6 and finger-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "warnings": [
+    "internal-spacing [outline / finger-0]: outline-2 and finger-0 have 2 units of ink clearance over 4 units; requires 4; review required",
+    "internal-spacing [outline]: outline-3 and outline-5 have 1.8168 units of ink clearance over 2.7274 units; requires 4; review required",
+    "internal-spacing [outline]: outline-3 and outline-6 have 2.3774 units of ink clearance over 2 units; requires 4; review required",
+    "internal-spacing [outline]: outline-5 and outline-7 have 2.1562 units of ink clearance over 3.2233 units; requires 4; review required",
+    "internal-spacing [outline / finger-2]: outline-6 and finger-2 have 2 units of ink clearance over 2 units; requires 4; review required",
+    "internal-spacing [outline]: outline-11 and outline-13 have 1.7593 units of ink clearance over 3.2415 units; requires 4; review required",
+    "internal-spacing [finger-0 / finger-1]: finger-0 and finger-1 have 2 units of ink clearance over 2 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "The curled finger divisions are tighter than the general spacing rule but preserve a familiar pointing-hand silhouette. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+    "approved_by": "user-authorized-agent-gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "c9b423f1b3588418ea8a9e4e8e20a980aa5b5edf589575ef3bfcc7dbcf29c8ea"
+  },
+  "automatic_status": "fail"
+}

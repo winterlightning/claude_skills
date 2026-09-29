@@ -1,0 +1,62 @@
+{
+  "key": "solo/bunny-holding-easter-egg",
+  "id": "bunny-holding-easter-egg",
+  "fix": "icon_set/work/primitive-fix-thuan/solo__bunny-holding-easter-egg/20260928T175901Z-thuan-mac",
+  "reference": "icon_set/work/primitive-fix-thuan/solo__bunny-holding-easter-egg/20260928T175901Z-thuan-mac/reference/easter egg bunny_606ec34e-20d1-525e-a765-4f3fca8d3c47.svg",
+  "before": "icon_set/work/primitive-fix-thuan/solo__bunny-holding-easter-egg/20260928T175901Z-thuan-mac/before/bunny-holding-easter-egg.svg",
+  "feedback": "Does not convey the intended meaning\n\nBunny",
+  "concept": "easter egg bunny",
+  "source_uuid": "606ec34e-20d1-525e-a765-4f3fca8d3c47",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__bunny-holding-easter-egg/20260928T175901Z-thuan-mac/reference/easter egg bunny_606ec34e-20d1-525e-a765-4f3fca8d3c47.svg",
+  "result_dir": "icon_set/work/primitive-make-ray/606ec34e-20d1-525e-a765-4f3fca8d3c47/20260928T180739Z-meaning-fix",
+  "problem": "The rabbit was squared off like a letter H, with only one eye and no recognizable face or holding paw.",
+  "change": "Restore a rounded rabbit face, two outward ears, paired eyes, a small nose and a paw holding an egg.",
+  "construction_reference": "rabbit",
+  "keyshape": "VRECT_L",
+  "author": "gpt-6",
+  "module": "icon_set/work/primitive-make-ray/606ec34e-20d1-525e-a765-4f3fca8d3c47/20260928T180739Z-meaning-fix/bunny_holding_easter_egg_606ec34e_20d1_525e_a765_4f3fca8d3c47.py",
+  "validation_status": "invalid",
+  "release_status": "pass-exception",
+  "build_gate": {
+    "icon_id": "bunny-holding-easter-egg",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2.53182, 3, 44, 46.4958) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [3.4682, 1.0, 2.0, 0.4958], tolerance 0.0)",
+      "mic [rabbit]: rabbit and eye-left are 6.91682 apart on centerlines nearest (7.82505, 21.8835)<->(14, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [cheek]: cheek and nose are 6.16232 apart on centerlines nearest (20.8503, 35.878)<->(19, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [rabbit]: rabbit and egg-upper are 1 apart on centerlines nearest (35, 26)<->(35, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [cheek]: cheek and paw are 3.04306 apart on centerlines nearest (20.2233, 36.0577)<->(21, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-left]: eye-left and nose are 7.07107 apart on centerlines nearest (14, 25)<->(19, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-right]: eye-right and nose are 7.81025 apart on centerlines nearest (25, 25)<->(19, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [eye-right]: eye-right and egg-upper are 7.29969 apart on centerlines nearest (25, 25)<->(30.6457, 29.6273); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [egg-upper]: egg-upper and paw are 0.72471 apart on centerlines nearest (29, 42)<->(28.6429, 41.3693); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [paw]: paw-0 and paw-2 have 0.0067 units of ink clearance over 3.163 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The complete rabbit face, outward ears, holding paw and egg need compact facial and attached-part spacing. The paired eyes, nose and egg opening remain visible at 48px. Visually reviewed at native 48px in light and dark themes by gpt-6; uniform 4px strokes retained.",
+      "approved_by": "user-delegated visual judgment: gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "b9d14b601f340f0038508545d7308e763f7ccad1bcb6fd9d4d7186e3e679e9c1"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Inspected complete original and rejected drawing before authoring. Reviewed final light/dark images at native 48px and enlarged size; defining forms, openings and repeated proportions are readable.",
+  "omissions": "Fine whiskers omitted to keep the paired eyes, nose and holding gesture clear.",
+  "human_construction": null,
+  "artifacts": {
+    "module": "bunny_holding_easter_egg_606ec34e_20d1_525e_a765_4f3fca8d3c47.py",
+    "svg": "bunny-holding-easter-egg.svg",
+    "metadata": "bunny-holding-easter-egg.metadata.json",
+    "previews": [
+      "preview-light-48.png",
+      "preview-dark-48.png",
+      "preview-light-384.png",
+      "preview-dark-384.png"
+    ],
+    "validation": "validation.txt",
+    "reference_render": "reference.png",
+    "before_render": "before.png"
+  }
+}

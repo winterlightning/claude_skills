@@ -1,0 +1,26 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (1.75736, 3, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.2426, 1.0, 2.0, 2.0], tolerance 0.0)
+  ERROR  mic [blade]: blade and poison-drop are 5.461 apart on centerlines nearest (31.0907, 13.7072)<->(36.2691, 15.441); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [guard]: guard and victim are 4.65339 apart on centerlines nearest (23, 37)<->(27.3835, 35.4383); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [poison-drop]: poison-drop and victim are 5.72082 apart on centerlines nearest (38.9156, 20.85)<->(37.3223, 26.3445); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: {
+  "icon_id": "roleplay-game-poisonous-dagger-knife",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (1.75736, 3, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.2426, 1.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [blade]: blade and poison-drop are 5.461 apart on centerlines nearest (31.0907, 13.7072)<->(36.2691, 15.441); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [guard]: guard and victim are 4.65339 apart on centerlines nearest (23, 37)<->(27.3835, 35.4383); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [poison-drop]: poison-drop and victim are 5.72082 apart on centerlines nearest (38.9156, 20.85)<->(37.3223, 26.3445); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [blade]: blade-0 and blade-2 have 1.7712 units of ink clearance over 8.2476 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Three meaning-bearing elements require compact spacing and narrow blade/handle openings. User authorized the complete poisonous-dagger composition as a visual exception.",
+    "approved_by": "user",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "2c1eb2284de76cf57eb6529773c3b7b0116e30911bb0dc8448108032b1def739"
+  },
+  "automatic_status": "fail"
+}

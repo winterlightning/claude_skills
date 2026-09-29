@@ -1,0 +1,25 @@
+status: invalid
+  ERROR  mic [page]: page and clock are 7 apart on centerlines nearest (8, 21)<->(15, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [clock]: clock and hands are 4.99962 apart on centerlines nearest (24.0614, 12.0008)<->(24, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [clock]: clock and caption are 6 apart on centerlines nearest (24, 30)<->(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [page]: page and caption are 8 apart on centerlines nearest (8, 36)<->(16, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+{
+  "icon_id": "rectangle-history",
+  "status": "pass",
+  "errors": [
+    "mic [page]: page and clock are 7 apart on centerlines nearest (8, 21)<->(15, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [clock]: clock and hands are 4.99962 apart on centerlines nearest (24.0614, 12.0008)<->(24, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [clock]: clock and caption are 6 apart on centerlines nearest (24, 30)<->(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [page]: page and caption are 8 apart on centerlines nearest (8, 36)<->(16, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "exception": {
+    "reason": "Keep clock hands visibly detached inside the round dial and retain the page caption. Local dial/hand and caption clearances are compact but remain open at 48 px.",
+    "approved_by": "user-authorized gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "9ac1e25158e1b54127b6aef12772e4f54e849bb9bc5eb64ff5c6727962c4f45d"
+  },
+  "automatic_status": "fail"
+}

@@ -1,0 +1,30 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2.9282, 2, 45.0718, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0718, 2.0, 1.0718, 2.0], tolerance 0.0)
+  ERROR  mic [rear-leg]: rear-leg and sensor-left are 6.40312 apart on centerlines nearest (10, 39)<->(6, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [arms]: arms and sensor-right are 5.65685 apart on centerlines nearest (38, 22)<->(42, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Drawing-bound exception accepted. Automatic findings retained.
+{
+  "reason": "Keep curved sensor marks beside the running pose. Their compact spacing remains distinct at native size; upper torso/head retain exact 4px ink clearance.",
+  "approved_by": "user-authorized discretion; gpt-6 visual review",
+  "approved_on": "2026-09-29",
+  "svg_sha256": "1754cda44ee1175b8d3a2992ab463a1e715696e29692139e325fed15948f47e8"
+}
+{
+  "icon_id": "running-person-motion-marks",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2.9282, 2, 45.0718, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [1.0718, 2.0, 1.0718, 2.0], tolerance 0.0)",
+    "mic [rear-leg]: rear-leg and sensor-left are 6.40312 apart on centerlines nearest (10, 39)<->(6, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [arms]: arms and sensor-right are 5.65685 apart on centerlines nearest (38, 22)<->(42, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Keep curved sensor marks beside the running pose. Their compact spacing remains distinct at native size; upper torso/head retain exact 4px ink clearance.",
+    "approved_by": "user-authorized discretion; gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "1754cda44ee1175b8d3a2992ab463a1e715696e29692139e325fed15948f47e8"
+  },
+  "automatic_status": "fail"
+}

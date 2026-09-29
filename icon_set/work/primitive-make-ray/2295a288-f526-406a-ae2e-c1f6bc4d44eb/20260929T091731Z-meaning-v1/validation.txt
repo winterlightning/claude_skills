@@ -1,0 +1,21 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (1.4, 5, 46, 46.75) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.6, 1.0, 2.0, 2.75], tolerance 0.0)
+  ERROR  mic [bin]: bin and bag-tie are 5.29514 apart on centerlines nearest (23, 17)<->(17.8077, 15.9615); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [bin]: bin and bag are 0.583758 apart on centerlines nearest (24, 44)<->(23.7963, 43.4529); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [bag-tie]: bag-tie and bag are 0.198271 apart on centerlines nearest (11, 25)<->(11.0417, 25.1938); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full build gate: pass
+Automatic build gate: fail
+canvas/keyshape bounds: visible ink (1.4, 5, 46, 46.75) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.6, 1.0, 2.0, 2.75], tolerance 0.0)
+mic [bin]: bin and bag-tie are 5.29514 apart on centerlines nearest (23, 17)<->(17.8077, 15.9615); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [bin]: bin and bag are 0.583758 apart on centerlines nearest (24, 44)<->(23.7963, 43.4529); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+mic [bag-tie]: bag-tie and bag are 0.198271 apart on centerlines nearest (11, 25)<->(11.0417, 25.1938); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+internal-spacing [bag-tie]: bag-tie-1 and bag-tie-3 have 1.7052 units of ink clearance over 5.4975 units; requires 4; review required
+
+Accepted drawing-bound visual exception:
+{
+  "reason": "Preserve the soft tied bag in front of a full tapered bin. Bag/bin overlap and small tie/paper openings are visible at native size.",
+  "approved_by": "gpt-6 under explicit user authorization for visual exceptions",
+  "approved_on": "2026-09-29",
+  "svg_sha256": "02a2439d41dd50c8497bc08118a65292a233dea04acee04db2642b49572ba95f"
+}

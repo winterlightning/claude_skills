@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_M",
+  "problem": "A tiny head, disconnected-looking diagonal trunk and squat stance obscure the upright raised-arm warrior pose.",
+  "change": "Restored the upright raised arm, proportionate head, curved torso and a long rear leg with bent forward knee.",
+  "body": "# Human reference: full_body_ref.png. (23,22)-(18,10)=(5,12); distance13 minus r5=8 centerline gap.\ncircle(self,'head',18,10,5)\ncurve(self,'torso',(23,22),((25,27),(24,29),(24,31)))\nself.add_polyline('raised-arm',(23,22),(32,22),(32,4))\nself.add_line('rear-leg',(24,31),(10,44))\nself.add_polyline('front-leg',(24,31),(36,34),(38,44))\nself.relate('connect','torso','raised-arm','rear-leg','front-leg')\nself.mark_human_figure('person',head='head',torso='torso-curve',torso_junction='start')",
+  "refs": "human_ref/full_body_ref.png: head proportion, round-ended limbs; supplied original: raised arm and lunge",
+  "exception": "The analytically exact head-to-torso gap is 4px (5-12-13 triangle, r5 head); preserve the pose and its curve-distance advisory rather than distorting the head placement."
+}

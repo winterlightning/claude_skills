@@ -1,0 +1,65 @@
+{
+  "fix": "icon_set/work/primitive-fix-thuan/solo__corn/20260928T164738Z-thuan-mac",
+  "run": "icon_set/work/primitive-make-ray/dfc9df01-8144-40e0-b66d-be471956d900/20260928T164738Z-fix-03",
+  "module": "icon_set/work/primitive-make-ray/dfc9df01-8144-40e0-b66d-be471956d900/20260928T164738Z-fix-03/corn_dfc9df01_8144_40e0_b66d_be471956d900.py",
+  "concept": "corn",
+  "source_uuid": "dfc9df01-8144-40e0-b66d-be471956d900",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__corn/20260928T164738Z-thuan-mac/reference/corn_dfc9df01-8144-40e0-b66d-be471956d900.svg",
+  "icon_id": "corn",
+  "author": "gpt-6",
+  "feedback": "Manual fix request",
+  "comparison": "The cob was blank and the husks heavy and misshapen. Restore an upright cob, two sweeping husks and a sparse kernel pattern.",
+  "construction_reference": "Original corn silhouette; no useful exact Lucide match.",
+  "keyshape": "VRECT_L",
+  "svg": "corn.svg",
+  "python_module": "corn_dfc9df01_8144_40e0_b66d_be471956d900.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [left-husk]: left-husk and kernel-1 are 7.57272 apart on centerlines nearest (18.9285, 27.6237)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [cob]: cob and kernel-0 are 8 apart on centerlines nearest (32, 14)<->(24, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [cob]: cob and kernel-1 are 8 apart on centerlines nearest (32, 22)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "build_gate": {
+    "icon_id": "corn",
+    "status": "pass",
+    "errors": [
+      "mic [left-husk]: left-husk and kernel-1 are 7.57272 apart on centerlines nearest (18.9285, 27.6237)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [cob]: cob and kernel-0 are 8 apart on centerlines nearest (32, 14)<->(24, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [cob]: cob and kernel-1 are 8 apart on centerlines nearest (32, 22)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [cob / left-husk]: cob-0 and left-husk have 3.323 units of ink clearance over 4 units; requires 4; review required",
+      "internal-spacing [cob / right-husk]: cob-2 and right-husk have 3.302 units of ink clearance over 4 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Two kernel dots improve recognition. Curved husk-to-kernel clearance is slightly under 4px but visibly open; the cob and husks genuinely meet. User expressly delegated exception decisions for UI/UX quality in this request; reviewed by gpt-6 at native size in light and dark themes.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-28",
+      "svg_sha256": "6cd75d995ef5b48bccfbcbb9b4ec77bbad571c098e52f9c9f2ad065c5ec3b6a9"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "svg_sha256": "6cd75d995ef5b48bccfbcbb9b4ec77bbad571c098e52f9c9f2ad065c5ec3b6a9",
+  "visual_review": "Compared the original, rejected version and revision; reviewed native 48px and enlarged light/dark previews. Clear subject silhouette, coherent curves and open identifying details.",
+  "omissions": "No defining source feature omitted.",
+  "keyshape_reason": "Chosen for the natural upright subject proportions.",
+  "artifacts": [
+    "preview-dark-384.png",
+    "corn_dfc9df01_8144_40e0_b66d_be471956d900.py",
+    "reference.svg",
+    "preview-dark-48.png",
+    "before-192.png",
+    "corn.svg",
+    "gate.json",
+    "review-before.txt",
+    "preview-light-384.png",
+    "validation.txt",
+    "reference-192.png",
+    "corn.metadata.json",
+    "preview-light-48.png",
+    "reference-48.png"
+  ]
+}

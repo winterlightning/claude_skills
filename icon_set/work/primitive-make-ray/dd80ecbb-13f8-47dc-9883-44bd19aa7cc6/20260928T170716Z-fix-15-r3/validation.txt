@@ -1,0 +1,32 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)
+  ERROR  mic [screen]: parallel straight edges screen-0 and b-0 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [b]: parallel straight edges b-3 and screen-5, screen-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [screen]: screen and a are 6 apart on centerlines nearest (16, 4)<->(16, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [screen]: screen and b are 7 apart on centerlines nearest (30, 4)<->(30, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full QA automatic status: fail
+Accepted status: pass · visual exception
+{
+  "icon_id": "monitor-letters",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+    "mic [screen]: parallel straight edges screen-0 and b-0 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [b]: parallel straight edges b-3 and screen-5, screen-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen]: screen and a are 6 apart on centerlines nearest (16, 4)<->(16, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [screen]: screen and b are 7 apart on centerlines nearest (30, 4)<->(30, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "internal-spacing [b]: b-1 and b-5 have 2.5224 units of ink clearance over 4.1881 units; requires 4; review required",
+    "internal-spacing [b]: b-2 and b-4 have 2.5224 units of ink clearance over 4.1881 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "User authorized agent-selected exceptions in this task. A and B remain separated and readable; their compact counters and enlarged monitor envelope require visual exceptions. C was omitted to prevent crowding.",
+    "approved_by": "user-authorized-agent",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "2624a5fa3155c1d493e514b265a0c1f0dcf114f63348db180b33439e2532b770"
+  },
+  "automatic_status": "fail"
+}

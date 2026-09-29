@@ -96,7 +96,8 @@ DISCARD_LOCK = threading.Lock()
 SIDE_LAYOUT_LOCK = threading.Lock()
 MAX_DISCARD_BATCH = 500
 # Where the developer machine pulls reviewing data from; the quick tunnel URL changes on restart.
-DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffered-scored-nicole-default.trycloudflare.com')
+# Production is the Cloudflare Worker (cloud/ARCHITECTURE.md); the old trycloudflare tunnel is gone.
+DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://pictographic-review.pictographic.workers.dev')
 MAX_SYNC_BYTES = 1024 * 1024 * 1024
 SYNC_TIMEOUT = 120
 # Work claims live only in the production database; a development server forwards these.
@@ -266,7 +267,7 @@ def sync_origin(source) -> str:
     """Reduce any pasted production URL to scheme://host."""
     parts = urlsplit(source.strip()) if isinstance(source, str) else None
     if not parts or parts.scheme not in ('http', 'https') or not parts.netloc:
-        raise ValueError('Enter the production URL, for example https://example.trycloudflare.com.')
+        raise ValueError('Enter the production URL, for example https://pictographic-review.pictographic.workers.dev.')
     return f'{parts.scheme}://{parts.netloc}'
 
 

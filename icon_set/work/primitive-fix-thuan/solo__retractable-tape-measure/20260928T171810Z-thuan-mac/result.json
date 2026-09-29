@@ -1,0 +1,73 @@
+{
+  "source_key": "solo/retractable-tape-measure",
+  "icon_id": "retractable-tape-measure",
+  "svg_sha256": "b0a82c48b51f0491e2d597ea2aa1255e9000ca71c37c22e8e9f3cd13fbc89192",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored a lower, wider case, a longer tape and two spaced measurement ticks. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/89fb6fa1-89d3-4277-a364-d6e026cea6f2/20260928T171810Z-fix-03-r2",
+  "module": "icon_set/work/primitive-make-ray/89fb6fa1-89d3-4277-a364-d6e026cea6f2/20260928T171810Z-fix-03-r2/retractable_tape_measure_89fb6fa1_89d3_4277_a364_d6e026cea6f2.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (1, 8, 47, 40) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [1.0, 0.0, 1.0, 0.0], tolerance 0.0)",
+    "mic [tape]: parallel straight edges tape-2 and tick-40 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tick-40]: parallel straight edges tick-40 and tick-33 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tick-33]: parallel straight edges tick-33 and housing-2, housing-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [housing]: housing and hub are 6 apart on centerlines nearest (27, 23)<->(21, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/retractable_tape_measure_89fb6fa1_89d3_4277_a364_d6e026cea6f2.py",
+    "validation.txt",
+    "after/retractable-tape-measure.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-28T17:29:15.922325+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "retractable-tape-measure",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 8, 47, 40) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [1.0, 0.0, 1.0, 0.0], tolerance 0.0)",
+      "mic [tape]: parallel straight edges tape-2 and tick-40 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [tick-40]: parallel straight edges tick-40 and tick-33 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [tick-33]: parallel straight edges tick-33 and housing-2, housing-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [housing]: housing and hub are 6 apart on centerlines nearest (27, 23)<->(21, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [housing / tick-33]: housing-3 and tick-33 have 2 units of ink clearance over 2 units; requires 4; review required",
+      "internal-spacing [tape / tick-40]: tape-2 and tick-40 have 1 units of ink clearance over 2 units; requires 4; review required",
+      "internal-spacing [tick-33 / tick-40]: tick-33 and tick-40 have 3 units of ink clearance over 2 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The compact tape measure preserves two visible ruler ticks and a large circular hub with 2px gaps; expanded horizontal bounds leave 1px canvas margins.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "bbf986217f398a7db9e3dcf97c00de9da284716c638ee53c5c05591f61bf49fa"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-28T17:29:15.783000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__retractable-tape-measure/20260928T171810Z-thuan-mac/after/retractable_tape_measure_89fb6fa1_89d3_4277_a364_d6e026cea6f2.py",
+    "note": "Restored a lower, wider case, a longer tape and two spaced measurement ticks. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored a lower, wider case, a longer tape and two spaced measurement ticks. Accepted as a drawing-bound visual exception under user authorization; automatic QA findings preserved.",
+    "claimed_at": "2026-09-28T17:18:07.972000+00:00",
+    "updated_at": "2026-09-28T17:29:16.138000+00:00",
+    "svg_sha256": "b0a82c48b51f0491e2d597ea2aa1255e9000ca71c37c22e8e9f3cd13fbc89192"
+  },
+  "review_status": "ready"
+}

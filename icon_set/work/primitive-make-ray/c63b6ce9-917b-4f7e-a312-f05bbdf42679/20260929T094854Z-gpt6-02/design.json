@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_L",
+  "problem": "The cliff became a jagged zigzag and the climber had a tiny head with an unnatural bent body.",
+  "change": "Restored the smooth curving cliff, a proportionate head, an extended reaching arm and a bent climbing knee.",
+  "body": "# Head(16,11),r5 -> actual torso junction(16,24):4px visible clearance; upper torso tangent vertical.\ncircle(self,'head',16,11,5)\ncurve(self,'torso',(16,24),((16,28),(13,32),(16,34)))\nself.add_polyline('reaching-arm',(16,24),(24,24),(38,19))\nself.add_line('rear-leg',(16,34),(12,44))\ncurve(self,'front-leg',(16,34),((20,32),(24,28),(27,33)),((29,36),(31,40),(34,44)))\ncurve(self,'cliff',(38,4),((40,10),(40,15),(38,19)),((38,24),(37,28),(35,31)))\nfor part in ('reaching-arm','rear-leg','front-leg'):self.relate('connect','torso',part)\nself.relate('connect','rear-leg','front-leg');self.relate('connect','reaching-arm','cliff')\nself.mark_human_figure('climber',head='head',torso='torso-curve',torso_junction='start')",
+  "refs": "human_ref/full_body_ref.png: outlined head, coherent limbs and bent knee; original supplies curved cliff",
+  "exception": "Retain the natural curve of the cliff, exact4px head gap and a readable climbing action. The natural scene envelope and compact bent-leg spacing are intentional."
+}

@@ -1,0 +1,8 @@
+{
+  "keyshape": "VRECT_L",
+  "problem": "The globe lost its meridians and became a headset-like arch; the microphone lost its stand.",
+  "change": "Restored globe latitude/longitude lines over a capsule microphone, curved cradle and pedestal.",
+  "body": "# Hemisphere is open below, as in the reference, and centered over the microphone.\ncurve(self,'globe',(6,20),((6,17),(7,14),(9,12)),((12,7),(17,4),(24,4)),((31,4),(36,7),(39,12)),((41,14),(42,17),(42,20)))\nself.add_line('latitude',(9,12),(39,12));self.relate('connect','globe','latitude')\nfor side in (-1,1):\n    curve(self,'meridian-'+str(side),(24,4),((24+side*6,4),(24+side*8,11),(24+side*8,20)))\n    self.relate('connect','globe','meridian-'+str(side));self.relate('connect','latitude','meridian-'+str(side))\nself.relate('connect','meridian--1','meridian-1')\nrounded(self,'microphone',19,20,29,34,5)\ncurve(self,'cradle',(10,27),((10,29),(10,30),(10,31)),((10,36),(17,39),(24,39)),((31,39),(38,36),(38,31)),((38,30),(38,29),(38,27)))\nself.add_line('stand',(24,39),(24,44));self.add_line('base',(16,44),(32,44))\nself.relate('connect','cradle','stand');self.relate('connect','stand','base')",
+  "refs": "globe: meridians and latitude; mic: capsule, supporting cradle and stand",
+  "exception": "The globe grid and microphone pedestal are essential to international podcast meaning. Preserve compact globe-grid and capsule/cradle spacing at4px stroke."
+}

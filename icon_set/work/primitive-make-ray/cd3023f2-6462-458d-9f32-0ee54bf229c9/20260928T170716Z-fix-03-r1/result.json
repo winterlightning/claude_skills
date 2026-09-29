@@ -1,0 +1,64 @@
+{
+  "concept": "mobile phone pin",
+  "source_uuid": "cd3023f2-6462-458d-9f32-0ee54bf229c9",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__mobile-phone-pin/20260928T170716Z-thuan-mac/reference/mobile phone pin_cd3023f2-6462-458d-9f32-0ee54bf229c9.svg",
+  "icon_id": "mobile-phone-pin",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "mobile-phone-pin",
+    "status": "pass",
+    "errors": [
+      "mic [phone]: phone and pin are 7 apart on centerlines nearest (10, 19)<->(17, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [pin]: pin and pin-center are 6.97867 apart on centerlines nearest (30.6385, 21.1524)<->(24, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The pin and its center dot retain about 3px clearance to preserve the reference symbol within a slender phone.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "827e5f9c5609d92b0d0904d7e83724259c1d289e2ae1d9f123544c296f6ebe77"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "mobile-phone-pin",
+    "status": "fail",
+    "errors": [
+      "mic [phone]: phone and pin are 7 apart on centerlines nearest (10, 19)<->(17, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [pin]: pin and pin-center are 6.97867 apart on centerlines nearest (30.6385, 21.1524)<->(24, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "The phone had nearly square corners and its location pin lost the center mark.",
+    "feedback": "Manual fix request",
+    "changes": "Rounded slender phone, tapered pin and restored center dot.",
+    "construction_reference": "smartphone",
+    "omissions": "None",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "before.png",
+    "preview-dark-384.png",
+    "accepted-gate.json",
+    "mobile_phone_pin_cd3023f2_6462_458d_9f32_0ee54bf229c9.py",
+    "preview-dark-48.png",
+    "mobile-phone-pin.metadata.json",
+    "original.png",
+    "mobile-phone-pin.svg",
+    "preview-light-384.png",
+    "validation.txt",
+    "automatic-gate.json",
+    "review.json",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

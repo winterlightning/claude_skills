@@ -1,0 +1,9 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "The bow tie became a large crossing X attached to the torso and the hat was too blocky.",
+  "change": "Restored a smaller two-lobed bow tie, rounded hat crown, separate brim and circular jaw above broad shoulders.",
+  "body": "# Circular jaw r8 centered(24,13): lower extreme21; shoulder ellipse top25 gives exact touching ink.\nself.add_arc('jaw',(32,13),(16,13),radius_x=8)\nself.add_line('hat-left',(16,13),(16,9));self.add_arc('hat-tl',(16,9),(21,4),radius_x=5)\nself.add_line('hat-top',(21,4),(27,4));self.add_arc('hat-tr',(27,4),(32,9),radius_x=5)\nself.add_line('hat-right',(32,9),(32,13));self.add_contour('hat','hat-left','hat-tl','hat-top','hat-tr','hat-right')\nself.add_line('brim',(12,13),(36,13));self.relate('connect','hat','brim');self.relate('connect','jaw','brim')\nself.add_arc('shoulders',(4,44),(44,44),radius_x=20,radius_y=19)\nself.relate('connect','jaw','shoulders')\nself.add_polyline('bow-left',(16,31),(24,35),(16,39),closed=True)\nself.add_polyline('bow-right',(32,31),(32,39),(24,35),closed=True)\nself.relate('connect','bow-left','bow-right')",
+  "refs": "human_ref/user.svg: circular jaw and broad shoulders; original supplies the hat and separate bow-tie lobes",
+  "exception": "Preserve two bow-tie lobes beneath the hat and circular face, keeping them separate from the shoulders at48px. Compact bow interiors are intentional with4px strokes.",
+  "human_construction": "bust"
+}

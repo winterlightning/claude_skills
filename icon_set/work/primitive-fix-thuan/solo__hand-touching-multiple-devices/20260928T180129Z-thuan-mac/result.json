@@ -1,0 +1,83 @@
+{
+  "source_key": "solo/hand-touching-multiple-devices",
+  "icon_id": "hand-touching-multiple-devices",
+  "svg_sha256": "bfa716059450988a434dd37c5d93973ba87386c6ba9a315947103044c497d7d8",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored a tall tablet, separate phone, central screen corners and an upright tapping index finger. AUTHOR=gpt-6. Drawing-bound visual exception under user authorization; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/da217745-f501-41f3-adeb-cb1f2534c16d/20260928T180129Z-fix-20-r1",
+  "module": "icon_set/work/primitive-make-ray/da217745-f501-41f3-adeb-cb1f2534c16d/20260928T180129Z-fix-20-r1/hand_touching_multiple_devices_da217745_f501_41f3_adeb_cb1f2534c16d.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [phone-bottom]: parallel straight edges phone-bottom and phoneb are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tablet]: tablet and phone are 7 apart on centerlines nearest (27, 11)<->(34, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tablet]: tablet and screen are 3.60555 apart on centerlines nearest (15, 39)<->(17, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tablet]: tablet and touch are 6.74893 apart on centerlines nearest (15, 39)<->(21.1455, 36.2105); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tablet-top]: tablet-top and phone are 7 apart on centerlines nearest (27, 13)<->(34, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and touch are 3.55816 apart on centerlines nearest (34.8889, 22.6629)<->(32.8431, 25.5742); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [screen]: screen and touch are 3.80431 apart on centerlines nearest (17, 34.9003)<->(20.8043, 34.9003); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [tablet]: tablet and tablet-top are 0 apart on centerlines nearest (27, 13)<->(27, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/hand_touching_multiple_devices_da217745_f501_41f3_adeb_cb1f2534c16d.py",
+    "validation.txt",
+    "after/hand-touching-multiple-devices.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-28T18:14:57.506352+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "hand-touching-multiple-devices",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 46, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [phone-bottom]: parallel straight edges phone-bottom and phoneb are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [tablet]: tablet and phone are 7 apart on centerlines nearest (27, 11)<->(34, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tablet]: tablet and screen are 3.60555 apart on centerlines nearest (15, 39)<->(17, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tablet]: tablet and touch are 6.74893 apart on centerlines nearest (15, 39)<->(21.1455, 36.2105); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tablet-top]: tablet-top and phone are 7 apart on centerlines nearest (27, 13)<->(34, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [phone]: phone and touch are 3.55816 apart on centerlines nearest (34.8889, 22.6629)<->(32.8431, 25.5742); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [screen]: screen and touch are 3.80431 apart on centerlines nearest (17, 34.9003)<->(20.8043, 34.9003); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "mic [tablet]: tablet and tablet-top are 0 apart on centerlines nearest (27, 13)<->(27, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [phone / phone-bottom]: phoneb and phone-bottom have 1 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [touch]: touch and touch have 2.7982 units of ink clearance over 2.0369 units; requires 4; review required",
+      "internal-spacing [touch]: touch and touch have 2 units of ink clearance over 4.0446 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Preserve three responsive-device cues and a clear upright tapping index finger. Small phone interior and intentional overlapping hand/screen arrangement need closer spacing.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "7492b6de812a0fc8482555fad0ef13419f9046b7a19844ad19b3bf95ad1ec257"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-28T18:14:57.247000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__hand-touching-multiple-devices/20260928T180129Z-thuan-mac/after/hand_touching_multiple_devices_da217745_f501_41f3_adeb_cb1f2534c16d.py",
+    "note": "Restored a tall tablet, separate phone, central screen corners and an upright tapping index finger. AUTHOR=gpt-6. Drawing-bound visual exception under user authorization; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored a tall tablet, separate phone, central screen corners and an upright tapping index finger. AUTHOR=gpt-6. Drawing-bound visual exception under user authorization; automatic findings retained.",
+    "claimed_at": "2026-09-28T18:01:29.463000+00:00",
+    "updated_at": "2026-09-28T18:14:57.590000+00:00",
+    "svg_sha256": "bfa716059450988a434dd37c5d93973ba87386c6ba9a315947103044c497d7d8"
+  },
+  "review_status": "ready"
+}

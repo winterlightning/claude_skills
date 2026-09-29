@@ -1,0 +1,21 @@
+{
+  "icon_id": "box-delivery-truck",
+  "status": "pass",
+  "errors": [
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "internal-spacing [cargo / rear-wheel]: cargo-1 and rear-wheel-0 have -1.9511 units of ink clearance over 4 units; requires 4; review required",
+    "internal-spacing [cargo / front-wheel]: cargo-5 and front-wheel-0 have -1.9511 units of ink clearance over 4 units; requires 4; review required",
+    "internal-spacing [cab / front-wheel]: cab-1 and front-wheel-0 have 2.9511 units of ink clearance over 2.9921 units; requires 4; review required",
+    "internal-spacing [cab / front-wheel]: cab-2 and front-wheel-0 have -1.9511 units of ink clearance over 4 units; requires 4; review required",
+    "internal-spacing [front-wheel / windshield]: front-wheel-0 and windshield have 0.0017 units of ink clearance over 11.5 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. The defining sloped windshield produces a small triangular opening above the front wheel. Preserve that cab division, cargo box and two equal open wheels rather than reverting to an undivided block. Native inspection confirms all three features remain legible. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+    "approved_by": "user: delegated decision to gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "951e64809d1ccdbcf19ed1169bd85103d7c4dee8577f58a13d2ff2d20cab6620"
+  },
+  "automatic_status": "fail"
+}

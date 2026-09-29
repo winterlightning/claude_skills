@@ -1,0 +1,37 @@
+{
+  "concept": "workflow teamwork cog share",
+  "source_uuid": "ac409f41-db55-4174-adc1-189d24e36f0d",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__radiating-gear/20260929T042221Z-thuan-mac/reference/workflow teamwork cog share_ac409f41-db55-4174-adc1-189d24e36f0d.svg",
+  "icon_id": "radiating-gear",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected cog used four dots instead of radiating strokes and reduced its lobes to a coarse hexagon. Feedback asks to recover the radiating cog meaning.",
+  "plan": "Restore six smooth, symmetric gear lobes and eight surrounding short rays. The cog has no central hub, matching the reference.",
+  "author": "gpt-6",
+  "module": "radiating_gear_ac409f41_db55_4174_adc1_189d24e36f0d.py",
+  "svg": "radiating-gear.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "radiating-gear",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (1, 1, 47, 47) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.0, 3.0, 3.0, 3.0], tolerance 0.0)",
+      "mic [gear-outline]: gear-outline and top are 5.75 apart on centerlines nearest (24, 10.75)<->(24, 5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear-outline]: gear-outline and bottom are 5.75 apart on centerlines nearest (24, 37.25)<->(24, 43); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear-outline]: gear-outline and nw are 6.50238 apart on centerlines nearest (14.0441, 15.0918)<->(10, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear-outline]: gear-outline and ne are 6.50238 apart on centerlines nearest (33.9559, 15.0918)<->(38, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear-outline]: gear-outline and sw are 6.50238 apart on centerlines nearest (14.0441, 32.9082)<->(10, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear-outline]: gear-outline and se are 6.50238 apart on centerlines nearest (33.9559, 32.9082)<->(38, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Compact ray-to-cog spacing and radial bounds retain all six teeth and eight rays in48px with uniform4px strokes; user authorized visual exception after native-size review.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "882c9b07da9310b1e85df2590354df1931033ecd407dd9c537167524cdf7695f"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "No defining features omitted.",
+  "construction_references": "Lucide settings original and atomic geometry: alternating smooth outer teeth and inner valleys; source controls absence of hub and eight rays."
+}

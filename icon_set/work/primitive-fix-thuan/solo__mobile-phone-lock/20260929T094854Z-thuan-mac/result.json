@@ -1,0 +1,72 @@
+{
+  "source_key": "solo/mobile-phone-lock",
+  "icon_id": "mobile-phone-lock",
+  "svg_sha256": "6aacfb4ae9dffda251c3463070001c019478f0d6bd93905a7c8719fac28d4bff",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restored a tall rounded phone silhouette, bottom screen divider and clear closed padlock. User-authorized visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/26319804-c7ff-498f-a76f-62441d482fc8/20260929T094854Z-gpt6-01",
+  "module": "icon_set/work/primitive-make-ray/26319804-c7ff-498f-a76f-62441d482fc8/20260929T094854Z-gpt6-01/mobile_phone_lock_26319804_c7ff_498f_a76f_62441d482fc8.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [phone]: parallel straight edges phone-2 and lock-body-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [lock-body]: parallel straight edges lock-body-6 and phone-6 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [lock-body]: parallel straight edges lock-body-0 and lock-body-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [lock-body]: parallel straight edges lock-body-4 and screen-divider are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [screen-divider]: screen-divider and lock-body are 6 apart on centerlines nearest (29, 35)<->(29, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/mobile_phone_lock_26319804_c7ff_498f_a76f_62441d482fc8.py",
+    "validation.txt",
+    "after/mobile-phone-lock.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T10:11:40.660808+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "mobile-phone-lock",
+    "status": "pass",
+    "errors": [
+      "mic [phone]: parallel straight edges phone-2 and lock-body-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-6 and phone-6 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-0 and lock-body-4 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [lock-body]: parallel straight edges lock-body-4 and screen-divider are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [screen-divider]: screen-divider and lock-body are 6 apart on centerlines nearest (29, 35)<->(29, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [lock-body]: lock-body-0 and lock-body-4 have 3 units of ink clearance over 9 units; requires 4; review required",
+      "internal-spacing [lock-body / shackle]: lock-body-0 and shackle-top have 3.3897 units of ink clearance over 5.2354 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The complete closed padlock and phone footer need compact gaps. Preserve the tall phone and lock identity with4px strokes rather than broadening the body into a generic frame.",
+      "approved_by": "user-authorized-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "dc4bef5c0e1e5f38a08ced451d974a325c435713b0873062884a939c13ef1453"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T10:11:39.712000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__mobile-phone-lock/20260929T094854Z-thuan-mac/after/mobile_phone_lock_26319804_c7ff_498f_a76f_62441d482fc8.py",
+    "note": "Restored a tall rounded phone silhouette, bottom screen divider and clear closed padlock. User-authorized visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restored a tall rounded phone silhouette, bottom screen divider and clear closed padlock. User-authorized visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:48:43.001000+00:00",
+    "updated_at": "2026-09-29T10:11:40.228000+00:00",
+    "svg_sha256": "6aacfb4ae9dffda251c3463070001c019478f0d6bd93905a7c8719fac28d4bff"
+  },
+  "review_status": "ready"
+}

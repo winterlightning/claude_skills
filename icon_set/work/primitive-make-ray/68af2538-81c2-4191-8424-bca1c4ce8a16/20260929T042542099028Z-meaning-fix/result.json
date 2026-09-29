@@ -1,0 +1,51 @@
+{
+  "concept": "messages bubble square question",
+  "source_uuid": "68af2538-81c2-4191-8424-bca1c4ce8a16",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__question-speech-bubble-solo/20260929T042221Z-thuan-mac/reference/messages bubble square question_68af2538-81c2-4191-8424-bca1c4ce8a16.svg",
+  "icon_id": "question-speech-bubble-solo",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected question hook collapsed into a diagonal wedge and crowded the enclosure. Feedback asks to restore the reference question bubble.",
+  "plan": "Smooth rounded bubble with a distinct tail; upright question hook with curved return and a separate dot.",
+  "author": "gpt-6",
+  "module": "question_speech_bubble_solo_68af2538_81c2_4191_8424_bca1c4ce8a16.py",
+  "svg": "question-speech-bubble-solo.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "question-speech-bubble-solo",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
+      "mic [bubble]: bubble and question are 6 apart on centerlines nearest (24, 6)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [bubble]: bubble and question-dot are 5 apart on centerlines nearest (24, 38)<->(24, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [question]: question and question-dot are 6 apart on centerlines nearest (24, 27)<->(24, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Question-mark dot and hook retain 2-unit ink separation, and enclosure clearances are locally below 4 to preserve a readable full question sign; user authorized native-size visual exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "e1f8419456d639bc6863856eb207113389954fe70cf444afa2d4904efa1319eb"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "",
+  "construction_references": "Lucide message-circle-question-mark and message-square: coherent enclosure and independently readable question mark.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "question-speech-bubble-solo.metadata.json",
+    "question-speech-bubble-solo.svg",
+    "question_speech_bubble_solo_68af2538_81c2_4191_8424_bca1c4ce8a16.py",
+    "reference.png",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

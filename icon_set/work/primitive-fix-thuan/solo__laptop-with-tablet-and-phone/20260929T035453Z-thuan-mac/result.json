@@ -1,0 +1,79 @@
+{
+  "source_key": "solo/laptop-with-tablet-and-phone",
+  "icon_id": "laptop-with-tablet-and-phone",
+  "svg_sha256": "0f0a6f12a6926a6616bb4854aba0933cc2b09adee18d863c5863f896e3de1d4b",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Restore two upright devices, the phone control, a partially occluded laptop screen and a downward notch in its base. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/d2708e32-1d86-4bce-a5f3-8d810846d84e/20260929T040214565381Z-meaning-fix",
+  "module": "icon_set/work/primitive-make-ray/d2708e32-1d86-4bce-a5f3-8d810846d84e/20260929T040214565381Z-meaning-fix/laptop_with_tablet_and_phone_d2708e32_1d86_4bce_a5f3_8d810846d84e.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+    "mic [phone]: parallel straight edges phone6 and tablet2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tablet]: tablet and phone are 7 apart on centerlines nearest (26, 7)<->(33, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [tablet]: tablet and laptop-left are 4 apart on centerlines nearest (13, 22)<->(9, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and phone-control are 5 apart on centerlines nearest (39, 29)<->(39, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and laptop-right are 4 apart on centerlines nearest (41, 29)<->(41, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "mic [laptop-left]: laptop-left and deck-left are 0 apart on centerlines nearest (6, 39)<->(6, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "artifacts": [
+    "after/laptop_with_tablet_and_phone_d2708e32_1d86_4bce_a5f3_8d810846d84e.py",
+    "validation.txt",
+    "after/laptop-with-tablet-and-phone.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T04:07:10.028504+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "laptop-with-tablet-and-phone",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 47, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 3.0, 2.0], tolerance 0.0)",
+      "mic [phone]: parallel straight edges phone6 and tablet2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [tablet]: tablet and phone are 7 apart on centerlines nearest (26, 7)<->(33, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [tablet]: tablet and laptop-left are 4 apart on centerlines nearest (13, 22)<->(9, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [phone]: phone and phone-control are 5 apart on centerlines nearest (39, 29)<->(39, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [phone]: phone and laptop-right are 4 apart on centerlines nearest (41, 29)<->(41, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 1 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "mic [laptop-left]: laptop-left and deck-left are 0 apart on centerlines nearest (6, 39)<->(6, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "internal-spacing [deck-left / base]: deck-left-1 and base have 1 units of ink clearance over 5.0942 units; requires 4; review required",
+      "internal-spacing [base / notch]: base and notch have -1.999 units of ink clearance over 11.8755 units; requires 4; review required",
+      "internal-spacing [base / deck-right]: base and deck-right have 1 units of ink clearance over 6.0859 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The original three-device composition needs compact screen placement, a small phone control and a shallow notched laptop base. Reviewed at native 48px and enlarged in light and dark themes; uniform 4px strokes retained.",
+      "approved_by": "user (delegated visual exception approval in this request)",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "6f74ab341af3285bd2c26a73a5e5dda5954a42bced29e1427ecae22ff1bf1f3a"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T04:07:09.433000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__laptop-with-tablet-and-phone/20260929T035453Z-thuan-mac/after/laptop_with_tablet_and_phone_d2708e32_1d86_4bce_a5f3_8d810846d84e.py",
+    "note": "Restore two upright devices, the phone control, a partially occluded laptop screen and a downward notch in its base. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Restore two upright devices, the phone control, a partially occluded laptop screen and a downward notch in its base. Compared original and rejected drawing; reviewed at 48px in both themes. AUTHOR=gpt-6. User-authorized exact-SVG visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T03:54:45.369000+00:00",
+    "updated_at": "2026-09-29T04:07:10.001000+00:00",
+    "svg_sha256": "0f0a6f12a6926a6616bb4854aba0933cc2b09adee18d863c5863f896e3de1d4b"
+  },
+  "review_status": "ready"
+}

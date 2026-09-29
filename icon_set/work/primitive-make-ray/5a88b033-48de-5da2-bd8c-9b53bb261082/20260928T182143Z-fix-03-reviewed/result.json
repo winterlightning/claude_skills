@@ -1,0 +1,75 @@
+{
+  "concept": "cash payment bills",
+  "source_uuid": "5a88b033-48de-5da2-bd8c-9b53bb261082",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-holding-banknote/20260928T182143Z-thuan-mac/reference/cash payment bills_5a88b033-48de-5da2-bd8c-9b53bb261082.svg",
+  "icon_id": "hand-holding-banknote",
+  "author": "gpt-6",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected banknote uses a solid dot and the hand looks like a letter B; the reference has a distinct thumb across the bill and a wrist cuff.",
+  "change": "Restored a tall bill with outlined denomination seal, horizontal thumb, cupped palm and cuff.",
+  "run": "icon_set/work/primitive-make-ray/5a88b033-48de-5da2-bd8c-9b53bb261082/20260928T182143Z-fix-03-reviewed",
+  "module": "icon_set/work/primitive-make-ray/5a88b033-48de-5da2-bd8c-9b53bb261082/20260928T182143Z-fix-03-reviewed/hand_holding_banknote_5a88b033_48de_5da2_bd8c_9b53bb261082.py",
+  "svg": "icon_set/work/primitive-make-ray/5a88b033-48de-5da2-bd8c-9b53bb261082/20260928T182143Z-fix-03-reviewed/hand-holding-banknote.svg",
+  "validation": "invalid",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 42, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [thumb]: parallel straight edges thumb-3 and thumb-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [thumb]: parallel straight edges thumb-5 and palm-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [note]: note and seal are 6.10217 apart on centerlines nearest (18.9506, 18.0309)<->(25.0193, 17.3921); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception_reason": "The note seal and thumb are necessary payment cues; compact thumb spacing is retained with clearly open negative space.",
+  "omissions": "Fine finger creases and minor decorative detail omitted for 48px clarity.",
+  "keyshape": "SQUARE",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 42, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+    "mic [thumb]: parallel straight edges thumb-3 and thumb-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [thumb]: parallel straight edges thumb-5 and palm-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [note]: note and seal are 6.10217 apart on centerlines nearest (18.9506, 18.0309)<->(25.0193, 17.3921); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "hand-holding-banknote",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 42, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 2.0, 0.0], tolerance 0.0)",
+      "mic [thumb]: parallel straight edges thumb-3 and thumb-5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [thumb]: parallel straight edges thumb-5 and palm-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [note]: note and seal are 6.10217 apart on centerlines nearest (18.9506, 18.0309)<->(25.0193, 17.3921); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [thumb]: thumb-3 and thumb-5 have 3 units of ink clearance over 10 units; requires 4; review required",
+      "internal-spacing [thumb / palm]: thumb-5 and palm-2 have 3 units of ink clearance over 8 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The note seal and thumb are necessary payment cues; compact thumb spacing is retained with clearly open negative space. Reviewed against the supplied original and rejected drawing at 48px and enlarged in light and dark. Accepted visual spacing/keyshape findings under the user\u2019s explicit exception authorization; automatic findings are preserved.",
+      "approved_by": "user-authorized-agent-gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "6b88ea6e6b4a0b8686c734d357eee718f18dcd2a64016f19d47289f0375a5415"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": "Inspected the original/rejected comparison and final 48px/enlarged light and dark renders. Defining object and hand action are recognizable; compact gaps are intentionally retained.",
+  "lucide_references": [
+    "icon_set/references/lucide/original/hand-heart.svg",
+    "icon_set/references/lucide/atomic-debug/hand-heart.svg",
+    "icon_set/references/lucide/original/hand-grab.svg",
+    "icon_set/references/lucide/atomic-debug/hand-grab.svg"
+  ],
+  "human_reference": "icon_set/references/human_ref/full_body_ref.png",
+  "artifacts": [
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "hand-holding-banknote.metadata.json",
+    "hand-holding-banknote.svg",
+    "reference.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "hand_holding_banknote_5a88b033_48de_5da2_bd8c_9b53bb261082.py",
+    "automatic-gate.json",
+    "preview-light-48.png",
+    "build-gate.json"
+  ]
+}

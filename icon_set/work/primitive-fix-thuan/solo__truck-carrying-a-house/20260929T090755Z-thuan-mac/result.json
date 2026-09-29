@@ -1,0 +1,85 @@
+{
+  "source_key": "solo/truck-carrying-a-house",
+  "icon_id": "truck-carrying-a-house",
+  "svg_sha256": "6f6e721f2e1fd22ee15ecbb0ba101a10d7c44c9c1604a8629724f75a95ea35f8",
+  "worker": "thuan-mac",
+  "outcome": "done",
+  "note": "Separate a left-facing cab, flatbed and full house with open doorway. User-authorized visual exception; automatic findings retained.",
+  "make_ray_run": "icon_set/work/primitive-make-ray/5fda1d00-7833-4fcb-89e8-8b235809140b/20260929T0927-gpt-6",
+  "module": "icon_set/work/primitive-make-ray/5fda1d00-7833-4fcb-89e8-8b235809140b/20260929T0927-gpt-6/truck_carrying_a_house_5fda1d00_7833_4fcb_89e8_8b235809140b.py",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [house]: parallel straight edges house-3 and door-3 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [door]: parallel straight edges door-1 and house-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [house]: parallel straight edges house-1 and cab-5 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [cab]: parallel straight edges cab-4 and window-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [window]: parallel straight edges window-1 and cab-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bed]: parallel straight edges bed-1 and bed-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [bed]: parallel straight edges bed-1 and axle-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [house]: parallel straight edges house-2 and bed-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [house]: parallel straight edges house-2 and axle-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [roof]: roof and house are 0.426798 apart on centerlines nearest (19.7398, 16.6617)<->(20, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [bed]: bed and wheel-rear are 0.0990747 apart on centerlines nearest (39, 34)<->(38.9031, 34.0205); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "artifacts": [
+    "after/truck_carrying_a_house_5fda1d00_7833_4fcb_89e8_8b235809140b.py",
+    "validation.txt",
+    "after/truck-carrying-a-house.svg",
+    "after/preview-light-48.png",
+    "after/preview-light-384.png",
+    "after/preview-dark-48.png",
+    "after/preview-dark-384.png"
+  ],
+  "finished_at": "2026-09-29T09:17:45.859476+00:00",
+  "author": "gpt-6",
+  "author_ok": true,
+  "build_gate": {
+    "icon_id": "truck-carrying-a-house",
+    "status": "pass",
+    "errors": [
+      "mic [house]: parallel straight edges house-3 and door-3 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [door]: parallel straight edges door-1 and house-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [house]: parallel straight edges house-1 and cab-5 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [cab]: parallel straight edges cab-4 and window-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [window]: parallel straight edges window-1 and cab-1 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [bed]: parallel straight edges bed-1 and bed-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [bed]: parallel straight edges bed-1 and axle-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [house]: parallel straight edges house-2 and bed-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [house]: parallel straight edges house-2 and axle-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [roof]: roof and house are 0.426798 apart on centerlines nearest (19.7398, 16.6617)<->(20, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [bed]: bed and wheel-rear are 0.0990747 apart on centerlines nearest (39, 34)<->(38.9031, 34.0205); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 3 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [cab / window]: cab-1 and window-1 have 3 units of ink clearance over 4 units; requires 4; review required",
+      "internal-spacing [bed]: bed-1 and bed-3 have 1 units of ink clearance over 4 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The recognizable cab, open house doorway and flatbed need compact internal openings at 48px; visually distinct at native size.",
+      "approved_by": "user-authorized visual judgment by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a68a65d4fdc82c429c83fd2758e11529e0345aee69c2c18b88a2e50706b8bb35"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "uploaded": {
+    "stage": "after",
+    "worker": "thuan-mac",
+    "saved_at": "2026-09-29T09:17:44.622000+00:00",
+    "python_path": "icon_set/work/primitive-fix-thuan/solo__truck-carrying-a-house/20260929T090755Z-thuan-mac/after/truck_carrying_a_house_5fda1d00_7833_4fcb_89e8_8b235809140b.py",
+    "note": "Separate a left-facing cab, flatbed and full house with open doorway. User-authorized visual exception; automatic findings retained.",
+    "has_python": true,
+    "has_validation": true
+  },
+  "reported": {
+    "state": "done",
+    "worker": "thuan-mac",
+    "note": "Separate a left-facing cab, flatbed and full house with open doorway. User-authorized visual exception; automatic findings retained.",
+    "claimed_at": "2026-09-29T09:07:46.177000+00:00",
+    "updated_at": "2026-09-29T09:17:45.242000+00:00",
+    "svg_sha256": "6f6e721f2e1fd22ee15ecbb0ba101a10d7c44c9c1604a8629724f75a95ea35f8"
+  },
+  "review_status": "ready"
+}

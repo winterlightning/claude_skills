@@ -1,0 +1,55 @@
+{
+  "concept": "bomber",
+  "source_uuid": "334f5976-14a0-49e2-9421-a907055410d4",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__round-bomb-with-spark/20260929T051531Z-thuan-mac/reference/bomber_334f5976-14a0-49e2-9421-a907055410d4.svg",
+  "icon_id": "round-bomb-with-spark",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected bomb had a straight stalk and a plus sign, losing the angled neck, curved fuse and radiating spark.",
+  "plan": "Continuous round bomb body with an angled neck, curved fuse and five separated spark rays inset from the canvas edges.",
+  "author": "gpt-6",
+  "module": "round_bomb_with_spark_334f5976_14a0_49e2_9421_a907055410d4.py",
+  "svg": "round-bomb-with-spark.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "round-bomb-with-spark",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [bomb]: bomb and fuse are 0.635999 apart on centerlines nearest (26.6629, 14.5393)<->(27, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [fuse]: fuse and top are 5 apart on centerlines nearest (35, 9)<->(39, 6); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [fuse]: fuse and upper-left are 3.04697 apart on centerlines nearest (34.2572, 9.03609)<->(34, 6); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [top]: top and upper-right are 4.12311 apart on centerlines nearest (39, 6)<->(43, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [top]: top and upper-left are 5 apart on centerlines nearest (39, 6)<->(34, 6); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [upper-right]: upper-right and right are 6 apart on centerlines nearest (43, 7)<->(43, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [right]: right and bottom are 5.65685 apart on centerlines nearest (43, 13)<->(39, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "Compact ignition rays and neck joins require local spacing below MIC. The bomb remains a clear round silhouette with4px strokes, accepted under user authorization.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "1ac55890ca584d3fb27fbd198460fa1991326b38df9a56c746fdb5b7b4ea5ab4"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "Reviewed original, rejected version and revised PNG at 48px and enlarged in light and dark themes. Defining features restored, stroke continuity and open spaces checked. Authorized drawing-bound visual exception retains automatic findings.",
+  "omissions": "",
+  "construction_references": "Lucide bomb: round body and angled fuse housing; source defines curved fuse and radiating spark.",
+  "keyshape": "SQUARE",
+  "keyshape_rationale": "Balanced overall composition around the canvas center.",
+  "artifacts": [
+    "before.png",
+    "candidate.json",
+    "gate-automatic.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference.png",
+    "round-bomb-with-spark.metadata.json",
+    "round-bomb-with-spark.svg",
+    "round_bomb_with_spark_334f5976_14a0_49e2_9421_a907055410d4.py",
+    "validation-automatic.txt",
+    "validation.txt"
+  ]
+}

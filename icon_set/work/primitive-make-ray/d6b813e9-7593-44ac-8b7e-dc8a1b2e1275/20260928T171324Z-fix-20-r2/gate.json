@@ -1,0 +1,21 @@
+{
+  "icon_id": "low-battery-level-block",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 10, 46, 38) does not match the HRECT_M envelope (2, 8, 46, 40) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [charge]: parallel straight edges charge-2 and charge-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [case]: parallel straight edges case-0 and charge-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [charge]: parallel straight edges charge-3 and case-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [case]: case and charge are 6 apart on centerlines nearest (18, 36)<->(18, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [charge]: charge-2 and charge-4 have 2 units of ink clearance over 11 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve a tall outlined low-charge block rather than collapse it to the rejected single stroke. Its 2-unit inner opening and case clearance remain legible; the body is intentionally shallower than HRECT_M.",
+    "approved_by": "user-delegated:gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "ad5df11db0bfa67a805c28c4cdd502ea60be527687e5a599345ad3d1d50cd01c"
+  },
+  "automatic_status": "fail"
+}

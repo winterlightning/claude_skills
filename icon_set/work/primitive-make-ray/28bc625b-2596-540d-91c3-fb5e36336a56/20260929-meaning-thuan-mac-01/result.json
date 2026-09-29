@@ -1,0 +1,56 @@
+{
+  "concept": "plane land",
+  "source_uuid": "28bc625b-2596-540d-91c3-fb5e36336a56",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__airplane-rising-above-ground-line/20260929T025914Z-thuan-mac/reference/plane land_28bc625b-2596-540d-91c3-fb5e36336a56.svg",
+  "icon_id": "airplane-rising-above-ground-line",
+  "author": "gpt-6",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected airplane reverses the defining wing into an upper zigzag; the reference has a long downward main wing and a shallow rising fuselage.",
+  "changes": "Restored the downward swept wing, small tail fin, rounded nose and rising fuselage above a ground line.",
+  "construction_reference": "Lucide plane-takeoff: rounded fuselage and ground line; original owns the downward main wing.",
+  "omissions": "Small tail/body corner irregularities simplified; wing direction retained.",
+  "keyshape": "SQUARE",
+  "fix_run": "icon_set/work/primitive-fix-thuan/solo__airplane-rising-above-ground-line/20260929T025914Z-thuan-mac",
+  "run": "icon_set/work/primitive-make-ray/28bc625b-2596-540d-91c3-fb5e36336a56/20260929-meaning-thuan-mac-01",
+  "module": "airplane_rising_above_ground_line_28bc625b_2596_540d_91c3_fb5e36336a56.py",
+  "svg": "airplane-rising-above-ground-line.svg",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "airplane-rising-above-ground-line",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 11, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 7.0, 0.0, 0.0], tolerance 0.0)",
+      "mic [plane]: plane and ground are 5 apart on centerlines nearest (19, 37)<->(19, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [plane]: plane-1 and plane-11 have 0.9567 units of ink clearance over 6.0957 units; requires 4; review required",
+      "internal-spacing [plane]: plane-2 and plane-5 have 3.8207 units of ink clearance over 8.8121 units; requires 4; review required",
+      "internal-spacing [plane]: plane-6 and plane-8 have 0.6741 units of ink clearance over 6.4598 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User explicitly delegated visual-exception decisions to gpt-6, conditional on UI/UX quality. Preserve the source downward swept wing and shallow rising fuselage. The natural silhouette has narrow wing/tail channels and intentionally less height than the square envelope; the runway is detached and the wing direction is clear at 48px. Reviewed at native 48px and enlarged in light and dark; uniform 4px strokes retained. Automatic findings are preserved.",
+      "approved_by": "user: delegated decision to gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "3465fc37ab3865f3a1cd74db0abaaa90a343d49f4cfaa47c234a62d5c922542a"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": "Preserve the source downward swept wing and shallow rising fuselage. The natural silhouette has narrow wing/tail channels and intentionally less height than the square envelope; the runway is detached and the wing direction is clear at 48px.",
+  "artifacts": [
+    "airplane-rising-above-ground-line.metadata.json",
+    "airplane-rising-above-ground-line.svg",
+    "airplane_rising_above_ground_line_28bc625b_2596_540d_91c3_fb5e36336a56.py",
+    "before-192.png",
+    "before-48.png",
+    "gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-192.png",
+    "reference-48.png",
+    "review-before.md",
+    "validation.txt"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "keyshape": "SQUARE",
+  "problem": "The helper and seated user were reduced to disconnected-looking heads, a horizontal bar and cramped angular limbs; the wheel was too small.",
+  "change": "Restored a walking helper, bent pushing arm, larger open wheelchair wheel and a clear seated figure with a forward leg.",
+  "body": "# Shared human reference. Left head (10,7),r4 -> torso(10,19); right head(33,11),r4 -> torso(33,23): both gaps exactly4 ink.\ncircle(self,'helper-head',10,7,4)\ncurve(self,'helper-torso',(10,19),((10,23),(8,26),(8,30)))\nself.add_line('helper-back-leg',(8,30),(4,44))\nself.add_polyline('helper-front-leg',(8,30),(12,36),(13,43))\nself.add_polyline('pushing-arm',(10,19),(17,24),(33,23))\nfor part in ('helper-back-leg','helper-front-leg','pushing-arm'):self.relate('connect','helper-torso',part)\nself.relate('connect','helper-back-leg','helper-front-leg')\ncircle(self,'user-head',33,11,4)\nself.add_line('user-torso',(33,23),(33,32))\nself.add_polyline('user-leg',(33,32),(40,32),(45,43))\nself.relate('connect','user-torso','user-leg');self.relate('connect','pushing-arm','user-torso')\ncurve(self,'wheel',(21,27),((17,31),(18,41),(25,44)),((31,46),(36,43),(36,38)))\nself.mark_human_figure('helper',head='helper-head',torso='helper-torso-curve',torso_junction='start')\nself.mark_human_figure('wheelchair-user',head='user-head',torso='user-torso',torso_junction='start')",
+  "refs": "human_ref/full_body_ref.png: coherent limbs and circular heads; accessibility: open wheelchair arc and seated leg",
+  "exception": "Preserve two people in a legible pushing pose with a full wheel. Compact arm/seat/wheel spacing is intentional; both head-to-torso gaps remain exactly4px."
+}

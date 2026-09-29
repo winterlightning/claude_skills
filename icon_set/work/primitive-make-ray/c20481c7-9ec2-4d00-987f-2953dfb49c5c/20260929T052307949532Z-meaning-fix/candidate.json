@@ -1,0 +1,44 @@
+{
+  "concept": "robot pet dog",
+  "source_uuid": "c20481c7-9ec2-4d00-987f-2953dfb49c5c",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__robot-dog/20260929T051531Z-thuan-mac/reference/robot pet dog_c20481c7-9ec2-4d00-987f-2953dfb49c5c.svg",
+  "icon_id": "robot-dog",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected robot dog had angular stick legs, a triangular face and a diagonal tail. The source has a rounded mechanical head, capsule body, articulated feet and a curved tail.",
+  "plan": "Restore rounded muzzle and head casing, horizontal capsule torso, two bent outlined legs with feet, and an upturned curved tail.",
+  "author": "gpt-6",
+  "module": "robot_dog_c20481c7_9ec2_4d00_987f_2953dfb49c5c.py",
+  "svg": "robot-dog.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "robot-dog",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 5, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 1.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [head]: parallel straight edges head-2 and head-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [body]: parallel straight edges body-6, body-5, body-4, body-3 and rear-leg-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [front-leg]: parallel straight edges front-leg-4 and front-leg-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "mic [rear-leg]: parallel straight edges rear-leg-4 and rear-leg-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+      "holes/pinches: 3 undersized holes; 0 pinches"
+    ],
+    "warnings": [
+      "internal-spacing [head]: head-2 and head-4 have 2 units of ink clearance over 4 units; requires 4; review required",
+      "internal-spacing [body / rear-leg]: body-5 and rear-leg-3 have 2.1325 units of ink clearance over 4 units; requires 4; review required",
+      "internal-spacing [body / front-leg]: body-7 and front-leg-4 have 2.2668 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [front-leg]: front-leg-1 and front-leg-5 have 0.7085 units of ink clearance over 5.1083 units; requires 4; review required",
+      "internal-spacing [front-leg / rear-leg]: front-leg-1 and rear-leg-3 have 0.6839 units of ink clearance over 6.1078 units; requires 4; review required",
+      "internal-spacing [front-leg]: front-leg-2 and front-leg-4 have 0 units of ink clearance over 3 units; requires 4; review required",
+      "internal-spacing [rear-leg]: rear-leg-1 and rear-leg-5 have 0.1325 units of ink clearance over 4.3796 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Mechanical body joins and articulated feet require compact interior openings. Retain the complete robotic dog under user-authorized visual exception with uniform4px strokes.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "ce0ef9ee96e316d9820eb14f863a557e4476d0d4503e2fc725139c8e97ea3a06"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "Small body seams omitted.",
+  "construction_references": "Lucide dog provides rounded animal contour principles; supplied robot-dog reference defines mechanical side silhouette."
+}

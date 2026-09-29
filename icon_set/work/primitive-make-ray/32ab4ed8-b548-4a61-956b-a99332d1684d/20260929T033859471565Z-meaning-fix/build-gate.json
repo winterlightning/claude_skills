@@ -1,0 +1,27 @@
+{
+  "icon_id": "headphones-with-portable-player",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (2, 2.5, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 1.5, 2.0, 2.0], tolerance 0.0)",
+    "mic [right-cup]: parallel straight edges right-cup2 and right-cup6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [right-cup]: parallel straight edges right-cup6 and player2 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [player]: parallel straight edges player6 and left-cup2 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [left-cup]: parallel straight edges left-cup2 and left-cup6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [left-cup]: left-cup and player are 5 apart on centerlines nearest (10, 31)<->(15, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [right-cup]: right-cup and player are 5 apart on centerlines nearest (38, 27)<->(33, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [player]: player and control are 6 apart on centerlines nearest (15, 34)<->(21, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [band]: band and left-cup are 0 apart on centerlines nearest (5.07766, 24.6975)<->(5.07766, 24.6975); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [band]: band and right-cup are 0 apart on centerlines nearest (42.9223, 24.6975)<->(42.9223, 24.6975); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "internal-spacing [left-cup]: left-cup2 and left-cup6 have 2 units of ink clearance over 3 units; requires 4; review required",
+    "internal-spacing [right-cup]: right-cup2 and right-cup6 have 2 units of ink clearance over 3 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "The earcups, overhead band and detailed player need nested spacing and small control openings to remain recognizable. Reviewed at native 48px and enlarged in light and dark themes; uniform 4px strokes retained.",
+    "approved_by": "user (delegated visual exception approval in this request)",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "a63a8a468a6cbbd7d167cf40be547a1a56f5af77a48b2bd254d5b2668196eeb6"
+  },
+  "automatic_status": "fail"
+}

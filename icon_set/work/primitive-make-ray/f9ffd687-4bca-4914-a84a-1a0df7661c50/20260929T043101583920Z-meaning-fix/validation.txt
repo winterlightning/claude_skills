@@ -1,0 +1,29 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink reaches radius 26.3740 about (24, 24), outside the CIRCLE radius 22.0
+  ERROR  mic [face]: face and left-eye are 6.5833 apart on centerlines nearest (6.10159, 15.0762)<->(12, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [face]: face and right-eye are 6.5833 apart on centerlines nearest (41.8984, 15.0762)<->(36, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [face]: face and queasy-puff are 6.13473 apart on centerlines nearest (44, 27)<->(41.3097, 32.5134); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [mouth]: mouth and queasy-puff are 5.65852 apart on centerlines nearest (23, 29)<->(28.1502, 31.3439); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [left-eye]: left-eye and right-eye are 8 apart on centerlines nearest (20, 18)<->(28, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Build gate: {
+  "icon_id": "queasy-face",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink reaches radius 26.3740 about (24, 24), outside the CIRCLE radius 22.0",
+    "mic [face]: face and left-eye are 6.5833 apart on centerlines nearest (6.10159, 15.0762)<->(12, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [face]: face and right-eye are 6.5833 apart on centerlines nearest (41.8984, 15.0762)<->(36, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [face]: face and queasy-puff are 6.13473 apart on centerlines nearest (44, 27)<->(41.3097, 32.5134); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [mouth]: mouth and queasy-puff are 5.65852 apart on centerlines nearest (23, 29)<->(28.1502, 31.3439); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "mic [left-eye]: left-eye and right-eye are 8 apart on centerlines nearest (20, 18)<->(28, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "exception": {
+    "reason": "Expressive mouth and puff require local spacing below 4px and an open circular envelope; all marks stay in canvas and use 4px stroke. User authorized expression-preserving exception.",
+    "approved_by": "user",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "b655b09a1ba2299fba1974709421e9c4692895c4e63856efb656a500ae8bb92a"
+  },
+  "automatic_status": "fail"
+}

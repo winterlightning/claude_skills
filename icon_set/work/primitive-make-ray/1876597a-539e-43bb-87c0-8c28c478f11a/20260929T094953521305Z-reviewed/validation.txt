@@ -1,0 +1,29 @@
+status: invalid
+  ERROR  mic [boat]: parallel straight edges boat-0 and boat-9 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [boat]: boat and head are 5.21956 apart on centerlines nearest (15, 15)<->(20.0972, 13.8764); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+Full gate: {
+  "icon_id": "person-in-flagged-dragon-boat",
+  "status": "pass",
+  "errors": [
+    "mic [boat]: parallel straight edges boat-0 and boat-9 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [boat]: boat and head are 5.21956 apart on centerlines nearest (15, 15)<->(20.0972, 13.8764); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [boat]: boat-0 and boat-9 have 3 units of ink clearance over 2 units; requires 4; review required",
+    "internal-spacing [boat]: boat-1 and boat-3 have 0.2747 units of ink clearance over 3.25 units; requires 4; review required",
+    "internal-spacing [boat / bust]: boat-3 and bust-0 have -0.6512 units of ink clearance over 4.25 units; requires 4; review required",
+    "internal-spacing [boat]: boat-4 and boat-8 have 1.9931 units of ink clearance over 4.6731 units; requires 4; review required",
+    "internal-spacing [boat]: boat-5 and boat-7 have 2.5937 units of ink clearance over 8 units; requires 4; review required",
+    "internal-spacing [boat]: boat-5 and boat-8 have 3.0665 units of ink clearance over 5.25 units; requires 4; review required",
+    "internal-spacing [boat / pole]: boat-7 and pole have 3.5869 units of ink clearance over 3.0748 units; requires 4; review required",
+    "internal-spacing [bust / pole]: bust-1 and pole have 0.0071 units of ink clearance over 8.75 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "Preserve the dragon prow, passenger bust, rounded hull and rectangular flag; compact attached contours and prow/head spacing retain the complete boat scene.",
+    "approved_by": "user (exception discretion explicitly delegated); visual review by gpt-6",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "fec64aa99a35d8fbe498a575099a4ab874e3dd80438b47dc47fa52f94d89c245"
+  },
+  "automatic_status": "fail"
+}

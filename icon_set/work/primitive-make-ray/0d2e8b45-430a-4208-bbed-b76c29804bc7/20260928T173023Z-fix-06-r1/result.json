@@ -1,0 +1,74 @@
+{
+  "concept": "supply chain distributor fruit juice",
+  "source_uuid": "0d2e8b45-430a-4208-bbed-b76c29804bc7",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__fruit-and-carton-cycle/20260928T173023Z-thuan-mac/reference/supply chain distributor fruit juice_0d2e8b45-430a-4208-bbed-b76c29804bc7.svg",
+  "icon_id": "fruit-and-carton-cycle",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "fruit-and-carton-cycle",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [carton]: parallel straight edges carton-4 and carton-fold-1 are 6.6564 apart on centerlines (ink gap 2.6564); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [apple]: apple and upper-arrow are 7.05566 apart on centerlines nearest (20.5758, 10.9176)<->(27, 8); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [apple]: apple and lower-arrow are 6.63201 apart on centerlines nearest (8.10939, 22.7946)<->(4, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [upper-arrow]: upper-arrow and carton are 7.28011 apart on centerlines nearest (42, 19)<->(40, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [apple / leaf]: apple-3 and leaf-0 have -1.2363 units of ink clearance over 5.4855 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The apple, folded carton and paired cycle arrows retain the original meaning. Compact carton panels and arrow spacing remain visibly distinct at 48px; the wider bounds support recognizable silhouettes.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "c20c3a6cb5f38f3dcd3576acedac1f3b1637c18c5f6bb0d68c565174a82f6e8c"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "fruit-and-carton-cycle",
+    "status": "fail",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [carton]: parallel straight edges carton-4 and carton-fold-1 are 6.6564 apart on centerlines (ink gap 2.6564); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [apple]: apple and upper-arrow are 7.05566 apart on centerlines nearest (20.5758, 10.9176)<->(27, 8); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [apple]: apple and lower-arrow are 6.63201 apart on centerlines nearest (8.10939, 22.7946)<->(4, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [upper-arrow]: upper-arrow and carton are 7.28011 apart on centerlines nearest (42, 19)<->(40, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [apple / leaf]: apple-3 and leaf-0 have -1.2363 units of ink clearance over 5.4855 units; requires 4; review required"
+    ]
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "The cycle arrows were angular hooks; the carton fold was missing.",
+    "feedback": "Bad stroke drawn",
+    "changes": "Rebuilt curved directional arrows, shaped the apple and restored a gabled carton with a side fold.",
+    "construction_reference": "Lucide apple and milk",
+    "omissions": "Tiny carton top lip omitted to keep the gable open.",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "before.png",
+    "preview-dark-384.png",
+    "accepted-gate.json",
+    "fruit-and-carton-cycle.svg",
+    "preview-dark-48.png",
+    "original.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "fruit-and-carton-cycle.metadata.json",
+    "automatic-gate.json",
+    "fruit_and_carton_cycle_0d2e8b45_430a_4208_bbed_b76c29804bc7.py",
+    "review.json",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

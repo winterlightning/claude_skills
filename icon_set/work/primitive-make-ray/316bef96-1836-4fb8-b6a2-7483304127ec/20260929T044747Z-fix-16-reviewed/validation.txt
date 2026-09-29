@@ -1,0 +1,38 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)
+  ERROR  mic [exhaust-a]: parallel straight edges exhaust-a and exhaust-b are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [fin-right]: fin-right and globe are 4.31371 apart on centerlines nearest (27, 29)<->(30.0503, 32.0503); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [fin-right]: fin-right and continent are 6.06252 apart on centerlines nearest (29, 27)<->(33.5743, 30.9787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [fin-left]: fin-left and exhaust-a are 5.77748 apart on centerlines nearest (14.2759, 22.6897)<->(12, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [rocket]: rocket and exhaust-b are 7.72323 apart on centerlines nearest (22.131, 27.2276)<->(17, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [exhaust-a]: exhaust-a and exhaust-b are 7.07107 apart on centerlines nearest (12, 28)<->(17, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+{
+  "icon_id": "rocket-passing-above-a-globe",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 2, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [exhaust-a]: parallel straight edges exhaust-a and exhaust-b are 7.07107 apart on centerlines (ink gap 3.07107); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [fin-right]: fin-right and globe are 4.31371 apart on centerlines nearest (27, 29)<->(30.0503, 32.0503); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [fin-right]: fin-right and continent are 6.06252 apart on centerlines nearest (29, 27)<->(33.5743, 30.9787); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [fin-left]: fin-left and exhaust-a are 5.77748 apart on centerlines nearest (14.2759, 22.6897)<->(12, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [rocket]: rocket and exhaust-b are 7.72323 apart on centerlines nearest (22.131, 27.2276)<->(17, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [exhaust-a]: exhaust-a and exhaust-b are 7.07107 apart on centerlines nearest (12, 28)<->(17, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "holes/pinches: 2 undersized holes; 1 pinches"
+  ],
+  "warnings": [
+    "internal-spacing [rocket / fin-right]: rocket-3 and fin-right-2 have -0.6405 units of ink clearance over 4.1812 units; requires 4; review required",
+    "internal-spacing [fin-left]: fin-left-1 and fin-left-3 have 2.8115 units of ink clearance over 3.25 units; requires 4; review required",
+    "internal-spacing [globe / continent]: globea and continent-0 have 0.2158 units of ink clearance over 6.2472 units; requires 4; review required",
+    "internal-spacing [globe / continent]: globea and continent-1 have 1.9885 units of ink clearance over 4.7478 units; requires 4; review required",
+    "internal-spacing [globe / continent]: globeb and continent-0 have 1.6599 units of ink clearance over 6.2472 units; requires 4; review required",
+    "internal-spacing [globe / continent]: globeb and continent-1 have -0.6607 units of ink clearance over 6.2472 units; requires 4; review required"
+  ],
+  "exception": {
+    "reason": "A finned rocket and separate lower globe are both defining parts. Compact globe/continent opening and rocket-fin joints preserve the reference scene without dropping the planet.",
+    "approved_by": "user-authorized gpt-6 visual review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "4962f00bab2dc8ab528cd152300b93b05ffd7a709d2a62b836e570b58ca6c4b1"
+  },
+  "automatic_status": "fail"
+}

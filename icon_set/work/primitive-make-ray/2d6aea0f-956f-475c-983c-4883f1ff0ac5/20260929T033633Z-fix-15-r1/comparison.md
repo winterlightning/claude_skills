@@ -1,0 +1,9 @@
+Original and rejected images inspected before authoring.
+
+Rejected: The two distinct loop arrows became one S-shaped line and the upper arrowhead disappeared.
+
+Feedback: Does not convey the intended meaning
+
+Revision: Restored two circular iteration sweeps with separate arrowheads over a rightward baseline arrow.
+
+Construction: No useful exact workflow match; coherent circular sweeps and open arrowheads.

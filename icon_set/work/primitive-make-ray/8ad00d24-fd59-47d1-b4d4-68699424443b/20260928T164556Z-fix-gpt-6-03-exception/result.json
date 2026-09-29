@@ -1,0 +1,45 @@
+{
+  "source_uuid": "8ad00d24-fd59-47d1-b4d4-68699424443b",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__airbrush-spray-gun/20260928T164556Z-thuan-mac/reference/airbrush_8ad00d24-fd59-47d1-b4d4-68699424443b.svg",
+  "concept": "airbrush",
+  "icon_id": "airbrush-spray-gun",
+  "author": "gpt-6",
+  "validation_status": "valid",
+  "build_gate": {
+    "icon_id": "airbrush-spray-gun",
+    "status": "pass",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [body / cup]: body-2 and cup-3 have 2.2778 units of ink clearance over 3.9752 units; requires 4; review required",
+      "internal-spacing [body]: body-5 and body-8 have 3.2143 units of ink clearance over 4.4687 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The tilted cup, neck, trigger and grip remain distinct at 48px; intentional 2.28\u20133.22px local clearances preserve a recognizable compact airbrush. Uniform 4px strokes and canvas retained.",
+      "approved_by": "gpt-6 under user-delegated exception authority",
+      "approved_on": "2026-09-28",
+      "svg_sha256": "25234cda45b3318490b3ed4a3e6ac4a5155b1634f966f02d672286ba418cd323"
+    },
+    "automatic_status": "review"
+  },
+  "acceptance": "pass \u00b7 exception",
+  "visual_review": "Inspected reference and rejected drawing before authoring; inspected revised native 48px and enlarged previews in light/dark themes. Coherent silhouette, smooth contour flow and readable identifying details.",
+  "before_findings": "The upright trapezoid cup and angular grip lost the tilted paint reservoir and natural airbrush profile.",
+  "feedback": "Manual fix request",
+  "changes": "Restored the tilted rounded paint cup, tapered nozzle, rounded grip and curved trigger.",
+  "keyshape": "SQUARE",
+  "construction_references": "No useful exact Lucide match; source supplies the tilted cup and grip.",
+  "omissions": "No additional identity-bearing features omitted.",
+  "artifacts": [
+    "airbrush_spray_gun_8ad00d24_fd59_47d1_b4d4_68699424443b.py",
+    "airbrush-spray-gun.svg",
+    "airbrush-spray-gun.metadata.json",
+    "reference.png",
+    "before.png",
+    "preview-light-48.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-dark-384.png",
+    "validation.txt",
+    "gate.json"
+  ]
+}

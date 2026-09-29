@@ -1,0 +1,57 @@
+{
+  "concept": "sport jet skiing",
+  "source_uuid": "959341bb-93a4-4207-a514-99f7bd37b9b4",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__seated-jet-ski-rider/20260929T084652Z-thuan-mac/reference/sport jet skiing_959341bb-93a4-4207-a514-99f7bd37b9b4.svg",
+  "current_problem": "The rejected rider has a tiny head and the bent body merges with the hull into a mound; the seated leg is no longer clear.",
+  "feedback": "Does not convey the intended meaning",
+  "revision": "Enlarge the head, separate the upright rider and reaching arm, show a hanging bent leg, and open the craft silhouette around that leg.",
+  "original_render": "/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__seated-jet-ski-rider/20260929T084652Z-thuan-mac/original.png",
+  "rejected_render": "/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-fix-thuan/solo__seated-jet-ski-rider/20260929T084652Z-thuan-mac/rejected.png",
+  "icon_id": "seated-jet-ski-rider",
+  "key": "solo/seated-jet-ski-rider",
+  "author": "gpt-6",
+  "module": "icon_set/work/primitive-make-ray/959341bb-93a4-4207-a514-99f7bd37b9b4/20260929T085502334499Z-meaning-fix/seated_jet_ski_rider_959341bb_93a4_4207_a514_99f7bd37b9b4.py",
+  "run": "icon_set/work/primitive-make-ray/959341bb-93a4-4207-a514-99f7bd37b9b4/20260929T085502334499Z-meaning-fix",
+  "svg": "icon_set/work/primitive-make-ray/959341bb-93a4-4207-a514-99f7bd37b9b4/20260929T085502334499Z-meaning-fix/seated-jet-ski-rider.svg",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
+    "mic [front-hull]: front-hull and water are 5.5 apart on centerlines nearest (15, 37)<->(15, 42.5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "seated-jet-ski-rider",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (4, 4, 44, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
+      "mic [front-hull]: front-hull and water are 5.5 apart on centerlines nearest (15, 37)<->(15, 42.5); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [],
+    "exception": {
+      "reason": "User explicitly delegated exception decisions. Retain the complete seated rider, hanging leg, hull and water at native 48px. The waterline uses the lower two additional inset pixels and a 1.5px minimum visible gap below the bow. Both themes were visually reviewed: the craft and water remain distinct, with uniform 4px strokes and no canvas overflow. Automatic keyshape and clearance findings are retained.",
+      "approved_by": "gpt-6 under explicit user delegation",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a5ccd58d96a0a47ca66a5b70338075d230510cd896b7a9f89768deaade250cc3"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_build_status": "fail",
+  "accepted_exception": true,
+  "visual_review": "Reviewed original, rejected SVG, and fresh exports at native 48px and enlarged size in both light and dark. The defining action and equipment read clearly; smooth strokes, visible openings, and balanced anatomy retained.",
+  "omissions": "Fine doubled source outlines and redundant secondary strokes; safety-fire-right reduces three trails to two to preserve the enclosed flame opening.",
+  "artifacts": [
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "gate.json",
+    "seated-jet-ski-rider.metadata.json",
+    "seated_jet_ski_rider_959341bb_93a4_4207_a514_99f7bd37b9b4.py",
+    "comparison.json",
+    "preview-light-384.png",
+    "validation.txt",
+    "automatic-gate.json",
+    "seated-jet-ski-rider.svg",
+    "preview-light-48.png"
+  ],
+  "human_reference": "icon_set/references/human_ref/full_body_ref.png",
+  "lucide_reference": "person-standing original and atomic-debug; articulated strokes and shared torso nodes"
+}

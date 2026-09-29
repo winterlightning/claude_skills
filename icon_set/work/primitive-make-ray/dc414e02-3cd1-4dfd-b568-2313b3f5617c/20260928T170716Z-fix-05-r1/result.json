@@ -1,0 +1,66 @@
+{
+  "concept": "mobile phone record",
+  "source_uuid": "dc414e02-3cd1-4dfd-b568-2313b3f5617c",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__mobile-phone-record/20260928T170716Z-thuan-mac/reference/mobile phone record_dc414e02-3cd1-4dfd-b568-2313b3f5617c.svg",
+  "icon_id": "mobile-phone-record",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "mobile-phone-record",
+    "status": "pass",
+    "errors": [
+      "mic [phone]: phone and record-ring are 6 apart on centerlines nearest (10, 20)<->(16, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [record-ring]: record-ring and record-dot are 7.9994 apart on centerlines nearest (31.4981, 17.2129)<->(24, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "User authorized agent-selected exceptions in this task. The recording ring needs 2px phone-wall clearance; the restored dot remains clearly separated inside the ring.",
+      "approved_by": "user-authorized-agent",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "a7e1c32236f0bd791851283b67cf4398496fd3c090b4ea21207bd892e51bbbf8"
+    },
+    "automatic_status": "fail"
+  },
+  "automatic_gate": {
+    "icon_id": "mobile-phone-record",
+    "status": "fail",
+    "errors": [
+      "mic [phone]: phone and record-ring are 6 apart on centerlines nearest (10, 20)<->(16, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "mic [record-ring]: record-ring and record-dot are 7.9994 apart on centerlines nearest (31.4981, 17.2129)<->(24, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ]
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "before_problem": "The current record ring omitted the reference center dot.",
+    "feedback": "Manual fix request\n\nphone and missing dot inside the circle",
+    "changes": "Slender phone and restored centered recording dot in a larger ring.",
+    "construction_reference": "smartphone",
+    "omissions": "None",
+    "native_themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Compared reference, rejected current and candidate at native 48px and enlarged size. Smooth contours, readable identity and open negative spaces reviewed. Intentional directional asymmetry follows source.",
+    "human_gap": "Not a detached human figure."
+  },
+  "artifacts": [
+    "before.png",
+    "preview-dark-384.png",
+    "mobile-phone-record.svg",
+    "accepted-gate.json",
+    "preview-dark-48.png",
+    "original.png",
+    "preview-light-384.png",
+    "validation.txt",
+    "automatic-gate.json",
+    "mobile-phone-record.metadata.json",
+    "review.json",
+    "mobile_phone_record_dc414e02_3cd1_4dfd_b568_2313b3f5617c.py",
+    "before-native-48.png",
+    "reference-native-48.png",
+    "preview-light-48.png"
+  ]
+}

@@ -1,0 +1,10 @@
+status: invalid
+  ERROR  mic [table]: parallel straight edges table-5, table-4 and page-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [page]: page and table are 6 apart on centerlines nearest (16, 44)<->(16, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+build gate: pass
+  mic [table]: parallel straight edges table-5, table-4 and page-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  mic [page]: page and table are 6 apart on centerlines nearest (16, 44)<->(16, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  internal-spacing [page / fold]: page-1 and fold-1 have 2.3109 units of ink clearance over 4.3492 units; requires 4; review required
+Accepted drawing-bound visual exception; automatic findings retained.
+{"reason": "Preserve the folded page corner and a readable two-column table. The 2px bottom margin and naturally tapered fold are intentional at 48px; every table cell retains 4px interior space.", "approved_by": "gpt-6 under explicit user-delegated exception authority", "approved_on": "2026-09-29", "svg_sha256": "c858d28d5bf62891d993a29fad500be63cdba3fd730a1b97cc495a8f23b2038c"}

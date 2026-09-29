@@ -1,0 +1,65 @@
+{
+  "source_uuid": "f498c216-bd74-4c20-ae57-aae3ee60475d",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__standing-performer-between-open-stage-curtains/20260929T093049Z-thuan-mac/reference/show person_f498c216-bd74-4c20-ae57-aae3ee60475d.svg",
+  "icon_id": "standing-performer-between-open-stage-curtains",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [right-drape]: right-drape and head are 5.05838 apart on centerlines nearest (32.8451, 14.0463)<->(27.9028, 15.1236); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [left-drape]: left-drape and arms are 5.43217 apart on centerlines nearest (12.8108, 33.6066)<->(18, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "standing-performer-between-open-stage-curtains",
+    "status": "pass",
+    "errors": [
+      "mic [right-drape]: right-drape and head are 5.05838 apart on centerlines nearest (32.8451, 14.0463)<->(27.9028, 15.1236); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [left-drape]: left-drape and arms are 5.43217 apart on centerlines nearest (12.8108, 33.6066)<->(18, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [arms / legs]: arms-1 and legs-1 have 2.0975 units of ink clearance over 2.6874 units; requires 4; review required",
+      "internal-spacing [arms / legs]: arms-2 and legs-2 have 2.0975 units of ink clearance over 2.6874 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "The complete standing performer and curved tied-back curtains remain distinct at 48px. Compact figure-to-curtain and limb spacing preserves the stage composition without shrinking the person. Head/body ink gap is exactly 4 units.",
+      "approved_by": "user-authorized visual review by gpt-6",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "61fddb67ee9dd319240638314ecf116addf8e97fdc7116099f3ab68dc0f0b285"
+    },
+    "automatic_status": "fail"
+  },
+  "accepted_exception": true,
+  "visual_review": {
+    "status": "reviewed",
+    "sizes": [
+      48,
+      144,
+      384
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "comparison": "The rejected performer is only a head above a tiny forked mark; the curtains have harsh angular inner edges.",
+    "feedback": "Does not convey the intended meaning",
+    "changes": "Restore a full standing performer, curved tied-back curtains and the stage opening.",
+    "findings": "The complete standing performer and curved tied-back curtains remain distinct at 48px. Compact figure-to-curtain and limb spacing preserves the stage composition without shrinking the person. Head/body ink gap is exactly 4 units."
+  },
+  "omissions": "Curtain pleats and costume details omitted. The performer uses the shared stick-figure construction with an exact 4-unit detached head gap.",
+  "keyshape": "SQUARE",
+  "construction_references": "human_ref/full_body_ref.png; Lucide theater and person-standing",
+  "artifacts": [
+    "build-gate.json",
+    "preview-dark-384.png",
+    "preview-dark-48.png",
+    "preview-light-384.png",
+    "preview-light-48.png",
+    "reference-384.png",
+    "reference-48.png",
+    "reference.svg",
+    "standing-performer-between-open-stage-curtains.metadata.json",
+    "standing-performer-between-open-stage-curtains.svg",
+    "standing_performer_between_open_stage_curtains_f498c216_bd74_4c20_ae57_aae3ee60475d.py",
+    "validation.txt"
+  ]
+}

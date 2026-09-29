@@ -1,0 +1,28 @@
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (6, 2.9257, 42, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.9257, 0.0, 0.0], tolerance 0.0)
+  ERROR  mic [pound-crossbar]: parallel straight edges pound-crossbar and pound-base are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [pound-base]: parallel straight edges pound-base and phone-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [signal-outer]: signal-outer and signal-inner are 7.38435 apart on centerlines nearest (24.0281, 4.9258)<->(24, 12.3101); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [signal-inner]: signal-inner and phone are 6 apart on centerlines nearest (17, 14)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [phone]: phone and pound are 6 apart on centerlines nearest (25, 20)<->(25, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+
+{
+  "icon_id": "mobile-wireless-pound-payment-solo",
+  "status": "pass",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (6, 2.9257, 42, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.9257, 0.0, 0.0], tolerance 0.0)",
+    "mic [pound-crossbar]: parallel straight edges pound-crossbar and pound-base are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [pound-base]: parallel straight edges pound-base and phone-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [signal-outer]: signal-outer and signal-inner are 7.38435 apart on centerlines nearest (24.0281, 4.9258)<->(24, 12.3101); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [signal-inner]: signal-inner and phone are 6 apart on centerlines nearest (17, 14)<->(17, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [phone]: phone and pound are 6 apart on centerlines nearest (25, 20)<->(25, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "exception": {
+    "reason": "Keep two wireless arcs, a closed handset and an unmistakable pound with curved top, crossbar and baseline. The crowded bezel was omitted; compact currency spacing remains readable.",
+    "approved_by": "user-authorized-agent-review",
+    "approved_on": "2026-09-29",
+    "svg_sha256": "f144b48b7251ae41a69996a9940384d91bc12652362540340ea8920cda0be734"
+  },
+  "automatic_status": "fail"
+}

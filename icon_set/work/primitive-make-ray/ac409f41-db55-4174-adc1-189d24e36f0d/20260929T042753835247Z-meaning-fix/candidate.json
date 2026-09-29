@@ -1,0 +1,40 @@
+{
+  "concept": "workflow teamwork cog share",
+  "source_uuid": "ac409f41-db55-4174-adc1-189d24e36f0d",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__radiating-gear/20260929T042221Z-thuan-mac/reference/workflow teamwork cog share_ac409f41-db55-4174-adc1-189d24e36f0d.svg",
+  "icon_id": "radiating-gear",
+  "feedback": "Does not convey the intended meaning",
+  "comparison": "The rejected gear replaced the radial light strokes with four dots and used a coarse hexagonal outline. Feedback asks to recover the radiating cog.",
+  "plan": "A toothed central cog surrounded by eight short radial strokes; preserve the reference absence of a central hub.",
+  "author": "gpt-6",
+  "module": "radiating_gear_ac409f41_db55_4174_adc1_189d24e36f0d.py",
+  "svg": "radiating-gear.svg",
+  "validation_status": "invalid",
+  "gate": {
+    "icon_id": "radiating-gear",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 2, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [gear]: gear and top are 6 apart on centerlines nearest (24, 13)<->(24, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and bottom are 6 apart on centerlines nearest (24, 35)<->(24, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and left are 6.08276 apart on centerlines nearest (13, 23)<->(7, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and right are 6.32456 apart on centerlines nearest (35, 22)<->(41, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and ne are 7.81025 apart on centerlines nearest (32, 17)<->(37, 11); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [gear]: gear and se are 7.77817 apart on centerlines nearest (31.5, 31.5)<->(37, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [gear]: gear-1 and gear-close have 2.1471 units of ink clearance over 2.1828 units; requires 4; review required",
+      "internal-spacing [gear]: gear-8 and gear-10 have 1.8697 units of ink clearance over 2.5 units; requires 4; review required"
+    ],
+    "exception": {
+      "reason": "Eight radial rays require a compact cog-to-ray gap and non-square radial envelope. These remain legible with uniform 4px strokes under the authorized exception.",
+      "approved_by": "user",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "df4090281d45f639bfb2ed1467f90862464d24e2307f16cbb3672f2e89a1b356"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": "pending",
+  "omissions": "",
+  "construction_references": "Lucide settings: coherent toothed silhouette; supplied reference specifies eight radiating strokes."
+}

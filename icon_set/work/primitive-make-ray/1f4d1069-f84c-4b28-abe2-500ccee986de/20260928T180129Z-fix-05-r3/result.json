@@ -1,0 +1,62 @@
+{
+  "source_uuid": "1f4d1069-f84c-4b28-abe2-500ccee986de",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__car-with-two-seated-occupants/20260928T180129Z-thuan-mac/reference/carpool_1f4d1069-f84c-4b28-abe2-500ccee986de.svg",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__car-with-two-seated-occupants/20260928T180129Z-thuan-mac/reference/carpool_1f4d1069-f84c-4b28-abe2-500ccee986de.svg",
+  "icon_id": "car-with-two-seated-occupants",
+  "author": "gpt-6",
+  "validation_status": "pass-exception",
+  "automatic_validation_status": "invalid",
+  "build_gate": {
+    "icon_id": "car-with-two-seated-occupants",
+    "status": "pass",
+    "errors": [
+      "canvas/keyshape bounds: visible ink (2, 4, 46, 46) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [2.0, 0.0, 2.0, 2.0], tolerance 0.0)",
+      "mic [roof]: roof and head17 are 5.14227 apart on centerlines nearest (8.90881, 15.0933)<->(14.0144, 15.7059); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [body]: body and lamp17 are 4 apart on centerlines nearest (12, 31)<->(12, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [roof]: roof and head31 are 5.14227 apart on centerlines nearest (39.0912, 15.0933)<->(33.9856, 15.7059); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [body]: body and lamp31 are 4 apart on centerlines nearest (36, 31)<->(36, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [shoulders17]: shoulders17 and lamp17 are 4 apart on centerlines nearest (12, 31)<->(12, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [shoulders17]: shoulders17 and shoulders31 are 4 apart on centerlines nearest (22, 31)<->(26, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [shoulders31]: shoulders31 and lamp31 are 4 apart on centerlines nearest (36, 31)<->(36, 35); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "holes/pinches: 2 undersized holes; 2 pinches"
+    ],
+    "warnings": [
+      "mic [body]: body and shoulders17 are 0 apart on centerlines nearest (12, 31)<->(12, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [body]: body and shoulders31 are 0 apart on centerlines nearest (26, 31)<->(26, 31); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "exception": {
+      "reason": "Preserve two outlined seated occupants inside a car windscreen. Matched circular heads and shoulder arcs use exactly 4px visible detached head gap; compact windshield and hood spacing remains legible.",
+      "approved_by": "user-authorized-agent-visual-review",
+      "approved_on": "2026-09-29",
+      "svg_sha256": "bdddf0dcf3fada48dab30e61493c46baec232b185e79a5f9ef7b0ff07517e4ae"
+    },
+    "automatic_status": "fail"
+  },
+  "visual_review": {
+    "status": "reviewed",
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      384
+    ],
+    "comparison": "Two bare dots did not identify seated occupants.",
+    "change": "Restored two outlined heads and paired shoulder curves behind the windscreen, plus lamps and tires.",
+    "construction_reference": "car-front and human_ref/user.svg: rounded body and small repeated busts.",
+    "findings": "Native-size silhouette and meaning reviewed; rounded contours, open negative spaces and retained identifying features accepted.",
+    "human_gap": "Heads center y16 radius3; shoulder ellipse top y27; centerline gap 8 and visible gap 4."
+  },
+  "omissions": "Secondary creases and fine decorative detail omitted for 48px clarity.",
+  "artifacts": [
+    "car_with_two_seated_occupants_1f4d1069_f84c_4b28_abe2_500ccee986de.py",
+    "car-with-two-seated-occupants.svg",
+    "validation.txt",
+    "reference.png",
+    "preview-light-48.png",
+    "preview-light-384.png",
+    "preview-dark-48.png",
+    "preview-dark-384.png"
+  ]
+}
