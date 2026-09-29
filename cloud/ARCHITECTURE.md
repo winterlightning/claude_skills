@@ -8,7 +8,27 @@ Companion files: [`README.md`](README.md) (everyday use), [`MIGRATION.md`](MIGRA
 cutover runbook), [`data-model.html`](data-model.html) (the long-term data model),
 [`worker/migrations/`](worker/migrations) (the exact D1 schema).
 
-Numbers in this file were read from the live resources on **2026-09-28** (read-only queries).
+Numbers in this file were read from the live resources on **2026-09-28** (read-only queries), except
+the live counts table below, read **2026-09-29** after push 4.
+
+> **Live counts on 2026-09-29 (after push 4)** — much larger than the per-table numbers further down,
+> which date from before real data reached the cloud:
+>
+> | Table | Rows |
+> |---|---:|
+> | `icons` | 24,113 total: 15,603 built (incl. 1,359 Side combination 64) · 1,026 failed builds · 7,484 uploads |
+> | `revisions` | 26,013: build 18,325 · upload 7,458 · extra 230 |
+> | `extra_drawings` | 682 |
+> | `catalog_pushes` | 4 |
+> | `reviews` | 25,551 |
+> | `activity_log` | 59,793 (max id 60,355) |
+> | `work_results` | 7,664 |
+> | `store_documents` | 678 |
+> | `reference_images` | 0 |
+>
+> Activity ids now run far past 25,604, so **section 7 ("the cloud has no real reviewer work yet") is
+> out of date**: workflow data and stores have been loaded since (source not recorded here). Re-check
+> before using merge path A, which assumes the cloud holds only test residue.
 
 ---
 
