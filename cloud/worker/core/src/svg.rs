@@ -135,6 +135,17 @@ struct Attr {
 
 /// Accept a portable vector SVG for a `canvas`×`canvas` profile; returns the cleaned document.
 pub fn safe_svg(text: &str, canvas: i64) -> Result<String, String> {
+    sanitize(text, Some(canvas))
+}
+
+/// Like `safe_svg`, for uploads that may use any canvas (Container pairs page): the viewBox and size are
+/// kept as drawn, and attributes outside the allowlist are dropped instead of refused. Active content
+/// (scripts, `on…` handlers, outside references) is still refused.
+pub fn safe_svg_any_canvas(text: &str) -> Result<String, String> {
+    sanitize(text, None)
+}
+
+fn sanitize(text: &str, canvas: Option<i64>) -> Result<String, String> {
     if text.trim().is_empty() || text.len() > MAX_SVG {
         return Err("Choose an SVG file up to 1 MB.".into());
     }
@@ -207,6 +218,9 @@ pub fn safe_svg(text: &str, canvas: i64) -> Result<String, String> {
                 // Editor metadata does not affect rendered geometry.
             } else if attr_local == "style" {
                 attrs.push(Attr { key: "style".into(), value: declarations(&value)? });
+            } else if canvas.is_none() && !attr_local.to_ascii_lowercase().starts_with("on")
+                && !(PAINT.contains(&attr_local.as_str()) || OTHER_ATTRS.contains(&attr_local.as_str())) {
+                // Any-canvas uploads: an unknown attribute (role, …) is dropped.
             } else if !(PAINT.contains(&attr_local.as_str()) || OTHER_ATTRS.contains(&attr_local.as_str())) || !value_ok(&value) {
                 return Err(format!("Unsupported SVG attribute: {attr_local}. Export a static vector SVG."));
             } else {
@@ -242,7 +256,7 @@ pub fn safe_svg(text: &str, canvas: i64) -> Result<String, String> {
                 root_seen = true;
                 let empty = matches!(event, Event::Empty(_));
                 let (tag, mut attrs) = open(&reader, ns, e, is_root, &mut uses_xlink, &mut root_bare)?;
-                if is_root {
+                if let (true, Some(canvas)) = (is_root, canvas) {
                     let view: Option<Vec<f64>> = attrs.iter().find(|a| a.key == "viewBox").map(|a| {
                         a.value.trim().split(|c: char| c.is_whitespace() || c == ',').filter(|p| !p.is_empty())
                             .map(|p| p.parse::<f64>()).collect::<Result<Vec<_>, _>>().unwrap_or_default()
@@ -381,5 +395,18 @@ mod tests {
         assert!(out.contains("xmlns:xlink=\"http://www.w3.org/1999/xlink\""));
         assert!(out.contains("<use xlink:href=\"#p\" class=\"a\" />"));
         assert!(out.contains(".a {fill:url(#g)}"));
+    }
+
+    #[test]
+    fn any_canvas_keeps_the_drawing_and_drops_unknown_attributes() {
+        let input = r##"<svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="DXF"><title>DXF</title><path d="M2 2L8 22" stroke="#202820" stroke-width="4"/></svg>"##;
+        assert!(safe_svg(input, 32).unwrap_err().contains("Unsupported SVG attribute: role"));
+        let out = safe_svg_any_canvas(input).unwrap();
+        assert!(out.contains("viewBox=\"0 0 34 24\"") && out.contains("width=\"34\"") && !out.contains("role"));
+        for bad in [r#"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path onclick="x()"/></svg>"#,
+                    r#"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><script/></svg>"#,
+                    r#"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path fill="url(https://x/y)"/></svg>"#] {
+            assert!(safe_svg_any_canvas(bad).is_err(), "{bad}");
+        }
     }
 }

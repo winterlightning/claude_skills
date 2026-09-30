@@ -106,8 +106,11 @@ for(const stroke of [.5,4,16])for(const underline of [false,true])for(const stri
   }
  }
  const exported=svg(decorated,text);
- assert.equal((exported.match(/data-effect=/g)||[]).length,decorated.decorations.length);
+ assert.equal((exported.match(/<line /g)||[]).length,decorated.decorations.length);
  assert.ok(!exported.includes('stroke-dasharray'));
+ // Exports go through the upload checker (cloud/worker/core/src/svg.rs), which only accepts allowlisted attributes.
+ const allowed=new Set(['xmlns','width','height','viewBox','transform','d','fill','stroke','stroke-width','stroke-linecap','stroke-linejoin','x1','x2','y1','y2']);
+ for(const [,name] of exported.matchAll(/\s([\w:-]+)="/g))assert.ok(allowed.has(name),`export uses non-upload attribute ${name}`);
  for(const lineTag of exported.match(/<line [^>]+>/g)||[])assert.ok(lineTag.includes(`stroke-width="${stroke}"`));
 }
 assert.equal(layout('\n  ',glyphs,{underline:true,strikethrough:true}).decorations.length,0);

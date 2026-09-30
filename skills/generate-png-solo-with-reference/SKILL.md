@@ -24,6 +24,17 @@ and do not touch `published/`, the registered icon folders, or the build.
   overrides the shape you would read from the reference.
 - Resolve the reference to an absolute path. If it does not exist or cannot be
   opened, report that item as blocked and continue with the others.
+- `--source-id <uuid>` inside a piece is the original icon id that this
+  drawing replaces or fixes; it belongs to that piece only. It becomes
+  `SOURCE_ICON_ID` on the Solo48 model the redraw step writes, so it cannot be
+  left out silently. Take it out of the piece before reading the rest.
+- A piece without `--source-id`: ask the user for its original icon id before
+  generating anything, one question listing every piece that lacks one; when the reference filename ends in a UUID, offer it as the suggested answer.
+  If the user says there is none (a brand-new concept), record
+  `source_icon_id: null` and add a warning to the report. When you cannot ask
+  (non-interactive run), do not guess an id: use `null` and warn.
+- Never invent, derive or look up an id yourself (a UUID in the reference filename is only a suggestion to confirm); only the user or the
+  caller supplies it. Keep it exactly as given.
 - No items: say so and stop.
 
 ## Inspect the reference
@@ -211,8 +222,8 @@ Then check the result:
   `<slug>_raw.svg` (nothing
   else from the vectorizer), `reference.<ext>` (a copy of the reference),
   `prompt.txt` (the filled brief that produced the final image), and
-  `choice.json` with `subject`, `reference_path` (the original absolute
-  path), `parts`, `shape`, `stroke_count`, `shape_source` (`user` or `agent`),
+  `choice.json` with `subject`, `source_icon_id` (the original icon id as
+  given, or `null`), `reference_path` (the original absolute path), `parts`, `shape`, `stroke_count`, `shape_source` (`user` or `agent`),
   `image_model` (`codex:image_gen`, an API model id, or the host tool name), `attempts`, and
   `created_at`.
 - Reply with one line per subject: the PNG path, the `<slug>_raw.svg` path

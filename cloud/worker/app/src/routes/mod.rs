@@ -1,9 +1,14 @@
 //! Route table: the same paths, methods and error shapes as icon_set/scripts/deploy.py.
 
 pub mod briefs;
+pub mod container_centers;
+pub mod container_pairs;
+pub mod edits;
 pub mod files;
 pub mod icons;
 pub mod internal;
+pub mod side;
+pub mod side_pairs;
 pub mod primitives;
 pub mod reviews;
 pub mod work;
@@ -22,16 +27,13 @@ const MAX_PUSH_BODY: usize = 32 * 1024 * 1024;
 fn production_blocked(path: &str) -> bool {
     path.starts_with("/api/generation") || path.starts_with("/api/ai-feedback")
         || matches!(path, "/api/icons/discard" | "/api/combinations/side/keep-sub" | "/api/feedback-db/sync"
-                          | "/api/combination-refresh" | "/api/combination-experiment" | "/api/symbols/copy-from-sub")
+                          | "/api/combination-refresh" | "/api/symbols/copy-from-sub")
 }
 
 /// Graphics processing (rendering, validation, geometry) and file packaging stay on local machines.
 fn local_only(path: &str) -> bool {
     path.starts_with("/api/qa-evidence") || path.starts_with("/api/combinations/container/")
-        || path.starts_with("/api/combinations/side/layout") && path != "/api/combinations/side/layouts"
-        || matches!(path, "/api/icon-artwork" | "/api/stroke-edits" | "/api/stroke-edits/validate"
-                          | "/api/combinations/side/recombine" | "/api/combinations/side/preview"
-                          | "/api/primitives/generation-queue" | "/api/combinations/generation-queue"
+        || matches!(path, "/api/primitives/generation-queue" | "/api/combinations/generation-queue"
                           | "/api/pending-briefs/download" | "/api/feedback-db/export" | "/api/review-data/export")
 }
 
@@ -78,6 +80,9 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/icon-type" => icons::get_icon_type(ctx).await,
         "/api/icon-flag" => icons::get_icon_flag(ctx).await,
         "/api/icon-artwork/svg" => icons::get_artwork_svg(ctx).await,
+        "/api/icon-artwork" => edits::get_artwork(ctx).await,
+        "/api/icon-artwork/overrides" => edits::get_overrides(ctx).await,
+        "/api/stroke-edits" => edits::get_stroke_edits(ctx).await,
         "/api/uploaded-icons" => icons::get_uploaded(ctx).await,
         "/api/reference-images" => files::get_reference_image(ctx).await,
         "/api/reviews" => reviews::get_reviews(ctx).await,
@@ -88,11 +93,14 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/pending-briefs" => briefs::list(ctx).await,
         "/api/primitives" | "/api/primitives/status" | "/api/primitives/summary" | "/api/primitives/briefs"
         | "/api/primitives/symbol-links" | "/api/primitives/prompt" | "/api/primitives/state" => primitives::get(ctx).await,
-        "/api/side-components" => files::r2_json(ctx, files::SIDE_COMPONENTS_JSON,
-                                                 "side-components.json is not built yet. Run the gallery build.").await,
-        // Hand-adjusted side-pair layouts are kept by the local gallery that renders them; their results
-        // reach the cloud as republished previews.
-        "/api/combinations/side/layouts" => http::json(200, &json!({})),
+        "/api/side-components" => edits::side_components(ctx).await,
+        "/api/combinations/side/layouts" => side::layouts(ctx).await,
+        "/api/container-centers" => container_centers::list(ctx).await,
+        "/api/container-pairs/icons" => container_pairs::list(ctx).await,
+        "/api/container-pairs/current" => container_pairs::current(ctx).await,
+        "/api/reference-uploads" => icons::reference_uploads(ctx).await,
+        "/api/combinations/side/pairs" => side_pairs::list(ctx).await,
+        "/api/combinations/side/suggest" => side_pairs::suggest(ctx).await,
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, None, "system").await,
         "/api/activity" => internal::read_activity(ctx).await,
@@ -106,7 +114,10 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/auth/logout", "/api/icon-type", "/api/icon-flag", "/api/feedback/delete", "/api/feedback/edit", "/api/feedback",
     "/api/reviews", "/api/reject-combination", "/api/pending-briefs/complete", "/api/reject-combination/restore",
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
-    "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity"];
+    "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
+    "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate", "/api/combination-experiment",
+    "/api/combinations/side/recombine", "/api/combinations/side/preview", "/api/combinations/side/layout",
+    "/api/combinations/side/layout/apply", "/api/combinations/side/pairs", "/api/container-centers", "/api/container-pairs/icon"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -118,7 +129,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         return http::error(403, "Cross-origin feedback is not allowed");
     }
     let limit = match path {
-        "/api/icons/upload" => 2 * 1024 * 1024,
+        "/api/icons/upload" | "/api/icon-artwork" => 2 * 1024 * 1024,
         "/api/reference-images" => MAX_REFERENCE_BODY,
         "/api/work/result" => MAX_WORK_RESULT_BODY,
         "/api/catalog/push" => MAX_PUSH_BODY,
@@ -149,6 +160,17 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/catalog/push" => internal::catalog_push(ctx, &data, user).await,
         "/api/icons/discard-record" => internal::discard_record(ctx, &data, user).await,
         "/api/activity" => internal::activity(ctx, &data).await,
+        "/api/icon-artwork" => edits::post_artwork(ctx, &data, user).await,
+        "/api/stroke-edits" => edits::post_stroke_edits(ctx, &data, user, false).await,
+        "/api/stroke-edits/validate" => edits::post_stroke_edits(ctx, &data, user, true).await,
+        "/api/combination-experiment" => side::experiment(ctx, &data).await,
+        "/api/combinations/side/preview" => side::preview(ctx, &data).await,
+        "/api/combinations/side/recombine" => side::recombine(ctx, &data, user).await,
+        "/api/combinations/side/layout" => side::save_layout(ctx, &data, user).await,
+        "/api/combinations/side/layout/apply" => side::apply_layout(ctx, &data, user).await,
+        "/api/combinations/side/pairs" => side_pairs::post(ctx, &data, user).await,
+        "/api/container-centers" => container_centers::save(ctx, &data, user).await,
+        "/api/container-pairs/icon" => container_pairs::save(ctx, &data, user).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

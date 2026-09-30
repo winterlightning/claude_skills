@@ -279,8 +279,94 @@ FAMILY_TEXT["symbol"] = {
 }
 
 
+# SYMBOL24: 24x24 on the library's 4-unit stroke. Validation is advisory for this
+# family (families.symbol24.validation in the profile contract): the author judges
+# quality at 24 px, and only the canvas and stroke block.
+FAMILY_TEXT["symbol24"] = {
+    **FAMILY_TEXT["sub"],
+    "trigger": (
+        "Use when asked for a 24x24 icon or symbol, either drawn fresh or redrawn from an "
+        "existing 32x32 sub or symbol icon. Uniform 4px stroke; validation is advisory and "
+        "the icon is judged visually at 24 pixels."
+    ),
+    "job": (
+        "A **symbol24** icon is a compact symbol read at 24 pixels. It is either drawn fresh "
+        "on the 24 grid or redrawn from a 32x32 `sub`/`symbol` model. Verbs, states and "
+        "modifiers declare `semantic_role = \"SUB\"`; a simple noun shape declares `MAIN` "
+        "with `semantic_kind = \"noun\"`."
+    ),
+    "specifics": [
+        "Every path uses the profile-wide 4px stroke. Never set `STROKE_WIDTH` or "
+        "`PATH_STROKE_WIDTHS`, and never leave the 24x24 canvas: these two are the only "
+        "blocking rules, and `symbol24.py check` enforces them.",
+        "Six stroke widths across the canvas. Budget for one silhouette plus at most one "
+        "identifying detail; drop secondary detail before crowding it.",
+        "Openings that carry meaning (a crescent's inner curve, a gauge's gap, a check "
+        "circle's opening) must stay visibly open at 24 px in both themes. Aim for 2 units "
+        "of visible ink between parts (6 between centerlines); where that is impossible, "
+        "keep the gap that looks cleanest, since 1 unit of white can still read.",
+        "Text and digits: reuse `icon_set/typeface/glyphs.json`; if the glyphs cannot fit "
+        "24 with their meaning intact, say so and stop rather than inventing letterforms.",
+    ],
+    "not_this": (
+        "For the 32x32 side modifier use /icon-sub, for a 32x32 container symbol "
+        "/icon-symbol, for a standalone 48 subject /icon-solo."
+    ),
+}
+
+SKILL_NAMES = {"symbol24": "symbol-24"}
+
+
 def skill_name(family: str) -> str:
-    return "icon-" + family.replace("_", "-")
+    return SKILL_NAMES.get(family, "icon-" + family.replace("_", "-"))
+
+
+SYMBOL24_MODES = """
+## Two ways in
+
+**Fresh** — a brief with no 32 model: follow the procedure below and author
+directly on the 24 grid.
+
+**From 32** — a `sub` or `symbol` icon id (or a module whose 32x32 drawing
+should become 24): start from a mechanical draft, then redraw it.
+
+```bash
+python3 icon_set/scripts/symbol24.py from32 --icon <32-icon-id> --author <your-model> [--id <new-id>]
+```
+
+It writes `icon_set/model/icons/symbol24/<id>[_<source-uuid>].py` with every
+coordinate x 3/4 (halves rounded toward the centre, so mirrored parts stay
+mirrored), copies `SOURCE_ICON_ID`/`SOURCE_PATH`, records `DERIVED_FROM_32`,
+and lists conversion notes (collapsed lines, widened arc radii) as comments.
+**The draft is not the result.** The stroke stays 4 while everything else
+shrinks by a quarter, so every gap lost a third of its white. Redraw it: pull
+details off the outline, straighten arms onto 45°/90°, simplify or drop the
+third level of detail, keep the source's parts, count, directions and openings.
+Delete each conversion note once it is resolved. Text-sized or non-square 32
+sources are refused; redraw those by hand.
+
+## Validation is advisory, quality is not
+
+The contract marks this family's validation **advisory**: `validate_icon()`
+and library QA findings (MIC, spacing, holes, symmetry) are information, not
+gates, because a 4px stroke on 24 cannot satisfy them for most real subjects.
+Only two rules block, and the build enforces them: a 24x24 SVG root and every
+stroke 4. That moves the bar to your eyes — the icon must look **good** at
+24 px, in both themes, beside its 32 source when there is one:
+
+```bash
+python3 icon_set/scripts/symbol24.py check --icon <icon-id>        # strict-24 pass required; advisory lines are notes
+python3 icon_set/scripts/symbol24.py preview --icon <icon-id> [--compare <32-icon-id>] --out <scratch-dir>
+```
+
+Open the native and x8 PNGs. Judge: does it read as the subject at a glance;
+are openings open and parts separate (touching ink that should be apart is a
+defect even though it will not block); are strokes evenly spaced and curves
+smooth; is it centred and balanced; does it match the 32 source's meaning.
+If two candidates are close, render both and keep the stronger. Use the
+advisory findings to find the tightest spots, and fix any that you can see.
+
+"""
 
 
 def render(family: str) -> str:
@@ -436,7 +522,7 @@ cannot approve an incomplete recreation.
         if family == "sub" else ""
     )
 
-    return f"""---
+    content = f"""---
 name: {skill_name(family)}
 description: Author a {bound_family}-family {"avatar" if family == "avatar" else "icon"} for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
@@ -644,6 +730,43 @@ it as one primitive and queue two component briefs. A Pending component brief
 - For human figures, name the shared human reference and verify its proportions
   and {('zero-gap head/body contact and circular face arcs' if family == 'avatar' else 'exact 4-unit detached head-to-body ink gap')} in the emitted geometry.
 """
+    return _symbol24(content) if family == "symbol24" else content
+
+
+def _symbol24(content: str) -> str:
+    """Advisory-validation wording for the symbol24 family."""
+    swaps = (
+        ("This skill authors **exactly one family**.", SYMBOL24_MODES.lstrip() + "This skill authors **exactly one family**."),
+        ('   print(report.describe())      # status must be "valid" with zero warnings\n',
+         '   print(report.describe())      # advisory for symbol24: read it, do not chase it\n'),
+        ("   Eight checks run in order; every failure names the element and coordinates.\n"
+         "   A `review` warning is **not** a pass. Repair ladder for crowding: enlarge the\n"
+         "   opening, rebalance, remove the part — never squeeze. Re-check the keyshape after\n"
+         "   every repair.",
+         "   Findings name the element and coordinates; use them to locate crowding you\n"
+         "   can see. Repair ladder for visible crowding: enlarge the opening, rebalance,\n"
+         "   remove the part. Then run `python3 icon_set/scripts/symbol24.py check --icon <icon-id>`;\n"
+         "   its strict-24 result (canvas and stroke) must pass."),
+        ("   Open the PNG and judge it at 24 pixels.",
+         "   Also run `symbol24.py preview` (above). Open the PNGs and judge them at 24 pixels."),
+        ("   validation status. If something could not be made to pass, name the check and\n"
+         "   the element and stop — a reported blocker beats a weakened rule.",
+         "   strict-24 result, the advisory findings you accepted and why, and — for a\n"
+         "   redraw — what changed from the 3/4 draft. If the subject cannot look good\n"
+         "   at 24, say so and stop rather than shipping a muddy icon."),
+        ("- Scale a drawing from another family. Every family is authored fresh.\n",
+         "- Ship the `from32` draft unrevised, or scale a 48/64 drawing: redraw on the 24 grid.\n"),
+        ("  repair, or describe a `review` as a pass.",
+         "  repair, or thin the stroke / enlarge the canvas to make something fit."),
+        ("- `validate_icon()` is `valid` with no warnings.\n",
+         "- `symbol24.py check` is strict-24 `pass`; advisory findings are listed in the report.\n"
+         "- For a redraw: `DERIVED_FROM_32` names the 32 icon and the conversion notes are gone.\n"),
+    )
+    for old, new in swaps:
+        if old not in content:
+            raise ValueError(f"symbol-24: text not found: {old[:60]!r}")
+        content = content.replace(old, new, 1)
+    return content
 
 
 def render_primitive_fix() -> str:
@@ -651,13 +774,14 @@ def render_primitive_fix() -> str:
     return (
         "---\n"
         "name: primitive-fix-thuan\n"
-        "argument-hint: <count> [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--worker name]\n"
-        "description: Claim a number of disapproved Pictographic solo icons from the shared production fix "
-        "queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's "
+        "argument-hint: <count> [--family solo|icon-72|container|sub|text] [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--max-disapprovals N] [--worker name]\n"
+        "description: Claim a number of disapproved Pictographic icons (solo unless --family names another "
+        "family such as icon-72) from the shared production fix queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's "
         "feedback, upload the before and after drawings to production and report done. Every claimed icon must be "
         "compared with its original and its current drawing and fixed, and its module `AUTHOR` set to "
         "the AI model ID that fixed it (model only, no worker name); never asks, never skips. "
-        "Arguments: count, optional --offset, --disapprove-status and --worker. Generated from the contracts "
+        "Only icons disapproved once are claimed unless --max-disapprovals says otherwise. "
+        "Arguments: count, optional --family, --offset, --disapprove-status, --max-disapprovals and --worker. Generated from the contracts "
         "by icon_set/scripts/generate_skills.py; do not edit by hand.\n"
         "---\n\n"
         "# /primitive-fix-thuan — claim, redraw with /primitive-make-ray, upload\n\n"
@@ -666,10 +790,20 @@ def render_primitive_fix() -> str:
         "/primitive-make-ray, then upload the result and report it. All drawing, validation and\n"
         "export rules are /primitive-make-ray's; do not author or repair geometry any other way.\n\n"
         "Run from the repository containing `icon_set/`. The first number in the arguments is the\n"
-        "**count** of icons to claim (default 1 when none is given). `--offset N` skips that many\n"
+        "**count** of icons to claim (default 1 when none is given). `--family` picks the queue family:\n"
+        "`solo` when none is given, or another one such as `icon-72`, `container`, `sub` or `text`; pass it\n"
+        "to `start` exactly as given. `--offset N` skips that many\n"
         "claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,\n"
-        "`manual-fix-request`, `other`, `missing`). The **worker name** is passed on every call: take it from\n"
-        "`--worker`, else from `$PICTOGRAPHIC_WORKER`, else use `thuan-mac`.\n\n"
+        "`manual-fix-request`, `other`, `missing`). **Only icons disapproved once** are claimed: pass\n"
+        "`--max-disapprovals 1` always, or the number given in the arguments. An icon that was fixed (a fix\n"
+        "uploaded or reported, or a new drawing) and disapproved again counts as twice. Icons disapproved two or more\n"
+        "times are redrawn through the PNG pipeline (`new-pipeline-test/fetch_repeat_disapproved.py`),\n"
+        "not by this skill, and `--offset` counts only the matching icons. The **worker name** is passed on every call: take it from\n"
+        "`--worker`, else from `$PICTOGRAPHIC_WORKER`, else use `thuan-mac`. **Production is the Cloudflare\n"
+        "Worker** `https://pictographic-review.pictographic.workers.dev` (the old trycloudflare tunnel is\n"
+        "gone): the scripts use it by default, `$PICTOGRAPHIC_API` or `--base-url` override it. Every call\n"
+        "goes through `work_queue.py`, which sends the User-Agent Cloudflare accepts; never fetch from\n"
+        "production with plain `urllib` or another URL.\n\n"
         "**Run unattended.** This skill exists to fix the icons reviewers marked wrong, and every\n"
         "claimed icon **must be fixed**. Do not ask the user anything, do not pause between icons for\n"
         "confirmation, and do not stop after a blocker: work through every claimed icon to `done`.\n"
@@ -678,7 +812,7 @@ def render_primitive_fix() -> str:
         "attempt, as in section 2.\n\n"
         "## 1. Claim\n\n"
         "```bash\n"
-        "python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> [--offset N] [--disapprove-status R]\n"
+        "python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> --max-disapprovals 1 [--family F] [--offset N] [--disapprove-status R]\n"
         "```\n\n"
         "It claims the icons on production (so no other machine fixes them), creates one fix directory\n"
         "per icon at `icon_set/work/primitive-fix-thuan/<icon-key>/<run-id>/` with `brief.txt`,\n"
@@ -695,6 +829,9 @@ def render_primitive_fix() -> str:
         "  rejected). Write down what the current drawing gets wrong against the original and against\n"
         "  the reviewer's feedback, then draw to correct exactly that. The feedback is the specification\n"
         "  for the revision. Keep the `icon_id` of the block.\n"
+        "- **Other families.** A block whose `family` line is not `solo` (for example `icon-72`, uploads\n"
+        "  with no original) is still redrawn as a /primitive-make-ray Solo48 on the 48 grid: its\n"
+        "  current drawing is the reference, and the after SVG becomes that icon's fixed drawing.\n"
         "- When the reference line says the reference is the current drawing (no original on\n"
         "  production), the icon is still fixed: redraw it from that drawing, the `icon_id` and the\n"
         "  feedback. When it says `none`, redraw from the `icon_id` and the feedback.\n"

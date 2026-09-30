@@ -7,28 +7,35 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (8, 0, 56, 64).
 Hosting measured with compose.py: plus passes, heart does not clear, check does not clear.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (smartphone-home-bar-container VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
+
 SOURCE_ICON_ID = 'e676ebab-d256-40ae-9c9a-301b15d45e29'
 SOURCE_PATH = 'pictographic-primitives/phones/mobile phone_e676ebab-d256-40ae-9c9a-301b15d45e29.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class SmartphoneHomeBarContainer(Container64):
     icon_id = 'smartphone-home-bar-container'
+    keyshape = Keyshape.VRECT_M
     category = 'phones'
     categories = ('phones', 'primitives')
-    keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('smartphone', 'home', 'bar', 'container')
 
-    def build(self):
-        line, poly = (self.add_line, self.add_polyline)
-
-        def join(a, b):
-            self.relate('connect', a, b)
-        rect(self, 'phone', 10, 2, 54, 62, 6)
-        # Open display: earpiece and home bar retain the phone identity.
-        line('speaker', (28, 12), (36, 12))
-        line('home', (28, 54), (36, 54))
+    def build(self) -> None:
+        self.add_line('phone-0', (18, 4), (46, 4))
+        self.add_arc('phone-1', (46, 4), (52, 10), radius_x=6)
+        self.add_line('phone-2', (52, 10), (52, 54))
+        self.add_arc('phone-3', (52, 54), (46, 60), radius_x=6)
+        self.add_line('phone-4', (46, 60), (18, 60))
+        self.add_arc('phone-5', (18, 60), (12, 54), radius_x=6)
+        self.add_line('phone-6', (12, 54), (12, 10))
+        self.add_arc('phone-7', (12, 10), (18, 4), radius_x=6)
+        self.add_line('speaker', (28, 14), (36, 14))
+        self.add_line('home', (28, 52), (36, 52))
+        self.add_contour('phone', 'phone-0', 'phone-1', 'phone-2', 'phone-3', 'phone-4', 'phone-5', 'phone-6', 'phone-7', closed=True)

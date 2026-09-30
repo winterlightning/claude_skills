@@ -7,26 +7,39 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (8, 0, 56, 64).
 Hosting measured with compose.py: plus passes, heart passes, check passes.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (iv-infusion-bag-container VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = 'ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada'
 SOURCE_PATH = 'pictographic-primitives/health/blood bag_ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class IvInfusionBagContainer(Container64):
     icon_id = 'iv-infusion-bag-container'
+    keyshape = Keyshape.VRECT_M
     category = 'health'
     categories = ('health', 'primitives')
-    keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('iv', 'infusion', 'bag', 'container')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        path(self,'bag',(22,2),[('L',(42,2)),('A',(54,14),12,12,True),('L',(54,38)),('A',(42,50),12,12,True),('L',(38,50)),('L',(38,56)),('L',(26,56)),('L',(26,50)),('L',(22,50)),('A',(10,38),12,12,True),('L',(10,14)),('A',(22,2),12,12,True)],True)
-        line('tube',(32,56),(32,62));join('tube','bag')
+    def build(self) -> None:
+        self.add_line('bag-0', (22, 4), (42, 4))
+        self.add_arc('bag-1', (42, 4), (52, 16), radius_x=10, radius_y=12)
+        self.add_line('bag-2', (52, 16), (52, 37))
+        self.add_arc('bag-3', (52, 37), (42, 48), radius_x=10, radius_y=11)
+        self.add_line('bag-4', (42, 48), (38, 48))
+        self.add_line('bag-5', (38, 48), (38, 54))
+        self.add_line('bag-6', (38, 54), (26, 54))
+        self.add_line('bag-7', (26, 54), (26, 48))
+        self.add_line('bag-8', (26, 48), (22, 48))
+        self.add_arc('bag-9', (22, 48), (12, 37), radius_x=10, radius_y=11)
+        self.add_line('bag-10', (12, 37), (12, 16))
+        self.add_arc('bag-11', (12, 16), (22, 4), radius_x=10, radius_y=12)
+        self.add_line('tube', (32, 54), (32, 60))
+        self.add_contour('bag', 'bag-0', 'bag-1', 'bag-2', 'bag-3', 'bag-4', 'bag-5', 'bag-6', 'bag-7', 'bag-8', 'bag-9', 'bag-10', 'bag-11', closed=True)
+        self.relate('connect', 'tube', 'bag')

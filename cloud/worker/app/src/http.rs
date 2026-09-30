@@ -53,6 +53,14 @@ pub fn percent_decode(text: &str) -> String {
     String::from_utf8_lossy(&out).into_owned()
 }
 
+/// Python `urllib.parse.quote(text, safe='')`: everything but unreserved characters is %XX-escaped.
+pub fn percent_encode(text: &str) -> String {
+    text.bytes().map(|b| match b {
+        b'A'..=b'Z' | b'a'..=b'z' | b'0'..=b'9' | b'_' | b'.' | b'-' | b'~' => (b as char).to_string(),
+        _ => format!("%{b:02X}"),
+    }).collect()
+}
+
 fn base_headers(content_type: &str, cache: &str) -> Result<Headers> {
     let headers = Headers::new();
     headers.set("Content-Type", content_type)?;

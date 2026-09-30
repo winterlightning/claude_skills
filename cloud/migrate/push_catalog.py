@@ -36,6 +36,27 @@ DIST = ROOT / 'published'
 CHUNK = 250
 COLUMNS = ('key', 'icon_id', 'name', 'family', 'category', 'profile', 'canvas_size', 'svg_sha256', 'python_source',
            'preview_url', 'original_sources', 'variant_of', 'variant_root', 'variant_label', 'build_failed')
+# The editable geometry of the generated drawing, as icon_artwork.baseline() and stroke_edits.GRAPH_FIELDS take it:
+# the cloud graphics service edits, validates and renders from it (D1 icon_graphs, keyed by the generated sha).
+GRAPH_FIELDS = ('icon_id', 'name', 'family', 'profile', 'canvas_size', 'keyshape',
+                'keyshape_bounds', 'style', 'primitives', 'contours', 'anchors',
+                'relationships', 'human_figures', 'composition_class', 'children',
+                'semantic_role', 'semantic_kind', 'category', 'free_keyshape',
+                'sizing_mode', 'canvas_width', 'canvas_height')
+
+
+def graph(record: dict) -> dict | None:
+    """The generated (baseline) graph of a record, or None when it has no stroke geometry."""
+    source = dict(record, **(record.get('generated_graph') or {}))
+    if not source.get('primitives'):
+        return None
+    result = {k: source[k] for k in GRAPH_FIELDS if k in source}
+    result.update(key=record['key'], svg_sha256=record.get('generated_svg_sha256', record['svg_sha256']),
+                  python_source=record.get('python_source'),
+                  # approve_exception reads only the automatic status.
+                  validation={'status': (record.get('validation') or {}).get('automatic_status',
+                                         (record.get('validation') or {}).get('status', record.get('status')))})
+    return result
 
 
 def load_catalog(dist: Path, server: str | None) -> dict:
@@ -89,6 +110,7 @@ def rows(dist: Path, server: str | None, catalog: dict) -> tuple[list[dict], dic
             row['original_sources'] = record.get('original_sources') or []
             row['build_failed'] = field == 'failed_icons'
             row['svg'] = svg
+            row['graph'] = graph(record)
             result.append(row)
             report[field] += 1
     return result, report
@@ -133,6 +155,25 @@ def put_file(base_url: str, token: str, key: str, content: bytes, content_type: 
         raise RuntimeError(f'PUT {key} -> HTTP {status}: {body[:200]!r}')
 
 
+def write_graph_sql(target: Path, graphs: list[dict], limit: int = 6 * 1024 * 1024) -> int:
+    """icon_graphs INSERT OR IGNORE statements split into files under `limit` (a 90 MB execute rolls back)."""
+    rows = {g['svg_sha256']: (g['svg_sha256'], g['key'], json.dumps(g, ensure_ascii=False, separators=(',', ':'))) for g in graphs}
+    statements = [s.replace('INSERT INTO "icon_graphs"', 'INSERT OR IGNORE INTO "icon_graphs"', 1)
+                  for s in inserts('icon_graphs', ['svg_sha256', 'icon', 'graph'], list(rows.values()))]
+    files, part, size = [], [], 0
+    for statement in statements + [None]:
+        if part and (statement is None or size + len(statement) > limit):
+            path = target.with_name(f'{target.stem}-{len(files) + 1:03d}.sql')
+            path.write_text('\n'.join(part) + '\n')
+            files.append(str(path))
+            part, size = [], 0
+        if statement is not None:
+            part.append(statement)
+            size += len(statement.encode('utf-8')) + 1
+    print(json.dumps({'graphs': len(rows), 'files': files}, indent=2))
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     target = parser.add_mutually_exclusive_group(required=True)
@@ -141,8 +182,16 @@ def main(argv=None) -> int:
     parser.add_argument('--dist', type=Path, default=DIST)
     parser.add_argument('--from-server', help='running local deploy.py whose /gallery/icons.json has artwork choices applied')
     parser.add_argument('--user', default='catalog-push')
+    parser.add_argument('--graphs-only', action='store_true',
+                        help='with --sql: only the icon_graphs rows (the editor geometry), as SQL files of at most '
+                             '6 MB each (<sql>-001.sql, ...) for `wrangler d1 execute --remote --file`; nothing else changes')
     args = parser.parse_args(argv)
+    if args.graphs_only and not args.sql:
+        parser.error('--graphs-only needs --sql')
     catalog = load_catalog(args.dist, args.from_server)
+    if args.graphs_only:
+        return write_graph_sql(args.sql, [row for row in (graph(r) for f in ('icons', 'failed_icons')
+                                                           for r in catalog.get(f, []) if not r.get('uploaded_icon')) if row])
     icon_rows, report = rows(args.dist, args.from_server, catalog)
     content, layout = icons_json(catalog)
     push_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -159,9 +208,13 @@ def main(argv=None) -> int:
                 seen.add(r['svg_sha256'])
                 revisions.append((r['svg_sha256'], r['key'], r['svg'], 'build', now))
         statements += inserts('revisions', ['svg_sha256', 'icon', 'svg', 'origin', 'created_at'], revisions)
+        graphs = {r['graph']['svg_sha256']: (r['graph']['svg_sha256'], r['key'], json.dumps(r['graph'], ensure_ascii=False, separators=(',', ':')))
+                  for r in icon_rows if r['graph']}
+        statements += inserts('icon_graphs', ['svg_sha256', 'icon', 'graph'], list(graphs.values()))
         statements += inserts('catalog_pushes', ['pushed_at', 'pushed_by', 'details'], [(now, args.user, json.dumps(details))])
         args.sql.write_text('\n'.join(s.replace('INSERT INTO "icons"', 'INSERT OR REPLACE INTO "icons"', 1)
-                                      .replace('INSERT INTO "revisions"', 'INSERT OR IGNORE INTO "revisions"', 1) for s in statements) + '\n')
+                                      .replace('INSERT INTO "revisions"', 'INSERT OR IGNORE INTO "revisions"', 1)
+                                      .replace('INSERT INTO "icon_graphs"', 'INSERT OR IGNORE INTO "icon_graphs"', 1) for s in statements) + '\n')
         (args.sql.parent / 'icons.json').write_bytes(content)
         print(json.dumps({'sql': str(args.sql), 'icons_json': str(args.sql.parent / 'icons.json'), **details}, indent=2))
         return 0

@@ -4,44 +4,41 @@ Source rendered and inspected before authoring. Preserve the saved user classifi
 Lucide image and ticket-x originals and atomic geometry informed coherent contours
 and rounded enclosures; human reference used only for the three human scenes.
 Hosting via compose.py using existing sub IDs: plus-sign-batch-04 invalid, heart-state-63 valid, check-mark valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (spade-playing-card VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
+
 SOURCE_ICON_ID = '81760339-2759-54a7-9d7d-41a82e29e532'
 SOURCE_PATH = 'pictographic-primitives/entertainment/spades card_81760339-2759-54a7-9d7d-41a82e29e532.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class QueueIcon(Container64):
     icon_id = 'spade-playing-card'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.VRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'entertainment'
     categories = ('entertainment', 'primitives')
     aliases = ('Spade Playing Card',)
     keywords = ('spade', 'playing', 'card')
-    def build(self):
 
-        def circle(name,x,y,r):
-            self.add_arc(name+'-a',(x-r,y),(x+r,y),radius_x=r)
-            self.add_arc(name+'-b',(x+r,y),(x-r,y),radius_x=r)
-            self.add_contour(name,name+'-a',name+'-b',closed=True)
-        def rounded(name,l,t,r,b,rad):
-            points=[(l+rad,t),(r-rad,t),(r,t+rad),(r,b-rad),(r-rad,b),(l+rad,b),(l,b-rad),(l,t+rad)]
-            ids=[]
-            for j,p in enumerate(points):
-                q=points[(j+1)%8]; part=f'{name}-{j}'; ids.append(part)
-                if j%2: self.add_arc(part,p,q,radius_x=rad)
-                else: self.add_line(part,p,q)
-            self.add_contour(name,*ids,closed=True)
-        def note(name,x,y):
-            circle(name+'-head',x,y,2)
-            self.add_polyline(name+'-stem',(x+2,y),(x+2,y-10),(x+6,y-8))
-            self.relate('connect',name+'-head',name+'-stem')
-        rounded('card',10,2,54,62,6)
-        self.add_bezier('spade',(32,17),((24,24),(12,31),(21,37)),((25,40),(29,36),(28,36)))
-        self.add_line('base-1',(28,36),(26,47))
-        self.add_line('base-2',(26,47),(38,47))
-        self.add_line('base-3',(38,47),(36,36))
-        self.add_bezier('right',(36,36),((35,36),(39,40),(43,37)),((52,31),(40,24),(32,17)))
-        self.add_contour('suit','spade','base-1','base-2','base-3','right',closed=True)
+    def build(self) -> None:
+        self.add_line('card-0', (18, 4), (46, 4))
+        self.add_arc('card-1', (46, 4), (52, 10), radius_x=6)
+        self.add_line('card-2', (52, 10), (52, 54))
+        self.add_arc('card-3', (52, 54), (46, 60), radius_x=6)
+        self.add_line('card-4', (46, 60), (18, 60))
+        self.add_arc('card-5', (18, 60), (12, 54), radius_x=6)
+        self.add_line('card-6', (12, 54), (12, 10))
+        self.add_arc('card-7', (12, 10), (18, 4), radius_x=6)
+        self.add_bezier('spade', (32, 18), ((24.4, 24.364), (14, 31), (22, 36.909)), ((25.2, 39.636), (29, 36), (28, 36)))
+        self.add_line('base-1', (28, 36), (26, 46))
+        self.add_line('base-2', (26, 46), (38, 46))
+        self.add_line('base-3', (38, 46), (36, 36))
+        self.add_bezier('right', (36, 36), ((35, 36), (38.8, 39.636), (42, 36.909)), ((50, 31), (39.6, 24.364), (32, 18)))
+        self.add_contour('card', 'card-0', 'card-1', 'card-2', 'card-3', 'card-4', 'card-5', 'card-6', 'card-7', closed=True)
+        self.add_contour('suit', 'spade', 'base-1', 'base-2', 'base-3', 'right', closed=True)

@@ -9,50 +9,48 @@ Shared human reference inspected: icon_set/references/human_ref/full_body_ref.pn
 this isolated hand has no head/body proportions or detached-head gap to measure.
 
 Hosting (compose.py): heart valid; plus, check blocked.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (open-hand-palm VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
 SOURCE_ICON_ID = 'open-hand-palm'
 SOURCE_PATH = 'icon_set/dist/failed/container64/open-hand-palm.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class OpenHandPalm(Container64):
-    icon_id = "open-hand-palm"
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "container"
-    categories = ("container",)
-    aliases = ("raised-hand", "hand-palm-container")
-    keywords = ("hand", "palm", "human", "greeting", "stop", "attention")
+    icon_id = 'open-hand-palm'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'container'
+    categories = ('container',)
+    aliases = ('raised-hand', 'hand-palm-container')
+    keywords = ('hand', 'palm', 'human', 'greeting', 'stop', 'attention')
 
     def build(self) -> None:
-        # Plan: rounded finger series above an open thumb web and broad palm.
-        self.add_line('index-left', (18,28), (18,13))
-        self.add_arc('index-tip', (18,13), (28,13), radius_x=5)
-        self.add_line('middle-left', (28,13), (28,7))
-        self.add_arc('middle-tip', (28,7), (38,7), radius_x=5)
-        self.add_line('middle-right', (38,7), (38,13))
-        self.add_arc('ring-tip', (38,13), (48,13), radius_x=5)
-        self.add_line('ring-right', (48,13), (48,23))
-        self.add_arc('little-tip', (48,23), (58,23), radius_x=5)
-        self.add_line('palm-right', (58,23), (58,42))
-        self.add_arc('palm-base-right', (58,42), (38,62), radius_x=20)
-        # Circle centre (38,32), radius 30: the 3-4-5 point (14,50)
-        # leaves the lower palm tangent to the thumb's diagonal side.
-        self.add_arc('palm-base-left', (38,62), (14,50), radius_x=30)
-        self.add_line('thumb-side', (14,50), (8,42))
-        self.add_arc('thumb-heel', (8,42), (6,36), radius_x=10)
-        self.add_arc('thumb-tip', (6,36), (16,36), radius_x=5)
-        self.add_line('thumb-web', (16,36), (22,42))
-        self.add_contour(
-            'outline', 'index-left', 'index-tip', 'middle-left', 'middle-tip',
-            'middle-right', 'ring-tip', 'ring-right', 'little-tip', 'palm-right',
-            'palm-base-right', 'palm-base-left', 'thumb-side', 'thumb-heel',
-            'thumb-tip', 'thumb-web', closed=False,
-        )
-        for x, top in ((28,13), (38,13), (48,23)):
-            self.add_line(f'finger-crease-{x}', (x,top), (x,28))
-            self.relate('connect', f'finger-crease-{x}', 'outline')
+        self.add_line('index-left', (21, 28), (21, 13))
+        self.add_arc('index-tip', (21, 13), (29, 13), radius_x=4)
+        self.add_line('middle-left', (29, 13), (29, 8))
+        self.add_arc('middle-tip', (29, 8), (37, 8), radius_x=4)
+        self.add_line('middle-right', (37, 8), (37, 13))
+        self.add_arc('ring-tip', (37, 13), (45, 13), radius_x=4)
+        self.add_line('ring-right', (45, 13), (44, 23))
+        self.add_arc('little-tip', (44, 23), (54, 23), radius_x=5)
+        self.add_line('palm-right', (54, 23), (54, 42))
+        self.add_arc('palm-base-right', (54, 42), (37, 60), radius_x=17, radius_y=18)
+        self.add_arc('palm-base-left', (37, 60), (17, 50), radius_x=25)
+        self.add_line('thumb-side', (17, 50), (12, 42))
+        self.add_arc('thumb-heel', (12, 42), (10, 36), radius_x=10)
+        self.add_arc('thumb-tip', (10, 36), (20, 36), radius_x=5)
+        self.add_line('thumb-web', (20, 36), (24, 42))
+        self.add_line('finger-crease-28', (29, 13), (29, 28))
+        self.add_line('finger-crease-38', (37, 13), (37, 28))
+        self.add_line('finger-crease-48', (44, 23), (45, 28))
+        self.add_contour('outline', 'index-left', 'index-tip', 'middle-left', 'middle-tip', 'middle-right', 'ring-tip', 'ring-right', 'little-tip', 'palm-right', 'palm-base-right', 'palm-base-left', 'thumb-side', 'thumb-heel', 'thumb-tip', 'thumb-web')
+        self.relate('connect', 'finger-crease-28', 'outline')
+        self.relate('connect', 'finger-crease-38', 'outline')
+        self.relate('connect', 'finger-crease-48', 'outline')

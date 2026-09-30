@@ -8,7 +8,7 @@ use pictographic_core::reviews::public_status;
 use pictographic_core::time::iso_utc;
 use pictographic_core::work as rules;
 use serde::Deserialize;
-use serde_json::{json, Value};
+use serde_json::{json, Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;
 use worker::{Response, Result};
@@ -205,9 +205,26 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         Some(Value::Bool(b)) => *b,
         _ => return http::error(400, "bypass_validation must be a JSON boolean: true or false."),
     };
+    // Optional: approve at once, and stand in for a combination component that has no drawing yet.
+    let approve = data.get("approve") == Some(&json!(true));
+    let reference = match data.get("reference") {
+        None | Some(Value::Null) => None,
+        Some(r) => {
+            let id = r["id"].as_str().filter(|id| (1..=64).contains(&id.len())
+                && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-'));
+            match (id, r["role"].as_str()) {
+                (Some(id), Some(role)) if matches!(role, "container" | "symbol") && role == family_id => Some((id.to_lowercase(), role)),
+                _ => return http::error(400, "reference must be {id, role} with role container or symbol matching the family."),
+            }
+        }
+    };
+    let status = if approve { "approve" } else { "ready" };
     let canvas = family["canvas_size"].as_i64().unwrap_or(48);
     let svg_input = data.get("svg").and_then(Value::as_str).unwrap_or("");
-    let document = match pictographic_core::svg::safe_svg(svg_input, canvas) {
+    // Container pairs page uploads (with `reference`) keep whatever canvas they were drawn on.
+    let cleaned = if reference.is_some() { pictographic_core::svg::safe_svg_any_canvas(svg_input) }
+                  else { pictographic_core::svg::safe_svg(svg_input, canvas) };
+    let document = match cleaned {
         Ok(document) => document,
         Err(message) => return http::error(400, &message),
     };
@@ -251,7 +268,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         "bypass_validation": bypass, "validation": validation});
     let record_text = serde_json::to_string(&record).unwrap();
     let db = &ctx.db;
-    db::batch(db, vec![
+    let mut statements = vec![
         db::stmt(db, "INSERT INTO uploaded_icons VALUES (?, ?, ?)", args![key.clone(), record_text.clone(), document.clone()])?,
         db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
             original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '[]', 1, ?, ?)",
@@ -259,14 +276,37 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
                   digest.clone(), preview_url.clone(), record_text, now.clone()])?,
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
                  args![digest.clone(), key.clone(), document, now.clone()])?,
-        db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'ready', ?, ?)",
-                 args![key.clone(), digest.clone(), now.clone(), user])?,
+        db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)",
+                 args![key.clone(), digest.clone(), status, now.clone(), user])?,
         db::stmt(db, "INSERT INTO icon_types(icon, icon_type, updated_at, updated_by) VALUES (?, 'uploaded', ?, ?)",
                  args![key.clone(), now.clone(), user])?,
-        db::activity(db, user, "upload", Some(&key), details(vec![("svg_sha256", json!(digest)), ("status", json!("ready")),
+        db::activity(db, user, "upload", Some(&key), details(vec![("svg_sha256", json!(digest)), ("status", json!(status)),
             ("category", json!(category)), ("icon_type", json!("uploaded"))]))?,
-    ]).await?;
-    http::json(201, &json!({"record": record, "status": "ready"}))
+    ];
+    if approve {
+        statements.push(db::activity(db, user, "review", Some(&key), details(vec![("status", json!("approve")), ("svg_sha256", json!(digest))]))?);
+    }
+    if let Some((id, role)) = &reference {
+        statements.push(db::stmt(db, "INSERT INTO reference_uploads(reference, role, icon_key, updated_at, updated_by) VALUES (?, ?, ?, ?, ?) \
+            ON CONFLICT(reference) DO UPDATE SET role = excluded.role, icon_key = excluded.icon_key, \
+            updated_at = excluded.updated_at, updated_by = excluded.updated_by", args![id.as_str(), *role, key.clone(), now.clone(), user])?);
+    }
+    db::batch(db, statements).await?;
+    http::json(201, &json!({"record": record, "status": status}))
+}
+
+/// GET /api/reference-uploads → {reference id: {role, icon_key, preview_url, updated_by, updated_at}}.
+pub async fn reference_uploads(ctx: &Ctx) -> Result<Response> {
+    #[derive(Deserialize)]
+    struct Row { reference: String, role: String, icon_key: String, svg_sha256: String, updated_at: String, updated_by: String }
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT r.reference, r.role, r.icon_key, i.svg_sha256, r.updated_at, r.updated_by \
+        FROM reference_uploads r JOIN icons i ON i.key = r.icon_key", vec![]).await?;
+    let entries: Map<String, Value> = rows.into_iter().map(|r| {
+        let url = format!("../api/icon-artwork/svg?icon={}&v={}", r.icon_key.replace('/', "%2F"), r.svg_sha256);
+        (r.reference, json!({"role": r.role, "icon_key": r.icon_key, "icon_id": r.icon_key.split_once('/').map(|p| p.1).unwrap_or(""),
+                             "preview_url": url, "updated_at": r.updated_at, "updated_by": r.updated_by}))
+    }).collect();
+    http::json(200, &Value::Object(entries))
 }
 
 /// GET /api/uploaded-icons: upload records for the gallery catalog (without the SVG text).
@@ -281,10 +321,15 @@ pub async fn get_uploaded(ctx: &Ctx) -> Result<Response> {
 /// GET /api/icon-artwork/svg: the current drawing, stored inline in D1.
 pub async fn get_artwork_svg(ctx: &Ctx) -> Result<Response> {
     let key = ctx.param("icon").unwrap_or("");
-    if ctx.param("variant").is_some() {
-        return http::error(400, "Artwork variants are rendered by the local gallery.");
+    if let Some(variant) = ctx.param("variant") {
+        let variant = variant.to_string();
+        return super::edits::get_artwork_variant(ctx, &variant).await;
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Icon not found.") };
+    // A picked version (browser edit or manual SVG) is what the gallery shows, before a worker's fix.
+    if let Some(response) = super::edits::picked_drawing(ctx, &icon).await? {
+        return Ok(response);
+    }
     #[derive(Deserialize)]
     struct Row { svg: String }
     let row: Option<Row> = if icon.uploaded {

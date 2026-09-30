@@ -7,27 +7,44 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus does not clear, heart does not clear, check passes.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (wheeled-suitcase-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = 'b77cece9-c086-4a13-b1b9-cef4e798e9a6'
 SOURCE_PATH = 'pictographic-primitives/travel/baggage_b77cece9-c086-4a13-b1b9-cef4e798e9a6.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class WheeledSuitcaseContainer(Container64):
     icon_id = 'wheeled-suitcase-container'
+    keyshape = Keyshape.SQUARE
     category = 'travel'
     categories = ('travel', 'state')
-    keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('wheeled', 'suitcase', 'container')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        rect(self,'case',2,14,62,54,6)
-        path(self,'handle',(22,14),[('L',(22,6)),('A',(26,2),4,4,True),('L',(38,2)),('A',(42,6),4,4,True),('L',(42,14))]);join('handle','case')
-        for x in (16,48):line(f'wheel-{x}',(x,54),(x,62));join('case',f'wheel-{x}')
+    def build(self) -> None:
+        self.add_line('case-0', (12, 18), (52, 18))
+        self.add_arc('case-1', (52, 18), (58, 24), radius_x=6)
+        self.add_line('case-2', (58, 24), (58, 44))
+        self.add_arc('case-3', (58, 44), (52, 50), radius_x=6)
+        self.add_line('case-4', (52, 50), (12, 50))
+        self.add_arc('case-5', (12, 50), (6, 44), radius_x=6)
+        self.add_line('case-6', (6, 44), (6, 24))
+        self.add_arc('case-7', (6, 24), (12, 18), radius_x=6)
+        self.add_line('handle-0', (24, 18), (24, 10))
+        self.add_arc('handle-1', (24, 10), (28, 6), radius_x=4)
+        self.add_line('handle-2', (28, 6), (36, 6))
+        self.add_arc('handle-3', (36, 6), (40, 10), radius_x=4)
+        self.add_line('handle-4', (40, 10), (40, 18))
+        self.add_line('wheel-16', (18, 50), (18, 58))
+        self.add_line('wheel-48', (46, 50), (46, 58))
+        self.add_contour('case', 'case-0', 'case-1', 'case-2', 'case-3', 'case-4', 'case-5', 'case-6', 'case-7', closed=True)
+        self.add_contour('handle', 'handle-0', 'handle-1', 'handle-2', 'handle-3', 'handle-4')
+        self.relate('connect', 'handle', 'case')
+        self.relate('connect', 'case', 'wheel-16')
+        self.relate('connect', 'case', 'wheel-48')

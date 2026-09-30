@@ -59,9 +59,12 @@ The account's older `pictographic` bucket and search Workers are separate and un
       sources, generation (Codex), builds — all stay on the local machine
 ```
 
+* The stroke editor and Pick panel (`/api/stroke-edits*`, `/api/icon-artwork`, `/api/icon-artwork/svg?variant=`,
+  `/api/icon-artwork/overrides`) run in the Worker, which calls the Python graphics container
+  (`cloud/graphics`, service binding `GRAPHICS`) for edit geometry, validation and rendering.
 * The Worker answers the same paths, JSON and errors as `icon_set/scripts/deploy.py`. Routes that need
   Python rendering or local files answer `501 {"local": true}` and are served by a local
-  `deploy.py --cloud-api <worker>` instead (`/api/icon-artwork`, `/api/stroke-edits*`, `/api/qa-evidence*`,
+  `deploy.py --cloud-api <worker>` instead (`/api/qa-evidence*`,
   `/api/combinations/container/*`, the side-pair layout routes `/api/combinations/side/layout[/apply]`,
   `/recombine`, `/preview`, the two generation queues, the pending-brief zip). In the cloud
   `/api/combinations/side/layouts` answers `{}`: layouts belong to the local gallery that rendered them,
@@ -135,6 +138,16 @@ choices applied by a running `deploy.py`) and pushed with `migrate/push_catalog.
   (`family = 'side_combination64'`, profile `SIDE_COMBINATION64`, drawing from `combination-previews/`).
   The fix queue leaves them out unless the `family` filter asks for them; they are fixed through their
   main and sub.
+* **Times disapproved.** Every fix-queue item (`/api/work/queue`, `/disapproved`, `/review`)
+  carries `disapprovals`. It is computed on each request by `core/src/work.rs`
+  `disapproval_counts`, a port of `work_queue.disapproval_count`, from `activity_log`
+  (work_done/upload/review/feedback), `feedback`, `after` `work_results` and the review rows. The count
+  is the largest of three signals: disapproval episodes, distinct disapproved drawings, and 2 for a
+  reported fix that is disapproved again. A fix awaiting review counts only the disapprovals so far.
+  - `/review` filters with `disapprovals=1|2|3+` and returns `disapproval_counts`.
+  - `/queue` takes `max_disapprovals=N`. `work_queue.py` and `primitive_fix.py start --family …
+    --max-disapprovals 1` use it instead of one history call per icon.
+  - The Fix queue page opens on `family=solo` and keeps its filters in the URL.
 * A failed build that a reviewer approved as an exception (artwork choice with `original_exception`)
   counts as built: `--from-server` pushes it among `icons` with `build_failed = 0`.
 * A record showing a worker's fix (`artwork_source: work_fix`, only with `--from-server`) is still
@@ -173,7 +186,8 @@ last push reported 14,211 built records but D1 holds 13,985 built rows.
 
 | Table | Rows | Key | Content |
 |---|---:|---|---|
-| `store_documents` | **0** | `(store, key)` | `store = 'icon-artwork'`: artwork choice per icon (key = icon key; was `state/icon-artwork/<hash>/artwork.json`). `store = 'stroke-edits'`: stroke-edit document per `<icon>@<source svg sha>` (was `state/stroke-edits/<hash>/<hash>.json`). Opaque JSON — only local Python reads it. Writes can pass `expected_revision` (optimistic lock; 409 on a lost race). |
+| `store_documents` | **0** | `(store, key)` | `store = 'icon-artwork'`: artwork choice per icon (key = icon key; was `state/icon-artwork/<hash>/artwork.json`). `store = 'stroke-edits'`: stroke-edit document per `<icon>@<source svg sha>` (was `state/stroke-edits/<hash>/<hash>.json`). Opaque JSON, interpreted only by Python (a local gallery or the graphics container); Worker picks add `selected_svg_sha256` to a choice. Writes can pass `expected_revision` (optimistic lock; 409 on a lost race). `store = 'side-pairs'` (migration 0005, `routes/side_pairs.rs`): a side pair whose solo main and sub icon were picked on the cloud, merged over `experiment-combination.json` wherever pairs are read. Key = primitive uuid for a pair made from a primitive classified as a combination, or a published pair id changed on the side page (`published: true`, with `restore`: its icon columns and side layout before the first change, put back when the change is removed). Its `side_combination64/<id>` icon row is spared by the final catalog push, and `recombine_side_pairs.py` skips these pairs. |
+| `icon_graphs` | new | `svg_sha256` (generated drawing) | The drawing's editable geometry (catalog graph fields, `icon_artwork.baseline()`), written by every catalog push (`INSERT OR IGNORE`) or `push_catalog.py --sql --graphs-only`. Read by the stroke-edit and artwork routes and sent to the graphics container. |
 | `reference_images` | **0** | `id` (content sha) | Metadata of reviewer-uploaded reference images: `name`, `mime`, `size`, `r2_key` (→ R2 `stores/reference-images/<id>.<ext>`), `uploaded_by/at`. |
 
 **Both are empty today: the Mac mini's stores have not been pushed yet** (section 7).

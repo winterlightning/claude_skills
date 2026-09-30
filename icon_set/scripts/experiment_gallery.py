@@ -163,6 +163,45 @@ def stage_preview_combinations(target: Path) -> int:
     return len(icons)
 
 
+CONTAINER_FIT_LABELS = {'review': 'Container · fit needs review', 'fail': 'Container · fit failed'}
+
+
+def stage_preview_container_combinations(target: Path) -> int:
+    """The container-combination library for the Preview page's picker and Shuffle.
+
+    Composes every container pair the Progression "Container pairs" view shows
+    (latest published CONTAINER64 host + SYMBOL32 content) and writes the SVGs
+    beside the gallery, because the composing API runs only on the local
+    deploy.py gallery. Pairs missing a component are left out; fit-failed pairs
+    stay in so they can be judged in context.
+    """
+    from .latest_container_combinations import LatestContainerPairs
+    preview_dir = target / 'container-combination-previews'
+    icons = []
+    try:
+        pairs = LatestContainerPairs(target.parent, ROOT / 'icon_set/data')
+    except (OSError, ValueError, KeyError) as error:
+        print(f'Container combinations skipped: {error}', file=sys.stderr)
+        pairs = None
+    if pairs:
+        preview_dir.mkdir(exist_ok=True)
+        for row in sorted((r for r in pairs.catalog['rows'] if r['kind'] == 'container'), key=lambda r: r['id']):
+            result = pairs.compose(row, '32')
+            if 'svg' not in result:
+                continue
+            (preview_dir / (row['id'] + '.svg')).write_text(result['svg'])
+            icons.append({'icon_id': row['id'], 'name': row['concept'], 'family': 'container_combination',
+                          'category': CONTAINER_FIT_LABELS.get(result['status'], 'Container · ' + result['status']),
+                          'preview_url': 'container-combination-previews/' + row['id'] + '.svg'})
+        kept = {i['icon_id'] for i in icons}
+        for stale in preview_dir.glob('*.svg'):
+            if stale.stem not in kept:
+                stale.unlink()
+    (target / 'preview-container-combination-icons.json').write_text(
+        json.dumps({'icons': icons}, ensure_ascii=False) + '\n', encoding='utf-8')
+    return len(icons)
+
+
 SIDE_COMBINATION_FAMILY = 'side_combination64'
 
 
@@ -284,6 +323,7 @@ def stage_experiments(target: Path) -> None:
                 stale.unlink()
         (target / 'experiment-combination-results.json').write_text(json.dumps({'results': results}))
         stage_preview_combinations(target)
+    stage_preview_container_combinations(target)
     manifest = target / 'side-combination64.json'
     if manifest.is_file():
         # The tab counts combined icons, not candidate pairs.
@@ -305,4 +345,8 @@ def stage_experiments(target: Path) -> None:
 
 
 if __name__ == '__main__':
-    stage_experiments(build_dist(ROOT) / 'gallery')
+    # `container-combinations` refreshes only the Preview container-pair library.
+    if sys.argv[1:] == ['container-combinations']:
+        print(stage_preview_container_combinations(build_dist(ROOT) / 'gallery'), 'container combinations staged')
+    else:
+        stage_experiments(build_dist(ROOT) / 'gallery')

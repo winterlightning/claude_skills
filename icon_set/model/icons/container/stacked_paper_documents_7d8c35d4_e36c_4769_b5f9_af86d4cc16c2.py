@@ -8,31 +8,34 @@ provides the wavy front edge. Deliberate offset, no artificial symmetry.
 Hosting via compose.py: plus-sign-state-131 and check-mark validate;
 heart-state-63 returns review for contact with the front page.
 Legacy probe IDs plus/heart/check are absent from the current registry.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (stacked-wavy-document-frames HRECT_L -> HRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
 SOURCE_ICON_ID = '7d8c35d4-e36c-4769-b5f9-af86d4cc16c2'
 SOURCE_PATH = 'pictographic-primitives/diagrams/various document_7d8c35d4-e36c-4769-b5f9-af86d4cc16c2.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class Drawing(Container64):
     icon_id = 'stacked-wavy-document-frames'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.HRECT_M
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'diagrams'
     categories = ('diagrams', 'primitives')
     aliases = ('stacked wavy document frames',)
-    keywords = ('stacked','paper','documents')
+    keywords = ('stacked', 'paper', 'documents')
 
-    def build(self):
-        self.add_polyline('rear', (12,10), (62,10), (62,44))
-        self.add_line('front-top',(2,20),(52,20))
-        self.add_line('front-right',(52,20),(52,48))
-        self.add_bezier('wave',(52,48),((48,44),(44,42),(40,42)),
-                         ((34,42),(32,48),(26,48)),
-                         ((20,48),(20,54),(14,54)),
-                         ((8,54),(6,52),(2,48)))
-        self.add_line('front-left',(2,48),(2,20))
-        self.add_contour('front','front-top','front-right','wave','front-left',closed=True)
+    def build(self) -> None:
+        self.add_line('rear-1', (13, 12), (60, 12))
+        self.add_line('rear-2', (60, 12), (60, 42))
+        self.add_line('front-top', (4, 22), (51, 22))
+        self.add_line('front-right', (51, 22), (51, 46))
+        self.add_bezier('wave', (51, 46), ((47.2, 42), (43.4, 40.333), (39.6, 40.333)), ((33.9, 40.333), (32, 46), (26.3, 46)), ((20.6, 46), (20.6, 52), (14.9, 52)), ((9.4, 52), (7.6, 50), (4, 46)))
+        self.add_line('front-left', (4, 46), (4, 22))
+        self.add_contour('rear', 'rear-1', 'rear-2')
+        self.add_contour('front', 'front-top', 'front-right', 'wave', 'front-left', closed=True)

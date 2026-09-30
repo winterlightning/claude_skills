@@ -177,6 +177,13 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
         from .deduplicate_subs import canonical_map, update_catalog
         aliases, _ = canonical_map(sub_exports, root)
         update_catalog(result, sub_exports, aliases, root)
+    # The legacy deduplication above links the role snapshots taken when subs and symbols were split
+    # (sub-usage/, sub-profiles/); a built icon is always shown from its current build.
+    for row in rows:
+        for item in row.get('sub_generated') or []:
+            record = records_by_key.get(item.get('key'))
+            if record:
+                item['preview_url'] = record['preview_url']
     # Legacy deduplication/profile migration may choose a different remake.
     # Explicit reviewed pairs retain their independent symbol/sub selection,
     # including an empty result when that exact asset has not been built yet.
@@ -185,6 +192,40 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
             row['sub_generated'] = list(references[row['sub_id']]['generated'])
             row['sub_exports'] = []
     (target / 'combinations.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
+    write_container_centers(target, root)
+    return result
+
+
+def write_container_centers(target: Path, root: Path = ROOT) -> dict:
+    """container-centers.json: where each 64x64 container places a 32x32 symbol by default.
+
+    Same precedence as latest_container_combinations.compose (placement preference, then the
+    reviewed content-area center, then per-pair optical overrides), without the vector-zone
+    fallback; the container's own center anchor stands in for it. Edits made on the page are
+    stored on the cloud (/api/container-centers) and take precedence over these defaults.
+    """
+    data = root / 'icon_set/data'
+    areas = json.loads((data / 'container-content-areas.json').read_text())['areas']
+    prefs = json.loads((data / 'container-placement-preferences.json').read_text())
+    manifest = target.parent / 'container64/manifest.json'
+    containers = {}
+    for record in json.loads(manifest.read_text())['icons'] if manifest.is_file() else []:
+        uid = record['icon_id']
+        svg = target.parent / 'container64' / (uid + '.svg')
+        sha = hashlib.sha256(svg.read_bytes()).hexdigest() if svg.is_file() else ''
+        area = areas.get(uid, {})
+        if uid in prefs.get('container_centers', {}):
+            center, source = prefs['container_centers'][uid], 'preference'
+        elif area.get('center'):
+            center, source = area['center'], 'area'
+        else:
+            center, source = record.get('anchors', {}).get('center') or [32, 32], 'anchor'
+        containers[uid] = {'center': [float(v) for v in center], 'source': source,
+                           'stale': source == 'area' and area.get('source_sha256') != sha}
+    result = {'containers': containers,
+              'pairs': {main: {sub: [float(v) for v in c] for sub, c in subs.items()}
+                        for main, subs in prefs.get('optical_overrides', {}).items()}}
+    (target / 'container-centers.json').write_text(json.dumps(result, separators=(',', ':')) + '\n')
     return result
 
 

@@ -6,7 +6,7 @@ from pathlib import Path
 def export_glyphs(exports: Path, payload: dict) -> None:
     """Write one stroked SVG per glyph, plus the catalog as a manifest."""
     from xml.sax.saxutils import quoteattr, escape
-    exports.mkdir(exist_ok=True)
+    exports.mkdir(parents=True, exist_ok=True)
     manifest = exports/'manifest.json'
     previous = json.loads(manifest.read_text()).get('glyphs', []) if manifest.exists() else []
     current_ids = {g['icon_id'] for g in payload['glyphs']}
@@ -70,8 +70,27 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     (target/'typeface-v2.json').write_text(json.dumps(v2, indent=2)+'\n')
     export_glyphs(target/'typeface-v2', v2)
 
+    # Grid-hinted v2 at even ink heights 18..40 (stroke 4), built by build_v2_sizes().
+    sized = json.loads(source.with_name('glyphs-v2-sizes.json').read_text())
+    if sized.get('geometry_policy') != 'source-hinted-v2':
+        raise ValueError('Typeface v2 sizes require the grid-hinted build')
+    native_sha = {g['icon_id']: g['source_sha256'] for g in v2['glyphs']}
+    for height, glyphs in sized['sizes'].items():
+        for glyph in glyphs:
+            if native_sha.get(glyph['icon_id']) != glyph['source_sha256']:
+                raise ValueError(f'Typeface v2 size {height} is stale for {glyph["icon_id"]}; run build_v2_sizes()')
+        (target/'typeface-v2-sizes').mkdir(exist_ok=True)
+        export_glyphs(target/'typeface-v2-sizes'/height, {'glyphs': glyphs})
+    (target/'typeface-v2-sizes.json').write_text(json.dumps(sized, indent=1)+'\n')
+    keep = ('icon_id', 'character', 'kind', 'preferred', 'bounds', 'body_top', 'baseline', 'body_height',
+            'measurement', 'preview_box', 'paths')
+    slim = {h: [{k: g[k] for k in keep} for g in glyphs] for h, glyphs in sized['sizes'].items()}
+    sizes_data = json.dumps({'native_size': sized['native_size'], 'sizes': slim},
+                            ensure_ascii=True, separators=(',', ':')).replace('<', '\\u003c')
+
     html = (templates/'text-combine.html').read_text()
     html = html.replace('__TYPEFACE_DATA__', data).replace('__TYPEFACE_V2_DATA__', v2_data)
+    html = html.replace('__TYPEFACE_V2_SIZES_DATA__', sizes_data)
     html = html.replace('__TYPEFACE_SCRIPT__', (templates/'text-combine.js').read_text())
     (target/'text-combine.html').write_text(html)
 

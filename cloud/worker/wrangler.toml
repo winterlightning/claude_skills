@@ -25,3 +25,9 @@ bucket_name = "pictographic-review"
 ADMIN_USERS = '{"jakes": "1", "hina": "1", "ray": "1", "phuong": "1", "an": "1"}'
 # From icon_set/model contracts: family id and canvas size.
 BUILTIN_FAMILIES = '[["sub", 32], ["solo", 48], ["container", 64], ["combination_main", 48], ["symbol", 32]]'
+
+# Python graphics (edit geometry, validation, SVG render) for the stroke editor and artwork picks:
+# the pictographic-graphics Worker and its container (cloud/graphics).
+[[services]]
+binding = "GRAPHICS"
+service = "pictographic-graphics"

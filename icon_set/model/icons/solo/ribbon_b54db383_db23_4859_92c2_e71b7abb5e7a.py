@@ -1,18 +1,21 @@
-"""A circular award medal with two curved ribbon tails.
+"""A circular award medal with a ribbon hanging below it, cut into two notched tails.
 
-Plan: Medal circle and mirrored tails share exact circle nodes; paired ribbons derive from axis 24.
-Construction: ribbon: continuous loop and paired fabric ends
+Plan: medal circle r10 on axis x=24; the ribbon leaves the circle at its (6, 8) integer points,
+splays to the canvas edge and is cut by one V notch, so each tail ends in a point.
+Repair (2026-09-30): the earlier forked tails enclosed two holes under 6 units (build gate
+holes/pinches); the tails now share one open band whose interior stays at least 13 tall.
+Keyshape: VRECT_M.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b54db383-db23-4859-92c2-e71b7abb5e7a'
 SOURCE_PATH = 'icon_set/work/todo-references/ribbon_b54db383-db23-4859-92c2-e71b7abb5e7a.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'claude-opus-5-5'
 
 class Drawing(Solo48):
     icon_id = 'ribbon'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_M
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/general"
@@ -20,25 +23,15 @@ class Drawing(Solo48):
     keywords = ('ribbon',)
 
     def build(self):
-        points=[(12,30),(9,21),(24,6),(39,21),(36,30),(24,36)]
-        for i in range(6):self.add_arc(f'medal-{i}',points[i],points[(i+1)%6],radius_x=15)
-        self.add_contour('medal',*(f'medal-{i}' for i in range(6)),closed=True)
-        for side in (0,1):
-            def p(x,y):return (48-x if side else x,y)
-            name=f'tail-{side}'
-            if True:
-                self.add_bezier(name+'-outer',p(12,30),(p(10,33),p(7,35),p(6,38)))
-                self.add_line(name+'-fork-1',p(6,38),p(14,37))
-                self.add_line(name+'-fork-2',p(14,37),p(16,42))
-                self.add_bezier(name+'-inner',p(16,42),(p(19,41),p(22,38),p(24,36)))
-                self.add_contour(name,name+'-outer',name+'-fork-1',name+'-fork-2',name+'-inner')
-                outer,inner=name+'-outer',name+'-inner'
-            else:
-                self.add_polyline(name,p(12,30),p(6,38),p(14,38),p(18,42),p(24,36))
-                outer,inner=name+'-1',name+'-4'
-            for arc in ([0,5] if not side else [3,4]):self.relate('connect',outer,f'medal-{arc}')
-            for arc in (4,5):self.relate('connect',inner,f'medal-{arc}')
-        self.relate('connect','tail-0-'+('inner' if True else '4'),'tail-1-'+('inner' if True else '4'))
+        cx, cy, r = 24, 14, 10
+        # Medal split at the ribbon's two attachment points.
+        self.add_arc('medal-top', (cx - 6, cy + 8), (cx + 6, cy + 8), radius_x=r, large_arc=True)
+        self.add_arc('medal-bottom-right', (cx + 6, cy + 8), (cx, cy + r), radius_x=r)
+        self.add_arc('medal-bottom-left', (cx, cy + r), (cx - 6, cy + 8), radius_x=r)
+        self.add_contour('medal', 'medal-top', 'medal-bottom-right', 'medal-bottom-left', closed=True)
+        self.add_polyline('ribbon', (cx - 6, cy + 8), (10, 44), (cx, 37), (38, 44), (cx + 6, cy + 8))
+        self.relate('connect', 'ribbon-1', 'medal-top', 'medal-bottom-left')
+        self.relate('connect', 'ribbon-4', 'medal-top', 'medal-bottom-right')
 
     def circle(self, name, x, y, r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)

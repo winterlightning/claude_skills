@@ -30,7 +30,7 @@ function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,strok
     for(const c of lineText){
       if(c===' '){cursor+=xHeight*.55;continue;}
       hasGlyphs=true;
-      const g=map.get(c),scale=nativeSize&&g.geometry_policy==='source-native-20'?1:(g.kind==='digit'||g.kind==='uppercase'?capHeight:xHeight)/g.body_height;
+      const g=map.get(c),scale=nativeSize&&g.kind!=='symbol'?1:(g.kind==='digit'||g.kind==='uppercase'?capHeight:xHeight)/g.body_height;
       const width=(g.bounds[2]-g.bounds[0])*scale+stroke;
       const x=cursor+stroke/2-g.bounds[0]*scale,y=-g.baseline*scale;
       top=Math.min(top,g.bounds[1]*scale+y-stroke/2);
@@ -95,38 +95,45 @@ function svg(result,text,guides=false){
     for(const d of p.glyph.paths)inner+=`<path d="${escapeXML(d)}" fill="none" stroke="#202820" stroke-width="${stroke/p.scale}" stroke-linecap="round" stroke-linejoin="round"/>`;
     inner+='</g>';
   }
-  for(const d of result.decorations||[])inner+=`<line data-effect="${d.kind}" x1="${d.x1}" x2="${d.x2}" y1="${d.y}" y2="${d.y}" stroke="#202820" stroke-width="${stroke}" stroke-linecap="round"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeXML(text)}"><title>${escapeXML(text)}</title>${inner}</svg>`;
+  for(const d of result.decorations||[])inner+=`<line x1="${d.x1}" x2="${d.x2}" y1="${d.y}" y2="${d.y}" stroke="#202820" stroke-width="${stroke}" stroke-linecap="round"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><title>${escapeXML(text)}</title>${inner}</svg>`;
 }
 const api={layout,svg};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 root.Typeface=api;
-if(typeof document==='undefined')return;
+if(typeof document==='undefined'||!document.getElementById('glyphData'))return;
 const data=JSON.parse(document.getElementById('glyphData').textContent),$=id=>document.getElementById(id);
 const v2Node=document.getElementById('glyphDataV2'),dataV2=v2Node?JSON.parse(v2Node.textContent):{glyphs:[]};
 // v2 draws uppercase letters and digits: text is uppercased, and symbols come from v1.
 function withFallback(primary,fallback){const covered=new Set(primary.filter(g=>g.preferred).map(g=>g.character));return primary.concat(fallback.filter(g=>g.kind!=='lowercase'&&!covered.has(g.character)));}
-// v1: the height input is the lowercase body (caps 52/36 taller); locked ink is the 28-unit text family.
-// v2 keeps each supplied letter and digit at native scale, including mixed canvas sizes.
-const versions={v1:{glyphs:data.glyphs,text:t=>t,inspect:'letter-b',height:36,lock:28,metrics:h=>({xHeight:h,capHeight:h*52/36})},
-                v2:{glyphs:withFallback(dataV2.glyphs,data.glyphs),text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',height:16,fixedHeight:true,lock:20,metrics:h=>({xHeight:h*36/52,capHeight:h,nativeSize:true})}};
+// Both versions place letters and digits at their drawn size (scale 1); only keyboard symbols are fitted to the cap height.
+// v1 letters share a 20-unit centerline (24-unit ink at stroke 4); v2 keeps each supplied drawing, including mixed canvas sizes.
+// v2 sizes: the native drawing, or a grid-hinted copy at an even ink height (stroke 4, centerline height = size - 4).
+const sizesNode=document.getElementById('glyphDataV2Sizes'),dataV2Sizes=sizesNode?JSON.parse(sizesNode.textContent):{sizes:{}};
+const v2Native=withFallback(dataV2.glyphs,data.glyphs),v2Sized=new Map();
+let v2Size=new URLSearchParams(location.search).get('size');if(!(v2Size in dataV2Sizes.sizes))v2Size='native';
+const v2Glyphs=()=>{if(v2Size==='native')return v2Native;if(!v2Sized.has(v2Size))v2Sized.set(v2Size,withFallback(dataV2Sizes.sizes[v2Size],data.glyphs));return v2Sized.get(v2Size);};
+const versions={v1:{glyphs:data.glyphs,text:t=>t,inspect:'letter-b',height:20,metrics:h=>({xHeight:h*36/52,capHeight:h,nativeSize:true})},
+                v2:{get glyphs(){return v2Glyphs();},text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',get height(){return v2Size==='native'?16:Number(v2Size)-4;},metrics:h=>({xHeight:h*36/52,capHeight:h,nativeSize:true})}};
 let version=new URLSearchParams(location.search).get('version');if(!(version in versions))version='v1';$('version').value=version;
+{const option=document.createElement('option');option.value='native';option.textContent=(dataV2Sizes.native_size||'')+' · native';$('size').append(option);
+ for(const h of Object.keys(dataV2Sizes.sizes).sort((a,b)=>a-b)){const o=document.createElement('option');o.value=h;o.textContent=h+' · hinted';$('size').append(o);}
+ $('size').value=v2Size;$('sizeLabel').hidden=version!=='v2';}
+function writeURL(){const p=new URLSearchParams(location.search);if(version==='v1'){p.delete('version');p.delete('size');}else{p.set('version',version);if(v2Size==='native')p.delete('size');else p.set('size',v2Size);}history.replaceState(null,'','text-combine.html'+(p.size?'?'+p:''));}
 const active=()=>versions[version];
-function applyVersionDefaults(){$('height').value=active().height;$('heightControl').hidden=!!active().fixedHeight;$('lockHeightLabel').textContent=active().fixedHeight?'Native size, trimmed to ink (no padding)':'Lock visible ink height to '+active().lock+' (no padding)';}
-applyVersionDefaults();
 let current=null;
 function update(){
-  try{current=layout(active().text($('words').value),active().glyphs,{...active().metrics(active().fixedHeight?active().height:Number($('height').value)),tracking:Number($('spacing').value),lineGap:Number($('lineSpacing').value),stroke:Number($('strokeWidth').value),underline:$('underline').checked,strikethrough:$('strikethrough').checked,canvasHeight:$('lockHeight').checked&&!active().fixedHeight?active().lock:null,padding:$('lockHeight').checked?0:16,trimInk:$('lockHeight').checked,align:'center'});
+  try{current=layout(active().text($('words').value),active().glyphs,{...active().metrics(active().height),tracking:Number($('spacing').value),lineGap:Number($('lineSpacing').value),stroke:Number($('strokeWidth').value),underline:$('underline').checked,strikethrough:$('strikethrough').checked,padding:$('lockHeight').checked?0:16,trimInk:$('lockHeight').checked,align:'center'});
     $('output').innerHTML=svg(current,active().text($('words').value),$('guides').checked);
-    $('status').textContent=($('lockHeight').checked?(active().fixedHeight?'Letters at native size, trimmed to ink without padding. ':'Visible ink locked at '+active().lock+' units high, without padding; width follows the text. '):'')+(version==='v2'?'Lowercase is rendered as uppercase; letters and digits use the supplied Letters/new SVG geometry unchanged.':'Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.');
+    $('status').textContent='Letters and digits at their drawn size, only placed (no scaling)'+($('lockHeight').checked?', trimmed to ink without padding. ':'. ')+(version==='v2'?'Lowercase is rendered as uppercase; '+(v2Size==='native'?'letters and digits use the supplied Letters/new SVG geometry unchanged.':'letters and digits are grid-hinted to a '+v2Size+'-unit ink height (stroke 4, keys on whole units).'):'Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.');
     $('download').disabled=!current.placements.length;
   }catch(e){current=null;$('output').replaceChildren();$('status').textContent=e.message;$('download').disabled=true;}
 }
-for(const id of ['words','height','spacing','lineSpacing','strokeWidth','guides','underline','strikethrough','lockHeight'])$(id).addEventListener('input',update);
+for(const id of ['words','spacing','lineSpacing','strokeWidth','guides','underline','strikethrough','lockHeight'])$(id).addEventListener('input',update);
 $('download').onclick=()=>{
  if(!current)return;
  const url=URL.createObjectURL(new Blob([svg(current,active().text($('words').value))],{type:'image/svg+xml'}));
- const a=document.createElement('a');a.href=url;a.download='combined-text-'+version+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const a=document.createElement('a');a.href=url;a.download='combined-text-'+version+(version==='v2'&&v2Size!=='native'?'-'+v2Size:'')+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
 function fillInspect(){
  $('inspect').replaceChildren();
@@ -135,9 +142,12 @@ function fillInspect(){
 }
 $('version').addEventListener('change',()=>{
  version=$('version').value in versions?$('version').value:'v1';
- const p=new URLSearchParams(location.search);if(version==='v1')p.delete('version');else p.set('version',version);
- history.replaceState(null,'','text-combine.html'+(p.size?'?'+p:''));
- applyVersionDefaults();fillInspect();inspect();update();
+ $('sizeLabel').hidden=version!=='v2';writeURL();
+ fillInspect();inspect();update();
+});
+$('size').addEventListener('change',()=>{
+ const keep=$('inspect').value;v2Size=$('size').value in dataV2Sizes.sizes?$('size').value:'native';
+ writeURL();fillInspect();if(active().glyphs.some(g=>g.icon_id===keep))$('inspect').value=keep;inspect();update();
 });
 function inspect(){
  const g=active().glyphs.find(g=>g.icon_id===$('inspect').value);if(!g)return;

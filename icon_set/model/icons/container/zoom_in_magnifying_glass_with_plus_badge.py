@@ -8,34 +8,36 @@ Lucide zoom-in original and atomic-debug informed the circular arcs and crossing
 plus strokes. The upper-right opening and lower-right handle retain the source's
 intentional asymmetry. All lens arcs share center (27, 27) and radius 25.
 Hosting measured with compose.py: plus does not pass MIC, heart does not pass MIC, check does not pass MIC.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (zoom-in-magnifying-glass-with-plus-badge SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4. Hand-repaired after the fit: lens r20 on 3-4-5 nodes, badge r11, plus arms 4.
 """
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class ZoomInMagnifyingGlassWithPlusBadge(Container64):
-    icon_id = "zoom-in-magnifying-glass-with-plus-badge"
+    icon_id = 'zoom-in-magnifying-glass-with-plus-badge'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "container"
-    categories = ("container",)
-    aliases = ("magnifying-glass-with-plus-badge",)
-    keywords = ("zoom", "magnify", "enlarge", "search", "lens", "plus")
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'container'
+    categories = ('container',)
+    aliases = ('magnifying-glass-with-plus-badge',)
+    keywords = ('zoom', 'magnify', 'enlarge', 'search', 'lens', 'plus')
 
     def build(self) -> None:
-        self.add_arc("lens-left", (27, 2), (27, 52), radius_x=25, sweep=False)
-        self.add_arc("lens-bottom-right", (27, 52), (42, 47), radius_x=25, sweep=False)
-        self.add_arc("lens-right", (42, 47), (51, 34), radius_x=25, sweep=False)
-        self.add_contour("lens", "lens-left", "lens-bottom-right", "lens-right")
-        self.add_line("handle", (42, 47), (62, 62))
-        self.relate("connect", "lens", "handle")
-        self.add_arc("badge-top", (36, 15), (62, 15), radius_x=13)
-        self.add_arc("badge-bottom", (62, 15), (36, 15), radius_x=13)
-        self.add_contour("badge", "badge-top", "badge-bottom", closed=True)
-        self.add_line("plus-horizontal", (43, 15), (55, 15))
-        self.add_line("plus-vertical", (49, 9), (49, 21))
-        self.relate("connect", "plus-horizontal", "plus-vertical")
+        self.add_arc('lens-left', (26, 6), (26, 46), radius_x=20, sweep=False)
+        self.add_arc('lens-bottom-right', (26, 46), (38, 42), radius_x=20, sweep=False)
+        self.add_arc('lens-right', (38, 42), (44, 34), radius_x=20, sweep=False)
+        self.add_line('handle', (38, 42), (58, 58))
+        self.add_arc('badge-top', (36, 17), (58, 17), radius_x=11)
+        self.add_arc('badge-bottom', (58, 17), (36, 17), radius_x=11)
+        self.add_line('plus-horizontal', (43, 17), (51, 17))
+        self.add_line('plus-vertical', (47, 13), (47, 21))
+        self.add_contour('lens', 'lens-left', 'lens-bottom-right', 'lens-right')
+        self.add_contour('badge', 'badge-top', 'badge-bottom', closed=True)
+        self.relate('connect', 'lens', 'handle')
+        self.relate('connect', 'plus-horizontal', 'plus-vertical')

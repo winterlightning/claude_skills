@@ -30,51 +30,31 @@ Local Lucide plug informed the review of the two pins and cable attachment.
 The loop retains its deliberate vertical offset and upper-right opening.
 
 Batch 01 hosting measured with compose.py: plus pass. heart, check do not pass (including uncertified review).
-"""
 
-from __future__ import annotations
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (power-cable-loop CIRCLE -> CIRCLE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+"""
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class PowerCableLoopContainer(Container64):
-    icon_id = "power-cable-loop"
+    icon_id = 'power-cable-loop'
     keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "container"
-    categories = ("container",)
-    aliases = ("circular-electrical-power-cable", "cable-loop", "plug-ring")
-    keywords = (
-        "cable", "cables", "plug", "plugs", "power", "cord", "lead",
-        "electrical", "charger", "loop", "ring", "coil",
-    )
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'container'
+    categories = ('container',)
+    aliases = ('circular-electrical-power-cable', 'cable-loop', 'plug-ring')
+    keywords = ('cable', 'cables', 'plug', 'plugs', 'power', 'cord', 'lead', 'electrical', 'charger', 'loop', 'ring', 'coil')
 
     def build(self) -> None:
-        # CIRCLE-64 is visible radius 32 about (32,32), centreline radius 30.
-        #
-        # The loop: one 306.9-degree arc of radius 25 about (32,37), running
-        # clockwise from the loose end at (52,22) -- 53 degrees round from the
-        # top, the break the reference shows -- through three, six and nine
-        # o'clock and up to the plug at (32,12). Six o'clock lands at (32,62),
-        # radius 30 from the canvas centre, so the artwork touches its
-        # envelope there and nowhere overruns it: the loop's farthest point
-        # from (32,32) is exactly its own centre offset plus its radius.
-        self.add_arc(
-            "cable", (52, 22), (32, 12), radius_x=25, large_arc=True, sweep=True,
-        )
-
-        # The plug, drawn back-first: upper pin, back down through the point
-        # the cable arrives at, lower pin. The two pins are 12 apart, half
-        # again the minimum, and the back's midpoint (32,12) is the loop's
-        # twelve o'clock, where its tangent is horizontal -- so the cable
-        # enters the back square-on and leaves the pins pointing the way the
-        # loop was travelling.
-        self.add_polyline(
-            "plug",
-            (44, 6), (32, 6), (32, 12), (32, 18), (44, 18),
-        )
-        self.relate("connect", "cable", "plug")
+        self.add_arc('cable', (50, 28), (34, 18), radius_x=21, large_arc=True)
+        self.add_line('plug-1', (42, 12), (34, 12))
+        self.add_line('plug-2', (34, 12), (34, 18))
+        self.add_line('plug-3', (34, 18), (34, 24))
+        self.add_line('plug-4', (34, 24), (42, 24))
+        self.add_contour('plug', 'plug-1', 'plug-2', 'plug-3', 'plug-4')
+        self.relate('connect', 'cable', 'plug')

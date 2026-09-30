@@ -109,7 +109,7 @@ pub async fn get(ctx: &Ctx) -> Result<Response> {
 }
 
 /// deploy.py `_canonical_uuids`: folded aliases act on their canonical primitive.
-async fn canonical(ctx: &Ctx, uuids: &[Value]) -> Result<(Vec<Value>, HashSet<String>)> {
+pub(super) async fn canonical(ctx: &Ctx, uuids: &[Value]) -> Result<(Vec<Value>, HashSet<String>)> {
     let map = rules::canonical_map(&rows(ctx).await?);
     let resolved = uuids.iter().map(|uid| match uid.as_str() {
         Some(text) => map.get(&text.trim().to_lowercase()).map(|c| json!(c)).unwrap_or_else(|| uid.clone()),

@@ -56,6 +56,14 @@ pub async fn static_file(ctx: &Ctx) -> Result<Response> {
     if key == PREVIEW_ICONS_JSON {
         return preview_icons_json(ctx).await;
     }
+    if let Some(pair_id) = relative.strip_prefix("gallery/combination-previews/").and_then(|n| n.strip_suffix(".svg")) {
+        if let Some(response) = super::side::saved_preview(ctx, pair_id).await? {
+            return Ok(response);
+        }
+    }
+    if key == SIDE_COMPONENTS_JSON {
+        return super::edits::side_components(ctx).await;
+    }
     if let Some(response) = drawing(ctx, &relative).await? {
         return Ok(response);
     }
@@ -213,18 +221,6 @@ async fn preview_icons_json(ctx: &Ctx) -> Result<Response> {
     http::json(200, &data)
 }
 
-/// An R2 JSON file as an API answer (`/api/side-components`): the build pushes it, the local gallery
-/// re-pushes it with each icon's current drawing after artwork changes.
-pub async fn r2_json(ctx: &Ctx, key: &str, missing: &str) -> Result<Response> {
-    let bucket = ctx.env.bucket("FILES")?;
-    let Some(object) = bucket.get(key).execute().await? else { return http::error(404, missing) };
-    let Some(body) = object.body() else { return http::error(404, missing) };
-    let headers = Headers::new();
-    headers.set("Content-Type", "application/json")?;
-    headers.set("X-Content-Type-Options", "nosniff")?;
-    headers.set("Cache-Control", "no-store")?;
-    Ok(Response::from_stream(body.stream()?)?.with_headers(headers))
-}
 
 /// GET /primitives/<path>: original reference SVGs, sandboxed like deploy.py `serve_primitive`.
 pub async fn primitive(ctx: &Ctx) -> Result<Response> {

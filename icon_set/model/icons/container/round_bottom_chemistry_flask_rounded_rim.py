@@ -5,34 +5,36 @@ Reference: batch_11 source render; Lucide flask-round informs the bulb, neck and
 Authored on the shared vertical axis except for directional subjects.
 No decorative details added; all identifying source parts retained.
 Hosting: plus passes, heart does not clear, check does not clear.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (round-bottom-chemistry-flask-rounded-rim VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class RoundBottomChemistryFlaskRoundedRim(Container64):
     icon_id = 'round-bottom-chemistry-flask-rounded-rim'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.VRECT_M
     aliases = ('round-flask-rounded-rim',)
     keywords = ('round', 'bottom', 'chemistry', 'flask', 'rounded', 'rim')
 
     def build(self) -> None:
-        self.add_line('neck-left', (24, 10), (24, 18))
-        self.add_arc('bulb-left-top', (24, 18), (10, 40), radius_x=14, radius_y=22, sweep=False, large_arc=False)
-        self.add_arc('bulb-bottom', (10, 40), (54, 40), radius_x=22, radius_y=22, sweep=False, large_arc=False)
-        self.add_arc('bulb-right-top', (54, 40), (40, 18), radius_x=14, radius_y=22, sweep=False, large_arc=False)
-        self.add_line('neck-right', (40, 18), (40, 10))
-        self.add_contour('vessel', 'neck-left', 'bulb-left-top', 'bulb-bottom', 'bulb-right-top', 'neck-right', closed=False)
-        self.add_line('rim0', (24, 2), (40, 2))
-        self.add_arc('rim1', (40, 2), (44, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('rim2', (44, 6), (44, 6))
-        self.add_arc('rim3', (44, 6), (40, 10), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('rim4', (40, 10), (24, 10))
-        self.add_arc('rim5', (24, 10), (20, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('rim6', (20, 6), (20, 6))
-        self.add_arc('rim7', (20, 6), (24, 2), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('neck-left', (25, 12), (25, 20))
+        self.add_arc('bulb-left-top', (25, 20), (12, 38), radius_x=13, radius_y=18, sweep=False)
+        self.add_arc('bulb-bottom', (12, 38), (52, 38), radius_x=20, radius_y=22, sweep=False)
+        self.add_arc('bulb-right-top', (52, 38), (39, 20), radius_x=13, radius_y=18, sweep=False)
+        self.add_line('neck-right', (39, 20), (39, 12))
+        self.add_line('rim0', (25, 4), (39, 4))
+        self.add_arc('rim1', (39, 4), (43, 8), radius_x=4)
+        self.add_dot('rim2', (43, 8))
+        self.add_arc('rim3', (43, 8), (39, 12), radius_x=4)
+        self.add_line('rim4', (39, 12), (25, 12))
+        self.add_arc('rim5', (25, 12), (21, 8), radius_x=4)
+        self.add_dot('rim6', (21, 8))
+        self.add_arc('rim7', (21, 8), (25, 4), radius_x=4)
+        self.add_contour('vessel', 'neck-left', 'bulb-left-top', 'bulb-bottom', 'bulb-right-top', 'neck-right')
         self.add_contour('rim', 'rim0', 'rim1', 'rim2', 'rim3', 'rim4', 'rim5', 'rim6', 'rim7', closed=True)
-        self.relate("connect", 'rim', 'vessel')
+        self.relate('connect', 'rim', 'vessel')

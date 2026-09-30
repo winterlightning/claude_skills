@@ -48,6 +48,8 @@
   .side-layout-hint{font:12px/1.5 system-ui;color:#5b6b67;margin:6px 0 0}.side-layout-error{font:13px system-ui;color:#b91c1c;margin:6px 0 0}
   .side-layout-open{margin-top:4px;font:600 12px system-ui;padding:6px 12px;border:1px solid #2f7d4a;border-radius:6px;background:#f1f6f1;color:#25653a;cursor:pointer}.side-layout-open:hover{background:#e4f2e6}
   .side-layout-save{background:#2f7d4a!important;border-color:#2f7d4a!important;color:#fff}
+  .side-layout-stale{margin:0 0 6px;padding:6px 8px;border-radius:6px;background:#fff3d6;color:#7a5200;font:12px system-ui}.side-layout-preview:has(.side-layout-stale) svg{opacity:.45}
+  .side-layout .side-layout-stale-button{border-color:#b7791f;background:#fff3d6}
   @media(max-width:900px){.side-layout-stages{grid-template-columns:1fr 1fr}.side-layout-list{grid-column:1/-1}}@media(max-width:600px){.side-layout-stages{grid-template-columns:1fr}}`;document.head.append(style);
 
   const el=(name,attrs={})=>{const e=document.createElementNS(ns,name);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e;};
@@ -77,7 +79,7 @@
       <div class="side-layout-bar side-layout-presets" role="group" aria-label="Main and sub size"></div>
       <div class="side-layout-bar"><span>Click selects</span><button type="button" data-level="whole">Whole icon</button><button type="button" data-level="element">Element</button><button type="button" data-level="path" title="One path of a connected element (the stand of a monitor)">Path</button>
       <label><input type="checkbox" data-centerline> Centerline</label><span class="spacer"></span>
-      <button type="button" data-reset>Reset to automatic</button><button type="button" data-cancel>Discard changes</button><button type="button" class="side-layout-save" data-save>Save layout</button></div>
+      <button type="button" data-reset>Reset to automatic</button><button type="button" data-cancel>Discard changes</button><button type="button" data-apply title="Combine the main and sub with this layout to see the result">Apply layout</button><button type="button" class="side-layout-save" data-save>Save layout</button></div>
       <div class="side-layout-stages"><figure><svg class="side-layout-canvas" tabindex="0" role="application" aria-label="Layout editor, 64 by 64 grid"></svg>
       <figcaption>Editing view: main and sub drawn whole, centerline in red.</figcaption></figure>
       <figure><div class="side-layout-preview"></div><figcaption>Combined result (the sub erases the main where they meet).</figcaption>
@@ -85,15 +87,15 @@
       <div class="side-layout-list" aria-label="Elements"></div></div>
       <details class="side-layout-apply"></details>
       <p class="side-layout-readout" role="status"></p>
-      <p class="side-layout-hint">Main size 32–64 / sub size 20–44 (every 4) and a keyshape snap the main / sub onto that keyshape at that size (purple / teal dashes) — 48 / 32 on the own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4.</p>
+      <p class="side-layout-hint">Main size 32–64 / sub size 20–44 (every 4) and a keyshape snap the main / sub onto that keyshape at that size (purple / teal dashes) — 48 / 32 on the own keyshape is automatic; Free lets you drag it to any size. Click selects a whole icon, a connected element, or one path of it (Path splits that element for you). Shift- or ⌘-click (or tick the list) to choose several. Drag to move; drag a corner or edge to resize — width and height change independently, hold Shift to keep proportions. Arrow keys move 1 unit (Shift: 8); Alt+arrows change width / height by 1; + and − change both. Everything snaps to the grid; the stroke stays 4. Edits do not combine by themselves: click Apply layout to see the combined result, then Save layout to keep it.</p>
       <p class="side-layout-error" role="alert"></p>`;
     document.body.append(dialog);
     const q=s=>dialog.querySelector(s);
     q('[data-close]').onclick=()=>dialog.close();
     q('[data-cancel]').onclick=()=>load(ctx.pair,ctx.main,ctx.sub,ctx.onSaved,ctx.saved);
-    q('[data-save]').onclick=save;q('[data-reset]').onclick=reset;
+    q('[data-save]').onclick=save;q('[data-reset]').onclick=reset;q('[data-apply]').onclick=applyLayout;
     const toggle=q('[data-centerline]');toggle.checked=centerline;
-    toggle.onchange=()=>{centerline=toggle.checked;try{localStorage.setItem('side-layout-centerline',centerline?'on':'off');}catch{}draw();if(ctx.result)preview(ctx.result);};
+    toggle.onchange=()=>{centerline=toggle.checked;try{localStorage.setItem('side-layout-centerline',centerline?'on':'off');}catch{}draw();if(ctx.result){preview(ctx.result);stalePreview();}};
     for(const b of dialog.querySelectorAll('[data-level]'))b.onclick=()=>{ctx.level=b.dataset.level;draw();};
     const svg=q('.side-layout-canvas');
     svg.addEventListener('pointerdown',down);svg.addEventListener('keydown',key);
@@ -174,7 +176,7 @@
     try{
       const r=await fetch('/api/combinations/side/layout/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pair_id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon,layout:l,targets})});
       const data=await r.json().catch(()=>({error:'Unexpected response.'}));if(!r.ok||data.error)throw Error(data.error||'Could not apply the layout.');
-      ctx.onSaved?.(data.source);ctx.saved=data.source.layout.layout;preview(data.source.result);
+      ctx.onSaved?.(data.source);ctx.saved=data.source.layout.layout;ctx.stale=false;preview(data.source.result);stalePreview();
       ctx.applyResults=Object.fromEntries(data.results.map(x=>[x.pair_id,x]));config.applied?.(data.results);
       const ok=data.results.filter(x=>x.ok).length;message=`Saved. Applied to ${ok} of ${data.results.length} pairs${ok<data.results.length?' — see the list for the ones that could not take it':''}.`;
     }catch(e){error(e.message);}
@@ -415,6 +417,8 @@
     const bad=anyOutside();
     dialog.querySelector('[data-save]').disabled=ctx.busy||bad||!ctx.dirty.size;
     dialog.querySelector('[data-reset]').disabled=ctx.busy||!ctx.saved;
+    const apply=dialog.querySelector('[data-apply]');apply.disabled=ctx.busy||ctx.combining||bad;apply.textContent=ctx.combining?'Combining…':'Apply layout';
+    apply.classList.toggle('side-layout-stale-button',!!ctx.stale&&!ctx.combining);
     const list=selected();
     if(!list.length){readout(bad?'Part of the artwork is outside the canvas.':'Select the main, the sub or some elements to adjust them.',bad);return;}
     const b=unionOf(list),what=list.length===1?'1 element':`${list.length} elements`;
@@ -446,16 +450,25 @@
     }
     box.append(document.importNode(svg,true));
   }
-  // Re-combine shortly after an edit so the erased result stays in step with the editor.
-  let timer;
+  // Edits do not combine on their own (a combine takes seconds on the server): the result shown
+  // is marked out of date until Apply layout combines this layout.
   function refresh(){
-    clearTimeout(timer);draw();
-    if(anyOutside()){preview(null,'Move the artwork back inside the canvas to preview.');ctx.result=null;return;}
-    timer=setTimeout(async()=>{
-      const token=++ctx.token,body={id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon},l=layout();if(l)body.layout=l;
-      try{const data=await combine(body);if(token===ctx.token){preview(data);error('');}}
-      catch(e){if(token===ctx.token)error(e.message);}
-    },350);
+    ctx.token++;ctx.stale=true;draw();stalePreview();
+  }
+  function stalePreview(){
+    const box=dialog.querySelector('.side-layout-preview');box.querySelector('.side-layout-stale')?.remove();
+    if(!ctx.stale)return;
+    const note=html('p','side-layout-stale',anyOutside()?'Move the artwork back inside the canvas, then Apply layout.':'Layout changed. Click Apply layout to see the combined result.');
+    box.prepend(note);
+  }
+  async function applyLayout(){
+    if(anyOutside()){error('Move the artwork back inside the canvas first.');return;}
+    const token=++ctx.token,body={id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon},l=layout();if(l)body.layout=l;
+    ctx.combining=true;status();error('');
+    let done=false;
+    try{const data=await combine(body);if(token===ctx.token){ctx.stale=false;preview(data);done=true;}}
+    catch(e){if(token===ctx.token)error(e.message);}
+    finally{ctx.combining=false;status();stalePreview();if(done)readout('Combined with this layout. Click Save layout to keep it.');}
   }
 
   // Scale the chosen units about a pinned point: fx / fy per axis (null leaves that axis alone).
@@ -549,11 +562,11 @@
   }
   async function save(){
     const l=layout();if(!l)return;
-    try{const data=await post({pair_id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon,layout:l});ctx.saved=data.layout.layout;preview(data.result);readout('Layout saved.');}
+    try{const data=await post({pair_id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon,layout:l});ctx.saved=data.layout.layout;ctx.stale=false;preview(data.result);stalePreview();readout('Layout saved.');}
     catch(e){error(e.message);}
   }
   async function reset(){
-    try{await post({pair_id:ctx.pair.id,layout:null});load(ctx.pair,ctx.main,ctx.sub,ctx.onSaved,null);}
+    try{await post({pair_id:ctx.pair.id,main:ctx.main.icon,sub:ctx.sub.icon,layout:null});load(ctx.pair,ctx.main,ctx.sub,ctx.onSaved,null);}
     catch(e){error(e.message);}
   }
 

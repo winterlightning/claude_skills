@@ -197,6 +197,95 @@ def effective_validation_status(document):
     return report.get('status', 'not-run') if report.get('graph_sha256') == digest else 'not-run'
 
 
+def graph_for(icon, data, old=None, contracts_path=None):
+    if data.get('svg_sha256') != icon['svg_sha256']:
+        raise EditConflict('The icon changed. Reload before checking or saving edits.')
+    old = old or {}
+    scales = normalized_scales(icon, data.get('scales', old.get('scales', {})))
+    deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', old.get('deleted_strokes', [])))
+    offsets, graph = edited_graph(icon, data.get('offsets'), scales, data.get('geometry', old.get('geometry')), deleted)
+    keyshape = data.get('keyshape', old.get('keyshape', icon.get('keyshape')))
+    if keyshape is not None:
+        if not isinstance(keyshape, str):
+            raise ValueError('Choose a keyshape for this profile.')
+        if keyshape == 'FREE' and icon.get('keyshape') == 'FREE':
+            graph['keyshape'] = keyshape
+        else:
+            if contracts_path and Path(contracts_path).is_file():
+                rules = json.loads(Path(contracts_path).read_text())
+            else:
+                folder = Path(__file__).resolve().parents[1] / 'model/contracts'
+                rules = {'profile': json.loads((folder / 'icon-profile.v1.json').read_text()),
+                         'keyshapes': json.loads((folder / 'keyshapes.v1.json').read_text())}
+            profile = icon.get('profile')
+            shapes = rules['keyshapes']['resolved'].get(profile, {})
+            choices = rules['profile']['profiles'].get(profile, {}).get('keyshape_choices', list(shapes))
+            if keyshape not in shapes or (keyshape not in choices and keyshape != icon.get('keyshape')):
+                raise ValueError('That keyshape is not available for this profile.')
+            graph['keyshape'] = keyshape
+            graph['keyshape_bounds'] = shapes[keyshape]['visible_bounds']
+            graph.pop('free_keyshape', None)
+    return offsets, scales, graph
+
+
+def validate_edit(icon, data, contracts_path=None):
+    _, _, graph = graph_for(icon, data, contracts_path=contracts_path)
+    if __package__:
+        from .edit_validation import validate_graph
+    else:
+        from edit_validation import validate_graph
+    return validate_graph(graph)
+
+
+def build_edit_document(icon, data, old, user, contracts_path=None):
+    """The stroke-edit document a save stores: pure, so the store and the cloud graphics service share it."""
+    if data.get('svg_sha256') != icon['svg_sha256']:
+        raise EditConflict('The icon changed. Reload before editing this version.')
+    if type(data.get('revision')) is not int or data['revision'] < 0:
+        raise ValueError('A saved edit revision is required.')
+    key, sha = icon['key'], icon['svg_sha256']
+    if data['revision'] != (old['revision'] if old else 0):
+        raise EditConflict('Someone saved newer edits. Download your draft, then reload saved edits.')
+    # Older clients can still translate an edit without erasing its resize.
+    offsets, scales, graph = graph_for(icon, data, old, contracts_path)
+    geometry = normalized_geometry(icon, data.get('geometry', (old or {}).get('geometry')))
+    deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', (old or {}).get('deleted_strokes', [])))
+    override = (old or {}).get('validation_override')
+    if override and (override.get('graph_sha256') != graph_sha256(graph) or
+                     override.get('source_svg_sha256') != sha):
+        override = None
+    if 'validation_override' in data:
+        requested = data['validation_override']
+        override = None
+        if requested is not None:
+            reason = requested.get('reason', '') if isinstance(requested, dict) else None
+            if not isinstance(reason, str) or len(reason) > 2000:
+                raise ValueError('The optional human override note must be text of at most 2000 characters.')
+            override = {'reason': reason.strip(), 'reviewed_by': user,
+                        'reviewed_at': datetime.now(timezone.utc).isoformat(),
+                        'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}
+    validation = {'status': 'not-run', 'note': 'Run validation on these edits before publishing.'}
+    if data.get('validate') is True or override:
+        validation = validate_edit(icon, dict(data, scales=scales, keyshape=graph.get('keyshape'), geometry=geometry, deleted_strokes=deleted), contracts_path)
+    document = {
+        'schema': 'pictographic.stroke-edit.v2', 'icon': key,
+        'source_svg_sha256': sha, 'python_source': icon.get('python_source'),
+        'revision': data['revision'] + 1,
+        'updated_at': datetime.now(timezone.utc).isoformat(), 'updated_by': user,
+        'status': 'pending', 'offsets': offsets, 'scales': scales, 'geometry': geometry, 'deleted_strokes': deleted,
+        'scale_origin': [icon['canvas_size'] / 2, icon['canvas_size'] / 2],
+        'stroke_groups': stroke_groups(icon),
+        'original_graph': {k: deepcopy(icon[k]) for k in GRAPH_FIELDS if k in icon},
+        'edited_graph': graph,
+        'validation': validation,
+        'validation_override': override,
+    }
+    document['effective_validation_status'] = effective_validation_status(document)
+    if graph.get('keyshape'):
+        document['keyshape'] = graph['keyshape']
+    return document
+
+
 class StrokeEditStore:
     """Saved gallery edits in the stroke_edits table of `database` (the gallery SQLite file)."""
 
@@ -234,42 +323,10 @@ class StrokeEditStore:
             yield connection
 
     def graph_for(self, icon, data, old=None):
-        if data.get('svg_sha256') != icon['svg_sha256']:
-            raise EditConflict('The icon changed. Reload before checking or saving edits.')
-        old = old or {}
-        scales = normalized_scales(icon, data.get('scales', old.get('scales', {})))
-        deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', old.get('deleted_strokes', [])))
-        offsets, graph = edited_graph(icon, data.get('offsets'), scales, data.get('geometry', old.get('geometry')), deleted)
-        keyshape = data.get('keyshape', old.get('keyshape', icon.get('keyshape')))
-        if keyshape is not None:
-            if not isinstance(keyshape, str):
-                raise ValueError('Choose a keyshape for this profile.')
-            if keyshape == 'FREE' and icon.get('keyshape') == 'FREE':
-                graph['keyshape'] = keyshape
-            else:
-                if self.contracts_path and self.contracts_path.is_file():
-                    rules = json.loads(self.contracts_path.read_text())
-                else:
-                    folder = Path(__file__).resolve().parents[1] / 'model/contracts'
-                    rules = {'profile': json.loads((folder / 'icon-profile.v1.json').read_text()),
-                             'keyshapes': json.loads((folder / 'keyshapes.v1.json').read_text())}
-                profile = icon.get('profile')
-                shapes = rules['keyshapes']['resolved'].get(profile, {})
-                choices = rules['profile']['profiles'].get(profile, {}).get('keyshape_choices', list(shapes))
-                if keyshape not in shapes or (keyshape not in choices and keyshape != icon.get('keyshape')):
-                    raise ValueError('That keyshape is not available for this profile.')
-                graph['keyshape'] = keyshape
-                graph['keyshape_bounds'] = shapes[keyshape]['visible_bounds']
-                graph.pop('free_keyshape', None)
-        return offsets, scales, graph
+        return graph_for(icon, data, old, self.contracts_path)
 
     def validate(self, icon, data):
-        _, _, graph = self.graph_for(icon, data)
-        if __package__:
-            from .edit_validation import validate_graph
-        else:
-            from edit_validation import validate_graph
-        return validate_graph(graph)
+        return validate_edit(icon, data, self.contracts_path)
 
     def get(self, key, sha):
         with self.connect() as connection:
@@ -284,52 +341,10 @@ class StrokeEditStore:
         return [{'source_svg_sha256': source, 'updated_at': at} for source, at in rows]
 
     def save(self, icon, data, user):
-        if data.get('svg_sha256') != icon['svg_sha256']:
-            raise EditConflict('The icon changed. Reload before editing this version.')
-        if type(data.get('revision')) is not int or data['revision'] < 0:
-            raise ValueError('A saved edit revision is required.')
-        key, sha = icon['key'], icon['svg_sha256']
         # Optimistic: validate outside any lock, then write only if nobody saved in between.
-        old = self.get(key, sha)
-        if data['revision'] != (old['revision'] if old else 0):
-            raise EditConflict('Someone saved newer edits. Download your draft, then reload saved edits.')
-        # Older clients can still translate an edit without erasing its resize.
-        offsets, scales, graph = self.graph_for(icon, data, old)
-        geometry = normalized_geometry(icon, data.get('geometry', (old or {}).get('geometry')))
-        deleted = normalized_deleted_strokes(icon, data.get('deleted_strokes', (old or {}).get('deleted_strokes', [])))
-        override = (old or {}).get('validation_override')
-        if override and (override.get('graph_sha256') != graph_sha256(graph) or
-                         override.get('source_svg_sha256') != sha):
-            override = None
-        if 'validation_override' in data:
-            requested = data['validation_override']
-            override = None
-            if requested is not None:
-                reason = requested.get('reason', '') if isinstance(requested, dict) else None
-                if not isinstance(reason, str) or len(reason) > 2000:
-                    raise ValueError('The optional human override note must be text of at most 2000 characters.')
-                override = {'reason': reason.strip(), 'reviewed_by': user,
-                            'reviewed_at': datetime.now(timezone.utc).isoformat(),
-                            'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}
-        validation = {'status': 'not-run', 'note': 'Run validation on these edits before publishing.'}
-        if data.get('validate') is True or override:
-            validation = self.validate(icon, dict(data, scales=scales, keyshape=graph.get('keyshape'), geometry=geometry, deleted_strokes=deleted))
-        document = {
-            'schema': 'pictographic.stroke-edit.v2', 'icon': key,
-            'source_svg_sha256': sha, 'python_source': icon.get('python_source'),
-            'revision': data['revision'] + 1,
-            'updated_at': datetime.now(timezone.utc).isoformat(), 'updated_by': user,
-            'status': 'pending', 'offsets': offsets, 'scales': scales, 'geometry': geometry, 'deleted_strokes': deleted,
-            'scale_origin': [icon['canvas_size'] / 2, icon['canvas_size'] / 2],
-            'stroke_groups': stroke_groups(icon),
-            'original_graph': {k: deepcopy(icon[k]) for k in GRAPH_FIELDS if k in icon},
-            'edited_graph': graph,
-            'validation': validation,
-            'validation_override': override,
-        }
-        document['effective_validation_status'] = effective_validation_status(document)
-        if graph.get('keyshape'):
-            document['keyshape'] = graph['keyshape']
+        old = self.get(icon['key'], icon['svg_sha256']) if data.get('svg_sha256') == icon['svg_sha256'] else None
+        document = build_edit_document(icon, data, old, user, self.contracts_path)
+        key, sha = icon['key'], icon['svg_sha256']
         with self.transaction() as connection:
             current = connection.execute('SELECT revision FROM stroke_edits WHERE icon=? AND source_svg_sha256=?',
                                          (key, sha)).fetchone()

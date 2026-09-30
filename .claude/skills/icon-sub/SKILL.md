@@ -101,6 +101,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 - `/icon-container` — container family, `CONTAINER64`, 64×64
 - `/icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
 - `/icon-symbol` — symbol family, `SYMBOL32`, 32×32
+- `/symbol-24` — symbol24 family, `SYMBOL24`, 24×24
 
 ## Visual priorities
 

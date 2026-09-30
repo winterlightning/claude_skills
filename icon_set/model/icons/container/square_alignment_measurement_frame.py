@@ -3,11 +3,14 @@
 Keyshape: SQUARE; centerline extremes recorded in build.
 Construction reference: Lucide scan: repeated quarter-circle frame corners.. Mirrored about x=32.
 Hosting measured with compose.py: plus valid, heart valid, check valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (square-alignment-measurement-frame SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class SquareAlignmentMeasurementFrame(Container64):
@@ -17,20 +20,28 @@ class SquareAlignmentMeasurementFrame(Container64):
     keywords = ('square', 'alignment', 'measurement', 'frame')
 
     def build(self) -> None:
-        # Centerline (2,2)-(62,62).
-        self.add_line('frame-top',(10,2),(54,2))
-        self.add_arc('frame-ne',(54,2),(62,10),radius_x=8)
-        self.add_line('frame-right',(62,10),(62,54))
-        self.add_arc('frame-se',(62,54),(54,62),radius_x=8)
-        self.add_line('frame-bottom',(54,62),(10,62))
-        self.add_arc('frame-sw',(10,62),(2,54),radius_x=8)
-        self.add_line('frame-left',(2,54),(2,10))
-        self.add_arc('frame-nw',(2,10),(10,2),radius_x=8)
-        self.add_contour('frame',*('frame-'+x for x in ('top','ne','right','se','bottom','sw','left','nw')),closed=True)
-        for n,x in enumerate((22,42)):
-            self.add_line(f'tick-top-{n}',(x,2),(x,10))
-            self.add_line(f'tick-bottom-{n}',(x,54),(x,62))
-            self.add_line(f'tick-left-{n}',(2,x),(10,x))
-            self.add_line(f'tick-right-{n}',(54,x),(62,x))
-            for side in ('top','bottom','left','right'):
-                self.relate('connect',f'tick-{side}-{n}','frame')
+        self.add_line('frame-top', (14, 6), (50, 6))
+        self.add_arc('frame-ne', (50, 6), (58, 14), radius_x=8)
+        self.add_line('frame-right', (58, 14), (58, 50))
+        self.add_arc('frame-se', (58, 50), (50, 58), radius_x=8)
+        self.add_line('frame-bottom', (50, 58), (14, 58))
+        self.add_arc('frame-sw', (14, 58), (6, 50), radius_x=8)
+        self.add_line('frame-left', (6, 50), (6, 14))
+        self.add_arc('frame-nw', (6, 14), (14, 6), radius_x=8)
+        self.add_line('tick-top-0', (24, 6), (24, 14))
+        self.add_line('tick-bottom-0', (24, 50), (24, 58))
+        self.add_line('tick-left-0', (6, 24), (14, 24))
+        self.add_line('tick-right-0', (50, 24), (58, 24))
+        self.add_line('tick-top-1', (40, 6), (40, 14))
+        self.add_line('tick-bottom-1', (40, 50), (40, 58))
+        self.add_line('tick-left-1', (6, 40), (14, 40))
+        self.add_line('tick-right-1', (50, 40), (58, 40))
+        self.add_contour('frame', 'frame-top', 'frame-ne', 'frame-right', 'frame-se', 'frame-bottom', 'frame-sw', 'frame-left', 'frame-nw', closed=True)
+        self.relate('connect', 'tick-top-0', 'frame')
+        self.relate('connect', 'tick-bottom-0', 'frame')
+        self.relate('connect', 'tick-left-0', 'frame')
+        self.relate('connect', 'tick-right-0', 'frame')
+        self.relate('connect', 'tick-top-1', 'frame')
+        self.relate('connect', 'tick-bottom-1', 'frame')
+        self.relate('connect', 'tick-left-1', 'frame')
+        self.relate('connect', 'tick-right-1', 'frame')

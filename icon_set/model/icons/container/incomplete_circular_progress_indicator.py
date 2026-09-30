@@ -4,12 +4,14 @@ CIRCLE: visible bounds (0, 0, 64, 64); chosen for the source proportions.
 Construction reference: Lucide loader-circle: long circular arc with open end; source retains dashed remainder. Independently authored on CONTAINER64.
 Source silhouette and defining details retained; no decorative detail added.
 Hosting measured with compose.py: plus valid, heart valid, check valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (incomplete-circular-progress-indicator CIRCLE -> CIRCLE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class IncompleteCircularProgressIndicator(Container64):
@@ -19,9 +21,9 @@ class IncompleteCircularProgressIndicator(Container64):
     keywords = ('incomplete', 'circular', 'progress', 'indicator')
 
     def build(self) -> None:
-        self.add_arc('solid-right', (32,2), (32,62), radius_x=30)
-        self.add_arc('solid-bottom-left',(32,62),(2,32),radius_x=30)
-        self.add_contour('solid','solid-right','solid-bottom-left')
-        self.add_arc('dash-upper-left',(8,14),(14,8),radius_x=30)
-        self.add_arc('dash-top',(22,4),(25,3),radius_x=30)
-        self.add_arc('dash-left',(3,25),(4,22),radius_x=30)
+        self.add_arc('solid-right', (32, 4), (32, 60), radius_x=28)
+        self.add_arc('solid-bottom-left', (32, 60), (4, 32), radius_x=28)
+        self.add_arc('dash-upper-left', (10, 16), (16, 10), radius_x=27)
+        self.add_arc('dash-top', (23, 6), (26, 5), radius_x=28)
+        self.add_arc('dash-left', (5, 26), (6, 23), radius_x=28)
+        self.add_contour('solid', 'solid-right', 'solid-bottom-left')

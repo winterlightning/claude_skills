@@ -15,12 +15,19 @@ def save_json(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, separators=(',', ':')) + '\n')
 
-def glyph_map():
+def glyph_map(size=None):
+    """v1 overlaid by v2; `size` picks a grid-hinted v2 ink height (18..40, even)."""
     result = {}
     for name in ('glyphs.json', 'glyphs-v2.json'):
         for glyph in json.loads((REPO_ROOT/'icon_set/typeface'/name).read_text())['glyphs']:
             if glyph['preferred']:
                 result[glyph['character']] = glyph
+    if size is not None:
+        sized = json.loads((REPO_ROOT/'icon_set/typeface/glyphs-v2-sizes.json').read_text())['sizes']
+        if str(size) not in sized:
+            raise ValueError(f'No typeface v2 size {size}; available: {", ".join(sized)}')
+        for glyph in sized[str(size)]:
+            result[glyph['character']] = glyph
     return result
 
 def native_text(text, glyphs, tracking=4, line_gap=4):
@@ -102,10 +109,12 @@ def generate(dist, reviews=None):
     from .combination_catalog import write_catalog
     from .side_components import refresh
     dist=Path(dist);gallery=dist/'gallery';spec=json.loads((REPO_ROOT/'icon_set/data/side-text-v2.json').read_text())
-    glyphs=glyph_map();folder=dist/'text-native-v2';folder.mkdir(parents=True,exist_ok=True)
+    maps={};folder=dist/'text-native-v2';folder.mkdir(parents=True,exist_ok=True)
     records=[]
     for item in spec['icons']:
-        document,w,h,placements=native_text(item['text'],glyphs,spec['tracking'],spec['line_gap'])
+        size=item.get('size')
+        if size not in maps:maps[size]=glyph_map(size)
+        document,w,h,placements=native_text(item['text'],maps[size],spec['tracking'],spec['line_gap'])
         uid='side-text-v2-'+item['source_id'];file=folder/(uid+'.svg');file.write_text(document)
         record=dict(icon_id=uid,key='text/'+uid,name=item['name'],description=item['text'],text=item['text'],family='text',profile='TEXT_NATIVE_V2',semantic_role='SUB',semantic_kind='text',composition_class='TEXT',canvas_size=max(w,h),canvas_width=w,canvas_height=h,geometry_policy='native-translation-only',tracking=4,line_gap=4,placements=placements,source_ids=item['source_ids'],original_sources=copy_originals([REPO_ROOT/item['source_path']],gallery),python_source=None,preview_url='../text-native-v2/'+file.name,svg_path=file.relative_to(dist).as_posix(),svg_sha256=hashlib.sha256(document.encode()).hexdigest(),author='user-supplied-typeface-v2',tags=['text','typeface v2','side sub'],aliases=[],keywords=[item['text']],category='text',style=dict(stroke_width=4,line_cap='round',line_join='round'),validation=dict(status='valid',errors=[],warnings=[],checks_run=['native glyph paths','translation only','4-unit character ink gap','4-unit stroke'],scope='Native typeface layout, not SUB32 geometric validation.'))
         records.append(record)

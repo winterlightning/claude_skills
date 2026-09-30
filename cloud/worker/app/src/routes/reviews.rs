@@ -170,6 +170,13 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
         return invalid();
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
+    // A combined side / container icon whose parts are not all approved shows Failed check and cannot be approved.
+    if status == "approve" && icon.build_failed && icon.family.as_deref() == Some("side_combination64") {
+        return http::error(409, "Approve the main and sub first: this combined icon uses one that is not approved.");
+    }
+    if status == "approve" && icon.build_failed && icon.family.as_deref() == Some(super::container_pairs::FAMILY) {
+        return http::error(409, "Approve the container and symbol first, then recombine: this combined icon uses one that is not approved.");
+    }
     let sha = icon.svg_sha256.clone();
     if data.get("svg_sha256").and_then(Value::as_str).unwrap_or("") != sha {
         return http::error(409, "Icon changed; reload the gallery before submitting");

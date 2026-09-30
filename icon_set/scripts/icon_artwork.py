@@ -44,8 +44,11 @@ def baseline(record):
     return result
 
 
-def safe_svg(text, canvas):
-    """Accept portable vector SVGs; disallow active content and remote resources."""
+def safe_svg(text, canvas, *, fit_canvas=False):
+    """Accept portable vector SVGs; disallow active content and remote resources.
+
+    With fit_canvas (a designer's manual edit, approved by uploading it) any viewBox is kept and the
+    drawing is scaled onto the icon canvas; otherwise the viewBox must be the profile canvas."""
     if not isinstance(text, str) or not text.strip() or len(text.encode('utf-8')) > MAX_SVG:
         raise ValueError('Choose an SVG file up to 1 MB.')
     if re.search(r'<!(DOCTYPE|ENTITY)', text, re.I):
@@ -60,7 +63,16 @@ def safe_svg(text, canvas):
         view = [float(n) for n in re.split(r'[\s,]+', root.get('viewBox', '').strip())]
     except ValueError:
         view = []
-    if view != [0, 0, canvas, canvas]:
+    if fit_canvas:
+        if len(view) != 4 or view[2] <= 0 or view[3] <= 0:
+            try:
+                size = [float(re.sub(r'px$', '', root.get(k, '').strip())) for k in ('width', 'height')]
+            except ValueError:
+                size = []
+            if len(size) != 2 or min(size) <= 0:
+                raise ValueError('Export the SVG with a viewBox, or with a numeric width and height.')
+            root.set('viewBox', f'0 0 {size[0]:g} {size[1]:g}')
+    elif view != [0, 0, canvas, canvas]:
         raise ValueError(f'Export with a 0 0 {canvas} {canvas} viewBox to keep the icon on its profile canvas.')
     tags = {'svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon',
             'defs', 'clipPath', 'mask', 'linearGradient', 'radialGradient', 'stop', 'use', 'title', 'desc', 'style'}
@@ -167,68 +179,10 @@ class ArtworkStore(StrokeEditStore):
         return document
 
     def save(self, icon, data, user, edits):
-        icon = baseline(icon)
-        if data.get('svg_sha256') != icon['svg_sha256']:
-            raise EditConflict('The generated icon changed. Reload before changing its artwork.')
-        mode = data.get('source_mode')
-        if mode not in MODES:
-            raise ValueError('Choose original, uploaded, or gallery-edited artwork.')
-        upload_only = data.get('action') == 'upload'
-        if upload_only and 'svg' not in data:
-            raise ValueError('Choose an SVG file to save.')
         key = icon['key']
         old = self.get(key)
-        if type(data.get('revision')) is not int or data['revision'] != (old or {}).get('revision', 0):
-            raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')
-        if upload_only:
-            mode = (old or {}).get('source_mode', 'use_org')
-        result = deepcopy(old) if old else {'schema': 'pictographic.icon-artwork.v1', 'icon': key}
-        if old:
-            result.setdefault('selected_by', old.get('updated_by'))
-            result.setdefault('selected_at', old.get('updated_at'))
-        if old and old.get('source_mode') == 'use_upload' and not result.get('selected_upload'):
-            result['selected_upload'] = deepcopy(old['uploaded'])
-        now = datetime.now(timezone.utc).isoformat()
-        if 'svg' in data:
-            document = safe_svg(data['svg'], icon['canvas_size'])
-            result['uploaded'] = {'svg': document, 'svg_sha256': sha(document),
-                                  'name': Path(str(data.get('filename') or 'uploaded.svg')).name[:200],
-                                  'uploaded_by': user, 'uploaded_at': now}
-        if mode == 'use_upload' and not result.get('uploaded'):
-            raise ValueError('Upload an SVG before choosing the uploaded version.')
-        if mode == 'use_edited' and not upload_only:
-            # Bind selection to the revision the human actually saw.
-            edit = edits.get(key, icon['svg_sha256'])
-            edit = edit or result.get('edited')
-            if not edit or data.get('edit_revision') != edit['revision']:
-                raise EditConflict('Save your gallery edits, then reload the source choices to use them.')
-            if effective_validation_status(edit) != 'pass':
-                raise ValueError('Run validation and save the gallery edits first, or save a human force-pass reason.')
-            result['edited'] = edit
-        result.update(source_mode=mode, source_svg_sha256=icon['svg_sha256'],
-                      revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
-        if not upload_only:
-            result.update(selected_by=user, selected_at=now)
-        if data.get('approve_exception') is True:
-            if mode != 'use_org' or upload_only:
-                raise ValueError('Approve the original as an exception, or use the editor’s human-reviewed save for edits.')
-            from types import SimpleNamespace
-            from icon_set.validation.icon_exception import apply_exception
-            document = icon_from_graph(icon).to_svg()
-            approval = {'reason': 'Visually approved from the side component gallery',
-                        'approved_by': user, 'approved_on': now, 'svg_sha256': icon['svg_sha256']}
-            validation = icon.get('validation') or {}
-            row = apply_exception(SimpleNamespace(exception=approval), {
-                'family': icon['family'], 'profile': icon['profile'], '_svg': document,
-                'svg_sha256': sha(document), 'status': validation.get('status', icon.get('status', 'fail')),
-                'errors': []})
-            if row.get('exception') != approval:
-                raise ValueError('This drawing cannot be approved as an exception: ' + '; '.join(row['errors']))
-            result['original_exception'] = approval
-        if mode == 'use_upload' and not upload_only:
-            result['selected_upload'] = deepcopy(result['uploaded'])
-            result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
-                                       'svg_sha256': result['uploaded']['svg_sha256']}
+        edit = edits.get(key, baseline(icon)['svg_sha256']) if data.get('source_mode') == 'use_edited' else None
+        result = build_artwork_choice(icon, data, old, edit, user)
         with self.transaction() as connection:
             current = connection.execute('SELECT revision FROM icon_artwork WHERE icon=?', (key,)).fetchone()
             if (current[0] if current else 0) != (old or {}).get('revision', 0):
@@ -236,6 +190,72 @@ class ArtworkStore(StrokeEditStore):
             json.dumps(result, allow_nan=False)
             state_db.put_artwork(connection, result)
         return result
+
+
+def build_artwork_choice(icon, data, old, edit, user):
+    """The artwork choice a save stores, given the current choice `old` and the saved stroke edit `edit`
+    of this revision: pure, so the store and the cloud graphics service share it."""
+    icon = baseline(icon)
+    if data.get('svg_sha256') != icon['svg_sha256']:
+        raise EditConflict('The generated icon changed. Reload before changing its artwork.')
+    mode = data.get('source_mode')
+    if mode not in MODES:
+        raise ValueError('Choose original, uploaded, or gallery-edited artwork.')
+    upload_only = data.get('action') == 'upload'
+    if upload_only and 'svg' not in data:
+        raise ValueError('Choose an SVG file to save.')
+    key = icon['key']
+    if type(data.get('revision')) is not int or data['revision'] != (old or {}).get('revision', 0):
+        raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')
+    if upload_only:
+        mode = (old or {}).get('source_mode', 'use_org')
+    result = deepcopy(old) if old else {'schema': 'pictographic.icon-artwork.v1', 'icon': key}
+    if old:
+        result.setdefault('selected_by', old.get('updated_by'))
+        result.setdefault('selected_at', old.get('updated_at'))
+    if old and old.get('source_mode') == 'use_upload' and not result.get('selected_upload'):
+        result['selected_upload'] = deepcopy(old['uploaded'])
+    now = datetime.now(timezone.utc).isoformat()
+    if 'svg' in data:
+        document = safe_svg(data['svg'], icon.get('canvas_size') or 48, fit_canvas=True)
+        result['uploaded'] = {'svg': document, 'svg_sha256': sha(document),
+                              'name': Path(str(data.get('filename') or 'uploaded.svg')).name[:200],
+                              'uploaded_by': user, 'uploaded_at': now}
+    if mode == 'use_upload' and not result.get('uploaded'):
+        raise ValueError('Upload an SVG before choosing the uploaded version.')
+    if mode == 'use_edited' and not upload_only:
+        # Bind selection to the revision the human actually saw.
+        edit = edit or result.get('edited')
+        if not edit or data.get('edit_revision') != edit['revision']:
+            raise EditConflict('Save your gallery edits, then reload the source choices to use them.')
+        if effective_validation_status(edit) != 'pass':
+            raise ValueError('Run validation and save the gallery edits first, or save a human force-pass reason.')
+        result['edited'] = edit
+    result.update(source_mode=mode, source_svg_sha256=icon['svg_sha256'],
+                  revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
+    if not upload_only:
+        result.update(selected_by=user, selected_at=now)
+    if data.get('approve_exception') is True:
+        if mode != 'use_org' or upload_only:
+            raise ValueError('Approve the original as an exception, or use the editor’s human-reviewed save for edits.')
+        from types import SimpleNamespace
+        from icon_set.validation.icon_exception import apply_exception
+        document = icon_from_graph(icon).to_svg()
+        approval = {'reason': 'Visually approved from the side component gallery',
+                    'approved_by': user, 'approved_on': now, 'svg_sha256': icon['svg_sha256']}
+        validation = icon.get('validation') or {}
+        row = apply_exception(SimpleNamespace(exception=approval), {
+            'family': icon['family'], 'profile': icon['profile'], '_svg': document,
+            'svg_sha256': sha(document), 'status': validation.get('status', icon.get('status', 'fail')),
+            'errors': []})
+        if row.get('exception') != approval:
+            raise ValueError('This drawing cannot be approved as an exception: ' + '; '.join(row['errors']))
+        result['original_exception'] = approval
+    if mode == 'use_upload' and not upload_only:
+        result['selected_upload'] = deepcopy(result['uploaded'])
+        result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
+                                   'svg_sha256': result['uploaded']['svg_sha256']}
+    return result
 
 
 def open_artwork_store(location):

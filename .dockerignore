@@ -1,0 +1,30 @@
+# Allow-list for cloud/graphics/Dockerfile, whose build context is the repository root (wrangler pipes the Dockerfile via stdin, so a Dockerfile.dockerignore is ignored).
+*
+!icon_set/__init__.py
+!icon_set/requirements-qa.txt
+!icon_set/model
+!icon_set/validation
+!icon_set/renderers
+!icon_set/schemas
+!icon_set/metadata
+!icon_set/typeface
+!icon_set/scripts/stroke_edits.py
+!icon_set/scripts/icon_artwork.py
+!icon_set/scripts/edit_validation.py
+!icon_set/scripts/state_db.py
+!icon_set/scripts/workspace.py
+!icon_set/vendor/combination
+!icon_set/scripts/combination_experiment.py
+!icon_set/scripts/combination_layouts.py
+!icon_set/scripts/combination_layout_svg.py
+!icon_set/scripts/measure_combination_svg.py
+!icon_set/scripts/build_combination_previews.py
+!icon_set/scripts/experiment_gallery.py
+!icon_set/scripts/side_recombine.py
+!icon_set/scripts/sub_ink32.py
+!cloud/graphics/server.py
+# Authored icon modules (200+ MB) are never executed: icons are rebuilt from their catalog graph.
+icon_set/model/icons/*/*
+!icon_set/model/icons/*/__init__.py
+!icon_set/model/icons/*/_*.py
+**/__pycache__

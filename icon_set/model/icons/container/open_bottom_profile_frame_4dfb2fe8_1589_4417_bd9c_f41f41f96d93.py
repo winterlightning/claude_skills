@@ -2,18 +2,23 @@
 
 Plan: One continuous open U frame, top corner radius six; no bottom edge. Bounds (6,2)-(58,62).
 Hosting at the standard slot: add-sub32: valid, heart-state-63: valid, check-mark: valid.
-Construction reference: Lucide briefcase-business: tangent quarter-circle corners."""
+Construction reference: Lucide briefcase-business: tangent quarter-circle corners.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (open-bottom-profile-frame VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+"""
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
 SOURCE_ICON_ID = '4dfb2fe8-1589-4417-bd9c-f41f41f96d93'
-SOURCE_PATH = 'pictographic-primitives/other/rectangle user_4dfb2fe8-1589-4417-bd9c-f41f41f96d93.svg'
 SOURCE_ICON_IDS = ('4dfb2fe8-1589-4417-bd9c-f41f41f96d93',)
-AUTHOR = 'gpt-6'
+SOURCE_PATH = 'pictographic-primitives/other/rectangle user_4dfb2fe8-1589-4417-bd9c-f41f41f96d93.svg'
+AUTHOR = 'claude-opus-5-5'
+
 
 class OpenBottomProfileFrame(Container64):
     icon_id = 'open-bottom-profile-frame'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'primitives-generate'
@@ -22,10 +27,9 @@ class OpenBottomProfileFrame(Container64):
     keywords = ('open', 'bottom', 'profile', 'frame')
 
     def build(self) -> None:
-        left,right,top,bottom,r=6,58,2,62,6
-        self.add_line('left',(left,bottom),(left,top+r))
-        self.add_arc('top-left',(left,top+r),(left+r,top),radius_x=r)
-        self.add_line('top',(left+r,top),(right-r,top))
-        self.add_arc('top-right',(right-r,top),(right,top+r),radius_x=r)
-        self.add_line('right',(right,top+r),(right,bottom))
-        self.add_contour('frame','left','top-left','top','top-right','right')
+        self.add_line('left', (10, 60), (10, 10))
+        self.add_arc('top-left', (10, 10), (16, 4), radius_x=6)
+        self.add_line('top', (16, 4), (48, 4))
+        self.add_arc('top-right', (48, 4), (54, 10), radius_x=6)
+        self.add_line('right', (54, 10), (54, 60))
+        self.add_contour('frame', 'left', 'top-left', 'top', 'top-right', 'right')

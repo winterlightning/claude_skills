@@ -1,7 +1,7 @@
 ---
 name: generate-png-solo-with-reference
 description: Draw a clean 48x48-ready solo line icon PNG from an icon name plus a reference image path (SVG or PNG), black Lucide / Feather style strokes on white, uniform width, natural proportions, and save it under new-pipeline-test/output_png. The model inspects the reference to pick the 2 to 4 recognizable parts and the overall shape, follows the fixed prompt as its drawing brief, generates the PNG with an image generation model (never hand-drawn code, never a library icon), checks it at 48 px, vectorizes it to <slug>_raw.svg in the same folder with new-pipeline-test/vectorize/process.sh, and reports. Use when asked to generate a PNG icon from a reference, or to redraw an existing icon through the PNG -> vectorize -> redraw pipeline. Hand-authored; edit this file directly.
-argument-hint: <name> <reference-path> [; <name> <reference-path> ...] [--shape tall|wide|square|round]
+argument-hint: <name> <reference-path> --source-id <uuid> [; <name> <reference-path> --source-id <uuid> ...] [--shape tall|wide|square|round]
 ---
 
 # /generate-png-solo-with-reference — name and reference in, PNG icon out
@@ -25,6 +25,17 @@ and do not touch `published/`, the registered icon folders, or the build.
   overrides the shape you would read from the reference.
 - Resolve the reference to an absolute path. If it does not exist or cannot be
   opened, report that item as blocked and continue with the others.
+- `--source-id <uuid>` inside a piece is the original icon id that this
+  drawing replaces or fixes; it belongs to that piece only. It becomes
+  `SOURCE_ICON_ID` on the Solo48 model the redraw step writes, so it cannot be
+  left out silently. Take it out of the piece before reading the rest.
+- A piece without `--source-id`: ask the user for its original icon id before
+  generating anything, one question listing every piece that lacks one; when the reference filename ends in a UUID, offer it as the suggested answer.
+  If the user says there is none (a brand-new concept), record
+  `source_icon_id: null` and add a warning to the report. When you cannot ask
+  (non-interactive run), do not guess an id: use `null` and warn.
+- Never invent, derive or look up an id yourself (a UUID in the reference filename is only a suggestion to confirm); only the user or the
+  caller supplies it. Keep it exactly as given.
 - No items: say so and stop.
 
 ## Inspect the reference
@@ -212,8 +223,8 @@ Then check the result:
   `<slug>_raw.svg` (nothing
   else from the vectorizer), `reference.<ext>` (a copy of the reference),
   `prompt.txt` (the filled brief that produced the final image), and
-  `choice.json` with `subject`, `reference_path` (the original absolute
-  path), `parts`, `shape`, `stroke_count`, `shape_source` (`user` or `agent`),
+  `choice.json` with `subject`, `source_icon_id` (the original icon id as
+  given, or `null`), `reference_path` (the original absolute path), `parts`, `shape`, `stroke_count`, `shape_source` (`user` or `agent`),
   `image_model` (`codex:image_gen`, an API model id, or the host tool name), `attempts`, and
   `created_at`.
 - Reply with one line per subject: the PNG path, the `<slug>_raw.svg` path

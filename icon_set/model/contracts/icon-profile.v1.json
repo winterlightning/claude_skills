@@ -58,6 +58,15 @@
       "base_class": "Symbol32",
       "dist": "dist/symbol32",
       "job": "A symbol placed inside a container; independently editable from its linked side sub-icon."
+    },
+    "symbol24": {
+      "profile": "SYMBOL24",
+      "package": "model/icons/symbol24",
+      "base_class": "Symbol24",
+      "dist": "dist/symbol24",
+      "job": "A 24x24 symbol, drawn fresh or redrawn from a 32x32 sub or symbol, with the library's uniform 4-unit stroke.",
+      "validation": "advisory",
+      "_validation_note": "Advisory: the build publishes a symbol24 icon whose SVG is a 24x24 canvas with every stroke 4, and records the automatic QA findings without failing on them. Quality is judged visually at 24 px by the author. Every other family keeps blocking validation."
     }
   },
   "profiles": {
@@ -139,7 +148,57 @@
       "mic": 2,
       "equal_stroke_centerline_min": 6,
       "keyshape_scale_numerator": 2,
-      "keyshape_scale_denominator": 1
+      "keyshape_scale_denominator": 1,
+      "keyshape_choices": [
+        "CIRCLE",
+        "SQUARE",
+        "HRECT_L",
+        "HRECT_M",
+        "VRECT_L",
+        "VRECT_M"
+      ],
+      "keyshape_overrides": {
+        "CIRCLE": {
+          "width": 60,
+          "height": 60
+        },
+        "SQUARE": {
+          "width": 56,
+          "height": 56
+        },
+        "HRECT_XL": {
+          "width": 60,
+          "height": 48
+        },
+        "HRECT_L": {
+          "width": 60,
+          "height": 48
+        },
+        "HRECT_M": {
+          "width": 60,
+          "height": 44
+        },
+        "HRECT_S": {
+          "width": 60,
+          "height": 48
+        },
+        "VRECT_XL": {
+          "width": 48,
+          "height": 60
+        },
+        "VRECT_L": {
+          "width": 48,
+          "height": 60
+        },
+        "VRECT_M": {
+          "width": 44,
+          "height": 60
+        },
+        "VRECT_S": {
+          "width": 48,
+          "height": 60
+        }
+      }
     },
     "COMBINATION_MAIN48": {
       "family": "combination_main",
@@ -210,6 +269,34 @@
       "equal_stroke_centerline_min": 6,
       "keyshape_scale_numerator": 1,
       "keyshape_scale_denominator": 1
+    },
+    "SYMBOL24": {
+      "family": "symbol24",
+      "semantic_use": "compact content symbol",
+      "canvas_size": 24,
+      "interior_guide_inset": 3,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 4,
+      "keyshape_overrides": {
+        "HRECT_XL": {
+          "width": 24,
+          "height": 20
+        },
+        "HRECT_M": {
+          "width": 24,
+          "height": 16
+        },
+        "VRECT_XL": {
+          "width": 20,
+          "height": 24
+        },
+        "VRECT_M": {
+          "width": 16,
+          "height": 24
+        }
+      }
     }
   },
   "semantic_roles": [
@@ -224,7 +311,9 @@
     "SQUARE became the full canvas on 2026-09-07: base 32, so 32 at SUB32, 48 at SOLO48 and 64 at CONTAINER64. It was 28 (28/42/56), which left every rectilinear full-bleed subject sitting 2 to 4 units short of the edge while CIRCLE reached it. SQUARE and CIRCLE are now both full-canvas tokens, one rectilinear and one radial, and there is no longer a 28-square envelope: the 33 icons authored on the old one were redrawn to the new bounds, not rescaled.",
     "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say.",
     "2026-09-13: SOLO48 supersedes its historical scaled dimensions: visible circle 44x44, square 40x40, landscape 44x36, portrait 36x44; legacy rectangle size tokens resolve to the same orientation envelope. MIC is 4, centerline minimum 8. SUB32 and CONTAINER64 are unchanged.",
-    "2026-09-16: SOLO48 adds HRECT_M (44x32) and VRECT_M (32x44) as slimmer authoring choices, reducing the short side by 4 from the unchanged L rectangles. XL and S remain compatibility names for L. Other profiles, circle, square, stroke and MIC are unchanged."
+    "2026-09-16: SOLO48 adds HRECT_M (44x32) and VRECT_M (32x44) as slimmer authoring choices, reducing the short side by 4 from the unchanged L rectangles. XL and S remain compatibility names for L. Other profiles, circle, square, stroke and MIC are unchanged.",
+    "2026-09-30: SYMBOL24 added for the symbol24 family: canvas 24, stroke 4, MIC 2 (6 between centerlines), interior guide inset 3. Keyshapes are the base sizes at 3/4 (CIRCLE and SQUARE 24, L 24x18, S 24x12); XL and M would land on odd sizes, so they are 24x20 and 24x16 (and transposes). No other profile changed. Validation for symbol24 is advisory (see families.symbol24.validation); canvas 24 and stroke 4 stay hard.",
+    "2026-09-30: CONTAINER64 gets its own keyshape sizes, like SOLO48 on 2026-09-13: visible circle 60x60, square 56x56, landscape L 60x48 and M 60x44, portrait L 48x60 and M 44x60; XL and S resolve to L. The 64 full-bleed envelopes read larger than a solo icon at the same display size. M 60x44 is the tightest box that still hosts any SYMBOL32 at (16,16) with MIC 2, and CIRCLE 60 keeps a full 32x32 symbol clear. MIC stays 2. All 225 container icons were resized onto these envelopes by icon_set/scripts/container_v2_fit.py (lattice snap, stroke unchanged; 13 hand-repaired); each passed validate_icon and the build gate under the new sizes before the switch."
   ],
   "authoring": {
     "avatar": {

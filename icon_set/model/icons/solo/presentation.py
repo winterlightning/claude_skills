@@ -1,13 +1,19 @@
-"""Presentation (office), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Presentation (office): a pull-down projection screen hanging from its rail, with a ring pull.
+
+Symbol plan: full-width rail; screen walls hang from it and round into the bottom edge; a cord on
+axis x=24 drops from the screen to a ring. Keyshape: SQUARE.
+Repair (2026-09-30): the ring sat 5 units under the screen (build gate internal spacing); the screen
+now ends 9 above the ring, and the ring keeps a 6-unit hole.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '17f53de2-7f28-4023-80ae-484c48ce0e0e'
 SOURCE_PATH = 'pictographic-primitives/office/presentation_17f53de2-7f28-4023-80ae-484c48ce0e0e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 class Presentation(Solo48):
     icon_id = 'presentation'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'office'
@@ -36,10 +42,15 @@ class Presentation(Solo48):
         self.add_contour(name, *ids, closed=closed)
 
     def build(self):
-        self.add_line('rail', (4, 8), (44, 8))
-        self.add_polyline('screen', (8, 8), (8, 25), (24, 25), (40, 25), (40, 8))
+        # Rail split where the screen walls hang from it.
+        self.add_line('rail-left', (6, 6), (10, 6))
+        self.add_line('rail-mid', (10, 6), (38, 6))
+        self.add_line('rail-right', (38, 6), (42, 6))
+        self.add_contour('rail', 'rail-left', 'rail-mid', 'rail-right')
+        self._path('screen', (10, 6), [('L', (10, 19)), ('A', (14, 23), 4, 4, False), ('L', (24, 23)),
+                                       ('L', (34, 23)), ('A', (38, 19), 4, 4, False), ('L', (38, 6))])
         self.relate('connect', 'screen', 'rail')
-        self._circle('pull', 24, 35, 5)
-        self.add_line('cord', (24, 25), (24, 30))
+        self._circle('pull', 24, 37, 5)
+        self.add_line('cord', (24, 23), (24, 32))
         self.relate('connect', 'cord', 'screen')
         self.relate('connect', 'cord', 'pull')
