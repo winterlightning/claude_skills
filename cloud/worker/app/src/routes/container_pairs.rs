@@ -98,7 +98,7 @@ pub async fn save(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                         "errors": errors, "updated_at": now, "updated_by": user});
     let sources = data["reference_url"].as_str().map(|url| json!([{"url": url, "format": "SVG", "source_path": url}])).unwrap_or(json!([]));
     let concept = data["concept"].as_str().unwrap_or(pair_id);
-    db::batch(&ctx.db, vec![
+    let mut statements = vec![
         db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'container-combination', ?)",
                  args![sha.clone(), key.clone(), svg.clone(), now.clone()])?,
         db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
@@ -111,7 +111,20 @@ pub async fn save(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         db::stmt(&ctx.db, "INSERT INTO activity_log(username, action, icon, details, created_at) VALUES (?, 'container_combination', ?, ?, ?)",
                  args![user, key.clone(), Value::Object(details(vec![("svg_sha256", json!(sha)), ("main", json!(main_key)),
                      ("symbol", json!(symbol_key)), ("center", result["center"].clone()), ("ink", result["ink"].clone())])).to_string(), now])?,
-    ]).await?;
+    ];
+    // The drawing's stroke geometry (svg_graph.py), so the geometry editor can select the container and symbol strokes.
+    if let Value::Object(mut graph) = result["graph"].clone() {
+        graph.insert("key".into(), json!(key));
+        // The validator wants a slug that starts with a letter; pair ids are UUIDs.
+        graph.insert("icon_id".into(), json!(format!("pair-{pair_id}")));
+        graph.insert("name".into(), json!(concept));
+        graph.insert("svg_sha256".into(), json!(sha));
+        graph.insert("python_source".into(), Value::Null);
+        graph.insert("validation".into(), json!({"status": if errors.is_empty() { "pass" } else { "fail" }}));
+        statements.push(db::stmt(&ctx.db, "INSERT OR REPLACE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
+                                 args![sha.clone(), key.clone(), Value::Object(graph).to_string()])?);
+    }
+    db::batch(&ctx.db, statements).await?;
     http::json(200, &json!({"key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(), "record": record,
                             "preview_url": preview_url(&key, &sha), "svg": svg, "placements": result["placements"]}))
 }

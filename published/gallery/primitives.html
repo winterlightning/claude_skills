@@ -202,7 +202,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 </div><input id="artworkMode" type="hidden" value="use_org"><div class="stroke-actions"><button id="artworkApply" class="primary requires-login" disabled>Use and approve selected version</button><button id="artworkReload">Reload versions</button></div><p id="artworkStatus" role="status" aria-live="polite"></p></section>
 </section></div></dialog>
 <script src="side-component-editor.js"></script>
-<script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script><script src="progression-combinations.js"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script><script src="side-pair-maker.js"></script>
+<script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="text-combine.js?v=202609301735"></script><script src="container-text-symbol.js?v=202609301735"></script><script src="progression-combinations.js?v=202609301735"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script><script src="side-pair-maker.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const REASONS={combination:'Side combination',container:'Container combination',text_number:'Text / number',other:'Other'};
@@ -551,24 +551,29 @@ function updateCatalogStatus(){
   $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`;
 }
 // One database read; a server that predates /api/primitives/state gets the three separate reads.
+// The state's ETag is kept only once its data is applied, so an unchanged poll is an empty 304 (null here).
+let stateETag='';
 async function loadPrimitiveState(){
-  const response=await fetch('/api/primitives/state',{cache:'no-store'}).catch(()=>null);
-  if(response?.ok){const data=await response.json();return [data.catalog,data.statuses,data.briefs];}
+  const headers=stateETag&&statusesAvailable&&briefsAvailable?{'If-None-Match':stateETag}:{};
+  const response=await fetch('/api/primitives/state',{cache:'no-store',headers}).catch(()=>null);
+  if(response?.status===304)return null;
+  if(response?.ok){const data=await response.json();return [data.catalog,data.statuses,data.briefs,response.headers.get('ETag')||''];}
   if(response&&response.status!==404)throw Error('Production primitive data unavailable');
   const [catalogResponse,statusResponse,briefResponse]=await Promise.all([
     fetch('primitives.json',{cache:'no-store'}),fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
   if(!catalogResponse.ok||!statusResponse.ok||!briefResponse.ok)throw Error('Production primitive data unavailable');
-  return Promise.all([catalogResponse.json(),statusResponse.json(),briefResponse.json()]);
+  return [...await Promise.all([catalogResponse.json(),statusResponse.json(),briefResponse.json()]),''];
 }
 async function refreshGalleryState(){
   if(refreshInFlight||!canRefreshGallery())return;
   refreshInFlight=true;
   const revision=galleryRevision;
   try{
-    const [nextCatalog,nextStatuses,nextBriefs]=await loadPrimitiveState();
-    if(revision!==galleryRevision||!canRefreshGallery())return;
+    const next=await loadPrimitiveState();
+    if(!next||revision!==galleryRevision||!canRefreshGallery())return;
+    const [nextCatalog,nextStatuses,nextBriefs,nextETag]=next;
     const changed=!statusesAvailable||!briefsAvailable||JSON.stringify(catalog)!==JSON.stringify(nextCatalog)||JSON.stringify(statuses)!==JSON.stringify(nextStatuses)||JSON.stringify(referenceBriefs)!==JSON.stringify(nextBriefs);
-    catalog=nextCatalog;statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;
+    catalog=nextCatalog;statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;stateETag=nextETag;
     updateCatalogStatus();
     if(changed)show();
   }catch{

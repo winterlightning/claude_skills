@@ -85,24 +85,66 @@ async function openContainerCombination(label,mainUrl,subUrl,center,ids={},size=
   svg.append(placeGroup(main,'main-icon-clipped',64,0,0),placeGroup(sub,'state-icon',32,center[0]-16,center[1]-16));
   const result=measuredResult(svg,[['main','main-icon-clipped',ids.main],['sub','state-icon',ids.sub]],(label.replace(/[^\w.-]+/g,'_')||'combination')+'.svg');
   window.SideCombinationPopup.open(label,result);
-  if(ids.main&&ids.sub)symbolCenterEditor(ids.main,ids.sub,center,size,svgFit(sub,32),result,ids.onSaved);
+  if(ids.main&&ids.sub)symbolCenterEditor(ids.main,ids.sub,center,size,svgFit(sub,32),result,ids.onSaved,{row:ids.row,subUrl});
 }
 // In the combined popup: select the symbol, drag it to move it, or drag a handle to resize it. Width and
 // height are independent (Shift keeps the proportions); the side opposite the handle stays put. The ink box
 // snaps to even sizes around a whole center, so its edges always sit on grid lines; the stroke keeps its width.
 // Arrow keys move, Alt+arrows resize, + / − both sides. Changes show at once and are only stored when Save
 // is pressed; the container never changes.
-function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved){
+// "Click selects: Element" (like the side layout editor) picks one element of the symbol — a letter of a
+// typeface text — with its own box: drag it to move, drag a handle to resize it (width and height apart,
+// Shift keeps proportions). While elements are edited the symbol's placement is frozen, so the others never
+// shift or rescale. Saving writes the edits into this pair's own symbol drawing (uploaded against the
+// combination id) and combines it at exactly the size shown.
+function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved,extra={}){
   const dialog=[...document.querySelectorAll('dialog.side-inspect[open]')].find(d=>d.querySelector('.side-stage'));if(!dialog)return;
   const canvas=dialog.querySelector('.side-stage svg'),group=canvas.querySelector('[id="state-icon"]');if(!group)return;
   if(!document.getElementById('symbol-center-style')){const style=document.createElement('style');style.id='symbol-center-style';style.textContent=`.symbol-center-controls{display:grid;gap:10px;margin:14px 0 4px;padding:14px;border:1px solid #c9d4cf;border-radius:10px;background:#f7faf8}.symbol-center-controls h3{margin:0;font:600 15px system-ui}.symbol-center-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:14px system-ui}.symbol-center-row input{width:64px;padding:6px;border:1px solid #9bafb5;border-radius:6px;font:inherit}.symbol-center-row select{padding:7px;border:1px solid #9bafb5;border-radius:6px;font:inherit}.symbol-center-row button.primary{background:#287650!important;border-color:#287650!important;color:#fff}.symbol-center-row button:disabled{opacity:.5;cursor:default}.symbol-center-status{margin:0!important;font-size:13px!important;color:#43564f}.symbol-center-status[data-dirty=true]{color:#8a4b12}.symbol-hit{fill:transparent;pointer-events:all;cursor:grab}.symbol-hit:hover,.side-canvas[data-selected=sub] .symbol-hit{fill:#146dc514;stroke:#146dc5;stroke-width:.35;stroke-dasharray:1 .6}.side-canvas[data-dragging=true] .symbol-hit{cursor:grabbing}.symbol-handle{display:none;fill:#fff;stroke:#146dc5;stroke-width:.3;pointer-events:all}.side-canvas[data-selected=sub] .symbol-handle{display:block}.symbol-handle.nw,.symbol-handle.se{cursor:nwse-resize}.symbol-handle.ne,.symbol-handle.sw{cursor:nesw-resize}.symbol-handle.n,.symbol-handle.s{cursor:ns-resize}.symbol-handle.e,.symbol-handle.w{cursor:ew-resize}.symbol-size-label{display:none;font:600 1.7px system-ui;fill:#146dc5;paint-order:stroke;stroke:#fff;stroke-width:.5;pointer-events:none}.side-canvas[data-selected=sub] .symbol-size-label,.side-canvas[data-dragging=true] .symbol-size-label{display:block}
-.side-inspect.with-symbol-editor{width:min(1180px,96vw);max-height:96vh;overflow:auto}.side-inspect.with-symbol-editor[open]{display:grid;grid-template-columns:minmax(0,auto) minmax(320px,1fr);column-gap:28px;align-content:start}.side-inspect.with-symbol-editor>*{grid-column:2;min-width:0}.side-inspect.with-symbol-editor>header{grid-column:1/-1}.side-inspect.with-symbol-editor>.side-stage{grid-column:1;grid-row:2/span 8;width:min(640px,calc(96vh - 110px),58vw);margin:16px 0 0}.side-inspect.with-symbol-editor .symbol-center-controls{margin-top:4px}
+.symbol-mode button[aria-pressed=true]{background:#e4f2e6;border-color:#2f7d4a}.symbol-element-hit{display:none;fill:transparent;pointer-events:all;cursor:grab}.side-canvas[data-symbol-mode=element] .symbol-element-hit{display:block}.side-canvas[data-symbol-mode=element] .symbol-element-hit:hover{stroke:#2f7d4a;stroke-width:.25;stroke-dasharray:.8 .6}.side-canvas[data-symbol-mode=element] .symbol-element-hit.picked{fill:#2f7d4a14;stroke:#2f7d4a;stroke-width:.35;stroke-dasharray:1 .6}.side-canvas[data-symbol-mode=element] .symbol-hit,.side-canvas[data-symbol-mode=element] .symbol-handle,.side-canvas[data-symbol-mode=element] .side-bound-sub,.side-canvas[data-symbol-mode=element] .symbol-size-label{display:none!important}.symbol-element-handle{display:none;fill:#fff;stroke:#2f7d4a;stroke-width:.3;pointer-events:all}.side-canvas[data-symbol-mode=element][data-element-picked=true] .symbol-element-handle{display:block}.symbol-element-handle.nw,.symbol-element-handle.se{cursor:nwse-resize}.symbol-element-handle.ne,.symbol-element-handle.sw{cursor:nesw-resize}.symbol-element-handle.n,.symbol-element-handle.s{cursor:ns-resize}.symbol-element-handle.e,.symbol-element-handle.w{cursor:ew-resize}
+.side-inspect.with-symbol-editor{width:min(1180px,96vw);max-height:96vh;overflow:auto;margin-top:2vh;margin-bottom:auto}.symbol-center-controls p[role=status]{min-height:3.2em}.side-inspect.with-symbol-editor .side-dimensions{min-height:2.8em}.side-inspect.with-symbol-editor[open]{display:grid;grid-template-columns:minmax(0,auto) minmax(320px,1fr);column-gap:28px;align-content:start}.side-inspect.with-symbol-editor>*{grid-column:2;min-width:0}.side-inspect.with-symbol-editor>header{grid-column:1/-1}.side-inspect.with-symbol-editor>.side-stage{grid-column:1;grid-row:2/span 8;width:min(640px,calc(96vh - 110px),58vw);margin:16px 0 0}.side-inspect.with-symbol-editor .symbol-center-controls{margin-top:4px}
 @media(max-width:800px){.side-inspect.with-symbol-editor[open]{display:block}.side-inspect.with-symbol-editor>.side-stage{width:100%;margin:16px auto}}`;document.head.append(style);}
   // The combined icon keeps every stroke at 4, whatever the source drew (container_combination_render.py).
   const saved=effectiveCenter(main,sub),stroke=4;
   const clampC=v=>Math.min(64,Math.max(0,Math.round(v))),even=v=>2*Math.round(v/2),clampS=v=>Math.min(64,Math.max(8,even(v)));
-  let center=start.map(clampC),ink=startSize?startSize.map(clampS):null,base={center:[...center],ink:ink&&[...ink]};
+  // Opened as saved: a symbol placed element by element can have an odd size and a half-unit centre.
+  let center=start.map(v=>Math.min(64,Math.max(0,Math.round(v*2)/2))),ink=startSize?startSize.map(v=>Math.min(64,Math.max(4,Math.round(v)))):null,base={center:[...center],ink:ink&&[...ink]};
   const trace=canvas.querySelector('[data-sub-centerline]'),bound=canvas.querySelector('.side-bound-sub');
+  // Elements of the symbol: its drawn children (title / desc / defs skipped first), looking through single wrapping
+  // groups (a typeface text: its letters). The same walk finds them in the popup, its centerline copy and the saved
+  // drawing, so element i is the same element everywhere.
+  const drawn=list=>list.filter(n=>!['title','desc','defs','style','metadata'].includes(n.tagName));
+  const elementsOf=root=>{let list=drawn([...root.children]);while(list.length===1&&list[0].tagName==='g')list=drawn([...list[0].children]);return list;};
+  const elementNodes=elementsOf(group);
+  // The red centerline overlay is its own copy of the symbol: its elements move with the drawing's.
+  const traceNodes=trace?elementsOf(trace):[];
+  const elements=extra.row?elementNodes.map((n,i)=>({node:n,base:n.getAttribute('transform')||'',trace:traceNodes[i]||null,traceBase:traceNodes[i]?.getAttribute('transform')||'',box0:null,box:null})):[];
+  // An element's box in the symbol's own units (its drawing, stroke excluded), measured before its first change.
+  function measure(e){
+    if(e.box0)return;const b=e.node.getBBox(),m=e.node.transform.baseVal.consolidate()?.matrix;
+    const pts=[[b.x,b.y],[b.x+b.width,b.y+b.height]].map(([px,py])=>m?[m.a*px+m.c*py+m.e,m.b*px+m.d*py+m.f]:[px,py]);
+    e.box0={x:Math.min(pts[0][0],pts[1][0]),y:Math.min(pts[0][1],pts[1][1]),w:Math.abs(pts[1][0]-pts[0][0]),h:Math.abs(pts[1][1]-pts[0][1])};e.box={...e.box0};
+    // Wrapping groups between the symbol group and the element (a 32-box text is wrapped in a centring translate):
+    // their scale and offset, so element boxes (in the element's parent units) map onto the canvas exactly.
+    const w=group.getCTM().inverse().multiply(e.node.parentNode.getCTM());e.wrap={a:w.a,d:w.d,e:w.e,f:w.f};
+  }
+  const changedEl=e=>!!e.box&&['x','y','w','h'].some(k=>Math.abs(e.box[k]-e.box0[k])>1e-9);
+  // The element drawn into its box: translate + scale written before its own transform (the combine flattens both).
+  const elementTransform=e=>{if(!changedEl(e))return '';const b0=e.box0,b=e.box,sx=b0.w>1e-9?b.w/b0.w:1,sy=b0.h>1e-9?b.h/b0.h:1;
+    return `translate(${+b.x.toFixed(4)} ${+b.y.toFixed(4)}) scale(${+sx.toFixed(6)} ${+sy.toFixed(6)}) translate(${+(-b0.x).toFixed(4)} ${+(-b0.y).toFixed(4)})`;};
+  const placeElement=e=>{const pre=elementTransform(e);for(const [n,b] of [[e.node,e.base],[e.trace,e.traceBase]]){if(!n)continue;const t=(pre+' '+b).trim();if(t)n.setAttribute('transform',t);else n.removeAttribute('transform');}};
+  let mode='whole',picked=-1,text=null;
+  if(extra.row)window.ContainerTextSymbol?.pairText(extra.row).then(t=>{text=t;draw();});
+  // A typeface text moves its letters only (its underline follows the text).
+  const movable=e=>!text||e.node.tagName==='g';
+  const elementHits=elements.map((e,i)=>{const r=svgNode('rect',{class:'symbol-element-hit','aria-hidden':'true'});canvas.append(r);return r;});
+  const elementHandles=['nw','n','ne','e','se','s','sw','w'].map(name=>svgNode('rect',{class:'symbol-element-handle '+name,'data-corner':name,width:1.6,height:1.6}));
+  const moved=()=>elements.filter(changedEl).length;
+  // Element mode keeps the symbol exactly as shown (same size and place) and drops the group box: only the
+  // elements that are moved or resized change, and they snap to the 64 grid. {transform, t: [tx, ty], k: [kx, ky]}.
+  let frozen=null;
+  const freeze=()=>{if(frozen)return;const m=(group.getAttribute('transform')||'').match(/translate\(([-+.\deE]+) ([-+.\deE]+)\) scale\(([-+.\deE]+) ([-+.\deE]+)\)/);
+    frozen=m?{transform:m[0],t:[+m[1],+m[2]],k:[+m[3],+m[4]]}:{transform:'',t:[0,0],k:[1,1]};};
   const panel=node('section','symbol-center-controls');
   const x=node('input'),y=node('input'),wi=node('input'),he=node('input');
   for(const [input,name,min,step] of [[x,'x',0,1],[y,'y',0,1],[wi,'ink width',8,2],[he,'ink height',8,2]]){input.type='number';input.min=min;input.max=64;input.step=step;input.setAttribute('aria-label','Symbol '+name);}
@@ -117,15 +159,22 @@ function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved){
   const status=node('p','symbol-center-status');status.setAttribute('role','status');
   const row1=node('div','symbol-center-row'),row2=node('div','symbol-center-row'),row3=node('div','symbol-center-row');
   row1.append('x',x,'y',y,nudge);row2.append('ink w',wi,'h',he,smaller,larger,natural);row3.append(scope,save,revert,reset);
-  panel.append(node('h3','','Symbol position and size'),node('p','symbol-center-status','Click the symbol to select it. Drag it to move; drag a side or corner handle to resize — width and height change independently (hold Shift to keep proportions). The ink box snaps to even sizes and whole grid units, so its edges sit on grid lines. Arrow keys move 1 (Shift: 4), Alt+arrows resize by 2, + / − both sides. Nothing is stored until you press Save.'),row1,row2,row3,status);
+  const modeRow=node('div','symbol-center-row symbol-mode'),wholeB=node('button','','Whole symbol'),elementB=node('button','','Element');
+  wholeB.type=elementB.type='button';modeRow.append('Click selects',wholeB,elementB);modeRow.hidden=!elements.length;
+  wholeB.onclick=()=>{mode='whole';picked=-1;draw();};elementB.onclick=()=>{mode='element';freeze();delete canvas.dataset.selected;draw();};
+  panel.append(node('h3','','Symbol position and size'),modeRow,node('p','symbol-center-status','Element: the symbol stays as shown, with no group box. Click a letter or part of the symbol; drag it to move, drag a handle to resize it (hold Shift to keep proportions). Sizes are even and edges sit on grid lines. Arrow keys move 1 (Shift: 4), Alt+arrows resize by 2. The other elements stay where they are; saving gives this pair its own symbol drawing. Whole symbol: click the symbol to select it. Drag it to move; drag a side or corner handle to resize — width and height change independently (hold Shift to keep proportions). The ink box snaps to even sizes and whole grid units, so its edges sit on grid lines. Arrow keys move 1 (Shift: 4), Alt+arrows resize by 2, + / − both sides. Nothing is stored until you press Save.'),row1,row2,row3,status);
   dialog.querySelector('.side-dimensions').after(panel);
-  const hit=svgNode('rect',{class:'symbol-hit','aria-hidden':'true'});canvas.append(hit);
+  const hit=svgNode('rect',{class:'symbol-hit','aria-hidden':'true'});canvas.append(hit);canvas.append(...elementHits,...elementHandles);
   const handles=['nw','n','ne','e','se','s','sw','w'].map(name=>{const h=svgNode('rect',{class:'symbol-handle '+name,'data-corner':name,width:1.6,height:1.6});canvas.append(h);return h;});
   // Live size on the selection frame: the painted ink box and where it starts.
   const label=svgNode('text',{class:'symbol-size-label'});canvas.append(label);
   canvas.tabIndex=0;
-  const same=(a,b)=>a===b||(!!a&&!!b&&a[0]===b[0]&&a[1]===b[1]),dirty=()=>!same(center,base.center)||!same(ink,base.ink);
-  const place=()=>symbolPlacement(group,fit,stroke,center,ink);
+  const same=(a,b)=>a===b||(!!a&&!!b&&a[0]===b[0]&&a[1]===b[1]),dirty=()=>!same(center,base.center)||!same(ink,base.ink)||moved()>0;
+  const place=()=>{
+    if(!frozen)return symbolPlacement(group,fit,stroke,center,ink);
+    const b=group.getBBox(),[kx,ky]=frozen.k,[tx,ty]=frozen.t;
+    return {transform:frozen.transform,box:{x:tx+kx*b.x-stroke/2,y:ty+ky*b.y-stroke/2,w:kx*b.width+stroke,h:ky*b.height+stroke}};
+  };
   function strokes(){fixedStroke(group,canvas,stroke);if(trace)fixedStroke(trace,canvas,.45);}
   function draw(){
     const p=place(),b=p.box;group.setAttribute('transform',p.transform);trace?.setAttribute('transform',p.transform);strokes();
@@ -136,11 +185,34 @@ function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved){
     const dims=dialog.querySelector('.side-dimensions');dims.textContent=dims.textContent.replace(/sub: .*$/,`sub: ${f(b.w)} × ${f(b.h)} at (${f(b.x)}, ${f(b.y)})`);
     for(const [input,value] of [[x,center[0]],[y,center[1]],[wi,ink?.[0]??''],[he,ink?.[1]??'']])if(document.activeElement!==input)input.value=value;
     wi.placeholder=f(b.w);he.placeholder=f(b.h);
-    const d=dirty(),now=effectiveCenter(main,sub);status.dataset.dirty=String(d);
-    status.textContent=d?`Unsaved · center ${center[0]}, ${center[1]} · ${sizeText(ink)} (was ${base.center[0]}, ${base.center[1]} · ${sizeText(base.ink)})`:`Center ${center[0]}, ${center[1]} · ${sizeText(ink)} · ${now.label}`;
+    canvas.dataset.symbolMode=mode;wholeB.setAttribute('aria-pressed',String(mode==='whole'));elementB.setAttribute('aria-pressed',String(mode==='element'));
+    if(mode==='element'){const inv=canvas.getScreenCTM()?.inverse();
+      elements.forEach((e,i)=>{const r=e.node.getBoundingClientRect(),h=elementHits[i];if(!inv||!movable(e)||!r.width&&!r.height){h.setAttribute('width',0);h.setAttribute('height',0);return;}
+        const a=new DOMPoint(r.left,r.top).matrixTransform(inv),z=new DOMPoint(r.right,r.bottom).matrixTransform(inv);
+        h.setAttribute('x',a.x-2);h.setAttribute('y',a.y-2);h.setAttribute('width',z.x-a.x+4);h.setAttribute('height',z.y-a.y+4);h.classList.toggle('picked',i===picked);});
+      const ph=elementHits[picked];canvas.dataset.elementPicked=String(picked>=0);
+      if(ph){const bx=+ph.getAttribute('x'),by=+ph.getAttribute('y'),bw=+ph.getAttribute('width'),bh=+ph.getAttribute('height');
+        for(const h of elementHandles){const c=h.dataset.corner,hx=c.includes('w')?bx:c.includes('e')?bx+bw:bx+bw/2,hy=c.includes('n')?by:c.includes('s')?by+bh:by+bh/2;h.setAttribute('x',hx-.8);h.setAttribute('y',hy-.8);}}}
+    else canvas.dataset.elementPicked='false';
+    const d=dirty(),now=effectiveCenter(main,sub),n=moved();status.dataset.dirty=String(d);
+    status.textContent=(d?`Unsaved · center ${center[0]}, ${center[1]} · ${sizeText(ink)} (was ${base.center[0]}, ${base.center[1]} · ${sizeText(base.ink)})`:`Center ${center[0]}, ${center[1]} · ${sizeText(ink)} · ${now.label}`)
+      +(n?` · ${n} element${n===1?'':'s'} edited`:'')+(mode==='element'&&picked>=0&&elements[picked].box&&frozen?(()=>{const [l,t,r,btm]=paintedOf(elements[picked].box,elements[picked]);return ` · element ${picked+1}: ink ${f(r-l)} × ${f(btm-t)} at ${f(l)}, ${f(t)}`;})():'');
     save.disabled=!d&&scope.value===now.scope;revert.disabled=!d;
   }
-  function set(nextCenter,nextInk){center=nextCenter.map(clampC);ink=nextInk?nextInk.map(clampS):null;draw();}
+  function set(nextCenter,nextInk){frozen=null;center=nextCenter.map(clampC);ink=nextInk?nextInk.map(clampS):null;draw();}
+  // Change element i's box (symbol units); the frozen placement keeps every other element where it is.
+  // Snapping happens in canvas units (the 64 grid), whatever scale the symbol is drawn at.
+  function setElement(i,box){const e=elements[i];freeze();measure(e);const r=v=>+v.toFixed(4);
+    e.box={x:r(box.x),y:r(box.y),w:r(e.box0.w<=1e-9?0:Math.max(1/frozen.k[0],box.w)),h:r(e.box0.h<=1e-9?0:Math.max(1/frozen.k[1],box.h))};placeElement(e);draw();}
+  const toLocal=p=>[(p.x-frozen.t[0])/frozen.k[0],(p.y-frozen.t[1])/frozen.k[1]];
+  // The element's painted box on the canvas (stroke included) and back: [left, top, right, bottom].
+  const half=stroke/2;
+  const paintedOf=(b,el)=>{const w=el.wrap,[kx,ky]=frozen.k,[tx,ty]=frozen.t,X=v=>tx+kx*(w.a*v+w.e),Y=v=>ty+ky*(w.d*v+w.f);
+    return [X(b.x)-half,Y(b.y)-half,X(b.x+b.w)+half,Y(b.y+b.h)+half];};
+  // Even painted sizes, at least stroke + 2, so both edges sit on grid lines.
+  const evenSize=v=>Math.max(stroke+2,2*Math.round(v/2));
+  const boxOfPainted=([l,t,r,btm],el)=>{const w=el.wrap,[kx,ky]=frozen.k,[tx,ty]=frozen.t;return {x:((l+half-tx)/kx-w.e)/w.a,y:((t+half-ty)/ky-w.f)/w.d,w:(r-l-stroke)/kx/w.a,h:(btm-t-stroke)/ky/w.d};};
+
   x.oninput=y.oninput=()=>{if(x.value!==''&&y.value!=='')set([+x.value,+y.value],ink);};
   wi.oninput=he.oninput=()=>{const i=inkNow();set(center,[wi.value!==''?+wi.value:i[0],he.value!==''?+he.value:i[1]]);};
   for(const input of [x,y,wi,he])input.onblur=draw;scope.onchange=draw;
@@ -148,6 +220,37 @@ function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved){
   const toCanvas=e=>{const p=canvas.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(canvas.getScreenCTM().inverse());};
   const select=()=>{canvas.dataset.selected='sub';canvas.dataset.active='sub';canvas.focus();};
   let drag=null;
+  elementHits.forEach((h,i)=>{
+    h.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();freeze();measure(elements[i]);picked=i;
+      // Measured in screen pixels from the press, so a scroll of the popup never counts as a move.
+      drag={mode:'el-move',i,client:[e.clientX,e.clientY],box:{...elements[i].box}};canvas.focus({preventScroll:true});canvas.dataset.dragging='true';h.setPointerCapture(e.pointerId);draw();});
+    h.addEventListener('pointermove',e=>{if(drag?.mode!=='el-move'||drag.i!==i)return;
+      const px=canvas.getBoundingClientRect().width/64,[l,t,r,btm]=paintedOf(drag.box,elements[i]);
+      const L=Math.round(l+(e.clientX-drag.client[0])/px),T=Math.round(t+(e.clientY-drag.client[1])/px);
+      setElement(i,boxOfPainted([L,T,L+evenSize(r-l),T+evenSize(btm-t)],elements[i]));});
+    for(const t of ['pointerup','pointercancel'])h.addEventListener(t,()=>{drag=null;delete canvas.dataset.dragging;});
+  });
+  for(const h of elementHandles){
+    h.addEventListener('pointerdown',e=>{if(picked<0)return;e.preventDefault();e.stopPropagation();measure(elements[picked]);
+      drag={mode:'el-resize',i:picked,corner:h.dataset.corner,box:{...elements[picked].box},client:[e.clientX,e.clientY]};h.setPointerCapture(e.pointerId);});
+    h.addEventListener('pointermove',e=>{
+      if(drag?.mode!=='el-resize')return;const c=drag.corner;
+      // Relative to the press, in screen pixels: a click (under half a unit of movement) changes nothing, and a
+      // scroll or zoom of the popup can never shrink the element.
+      const px=canvas.getBoundingClientRect().width/64,mx=(e.clientX-drag.client[0])/px,my=(e.clientY-drag.client[1])/px;
+      if(Math.abs(mx)<.5&&Math.abs(my)<.5&&!drag.started)return;drag.started=true;
+      let [l,t,r,btm]=paintedOf(drag.box,elements[drag.i]);
+      // The fixed edges go on grid lines; the dragged edge moves with the pointer, keeping the size even.
+      l=Math.round(l);t=Math.round(t);r=l+evenSize(r-l);btm=t+evenSize(btm-t);const w0=r-l,h0=btm-t;
+      if(c.includes('e'))r=l+evenSize(w0+mx);if(c.includes('w'))l=r-evenSize(w0-mx);
+      if(c.includes('s'))btm=t+evenSize(h0+my);if(c.includes('n'))t=btm-evenSize(h0-my);
+      if(e.shiftKey){
+        const f=Math.max((r-l)/w0,(btm-t)/h0),w=evenSize(w0*f),hh=evenSize(h0*f);
+        if(c.includes('w'))l=r-w;else r=l+w;if(c.includes('n'))t=btm-hh;else btm=t+hh;
+      }
+      setElement(drag.i,boxOfPainted([l,t,r,btm],elements[drag.i]));});
+    for(const t of ['pointerup','pointercancel'])h.addEventListener(t,()=>{drag=null;});
+  }
   hit.addEventListener('pointerdown',e=>{e.preventDefault();select();drag={mode:'move',p:toCanvas(e),c:[...center]};canvas.dataset.dragging='true';hit.setPointerCapture(e.pointerId);});
   for(const h of handles)h.addEventListener('pointerdown',e=>{
     e.preventDefault();e.stopPropagation();select();const b=place().box,c=h.dataset.corner,i=inkNow();
@@ -167,24 +270,54 @@ function symbolCenterEditor(main,sub,start,startSize,fit,result,onSaved){
   }
   const end=()=>{drag=null;delete canvas.dataset.dragging;};
   for(const t of [hit,...handles]){t.addEventListener('pointermove',onMove);t.addEventListener('pointerup',end);t.addEventListener('pointercancel',end);}
-  canvas.addEventListener('pointerdown',e=>{if(e.target!==hit&&!handles.includes(e.target)){delete canvas.dataset.selected;delete canvas.dataset.active;}});
+  canvas.addEventListener('pointerdown',e=>{if(e.target!==hit&&!handles.includes(e.target)&&!elementHits.includes(e.target)&&!elementHandles.includes(e.target)){delete canvas.dataset.selected;delete canvas.dataset.active;if(picked>=0){picked=-1;draw();}}});
   canvas.addEventListener('keydown',e=>{
+    if(mode==='element'&&picked>=0){const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
+      if(d){e.preventDefault();freeze();measure(elements[picked]);const [l,t,r,btm]=paintedOf(elements[picked].box,elements[picked]),k=e.shiftKey?4:1;
+        // Canvas units: Alt+arrows change width / height by 2 (even sizes), arrows move by 1 (Shift: 4).
+        const L=Math.round(l),T=Math.round(t),w=evenSize(r-l),hh=evenSize(btm-t);
+        setElement(picked,boxOfPainted(e.altKey?[L,T,L+evenSize(w+2*d[0]),T+evenSize(hh+2*d[1])]:[L+d[0]*k,T+d[1]*k,L+d[0]*k+w,T+d[1]*k+hh],elements[picked]));}return;}
     if(canvas.dataset.selected!=='sub')return;const step=e.shiftKey?4:1,d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
     if(d&&e.altKey){e.preventDefault();const i=inkNow();set(center,[i[0]+2*d[0],i[1]+2*d[1]]);}
     else if(d){e.preventDefault();set([center[0]+d[0]*step,center[1]+d[1]*step],ink);}
     else if(['+','='].includes(e.key)){e.preventDefault();larger.onclick();}else if(['-','_'].includes(e.key)){e.preventDefault();smaller.onclick();}
   });
+  // Edited elements: write each element's box into this pair's own copy of the symbol drawing, upload it (approved,
+  // against the combination id), and combine it at the painted size shown, so nothing is refitted.
+  async function storeElements(){
+    const row=extra.row,source=await svgSource(extra.subUrl);
+    const nodes=elementsOf(source);
+    if(nodes.length!==elements.length)throw Error(`The saved symbol has ${nodes.length} elements but the editor shows ${elements.length}; reload and try again.`);
+    elements.forEach((e,i)=>{const pre=elementTransform(e);if(pre&&nodes[i])nodes[i].setAttribute('transform',(pre+' '+(nodes[i].getAttribute('transform')||'')).trim());});
+    const desc=source.querySelector('desc');
+    if(desc)try{const m=JSON.parse(desc.textContent);if(m.typeface){m.manual_elements=true;desc.textContent=JSON.stringify(m);}}catch{}
+    const response=await fetch('/api/icons/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      name:((text?'Text '+text.text.replace(/\n/g,' '):row.concept+' symbol')).slice(0,120),family:'symbol',...(text?{category:'text'}:{}),
+      svg:new XMLSerializer().serializeToString(source),approve:true,reference:{id:row.id,role:'symbol'}})});
+    const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not save the edited elements.');
+    // Exactly as drawn 1:1: the painted box's whole-unit size (odd allowed) and its centre (a half unit when odd).
+    const record=data.record,b=place().box,L=Math.round(b.x),T=Math.round(b.y),W=Math.min(64,Math.max(4,Math.round(b.w))),H=Math.min(64,Math.max(4,Math.round(b.h)));
+    await loadReferenceUploads();pairReviews[record.key]='approve';
+    await saveCenter(main,record.icon_id,'pair',[L+W/2,T+H/2],[W,H]);
+    await createCombined(row);refreshCards(r=>r.id===row.id);
+    return record.icon_id;
+  }
   async function store(value){
     for(const b of [save,revert,reset])b.disabled=true;status.textContent='Saving…';
+    if(value&&moved()){
+      try{const icon=await storeElements();status.textContent=`Saved ${icon} for this pair and recombined.`;setTimeout(()=>dialog.close(),600);}
+      catch(error){status.textContent=error.message;save.disabled=revert.disabled=false;reset.disabled=false;}
+      return;
+    }
     try{const message=await saveCenter(main,sub,scope.value,value,ink);
       if(!value){const e=effectiveCenter(main,sub);center=e.center.map(clampC);ink=e.size;}
       base={center:[...center],ink:ink&&[...ink]};draw();status.textContent=message;
       if(onSaved){status.textContent=message+' Recombining…';await onSaved();status.textContent=message+' The combined icon is updated.';}}
     catch(error){status.textContent=error.message;draw();}finally{reset.disabled=false;}
   }
-  save.onclick=()=>store([...center]);revert.onclick=()=>set(base.center,base.ink);reset.onclick=()=>store(null);
+  save.onclick=()=>store([...center]);revert.onclick=()=>{elements.forEach(e=>{if(e.box0){e.box={...e.box0};placeElement(e);}});picked=-1;set(base.center,base.ink);};reset.onclick=()=>store(null);
   dialog.classList.add('with-symbol-editor');
-  dialog.addEventListener('close',()=>{panel.remove();dialog.classList.remove('with-symbol-editor');},{once:true});
+  dialog.addEventListener('close',()=>{panel.remove();for(const h of [...elementHits,...elementHandles])h.remove();delete canvas.dataset.symbolMode;dialog.classList.remove('with-symbol-editor');},{once:true});
   draw();
 }
 async function openRenderedCombination(label,url){
@@ -210,7 +343,7 @@ async function saveCenter(main,sub,scope,center,size=null){
 }
 function watchCenter(main,refresh){if(!centerViews.has(main))centerViews.set(main,new Set());centerViews.get(main).add(refresh);}
 function svgNode(tag,attrs){const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);return n;}
-function centerEditor(main,mainUrl,sub,subUrl,onSaved){
+function centerEditor(main,mainUrl,sub,subUrl,onSaved,row=null){
   const panel=node('div','center-editor'),svg=svgNode('svg',{viewBox:'0 0 64 64',class:'center-preview',role:'img','aria-label':'Symbol placed at the container center'});
   // The symbol is inlined (not an <image>) so a stretched box keeps its stroke width, as in the popup.
   const box=svgNode('rect',{width:32,height:32,class:'center-box'}),symbol=svgNode('g',{class:'ink-black'});let fit=null,stroke=4;
@@ -250,7 +383,7 @@ function centerEditor(main,mainUrl,sub,subUrl,onSaved){
   const coords=node('div','center-fields');coords.append('x',x,'y',y,nudge);
   const sizes=node('div','center-fields');sizes.append('ink w',wi,'h',he);
   const actions=node('div','center-fields');actions.append(scope,save,reset);
-  inspectable(svg,main+' + '+sub,()=>openContainerCombination(main+' + '+sub,mainUrl,subUrl,[+x.value,+y.value],{main,sub,onSaved},current()));
+  inspectable(svg,main+' + '+sub,()=>openContainerCombination(main+' + '+sub,mainUrl,subUrl,[+x.value,+y.value],{main,sub,onSaved,row},current()));
   panel.append(svg,coords,sizes,actions,source,status);if(savedCentersError)panel.append(node('p','muted',savedCentersError+' Showing defaults.'));
   watchCenter(main,refresh);refresh();return panel;
 }
@@ -290,8 +423,8 @@ function containerMain(row,selection){
   const g=combinationMain(row).generated[0];return g?currentArt(g.key||'container/'+g.icon_id,g.icon_id,g.preview_url):uploadedArt(row.main_id);
 }
 function containerSymbol(row,selection){
-  // A "Text / number" source uses its typeface v2 text symbol (container-text-symbol.js) once one is saved.
-  if(window.ContainerTextSymbol?.isText(row.sub_id)){const text=uploadedArt(row.sub_id);if(text)return text;}
+  // A pair's own symbol (its typeface text, or elements moved in the combined popup), uploaded against the combination id.
+  {const own=uploadedArt(row.id);if(own)return own;}
   if(selection?.symbol_key){const id=selection.symbol_key.split('/')[1];return currentArt(selection.symbol_key,id,'../symbol32/'+encodeURIComponent(id)+'.svg');}
   const generated=row.sub_generated||combinationCatalog.references[row.sub_id].generated;
   const g=generated.find(g=>g.key?.startsWith('symbol/'))||generated.find(g=>g.key?.startsWith('sub/'));
@@ -335,7 +468,8 @@ function pairParts(row){
   const main=containerMain(row,selection),symbol=containerSymbol(row,selection);
   if(!main||!symbol||!containerCenters)return null;
   const mainId=row.main_icon_id||main.icon_id,e=effectiveCenter(mainId,symbol.icon_id);
-  return {main,symbol,mainId,center:e.center.map(v=>Math.round(v)),ink:e.size};
+  // Half units: a symbol with an odd size (elements placed one by one) is centred between grid lines.
+  return {main,symbol,mainId,center:e.center.map(v=>Math.round(v*2)/2),ink:e.size};
 }
 const REVIEW_STATES={approve:['Approved','ok'],ready:['To review','todo'],'re-generated':['To review','todo'],pending:['Disapproved','fix'],
   disapprove:['Disapproved','fix'],claimed:['Being fixed','fix'],rejected:['Rejected','rej']};
@@ -355,9 +489,10 @@ function combinedState(row,parts){
   }
   if(changes.length)return {label:'Outdated: recombine',tone:'fix',saved,why:'Since it was combined, '+changes.join(', ')+'.',outdated:true};
   const review=pairReviews[saved.key];
-  if(saved.build_failed&&!['pending','rejected'].includes(review)){
+  // An approved combined icon shows Approved even when its check had failed (approving it is the reviewer's call).
+  if(saved.build_failed&&!['pending','rejected','approve'].includes(review)){
     const ready=pairReviews[parts.main.key]==='approve'&&pairReviews[parts.symbol.key]==='approve';
-    return ready?{label:'Parts approved: recombine',tone:'fix',saved,why:'Both parts are approved now. Recombine to clear the check.',outdated:true}
+    return ready?{label:'Parts approved: recombine',tone:'fix',saved,why:'Both parts are approved now. Recombine to clear the check.',outdated:true,checkOnly:true}
       :{label:'Failed check',tone:'fix',saved,why:(r.errors||[]).join(' · ')};
   }
   const [label,tone]=reviewOf(saved.key);return {label,tone,saved};
@@ -506,7 +641,7 @@ async function renderCombinations(){
     if(combinationError){const retry=node('button','','Retry');retry.onclick=()=>{combinationError='';renderCombinations();};host.append(retry);return;}
     if(combinationLoading)return;
     combinationLoading=true;
-    try{const response=await fetch('combinations.json',{cache:'no-store'});if(!response.ok)throw Error('Could not load the combination catalog.');combinationCatalog=await response.json();}
+    try{const response=await fetch('combinations.json',{cache:'no-cache'});if(!response.ok)throw Error('Could not load the combination catalog.');combinationCatalog=await response.json();}
     catch(error){combinationError=error.message;}
     finally{combinationLoading=false;}
     if(['container','side'].includes(state.view))renderCombinations();return;
@@ -560,8 +695,9 @@ async function renderCombinations(){
   let timer;search.oninput=()=>{clearTimeout(timer);timer=setTimeout(()=>{const cursor=search.selectionStart;state.q=search.value;page=1;writeURL();renderCombinations();const next=host.querySelector('input');next.focus();if(cursor!==null)next.setSelectionRange(cursor,cursor);},180);};
   toolbar.append(search,filter);host.append(toolbar);
   const q=state.q.trim().toLowerCase(),refs=combinationCatalog.references;
+  // "Text symbols": pairs whose symbol source is marked Text / number on this page.
   const textOnly=state.view==='container'&&state.status==='text';
-  const rows=all.filter(r=>(textOnly?window.ContainerTextSymbol?.isText(r.sub_id):!combinationLabels[state.status]||combinationState(r)===state.status)&&(!q||[r.concept,r.id,r.main_id,r.sub_id,refs[r.main_id].concept,refs[r.sub_id].concept,r.main_icon_id,r.main_icon_id?.replace(/[-_]/g,' ')].join(' ').toLowerCase().includes(q)));
+  const rows=all.filter(r=>(textOnly?statuses[r.sub_id]?.reason==='text_number':!combinationLabels[state.status]||combinationState(r)===state.status)&&(!q||[r.concept,r.id,r.main_id,r.sub_id,refs[r.main_id].concept,refs[r.sub_id].concept,r.main_icon_id,r.main_icon_id?.replace(/[-_]/g,' ')].join(' ').toLowerCase().includes(q)));
   const grouped=state.view==='container', groups=grouped?containerGroups(rows):[], pageSize=grouped?12:30;
   const pages=Math.max(1,Math.ceil((grouped?groups.length:rows.length)/pageSize));page=Math.min(page,pages);writeURL();
   function pager(){const bar=node('div','pager'),prev=node('button','','← Previous'),next=node('button','','Next →');prev.disabled=page<=1;next.disabled=page>=pages;prev.onclick=()=>{page--;renderCombinations();host.scrollIntoView();};next.onclick=()=>{page++;renderCombinations();host.scrollIntoView();};bar.append(prev,node('span','muted',`${rows.length.toLocaleString()} matches${grouped?' · '+groups.length+' main container'+(groups.length===1?'':'s'):''} · Page ${page} of ${pages}`),next);return bar;}
@@ -620,7 +756,7 @@ async function renderCombinations(){
       if(cs.saved){
         const link=imageLink(cs.saved.preview_url,row.concept+' — combined icon');link.classList.add('pair-combined-art');link.querySelector('img')?.classList.add('ink-black');
         if(parts)inspectable(link,row.concept,()=>openContainerCombination(parts.mainId+' + '+parts.symbol.icon_id,parts.main.preview_url,parts.symbol.preview_url,parts.center,
-          {main:parts.mainId,sub:parts.symbol.icon_id,onSaved:()=>afterCenterSaved(row)},parts.ink));
+          {main:parts.mainId,sub:parts.symbol.icon_id,row,onSaved:()=>afterCenterSaved(row)},parts.ink));
         combined.append(link);
       }
       if(parts){
@@ -629,8 +765,9 @@ async function renderCombinations(){
         make.onclick=async()=>{make.disabled=true;makeMessage.textContent='Combining…';try{await createCombined(row);refreshCards(r=>r.id===row.id);}catch(error){makeMessage.textContent=error.message;make.disabled=false;}};
         actions.append(make);combined.append(actions,makeMessage);
         if(cs.saved){
-          const partsApproved=pairReviews[parts.main.key]==='approve'&&pairReviews[parts.symbol.key]==='approve';
-          const blocked=!partsApproved?'Approve the container and symbol first.':cs.outdated?'Recombine first. '+cs.why:cs.saved.build_failed?'Recombine first to clear the check.':'';
+          // A Failed check (a part not approved) does not block approving the combined icon; only an outdated one
+          // (made from parts that changed since) must be recombined first.
+          const blocked=cs.outdated&&!cs.checkOnly?'Recombine first. '+cs.why:'';
           combined.append(reviewControls(cs.saved.key,async()=>cs.saved.svg_sha256,{blocked,chip:false,after:()=>refreshCards(r=>r.id===row.id)}));
         }
         // Part drawings are compared once they are known, then this card redraws with the result.
@@ -646,7 +783,7 @@ async function renderCombinations(){
       }
       const mainArt=containerMain(row,selection);
       const symbolArt=containerSymbol(row,selection),mainId=row.main_icon_id||mainArt?.icon_id;
-      if(mainArt&&symbolArt&&containerCenters)combined.append(node('p','combination-label','Symbol center'),centerEditor(mainId,mainArt.preview_url,symbolArt.icon_id,symbolArt.preview_url,()=>afterCenterSaved(row)));
+      if(mainArt&&symbolArt&&containerCenters)combined.append(node('p','combination-label','Symbol center'),centerEditor(mainId,mainArt.preview_url,symbolArt.icon_id,symbolArt.preview_url,()=>afterCenterSaved(row),row));
       else if(!latest?.svg_url)combined.append(node('p','combination-empty',!containerCenters?'Loading centers…':latest?.reason||(mainArt?'Symbol not generated yet':'Container not generated yet')));
     }
     const chosenMain=row.kind==='container'?containerMain(row,selection):null,chosenSymbol=row.kind==='container'?containerSymbol(row,selection):null;

@@ -8,6 +8,7 @@ use crate::http::{self, Ctx};
 use pictographic_core::primitives::{self as rules, StatusRow};
 use pictographic_core::time::iso_utc;
 use serde::Deserialize;
+use sha2::{Digest, Sha256};
 use serde_json::{json, Map, Value};
 use std::cell::RefCell;
 use std::collections::HashSet;
@@ -59,6 +60,25 @@ async fn symbol_links(ctx: &Ctx) -> Result<Map<String, Value>> {
     Ok(rows.into_iter().map(|r| (r.uuid, json!({"icon_key": r.icon_key, "updated_by": r.updated_by, "updated_at": r.updated_at}))).collect())
 }
 
+/// Migration 0009's change counter of primitive_status and primitive_briefs; None before that migration.
+async fn state_version(ctx: &Ctx) -> Option<i64> {
+    #[derive(Deserialize)]
+    struct Row { version: i64 }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT version FROM primitive_state_version WHERE id = 1", vec![]).await.ok()?;
+    row.map(|r| r.version)
+}
+
+fn version_etag(version: i64, catalog_etag: &str) -> String {
+    format!("\"v{version}-{}\"", hex::encode(&Sha256::digest(catalog_etag.as_bytes())[..8]))
+}
+
+fn not_modified(etag: &str) -> Result<Response> {
+    let mut response = Response::empty()?.with_status(304);
+    response.headers_mut().set("ETag", etag)?;
+    response.headers_mut().set("Cache-Control", "no-store")?;
+    Ok(response)
+}
+
 pub async fn get(ctx: &Ctx) -> Result<Response> {
     let unavailable = |_| http::error(503, "Primitive progress is temporarily unavailable");
     match ctx.path.as_str() {
@@ -67,19 +87,50 @@ pub async fn get(ctx: &Ctx) -> Result<Response> {
         "/api/primitives/status" => http::json(200, &Value::Object(statuses(ctx).await?)),
         "/api/primitives/state" => {
             // One read for the primitives page: the published catalog as-is, with decisions and briefs.
+            // The page's 5 s poll sends back its ETag and gets an empty 304 while nothing has changed. The
+            // ETag is the catalog's R2 etag with the change counter of migration 0009 (one row read, and an
+            // R2 head instead of the tables and catalog); before that migration it hashes the decisions and briefs.
             let bucket = ctx.env.bucket("FILES")?;
+            let sent = ctx.header("If-None-Match");
+            // Read before the data: a write landing mid-request only makes the next poll fetch again.
+            let version = state_version(ctx).await;
+            if let (Some(version), Some(sent)) = (version, sent.as_deref()) {
+                let Some(head) = bucket.head(PRIMITIVES_KEY).await? else {
+                    return http::error(503, "Primitive progress is temporarily unavailable");
+                };
+                if sent == version_etag(version, &head.http_etag()) {
+                    return not_modified(sent);
+                }
+            }
             let Some(object) = bucket.get(PRIMITIVES_KEY).execute().await? else {
                 return http::error(503, "Primitive progress is temporarily unavailable");
             };
+            let statuses = serde_json::to_vec(&Value::Object(statuses(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?;
+            let briefs = serde_json::to_vec(&Value::Object(briefs(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?;
+            let etag = match version {
+                Some(version) => version_etag(version, &object.http_etag()),
+                None => {
+                    let mut hasher = Sha256::new();
+                    for part in [object.http_etag().as_bytes(), b"\0", &statuses, b"\0", &briefs] {
+                        hasher.update(part);
+                    }
+                    format!("\"{}\"", hex::encode(&hasher.finalize()[..16]))
+                }
+            };
+            if sent.as_deref() == Some(etag.as_str()) {
+                return not_modified(&etag);
+            }
             let catalog = object.body().ok_or_else(|| worker::Error::RustError("empty primitives.json".into()))?.bytes().await?;
             let mut body = b"{\"catalog\":".to_vec();
             body.extend_from_slice(&catalog);
             body.extend_from_slice(b",\"statuses\":");
-            body.extend(serde_json::to_vec(&Value::Object(statuses(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?);
+            body.extend(statuses);
             body.extend_from_slice(b",\"briefs\":");
-            body.extend(serde_json::to_vec(&Value::Object(briefs(ctx).await?)).map_err(|e| worker::Error::RustError(e.to_string()))?);
+            body.extend(briefs);
             body.push(b'}');
-            http::bytes(200, body, "application/json")
+            let mut response = http::bytes(200, body, "application/json")?;
+            response.headers_mut().set("ETag", &etag)?;
+            Ok(response)
         }
         "/api/primitives/prompt" => {
             let parse = |name: &str, default: &str| ctx.param(name).unwrap_or(default).trim().parse::<i64>();

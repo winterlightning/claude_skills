@@ -87,8 +87,10 @@ def check(center, ink):
             and all(0 <= v <= CANVAS for v in center)):
         raise ValueError('The symbol center must be [x, y] inside the 64x64 canvas.')
     if ink is not None and not (isinstance(ink, list) and len(ink) == 2
-                                and all(isinstance(v, (int, float)) and v == int(v) and int(v) % 2 == 0 and 8 <= v <= CANVAS for v in ink)):
-        raise ValueError('The symbol size must be [width, height], each an even number from 8 to 64.')
+                                and all(isinstance(v, (int, float)) and v == int(v) and 4 <= v <= CANVAS for v in ink)):
+        # Whole units (odd too): a symbol whose elements were placed one by one keeps its exact size; with an
+        # odd size the center sits on a half unit, so both edges are still on grid lines.
+        raise ValueError('The symbol size must be [width, height], each a whole number from 4 to 64.')
 
 
 def render(main_svg: str, symbol_svg: str, center: list, ink: list | None = None) -> dict:
@@ -137,6 +139,10 @@ def render(main_svg: str, symbol_svg: str, center: list, ink: list | None = None
 
     def painted(box):
         return {'x': box[0] - STROKE / 2, 'y': box[1] - STROKE / 2, 'w': box[2] - box[0] + STROKE, 'h': box[3] - box[1] + STROKE}
-    return {'svg': ET.tostring(out, encoding='unicode'), 'canvas': CANVAS,
+    svg = ET.tostring(out, encoding='unicode')
+    # The drawing's stroke geometry, so the geometry editor can select and edit the container and symbol strokes.
+    from icon_set.scripts.svg_graph import graph_from_svg
+    graph = graph_from_svg(svg, canvas=CANVAS, family='container_combination64', profile='CONTAINER64')
+    return {'svg': svg, 'canvas': CANVAS, 'graph': graph,
             'placements': [{'role': 'main', 'painted_box': painted(main_box)}, {'role': 'sub', 'painted_box': painted(b)}],
             'center': center, 'ink': ink}

@@ -1,8 +1,9 @@
 // Text symbols for container pairs (primitives.html?view=container): a symbol source marked
 // "Text / number" is drawn with typeface v2 (text-combine.js `Typeface.layout`, grid-hinted sizes)
-// instead of a hand-drawn symbol. Saving uploads the drawing as the source's symbol
-// (POST /api/icons/upload with reference {id: sub_id, role: symbol}, approved), keeps each pair's
-// position, and recombines every container pair that uses the source.
+// instead of a hand-drawn symbol. Each pair gets its own text drawing (the same text can need a
+// different size in each container): saving uploads it for that pair only (POST /api/icons/upload
+// with reference {id: combination id, role: symbol}, approved), keeps the pair's position, and
+// combines that pair.
 // The settings travel inside the uploaded SVG's <desc>, so the editor reopens where it was left.
 (function(){
 'use strict';
@@ -33,6 +34,20 @@ function resolve(s){
   for(const n of fits){const r=layout(s,n);if(r.width<=BOX-4&&r.height<=BOX-4)return {size:n,result:r};}
   const n=sizeList()[0];return {size:n,result:layout(s,n)};
 }
+// Letters moved one by one (the layout popup's Letters panel): offsets[i] = [dx, dy] in whole units for the
+// i-th drawn glyph (spaces are not glyphs). The ink box is measured again and trimmed back to 0, 0.
+function offsetResult(result,offsets){
+  if(!offsets?.some(o=>o&&(o[0]||o[1])))return result;
+  const r={...result,placements:result.placements.map((p,i)=>{const o=offsets[i]||[0,0];return {...p,x:p.x+o[0],y:p.y+o[1]};}),
+           decorations:(result.decorations||[]).map(d=>({...d}))};
+  const half=r.stroke/2,boxes=r.placements.map(p=>{const [l,t,rt,b]=p.glyph.bounds;return [l*p.scale+p.x-half,t*p.scale+p.y-half,rt*p.scale+p.x+half,b*p.scale+p.y+half];});
+  for(const d of r.decorations)boxes.push([d.x1-half,d.y-half,d.x2+half,d.y+half]);
+  const left=Math.min(...boxes.map(b=>b[0])),top=Math.min(...boxes.map(b=>b[1]));
+  for(const p of r.placements){p.x-=left;p.y-=top;}for(const d of r.decorations){d.x1-=left;d.x2-=left;d.y-=top;}
+  r.width=Math.max(...boxes.map(b=>b[2]))-left;r.height=Math.max(...boxes.map(b=>b[3]))-top;
+  return r;
+}
+const textResult=s=>{const {size,result}=resolve(s);return {size,result:offsetResult(result,s.offsets)};};
 const inner=(result,text)=>Typeface.svg(result,text).replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'').replace(/<title>.*?<\/title>/,'').replaceAll('#202820','#000');
 const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
@@ -40,11 +55,11 @@ const esc=t=>t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 // otherwise a canvas exactly the ink box, combined with ink = [W, H] so it is never scaled.
 function symbolDocument(s){
   // Hinted glyph bounds carry float noise (23.000000000000007); the ink box itself is whole units.
-  const {size,result}=resolve(s), W=+result.width.toFixed(3), H=+result.height.toFixed(3), fits=W<=BOX&&H<=BOX;
+  const {size,result}=textResult(s), W=+result.width.toFixed(3), H=+result.height.toFixed(3), fits=W<=BOX&&H<=BOX;
   if(W>BOX*2-4||H>BOX*2-4)throw Error(`Ink ${W} × ${H} does not fit the 64 × 64 container canvas. Use a smaller size, fewer letters per line, or tighter spacing.`);
   if(!fits&&(W%2||H%2))throw Error(`Ink ${W} × ${H} is not even, so it cannot be combined at its exact size. Change the spacing or size.`);
   const cw=fits?BOX:W, ch=fits?BOX:H, x=fits?(BOX-W)/2:0, y=fits?(BOX-H)/2:0;
-  const meta={typeface:'v2',text:s.text,size:s.size,resolved_size:size,tracking:s.tracking,word_space:s.wordSpace,line_gap:s.lineGap,underline:s.underline,ink:[W,H]};
+  const meta={typeface:'v2',text:s.text,size:s.size,resolved_size:size,tracking:s.tracking,word_space:s.wordSpace,line_gap:s.lineGap,underline:s.underline,offsets:s.offsets||[],ink:[W,H]};
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${cw}" height="${ch}" viewBox="0 0 ${cw} ${ch}" fill="none" stroke="#000" stroke-width="${STROKE}" stroke-linecap="round" stroke-linejoin="round">`
     +`<title>${esc(s.text.replace(/\n/g,' '))}</title><desc>${esc(JSON.stringify(meta))}</desc><g transform="translate(${x} ${y})">${inner(result,s.text)}</g></svg>`;
   return {svg,size,W,H,fits,ink:fits?null:[W,H],meta};
@@ -54,7 +69,7 @@ async function savedSettings(art){
   if(!art?.uploaded)return null;
   try{const t=await fetch(art.preview_url,{cache:'no-cache'}).then(r=>r.ok?r.text():'');
     const desc=new DOMParser().parseFromString(t,'image/svg+xml').querySelector('desc')?.textContent;const m=desc&&JSON.parse(desc);
-    return m?.typeface==='v2'?{text:m.text,size:String(m.size),tracking:m.tracking,wordSpace:m.word_space,lineGap:m.line_gap,underline:!!m.underline}:null;
+    return m?.typeface==='v2'?{text:m.text,size:String(m.size),tracking:m.tracking,wordSpace:m.word_space,lineGap:m.line_gap,underline:!!m.underline,offsets:m.offsets||[],manual:!!m.manual_elements}:null;
   }catch{return null;}
 }
 
@@ -68,33 +83,23 @@ function containerGroup(url){
 }
 function grid(){let g='';for(let i=4;i<64;i+=4)g+=`<path d="M${i} 0V64M0 ${i}H64" stroke="${i%16?'#e3eae6':'#c3d1c9'}" stroke-width="${i%16?.15:.25}"/>`;return g;}
 
-// Every container pair that uses this symbol source, with its container artwork.
-const pairsOf=subId=>combinationCatalog.rows.filter(r=>r.kind==='container'&&r.sub_id===subId);
-
 async function save(row,s,message){
-  const doc=symbolDocument(s), rows=pairsOf(row.sub_id), refs=combinationCatalog.references;
-  const before=new Map(rows.map(r=>{const p=pairParts(r);return [r.id,p?{mainId:p.mainId,old:p.symbol.icon_id}:null];}));
-  message.textContent='Uploading the text symbol…';
+  const doc=symbolDocument(s), before=pairParts(row);
+  message.textContent='Uploading the text…';
   const response=await fetch('/api/icons/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-    name:'Text '+s.text.replace(/\n/g,' ').slice(0,100),family:'symbol',category:'text',svg:doc.svg,approve:true,reference:{id:row.sub_id,role:'symbol'}})});
-  const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not save the text symbol.');
+    name:'Text '+s.text.replace(/\n/g,' ').slice(0,100),family:'symbol',category:'text',svg:doc.svg,approve:true,reference:{id:row.id,role:'symbol'}})});
+  const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not upload the text.');
   await loadReferenceUploads();
-  const icon=data.record.icon_id;
-  pairReviews[data.record.key]='approve';
-  // Keep each pair where it was: a pair-scope position moves to the new drawing; an oversize text gets its exact ink size.
-  for(const r of rows){
-    const b=before.get(r.id);if(!b)continue;
-    const e=effectiveCenter(b.mainId,b.old);
-    if(e.scope==='pair'||doc.ink){message.textContent='Keeping the position of '+r.concept+'…';await saveCenter(b.mainId,icon,'pair',e.center.map(Math.round),doc.ink);}
-  }
-  const failed=[];let done=0;
-  for(const r of rows){
-    if(!pairParts(r)){failed.push(r.concept+': no container');continue;}
-    message.textContent=`Combining ${++done} of ${rows.length}…`;
-    try{await createCombined(r);}catch(error){failed.push(r.concept+': '+error.message);}
-  }
-  refreshCards(r=>r.kind==='container'&&r.sub_id===row.sub_id);
-  return {count:rows.length-failed.length,failed,icon,ref:refs[row.sub_id]?.concept};
+  const icon=data.record.icon_id;pairReviews[data.record.key]='approve';
+  // Keep the pair where it was: a pair-scope position moves to the new drawing; text wider than 32 gets its exact
+  // ink size (also when the pair had no symbol before, so nothing to carry over).
+  const mainId=before?.mainId||row.main_icon_id||containerMain(row,containerResults?.selections?.[row.id]||containerPreviews.get(row.id))?.icon_id;
+  if(mainId){const e=effectiveCenter(mainId,before?.symbol.icon_id||'');
+    if((before&&e.scope==='pair')||doc.ink){message.textContent='Keeping the position…';await saveCenter(mainId,icon,'pair',e.center.map(Math.round),doc.ink);}}
+  if(!pairParts(row))throw Error('Uploaded '+icon+', but this pair has no container to combine with.');
+  message.textContent='Combining…';await createCombined(row);
+  refreshCards(r=>r.id===row.id);
+  return icon;
 }
 
 // The editor shown inside a text pair's symbol panel.
@@ -105,8 +110,8 @@ function panel(row){
   body.append(node('p','muted','Loading typeface v2…'));
   load().then(async()=>{
     const art=containerSymbol(row,containerResults?.selections?.[row.id]||containerPreviews.get(row.id));
-    const saved=await savedSettings(art), d=defaults[row.sub_id]||{};
-    const start=saved||{text:d.text||'',size:'auto',tracking:4,wordSpace:8,lineGap:4,underline:!!d.underline};
+    const saved=await savedSettings(uploadedArt(row.id)), d=defaults[row.sub_id]||{};
+    const start=saved||{text:d.text||'',size:'auto',tracking:4,wordSpace:8,lineGap:4,underline:!!d.underline,offsets:[]};
     body.replaceChildren();
     const f={};
     const field=(label,el)=>{const l=node('label','text-symbol-field');l.append(node('span','',label),el);return l;};
@@ -121,11 +126,13 @@ function panel(row){
     const saveButton=node('button','side-edit-component','');saveButton.type='button';
     const actions=node('div','requires-login');actions.append(saveButton);
     body.append(field('Text (A–Z, 0–9, space, Enter for a new line)',f.text),row1,under,preview,status,actions,message);
-    if(saved)body.prepend(node('p','muted','Current symbol is this text.'));
-    else body.prepend(node('p','muted',art?`Current symbol: ${art.icon_id}. Saving replaces it with the text below for this source.`:'No symbol yet. Saving creates it from the text below.'));
-    const read=()=>({text:f.text.value.replace(/\r/g,''),size:f.size.value,tracking:+f.tracking.value,wordSpace:+f.wordSpace.value,lineGap:+f.lineGap.value,underline:f.underline.checked});
-    const pairs=pairsOf(row.sub_id).length;
-    saveButton.textContent=`Save text symbol · recombine ${pairs} pair${pairs===1?'':'s'}`;
+    body.prepend(node('p','muted',saved?.manual?'Letters of this pair were moved or resized in the combined popup. Uploading from here draws the text again without those edits.'
+      :saved?'This pair uses the text below. Change it and upload again to update only this pair.'
+      :`Only this pair: the text is uploaded as this pair's own symbol${art?' (replacing '+art.icon_id+')':''} and combined with this container.`));
+    const read=()=>({text:f.text.value.replace(/\r/g,''),size:f.size.value,tracking:+f.tracking.value,wordSpace:+f.wordSpace.value,lineGap:+f.lineGap.value,underline:f.underline.checked,
+      // Letter moves belong to the text they were made on.
+      offsets:f.text.value.replace(/\r/g,'')===start.text?start.offsets||[]:[]});
+    saveButton.textContent='Upload text & combine this pair';
     let doc=null;
     async function draw(){
       const s=read();doc=null;saveButton.disabled=true;
@@ -135,7 +142,7 @@ function panel(row){
       const parts=pairParts(row),main=parts?.main||containerMain(row,null);
       const center=parts?effectiveCenter(parts.mainId,parts.symbol.icon_id).center:[32,32];
       const x=center[0]-doc.W/2,y=center[1]-doc.H/2;
-      const text=`<g transform="translate(${x} ${y})" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${inner(resolve(read()).result,s.text)}</g>`;
+      const text=`<g transform="translate(${x} ${y})" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${inner(textResult(s).result,s.text)}</g>`;
       const container=main?await containerGroup(main.preview_url).catch(()=>''):'';
       preview.innerHTML=`<svg viewBox="0 0 64 64" class="text-symbol-big">${grid()}${container}${text}<rect x="${x}" y="${y}" width="${doc.W}" height="${doc.H}" fill="none" stroke="#d9534f" stroke-width=".3" stroke-dasharray="1 .8"/></svg>`
         +`<svg viewBox="0 0 64 64" class="text-symbol-small">${container}${text}</svg><svg viewBox="0 0 ${doc.fits?32:doc.W} ${doc.fits?32:doc.H}" class="text-symbol-alone">${doc.svg.replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg>`;
@@ -146,7 +153,7 @@ function panel(row){
     for(const el of Object.values(f))el.addEventListener('input',draw);
     saveButton.onclick=async()=>{
       if(!doc)return;saveButton.disabled=true;
-      try{const r=await save(row,read(),message);message.textContent=`Saved ${r.icon} · ${r.count} pair${r.count===1?'':'s'} recombined`+(r.failed.length?' · failed: '+r.failed.join('; '):'.');}
+      try{const icon=await save(row,read(),message);message.textContent=`Uploaded ${icon} and combined this pair.`;}
       catch(error){message.textContent=error.message;saveButton.disabled=false;}
     };
     draw();
@@ -164,5 +171,15 @@ if(!document.getElementById('text-symbol-style')){
 .text-symbol-status{font-size:12px;margin:0;color:#4b5560}.text-symbol-status.warn{color:#b45309}`;
   document.head.append(style);
 }
-window.ContainerTextSymbol={isText,panel,load,symbolDocument};
+// For the combined layout popup: this pair's own text settings (null when the pair has no typeface text),
+// and saving the text again with letters moved (offsets per drawn glyph, whole units).
+const pairText=row=>isText(row.sub_id)?load().then(()=>savedSettings(uploadedArt(row.id))):Promise.resolve(null);
+async function uploadText(row,settings){
+  const doc=symbolDocument(settings);
+  const response=await fetch('/api/icons/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    name:'Text '+settings.text.replace(/\n/g,' ').slice(0,100),family:'symbol',category:'text',svg:doc.svg,approve:true,reference:{id:row.id,role:'symbol'}})});
+  const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not upload the text.');
+  return {record:data.record,doc};
+}
+window.ContainerTextSymbol={isText,panel,load,symbolDocument,pairText,uploadText};
 })();

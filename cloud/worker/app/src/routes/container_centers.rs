@@ -31,7 +31,8 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
 }
 
 /// POST /api/container-centers {main, sub?, center: [x, y] | null, size?: [width, height]}: save, or reset
-/// when center is null. `size` is the symbol box (each side even, 8–64, so its edges sit on the grid); omitted means 32 × 32.
+/// when center is null. `size` is the symbol box (whole units, 4–64; an odd side pairs with a half-unit center so its
+/// edges sit on the grid); omitted means 32 × 32.
 pub async fn save(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" {
         return http::error(401, "Log in to save container centers.");
@@ -59,11 +60,11 @@ pub async fn save(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         value => {
             let sides: Option<Vec<f64>> = value.as_array().map(|a| a.iter().filter_map(Value::as_f64).collect());
             match sides.as_deref().and_then(|s| <[f64; 2]>::try_from(s).ok()) {
-                Some(sides) if sides.iter().all(|s| (8.0..=64.0).contains(s) && (s / 2.0).fract() == 0.0) => {
+                Some(sides) if sides.iter().all(|s| (4.0..=64.0).contains(s) && s.fract() == 0.0) => {
                     let standard = |s: f64| (s != 32.0).then_some(s);
                     (standard(sides[0]), standard(sides[1]))
                 }
-                _ => return http::error(400, "Symbol size must be [width, height], each an even number from 8 to 64."),
+                _ => return http::error(400, "Symbol size must be [width, height], each a whole number from 4 to 64."),
             }
         }
     };
