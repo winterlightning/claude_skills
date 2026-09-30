@@ -82,9 +82,13 @@
 
   // ---- numbers and transforms (combination_layout_svg.py, container_combination_render.py)
 
-  function fmt(n) {
-    const r = Math.round(n * 1e6) / 1e6;
-    return r === 0 ? '0' : r.toFixed(6).replace(/0+$/, '').replace(/\.$/, '');
+  function fmt(n) {  // round(n, 6) then '%.6f' without trailing zeros: exact ties (odd 128ths) round half to even
+    let s = n.toFixed(6);
+    if (Number.isInteger(n * 128) && (n * 128) % 2 !== 0) {
+      const scaled = n * 1e6, lo = Math.floor(scaled), pick = lo % 2 === 0 ? lo : lo + 1;
+      s = (pick / 1e6).toFixed(6);
+    }
+    return Number(s) === 0 ? '0' : s.replace(/0+$/, '').replace(/\.$/, '');
   }
 
   function affine(text) {

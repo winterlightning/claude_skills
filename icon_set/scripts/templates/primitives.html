@@ -181,7 +181,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 <div class="inspector-tabs"><button id="informationTab" hidden></button><button id="reviewTab" hidden></button><button id="editingTab" type="button">Editing</button></div>
 <div id="inspectorWorkspace" class="sc-editor-workspace"><section id="informationPanel" hidden></section><section id="reviewPanel" hidden></section><!-- shared-icon-editor --></div></dialog>
 <script src="side-component-editor.js"></script>
-<script src="side-combination-popup.js"></script><script src="side-repair-flags.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script><script src="progression-combinations.js"></script><script src="side-layout-editor.js"></script><script src="side-pairs-grid.js"></script><script src="side-pair-maker.js"></script>
+
 <script>
 const $=id=>document.getElementById(id);
 const REASONS={combination:'Side combination',container:'Container combination',text_number:'Text / number',other:'Other'};
@@ -218,7 +218,7 @@ function pageRows(rows){return rows.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);}
 function writeURL(){const u=new URL(location.href);u.search='';if(state.view!=='category')u.searchParams.set('view',state.view);if(state.view!=='categories'){if(state.category)u.searchParams.set('category',state.category);
   for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'&&state.view!=='review'))u.searchParams.set(k,state[k]);if(pageTarget||page>1)u.searchParams.set('page',pageTarget||page);}
   history.replaceState(null,'',u);}
-function readURL(){const p=new URLSearchParams(location.search);if(p.get('view')==='container'){location.replace('container-pairs.html'+(p.get('q')?'?q='+encodeURIComponent(p.get('q')):''));return;}state.category=p.get('category')||'';state.view=['container','side','review'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'?'todo':state.category?'category':'review';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready','text'].includes(p.get('status'))?p.get('status'):state.view==='review'?'all':'todo';
+function readURL(){const p=new URLSearchParams(location.search);if(p.get('view')==='container'||p.get('view')==='side'){location.replace((p.get('view')==='side'?'side-pairs.html':'container-pairs.html')+(p.get('q')?'?q='+encodeURIComponent(p.get('q')):''));return;}state.category=p.get('category')||'';state.view=['container','side','review'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'?'todo':state.category?'category':'review';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready','text'].includes(p.get('status'))?p.get('status'):state.view==='review'?'all':'todo';
   state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&(REASONS[p.get('reason')]||p.get('reason')==='combinations')?p.get('reason'):'';state.q=p.get('q')||'';pageTarget=['first','middle','last'].includes(p.get('page'))?p.get('page'):'';page=Math.max(1,parseInt(p.get('page'))||1);}
 
 function renderOverview(){
@@ -333,8 +333,10 @@ function tile(row){
         const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save position');statuses[row.uuid]=data.decisions[row.uuid];renderDetail();
       }catch(error){message.textContent=error.message;select.value=d.sub_position||'';}finally{select.disabled=false;}};
       position.append(select,message);el.append(position);
-      // Name its main and sub icons and generate it onto the Side combination page (side-pair-maker.js).
-      if(window.SidePairMaker)el.append(SidePairMaker.section(row,renderDetail));
+      // Its side pair: made on the Side pairs page, where its main and sub are picked and it is built.
+      {const codes={'bottom-right':'br','bottom-left':'bl','top-right':'tr','top-left':'tl',right:'ri',left:'le',bottom:'bo',top:'to'};
+       const make=node('a','',"Make or edit its side pair →");make.className='chip requires-login';
+       make.href='side-pairs.html?make='+encodeURIComponent(row.uuid)+(codes[d.sub_position]?'&position='+codes[d.sub_position]:'');el.append(make);}
     }
     for(const field of ['main_brief','sub_brief']){
       const c=d[field],label=field==='sub_brief'?'Sub icon':(c?.family==='container'||(!c&&d.reason==='container')?'Container icon':'Main icon');
@@ -485,7 +487,7 @@ function show(){if(!statusesAvailable||!briefsAvailable){$('overview').hidden=$(
   $('combinations').hidden=!combination;
   for(const view of ['container','side'])$(view+'View').setAttribute('aria-pressed',String(state.view===view));
   $('status').hidden=combination;
-  if(combination){$('overview').hidden=$('primitiveDetail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');writeURL();renderCombinations();return;}
+  if(combination){$('overview').hidden=$('primitiveDetail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');location.replace(state.view==='side'?'side-pairs.html':'container-pairs.html');return;}
   const inDetail=state.view!=='categories';$('overview').hidden=inDetail;$('primitiveDetail').hidden=!inDetail;
   $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view==='categories'));
   if(inDetail)renderDetail();else{writeURL();renderOverview();}}
@@ -524,7 +526,7 @@ async function galleryWrite(url,options){
   try{return await fetch(url,options);}
   finally{galleryWrites--;galleryRevision++;}
 }
-function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!window.SidePairMaker?.editing()&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
+function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
 function updateCatalogStatus(){
   $('warning').textContent=catalog.warning||'';$('warning').hidden=!catalog.warning;
   $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`;
@@ -561,7 +563,7 @@ async function refreshGalleryState(){
 
 for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
 document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
-$('containerView').onclick=()=>location.assign('container-pairs.html');$('sideView').onclick=()=>openView('side');
+$('containerView').onclick=()=>location.assign('container-pairs.html');$('sideView').onclick=()=>location.assign('side-pairs.html');
 $('reviewView').onclick=()=>openView('review');
 $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openView('categories');
 $('gridCategory').onchange=()=>{state.category=$('gridCategory').value;if(state.view==='category'&&!state.category)state.view='review';state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};

@@ -320,9 +320,7 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
 /// R2 does not change when someone picks a version; the gallery applies these after loading it.
 pub async fn get_overrides(ctx: &Ctx) -> Result<Response> {
     let mut records = overrides(ctx).await?;
-    // Pairs made from a primitive first: their complete records, then every saved pair's overlay.
-    records.extend(super::side_pairs::records(ctx).await?);
-    records.extend(super::side::overlays(ctx).await?);
+    // Combined icons built in the browser: their complete records.
     records.extend(super::combinations::records(ctx).await?);
     http::json(200, &json!({"records": records}))
 }
@@ -440,52 +438,6 @@ async fn stored_drawing(ctx: &Ctx, sha: &str) -> Result<Response> {
         Some(row) => http::svg(&row.svg),
         None => http::error(503, "Artwork is unavailable on this server."),
     }
-}
-
-/// The drawing an icon shows now, as (svg_sha256, svg): its picked artwork (the same choice
-/// `artwork_overlay` shows in Icon review and on the side pages), else its catalog row's drawing.
-/// Choices made on a local gallery before the cloud editor never moved the row, so the row alone
-/// is not enough: an uploaded SVG lives only in its choice.
-pub(super) async fn current_drawing(ctx: &Ctx, key: &str) -> Result<Option<(String, String)>> {
-    let Some(icon) = data::icon(&ctx.db, key, true).await? else { return Ok(None) };
-    if !icon.uploaded {
-        if let Some(choice) = document(ctx, ARTWORK, key).await? {
-            let baseline = baseline_sha(ctx, &icon, Some(&choice)).await?;
-            // A choice made for an older generated drawing no longer applies (get_overrides).
-            if choice["source_svg_sha256"].as_str() == Some(baseline.as_str()) {
-                match choice["source_mode"].as_str() {
-                    Some("use_upload") => {
-                        let upload = if choice["selected_upload"].is_object() { &choice["selected_upload"] } else { &choice["uploaded"] };
-                        if let (Some(sha), Some(svg)) = (upload["svg_sha256"].as_str(), upload["svg"].as_str()) {
-                            return Ok(Some((sha.to_string(), svg.to_string())));
-                        }
-                    }
-                    Some("use_edited") => {
-                        if let Some(selected) = choice["selected_svg_sha256"].as_str() {
-                            if let Some(svg) = revision_svg(ctx, selected).await? {
-                                return Ok(Some((selected.to_string(), svg)));
-                            }
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-    }
-    Ok(revision_svg(ctx, &icon.svg_sha256).await?.map(|svg| (icon.svg_sha256.clone(), svg)))
-}
-
-/// Whether an icon shows a picked artwork (a failed build approved through a picked version counts as built).
-pub(super) async fn picked(ctx: &Ctx, icon: &Icon) -> Result<bool> {
-    let Some(choice) = document(ctx, ARTWORK, &icon.key).await? else { return Ok(false) };
-    let baseline = baseline_sha(ctx, icon, Some(&choice)).await?;
-    Ok(choice["source_svg_sha256"].as_str() == Some(baseline.as_str()))
-}
-
-async fn revision_svg(ctx: &Ctx, sha: &str) -> Result<Option<String>> {
-    #[derive(Deserialize)]
-    struct Row { svg: String }
-    Ok(db::first::<Row>(&ctx.db, "SELECT svg FROM revisions WHERE svg_sha256 = ?", args![sha]).await?.map(|r| r.svg))
 }
 
 /// The drawing a picked choice displays (deploy.py serves the choice before a worker's fix), or None.

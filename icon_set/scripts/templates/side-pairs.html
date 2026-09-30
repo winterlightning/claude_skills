@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Side pairs · Pictographic</title>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
+<script src="combine-side.js"></script><script src="normalize-ink32.js"></script>
+<style>
+.sp-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
+.sp-intro{padding:32px 0 6px}.sp-intro h1{font-size:34px;font-weight:600;letter-spacing:-1.5px;margin:0 0 8px}.sp-intro p{color:var(--muted);margin:0;max-width:840px;line-height:1.6}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 10px}
+.toolbar input[type=search]{flex:1;min-width:220px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.toolbar select,.btn{border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:#fff;cursor:pointer;font:inherit;font-size:13px}
+.btn.primary{background:#20262d;color:#fff;border-color:#20262d}.btn:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:13px;color:var(--muted);min-height:20px;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card header{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.card h3{margin:0;font-size:13px;line-height:1.35;overflow-wrap:anywhere}.card .id{font:11px ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere}
+.row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
+.art{aspect-ratio:1;background:#f7f9f4;border-radius:8px;display:grid;place-items:center;overflow:hidden;position:relative}
+.art img,.art svg{width:82%;height:82%}.art .none{font-size:11px;color:var(--muted);text-align:center;padding:6px}
+.art .tag{position:absolute;left:4px;top:4px;font-size:9px;font-weight:700;text-transform:uppercase;background:#fbeccf;color:#7a5200;border-radius:4px;padding:1px 5px}
+.cap{font-size:11px;line-height:1.35;overflow-wrap:anywhere;color:#3a434c}.muted{color:var(--muted)}
+.badge{font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:3px 9px;text-transform:uppercase;white-space:nowrap}
+.badge.built{background:#e3f1e4;color:#23602a}.badge.stale{background:#fbeccf;color:#7a5200}.badge.unbuilt{background:#eceff0;color:#4b5560}
+.review{font-size:11px;font-weight:600}.review.approve{color:#23602a}.review.pending,.review.claimed{color:#923b30}
+.actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.actions .msg{font-size:12px;color:var(--muted)}.msg.error{color:#923b30}
+.pager{display:flex;align-items:center;gap:10px;justify-content:center;margin:18px 0}
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;max-width:min(1100px,96vw);width:1100px}
+dialog::backdrop{background:rgba(20,24,28,.35)}
+.ed{display:grid;grid-template-columns:auto 1fr;gap:20px;padding:20px}
+.ed h2{margin:0 0 4px;font-size:18px}.ed .id{font:11px ui-monospace,monospace;color:var(--muted)}
+.stage{width:384px;height:384px;border:1px solid var(--line);border-radius:8px;background:#fff;touch-action:none;user-select:none}
+.stage .grid-line{stroke:#e9ede6;stroke-width:.06}.stage .box{fill:rgba(47,79,143,.06);stroke:#2f4f8f;stroke-width:.25;stroke-dasharray:.8 .5;cursor:move}
+.stage .handle{fill:#fff;stroke:#2f4f8f;stroke-width:.25;cursor:nwse-resize}.stage .handle.ne,.stage .handle.sw{cursor:nesw-resize}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.fields{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}.fields input,.fields select{border:1px solid var(--line);border-radius:6px;padding:6px}
+.fields input{width:58px}
+.pick{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.pick .now{display:flex;gap:10px;align-items:center;font-size:12px}.pick .now .art{width:56px;flex:none}
+.pick input[type=search]{border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+.cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));grid-auto-rows:88px;gap:6px;max-height:190px;overflow:auto}
+.cands button{border:1px solid var(--line);border-radius:8px;background:#f7f9f4;padding:4px;cursor:pointer;display:flex;flex-direction:column;gap:2px;align-items:center;font-size:9px;overflow:hidden}
+.cands button img{width:52px;height:52px;flex:none}.cands button.approved{border-color:#9cc9a0}
+.ed-foot{display:flex;gap:8px;justify-content:flex-end;align-items:center;padding:0 20px 18px}.ed-foot .msg{flex:1;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body class="guest">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"></nav></header>
+<main class="sp-main">
+  <section class="sp-intro">
+    <h1>Side pairs</h1>
+    <p>Each side combination: the main, the sub sitting at one of its eight sides, and their combined 64×64 icon, cut
+       where the sub sits. The combined icon is made in your browser from both parts' current drawings (the same
+       drawing the Python engine made, stroke for stroke) and stored once; a pair turns stale when a part is redrawn.
+       <a href="combinations.html?kind=side">All combinations</a> · <a href="container-pairs.html">Container pairs</a></p>
+  </section>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search concept or reference id">
+    <select id="state"><option value="">Any state</option><option value="stale">Stale</option><option value="unbuilt">Not built</option><option value="built">Built</option></select>
+    <button class="btn requires-login" id="buildPage" type="button">Build this page</button>
+    <button class="btn requires-login" id="rebuildStale" type="button">Rebuild every stale pair</button>
+  </div>
+  <div class="status" id="status">Loading…</div>
+  <div class="grid" id="grid"></div>
+  <div class="pager"><button class="btn" id="prev">Previous</button><span id="page" class="status"></span><button class="btn" id="next">Next</button></div>
+</main>
+
+<dialog id="editor">
+  <div class="ed">
+    <div>
+      <svg class="stage" id="stage" viewBox="0 0 64 64"></svg>
+      <div class="fields" style="margin-top:10px">
+        <label>Position <select id="position">
+          <option value="br">Bottom-right</option><option value="bl">Bottom-left</option><option value="tr">Top-right</option><option value="tl">Top-left</option>
+          <option value="ri">Right</option><option value="le">Left</option><option value="bo">Bottom</option><option value="to">Top</option></select></label>
+        <button class="btn" id="automatic" type="button" title="Drop the hand-adjusted layout: the engine places both parts">Automatic placement</button>
+      </div>
+      <div class="fields" style="margin-top:6px">Sub box
+        <label>x <input id="bx" type="number" step="1"></label><label>y <input id="by" type="number" step="1"></label>
+        <label>w <input id="bw" type="number" step="1" min="0"></label><label>h <input id="bh" type="number" step="1" min="0"></label>
+      </div>
+      <p class="status" id="layoutNote"></p>
+    </div>
+    <div class="side">
+      <div><h2 id="edTitle"></h2><div class="id" id="edId"></div></div>
+      <div class="pick" id="pickMain"></div>
+      <div class="pick" id="pickSub"></div>
+    </div>
+  </div>
+  <div class="ed-foot"><span class="msg" id="edMsg" role="status"></span>
+    <button class="btn" id="edCancel" type="button">Close</button>
+    <button class="btn primary" id="edSave" type="button">Build and save</button></div>
+</dialog>
+
+<script>
+const LIMIT = 48;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const STATES = {built: 'Built', stale: 'Stale', unbuilt: 'Not built'};
+const params = new URLSearchParams(location.search);
+const view = {q: params.get('q') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+$('q').value = view.q; $('state').value = view.state;
+let items = [], drawings = new Map();
+
+async function api(path, body) {
+  const response = await fetch(path, body === undefined ? {cache: 'no-store'}
+    : {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw Error(data.error || response.statusText);
+  return data;
+}
+async function loadDrawings(keys) {
+  const wanted = [...new Set(keys.filter(k => k && !drawings.has(k)))];
+  for (let i = 0; i < wanted.length; i += 100) {
+    const got = await api('/api/combinations/drawings?keys=' + encodeURIComponent(wanted.slice(i, i + 100).join(',')));
+    for (const [key, d] of Object.entries(got)) drawings.set(key, d);
+  }
+}
+
+const part = (item, role) => item.parts.find(p => p.role === role) || {role};
+const handLayout = item => CombineSide.handLayout(item);
+// Build one pair in the browser (combine-side.js pairRequest): its combined SVG and the request that stores it.
+const compose = (item, options) => CombineSide.pairRequest(item, drawings, options);
+
+async function build(requests, progress) {
+  const results = [];
+  for (let i = 0; i < requests.length; i += 50) {
+    results.push(...(await api('/api/combinations/build', {builds: requests.slice(i, i + 50)})).results);
+    progress?.(results.length);
+  }
+  return results;
+}
+
+function inlineSvg(svg) {
+  const doc = new DOMParser().parseFromString(svg, 'image/svg+xml'), el = doc.documentElement;
+  if (el.nodeName !== 'svg' || doc.querySelector('parsererror, script, foreignObject')) return '<div class="none">unreadable</div>';
+  for (const node of [el, ...el.querySelectorAll('*')]) for (const a of [...node.attributes]) if (/^on/i.test(a.name)) node.removeAttribute(a.name);
+  return el.outerHTML;
+}
+const thumb = key => { const d = drawings.get(key); return d?.svg ? inlineSvg(d.svg) : `<div class="none">${key ? 'no drawing' : 'text (typeface)'}</div>`; };
+const reviewLabel = s => s ? `<span class="review ${esc(s)}">${s === 'approve' ? 'approved' : esc(s)}</span>` : '<span class="muted">not reviewed</span>';
+
+function card(item) {
+  const m = part(item, 'main'), s = part(item, 'sub');
+  let combined;
+  if (item.state === 'built') combined = `<img loading="lazy" src="${esc(item.icon.preview_url)}" alt="">`;
+  else {
+    try { combined = inlineSvg(compose(item).svg) + '<span class="tag">preview</span>'; }
+    catch (error) { combined = `<div class="none">${esc(error.message)}</div>`; }
+  }
+  const waiting = [m, s].filter(p => p.icon && drawings.get(p.icon)?.review !== 'approve').map(p => p.role);
+  const hand = handLayout(item);
+  return `<article class="card" data-id="${esc(item.reference_id)}">
+    <header><div><h3>${esc(item.concept || item.reference_id)}</h3><div class="id">${esc(item.reference_id)} · ${esc(s.position || '')}${hand ? ' · hand layout' : ''}</div></div>
+      <span class="badge ${item.state}">${STATES[item.state]}</span></header>
+    <div class="row">
+      <div><div class="art">${combined}</div><div class="cap"><b>combined</b>${item.icon ? '<br>' + reviewLabel(item.icon.review) : ''}</div></div>
+      ${[m, s].map(p => `<div><div class="art">${thumb(p.icon)}</div><div class="cap"><b>${p.role}</b><br>${esc(p.icon || '—')}
+        ${p.icon ? '<br>' + reviewLabel(drawings.get(p.icon)?.review) : ''}${p.stale ? '<br><b style="color:#7a5200">redrawn since built</b>' : ''}</div></div>`).join('')}
+    </div>
+    <div class="actions requires-login">
+      <button class="btn" data-act="edit" type="button">Edit</button>
+      ${item.state !== 'built' ? '<button class="btn primary" data-act="build" type="button">Build</button>' : ''}
+      ${item.icon ? `<button class="btn" data-act="approve" type="button" ${item.icon.review === 'approve' || waiting.length ? 'disabled' : ''}
+                  title="${waiting.length ? 'Approve the ' + esc(waiting.join(' and ')) + ' first' : ''}">Approve combined</button>
+                <button class="btn" data-act="disapprove" type="button">Disapprove</button>` : ''}
+      <span class="msg" role="status"></span>
+    </div>
+  </article>`;
+}
+
+async function page(state, offset, limit = LIMIT, q = '') {
+  const query = new URLSearchParams({kind: 'side', limit, offset, forms: '1'});
+  if (q) query.set('q', q);
+  if (state) query.set('state', state);
+  const data = await api('/api/combinations?' + query);
+  await loadDrawings(data.items.flatMap(i => i.parts.map(p => p.icon)));
+  return data;
+}
+
+let seq = 0;
+async function load() {
+  const mine = ++seq;
+  history.replaceState(null, '', '?' + new URLSearchParams(Object.entries(view).filter(([, v]) => v)).toString());
+  $('status').textContent = 'Loading…';
+  try {
+    const data = await page(view.state, view.offset, LIMIT, view.q);
+    if (mine !== seq) return;
+    items = data.items;
+    $('grid').innerHTML = items.length ? items.map(card).join('') : '<div class="status">No side pairs match.</div>';
+    const c = data.counts.side || {};
+    $('status').textContent = `${data.total.toLocaleString()} pairs · built ${c.built ?? 0} · stale ${c.stale ?? 0} · not built ${c.unbuilt ?? 0}`;
+    $('page').textContent = data.total ? `${view.offset + 1}–${view.offset + items.length} of ${data.total.toLocaleString()}` : '';
+    $('prev').disabled = view.offset === 0; $('next').disabled = data.next_offset == null;
+  } catch (error) { if (mine === seq) $('status').textContent = 'Could not load: ' + error.message; }
+}
+
+async function refresh(id) {
+  const data = await api('/api/combinations?' + new URLSearchParams({q: id, limit: 1, forms: '1'}));
+  const item = data.items[0];
+  if (!item) return;
+  for (const p of item.parts) drawings.delete(p.icon);
+  await loadDrawings(item.parts.map(p => p.icon));
+  items = items.map(i => i.reference_id === id ? item : i);
+  const old = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+  if (old) old.outerHTML = card(item);
+}
+
+$('grid').addEventListener('click', async event => {
+  const button = event.target.closest('button[data-act]');
+  if (!button) return;
+  const el = button.closest('.card'), item = items.find(i => i.reference_id === el.dataset.id), msg = el.querySelector('.msg');
+  const say = (text, error) => { msg.textContent = text; msg.classList.toggle('error', !!error); };
+  if (button.dataset.act === 'edit') return openEditor(item);
+  button.disabled = true;
+  try {
+    if (button.dataset.act === 'build') {
+      say('Building…');
+      const [result] = await build([compose(item).request]);
+      if (!result.ok) throw Error(result.error);
+      await refresh(item.reference_id);
+    } else {
+      const body = {icon: item.icon.key, svg_sha256: item.icon.svg_sha256, status: button.dataset.act === 'approve' ? 'approve' : 'pending'};
+      if (button.dataset.act === 'disapprove') {
+        const note = prompt('What needs fixing?');
+        if (!note) { button.disabled = false; return; }
+        Object.assign(body, {reason: 'other', feedback: note});
+      }
+      say('Saving…');
+      await api('/api/reviews', body);
+      await refresh(item.reference_id);
+    }
+  } catch (error) { say(error.message, true); button.disabled = false; }
+});
+
+async function buildAll(list, label) {
+  const requests = [], skipped = [];
+  for (const item of list) {
+    try { requests.push(compose(item).request); } catch (error) { skipped.push(`${item.reference_id}: ${error.message}`); }
+  }
+  if (!requests.length) return {built: 0, failed: [], skipped};
+  const results = await build(requests, n => { $('status').textContent = `${label}: ${n} / ${requests.length}…`; });
+  return {built: results.filter(r => r.ok).length, failed: results.filter(r => !r.ok), skipped};
+}
+function report({built, failed, skipped}) {
+  return `Built ${built}` + (failed.length ? ` · ${failed.length} refused (${failed[0].reference_id}: ${failed[0].error})` : '')
+    + (skipped.length ? ` · ${skipped.length} could not be drawn (${skipped[0]})` : '');
+}
+
+$('buildPage').onclick = async () => {
+  const list = items.filter(i => i.state !== 'built');
+  if (!list.length) { $('status').textContent = 'Everything on this page is built.'; return; }
+  if (!confirm(`Build ${list.length} pair${list.length === 1 ? '' : 's'} on this page?`)) return;
+  $('buildPage').disabled = true;
+  try { const r = await buildAll(list, 'Building'); await load(); $('status').textContent += ' · ' + report(r); }
+  catch (error) { $('status').textContent = 'Build failed: ' + error.message; }
+  $('buildPage').disabled = false;
+};
+
+$('rebuildStale').onclick = async () => {
+  const first = await api('/api/combinations?kind=side&state=stale&limit=1');
+  if (!first.total) { $('status').textContent = 'No side pair is stale.'; return; }
+  if (!confirm(`Rebuild all ${first.total} stale side pairs from their parts' current drawings?`)) return;
+  $('rebuildStale').disabled = true;
+  const total = {built: 0, failed: [], skipped: []};
+  try {
+    // Built pairs leave the stale list, so the first page is read again until nothing is left to try.
+    let tried = new Set();
+    while (true) {
+      const data = await page('stale', 0, 200);
+      const list = data.items.filter(i => !tried.has(i.reference_id));
+      if (!list.length) break;
+      list.forEach(i => tried.add(i.reference_id));
+      const r = await buildAll(list, `Rebuilding stale pairs (${total.built + list.length} of ${first.total})`);
+      total.built += r.built; total.failed.push(...r.failed); total.skipped.push(...r.skipped);
+    }
+    await load();
+    $('status').textContent += ' · ' + report(total);
+  } catch (error) { $('status').textContent = 'Rebuild failed: ' + error.message; }
+  $('rebuildStale').disabled = false;
+};
+
+// ---- editor: the parts, the side, and the sub's box
+
+const editor = {item: null, icons: {}, position: null, layout: null, last: null};
+const edSay = (text, error) => { $('edMsg').textContent = text; $('edMsg').classList.toggle('error', !!error); };
+
+function subBox() {
+  const g = editor.layout?.sub;
+  return g && g.length === 1 ? g[0] : null;
+}
+
+function drawStage() {
+  let lines = '';
+  for (let v = 0; v <= 64; v += 2) lines += `<line class="grid-line" x1="${v}" y1="0" x2="${v}" y2="64"/><line class="grid-line" x1="0" y1="${v}" x2="64" y2="${v}"/>`;
+  let art = '';
+  try {
+    editor.last = compose(editor.item, {icons: editor.icons, position: editor.position, layout: editor.layout});
+    const canvas = editor.last.result.canvas;
+    $('stage').setAttribute('viewBox', `0 0 ${canvas} ${canvas}`);
+    art = inlineSvg(editor.last.svg).replace('<svg', `<svg x="0" y="0" width="${canvas}" height="${canvas}"`);
+    edSay('');
+  } catch (error) { editor.last = null; edSay(error.message, true); }
+  const b = subBox();
+  const frame = b ? `<rect class="box" id="dragBox" x="${b.x}" y="${b.y}" width="${Math.max(b.w, .2)}" height="${Math.max(b.h, .2)}"/>`
+    + [['nw', b.x, b.y], ['ne', b.x + b.w, b.y], ['sw', b.x, b.y + b.h], ['se', b.x + b.w, b.y + b.h]]
+      .map(([k, x, y]) => `<rect class="handle ${k}" data-handle="${k}" x="${x - .9}" y="${y - .9}" width="1.8" height="1.8"/>`).join('') : '';
+  $('stage').innerHTML = lines + art + frame;
+  for (const [id, k] of [['bx', 'x'], ['by', 'y'], ['bw', 'w'], ['bh', 'h']]) $(id).value = b ? b[k] : '';
+  const groups = editor.layout ? Object.values(editor.layout).reduce((n, g) => n + g.length, 0) : 0;
+  $('layoutNote').textContent = !editor.layout ? 'Automatic placement. Move or resize the sub to adjust it by hand.'
+    : b && groups === 1 ? 'Hand-adjusted: the sub is placed in its box.' : `Hand-adjusted layout (${groups} element groups), kept as it is.`;
+  $('edSave').disabled = !editor.last && !picksChanged();
+  $('edSave').textContent = editor.last ? 'Build and save' : 'Save picks';
+}
+const picksChanged = () => ['main', 'sub'].some(role => editor.icons[role] && editor.icons[role] !== part(editor.item, role).icon);
+
+// Start a hand layout for the sub from where the automatic placement put it (every element as one group).
+function ensureSubBox() {
+  if (subBox() || (editor.layout && editor.layout.sub)) return subBox();
+  if (!editor.last) return null;
+  const sub = editor.last.current.row.subs[0];
+  const document = sub.engine_document ?? sub.document;
+  const p = editor.last.result.placements[1].painted_box;
+  editor.layout = {...(editor.layout || {}), sub: [{paths: CombineSide.drawableIndices(document), x: Math.round(p.x + 2), y: Math.round(p.y + 2),
+                                                   w: Math.round(p.w - 4), h: Math.round(p.h - 4)}]};
+  return subBox();
+}
+
+function pickPanel(role) {
+  const panel = $(role === 'main' ? 'pickMain' : 'pickSub'), key = editor.icons[role];
+  panel.innerHTML = `<div class="now"><div class="art">${thumb(key)}</div><div><b>${role}</b><br>${esc(key || 'typeface text')}
+      ${key ? '<br>' + reviewLabel(drawings.get(key)?.review) : ''}</div></div>
+    <input type="search" placeholder="Find a ${role} icon to use" aria-label="Find a ${role} icon"><div class="cands"></div>`;
+  const search = panel.querySelector('input'), list = panel.querySelector('.cands');
+  let typing;
+  const find = async () => {
+    try {
+      const found = await api('/api/combinations/candidates?' + new URLSearchParams({role, q: search.value}));
+      list.innerHTML = found.map(c => `<button type="button" data-key="${esc(c.key)}" class="${c.review === 'approve' ? 'approved' : ''}" title="${esc(c.key)}">
+        <img loading="lazy" src="${esc(c.preview_url)}" alt="">${esc((c.name || c.key).slice(0, 24))}</button>`).join('') || '<span class="muted">No icons found.</span>';
+    } catch (error) { list.textContent = error.message; }
+  };
+  search.oninput = () => { clearTimeout(typing); typing = setTimeout(find, 250); };
+  list.onclick = async event => {
+    const button = event.target.closest('button[data-key]');
+    if (!button) return;
+    await loadDrawings([button.dataset.key]);
+    editor.icons[role] = button.dataset.key;
+    if (editor.layout) delete editor.layout[role];          // a new drawing starts from automatic placement
+    if (editor.layout && !Object.keys(editor.layout).length) editor.layout = null;
+    pickPanel(role); drawStage();
+  };
+  find();
+}
+
+function openEditor(item) {
+  editor.item = item;
+  editor.icons = {main: part(item, 'main').icon, sub: part(item, 'sub').icon};
+  editor.position = part(item, 'sub').position;
+  editor.layout = handLayout(item);
+  $('position').value = editor.position;
+  $('edTitle').textContent = item.concept || item.reference_id;
+  $('edId').textContent = item.reference_id;
+  pickPanel('main'); pickPanel('sub'); drawStage();
+  $('editor').showModal();
+}
+
+function stagePoint(event) {
+  const r = $('stage').getBoundingClientRect(), size = editor.last?.result.canvas || 64;
+  return [(event.clientX - r.left) / r.width * size, (event.clientY - r.top) / r.height * size];
+}
+let drag = null;
+$('stage').addEventListener('pointerdown', event => {
+  const handle = event.target.dataset?.handle, onBox = event.target.id === 'dragBox';
+  if (!handle && !onBox) {
+    // Pressing the drawing starts a hand layout for the sub where the engine put it.
+    if (!editor.layout && ensureSubBox()) drawStage();
+    return;
+  }
+  drag = {handle, start: stagePoint(event), box: {...subBox()}};
+  $('stage').setPointerCapture(event.pointerId);
+});
+$('stage').addEventListener('pointermove', event => {
+  if (!drag) return;
+  const [x, y] = stagePoint(event), dx = Math.round(x - drag.start[0]), dy = Math.round(y - drag.start[1]), b = {...drag.box};
+  if (!drag.handle) { b.x += dx; b.y += dy; }
+  else {
+    if (drag.handle.includes('w') && b.w) { b.x += dx; b.w -= dx; }
+    if (drag.handle.includes('e') && b.w) b.w += dx;
+    if (drag.handle.includes('n') && b.h) { b.y += dy; b.h -= dy; }
+    if (drag.handle.includes('s') && b.h) b.h += dy;
+    if ((drag.box.w && b.w < 1) || (drag.box.h && b.h < 1)) return;
+  }
+  const now = subBox();
+  if (b.x !== now.x || b.y !== now.y || b.w !== now.w || b.h !== now.h) { editor.layout.sub = [{...now, ...b}]; drawStage(); }
+});
+$('stage').addEventListener('pointerup', () => { drag = null; });
+for (const [id, k] of [['bx', 'x'], ['by', 'y'], ['bw', 'w'], ['bh', 'h']]) {
+  $(id).onchange = () => {
+    const v = Math.round(+$(id).value);
+    if (!Number.isFinite(v) || !ensureSubBox()) return;
+    editor.layout.sub = [{...subBox(), [k]: v}]; drawStage();
+  };
+}
+$('position').onchange = () => { editor.position = $('position').value; editor.layout = null; drawStage(); };
+$('automatic').onclick = () => { editor.layout = null; drawStage(); };
+$('edCancel').onclick = () => $('editor').close();
+$('edSave').onclick = async () => {
+  if (!editor.last) {
+    // One part still to draw: keep the icons picked so far.
+    $('edSave').disabled = true; edSay('Saving…');
+    try {
+      for (const role of ['main', 'sub']) {
+        if (editor.icons[role] && editor.icons[role] !== part(editor.item, role).icon) {
+          await api('/api/combinations/parts', {reference_id: editor.item.reference_id, role, icon: editor.icons[role]});
+        }
+      }
+      await refresh(editor.item.reference_id);
+      editor.item = items.find(i => i.reference_id === editor.item.reference_id) || editor.item;
+      edSay('Saved. Pick the other icon, or draw it, to build the pair.');
+    } catch (error) { edSay(error.message, true); }
+    drawStage();
+    return;
+  }
+  $('edSave').disabled = true; edSay('Building…');
+  try {
+    const [result] = await build([editor.last.request]);
+    if (!result.ok) throw Error(result.error);
+    await refresh(editor.item.reference_id);
+    editor.item = items.find(i => i.reference_id === editor.item.reference_id) || editor.item;
+    edSay(result.build_failed ? 'Saved. It cannot be approved until: ' + result.errors.join('; ') + '.' : 'Saved.');
+  } catch (error) { edSay(error.message, true); }
+  $('edSave').disabled = !editor.last;
+};
+
+let typing;
+$('q').oninput = () => { clearTimeout(typing); typing = setTimeout(() => { view.q = $('q').value.trim(); view.offset = 0; load(); }, 250); };
+$('state').onchange = () => { view.state = $('state').value; view.offset = 0; load(); };
+$('prev').onclick = () => { view.offset = Math.max(0, view.offset - LIMIT); load(); scrollTo(0, 0); };
+$('next').onclick = () => { view.offset += LIMIT; load(); scrollTo(0, 0); };
+// ?make=<reference id>: a primitive classified as a combination (primitives.html) gets its side pair here.
+if (params.get('make')) {
+  const id = params.get('make');
+  (async () => {
+    try {
+      await api('/api/combinations/pair', {reference_id: id, position: params.get('position') || 'br'});
+      view.q = id; view.state = ''; view.offset = 0; $('q').value = id; $('state').value = '';
+      await load();
+      const item = items.find(i => i.reference_id === id);
+      if (item) openEditor(item);
+    } catch (error) { $('status').textContent = 'Could not make the side pair: ' + error.message + (/Log in/.test(error.message) ? '' : ''); }
+  })();
+} else {
+  load();
+}
+</script>
+</body>
+</html>

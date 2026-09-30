@@ -6,8 +6,6 @@ pub mod edits;
 pub mod files;
 pub mod icons;
 pub mod internal;
-pub mod side;
-pub mod side_pairs;
 pub mod primitives;
 pub mod reviews;
 pub mod work;
@@ -96,9 +94,6 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/combinations/drawings" => combinations::drawings(ctx).await,
         "/api/combinations/candidates" => combinations::candidates(ctx).await,
         "/api/side-components" => edits::side_components(ctx).await,
-        "/api/combinations/side/layouts" => side::layouts(ctx).await,
-        "/api/combinations/side/pairs" => side_pairs::list(ctx).await,
-        "/api/combinations/side/suggest" => side_pairs::suggest(ctx).await,
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, None, "system").await,
         "/api/activity" => internal::read_activity(ctx).await,
@@ -113,10 +108,8 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/reviews", "/api/reject-combination", "/api/pending-briefs/complete", "/api/reject-combination/restore",
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
-    "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate", "/api/combination-experiment",
-    "/api/combinations/side/recombine", "/api/combinations/side/preview", "/api/combinations/side/layout",
-    "/api/combinations/side/layout/apply", "/api/combinations/side/pairs",
-    "/api/combinations/parts", "/api/combinations/build"];
+    "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -162,14 +155,9 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/icon-artwork" => edits::post_artwork(ctx, &data, user).await,
         "/api/stroke-edits" => edits::post_stroke_edits(ctx, &data, user, false).await,
         "/api/stroke-edits/validate" => edits::post_stroke_edits(ctx, &data, user, true).await,
-        "/api/combination-experiment" => side::experiment(ctx, &data).await,
-        "/api/combinations/side/preview" => side::preview(ctx, &data).await,
-        "/api/combinations/side/recombine" => side::recombine(ctx, &data, user).await,
-        "/api/combinations/side/layout" => side::save_layout(ctx, &data, user).await,
-        "/api/combinations/side/layout/apply" => side::apply_layout(ctx, &data, user).await,
-        "/api/combinations/side/pairs" => side_pairs::post(ctx, &data, user).await,
         "/api/combinations/parts" => combinations::post_part(ctx, &data, user).await,
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
+        "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

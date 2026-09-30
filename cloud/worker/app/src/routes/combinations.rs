@@ -17,6 +17,7 @@ use std::collections::HashMap;
 use worker::{Response, Result};
 
 const DEFAULT_LIMIT: i64 = 100;
+const SIDE_POSITIONS: [&str; 8] = ["tl", "tr", "bl", "br", "ri", "le", "bo", "to"];
 const MAX_LIMIT: i64 = 500;
 
 /// One row per combination: its kind and build state, from its parts.
@@ -39,7 +40,7 @@ struct Combo { reference_id: String, concept: Option<String>, kind: String, stat
 #[derive(Deserialize)]
 struct Part { reference_id: String, role: String, part_reference_id: String, position: Option<String>,
               icon: Option<String>, layout: Option<String>, built_sha: Option<String>, current_sha: Option<String>,
-              review: Option<String>, updated_at: Option<String>, updated_by: Option<String> }
+              review: Option<String>, updated_at: Option<String>, updated_by: Option<String>, form: Option<String> }
 
 #[derive(Deserialize)]
 struct Count { kind: String, state: String, n: f64 }
@@ -48,7 +49,7 @@ fn preview_url(key: &str, sha: &str) -> String {
     format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(key), &sha[..12.min(sha.len())])
 }
 
-/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&offset=&limit= →
+/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&offset=&limit=&forms=1 →
 /// {total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]}.
 pub async fn list(ctx: &Ctx) -> Result<Response> {
     let kind = ctx.param("kind").filter(|k| !k.is_empty());
@@ -115,20 +116,26 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
 
     // One JSON parameter for the ids: D1 allows 100 bound parameters per query.
     let ids = json!(combos.iter().map(|c| c.reference_id.as_str()).collect::<Vec<_>>()).to_string();
+    // `forms=1` adds what the side engine combines for each part (the page builds from it).
+    let forms = ctx.param("forms") == Some("1");
     let parts: Vec<Part> = db::all(&ctx.db, "SELECT p.reference_id, p.role, p.part_reference_id, p.position, p.icon, p.layout,
-            p.built_sha, i.svg_sha256 AS current_sha, p.updated_at, p.updated_by,
+            p.built_sha, i.svg_sha256 AS current_sha, p.updated_at, p.updated_by, CASE WHEN ? THEN p.form END AS form,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
-        WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role", vec![ids.into()]).await?;
+        WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role", vec![forms.into(), ids.into()]).await?;
     let mut parts_of: HashMap<String, Vec<Value>> = HashMap::new();
     for p in parts {
         let layout = p.layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok()).unwrap_or(Value::Null);
         let stale = matches!((&p.built_sha, &p.current_sha), (Some(built), Some(current)) if built != current);
-        parts_of.entry(p.reference_id).or_default().push(json!({
+        let mut part = json!({
             "role": p.role, "part_reference_id": p.part_reference_id, "position": p.position, "icon": p.icon,
             "layout": layout, "built_sha": p.built_sha, "current_sha": p.current_sha, "stale": stale,
             "review": p.review, "updated_at": p.updated_at, "updated_by": p.updated_by,
-        }));
+        });
+        if forms {
+            part["form"] = p.form.as_deref().and_then(|f| serde_json::from_str::<Value>(f).ok()).unwrap_or(Value::Null);
+        }
+        parts_of.entry(p.reference_id).or_default().push(part);
     }
     let items: Vec<Value> = combos.into_iter().map(|c| {
         let key = format!("{}_combination64/{}", c.kind, c.reference_id);
@@ -198,18 +205,28 @@ pub async fn drawings(ctx: &Ctx) -> Result<Response> {
 }
 
 #[derive(Deserialize)]
-struct RefPart { reference_id: String, role: String }
+struct RefPart { reference_id: String, role: String, icon: Option<String> }
 
-/// The roles of each combination reference among `ids` (one query).
-async fn roles_of(ctx: &Ctx, ids: &[&str]) -> Result<HashMap<String, Vec<String>>> {
-    let rows: Vec<RefPart> = db::all(&ctx.db, "SELECT p.reference_id, p.role FROM reference_parts p
+/// The parts (role, current icon) of each combination reference among `ids` (one query).
+async fn roles_of(ctx: &Ctx, ids: &[&str]) -> Result<HashMap<String, Vec<(String, Option<String>)>>> {
+    let rows: Vec<RefPart> = db::all(&ctx.db, "SELECT p.reference_id, p.role, p.icon FROM reference_parts p
         JOIN \"references\" r ON r.reference_id = p.reference_id AND r.kind = 'combination'
         WHERE p.reference_id IN (SELECT value FROM json_each(?))", vec![json!(ids).to_string().into()]).await?;
-    let mut roles: HashMap<String, Vec<String>> = HashMap::new();
+    let mut roles: HashMap<String, Vec<(String, Option<String>)>> = HashMap::new();
     for row in rows {
-        roles.entry(row.reference_id).or_default().push(row.role);
+        roles.entry(row.reference_id).or_default().push((row.role, row.icon));
     }
     Ok(roles)
+}
+
+/// The square canvas of a combined drawing: 64, or larger for a native text side pair.
+fn canvas_of(svg: &str) -> Option<i64> {
+    let start = svg.find("<svg")?;
+    let head = &svg[start..start + svg[start..].find('>')?];
+    let view = head.split("viewBox=\"").nth(1)?.split('"').next()?;
+    let n: Vec<f64> = view.split(|c: char| c == ' ' || c == ',').filter(|v| !v.is_empty()).filter_map(|v| v.parse().ok()).collect();
+    (n.len() == 4 && n[0] == 0.0 && n[1] == 0.0 && n[2] == n[3] && n[2].fract() == 0.0 && (64.0..=256.0).contains(&n[2]))
+        .then(|| n[2] as i64)
 }
 
 /// POST /api/combinations/parts {reference_id, role, icon?, layout?}: pick the icon drawn for a part and/or
@@ -221,7 +238,7 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     let (Some(id), Some(role)) = (data["reference_id"].as_str(), data["role"].as_str()) else {
         return http::error(400, "reference_id and role are required.");
     };
-    if !roles_of(ctx, &[id]).await?.get(id).is_some_and(|roles| roles.iter().any(|r| r == role)) {
+    if !roles_of(ctx, &[id]).await?.get(id).is_some_and(|roles| roles.iter().any(|(r, _)| r == role)) {
         return http::error(404, "That combination has no such part.");
     }
     let icon = data.get("icon").filter(|v| !v.is_null());
@@ -261,7 +278,7 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     http::json(200, &json!({"reference_id": id, "role": role, "updated_at": now}))
 }
 
-/// POST /api/combinations/build {builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout}}}]} (at most 50):
+/// POST /api/combinations/build {builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
 /// store combinations the browser built. Each is checked (its parts are that combination's, each part's
 /// drawing is still the icon's current one, the SVG is a clean 64x64 drawing) and stored as the combined
 /// icon's new drawing, with every part's icon, boxes and built drawing. A part not approved in Icon review
@@ -286,13 +303,19 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let id = b["reference_id"].as_str().unwrap_or("");
         let failed = |error: String| json!({"reference_id": id, "ok": false, "error": error});
         let Some(own) = roles.get(id) else { results.push(failed("Not a combination.".into())); continue };
-        let Some(parts) = b["parts"].as_object().filter(|p| p.len() == own.len() && own.iter().all(|r| p.contains_key(r))) else {
-            results.push(failed(format!("Send every part: {}.", own.join(", "))));
+        let names: Vec<&str> = own.iter().map(|(r, _)| r.as_str()).collect();
+        let Some(parts) = b["parts"].as_object().filter(|p| p.len() == own.len() && names.iter().all(|r| p.contains_key(*r))) else {
+            results.push(failed(format!("Send every part: {}.", names.join(", "))));
             continue;
         };
         let mut problem = None;
         let mut errors = Vec::new();
         for (role, part) in parts {
+            // A native text sub is drawn from the typeface: no icon, nothing to have been redrawn.
+            let textual = part["icon"].is_null() && own.iter().any(|(r, icon)| r == role && icon.is_none());
+            if textual {
+                continue;
+            }
             let icon = part["icon"].as_str().unwrap_or("");
             let Some(drawing) = current.get(icon).filter(|_| fits_role(role, icon)) else {
                 problem = Some(format!("The {role} must be an existing icon of its family."));
@@ -306,6 +329,10 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                 problem = Some(format!("The {role} layout must be a list of {{x, y, w, h}} boxes."));
                 break;
             }
+            if !part["position"].is_null() && !(role == "sub" && part["position"].as_str().is_some_and(|p| SIDE_POSITIONS.contains(&p))) {
+                problem = Some("A side sub's position is one of tl, tr, bl, br, ri, le, bo, to.".into());
+                break;
+            }
             if drawing.review.as_deref() != Some("approve") {
                 let name = icon.split_once('/').map_or(icon, |(_, n)| n);
                 errors.push(format!("{} {name} is not approved in Icon review", capitalize(role)));
@@ -315,12 +342,19 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             results.push(failed(problem));
             continue;
         }
-        let svg = match pictographic_core::svg::safe_svg(b["svg"].as_str().unwrap_or(""), 64) {
-            Ok(svg) => svg,
-            Err(error) => { results.push(failed(error)); continue }
+        let kind = kind_of(&own.iter().map(|(r, _)| r.clone()).collect::<Vec<_>>());
+        // Checked by the sanitizer (which refuses anything outside its allowlist) and stored as the browser
+        // made it, so a pair rebuilt from unchanged parts keeps its drawing's sha.
+        let svg = b["svg"].as_str().unwrap_or("").to_string();
+        let Some(canvas) = canvas_of(&svg).filter(|c| kind == "side" || *c == 64) else {
+            results.push(failed("The combined drawing needs a square viewBox from 0 0 (64 × 64, or larger for native text).".into()));
+            continue;
         };
+        if let Err(error) = pictographic_core::svg::safe_svg(&svg, canvas) {
+            results.push(failed(error));
+            continue;
+        }
         let sha = hex::encode(Sha256::digest(svg.as_bytes()));
-        let kind = kind_of(own);
         let key = format!("{kind}_combination64/{id}");
         let (profile, category) = if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
         let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
@@ -329,18 +363,19 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
             preview_url, build_failed, uploaded, record, pushed_at) \
-            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, 64, ?, ?, ?, 0, ?, ?) \
+            VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
-            build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
-            args![key.clone(), id, id, format!("{kind}_combination64"), category, profile, sha.clone(), preview_url(&key, &sha),
+            canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
+            args![key.clone(), id, id, format!("{kind}_combination64"), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
                   !errors.is_empty(), record.to_string(), now.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
         for (role, part) in parts {
             let layout = if part["layout"].is_null() { Arg::Null } else { part["layout"].to_string().into() };
-            statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, updated_at = ?, \
-                updated_by = ? WHERE reference_id = ? AND role = ?",
-                args![part["icon"].as_str(), layout, part["svg_sha256"].as_str(), now.clone(), user, id, role.as_str()])?);
+            statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, \
+                position = COALESCE(?, position), updated_at = ?, updated_by = ? WHERE reference_id = ? AND role = ?",
+                args![part["icon"].as_str(), layout, part["svg_sha256"].as_str(), part["position"].as_str(), now.clone(), user, id,
+                      role.as_str()])?);
         }
         statements.push(db::activity(&ctx.db, user, "combination_build", Some(&key), db::details(vec![
             ("svg_sha256", json!(sha)), ("errors", json!(errors))]))?);
@@ -398,24 +433,101 @@ pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str) -> Re
         w.icon.as_deref().map_or("(none picked)", |k| k.split_once('/').map_or(k, |(_, n)| n)))).collect::<Vec<_>>().join(" and ")))
 }
 
-/// Icon review records for container combinations: complete records (`add`), since icons.json never lists
-/// them (they are built in the browser, never by a catalog push).
+/// Icon review records for combined icons built in the browser: complete records (`add`, merged into icons.json's
+/// record when it has one), since a catalog push never carries them.
 pub async fn records(ctx: &Ctx) -> Result<Vec<Value>> {
     #[derive(Deserialize)]
-    struct Row { key: String, icon_id: String, name: Option<String>, svg_sha256: String, build_failed: f64,
-                 original_sources: String, record: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT key, icon_id, name, svg_sha256, build_failed, original_sources, record
-        FROM icons WHERE family = 'container_combination64' AND svg_sha256 != ''", vec![]).await?;
+    struct Row { key: String, icon_id: String, name: Option<String>, family: String, category: Option<String>, canvas_size: Option<f64>,
+                 svg_sha256: String, build_failed: f64, original_sources: String, record: String }
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT i.key, i.icon_id, i.name, i.family, i.category, i.canvas_size, i.svg_sha256,
+            i.build_failed, i.original_sources, i.record
+        FROM icons i JOIN revisions r ON r.svg_sha256 = i.svg_sha256 AND r.origin = 'combination-build'
+        WHERE i.family IN ('side_combination64', 'container_combination64')", vec![]).await?;
     Ok(rows.into_iter().map(|r| {
         let record: Value = serde_json::from_str(&r.record).unwrap_or(json!({}));
         let errors = record["errors"].as_array().cloned().unwrap_or_default();
-        json!({"add": true, "key": r.key, "icon_id": r.icon_id, "name": r.name, "family": "container_combination64",
-               "profile": "CONTAINER_COMBINATION64", "category": "Container", "canvas_size": 64, "svg_sha256": r.svg_sha256,
+        let container = r.family == "container_combination64";
+        let (main, sub) = if container { ("container", "symbol") } else { ("main", "sub") };
+        json!({"add": true, "key": r.key, "icon_id": r.icon_id, "name": r.name, "family": r.family,
+               "profile": if container { "CONTAINER_COMBINATION64" } else { "SIDE_COMBINATION64" },
+               "category": r.category, "canvas_size": r.canvas_size.unwrap_or(64.0), "svg_sha256": r.svg_sha256,
                "preview_url": preview_url(&r.key, &r.svg_sha256), "build_failed": r.build_failed != 0.0,
                "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
                               "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
                "original_sources": serde_json::from_str::<Value>(&r.original_sources).unwrap_or(json!([])),
-               "main_key": record["parts"]["container"], "sub_key": record["parts"]["symbol"], "tags": [], "keywords": [],
-               "aliases": [], "description": "", "created_at": record["built_at"], "created_at_source": "container-pair"})
+               "main_key": record["parts"][main], "sub_key": record["parts"][sub], "created_at": record["built_at"],
+               "created_at_source": if container { "container-pair" } else { "side-pair" }})
     }).collect())
+}
+
+/// `gallery/combination-previews/<id>.svg`: a side pair's drawing once it was built in the browser (the published
+/// file is the catalog build's). None: serve the published file.
+pub async fn built_preview(ctx: &Ctx, reference_id: &str) -> Result<Option<Response>> {
+    #[derive(Deserialize)]
+    struct Row { svg: String, svg_sha256: String }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT r.svg, r.svg_sha256 FROM icons i
+        JOIN revisions r ON r.svg_sha256 = i.svg_sha256 AND r.origin = 'combination-build' WHERE i.key = ?",
+        args![format!("side_combination64/{reference_id}")]).await?;
+    let Some(row) = row else { return Ok(None) };
+    let etag = format!("\"{}\"", row.svg_sha256);
+    let headers = worker::Headers::new();
+    headers.set("Content-Type", "image/svg+xml")?;
+    headers.set("X-Content-Type-Options", "nosniff")?;
+    headers.set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")?;
+    headers.set("Cache-Control", "no-cache")?;
+    headers.set("ETag", &etag)?;
+    if ctx.header("If-None-Match").as_deref() == Some(etag.as_str()) {
+        return Ok(Some(Response::empty()?.with_status(304).with_headers(headers)));
+    }
+    Ok(Some(Response::from_bytes(row.svg.into_bytes())?.with_headers(headers)))
+}
+
+/// POST /api/combinations/pair {reference_id, position, remove?}: make a side pair of a reference (a primitive
+/// classified as a combination): the reference becomes a combination with a main and a sub part, the icons
+/// picked afterwards on the side page (POST /api/combinations/parts, /build). `remove: true` undoes it for a
+/// pair made this way: its parts and combined icon go, and the reference is a single again.
+pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    if user == "system" {
+        return http::error(401, "Log in to make side pairs.");
+    }
+    let Some(id) = data["reference_id"].as_str().filter(|id| !id.is_empty()) else { return http::error(400, "reference_id is required.") };
+    #[derive(Deserialize)]
+    struct Reference { kind: String }
+    let Some(reference) = db::first::<Reference>(&ctx.db, "SELECT kind FROM \"references\" WHERE reference_id = ?", args![id]).await? else {
+        return http::error(404, "No reference with that id.");
+    };
+    let roles = roles_of(ctx, &[id]).await?.remove(id).unwrap_or_default();
+    let now = iso_utc(chrono::Utc::now());
+    if data["remove"] == json!(true) {
+        if roles.iter().any(|(r, _)| r == "container" || r == "symbol") {
+            return http::error(409, "Only a side pair made from a reference can be removed.");
+        }
+        db::batch(&ctx.db, vec![
+            db::stmt(&ctx.db, "DELETE FROM reference_parts WHERE reference_id = ? AND role IN ('main', 'sub')", args![id])?,
+            db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND uploaded = 0", args![format!("side_combination64/{id}")])?,
+            db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![format!("side_combination64/{id}")])?,
+            db::stmt(&ctx.db, "UPDATE \"references\" SET kind = 'single' WHERE reference_id = ?", args![id])?,
+            db::activity(&ctx.db, user, "side_pair_removed", Some(id), db::details(vec![]))?,
+        ]).await?;
+        return http::json(200, &json!({"reference_id": id, "removed": true}));
+    }
+    let position = data["position"].as_str().unwrap_or("br");
+    if !SIDE_POSITIONS.contains(&position) {
+        return http::error(400, "position is one of tl, tr, bl, br, ri, le, bo, to.");
+    }
+    if roles.iter().any(|(r, _)| r == "container" || r == "symbol") {
+        return http::error(409, "This reference is a container combination.");
+    }
+    if reference.kind == "combination" && roles.len() == 2 {
+        return http::json(200, &json!({"reference_id": id, "created": false}));
+    }
+    // A part to draw is a placeholder reference until an icon is picked for it.
+    let mut statements = vec![db::stmt(&ctx.db, "UPDATE \"references\" SET kind = 'combination' WHERE reference_id = ?", args![id])?];
+    for role in ["main", "sub"] {
+        statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO reference_parts(reference_id, role, part_reference_id, position, updated_at, updated_by) \
+            VALUES (?, ?, ?, ?, ?, ?)", args![id, role, format!("draw:{id}:{role}"), (role == "sub").then_some(position), now.clone(), user])?);
+    }
+    statements.push(db::activity(&ctx.db, user, "side_pair_created", Some(id), db::details(vec![("position", json!(position))]))?);
+    db::batch(&ctx.db, statements).await?;
+    http::json(200, &json!({"reference_id": id, "created": true}))
 }

@@ -146,8 +146,6 @@ $('downloadEdits').onclick=()=>{const a=document.createElement('a');a.href=URL.c
 $('clearEdits').onclick=()=>{if(!Object.keys(edits).length)return;edits={};persist();paintAll();};
 document.addEventListener('click',e=>{const el=e.target.closest('[data-edit]');if(el&&pairs.has(el.dataset.edit))openEditor(el.dataset.edit);});
 
-Promise.all([
-  fetch('container-centers.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null),
-  fetch('/api/container-centers',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)
-]).then(([d,s])=>{if(d)defaults=d;if(s)saved=s;paintAll();});
+// Published default centers; a pair's own box lives in the combination tables (container-pairs.html).
+fetch('container-centers.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null).then(d=>{if(d)defaults=d;paintAll();});
 })();

@@ -31,6 +31,9 @@ from pathlib import Path
 import sqlite3
 
 POSITIONS = ('tl', 'tr', 'bl', 'br', 'ri', 'le', 'bo', 'to')
+# What the side engine reads of a pair item (combine-side.js); the rest of the published item is left out.
+FORM_FIELDS = ('icon', 'family', 'model_key', 'document', 'engine_document', 'bounds', 'canvas', 'canvas_width',
+               'canvas_height', 'sizing_mode', 'sizing_kind', 'ink32', 'native_text', 'sha256', 'source_sha256')
 
 
 def q(value) -> str:
@@ -93,6 +96,7 @@ def main() -> None:
 
     # 1. Published side pairs.
     rows = json.loads(args.pairs.read_text())['rows']
+    pair_rows = {row['id']: row for row in rows}
     for row in rows:
         ref = row['id']
         if ref not in references:
@@ -128,7 +132,14 @@ def main() -> None:
             sha = (entry.get('drawings') or {}).get(role)
             fields = {'built_sha': sha, 'layout': layout.get(role) or centreline_box(placed.get(role)),
                       'updated_at': entry.get('updated_at'), 'updated_by': entry.get('user')}
-            if sha in by_sha:
+            # The item the layout pinned (its name in the pair row) says which icon it is; `revisions` only
+            # remembers the first icon a drawing belonged to, and identical drawings are shared.
+            pinned = (entry.get(role) or {}).get('icon')
+            row = pair_rows.get(key)
+            item = next((i for i in (row or {}).get('mains' if role == 'main' else 'subs', []) if i['icon'] == pinned), None) if row else None
+            if item is not None:
+                fields['icon'] = item_key(item)          # None for a native text sub
+            elif sha in by_sha:
                 fields['icon'] = by_sha[sha]
             else:
                 notes[f'layout {role} drawing not in revisions'] += 1
@@ -170,6 +181,24 @@ def main() -> None:
         if role == 'sub' and part['position'] is None and ref[-2:] in POSITIONS \
                 and 'position' not in parts.values.get((ref, role), {}):
             parts.set(ref, role, 'position from id', position=ref[-2:])
+
+    # Each side part's form: the published item for the icon it uses (or, for a native text sub, the one
+    # the pair shows). A part given an icon the pair never listed gets none: the browser measures it.
+    for row in rows:
+        ref = row['id']
+        for role, group in (('main', 'mains'), ('sub', 'subs')):
+            key = (ref, role)
+            if key not in existing and key not in parts.values:
+                continue
+            icon = parts.values.get(key, {}).get('icon')
+            items = row.get(group) or []
+            if icon:
+                item = next((i for i in items if item_key(i) == icon), None)
+            else:
+                shown = shown_main(row) if role == 'main' else (items[0] if items else None)
+                item = shown if shown and shown.get('native_text') else None
+            parts.values.setdefault(key, {})['form'] = {k: item[k] for k in FORM_FIELDS if item and k in item} or None
+            notes[f'side {role} form' if item else f'side {role} without a form'] += 1
 
     # A new part the sources gave no reference for (native text pairs, mains without an id): its icon's.
     for (ref, role), fields in parts.values.items():

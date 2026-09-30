@@ -207,3 +207,85 @@ def test_combined_icon_waits_for_its_parts(client, pair):
     # Parts approved: the combined icon can be approved without building again.
     assert approve(built['key'], built['svg_sha256'])[0] in (200, 201)
     assert one(client, item['reference_id'])['icon']['review'] == 'approve'
+
+
+# ---- side pairs, built with combine-side.js (pairRequest) the way side-pairs.html builds them
+
+SIDE = ROOT / 'icon_set/scripts/templates/combine-side.js'
+
+
+def side_request(item, drawings, **options):
+    script = ("const S=require(process.argv[1]);let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const a=JSON.parse(s);"
+              "const r=S.pairRequest(a.item,new Map(Object.entries(a.drawings)),a.options);"
+              "process.stdout.write(JSON.stringify({request:r.request,sha:S.sha256(r.svg)}));});")
+    out = subprocess.run(['node', '-e', script, str(SIDE)], input=json.dumps({'item': item, 'drawings': drawings, 'options': options}),
+                         capture_output=True, text=True, check=True)
+    return json.loads(out.stdout)
+
+
+def side_item(client, **params):
+    status, data = client.get('/api/combinations', kind='side', forms='1', limit=50, **params)
+    assert status == 200
+    for item in data['items']:
+        keys = [p['icon'] for p in item['parts'] if p['icon']] + ([item['icon']['key']] if item['icon'] else [])
+        status, drawings = client.get('/api/combinations/drawings', keys=','.join(keys))
+        if all(drawings.get(k, {}).get('svg') for k in keys):
+            return item, drawings
+    pytest.skip(f'no side pair with {params}')
+
+
+def test_side_rebuild_of_a_stale_pair(client):
+    item, drawings = side_item(client, state='stale')
+    built = side_request(item, drawings)
+    status, data = client.call('POST', '/api/combinations/build', {'builds': [built['request']]})
+    result = data['results'][0]
+    assert status == 200 and result['ok'], result
+    assert result['svg_sha256'] == built['sha'], 'the stored drawing is the one the browser made'
+    after = one(client, item['reference_id'])
+    assert after['state'] == 'built' and after['icon']['svg_sha256'] == built['sha']
+
+
+def test_side_rebuild_of_a_built_pair_keeps_its_drawing(client):
+    # A pair whose parts are unchanged rebuilds to the drawing it has (the Python engine's, byte for byte).
+    status, data = client.get('/api/combinations', kind='side', state='built', forms='1', limit=200)
+    for item in data['items']:
+        if any(p.get('updated_by') == 'recombine-all' for p in item['parts']):
+            keys = [p['icon'] for p in item['parts'] if p['icon']]
+            status, drawings = client.get('/api/combinations/drawings', keys=','.join(keys))
+            built = side_request(item, drawings)
+            if built['sha'] == item['icon']['svg_sha256']:
+                assert client.call('POST', '/api/combinations/build', {'builds': [built['request']]})[1]['results'][0]['svg_sha256'] == built['sha']
+                return
+    pytest.skip('no rebuilt side pair on this copy')
+
+
+def test_side_native_text_pair_builds_without_a_sub_icon(client):
+    status, data = client.get('/api/combinations', kind='side', forms='1', limit=500)
+    for item in data['items']:
+        sub = next(p for p in item['parts'] if p['role'] == 'sub')
+        main = next(p for p in item['parts'] if p['role'] == 'main')
+        if sub['icon'] is None and (sub.get('form') or {}).get('native_text') and main['icon']:
+            status, drawings = client.get('/api/combinations/drawings', keys=main['icon'])
+            built = side_request(item, drawings)
+            assert built['request']['parts']['sub']['icon'] is None
+            result = client.call('POST', '/api/combinations/build', {'builds': [built['request']]})[1]['results'][0]
+            assert result['ok'], result
+            return
+    pytest.skip('no native text pair on this copy')
+
+
+def test_side_pair_made_from_a_reference(client):
+    status, data = client.get('/api/combinations/candidates', role='main', q='')
+    # A reference that is no combination yet: made into one, then undone.
+    rid = '0005e7b2-b6eb-47bb-9376-770c2522288d'
+    call = lambda body: client.call('POST', '/api/combinations/pair', body)
+    assert Client().call('POST', '/api/combinations/pair', {'reference_id': rid})[0] == 401
+    assert call({'reference_id': 'no-such-reference'})[0] == 404
+    assert call({'reference_id': rid, 'position': 'xx'})[0] == 400
+    status, made = call({'reference_id': rid, 'position': 'tl'})
+    assert status == 200
+    item = one(client, rid)
+    assert {p['role'] for p in item['parts']} == {'main', 'sub'}
+    status, removed = call({'reference_id': rid, 'remove': True})
+    assert status == 200 and removed['removed']
+    assert client.get('/api/combinations', q=rid, limit=1)[1]['total'] == 0
