@@ -109,6 +109,35 @@ Locally, run both Workers together: `npx wrangler dev -c wrangler.toml -c ../gra
 `python3 cloud/migrate/push_catalog.py --sql /tmp/graphs.sql --graphs-only` and run each
 `/tmp/graphs-NNN.sql` with `npx wrangler d1 execute pictographic-review --remote --file ...`.
 
+## Test copy (pictographic-review-next)
+
+A second Worker runs this branch on copies of production, so changes can be tried on a second site
+without touching `pictographic-review`: <https://pictographic-review-next.pictographic.workers.dev>
+(`worker/wrangler.next.toml`: D1 `pictographic-review-next`, R2 `pictographic-review-next`, the shared
+graphics container). Production is only read while the copy is made or refreshed:
+
+```bash
+cd cloud/worker
+npx wrangler d1 export pictographic-review --remote --output /tmp/combo/prod.sql     # read-only
+sqlite3 /tmp/combo/prod.sqlite < /tmp/combo/prod.sql
+cp /tmp/combo/prod.sqlite /tmp/combo/next.sqlite
+for f in migrations/00{06,07,08,09}_*.sql; do sqlite3 /tmp/combo/next.sqlite < $f; done   # the ones prod lacks
+npx wrangler r2 object get pictographic-review/site/gallery/experiment-combination.json --remote --file /tmp/combo/experiment-combination.json
+python3 ../migrate/backfill_combinations.py --db /tmp/combo/prod.sqlite --pairs /tmp/combo/experiment-combination.json --out /tmp/combo/fill.sql
+sqlite3 -bail /tmp/combo/next.sqlite < /tmp/combo/fill.sql
+python3 ../migrate/copy_bucket.py pictographic-review pictographic-review-next      # only copies what changed
+```
+
+Then load `next.sqlite` into the (emptied) `pictographic-review-next` database: record the applied
+migrations in `d1_migrations`, dump it without `BEGIN`/`COMMIT`/`sqlite_sequence`, run the dump with
+`wrangler d1 execute pictographic-review-next --remote -c wrangler.next.toml --file`, and insert rows
+over D1's 100 KB statement limit (`progression_reviews`) through the D1 query API with bound parameters.
+Deploy with `npx wrangler deploy -c wrangler.next.toml`.
+
+Locally, `wrangler.next.local.toml` (git-ignored) is `wrangler.next.toml` with `remote = true` on the R2
+binding, so `npx wrangler dev -c wrangler.next.local.toml --persist-to /tmp/combo/state` serves the real
+site from the test bucket with a local D1.
+
 ## Secrets
 
 | Name | Where | Used by |

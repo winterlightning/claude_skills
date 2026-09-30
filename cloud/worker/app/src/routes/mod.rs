@@ -1,6 +1,7 @@
 //! Route table: the same paths, methods and error shapes as icon_set/scripts/deploy.py.
 
 pub mod briefs;
+pub mod combinations;
 pub mod container_centers;
 pub mod container_pairs;
 pub mod edits;
@@ -93,6 +94,7 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/pending-briefs" => briefs::list(ctx).await,
         "/api/primitives" | "/api/primitives/status" | "/api/primitives/summary" | "/api/primitives/briefs"
         | "/api/primitives/symbol-links" | "/api/primitives/prompt" | "/api/primitives/state" => primitives::get(ctx).await,
+        "/api/combinations" => combinations::list(ctx).await,
         "/api/side-components" => edits::side_components(ctx).await,
         "/api/combinations/side/layouts" => side::layouts(ctx).await,
         "/api/container-centers" => container_centers::list(ctx).await,

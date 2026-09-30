@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Combinations · Pictographic</title>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
+<style>
+.cb-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
+.cb-intro{padding:36px 0 8px}.cb-intro h1{font-size:36px;font-weight:600;letter-spacing:-1.6px;margin:0 0 8px}.cb-intro p{color:var(--muted);margin:0;max-width:760px;line-height:1.6}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 12px}
+.toolbar input[type=search]{flex:1;min-width:200px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.toolbar select{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.counts{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);margin:4px 0 14px}
+.counts button{border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;cursor:pointer;font-size:12px}
+.counts button.on{background:#20262d;color:#fff;border-color:#20262d}
+.status{font-size:13px;color:var(--muted);min-height:20px;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tile header{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.tile h3{margin:0;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.tile .id{font:11px ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere}
+.row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
+figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+figure .art{aspect-ratio:1;background:#f7f9f4;border-radius:8px;display:grid;place-items:center;overflow:hidden}
+figure img{width:80%;height:80%;object-fit:contain}
+figure .none{font-size:11px;color:var(--muted);text-align:center;padding:6px}
+figcaption{font-size:11px;line-height:1.35;overflow-wrap:anywhere;color:#3a434c}
+figcaption .muted{color:var(--muted)}
+.badge{font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:3px 9px;text-transform:uppercase;white-space:nowrap}
+.badge.built{background:#e3f1e4;color:#23602a}.badge.stale{background:#fbeccf;color:#7a5200}.badge.unbuilt{background:#eceff0;color:#4b5560}
+.part-stale{color:#7a5200;font-weight:600}
+.pager{display:flex;align-items:center;gap:10px;justify-content:center;margin:18px 0}
+.pager button{border:1px solid var(--line);border-radius:8px;padding:9px 13px;background:#fff;cursor:pointer}.pager button:disabled{opacity:.5;cursor:not-allowed}
+.empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
+</style>
+</head>
+<body>
+<main class="cb-main">
+  <section class="cb-intro">
+    <h1>Combinations</h1>
+    <p>Every combination from the combination tables: its parts, the icon drawn for each, where each sits,
+       and whether its combined drawing is built, stale (a part was redrawn since) or not built yet.</p>
+  </section>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search concept or reference id">
+    <select id="kind"><option value="">Side and container</option><option value="side">Side</option><option value="container">Container</option></select>
+    <select id="state"><option value="">Any state</option><option value="built">Built</option><option value="stale">Stale</option><option value="unbuilt">Not built</option></select>
+  </div>
+  <div class="counts" id="counts"></div>
+  <div class="status" id="status">Loading…</div>
+  <div class="grid" id="grid"></div>
+  <div class="pager"><button id="prev">Previous</button><span id="page" class="status"></span><button id="next">Next</button></div>
+</main>
+<script>
+const LIMIT = 60;
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const state = {q: params.get('q') || '', kind: params.get('kind') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+$('q').value = state.q; $('kind').value = state.kind; $('state').value = state.state;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const art = (key, sha) => key ? `/api/icon-artwork/svg?icon=${encodeURIComponent(key)}${sha ? '&v=' + sha.slice(0, 12) : ''}` : null;
+const STATES = {built: 'Built', stale: 'Stale', unbuilt: 'Not built'};
+
+function box(layout) {
+  if (!Array.isArray(layout) || !layout.length) return '<span class="muted">automatic</span>';
+  return layout.map(b => `${+b.x},${+b.y} · ${+b.w}×${+b.h}${b.paths ? ` (paths ${b.paths.join(',')})` : ''}`).join('<br>');
+}
+
+function part(p) {
+  const src = art(p.icon, p.current_sha);
+  return `<figure>
+    <div class="art">${src ? `<img loading="lazy" src="${src}" alt="">` : '<div class="none">no icon picked</div>'}</div>
+    <figcaption><b>${esc(p.role)}</b>${p.position ? ` · ${esc(p.position)}` : ''}<br>
+      ${esc(p.icon || '—')}<br>${box(p.layout)}
+      ${p.stale ? '<br><span class="part-stale">redrawn since built</span>' : ''}
+      ${p.review ? `<br><span class="muted">review: ${esc(p.review)}</span>` : ''}</figcaption>
+  </figure>`;
+}
+
+function tile(c) {
+  const order = c.kind === 'container' ? ['container', 'symbol'] : ['main', 'sub'];
+  const parts = order.map(role => c.parts.find(p => p.role === role)).filter(Boolean);
+  const built = c.icon ? `<img loading="lazy" src="${art(c.icon.key, c.icon.svg_sha256)}" alt="">` : '<div class="none">no combined drawing</div>';
+  return `<article class="tile">
+    <header><div><h3>${esc(c.concept || c.reference_id)}</h3><div class="id">${esc(c.reference_id)}</div></div>
+      <span class="badge ${c.state}">${STATES[c.state]}</span></header>
+    <div class="row">
+      <figure><div class="art">${built}</div><figcaption><b>combined</b>${c.icon?.review ? `<br><span class="muted">review: ${esc(c.icon.review)}</span>` : ''}</figcaption></figure>
+      ${parts.map(part).join('')}
+    </div>
+  </article>`;
+}
+
+function counts(data) {
+  const kinds = state.kind ? [state.kind] : Object.keys(data.counts).sort();
+  $('counts').innerHTML = kinds.map(kind => Object.entries(data.counts[kind] || {}).map(([s, n]) =>
+    `<button data-kind="${kind}" data-state="${s}" class="${state.kind === kind && state.state === s ? 'on' : ''}">${kind} · ${STATES[s]}: ${n.toLocaleString()}</button>`).join('')).join('');
+  $('counts').querySelectorAll('button').forEach(b => b.onclick = () => {
+    const on = b.classList.contains('on');
+    Object.assign(state, {kind: on ? '' : b.dataset.kind, state: on ? '' : b.dataset.state, offset: 0});
+    $('kind').value = state.kind; $('state').value = state.state; load();
+  });
+}
+
+let seq = 0;
+async function load() {
+  const mine = ++seq;
+  const query = new URLSearchParams({limit: LIMIT, offset: state.offset});
+  for (const k of ['q', 'kind', 'state']) if (state[k]) query.set(k, state[k]);
+  history.replaceState(null, '', '?' + [...query].filter(([k]) => k !== 'limit').map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&'));
+  $('status').textContent = 'Loading…';
+  try {
+    const response = await fetch('/api/combinations?' + query, {cache: 'no-store'});
+    const data = await response.json();
+    if (mine !== seq) return;
+    if (!response.ok) throw Error(data.error || response.statusText);
+    counts(data);
+    $('grid').innerHTML = data.items.length ? data.items.map(tile).join('') : '<div class="empty">No combinations match.</div>';
+    $('status').textContent = `${data.total.toLocaleString()} combinations`;
+    $('page').textContent = data.total ? `${state.offset + 1}–${state.offset + data.items.length} of ${data.total.toLocaleString()}` : '';
+    $('prev').disabled = state.offset === 0;
+    $('next').disabled = data.next_offset == null;
+  } catch (error) {
+    if (mine === seq) $('status').textContent = 'Could not load combinations: ' + error.message;
+  }
+}
+
+let typing;
+$('q').oninput = () => { clearTimeout(typing); typing = setTimeout(() => { state.q = $('q').value.trim(); state.offset = 0; load(); }, 250); };
+$('kind').onchange = () => { state.kind = $('kind').value; state.offset = 0; load(); };
+$('state').onchange = () => { state.state = $('state').value; state.offset = 0; load(); };
+$('prev').onclick = () => { state.offset = Math.max(0, state.offset - LIMIT); load(); scrollTo(0, 0); };
+$('next').onclick = () => { state.offset += LIMIT; load(); scrollTo(0, 0); };
+load();
+</script>
+</body>
+</html>
