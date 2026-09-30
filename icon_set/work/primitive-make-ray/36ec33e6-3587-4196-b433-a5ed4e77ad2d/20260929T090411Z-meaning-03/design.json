@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The empty controller and two detached arcs lose the familiar gamepad and complete Wi-Fi signal.",
-  "change": "Added D-pad and action buttons and restored a centered three-level wireless signal.",
-  "body": "curve(self,'wifi-outer',(7,10),((16,2),(32,2),(41,10)))\ncurve(self,'wifi-inner',(14,16),((20,11),(28,11),(34,16)))\nself.add_dot('wifi-point',(24,20))\n\ncurve(self,'controller',(12,26),((7,26),(6,28),(5,34)),((4,39),(4,43),(8,43)),((11,43),(14,40),(17,40)),((21,40),(27,40),(31,40)),((34,40),(37,43),(40,43)),((44,43),(44,39),(43,34)),((42,28),(41,26),(36,26)),((30,26),(18,26),(12,26)),closed=True)\nself.add_line('dpad-h',(11,34),(17,34));self.add_line('dpad-v',(14,31),(14,37));self.relate('connect','dpad-h','dpad-v')\nself.add_dot('button-left',(31,32));self.add_dot('button-right',(37,32))",
-  "refs": "wifi: nested centered signal arcs; gamepad-2: controller grips and controls",
-  "exception": "Preserve Wi-Fi plus recognizable controller controls within a single 48px composition. Signal and control spacing remains readable with fixed 4px strokes."
-}

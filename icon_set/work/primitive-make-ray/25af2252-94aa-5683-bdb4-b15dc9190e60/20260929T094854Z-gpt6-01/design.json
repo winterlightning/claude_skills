@@ -1,9 +1,0 @@
-{
-  "keyshape": "VRECT_L",
-  "problem": "The glasses merged into the head outline like goggles, and the ears and human bust proportions were lost.",
-  "change": "Restored separate lens circles, a short bridge and temple arms, visible ears and a broad shoulder curve.",
-  "body": "# Avatar construction: circular head/jaw r17; lower extreme37 and shoulder top41 are4 centerline units apart, so the ink touches.\ncircle(self,'head',24,20,17)\ncurve(self,'ear-left',(7,20),((2,17),(3,27),(9,28)))\ncurve(self,'ear-right',(41,20),((46,17),(45,27),(39,28)))\nself.relate('connect','head','ear-left');self.relate('connect','head','ear-right')\nfor side,cx in (('left',17),('right',31)):circle(self,'lens-'+side,cx,19,4)\nself.add_line('bridge',(21,19),(27,19))\nself.add_line('temple-left',(7,20),(13,19));self.add_line('temple-right',(35,19),(41,20))\nfor side in ('left','right'):\n    self.relate('connect','bridge','lens-'+side)\n    self.relate('connect','temple-'+side,'lens-'+side)\n    self.relate('connect','temple-'+side,'head')\nself.add_arc('shoulders',(4,46),(44,46),radius_x=20,radius_y=5)\nself.relate('connect','head','shoulders')",
-  "refs": "human_ref/user.svg: circular face and broad shoulders; original: round eyeglasses, ears and frontal bust",
-  "exception": "Preserve facial glass rims, ears and shoulder contact within48px. The large circular head keeps the glasses visually separated from the face outline, with4px strokes and exact touching-ink bust construction.",
-  "human_construction": "bust"
-}

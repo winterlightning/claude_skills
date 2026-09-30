@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The overhead danger was reduced to a hanging zigzag and the figure lost its raised forearm and reaching gesture.",
-  "change": "Restored the stepped overhead wire, angular electrical discharge and a person raising a bent arm toward it.",
-  "body": "self.add_polyline('wire',(4,4),(32,4),(32,10),(44,10))\nself.add_polyline('discharge',(32,4),(24,11),(29,13),(26,18),(34,15))\nself.relate('connect','wire','discharge')\n# Head(16,22),r4; torso starts(16,34): 34-(22+4)=8 centerline,4 ink.\ncircle(self,'head',16,22,4)\nself.add_line('torso',(16,34),(16,44))\ncurve(self,'raised-arm',(16,34),((25,34),(33,35),(33,28)),((33,26),(33,24),(33,22)))\nself.add_line('lower-arm',(16,34),(6,43))\nself.relate('connect','torso','raised-arm');self.relate('connect','torso','lower-arm');self.relate('connect','raised-arm','lower-arm')\nself.mark_human_figure('person',head='head',torso='torso',torso_junction='start')",
-  "refs": "human_ref/full_body_ref.png: circular head and bent arm; original supplies the wire and discharge",
-  "exception": "The overhead wire and electrical discharge must remain above the raised hand. Preserve compact scene spacing and the exact4px human head gap."
-}

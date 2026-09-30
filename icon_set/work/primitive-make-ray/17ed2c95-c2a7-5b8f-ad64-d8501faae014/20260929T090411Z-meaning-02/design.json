@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The seal became a ghost-like bell with a nose dot; its tail and paired flippers disappeared.",
-  "change": "Restored the smooth seal body, curled side tail, two outward flippers and paired whiskers; omitted facial detail absent from the original.",
-  "body": "\ncurve(self,'body',(14,16),((14,2),(34,2),(34,16)),((34,18),(35,21),(35,23)),((36,31),(39,36),(43,40)),((44,44),(35,43),(31,39)),((26,44),(18,44),(13,39)),((9,44),(3,44),(5,40)),((6,38),(8,36),(9,34)),((12,29),(13,25),(13,23)),((13,21),(14,18),(14,16)),closed=True)\ncurve(self,'left-flipper',(13,39),((17,36),(18,33),(18,31)))\ncurve(self,'right-flipper',(31,39),((27,36),(26,33),(26,31)))\nself.relate('connect','body','left-flipper');self.relate('connect','body','right-flipper')\nself.add_polyline('tail',(9,34),(4,26),(9,27),(11,22),(13,27))\nself.relate('connect','tail','body')\nfor name,a,b in [('left-top',(14,16),(7,14)),('left-low',(13,23),(6,25)),('right-top',(34,16),(41,14)),('right-low',(35,23),(42,25))]:\n    self.add_line(name,a,b)\n    self.relate('connect','body',name)\n",
-  "refs": "No useful Lucide seal match; use coherent smooth contours and the supplied reference silhouette.",
-  "exception": "The seal needs both front flippers, a side tail and two whiskers on each side. Preserve these compact attached features with fixed 4px strokes."
-}

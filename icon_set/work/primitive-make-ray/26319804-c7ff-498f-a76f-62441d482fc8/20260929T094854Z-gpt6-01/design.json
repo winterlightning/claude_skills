@@ -1,8 +1,0 @@
-{
-  "keyshape": "VRECT_M",
-  "problem": "The phone was too square and blocky, making the locked-mobile concept read as a generic framed lock.",
-  "change": "Restored a tall rounded phone silhouette, bottom screen divider and clear closed padlock.",
-  "body": "# VRECT_M extremes10,4\u201338,44: phone proportions own the composition.\nrounded(self,'phone',10,4,38,44,5)\nself.add_line('screen-divider',(10,35),(38,35));self.relate('connect','phone','screen-divider')\nrounded(self,'lock-body',17,22,31,29,2)\nself.add_line('shackle-left',(19,22),(19,19))\nself.add_arc('shackle-top',(19,19),(29,19),radius_x=5)\nself.add_line('shackle-right',(29,19),(29,22))\nself.add_contour('shackle','shackle-left','shackle-top','shackle-right')\nself.relate('connect','lock-body','shackle')",
-  "refs": "smartphone: portrait rounded enclosure; lock-keyhole: rounded shackle and distinct lock body",
-  "exception": "The complete closed padlock and phone footer need compact gaps. Preserve the tall phone and lock identity with4px strokes rather than broadening the body into a generic frame."
-}

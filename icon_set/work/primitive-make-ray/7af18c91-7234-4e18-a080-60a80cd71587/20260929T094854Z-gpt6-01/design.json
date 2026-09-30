@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The second person was omitted; the scene became one person holding a small square beside an unrelated box.",
-  "change": "Restored the two people facing each other, an angled document held up by the visitor, and the attendant reaching across a tapered counter.",
-  "body": "# Human construction: both heads r4 at y8; actual upper torso junction y20 gives 20-(8+4)=8 centerline /4 ink.\nfor who,cx in (('visitor',7),('attendant',41)):\n    circle(self,who+'-head',cx,8,4)\n    self.add_line(who+'-torso',(cx,20),(cx,44))\n    self.mark_human_figure(who,head=who+'-head',torso=who+'-torso',torso_junction='start')\nself.add_polyline('paper',(21,4),(30,6),(27,20),(18,18),closed=True)\ncurve(self,'visitor-arm',(7,20),((11,20),(13,26),(17,23)),((19,22),(20,20),(18,18)))\nself.relate('connect','visitor-arm','visitor-torso');self.relate('connect','visitor-arm','paper')\nself.add_polyline('counter',(26,30),(37,30),(35,44),(28,44),closed=True)\nself.add_polyline('attendant-arm',(41,20),(34,30),(30,30))\nself.relate('connect','attendant-arm','attendant-torso');self.relate('connect','attendant-arm','counter')",
-  "refs": "human_ref/full_body_ref.png: outlined circular heads and round-ended limbs; original supplies the facing people and paper exchange",
-  "exception": "Two full figures, an angled document and a counter require compact spacing at 48px; retain their roles and exact 4px detached head gaps with 4px strokes."
-}

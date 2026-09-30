@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "Octagonal housings and a solid dot obscure the two switch types.",
-  "change": "Replaced polygon corners with rounded switch housings and restored the circular left button and right rocker divider.",
-  "body": "rounded(self,'left-switch',4,4,20,44,4)\nrounded(self,'right-switch',28,4,44,44,4)\ncircle(self,'left-button',12,35,3)\nself.add_line('rocker-divider',(28,30),(44,30))\nself.relate('connect','right-switch','rocker-divider')",
-  "refs": "toggle-left: rounded housing and circular knob",
-  "exception": "Two complete vertical controls require 16-unit housings and a 3-radius button; the button remains legible despite compact housing clearance."
-}

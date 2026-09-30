@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The team heads were tiny ring marks and the controller lacked any controls.",
-  "change": "Restored a recognizable controller with D-pad and action buttons below three clear player busts.",
-  "body": "# Repeated players share head radius and shoulder geometry.\nfor j,cx in enumerate((10,24,38)):\n    circle(self,f'head-{j}',cx,7,4)\n    curve(self,f'shoulders-{j}',(cx-6,20),((cx-6,13),(cx+6,13),(cx+6,20)))\n\ncurve(self,'controller',(12,26),((7,26),(6,28),(5,34)),((4,39),(4,43),(8,43)),((11,43),(14,37),(17,37)),((21,37),(27,37),(31,37)),((34,37),(37,43),(40,43)),((44,43),(44,39),(43,34)),((42,28),(41,26),(36,26)),((30,26),(18,26),(12,26)),closed=True)\nself.add_line('dpad-h',(10,32),(18,32));self.add_line('dpad-v',(14,28),(14,36));self.relate('connect','dpad-h','dpad-v')\nself.add_dot('button-left',(31,32));self.add_dot('button-right',(37,32))",
-  "refs": "human_ref/user.svg: circular heads and rounded shoulders; gamepad-2: grips, D-pad and action buttons",
-  "exception": "Three teammates and a populated controller need compact spacing. Preserve the three-head count and control marks at 48px, with circular heads and rounded shoulders."
-}

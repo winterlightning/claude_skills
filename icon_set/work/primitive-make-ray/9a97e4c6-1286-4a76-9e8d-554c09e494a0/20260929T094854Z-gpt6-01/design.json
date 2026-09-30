@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The bicycle lost its seat tube and complete diamond frame; the heavy simplified triangle made the bike ambiguous.",
-  "change": "Restored the complete two-triangle frame, two round wheels, seat post, saddle, fork and curved handlebar.",
-  "body": "# Paired equal wheels and a true diamond frame share hub and junction points.\nfor name,cx in (('rear',12),('front',36)):circle(self,name+'-wheel',cx,34,8)\nself.add_polyline('rear-frame',(12,34),(18,20),(24,34),(12,34))\nself.add_polyline('front-frame',(18,20),(33,16),(24,34))\nself.add_line('fork',(33,16),(36,34))\nself.add_line('seat-post',(18,20),(16,14));self.add_line('saddle',(12,14),(20,14))\nself.add_polyline('handlebar-stem',(33,16),(31,10),(37,10))\ncurve(self,'handlebar',(37,10),((42,10),(42,15),(37,17)))\nfor a,b in [('rear-frame','front-frame'),('front-frame','fork'),('rear-frame','seat-post'),('seat-post','saddle'),('front-frame','handlebar-stem'),('fork','handlebar-stem'),('handlebar-stem','handlebar')]:self.relate('connect',a,b)\n# Frame runs genuinely cross the wheel rims, as in a conventional bicycle diagram.\nfor a,b in [('rear-wheel','rear-frame'),('front-wheel','fork')]:self.relate('connect',a,b)",
-  "refs": "No new Lucide bicycle reference used; original supplies the full diamond frame and two equal circular wheels.",
-  "exception": "A complete bicycle frame and realistic wheel proportions create compact triangular regions. Preserve these defining structures at4px rather than deleting the seat tube."
-}

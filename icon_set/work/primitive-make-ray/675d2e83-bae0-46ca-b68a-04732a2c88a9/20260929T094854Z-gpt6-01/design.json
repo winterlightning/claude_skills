@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The shuttlecock became a solid three-pronged blob and the monitor stand was too short.",
-  "change": "Lengthened the stand and rebuilt the shuttlecock with a distinct circular cork and outlined feather fan.",
-  "body": "# Frame4,4\u201344,33; a true11-unit stand reaches y44 and keeps the screen distinct from its base.\nrounded(self,'monitor',4,4,44,33,4)\nself.add_line('stand',(24,33),(24,44));self.add_line('base',(15,44),(33,44))\nself.relate('connect','monitor','stand');self.relate('connect','stand','base')\n\ncircle(self,'cork',15,25,3)\ncurve(self,'feather-outline',(15,22),((16,18),(17,13),(18,10)),((19,7),(23,9),(22,13)),((25,8),(30,11),(27,16)),((32,11),(36,16),(32,19)),((28,21),(22,24),(18,25)))\nself.relate('connect','cork','feather-outline')\nself.add_line('feather-rib',(27,16),(18,25));self.relate('connect','feather-rib','feather-outline');self.relate('connect','feather-rib','cork')",
-  "refs": "monitor: rounded frame with centered long pedestal; original supplies cork and fanned feather silhouette",
-  "exception": "Preserve the feather fan and its separate cork within the monitor. Compact feather spacing is retained at4px stroke; the11-unit stand directly addresses the reviewer."
-}

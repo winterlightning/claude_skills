@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The thick compact recess and short slots read as a generic switch face.",
-  "change": "Enlarged the flattened round recess, lengthened the two parallel Type A slots and opened the margins.",
-  "body": "rounded(self,'plate',4,4,44,44,6)\ncurve(self,'recess',(17,11),((8,19),(8,29),(17,37)),((21,37),(27,37),(31,37)),((40,29),(40,19),(31,11)),((27,11),(21,11),(17,11)),closed=True)\nfor x in (19,29): self.add_line(f'slot-{x}',(x,20),(x,28))",
-  "refs": "plug: rounded housing and paired terminal spacing",
-  "exception": "The nested plate and flattened recess need 2\u20133px visible margins at 48px; preserve both socket identity and plate silhouette with 4px strokes."
-}

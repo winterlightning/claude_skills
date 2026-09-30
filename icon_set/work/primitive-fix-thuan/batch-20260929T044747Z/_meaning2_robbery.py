@@ -1,9 +1,0 @@
-exec(open('/tmp/meaning2_last.py').read().rsplit("xs=json.loads",1)[0])
-specs[11]['body']='''self.circle('robber-head',13,11,5);self.circle('victim-head',40,12,4)
-self.add_line('robber-torso',(13,24),(13,34));self.add_polyline('robber-legs',(7,42),(13,34),(19,42))
-self.add_line('victim-torso',(40,24),(40,33));self.add_polyline('victim-legs',(35,42),(40,33),(45,42))
-self.add_polyline('robber-arm',(13,26),(20,28),(24,28))
-self.path('blade',(24,24),[('L',(28,24)),('C',(34,31),(32,24),(34,27)),('L',(24,31)),('L',(24,24))],True)
-self.add_line('blade-guard',(24,23),(24,33));self.relate('connect','blade','blade-guard','robber-arm');self.relate('connect','robber-torso','robber-arm','robber-legs');self.relate('connect','victim-torso','victim-legs')
-self.mark_human_figure('robber',head='robber-head',torso='robber-torso',torso_junction='start');self.mark_human_figure('victim',head='victim-head',torso='victim-torso',torso_junction='start')'''
-xs=json.loads((B/'selected.json').read_text());run,module,md=author(11,4);xs[11]=export(run,module,md);(B/'selected.json').write_text(json.dumps(xs,indent=2))

@@ -1,8 +1,0 @@
-{
-  "keyshape": "VRECT_M",
-  "problem": "The mountain pose had rigid bent arms and an artificial waist bar instead of relaxed arms and close-set legs.",
-  "change": "Restored a neutral upright torso, gently hanging arms and close-set feet in a calm standing pose.",
-  "body": "# Human reference proportions; head bottom14, upper torso22 ->4px ink gap.\ncircle(self,'head',24,9,5)\nself.add_line('torso',(24,22),(24,32))\ncurve(self,'left-arm',(24,22),((18,22),(17,29),(17,35)))\ncurve(self,'right-arm',(24,22),((30,22),(31,29),(31,35)))\nself.add_line('left-leg',(24,32),(21,44));self.add_line('right-leg',(24,32),(27,44))\nfor part in ('left-arm','right-arm','left-leg','right-leg'):self.relate('connect','torso',part)\nself.relate('connect','left-arm','right-arm');self.relate('connect','left-leg','right-leg')\nself.mark_human_figure('person',head='head',torso='torso',torso_junction='start')",
-  "refs": "human_ref/full_body_ref.png: round head and coherent limbs; original: narrow neutral standing posture",
-  "exception": "Mountain pose should remain narrow and relaxed with close-set feet; preserve this natural envelope rather than spreading the arms to fill the keyshape."
-}

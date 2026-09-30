@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "A cross replaced the sun and the detached cloud and pin no longer overlap as a weather-location composition.",
-  "change": "Restored a round sun behind a cloud with a foreground location pin and clear circular pin opening.",
-  "body": "\nself.add_arc('sun',(9,23),(25,16),radius_x=8,large_arc=True)\nself.add_line('ray-top',(15,2),(15,3))\nself.add_line('ray-left',(2,15),(3,15))\nself.add_line('ray-diagonal',(4,5),(5,6))\ncurve(self,'cloud',(22,37),((16,37),(8,38),(6,32)),((2,26),(8,20),(14,21)),((16,11),(29,10),(33,20)),((38,20),(41,22),(42,25)))\ncurve(self,'pin',(35,44),((31,39),(26,34),(26,30)),((26,18),(44,18),(44,30)),((44,34),(39,39),(35,44)),closed=True)\ncircle(self,'pin-hole',35,29,3)\n",
-  "refs": "cloud-sun: overlapping disk/cloud lobes and short rays; original supplies foreground location pin",
-  "exception": "Keep the sun/cloud/pin overlap and the circular marker opening at 48px. Compact foreground spacing is needed for the complete weather-location composition."
-}

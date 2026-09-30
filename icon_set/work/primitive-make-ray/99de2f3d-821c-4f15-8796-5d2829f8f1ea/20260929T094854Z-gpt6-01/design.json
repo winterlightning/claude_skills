@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The rider became an angular robot-like torso with a rectangular central block instead of a rounded front wheel.",
-  "change": "Restored rounded shoulders, relaxed angled arms, handlebar segments and a narrow capsule-shaped front wheel beneath the rider.",
-  "body": "# Detached head: cy9,r5 -> shoulder top22, exactly8 centerline /4 ink.\ncircle(self,'head',24,9,5)\ncurve(self,'shoulders',(11,32),((5,30),(11,22),(17,22)),((21,22),(27,22),(31,22)),((37,22),(43,30),(37,32)))\nself.add_line('left-arm',(11,32),(8,43));self.add_line('right-arm',(37,32),(40,43))\nself.relate('connect','shoulders','left-arm');self.relate('connect','shoulders','right-arm')\nrounded(self,'front-wheel',21,30,27,44,3)\nself.add_line('left-handlebar',(11,32),(21,32));self.add_line('right-handlebar',(27,32),(37,32))\nfor side in ('left','right'):\n    self.relate('connect',side+'-handlebar',side+'-arm')\n    self.relate('connect',side+'-handlebar','front-wheel')",
-  "refs": "human_ref/full_body_ref.png: circular head and smooth upper body; supplied original: centered wheel and paired angled arms",
-  "exception": "Keep a front-view rider, both handlebars and the narrow front wheel. Compact connected vehicle details preserve meaning at4px stroke; the head gap remains exactly4px."
-}

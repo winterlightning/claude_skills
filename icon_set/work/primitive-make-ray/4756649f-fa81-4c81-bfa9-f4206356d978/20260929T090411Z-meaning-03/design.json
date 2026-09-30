@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The drone became an empty capsule with feet, no visible propellers, and angular water.",
-  "change": "Restored curved water waves, paired propeller shafts, a broad central body and an underslung equipment pod.",
-  "body": "\n# Two shallow water waves; propeller crossbars and shafts remain visible.\nfor j,x in enumerate((4,24)):\n    curve(self,f'wave-{j}',(x,5),((x+6,11),(x+14,11),(x+20,5)))\nfor x in (10,38):\n    self.add_line(f'propeller-{x}',(x-5,16),(x+5,16))\n    self.add_line(f'shaft-{x}',(x,16),(x,24))\n    self.relate('connect',f'propeller-{x}',f'shaft-{x}')\ncurve(self,'body',(4,25),((6,25),(8,24),(10,24)),((15,24),(17,21),(24,21)),((31,21),(33,24),(38,24)),((40,24),(42,25),(44,25)),((46,25),(46,31),(44,31)),((38,31),(32,35),(24,35)),((16,35),(10,31),(4,31)),((2,31),(2,25),(4,25)),closed=True)\nfor x in (10,38):self.relate('connect','body',f'shaft-{x}')\ncurve(self,'pod',(4,31),((11,31),(14,36),(14,39)),((14,44),(34,44),(34,39)),((34,36),(37,31),(44,31)))\nself.relate('connect','body','pod')\n",
-  "refs": "gamepad-2: smoothly joined lateral lobes; original supplies the drone-specific body and propulsion",
-  "exception": "Water, propellers and underside pod are all essential to the underwater drone. Preserve their compact 48px arrangement and true contacts with 4px strokes."
-}

@@ -1,8 +1,0 @@
-{
-  "keyshape": "HRECT_M",
-  "problem": "The robotic hand lost its closed palm and folded finger joints, becoming an open tool or gripper.",
-  "change": "Restored a closed palm, curved wrist cuff, folded finger segment and articulated extended thumb.",
-  "body": "# Natural asymmetry: side-view hand with thumb pointing up-right.\ncurve(self,'upper',(4,12),((10,8),(14,10),(19,12)),((22,13),(25,14),(28,15)),((31,16),(33,19),(31,23)))\nself.add_polyline('thumb-upper',(31,23),(36,18),(38,16))\ncurve(self,'thumb-tip',(38,16),((42,12),(47,18),(42,23)))\nself.add_polyline('thumb-lower',(42,23),(40,25),(32,33))\ncurve(self,'lower',(32,33),((30,35),(28,36),(25,36)),((18,36),(10,34),(4,33)))\nself.add_line('wrist-edge',(4,33),(4,12))\nself.add_contour('outline','upper-curve','thumb-upper-1','thumb-upper-2','thumb-tip-curve','thumb-lower-1','thumb-lower-2','lower-curve','wrist-edge',closed=True)\ncurve(self,'cuff',(11,10),((16,18),(15,27),(10,34)))\nself.add_polyline('folded-finger',(19,12),(19,23))\ncurve(self,'knuckle',(19,23),((24,24),(29,29),(31,23)))\nself.relate('connect','folded-finger','knuckle')\nself.relate('connect','outline','folded-finger');self.relate('connect','outline','knuckle')\nself.add_line('palm-seam',(27,26),(25,36));self.relate('connect','outline','palm-seam')\nself.add_line('thumb-joint',(36,18),(40,25));self.relate('connect','outline','thumb-joint')",
-  "refs": "hand: continuous rounded palm and finger construction; original supplies mechanical joints and side-view pose",
-  "exception": "Mechanical wrist, palm and thumb seams need compact connected panels; preserve the side-view hand silhouette and4px strokes."
-}

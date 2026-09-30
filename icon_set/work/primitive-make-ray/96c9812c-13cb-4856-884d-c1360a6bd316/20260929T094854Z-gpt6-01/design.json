@@ -1,8 +1,0 @@
-{
-  "keyshape": "VRECT_L",
-  "problem": "The skewered olive became a short bent stroke and the garnish lost its round fruit shape.",
-  "change": "Restored a distinct outlined olive, diagonal skewer and clean V-shaped martini bowl on a slender stem.",
-  "body": "self.add_polyline('bowl',(4,10),(44,10),(24,32),closed=True)\nself.add_line('stem',(24,32),(24,44));self.add_line('base',(15,44),(33,44))\nself.relate('connect','bowl','stem');self.relate('connect','stem','base')\ncurve(self,'olive',(23,21),((19,16),(25,10),(30,13)),((36,17),(29,25),(23,21)),closed=True)\nself.add_line('skewer-upper',(36,4),(30,13));self.add_line('skewer-lower',(23,21),(20,25))\nself.relate('connect','olive','skewer-upper');self.relate('connect','olive','skewer-lower');self.relate('connect','bowl','skewer-upper')",
-  "refs": "Original supplies triangular bowl and skewered olive; geometric circles/curves and shared stem junctions follow the common authoring guide.",
-  "exception": "The diagonal skewer and oval olive must remain visible inside the bowl. Preserve compact garnish spacing and the wide martini rim at4px stroke."
-}

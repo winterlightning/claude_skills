@@ -1,8 +1,0 @@
-{
-  "keyshape": "SQUARE",
-  "problem": "The teeth were inverted scalloped bars and the gum outlines were omitted.",
-  "change": "Restored two opposed rows of teeth with rounded crowns, vertical separations and curved gum boundaries.",
-  "body": "\n# Two rows of four crowns; facing bite edges are 8 units apart.\nfor jaw in ('upper','lower'):\n    def p(x,y):return (x,y if jaw=='upper' else 48-y)\n    curve(self,jaw+'-gum',p(4,20),(p(4,16),p(4,10),p(4,7)),(p(15,3),p(33,3),p(44,7)),(p(44,10),p(44,16),p(44,20)))\n    self.add_line(jaw+'-bite',p(4,20),p(44,20))\n    self.relate('connect',jaw+'-gum',jaw+'-bite')\n    for j,x in enumerate((4,14,24,34)):\n        curve(self,f'{jaw}-crown-{j}',p(x,14),(p(x+2,9),p(x+8,9),p(x+10,14)))\n        if j:\n            self.add_line(f'{jaw}-division-{j}',p(x,14),p(x,20))\n            for part in (f'{jaw}-crown-{j}',f'{jaw}-crown-{j-1}',jaw+'-bite'):\n                self.relate('connect',f'{jaw}-division-{j}',part)\n            self.relate('connect',f'{jaw}-crown-{j}',f'{jaw}-crown-{j-1}')\n        if j in (0,3):self.relate('connect',jaw+'-gum',f'{jaw}-crown-{j}')\n",
-  "refs": "No useful Lucide dental match; use mirrored repeated crowns derived from the supplied original.",
-  "exception": "Opposed jaws need four simplified crowns and curved gums; compact crown/gum bands preserve the dental meaning at fixed 4px stroke."
-}
