@@ -218,7 +218,7 @@ function pageRows(rows){return rows.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);}
 function writeURL(){const u=new URL(location.href);u.search='';if(state.view!=='category')u.searchParams.set('view',state.view);if(state.view!=='categories'){if(state.category)u.searchParams.set('category',state.category);
   for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'&&state.view!=='review'))u.searchParams.set(k,state[k]);if(pageTarget||page>1)u.searchParams.set('page',pageTarget||page);}
   history.replaceState(null,'',u);}
-function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.view=['container','side','review'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'?'todo':state.category?'category':'review';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready','text'].includes(p.get('status'))?p.get('status'):state.view==='review'?'all':'todo';
+function readURL(){const p=new URLSearchParams(location.search);if(p.get('view')==='container'){location.replace('container-pairs.html'+(p.get('q')?'?q='+encodeURIComponent(p.get('q')):''));return;}state.category=p.get('category')||'';state.view=['container','side','review'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'?'todo':state.category?'category':'review';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready','text'].includes(p.get('status'))?p.get('status'):state.view==='review'?'all':'todo';
   state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&(REASONS[p.get('reason')]||p.get('reason')==='combinations')?p.get('reason'):'';state.q=p.get('q')||'';pageTarget=['first','middle','last'].includes(p.get('page'))?p.get('page'):'';page=Math.max(1,parseInt(p.get('page'))||1);}
 
 function renderOverview(){
@@ -561,7 +561,7 @@ async function refreshGalleryState(){
 
 for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
 document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
-$('containerView').onclick=()=>openView('container');$('sideView').onclick=()=>openView('side');
+$('containerView').onclick=()=>location.assign('container-pairs.html');$('sideView').onclick=()=>openView('side');
 $('reviewView').onclick=()=>openView('review');
 $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openView('categories');
 $('gridCategory').onchange=()=>{state.category=$('gridCategory').value;if(state.view==='category'&&!state.category)state.view='review';state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};

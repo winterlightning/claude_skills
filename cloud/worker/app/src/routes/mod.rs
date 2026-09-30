@@ -2,8 +2,6 @@
 
 pub mod briefs;
 pub mod combinations;
-pub mod container_centers;
-pub mod container_pairs;
 pub mod edits;
 pub mod files;
 pub mod icons;
@@ -95,12 +93,10 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/primitives" | "/api/primitives/status" | "/api/primitives/summary" | "/api/primitives/briefs"
         | "/api/primitives/symbol-links" | "/api/primitives/prompt" | "/api/primitives/state" => primitives::get(ctx).await,
         "/api/combinations" => combinations::list(ctx).await,
+        "/api/combinations/drawings" => combinations::drawings(ctx).await,
+        "/api/combinations/candidates" => combinations::candidates(ctx).await,
         "/api/side-components" => edits::side_components(ctx).await,
         "/api/combinations/side/layouts" => side::layouts(ctx).await,
-        "/api/container-centers" => container_centers::list(ctx).await,
-        "/api/container-pairs/icons" => container_pairs::list(ctx).await,
-        "/api/container-pairs/current" => container_pairs::current(ctx).await,
-        "/api/reference-uploads" => icons::reference_uploads(ctx).await,
         "/api/combinations/side/pairs" => side_pairs::list(ctx).await,
         "/api/combinations/side/suggest" => side_pairs::suggest(ctx).await,
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
@@ -119,7 +115,8 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate", "/api/combination-experiment",
     "/api/combinations/side/recombine", "/api/combinations/side/preview", "/api/combinations/side/layout",
-    "/api/combinations/side/layout/apply", "/api/combinations/side/pairs", "/api/container-centers", "/api/container-pairs/icon"];
+    "/api/combinations/side/layout/apply", "/api/combinations/side/pairs",
+    "/api/combinations/parts", "/api/combinations/build"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -131,7 +128,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         return http::error(403, "Cross-origin feedback is not allowed");
     }
     let limit = match path {
-        "/api/icons/upload" | "/api/icon-artwork" => 2 * 1024 * 1024,
+        "/api/icons/upload" | "/api/icon-artwork" | "/api/combinations/build" => 2 * 1024 * 1024,
         "/api/reference-images" => MAX_REFERENCE_BODY,
         "/api/work/result" => MAX_WORK_RESULT_BODY,
         "/api/catalog/push" => MAX_PUSH_BODY,
@@ -171,8 +168,8 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/side/layout" => side::save_layout(ctx, &data, user).await,
         "/api/combinations/side/layout/apply" => side::apply_layout(ctx, &data, user).await,
         "/api/combinations/side/pairs" => side_pairs::post(ctx, &data, user).await,
-        "/api/container-centers" => container_centers::save(ctx, &data, user).await,
-        "/api/container-pairs/icon" => container_pairs::save(ctx, &data, user).await,
+        "/api/combinations/parts" => combinations::post_part(ctx, &data, user).await,
+        "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

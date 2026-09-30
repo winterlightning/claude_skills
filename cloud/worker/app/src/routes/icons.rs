@@ -8,7 +8,7 @@ use pictographic_core::reviews::public_status;
 use pictographic_core::time::iso_utc;
 use pictographic_core::work as rules;
 use serde::Deserialize;
-use serde_json::{json, Map, Value};
+use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;
 use worker::{Response, Result};
@@ -221,7 +221,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     let status = if approve { "approve" } else { "ready" };
     let canvas = family["canvas_size"].as_i64().unwrap_or(48);
     let svg_input = data.get("svg").and_then(Value::as_str).unwrap_or("");
-    // Container pairs page uploads (with `reference`) keep whatever canvas they were drawn on.
+    // Uploads for a combination part (with `reference`, container-pairs.html) keep whatever canvas they were drawn on.
     let cleaned = if reference.is_some() { pictographic_core::svg::safe_svg_any_canvas(svg_input) }
                   else { pictographic_core::svg::safe_svg(svg_input, canvas) };
     let document = match cleaned {
@@ -286,27 +286,8 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     if approve {
         statements.push(db::activity(db, user, "review", Some(&key), details(vec![("status", json!("approve")), ("svg_sha256", json!(digest))]))?);
     }
-    if let Some((id, role)) = &reference {
-        statements.push(db::stmt(db, "INSERT INTO reference_uploads(reference, role, icon_key, updated_at, updated_by) VALUES (?, ?, ?, ?, ?) \
-            ON CONFLICT(reference) DO UPDATE SET role = excluded.role, icon_key = excluded.icon_key, \
-            updated_at = excluded.updated_at, updated_by = excluded.updated_by", args![id.as_str(), *role, key.clone(), now.clone(), user])?);
-    }
     db::batch(db, statements).await?;
     http::json(201, &json!({"record": record, "status": status}))
-}
-
-/// GET /api/reference-uploads → {reference id: {role, icon_key, preview_url, updated_by, updated_at}}.
-pub async fn reference_uploads(ctx: &Ctx) -> Result<Response> {
-    #[derive(Deserialize)]
-    struct Row { reference: String, role: String, icon_key: String, svg_sha256: String, updated_at: String, updated_by: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT r.reference, r.role, r.icon_key, i.svg_sha256, r.updated_at, r.updated_by \
-        FROM reference_uploads r JOIN icons i ON i.key = r.icon_key", vec![]).await?;
-    let entries: Map<String, Value> = rows.into_iter().map(|r| {
-        let url = format!("../api/icon-artwork/svg?icon={}&v={}", r.icon_key.replace('/', "%2F"), r.svg_sha256);
-        (r.reference, json!({"role": r.role, "icon_key": r.icon_key, "icon_id": r.icon_key.split_once('/').map(|p| p.1).unwrap_or(""),
-                             "preview_url": url, "updated_at": r.updated_at, "updated_by": r.updated_by}))
-    }).collect();
-    http::json(200, &Value::Object(entries))
 }
 
 /// GET /api/uploaded-icons: upload records for the gallery catalog (without the SVG text).

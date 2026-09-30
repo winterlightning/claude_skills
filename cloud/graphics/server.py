@@ -61,12 +61,6 @@ def side_render(body: dict) -> dict:
     return render(request, row=row)
 
 
-def container_render(body: dict) -> dict:
-    """A container pair's combined icon (container_combination_render): the container with its symbol on the grid."""
-    from icon_set.scripts.container_combination_render import render as combine
-    return combine(body['main'], body['symbol'], body['center'], body.get('ink'))
-
-
 def side_apply(body: dict) -> dict:
     """deploy.py apply_side_layout without the saving: each target's moved layout and its render."""
     from icon_set.scripts.combination_experiment import default_groups
@@ -116,7 +110,6 @@ ROUTES = {
     '/artwork': lambda b: artwork(b['icon'], b['data'], b.get('old'), b.get('edit'), b['user']),
     '/side/render': one_at_a_time(side_render),
     '/side/apply': one_at_a_time(side_apply),
-    '/container/render': one_at_a_time(container_render),
 }
 
 

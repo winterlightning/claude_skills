@@ -17,8 +17,7 @@ In order, later sources winning:
    and each part's box: the hand-adjusted layout, else the automatic placement the engine chose;
 3. ``side-pairs`` store: a pair given another main / sub; a primitive classified as a combination
    becomes a combination reference with its two parts;
-4. ``container_centers`` (when the snapshot has it): the symbol's box;
-5. container / symbol parts with a single icon of their family.
+4. container / symbol parts with a single icon of their family.
 
 Also sets the side position of subs seeded without one (the id's suffix) and links every combined icon
 (side_combination64/<id>, container_combination64/<id>) to its reference in icon_references.
@@ -153,22 +152,7 @@ def main() -> None:
                 fields['position'] = pair.get('position') or None
             parts.set(key, role, 'side pair', **fields)
 
-    # 4. Container centers (migration 0006; absent until it runs).
-    if 'container_centers' in tables:
-        columns = {r[1] for r in db.execute('PRAGMA table_info(container_centers)')}
-        for c in db.execute('SELECT * FROM container_centers'):
-            c = dict(c)
-            if c['sub']:
-                notes['container center for one pair (not mapped)'] += 1
-                continue
-            w, h = (c.get('width') or 32, c.get('height') or 32) if 'width' in columns else (32, 32)
-            box = [{'x': c['x'] - w / 2, 'y': c['y'] - h / 2, 'w': w, 'h': h}]
-            for (ref, role), part in existing.items():
-                if role == 'container' and parts.values.get((ref, role), {}).get('icon', part['icon'] if 'icon' in part.keys() else None) == c['main']:
-                    parts.set(ref, 'symbol', 'container center', layout=box,
-                              updated_at=c['updated_at'], updated_by=c['updated_by'])
-
-    # 5. Container / symbol parts with exactly one icon of their family.
+    # 4. Container / symbol parts with exactly one icon of their family.
     links: dict[str, list[str]] = {}
     for icon, ref in db.execute('SELECT icon, reference_id FROM icon_references'):
         links.setdefault(ref, []).append(icon)
