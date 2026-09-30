@@ -1,0 +1,80 @@
+[11:54:32] > Bash: Inspect inputs in the run folder
+[11:55:09] > Bash: Show metric issues and prior run
+[11:55:27] Let me look at the image and an existing human-figure redraw for the pattern.
+[11:55:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/dash-circle-large-head.png
+[11:55:30] > Bash: Read prior redraw module and human reference
+[11:55:34] > Bash: Read redraw step of process.md and notes
+[11:55:38] > Bash: Find existing runner modules
+[11:55:41] > Bash: Read athlete-running redraw
+[11:55:44] > Bash: See how previews were rendered before
+[11:55:46] > Bash: Check render helper and existing module
+[11:55:48] I have the inputs and a validated runner pattern; now checking the existing library module for this source ID, then drafting.
+[11:55:49] > Bash: Read existing library module
+[11:56:16] Drafting on `VRECT_M` (the metrics' second candidate needs only a 1.05 stretch against SQUARE's 1.36, and the extra height pays for the large head plus the exact 8-unit neck gap).
+[11:56:33] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/dash_circle_large_head_redraw.py
+[11:56:39] > Bash: Validate and render the redraw
+[11:56:43] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/dash-circle-large-head_redraw.png
+[11:56:44] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/dash-circle-large-head_redraw-48.png
+[11:56:47] > Read: /tmp/dclh_dark.png
+[11:56:59] I redrew the dashing stick figure as a Solo48 model. It validates as `valid` with zero warnings, and it reads clearly as a runner at 48 px on a light background. My dark-background check didn't work: the strokes render black, so that preview was black on near-black and showed nothing.
+
+**Keyshape: `VRECT_M`, not the suggested `SQUARE`.** `SQUARE` only fills 73% of the width and would need a 1.36× horizontal stretch. `VRECT_M` scored 0.96 and needs only 1.05. Its 40-unit height also leaves room for the large head, the exact 8-unit neck gap and a proper running stride. The figure touches all four edges exactly: head top at y=4, front foot at y=44, rear foot at x=10 and front fist at x=38.
+
+**How it's built (on the grid, not from the trace's coordinates):**
+- **Head:** a circle of radius 5 centred at (28,9). That makes it 10 wide on a 28-wide figure, which keeps it "large".
+- **Neck and torso:** a short 2-unit vertical neck (28,22)–(28,24) sits directly under the head, so the head is exactly 8 above it on centrelines (4 units of visible gap). The lower torso then leans back to the hip at (22,32), which gives the forward lean.
+- **Arms:** both start from one shoulder point, never from the neck.
+- **Legs:** both start from the hip. The rear leg bends back to the foot, and the front knee lifts forward before the shin drops to the floor.
+- **References:** I followed `icon_set/references/human_ref/full_body_ref.png` for the round head and round-ended limbs, and reused the neck-then-lean construction from the validated `athlete-running-right` redraw. There was no useful Lucide match.
+
+**Metrics issues, all fixed:**
+- **Head gap (and e0/e2):** now exactly 8, with the head on the vertical neck axis.
+- **Head to arms (e0/e1, e0/e4):** every arm point is at least 9 from the head outline.
+- **Arms beside the torso (e1/e2, e2/e4, e1/e4):** in the trace the arms floated next to the torso. They now attach at the shared shoulder point and only meet there.
+- **Front elbow to front thigh (e3/e4):** now 9.8 apart.
+- **Width fill (keyshape-short-axis):** resolved by switching to `VRECT_M` with all four edges exact.
+- **Stroke width:** redrawn at stroke 4 with 8-unit clearances throughout.
+
+The torso-to-leg junction from the trace is kept as the shared hip point. Nothing was left unfixed.
+
+**Name mismatch:** there is already a library module for this source ID, `icon_set/model/icons/solo/dash_circle_large_head_edd1a1a5_….py`, written by `gpt-6`. It draws the same source ID as a circular return arrow, while this pipeline run drew a running figure. I didn't touch it. Someone should decide which reading of "dash circle large head" is the right one.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/`:
+- `dash_circle_large_head_redraw.py`
+- `dash-circle-large-head_redraw.svg`
+- `dash-circle-large-head_redraw.png`
+- `dash-circle-large-head_redraw-48.png`
+
+[11:56:59] === success in 158s, $0.82 ===
+I redrew the dashing stick figure as a Solo48 model. It validates as `valid` with zero warnings, and it reads clearly as a runner at 48 px on a light background. My dark-background check didn't work: the strokes render black, so that preview was black on near-black and showed nothing.
+
+**Keyshape: `VRECT_M`, not the suggested `SQUARE`.** `SQUARE` only fills 73% of the width and would need a 1.36× horizontal stretch. `VRECT_M` scored 0.96 and needs only 1.05. Its 40-unit height also leaves room for the large head, the exact 8-unit neck gap and a proper running stride. The figure touches all four edges exactly: head top at y=4, front foot at y=44, rear foot at x=10 and front fist at x=38.
+
+**How it's built (on the grid, not from the trace's coordinates):**
+- **Head:** a circle of radius 5 centred at (28,9). That makes it 10 wide on a 28-wide figure, which keeps it "large".
+- **Neck and torso:** a short 2-unit vertical neck (28,22)–(28,24) sits directly under the head, so the head is exactly 8 above it on centrelines (4 units of visible gap). The lower torso then leans back to the hip at (22,32), which gives the forward lean.
+- **Arms:** both start from one shoulder point, never from the neck.
+- **Legs:** both start from the hip. The rear leg bends back to the foot, and the front knee lifts forward before the shin drops to the floor.
+- **References:** I followed `icon_set/references/human_ref/full_body_ref.png` for the round head and round-ended limbs, and reused the neck-then-lean construction from the validated `athlete-running-right` redraw. There was no useful Lucide match.
+
+**Metrics issues, all fixed:**
+- **Head gap (and e0/e2):** now exactly 8, with the head on the vertical neck axis.
+- **Head to arms (e0/e1, e0/e4):** every arm point is at least 9 from the head outline.
+- **Arms beside the torso (e1/e2, e2/e4, e1/e4):** in the trace the arms floated next to the torso. They now attach at the shared shoulder point and only meet there.
+- **Front elbow to front thigh (e3/e4):** now 9.8 apart.
+- **Width fill (keyshape-short-axis):** resolved by switching to `VRECT_M` with all four edges exact.
+- **Stroke width:** redrawn at stroke 4 with 8-unit clearances throughout.
+
+The torso-to-leg junction from the trace is kept as the shared hip point. Nothing was left unfixed.
+
+**Name mismatch:** there is already a library module for this source ID, `icon_set/model/icons/solo/dash_circle_large_head_edd1a1a5_….py`, written by `gpt-6`. It draws the same source ID as a circular return arrow, while this pipeline run drew a running figure. I didn't touch it. Someone should decide which reading of "dash circle large head" is the right one.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1151-dash-circle-large-head/`:
+- `dash_circle_large_head_redraw.py`
+- `dash-circle-large-head_redraw.svg`
+- `dash-circle-large-head_redraw.png`
+- `dash-circle-large-head_redraw-48.png`

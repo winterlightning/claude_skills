@@ -1,0 +1,84 @@
+[19:38:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1935-camera-drone-front; ls $D; cat $D/camera-drone-front_met...
+[19:39:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1935-camera-drone-front; python3 -c " import json;m=json.load...
+[19:39:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 80,200p output_png/20260929-1930-browser-person/browser_person_redraw.py
+[19:39:31] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-camera-drone-front/camera-drone-front.png
+[19:39:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i -A15 "redraw" process.md | head -60; ls; cat output_png/20260929-1930-br...
+[19:39:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -30; grep -n "def \(to_sv...
+[19:39:39] Reading the inputs is done; now I'm working out how to render and designing the drone geometry.
+[19:39:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def .*svg\|def render" icon_set/model/*.py | head; sed -n 1,60p icon_set/scripts/build_gate...
+[19:39:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "def to_svg\|def svg\b\|def render_svg" icon_set/ | head; grep -rn "cairosvg\|rsvg" icon_se...
+[19:40:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def to_svg\|def svg" -A6 icon_set/model/icons/base.py | head -20
+[19:40:56] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat normal48-geometry-floors.md solo48-build-gate-traps.md |...
+[19:41:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def add_\| def relate\| def mark" icon_set/model/icons/base.py icon_set/model/*.py | head -30
+[19:42:21] Plan: HRECT_L is needed (a 24-unit body around an r4 lens can't fit HRECT_M's 28-unit height plus rotors). Writing a first draft to test.
+[19:42:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-camera-drone-front; cat > $D/camera_drone_front_redraw.p...
+[19:42:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-camera-drone-front; PYTHONPATH=. /opt/homebrew/bin/pytho...
+[19:43:27] Exact-8 lens gap comes back `review` (curved pair). HRECT_L can't give the lens 9 on both sides with the rotors 8 above the body, so I'm trying SQUARE with a taller body.
+[19:43:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-camera-drone-front; F=$D/camera_drone_front_redraw.py se...
+[19:43:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-camera-drone-front/camera-drone-front_redraw.png
+[19:44:07] Valid and gate-clean. Checking the native 48 px render.
+[19:44:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-camera-drone-front; /opt/homebrew/bin/python3 -c " from PIL...
+[19:44:10] > Read: /tmp/drone48.png
+[19:44:12] Crisp at 48 px. Writing the final docstring.
+[19:44:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1935-camera-drone-front/camera_drone_front_redraw.py /opt/hom...
+[19:44:26] > Bash: rm -rf /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-camera-drone-front/__pycache__
+[19:44:37] I redrew the camera drone as a Solo48 model. `validate_icon()` returns **valid** and `build_gate.py` passes with 0 errors and 0 warnings. I didn't register the module, touch `published/`, or run the build or gallery updates. I only checked it at 48 px on white, not in the dark theme.
+
+**Files**, all in `new-pipeline-test/output_png/20260929-1935-camera-drone-front/`:
+- `camera_drone_front_redraw.py`: the model, with the source ID, path and author as requested, and a docstring giving the plan and the fixed issues.
+- `camera-drone-front_redraw.svg`, `camera-drone-front_redraw.png` (512 px preview) and `camera-drone-front_redraw-48.png`.
+
+**The drawing** (mirrored left to right):
+- **Body:** a rounded rectangle with corner radius 4.
+- **Lens:** a circle of radius 5 in the body, 9 units from the top and bottom walls.
+- **Rotors:** each is a T shape. A short post rises from the point where the body's top corner curve ends and joins the middle of a flat propeller bar.
+- **References:** there's no useful Lucide drone seen from the front. The body and lens follow Lucide `camera`/`webcam`.
+
+**Keyshape: SQUARE, not the suggested HRECT_M.**
+- **Height needed:** the lens needs 9 units of clearance on each side, not exactly 8, because a curve that sits exactly 8 from a wall comes back as `review`. That makes the body at least 26 tall. The propeller bars need another 8 above the body, so the drone needs at least 34 units of height.
+- **What the wide shapes allow:** HRECT_M gives 28 and HRECT_L gives 32. I tried HRECT_L and it came back `review` on the lens-to-body gap of exactly 8.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap sized for it.
+- **Keyshape short axis:** all four extremes now sit exactly on the SQUARE box (6 to 42 on both axes).
+- **Propeller bar just above the arm post** (e0/e3 and e1/e4, 2.0 apart): the post now joins the bar at a shared point, declared as connected.
+- **Propeller bar too close to the body** (e0/e2 and e1/e2, 5.8): the bars now sit 8 above the body's straight top edge.
+- **Lens too close to the body and arms** (e2/e5, e3/e5, e4/e5, 1.7 to 4.5 apart): the lens is now 9 to 11 from every body wall.
+- **The three tiny holes** (0.8 to 1.5 wide): gone. The inside of the body is open, and the lens is a ring big enough for the small-circle rule.
+
+**Issues I couldn't fix:**
+- **The trace's wide 3:1 shape and side arms:** the drone is now about square. The arm posts would need 8 units of clearance from the side walls, and there's no room for that beside a body wide enough for the lens.
+- **Detached propellers:** the gap between propeller and post is gone. Keeping it would cost another 8 units of height.
+
+**How it reads at 48 px:** the lines are crisp and the lens reads clearly. It reads more as "camera body with rotors on top" than as a wide drone. A solid dot lens instead of a ring would leave room for the side arms, but it would lose the hollow lens the brief asked for.
+
+[19:44:37] === success in 370s, $1.16 ===
+I redrew the camera drone as a Solo48 model. `validate_icon()` returns **valid** and `build_gate.py` passes with 0 errors and 0 warnings. I didn't register the module, touch `published/`, or run the build or gallery updates. I only checked it at 48 px on white, not in the dark theme.
+
+**Files**, all in `new-pipeline-test/output_png/20260929-1935-camera-drone-front/`:
+- `camera_drone_front_redraw.py`: the model, with the source ID, path and author as requested, and a docstring giving the plan and the fixed issues.
+- `camera-drone-front_redraw.svg`, `camera-drone-front_redraw.png` (512 px preview) and `camera-drone-front_redraw-48.png`.
+
+**The drawing** (mirrored left to right):
+- **Body:** a rounded rectangle with corner radius 4.
+- **Lens:** a circle of radius 5 in the body, 9 units from the top and bottom walls.
+- **Rotors:** each is a T shape. A short post rises from the point where the body's top corner curve ends and joins the middle of a flat propeller bar.
+- **References:** there's no useful Lucide drone seen from the front. The body and lens follow Lucide `camera`/`webcam`.
+
+**Keyshape: SQUARE, not the suggested HRECT_M.**
+- **Height needed:** the lens needs 9 units of clearance on each side, not exactly 8, because a curve that sits exactly 8 from a wall comes back as `review`. That makes the body at least 26 tall. The propeller bars need another 8 above the body, so the drone needs at least 34 units of height.
+- **What the wide shapes allow:** HRECT_M gives 28 and HRECT_L gives 32. I tried HRECT_L and it came back `review` on the lens-to-body gap of exactly 8.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap sized for it.
+- **Keyshape short axis:** all four extremes now sit exactly on the SQUARE box (6 to 42 on both axes).
+- **Propeller bar just above the arm post** (e0/e3 and e1/e4, 2.0 apart): the post now joins the bar at a shared point, declared as connected.
+- **Propeller bar too close to the body** (e0/e2 and e1/e2, 5.8): the bars now sit 8 above the body's straight top edge.
+- **Lens too close to the body and arms** (e2/e5, e3/e5, e4/e5, 1.7 to 4.5 apart): the lens is now 9 to 11 from every body wall.
+- **The three tiny holes** (0.8 to 1.5 wide): gone. The inside of the body is open, and the lens is a ring big enough for the small-circle rule.
+
+**Issues I couldn't fix:**
+- **The trace's wide 3:1 shape and side arms:** the drone is now about square. The arm posts would need 8 units of clearance from the side walls, and there's no room for that beside a body wide enough for the lens.
+- **Detached propellers:** the gap between propeller and post is gone. Keeping it would cost another 8 units of height.
+
+**How it reads at 48 px:** the lines are crisp and the lens reads clearly. It reads more as "camera body with rotors on top" than as a wide drone. A solid dot lens instead of a ring would leave room for the side arms, but it would lose the hollow lens the brief asked for.

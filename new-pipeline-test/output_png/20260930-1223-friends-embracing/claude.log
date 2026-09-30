@@ -1,0 +1,81 @@
+[12:26:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1223-friends-embracing; ls $D; cat $D/friends-embracing_metri...
+[12:27:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1223-friends-embracing; python3 -c " import json;m=json.load(...
+[12:27:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1223-friends-embracing/friends-embracing.png
+[12:27:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/skills/icon-design/human-reference.md | head -120; ls icon_set/references/human_ref/ | h...
+[12:27:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -l "mark_human_figure" new-pipeline-test/output_png/*/*_redraw.py | head; ls new-pipeline-test/*...
+[12:27:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1347-swimming-athletes/swimming_athletes_redraw.py; ls new-...
+[12:27:45] I've read the trace and metrics and am now designing the two-figure hug on the 48 grid. Next I'll check how earlier redraws were rendered.
+[12:27:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "redraw-48\|redraw.png" new-pipeline-test/*.sh new-pipeline-test/*.md .claude/skills/icon-so...
+[12:27:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def validate_icon\|def svg(" icon_set/model | head
+[12:29:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1223-friends-embracing; cat > $D/friends_embracing_redraw.py ...
+[12:29:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/fe_render.py
+[12:29:34] Valid on the first pass. Rendering the previews to check it visually.
+[12:29:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1223-friends-embracing; cat $D/friends-embracing_redraw.svg; ...
+[12:29:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1223-friends-embracing/friends-embracing_redraw.png
+[12:29:37] > Read: /tmp/fe-both.png
+[12:29:49] I redrew the friends-embracing trace as a Solo48 model. `validate_icon()` returns **valid with zero warnings**, and I checked it at 48 px in both light and dark themes.
+
+**Subject and keyshape:** two stick-figure friends side by side in a shoulder hug, on `HRECT_L` (the suggested keyshape). The metrics had flagged that the trace's width only filled 80% of the keyshape. The outer hands now reach x=4 and x=44, the head tops y=8 and the torso ends y=40, so the fit is exact.
+
+**Construction:**
+- **Heads:** two circles of radius 5 at x=14 and x=34, mirrored about the centre line and 10 apart.
+- **Bodies:** each torso is split at the shoulder into a short neck plus a body line. The neck starts exactly 8 units below the head outline on centerlines, which is 4 units of visible gap. Both figures are flagged with `mark_human_figure`.
+- **Arms:** each figure has one arm hanging outward and one reaching across. The left friend's arm rises to (26,24) and the right friend's falls to (22,34), so the two arms pass each other 8.2 units apart. Each fingertip stops 8 units short of the other friend's torso.
+- **Deliberate asymmetry:** the right shoulder is at y=30 and the left at y=28, to match the brief's "arms at different heights". Keeping both shoulders level left no room for both arms to clear each other.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-measured at 8 on centerlines.
+- **Keyshape fit:** now exact on `HRECT_L`, as above.
+- **All 14 clearance errors:**
+  - The heads were 6.4 apart; they are now 10.
+  - The heads were crowded by arms and torsos; the arms now start below the neck and slope away from both heads.
+  - The two reaching arms overlapped; they now pass 8.2 apart.
+- **Loose joints:** the torsos didn't meet the arms (one gap was 1.02). The neck, body and both arms now share one exact shoulder point and are declared connected.
+- **Head holes:** the openings were 4.3 wide against a minimum of 6. Radius 5 gives exactly 6.
+- **Head-to-body gap:** it was 2.67; it is now exactly 8 on centerlines for both figures.
+
+**Not fixed:** none.
+
+**References:** `icon_set/references/human_ref/full_body_ref.png` for the circle heads, the single-stroke round-ended limbs and the detached-head gap. For Lucide, I took only the circle-head idea from `users`; I didn't open a Lucide file.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1223-friends-embracing/`):
+- `friends_embracing_redraw.py`
+- `friends-embracing_redraw.svg`
+- `friends-embracing_redraw.png` (480 px preview)
+- `friends-embracing_redraw-48.png`
+
+As requested, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+[12:29:49] === success in 204s, $0.77 ===
+I redrew the friends-embracing trace as a Solo48 model. `validate_icon()` returns **valid with zero warnings**, and I checked it at 48 px in both light and dark themes.
+
+**Subject and keyshape:** two stick-figure friends side by side in a shoulder hug, on `HRECT_L` (the suggested keyshape). The metrics had flagged that the trace's width only filled 80% of the keyshape. The outer hands now reach x=4 and x=44, the head tops y=8 and the torso ends y=40, so the fit is exact.
+
+**Construction:**
+- **Heads:** two circles of radius 5 at x=14 and x=34, mirrored about the centre line and 10 apart.
+- **Bodies:** each torso is split at the shoulder into a short neck plus a body line. The neck starts exactly 8 units below the head outline on centerlines, which is 4 units of visible gap. Both figures are flagged with `mark_human_figure`.
+- **Arms:** each figure has one arm hanging outward and one reaching across. The left friend's arm rises to (26,24) and the right friend's falls to (22,34), so the two arms pass each other 8.2 units apart. Each fingertip stops 8 units short of the other friend's torso.
+- **Deliberate asymmetry:** the right shoulder is at y=30 and the left at y=28, to match the brief's "arms at different heights". Keeping both shoulders level left no room for both arms to clear each other.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-measured at 8 on centerlines.
+- **Keyshape fit:** now exact on `HRECT_L`, as above.
+- **All 14 clearance errors:**
+  - The heads were 6.4 apart; they are now 10.
+  - The heads were crowded by arms and torsos; the arms now start below the neck and slope away from both heads.
+  - The two reaching arms overlapped; they now pass 8.2 apart.
+- **Loose joints:** the torsos didn't meet the arms (one gap was 1.02). The neck, body and both arms now share one exact shoulder point and are declared connected.
+- **Head holes:** the openings were 4.3 wide against a minimum of 6. Radius 5 gives exactly 6.
+- **Head-to-body gap:** it was 2.67; it is now exactly 8 on centerlines for both figures.
+
+**Not fixed:** none.
+
+**References:** `icon_set/references/human_ref/full_body_ref.png` for the circle heads, the single-stroke round-ended limbs and the detached-head gap. For Lucide, I took only the circle-head idea from `users`; I didn't open a Lucide file.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1223-friends-embracing/`):
+- `friends_embracing_redraw.py`
+- `friends-embracing_redraw.svg`
+- `friends-embracing_redraw.png` (480 px preview)
+- `friends-embracing_redraw-48.png`
+
+As requested, I didn't register the module, touch `published/`, or run the build or gallery updates.

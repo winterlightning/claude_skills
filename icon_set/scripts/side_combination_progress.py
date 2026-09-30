@@ -37,7 +37,7 @@ def stage(target):
     # Resolve main source IDs from the same model/export registry as pair discovery.
     from icon_set.scripts.category_report import model_catalog, source_id
     available_main=set(); authored_sources=set()
-    profiles={'solo':'solo48','container':'container64','combination_main':'combination_main48','sub':'sub32','symbol':'symbol32'}
+    profiles={'solo':'solo48','container':'container64','combination_main':'combination_main48','sub':'sub32','symbol':'symbol32','symbol24':'symbol24'}
     for model in model_catalog():
         ids={model['source_id'],source_id(model['source_path']) if model['source_path'] else None}
         for uid,reference in model['source_references']:

@@ -1,0 +1,70 @@
+[12:14:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1211-four-piece-jigsaw-puzzle; ls $D; cat $D/*_metrics.json |...
+[12:15:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1211-four-piece-jigsaw-puzzle; python3 -c " import json;m=jso...
+[12:15:55] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle/four-piece-jigsaw-puzzle.png
+[12:15:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1208-farmer-standing-beside-pitchfork/farmer_standing_besid...
+[12:16:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1208-farmer-standing-beside-pitchfork/claude.log | tail -40...
+[12:16:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/icons/solo | grep -i -E "puzzle|jigsaw"; ls icon_set/validation/ icon_set/scripts |...
+[12:16:30] There's already a registered solo module for this source ID; I'll look at it for construction ideas (not numbers), then author the redraw.
+[12:16:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/four_piece_jigsaw_puzzle_cab69194_7d72_4ec5_92ef_c43974df941f.py; /opt/...
+[12:17:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_arc\|def add_contour\|def add_line\|def add_polyline" -A6 icon_set/model/icons/base....
+[12:17:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 106,150p icon_set/model/icons/base.py
+[12:17:42] > Bash: mkdir -p /tmp/jig && cat > /tmp/jig/exp.py <<'EOF' import sys from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Solo4...
+[12:17:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py /tmp/jig/exp.py 2>&1 | tail -20...
+[12:18:57] > Bash: cat > /tmp/jig/exp2.py <<'EOF' import os from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Solo48 LO, HI, CR, R = 6, ...
+[12:19:01] Running the layout candidates now (a shell quirk broke the first try).
+[12:19:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills bash -c 'for v in "18 18 left up A" "18 18 right down B" "18 18 left down C"; do set -- $v; echo "== $...
+[12:19:13] > Bash: cd /tmp/jig; for n in A B C; do rsvg-convert -w 240 -h 240 -b white $n.svg -o $n.png; rsvg-convert -w 48 -h 48 -b white $n.svg -o $n-48.png; done; /opt/homeb...
+[12:19:16] > Read: /tmp/jig/sheet.png
+[12:19:22] Layout A reads best: an off-centre cross at (18,18), with the big bottom-right piece pushing one tab up and one tab left. Writing the final model.
+[12:19:39] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle/four_piece_jigsaw_puzzle_redraw.py
+[12:19:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle; export PYTHONPATH=.; P=/opt/ho...
+[12:19:56] > Read: /tmp/jig/native.png
+[12:19:56] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle/four-piece-jigsaw-puzzle_redraw.png
+[12:20:08] I redrew the four-piece jigsaw puzzle as a Solo48 model. It passes validation (`valid`, 0 warnings) and the build gate (0 errors, 0 warnings). At native 48 px, on light and dark backgrounds, it reads as a square puzzle cut into four pieces. The drawing does have fewer tabs than the image, explained below.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle/`; nothing registered, no build or gallery run, `published/` untouched):
+- `four_piece_jigsaw_puzzle_redraw.py` — the model, with the source ID, source path and author you gave, and a docstring with the plan and the fixes.
+- `four-piece-jigsaw-puzzle_redraw.svg`
+- `four-piece-jigsaw-puzzle_redraw.png` (480 px preview)
+- `four-piece-jigsaw-puzzle_redraw-48.png` (native 48 px)
+
+**Keyshape:** SQUARE, as suggested. It fits the trace exactly, and every edge of the drawing lands on the square's box (6–42).
+
+**Construction:**
+- **Frame:** a rounded square with corners of radius 4. It is split where the seams meet it, so each seam shares an endpoint with it and is declared connected.
+- **Seams:** a vertical and a horizontal seam cross at (18,18), splitting the square into four pieces.
+- **Tabs:** each of the two long seam halves carries a round tab of radius 4, centred on it. Each tab is exactly 8 units from the frame and from the other seam.
+- **Result:** the big bottom-right piece pushes one tab up and one tab left. The drawing is mirror-symmetric along the top-left to bottom-right diagonal.
+- **Lucide reference:** `puzzle.svg`, for the round tab set into a straight edge.
+
+**Metric issues fixed:**
+- **Seams too close to the frame** (7.62 and 7.84 apart): every tab is now at least 8 from the frame.
+- **Seams crossing** (0.0 apart): the seams are now four halves that meet at one declared junction at (18,18).
+- **Stroke width:** 2.76 is now 4, with every gap sized for stroke 4.
+
+**Not kept: four tabs on a centred cross.** At stroke 4, a tab needs 24 units of seam: 8 to the frame, 8 for the tab itself and 8 to the other seam. A centred cross leaves only 18 per half. I tested the four-tab layout: it passes validation, but the build gate fails with 8 undersized holes, and the tabs touch the frame. So I moved the cross off-centre to get two 24-unit halves with one tab each. The trade-off is that the four pieces are unequal (roughly 12, 24 and 24 units on a side) instead of an even two-by-two grid.
+
+[12:20:08] === success in 342s, $1.06 ===
+I redrew the four-piece jigsaw puzzle as a Solo48 model. It passes validation (`valid`, 0 warnings) and the build gate (0 errors, 0 warnings). At native 48 px, on light and dark backgrounds, it reads as a square puzzle cut into four pieces. The drawing does have fewer tabs than the image, explained below.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1211-four-piece-jigsaw-puzzle/`; nothing registered, no build or gallery run, `published/` untouched):
+- `four_piece_jigsaw_puzzle_redraw.py` — the model, with the source ID, source path and author you gave, and a docstring with the plan and the fixes.
+- `four-piece-jigsaw-puzzle_redraw.svg`
+- `four-piece-jigsaw-puzzle_redraw.png` (480 px preview)
+- `four-piece-jigsaw-puzzle_redraw-48.png` (native 48 px)
+
+**Keyshape:** SQUARE, as suggested. It fits the trace exactly, and every edge of the drawing lands on the square's box (6–42).
+
+**Construction:**
+- **Frame:** a rounded square with corners of radius 4. It is split where the seams meet it, so each seam shares an endpoint with it and is declared connected.
+- **Seams:** a vertical and a horizontal seam cross at (18,18), splitting the square into four pieces.
+- **Tabs:** each of the two long seam halves carries a round tab of radius 4, centred on it. Each tab is exactly 8 units from the frame and from the other seam.
+- **Result:** the big bottom-right piece pushes one tab up and one tab left. The drawing is mirror-symmetric along the top-left to bottom-right diagonal.
+- **Lucide reference:** `puzzle.svg`, for the round tab set into a straight edge.
+
+**Metric issues fixed:**
+- **Seams too close to the frame** (7.62 and 7.84 apart): every tab is now at least 8 from the frame.
+- **Seams crossing** (0.0 apart): the seams are now four halves that meet at one declared junction at (18,18).
+- **Stroke width:** 2.76 is now 4, with every gap sized for stroke 4.
+
+**Not kept: four tabs on a centred cross.** At stroke 4, a tab needs 24 units of seam: 8 to the frame, 8 for the tab itself and 8 to the other seam. A centred cross leaves only 18 per half. I tested the four-tab layout: it passes validation, but the build gate fails with 8 undersized holes, and the tabs touch the frame. So I moved the cross off-centre to get two 24-unit halves with one tab each. The trade-off is that the four pieces are unequal (roughly 12, 24 and 24 units on a side) instead of an even two-by-two grid.

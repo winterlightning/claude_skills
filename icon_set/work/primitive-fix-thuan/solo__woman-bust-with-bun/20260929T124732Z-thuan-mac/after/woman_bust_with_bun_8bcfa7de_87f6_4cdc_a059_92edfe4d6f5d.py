@@ -1,0 +1,41 @@
+"""The rejected bun portrait had a triangular peak and a tiny shieldlike face. Restore a rounded bun, fuller circular jaw and swept fringe above broad shoulders.
+Symbol plan: human_ref/user.svg circular jaw and broad shoulders; original bun and swept fringe; tiny expression omitted.
+Keyshape VRECT_L: exact SOLO48 envelope. Intentional directional asymmetry follows original.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '8bcfa7de-87f6-4cdc-a059-92edfe4d6f5d'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__woman-bust-with-bun/20260929T124732Z-thuan-mac/reference/granny_8bcfa7de-87f6-4cdc-a059-92edfe4d6f5d.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'woman-bust-with-bun'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    aliases = ()
+    keywords = ('woman', 'bust', 'with', 'bun')
+    human_construction = "bust"
+    def build(self):
+
+        def path(n,start,steps,closed=False):
+            point=start; members=[]
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{n}-{j}'
+                if kind=='L': self.add_line(m,point,end)
+                elif kind=='A': self.add_arc(m,point,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(m,point,(args[0],args[1],end))
+                point=end; members.append(m)
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y),[('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def join(a,b): self.relate('connect',a,b)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+
+        path('hair',(12,24),[('A',(18,14),6,10,True),('L',(18,12)),('A',(30,12),6,8,True),('L',(30,14)),('A',(36,24),6,10,True)])
+        self.add_arc('jaw',(12,24),(36,24),radius_x=12,sweep=False);join('hair','jaw')
+        path('fringe',(12,24),[('C',(24,19),(18,24),(22,21)),('C',(36,24),(26,21),(30,24))]);join('hair','fringe');join('jaw','fringe')
+        path('body',(8,44),[('A',(24,40),16,4,True),('A',(40,44),16,4,True)]);join('jaw','body')

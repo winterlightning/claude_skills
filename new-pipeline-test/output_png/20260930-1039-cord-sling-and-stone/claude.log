@@ -1,0 +1,85 @@
+[10:42:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1039-cord-sling-and-stone; ls $D; cat $D/cord-sling-and-stone...
+[10:42:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1039-cord-sling-and-stone; python3 -c " import json;m=json.lo...
+[10:42:50] Let me look at the image and a previous redraw for the house conventions.
+[10:42:50] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone/cord-sling-and-stone.png
+[10:42:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1948-coiled-snake/coiled_snake_redraw.py; ls output_png/202...
+[10:43:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -rln "redraw-48" --include=*.py --include=*.sh . | head; tail -20 output_p...
+[10:43:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -n " def [a-z]" icon_set/model/*.py | ...
+[10:43:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/; grep -rn " def \(add_\|to_svg\|svg\|validate_icon\|render\)" icon_set/model/ | he...
+[10:43:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py
+[10:45:27] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat normal48-geometry-floors.md solo48-build-gate-traps.md diagonal-caps-a...
+[10:45:30] The layout is tight: the finger loop, the stone and the pouch all need 8 units between them. I'm prototyping the layout with the validator now.
+[10:45:30] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; grep -n -i "hole\|circle\|exact" solo48-build-gate-traps.md | head -20
+[10:46:25] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone/cord_sling_and_stone_redraw.py
+[10:46:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone; cat > /tmp/sling_render.py <<EOF i...
+[10:46:36] Validation is clean. Next I'll check the renders and run the build gate (the build's hole and spacing checks) on the module.
+[10:46:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -20
+[10:46:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone/cord-sling-and-stone_redraw.png
+[10:46:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone; /opt/homebrew/bin/python3 icon_set...
+[10:46:42] > Read: /tmp/sling-both.png
+[10:46:55] I've redrawn the cord sling and stone as a Solo48 model. `validate_icon()` returns **valid with no warnings**, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject and keyshape:** a sling with a shallow pouch, two cords rising from its ends (a finger loop on the left, a free tip on the right) and a round stone floating between them. I kept the suggested `VRECT_L`, which fit best (score 1.18, the only candidate filling the full width). All four extremes now sit on its box: the loop reaches x=8 and y=4, the right cord x=40, and the pouch bottom y=44.
+
+**How it's built** (on the grid; no trace coordinates copied):
+- **Pouch:** a straight rim with a half-ellipse under it, 10 units tall.
+- **Cords:** each leaves a pouch tip vertically, so it flows smoothly into the pouch's lower curve. The right cord is a straight line with a round tip; the left cord is one curve up to the loop.
+- **Loop:** a ring of radius 5.
+- **Stone:** a ring of radius 4, centred over the pouch.
+
+There's no Lucide sling to copy, so I followed Lucide's single-line construction.
+
+**Metric issues:**
+- **Stroke width (info):** fixed. Redrawn at stroke 4, with every gap budgeted for it.
+- **y axis fills only 93% of the keyshape:** fixed; the drawing now spans y=4 to y=44.
+- **Cords and pouch rim 1.73 apart at the right tip (2 errors):** fixed. Each cord now meets the rim and the curve at one shared point, declared as connected.
+- **Stone too close to the rim (2.86) and to the cords (6.91 and 7.01, 3 errors):** fixed. The stone is now 9 from the rim, 9–10 from each cord and 9.4 from the loop.
+- **Hole in the loop (2.63):** fixed. The pinched teardrop is now a round ring with 6 units of open space inside.
+- **Hole in the pouch (1.8):** fixed; 6 units of open space inside.
+- **Hole in the stone (4.04):** not fully fixed. The stone's opening is 4 units, below the metrics' target of 6. A radius-5 stone would sit exactly 8 from both the rim and the right cord. The validator comes back `review` at that exact minimum when one side is a curve, and nothing else can move inside the 32×40 box. The radius-4 ring does pass the build's own hole check.
+
+**Dropped:** the teardrop pinch of the loop (a closed pinch leaves a tiny sliver hole) and the slight upward arch of the pouch rim.
+
+**At 48 px, light and dark:** it reads as a sling, a loop on a cord, a pouch and a stone. The one weakness is that the small stone ring looks a little like a washer.
+
+I didn't register the module, run the build, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone/`:
+- `cord_sling_and_stone_redraw.py`
+- `cord-sling-and-stone_redraw.svg`
+- `cord-sling-and-stone_redraw.png`
+- `cord-sling-and-stone_redraw-48.png`
+
+[10:46:55] === success in 304s, $1.05 ===
+I've redrawn the cord sling and stone as a Solo48 model. `validate_icon()` returns **valid with no warnings**, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject and keyshape:** a sling with a shallow pouch, two cords rising from its ends (a finger loop on the left, a free tip on the right) and a round stone floating between them. I kept the suggested `VRECT_L`, which fit best (score 1.18, the only candidate filling the full width). All four extremes now sit on its box: the loop reaches x=8 and y=4, the right cord x=40, and the pouch bottom y=44.
+
+**How it's built** (on the grid; no trace coordinates copied):
+- **Pouch:** a straight rim with a half-ellipse under it, 10 units tall.
+- **Cords:** each leaves a pouch tip vertically, so it flows smoothly into the pouch's lower curve. The right cord is a straight line with a round tip; the left cord is one curve up to the loop.
+- **Loop:** a ring of radius 5.
+- **Stone:** a ring of radius 4, centred over the pouch.
+
+There's no Lucide sling to copy, so I followed Lucide's single-line construction.
+
+**Metric issues:**
+- **Stroke width (info):** fixed. Redrawn at stroke 4, with every gap budgeted for it.
+- **y axis fills only 93% of the keyshape:** fixed; the drawing now spans y=4 to y=44.
+- **Cords and pouch rim 1.73 apart at the right tip (2 errors):** fixed. Each cord now meets the rim and the curve at one shared point, declared as connected.
+- **Stone too close to the rim (2.86) and to the cords (6.91 and 7.01, 3 errors):** fixed. The stone is now 9 from the rim, 9–10 from each cord and 9.4 from the loop.
+- **Hole in the loop (2.63):** fixed. The pinched teardrop is now a round ring with 6 units of open space inside.
+- **Hole in the pouch (1.8):** fixed; 6 units of open space inside.
+- **Hole in the stone (4.04):** not fully fixed. The stone's opening is 4 units, below the metrics' target of 6. A radius-5 stone would sit exactly 8 from both the rim and the right cord. The validator comes back `review` at that exact minimum when one side is a curve, and nothing else can move inside the 32×40 box. The radius-4 ring does pass the build's own hole check.
+
+**Dropped:** the teardrop pinch of the loop (a closed pinch leaves a tiny sliver hole) and the slight upward arch of the pouch rim.
+
+**At 48 px, light and dark:** it reads as a sling, a loop on a cord, a pouch and a stone. The one weakness is that the small stone ring looks a little like a washer.
+
+I didn't register the module, run the build, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1039-cord-sling-and-stone/`:
+- `cord_sling_and_stone_redraw.py`
+- `cord-sling-and-stone_redraw.svg`
+- `cord-sling-and-stone_redraw.png`
+- `cord-sling-and-stone_redraw-48.png`

@@ -1,0 +1,83 @@
+[18:30:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1827-bellhop-holding-towel; ls $D; cat $D/bellhop-holding-tow...
+[18:30:53] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop-holding-towel.png
+[18:31:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1827-bellhop-holding-towel; python3 -c " import json;m=json.l...
+[18:31:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260929-1824-athlete-running-right/; ls *.py *.sh 2>/dev/null; grep ...
+[18:31:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1824-athlete-running-right/claude.log | head -60; grep -n "...
+[18:31:44] > Bash: cat /tmp/ar_render.py 2>/dev/null || ls -t /tmp/*render*.py | head; cd /Applications/Workspaces/pictographic/claude_skills; grep -l "bellhop\|towel" -r icon_...
+[18:31:47] I have the inputs and a render recipe; now checking the existing bellhop module and a validated bust construction before drafting.
+[18:31:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/bellhop_holding_towel_2f063e75_85ad_52d2_8db7_bb6d3918a515.py; cat icon...
+[18:33:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "mark_human_figure" -A0 icon_set/model/icons/solo/*.py | grep -v "torso='torso'\|torso=\"tors...
+[18:34:04] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop_holding_towel_redraw.py
+[18:34:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/bh_render.py <<'EOF' import importlib.util, subprocess D="new-pipeline-test/output_png/202...
+[18:34:11] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop-holding-towel_redraw.png
+[18:34:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop_holding_towel_redraw.py; /...
+[18:34:28] The first version validated, but the bust looked too small. I've made the body taller and am checking the result.
+[18:34:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop-holding-towel_redraw.png
+[18:34:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel; sed 's/stroke="[^"]*"/stroke="white"...
+[18:34:33] > Read: /tmp/bh_both.png
+[18:34:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/bellhop_holding_towel_redraw.py; /...
+[18:34:41] > Bash: rm -rf /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/__pycache__
+[18:34:53] I've redrawn the bellhop as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and the figure holding a towel reads clearly at native 48 px on both light and dark backgrounds.
+
+**What it shows:** a hotel attendant, drawn from the chest up, holding a hanging towel. I rebuilt it on the 48 grid from the trace's layout, not its coordinates.
+- **Head:** a circle of radius 5 at (15,9); its top sits on y=4.
+- **Shoulders:** a curved dome of radius 7 on the same vertical line as the head, with its top at (15,22). That leaves exactly 8 units between the head outline and the dome (a 4-unit visible gap). I flagged the figure with `mark_human_figure`, using the right half of the dome as the torso.
+- **Body and arm:** the left shoulder runs straight down to y=44 as the side of the body. The right shoulder turns into the upper arm, bends through a smooth curved elbow, and becomes a horizontal forearm. The hand touches the towel's left edge at one shared point, (30,38), and that contact is declared.
+- **Towel:** an upright rectangle from (30,24) to (40,44), 10 wide, which gives it a 6-unit opening.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `VRECT_M`. `VRECT_M` is only 28 units wide. That can't fit the shoulders, the required 8-unit gap to the towel, and a towel wide enough to keep a visible opening. `VRECT_L` was the runner-up for the same tall shape and gives 4 more units. The drawing touches all four edges exactly: x=8 (body side), x=40 (towel), y=4 (head) and y=44 (towel hem).
+
+**Metrics issues, all fixed:**
+- **Head gap and head clearance (e0/e1):** the head is exactly 8 above the shoulder dome and centred on it.
+- **Arm vs shoulders (e1/e2):** in the trace the arm started inside the shoulder curve. It now grows out of the right shoulder as one smooth stroke.
+- **Towel clearances (e1/e3, e2/e3):** the upper arm is 8 from the towel's edge and the towel's corner is 8.6 from the shoulder curve. The hand now touches the towel instead of hovering 2 units away from it.
+- **Towel hole:** the opening is now 6 wide; in the trace it was 1.4.
+- **Short x axis:** the figure now fills the full width of the keyshape.
+- **Stroke width:** redrawn at stroke 4 with 8-unit spacing throughout.
+
+**Changes from the trace and references:**
+- I dropped the separate floating arm in favour of one stroke from the shoulder.
+- I extended the left side of the body down to the bottom edge so the figure has some weight next to the towel.
+- The head and shoulder construction follows `icon_set/references/human_ref/user.svg`. There was no useful Lucide match for this subject.
+- The existing library module for this source ID (by `gpt-6`, `SQUARE`, also `valid`) was not touched.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/`:
+- `bellhop_holding_towel_redraw.py`
+- `bellhop-holding-towel_redraw.svg`
+- `bellhop-holding-towel_redraw.png`
+- `bellhop-holding-towel_redraw-48.png`
+
+[18:34:53] === success in 248s, $1.03 ===
+I've redrawn the bellhop as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and the figure holding a towel reads clearly at native 48 px on both light and dark backgrounds.
+
+**What it shows:** a hotel attendant, drawn from the chest up, holding a hanging towel. I rebuilt it on the 48 grid from the trace's layout, not its coordinates.
+- **Head:** a circle of radius 5 at (15,9); its top sits on y=4.
+- **Shoulders:** a curved dome of radius 7 on the same vertical line as the head, with its top at (15,22). That leaves exactly 8 units between the head outline and the dome (a 4-unit visible gap). I flagged the figure with `mark_human_figure`, using the right half of the dome as the torso.
+- **Body and arm:** the left shoulder runs straight down to y=44 as the side of the body. The right shoulder turns into the upper arm, bends through a smooth curved elbow, and becomes a horizontal forearm. The hand touches the towel's left edge at one shared point, (30,38), and that contact is declared.
+- **Towel:** an upright rectangle from (30,24) to (40,44), 10 wide, which gives it a 6-unit opening.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `VRECT_M`. `VRECT_M` is only 28 units wide. That can't fit the shoulders, the required 8-unit gap to the towel, and a towel wide enough to keep a visible opening. `VRECT_L` was the runner-up for the same tall shape and gives 4 more units. The drawing touches all four edges exactly: x=8 (body side), x=40 (towel), y=4 (head) and y=44 (towel hem).
+
+**Metrics issues, all fixed:**
+- **Head gap and head clearance (e0/e1):** the head is exactly 8 above the shoulder dome and centred on it.
+- **Arm vs shoulders (e1/e2):** in the trace the arm started inside the shoulder curve. It now grows out of the right shoulder as one smooth stroke.
+- **Towel clearances (e1/e3, e2/e3):** the upper arm is 8 from the towel's edge and the towel's corner is 8.6 from the shoulder curve. The hand now touches the towel instead of hovering 2 units away from it.
+- **Towel hole:** the opening is now 6 wide; in the trace it was 1.4.
+- **Short x axis:** the figure now fills the full width of the keyshape.
+- **Stroke width:** redrawn at stroke 4 with 8-unit spacing throughout.
+
+**Changes from the trace and references:**
+- I dropped the separate floating arm in favour of one stroke from the shoulder.
+- I extended the left side of the body down to the bottom edge so the figure has some weight next to the towel.
+- The head and shoulder construction follows `icon_set/references/human_ref/user.svg`. There was no useful Lucide match for this subject.
+- The existing library module for this source ID (by `gpt-6`, `SQUARE`, also `valid`) was not touched.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1827-bellhop-holding-towel/`:
+- `bellhop_holding_towel_redraw.py`
+- `bellhop-holding-towel_redraw.svg`
+- `bellhop-holding-towel_redraw.png`
+- `bellhop-holding-towel_redraw-48.png`

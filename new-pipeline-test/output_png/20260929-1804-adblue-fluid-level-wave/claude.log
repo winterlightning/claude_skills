@@ -1,0 +1,67 @@
+[18:06:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave && ls && cat adblue-fluid-level-wav...
+[18:06:43] There's a previous redraw of the same subject (20260928-1710). Let me look at it and the issues list.
+[18:06:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; ls 20260928-1710-adblue-fluid-level-wave; cat 20260928-1710-adblue-fluid...
+[18:07:10] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/adblue-fluid-level-wave.png
+[18:07:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1710-adblue-fluid-level-wave/claude.log | tail -30; ls new-...
+[18:07:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,60p new-pipeline-test/process.md; grep -rn "render\|cairosvg\|rsvg" new-pipeline-test/run_pi...
+[18:07:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|render\|emit\|validate_icon\|add_bezier\|add_arc\)" -r icon_set/model/*.py ico...
+[18:07:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,145p icon_set/model/icons/base.py
+[18:08:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave; cat > $D/adblue_fluid_level_wav...
+[18:08:16] The model file is written; fixing the import path so I can validate and render it.
+[18:08:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/adblue_run.py; cat new-pipeline-test/output_png/20260929-...
+[18:08:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/adblue_fluid_level_wave_redraw.p...
+[18:08:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/adblue-fluid-level-wave_redraw.png
+[18:08:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/adblue-fluid-level-wave_redraw-48.png
+[18:08:31] > Read: /tmp/adblue_dark48.png
+[18:08:34] The drawing is valid and reads well at 48 px in both themes. I'll update the docstring to match the final numbers.
+[18:08:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/adblue_fluid_level_wave_redraw.p...
+[18:08:50] I redrew the AdBlue icon as a Solo48 model: a hollow droplet above two stacked fluid-level waves. `validate_icon()` returns `valid` with no warnings, and I checked the render at 48 px on white and dark backgrounds.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. The droplet tip sits on y=6, the lower wave's low points on y=42, and both waves run from x=6 to x=42, so the drawing reaches all four edges of the box exactly.
+
+**Construction** (nothing copied from the trace's coordinates):
+- **Droplet:** one closed outline, mirrored left to right. The rounded bottom is an arc of radius 6 centred at (24,17). Each side is one curve from that arc up to the tip, joining the arc smoothly; the tip is the only sharp corner.
+- **Waves:** one wave shape used twice, 10 units apart. Each wave is four smooth curves with low points at x=6, 24 and 42 and high points at x=15 and 33, 3 units high. As in the generated image, the upper wave dips directly under the droplet, which keeps the droplet clear of both high points.
+- **Lucide reference:** the `droplet` and `waves` icons informed the shapes. I redrew both on this grid.
+
+**Metric issues — all 4 addressed (3 fixed, 1 was information only):**
+- **Droplet too close to the upper wave** (5.99 apart, 8 needed): fixed by making the droplet smaller and raising it, so its bottom (y=23) sits over the wave's dip at y=32.
+- **Waves too close together** (5.06 apart): fixed by spacing them 10 apart and making the curves gentler, which gives about 8.9 on centerlines. My first try used a 9-unit spacing and still failed at 7.92.
+- **Height too short for the box** (only 87% filled): fixed; the drawing now reaches y=6 and y=42.
+- **Stroke width** (information only): drawn at stroke 4, and every gap is measured for that width.
+
+**Trade-off:** to fit the waves below it, the droplet is smaller than in the generated image (12 wide, 17 tall). Its opening is still 8 across, and it reads clearly at 48 px.
+
+Everything is in `new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/`:
+- `adblue_fluid_level_wave_redraw.py`
+- `adblue-fluid-level-wave_redraw.svg`
+- `adblue-fluid-level-wave_redraw.png` (512 px preview)
+- `adblue-fluid-level-wave_redraw-48.png`
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+[18:08:50] === success in 149s, $0.72 ===
+I redrew the AdBlue icon as a Solo48 model: a hollow droplet above two stacked fluid-level waves. `validate_icon()` returns `valid` with no warnings, and I checked the render at 48 px on white and dark backgrounds.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. The droplet tip sits on y=6, the lower wave's low points on y=42, and both waves run from x=6 to x=42, so the drawing reaches all four edges of the box exactly.
+
+**Construction** (nothing copied from the trace's coordinates):
+- **Droplet:** one closed outline, mirrored left to right. The rounded bottom is an arc of radius 6 centred at (24,17). Each side is one curve from that arc up to the tip, joining the arc smoothly; the tip is the only sharp corner.
+- **Waves:** one wave shape used twice, 10 units apart. Each wave is four smooth curves with low points at x=6, 24 and 42 and high points at x=15 and 33, 3 units high. As in the generated image, the upper wave dips directly under the droplet, which keeps the droplet clear of both high points.
+- **Lucide reference:** the `droplet` and `waves` icons informed the shapes. I redrew both on this grid.
+
+**Metric issues — all 4 addressed (3 fixed, 1 was information only):**
+- **Droplet too close to the upper wave** (5.99 apart, 8 needed): fixed by making the droplet smaller and raising it, so its bottom (y=23) sits over the wave's dip at y=32.
+- **Waves too close together** (5.06 apart): fixed by spacing them 10 apart and making the curves gentler, which gives about 8.9 on centerlines. My first try used a 9-unit spacing and still failed at 7.92.
+- **Height too short for the box** (only 87% filled): fixed; the drawing now reaches y=6 and y=42.
+- **Stroke width** (information only): drawn at stroke 4, and every gap is measured for that width.
+
+**Trade-off:** to fit the waves below it, the droplet is smaller than in the generated image (12 wide, 17 tall). Its opening is still 8 across, and it reads clearly at 48 px.
+
+Everything is in `new-pipeline-test/output_png/20260929-1804-adblue-fluid-level-wave/`:
+- `adblue_fluid_level_wave_redraw.py`
+- `adblue-fluid-level-wave_redraw.svg`
+- `adblue-fluid-level-wave_redraw.png` (512 px preview)
+- `adblue-fluid-level-wave_redraw-48.png`
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.

@@ -1,0 +1,28 @@
+[
+  {
+    "key": "solo/front-facing-woman-with-flared-shoulder-length-hair",
+    "keyshape": "SQUARE",
+    "attributes": "human_construction = \"bust\"",
+    "findings": "The rejected portrait has a tiny face inside a rigid arch and lacks flared hair ends. Enlarge the circular jaw and draw flared hair tips above broad shoulders.",
+    "plan": "SQUARE (6,6)-(42,42). Mirrored flared hair with radius16 crown centered24,22. Circular jaw radius7 at24,23 ends at30; shoulder top34 gives zero ink gap. Shared hair/shoulder nodes17,34 and31,34.",
+    "references": "Shared human_ref/user.svg: circular jaw and broad smooth shoulders, with contract bust ink contact. Supplied reference controls the center part and flared hair.",
+    "body": "\n        arc('jaw',(17,23),(31,23),7,s=False)\n        bez('fringe-right',(31,23),((30,18),(27,18),(24,14)))\n        bez('fringe-left',(24,14),((21,18),(18,18),(17,23)))\n        contour('face','jaw','fringe-right','fringe-left',closed=True)\n        line('shoulder-left-side',(6,42),(6,40))\n        bez('shoulder-left',(6,40),((6,36),(11,34),(17,34)))\n        line('shoulder-top',(17,34),(31,34))\n        bez('shoulder-right',(31,34),((37,34),(42,36),(42,40)))\n        line('shoulder-right-side',(42,40),(42,42))\n        contour('shoulders','shoulder-left-side','shoulder-left','shoulder-top','shoulder-right','shoulder-right-side')\n        connect('face','shoulders')\n        bez('hair-left',(17,34),((7,34),(6,32),(6,30)),((6,27),(8,26),(8,22)))\n        arc('hair-cap',(8,22),(40,22),16)\n        bez('hair-right',(40,22),((40,26),(42,27),(42,30)),((42,32),(41,34),(31,34)))\n        contour('hair','hair-left','hair-cap','hair-right');connect('hair','shoulders')\n"
+  },
+  {
+    "key": "solo/front-facing-woman-with-rounded-bob",
+    "keyshape": "SQUARE",
+    "attributes": "human_construction = \"bust\"",
+    "findings": "The rejected bob is an arch continuing into the body, with an undersized face. Restore rounded bob ends, a larger circular jaw and an asymmetric side part.",
+    "plan": "SQUARE (6,6)-(42,42). Rounded bob with radius18 cap centered24,24 and deliberate asymmetric fringe. Circular jaw radius8 at24,22 ends at30; shoulder top34 gives zero ink gap.",
+    "references": "Shared human_ref/user.svg: circular jaw, broad shoulders, touching bust ink. Supplied original for rounded bob and side part.",
+    "body": "\n        arc('jaw',(16,22),(32,22),8,s=False)\n        bez('fringe-right',(32,22),((32,18),(25,18),(23,14)))\n        bez('fringe-left',(23,14),((21,18),(16,18),(16,22)))\n        contour('face','jaw','fringe-right','fringe-left',closed=True)\n        line('shoulder-left-side',(6,42),(6,40))\n        bez('shoulder-left',(6,40),((6,36),(11,34),(17,34)))\n        line('shoulder-top',(17,34),(31,34))\n        bez('shoulder-right',(31,34),((37,34),(42,36),(42,40)))\n        line('shoulder-right-side',(42,40),(42,42))\n        contour('shoulders','shoulder-left-side','shoulder-left','shoulder-top','shoulder-right','shoulder-right-side');connect('face','shoulders')\n        bez('hair-left',(17,34),((6,34),(6,32),(6,28)))\n        line('hair-side-left',(6,28),(6,24))\n        arc('hair-cap',(6,24),(42,24),18)\n        line('hair-side-right',(42,24),(42,28))\n        bez('hair-right',(42,28),((42,32),(42,34),(31,34)))\n        contour('hair','hair-left','hair-side-left','hair-cap','hair-side-right','hair-right');connect('hair','shoulders')\n"
+  },
+  {
+    "key": "solo/horizontal-handshake-with-cuff",
+    "keyshape": "HRECT_L",
+    "findings": "The rejected handshake is an angular badge with no rounded gripping fingers. Restore a horizontal clasp with a rounded thumb, curved knuckle edge and visible left cuff.",
+    "plan": "HRECT_L (4,8)-(44,40). Left cuff, upper right-entering hand, oblique clasp and two broad rounded finger ends; intentional asymmetric anatomy.",
+    "references": "Lucide handshake original and atomic-debug: continuous rounded thumb and repeated knuckle arcs. Supplied original controls horizontal wrists.",
+    "body": "\n        path('cuff',(4,14),(12,14),(12,30),(4,30))\n        line('left-hand-top',(12,14),(22,14))\n        bez('hand-top',(22,14),((24,8),(26,8),(30,8)),((35,8),(38,14),(44,14)))\n        line('right-wrist',(44,29),(39,29))\n        bez('grip',(39,29),((43,33),(37,39),(33,35)),((37,39),(32,40),(29,40)),((27,40),(26,38),(25,37)),((23,40),(21,39),(19,37)),((16,34),(14,32),(12,30)))\n        bez('thumb',(22,14),((18,21),(22,27),(26,22)),((27,21),(27,20),(28,20)))\n        line('thumb-palm',(28,20),(39,29))\n        contour('thumb-contour','thumb','thumb-palm')\n        for a,b in [('cuff','left-hand-top'),('left-hand-top','hand-top'),('left-hand-top','thumb-contour'),('hand-top','thumb-contour'),('thumb-contour','grip'),('grip','right-wrist'),('cuff','grip')]:connect(a,b)\n"
+  }
+]

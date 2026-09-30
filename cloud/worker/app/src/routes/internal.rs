@@ -99,9 +99,11 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         }
     }
     if is_final {
-        // Side combination 64 icons of pairs made on the cloud (side_pairs.rs) are not in any push.
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? AND NOT (family = 'side_combination64' \
-            AND COALESCE(icon_id, '') IN (SELECT key FROM store_documents WHERE store = 'side-pairs'))", args![push_id])?);
+        // Side combination 64 icons of pairs made on the cloud (side_pairs.rs) and Container combination 64
+        // icons (container_pairs.rs) are not in any push.
+        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? AND family != 'container_combination64' \
+            AND NOT (family = 'side_combination64' AND COALESCE(icon_id, '') IN (SELECT key FROM store_documents WHERE store = 'side-pairs'))",
+            args![push_id])?);
         let push_details = data.get("details").cloned().unwrap_or(json!({}));
         statements.push(db::stmt(&ctx.db, "INSERT INTO catalog_pushes(pushed_at, pushed_by, details) VALUES (?, ?, ?)",
                                  args![now.clone(), user, python_json(&push_details)])?);

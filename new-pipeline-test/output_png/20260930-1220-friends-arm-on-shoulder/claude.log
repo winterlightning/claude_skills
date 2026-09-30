@@ -1,0 +1,90 @@
+[12:23:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; ls; cat friends-arm-on-shoulder_me...
+[12:23:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; python3 -c " import json;d=json.lo...
+[12:23:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends-arm-on-shoulder.png
+[12:24:12] Let me look at a previous two-person redraw and how it's rendered/validated.
+[12:24:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1347-swimming-athletes/swimming_athletes_redraw.py | head -...
+[12:24:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-e...
+[12:24:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -i "head\|render\|redraw\|svg_\|preview" /Users/jakesdev/.claude/projects/-Applications-Workspac...
+[12:24:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 95,140p icon_set/skills/icon-design/human-reference.md; grep -n -i "redraw" new-pipeline-test/...
+[12:24:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png | head -5; grep -rn "def \(to_svg\|svg\|render\|emit\)" icon_set/m...
+[12:24:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "rsvg\|cairosvg" icon_set/scripts/build.py | head -5; which rsvg-convert; grep -n "def \|huma...
+[12:26:05] Reading the inputs is done; now I'm checking how existing busts mark the head/torso before writing the model.
+[12:26:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -ln "mark_human_figure" icon_set/model/icons/solo/*.py | xargs grep -l "users\|two-people\|frien...
+[12:26:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/square_user_55360bd5_b0c0_48c8_b255_4f7c05d395d6.py; ls icon_set/valida...
+[12:26:33] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends_arm_on_shoulder_redraw.py
+[12:26:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; python3 - <<'EOF' p='friends_arm_o...
+[12:26:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/far_render.py
+[12:26:47] Valid on first pass. Let me look at the render.
+[12:26:48] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends-arm-on-shoulder_redraw.png
+[12:26:48] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends-arm-on-shoulder_redraw-48.png
+[12:27:13] The flat, symmetric hump blends into the shoulder tops and reads as "m". I'll try an arm that leaves the left friend's side and presses down onto the right friend's shoulder at about 90°.
+[12:27:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; sed -n 50,80p friends_arm_on_shoul...
+[12:27:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; python3 - <<'EOF' p='friends_arm_o...
+[12:27:32] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends-arm-on-shoulder_redraw.png
+[12:27:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/friends-arm-on-shoulder_redraw-48.png
+[12:27:52] Still cramped: an 8-unit gap leaves the arm no room to read. I'll narrow the busts to 14 wide (12-unit gap) and compare head radius 4 against 5.
+[12:28:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/far_try.py <<'EOF' import importlib.util, sys, subprocess d='new-pipeline-test/output_png/...
+[12:28:03] > Read: /tmp/far_cmp.png
+[12:28:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; python3 - <<'EOF' p='friends_arm_o...
+[12:28:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; /opt/homebrew/bin/python3 -c " fro...
+[12:28:50] > Read: /tmp/far_cmp.png
+[12:28:54] This reads as one friend's arm draped onto the other's shoulder. Next I'll run the stricter build gate as a cross-check.
+[12:28:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,40p icon_set/scripts/build_gate.py | grep -v "^import\|^from" | head -30
+[12:28:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260930-1220-f...
+[12:29:00] Both gates pass. Now I'll update the docstring to match the final geometry.
+[12:29:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; python3 - <<'EOF' p='friends_arm_o...
+[12:29:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder; sed -i '' 's/the arm stays >= 10 f...
+[12:29:25] I redrew the icon as two friends, each a head-and-shoulders bust, with the left friend's arm draped onto the right friend's near shoulder. `validate_icon()` returns **valid with no warnings**, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Keyshape:** I used the suggested `HRECT_M`. The drawing touches all four edges of its box: left head top at y=10, bust bottoms at y=38, outer sides at x=4 and x=44.
+
+**How it's built:**
+- **Busts:** both use the same shoulder shape, borrowed from Lucide `users`/`user`: a flat shoulder line, rounded r5 corners and straight sides. Each is 14 wide, with 12 units between the two inner sides.
+- **Heads:** r5 circles directly above each neck, 8 above the shoulder line on centerlines. That is the exact 4-unit ink gap `human_ref/user.svg` requires. Each friend is marked with `mark_human_figure`.
+- **Arm:** one smooth curve from the left friend's inner shoulder corner, ending on the right friend's inner corner. It meets both corners at shared endpoints at 63°, and both joins are declared as connections.
+- **One change from the image:** the right friend stands 3 units lower. In my first two attempts at equal heights, the arm blended into the two shoulder lines and the pair read as "mm" at 48 px. With the drop, the arm reads as resting on the other friend's shoulder.
+
+**Metric issues:** all fixed, none left open.
+- **Stroke width:** redrawn at stroke 4, with every gap budgeted for that width.
+- **Short y axis:** fixed by building to the box edges rather than stretching the trace.
+- **Heads too close to shoulders** (2.9 apart, need 8): now exactly 8.
+- **Arm too close to heads** (5.5 and 2.9): now at least 9.7 from both head outlines.
+- **Bust bottoms too close** (6.5 apart): the inner sides are now 12 apart.
+- **Arm-to-shoulder join** (27° wedge, 1.44 short of touching): now a shared endpoint at 63°.
+- **No head detected:** both heads are real circles.
+
+The model file sets the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` you specified, and its docstring records the plan and fixes. As instructed, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/`:
+- `friends_arm_on_shoulder_redraw.py`
+- `friends-arm-on-shoulder_redraw.svg`
+- `friends-arm-on-shoulder_redraw.png`
+- `friends-arm-on-shoulder_redraw-48.png`
+
+[12:29:25] === success in 373s, $1.64 ===
+I redrew the icon as two friends, each a head-and-shoulders bust, with the left friend's arm draped onto the right friend's near shoulder. `validate_icon()` returns **valid with no warnings**, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Keyshape:** I used the suggested `HRECT_M`. The drawing touches all four edges of its box: left head top at y=10, bust bottoms at y=38, outer sides at x=4 and x=44.
+
+**How it's built:**
+- **Busts:** both use the same shoulder shape, borrowed from Lucide `users`/`user`: a flat shoulder line, rounded r5 corners and straight sides. Each is 14 wide, with 12 units between the two inner sides.
+- **Heads:** r5 circles directly above each neck, 8 above the shoulder line on centerlines. That is the exact 4-unit ink gap `human_ref/user.svg` requires. Each friend is marked with `mark_human_figure`.
+- **Arm:** one smooth curve from the left friend's inner shoulder corner, ending on the right friend's inner corner. It meets both corners at shared endpoints at 63°, and both joins are declared as connections.
+- **One change from the image:** the right friend stands 3 units lower. In my first two attempts at equal heights, the arm blended into the two shoulder lines and the pair read as "mm" at 48 px. With the drop, the arm reads as resting on the other friend's shoulder.
+
+**Metric issues:** all fixed, none left open.
+- **Stroke width:** redrawn at stroke 4, with every gap budgeted for that width.
+- **Short y axis:** fixed by building to the box edges rather than stretching the trace.
+- **Heads too close to shoulders** (2.9 apart, need 8): now exactly 8.
+- **Arm too close to heads** (5.5 and 2.9): now at least 9.7 from both head outlines.
+- **Bust bottoms too close** (6.5 apart): the inner sides are now 12 apart.
+- **Arm-to-shoulder join** (27° wedge, 1.44 short of touching): now a shared endpoint at 63°.
+- **No head detected:** both heads are real circles.
+
+The model file sets the `SOURCE_ICON_ID`, `SOURCE_PATH` and `AUTHOR` you specified, and its docstring records the plan and fixes. As instructed, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1220-friends-arm-on-shoulder/`:
+- `friends_arm_on_shoulder_redraw.py`
+- `friends-arm-on-shoulder_redraw.svg`
+- `friends-arm-on-shoulder_redraw.png`
+- `friends-arm-on-shoulder_redraw-48.png`

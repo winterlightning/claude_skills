@@ -1,0 +1,70 @@
+[15:15:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; ls $D; cat $...
+[15:15:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; python3 -c "...
+[15:15:53] Let me look at the PNG and a recent redraw example for the rendering setup.
+[15:15:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/inward-arrow-with-c...
+[15:15:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1328-hand-passing-capsule/hand_passing_capsule_redraw.py | ...
+[15:15:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1328-hand-passing-capsule/claude.log | head -60; ls; sed -n...
+[15:16:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "7e004778" icon_set/model/icons | head; grep -n "def add_\|def relate" icon_set/model/icons/...
+[15:16:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/inward_arrow_with_curved_and_dashed_bounds_7e004778_d88c_4db0_9a9c_c936...
+[15:16:27] > Bash: cat /tmp/am_render.py
+[15:16:29] Now the model.
+[15:16:43] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/inward_arrow_with_c...
+[15:16:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; cat > /tmp/i...
+[15:17:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; P=$D/inward_...
+[15:17:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/inward-arro...
+[15:17:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; P=$D/inward_...
+[15:17:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "junction\|connected\|exclu\|radius\|skip" new-pipeline-test/svg_metrics.py | head -40
+[15:17:54] The model validates; I'm checking whether the metrics script's remaining arrowhead flag is real before the visual review.
+[15:17:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 241,262p new-pipeline-test/svg_metrics.py
+[15:18:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/inward-arrow-with-c...
+[15:18:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; /opt/homebre...
+[15:18:08] > Read: /tmp/iadb_sheet.png
+[15:18:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds; P=$D/inward_...
+[15:18:31] I redrew the icon as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and it reads clearly at 48 px in both light and dark themes. The pipeline's metrics script, run again on the redraw, still flags the arrowhead; I think that's a flaw in the script, not the drawing (explained below).
+
+**Subject:** a right-pointing arrow entering a D-shaped boundary through a dashed left side. I used the suggested `SQUARE` keyshape, and all four extremes sit exactly on its box: the arrow tail at 6 on the left, the curve's outermost point at 42 on the right, and the ends of the D and the dashes at 6 and 42.
+- **Boundary:** one smooth stroke — a short straight lead-in along the top, a semicircle of radius 18 centred on (24,24), and a matching lead-in along the bottom.
+- **Dashes:** two vertical strokes at x=13 (y 6–14 and 34–42), mirrored top and bottom, leaving a gap of 20 for the arrow.
+- **Arrow:** a shaft from (6,24) to (30,24) and two 45° head arms to (22,16) and (22,32). All three meet at the tip, and the joins are declared.
+
+**Metric issues fixed:**
+- **Clearance e0/e1 and e1/e5 (dash only 5.16 from the boundary):** the lead-ins now start 9 to the right of the dashes. I used 9 rather than 8 because an exact 8 next to the curved boundary came back as a `review` warning.
+- **Short x axis (87% fill):** fixed as above; all four extremes are on the `SQUARE` box.
+- **Stroke width (2.4 in the trace):** drawn at stroke 4, with every gap at least 8 on the centrelines. The closest gaps are 9.2 from a head arm to a dash, 10 from a dash to the shaft, and 12 from the tip to the curve.
+
+**Not fixed:** the metrics script flags the shaft against each head arm at 6.25 apart. It ignores points within 8 of the shared tip and then measures the rest of the 45° wedge, which is never 8 wide for any arrowhead. The trace only escaped because its arms were shorter than 8. The parts genuinely share the tip and the validator accepts the joint, so I left it and noted it in the module docstring.
+
+**Lucide reference:** `log-in` gave me the arrow proportions and the way the arrow enters an open boundary. Here the bracket is a semicircle.
+
+An older `gpt-6` module for the same source ID already exists in `icon_set/model/icons/solo/` (a down-left arrow in a quarter circle). I left it alone, didn't register this redraw, and didn't touch `published/` or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/`:
+- `inward_arrow_with_curved_and_dashed_bounds_redraw.py`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw.svg`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw.png`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw-48.png`
+
+[15:18:31] === success in 214s, $0.95 ===
+I redrew the icon as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and it reads clearly at 48 px in both light and dark themes. The pipeline's metrics script, run again on the redraw, still flags the arrowhead; I think that's a flaw in the script, not the drawing (explained below).
+
+**Subject:** a right-pointing arrow entering a D-shaped boundary through a dashed left side. I used the suggested `SQUARE` keyshape, and all four extremes sit exactly on its box: the arrow tail at 6 on the left, the curve's outermost point at 42 on the right, and the ends of the D and the dashes at 6 and 42.
+- **Boundary:** one smooth stroke — a short straight lead-in along the top, a semicircle of radius 18 centred on (24,24), and a matching lead-in along the bottom.
+- **Dashes:** two vertical strokes at x=13 (y 6–14 and 34–42), mirrored top and bottom, leaving a gap of 20 for the arrow.
+- **Arrow:** a shaft from (6,24) to (30,24) and two 45° head arms to (22,16) and (22,32). All three meet at the tip, and the joins are declared.
+
+**Metric issues fixed:**
+- **Clearance e0/e1 and e1/e5 (dash only 5.16 from the boundary):** the lead-ins now start 9 to the right of the dashes. I used 9 rather than 8 because an exact 8 next to the curved boundary came back as a `review` warning.
+- **Short x axis (87% fill):** fixed as above; all four extremes are on the `SQUARE` box.
+- **Stroke width (2.4 in the trace):** drawn at stroke 4, with every gap at least 8 on the centrelines. The closest gaps are 9.2 from a head arm to a dash, 10 from a dash to the shaft, and 12 from the tip to the curve.
+
+**Not fixed:** the metrics script flags the shaft against each head arm at 6.25 apart. It ignores points within 8 of the shared tip and then measures the rest of the 45° wedge, which is never 8 wide for any arrowhead. The trace only escaped because its arms were shorter than 8. The parts genuinely share the tip and the validator accepts the joint, so I left it and noted it in the module docstring.
+
+**Lucide reference:** `log-in` gave me the arrow proportions and the way the arrow enters an open boundary. Here the bracket is a semicircle.
+
+An older `gpt-6` module for the same source ID already exists in `icon_set/model/icons/solo/` (a down-left arrow in a quarter circle). I left it alone, didn't register this redraw, and didn't touch `published/` or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/`:
+- `inward_arrow_with_curved_and_dashed_bounds_redraw.py`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw.svg`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw.png`
+- `inward-arrow-with-curved-and-dashed-bounds_redraw-48.png`

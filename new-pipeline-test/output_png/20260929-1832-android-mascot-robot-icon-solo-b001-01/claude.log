@@ -1,0 +1,102 @@
+[18:37:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; ls $D; cat $D/*_...
+[18:37:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; python3 -c " imp...
+[18:38:07] Let me look at the generated image and a recent redraw example for the render conventions.
+[18:38:08] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/android-mascot-robot-ic...
+[18:38:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf/bitten_apple_with_a_...
+[18:38:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/android_mascot_robot_icon_solo_b001_01_5a895be7_0613_57bb_9e1f_038063cb...
+[18:39:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -i "redraw" new-pipeline-test/run_pipeline.sh | head -20; cat new-pipeline-test/output_png/20...
+[18:39:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/atv_check.py 2>/dev/null | head -60; ls icon_set/scripts | grep -i gate; grep -n "add_argume...
+[18:39:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for f in icon_set/model/icons/solo/android_mascot_robot_icon_batch_001_r3_5a895be7_0613_57bb_9e1f_038...
+[18:40:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -rl "5a895be7" disapproved | head; grep -rh -A3 "5a895be7" disapproved 2>/dev/...
+[18:40:40] I've read the inputs; now checking prior review feedback for this source before laying out the grid.
+[18:40:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; python3 -c " import json;d=json.load(open('disapproved/repeat-20260929/icons.json')...
+[18:40:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat pictographic-primitives/apps/android_5a895be7-0613-57bb-9e1f-038063cbd8b8.svg | head -c 2000; /op...
+[18:40:57] > Read: /tmp/andref.png
+[18:42:32] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat normal48-geometry-floors.md solo48-build-gate-traps.md |...
+[18:42:34] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; sed -n 10,60p solo48-build-gate-traps.md
+[18:43:32] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/android_mascot_robot_ic...
+[18:43:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; S=$D/android-mas...
+[18:44:12] The model validates, but the build gate flags the dome crown as too close to the head base (the head is only 8 tall). Making the dome taller and retesting.
+[18:44:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; S=$D/android-mas...
+[18:44:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; F=$D/android_mas...
+[18:45:00] Head base 15 passes both gates. Applying it and rendering previews.
+[18:45:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01; F=$D/android_mas...
+[18:45:26] > Read: /tmp/and_both.png
+[18:45:36] Reads clearly as Android at 48 px in both themes. The dome looks a bit boxy at the shoulders, so I'll try a rounder shoulder node.
+[18:45:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/android_mascot_ro...
+[18:46:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/android_mascot_ro...
+[18:46:19] > Read: /tmp/and_both.png
+[18:46:22] The dome is rounder now and both gates still pass. Last step: updating the docstring to match the final geometry.
+[18:46:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/android_mascot_ro...
+[18:46:58] I've redrawn the Android mascot robot as a Solo48 model. `validate_icon()` returns `valid` with no warnings and `build_gate.py` passes with 0 errors and 0 warnings. At native 48 px it reads clearly as the Android robot in both light and dark themes.
+
+**Keyshape: VRECT_L instead of the suggested SQUARE.** SQUARE would need the mascot stretched 1.16× sideways. VRECT_L needs only 1.08× vertically, so the drawing keeps its proportions. The arms sit on x=8/40, the antenna tips on y=4 and the feet on y=44. The drawing is mirrored exactly about x=24.
+
+**Drawing**
+- **Head:** a separate closed dome, 16 wide and 9 tall, with a flat base. Its curve runs smoothly from the sides to the top.
+- **Antennae:** two short lines running outward and up from the dome's shoulders, joined to the dome.
+- **Body:** a rounded rectangle 8 units below the head. Its bottom corners are more rounded than its top ones, as in the image.
+- **Legs:** two short lines hanging from the body's base, 8 apart.
+- **Arms:** two separate lines, 8 from the body walls. At stroke 4, a line with round ends draws the image's capsule arms.
+
+**Metric issues**
+- **Fixed, all 12 errors:**
+  - The head-to-body gap is now 8.
+  - The arms are 8 from the body and at least 10 from the head.
+  - The six eye clearance errors went away because the eyes were dropped (see below).
+  - The head opening is now about 9 on centerlines, up from 5.0.
+- **Fixed, both warnings:** the drawing is down to 6 strokes (from 8), and VRECT_L is filled on both axes.
+- **Stroke-width note:** drawn at stroke 4, with every gap sized for it.
+
+**Not fixed**
+- **The two eyes were dropped.** Two eyes 8 apart and 8 from the dome and its base need a head about 25 wide and 17 tall. With the arms and the head gap, only 16 × 9 is left. The original reference has no eyes either.
+- **The legs are solid lines, not the image's hollow U shapes.** Two hollow legs plus the space between them need a 24-wide body base, and the body is 16 wide.
+
+I first tried an 8-tall head. It passed `validate_icon()` but failed the build gate's internal spacing check (the dome top ran 6.8 above the head base), so I raised it to 9 and rounded the shoulders.
+
+**References:** Lucide has no Android mascot. I used Lucide `bot` for the antennae leaving the head outline and the flat head base. Earlier modules for this source ID under `icon_set/model/icons/solo/` have no eyes or arms; I left them untouched.
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/`:
+- `android_mascot_robot_icon_solo_b001_01_redraw.py`
+- `android-mascot-robot-icon-solo-b001-01_redraw.svg`
+- `android-mascot-robot-icon-solo-b001-01_redraw.png`
+- `android-mascot-robot-icon-solo-b001-01_redraw-48.png`
+
+[18:46:58] === success in 571s, $1.58 ===
+I've redrawn the Android mascot robot as a Solo48 model. `validate_icon()` returns `valid` with no warnings and `build_gate.py` passes with 0 errors and 0 warnings. At native 48 px it reads clearly as the Android robot in both light and dark themes.
+
+**Keyshape: VRECT_L instead of the suggested SQUARE.** SQUARE would need the mascot stretched 1.16× sideways. VRECT_L needs only 1.08× vertically, so the drawing keeps its proportions. The arms sit on x=8/40, the antenna tips on y=4 and the feet on y=44. The drawing is mirrored exactly about x=24.
+
+**Drawing**
+- **Head:** a separate closed dome, 16 wide and 9 tall, with a flat base. Its curve runs smoothly from the sides to the top.
+- **Antennae:** two short lines running outward and up from the dome's shoulders, joined to the dome.
+- **Body:** a rounded rectangle 8 units below the head. Its bottom corners are more rounded than its top ones, as in the image.
+- **Legs:** two short lines hanging from the body's base, 8 apart.
+- **Arms:** two separate lines, 8 from the body walls. At stroke 4, a line with round ends draws the image's capsule arms.
+
+**Metric issues**
+- **Fixed, all 12 errors:**
+  - The head-to-body gap is now 8.
+  - The arms are 8 from the body and at least 10 from the head.
+  - The six eye clearance errors went away because the eyes were dropped (see below).
+  - The head opening is now about 9 on centerlines, up from 5.0.
+- **Fixed, both warnings:** the drawing is down to 6 strokes (from 8), and VRECT_L is filled on both axes.
+- **Stroke-width note:** drawn at stroke 4, with every gap sized for it.
+
+**Not fixed**
+- **The two eyes were dropped.** Two eyes 8 apart and 8 from the dome and its base need a head about 25 wide and 17 tall. With the arms and the head gap, only 16 × 9 is left. The original reference has no eyes either.
+- **The legs are solid lines, not the image's hollow U shapes.** Two hollow legs plus the space between them need a 24-wide body base, and the body is 16 wide.
+
+I first tried an 8-tall head. It passed `validate_icon()` but failed the build gate's internal spacing check (the dome top ran 6.8 above the head base), so I raised it to 9 and rounded the shoulders.
+
+**References:** Lucide has no Android mascot. I used Lucide `bot` for the antennae leaving the head outline and the flat head base. Earlier modules for this source ID under `icon_set/model/icons/solo/` have no eyes or arms; I left them untouched.
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1832-android-mascot-robot-icon-solo-b001-01/`:
+- `android_mascot_robot_icon_solo_b001_01_redraw.py`
+- `android-mascot-robot-icon-solo-b001-01_redraw.svg`
+- `android-mascot-robot-icon-solo-b001-01_redraw.png`
+- `android-mascot-robot-icon-solo-b001-01_redraw-48.png`

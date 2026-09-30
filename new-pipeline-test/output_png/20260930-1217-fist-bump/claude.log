@@ -1,0 +1,81 @@
+[12:21:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1217-fist-bump && ls && cat fist-bump_metrics.json | head -c 600...
+[12:21:54] > Bash: python3 -c " import json;d=json.load(open('fist-bump_metrics.json'));[print(k, json.dumps(d[k])[:1500]) for k in d if k not in ('elements','keyshape','choice...
+[12:21:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1217-fist-bump/fist-bump.png
+[12:22:07] Let me look at a prior redraw script for the pipeline conventions, and the human reference.
+[12:22:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && cat new-pipeline-test/output_png/20260928-1347-swimming-athletes/swimming_athletes_redraw.py; grep ...
+[12:22:13] > Bash: cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/{avatar-contact-certification,diagonal-caps-and-exact-8,png-solo-pipeline}....
+[12:22:16] > Bash: F=/Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/991eea0a-3e97-4afd-ad78-a4d34d68c7cf/tool-results/b231j5ur6.txt; grep ...
+[12:22:18] > Bash: F=/Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/991eea0a-3e97-4afd-ad78-a4d34d68c7cf/tool-results/b231j5ur6.txt; sed -...
+[12:22:22] > Bash: grep -n "def \(to_svg\|render\|svg\|validate_icon\|mark_human_figure\|add_arc\|add_line\|add_contour\|add_polyline\|add_bezier\)" -r icon_set/model/*.py icon...
+[12:22:24] > Bash: ls icon_set/model/ icon_set/model/icons/ | head -40; grep -rn "def to_svg\|def render_svg\|def svg\b\|def mark_human_figure\|human_construction" icon_set/mod...
+[12:22:26] I'm reading the model API before drawing the two busts.
+[12:22:27] > Bash: grep -n " def [a-z]" icon_set/model/icons/base.py | head -60; grep -rn "human_construction" icon_set/model/icons/base.py icon_set/validation/*.py | head -8
+[12:22:28] > Bash: sed -n 90,230p icon_set/model/icons/base.py; sed -n 60,200p icon_set/validation/internal_spacing.py
+[12:22:32] > Bash: grep -rln "human_figures" icon_set/validation/ icon_set/model | head;
+[12:23:27] > Bash: /opt/homebrew/bin/python3 -c "import cairosvg; print('ok')"; which rsvg-convert magick; sed -n 255,300p icon_set/model/icons/base.py
+[12:23:31] Now the model.
+[12:23:47] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1217-fist-bump/fist_bump_redraw.py
+[12:23:51] > Bash: D=new-pipeline-test/output_png/20260930-1217-fist-bump && cat > /tmp/fb_render.py <<'EOF' import importlib.util, sys, cairosvg D = "new-pipeline-test/output_...
+[12:23:53] > Bash: PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/fb_render.py
+[12:23:55] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1217-fist-bump/fist-bump_redraw.png
+[12:24:10] > Bash: cat > /tmp/fb_try.py <<'EOF' import importlib.util, sys, cairosvg D = "new-pipeline-test/output_png/20260930-1217-fist-bump" spec = importlib.util.spec_from_...
+[12:24:13] > Read: /tmp/fb_big.png
+[12:24:13] > Read: /tmp/fb_small.png
+[12:24:24] Current busts validate but read abstractly; trying a rounder inner shoulder so the arm reads.
+[12:24:33] > Bash: D=new-pipeline-test/output_png/20260930-1217-fist-bump && /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1217-fist-bump/fist_bu...
+[12:24:35] > Read: /tmp/fb_big.png
+[12:24:35] > Read: /tmp/fb_small.png
+[12:24:43] The rounded shoulder turns the arms into U-turn arrows, so I'm going back to the straight elbow dip with the longer forearm (variant C).
+[12:24:51] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1217-fist-bump/fist_bump_redraw.py" s=open(p).read() s=s.replace('''TOP_END = (1...
+[12:24:54] > Read: /tmp/fb_both.png
+[12:24:55] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1217-fist-bump/fist-bump_redraw.png
+[12:25:07] I redrew the fist bump as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and I checked it at 48 px in light and dark.
+
+**Subject:** two mirrored stick-figure busts, each reaching one bent arm inward so the two fists meet at chest height across a one-stroke gap. The rendered source-image PNG shows the same thing.
+
+**Keyshape: `HRECT_L`, not the suggested `HRECT_M`.** Stacking the parts needs 32 units of height: the head (10), the required 8-unit head gap, and a bust with a visible elbow dip (14). `HRECT_M` only gives 28. The trace filled just 65% of the height even in `HRECT_M`, and `HRECT_L` has the same horizontal fit. All four `HRECT_L` extremes are exact: the head tops are at y=8, the body sides at x=4 and x=44, and the feet at y=40.
+
+**How it's built:** each head is an r5 circle over an r6 rounded shoulder, sharing the same vertical centre line (x=10 on the left, mirrored on the right). A flat shoulder line leads into the arm, which drops to an elbow at (14,33) and rises to the fist at (20,31). The other fist is at (28,31). Each figure is flagged with `mark_human_figure`. For proportions I used `human_ref/user.svg` and Lucide `users` (circle head over a shoulder arch).
+
+**Metric issues fixed:**
+- **stroke-width:** redrawn at stroke 4, with every gap planned for it.
+- **keyshape-short-axis:** all extremes now sit exactly on the keyshape box.
+- **clearance e0/e2, e1/e3 and head-gap:** each head sits exactly 8 above its own shoulder (a 4-unit ink gap) and at least 8 from the arms.
+- **clearance e2/e3:** the fists are now 8 apart instead of touching.
+- **both head holes:** the r5 heads leave a 6-unit inner opening.
+
+No issues were left unfixed. One visual caveat: at 48 px the fists are just the round ends of the arm strokes, so the gesture reads as two people reaching toward each other rather than literal fists. The image-generation step had already noted this. I also tried a rounded inner shoulder, but it made the arms look like U-turn arrows, so I dropped it.
+
+As instructed, I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1217-fist-bump/`:
+- `fist_bump_redraw.py` (the model, with the plan and fixed issues in its docstring)
+- `fist-bump_redraw.svg`
+- `fist-bump_redraw.png` (large preview)
+- `fist-bump_redraw-48.png` (native 48 px)
+
+[12:25:07] === success in 237s, $1.13 ===
+I redrew the fist bump as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and I checked it at 48 px in light and dark.
+
+**Subject:** two mirrored stick-figure busts, each reaching one bent arm inward so the two fists meet at chest height across a one-stroke gap. The rendered source-image PNG shows the same thing.
+
+**Keyshape: `HRECT_L`, not the suggested `HRECT_M`.** Stacking the parts needs 32 units of height: the head (10), the required 8-unit head gap, and a bust with a visible elbow dip (14). `HRECT_M` only gives 28. The trace filled just 65% of the height even in `HRECT_M`, and `HRECT_L` has the same horizontal fit. All four `HRECT_L` extremes are exact: the head tops are at y=8, the body sides at x=4 and x=44, and the feet at y=40.
+
+**How it's built:** each head is an r5 circle over an r6 rounded shoulder, sharing the same vertical centre line (x=10 on the left, mirrored on the right). A flat shoulder line leads into the arm, which drops to an elbow at (14,33) and rises to the fist at (20,31). The other fist is at (28,31). Each figure is flagged with `mark_human_figure`. For proportions I used `human_ref/user.svg` and Lucide `users` (circle head over a shoulder arch).
+
+**Metric issues fixed:**
+- **stroke-width:** redrawn at stroke 4, with every gap planned for it.
+- **keyshape-short-axis:** all extremes now sit exactly on the keyshape box.
+- **clearance e0/e2, e1/e3 and head-gap:** each head sits exactly 8 above its own shoulder (a 4-unit ink gap) and at least 8 from the arms.
+- **clearance e2/e3:** the fists are now 8 apart instead of touching.
+- **both head holes:** the r5 heads leave a 6-unit inner opening.
+
+No issues were left unfixed. One visual caveat: at 48 px the fists are just the round ends of the arm strokes, so the gesture reads as two people reaching toward each other rather than literal fists. The image-generation step had already noted this. I also tried a rounded inner shoulder, but it made the arms look like U-turn arrows, so I dropped it.
+
+As instructed, I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1217-fist-bump/`:
+- `fist_bump_redraw.py` (the model, with the plan and fixed issues in its docstring)
+- `fist-bump_redraw.svg`
+- `fist-bump_redraw.png` (large preview)
+- `fist-bump_redraw-48.png` (native 48 px)

@@ -1,0 +1,72 @@
+[19:31:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1928-calendar-number-seven && ls && cat calendar-number-seven_me...
+[19:31:45] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1928-calendar-number-seven/calendar-number-seven.png
+[19:32:13] > Bash: python3 -c " import json;d=json.load(open('calendar-number-seven_metrics.json')) for k in d: if k not in ('schema','choice','files','target','source','keysha...
+[19:32:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && cat new-pipeline-test/output_png/20260929-1924-clipboard-solo/clipboard_solo_redraw.py; ls icon_set...
+[19:32:34] > Bash: cat icon_set/model/icons/solo/calendar_number_seven_d7201890_607e_4568_916a_e843756d3ef0.py; python3 -c " import json;d=json.load(open('icon_set/typeface/gly...
+[19:32:38] > Bash: cat /tmp/cbs/check.py; python3 -c " import json;d=json.load(open('icon_set/typeface/glyphs.json')) print(d['geometry_policy']) g=d['glyphs'] it = g.items() i...
+[19:32:49] Checking the typeface's glyph variants: the stored 7 is 20 units tall, which may not fit under a header.
+[19:32:49] > Bash: python3 -c " import json;d=json.load(open('icon_set/typeface/glyphs.json')) print(json.dumps(d['profile_variants'])[:3000]) "; cat ~/.claude/projects/-Applic...
+[19:33:05] The header plus a 20-tall typeface 7 can't fit the 40-unit budget. Checking the v2 glyph (16 tall) for a layout.
+[19:33:07] > Bash: ls icon_set/typeface/; python3 -c " import json;d=json.load(open('icon_set/typeface/glyphs-v2.json')) print(list(d)[:8]); g=d['glyphs'] it = g.items() if isi...
+[19:33:16] > Bash: grep -n "def \|^class\|^[A-Z_]* =" icon_set/model/typeface.py | head -40; grep -rl "from ...typeface\|model.typeface\|add_glyph\|add_text" icon_set/model/ico...
+[19:33:21] > Bash: grep -rl "glyphs-v2\|digit-" icon_set/model/icons/solo/ | head -5; grep -rln "glyphs.json\|glyphs-v2.json" icon_set/model icon_set/scripts | head
+[19:33:25] > Bash: cat icon_set/model/icons/solo/three_g_mobile_network_f5658962_8a89_5980_a105_1b899cfd5a20.py | head -80; grep -n "glyph" icon_set/model/icons/solo/letter_c_a...
+[19:33:36] Layout decided: VRECT_L, no header (it can't fit above the typeface 7 at stroke 4), bindings crossing the top edge, v2 glyph 7 translated unchanged.
+[19:33:55] > Bash: d=new-pipeline-test/output_png/20260929-1928-calendar-number-seven && cat > $d/calendar_number_seven_redraw.py <<'EOF' """calendar number seven (redraw of th...
+[19:33:58] > Bash: grep -n "def add_bezier" -A25 icon_set/model/icons/base.py | head -40; grep -rn "grid\|round(" icon_set/model/primitives.py | head
+[19:34:01] > Bash: grep -rn "text-source-native-v2" icon_set --include=*.py | head
+[19:34:03] > Bash: grep -rn "text-source-native-v2" icon_set/model icon_set/scripts icon_set/validation* 2>/dev/null | grep -v "^Binary" | head
+[19:34:13] > Bash: sed -n 215,240p icon_set/validation/validator.py; sed -n 325,345p icon_set/validation/validator.py; sed -n 430,445p icon_set/validation/validator.py; grep -r...
+[19:34:28] > Bash: d=new-pipeline-test/output_png/20260929-1928-calendar-number-seven && /opt/homebrew/bin/python3 - <<'EOF' from pathlib import Path p=Path("new-pipeline-test/...
+[19:34:34] Valid with no warnings; checking the renders now.
+[19:34:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1928-calendar-number-seven/calendar-number-seven_redraw.png
+[19:34:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1928-calendar-number-seven/calendar-number-seven_redraw-48.png
+[19:34:39] Reads clearly. Quick dark-theme check:
+[19:34:40] > Bash: cd /tmp/cns && sed 's/currentColor/#fff/' /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1928-calendar-number-seve...
+[19:34:40] > Read: /tmp/cns/dark192.png
+[19:34:53] I redrew the calendar with the number seven as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and it reads clearly as a calendar page marked 7 at 48 px in both light and dark themes. One part of the generated image didn't survive: the horizontal header line.
+
+**Construction:** it uses `VRECT_L` (centerline box (8,4)-(40,44)) instead of the suggested `SQUARE`, because the numeral needs the extra height.
+- **Page:** a rounded rectangle from x 8 to 40 and y 8 to 44, corner radius 4, mirrored about x=24.
+- **Binding tabs:** two tabs at x=16 and x=32, running from y 4 to 12. They cross the page's top edge and share points with it at y=8, and the model records that contact. The four keyshape edges are reached exactly.
+- **Seven:** reuses the typeface v2 `digit-7` from `glyphs-v2.json` (15 units tall) rather than new number geometry. Its bar runs from (20,20) to (28,20) and its diagonal goes to (22,35). SOLO48 needs whole-number points, so I rounded the glyph's points to the grid. Its tiny corner curve is now just the rounded stroke join. The bar is centred on x=24.
+- **Lucide reference:** I followed Lucide's `calendar`, a rounded page with two binding lines crossing its top edge.
+
+**Metric issues:**
+- **Fixed:** the page and tabs were 0.1 apart (e1/e2, e1/e3). They now deliberately share points and the contact is recorded.
+- **Fixed:** the page bottom and the seven were 4.85 apart (e1/e4). They are now 9 apart.
+- **Removed with the header:** the header was too close to the tabs and the seven (e0/e2, e0/e3, e0/e4), and the header cell was 4.8 wide (`hole`).
+- **Fixed:** the trace's stroke was 2.77, against a target of 4. The model is drawn at stroke 4.
+- **Could not fix – the header line:** the typeface glyph can't be scaled, so the header doesn't fit. It needs 10 units below the page top for a 6-wide opening, 8 more above the seven, 15 for the seven and 8 below it: 41 units in all. The tallest SOLO48 box leaves only 36 below the page top.
+
+I left the existing gpt-6 module for this source ID unchanged. I didn't register anything under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1928-calendar-number-seven/`:
+- `calendar_number_seven_redraw.py`
+- `calendar-number-seven_redraw.svg`
+- `calendar-number-seven_redraw.png` (512 px preview)
+- `calendar-number-seven_redraw-48.png`
+
+[19:34:55] === success in 196s, $0.96 ===
+I redrew the calendar with the number seven as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and it reads clearly as a calendar page marked 7 at 48 px in both light and dark themes. One part of the generated image didn't survive: the horizontal header line.
+
+**Construction:** it uses `VRECT_L` (centerline box (8,4)-(40,44)) instead of the suggested `SQUARE`, because the numeral needs the extra height.
+- **Page:** a rounded rectangle from x 8 to 40 and y 8 to 44, corner radius 4, mirrored about x=24.
+- **Binding tabs:** two tabs at x=16 and x=32, running from y 4 to 12. They cross the page's top edge and share points with it at y=8, and the model records that contact. The four keyshape edges are reached exactly.
+- **Seven:** reuses the typeface v2 `digit-7` from `glyphs-v2.json` (15 units tall) rather than new number geometry. Its bar runs from (20,20) to (28,20) and its diagonal goes to (22,35). SOLO48 needs whole-number points, so I rounded the glyph's points to the grid. Its tiny corner curve is now just the rounded stroke join. The bar is centred on x=24.
+- **Lucide reference:** I followed Lucide's `calendar`, a rounded page with two binding lines crossing its top edge.
+
+**Metric issues:**
+- **Fixed:** the page and tabs were 0.1 apart (e1/e2, e1/e3). They now deliberately share points and the contact is recorded.
+- **Fixed:** the page bottom and the seven were 4.85 apart (e1/e4). They are now 9 apart.
+- **Removed with the header:** the header was too close to the tabs and the seven (e0/e2, e0/e3, e0/e4), and the header cell was 4.8 wide (`hole`).
+- **Fixed:** the trace's stroke was 2.77, against a target of 4. The model is drawn at stroke 4.
+- **Could not fix – the header line:** the typeface glyph can't be scaled, so the header doesn't fit. It needs 10 units below the page top for a 6-wide opening, 8 more above the seven, 15 for the seven and 8 below it: 41 units in all. The tallest SOLO48 box leaves only 36 below the page top.
+
+I left the existing gpt-6 module for this source ID unchanged. I didn't register anything under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1928-calendar-number-seven/`:
+- `calendar_number_seven_redraw.py`
+- `calendar-number-seven_redraw.svg`
+- `calendar-number-seven_redraw.png` (512 px preview)
+- `calendar-number-seven_redraw-48.png`

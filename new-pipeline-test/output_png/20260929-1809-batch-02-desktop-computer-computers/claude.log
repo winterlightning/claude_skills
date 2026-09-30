@@ -1,0 +1,65 @@
+[18:14:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers; ls $D; cat $D/*_met...
+[18:15:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers; python3 -c " import...
+[18:15:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1807-boar-head/boar_head_redraw.py | sed -n '1,40p;/^def ma...
+[18:15:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '40,400p' new-pipeline-test/output_png/20260929-1807-boar-head/boar_head_redraw.py | grep -v "...
+[18:15:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; tail -30 new-pipeline-test/output_png/20260929-1807-boar-head/boar_head_redraw.py; ls new-pipeline-te...
+[18:15:28] Inputs read; now drafting the monitor model (HRECT_M, screen + stand + foot with the stand stretched to clear 8).
+[18:15:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "redraw-48\|_redraw.png" new-pipeline-test/run_pipeline.sh | head; grep -n "def \(to_svg\|sv...
+[18:15:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 250,300p icon_set/model/icons/base.py; grep -n "def add_arc\|def add_line\|def add_contour\|de...
+[18:15:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; file new-pipeline-test/output_png/20260929-1807-boar-head/*redraw*.png; grep -n "def render_png" -A10...
+[18:16:00] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers/batch_02_desktop_computer_...
+[18:16:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers; /opt/homebrew/bin/p...
+[18:16:08] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers/batch-02-desktop-computer-...
+[18:16:08] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers/batch-02-desktop-computer-...
+[18:16:17] I've redrawn the desktop computer as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and the 512 px preview and the native 48 px render both read cleanly as a monitor. I only checked it on the light (white) background, not the dark theme.
+
+**Subject:** a desktop computer monitor, drawn as three parts and mirrored about x=24:
+- **Screen:** an empty rounded rectangle spanning x 4–44 and y 8–32, with corner radius 4. Its bottom edge is split at (24,32) where the stand attaches.
+- **Stand:** a line from (24,32) to (24,40).
+- **Foot:** a line from (16,40) to (32,40), split at (24,40) where the stand ends.
+
+The stand's contacts with the screen and the foot are declared as connections. The construction follows Lucide's `monitor` icon (rounded 20×14 rectangle, short stand, foot half the screen width), redrawn on the 48 grid. Nothing was copied from the trace's coordinates and nothing was dropped.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** The metrics scored the two almost equally (1.20 vs 1.17). Fixing the clearance error makes the stand 8 long instead of 5.3, which needs more height. On HRECT_M the screen would shrink to 40×20 (aspect 2.0). On HRECT_L it is 40×24 (aspect 1.67), which matches the traced screen (38.2×22.7, about 1.69).
+
+**Metric issues:**
+- **Clearance error (foot 5.34 below the screen):** fixed. The foot is now exactly 8 below the screen on centerlines, a 4-unit ink gap.
+- **Keyshape short-axis warning (x filled only 95%):** fixed. Every extreme now sits exactly on the HRECT_L box.
+- **Stroke width (info):** drawn at stroke 4, with every gap sized for it.
+
+No issues were left unfixed.
+
+As instructed, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates. There is already a registered model for this source ID (`batch_02_desktop_computer_computers_94bf7c3e_…py`, HRECT_L with a chin band). I left it untouched.
+
+Files are in `new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers/`:
+- `batch_02_desktop_computer_computers_redraw.py`
+- `batch-02-desktop-computer-computers_redraw.svg`
+- `batch-02-desktop-computer-computers_redraw.png`
+- `batch-02-desktop-computer-computers_redraw-48.png`
+
+[18:16:17] === success in 103s, $0.58 ===
+I've redrawn the desktop computer as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and the 512 px preview and the native 48 px render both read cleanly as a monitor. I only checked it on the light (white) background, not the dark theme.
+
+**Subject:** a desktop computer monitor, drawn as three parts and mirrored about x=24:
+- **Screen:** an empty rounded rectangle spanning x 4–44 and y 8–32, with corner radius 4. Its bottom edge is split at (24,32) where the stand attaches.
+- **Stand:** a line from (24,32) to (24,40).
+- **Foot:** a line from (16,40) to (32,40), split at (24,40) where the stand ends.
+
+The stand's contacts with the screen and the foot are declared as connections. The construction follows Lucide's `monitor` icon (rounded 20×14 rectangle, short stand, foot half the screen width), redrawn on the 48 grid. Nothing was copied from the trace's coordinates and nothing was dropped.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** The metrics scored the two almost equally (1.20 vs 1.17). Fixing the clearance error makes the stand 8 long instead of 5.3, which needs more height. On HRECT_M the screen would shrink to 40×20 (aspect 2.0). On HRECT_L it is 40×24 (aspect 1.67), which matches the traced screen (38.2×22.7, about 1.69).
+
+**Metric issues:**
+- **Clearance error (foot 5.34 below the screen):** fixed. The foot is now exactly 8 below the screen on centerlines, a 4-unit ink gap.
+- **Keyshape short-axis warning (x filled only 95%):** fixed. Every extreme now sits exactly on the HRECT_L box.
+- **Stroke width (info):** drawn at stroke 4, with every gap sized for it.
+
+No issues were left unfixed.
+
+As instructed, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates. There is already a registered model for this source ID (`batch_02_desktop_computer_computers_94bf7c3e_…py`, HRECT_L with a chin band). I left it untouched.
+
+Files are in `new-pipeline-test/output_png/20260929-1809-batch-02-desktop-computer-computers/`:
+- `batch_02_desktop_computer_computers_redraw.py`
+- `batch-02-desktop-computer-computers_redraw.svg`
+- `batch-02-desktop-computer-computers_redraw.png`
+- `batch-02-desktop-computer-computers_redraw-48.png`

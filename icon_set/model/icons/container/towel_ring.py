@@ -1,10 +1,13 @@
-from ._construction import path, rounded_rect as rect, ellipse
-'A circular towel holder hangs beneath a centered bracket and wall bar.\n\nSQUARE fits the wide bar and hanging ring: ink (0,0)-(64,64),\ncenterline (2,2)-(62,62). Reference: supplied failed SVG; Lucide circle original\nand atomic-debug informed the circular ring. No direct towel-ring match was\nused. A longer hanger and smaller ring give the bracket 9 units of centerline\nclearance. All parts remain centered on x=32; no identifying detail was removed.\n\nHosting (compose.py): plus, heart valid; check blocked.\n'
+"""v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (towel-ring SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+"""
+
 from ...keyshapes import Keyshape
 from ._base import Container64
+
 SOURCE_ICON_ID = 'towel-ring'
 SOURCE_PATH = 'icon_set/dist/failed/container64/towel-ring.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class TowelRing(Container64):
     icon_id = 'towel-ring'
@@ -16,13 +19,11 @@ class TowelRing(Container64):
     aliases = ('circular-towel-ring-hanger',)
     keywords = ('towel', 'ring')
 
-    def build(self):
-        line, poly = (self.add_line, self.add_polyline)
-
-        def join(a, b):
-            self.relate('connect', a, b)
-        line('mount', (2, 2), (62, 2))
-        line('hanger', (32, 2), (32, 10))
-        ellipse(self, 'ring', 32, 36, 26)
-        join('mount', 'hanger')
-        join('hanger', 'ring')
+    def build(self) -> None:
+        self.add_line('mount', (6, 6), (58, 6))
+        self.add_line('hanger', (32, 6), (32, 14))
+        self.add_arc('ring-0', (10, 36), (54, 36), radius_x=22)
+        self.add_arc('ring-1', (54, 36), (10, 36), radius_x=22)
+        self.add_contour('ring', 'ring-0', 'ring-1', closed=True)
+        self.relate('connect', 'mount', 'hanger')
+        self.relate('connect', 'hanger', 'ring')

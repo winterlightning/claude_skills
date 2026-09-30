@@ -1,0 +1,20 @@
+status: invalid
+  ERROR  mic [right-seat]: parallel straight edges right-seat-2 and table-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [table]: parallel straight edges table-1 and left-seat-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [left-seat]: left-seat and table are 4 apart on centerlines nearest (12, 32)<->(16, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [right-seat]: right-seat and table are 4 apart on centerlines nearest (36, 32)<->(32, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+{
+  "icon_id": "dining-table-two-chairs-bowl",
+  "status": "fail",
+  "errors": [
+    "mic [right-seat]: parallel straight edges right-seat-2 and table-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [table]: parallel straight edges table-1 and left-seat-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [left-seat]: left-seat and table are 4 apart on centerlines nearest (12, 32)<->(16, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [right-seat]: right-seat and table are 4 apart on centerlines nearest (36, 32)<->(32, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [
+    "internal-spacing [table / top]: table-2 and top have -4 units of ink clearance over 15 units; requires 4; review required",
+    "internal-spacing [table / bowl]: table-2 and bowl have -3.999 units of ink clearance over 9 units; requires 4; review required",
+    "internal-spacing [top / bowl]: top and bowl have -3.999 units of ink clearance over 9 units; requires 4; review required"
+  ]
+}

@@ -39,6 +39,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 - `/icon-solo` — solo family, `SOLO48`, 48×48
 - `/icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
 - `/icon-symbol` — symbol family, `SYMBOL32`, 32×32
+- `/symbol-24` — symbol24 family, `SYMBOL24`, 24×24
 
 ## Visual priorities
 
@@ -103,16 +104,12 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 | Keyshape | Visible ink | Centerline box (author to this) |
 |---|---|---|
-| `CIRCLE` | radius 32 about (32,32) | radius 30 |
-| `SQUARE` | (0,0)-(64,64) | (2,2)-(62,62) |
-| `HRECT_XL` | (0,4)-(64,60) | (2,6)-(62,58) |
-| `HRECT_L` | (0,8)-(64,56) | (2,10)-(62,54) |
-| `HRECT_M` | (0,12)-(64,52) | (2,14)-(62,50) |
-| `HRECT_S` | (0,16)-(64,48) | (2,18)-(62,46) |
-| `VRECT_XL` | (4,0)-(60,64) | (6,2)-(58,62) |
-| `VRECT_L` | (8,0)-(56,64) | (10,2)-(54,62) |
-| `VRECT_M` | (12,0)-(52,64) | (14,2)-(50,62) |
-| `VRECT_S` | (16,0)-(48,64) | (18,2)-(46,62) |
+| `CIRCLE` | radius 30 about (32,32) | radius 28 |
+| `SQUARE` | (4,4)-(60,60) | (6,6)-(58,58) |
+| `HRECT_L` | (2,8)-(62,56) | (4,10)-(60,54) |
+| `HRECT_M` | (2,10)-(62,54) | (4,12)-(60,52) |
+| `VRECT_L` | (8,2)-(56,62) | (10,4)-(54,60) |
+| `VRECT_M` | (10,2)-(54,62) | (12,4)-(52,60) |
 
    Ask the model instead of doing arithmetic:
    `Keyshape.HRECT_L.bounds_for(Profile.CONTAINER64)`.
@@ -146,7 +143,7 @@ preserve the parent and edit a new file from `create_variant.py`.
        keyshape = Keyshape.<TOKEN>
        semantic_role = "MAIN"
        semantic_kind = "noun"
-       category = "containers"
+       category = "container"
        aliases = ()
        keywords = ()
 

@@ -395,7 +395,7 @@ function sideRow(row){
   // pair opens with what it uses now; native text pairs keep their typeface layout.
   if(window.SidePairMaker&&pair&&!pair.native_text&&!pair.mapped_native){
     const redraw=()=>document.querySelector('.side-row[data-pair-id="'+CSS.escape(row.id)+'"]')?.replaceWith(sideRow(row));
-    const current=(item,family)=>{const key=item&&(item.model_key||item.key||item.family+'/'+item.icon);
+    const current=(item,family)=>{const key=item?item.model_key||item.key||item.family+'/'+item.icon:'';
       return key?.startsWith(family+'/')?{key,icon_id:item.icon,name:item.icon.replace(/-/g,' '),preview_url:item.document?sideDataURL(item.document):item.preview_url}:null;};
     const published=!pair.custom||!!pair.published;
     card.append(SidePairMaker.editor({uuid:row.id,concept:row.concept,published,position:pair.position,

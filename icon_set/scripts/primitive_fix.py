@@ -1,20 +1,23 @@
 #!/usr/bin/env python3
-"""Claim disapproved solo icons, hand them to /primitive-make-ray, upload and report the result.
+"""Claim disapproved icons (solo by default), hand them to /primitive-make-ray, upload and report the result.
 
 The two commands behind the /primitive-fix-thuan skill. The drawing itself is
 authored by /primitive-make-ray; this script only claims, records and uploads,
 so the Fix queue page can show the drawing before and after the fix:
 
-    python3 icon_set/scripts/primitive_fix.py start --worker thuan-mac --limit 5 [--offset 0] [--disapprove-status bad-stroke] [--max-disapprovals 1]
+    python3 icon_set/scripts/primitive_fix.py start --worker thuan-mac --limit 5 [--family icon-72] [--offset 0] [--disapprove-status bad-stroke] [--max-disapprovals 1]
     python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --run icon_set/work/primitive-make-ray/<uuid>/<run> --outcome done --note "equalised the arms"
     python3 icon_set/scripts/primitive_fix.py finish --icon solo/plus --outcome cannot-fix --note "MIC 8 impossible with three bars"
 
-``start`` claims up to ``--limit`` claimable disapproved solo icons on production,
+``start`` claims up to ``--limit`` claimable disapproved icons of ``--family``
+(default solo; any queue family such as icon-72 works) on production,
 creates ``icon_set/work/primitive-fix-thuan/<key>/<run>/`` per icon with the
 brief, the claim record, a ``before/`` copy of the registered module and the
 displayed SVG, and ``reference/<concept>_<uuid>.svg`` (the original reference,
 the input for /primitive-make-ray), and uploads that first version to
-production. Exit 3 when nothing was claimable.
+production. Icons with no original (the icon-72 uploads) get their current
+drawing as the reference; every fix is a 48-grid Solo48 redraw. Exit 3 when
+nothing was claimable.
 
 ``finish`` loads the module /primitive-make-ray wrote in ``--run``, validates it,
 writes ``after/`` (module, SVG, previews), ``validation.txt`` and ``result.json``,
@@ -47,7 +50,7 @@ if str(REPO_ROOT) not in sys.path:
 from icon_set.scripts import build_gate, work_queue  # noqa: E402
 from icon_set.scripts.workspace import primitive_fix_results_dir, primitive_results_dir  # noqa: E402
 
-FAMILY = 'solo'
+DEFAULT_FAMILY = 'solo'
 PREVIEW_SIZES = (48, 384)
 UUID = re.compile(r'[0-9a-f]{8}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{4}[-_][0-9a-f]{12}$', re.IGNORECASE)
 THEMES = (('light', '#141413', '#ffffff'), ('dark', '#f5f4ef', '#1c1c19'))
@@ -168,6 +171,7 @@ def stage_current_as_reference(item, before_svg, target):
 
 def describe_block(item, result_dir, module_path, reference=None, reference_is_current=False):
     work = item.get('work') or {}
+    family = item.get('family') or DEFAULT_FAMILY
     if reference is None:
         reference_line = 'none (no original and no current drawing; redraw from the icon_id and feedback)'
     elif reference_is_current:
@@ -176,6 +180,9 @@ def describe_block(item, result_dir, module_path, reference=None, reference_is_c
         reference_line = str(reference)
     lines = [f"icon: {item['key']}",
              f"icon_id: {item.get('icon_id') or ''}",
+             f"family: {family}" + ('' if family == DEFAULT_FAMILY else
+                                    ' (fix it as a 48-grid solo redraw of this icon; the after SVG replaces its drawing)'),
+             f"times disapproved: {item['disapprovals']}" if item.get('disapprovals') else 'times disapproved: unknown',
              f"reference: {reference_line}",
              f"before: {result_dir / 'before'}",
              f"registered module: {module_path or 'unknown (no python_source on production)'}",
@@ -190,9 +197,9 @@ def describe_block(item, result_dir, module_path, reference=None, reference_is_c
     return '\n'.join(lines) + '\n'
 
 
-def start(base_url, worker, limit, offset=0, reason=None, results_root=None, max_disapprovals=None):
+def start(base_url, worker, limit, offset=0, reason=None, results_root=None, max_disapprovals=None, family=DEFAULT_FAMILY):
     root = Path(results_root) if results_root else primitive_fix_results_dir()
-    claimed, page, last = work_queue.take_next(base_url, worker, family=FAMILY, limit=limit, offset=offset, reason=reason,
+    claimed, page, last = work_queue.take_next(base_url, worker, family=family, limit=limit, offset=offset, reason=reason,
                                                max_disapprovals=max_disapprovals)
     if not claimed:
         if last is not None:
@@ -394,7 +401,9 @@ def main(argv=None):
         parser._add_action(action)
     parser.add_argument('--results-root', type=Path, default=None, help=argparse.SUPPRESS)
     commands = parser.add_subparsers(dest='command', required=True)
-    begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version', parents=[shared])
+    begin = commands.add_parser('start', help='claim disapproved icons and record their first version', parents=[shared])
+    begin.add_argument('--family', default=DEFAULT_FAMILY,
+                       help='the queue family to fix: solo (default), icon-72, container, sub or text')
     begin.add_argument('--limit', type=int, required=True, help='how many icons to claim')
     begin.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     begin.add_argument('--disapprove-status', '--reason', dest='reason', choices=work_queue.REASONS,
@@ -414,9 +423,9 @@ def main(argv=None):
             if args.limit < 1 or args.offset < 0:
                 parser.error('--limit must be at least 1 and --offset nonnegative')
             started = start(base_url, worker, args.limit, args.offset, args.reason, args.results_root,
-                            args.max_disapprovals)
+                            args.max_disapprovals, args.family)
             if not started:
-                print(f'No claimable disapproved {FAMILY} icons on {base_url}'
+                print(f'No claimable disapproved {args.family} icons on {base_url}'
                       + (f' with reason {args.reason}' if args.reason else '')
                       + (f' disapproved at most {args.max_disapprovals} time(s)' if args.max_disapprovals is not None else '') + '.', file=sys.stderr)
                 return 3

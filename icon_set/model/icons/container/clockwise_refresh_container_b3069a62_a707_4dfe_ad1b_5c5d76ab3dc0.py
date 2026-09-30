@@ -7,26 +7,32 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus passes, heart does not clear, check does not clear.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (clockwise-refresh-container CIRCLE -> CIRCLE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = 'b3069a62-a707-4dfe-ad1b-5c5d76ab3dc0'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/synchronize refresh arrow_b3069a62-a707-4dfe-ad1b-5c5d76ab3dc0.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class ClockwiseRefreshContainer(Container64):
     icon_id = 'clockwise-refresh-container'
+    keyshape = Keyshape.CIRCLE
     category = 'interface-essential'
     categories = ('interface-essential', 'primitives')
-    keyshape = Keyshape.CIRCLE
     aliases = ()
     keywords = ('clockwise', 'refresh', 'container')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        path(self,'ring',(32,62),[('A',(2,32),30,30,True),('A',(32,2),30,30,True),('A',(62,32),30,30,True)])
-        poly('head',(50,24),(62,32),(54,42));join('head','ring')
+    def build(self) -> None:
+        self.add_arc('ring-0', (32, 60), (4, 32), radius_x=28)
+        self.add_arc('ring-1', (4, 32), (32, 4), radius_x=28)
+        self.add_arc('ring-2', (32, 4), (60, 32), radius_x=28)
+        self.add_line('head-1', (49, 24), (60, 32))
+        self.add_line('head-2', (60, 32), (53, 42))
+        self.add_contour('ring', 'ring-0', 'ring-1', 'ring-2')
+        self.add_contour('head', 'head-1', 'head-2')
+        self.relate('connect', 'head', 'ring')

@@ -1,0 +1,80 @@
+[18:21:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo; ls $D; cat $D/*_metr...
+[18:21:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/bitcoin-cryptocurrency-symb...
+[18:21:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo; python3 -c " import ...
+[18:22:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 80,200p new-pipeline-test/output_png/20260928-1330-github-logo/github_logo_redraw.py; grep -ri...
+[18:22:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -ril bitcoin icon_set/model/icons | head; ls new-pipeline-test/*.py new-pipeline-test/*.sh; grep...
+[18:22:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -B3 -A25 "redraw-48" new-pipeline-test/run_pipeline.sh | head -80; ls icon_set/model/icons/so...
+[18:22:20] Reviewing the existing bitcoin solo module and the redraw rendering conventions before authoring.
+[18:22:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/bitcoin_cryptocurrency_symbol_solo_056563c8_a6c4_4201_b355_6ff5f08795ea...
+[18:22:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/; grep -l "rsvg\|cairosvg\|...
+[18:22:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; R=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin; cat $R/bitcoin_cryptocurren...
+[18:23:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|svg\|render\|emit\)" -r icon_set/model/*.py icon_set/model/icons/*.py | head; ...
+[18:23:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo; cat > $D/bitcoin_cry...
+[18:23:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/btc_render.py
+[18:23:29] Validation passes; checking the rendered previews now.
+[18:23:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/bitcoin-cryptocurrency-symb...
+[18:23:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo; magick bitcoin-cryptocu...
+[18:23:33] > Read: /tmp/btc48both.png
+[18:23:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/bitcoin_cryptocurrenc...
+[18:23:52] My edit put the "Not fixed" section in the wrong place, so I'm moving it below the fixed list.
+[18:23:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/bitcoin_cryptocurrenc...
+[18:24:04] I redrew the upright Bitcoin sign (₿) as a Solo48 model. It passes `validate_icon()` as `valid` with no warnings. I checked it at 48 px on light and dark backgrounds and it reads cleanly.
+
+**Keyshape:** I used the suggested `VRECT_M` (centerline box 10,4 to 38,44). The drawing reaches every edge exactly:
+- **Left (x=10):** the two serifs.
+- **Right (x=38):** the lower bowl.
+- **Top and bottom (y=4 and y=44):** the currency bars.
+
+**The drawing:**
+- **Letter B:** a straight spine at x=14 with horizontal edges at y=11, 23 and 37.
+- **Bowls:** an upper half circle of radius 6 and a lower one of radius 7, both centred on x=31. They meet at one shared point on the middle line, (31,23), and the lower bowl is the wider one, as in the generated image.
+- **Serifs:** the top and bottom edges extend left past the spine to x=10.
+- **Bars:** two bars at x=18 and x=26, 8 apart, running above and below the B.
+- **Lucide:** its `bitcoin` icon gave me the idea of two bar stubs. The upright shape with serifs follows the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-planned for it.
+- **Short x axis:** the width now fills the full 28 units instead of the trace's 85%.
+- **Four clearance errors** (e0/e2, e0/e4, e1/e2, e3/e4, at 3.6–6 units): the bars are now 8 apart. They attach to the top and bottom edges instead of floating beside the spine.
+- **Loose joins e5/e6/e7:** the middle line and both bowls share the exact point (31,23), and every attachment is declared as a connection.
+
+**Not fixed:** the drawing still has 8 strokes against a budget of 6: two B outlines, two serifs and four bar stubs. Each stub and serif is a real part of the sign, and none can merge into an outline without a T-junction. All of them share exact endpoints with the B, so it reads as one connected mark.
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/`:
+- `bitcoin_cryptocurrency_symbol_solo_redraw.py`
+- `bitcoin-cryptocurrency-symbol-solo_redraw.svg`
+- `bitcoin-cryptocurrency-symbol-solo_redraw.png` (480 px preview)
+- `bitcoin-cryptocurrency-symbol-solo_redraw-48.png`
+
+[18:24:04] === success in 156s, $0.78 ===
+I redrew the upright Bitcoin sign (₿) as a Solo48 model. It passes `validate_icon()` as `valid` with no warnings. I checked it at 48 px on light and dark backgrounds and it reads cleanly.
+
+**Keyshape:** I used the suggested `VRECT_M` (centerline box 10,4 to 38,44). The drawing reaches every edge exactly:
+- **Left (x=10):** the two serifs.
+- **Right (x=38):** the lower bowl.
+- **Top and bottom (y=4 and y=44):** the currency bars.
+
+**The drawing:**
+- **Letter B:** a straight spine at x=14 with horizontal edges at y=11, 23 and 37.
+- **Bowls:** an upper half circle of radius 6 and a lower one of radius 7, both centred on x=31. They meet at one shared point on the middle line, (31,23), and the lower bowl is the wider one, as in the generated image.
+- **Serifs:** the top and bottom edges extend left past the spine to x=10.
+- **Bars:** two bars at x=18 and x=26, 8 apart, running above and below the B.
+- **Lucide:** its `bitcoin` icon gave me the idea of two bar stubs. The upright shape with serifs follows the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-planned for it.
+- **Short x axis:** the width now fills the full 28 units instead of the trace's 85%.
+- **Four clearance errors** (e0/e2, e0/e4, e1/e2, e3/e4, at 3.6–6 units): the bars are now 8 apart. They attach to the top and bottom edges instead of floating beside the spine.
+- **Loose joins e5/e6/e7:** the middle line and both bowls share the exact point (31,23), and every attachment is declared as a connection.
+
+**Not fixed:** the drawing still has 8 strokes against a budget of 6: two B outlines, two serifs and four bar stubs. Each stub and serif is a real part of the sign, and none can merge into an outline without a T-junction. All of them share exact endpoints with the B, so it reads as one connected mark.
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1819-bitcoin-cryptocurrency-symbol-solo/`:
+- `bitcoin_cryptocurrency_symbol_solo_redraw.py`
+- `bitcoin-cryptocurrency-symbol-solo_redraw.svg`
+- `bitcoin-cryptocurrency-symbol-solo_redraw.png` (480 px preview)
+- `bitcoin-cryptocurrency-symbol-solo_redraw-48.png`

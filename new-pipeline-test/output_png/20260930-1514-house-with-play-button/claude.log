@@ -1,0 +1,83 @@
+[15:17:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1514-house-with-play-button && ls && cat house-with-play-button_...
+[15:17:03] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1514-house-with-play-button/house-with-play-button.png
+[15:17:24] > Bash: python3 -c " import json;d=json.load(open('house-with-play-button_metrics.json')) for k in d: if k not in ('elements','keyshape','fit','source','choice','tar...
+[15:18:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260930-1512-hex-nut-cluster-solo/hex_nut_cluster_solo_redraw.py ...
+[15:18:16] > Bash: head -40 20260930-1512-hex-nut-cluster-solo/hex_nut_cluster_solo_redraw.py; cat 20260930-1512-hex-nut-cluster-solo/claude.log; ls ../ ; grep -rl "redraw-48" ...
+[15:19:01] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md normal48-geometry-floors.md png-solo-pipeli...
+[15:19:08] Checking the metrics and the house geometry budget: the play triangle has to clear the roof, walls and floor by 8 and still keep a 6-wide hole, so I'm searching the integer layouts.
+[15:19:14] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import math, itertools def psd(p,a,b): ax,ay=a;bx,by=b;px,py=p dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t=max(0,min(1,((px-ax)*dx+...
+[15:19:25] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import math def psd(p,a,b): ax,ay=a;bx,by=b;px,py=p dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t=max(0,min(1,((px-ax)*dx+(py-ay)*dy)...
+[15:19:36] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import math def psd(p,a,b): ax,ay=a;bx,by=b;px,py=p dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t=max(0,min(1,((px-ax)*dx+(py-ay)*dy)...
+[15:19:51] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import math def psd(p,a,b): ax,ay=a;bx,by=b;px,py=p dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t=max(0,min(1,((px-ax)*dx+(py-ay)*dy)...
+[15:20:18] Best compromise found. Now checking the model API and render path.
+[15:20:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def " icon_set/model/icons/base.py | head -60; grep -n "redraw\|cairosvg\|rsvg" new-pipelin...
+[15:20:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 146,200p icon_set/model/icons/base.py; which rsvg-convert; /opt/homebrew/bin/python3 -c "impor...
+[15:20:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; mkdir -p /tmp/hp; cat > /tmp/hp/cand.py <<'EOF' import sys, importlib.util, subprocess from icon_set....
+[15:20:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/hp/cand.py && cd /tmp/hp && /opt/homebrew/bin/python3 -c ...
+[15:20:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -i '' 's/"hp-"+name/"hp-"+name.lower()/' /tmp/hp/cand.py; PYTHONPATH=. /opt/homebrew/bin/python3 ...
+[15:20:54] > Read: /tmp/hp/sheet.png
+[15:21:04] All four candidates validate; now weighing hole size against the eaves. Checking whether the pentagon house can reach the full 6-unit hole.
+[15:21:08] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import math def psd(p,a,b): ax,ay=a;bx,by=b;px,py=p dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t=max(0,min(1,((px-ax)*dx+(py-ay)*dy)...
+[15:21:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,40p new-pipeline-test/svg_metrics.py | grep -v "^import\|^from"; grep -n "add_argument" new-...
+[15:21:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -i '' 's/^cands=.*/cands={"B":(15,6,15,(18,18,16,16)),"E":(14,6,14,(17,18,16,17)),"C":(18,9,16,(1...
+[15:21:26] > Read: /tmp/hp/sheet.png
+[15:21:31] Going with E (pentagon house, roof pitch 4:9, play triangle 17×16): it's the only layout where the hole is truly 6 wide. Writing the module.
+[15:21:45] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1514-house-with-play-button/house_with_play_button_redraw.py
+[15:21:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1514-house-with-play-button; PYTHONPATH=. /opt/homebrew/bin/p...
+[15:22:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1514-house-with-play-button; rm -rf /tmp/hp/final; mkdir -p /...
+[15:22:17] > Read: /tmp/hp/n48.png
+[15:22:17] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1514-house-with-play-button/house-with-play-button_redraw.png
+[15:22:28] I redrew the house with play button as a Solo48 model. `validate_icon()` returns `valid` with no warnings, `build_gate.py` passes with 0 errors and 0 warnings, and re-running `svg_metrics.py` on the redraw lists no issues.
+
+**Drawing:** a pentagon house outline with a large hollow play triangle inside, on the `SQUARE` keyshape as suggested (it scored 1.25; the next best was 0.8). It fills the centerline box (6,6)–(42,42) exactly and is mirrored about x=24.
+- **House:** the roof is (6,14)–(24,6)–(42,14). The walls and floor are one run, (6,14)–(6,42)–(42,42)–(42,14), sharing both eave corners with the roof, with `connect` declared.
+- **Play triangle:** a closed triangle, left edge at x=17 from y=18 to y=34, tip at (34,26). It sits slightly left of centre so it looks centred, as play icons usually do.
+
+**Metric issues:**
+
+| Issue | Before | After |
+|---|---|---|
+| Roof to play triangle, on centerlines | 7.27 | 8.12 |
+| Floor to play triangle, on centerlines | 5.78 | 8.0 exactly; the tip is also 8 from the right wall |
+| Hole inside the triangle | 5.0 wide | 6.09 wide |
+| Stroke width (info) | 2.77 after fitting | redrawn at 4, and every gap was sized for that width |
+
+**What I changed from the image:** I searched every whole-number layout, and none that keeps the overhanging roof ends, or a roof steeper than about 1:2, fits a triangle whose hole is 6 wide. The best layout with overhangs left a 5.3 hole. So I dropped the overhangs and flattened the roof to 4:9. The chosen-parts description already calls for "a single closed house outline". A version with overhangs and a steeper roof also validates, but its hole is only 4.4, so I rejected it.
+
+**Checks:** I looked at it at 48 px on both light and dark backgrounds and it reads cleanly. I didn't open a local Lucide original; I only followed the usual Lucide house and play shapes.
+
+Everything is in `new-pipeline-test/output_png/20260930-1514-house-with-play-button/`. Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1514-house-with-play-button/`:
+- `house_with_play_button_redraw.py`
+- `house-with-play-button_redraw.svg`
+- `house-with-play-button_redraw.png`
+- `house-with-play-button_redraw-48.png`
+
+[15:22:28] === success in 337s, $1.20 ===
+I redrew the house with play button as a Solo48 model. `validate_icon()` returns `valid` with no warnings, `build_gate.py` passes with 0 errors and 0 warnings, and re-running `svg_metrics.py` on the redraw lists no issues.
+
+**Drawing:** a pentagon house outline with a large hollow play triangle inside, on the `SQUARE` keyshape as suggested (it scored 1.25; the next best was 0.8). It fills the centerline box (6,6)–(42,42) exactly and is mirrored about x=24.
+- **House:** the roof is (6,14)–(24,6)–(42,14). The walls and floor are one run, (6,14)–(6,42)–(42,42)–(42,14), sharing both eave corners with the roof, with `connect` declared.
+- **Play triangle:** a closed triangle, left edge at x=17 from y=18 to y=34, tip at (34,26). It sits slightly left of centre so it looks centred, as play icons usually do.
+
+**Metric issues:**
+
+| Issue | Before | After |
+|---|---|---|
+| Roof to play triangle, on centerlines | 7.27 | 8.12 |
+| Floor to play triangle, on centerlines | 5.78 | 8.0 exactly; the tip is also 8 from the right wall |
+| Hole inside the triangle | 5.0 wide | 6.09 wide |
+| Stroke width (info) | 2.77 after fitting | redrawn at 4, and every gap was sized for that width |
+
+**What I changed from the image:** I searched every whole-number layout, and none that keeps the overhanging roof ends, or a roof steeper than about 1:2, fits a triangle whose hole is 6 wide. The best layout with overhangs left a 5.3 hole. So I dropped the overhangs and flattened the roof to 4:9. The chosen-parts description already calls for "a single closed house outline". A version with overhangs and a steeper roof also validates, but its hole is only 4.4, so I rejected it.
+
+**Checks:** I looked at it at 48 px on both light and dark backgrounds and it reads cleanly. I didn't open a local Lucide original; I only followed the usual Lucide house and play shapes.
+
+Everything is in `new-pipeline-test/output_png/20260930-1514-house-with-play-button/`. Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1514-house-with-play-button/`:
+- `house_with_play_button_redraw.py`
+- `house-with-play-button_redraw.svg`
+- `house-with-play-button_redraw.png`
+- `house-with-play-button_redraw-48.png`

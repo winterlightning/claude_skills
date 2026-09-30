@@ -65,7 +65,7 @@ from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.metadata import publish_metadata
 from icon_set.model.icons.registry import factories, icons_in, create, families as registry_families  # noqa: E402
-from icon_set.model.profiles import Profile  # noqa: E402
+from icon_set.model.profiles import Profile, STROKE_WIDTH  # noqa: E402
 from icon_set.renderers.png import render_png  # noqa: E402
 from icon_set.validation.library_qa import inspect_icon, artifact_key, save_evidence  # noqa: E402
 
@@ -76,6 +76,28 @@ MANIFEST_VERSION = 2
 ICONS_ROOT = PACKAGE_ROOT / "model" / "icons"
 DEFAULT_QA_OVERLAYS = PACKAGE_ROOT / "work" / "qa_overlays"
 STALE_STAGE_SECONDS = 24 * 60 * 60
+
+
+def advisory_validation(family: str) -> bool:
+    """True when the contract marks a family's automatic QA as advisory, not blocking."""
+    return contracts.families()[family].get("validation") == "advisory"
+
+
+def profile_structure_problems(document: str | None, profile: Profile) -> list[str]:
+    """The checks an advisory family still blocks on: exact canvas and a uniform stroke."""
+    import xml.etree.ElementTree as ET
+    if not document:
+        return ["structure: no SVG was rendered"]
+    root = ET.fromstring(document)
+    size = str(profile.spec.canvas_size)
+    problems = []
+    if (root.get("width"), root.get("height"), root.get("viewBox")) != (size, size, f"0 0 {size} {size}"):
+        problems.append(f"structure: svg root is width={root.get('width')} height={root.get('height')} "
+                        f"viewBox={root.get('viewBox')}; {profile.name} requires {size}x{size}")
+    widths = {e.get("stroke-width") for e in root.iter() if e.get("stroke-width") is not None}
+    if widths - {str(STROKE_WIDTH)}:
+        problems.append(f"structure: stroke widths {sorted(widths)}; every stroke must be {STROKE_WIDTH}")
+    return problems
 
 
 def family_dist_name(family: str) -> str:
@@ -551,6 +573,16 @@ def _stage_family(
             qa['qa_overlays'] = overlay
             if qa['status'] == 'pass' and not qa.get('exception') and not (manual and manual['validation_override']):
                 qa['status'] = 'fail'
+        advisory = advisory_validation(family)
+        if advisory and qa['status'] != 'pass' and not (manual and manual['validation_override']):
+            problems = profile_structure_problems(qa.get('_svg'), profile)
+            if problems:
+                qa['errors'].extend(problems)
+            else:
+                # Advisory family: publish, keeping the automatic verdict and findings on record.
+                qa['automatic_status'] = qa.get('automatic_status', qa['status'])
+                qa['validation_override'] = 'advisory-family'
+                qa['status'] = 'pass'
         if qa['status'] != 'pass':
             fail(icon, qa, qa['errors'] or qa['warnings'], mtime)
             if overlay is not None:
@@ -577,7 +609,8 @@ def _stage_family(
             record["svg_path"] = os.path.relpath(published_dist / folder / target.name, PACKAGE_ROOT)
             record["svg_sha256"] = hashlib.sha256(document.encode("utf-8")).hexdigest()
             record["validation"] = {
-                "status": "human-selected" if manual and (manual['source_mode']=='use_upload' or manual['validation_override']) else "valid",
+                "status": "human-selected" if manual and (manual['source_mode']=='use_upload' or manual['validation_override'])
+                          else "advisory" if qa.get('validation_override') == 'advisory-family' else "valid",
                 "automatic_status": qa.get('automatic_status', qa['status']),
                 "exception": qa.get('exception'),
                 "validation_override": qa.get('validation_override'),

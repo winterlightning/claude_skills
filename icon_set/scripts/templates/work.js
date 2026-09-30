@@ -6,7 +6,15 @@
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   // rows is the current page only; the server filters, counts and pages (/api/work/review).
-  let rows = [], page = 1, total = 0, all = 0, counts = {}, request = 0, searchTimer = 0;
+  let rows = [], page = 1, total = 0, all = 0, counts = {}, times = {}, request = 0, searchTimer = 0;
+  // Filters live in the URL so a link opens the same view. The family starts on solo; ?family= is all families.
+  const FILTERS = {family: 'workFamily', state: 'workState', status: 'workStatus', reason: 'workReason', disapprovals: 'workTimes', q: 'workSearch'};
+  const TIMES_LABELS = {'1': 'Once', '2': 'Twice', '3+': '3 or more'};
+  const startup = new URLSearchParams(location.search);
+  // The family list arrives with the first page, so the wanted family waits here until fillFamilies.
+  let familyWanted = startup.has('family') ? startup.get('family') : 'solo';
+  for (const [name, id] of Object.entries(FILTERS)) if (name !== 'family' && startup.get(name)) $(id).value = startup.get(name);
+  const family = () => familyWanted ?? $('workFamily').value;
   const open = new Set();
   const histories = new Map();
   const workerKey = 'pictographic_worker';
@@ -26,14 +34,14 @@
     const setup = 'API_BASE=' + quote(base) + '\nWORKER=' + quote(me);
     const post = (route, body) => 'curl --fail-with-body -H \'Content-Type: application/json\' \\\n  --data ' + quote(JSON.stringify(body)) + ' \\\n  "$API_BASE' + route + '"';
     const claim = {icon: 'solo/plus', svg_sha256: 'HASH_FROM_STEP_1', worker: me};
-    $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=solo&state=open&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=solo&limit=5"';
+    $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=solo&state=open&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=solo&limit=5"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=icon-72&max_disapprovals=1&limit=5"   # disapproved once only';
     $('docClaim').textContent = post('/api/work/claim', claim);
     $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'solo/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'solo/minus']});
     $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/solo/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/solo/plus_v3.py published/solo48 published/gallery/icons.json published/release.json\ngit commit -m "Fix solo/plus" && git push origin icon-lib';
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'solo/plus-v3, commit abc1234'});
     $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon solo/plus --stage after \\\n  --svg published/solo48/plus.svg --python icon_set/model/icons/solo/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=solo/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
     $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=solo/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=solo/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=solo/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=solo/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review\ncurl --fail-with-body "$API_BASE/api/work/fixes"                             # uploaded fixes the gallery shows until the rebuilt model lands';
-    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke\n\n# --disapprove-status: bad-stroke | meaning | manual-fix-request | other';
+    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke\npython3 icon_set/scripts/work_queue.py next --limit 1 --family icon-72 --max-disapprovals 1\n\n# --disapprove-status: bad-stroke | meaning | manual-fix-request | other\n# --family: solo | icon-72 | container | sub | text   --max-disapprovals 1: disapproved once only';
   }
   $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); if ($('workMine').checked) reload(); else render(); });
   $('docBase').addEventListener('input', renderDoc);
@@ -49,31 +57,41 @@
     const size = Number($('workPageSize').value) || 100;
     const params = new URLSearchParams({limit: size, offset: (page - 1) * size});
     const set = (name, value) => { if (value) params.set(name, value); };
-    set('family', $('workFamily').value); set('state', $('workState').value);
+    set('family', family()); set('state', $('workState').value);
     set('status', $('workStatus').value); set('reason', $('workReason').value);
-    set('q', $('workSearch').value.trim());
+    set('disapprovals', $('workTimes').value); set('q', $('workSearch').value.trim());
     set('worker', $('workMine').checked && worker());
     return params;
   }
 
   // One page per request; a newer request (filter change, next page) wins over a slower older one.
+  function saveFilters() {
+    const params = new URLSearchParams();
+    for (const [name, id] of Object.entries(FILTERS)) {
+      const value = name === 'family' ? family() : $(id).value.trim();
+      if (value || name === 'family') params.set(name, value);
+    }
+    history.replaceState(null, '', location.pathname + '?' + params + location.hash);
+  }
+
   async function load() {
     const ticket = ++request;
+    saveFilters();
     $('workNotice').textContent = '';
-    if (!rows.length) $('workRows').innerHTML = '<tr><td colspan="9" class="work-empty">Loading…</td></tr>';
+    if (!rows.length) $('workRows').innerHTML = '<tr><td colspan="10" class="work-empty">Loading…</td></tr>';
     $('workSummary').setAttribute('aria-busy', 'true');
     try {
       const data = await api('/api/work/review?' + reviewQuery());
       if (ticket !== request) return;
       if (!data.families) $('workNotice').textContent = 'Production runs an older deploy.py: search, "mine" and the per-filter counts need its update.';
-      rows = data.items; total = data.total; counts = data.counts || {};
+      rows = data.items; total = data.total; counts = data.counts || {}; times = data.disapproval_counts || {};
       all = data.all ?? Object.values(counts).reduce((sum, n) => sum + n, 0);
       fillFamilies(data.families || []);
       const pages = Math.max(1, Math.ceil(total / (Number($('workPageSize').value) || 100)));
       if (page > pages) { page = pages; return load(); }
     } catch (error) {
       if (ticket !== request) return;
-      rows = []; total = 0; all = 0; counts = {};
+      rows = []; total = 0; all = 0; counts = {}; times = {};
       $('workNotice').textContent = 'Could not load the fix queue: ' + error.message;
     }
     $('workSummary').removeAttribute('aria-busy');
@@ -83,8 +101,9 @@
   function reload() { page = 1; load(); }
 
   function fillFamilies(families) {
-    const select = $('workFamily'), current = select.value;
-    select.replaceChildren(new Option('All families', ''), ...families.map(family => new Option(family, family)));
+    const select = $('workFamily'), current = family();
+    familyWanted = null;
+    select.replaceChildren(new Option('All families', ''), ...families.map(name => new Option(name, name)));
     select.value = families.includes(current) ? current : '';
   }
 
@@ -117,13 +136,24 @@
       button.onclick = () => { $('workState').value = state; reload(); };
       return button;
     }));
+    // Times disapproved; the numbers follow every other filter, so they add up to All.
+    $('workTimesSummary').replaceChildren(...(Object.keys(times).length ? ['', '1', '2', '3+'] : []).map(bucket => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.times = bucket;
+      button.setAttribute('aria-pressed', String($('workTimes').value === bucket));
+      const number = bucket ? times[bucket] || 0 : Object.values(times).reduce((sum, n) => sum + n, 0);
+      button.innerHTML = (bucket ? 'Disapproved ' + TIMES_LABELS[bucket].toLowerCase() : 'Any number of times') + ' <b>' + number + '</b>';
+      button.onclick = () => { $('workTimes').value = bucket; reload(); };
+      return button;
+    }));
     const size = Number($('workPageSize').value) || 100;
     const pages = Math.max(1, Math.ceil(total / size));
     const slice = rows;
     const body = $('workRows');
     body.replaceChildren();
     if (!slice.length) {
-      body.innerHTML = '<tr><td colspan="9" class="work-empty">' + (all || $('workSearch').value.trim() || $('workFamily').value || $('workStatus').value || $('workReason').value || $('workMine').checked ? 'No icons match these filters.' : 'No disapproved icons or fix claims on production.') + '</td></tr>';
+      body.innerHTML = '<tr><td colspan="10" class="work-empty">' + (all || $('workSearch').value.trim() || $('workFamily').value || $('workStatus').value || $('workReason').value || $('workTimes').value || $('workMine').checked ? 'No icons match these filters.' : 'No disapproved icons or fix claims on production.') + '</td></tr>';
     }
     for (const row of slice) {
       const tr = document.createElement('tr');
@@ -146,6 +176,8 @@
       feedback.append(summaryLine, text);
       disapproval.append(meta, feedback);
       tr.append(cell(disapproval));
+      const n = row.disapprovals;
+      tr.append(n == null ? cell('—') : cell(badge('times', n >= 3 ? '3+' : String(Math.max(1, n)), n + '×')));
       const stateCell = stateOf(row) ? cell(badge('state', stateOf(row), STATE_LABELS[stateOf(row)])) : cell('—');
       if ((row.work.results || []).includes('after')) stateCell.append(badge('result', 'after', 'fix uploaded'));
       tr.append(stateCell);
@@ -170,7 +202,7 @@
 
   function detailRow(row) {
     const tr = document.createElement('tr'); tr.className = 'work-detail';
-    const td = document.createElement('td'); td.colSpan = 9;
+    const td = document.createElement('td'); td.colSpan = 10;
     const history = histories.get(row.key);
     if (!history) {
       td.textContent = 'Loading history…';
@@ -314,7 +346,7 @@
     return section;
   }
 
-  for (const id of ['workFamily', 'workState', 'workStatus', 'workReason', 'workPageSize', 'workMine']) $(id).addEventListener('change', reload);
+  for (const id of ['workFamily', 'workState', 'workStatus', 'workReason', 'workTimes', 'workPageSize', 'workMine']) $(id).addEventListener('change', reload);
   $('workSearch').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(reload, 300); });
   $('workPrev').onclick = () => { page--; load(); };
   $('workNext').onclick = () => { page++; load(); };

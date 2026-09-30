@@ -9,12 +9,15 @@ from .parallel_midpoints import analyze
 from .report import Finding
 
 _SUB_CENTERLINE = Profile.SUB32.spec.equal_stroke_centerline_min
+_SYMBOL24_CENTERLINE = Profile.SYMBOL24.spec.equal_stroke_centerline_min
 
 RULES = {"version": 3, "profiles": "all", "blocking": True,
          "required_centerline_distance": 8, "required_ink_clearance": 4,
          "profile_overrides": {
              "SUB32": {"required_centerline_distance": _SUB_CENTERLINE,
                        "required_ink_clearance": _SUB_CENTERLINE - STROKE_WIDTH},
+             "SYMBOL24": {"required_centerline_distance": _SYMBOL24_CENTERLINE,
+                          "required_ink_clearance": _SYMBOL24_CENTERLINE - STROKE_WIDTH},
          },
          "parallelism": "exact", "scope": "whole drawing",
          "measurement": "midpoint normals, nearest each side, with overlap fallback",

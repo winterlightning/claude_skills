@@ -1,0 +1,82 @@
+[10:43:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header; ls $D; cat $D/combine-ha...
+[10:44:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header; python3 -c " import json...
+[10:44:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/combine-harvester-front-header.png
+[10:45:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -3; f=$(ls -t new-pipeline-test/output_png/*/...
+[10:45:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260930-1037-combination-pliers/ new-pipeline-test/; grep -rl "redra...
+[10:45:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -B5 -A30 "redraw-48" new-pipeline-test/run_pipeline.sh | head -80
+[10:45:16] Reading the inputs is done. Next I'm designing the combine-harvester model on HRECT_M and working out how the earlier redraws were rendered.
+[10:45:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1037-combination-pliers/claude.log | grep -i -E "python|svg...
+[10:45:19] > Bash: ls /tmp/*render*.py; cat /tmp/snake_render.py 2>/dev/null | head -60; cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i gate
+[10:47:32] Plan: HRECT_L (HRECT_M can't fit a cab, reel and wheels with 6-unit holes in 28 units of height), with the cab sides, reel bars and wheel ends all lined up at x=17/31. Checking the arc API now.
+[10:47:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_arc\|def add_contour\|def add_line\|def add_polyline\|def add_circle\|def relate" -A...
+[10:47:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def add_arc\|def add_contour\|def add_polyline\|def add_circle" icon_set/model | head; f=$(...
+[10:47:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "radius" icon_set/model/validation*.py icon_set/model/*.py 2>/dev/null | grep -i "int\|grid\...
+[10:47:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "integer\|is_integer\|grid" icon_set/model/primitives.py | head; grep -rln "def validate_ico...
+[10:48:56] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/combine_harvester_front_header_...
+[10:49:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/chh_render.py <<'EOF' import importlib.util, subprocess, sys sys.path.insert(0, "/Applicat...
+[10:49:12] The only failure is the wheel radius (5.8 must be an integer). Searching for integer ellipse radii that still pass through the same three points.
+[10:49:12] > Bash: python3 -c " for rx in range(4,12): for ry in range(4,14): v=16/rx**2+((ry-10)/ry)**2 if abs(v-1)<0.02: print(rx,ry,v) "
+[10:49:19] Switching the wheels to two-cubic circle approximations (integer knots, fractional controls allowed).
+[10:49:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p='new-pipeline-test/output_png/20260930-1040-combine-harvester-f...
+[10:49:33] Model validates and the build gate passes. Checking the renders visually.
+[10:49:34] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/combine-harvester-front-header_...
+[10:49:34] > Read: /tmp/chh_dark48.png
+[10:49:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/combine-harvester-front-header_...
+[10:49:40] Both themes read cleanly at 48 px. One last fix: the docstring should say the wheels are now cubics.
+[10:49:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p='new-pipeline-test/output_png/20260930-1040-combine-harvester-f...
+[10:49:54] I redrew the combine harvester front header as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a combine harvester seen from the front, mirrored about x=24. It has a trapezoid cab, a wide rounded reel split into three bays by two bars, and two wheels half hidden behind the reel. The cab sides, the bars and the inner wheel ends all share the lines x=17 and x=31, so no parts nearly touch.
+
+**Keyshape:** I used HRECT_L instead of the suggested HRECT_M. Stacking the cab (12), reel (10) and wheels (10) with every opening at least 6 wide needs 32 units of height, and HRECT_M only has 28. The drawing fills HRECT_L exactly on both axes: x from 4 to 44, y from 8 to 40.
+
+**Metric issues:** all fixed.
+- **stroke-width (info):** redrawn at stroke 4, with every gap planned for that width.
+- **keyshape-short-axis (warn):** the box is now filled on both axes (cab top at y=8, wheel bottoms at y=40).
+- **Four clearance errors on the wheel dots** (e0/e2, e0/e5, e1/e3, e1/e5): the wheels are now arcs that share endpoints with the reel and the feet of the bars.
+- **Two clearance errors between the bars and the cab feet** (e2/e4, e3/e4): the bars and the cab feet now meet at the same points, (17,20) and (31,20).
+- **Three holes 2.2 wide in the reel bays:** the reel is now 10 tall with bays 13–14 wide, so each opening is at least 6 by 9.
+
+**Deviations:**
+- **Wheel curves:** each wheel is a 5.8-radius circle cut off by the reel. Arcs must have whole-number radii and no whole-number circle or ellipse fits these points, so each wheel is drawn as two curve segments instead.
+- **Cab width:** the cab is a bit wider than in the generated image because its feet line up with the bars. With narrower feet, the bars would sit only 2 units from them.
+- **Lucide:** no useful match (Lucide has a tractor but no combine).
+
+**Visual check:** at native 48 px in both light and dark themes it reads as a wide reel on wheels under a cab. The only weak spot is a small filled wedge where each wheel leaves the rounded end of the reel.
+
+Nothing was registered, `published/` was not touched, and no build was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/`:
+- `combine_harvester_front_header_redraw.py`
+- `combine-harvester-front-header_redraw.svg`
+- `combine-harvester-front-header_redraw.png`
+- `combine-harvester-front-header_redraw-48.png`
+
+[10:49:54] === success in 371s, $1.17 ===
+I redrew the combine harvester front header as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a combine harvester seen from the front, mirrored about x=24. It has a trapezoid cab, a wide rounded reel split into three bays by two bars, and two wheels half hidden behind the reel. The cab sides, the bars and the inner wheel ends all share the lines x=17 and x=31, so no parts nearly touch.
+
+**Keyshape:** I used HRECT_L instead of the suggested HRECT_M. Stacking the cab (12), reel (10) and wheels (10) with every opening at least 6 wide needs 32 units of height, and HRECT_M only has 28. The drawing fills HRECT_L exactly on both axes: x from 4 to 44, y from 8 to 40.
+
+**Metric issues:** all fixed.
+- **stroke-width (info):** redrawn at stroke 4, with every gap planned for that width.
+- **keyshape-short-axis (warn):** the box is now filled on both axes (cab top at y=8, wheel bottoms at y=40).
+- **Four clearance errors on the wheel dots** (e0/e2, e0/e5, e1/e3, e1/e5): the wheels are now arcs that share endpoints with the reel and the feet of the bars.
+- **Two clearance errors between the bars and the cab feet** (e2/e4, e3/e4): the bars and the cab feet now meet at the same points, (17,20) and (31,20).
+- **Three holes 2.2 wide in the reel bays:** the reel is now 10 tall with bays 13–14 wide, so each opening is at least 6 by 9.
+
+**Deviations:**
+- **Wheel curves:** each wheel is a 5.8-radius circle cut off by the reel. Arcs must have whole-number radii and no whole-number circle or ellipse fits these points, so each wheel is drawn as two curve segments instead.
+- **Cab width:** the cab is a bit wider than in the generated image because its feet line up with the bars. With narrower feet, the bars would sit only 2 units from them.
+- **Lucide:** no useful match (Lucide has a tractor but no combine).
+
+**Visual check:** at native 48 px in both light and dark themes it reads as a wide reel on wheels under a cab. The only weak spot is a small filled wedge where each wheel leaves the rounded end of the reel.
+
+Nothing was registered, `published/` was not touched, and no build was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1040-combine-harvester-front-header/`:
+- `combine_harvester_front_header_redraw.py`
+- `combine-harvester-front-header_redraw.svg`
+- `combine-harvester-front-header_redraw.png`
+- `combine-harvester-front-header_redraw-48.png`

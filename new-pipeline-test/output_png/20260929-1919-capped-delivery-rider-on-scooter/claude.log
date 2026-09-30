@@ -1,0 +1,99 @@
+[19:24:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1919-capped-delivery-rider-on-scooter; ls $D; cat $D/*_metric...
+[19:24:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped-delivery-rider-on-scoo...
+[19:25:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1919-capped-delivery-rider-on-scooter; /opt/homebrew/bin/pyth...
+[19:25:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1916-briefcase-dollar/briefcase_dollar_redraw.py; ls output...
+[19:25:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "redraw-48" new-pipeline-test/*.sh new-pipeline-test/*.py icon_set/scripts 2>/dev/null; gre...
+[19:25:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t /tmp/*render*.py | head -3; cat $(ls -t /tmp/*render*.py | head -1); sed -n 1,80p icon_set/skil...
+[19:28:10] Reading the inputs is done. The metrics' head detection mistook the two wheels for heads, and the 36-unit square budget is tight. Next I'm checking the validator's hole rule to decide the wheel size.
+[19:28:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn -i "inscribed\|hole" icon_set/model/*.py icon_set/model/validation/*.py 2>/dev/null | head -...
+[19:28:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln -i "inscribed" icon_set --include=*.py | head; cat ~/.claude/projects/-Applications-Workspa...
+[19:28:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/normal48-geometry-f...
+[19:29:12] Wheels at r=4 are allowed (small-circle exemption). Writing the model now.
+[19:29:34] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_on_scoo...
+[19:29:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_arc" -A25 icon_set/model/icons/_base*.py icon_set/model/*.py 2>/dev/null | head -40;...
+[19:29:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 106,135p icon_set/model/icons/base.py
+[19:29:47] Need `large_arc=True` on the back of the head.
+[19:29:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:29:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/cdr_render.py
+[19:30:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -i "head" ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diago...
+[19:30:10] The curved head vs torso at exactly 8 only certifies with a pure 4-quarter-arc head and a standalone torso line, so I'm restructuring the head (visor from a cardinal point) and splitting arm/torso.
+[19:30:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:30:18] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped-delivery-rider-on-scoo...
+[19:30:57] Valid, but the head + tangent visor reads as "σ" and the flat arm looks like a roof. I'll try a few cap and arm variants and compare them at 48 px.
+[19:31:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/cdr_var.py <<'EOF' import importlib.util, subprocess, sys d="new-pipeline-test/output_png/...
+[19:31:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:31:09] > Read: /tmp/cdr_cmp.png
+[19:31:50] The rider reads weakly and the visor still looks like "σ". Trying visor variants from the head's front point, since connected parts are MIC-exempt.
+[19:31:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:32:03] > Read: /tmp/cdr_cmp.png
+[19:32:07] Variant D (visor from the crown dipping forward to (31,8)) reads most like a cap bill. Applying it and finalizing.
+[19:32:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:32:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/capped_delivery_rider_o...
+[19:32:17] Validation and build gate both pass. Updating the docstring to match the final geometry.
+[19:32:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' F="new-pipeline-test/output_png/20260929-1919-capped-delivery-rid...
+[19:32:39] > Read: /tmp/cdr_themes.png
+[19:32:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -la new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/ | grep redraw; gi...
+[19:32:57] I redrew the capped delivery rider on scooter as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Files** (all in `new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/`):
+- `capped_delivery_rider_on_scooter_redraw.py`: the model, with the source ID, source path, author set as requested and a docstring covering the plan and the issues.
+- `capped-delivery-rider-on-scooter_redraw.svg`
+- `capped-delivery-rider-on-scooter_redraw.png` (480 px preview)
+- `capped-delivery-rider-on-scooter_redraw-48.png` (native 48 px)
+
+**Keyshape:** SQUARE, as the metrics suggested. The drawing reaches all four edges: the head top, the box's left wall, the front wheel's right side and the wheel bottoms.
+
+**What it shows:**
+- **Rider:** a round head wearing a cap with a short peak dipping forward. The body is a straight vertical line, with the arm running from the neck down to the handlebar.
+- **Head gap:** exactly 8 units between the head outline and the neck on stroke centres, which is 4 of visible space. The head is flagged as a human figure.
+- **Scooter:** the delivery box sits over the rear wheel, and its bottom edge continues as the seat under the rider. A steering column runs from the front wheel's top up to the rider's hand. Both wheels touch the frame at their top points.
+- **Look at 48 px:** I checked it on light and dark backgrounds and it reads as a person on a cargo scooter. The rider is the weakest part, and without legs it reads less as seated than the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at the standard stroke of 4, with every gap planned for it.
+- **Cap and head crowding:** the cap is now a single peak joined to the head.
+- **Box, rack, arm, handlebar and fender crowding:** the box and seat are one shape, the arm ends on the column, and the fender and rack stub are removed. Every pair of parts that don't touch is now at least 8 apart.
+- **Holes too small:** the box opening is now 6 × 8 of visible space. The wheels are small circles, which the hole rule allows.
+- **Head gap:** the metrics mistook the two wheels for heads. The real head gap is now exactly 8.
+
+**Not fully fixed:**
+- **Stroke count:** 11 is down to 8, not the budget of 6. The cap peak is needed for the "capped" part of the subject. The arm and body have to be separate lines for the checker to accept a curved head exactly 8 above the body, and a single combined line was rejected.
+- **Dropped detail:** the bent leg, the rear rack stub and the front fender arc are gone. None of them fit at 8 clearance between the seat, the box and the front wheel.
+
+**Other notes:**
+- **Cap shape:** a level peak running straight off the top of the head read as "σ" at 48 px. I compared four variants and kept the downward-angled one.
+- **References:** Lucide had no useful match, since its `bike` has no rider. Proportions follow the full-body human reference.
+- **Untouched:** nothing was registered under `icon_set/model/icons`, `published/` is unchanged, and no build or gallery update was run.
+
+[19:32:57] === success in 516s, $1.80 ===
+I redrew the capped delivery rider on scooter as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Files** (all in `new-pipeline-test/output_png/20260929-1919-capped-delivery-rider-on-scooter/`):
+- `capped_delivery_rider_on_scooter_redraw.py`: the model, with the source ID, source path, author set as requested and a docstring covering the plan and the issues.
+- `capped-delivery-rider-on-scooter_redraw.svg`
+- `capped-delivery-rider-on-scooter_redraw.png` (480 px preview)
+- `capped-delivery-rider-on-scooter_redraw-48.png` (native 48 px)
+
+**Keyshape:** SQUARE, as the metrics suggested. The drawing reaches all four edges: the head top, the box's left wall, the front wheel's right side and the wheel bottoms.
+
+**What it shows:**
+- **Rider:** a round head wearing a cap with a short peak dipping forward. The body is a straight vertical line, with the arm running from the neck down to the handlebar.
+- **Head gap:** exactly 8 units between the head outline and the neck on stroke centres, which is 4 of visible space. The head is flagged as a human figure.
+- **Scooter:** the delivery box sits over the rear wheel, and its bottom edge continues as the seat under the rider. A steering column runs from the front wheel's top up to the rider's hand. Both wheels touch the frame at their top points.
+- **Look at 48 px:** I checked it on light and dark backgrounds and it reads as a person on a cargo scooter. The rider is the weakest part, and without legs it reads less as seated than the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at the standard stroke of 4, with every gap planned for it.
+- **Cap and head crowding:** the cap is now a single peak joined to the head.
+- **Box, rack, arm, handlebar and fender crowding:** the box and seat are one shape, the arm ends on the column, and the fender and rack stub are removed. Every pair of parts that don't touch is now at least 8 apart.
+- **Holes too small:** the box opening is now 6 × 8 of visible space. The wheels are small circles, which the hole rule allows.
+- **Head gap:** the metrics mistook the two wheels for heads. The real head gap is now exactly 8.
+
+**Not fully fixed:**
+- **Stroke count:** 11 is down to 8, not the budget of 6. The cap peak is needed for the "capped" part of the subject. The arm and body have to be separate lines for the checker to accept a curved head exactly 8 above the body, and a single combined line was rejected.
+- **Dropped detail:** the bent leg, the rear rack stub and the front fender arc are gone. None of them fit at 8 clearance between the seat, the box and the front wheel.
+
+**Other notes:**
+- **Cap shape:** a level peak running straight off the top of the head read as "σ" at 48 px. I compared four variants and kept the downward-angled one.
+- **References:** Lucide had no useful match, since its `bike` has no rider. Proportions follow the full-body human reference.
+- **Untouched:** nothing was registered under `icon_set/model/icons`, `published/` is unchanged, and no build or gallery update was run.

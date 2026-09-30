@@ -1,0 +1,80 @@
+[13:26:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; ls $D; cat $D/genie_metrics.json | head -c 6000; ...
+[13:26:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; python3 -c " import json;m=json.load(open('$D/gen...
+[13:26:57] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1322-genie/genie.png
+[13:27:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/*/*_redraw.py | tail -5; f=$(ls -t new-pipeline-test/output_png/*/*_r...
+[13:27:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1318-hand-holding-axe/claude.log | head -30; grep -rn "redr...
+[13:27:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,200p icon_set/skills/icon-design/human-reference.md | head -120; ls icon_set/references/huma...
+[13:27:10] I've read the metrics and the reference. Next I'll check the render API and then write the model.
+[13:27:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def svg\|def render_svg\|def add_bezier\|def add_arc\|def add_polyline\|def add...
+[13:27:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def add_bezier\|def add_arc\|def validate_icon\|def svg" icon_set/model | head;...
+[13:27:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 80,160p icon_set/model/icons/base.py; python3 -c "import cairosvg" && echo cairo3; /opt/homebr...
+[13:29:01] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory; cat diagonal-caps-and-exact-8.md solo48-build-gate-traps.md normal48-geomet...
+[13:29:06] > Bash: grep -n -i "head\|neck\|torso" /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/20ae0b5d-49e9-4476-98cf-223116353738/tool...
+[13:30:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; cat > $D/genie_redraw.py <<'EOF' """genie (redraw...
+[13:30:14] It validates on the first pass. Now I'm rendering the SVG and PNGs to check it visually.
+[13:30:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; /opt/homebrew/bin/python3 -c " import importlib.u...
+[13:30:19] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1322-genie/genie_redraw.png
+[13:30:19] > Read: /tmp/g_both.png
+[13:30:29] Valid and readable, but the smoke is a cramped notch against the rim. I'll try a more pronounced S before settling.
+[13:30:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; /opt/homebrew/bin/python3 -c " import importlib.u...
+[13:30:36] > Read: /tmp/vars.png
+[13:30:39] Variant C gives the clearest S. Applying it and re-rendering the outputs.
+[13:30:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1322-genie; F=$D/genie_redraw.py sed -i '' 's/^SMOKE_END = (B...
+[13:30:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 8,9p new-pipeline-test/output_png/20260930-1322-genie/genie_redraw.py; /opt/homebrew/bin/pytho...
+[13:30:50] > Read: /tmp/final.png
+[13:30:59] I redrew the genie as a Solo48 model on the 48 grid. `validate_icon()` returns **valid** with no warnings.
+
+**Subject:** a genie rising out of a magic lamp. It has a circle head, a straight neck, two raised arms, a smoke tail shaped like an S, and a lamp made of a bowl and an upturned spout. The shape is rebuilt from scratch; none of the trace coordinates are reused.
+
+**Keyshape:** I used the suggested `VRECT_M`. The drawing reaches all four edges of its box exactly: the top of the head at y=4, the bottom of the bowl at y=44, the left of the bowl at x=10 and the spout tip at x=38.
+
+**Metric issues fixed:**
+- **Stroke width (2.65):** redrawn at stroke 4.
+- **Short axis (x filled only 66%):** the lamp now spans the full width, from x=10 to x=38.
+- **Six crowding problems between the head, arms and torso (e0 to e3):** the arms now branch off the torso below the neck and are mirror images of each other. The hands are at least 8.9 from the head outline. The head sits straight above a vertical neck line with a gap of exactly 8, which is the required head-to-body gap, and the figure is marked with `mark_human_figure`.
+- **Head hole (1.22):** the head circle has radius 5, so its opening is 6 wide, the minimum.
+- **Lamp hole (1.4):** the bowl is a half-circle 10 deep, which also leaves a 6-wide opening.
+- **No head:** the head is now a real circle.
+
+**Changed from the brief (e3 and e4, smoke to lamp at 5.21):** I didn't keep the gap between the smoke and the lamp, so the smoke now flows into the lamp's rim. The 40 units of height can't hold the head (10), the neck gap (8), the body, an 8-unit gap above the lamp and a bowl deep enough for its opening (10). Joining them keeps the head and lamp at full size and is a standard way to draw a genie. The only other ways to keep the gap were a dot head instead of a circle or a lamp with no opening.
+
+**At 48 px, light and dark themes:** the head, the raised arms and the lamp all read clearly. The weak spot is the smoke tail: it has only 8 units of height, so it is short. I rendered three versions of it and kept the one with the clearest S.
+
+**Lucide:** the raised-arm figure follows Lucide's stick-figure style. The body proportions follow `icon_set/references/human_ref/`.
+
+I didn't register the module, run the build or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1322-genie/`:
+- `genie_redraw.py`
+- `genie_redraw.svg`
+- `genie_redraw.png`
+- `genie_redraw-48.png`
+
+[13:30:59] === success in 302s, $1.15 ===
+I redrew the genie as a Solo48 model on the 48 grid. `validate_icon()` returns **valid** with no warnings.
+
+**Subject:** a genie rising out of a magic lamp. It has a circle head, a straight neck, two raised arms, a smoke tail shaped like an S, and a lamp made of a bowl and an upturned spout. The shape is rebuilt from scratch; none of the trace coordinates are reused.
+
+**Keyshape:** I used the suggested `VRECT_M`. The drawing reaches all four edges of its box exactly: the top of the head at y=4, the bottom of the bowl at y=44, the left of the bowl at x=10 and the spout tip at x=38.
+
+**Metric issues fixed:**
+- **Stroke width (2.65):** redrawn at stroke 4.
+- **Short axis (x filled only 66%):** the lamp now spans the full width, from x=10 to x=38.
+- **Six crowding problems between the head, arms and torso (e0 to e3):** the arms now branch off the torso below the neck and are mirror images of each other. The hands are at least 8.9 from the head outline. The head sits straight above a vertical neck line with a gap of exactly 8, which is the required head-to-body gap, and the figure is marked with `mark_human_figure`.
+- **Head hole (1.22):** the head circle has radius 5, so its opening is 6 wide, the minimum.
+- **Lamp hole (1.4):** the bowl is a half-circle 10 deep, which also leaves a 6-wide opening.
+- **No head:** the head is now a real circle.
+
+**Changed from the brief (e3 and e4, smoke to lamp at 5.21):** I didn't keep the gap between the smoke and the lamp, so the smoke now flows into the lamp's rim. The 40 units of height can't hold the head (10), the neck gap (8), the body, an 8-unit gap above the lamp and a bowl deep enough for its opening (10). Joining them keeps the head and lamp at full size and is a standard way to draw a genie. The only other ways to keep the gap were a dot head instead of a circle or a lamp with no opening.
+
+**At 48 px, light and dark themes:** the head, the raised arms and the lamp all read clearly. The weak spot is the smoke tail: it has only 8 units of height, so it is short. I rendered three versions of it and kept the one with the clearest S.
+
+**Lucide:** the raised-arm figure follows Lucide's stick-figure style. The body proportions follow `icon_set/references/human_ref/`.
+
+I didn't register the module, run the build or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1322-genie/`:
+- `genie_redraw.py`
+- `genie_redraw.svg`
+- `genie_redraw.png`
+- `genie_redraw-48.png`

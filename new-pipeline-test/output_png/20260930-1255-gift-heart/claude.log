@@ -1,0 +1,86 @@
+[12:59:28] > Bash: List inputs and read metrics
+[12:59:29] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1255-gift-heart/gift-heart.png
+[12:59:49] > Bash: Show issues and remaining metric sections
+[13:00:24] Let me look at a prior redraw for the render/save pattern, and an existing heart module.
+[13:00:25] > Bash: Read prior redraw example and find heart modules
+[13:00:29] > Bash: Read process.md and a heart module
+[13:00:32] > Bash: Find render approach in pipeline script
+[13:00:35] > Bash: Find model API methods
+[13:00:38] > Bash: Locate model API
+[13:00:40] > Bash: Locate model API definitions
+[13:00:50] I'm reading the model API now; next I'll write the redraw module.
+[13:00:51] > Bash: Read geometry API signatures
+[13:01:50] > Bash: Find hole-check rule and read traps memory
+[13:02:18] > Bash: Read hole rule and build gate usage
+[13:02:31] > Bash: Read build_gate header
+[13:02:51] Plan set: VRECT_L (better vertical budget than SQUARE), heart 4–16, lid 24–32, body 32–44. Writing the module.
+[13:03:10] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1255-gift-heart/gift_heart_redraw.py
+[13:03:13] > Bash: Validate, run build gate, emit SVG
+[13:03:26] > Bash: Check current file state after on-disk change
+[13:03:34] > Bash: Reshape heart and re-run build gate
+[13:03:48] Gate passes. Rendering and checking visually.
+[13:03:51] > Bash: Emit SVG and render previews
+[13:03:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1255-gift-heart/gift-heart_redraw.png
+[13:03:54] > Read: /tmp/gh48.png
+[13:03:58] Reads clearly at 48 px. Updating the docstring to the final numbers.
+[13:04:03] > Bash: Update docstring and recheck gate
+[13:04:16] I redrew the gift heart as a Solo48 model: a hollow heart floating above a gift box, with a lid, a body and a ribbon line down the middle. It validates as `valid` and the full build gate passes with 0 errors and 0 warnings. At 48 px it reads clearly as a gift box with a heart.
+
+**Keyshape: `VRECT_L`, not the suggested `SQUARE`.** The metrics show the trace filling only 86% of `SQUARE`'s width (it would need stretching by 1.16), while `VRECT_L` needs only a 1.08 vertical stretch. More importantly, the height budget only works at stroke 4 on `VRECT_L`: heart 13 + gap 8 + lid 8 + body 11 = 40. `SQUARE`'s 36 would have left the body under 10 tall.
+
+**How it's built** (mirrored about x=24):
+- **Heart:** one closed curve from the top of the lobes at y=4 to the tip at (24,17), 18 units wide. I made the dip between the lobes shallow (y=7) because a deeper one ran too close to the heart's lower sides and failed the gate's internal spacing check.
+- **Lid:** a rectangle (8,25)–(40,33) spanning the full keyshape width.
+- **Body:** an open U hanging from the lid's bottom edge (x 11–37, down to y=44), so the lid overhangs 3 units on each side.
+- **Ribbon:** a vertical line at x=24 splitting the body.
+- Lucide's `gift` shaped the lid-and-body box and Lucide's `heart` shaped the lobes and tip.
+
+**Metric issues, all fixed:**
+- **Stroke width (info):** redrawn at 4, with every gap budgeted for it.
+- **Keyshape short axis (warning):** all four extremes now sit exactly on the `VRECT_L` box.
+- **Heart too close to the lid (error, 3.66):** the tip to the lid top is now 8 on centerlines.
+- **Heart opening too small (error, 5.0):** the heart is larger, so its opening passes the gate's hole check.
+- **Tiny hole at the lid's left end (error, 0.8):** gone. The lid is one clean rectangle and the body attaches to its bottom edge.
+
+**Compromises:**
+- The body is shorter than in the generated image (11 units against a lid of 8), because the fixed height budget didn't leave more.
+- The ribbon stays in the body only, as in the image; it doesn't cross the lid.
+
+Everything is saved in `new-pipeline-test/output_png/20260930-1255-gift-heart/`. Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1255-gift-heart/`:
+- `gift_heart_redraw.py`
+- `gift-heart_redraw.svg`
+- `gift-heart_redraw.png`
+- `gift-heart_redraw-48.png`
+
+[13:04:16] === success in 314s, $1.03 ===
+I redrew the gift heart as a Solo48 model: a hollow heart floating above a gift box, with a lid, a body and a ribbon line down the middle. It validates as `valid` and the full build gate passes with 0 errors and 0 warnings. At 48 px it reads clearly as a gift box with a heart.
+
+**Keyshape: `VRECT_L`, not the suggested `SQUARE`.** The metrics show the trace filling only 86% of `SQUARE`'s width (it would need stretching by 1.16), while `VRECT_L` needs only a 1.08 vertical stretch. More importantly, the height budget only works at stroke 4 on `VRECT_L`: heart 13 + gap 8 + lid 8 + body 11 = 40. `SQUARE`'s 36 would have left the body under 10 tall.
+
+**How it's built** (mirrored about x=24):
+- **Heart:** one closed curve from the top of the lobes at y=4 to the tip at (24,17), 18 units wide. I made the dip between the lobes shallow (y=7) because a deeper one ran too close to the heart's lower sides and failed the gate's internal spacing check.
+- **Lid:** a rectangle (8,25)–(40,33) spanning the full keyshape width.
+- **Body:** an open U hanging from the lid's bottom edge (x 11–37, down to y=44), so the lid overhangs 3 units on each side.
+- **Ribbon:** a vertical line at x=24 splitting the body.
+- Lucide's `gift` shaped the lid-and-body box and Lucide's `heart` shaped the lobes and tip.
+
+**Metric issues, all fixed:**
+- **Stroke width (info):** redrawn at 4, with every gap budgeted for it.
+- **Keyshape short axis (warning):** all four extremes now sit exactly on the `VRECT_L` box.
+- **Heart too close to the lid (error, 3.66):** the tip to the lid top is now 8 on centerlines.
+- **Heart opening too small (error, 5.0):** the heart is larger, so its opening passes the gate's hole check.
+- **Tiny hole at the lid's left end (error, 0.8):** gone. The lid is one clean rectangle and the body attaches to its bottom edge.
+
+**Compromises:**
+- The body is shorter than in the generated image (11 units against a lid of 8), because the fixed height budget didn't leave more.
+- The ribbon stays in the body only, as in the image; it doesn't cross the lid.
+
+Everything is saved in `new-pipeline-test/output_png/20260930-1255-gift-heart/`. Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1255-gift-heart/`:
+- `gift_heart_redraw.py`
+- `gift-heart_redraw.svg`
+- `gift-heart_redraw.png`
+- `gift-heart_redraw-48.png`

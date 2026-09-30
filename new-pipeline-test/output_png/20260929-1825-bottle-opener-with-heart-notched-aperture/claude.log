@@ -1,0 +1,113 @@
+[18:29:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; ls $D; cat $D...
+[18:29:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture/bottle-opener-with-h...
+[18:29:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; python3 -c " ...
+[18:30:15] Let me look at a sibling redraw module for the established pattern (import path, rendering).
+[18:30:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1824-bell-with-ringing-strokes/bell_with_ringing_strokes_re...
+[18:30:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -l "redraw-48" *.py *.sh 2>/dev/null; cat output_png/20260929-1824-bell-wi...
+[18:31:01] > Bash: cat /tmp/bwrs_render.py; cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "0b913234-7695-5b92-8cb9-b37fc3a45260" icon_set/model/icons/solo/ |...
+[18:31:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/bottle_opener_with_heart_notched_aperture_0b913234_7695_5b92_8cb9_b37fc...
+[18:32:16] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md normal48-geometry-floors.md; ...
+[18:34:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_bezier\|def add_arc\|def add_contour" -A10 icon_set/model/icons/base.py | head -60; ...
+[18:34:14] Drafting the model now: VRECT_L head with a 14-wide bezier heart, 9-unit gaps, then validating.
+[18:34:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/scripts/build_gate.py | head -60
+[18:34:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture cat > $D/bottl...
+[18:34:42] Valid and build gate passes first try. Now the visual check.
+[18:34:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; /opt/homebrew...
+[18:34:45] > Read: /tmp/boha_sheet.png
+[18:34:51] It reads as an opener with a heart aperture, but the head is boxier and the handle stubbier than the image. I'll try bigger corners and a higher neck.
+[18:34:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; F=$D/bottle_o...
+[18:35:00] zsh doesn't word-split `$combo`; switching to a Python sweep.
+[18:35:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/boha_sweep.py <<'EOF' import re, sys, importlib.util sys.path.insert(0, '.'); sys.path.ins...
+[18:35:23] The neck is pinned by the heart's lower edge. Sweeping heart point, neck and taper handles together.
+[18:35:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/boha_sweep2.py <<'EOF' import re, sys, importlib.util, itertools sys.path.insert(0, '.'); ...
+[18:36:34] Several pass. Rendering three candidates side by side to pick the best-looking one.
+[18:36:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import importlib.util, cairosvg, io, sys sys.path.insert(0,'.') from P...
+[18:36:38] > Read: /tmp/boha_cands.png
+[18:36:42] The first candidate has the longest handle and the cleanest taper, so I'm applying it to the module.
+[18:36:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; F=$D/bottle_o...
+[18:36:59] The build gate passes, but the pipeline's own metrics still flag the heart hole as 3.4 wide. Checking how svg_metrics measures holes.
+[18:36:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "hole\|inscrib" new-pipeline-test/svg_metrics.py | head -30
+[18:37:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 290,325p new-pipeline-test/svg_metrics.py
+[18:37:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture/bottle_opener_...
+[18:37:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' F="new-pipeline-test/output_png/20260929-1825-bottle-opener-with-...
+[18:37:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' F="new-pipeline-test/output_png/20260929-1825-bottle-opener-with-...
+[18:39:50] The sweep (96 variants) is running in the background; I'll pick up the passing ones when it finishes.
+[18:39:52] > Bash: sleep 100; cat /private/tmp/claude-501/-Applications-Workspaces-pictographic-claude-skills/4b3cf894-fa07-456f-acc1-e754276b9443/tasks/b9n39gf5m.output | head...
+[18:39:54] Waiting for the background sweep's completion notification.
+
+[18:39:54] === success in 627s, $1.43 ===
+Waiting for the background sweep's completion notification.
+[18:39:58] No variant passed. Checking one case to see which check blocks it.
+[18:40:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' 2>&1 | tail -15 import sys, importlib.util sys.path.insert(0,'.')...
+[18:40:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' F="new-pipeline-test/output_png/20260929-1825-bottle-opener-with-...
+[18:40:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 /tmp/boha_sweep4.py 2>&1 | tail -40
+[18:41:06] Several pass all three checks. Comparing the two best: 33/33,20/pt27/neck35 (longer handle) and 34/32,22/pt27/neck36 (bigger hole).
+[18:41:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import importlib.util, cairosvg, io, sys sys.path.insert(0,'.') from P...
+[18:41:09] > Read: /tmp/boha_cands2.png
+[18:41:12] I'm going with the first: the heart reads clearly and the handle is a little longer. Applying it and updating the docstring.
+[18:41:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; F=$D/bottle_o...
+[18:41:32] Everything passes, and svg_metrics on the redraw reports no issues. Last, some tidy-up: the docstring's gap figure should match the measured 8.01 minimum, and I'll remove the stray `__pycache__`.
+[18:41:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture; F=$D/bottle_o...
+[18:41:37] > Read: /tmp/boha_sheet.png
+[18:41:51] I redrew the bottle opener as a Solo48 model. `validate_icon()` passes with no warnings and the build gate passes. I also ran `svg_metrics.py` on a copy of the redrawn SVG and it reports no issues. All four problems in the metrics list are fixed.
+
+**Drawing:** the opener is mirrored about x = 24.
+- **Body:** one closed outline. It has a flat top with rounded corners, straight sides at x = 8 and x = 40, and smooth curves that narrow into a handle 10 wide. The handle ends in a round bottom at y = 44.
+- **Heart:** a separate closed shape inside the head. It has a shallow notch at (24,15), two rounded lobes and a point at (24,27). It sits at least 8 from the outline everywhere and 9 below the top.
+- **Lucide reference:** `heart` gave the lobes-over-a-notch shape. Lucide has no bottle opener, so the paddle follows the generated image.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `VRECT_M`. The heart needs about 15 units of width for its opening to pass the size check. In the 28-wide `VRECT_M` head it would sit only about 6 from each side; the 32-wide `VRECT_L` gives the required gap. The redraw's own metrics also suggest `VRECT_L`.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| Heart only 2.98 from the outline | Fixed: 8.0 at the closest point |
+| 2.3-wide sliver between the heart and the head top | Fixed: 9 units of space above the heart |
+| Heart opening only 2.6 wide | Fixed: now 6.2 wide at stroke 4 (needs 6) |
+| Head only filled 66% of the width | Fixed: the head reaches x = 8 and x = 40 |
+| Trace stroke thinner than 4 (info) | Drawn at stroke 4, with every gap sized for it |
+
+**One trade-off:** the handle is shorter than in the generated image. A heart big enough to pass the opening check pushes the neck down to y = 35, because the outline has to stay 8 away from the heart's point. At 48 px it still reads as an opener with a heart in it, on both light and dark backgrounds.
+
+**Gap sizes:** the lobes' widest points are deliberately placed between grid lines, about 8.5 from the straight sides. A gap of exactly 8 between a curve and a straight line comes back as "review" instead of a pass.
+
+As you asked, the module isn't registered, `published/` is untouched, and I didn't run the build or gallery updates. There is an older module for the same source ID at `icon_set/model/icons/solo/bottle_opener_with_heart_notched_aperture_0b913234_….py` (by gpt-6). I left it unchanged.
+
+Files are in `new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture/`:
+- `bottle_opener_with_heart_notched_aperture_redraw.py`
+- `bottle-opener-with-heart-notched-aperture_redraw.svg`
+- `bottle-opener-with-heart-notched-aperture_redraw.png`
+- `bottle-opener-with-heart-notched-aperture_redraw-48.png`
+
+[18:41:51] === success in 116s, $1.81 ===
+I redrew the bottle opener as a Solo48 model. `validate_icon()` passes with no warnings and the build gate passes. I also ran `svg_metrics.py` on a copy of the redrawn SVG and it reports no issues. All four problems in the metrics list are fixed.
+
+**Drawing:** the opener is mirrored about x = 24.
+- **Body:** one closed outline. It has a flat top with rounded corners, straight sides at x = 8 and x = 40, and smooth curves that narrow into a handle 10 wide. The handle ends in a round bottom at y = 44.
+- **Heart:** a separate closed shape inside the head. It has a shallow notch at (24,15), two rounded lobes and a point at (24,27). It sits at least 8 from the outline everywhere and 9 below the top.
+- **Lucide reference:** `heart` gave the lobes-over-a-notch shape. Lucide has no bottle opener, so the paddle follows the generated image.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `VRECT_M`. The heart needs about 15 units of width for its opening to pass the size check. In the 28-wide `VRECT_M` head it would sit only about 6 from each side; the 32-wide `VRECT_L` gives the required gap. The redraw's own metrics also suggest `VRECT_L`.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| Heart only 2.98 from the outline | Fixed: 8.0 at the closest point |
+| 2.3-wide sliver between the heart and the head top | Fixed: 9 units of space above the heart |
+| Heart opening only 2.6 wide | Fixed: now 6.2 wide at stroke 4 (needs 6) |
+| Head only filled 66% of the width | Fixed: the head reaches x = 8 and x = 40 |
+| Trace stroke thinner than 4 (info) | Drawn at stroke 4, with every gap sized for it |
+
+**One trade-off:** the handle is shorter than in the generated image. A heart big enough to pass the opening check pushes the neck down to y = 35, because the outline has to stay 8 away from the heart's point. At 48 px it still reads as an opener with a heart in it, on both light and dark backgrounds.
+
+**Gap sizes:** the lobes' widest points are deliberately placed between grid lines, about 8.5 from the straight sides. A gap of exactly 8 between a curve and a straight line comes back as "review" instead of a pass.
+
+As you asked, the module isn't registered, `published/` is untouched, and I didn't run the build or gallery updates. There is an older module for the same source ID at `icon_set/model/icons/solo/bottle_opener_with_heart_notched_aperture_0b913234_….py` (by gpt-6). I left it unchanged.
+
+Files are in `new-pipeline-test/output_png/20260929-1825-bottle-opener-with-heart-notched-aperture/`:
+- `bottle_opener_with_heart_notched_aperture_redraw.py`
+- `bottle-opener-with-heart-notched-aperture_redraw.svg`
+- `bottle-opener-with-heart-notched-aperture_redraw.png`
+- `bottle-opener-with-heart-notched-aperture_redraw-48.png`

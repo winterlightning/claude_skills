@@ -1,0 +1,73 @@
+[19:41:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1938-camera-with-shaking-lines; ls $D; cat $D/camera-with-sha...
+[19:42:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1938-camera-with-shaking-lines; python3 -c " import json;m=js...
+[19:42:39] Let me look at the image and a recent redraw module (with its rendering tail) to reuse the pattern.
+[19:42:40] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines/camera-with-shaking-lines.png
+[19:42:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls -t output_png/*/*_redraw.py | head -3; f=$(ls -t output_png/*/*_redraw.py | head...
+[19:43:02] There's a prior redraw of the same subject; let me check it and how renders are produced.
+[19:43:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; P=output_png/20260928-1728-camera-with-shaking-lines; ls $P; cat $P/camera_with_sha...
+[19:43:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/normal48-geometry-f...
+[19:44:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines; cat > $D/camera_with_shaking_...
+[19:44:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines; PYTHONPATH=. /opt/homebrew/bi...
+[19:44:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines; F=$D/camera_with_shaking_line...
+[19:44:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines; F=$D/camera_with_shaking_line...
+[19:44:46] The model validates with no warnings. Now I'm checking the renders visually.
+[19:44:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines; rm -rf $D/__pycache__; /opt/h...
+[19:44:49] > Read: /tmp/cam-sheet.png
+[19:45:02] I redrew the camera as a Solo48 model. It validates as `valid` with zero warnings, and I checked it at 48 px on light and dark backgrounds: it reads as a camera with shake marks either side.
+
+**Subject:** a photo camera being shaken, with a rounded body, a raised viewfinder hump, a centred lens and one shake mark on each side. It is mirrored left to right.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The drawing touches all four edges exactly: the shake marks at x=4 and x=44, the hump top at y=10 and the body bottom at y=38.
+
+**References:** I used the generated PNG only to read the subject, not its coordinates. The body, hump and centred lens follow Lucide `camera`, and the plain side marks follow Lucide `vibrate`.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap sized for that width.
+- **Keyshape short axis (only 85% filled):** fixed; the drawing now reaches every edge of the box without stretching.
+- **Body too close to the lens (3.4 apart):** the lens now clears every body edge by 9.
+- **Body too close to the shake arcs (4.7 apart):** the marks now sit 8 from the straight body walls.
+- **Hole beside the lens too narrow (5.2 across, 6 needed):** the space around the lens is now 9 wide on every side.
+
+**What I couldn't keep from the PNG:**
+- **The large lens.** The 40-unit width has to hold both marks, their 8-unit gaps to the walls, and a 9-unit gap from the lens to each wall. That leaves room for a lens of radius 3 at most. I tried radius 4: it sits exactly 8 from the walls and comes back as `review`, so I made the lens smaller rather than squeezing the gaps.
+- **The curved shake arcs.** A curved mark needs 9 clearance from the wall along its whole length. That would push it past the edge of the box, or narrow the body until there was no room for a lens. I used straight marks instead.
+
+The earlier run of this subject (`20260928-1728`) had two dashes per side. This version has one per side, as in this PNG, and a slightly larger hump.
+
+As instructed, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines/`:
+- `camera_with_shaking_lines_redraw.py`
+- `camera-with-shaking-lines_redraw.svg`
+- `camera-with-shaking-lines_redraw.png` (512 px preview)
+- `camera-with-shaking-lines_redraw-48.png`
+
+[19:45:02] === success in 237s, $0.73 ===
+I redrew the camera as a Solo48 model. It validates as `valid` with zero warnings, and I checked it at 48 px on light and dark backgrounds: it reads as a camera with shake marks either side.
+
+**Subject:** a photo camera being shaken, with a rounded body, a raised viewfinder hump, a centred lens and one shake mark on each side. It is mirrored left to right.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The drawing touches all four edges exactly: the shake marks at x=4 and x=44, the hump top at y=10 and the body bottom at y=38.
+
+**References:** I used the generated PNG only to read the subject, not its coordinates. The body, hump and centred lens follow Lucide `camera`, and the plain side marks follow Lucide `vibrate`.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap sized for that width.
+- **Keyshape short axis (only 85% filled):** fixed; the drawing now reaches every edge of the box without stretching.
+- **Body too close to the lens (3.4 apart):** the lens now clears every body edge by 9.
+- **Body too close to the shake arcs (4.7 apart):** the marks now sit 8 from the straight body walls.
+- **Hole beside the lens too narrow (5.2 across, 6 needed):** the space around the lens is now 9 wide on every side.
+
+**What I couldn't keep from the PNG:**
+- **The large lens.** The 40-unit width has to hold both marks, their 8-unit gaps to the walls, and a 9-unit gap from the lens to each wall. That leaves room for a lens of radius 3 at most. I tried radius 4: it sits exactly 8 from the walls and comes back as `review`, so I made the lens smaller rather than squeezing the gaps.
+- **The curved shake arcs.** A curved mark needs 9 clearance from the wall along its whole length. That would push it past the edge of the box, or narrow the body until there was no room for a lens. I used straight marks instead.
+
+The earlier run of this subject (`20260928-1728`) had two dashes per side. This version has one per side, as in this PNG, and a slightly larger hump.
+
+As instructed, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1938-camera-with-shaking-lines/`:
+- `camera_with_shaking_lines_redraw.py`
+- `camera-with-shaking-lines_redraw.svg`
+- `camera-with-shaking-lines_redraw.png` (512 px preview)
+- `camera-with-shaking-lines_redraw-48.png`

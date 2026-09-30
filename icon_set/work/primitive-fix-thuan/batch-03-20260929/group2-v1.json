@@ -1,0 +1,53 @@
+[
+  {
+    "key": "solo/finger-raised-to-lips",
+    "keyshape": "VRECT_L",
+    "findings": "The rejected profile is angular and the upright finger is disconnected from a recognizable folded hand. Restore the curved forehead and chin, a slightly tilted finger and rounded folded knuckles.",
+    "plan": "VRECT_L bounds (8,4)-(40,44). Two separate contours: a left-facing profile and an oblique index finger above a compact palm.",
+    "body": "\n        bez('forehead',(40,4),((35,4),(33,8),(33,13)))\n        path('nose',(33,13),(30,22),(37,22))\n        bez('chin',(37,22),((36,31),(36,34),(40,34)))\n        line('neck',(40,34),(40,44))\n        contour('face','forehead','nose-1','nose-2','chin','neck')\n        bez('palm',(8,44),((8,36),(10,33),(17,36)))\n        line('index-left',(17,36),(14,24))\n        bez('tip',(14,24),((12,18),(20,16),(22,23)))\n        line('index-right',(22,23),(28,44))\n        contour('hand','palm','index-left','tip','index-right')\n"
+  },
+  {
+    "key": "solo/finger-selecting-map-destination",
+    "keyshape": "SQUARE",
+    "findings": "The rejected hand has a stubby index finger and the long map curve is reduced to a disconnected dash. Restore a longer map arc and a more upright pointing finger beneath the destination X.",
+    "plan": "SQUARE centerline (6,6)-(42,42). Long left route curve, upper destination cross, upright finger and projecting thumb with rounded palm.",
+    "body": "\n        bez('route',(6,42),((6,26),(6,15),(15,10)))\n        path('cross-a',(26,6),(30,10),(34,14))\n        path('cross-b',(34,6),(30,10),(26,14));connect('cross-a','cross-b')\n        line('finger-left',(25,32),(25,24))\n        arc('fingertip',(25,24),(33,24),4)\n        line('finger-right',(33,24),(33,32))\n        bez('palm',(33,32),((40,32),(42,34),(42,42)))\n        contour('upper-hand','finger-left','fingertip','finger-right','palm')\n        bez('thumb',(25,32),((21,26),(19,25),(17,28)),((14,31),(19,36),(23,42)))\n        connect('thumb','upper-hand')\n"
+  },
+  {
+    "key": "solo/gymnast-in-split-leg-handstand",
+    "keyshape": "SQUARE",
+    "findings": "The rejected pose uses a rigid rectangular arm frame and a tiny head. Restore sloped shoulder-to-arm transitions, lengthen the inverted torso and use a clearer circular head.",
+    "plan": "SQUARE extremes (6,6)-(42,42). Symmetric split legs, inverted central torso and bent supporting arms. Head (24,36), r6; torso junction (24,22), exact outline-to-torso gap8 / ink gap4.",
+    "references": "Shared human_ref/full_body_ref.png: circular outlined head, coherent round-ended limbs; mirrored inverted pose derived from supplied original. human_ref/user.svg also inspected.",
+    "body": "\n        circle('head',24,36,6)\n        line('torso',(24,22),(24,15))\n        path('legs',(6,6),(24,15),(42,6));connect('legs','torso')\n        path('arms',(9,42),(9,31),(24,22),(39,31),(39,42));connect('arms','torso')\n        self.mark_human_figure('gymnast',head='head',torso='torso',torso_junction='start')\n"
+  },
+  {
+    "key": "solo/gymnast-supported-on-horizontal-bar",
+    "keyshape": "VRECT_L",
+    "findings": "The rejected gymnast has spread legs unlike the original's vertical suspended body and an undersized head. Restore a straight hanging posture and larger outlined head between the supports.",
+    "plan": "VRECT_L centerline (8,4)-(40,44). Two posts and split bar share nodes at y24; circular head center24,10 r6; torso begins24,24 for exactly8 centerline /4 ink head gap. Joined legs simplified to one vertical run.",
+    "references": "Shared human_ref/full_body_ref.png for round head and simple limb strokes; supplied original for straight hanging posture and high support posts.",
+    "body": "\n        circle('head',24,10,6)\n        for n,x in [('left',8),('right',40)]:\n            line(n+'-upper',(x,4),(x,24))\n            line(n+'-lower',(x,24),(x,44))\n            connect(n+'-upper',n+'-lower')\n        line('bar-left',(8,24),(24,24));line('bar-right',(24,24),(40,24))\n        for a,b in [('left-upper','bar-left'),('left-lower','bar-left'),('right-upper','bar-right'),('right-lower','bar-right'),('bar-left','bar-right')]:connect(a,b)\n        line('torso',(24,24),(24,44));connect('torso','bar-left');connect('torso','bar-right')\n        self.mark_human_figure('gymnast',head='head',torso='torso',torso_junction='start')\n"
+  },
+  {
+    "key": "solo/hand-gripping-a-waving-flag",
+    "keyshape": "SQUARE",
+    "findings": "The rejected fist reads as an angular bracket and the pole merges with the thumb. Restore a rounded gripping hand and two clear curled fingers beneath a gently waving flag.",
+    "plan": "SQUARE extremes (6,6)-(42,42). Flag attached to pole at24,6/18, short exposed pole to24,26, broad left-entering hand with rounded knuckles.",
+    "body": "\n        bez('flag-top',(24,6),((31,6),(33,12),(42,9)))\n        line('flag-right',(42,9),(42,20))\n        bez('flag-bottom',(42,20),((33,23),(31,17),(24,17)))\n        line('flag-hoist',(24,17),(24,6))\n        contour('flag','flag-top','flag-right','flag-bottom','flag-hoist',closed=True)\n        line('pole',(24,17),(24,29));connect('pole','flag')\n        bez('hand-top',(6,31),((16,31),(13,25),(20,25)),((22,25),(24,25),(27,25)))\n        bez('thumb',(27,25),((30,25),(31,27),(30,31)))\n        line('knuckle-top',(30,31),(34,31))\n        bez('fingers',(34,31),((40,31),(40,36),(34,36)),((40,36),(40,42),(34,42)))\n        bez('hand-bottom',(34,42),((22,42),(15,42),(6,40)))\n        contour('hand','hand-top','thumb','knuckle-top','fingers','hand-bottom')\n        connect('pole','hand')\n"
+  },
+  {
+    "key": "solo/hand-gripping-blank-upright-document",
+    "keyshape": "VRECT_L",
+    "findings": "The rejected page loses its bottom edge and its hand appears detached. Restore the rounded document perimeter and a thumb that overlaps its right edge, with a curved wrist.",
+    "plan": "VRECT_L extremes (8,4)-(40,44). Rounded upright paper with lower-right edge occluded by one coherent hand contour.",
+    "body": "\n        line('paper-top',(12,4),(28,4));arc('paper-corner',(28,4),(32,8),4)\n        line('paper-right',(32,8),(32,22))\n        line('paper-left',(8,8),(8,34));arc('paper-topleft',(8,8),(12,4),4)\n        arc('paper-bottomleft',(8,34),(12,38),4,s=False);line('paper-bottom',(12,38),(22,38))\n        contour('paper','paper-bottom','paper-bottomleft')\n        bez('hand-back',(32,22),((38,27),(40,28),(40,33)),((40,39),(39,40),(40,44)))\n        bez('thumb',(34,34),((31,31),(27,27),(25,27)),((21,27),(20,31),(23,34)),((25,37),(27,40),(28,44)))\n        connect('paper-right','hand-back')\n"
+  },
+  {
+    "key": "solo/hand-lowering-a-coin-toward-a-cup",
+    "keyshape": "SQUARE",
+    "findings": "The rejected hand is a polygonal pinch, its coin is tiny and the cup is squat. Restore a smooth downward finger and a distinct circular coin above a taller tapered cup.",
+    "plan": "SQUARE (6,6)-(42,42). Left-entering hand; smooth pinch touches coin at its upper extreme; trapezoidal cup below with clear separation.",
+    "body": "\n        bez('hand-top',(6,6),((11,6),(17,6),(20,6)),((25,6),(27,9),(28,12)))\n        bez('hand-bottom',(6,14),((12,18),(17,18),(21,18)),((25,18),(25,14),(22,12)))\n        circle('coin',30,19,5)\n        path('cup',(20,32),(42,32),(38,42),(24,42),closed=True)\n"
+  }
+]

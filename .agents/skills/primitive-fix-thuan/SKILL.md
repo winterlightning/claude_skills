@@ -1,6 +1,6 @@
 ---
 name: primitive-fix-thuan
-description: Claim a number of disapproved Pictographic solo icons from the shared production fix queue, redraw each one by running $primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Only icons disapproved once are claimed unless --max-disapprovals says otherwise. Arguments: count, optional --offset, --disapprove-status, --max-disapprovals and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Claim a number of disapproved Pictographic icons (solo unless --family names another family such as icon-72) from the shared production fix queue, redraw each one by running $primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Only icons disapproved once are claimed unless --max-disapprovals says otherwise. Arguments: count, optional --family, --offset, --disapprove-status, --max-disapprovals and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
 # $primitive-fix-thuan — claim, redraw with $primitive-make-ray, upload
@@ -12,7 +12,9 @@ $primitive-make-ray, then upload the result and report it. All drawing, validati
 export rules are $primitive-make-ray's; do not author or repair geometry any other way.
 
 Run from the repository containing `icon_set/`. The first number in the arguments is the
-**count** of icons to claim (default 1 when none is given). `--offset N` skips that many
+**count** of icons to claim (default 1 when none is given). `--family` picks the queue family:
+`solo` when none is given, or another one such as `icon-72`, `container`, `sub` or `text`; pass it
+to `start` exactly as given. `--offset N` skips that many
 claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,
 `manual-fix-request`, `other`, `missing`). **Only icons disapproved once** are claimed: pass
 `--max-disapprovals 1` always, or the number given in the arguments. An icon that was fixed (a fix
@@ -35,7 +37,7 @@ attempt, as in section 2.
 ## 1. Claim
 
 ```bash
-python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> --max-disapprovals 1 [--offset N] [--disapprove-status R]
+python3 icon_set/scripts/primitive_fix.py start --worker <name> --limit <count> --max-disapprovals 1 [--family F] [--offset N] [--disapprove-status R]
 ```
 
 It claims the icons on production (so no other machine fixes them), creates one fix directory
@@ -56,6 +58,9 @@ completely. Additions for a fix:
   rejected). Write down what the current drawing gets wrong against the original and against
   the reviewer's feedback, then draw to correct exactly that. The feedback is the specification
   for the revision. Keep the `icon_id` of the block.
+- **Other families.** A block whose `family` line is not `solo` (for example `icon-72`, uploads
+  with no original) is still redrawn as a $primitive-make-ray Solo48 on the 48 grid: its
+  current drawing is the reference, and the after SVG becomes that icon's fixed drawing.
 - When the reference line says the reference is the current drawing (no original on
   production), the icon is still fixed: redraw it from that drawing, the `icon_id` and the
   feedback. When it says `none`, redraw from the `icon_id` and the feedback.

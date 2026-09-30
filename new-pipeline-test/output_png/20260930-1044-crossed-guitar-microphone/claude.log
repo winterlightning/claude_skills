@@ -1,0 +1,83 @@
+[10:50:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1044-crossed-guitar-microphone; ls $D; cat $D/*_metrics.json ...
+[10:51:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1044-crossed-guitar-microphone; python3 -c " import json;m=js...
+[10:51:48] Let me see the rest of that example (render tail) and the source image.
+[10:51:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 80,400p output_png/20260930-1044-craftsman-holding-a-hammer/craftsman_holdin...
+[10:51:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone/crossed-guitar-microphone.png
+[10:51:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 1,60p process.md; ls; ls output_png/20260930-1044-craftsman-holding-a-hammer/
+[10:52:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; tail -30 output_png/20260930-1044-craftsman-holding-a-hammer/claude.log; grep -n "r...
+[10:52:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def to_svg\|def render_svg\|def s...
+[10:52:16] There's an existing module for this source; let me look at it (for construction ideas) and at how the craftsman redraw was rendered.
+[10:52:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/crossed_guitar_microphone_ae731560_756d_4bfe_9aa1_bcd0df250afa.py; grep...
+[10:52:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p icon_set/scripts/build_gate.py | grep -n -i "usage\|argv\|argparse\|add_argument\|def " ...
+[10:52:20] > Bash: cat /tmp/ch_render.py 2>/dev/null || ls -t /tmp/*render*.py | head
+[10:52:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; find . -path ./node_modules -prune -o -iname "guitar*.svg" -print 2>/dev/null | grep -i lucide | head...
+[10:52:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/lucide/original/guitar.svg; ls icon_set/references/lucide/original | grep -i ...
+[10:52:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn " def add_\| def relate\| def to_svg" icon_set/model | head -30
+[10:52:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py
+[10:56:30] I'm laying out the crossing geometry on the SQUARE box. Next I'll write the model with computed tangent curves, then validate and render it.
+[10:56:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,60p icon_set/scripts/build_gate.py | sed -n 1,40p; grep -rln "add_bezier" icon_set/model/ico...
+[10:57:12] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone/crossed_guitar_microphone_redraw.py
+[10:57:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone && python3 - <<'EOF' import re f=...
+[10:57:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone/crossed-guitar-microphone_redraw.png
+[10:59:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone; sed -n 60,120p $D/crossed_gui...
+[10:59:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone && python3 - <<'EOF' f='crossed_g...
+[10:59:45] The new layout passes both validation and the build gate. Next I'm checking how it looks.
+[10:59:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone && python3 - <<'EOF' f='crossed_g...
+[10:59:49] > Read: /tmp/cgm_both.png
+[11:00:23] Passes, but it doesn't look right yet: the 10×10 hollow headstock is too heavy, and the mic reads a little like a magnifier. I'm swapping in a T-shaped peg head and comparing the result.
+[11:00:29] > Bash: python3 - <<'EOF' f='crossed_guitar_microphone_redraw.py' s=open(f).read() s=s.replace('''HEADSTOCK = (32, 6, 42, 16) # neck enters the (32,16) corner; hole ...
+[11:00:29] > Read: /tmp/cgm_both.png
+[11:01:00] The guitar reads now: waisted body, neck and T peg head. The mic keeps the ball-and-handle shape from the source. I'm updating the docstring to match the final geometry.
+[11:01:13] > Bash: python3 - <<'EOF' f='crossed_guitar_microphone_redraw.py' s=open(f).read() b=s.index('import math') doc='''"""crossed-guitar-microphone (redraw of the new-pi...
+[11:01:28] I redrew the crossed guitar and microphone as a Solo48 model on the suggested SQUARE keyshape. It passes `validate_icon()` (valid, no warnings) and `build_gate.py` (0 errors, 0 warnings). I checked it at native 48 px on white and dark backgrounds.
+
+**The drawing**
+- **Guitar:** runs on the diagonal from the lower-left corner to the upper right. The body is one smooth outline: a round lower part, a smaller upper part and a narrow waist, with no kinks where the curves meet. The neck is a single straight line, ending in a short crossbar for the tuning pegs.
+- **Microphone:** a ball head in the upper-left corner with a short handle stub. The handle stops before the guitar neck and picks up again on the far side, running to the lower right, so it reads as passing behind the neck, as in the brief. The handle line sits 0.7 units off the head's centre because the grid has no point on that circle's diagonal; it isn't visible at 48 px.
+- **Lucide references:** `guitar` for the body outline and single-line neck, `mic-vocal` for the ball head on a diagonal handle.
+
+**Metric issues fixed**
+- **Stroke width and count:** redrawn at stroke 4, down from 10 traced strokes to 6.
+- **Microphone clearances:** the double-line handle is now one line and the band across the head is dropped. The head is at least 12.5 from the guitar and the handle ends are 9.2 from the neck. The lower handle clears the body by 8.7 (it was 1.9).
+- **Tuning pegs:** the three pegs, which were 2.7–5.5 apart, became one crossbar.
+- **Neck:** the hollow double-line neck is a single line.
+- **Holes under 6:** the headstock and band slivers are gone. The microphone head is radius 5, which gives exactly the minimum 6-unit hole.
+
+**Could not fix:** the sound hole, so I dropped it. The body's upper part has to stay 8 away from the microphone stub, which limits the lower part to radius 6.5. A sound hole needs radius 8.5 or more, whether drawn as a dot or a ring. The body still reads as a guitar from its waist, neck and pegs.
+
+**One weakness:** the ball microphone can read a little like a magnifying glass. The band across the head that would tell them apart doesn't fit inside a radius-5 head. The traced source has the same layout, and the handle continuing on the far side of the neck helps.
+
+Everything was saved in `new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone/`:
+- `crossed_guitar_microphone_redraw.py`
+- `crossed-guitar-microphone_redraw.svg`
+- `crossed-guitar-microphone_redraw.png`
+- `crossed-guitar-microphone_redraw-48.png`
+
+As asked, nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+[11:01:28] === success in 648s, $2.13 ===
+I redrew the crossed guitar and microphone as a Solo48 model on the suggested SQUARE keyshape. It passes `validate_icon()` (valid, no warnings) and `build_gate.py` (0 errors, 0 warnings). I checked it at native 48 px on white and dark backgrounds.
+
+**The drawing**
+- **Guitar:** runs on the diagonal from the lower-left corner to the upper right. The body is one smooth outline: a round lower part, a smaller upper part and a narrow waist, with no kinks where the curves meet. The neck is a single straight line, ending in a short crossbar for the tuning pegs.
+- **Microphone:** a ball head in the upper-left corner with a short handle stub. The handle stops before the guitar neck and picks up again on the far side, running to the lower right, so it reads as passing behind the neck, as in the brief. The handle line sits 0.7 units off the head's centre because the grid has no point on that circle's diagonal; it isn't visible at 48 px.
+- **Lucide references:** `guitar` for the body outline and single-line neck, `mic-vocal` for the ball head on a diagonal handle.
+
+**Metric issues fixed**
+- **Stroke width and count:** redrawn at stroke 4, down from 10 traced strokes to 6.
+- **Microphone clearances:** the double-line handle is now one line and the band across the head is dropped. The head is at least 12.5 from the guitar and the handle ends are 9.2 from the neck. The lower handle clears the body by 8.7 (it was 1.9).
+- **Tuning pegs:** the three pegs, which were 2.7–5.5 apart, became one crossbar.
+- **Neck:** the hollow double-line neck is a single line.
+- **Holes under 6:** the headstock and band slivers are gone. The microphone head is radius 5, which gives exactly the minimum 6-unit hole.
+
+**Could not fix:** the sound hole, so I dropped it. The body's upper part has to stay 8 away from the microphone stub, which limits the lower part to radius 6.5. A sound hole needs radius 8.5 or more, whether drawn as a dot or a ring. The body still reads as a guitar from its waist, neck and pegs.
+
+**One weakness:** the ball microphone can read a little like a magnifying glass. The band across the head that would tell them apart doesn't fit inside a radius-5 head. The traced source has the same layout, and the handle continuing on the far side of the neck helps.
+
+Everything was saved in `new-pipeline-test/output_png/20260930-1044-crossed-guitar-microphone/`:
+- `crossed_guitar_microphone_redraw.py`
+- `crossed-guitar-microphone_redraw.svg`
+- `crossed-guitar-microphone_redraw.png`
+- `crossed-guitar-microphone_redraw-48.png`
+
+As asked, nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.

@@ -1,0 +1,81 @@
+[19:48:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1942-coiled-french-horn && ls && cat coiled-french-horn_metrics....
+[19:48:47] > Bash: /opt/homebrew/bin/python3 -c " import json;d=json.load(open('coiled-french-horn_metrics.json')) print(d.keys()) for k in d: if k not in ('choice','files','ta...
+[19:49:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled-french-horn.png
+[19:49:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && ls -t */*_redraw.py | head -3; f=$(ls -t */*_redraw.py | head -1); cat...
+[19:49:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test && grep -n -i -A15 "redraw" process.md | head -60; ls
+[19:49:09] > Bash: grep -n -i "render\|redraw" run_pipeline.sh | head -30
+[19:49:13] Inputs read; now checking the model API for loading, validating and emitting SVG from a standalone module.
+[19:49:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def validate_icon\|def to_svg\|...
+[19:49:18] > Bash: ls icon_set/model/icons/solo/_base.py && grep -rn "def validate_icon\|def to_svg\|def svg(" icon_set/model --include=*.py | head; grep -n "cairosvg\|rsvg" ic...
+[19:49:20] > Bash: grep -rn "def validate_icon\|def to_svg\|def svg\|def add_[a-z]*\|def relate" icon_set/model | grep -v pycache | head -20; sed -n 580,600p icon_set/scripts/b...
+[19:49:24] > Bash: sed -n 90,200p icon_set/model/icons/base.py; grep -n "hole\|pinch" icon_set/scripts/build.py | head -10
+[19:49:27] > Bash: find icon_set -name build_gate.py | head -2; sed -n 1,40p $(find icon_set -name build_gate.py | head -1)
+[19:50:03] > Bash: ls icon_set/model/icons/solo | grep -i "horn\|bugle\|tuba\|trumpet" ; find . -path ./node_modules -prune -o -iname "*horn*.svg" -print 2>/dev/null | grep -i ...
+[19:50:08] There's an existing module for this same source ID; checking how it was constructed for ideas.
+[19:50:09] > Bash: cat icon_set/model/icons/solo/coiled_french_horn_e0e5259b_1f4e_49b1_b4fe_796abc5994f0.py; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py icon_set/m...
+[19:52:30] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled_french_horn_redraw.py
+[19:52:36] > Bash: cat > /tmp/fh_render.py <<'EOF' import importlib.util, sys, cairosvg sys.path.insert(0, '.') d = 'new-pipeline-test/output_png/20260929-1942-coiled-french-ho...
+[19:52:39] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled-french-horn_redraw.png
+[19:52:48] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled-french-horn_redraw-48.png
+[19:52:57] Valid and gate-clean on the first pass. The bell reads a bit stiff, so trying a curved inner bell wall for a truer flare.
+[19:52:59] > Bash: f=new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled_french_horn_redraw.py && cp $f /tmp/fh_backup.py && /opt/homebrew/bin/python3 - <<'EOF...
+[19:53:05] The curve narrows the bell below clearance; reverting to the straight inner wall that passes.
+[19:53:07] > Bash: f=new-pipeline-test/output_png/20260929-1942-coiled-french-horn/coiled_french_horn_redraw.py && cp /tmp/fh_backup.py $f && /opt/homebrew/bin/python3 /tmp/fh_...
+[19:53:20] I've redrawn the coiled French horn as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` (the build's full check, including holes, pinches and internal spacing) passes with 0 errors and 0 warnings.
+
+**Subject:** a French horn seen from the side. It has a round coil of tubing with an open centre, a flared bell rising to the upper right with a flat rim, and a short mouthpiece off the upper left.
+
+**Keyshape:** I used `HRECT_L`, not the suggested `HRECT_M`. `HRECT_M` is only 28 units tall. The coil's outer and inner walls must be at least 8 apart on centerlines, and the rim has to sit above the coil, so the drawing needs 32. `HRECT_L` was the metrics' second-best fit at 0.90. All four edges touch the box exactly: coil on the left (4) and bottom (40), rim on the top (8), rim tip on the right (44).
+
+**Construction:** everything is built around one coil centre at (19,25). The outer wall has radius 15 and is split at integer points where the mouthpiece and the bell attach. The inner loop is a closed circle of radius 6, 9 units from the outer wall. The outer outline is one closed path: coil arc, the bell's outer wall, rim, and the bell's inner wall back to the coil. The mouthpiece is a single stroke leaving the coil at 90°. There was no useful Lucide original to borrow from.
+
+**Metric issues, all 11 fixed:**
+- **Coil vs. mouthpiece clearance (e0/e2, e0/e3, e2/e3):** the two-walled mouthpiece is now one stroke.
+- **Inner vs. outer coil clearance (e0/e4):** the two circles share a centre and sit 9 apart.
+- **Mouthpiece vs. outline clearance (e1/e4, e2/e4):** the mouthpiece cup is gone, and the stub leaves the coil at a right angle.
+- **Two narrow joins:** the mouthpiece meets the coil at 90°, and the bell's inner wall meets the coil at about 60°.
+- **4.3-wide hole at the rim:** removed. The bell mouth now opens into the tube space.
+- **Short x axis:** fixed by the keyshape change.
+- **Thin trace stroke:** everything is drawn at stroke 4.
+
+**What I dropped:** the mouthpiece cup, because there's no room at the top of the box. The mouthpiece is a short 5-unit stub. I tried a curved inner bell wall for a stronger flare, but it squeezed the bell to 3 units of ink clearance and failed internal spacing. I went back to the straight wall.
+
+**Visual check:** at 48 px it reads as a coiled horn with a bell. I checked it in light only; strokes use `currentColor`. The inner loop is fairly heavy, and the short mouthpiece makes the horn read a little less clearly than the source image.
+
+Everything is in `new-pipeline-test/output_png/20260929-1942-coiled-french-horn/`:
+- `coiled_french_horn_redraw.py`
+- `coiled-french-horn_redraw.svg`
+- `coiled-french-horn_redraw.png`
+- `coiled-french-horn_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update ran.
+
+[19:53:20] === success in 309s, $1.18 ===
+I've redrawn the coiled French horn as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` (the build's full check, including holes, pinches and internal spacing) passes with 0 errors and 0 warnings.
+
+**Subject:** a French horn seen from the side. It has a round coil of tubing with an open centre, a flared bell rising to the upper right with a flat rim, and a short mouthpiece off the upper left.
+
+**Keyshape:** I used `HRECT_L`, not the suggested `HRECT_M`. `HRECT_M` is only 28 units tall. The coil's outer and inner walls must be at least 8 apart on centerlines, and the rim has to sit above the coil, so the drawing needs 32. `HRECT_L` was the metrics' second-best fit at 0.90. All four edges touch the box exactly: coil on the left (4) and bottom (40), rim on the top (8), rim tip on the right (44).
+
+**Construction:** everything is built around one coil centre at (19,25). The outer wall has radius 15 and is split at integer points where the mouthpiece and the bell attach. The inner loop is a closed circle of radius 6, 9 units from the outer wall. The outer outline is one closed path: coil arc, the bell's outer wall, rim, and the bell's inner wall back to the coil. The mouthpiece is a single stroke leaving the coil at 90°. There was no useful Lucide original to borrow from.
+
+**Metric issues, all 11 fixed:**
+- **Coil vs. mouthpiece clearance (e0/e2, e0/e3, e2/e3):** the two-walled mouthpiece is now one stroke.
+- **Inner vs. outer coil clearance (e0/e4):** the two circles share a centre and sit 9 apart.
+- **Mouthpiece vs. outline clearance (e1/e4, e2/e4):** the mouthpiece cup is gone, and the stub leaves the coil at a right angle.
+- **Two narrow joins:** the mouthpiece meets the coil at 90°, and the bell's inner wall meets the coil at about 60°.
+- **4.3-wide hole at the rim:** removed. The bell mouth now opens into the tube space.
+- **Short x axis:** fixed by the keyshape change.
+- **Thin trace stroke:** everything is drawn at stroke 4.
+
+**What I dropped:** the mouthpiece cup, because there's no room at the top of the box. The mouthpiece is a short 5-unit stub. I tried a curved inner bell wall for a stronger flare, but it squeezed the bell to 3 units of ink clearance and failed internal spacing. I went back to the straight wall.
+
+**Visual check:** at 48 px it reads as a coiled horn with a bell. I checked it in light only; strokes use `currentColor`. The inner loop is fairly heavy, and the short mouthpiece makes the horn read a little less clearly than the source image.
+
+Everything is in `new-pipeline-test/output_png/20260929-1942-coiled-french-horn/`:
+- `coiled_french_horn_redraw.py`
+- `coiled-french-horn_redraw.svg`
+- `coiled-french-horn_redraw.png`
+- `coiled-french-horn_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update ran.

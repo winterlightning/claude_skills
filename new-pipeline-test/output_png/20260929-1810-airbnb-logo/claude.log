@@ -1,0 +1,73 @@
+[18:11:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1810-airbnb-logo; ls $D; cat $D/airbnb-logo_metrics.json | he...
+[18:12:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1810-airbnb-logo; /opt/homebrew/bin/python3 -c " import json;...
+[18:12:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1810-airbnb-logo/airbnb-logo.png
+[18:12:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260928-1330-github-logo/github_logo_redraw.py; ls 20260928-1330-gi...
+[18:12:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -l "redraw" *.py *.sh 2>/dev/null; cat output_png/20260929-1805-anklet/ank...
+[18:12:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw\|render\|cairosvg\|to_svg" run_pipeline.sh | head -30; ls /tmp/*...
+[18:12:50] Reading the inputs is done: the Airbnb Bélo loop, and the metrics suggest VRECT_L. Next I'm checking the model API so I can validate and render outside the registry.
+[18:12:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(validate_icon\|to_svg\|render\|svg\|emit\)" -r icon_set/model/*.py icon_set/model/icon...
+[18:13:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,200p icon_set/model/icons/base.py
+[18:14:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 250,330p icon_set/model/icons/base.py; which rsvg-convert magick; /opt/homebrew/bin/python3 -c...
+[18:15:27] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1810-airbnb-logo/airbnb_logo_redraw.py
+[18:15:31] > Write: /tmp/airbnb_check.py
+[18:15:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 /tmp/airbnb_check.py; cat new-pipeline-test/output_png/20260929-1810-airbnb...
+[18:15:37] Valid on the first pass, but the heel control points the wrong way (a kink at the leg foot). Fixing it and looking at the render.
+[18:15:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1810-airbnb-logo/airbnb_logo_redraw.py; sed -i '' 's/(LEG_FOO...
+[18:15:40] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1810-airbnb-logo/airbnb-logo_redraw.png
+[18:15:41] > Read: /tmp/airbnb48x4.png
+[18:15:43] Reads clearly as the Bélo at 48 px. One last check that the report has zero warnings:
+[18:15:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import importlib.util,sys spec=importlib.util.spec_from_file_location(...
+[18:15:57] I redrew the Airbnb logo as a Solo48 model, and it validates as `valid` with zero warnings and zero findings.
+
+**Subject:** the Airbnb Bélo. It's a rounded arch whose feet curl into two lobes, and the lobes cross into a teardrop loop. It is mirrored about x=24.
+
+**Keyshape: `SQUARE`, not the suggested `VRECT_L`.** At stroke 4, the teardrop's round top can't be smaller than radius 5, which leaves the 6-unit opening the rules require. In a 32-wide `VRECT_L` box, the slanted legs then come within 8 of that round top unless they stand almost vertical, and then the arch looks like a bell. `SQUARE` gives 4 more units of width, so each leg is 8.3 from it (centerline to centerline).
+
+**Construction:** everything is built on the grid; no trace coordinates were copied.
+- **Arch:** one closed outline with a rounded crown at (24,6), straight 60° legs, a smooth bend to the side extremes (6,35) and (42,35), rounded lobes down to y=42, and a point at (24,34) where the two lobes meet.
+- **Loop:** one closed teardrop. Its tip is that same point (24,34), and its sides leave it at 45°, carrying on the lobe lines so the junction reads as the logo's crossing.
+
+**Metric issues:**
+- **clearance (error, the two traced parts 0.31 apart):** fixed. The real logo is one stroke that crosses itself, so the redraw makes the crossing a real junction. The loop tip and the arch's meeting point are the same node, declared with `relate("connect", "loop", "arch")`. Nothing else on the loop comes within 8 of the arch.
+- **keyshape-short-axis (warning, y fills 92%):** fixed by switching to `SQUARE`. The crown, lobe bottoms and lobe sides sit exactly on the (6,6)-(42,42) box.
+- **stroke-width (info):** handled. Drawn at stroke 4, with every gap measured at that width.
+
+Nothing was dropped. The only change from the real logo is that the crossing becomes one shared junction instead of two strands crossing a little above the lobes. At stroke 4 on a 48 grid those strands would merge into one blob anyway. Lucide has no Airbnb icon; I borrowed its droplet construction (a round top with two sides running to a point) for the loop.
+
+At native 48 px the result reads clearly as the Airbnb mark in the light render. I didn't check a dark-theme render.
+
+I didn't register the module, touch `published/`, or run the build or gallery. The SVG and PNGs came from a temporary loader script in `/tmp`.
+
+Files are in `new-pipeline-test/output_png/20260929-1810-airbnb-logo/`:
+- `airbnb_logo_redraw.py`
+- `airbnb-logo_redraw.svg`
+- `airbnb-logo_redraw.png` (512 px preview)
+- `airbnb-logo_redraw-48.png`
+
+[18:15:57] === success in 248s, $0.95 ===
+I redrew the Airbnb logo as a Solo48 model, and it validates as `valid` with zero warnings and zero findings.
+
+**Subject:** the Airbnb Bélo. It's a rounded arch whose feet curl into two lobes, and the lobes cross into a teardrop loop. It is mirrored about x=24.
+
+**Keyshape: `SQUARE`, not the suggested `VRECT_L`.** At stroke 4, the teardrop's round top can't be smaller than radius 5, which leaves the 6-unit opening the rules require. In a 32-wide `VRECT_L` box, the slanted legs then come within 8 of that round top unless they stand almost vertical, and then the arch looks like a bell. `SQUARE` gives 4 more units of width, so each leg is 8.3 from it (centerline to centerline).
+
+**Construction:** everything is built on the grid; no trace coordinates were copied.
+- **Arch:** one closed outline with a rounded crown at (24,6), straight 60° legs, a smooth bend to the side extremes (6,35) and (42,35), rounded lobes down to y=42, and a point at (24,34) where the two lobes meet.
+- **Loop:** one closed teardrop. Its tip is that same point (24,34), and its sides leave it at 45°, carrying on the lobe lines so the junction reads as the logo's crossing.
+
+**Metric issues:**
+- **clearance (error, the two traced parts 0.31 apart):** fixed. The real logo is one stroke that crosses itself, so the redraw makes the crossing a real junction. The loop tip and the arch's meeting point are the same node, declared with `relate("connect", "loop", "arch")`. Nothing else on the loop comes within 8 of the arch.
+- **keyshape-short-axis (warning, y fills 92%):** fixed by switching to `SQUARE`. The crown, lobe bottoms and lobe sides sit exactly on the (6,6)-(42,42) box.
+- **stroke-width (info):** handled. Drawn at stroke 4, with every gap measured at that width.
+
+Nothing was dropped. The only change from the real logo is that the crossing becomes one shared junction instead of two strands crossing a little above the lobes. At stroke 4 on a 48 grid those strands would merge into one blob anyway. Lucide has no Airbnb icon; I borrowed its droplet construction (a round top with two sides running to a point) for the loop.
+
+At native 48 px the result reads clearly as the Airbnb mark in the light render. I didn't check a dark-theme render.
+
+I didn't register the module, touch `published/`, or run the build or gallery. The SVG and PNGs came from a temporary loader script in `/tmp`.
+
+Files are in `new-pipeline-test/output_png/20260929-1810-airbnb-logo/`:
+- `airbnb_logo_redraw.py`
+- `airbnb-logo_redraw.svg`
+- `airbnb-logo_redraw.png` (512 px preview)
+- `airbnb-logo_redraw-48.png`

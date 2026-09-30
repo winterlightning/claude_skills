@@ -1,0 +1,83 @@
+[19:30:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1927-codefactor-logo && ls && cat codefactor-logo_metrics.json |...
+[19:30:59] Let me look at an existing redraw example and the image.
+[19:31:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260928-1330-github-logo/github_logo_redraw.py | head -80; ls 202...
+[19:31:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1927-codefactor-logo/codefactor-logo.png
+[19:31:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && sed -n 80,200p new-pipeline-test/output_png/20260928-1330-github-logo/github_logo_redraw.py; grep -...
+[19:32:02] > Bash: grep -n "redraw" new-pipeline-test/process.md | head -30; grep -rn "redraw-48\|_redraw.png" new-pipeline-test/*.sh new-pipeline-test/process.md | head
+[19:32:17] > Bash: D=new-pipeline-test/output_png/20260929-1927-codefactor-logo && cat > $D/codefactor_logo_redraw.py <<'EOF' """codefactor-logo (redraw of the new-pipeline tra...
+[19:32:19] > Bash: PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/cf_render.py; grep -n "def " icon_set/model/icons/base.py | grep -i "svg\|render\|emit"
+[19:32:26] > Bash: D=new-pipeline-test/output_png/20260929-1927-codefactor-logo && PYTHONPATH=. /opt/homebrew/bin/python3 - <<'EOF' import importlib.util D = "new-pipeline-test...
+[19:32:28] The model validates clean; now rendering the PNG previews (black on white, 480 and 48 px) to check it visually.
+[19:32:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1927-codefactor-logo && sed 's/currentColor/#000/' codefactor-lo...
+[19:32:34] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1927-codefactor-logo/codefactor-logo_redraw.png
+[19:32:34] > Read: /tmp/cf48x5.png
+[19:32:47] I've redrawn the CodeFactor logo as a Solo48 model. It passes `validate_icon()` as `valid` with zero warnings. All four files are saved in `new-pipeline-test/output_png/20260929-1927-codefactor-logo/`.
+
+**What it is:** three rings stacked in a column on the left, with a long bar next to the top ring and a shorter bar next to the middle ring. That's how the generated image read the logo: as a list icon.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. It also matched the "square" shape hint best (score 1.12 against 0.92 for `HRECT_L`).
+- The ring column now runs from y=6 to y=42, using the full height.
+- The top bar sets the right edge at x=42.
+
+**Construction:**
+- **Rings:** radius 6, centred on x=12 at y=12, 24 and 36.
+- **Bars:** both start at x=26, which leaves the required 8 units of clearance from the rings. The top bar ends at x=42 and the middle one at x=36. That keeps roughly the long-to-short ratio of the generated image (1.6 vs 1.54).
+- **Lucide:** I followed the `list` / `list-todo` layout (a column of bullets beside bars). The rings are larger than Lucide's bullets so the hole inside each one stays open.
+
+**Metric issues:**
+
+| Issue | Status |
+|---|---|
+| stroke-width (trace was 2.4) | Fixed: redrawn at stroke 4, and every gap re-measured at that width |
+| keyshape-short-axis (y filled only 87%) | Fixed: the rings fill the full y range, 6 to 42 |
+| clearance e0/e1 and e2/e3 (ring to bar, 4 units) | Fixed: bars start 8 from the ring centerlines |
+| holes ×3 (about 3.6 wide, need 6) | Fixed: rings grew from radius about 3.8 to 6, so each hole is 8 wide |
+| clearance e0/e2 and e2/e4 (ring to ring, 4 units) | Not fixable as a gap |
+
+**Why the ring-to-ring gaps couldn't be fixed:** every ring needs a radius of at least 5 to keep its hole 6 wide. Three such rings plus two 8-unit gaps need 46 units of height, and the box is 36. Dropping a ring would lose what makes the logo recognisable. So I made neighbouring rings touch at one point instead. Each touch point is where the two rings' arcs meet, and it's declared as a `connect` contact. The validator accepts this without warnings.
+
+**Visual check:** at 48 px it reads clearly. The trade-off is that the touching rings merge into one chain, so the column looks more like beads on a string than three separate bullets. The bars also look a little light next to that heavier column, but they can't get longer without leaving the keyshape.
+
+I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1927-codefactor-logo/`:
+- `codefactor_logo_redraw.py`
+- `codefactor-logo_redraw.svg`
+- `codefactor-logo_redraw.png`
+- `codefactor-logo_redraw-48.png`
+
+[19:32:48] === success in 134s, $0.56 ===
+I've redrawn the CodeFactor logo as a Solo48 model. It passes `validate_icon()` as `valid` with zero warnings. All four files are saved in `new-pipeline-test/output_png/20260929-1927-codefactor-logo/`.
+
+**What it is:** three rings stacked in a column on the left, with a long bar next to the top ring and a shorter bar next to the middle ring. That's how the generated image read the logo: as a list icon.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. It also matched the "square" shape hint best (score 1.12 against 0.92 for `HRECT_L`).
+- The ring column now runs from y=6 to y=42, using the full height.
+- The top bar sets the right edge at x=42.
+
+**Construction:**
+- **Rings:** radius 6, centred on x=12 at y=12, 24 and 36.
+- **Bars:** both start at x=26, which leaves the required 8 units of clearance from the rings. The top bar ends at x=42 and the middle one at x=36. That keeps roughly the long-to-short ratio of the generated image (1.6 vs 1.54).
+- **Lucide:** I followed the `list` / `list-todo` layout (a column of bullets beside bars). The rings are larger than Lucide's bullets so the hole inside each one stays open.
+
+**Metric issues:**
+
+| Issue | Status |
+|---|---|
+| stroke-width (trace was 2.4) | Fixed: redrawn at stroke 4, and every gap re-measured at that width |
+| keyshape-short-axis (y filled only 87%) | Fixed: the rings fill the full y range, 6 to 42 |
+| clearance e0/e1 and e2/e3 (ring to bar, 4 units) | Fixed: bars start 8 from the ring centerlines |
+| holes ×3 (about 3.6 wide, need 6) | Fixed: rings grew from radius about 3.8 to 6, so each hole is 8 wide |
+| clearance e0/e2 and e2/e4 (ring to ring, 4 units) | Not fixable as a gap |
+
+**Why the ring-to-ring gaps couldn't be fixed:** every ring needs a radius of at least 5 to keep its hole 6 wide. Three such rings plus two 8-unit gaps need 46 units of height, and the box is 36. Dropping a ring would lose what makes the logo recognisable. So I made neighbouring rings touch at one point instead. Each touch point is where the two rings' arcs meet, and it's declared as a `connect` contact. The validator accepts this without warnings.
+
+**Visual check:** at 48 px it reads clearly. The trade-off is that the touching rings merge into one chain, so the column looks more like beads on a string than three separate bullets. The bars also look a little light next to that heavier column, but they can't get longer without leaving the keyshape.
+
+I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1927-codefactor-logo/`:
+- `codefactor_logo_redraw.py`
+- `codefactor-logo_redraw.svg`
+- `codefactor-logo_redraw.png`
+- `codefactor-logo_redraw-48.png`

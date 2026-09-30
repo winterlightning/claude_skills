@@ -1,0 +1,26 @@
+{
+  "concept": "allowances silence",
+  "source_uuid": "a820dc57-f149-4286-95b2-5cae2b1c62e9",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__finger-raised-to-lips/20260929T104744Z-thuan-mac/reference/allowances silence_a820dc57-f149-4286-95b2-5cae2b1c62e9.svg",
+  "icon_id": "finger-raised-to-lips",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/a820dc57-f149-4286-95b2-5cae2b1c62e9/20260929T105149958380Z-batch03",
+  "module": "finger_raised_to_lips_a820dc57_f149_4286_95b2_5cae2b1c62e9.py",
+  "svg": "finger-raised-to-lips.svg",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [face]: face and hand are 7.96691 apart on centerlines nearest (30, 22)<->(22.3396, 24.1887); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "finger-raised-to-lips",
+    "status": "fail",
+    "errors": [
+      "mic [face]: face and hand are 7.96691 apart on centerlines nearest (30, 22)<->(22.3396, 24.1887); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "findings": "The rejected profile is angular and the upright finger is disconnected from a recognizable folded hand. Restore the curved forehead and chin, a slightly tilted finger and rounded folded knuckles.",
+  "plan": "VRECT_L bounds (8,4)-(40,44). Two separate contours: a left-facing profile and an oblique index finger above a compact palm.",
+  "references": "Lucide hand and hand-fist: rounded fingertips, coherent palm contours. Shared human references inspected; detached-head spacing does not apply to hands."
+}

@@ -1,0 +1,82 @@
+[12:09:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n '/Redraw/,/^## /p' process.md | head -60; ls output_png/20260930-1206-diagon...
+[12:10:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1206-diagonal-handshake; python3 -c " import json;d=json.load(op...
+[12:10:42] Let me look at the image and a previous redraw for the rendering/validation harness pattern.
+[12:10:42] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal-handshake.png
+[12:10:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; ls -t */*_redraw.py | head -3; f=$(ls -t */*_redraw.py | head -1); cat $...
+[12:10:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test; grep -rl "redraw-48" new-pipeline-test --include=*.py --include=*.sh --include=...
+[12:10:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/model/icons/solo | grep -i shake; grep -n "redraw" new-pipeline-test/run_pipeline.sh | he...
+[12:10:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/dp_run.py; cat icon_set/model/icons/solo/handshake_135d01ca_c11c_4e70_a645_04b5dbcd9502.py
+[12:10:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; find . -path ./node_modules -prune -o -name "handshake.svg" -print 2>/dev/null | head -5
+[12:11:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; find . -ipath "*lucide*" -name "handshake*" 2>/dev/null | head -3
+[12:12:43] Checking the Lucide handshake reference before I lay out the geometry.
+[12:12:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/lucide/original/handshake.svg; rsvg-convert -w 400 -h 400 -b white new-pipeli...
+[12:19:10] Layout planned: I'm building it on a 45° diagonal axis with arms in two bands (x+y 36–48 and 48–60), a thumb hook, and knuckle bumps. Writing the model now.
+[12:19:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_arc\|def add_line\|def add_contour\|def add_polyline\|def relate" -A6 icon_set/model...
+[12:19:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 106,150p icon_set/model/icons/base.py
+[12:19:39] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal_handshake_redraw.py
+[12:19:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/hs_run.py <<'EOF' import importlib.util, sys, subprocess d = "new-pipeline-test/output_png...
+[12:19:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; f=new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal_handshake_redraw.py; /opt/ho...
+[12:19:56] > Read: /tmp/hs_both.png
+[12:20:00] Validates, but the knuckle bumps bulge inward. I'll flip them outward and compare 2 vs 3 knuckles.
+[12:20:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; p=new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal_handshake_redraw.py; sed -i ...
+[12:20:06] > Read: /tmp/hs_cmp.png
+[12:20:19] The first render actually had the bumps outward (sweep=False); reverting and comparing 3×r3 against 2×r5.
+[12:20:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; p=new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal_handshake_redraw.py; sed -i ...
+[12:20:32] > Read: /tmp/hs_cmp.png
+[12:20:37] Two larger knuckles read better as a gripping fist. Locking that in and updating the docstring.
+[12:20:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; p=new-pipeline-test/output_png/20260930-1206-diagonal-handshake/diagonal_handshake_redraw.py; /opt/ho...
+[12:22:45] > Bash: head -3 /private/tmp/claude-501/-Applications-Workspaces-pictographic-claude-skills/5147b4e1-5d7d-411c-90c9-c8ebced66a82/tasks/bv0x2mg2f.output; cd /Applicat...
+[12:22:48] Valid with no warnings. The repo test suite isn't relevant to an unregistered module, so I'll stop it and run the build gate on the file instead.
+[12:22:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; pkill -f "unittest discover -s icon_set/tests" ; grep -n "add_argument" icon_set/scripts/build_gate.p...
+[12:22:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. timeout 110 /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/o...
+[12:22:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20...
+[12:22:56] Final render check:
+[12:22:56] > Read: /tmp/hs_both.png
+[12:23:08] I redrew the diagonal handshake as a Solo48 model. `validate_icon()` returns **valid with 0 warnings**, and `build_gate.py` on the module passes with 0 errors and 0 warnings. I didn't finish the repo unit tests: they ran past 2 minutes and I stopped them, since they don't load a module outside `icon_set/model/icons`.
+
+**The drawing:** two hands clasped on the lower-left to upper-right diagonal. It uses the suggested **SQUARE** keyshape (its fit score was 1.25, the best of the candidates), with centerlines filling (6,6)–(42,42).
+- **Arms:** the wrists are 45° lines in two bands 8.49 apart on centerlines. The lower-left arm sits between x+y=36 and 48, the upper-right arm between 48 and 60. Offsetting the arms by one arm width is what makes the hands overlap in the middle.
+- **Upper-right hand:** a flat back at y=14, and a thumb that hooks down from the top line with a radius-4 arc. The thumb's underside runs at y=24, then the palm edge drops at 45° onto the bottom line.
+- **Lower-left hand:** the heel of the palm drops to (20,40), then two knuckle bumps of radius 5 show the fingers wrapped round the other hand.
+- **Lucide reference:** I took the construction from Lucide `handshake` (a thumb hook over the grip, fingertips wrapping the other hand, bare wrists). Its tiny fingertip loops don't survive stroke 4 at 48 px, so the fingers became knuckle bumps. I tried three smaller bumps; they were too small at 48 px.
+- **Asymmetry:** the design is deliberately not symmetric, because a handshake has one thumb on top and the other hand's fingers underneath.
+
+**Metric issues:**
+- **Fixed:** all four clearance errors (e0/e1 at 7.87, e0/e4 at 4.2, e1/e5 at 3.92, e2/e4 at 4.38). They came from the traced fingertip loop and the three short finger-crease strokes crowding the thumb and wrist. Every part is now either joined with a declared `connect` (top line to thumb, thumb to bottom line) or at least 8 apart.
+- **Fixed:** stroke-width (the trace was 2.77 after fitting). The redraw uses stroke 4, with the 8-unit gaps planned before drawing.
+- **Could not keep:** the finger-crease lines. There are only 10 units between the thumb underside and the knuckle row, and a separate stroke needs 8 on each side. A crease joined to both edges couldn't be kept parallel to the palm edge with 8 of clearance either. The knuckle bumps carry the fingers instead.
+
+**How it looks:** at native 48 px, in both light and dark, it reads like the generated image: a diagonal clasp with the thumb on top and a knuckled fist underneath. The weakest spots are the tight thumb-tip wedge where the hook meets the top line, and the busy joint at (32,28) where the palm edge, knuckles and wrist meet. It's recognizable but denser than a horizontal handshake would be.
+
+As requested, nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update ran.
+
+Files are in `new-pipeline-test/output_png/20260930-1206-diagonal-handshake`:
+- `diagonal_handshake_redraw.py`
+- `diagonal-handshake_redraw.svg`
+- `diagonal-handshake_redraw.png`
+- `diagonal-handshake_redraw-48.png`
+
+[12:23:08] === success in 822s, $2.16 ===
+I redrew the diagonal handshake as a Solo48 model. `validate_icon()` returns **valid with 0 warnings**, and `build_gate.py` on the module passes with 0 errors and 0 warnings. I didn't finish the repo unit tests: they ran past 2 minutes and I stopped them, since they don't load a module outside `icon_set/model/icons`.
+
+**The drawing:** two hands clasped on the lower-left to upper-right diagonal. It uses the suggested **SQUARE** keyshape (its fit score was 1.25, the best of the candidates), with centerlines filling (6,6)–(42,42).
+- **Arms:** the wrists are 45° lines in two bands 8.49 apart on centerlines. The lower-left arm sits between x+y=36 and 48, the upper-right arm between 48 and 60. Offsetting the arms by one arm width is what makes the hands overlap in the middle.
+- **Upper-right hand:** a flat back at y=14, and a thumb that hooks down from the top line with a radius-4 arc. The thumb's underside runs at y=24, then the palm edge drops at 45° onto the bottom line.
+- **Lower-left hand:** the heel of the palm drops to (20,40), then two knuckle bumps of radius 5 show the fingers wrapped round the other hand.
+- **Lucide reference:** I took the construction from Lucide `handshake` (a thumb hook over the grip, fingertips wrapping the other hand, bare wrists). Its tiny fingertip loops don't survive stroke 4 at 48 px, so the fingers became knuckle bumps. I tried three smaller bumps; they were too small at 48 px.
+- **Asymmetry:** the design is deliberately not symmetric, because a handshake has one thumb on top and the other hand's fingers underneath.
+
+**Metric issues:**
+- **Fixed:** all four clearance errors (e0/e1 at 7.87, e0/e4 at 4.2, e1/e5 at 3.92, e2/e4 at 4.38). They came from the traced fingertip loop and the three short finger-crease strokes crowding the thumb and wrist. Every part is now either joined with a declared `connect` (top line to thumb, thumb to bottom line) or at least 8 apart.
+- **Fixed:** stroke-width (the trace was 2.77 after fitting). The redraw uses stroke 4, with the 8-unit gaps planned before drawing.
+- **Could not keep:** the finger-crease lines. There are only 10 units between the thumb underside and the knuckle row, and a separate stroke needs 8 on each side. A crease joined to both edges couldn't be kept parallel to the palm edge with 8 of clearance either. The knuckle bumps carry the fingers instead.
+
+**How it looks:** at native 48 px, in both light and dark, it reads like the generated image: a diagonal clasp with the thumb on top and a knuckled fist underneath. The weakest spots are the tight thumb-tip wedge where the hook meets the top line, and the busy joint at (32,28) where the palm edge, knuckles and wrist meet. It's recognizable but denser than a horizontal handshake would be.
+
+As requested, nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update ran.
+
+Files are in `new-pipeline-test/output_png/20260930-1206-diagonal-handshake`:
+- `diagonal_handshake_redraw.py`
+- `diagonal-handshake_redraw.svg`
+- `diagonal-handshake_redraw.png`
+- `diagonal-handshake_redraw-48.png`

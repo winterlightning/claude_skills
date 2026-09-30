@@ -1,0 +1,69 @@
+[13:02:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1259-girl-full-body && ls && cat girl-full-body_metrics.json | h...
+[13:02:16] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1259-girl-full-body/girl-full-body.png
+[13:02:56] > Bash: python3 -c " import json;d=json.load(open('girl-full-body_metrics.json')) for k in d: if k not in ('schema','choice','files','target','source','keyshape','fi...
+[13:03:28] Let me look at the prior redraw in a sibling run for the module/render pattern, plus the human reference.
+[13:03:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && cat new-pipeline-test/output_png/20260930-1112-dancing-woman-with-music-notes/dancing_woman_with_mu...
+[13:03:35] > Bash: ls new-pipeline-test/; grep -rl "redraw-48" new-pipeline-test/*.py new-pipeline-test/*.sh 2>/dev/null; cat new-pipeline-test/output_png/20260930-1112-dancing...
+[13:03:36] > Read: /Applications/Workspaces/pictographic/claude_skills/icon_set/references/human_ref/full_body_ref.png
+[13:04:03] > Bash: grep -n -i "redraw" new-pipeline-test/run_pipeline.sh | head -30; grep -n "def add_polyline\|def add_contour\|def add_line\|def emit_svg\|def to_svg\|def svg...
+[13:04:09] > Bash: ls icon_set/model/ icon_set/model/icons/solo/_base.py && grep -n " def [a-z]" icon_set/model/icon.py 2>/dev/null | head -60; ls icon_set/scripts | grep -i -E...
+[13:04:12] > Bash: ls icon_set/model/icons/ && grep -n " def [a-z_]*(" icon_set/model/icons/base.py 2>/dev/null | head -60; sed -n 1,40p icon_set/scripts/build_gate.py | head -50
+[13:04:15] > Bash: sed -n 97,200p icon_set/model/icons/base.py
+[13:04:21] Inputs reviewed; I'm now writing the model: a girl in an A-line dress, following the `full_body_ref` woman, on VRECT_M.
+[13:04:39] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1259-girl-full-body/girl_full_body_redraw.py
+[13:04:43] > Bash: R=new-pipeline-test/output_png/20260930-1259-girl-full-body && /opt/homebrew/bin/python3 - <<'EOF' import importlib.util R="new-pipeline-test/output_png/2026...
+[13:04:48] Valid with zero warnings, and the build gate passes. Rendering previews:
+[13:04:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1259-girl-full-body && which rsvg-convert magick 2>/dev/null; rs...
+[13:04:53] > Read: /tmp/girl-48x.png
+[13:05:04] I redrew the girl as a Solo48 model. It passes `validate_icon()` with status `valid` and no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Design**
+- **Subject:** a girl standing face-on in an A-line dress, mirrored left to right. I took the dress figure from `icon_set/references/human_ref/full_body_ref.png` and the standing pose from the generated image.
+- **Keyshape:** `VRECT_M`, as suggested. All four extremes sit exactly on its box: the head top at y=4, the hem corners at x=10 and x=38, and the feet at y=44.
+- **Head:** a ring of radius 5 centred at (24,9). The level shoulder line is at y=22, exactly 8 below the head outline, so the visible gap is 4. The figure is flagged with `mark_human_figure("girl", …)`.
+- **Dress and legs:** the dress is one closed shape with the hem at y=34. The legs drop from the hem at x=20 and x=28, 8 apart, and each leg's join with the hem is declared.
+- **Lucide:** no useful match. `person-standing` is a unisex stick figure.
+
+**Metric issues:** every issue in the list is fixed.
+- **Head too close to the body (2.4 and 2.5):** the gap is now exactly 8, centred on the body.
+- **Body parts touching (0.1 apart):** the trace split the body into two touching pieces. It is now one dress shape plus two legs.
+- **Head hole too small (2.91 wide):** the radius-5 ring leaves a 6-unit opening.
+- **Only 47% of the width filled:** the hem corners now reach x=10 and x=38, so nothing had to be stretched.
+- **Stroke width (2.65 in the trace):** redrawn at stroke 4.
+
+**Change from the generated image:** I replaced the stick torso and arms with a dress. The image picker had flagged that the stick figure "reads as a generic person" rather than a girl. The dress follows the woman in the human reference sheet, and the fairly large head keeps it looking like a child. It reads clearly at 48 px in both light and dark themes. If you want the image followed literally as a stick figure, it would need a new version.
+
+I didn't register the module under `icon_set/model/icons`, didn't touch `published/`, and didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1259-girl-full-body/`:
+- girl_full_body_redraw.py
+- girl-full-body_redraw.svg
+- girl-full-body_redraw.png (512 px preview)
+- girl-full-body_redraw-48.png
+
+[13:05:04] === success in 179s, $0.74 ===
+I redrew the girl as a Solo48 model. It passes `validate_icon()` with status `valid` and no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Design**
+- **Subject:** a girl standing face-on in an A-line dress, mirrored left to right. I took the dress figure from `icon_set/references/human_ref/full_body_ref.png` and the standing pose from the generated image.
+- **Keyshape:** `VRECT_M`, as suggested. All four extremes sit exactly on its box: the head top at y=4, the hem corners at x=10 and x=38, and the feet at y=44.
+- **Head:** a ring of radius 5 centred at (24,9). The level shoulder line is at y=22, exactly 8 below the head outline, so the visible gap is 4. The figure is flagged with `mark_human_figure("girl", …)`.
+- **Dress and legs:** the dress is one closed shape with the hem at y=34. The legs drop from the hem at x=20 and x=28, 8 apart, and each leg's join with the hem is declared.
+- **Lucide:** no useful match. `person-standing` is a unisex stick figure.
+
+**Metric issues:** every issue in the list is fixed.
+- **Head too close to the body (2.4 and 2.5):** the gap is now exactly 8, centred on the body.
+- **Body parts touching (0.1 apart):** the trace split the body into two touching pieces. It is now one dress shape plus two legs.
+- **Head hole too small (2.91 wide):** the radius-5 ring leaves a 6-unit opening.
+- **Only 47% of the width filled:** the hem corners now reach x=10 and x=38, so nothing had to be stretched.
+- **Stroke width (2.65 in the trace):** redrawn at stroke 4.
+
+**Change from the generated image:** I replaced the stick torso and arms with a dress. The image picker had flagged that the stick figure "reads as a generic person" rather than a girl. The dress follows the woman in the human reference sheet, and the fairly large head keeps it looking like a child. It reads clearly at 48 px in both light and dark themes. If you want the image followed literally as a stick figure, it would need a new version.
+
+I didn't register the module under `icon_set/model/icons`, didn't touch `published/`, and didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1259-girl-full-body/`:
+- girl_full_body_redraw.py
+- girl-full-body_redraw.svg
+- girl-full-body_redraw.png (512 px preview)
+- girl-full-body_redraw-48.png

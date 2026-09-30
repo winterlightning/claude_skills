@@ -130,7 +130,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, connection
     discarded, removed_ids, removed_keys = [], {}, set()
     for icon, plan in plans:
         key, icon_id, path = icon['key'], icon['icon_id'], plan['path']
-        folder = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'container': 'container64'}[icon['family']]
+        folder = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'symbol24': 'symbol24', 'container': 'container64'}[icon['family']]
         text = current.get(path, plan['text'])
         stem = f"{now.strftime('%Y%m%dT%H%M%SZ')}-{icon['family']}-{icon_id}"
         feedback = [dict(zip(('id', 'feedback', 'svg_sha256', 'created_at', 'author'), row)) for row in connection.execute(

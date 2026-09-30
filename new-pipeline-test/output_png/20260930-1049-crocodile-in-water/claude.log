@@ -1,0 +1,89 @@
+[10:53:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1049-crocodile-in-water; ls $D; cat $D/crocodile-in-water_met...
+[10:53:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1049-crocodile-in-water; python3 -c " import json;m=json.load...
+[10:53:59] Let me view the generated image and a recent redraw example for the module conventions.
+[10:53:59] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water.png
+[10:54:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1044-cycling/cycling_redraw.py | head -60; echo ----; grep ...
+[10:54:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 60,200p output_png/20260930-1044-cycling/cycling_redraw.py; ls output_png/20...
+[10:54:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/*/*_redraw.py | head -3; f=$(ls output_png/2026092*/*_redraw.py | hea...
+[10:54:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t /tmp/*.py | head; cat $(ls -t /tmp/*render*.py /tmp/*redraw*.py 2>/dev/null | head -1)
+[10:56:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_\|def relate\|def add_contour" -A3 icon_set/model/*.py icon_set/model/icons/*.py 2>/...
+[10:56:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,200p icon_set/model/icons/base.py
+[10:56:09] Drafting the crocodile model now (HRECT_M, closed body with eye bump + dot, two back ridges, separate wave), then validating and rendering.
+[10:56:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; cat > $D/crocodile_in_water_redraw.p...
+[10:56:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/croc_render.py
+[10:57:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; /opt/homebrew/bin/python3 - <<'EOF' ...
+[10:58:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; f=$D/crocodile_in_water_redraw.py /o...
+[10:58:11] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water_redraw.png
+[10:59:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; /opt/homebrew/bin/python3 - <<'EOF' ...
+[10:59:14] Second draft validates; checking it visually now.
+[10:59:14] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water_redraw.png
+[10:59:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; /opt/homebrew/bin/python3 - <<'EOF' ...
+[10:59:59] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water_redraw.png
+[11:00:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; f=$D/crocodile_in_water_redraw.py; c...
+[11:00:11] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water_redraw.png
+[11:00:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; cp /tmp/croc_v3.py $D/crocodile_in_w...
+[11:00:19] Picked the R5 eye-bump version; checking it at native 48 px in both themes.
+[11:00:19] > Read: /tmp/croc_both.png
+[11:00:21] Reads as a low reptile with a raised eye over water at 48 px, and it holds up in both themes. Writing the docstring now.
+[11:00:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; /opt/homebrew/bin/python3 - <<'EOF' ...
+[11:00:37] The 8-unit body band leaves only 4 px of ink hole, below the metrics' 6-px hole rule, so I'm widening the body to 10.
+[11:00:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; find . -path ./node_modules -prune -...
+[11:00:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1049-crocodile-in-water; mkdir -p /tmp/crocchk; rsvg-convert ...
+[11:01:02] > Read: /tmp/crocchk/cmp.png
+[11:01:05] Metrics re-run on the redraw reports no issues. Final look at the large preview:
+[11:01:06] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/crocodile-in-water_redraw.png
+[11:01:07] Good. Fixing the docstring to match the final geometry:
+[11:01:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1049-crocodile-in-water/...
+[11:01:17] > Bash: rm -rf /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-crocodile-in-water/__pycache__
+[11:01:26] I redrew the crocodile in water as a Solo48 model and it validates as `valid` with no warnings. The wide `HRECT_M` keyshape suggested by the metrics was a good fit, so I kept it.
+
+**What it is:** a crocodile facing right, floating low above one wavy water line.
+- **Crocodile:** one closed outline. It has a straight back, two sawtooth ridges, a round eye bump that sets the top edge (y=10), a straight snout, a round nose reaching x=44, a straight belly, and a curve up into the tail tip.
+- **Water:** one smooth wave that sets the bottom edge (y=38), symmetric around the centre.
+
+**Metric issues:**
+- **Short y axis (warn):** fixed by designing to all four keyshape edges rather than stretching the trace.
+- **Five clearance errors:** fixed. The tiny eye speck and a stray jaw mark are gone, the loose snout and tail strokes are now one closed body, and the water is 9 units below the belly (8 needed).
+- **Two loose joins:** fixed by the single closed outline.
+- **Hole 4.04 wide (error):** fixed. The body is 10 units tall, which leaves a 6-wide hole.
+- **Stroke width (info):** all spacing was planned for stroke 4.
+- Re-running `svg_metrics.py` on the redraw reports no issues.
+
+**Not fixed: the hollow eye.** Any eye mark inside the bump has to sit more than 8 units from its walls, which needs a bump of radius 9. I tried that and it took over the head and read as a cloud, so the bump alone stands for the eye. A later draft also had a very thin, pointed eye bump, which I dropped.
+
+**References:** Lucide has no crocodile. I drew the wave in the style of Lucide's `waves` icon from memory, without opening the local file. I checked the result at 48 px in light and dark themes, and it reads as a low reptile with a raised eye over water.
+
+The unit tests and build weren't run and nothing was registered, as you asked. `validate_icon()` passes. It could still fail the build's "near-symmetry" check (a known way solo icons fail the build gate), because the wave is symmetric and the crocodile deliberately isn't.
+
+Files are in `new-pipeline-test/output_png/20260930-1049-crocodile-in-water/`:
+- crocodile_in_water_redraw.py
+- crocodile-in-water_redraw.svg
+- crocodile-in-water_redraw.png
+- crocodile-in-water_redraw-48.png
+
+[11:01:26] === success in 508s, $1.90 ===
+I redrew the crocodile in water as a Solo48 model and it validates as `valid` with no warnings. The wide `HRECT_M` keyshape suggested by the metrics was a good fit, so I kept it.
+
+**What it is:** a crocodile facing right, floating low above one wavy water line.
+- **Crocodile:** one closed outline. It has a straight back, two sawtooth ridges, a round eye bump that sets the top edge (y=10), a straight snout, a round nose reaching x=44, a straight belly, and a curve up into the tail tip.
+- **Water:** one smooth wave that sets the bottom edge (y=38), symmetric around the centre.
+
+**Metric issues:**
+- **Short y axis (warn):** fixed by designing to all four keyshape edges rather than stretching the trace.
+- **Five clearance errors:** fixed. The tiny eye speck and a stray jaw mark are gone, the loose snout and tail strokes are now one closed body, and the water is 9 units below the belly (8 needed).
+- **Two loose joins:** fixed by the single closed outline.
+- **Hole 4.04 wide (error):** fixed. The body is 10 units tall, which leaves a 6-wide hole.
+- **Stroke width (info):** all spacing was planned for stroke 4.
+- Re-running `svg_metrics.py` on the redraw reports no issues.
+
+**Not fixed: the hollow eye.** Any eye mark inside the bump has to sit more than 8 units from its walls, which needs a bump of radius 9. I tried that and it took over the head and read as a cloud, so the bump alone stands for the eye. A later draft also had a very thin, pointed eye bump, which I dropped.
+
+**References:** Lucide has no crocodile. I drew the wave in the style of Lucide's `waves` icon from memory, without opening the local file. I checked the result at 48 px in light and dark themes, and it reads as a low reptile with a raised eye over water.
+
+The unit tests and build weren't run and nothing was registered, as you asked. `validate_icon()` passes. It could still fail the build's "near-symmetry" check (a known way solo icons fail the build gate), because the wave is symmetric and the crocodile deliberately isn't.
+
+Files are in `new-pipeline-test/output_png/20260930-1049-crocodile-in-water/`:
+- crocodile_in_water_redraw.py
+- crocodile-in-water_redraw.svg
+- crocodile-in-water_redraw.png
+- crocodile-in-water_redraw-48.png

@@ -1,0 +1,66 @@
+[19:15:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements; ls $D; cat $D/*_metrics.jso...
+[19:16:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements; python3 -c " import json;m=...
+[19:16:42] Let me look at the PNG and a previous redraw script for the pipeline conventions.
+[19:16:43] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/chess-rook-wide-battlements.png
+[19:16:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1842-bowl-with-raised-chopsticks/bowl_with_raised_chopstick...
+[19:17:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260929-1842-bowl-with-raised-chopsticks/; ls new-pipeline-test; gre...
+[19:17:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1842-bowl-with-raised-chopsticks/claude.log | head -60; gre...
+[19:17:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def " icon_set/model/icons/base.py | head -60; grep -n "cairosvg\|rsvg\|def .*png" new-pipe...
+[19:17:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cd icon_set/model/icons/solo; for f in chess_rook_1c9ab4cd*.py chess_rook_batch_013_15*.py castle_tow...
+[19:18:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; find . -path ./published -prune -o -iname "*chess-rook*.svg" -print 2>/dev/null | grep -i lucide | he...
+[19:19:29] Building the model now: VRECT_M, Lucide-style crown (open-top cup with rim + two ticks) since three real notches need 40 units of width.
+[19:19:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,195p icon_set/model/icons/base.py; sed -n 250,300p new-pipeline-test/svg_metrics.py | grep ...
+[19:19:54] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/chess_rook_wide_battlements_redraw.py
+[19:19:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements; cat > /tmp/rook_render.py <...
+[19:20:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/rook_render.py
+[19:20:04] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/chess-rook-wide-battlements_redraw...
+[19:20:04] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/chess-rook-wide-battlements_redraw...
+[19:20:04] > Read: /tmp/rook-dark-48.png
+[19:20:15] I redrew the chess rook as a Solo48 model. It validates as `valid` with no warnings. I also looked at the 48 px render on white and on a dark background, and it reads clearly as a rook in both.
+
+**The one real change from the image:** the image shows three solid square blocks on top with two open gaps between them. That doesn't fit. Three blocks and two gaps need five bands of at least 8 units each, which is 40 wide. The chosen shape (`VRECT_M`) allows only 28, and even the wider `VRECT_L` allows only 32. So I used the way Lucide draws its chess rook: a cup open at the top, with a line across it and two short upright lines marking three wide blocks (9 / 10 / 9 units). The drawback is that at large sizes the top looks like four prongs rather than three blocks with notches. At 48 px it still reads as a rook's top.
+
+**Shape:** `VRECT_M`, as the metrics suggested. The drawing touches every edge of the box: x=10 and x=38, y=4 and y=44. It is mirrored about x=24.
+
+**How it's built:**
+- **Top:** straight walls at x=10 and x=38, rounded bottom corners (radius 4), and a floor line at y=21. The line across the cup is at y=10, with the two short uprights at x=19 and x=29.
+- **Body:** one continuous outline. The tower narrows from x=14/34 at y=36 to x=16/32 where it meets the top. Below that, the base flares out on a 3:4 slope to the walls at y=39, and the foot is flat at y=44.
+
+**Metric issues:**
+- **Crown hole too small (error):** fixed. The trace had a 2.88-wide gap under the notches. The space inside the top is now 7 wide at the ink edge (11 between line centres).
+- **Height only 96% filled (warning):** fixed. The drawing now reaches the top and bottom of the box exactly.
+- **Trace stroke width 2.55 (info):** fixed; redrawn at the required stroke of 4.
+- Nothing in the list was left unfixed. The only compromise is the battlement style described above.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/`:
+- `chess_rook_wide_battlements_redraw.py`
+- `chess-rook-wide-battlements_redraw.svg`
+- `chess-rook-wide-battlements_redraw.png`
+- `chess-rook-wide-battlements_redraw-48.png`
+
+[19:20:15] === success in 270s, $0.89 ===
+I redrew the chess rook as a Solo48 model. It validates as `valid` with no warnings. I also looked at the 48 px render on white and on a dark background, and it reads clearly as a rook in both.
+
+**The one real change from the image:** the image shows three solid square blocks on top with two open gaps between them. That doesn't fit. Three blocks and two gaps need five bands of at least 8 units each, which is 40 wide. The chosen shape (`VRECT_M`) allows only 28, and even the wider `VRECT_L` allows only 32. So I used the way Lucide draws its chess rook: a cup open at the top, with a line across it and two short upright lines marking three wide blocks (9 / 10 / 9 units). The drawback is that at large sizes the top looks like four prongs rather than three blocks with notches. At 48 px it still reads as a rook's top.
+
+**Shape:** `VRECT_M`, as the metrics suggested. The drawing touches every edge of the box: x=10 and x=38, y=4 and y=44. It is mirrored about x=24.
+
+**How it's built:**
+- **Top:** straight walls at x=10 and x=38, rounded bottom corners (radius 4), and a floor line at y=21. The line across the cup is at y=10, with the two short uprights at x=19 and x=29.
+- **Body:** one continuous outline. The tower narrows from x=14/34 at y=36 to x=16/32 where it meets the top. Below that, the base flares out on a 3:4 slope to the walls at y=39, and the foot is flat at y=44.
+
+**Metric issues:**
+- **Crown hole too small (error):** fixed. The trace had a 2.88-wide gap under the notches. The space inside the top is now 7 wide at the ink edge (11 between line centres).
+- **Height only 96% filled (warning):** fixed. The drawing now reaches the top and bottom of the box exactly.
+- **Trace stroke width 2.55 (info):** fixed; redrawn at the required stroke of 4.
+- Nothing in the list was left unfixed. The only compromise is the battlement style described above.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1912-chess-rook-wide-battlements/`:
+- `chess_rook_wide_battlements_redraw.py`
+- `chess-rook-wide-battlements_redraw.svg`
+- `chess-rook-wide-battlements_redraw.png`
+- `chess-rook-wide-battlements_redraw-48.png`

@@ -7,33 +7,33 @@ curl was simplified into one junction. The binding and recessed right edge
 remain intentionally asymmetric.
 
 Hosting (compose.py): check valid; plus, heart blocked.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (simple-closed-book VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
 SOURCE_ICON_ID = 'simple-closed-book'
 SOURCE_PATH = 'icon_set/dist/failed/container64/simple-closed-book.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class SimpleClosedBook(Container64):
     icon_id = 'simple-closed-book'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.VRECT_M
     aliases = ('closed-book',)
     keywords = ('simple', 'closed', 'book')
 
     def build(self) -> None:
-        # Plan: continuous outside binding, bottom page band and recessed fore-edge.
-        # The band joins the spine once, removing the overlapping inner curl.
-        left, right, top, bottom, band_y, radius = 10, 54, 2, 62, 48, 8
-        self.add_line('cover-left', (left, band_y), (left, top + radius))
-        self.add_arc('cover-nw', (left, top + radius), (left + radius, top), radius_x=radius)
-        self.add_line('cover-top', (left + radius, top), (right, top))
-        self.add_line('cover-right', (right, top), (right, band_y))
-        self.add_arc('page-recess', (right, band_y), (right, bottom), radius_x=16, sweep=False)
-        self.add_line('page-bottom', (right, bottom), (left + radius, bottom))
-        self.add_arc('binding', (left + radius, bottom), (left, bottom - radius), radius_x=radius)
-        self.add_line('binding-side', (left, bottom - radius), (left, band_y))
+        self.add_line('cover-left', (12, 46), (12, 12))
+        self.add_arc('cover-nw', (12, 12), (20, 4), radius_x=8)
+        self.add_line('cover-top', (20, 4), (52, 4))
+        self.add_line('cover-right', (52, 4), (52, 46))
+        self.add_arc('page-recess', (52, 46), (52, 60), radius_x=13, sweep=False)
+        self.add_line('page-bottom', (52, 60), (20, 60))
+        self.add_arc('binding', (20, 60), (12, 52), radius_x=8)
+        self.add_line('binding-side', (12, 52), (12, 46))
+        self.add_line('page-top', (12, 46), (52, 46))
         self.add_contour('cover', 'cover-left', 'cover-nw', 'cover-top', 'cover-right', 'page-recess', 'page-bottom', 'binding', 'binding-side', closed=True)
-        self.add_line('page-top', (left, band_y), (right, band_y))
         self.relate('connect', 'page-top', 'cover')

@@ -1,0 +1,88 @@
+[11:05:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1102-contactless-card-payment-dollar; ls $D; cat $D/*_metrics...
+[11:06:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1102-contactless-card-payment-dollar; python3 -c " import jso...
+[11:06:34] Let me look at the image and a recent redraw module for conventions.
+[11:06:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/contactless-card-payment-dolla...
+[11:06:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260930-1056-croissant-batch-011-10/croissant_batch_011_10_redraw.p...
+[11:06:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/claude.log | tail -30; ls new-p...
+[11:06:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json;g=json.load(open('icon_set/typeface/glyphs.json'));print(list(g['glyphs']));...
+[11:07:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json;g=json.load(open('icon_set/typeface/glyphs.json'));gl=g['glyphs'] print(len(...
+[11:07:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/contactless_card_payment_dollar_83b7c65e_14e9_4428_b2e6_57332f20611f.py...
+[11:08:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for f in contactless_card_payment_euro_ca0a4566_389d_4992_b347_18d26c406419 contactless_card_payment_...
+[11:08:48] Designing the layout now: the dollar S needs 16 units of height plus 8-unit clearances, so I'm checking how the sibling euro/pound contactless icons fit it.
+[11:08:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def draw_contactless" icon_set/model/icons/solo | head -2; f=$(grep -rln "def draw_contactl...
+[11:10:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for f in square_dollar_3e9ff037_a258_4b1c_b371_0e61d148d431 square_dollar_48149687_aa67_49b2_9c81_78c...
+[11:11:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|svg\|render\|emit\)" -r icon_set/model/*.py icon_set/model/icons/*.py | head; ...
+[11:11:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar; cat > $D/contactless_ca...
+[11:11:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/ccpd_check.py
+[11:13:05] Exact-8 curve pairs can't be certified, and the width is one unit short. I'll search for wave geometry numerically.
+[11:13:15] > Bash: cat > /tmp/wsearch.py <<'EOF' import math, itertools def arcpts(p0,p1,r,n=200): # sweep True (clockwise on screen), small arc, bulging right for top->bottom ...
+[11:14:06] > Bash: cd /tmp; sed -i '' 's/<8.3/<8.05/g; s/16.3/16.05/; s/35.7/35.95/' wsearch.py; sed -i '' 's/key=lambda r:-(r\[6\])/key=lambda r:(-r[3],-r[6])/' wsearch.py; /o...
+[11:14:34] > Bash: cd /tmp; sed -i '' 's/(16.05)/(16,3)/' wsearch.py; /opt/homebrew/bin/python3 wsearch.py | head -12
+[11:15:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/contactless_card_payment...
+[11:15:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/contactless_card_payment...
+[11:15:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/contactless-card-payment-dolla...
+[11:15:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/contactless-card-payment-dolla...
+[11:15:42] Valid with zero warnings. Now I'll update the docstring to match the final geometry.
+[11:15:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1102-contactless-card-pa...
+[11:16:03] The contactless card payment icon is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**. To fit, the waves had to move inside the card and one of the three had to go.
+
+**What the icon shows:** a payment card with a dollar sign and the contactless wave mark printed on it.
+
+**Keyshape: `HRECT_L`, not the suggested `HRECT_M`.** The dollar sign plus its clearance to the card's top and bottom edges needs 32 units of height, and `HRECT_M` only has 28. The card's four edges sit exactly on the `HRECT_L` box, (4,8) to (44,40).
+
+**Drawing:**
+- **Card:** a rounded rectangle with corner radius 4.
+- **Dollar:** a narrow S centred on x 15, with two 1-unit stubs above and below instead of a full vertical stroke. A stroke through the S would fill in its small loops. This is the same compact dollar the existing bill and smartphone dollar icons use.
+- **Waves:** two arcs to the right of the dollar. I searched the arc positions and sizes numerically so every gap is strictly over 8. At exactly 8, the checker can't confirm a gap between curves and marks it for review.
+- **Lucide:** `nfc` informed the nested waves and `dollar-sign` the S.
+
+**Metric issues:**
+- **stroke-width (info):** fixed; redrawn at stroke 4 with every gap sized for that.
+- **stroke-count (warn, 9 strokes against a budget of 6):** fixed; now 6 parts (card, S, two stubs, two waves).
+- **keyshape-short-axis (warn, y only 66% filled):** fixed by the `HRECT_L` choice.
+- **All 11 clearance errors:** fixed. The closest gaps are now 8.06 (dollar to inner wave), about 8.5 (wave to wave) and 8.1 (outer wave to card edge).
+- **Three loose joins:** fixed. The S is one continuous stroke and the stubs share its exact end points, declared connected.
+
+**What I couldn't keep from the trace:**
+- **Three waves outside the card:** at stroke 4 there's no room. Each wave and its gap costs more than 8 units of width, which would leave a card under 22 wide and 30 tall. That reads as a phone, not a card. Real cards print the contactless mark on the card, so I moved the waves there, and only two fit beside the dollar.
+- **A wider dollar:** a 6-wide S left no valid position for the waves, so the S is only 4 wide. It is legible at 48 px but cramped. This is the weakest part of the icon.
+
+I checked the 512 px and 48 px previews on a white background only; I didn't check the dark theme. The module isn't registered, `published/` wasn't touched, and no build was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/`:
+- contactless_card_payment_dollar_redraw.py
+- contactless-card-payment-dollar_redraw.svg
+- contactless-card-payment-dollar_redraw.png
+- contactless-card-payment-dollar_redraw-48.png
+
+[11:16:04] === success in 635s, $1.70 ===
+The contactless card payment icon is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**. To fit, the waves had to move inside the card and one of the three had to go.
+
+**What the icon shows:** a payment card with a dollar sign and the contactless wave mark printed on it.
+
+**Keyshape: `HRECT_L`, not the suggested `HRECT_M`.** The dollar sign plus its clearance to the card's top and bottom edges needs 32 units of height, and `HRECT_M` only has 28. The card's four edges sit exactly on the `HRECT_L` box, (4,8) to (44,40).
+
+**Drawing:**
+- **Card:** a rounded rectangle with corner radius 4.
+- **Dollar:** a narrow S centred on x 15, with two 1-unit stubs above and below instead of a full vertical stroke. A stroke through the S would fill in its small loops. This is the same compact dollar the existing bill and smartphone dollar icons use.
+- **Waves:** two arcs to the right of the dollar. I searched the arc positions and sizes numerically so every gap is strictly over 8. At exactly 8, the checker can't confirm a gap between curves and marks it for review.
+- **Lucide:** `nfc` informed the nested waves and `dollar-sign` the S.
+
+**Metric issues:**
+- **stroke-width (info):** fixed; redrawn at stroke 4 with every gap sized for that.
+- **stroke-count (warn, 9 strokes against a budget of 6):** fixed; now 6 parts (card, S, two stubs, two waves).
+- **keyshape-short-axis (warn, y only 66% filled):** fixed by the `HRECT_L` choice.
+- **All 11 clearance errors:** fixed. The closest gaps are now 8.06 (dollar to inner wave), about 8.5 (wave to wave) and 8.1 (outer wave to card edge).
+- **Three loose joins:** fixed. The S is one continuous stroke and the stubs share its exact end points, declared connected.
+
+**What I couldn't keep from the trace:**
+- **Three waves outside the card:** at stroke 4 there's no room. Each wave and its gap costs more than 8 units of width, which would leave a card under 22 wide and 30 tall. That reads as a phone, not a card. Real cards print the contactless mark on the card, so I moved the waves there, and only two fit beside the dollar.
+- **A wider dollar:** a 6-wide S left no valid position for the waves, so the S is only 4 wide. It is legible at 48 px but cramped. This is the weakest part of the icon.
+
+I checked the 512 px and 48 px previews on a white background only; I didn't check the dark theme. The module isn't registered, `published/` wasn't touched, and no build was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1102-contactless-card-payment-dollar/`:
+- contactless_card_payment_dollar_redraw.py
+- contactless-card-payment-dollar_redraw.svg
+- contactless-card-payment-dollar_redraw.png
+- contactless-card-payment-dollar_redraw-48.png

@@ -7,26 +7,36 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (4, 0, 60, 64).
 Hosting measured with compose.py: plus passes, heart does not clear, check passes.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (overlapping-documents-container VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = 'f0f58656-15bb-4449-a884-18ad9bdc55eb'
 SOURCE_PATH = 'pictographic-primitives/files/duplicate file_f0f58656-15bb-4449-a884-18ad9bdc55eb.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class OverlappingDocumentsContainer(Container64):
     icon_id = 'overlapping-documents-container'
+    keyshape = Keyshape.VRECT_L
     category = 'files'
     categories = ('files', 'primitives')
-    keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('overlapping', 'documents', 'container')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        poly('front',(18,2),(46,2),(58,14),(58,50),(18,50),closed=True)
-        path(self,'rear',(18,14),[('L',(6,14)),('L',(6,62)),('L',(46,62)),('L',(46,50))]);join('front','rear')
+    def build(self) -> None:
+        self.add_line('front-1', (20, 4), (44, 4))
+        self.add_line('front-2', (44, 4), (54, 15))
+        self.add_line('front-3', (54, 15), (54, 49))
+        self.add_line('front-4', (54, 49), (20, 49))
+        self.add_line('front-5', (20, 49), (20, 4))
+        self.add_line('rear-0', (20, 15), (10, 15))
+        self.add_line('rear-1', (10, 15), (10, 60))
+        self.add_line('rear-2', (10, 60), (44, 60))
+        self.add_line('rear-3', (44, 60), (44, 49))
+        self.add_contour('front', 'front-1', 'front-2', 'front-3', 'front-4', 'front-5', closed=True)
+        self.add_contour('rear', 'rear-0', 'rear-1', 'rear-2', 'rear-3')
+        self.relate('connect', 'front', 'rear')

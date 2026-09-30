@@ -1,0 +1,89 @@
+[19:15:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person; ls $D; cat $D/*_metri...
+[19:16:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person; cat $D/choice.json; p...
+[19:16:40] Let me look at the image and a prior human-figure redraw for structure.
+[19:16:42] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/briefcase-carrying-hailing-p...
+[19:16:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/*/*_redraw.py | xargs grep -l mark_human_figure | head -5; f=$(ls new...
+[19:17:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "redraw-48" new-pipeline-test/*.py new-pipeline-test/*.sh 2>/dev/null; ls new-pipeline-test...
+[19:17:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -30; ls new-pipeline-test/output_png/202609...
+[19:17:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def [a-z_]*svg\|def validate_icon\|def mark_human_figure\|def render" -r icon_set/model/*.py...
+[19:17:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def svg\b\|def emit_svg\|def validate_icon\|def mark_human_figure" icon_set/ --...
+[19:17:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def render_svg\|def svg(\|def validate_icon\|def mark_human_figure" icon_set/mo...
+[19:19:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 180,300p icon_set/model/icons/base.py
+[19:20:01] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/briefcase_carrying_hailing_p...
+[19:20:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person; cat > /tmp/bchp.py <<...
+[19:20:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/solo48-build-gate-t...
+[19:20:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260928-1337-h...
+[19:21:05] Checking why the head gap isn't certified here when the hiker's identical head/neck passes.
+[19:21:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "human_figures" icon_set/validation/ icon_set/model/ | head; grep -rn "def _.*head\|human_f...
+[19:21:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "unless the contact is declared" icon_set --include=*.py | head -3
+[19:21:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "unless the contact is declared" icon_set | grep "\.py:" | head -3
+[19:21:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "scoped \`connect\`\|ink clearance" icon_set/validation icon_set/model 2>/dev/null | head;
+[19:21:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "certif\|exact\|review" icon_set/validation/validator.py | head -60
+[19:21:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 340,414p icon_set/validation/validator.py; grep -n "def \|review" icon_set/validation/stroke_d...
+[19:21:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 584,760p icon_set/validation/stroke_distance.py; sed -n 780,870p icon_set/validation/stroke_di...
+[19:22:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person; /opt/homebrew/bin/pyt...
+[19:22:23] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/briefcase-carrying-hailing-p...
+[19:22:24] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/briefcase-carrying-hailing-p...
+[19:22:53] Model is valid and passes the build gate. Updating the docstring to match the final geometry (grip stub removed).
+[19:23:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person; /opt/homebrew/bin/pyt...
+[19:23:08] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory; cat >> solo48-build-gate-traps.md <<'EOF' - 2026-09-29 (briefcase-hailing-p...
+[19:23:18] I redrew the hailing person with a briefcase as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. I didn't register the model, touch `published/`, or run the build or gallery.
+
+**Files**, all in `new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/`:
+- `briefcase_carrying_hailing_person_redraw.py`: the model (`icon_id` `briefcase-carrying-hailing-person-redraw`), with the source ID, path and author as requested, and a docstring giving the plan and the fixed issues.
+- `briefcase-carrying-hailing-person_redraw.svg`, `_redraw.png` (512 px preview) and `_redraw-48.png`.
+
+**The drawing:**
+- **Head:** a detached ring of radius 4. The neck sits exactly 8 units below it on centerlines (a 4-unit ink gap), following `icon_set/references/human_ref`, and it's flagged with `mark_human_figure`.
+- **Torso:** vertical from the neck.
+- **Hailing arm:** runs level off the neck to the elbow, then diagonally up to the top-left corner.
+- **Other arm:** slopes down-right to the middle of the briefcase lid.
+- **Briefcase:** a 10×10 box with rounded corners. The rounded case comes from Lucide `briefcase`.
+- **Legs:** the back leg goes diagonally down-left and the near leg goes straight down.
+
+**Keyshape: VRECT_L, not the suggested VRECT_M.** The raised hand has to stay 12 units from the head centre, and the case needs 8 units of clearance plus 10 of width. That adds up to more than VRECT_M's 28-unit width. VRECT_L was the metrics' second choice (score 1.17), and all four extremes sit exactly on its box.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4.
+- **Keyshape short axis:** every extreme now sits exactly on the box.
+- **All 8 clearance errors:** the head is 8 from the neck, the case is 8 from the torso and near leg, and the arms leave the neck level.
+- **All 3 hole errors:** the head ring is an allowed small circle, the gap between arm and torso is now open, and the case hole is exactly 6 wide.
+- **No head:** the head is now a true circle.
+
+**Issue I couldn't fix:**
+- **The briefcase handle loop is gone.** A closed handle needs its own 10×10 loop to keep a 6-unit hole, which would be as tall as the case. A short grip stub instead leaves the arm too close to the lid and fails the gate. So the hand holds the lid centre directly.
+
+**How it reads:** at 48 px the hailing gesture is clear, but the handle-less square case reads more as "box" than "briefcase". The figure also leans slightly, because the near leg is straight to leave room for the case.
+
+One gate trap came up along the way: drawing the arms as one bent polyline made the head gap come back as "review", even though it was really 8+. Separate connected lines fixed it. I added this to the build-gate memory notes.
+
+[19:23:18] === success in 450s, $1.54 ===
+I redrew the hailing person with a briefcase as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. I didn't register the model, touch `published/`, or run the build or gallery.
+
+**Files**, all in `new-pipeline-test/output_png/20260929-1912-briefcase-carrying-hailing-person/`:
+- `briefcase_carrying_hailing_person_redraw.py`: the model (`icon_id` `briefcase-carrying-hailing-person-redraw`), with the source ID, path and author as requested, and a docstring giving the plan and the fixed issues.
+- `briefcase-carrying-hailing-person_redraw.svg`, `_redraw.png` (512 px preview) and `_redraw-48.png`.
+
+**The drawing:**
+- **Head:** a detached ring of radius 4. The neck sits exactly 8 units below it on centerlines (a 4-unit ink gap), following `icon_set/references/human_ref`, and it's flagged with `mark_human_figure`.
+- **Torso:** vertical from the neck.
+- **Hailing arm:** runs level off the neck to the elbow, then diagonally up to the top-left corner.
+- **Other arm:** slopes down-right to the middle of the briefcase lid.
+- **Briefcase:** a 10×10 box with rounded corners. The rounded case comes from Lucide `briefcase`.
+- **Legs:** the back leg goes diagonally down-left and the near leg goes straight down.
+
+**Keyshape: VRECT_L, not the suggested VRECT_M.** The raised hand has to stay 12 units from the head centre, and the case needs 8 units of clearance plus 10 of width. That adds up to more than VRECT_M's 28-unit width. VRECT_L was the metrics' second choice (score 1.17), and all four extremes sit exactly on its box.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4.
+- **Keyshape short axis:** every extreme now sits exactly on the box.
+- **All 8 clearance errors:** the head is 8 from the neck, the case is 8 from the torso and near leg, and the arms leave the neck level.
+- **All 3 hole errors:** the head ring is an allowed small circle, the gap between arm and torso is now open, and the case hole is exactly 6 wide.
+- **No head:** the head is now a true circle.
+
+**Issue I couldn't fix:**
+- **The briefcase handle loop is gone.** A closed handle needs its own 10×10 loop to keep a 6-unit hole, which would be as tall as the case. A short grip stub instead leaves the arm too close to the lid and fails the gate. So the hand holds the lid centre directly.
+
+**How it reads:** at 48 px the hailing gesture is clear, but the handle-less square case reads more as "box" than "briefcase". The figure also leans slightly, because the near leg is straight to leave room for the case.
+
+One gate trap came up along the way: drawing the arms as one bent polyline made the head gap come back as "review", even though it was really 8+. Separate connected lines fixed it. I added this to the build-gate memory notes.

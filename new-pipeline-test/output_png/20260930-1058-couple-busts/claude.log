@@ -1,0 +1,79 @@
+[11:01:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1058-couple-busts; ls $D; cat $D/couple-busts_metrics.json | ...
+[11:01:03] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1058-couple-busts/couple-busts.png
+[11:01:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1058-couple-busts; python3 -c " import json;m=json.load(open(...
+[11:01:58] Let me find a previous redraw of a similar bust/people subject to reuse the rendering harness.
+[11:01:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls -d output_png/*bust* output_png/*people* output_png/*user* output_png/*avatar* o...
+[11:02:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png | grep -iE "bust|user|avatar|couple|pair|team"; cat output_png/202609...
+[11:02:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260930-1037-couple-standing-with-hair output_png/20260930-1101-coup...
+[11:02:08] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md /Users/jakesdev/.claude/projects...
+[11:02:11] > Bash: grep -n -i "head gap\|shoulder\|bust\|level neck\|cardinal-arc" /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/1c5ab000...
+[11:02:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1725-browser-user-profile/browser_user_profile_redraw.py; t...
+[11:02:31] Studying past redraws for the render harness; next I'll author the two-bust model on HRECT_M.
+[11:02:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -o '"command":"[^"]*redraw[^"]*"' output_png/20260930-1037-couple-standing...
+[11:02:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw\|render\|cairosvg\|svg" run_pipeline.sh | head -40
+[11:02:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def [a-z]" icon_set/model/icons/base.py | head -60; grep -o 'build_gate[^"\\]*' new-pipelin...
+[11:02:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -20; which rsvg-convert
+[11:03:03] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1058-couple-busts/couple_busts_redraw.py
+[11:03:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1058-couple-busts; cat > /tmp/cb_render.py <<'EOF' import imp...
+[11:03:09] Valid and build gate passes; rendering previews now.
+[11:03:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1058-couple-busts; rsvg-convert -w 480 -h 480 -b white couple-bu...
+[11:03:12] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1058-couple-busts/couple-busts_redraw.png
+[11:03:12] > Read: /tmp/cb_dark48.png
+[11:03:21] I redrew the couple busts as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two people shown as head-and-shoulders busts side by side (`couple-busts-redraw`, filed under `people/couple`). Each bust is a round head above an open-bottom shoulder arch. The two busts use the same construction, mirrored on either side of the centre (x 12 and x 36).
+
+**Keyshape:** I used the suggested HRECT_M, and it fits exactly with no stretching.
+- **Width:** two 16-wide shoulder arches plus the 8 gap between them fill the full 40. The outer shoulder ends sit on x 4 and x 44.
+- **Height:** each head is 10 tall, then there's the 8 head gap, then a 10-deep shoulder arch. That adds up to the full 28, from the head tops at y 10 to the shoulder ends at y 38.
+
+**Metric issues (all fixed):**
+- **stroke-width (info):** redrawn at stroke 4, with every gap sized for it.
+- **keyshape-short-axis (warn, y only 67% filled):** fixed by the fit above.
+- **Heads too close to shoulders (clearance e0/e2 and e1/e3, plus head-gap):** each head now ends exactly 8 above a flat neck point on the same vertical line as the head centre, leaving 4 of visible gap. Both busts are flagged with `mark_human_figure`.
+- **Shoulder arches too close to each other (clearance e2/e3, 5.85 apart):** the inner shoulder ends are now straight vertical lines exactly 8 apart.
+- **Head holes (5.95 / 5.8 wide):** the heads now have a radius of 5, which leaves a 6-wide hole.
+
+**Changes from the image:** the shoulders have a short flat top with rounded corners (radius 6) instead of one continuous curve. This gives a level neck point under each head, so the exact head gap passes the checks.
+
+**References:** the human reference in `icon_set/references/human_ref` for the round head over a shoulder arch with a detached 4-unit gap, and Lucide `users` for the side-by-side layout. I made the two busts equal in size and level, as the image shows.
+
+I checked the 48 px render on light and dark backgrounds, and both read clearly as two people.
+
+Files are in `new-pipeline-test/output_png/20260930-1058-couple-busts/`:
+- `couple_busts_redraw.py`
+- `couple-busts_redraw.svg`
+- `couple-busts_redraw.png`
+- `couple-busts_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build was not run.
+
+[11:03:21] === success in 151s, $0.83 ===
+I redrew the couple busts as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two people shown as head-and-shoulders busts side by side (`couple-busts-redraw`, filed under `people/couple`). Each bust is a round head above an open-bottom shoulder arch. The two busts use the same construction, mirrored on either side of the centre (x 12 and x 36).
+
+**Keyshape:** I used the suggested HRECT_M, and it fits exactly with no stretching.
+- **Width:** two 16-wide shoulder arches plus the 8 gap between them fill the full 40. The outer shoulder ends sit on x 4 and x 44.
+- **Height:** each head is 10 tall, then there's the 8 head gap, then a 10-deep shoulder arch. That adds up to the full 28, from the head tops at y 10 to the shoulder ends at y 38.
+
+**Metric issues (all fixed):**
+- **stroke-width (info):** redrawn at stroke 4, with every gap sized for it.
+- **keyshape-short-axis (warn, y only 67% filled):** fixed by the fit above.
+- **Heads too close to shoulders (clearance e0/e2 and e1/e3, plus head-gap):** each head now ends exactly 8 above a flat neck point on the same vertical line as the head centre, leaving 4 of visible gap. Both busts are flagged with `mark_human_figure`.
+- **Shoulder arches too close to each other (clearance e2/e3, 5.85 apart):** the inner shoulder ends are now straight vertical lines exactly 8 apart.
+- **Head holes (5.95 / 5.8 wide):** the heads now have a radius of 5, which leaves a 6-wide hole.
+
+**Changes from the image:** the shoulders have a short flat top with rounded corners (radius 6) instead of one continuous curve. This gives a level neck point under each head, so the exact head gap passes the checks.
+
+**References:** the human reference in `icon_set/references/human_ref` for the round head over a shoulder arch with a detached 4-unit gap, and Lucide `users` for the side-by-side layout. I made the two busts equal in size and level, as the image shows.
+
+I checked the 48 px render on light and dark backgrounds, and both read clearly as two people.
+
+Files are in `new-pipeline-test/output_png/20260930-1058-couple-busts/`:
+- `couple_busts_redraw.py`
+- `couple-busts_redraw.svg`
+- `couple-busts_redraw.png`
+- `couple-busts_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build was not run.

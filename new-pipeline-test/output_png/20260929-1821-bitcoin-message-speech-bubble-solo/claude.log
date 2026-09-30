@@ -1,0 +1,96 @@
+[18:24:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo && ls && cat bitcoin-mes...
+[18:24:59] > Bash: python3 -c " import json;d=json.load(open('bitcoin-message-speech-bubble-solo_metrics.json')) print(d.keys()); print(json.dumps(d.get('issues'),indent=1)); p...
+[18:25:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260929-1819-bitcoin-cryptocurrency-symbol-solo/bitcoin_cryptocur...
+[18:25:15] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin-message-speech-bubb...
+[18:27:43] > Bash: cat 20260929-1819-bitcoin-cryptocurrency-symbol-solo/claude.log | tail -40; ls ..; grep -rn "redraw-48\|_redraw.png" ../*.sh ../*.py 2>/dev/null | head
+[18:27:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def to_svg\|def render_svg\|def...
+[18:27:49] Working out the fit: the B needs 20 units of height, and with 8-unit clearances and a tail there's no vertical room for the bitcoin bars. Now checking the model API before I write the module.
+[18:27:50] > Bash: ls icon_set/model icon_set/model/icons/solo | head -20; grep -rln "def add_arc" icon_set/model | head; grep -rn "def to_svg\|def emit_svg\|def svg" icon_set/...
+[18:28:00] > Bash: grep -n " def [a-z]" icon_set/model/icons/base.py | head -60; grep -n "def add_arc" -A25 icon_set/model/icons/base.py | head -40
+[18:28:39] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_speech_bubb...
+[18:28:46] > Bash: cat > /tmp/btc_val.py <<'EOF' import importlib.util, sys p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_s...
+[18:28:48] > Bash: PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/btc_val.py
+[18:28:55] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md | head -40
+[18:29:01] Validator returned `review` on the exact 8-unit gap between the bubble top and the B; splitting the bubble's top and bottom walls into standalone lines so the straight-vs-straight gap certifies.
+[18:29:05] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_speech_bubble_solo_red...
+[18:29:31] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_speech_bubble_solo_red...
+[18:29:34] > Bash: grep -rn "unless the contact is declared" icon_set/ --include=*.py | head -3
+[18:29:35] > Bash: grep -rln "unless the contact is declared" icon_set | grep "\.py$" | head -3
+[18:30:13] > Bash: grep -rn "unless the contact" icon_set/validation* icon_set/model icon_set/*.py 2>/dev/null | head; ls icon_set
+[18:30:19] > Bash: sed -n 320,400p icon_set/validation/validator.py
+[18:30:21] Still tracing why the straight-vs-straight 8 gap returns `review`; inspecting the pair detail from the clearance engine.
+[18:30:23] > Bash: cat > /tmp/btc_dbg.py <<'EOF' import importlib.util, json p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_...
+[18:30:26] > Bash: sed -i '' 's/for w in r.warnings.*/print([a for a in dir(r) if not a.startswith("_")]); fs=[f for f in getattr(r,"findings",[])]; [print(json.dumps(getattr(f...
+[18:30:31] > Bash: cat >> /tmp/btc_dbg.py <<'EOF' for f in fs: for cp in (f.detail or {}).get("contourPairs", []): print(cp["closestContours"], cp["centerlineDistance"], round(...
+[18:30:40] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_speech_bubble_solo_red...
+[18:30:46] Valid with no warnings. Checking the rendered previews.
+[18:30:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo && PYTHONPATH=../../.. /...
+[18:30:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin-message-speech-bubb...
+[18:30:50] > Read: /tmp/btc_both.png
+[18:30:52] It reads cleanly in both themes. Now fixing the docstring so it matches the final construction.
+[18:30:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && /opt/homebrew/bin/python3 - <<'EOF' p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message...
+[18:31:05] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p = "new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/bitcoin_message_speech_bubble_solo_red...
+[18:31:17] I redrew the icon as a Solo48 model: a rounded speech bubble with a short tail at the lower left and an upright Bitcoin B with serifs inside. `validate_icon()` returns `valid` with no warnings. I checked it at 48 px on light and dark backgrounds and it reads clearly as a B in a chat bubble. **The two currency bars are gone**, so it reads as a plain "B" rather than the ₿ sign.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `SQUARE`, because the B doesn't fit a square with a tail:
+- **The B needs 20 units of height:** each counter must be 10 tall (on centerlines) to pass the 6-unit hole rule.
+- **Clearance adds 16:** the B needs 8 to the bubble top and 8 to the bubble bottom, so the bubble interior must be 36 tall.
+- **`SQUARE` gives 36 in total**, which leaves nothing for the tail. `VRECT_L` gives 40, which leaves a 4-unit tail. That's the same proportion as Lucide's `message-square` tail.
+
+**Construction:**
+- **Bubble:** walls at x=8 and x=40, top y=4, bottom edge y=40, corner radius 6. The left wall runs straight down to the tail tip at (8,44), and a 1:2 diagonal climbs back to (16,40).
+- **B:** spine at x=19, edges at y=12, 22 and 32, radius-5 bowls, and serifs out to x=16. The lower bowl sits one unit wider than the upper one, as in the generated image.
+- **Lucide influences:** `message-square` for the corner tail and `bitcoin` for the stem-and-two-bowls B.
+
+The first build came back `review` because the validator could not confirm an exact 8-unit gap to a part that also contains arcs. To fix that, the bubble walls and the B's flat edges are separate straight lines. They share exact end points with the corner arcs and bowls, and each contact is declared as a connection.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-planned for it.
+- **All 12 clearance errors:** the bars are gone. The B's edges are exactly 8 from the bubble, and the spine, bowls and serifs have room.
+- **Both too-small holes (2.6 and 3.2):** each counter is now 10 tall, which leaves 6 units of open space inside.
+- **Both loose joins:** every join now shares an exact grid point.
+
+**Not fixed:**
+- **Currency bars:** there is no vertical room for them. They would need about 44 units of bubble interior against 36 available. Attaching the bars to the bubble wall instead leaves pockets 4 wide, which fail the hole rule.
+- **Stroke count (budget 6):** the SVG has 11 paths, because the gap fix above needs the walls and edges as separate lines. They share end points, so it still renders as two continuous marks: the bubble and the B.
+
+Nothing is registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/`:
+- `bitcoin_message_speech_bubble_solo_redraw.py`
+- `bitcoin-message-speech-bubble-solo_redraw.svg`
+- `bitcoin-message-speech-bubble-solo_redraw.png` (480 px preview)
+- `bitcoin-message-speech-bubble-solo_redraw-48.png`
+
+[18:31:17] === success in 409s, $1.57 ===
+I redrew the icon as a Solo48 model: a rounded speech bubble with a short tail at the lower left and an upright Bitcoin B with serifs inside. `validate_icon()` returns `valid` with no warnings. I checked it at 48 px on light and dark backgrounds and it reads clearly as a B in a chat bubble. **The two currency bars are gone**, so it reads as a plain "B" rather than the ₿ sign.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `SQUARE`, because the B doesn't fit a square with a tail:
+- **The B needs 20 units of height:** each counter must be 10 tall (on centerlines) to pass the 6-unit hole rule.
+- **Clearance adds 16:** the B needs 8 to the bubble top and 8 to the bubble bottom, so the bubble interior must be 36 tall.
+- **`SQUARE` gives 36 in total**, which leaves nothing for the tail. `VRECT_L` gives 40, which leaves a 4-unit tail. That's the same proportion as Lucide's `message-square` tail.
+
+**Construction:**
+- **Bubble:** walls at x=8 and x=40, top y=4, bottom edge y=40, corner radius 6. The left wall runs straight down to the tail tip at (8,44), and a 1:2 diagonal climbs back to (16,40).
+- **B:** spine at x=19, edges at y=12, 22 and 32, radius-5 bowls, and serifs out to x=16. The lower bowl sits one unit wider than the upper one, as in the generated image.
+- **Lucide influences:** `message-square` for the corner tail and `bitcoin` for the stem-and-two-bowls B.
+
+The first build came back `review` because the validator could not confirm an exact 8-unit gap to a part that also contains arcs. To fix that, the bubble walls and the B's flat edges are separate straight lines. They share exact end points with the corner arcs and bowls, and each contact is declared as a connection.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap re-planned for it.
+- **All 12 clearance errors:** the bars are gone. The B's edges are exactly 8 from the bubble, and the spine, bowls and serifs have room.
+- **Both too-small holes (2.6 and 3.2):** each counter is now 10 tall, which leaves 6 units of open space inside.
+- **Both loose joins:** every join now shares an exact grid point.
+
+**Not fixed:**
+- **Currency bars:** there is no vertical room for them. They would need about 44 units of bubble interior against 36 available. Attaching the bars to the bubble wall instead leaves pockets 4 wide, which fail the hole rule.
+- **Stroke count (budget 6):** the SVG has 11 paths, because the gap fix above needs the walls and edges as separate lines. They share end points, so it still renders as two continuous marks: the bubble and the B.
+
+Nothing is registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1821-bitcoin-message-speech-bubble-solo/`:
+- `bitcoin_message_speech_bubble_solo_redraw.py`
+- `bitcoin-message-speech-bubble-solo_redraw.svg`
+- `bitcoin-message-speech-bubble-solo_redraw.png` (480 px preview)
+- `bitcoin-message-speech-bubble-solo_redraw-48.png`

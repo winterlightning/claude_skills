@@ -1,0 +1,82 @@
+[18:22:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-boat-propeller && ls && cat boat-propeller_metrics.json | h...
+[18:22:33] > Bash: python3 -c " import json;d=json.load(open('boat-propeller_metrics.json'));print(json.dumps({k:d[k] for k in d if k not in ('elements','keyshape','fit','sourc...
+[18:22:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && sed -n 80,200p 20260928-1330-github-logo/github_logo_redraw.py; ls 202...
+[18:23:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && grep -rl "redraw-48" new-pipeline-test --include=*.py --include=*.sh --include=*.md | head; cat ico...
+[18:23:07] > Bash: grep -rl "redraw-48" new-pipeline-test | grep -v output_png | head; ls new-pipeline-test
+[18:23:08] Reading the pipeline's render conventions, then viewing the generated image.
+[18:23:09] > Bash: grep -n -B3 -A12 "redraw-48" new-pipeline-test/run_pipeline.sh | head -60
+[18:23:10] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-boat-propeller/boat-propeller.png
+[18:23:21] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/ && cat normal48-geometry-floors.md solo48-build-gate-traps.md...
+[18:23:24] > Bash: grep -rn " def add_\| def relate" icon_set/model/ | head -30; ls new-pipeline-test/output_png/*/*_redraw.py | wc -l; grep -l "add_dot\|add_circle" new-pipeli...
+[18:23:33] > Bash: sed -n 90,200p icon_set/model/icons/base.py; ls new-pipeline-test/output_png/20260928-1656-astronomy-planet-pluto/; grep -rn "render\|cairosvg\|to_svg" new-p...
+[18:23:35] > Bash: cat new-pipeline-test/output_png/20260928-1656-astronomy-planet-pluto/claude.log | head -60
+[18:23:38] > Bash: ls /tmp/*render*.py 2>/dev/null | head; tail -30 new-pipeline-test/output_png/20260928-1656-astronomy-planet-pluto/astronomy_planet_pluto_redraw.py; grep -n ...
+[18:23:40] Found the render helper pattern; now designing the geometry.
+[18:23:41] > Bash: cat /tmp/bp_render.py; cat /tmp/bp_alt_render.py | head -40
+[18:24:26] > Bash: grep -rn "CIRCLE" icon_set/validation/*.py icon_set/model/*.py | head -20
+[18:24:28] > Bash: sed -n 285,330p icon_set/validation/validator.py; grep -rn "circle_touch" icon_set/model/contracts/*.json
+[18:24:59] > Bash: sed -n 1,40p new-pipeline-test/output_png/20260928-1656-astronomy-planet-pluto/astronomy_planet_pluto_redraw.py | head -45; grep -n "def to_svg" -A30 icon_se...
+[18:25:15] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-boat-propeller/boat_propeller_redraw.py
+[18:25:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-boat-propeller && /opt/homebrew/bin/python3 - <<'EOF' impor...
+[18:25:31] Iterating on blade geometry (tip overshoots radius by 0.2); adding a quick distance check.
+[18:25:36] > Bash: cat > /tmp/bprop_meas.py <<'EOF' import re,sys,math,itertools svg=open(sys.argv[1]).read() paths=dict(re.findall(r'id="([^"]+)" d="([^"]+)"',svg)) def samp(d...
+[18:25:39] > Read: /tmp/bprop_try.png
+[18:26:01] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p='/tmp/bprop_try.py' s=open(p).read() i=s.index('ROOT_LEAD =');j=s.index('\n)\n',i)+3 s=s[:i]+'''ROOT_LEAD = (-1, -10) B...
+[18:26:01] > Read: /tmp/bprop_try.png
+[18:26:13] > Read: /tmp/bprop_try-48.png
+[18:26:21] > Bash: cat > /tmp/bprop_set.py <<'EOF' import sys p='/tmp/bprop_try.py' s=open(p).read() i=s.index('ROOT_LEAD =');j=s.index('\n)\n',i)+3 s=s[:i]+sys.stdin.read()+s[...
+[18:26:21] > Read: /tmp/bprop_try.png
+[18:26:33] > Bash: /opt/homebrew/bin/python3 /tmp/bprop_set.py <<'EOF' ROOT_LEAD = (-1, -9) BLADE = ( ((-2, -12), (-4.2, -14.3), (-6, -16)), # leading edge sweeps out to the ti...
+[18:26:33] > Read: /tmp/bprop_try.png
+[18:26:40] Valid now. Checking native 48 px in both themes.
+[18:26:42] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image a=Image.open('/tmp/bprop_try-48.png').convert('RGB');b=Image.open('/tmp/bprop_dark48.png').co...
+[18:26:42] > Read: /tmp/bprop_sheet.png
+[18:26:44] Reads as a three-blade propeller. Writing the final params into the module and running the pipeline metrics on a copy.
+[18:26:49] > Bash: D=new-pipeline-test/output_png/20260929-1817-boat-propeller && cp /tmp/bprop_try.py $D/boat_propeller_redraw.py && sed -i '' 's/the blade roots are narrowed ...
+[18:27:00] > Bash: D=new-pipeline-test/output_png/20260929-1817-boat-propeller && sed -i '' 's/ 30 degrees) and spirals back in to the trailing root./ 15 degrees) and sweeps ba...
+[18:27:09] I've redrawn the boat propeller as a Solo48 model, and `validate_icon()` passes with no warnings. All 6 clearance errors and the hole error in the metrics are fixed. To fix the hole, the hub is now a solid dot instead of a ring.
+
+**Drawing:** three open, hollow blades swept clockwise around a centre dot, on the suggested `CIRCLE` keyshape. One blade is drawn once from three smooth curves and repeated at 120° and 240°. The points where each curve starts and ends are rounded to whole grid units, and the curve handles are moved with them so the joins stay smooth. As a result the three blades differ by less than half a unit. The outermost blade reaches radius 19.83, inside the allowed 19.5–20. Lucide's `fan` icon gave the construction: three repeated swept blades around a dot. The open, hollow blades follow the generated image.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| Blades 1.8 from the hub ring (e0/e1, e1/e2, e1/e3) | Fixed: the hub is a dot, and every blade is at least 8.6 from it. |
+| Neighbouring blades 4.5–5.4 apart (e0/e2, e0/e3, e2/e3) | Fixed: the blades are rebuilt with narrower roots and are now 9.85–10.05 apart. |
+| Hub hole only 3.88 wide (need 6) | Fixed by using a dot instead of a ring. A ring with a 6-wide hole pushes the blade roots out to radius 13. That leaves each blade only 7 deep, too thin to draw as a hollow paddle. |
+| Trace stroke thinner than the target 4 (info) | Drawn at stroke 4, with all gaps sized for it. |
+
+I ran `svg_metrics.py` on a copy of the redrawn SVG. It finds no clearance or hole problems. Its only warning is that it would suggest `SQUARE` on a fresh fit, which doesn't apply here because the validator accepts the `CIRCLE` fit. I checked the 48 px previews on light and dark backgrounds, and the three blades and the hub stay clearly separate.
+
+As you asked, the module isn't registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build, tests or gallery.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-boat-propeller/`:
+- `boat_propeller_redraw.py`
+- `boat-propeller_redraw.svg`
+- `boat-propeller_redraw.png`
+- `boat-propeller_redraw-48.png`
+
+[18:27:12] === success in 306s, $1.34 ===
+I've redrawn the boat propeller as a Solo48 model, and `validate_icon()` passes with no warnings. All 6 clearance errors and the hole error in the metrics are fixed. To fix the hole, the hub is now a solid dot instead of a ring.
+
+**Drawing:** three open, hollow blades swept clockwise around a centre dot, on the suggested `CIRCLE` keyshape. One blade is drawn once from three smooth curves and repeated at 120° and 240°. The points where each curve starts and ends are rounded to whole grid units, and the curve handles are moved with them so the joins stay smooth. As a result the three blades differ by less than half a unit. The outermost blade reaches radius 19.83, inside the allowed 19.5–20. Lucide's `fan` icon gave the construction: three repeated swept blades around a dot. The open, hollow blades follow the generated image.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| Blades 1.8 from the hub ring (e0/e1, e1/e2, e1/e3) | Fixed: the hub is a dot, and every blade is at least 8.6 from it. |
+| Neighbouring blades 4.5–5.4 apart (e0/e2, e0/e3, e2/e3) | Fixed: the blades are rebuilt with narrower roots and are now 9.85–10.05 apart. |
+| Hub hole only 3.88 wide (need 6) | Fixed by using a dot instead of a ring. A ring with a 6-wide hole pushes the blade roots out to radius 13. That leaves each blade only 7 deep, too thin to draw as a hollow paddle. |
+| Trace stroke thinner than the target 4 (info) | Drawn at stroke 4, with all gaps sized for it. |
+
+I ran `svg_metrics.py` on a copy of the redrawn SVG. It finds no clearance or hole problems. Its only warning is that it would suggest `SQUARE` on a fresh fit, which doesn't apply here because the validator accepts the `CIRCLE` fit. I checked the 48 px previews on light and dark backgrounds, and the three blades and the hub stay clearly separate.
+
+As you asked, the module isn't registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build, tests or gallery.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-boat-propeller/`:
+- `boat_propeller_redraw.py`
+- `boat-propeller_redraw.svg`
+- `boat-propeller_redraw.png`
+- `boat-propeller_redraw-48.png`

@@ -1,0 +1,70 @@
+[19:29:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1924-box-delivery-truck; ls $D; cat $D/box-delivery-truck_met...
+[19:29:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1924-box-delivery-truck/box-delivery-truck.png
+[19:29:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1924-box-delivery-truck; /opt/homebrew/bin/python3 -c " impor...
+[19:30:05] Let me look at a recent redraw script to match the render/save conventions, and the Lucide truck.
+[19:30:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1924-clipboard-solo/clipboard_solo_redraw.py; find . -path ...
+[19:30:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/lucide/original/truck.svg; ls new-pipeline-test/; grep -l "redraw-48" new-pip...
+[19:30:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -40; grep -n "def add_\|def to_svg\|def ren...
+[19:31:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/20260929-1924-clipboard-solo/; sed -n 90,260p icon_set/model/icons/ba...
+[19:32:16] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md normal48-geometry-floors.md |...
+[19:33:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 95,200p icon_set/model/icons/base.py; tail -60 new-pipeline-test/output_png/20260929-1924-clip...
+[19:33:22] Planning done: HRECT_M truck with Lucide-style wheels on the bottom line. Now checking existing truck modules, then writing the model.
+[19:33:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "0070eae2" icon_set/model/icons/solo/ | head; ls icon_set/model/icons/solo/ | grep -i truck ...
+[19:33:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '/class /,$p' icon_set/model/icons/solo/box_delivery_truck_0070eae2_79f7_4131_b3be_164ea822745...
+[19:33:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1924-box-delivery-truck; cat > $D/box_delivery_truck_redraw.p...
+[19:33:59] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1924-box-delivery-truck/box-delivery-truck_redraw.png
+[19:33:59] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1924-box-delivery-truck/box-delivery-truck_redraw-48.png
+[19:34:12] I redrew the box delivery truck as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At 48 px it reads as a box truck: a tall cargo box, a lower cab with a sloped windshield, and two wheels.
+
+**Construction:** I used the suggested `HRECT_M` keyshape (centerline box 4–44 across, 10–38 down), which also had the best fit score. The drawing follows Lucide's `truck`: the wheels are full circles centred on the bottom line, and the line stops at each wheel's side. Where they meet they share an endpoint, and the model records the contact.
+- **Body:** one outline with corner radius 3. The box top is at y=10, the rear wall at x=4, the cab roof steps down at x=30 to y=16, the windshield slopes from (38,16) to (44,24), and the floor is at y=35.
+- **Wheels:** radius 3, placed mirror-image about the middle of the icon at x=16 and x=32. Each wheel is 9 units from the nearest wall and 10 from the other wheel.
+- **Grid:** every point and arc centre is on the integer grid. No trace coordinates were reused.
+
+**Metric issues (all fixed):**
+- **Clearance, front wheel against the box's lower divider (2.72):** I removed the part of the divider below the cab roof. A full-height divider cannot fit: two outer walls, two wheels and a divider need five 8-unit gaps, at least 50 units, inside a 40-unit width. The stepped roofline still separates the box from the cab.
+- **Clearance, wheels against the bottom line (6.56, twice):** the bottom line now ends exactly at each wheel's side, and every wall is 9 from the nearest wheel.
+- **Holes, two 2.53-wide slivers beside the wheels:** there are no slivers now. The wheels are 6 across, a size of full circle the hole rule allows. A wheel with a 6-wide opening would need radius 5, which leaves no room for spacing.
+- **Keyshape short axis (84%):** the box top, the wheel bottoms, the rear wall and the cab front now hit all four edges of the keyshape exactly.
+- **Stroke width (2.64 against 4):** fixed by drawing at stroke 4 with 8-unit spacing.
+
+**Trade-offs:**
+- **No divider:** the generated image's full-height wall between box and cab is gone, for the width reason above.
+- **Small wheels:** at radius 3 their openings are only about 2 px.
+- **Wheel positions:** they sit a little closer together than in the image, so the drawing can stay symmetrical with 9 units around each wheel.
+
+The existing module for this source ID (`box_delivery_truck_…py`, detached wheels on `HRECT_L`) was read only and left unchanged. Nothing was registered, `published/` was not touched, and no build or gallery update was run. I made the previews with `rsvg-convert` from the model's own SVG, using a helper at `/tmp/bdt/check.py`.
+
+Files are in `new-pipeline-test/output_png/20260929-1924-box-delivery-truck/`:
+- `box_delivery_truck_redraw.py`
+- `box-delivery-truck_redraw.svg`
+- `box-delivery-truck_redraw.png` (512 px preview)
+- `box-delivery-truck_redraw-48.png`
+
+[19:34:13] === success in 320s, $0.99 ===
+I redrew the box delivery truck as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At 48 px it reads as a box truck: a tall cargo box, a lower cab with a sloped windshield, and two wheels.
+
+**Construction:** I used the suggested `HRECT_M` keyshape (centerline box 4–44 across, 10–38 down), which also had the best fit score. The drawing follows Lucide's `truck`: the wheels are full circles centred on the bottom line, and the line stops at each wheel's side. Where they meet they share an endpoint, and the model records the contact.
+- **Body:** one outline with corner radius 3. The box top is at y=10, the rear wall at x=4, the cab roof steps down at x=30 to y=16, the windshield slopes from (38,16) to (44,24), and the floor is at y=35.
+- **Wheels:** radius 3, placed mirror-image about the middle of the icon at x=16 and x=32. Each wheel is 9 units from the nearest wall and 10 from the other wheel.
+- **Grid:** every point and arc centre is on the integer grid. No trace coordinates were reused.
+
+**Metric issues (all fixed):**
+- **Clearance, front wheel against the box's lower divider (2.72):** I removed the part of the divider below the cab roof. A full-height divider cannot fit: two outer walls, two wheels and a divider need five 8-unit gaps, at least 50 units, inside a 40-unit width. The stepped roofline still separates the box from the cab.
+- **Clearance, wheels against the bottom line (6.56, twice):** the bottom line now ends exactly at each wheel's side, and every wall is 9 from the nearest wheel.
+- **Holes, two 2.53-wide slivers beside the wheels:** there are no slivers now. The wheels are 6 across, a size of full circle the hole rule allows. A wheel with a 6-wide opening would need radius 5, which leaves no room for spacing.
+- **Keyshape short axis (84%):** the box top, the wheel bottoms, the rear wall and the cab front now hit all four edges of the keyshape exactly.
+- **Stroke width (2.64 against 4):** fixed by drawing at stroke 4 with 8-unit spacing.
+
+**Trade-offs:**
+- **No divider:** the generated image's full-height wall between box and cab is gone, for the width reason above.
+- **Small wheels:** at radius 3 their openings are only about 2 px.
+- **Wheel positions:** they sit a little closer together than in the image, so the drawing can stay symmetrical with 9 units around each wheel.
+
+The existing module for this source ID (`box_delivery_truck_…py`, detached wheels on `HRECT_L`) was read only and left unchanged. Nothing was registered, `published/` was not touched, and no build or gallery update was run. I made the previews with `rsvg-convert` from the model's own SVG, using a helper at `/tmp/bdt/check.py`.
+
+Files are in `new-pipeline-test/output_png/20260929-1924-box-delivery-truck/`:
+- `box_delivery_truck_redraw.py`
+- `box-delivery-truck_redraw.svg`
+- `box-delivery-truck_redraw.png` (512 px preview)
+- `box-delivery-truck_redraw-48.png`

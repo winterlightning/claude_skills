@@ -194,15 +194,20 @@ def _claim(base_url, worker, candidates, limit):
     return claimed, last
 
 
+# Disapprovals a person fixes by hand; skipped unless asked for by reason (the server skips them too).
+MANUAL_FIX = 'manual-fix-request'
+
+
 def take_next(base_url, worker, family=None, category=None, icon_type=None, *, limit=1, offset=0, reason=None,
               max_disapprovals=None):
     """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins.
 
     ``max_disapprovals`` keeps icons disapproved at most that many times (1 = first
-    disapproval only; repeat disapprovals are handled elsewhere). It costs one history
-    call per candidate, and ``offset`` then counts matching icons only.
+    disapproval only; repeat disapprovals are handled elsewhere). The server counts and
+    filters them (``disapprovals`` on every item); against an older server it costs one
+    history call per candidate. ``offset`` then counts matching icons only.
     """
-    if reason == 'missing' or max_disapprovals is not None:
+    if reason in (None, 'missing') or max_disapprovals is not None:
         # Filter on this side: older production servers only filter explicit reasons,
         # and the queue does not carry disapproval counts. Page through the queue so
         # the offset counts matching icons.
@@ -213,16 +218,19 @@ def take_next(base_url, worker, family=None, category=None, icon_type=None, *, l
         while len(matches) < wanted:
             page = call(base_url, 'GET', '/api/work/queue', query={
                 'family': family, 'category': category, 'type': icon_type, 'reason': server_reason,
-                'limit': MAX_PAGE, 'offset': page_offset,
+                'max_disapprovals': max_disapprovals, 'limit': MAX_PAGE, 'offset': page_offset,
             })
             for item in page['items']:
                 if len(matches) >= wanted:
                     break
                 if reason == 'missing' and item.get('reason'):
                     continue
+                if reason is None and item.get('reason') == MANUAL_FIX:
+                    continue
                 if max_disapprovals is not None:
-                    history = call(base_url, 'GET', '/api/work/history', query={'icon': item['key']})
-                    item['disapprovals'] = disapproval_count(history)
+                    if 'disapprovals' not in item:  # an older server: count from the history
+                        history = call(base_url, 'GET', '/api/work/history', query={'icon': item['key']})
+                        item['disapprovals'] = disapproval_count(history)
                     if item['disapprovals'] > max_disapprovals:
                         continue
                 matches.append(item)
@@ -266,6 +274,8 @@ def main(argv=None):
     take.add_argument('--out', type=Path, help='write the brief(s) here instead of printing')
     listing = commands.add_parser('queue', help='list claimable disapproved icons without claiming', parents=[shared])
     listing.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS)
+    listing.add_argument('--max-disapprovals', type=int, default=None,
+                         help='only icons disapproved at most this many times (needs the updated server)')
     listing.add_argument('--family')
     listing.add_argument('--category')
     listing.add_argument('--type', dest='icon_type')
@@ -321,7 +331,8 @@ def main(argv=None):
         if args.command == 'queue':
             path = '/api/work/disapproved' if args.cannot_fix else '/api/work/queue'
             data = call(base_url, 'GET', path, query={'family': args.family, 'category': args.category, 'reason': args.reason,
-                                                       'type': args.icon_type, 'limit': args.limit, 'offset': args.offset,
+                                                       'type': args.icon_type, 'max_disapprovals': args.max_disapprovals,
+                                                       'limit': args.limit, 'offset': args.offset,
                                                        'state': 'cannot-fix' if args.cannot_fix else None})
             if args.json:
                 json.dump(data, sys.stdout, indent=2)
@@ -329,7 +340,8 @@ def main(argv=None):
                 return 0
             print(f"{data['total']} {'cannot-fix' if args.cannot_fix else 'claimable'} disapproved icons (showing {len(data['items'])} from {data['offset']})")
             for item in data['items']:
-                print(f"  {item['key']}  {item.get('reason') or '-'}  by {item.get('disapproved_by') or '?'}  {item.get('disapproved_at') or ''}  work={item['work']['state']}")
+                times = f"  {item['disapprovals']}x" if 'disapprovals' in item else ''
+                print(f"  {item['key']}{times}  {item.get('reason') or '-'}  by {item.get('disapproved_by') or '?'}  {item.get('disapproved_at') or ''}  work={item['work']['state']}")
             return 0
         if args.command == 'status':
             data = call(base_url, 'GET', '/api/work', query={'icon': args.icon} if args.icon else None)

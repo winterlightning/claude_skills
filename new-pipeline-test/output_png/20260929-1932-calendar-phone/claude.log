@@ -1,0 +1,88 @@
+[19:35:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1932-calendar-phone; ls $D; cat $D/calendar-phone_metrics.jso...
+[19:35:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1932-calendar-phone; /opt/homebrew/bin/python3 -c " import js...
+[19:36:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1932-calendar-phone; /opt/homebrew/bin/python3 -c " import js...
+[19:36:09] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1932-calendar-phone/calendar-phone.png
+[19:36:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260928-1543-box-delivery-truck/claude.log; grep -n "def add_" icon...
+[19:37:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/calendar_phone_fd8eb806_4d12_4ad0_bb86_c0aaf66d08bc.py; cat icon_set/mo...
+[19:37:09] Inputs read: phone outline with a calendar inside it. Next I'll find how earlier redraws rendered their SVG/PNG, then write the model.
+[19:37:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -20; grep -n "def rounded_rect" -A25 icon_s...
+[19:37:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/claude.log | head -3 | xargs grep -l "build_gate\|rsvg\|cairosvg...
+[19:37:15] Now writing the model (VRECT_M per the suggestion; I'll compare with VRECT_L since the calendar is tight in a 28-wide phone).
+[19:37:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1932-calendar-phone; cat > /tmp/cp_try.py <<'EOF' import sys ...
+[19:37:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' import re s=open('/tmp/cp_try.py').read() s=s.replace(''' self.ad...
+[19:37:36] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md | head -40
+[19:37:43] Both layouts are only blocked by an exact-8 "review" between the two rounded contours (a known trap). First a visual comparison of M vs L.
+[19:37:45] > Bash: cd /tmp; for n in M2 L; do sed 's/stroke="currentColor"/stroke="#000"/g' cp_$n.svg > cp_${n}b.svg; rsvg-convert -w 240 -h 240 -b white cp_${n}b.svg -o cp_$n....
+[19:37:45] > Read: /tmp/cp_cmp.png
+[19:38:12] Both read like a battery: the calendar is tall and the tabs sit on its rounded corners. I'll try tighter calendar corners (r2) and compare again.
+[19:38:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat >> /tmp/cp_try.py <<'EOF' from PIL import Image import subprocess V={"M_r2":(Keyshape.VRECT_M,10,...
+[19:38:16] > Read: /tmp/cp_cmp2.png
+[19:38:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/cp2.py <<'EOF' from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.sol...
+[19:38:52] > Read: /tmp/cp_cmp3.png
+[19:39:13] None read cleanly yet. Checking how the reference itself reads at 48 px for a baseline.
+[19:39:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " from PIL import Image a=Image.open('new-pipeline-test/output_png/20260...
+[19:39:16] > Read: /tmp/ref48.png
+[19:39:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/cp3.py <<'EOF' from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.sol...
+[19:39:51] > Read: /tmp/cp_cmp4.png
+[19:40:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/cp4.py <<'EOF' import sys from icon_set.model.keyshapes import Keyshape from icon_set.mode...
+[19:40:11] > Read: /tmp/cp_cmp5.png
+[19:40:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1932-calendar-phone; cat > $D/calendar_phone_redraw.py <<'EOF...
+[19:40:40] Valid with zero warnings. Running the build gate and emitting the SVG/PNGs.
+[19:40:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1932-calendar-phone; /opt/homebrew/bin/python3 icon_set/scrip...
+[19:40:45] > Read: /tmp/cpr_final.png
+[19:40:56] I've redrawn the calendar phone as a Solo48 model. `validate_icon()` returns **valid** with zero warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At 48 px, in both light and dark themes, it reads as a calendar with binding tabs inside a phone, but the calendar sits taller and narrower than in the reference.
+
+**Drawing:** a rounded phone (corner radius 6) on the full VRECT_L box, (8,4) to (40,44). The calendar sits in the middle, from (16,16) to (32,36), with small rounded corners, a header line at y=26 and two tabs at x=20 and x=28 that cross its top edge. The tabs follow Lucide `calendar` and the phone body follows Lucide `smartphone`.
+
+**Keyshape:** I used VRECT_L instead of the suggested VRECT_M. The metrics scored them close (1.10 vs 0.99). On VRECT_M the calendar can only be 12 wide, so the two tabs, which must be 8 apart, land on its rounded corners and it looks like a battery. I rendered both and VRECT_L read clearly better.
+
+**Metric issues fixed (all 13):**
+- **Stroke width:** redrawn at stroke 4, and every gap re-planned at 8.
+- **Short axis only 85% filled:** all four edges now sit exactly on the keyshape box.
+- **All 10 clearance errors:**
+  - The calendar is now 8 from the phone's side and bottom walls.
+  - The tab tips are 8 below the phone top.
+  - Each tab is one line joined to the calendar top (the trace had one tab split in two).
+  - The header is 10 below the calendar top and 8 below the tab ends.
+- **The 0.6-wide gap near a tab:** both spaces inside the calendar are now at least 6 wide.
+
+**Not kept from the reference:** its calendar is wider than tall with the header high up, which only works with thin strokes. At stroke 4, the 40-unit height fits only phone gap 8 + tab 4 + two 10-unit bands + gap 8, so the header sits at mid-page.
+
+**Build note:** the phone's edges are separate straight lines joined by separate corner arcs. The validator flags parts exactly 8 apart for review when a curved outline is involved; splitting the edges clears that without loosening any rule.
+
+Everything was written only to `new-pipeline-test/output_png/20260929-1932-calendar-phone/`. I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1932-calendar-phone/`:
+- `calendar_phone_redraw.py`
+- `calendar-phone_redraw.svg`
+- `calendar-phone_redraw.png` (480 px preview)
+- `calendar-phone_redraw-48.png`
+
+[19:40:56] === success in 361s, $1.38 ===
+I've redrawn the calendar phone as a Solo48 model. `validate_icon()` returns **valid** with zero warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At 48 px, in both light and dark themes, it reads as a calendar with binding tabs inside a phone, but the calendar sits taller and narrower than in the reference.
+
+**Drawing:** a rounded phone (corner radius 6) on the full VRECT_L box, (8,4) to (40,44). The calendar sits in the middle, from (16,16) to (32,36), with small rounded corners, a header line at y=26 and two tabs at x=20 and x=28 that cross its top edge. The tabs follow Lucide `calendar` and the phone body follows Lucide `smartphone`.
+
+**Keyshape:** I used VRECT_L instead of the suggested VRECT_M. The metrics scored them close (1.10 vs 0.99). On VRECT_M the calendar can only be 12 wide, so the two tabs, which must be 8 apart, land on its rounded corners and it looks like a battery. I rendered both and VRECT_L read clearly better.
+
+**Metric issues fixed (all 13):**
+- **Stroke width:** redrawn at stroke 4, and every gap re-planned at 8.
+- **Short axis only 85% filled:** all four edges now sit exactly on the keyshape box.
+- **All 10 clearance errors:**
+  - The calendar is now 8 from the phone's side and bottom walls.
+  - The tab tips are 8 below the phone top.
+  - Each tab is one line joined to the calendar top (the trace had one tab split in two).
+  - The header is 10 below the calendar top and 8 below the tab ends.
+- **The 0.6-wide gap near a tab:** both spaces inside the calendar are now at least 6 wide.
+
+**Not kept from the reference:** its calendar is wider than tall with the header high up, which only works with thin strokes. At stroke 4, the 40-unit height fits only phone gap 8 + tab 4 + two 10-unit bands + gap 8, so the header sits at mid-page.
+
+**Build note:** the phone's edges are separate straight lines joined by separate corner arcs. The validator flags parts exactly 8 apart for review when a curved outline is involved; splitting the edges clears that without loosening any rule.
+
+Everything was written only to `new-pipeline-test/output_png/20260929-1932-calendar-phone/`. I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1932-calendar-phone/`:
+- `calendar_phone_redraw.py`
+- `calendar-phone_redraw.svg`
+- `calendar-phone_redraw.png` (480 px preview)
+- `calendar-phone_redraw-48.png`

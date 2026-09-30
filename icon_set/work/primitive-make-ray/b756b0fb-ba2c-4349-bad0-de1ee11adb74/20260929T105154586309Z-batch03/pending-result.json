@@ -1,0 +1,30 @@
+{
+  "concept": "begging cup give coin",
+  "source_uuid": "b756b0fb-ba2c-4349-bad0-de1ee11adb74",
+  "reference_path": "icon_set/work/primitive-fix-thuan/solo__hand-lowering-a-coin-toward-a-cup/20260929T104744Z-thuan-mac/reference/begging cup give coin_b756b0fb-ba2c-4349-bad0-de1ee11adb74.svg",
+  "icon_id": "hand-lowering-a-coin-toward-a-cup",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/b756b0fb-ba2c-4349-bad0-de1ee11adb74/20260929T105154586309Z-batch03",
+  "module": "hand_lowering_a_coin_toward_a_cup_b756b0fb_ba2c_4349_bad0_de1ee11adb74.py",
+  "svg": "hand-lowering-a-coin-toward-a-cup.svg",
+  "validation_status": "invalid",
+  "validation_errors": [
+    "mic [hand-top]: hand-top and hand-bottom are 4.66688 apart on centerlines nearest (28, 12)<->(23.7971, 14.0286); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [hand-top]: hand-top and coin are 2.28043 apart on centerlines nearest (28, 12)<->(28.6351, 14.1902); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [hand-bottom]: hand-bottom and coin are 1.56616 apart on centerlines nearest (23.9616, 16.4218)<->(25.4011, 17.0389); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "build_gate": {
+    "icon_id": "hand-lowering-a-coin-toward-a-cup",
+    "status": "fail",
+    "errors": [
+      "mic [hand-top]: hand-top and hand-bottom are 4.66688 apart on centerlines nearest (28, 12)<->(23.7971, 14.0286); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [hand-top]: hand-top and coin are 2.28043 apart on centerlines nearest (28, 12)<->(28.6351, 14.1902); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [hand-bottom]: hand-bottom and coin are 1.56616 apart on centerlines nearest (23.9616, 16.4218)<->(25.4011, 17.0389); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": []
+  },
+  "findings": "The rejected hand is a polygonal pinch, its coin is tiny and the cup is squat. Restore a smooth downward finger and a distinct circular coin above a taller tapered cup.",
+  "plan": "SQUARE (6,6)-(42,42). Left-entering hand; smooth pinch touches coin at its upper extreme; trapezoidal cup below with clear separation.",
+  "references": "Lucide hand and hand-fist: rounded fingertips, coherent palm contours. Shared human references inspected; detached-head spacing does not apply to hands."
+}

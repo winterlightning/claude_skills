@@ -54,7 +54,12 @@ pub async fn read(ctx: &Ctx) -> Result<Response> {
     if matches!(path, "/api/work/queue" | "/api/work/disapproved" | "/api/work/review") {
         let feedback = data::latest_feedback(&ctx.db).await?;
         let types = data::icon_types(&ctx.db).await?;
-        let work = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types, now };
+        let (events, notes, fixes) = count_inputs(ctx).await?;
+        let empty = Default::default();
+        let base = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types,
+                              disapprovals: &empty, now };
+        let counts = rules::disapproval_counts(&base, &rules::CountInputs { events: &events, feedback: &notes, fixes: &fixes });
+        let work = WorkData { disapprovals: &counts, ..base };
         let result = if path == "/api/work/review" {
             let summaries = rules::result_summaries(&result_rows(ctx, None).await?);
             rules::review_listing(&work, &ctx.query, &summaries)
@@ -95,8 +100,28 @@ pub async fn read(ctx: &Ctx) -> Result<Response> {
     }
     let feedback = Default::default();
     let types = Default::default();
-    let work = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types, now };
+    let disapprovals = Default::default();
+    let work = WorkData { catalog: &catalog, decisions: &decisions, rows: &row_map, feedback: &feedback, types: &types,
+                          disapprovals: &disapprovals, now };
     http::json(200, &rules::listing(&work))
+}
+
+/// The rows `rules::disapproval_counts` reads: activity in id order, feedback shas, uploaded fixes.
+async fn count_inputs(ctx: &Ctx) -> Result<(Vec<rules::CountEvent>, Vec<(String, String)>, Vec<(String, String)>)> {
+    #[derive(Deserialize)]
+    struct Event { icon: String, action: String, status: Option<String>, svg_sha256: Option<String>, created_at: String }
+    #[derive(Deserialize)]
+    struct Pair { icon: String, svg_sha256: String }
+    let events: Vec<Event> = db::all(&ctx.db, "SELECT icon, action, \
+        CASE WHEN json_valid(details) THEN json_extract(details, '$.status') END AS status, \
+        CASE WHEN json_valid(details) THEN json_extract(details, '$.svg_sha256') END AS svg_sha256, created_at FROM activity_log \
+        WHERE icon IS NOT NULL AND action IN ('work_done', 'upload', 'review', 'feedback') ORDER BY id", vec![]).await?;
+    let notes: Vec<Pair> = db::all(&ctx.db, "SELECT DISTINCT icon, svg_sha256 FROM feedback", vec![]).await?;
+    let fixes: Vec<Pair> = db::all(&ctx.db, "SELECT DISTINCT icon, svg_sha256 FROM work_results WHERE stage = 'after'", vec![]).await?;
+    Ok((events.into_iter().map(|e| rules::CountEvent { icon: e.icon, action: e.action, status: e.status,
+                                                       svg_sha256: e.svg_sha256, at: e.created_at }).collect(),
+        notes.into_iter().map(|p| (p.icon, p.svg_sha256)).collect(),
+        fixes.into_iter().map(|p| (p.icon, p.svg_sha256)).collect()))
 }
 
 #[derive(Deserialize)]

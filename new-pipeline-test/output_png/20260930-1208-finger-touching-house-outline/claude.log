@@ -1,0 +1,85 @@
+[12:13:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1208-finger-touching-house-outline; ls $D; cat $D/*_metrics.j...
+[12:14:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1208-finger-touching-house-outline; python3 -c " import json;...
+[12:14:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260930-1206-finger-touching-board/; ls *.py *.sh; grep -rl "redraw-...
+[12:14:50] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline/finger-touching-house-outline.png
+[12:14:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1206-finger-touching-board/claude.log | tail -40; cat outpu...
+[12:14:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def [a-z_]*svg\|def render\|def validate_icon\|def to_" icon_set/model/*.py icon_set/model/i...
+[12:14:58] Reviewed the inputs; now checking the model API for SVG export before drafting the hand-and-house model.
+[12:15:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def validate_icon\|def svg\|def emit\|def to_svg\|def render_svg" icon_set/model | head; ls...
+[12:17:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_polyline\|def add_line\|def add_contour\|def relate\|def add_arc\|def add_bezier" -A...
+[12:18:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline; cat > $D/finger_touching_...
+[12:18:31] Valid with no warnings on the first pass. Now the visual check.
+[12:18:31] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline/finger-touching-house-outline_re...
+[12:19:32] > Bash: cd /tmp && cat > c.svg <<'EOF' <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#000" stroke-width="4" ...
+[12:19:33] > Read: /tmp/c.png
+[12:19:48] > Bash: cd /tmp && cat > d.svg <<'EOF' <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#000" stroke-width="4" ...
+[12:19:48] > Read: /tmp/d.png
+[12:20:03] > Bash: cd /tmp && cat > e.svg <<'EOF' <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#000" stroke-width="4" ...
+[12:20:03] > Read: /tmp/e.png
+[12:20:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline; /opt/homebrew/bin/python3...
+[12:20:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline; sed -i '' 's/the finger s...
+[12:20:31] > Read: /tmp/cmp.png
+[12:20:41] I redrew the finger-and-house trace as a Solo48 model, and `validate_icon()` returns **valid** with no warnings.
+
+**Shape (`SQUARE`, as the metrics suggested; the drawing fills the 6–42 box on both axes):**
+- **House (upper left):** one open outline in the style of Lucide's `house`, with a 45° roof peaking at (14,6) and no eaves. The left wall is at x=6. The floor stops at x=18 and the right wall is a short stub ending at (22,16), so the lower-right corner stays open for the finger, as in the generated image.
+- **Hand (lower right):** one closed outline.
+  - The index finger is 8 wide on the line x=32, with a round tip.
+  - On the right, a short knuckle step at y=30 rounds into the palm side at x=42, then down to a flat base at y=42.
+  - On the left, a 45° thumb has a round tip centred at (22,37).
+- The finger shape follows Lucide's `pointer`. I dropped the traced knuckle bumps because they don't survive a stroke of 4 at 48 px.
+
+**Metric issues:**
+- **keyshape-short-axis** (x axis only 86% filled): **fixed.** The house sits on x=6 and the palm on x=42, so nothing had to be stretched.
+- **clearance e0/e5** (roof 6.58 from the finger): **fixed.** I dropped the eaves and moved the finger right. The roof now ends 13.5 from the fingertip centre.
+- **clearance e1/e5** (floor end 2.89 from the finger): **fixed.** The floor end is now 10 from the finger wall.
+- **clearance e2/e5** (right wall 2.42 from the finger): **fixed.** The stub now ends 12.2 from the fingertip centre.
+- **stroke-width** (info): **fixed.** Redrawn at stroke 4, with every gap set to at least 8.
+
+**Trade-off:**
+- With 8 units of clearance, the fingertip can't reach as far into the house corner as it does in the image.
+- The right wall stub is only 2 units long.
+- The hand is broad and squat. At native 48 px it still reads clearly as a house and a pointing hand in both light and dark themes, though the thumb looks a little heavy.
+
+**Alternative:** I also sketched a hand under a full-width roof. It reads more strongly as "home" but moves away from the image's layout, so I kept the faithful version.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and I didn't run the build or the gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline`:
+- `finger_touching_house_outline_redraw.py`
+- `finger-touching-house-outline_redraw.svg`
+- `finger-touching-house-outline_redraw.png` (512 px)
+- `finger-touching-house-outline_redraw-48.png`
+
+[12:20:41] === success in 442s, $1.37 ===
+I redrew the finger-and-house trace as a Solo48 model, and `validate_icon()` returns **valid** with no warnings.
+
+**Shape (`SQUARE`, as the metrics suggested; the drawing fills the 6–42 box on both axes):**
+- **House (upper left):** one open outline in the style of Lucide's `house`, with a 45° roof peaking at (14,6) and no eaves. The left wall is at x=6. The floor stops at x=18 and the right wall is a short stub ending at (22,16), so the lower-right corner stays open for the finger, as in the generated image.
+- **Hand (lower right):** one closed outline.
+  - The index finger is 8 wide on the line x=32, with a round tip.
+  - On the right, a short knuckle step at y=30 rounds into the palm side at x=42, then down to a flat base at y=42.
+  - On the left, a 45° thumb has a round tip centred at (22,37).
+- The finger shape follows Lucide's `pointer`. I dropped the traced knuckle bumps because they don't survive a stroke of 4 at 48 px.
+
+**Metric issues:**
+- **keyshape-short-axis** (x axis only 86% filled): **fixed.** The house sits on x=6 and the palm on x=42, so nothing had to be stretched.
+- **clearance e0/e5** (roof 6.58 from the finger): **fixed.** I dropped the eaves and moved the finger right. The roof now ends 13.5 from the fingertip centre.
+- **clearance e1/e5** (floor end 2.89 from the finger): **fixed.** The floor end is now 10 from the finger wall.
+- **clearance e2/e5** (right wall 2.42 from the finger): **fixed.** The stub now ends 12.2 from the fingertip centre.
+- **stroke-width** (info): **fixed.** Redrawn at stroke 4, with every gap set to at least 8.
+
+**Trade-off:**
+- With 8 units of clearance, the fingertip can't reach as far into the house corner as it does in the image.
+- The right wall stub is only 2 units long.
+- The hand is broad and squat. At native 48 px it still reads clearly as a house and a pointing hand in both light and dark themes, though the thumb looks a little heavy.
+
+**Alternative:** I also sketched a hand under a full-width roof. It reads more strongly as "home" but moves away from the image's layout, so I kept the faithful version.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and I didn't run the build or the gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1208-finger-touching-house-outline`:
+- `finger_touching_house_outline_redraw.py`
+- `finger-touching-house-outline_redraw.svg`
+- `finger-touching-house-outline_redraw.png` (512 px)
+- `finger-touching-house-outline_redraw-48.png`

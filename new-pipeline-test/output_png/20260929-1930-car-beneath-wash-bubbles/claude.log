@@ -1,0 +1,114 @@
+[19:32:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && ls && cat car-beneath-wash-bubb...
+[19:32:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles.png
+[19:33:09] > Bash: /opt/homebrew/bin/python3 -c " import json;d=json.load(open('car-beneath-wash-bubbles_metrics.json')) print(d.keys()) for k in d: if k not in ('elements','ke...
+[19:33:21] Let me look at a recent redraw for the file conventions (loading, rendering).
+[19:33:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260929-1926-browser-dollar-sign-right/browser_dollar_sign_right_...
+[19:33:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test && ls; cat output_png/20260929-1926-browser-dollar-sign-right/claude.log; grep -rl "...
+[19:33:27] > Bash: ls /tmp/*/check.py 2>/dev/null | head; cat $(ls -t /tmp/*/check.py | head -1)
+[19:34:14] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/ && cat normal48-geometry-floors.md solo48-build-gate-traps.md png-solo-pipe...
+[19:34:18] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/ && grep -n -i "circle\|hole\|r>=\|r≥\|radius" normal48-geometry-floors.md s...
+[19:35:58] > Bash: grep -n "def add_\|def relate\|def mark" -A3 icon_set/model/*.py icon_set/model/icons/*.py 2>/dev/null | grep -v "^--$" | head -60
+[19:36:00] I've planned the layout (VRECT_L: car cabin, divider and semicircle wheels below, two bubbles above) and am now checking the geometry API before writing the model.
+[19:36:01] > Bash: sed -n 97,146p icon_set/model/icons/base.py; grep -rn "add_arc(\"[a-z-]*\", ([0-9]*, [0-9]*), ([0-9]*, [0-9]*), radius_x=[0-9]*, sweep=[A-Za-z]*)" icon_set/m...
+[19:36:35] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && cat > $D/car_beneath_wash_bubbles_redraw.py <<'EOF' """car beneath wash bubbles (red...
+[19:36:37] > Bash: PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/cbwb/check.py --export
+[19:36:41] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw.png
+[19:36:41] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw-48.png
+[19:37:07] > Bash: /opt/homebrew/bin/python3 -c " import itertools,math def pts(r): return {(x,y) for x in range(-r,r+1) for y in range(-r,r+1) if x*x+y*y==r*r} for r1,r2 in [(...
+[19:37:11] > Bash: /opt/homebrew/bin/python3 -c " import math def pts(r): return {(x,y) for x in range(-r,r+1) for y in range(-r,r+1) if x*x+y*y==r*r} for r1,r2 in [(5,4),(5,3)...
+[19:37:58] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && cp $D/car_beneath_wash_bubbles_redraw.py /tmp/cbwb/v1.py && cp $D/car-beneath-wash-b...
+[19:38:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw.png
+[19:38:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw-48.png
+[19:38:20] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && cp $D/car-beneath-wash-bubbles_redraw.png /tmp/cbwb/v2.png && sed -i '' -e 's/= 24, ...
+[19:38:21] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw.png
+[19:39:04] Both valid variants still read like a bench. I'm reshaping the cabin (steeper flanks inset from the body with small shoulder ledges, like the generated image) to make the car silhouette stronger.
+[19:39:13] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && cp $D/car_beneath_wash_bubbles_redraw.py /tmp/cbwb/v3.py && cp $D/car-beneath-wash-b...
+[19:39:14] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw.png
+[19:39:26] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && cp $D/car_beneath_wash_bubbles_redraw.py /tmp/cbwb/v4.py && cp $D/car-beneath-wash-b...
+[19:39:27] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car-beneath-wash-bubbles_redraw.png
+[19:39:29] This version reads as a car. Checking it at 48 px in both themes and running the build-gate QA.
+[19:39:32] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && sed 's/currentColor/white/' $D/car-beneath-wash-bubbles_redraw.svg > /tmp/cbwb/dark....
+[19:39:33] > Read: /tmp/cbwb/both.png
+[19:39:35] > Bash: grep -n "argparse\|add_argument\|def main\|__doc__" icon_set/scripts/build_gate.py | head; sed -n 1,30p icon_set/scripts/build_gate.py
+[19:39:38] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/car_beneath_wash_bubbles_redraw....
+[19:39:54] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260929-1930-ca...
+[19:40:03] > Bash: grep -rn "internal-spacing\|internal_spacing" icon_set/validation/*.py | head;
+[19:40:06] > Bash: sed -n 1,200p icon_set/validation/internal_spacing.py
+[19:40:28] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260929-1930-ca...
+[19:40:35] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && PYTHONPATH=. /opt/homebrew/bin/python3 -c " import importlib.util spec=importlib.uti...
+[19:40:35] > Read: /tmp/cbwb/both.png
+[19:40:37] Valid with no warnings, the build gate passes, and it reads as a car under two bubbles in both themes. Next I'm updating the docstring to match the final geometry.
+[19:40:49] > Bash: D=new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles && /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260929-1930-ca...
+[19:40:53] > Bash: rm -rf new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/__pycache__
+[19:41:05] I redrew the icon as a Solo48 model: a front-view car with two soap bubbles above it. `validate_icon()` returns `valid` with zero warnings, and the build-gate QA (`build_gate.py`) passes with 0 errors and 0 warnings. It reads clearly as a car under bubbles at 48 px, in both light and dark themes.
+
+**Files** (all in `new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/`):
+- `car_beneath_wash_bubbles_redraw.py` has the source ID, source path and `AUTHOR = "claude-opus-5-5"`, plus a docstring with the plan and the issue list.
+- `car-beneath-wash-bubbles_redraw.svg`, `car-beneath-wash-bubbles_redraw.png` (512 px preview) and `car-beneath-wash-bubbles_redraw-48.png`.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `SQUARE`. The subject is 0.87 as wide as it is tall, so on SQUARE the x axis only fills 87% of the box. VRECT_L's 32×40 box fits that shape, and all four edges are reached exactly: the side walls at x=8 and x=40, the big bubble's top at y=4, and the tyre bottoms at y=44.
+
+**Construction:**
+- **Body:** mirrored about x=24, with rounded front corners where the cabin sits on the body, 8-wide tyre tabs and a raised underbody between them.
+- **Cabin:** a steep windshield rising from the body top, with rounded roof corners. The body top line doubles as the windshield divider.
+- **Bubbles:** a large ring and a small ring, with the small one lower and to the right as in the generated image.
+- **Lucide reference:** the layout follows Lucide's `car-front` (sloped cabin over a wide body, wheel stubs below).
+- **Trace:** no coordinates were copied from it.
+
+**Metric issues fixed:**
+- All 8 clearance errors:
+  - The two bubbles are now 9.26 apart.
+  - The bubbles sit 9 and 8 or more above the roof.
+  - The divider is 9 below the roof.
+  - The four headlight errors went away with the headlights (see below).
+- All 3 hole errors:
+  - The big bubble is now large enough to leave a clear hole.
+  - The small bubble is sized so the hole-size rule exempts it.
+  - The windshield opening is 9 tall.
+- The keyshape short-axis warning, fixed by the switch to VRECT_L.
+- The stroke-width note: the drawing is built at stroke 4, and every gap between separate parts is at least 8.
+
+**Could not fix — dropped the two headlights.** Each needs 8 of space above and below it, so the body would have to be 16 tall. Add the windshield (9), tyres (4) and the bubbles with their gap (18), and it comes to 47 units, but the box is only 40 tall.
+
+Two things came up on the way:
+- **Earlier versions read wrong.** The first drafts passed validation but looked like a face or a bench at 48 px. Setting the cabin in from the body edge with rounded corners fixed that.
+- **The build gate caught spacing that validation missed.** Its internal-spacing check flagged the roof corners as only 3.2 (in ink) from the divider. Moving the divider down one unit and tightening the corner rounding cleared it.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+[19:41:05] === success in 506s, $2.19 ===
+I redrew the icon as a Solo48 model: a front-view car with two soap bubbles above it. `validate_icon()` returns `valid` with zero warnings, and the build-gate QA (`build_gate.py`) passes with 0 errors and 0 warnings. It reads clearly as a car under bubbles at 48 px, in both light and dark themes.
+
+**Files** (all in `new-pipeline-test/output_png/20260929-1930-car-beneath-wash-bubbles/`):
+- `car_beneath_wash_bubbles_redraw.py` has the source ID, source path and `AUTHOR = "claude-opus-5-5"`, plus a docstring with the plan and the issue list.
+- `car-beneath-wash-bubbles_redraw.svg`, `car-beneath-wash-bubbles_redraw.png` (512 px preview) and `car-beneath-wash-bubbles_redraw-48.png`.
+
+**Keyshape:** I used `VRECT_L` instead of the suggested `SQUARE`. The subject is 0.87 as wide as it is tall, so on SQUARE the x axis only fills 87% of the box. VRECT_L's 32×40 box fits that shape, and all four edges are reached exactly: the side walls at x=8 and x=40, the big bubble's top at y=4, and the tyre bottoms at y=44.
+
+**Construction:**
+- **Body:** mirrored about x=24, with rounded front corners where the cabin sits on the body, 8-wide tyre tabs and a raised underbody between them.
+- **Cabin:** a steep windshield rising from the body top, with rounded roof corners. The body top line doubles as the windshield divider.
+- **Bubbles:** a large ring and a small ring, with the small one lower and to the right as in the generated image.
+- **Lucide reference:** the layout follows Lucide's `car-front` (sloped cabin over a wide body, wheel stubs below).
+- **Trace:** no coordinates were copied from it.
+
+**Metric issues fixed:**
+- All 8 clearance errors:
+  - The two bubbles are now 9.26 apart.
+  - The bubbles sit 9 and 8 or more above the roof.
+  - The divider is 9 below the roof.
+  - The four headlight errors went away with the headlights (see below).
+- All 3 hole errors:
+  - The big bubble is now large enough to leave a clear hole.
+  - The small bubble is sized so the hole-size rule exempts it.
+  - The windshield opening is 9 tall.
+- The keyshape short-axis warning, fixed by the switch to VRECT_L.
+- The stroke-width note: the drawing is built at stroke 4, and every gap between separate parts is at least 8.
+
+**Could not fix — dropped the two headlights.** Each needs 8 of space above and below it, so the body would have to be 16 tall. Add the windshield (9), tyres (4) and the bubbles with their gap (18), and it comes to 47 units, but the box is only 40 tall.
+
+Two things came up on the way:
+- **Earlier versions read wrong.** The first drafts passed validation but looked like a face or a bench at 48 px. Setting the cabin in from the body edge with rounded corners fixed that.
+- **The build gate caught spacing that validation missed.** Its internal-spacing check flagged the roof corners as only 3.2 (in ink) from the divider. Moving the divider down one unit and tightening the corner rounding cleared it.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.

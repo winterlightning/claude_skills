@@ -7,27 +7,39 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus passes, heart does not clear, check does not clear.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (shipping-box-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = '77c6bcd1-df40-4a4c-8496-bcdb8d646c03'
 SOURCE_PATH = 'pictographic-primitives/shipping/package_77c6bcd1-df40-4a4c-8496-bcdb8d646c03.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class ShippingBoxContainer(Container64):
     icon_id = 'shipping-box-container'
+    keyshape = Keyshape.SQUARE
     category = 'shipping'
     categories = ('shipping', 'other', 'primitives-generate')
-    keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('shipping', 'box', 'container')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        poly('box',(2,18),(12,2),(52,2),(62,18),(62,62),(2,62),closed=True)
-        line('fold',(2,18),(62,18));join('fold','box')
-        for x in (26,38):line(f'tape-{x}',(x,2),(x,18));join(f'tape-{x}','box');join(f'tape-{x}','fold')
+    def build(self) -> None:
+        self.add_line('box-1', (6, 20), (15, 6))
+        self.add_line('box-2', (15, 6), (49, 6))
+        self.add_line('box-3', (49, 6), (58, 20))
+        self.add_line('box-4', (58, 20), (58, 58))
+        self.add_line('box-5', (58, 58), (6, 58))
+        self.add_line('box-6', (6, 58), (6, 20))
+        self.add_line('fold', (6, 20), (58, 20))
+        self.add_line('tape-26', (27, 6), (27, 20))
+        self.add_line('tape-38', (37, 6), (37, 20))
+        self.add_contour('box', 'box-1', 'box-2', 'box-3', 'box-4', 'box-5', 'box-6', closed=True)
+        self.relate('connect', 'fold', 'box')
+        self.relate('connect', 'tape-26', 'box')
+        self.relate('connect', 'tape-26', 'fold')
+        self.relate('connect', 'tape-38', 'box')
+        self.relate('connect', 'tape-38', 'fold')

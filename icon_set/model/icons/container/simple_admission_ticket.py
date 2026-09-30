@@ -4,26 +4,29 @@ HRECT_L: visible bounds (0, 8, 64, 56), chosen for the subject proportions.
 Lucide ticket: mirrored concave circular cutouts between straight rails; original and atomic-debug inspected.
 The plain source has no perforation marks; no features dropped. Both axes mirrored.
 Hosting measured with compose.py: plus blocked, heart valid, check valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (simple-admission-ticket HRECT_L -> HRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class SimpleAdmissionTicket(Container64):
     icon_id = 'simple-admission-ticket'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.HRECT_M
     aliases = ('admission-ticket',)
     keywords = ('simple', 'admission', 'ticket')
 
     def build(self) -> None:
-        self.add_line('top', (2, 10), (62, 10))
-        self.add_line('right-upper', (62, 10), (62, 22))
-        self.add_arc('right-notch', (62, 22), (62, 42), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('right-lower', (62, 42), (62, 54))
-        self.add_line('bottom', (62, 54), (2, 54))
-        self.add_line('left-lower', (2, 54), (2, 42))
-        self.add_arc('left-notch', (2, 42), (2, 22), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('left-upper', (2, 22), (2, 10))
+        self.add_line('top', (4, 12), (60, 12))
+        self.add_line('right-upper', (60, 12), (60, 23))
+        self.add_arc('right-notch', (60, 23), (60, 41), radius_x=9, sweep=False)
+        self.add_line('right-lower', (60, 41), (60, 52))
+        self.add_line('bottom', (60, 52), (4, 52))
+        self.add_line('left-lower', (4, 52), (4, 41))
+        self.add_arc('left-notch', (4, 41), (4, 23), radius_x=9, sweep=False)
+        self.add_line('left-upper', (4, 23), (4, 12))
         self.add_contour('ticket', 'top', 'right-upper', 'right-notch', 'right-lower', 'bottom', 'left-lower', 'left-notch', 'left-upper', closed=True)

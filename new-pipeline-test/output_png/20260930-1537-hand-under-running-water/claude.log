@@ -1,0 +1,93 @@
+[15:39:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1537-hand-under-running-water; ls $D; cat $D/*_metrics.json |...
+[15:39:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1537-hand-under-running-water; python3 -c " import json;m=jso...
+[15:40:20] Let me look at the image and a recent redraw example to copy the rendering/loading approach.
+[15:40:21] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1537-hand-under-running-water/hand-under-running-water.png
+[15:40:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls -t output_png/*/*_redraw.py | head -3; f=$(ls -t output_png/*/*_redraw.py | head...
+[15:40:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; ls output_png/*/*_redraw-48.png | tail -3; grep -rl "redraw-48" --include=*.py ...
+[15:40:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1531-hand-reaching-toward-foot; cat $D/hand_reaching_toward_f...
+[15:40:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i -E "gate|render|preview"; sed -n 1,60p icon_set/scripts/build_gate.py |...
+[15:40:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/lucide/original/hand-helping.svg icon_set/references/lucide/original/hand-pla...
+[15:44:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1531-hand-reaching-toward-foot/claude.log | head -30; grep ...
+[15:44:44] Inputs read; I've planned a SQUARE layout (faucet top-left, two water strokes, cupped hand with thumb hook). Drafting the model now.
+[15:44:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert magick cairosvg; grep -n " def add_\| def relate\|def to_svg\|def validate_icon" i...
+[15:45:13] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1537-hand-under-running-water/hand_under_running_water_redraw.py
+[15:45:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:45:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:45:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:45:37] > Read: /tmp/hw_both.png
+[15:45:38] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1537-hand-under-running-water/hand-under-running-water_redraw.png
+[15:46:14] Valid and gate-clean, but at 48 px the hand reads as a tray plus a loose "C". I'll try joining the thumb and palm with a wrist edge so they read as one hand.
+[15:46:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:46:19] > Read: /tmp/hw_both.png
+[15:46:50] Worse — the wrist edge boxes it in. Reverting and trying an upright thumb capsule instead of the C hook.
+[15:46:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:46:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:47:00] > Read: /tmp/hw_v3.png
+[15:47:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; magick $D/hand-under-running-w...
+[15:47:30] > Read: /tmp/hw_fit.png
+[15:48:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1537-hand-under-running-water; F=$D/hand_under_running_water_...
+[15:48:09] > Read: /tmp/hw_both.png
+[15:48:20] I redrew the hand under running water as a Solo48 model. It passes the checks, but at 48 px the hand reads weakly. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. I looked at it at native 48 px on light and dark backgrounds.
+
+**The weak spot:** the tap and the water read clearly, but the hand looks more like a tray with a "C" than a cupped hand. The icon is only 36 units tall. The tap, a 9-unit gap, the water, another 9-unit gap and the palm line use all of it, and the 8–9 unit spacing uses all 36 units across. That leaves no room for a finger band or a knuckle hump. I tried two alternatives and rejected both: closing the hand at the wrist made it look like a box, and an upright thumb read as the letter "n". If the hand needs to read better, the options are dropping one water stroke to free room for a proper finger band, or reducing the water to short drops.
+
+**Keyshape:** I used the suggested `SQUARE`. Every edge of the drawing sits exactly on the box.
+
+**The drawing:**
+- **Tap:** an 8-wide bent pipe at the upper left, with a rounded outer bend and a flat spout bottom.
+- **Water:** two vertical strokes directly under the two spout walls.
+- **Hand:** an open palm line, with the fingertips curled up at the left and the arm leaving at the right edge. A small hook at the right is the thumb, with its tip pointing toward the wrist. As the brief asked, there are no finger lines.
+
+**Metric issues:**
+- **Tap too close to the water (3.0 apart):** fixed; the water now starts 9 below the spout.
+- **The two water strokes 3.4 apart:** fixed; they are now 8 apart.
+- **Water too close to the hand (3.9–5.7):** fixed. The hand is open under the water, so only the palm line is below it, 9 away. The fingertip and thumb sit 9 to either side.
+- **Parts of the hand too close to each other:** fixed; the hand is now two open lines whose runs are 8 or 9 apart.
+- **Height only 87% filled on `SQUARE`:** fixed; the drawing now fills the full height.
+- **Trace stroke 2.4:** redrawn at stroke 4, and every gap was measured again.
+- Gaps next to curved parts are 9 rather than 8, because the checker flags a curved pair at exactly 8 for review.
+
+**Dropped:** the knuckle hump, the upper finger edge and the wavy lower edge. There is no room for them at the required spacing.
+
+**References:** Lucide's `hand-helping` and `hand-coins`, mirrored, for the thumb shape and the palm line with a curled fingertip. Lucide has no faucet, so the tap follows the generated image.
+
+Nothing was registered in `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1537-hand-under-running-water/`:
+- `hand_under_running_water_redraw.py`
+- `hand-under-running-water_redraw.svg`
+- `hand-under-running-water_redraw.png`
+- `hand-under-running-water_redraw-48.png`
+
+[15:48:20] === success in 555s, $1.89 ===
+I redrew the hand under running water as a Solo48 model. It passes the checks, but at 48 px the hand reads weakly. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. I looked at it at native 48 px on light and dark backgrounds.
+
+**The weak spot:** the tap and the water read clearly, but the hand looks more like a tray with a "C" than a cupped hand. The icon is only 36 units tall. The tap, a 9-unit gap, the water, another 9-unit gap and the palm line use all of it, and the 8–9 unit spacing uses all 36 units across. That leaves no room for a finger band or a knuckle hump. I tried two alternatives and rejected both: closing the hand at the wrist made it look like a box, and an upright thumb read as the letter "n". If the hand needs to read better, the options are dropping one water stroke to free room for a proper finger band, or reducing the water to short drops.
+
+**Keyshape:** I used the suggested `SQUARE`. Every edge of the drawing sits exactly on the box.
+
+**The drawing:**
+- **Tap:** an 8-wide bent pipe at the upper left, with a rounded outer bend and a flat spout bottom.
+- **Water:** two vertical strokes directly under the two spout walls.
+- **Hand:** an open palm line, with the fingertips curled up at the left and the arm leaving at the right edge. A small hook at the right is the thumb, with its tip pointing toward the wrist. As the brief asked, there are no finger lines.
+
+**Metric issues:**
+- **Tap too close to the water (3.0 apart):** fixed; the water now starts 9 below the spout.
+- **The two water strokes 3.4 apart:** fixed; they are now 8 apart.
+- **Water too close to the hand (3.9–5.7):** fixed. The hand is open under the water, so only the palm line is below it, 9 away. The fingertip and thumb sit 9 to either side.
+- **Parts of the hand too close to each other:** fixed; the hand is now two open lines whose runs are 8 or 9 apart.
+- **Height only 87% filled on `SQUARE`:** fixed; the drawing now fills the full height.
+- **Trace stroke 2.4:** redrawn at stroke 4, and every gap was measured again.
+- Gaps next to curved parts are 9 rather than 8, because the checker flags a curved pair at exactly 8 for review.
+
+**Dropped:** the knuckle hump, the upper finger edge and the wavy lower edge. There is no room for them at the required spacing.
+
+**References:** Lucide's `hand-helping` and `hand-coins`, mirrored, for the thumb shape and the palm line with a curled fingertip. Lucide has no faucet, so the tap follows the generated image.
+
+Nothing was registered in `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1537-hand-under-running-water/`:
+- `hand_under_running_water_redraw.py`
+- `hand-under-running-water_redraw.svg`
+- `hand-under-running-water_redraw.png`
+- `hand-under-running-water_redraw-48.png`

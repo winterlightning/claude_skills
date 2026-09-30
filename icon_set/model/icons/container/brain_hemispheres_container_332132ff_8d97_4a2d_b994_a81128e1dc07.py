@@ -12,39 +12,56 @@ to mask that seam behind a child, as the source chip composition does.
 SQUARE preserves the broad top-view silhouette. Lucide brain informed shared
 seam and attached fold construction; the source owns the four-lobe silhouette.
 Human bust references are not applicable to this isolated organ.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (brain-hemispheres-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
+
 SOURCE_ICON_ID = '332132ff-8d97-4a2d-b994-a81128e1dc07'
 SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/brain_332132ff-8d97-4a2d-b994-a81128e1dc07.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class BrainHemispheresContainer(Container64):
     icon_id = 'brain-hemispheres-container'
+    keyshape = Keyshape.SQUARE
     category = 'artificial-intelligence'
     categories = ('artificial-intelligence', 'primitives')
-    keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('brain', 'hemispheres', 'container')
 
-    def build(self):
-        # One shared central fissure; broad mirrored lobes own all fold nodes.
-        self.add_line('fissure', (32, 14), (32, 54))
-        for side in (-1, 1):
-            def p(x, y): return (32 + side*x, y)
-            sw = side == 1
-            outline = f'hemisphere-{side}'
-            path(self, outline, p(0,14), [
-                ('A',p(20,14),10,12,sw),
-                ('A',p(20,38),10,12,sw),
-                ('A',p(16,54),8,8,sw),
-                ('A',p(0,54),8,8,sw),
-            ])
-            self.relate('connect', 'fissure', outline)
-            path(self,f'fold-top-{side}',p(20,14),[('A',p(12,22),8,8,sw)])
-            path(self,f'fold-middle-{side}',p(20,38),[('A',p(12,36),8,8,sw)])
-            path(self,f'fold-bottom-{side}',p(16,54),[('A',p(12,46),8,8,sw)])
-            for name in ('top','middle','bottom'):
-                self.relate('connect',outline,f'fold-{name}-{side}')
-        self.relate('connect','hemisphere--1','hemisphere-1')
+    def build(self) -> None:
+        self.add_line('fissure', (32, 15), (33, 52))
+        self.add_arc('hemisphere--1-0', (32, 15), (16, 15), radius_x=8, radius_y=9, sweep=False)
+        self.add_arc('hemisphere--1-1', (16, 15), (16, 37), radius_x=10, radius_y=11, sweep=False)
+        self.add_arc('hemisphere--1-2', (16, 37), (21, 52), radius_x=8, sweep=False)
+        self.add_arc('hemisphere--1-3', (21, 52), (33, 52), radius_x=6, sweep=False)
+        self.add_arc('fold-top--1-0', (16, 15), (24, 23), radius_x=8, sweep=False)
+        self.add_arc('fold-middle--1-0', (16, 37), (24, 35), radius_x=15, sweep=False)
+        self.add_arc('fold-bottom--1-0', (21, 52), (24, 45), radius_x=9, sweep=False)
+        self.add_arc('hemisphere-1-0', (32, 15), (48, 15), radius_x=8, radius_y=9)
+        self.add_arc('hemisphere-1-1', (48, 15), (48, 37), radius_x=10, radius_y=11)
+        self.add_arc('hemisphere-1-2', (48, 37), (43, 52), radius_x=8)
+        self.add_arc('hemisphere-1-3', (43, 52), (33, 52), radius_x=6)
+        self.add_arc('fold-top-1-0', (48, 15), (40, 23), radius_x=8)
+        self.add_arc('fold-middle-1-0', (48, 37), (40, 35), radius_x=15)
+        self.add_arc('fold-bottom-1-0', (43, 52), (40, 45), radius_x=9)
+        self.add_contour('hemisphere--1', 'hemisphere--1-0', 'hemisphere--1-1', 'hemisphere--1-2', 'hemisphere--1-3')
+        self.add_contour('fold-top--1', 'fold-top--1-0')
+        self.add_contour('fold-middle--1', 'fold-middle--1-0')
+        self.add_contour('fold-bottom--1', 'fold-bottom--1-0')
+        self.add_contour('hemisphere-1', 'hemisphere-1-0', 'hemisphere-1-1', 'hemisphere-1-2', 'hemisphere-1-3')
+        self.add_contour('fold-top-1', 'fold-top-1-0')
+        self.add_contour('fold-middle-1', 'fold-middle-1-0')
+        self.add_contour('fold-bottom-1', 'fold-bottom-1-0')
+        self.relate('connect', 'fissure', 'hemisphere--1')
+        self.relate('connect', 'hemisphere--1', 'fold-top--1')
+        self.relate('connect', 'hemisphere--1', 'fold-middle--1')
+        self.relate('connect', 'hemisphere--1', 'fold-bottom--1')
+        self.relate('connect', 'fissure', 'hemisphere-1')
+        self.relate('connect', 'hemisphere-1', 'fold-top-1')
+        self.relate('connect', 'hemisphere-1', 'fold-middle-1')
+        self.relate('connect', 'hemisphere-1', 'fold-bottom-1')
+        self.relate('connect', 'hemisphere--1', 'hemisphere-1')

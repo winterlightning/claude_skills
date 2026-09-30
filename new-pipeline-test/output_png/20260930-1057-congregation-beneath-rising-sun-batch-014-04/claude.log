@@ -1,0 +1,105 @@
+[11:01:51] > Bash: cd new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04 && ls && cat *_metrics.json | head -c 6000; echo; cat *_fitted.svg...
+[11:01:51] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/congregation-bene...
+[11:02:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && python3 -c " import json;m=json.load(open('20260930-1057-congregation-...
+[11:02:51] > Bash: cat 20260930-1053-conductor-with-raised-baton/conductor_with_raised_baton_redraw.py; ls 20260930-1053-conductor-with-raised-baton/; grep -rl "two-people\|use...
+[11:03:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && cat new-pipeline-test/output_png/20260930-1053-conductor-with-raised-baton/claude.log | tail -40; c...
+[11:03:57] > Bash: grep -n -i -A12 "redraw" new-pipeline-test/process.md | head -80; cat icon_set/model/icons/solo/two_user_profiles_e5a4ad79_c26e_47fd_b9ee_41daa531ad17.py | h...
+[11:05:19] Inputs read. The full stack (ray, sun, heads, shoulders) is taller than any keyshape allows with 8-unit gaps, so I'm planning the layout before I write the model.
+[11:05:20] > Bash: grep -n "def mark_human_figure" -A40 icon_set/model/*.py icon_set/model/**/*.py | head -60; grep -n -i "bust\|shoulder" icon_set/skills/icon-design/human-ref...
+[11:05:29] > Bash: sed -n 95,130p icon_set/skills/icon-design/human-reference.md; grep -rn "def mark_human_figure" -A30 icon_set/model | head -45
+[11:05:40] > Bash: grep -n " def [a-z]" icon_set/model/icons/base.py | head -60; ls /tmp/*.py 2>/dev/null | head
+[11:05:42] Now writing the model.
+[11:06:00] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/congregation_bene...
+[11:06:07] > Bash: D=new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04 && cat > /tmp/cong_run.py <<EOF import importlib.util, sys, subproc...
+[11:06:15] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/congregation-bene...
+[11:06:17] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image a=Image.open('/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_pn...
+[11:06:28] Valid on the first pass. The semicircle shoulders look thin next to the traced ones, so I'm also rendering a flat-topped shoulder variant to compare.
+[11:06:34] > Bash: D=new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04 && cp $D/congregation_beneath_rising_sun_batch_014_04_redraw.py /tm...
+[11:06:42] > Read: /tmp/cong_cmp.png
+[11:06:57] Both pass, but the heads look bigger than the shoulders because VRECT_L is only 32 wide. Next I'm trying the suggested SQUARE keyshape, which gives wider shoulders and a smaller sun.
+[11:07:06] > Bash: cat > /tmp/cong_v3.py <<'EOF' from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Solo48 AXIS=24 class V3(Solo48): icon...
+[11:07:12] > Read: /tmp/cong_cmp2.png
+[11:07:21] The third option (SQUARE, shoulder corners r5) looks most like busts. It leaves room to widen the sun, so I'm testing a flatter half-ellipse sun.
+[11:07:22] > Bash: grep -n "def add_arc" -A16 icon_set/model/icons/base.py | head -20
+[11:07:31] > Bash: /opt/homebrew/bin/python3 - <<'EOF' import importlib.util, sys, cairosvg sys.path.insert(0,'.') spec=importlib.util.spec_from_file_location("m","/tmp/cong_v3...
+[11:07:36] > Read: /tmp/cong_cmp3.png
+[11:07:45] I'm going with SQUARE, a sun 12 wide and 5 tall, and shoulders built from r5 corners with a flat top. Now rewriting the final module.
+[11:08:04] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/congregation_bene...
+[11:08:08] > Bash: /opt/homebrew/bin/python3 /tmp/cong_run.py && D=new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04 && cat $D/*_redraw.sv...
+[11:08:09] > Read: /tmp/cong_both.png
+[11:08:26] I redrew the congregation icon as a Solo48 model and it passes validation (`valid`, no warnings). I checked it at 48 px on both light and dark backgrounds.
+
+**Drawing:** two people from the shoulders up (circle heads over rounded, open-bottomed shoulders) under a half-sun. It uses `SQUARE`, the keyshape the metrics suggested, and every edge is reached exactly:
+- **Top (y=6):** the top of the sun.
+- **Bottom (y=42):** the shoulder feet.
+- **Left and right (x=6 and x=42):** the outer shoulder feet.
+
+The layout is mirrored about x=24 and the two figures are copies of one definition. Nothing is copied from the trace.
+
+**Metric issues fixed:**
+- **Heads too close to shoulders (e2–e5, e3–e4, 2.2 apart):** now exactly 8 on centerlines, a 4-unit visible gap. The saved SVG confirms it: head bottom at y=29, shoulder top at y=37.
+- **Holes inside the heads (4.6 wide, need 6):** head radius set to 5, which gives 6.
+- **Sun too close to the heads (e1–e2, e1–e3, 4.3 apart):** the sun is narrower and sits at the top edge; it is now 8.93 from each head.
+- **Shoulders too close to each other (e4–e5, 5.5 apart):** the inner shoulder feet are now exactly 8 apart (x=20 and x=28).
+- **No head found (warning):** the heads are true circles, and each figure is marked as a person with `mark_human_figure`.
+- **Stroke width (info):** everything is drawn at stroke 4, with the gaps sized for it.
+
+**Not fixed:**
+- **Ray too close to the sun (e0–e1):** I removed the short ray above the sun. Stacked top to bottom, ray + gap + sun + gap + head + gap + shoulders needs more height than any keyshape has (36 on `SQUARE`, 40 on the tallest). The parts can't sit side by side instead, because the heads are directly under the ends of the sun. The half-sun on its own still reads as a rising sun.
+- **Brief asked for six strokes:** the drawing has five as a result.
+
+**Alternatives I tried (all passed):**
+- **`VRECT_L` with a bigger sun (radius 8):** the shoulders were only 12 wide, so the heads looked too big for them.
+- **`SQUARE` with a round sun of radius 5:** the sun was too small.
+- **`SQUARE` with a wider, flatter sun:** it read as a lid.
+
+I kept the 12-wide, 5-tall sun as the best balance.
+
+**References:** `icon_set/references/human_ref/user.svg` for the proportions (round head, broad shoulders with a short flat top, open bottom, 4-unit head gap). Lucide `users`/`user` shaped the head-over-shoulders construction.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/`, with the requested source ID, source path and `AUTHOR = "claude-opus-5-5"`):
+- `congregation_beneath_rising_sun_batch_014_04_redraw.py`
+- `congregation-beneath-rising-sun-batch-014-04_redraw.svg`
+- `congregation-beneath-rising-sun-batch-014-04_redraw.png` (512 px)
+- `congregation-beneath-rising-sun-batch-014-04_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.
+
+[11:08:26] === success in 402s, $1.25 ===
+I redrew the congregation icon as a Solo48 model and it passes validation (`valid`, no warnings). I checked it at 48 px on both light and dark backgrounds.
+
+**Drawing:** two people from the shoulders up (circle heads over rounded, open-bottomed shoulders) under a half-sun. It uses `SQUARE`, the keyshape the metrics suggested, and every edge is reached exactly:
+- **Top (y=6):** the top of the sun.
+- **Bottom (y=42):** the shoulder feet.
+- **Left and right (x=6 and x=42):** the outer shoulder feet.
+
+The layout is mirrored about x=24 and the two figures are copies of one definition. Nothing is copied from the trace.
+
+**Metric issues fixed:**
+- **Heads too close to shoulders (e2–e5, e3–e4, 2.2 apart):** now exactly 8 on centerlines, a 4-unit visible gap. The saved SVG confirms it: head bottom at y=29, shoulder top at y=37.
+- **Holes inside the heads (4.6 wide, need 6):** head radius set to 5, which gives 6.
+- **Sun too close to the heads (e1–e2, e1–e3, 4.3 apart):** the sun is narrower and sits at the top edge; it is now 8.93 from each head.
+- **Shoulders too close to each other (e4–e5, 5.5 apart):** the inner shoulder feet are now exactly 8 apart (x=20 and x=28).
+- **No head found (warning):** the heads are true circles, and each figure is marked as a person with `mark_human_figure`.
+- **Stroke width (info):** everything is drawn at stroke 4, with the gaps sized for it.
+
+**Not fixed:**
+- **Ray too close to the sun (e0–e1):** I removed the short ray above the sun. Stacked top to bottom, ray + gap + sun + gap + head + gap + shoulders needs more height than any keyshape has (36 on `SQUARE`, 40 on the tallest). The parts can't sit side by side instead, because the heads are directly under the ends of the sun. The half-sun on its own still reads as a rising sun.
+- **Brief asked for six strokes:** the drawing has five as a result.
+
+**Alternatives I tried (all passed):**
+- **`VRECT_L` with a bigger sun (radius 8):** the shoulders were only 12 wide, so the heads looked too big for them.
+- **`SQUARE` with a round sun of radius 5:** the sun was too small.
+- **`SQUARE` with a wider, flatter sun:** it read as a lid.
+
+I kept the 12-wide, 5-tall sun as the best balance.
+
+**References:** `icon_set/references/human_ref/user.svg` for the proportions (round head, broad shoulders with a short flat top, open bottom, 4-unit head gap). Lucide `users`/`user` shaped the head-over-shoulders construction.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1057-congregation-beneath-rising-sun-batch-014-04/`, with the requested source ID, source path and `AUTHOR = "claude-opus-5-5"`):
+- `congregation_beneath_rising_sun_batch_014_04_redraw.py`
+- `congregation-beneath-rising-sun-batch-014-04_redraw.svg`
+- `congregation-beneath-rising-sun-batch-014-04_redraw.png` (512 px)
+- `congregation-beneath-rising-sun-batch-014-04_redraw-48.png`
+
+Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.

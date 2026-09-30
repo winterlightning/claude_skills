@@ -1,0 +1,75 @@
+[11:01:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1056-croissant-batch-011-10; ls $D; cat $D/croissant-batch-01...
+[11:02:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1056-croissant-batch-011-10; python3 -c " import json;m=json....
+[11:02:49] Let me look at the image and an existing redraw script for the conventions.
+[11:02:50] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/croissant-batch-011-10.png
+[11:02:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; ls -t */*_redraw.py | head -3; f=$(ls -t */*_redraw.py | head -1); cat $...
+[11:03:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1053-croissant-and-coffee/croissant_and_coffee_redraw.py | ...
+[11:03:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -B3 -A12 "redraw-48\|redraw.svg\|_redraw" run_pipeline.sh | head -80
+[11:03:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/solo/_base.py | head; grep -rn "def to_svg\|def render_svg\|def s...
+[11:03:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def .*svg" icon_set/model/ --include=*.py | head -20
+[11:03:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def [a-z_]*svg" icon_set/model | grep -v pycache | head -20
+[11:04:27] Reading done; the plan is to rebuild the croissant on HRECT_M, with a 3-4-5 dome arc, mirrored lobes, an inner arch and two seams, and then validate it.
+[11:04:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,60p icon_set/skills/icon-design/authoring.md | head -5; grep -n "def add_bezier\|def add_arc...
+[11:04:52] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/croissant_batch_011_10_redraw.py
+[11:05:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10; /opt/homebrew/bin/python3 - <<'EOF'...
+[11:05:10] That last replacement was sloppy; cleaning it up.
+[11:05:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10; /opt/homebrew/bin/python3 - <<'EOF'...
+[11:05:22] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/croissant-batch-011-10_redraw.png
+[11:05:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c " import sys; exec(open('/tmp/croissant_render.py').read().split('r = ic...
+[11:05:31] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/croissant-batch-011-10_redraw-48.png
+[11:05:41] The croissant is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**.
+
+**Subject and keyshape:** a front-view croissant: a wide crescent with two tips curling down and two curved seams that split the middle from the side lobes. I used the suggested `HRECT_M` (centerline box 4,10 to 44,38), since the subject is about 1.7 times wider than it is tall.
+
+**Construction** (mirrored about x 24, all on the integer grid, no trace coordinates):
+- **Dome:** an arc about (24,25) with radius 15. It meets the seams at (12,16) and (36,16), and its top at (24,10) is the upper extreme.
+- **Lobes:** curves that continue smoothly from the dome, reach their widest at x 4 and x 44, and end in tips at (8,38) and (40,38).
+- **Inner edge:** runs from each tip up to the seam foot at (17,29) or (31,29), then over a shallow arch peaking at (24,28).
+- **Seams:** two curves bowing toward the centre, each starting and ending on the outline and declared connected to it.
+- **Lucide reference:** its `croissant` icon gave the idea of splitting the pastry into seam cells. I kept the image's symmetric front view rather than Lucide's diagonal one.
+
+**Metric issues:**
+- **stroke-width (info):** fixed. The icon is redrawn at stroke 4, and each cell was sized so the side-lobe gaps stay open at that weight.
+- **keyshape-short-axis (warn, y filled 86%):** fixed. The dome top sits on y 10, the tips on y 38 and the lobes on x 4 and x 44, so all four extremes are exactly on the box.
+- None left unrepaired.
+
+**Dropped:** the small inward hooks at the traced tips. They fill in at 48 px, so the tips are now plain rounded points.
+
+At 512 px and at 48 px it reads clearly as a croissant. I didn't re-run `svg_metrics.py` on the redraw, because it would have written extra files into the run folder.
+
+These files are in `new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/`:
+- croissant_batch_011_10_redraw.py
+- croissant-batch-011-10_redraw.svg
+- croissant-batch-011-10_redraw.png
+- croissant-batch-011-10_redraw-48.png
+
+The module is not registered, `published/` is untouched, and no build was run.
+
+[11:05:42] === success in 242s, $0.83 ===
+The croissant is redrawn as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**.
+
+**Subject and keyshape:** a front-view croissant: a wide crescent with two tips curling down and two curved seams that split the middle from the side lobes. I used the suggested `HRECT_M` (centerline box 4,10 to 44,38), since the subject is about 1.7 times wider than it is tall.
+
+**Construction** (mirrored about x 24, all on the integer grid, no trace coordinates):
+- **Dome:** an arc about (24,25) with radius 15. It meets the seams at (12,16) and (36,16), and its top at (24,10) is the upper extreme.
+- **Lobes:** curves that continue smoothly from the dome, reach their widest at x 4 and x 44, and end in tips at (8,38) and (40,38).
+- **Inner edge:** runs from each tip up to the seam foot at (17,29) or (31,29), then over a shallow arch peaking at (24,28).
+- **Seams:** two curves bowing toward the centre, each starting and ending on the outline and declared connected to it.
+- **Lucide reference:** its `croissant` icon gave the idea of splitting the pastry into seam cells. I kept the image's symmetric front view rather than Lucide's diagonal one.
+
+**Metric issues:**
+- **stroke-width (info):** fixed. The icon is redrawn at stroke 4, and each cell was sized so the side-lobe gaps stay open at that weight.
+- **keyshape-short-axis (warn, y filled 86%):** fixed. The dome top sits on y 10, the tips on y 38 and the lobes on x 4 and x 44, so all four extremes are exactly on the box.
+- None left unrepaired.
+
+**Dropped:** the small inward hooks at the traced tips. They fill in at 48 px, so the tips are now plain rounded points.
+
+At 512 px and at 48 px it reads clearly as a croissant. I didn't re-run `svg_metrics.py` on the redraw, because it would have written extra files into the run folder.
+
+These files are in `new-pipeline-test/output_png/20260930-1056-croissant-batch-011-10/`:
+- croissant_batch_011_10_redraw.py
+- croissant-batch-011-10_redraw.svg
+- croissant-batch-011-10_redraw.png
+- croissant-batch-011-10_redraw-48.png
+
+The module is not registered, `published/` is untouched, and no build was run.

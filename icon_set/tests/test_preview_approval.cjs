@@ -18,8 +18,14 @@ async function main(){
   context.fetch=async url=>({ok:!url.includes('reviews'),json:async()=>catalog});
   await assert.rejects(context.window.loadApprovedPreviewIcons());
   const requests=[];
-  context.fetch=async(url,options)=>{requests.push({url,options});return{ok:true,json:async()=>url.includes('reviews')?statuses:catalog};};
-  assert.equal((await context.window.loadApprovedPreviewIcons()).length,1);
+  context.fetch=async(url,options)=>{requests.push({url,options});return url.includes('combination')?{ok:false,status:404}:{ok:true,json:async()=>url.includes('reviews')?statuses:catalog};};
+  assert.equal((await context.window.loadApprovedPreviewIcons()).length,1,'Missing combination libraries leave the approved icons');
+  assert.ok(requests.every(r=>r.options.cache==='no-store'));
+  const combos={'preview-combination-icons.json':{icons:[{family:'combination',icon_id:'side'}]},'preview-container-combination-icons.json':{icons:[{family:'container_combination',icon_id:'pair'}]}};
+  const unhappy=context.fetch;
+  context.fetch=async(url,options)=>combos[url]?{ok:true,json:async()=>combos[url]}:unhappy(url,options);
+  assert.deepEqual(Array.from(await context.window.loadApprovedPreviewIcons(),i=>i.family+'/'+i.icon_id),['solo/yes','combination/side','container_combination/pair'],'Side and container combinations are appended');
+  context.fetch=unhappy;
   assert.ok(requests.every(r=>r.options.cache==='no-store'));
   statuses['solo/yes']='pending';
   assert.equal((await context.window.loadApprovedPreviewIcons()).length,0,'Revoked approval is excluded on the next check');

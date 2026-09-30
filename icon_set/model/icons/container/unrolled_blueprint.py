@@ -35,62 +35,32 @@ Hosting, remeasured for batch 17 with compose.py: plus, heart and check
 all fail clearance. The seam at x=48 limits the usable interior. Earlier
 hosting notes described an older seam position; the current measurements
 are recorded in container_icons/work/batch_17_review/hosting.json.
-"""
 
-from __future__ import annotations
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (unrolled-blueprint SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+"""
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class UnrolledBlueprintContainer(Container64):
-    icon_id = "unrolled-blueprint"
+    icon_id = 'unrolled-blueprint'
     keyshape = Keyshape.SQUARE
-    aliases = ("unrolled-architectural-blueprint", "blueprint", "rolled-blueprint", "architectural-blueprint", "plan-drawing", "partially-unrolled-paper-scroll")
-    keywords = (
-        "blueprint", "roll", "rolled", "paper", "document", "plan", "drawing",
-        "draft", "architecture", "scroll", "sheet", "schematic",
-    )
+    aliases = ('unrolled-architectural-blueprint', 'blueprint', 'rolled-blueprint', 'architectural-blueprint', 'plan-drawing', 'partially-unrolled-paper-scroll')
+    keywords = ('blueprint', 'roll', 'rolled', 'paper', 'document', 'plan', 'drawing', 'draft', 'architecture', 'scroll', 'sheet', 'schematic')
 
     def build(self) -> None:
-        # SQUARE-64 is (0, 0)-(64, 64) visible, (2, 2)-(62, 62) centerline. The
-        # four extremes are reached by four different elements: the sheet's
-        # left edge at x 6, the dome's apex at y 6, the band's right wall at
-        # x 58, and the sheet's bottom edge at y 58.
-        #
-        # Horizontally the reference gives the rolled band a fifth of the
-        # width. A fifth of 52 is 10.4; 12 is the nearest value that leaves
-        # the band 8 units of interior white at stroke 4, so the seam stands
-        # at x 46 and the right wall at x 58.
-        #
-        # The closed roll loop, traversed from the crest clockwise. Dome,
-        # right wall, curl down to the free end, tuck back, seam back up.
-        self.add_arc("roll-cap", (48, 11), (62, 11), radius_x=7, radius_y=9)
-        self.add_line("roll-right", (62, 11), (62, 50))
-        self.add_arc("roll-curl", (62, 50), (57, 62), radius_x=5, radius_y=12)
-        self.add_line("roll-tuck", (57, 62), (48, 53))
-        self.add_line("roll-seam", (48, 53), (48, 11))
-        self.add_contour(
-            "roll",
-            "roll-cap", "roll-right", "roll-curl", "roll-tuck", "roll-seam",
-            closed=True,
-        )
-        # The dome's centre is (55, 11) and the curl's is (57, 50), both on the
-        # grid, so the dome is vertical where it leaves the seam and where it
-        # meets the right wall, and the curl is vertical where the right wall
-        # hands over to it. No kink on the rolled edge anywhere.
-        #
-        # The flat sheet is an open C that starts and ends on the roll: along
-        # the top to the left edge, down, and back along the bottom to the
-        # free end of the roll. Its bottom edge arrives at (57, 62) horizontal
-        # and the curl leaves it horizontal, so that junction is smooth too.
-        self.add_line("sheet-top", (48, 11), (2, 11))
-        self.add_line("sheet-left", (2, 11), (2, 62))
-        self.add_line("sheet-bottom", (2, 62), (57, 62))
-        self.add_contour("sheet", "sheet-top", "sheet-left", "sheet-bottom")
-
-        # Two genuine shared endpoints: (48, 11) and (57, 62). Scoped to this
-        # pair, which is the only pair the drawing has.
-        self.relate("connect", "sheet", "roll")
+        self.add_arc('roll-cap-a', (45, 14), (52, 6), radius_x=7, radius_y=8)
+        self.add_arc('roll-cap-b', (52, 6), (58, 14), radius_x=8, radius_y=9)
+        self.add_line('roll-right', (58, 14), (58, 47))
+        self.add_arc('roll-curl', (58, 47), (53, 58), radius_x=5, radius_y=11)
+        self.add_line('roll-tuck', (53, 58), (45, 50))
+        self.add_line('roll-seam', (45, 50), (45, 14))
+        self.add_line('sheet-top', (45, 14), (6, 14))
+        self.add_line('sheet-left', (6, 14), (6, 58))
+        self.add_line('sheet-bottom', (6, 58), (53, 58))
+        self.add_contour('roll', 'roll-cap-a', 'roll-cap-b', 'roll-right', 'roll-curl', 'roll-tuck', 'roll-seam', closed=True)
+        self.add_contour('sheet', 'sheet-top', 'sheet-left', 'sheet-bottom')
+        self.relate('connect', 'sheet', 'roll')

@@ -2,36 +2,44 @@
 Hosting probes using plus-sign-state-131, heart-state-63, check-mark: invalid, review, invalid. Full content occupies the slot; see batch hosting report.
 Whole subject explicitly authorized by user; preserve saved family.
 Keyshape: VRECT_XL; fine source details simplified only for native readability.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (landscape-picture-media-file VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
-from ._base import Container64
+
 from ...keyshapes import Keyshape
+from ._base import Container64
+
 SOURCE_ICON_ID = '41f3ad63-cd17-441d-b26d-945da63c6f7c'
 SOURCE_PATH = 'pictographic-primitives/files/image file_41f3ad63-cd17-441d-b26d-945da63c6f7c.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'claude-opus-5-5'
 
-def page(icon, prefix, left, top, right, bottom, cut=10, radius=3):
-    pts=[(left+radius,top),(right-cut,top),(right,top+cut),(right,bottom-radius)]
-    for j,(a,b) in enumerate(zip(pts,pts[1:]),1):
-        icon.add_line(prefix+"-upper-"+str(j),a,b)
-    icon.add_arc(prefix+"-br",pts[-1],(right-radius,bottom),radius_x=radius)
-    icon.add_line(prefix+"-bottom",(right-radius,bottom),(left+radius,bottom))
-    icon.add_arc(prefix+"-bl",(left+radius,bottom),(left,bottom-radius),radius_x=radius)
-    icon.add_line(prefix+"-left",(left,bottom-radius),(left,top+radius))
-    icon.add_arc(prefix+"-tl",(left,top+radius),pts[0],radius_x=radius)
-    icon.add_contour(prefix,prefix+"-upper-1",prefix+"-upper-2",prefix+"-upper-3",prefix+"-br",prefix+"-bottom",prefix+"-bl",prefix+"-left",prefix+"-tl",closed=True)
 
 class Icon(Container64):
     icon_id = 'landscape-picture-media-file'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'files'
     categories = ('files', 'other', 'primitives-generate')
     aliases = ('Landscape Picture Media File',)
     keywords = ('landscape', 'picture', 'media', 'file')
-    def build(self):
-        page(self,"page",6,2,58,62,cut=16,radius=3)
-        self.add_arc("sun-top",(20,22),(30,22),radius_x=5)
-        self.add_arc("sun-bottom",(30,22),(20,22),radius_x=5)
-        self.add_contour("sun","sun-top","sun-bottom",closed=True)
-        self.add_polyline("mountains",(16,52),(25,38),(31,44),(40,32),(49,52),closed=True)
+
+    def build(self) -> None:
+        self.add_line('page-upper-1', (12, 4), (41, 4))
+        self.add_line('page-upper-2', (41, 4), (54, 18))
+        self.add_line('page-upper-3', (54, 18), (54, 57))
+        self.add_arc('page-br', (54, 57), (52, 60), radius_x=2, radius_y=3)
+        self.add_line('page-bottom', (52, 60), (12, 60))
+        self.add_arc('page-bl', (12, 60), (10, 57), radius_x=2, radius_y=3)
+        self.add_line('page-left', (10, 57), (10, 7))
+        self.add_arc('page-tl', (10, 7), (12, 4), radius_x=2, radius_y=3)
+        self.add_arc('sun-top', (21, 22), (31, 22), radius_x=5)
+        self.add_arc('sun-bottom', (31, 22), (21, 22), radius_x=5)
+        self.add_line('mountains-1', (18, 51), (26, 38))
+        self.add_line('mountains-2', (26, 38), (31, 44))
+        self.add_line('mountains-3', (31, 44), (39, 32))
+        self.add_line('mountains-4', (39, 32), (47, 51))
+        self.add_line('mountains-5', (47, 51), (18, 51))
+        self.add_contour('page', 'page-upper-1', 'page-upper-2', 'page-upper-3', 'page-br', 'page-bottom', 'page-bl', 'page-left', 'page-tl', closed=True)
+        self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
+        self.add_contour('mountains', 'mountains-1', 'mountains-2', 'mountains-3', 'mountains-4', 'mountains-5', closed=True)

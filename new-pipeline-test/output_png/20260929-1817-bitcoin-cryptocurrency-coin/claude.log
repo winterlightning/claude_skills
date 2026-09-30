@@ -1,0 +1,87 @@
+[18:19:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; D=20260929-1817-bitcoin-cryptocurrency-coin; ls $D; cat $D/*_metrics.jso...
+[18:19:10] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin-cryptocurrency-coin.png
+[18:19:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; D=20260929-1817-bitcoin-cryptocurrency-coin; python3 -c " import json;m=...
+[18:19:45] Let me see a recent redraw script for the rendering/output conventions, and check for existing bitcoin icons and typeface guidance.
+[18:19:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1815-arrow-turn-right/arrow_turn_right_redraw.py; ls icon_s...
+[18:19:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/bitcoin_cryptocurrency_coin_8fbdf83e_7f75_5f64_b826_fc7b55c55a27.py; ls...
+[18:19:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1815-arrow-turn-right/claude.log | tail -20; grep -n "def \...
+[18:19:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def .*svg" icon_set/model --include='*.py' | grep -v "/icons/solo/[a-z]" | head; cat /tmp/a...
+[18:21:18] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat grid-unsafe-atoms.md solo48-build-gate-traps.md normal48-geometry-floo...
+[18:21:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "def validate_icon" icon_set/model | head; grep -n "grid\|hole\|inscribed" icon_set/skills/...
+[18:21:35] Prototyping the redraw now: coin ring (CIRCLE r20) plus a B on integer grid; the ring's 8-unit clearance leaves a radius-12 disk for the B and bars, so I'm testing how long the bars can be.
+[18:21:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin; cat > $D/bitcoin_cryptocurr...
+[18:22:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin; python3 - <<'EOF' p="new-pi...
+[18:22:11] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin-cryptocurrency-coin_redraw...
+[18:22:14] Valid, but the 1-unit bars read as bumps. Checking whether 2-unit bars can pass.
+[18:22:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin_cryptocurrency_coin_...
+[18:22:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin_cryptocurrency_coin_...
+[18:22:27] > Read: /tmp/btc48.png
+[18:22:28] > Read: /tmp/btc48d.png
+[18:22:31] Reads as a B coin at 48 px in both themes. Running the build-gate QA (hole check) against the module too.
+[18:22:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts/build_gate.py && /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help ...
+[18:22:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260929-1817-b...
+[18:22:47] Passes the build gate as well. Writing the docstring now.
+[18:22:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin_cryptocurrency_coin_...
+[18:23:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/bitcoin_cryptocurrency_coin_...
+[18:23:22] I've redrawn the Bitcoin coin as a Solo48 model. `validate_icon()` returns `valid` with 0 warnings, and `build_gate.py` passes with 0 errors and 0 warnings. One compromise: the four short stems above and below the B (the "bars") are only 1 unit long, so they show as small notches at 48 px rather than the long stems in the generated image.
+
+**Subject:** a coin ring with a Bitcoin "B" inside. It uses the suggested keyshape `CIRCLE` (fit 1.0 on both axes). The previous module for this source ID (`AUTHOR = 'gpt-6'`, 1-unit bars off the coin's centre line) was used for the concept only; no coordinates came from it or from the trace.
+
+**Construction, all on integer coordinates:**
+- **Ring:** radius 20 around (24,24).
+- **B:** the vertical stroke is at x=20. The top, middle and bottom edges are at y=14, 24 and 34. The two lobes are equal, radius 5, centred on x=28.
+- **Parts:** the upper counter is one closed shape. The lower counter is an open run from the middle back to the vertical stroke, and is declared as connected to the upper one.
+- **Bars:** two pairs 8 apart at x=20 and x=28, placed evenly either side of the coin's centre line. Each bar is connected to the B.
+- **Style:** it follows Lucide's `bitcoin` / `circle-dollar-sign` approach: the currency mark sits inside a plain ring with a full clearance band.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| stroke-width (info) | Redrawn at stroke 4, with every gap checked at 4 |
+| Bars 4.14 apart (e1/e2, e3/e4) | **Fixed:** bars are now 8 apart |
+| Bars 5.7–6.4 from the ring (e0 vs e1–e4) | **Fixed:** every bar end is at least 8 from the ring |
+| Hole 4.4 wide at [22.1, 18.8] | **Fixed:** each counter now leaves a 6-unit hole |
+| stroke-count 7 > 6 | **Not fixed:** it is still 7 parts (ring, two B shapes, four bars). The four bars are what make it a Bitcoin mark, and this count is a budget in the generation prompt, not something the validator checks. |
+
+**Why the bars are short:** the required gap inside the ring leaves a disk of radius 12 for the mark. The B needs 20 units of height to give both counters their 6-unit holes. That leaves room for bars only 1 unit beyond the B; at 2 units the top-left bar is 7.35 from the ring, and the validator rejects it (it needs 8). At 48 px it reads as a B in a coin in both light and dark themes.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/`:
+- `bitcoin_cryptocurrency_coin_redraw.py`
+- `bitcoin-cryptocurrency-coin_redraw.svg`
+- `bitcoin-cryptocurrency-coin_redraw.png`
+- `bitcoin-cryptocurrency-coin_redraw-48.png`
+
+[18:23:22] === success in 261s, $1.03 ===
+I've redrawn the Bitcoin coin as a Solo48 model. `validate_icon()` returns `valid` with 0 warnings, and `build_gate.py` passes with 0 errors and 0 warnings. One compromise: the four short stems above and below the B (the "bars") are only 1 unit long, so they show as small notches at 48 px rather than the long stems in the generated image.
+
+**Subject:** a coin ring with a Bitcoin "B" inside. It uses the suggested keyshape `CIRCLE` (fit 1.0 on both axes). The previous module for this source ID (`AUTHOR = 'gpt-6'`, 1-unit bars off the coin's centre line) was used for the concept only; no coordinates came from it or from the trace.
+
+**Construction, all on integer coordinates:**
+- **Ring:** radius 20 around (24,24).
+- **B:** the vertical stroke is at x=20. The top, middle and bottom edges are at y=14, 24 and 34. The two lobes are equal, radius 5, centred on x=28.
+- **Parts:** the upper counter is one closed shape. The lower counter is an open run from the middle back to the vertical stroke, and is declared as connected to the upper one.
+- **Bars:** two pairs 8 apart at x=20 and x=28, placed evenly either side of the coin's centre line. Each bar is connected to the B.
+- **Style:** it follows Lucide's `bitcoin` / `circle-dollar-sign` approach: the currency mark sits inside a plain ring with a full clearance band.
+
+**Metric issues:**
+
+| Issue | Result |
+|---|---|
+| stroke-width (info) | Redrawn at stroke 4, with every gap checked at 4 |
+| Bars 4.14 apart (e1/e2, e3/e4) | **Fixed:** bars are now 8 apart |
+| Bars 5.7–6.4 from the ring (e0 vs e1–e4) | **Fixed:** every bar end is at least 8 from the ring |
+| Hole 4.4 wide at [22.1, 18.8] | **Fixed:** each counter now leaves a 6-unit hole |
+| stroke-count 7 > 6 | **Not fixed:** it is still 7 parts (ring, two B shapes, four bars). The four bars are what make it a Bitcoin mark, and this count is a budget in the generation prompt, not something the validator checks. |
+
+**Why the bars are short:** the required gap inside the ring leaves a disk of radius 12 for the mark. The B needs 20 units of height to give both counters their 6-unit holes. That leaves room for bars only 1 unit beyond the B; at 2 units the top-left bar is 7.35 from the ring, and the validator rejects it (it needs 8). At 48 px it reads as a B in a coin in both light and dark themes.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-bitcoin-cryptocurrency-coin/`:
+- `bitcoin_cryptocurrency_coin_redraw.py`
+- `bitcoin-cryptocurrency-coin_redraw.svg`
+- `bitcoin-cryptocurrency-coin_redraw.png`
+- `bitcoin-cryptocurrency-coin_redraw-48.png`

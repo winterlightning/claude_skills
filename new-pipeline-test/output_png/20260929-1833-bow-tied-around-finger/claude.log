@@ -1,0 +1,84 @@
+[18:42:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; D=20260929-1833-bow-tied-around-finger; ls $D; cat $D/*_metrics.json | h...
+[18:42:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; D=20260929-1833-bow-tied-around-finger; python3 -c " import json;m=json....
+[18:42:53] Let me look at the generated image and the previous redraw example.
+[18:42:54] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/bow-tied-around-finger.png
+[18:42:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; f=$(ls -t */*_redraw.py | head -3); echo "$f"; cat $(echo "$f" | head -1...
+[18:43:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i -A25 "redraw" process.md | head -80; ls
+[18:43:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw" run_pipeline.sh | head -30; grep -n "redraw" output_png/2026092...
+[18:43:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "_redraw-48.png" new-pipeline-test/output_png/*/claude.log | head -3; grep -h -o -E "(cairos...
+[18:43:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|render\|svg\)" icon_set/model/*.py icon_set/model/icons/*.py | head; grep -o '...
+[18:44:48] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory; cat solo48-build-gate-traps.md normal48-geometry-floors.md | head -80
+[18:44:51] Drafting the bow-on-finger model now (VRECT_M; finger arch plus two teardrop loops meeting at a centre knot), then I'll validate it.
+[18:44:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i gate; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2...
+[18:45:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 106,124p icon_set/model/icons/base.py; sed -n 250,275p icon_set/model/icons/base.py
+[18:45:53] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/bow_tied_around_finger_redraw.py
+[18:46:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger; cat > /tmp/bowrender.py <<'EOF' ...
+[18:46:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger; PYTHONPATH=. /opt/homebrew/bin/p...
+[18:46:34] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/bow-tied-around-finger_redraw.png
+[18:46:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/bow-tied-around-finger_redraw-48.png
+[18:46:39] Model is valid and passes the build gate; now tuning the loop shape so the bow loops read fuller at 48 px.
+[18:46:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger; F=$D/bow_tied_around_finger_redr...
+[18:47:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/bow-tied-around-finger_redraw.png
+[18:47:05] The flatter ends read worse than the rounder first draft, so I'm going back to a reach of 5 and keeping the named constant.
+[18:47:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger; F=$D/bow_tied_around_finger_redr...
+[18:47:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger; mkdir -p /tmp/bowm; cp $D/bow-ti...
+[18:47:51] I redrew the bow-on-finger icon as a Solo48 model. It validates as `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. As asked, I did not register the module, touch `published/`, or run the build.
+
+**Subject:** an upright finger with a ribbon bow tied across it. The drawing is mirrored left to right.
+
+**Keyshape:** VRECT_M, as the metrics suggested. It now fills the box on both axes: the loop ends reach the sides and the fingertip and finger base reach the top and bottom.
+
+**Construction**
+- **Finger:** a rounded fingertip with straight sides. The sides stop at the bow's upper edge and start again from its lower edge, so the finger reads as passing behind the ribbon. Where the finger meets the bow, the lines share a point and the contact is declared.
+- **Bow:** two closed teardrop loops that meet in a point at the centre, which reads as the knot. Each loop is a straight edge from the knot plus one smooth curve around the round outer end. The knot is the only corner.
+- **Lucide:** I took the two loops meeting at a centre point from Lucide's `gift` bow. There was no local finger-with-bow match.
+
+**Metric issues**
+- **Fixed – clearances:** there were 23 clearance errors, from the fingertip, knot circle, loops, tails and lower finger sides sitting 1.7 to 7.7 units apart. None remain: parts either touch at a declared shared point or were removed.
+- **Fixed – holes:** the loop holes were 3.5 wide and the knot hole 1.1, against a minimum of 6. The loops now have about 6-wide holes, the fingertip hole is 8, and the knot hole is gone.
+- **Fixed – width:** the x axis filled only 86% of the box; it now fills it exactly.
+- **Fixed – stroke count:** down from 9 to 6 parts.
+- **Fixed – stroke width:** everything is drawn at stroke 4, with every gap sized for it.
+
+**Could not fix**
+- **Knot circle, dropped:** its hole would need a radius of at least 5, and a circle that size would swallow the finger.
+- **Ribbon tails, dropped:** outside the finger there is no room for a tail that stays 8 units from the finger side. Between the finger sides, a tail would be only 6 units from each. The bow still reads from the two loops and the knot.
+
+When I re-ran `svg_metrics.py` on the redraw, it reported 3 clearance errors, all where the two loops meet at the knot (0 and 7.2 units). That script does not know about declared contacts; the validator and build gate accept these joins. I also tried a flatter loop end, but it looked boxier, so I kept the rounder version.
+
+Files are in `new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/`:
+- `bow_tied_around_finger_redraw.py`
+- `bow-tied-around-finger_redraw.svg`
+- `bow-tied-around-finger_redraw.png`
+- `bow-tied-around-finger_redraw-48.png`
+
+[18:47:51] === success in 346s, $0.99 ===
+I redrew the bow-on-finger icon as a Solo48 model. It validates as `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. As asked, I did not register the module, touch `published/`, or run the build.
+
+**Subject:** an upright finger with a ribbon bow tied across it. The drawing is mirrored left to right.
+
+**Keyshape:** VRECT_M, as the metrics suggested. It now fills the box on both axes: the loop ends reach the sides and the fingertip and finger base reach the top and bottom.
+
+**Construction**
+- **Finger:** a rounded fingertip with straight sides. The sides stop at the bow's upper edge and start again from its lower edge, so the finger reads as passing behind the ribbon. Where the finger meets the bow, the lines share a point and the contact is declared.
+- **Bow:** two closed teardrop loops that meet in a point at the centre, which reads as the knot. Each loop is a straight edge from the knot plus one smooth curve around the round outer end. The knot is the only corner.
+- **Lucide:** I took the two loops meeting at a centre point from Lucide's `gift` bow. There was no local finger-with-bow match.
+
+**Metric issues**
+- **Fixed – clearances:** there were 23 clearance errors, from the fingertip, knot circle, loops, tails and lower finger sides sitting 1.7 to 7.7 units apart. None remain: parts either touch at a declared shared point or were removed.
+- **Fixed – holes:** the loop holes were 3.5 wide and the knot hole 1.1, against a minimum of 6. The loops now have about 6-wide holes, the fingertip hole is 8, and the knot hole is gone.
+- **Fixed – width:** the x axis filled only 86% of the box; it now fills it exactly.
+- **Fixed – stroke count:** down from 9 to 6 parts.
+- **Fixed – stroke width:** everything is drawn at stroke 4, with every gap sized for it.
+
+**Could not fix**
+- **Knot circle, dropped:** its hole would need a radius of at least 5, and a circle that size would swallow the finger.
+- **Ribbon tails, dropped:** outside the finger there is no room for a tail that stays 8 units from the finger side. Between the finger sides, a tail would be only 6 units from each. The bow still reads from the two loops and the knot.
+
+When I re-ran `svg_metrics.py` on the redraw, it reported 3 clearance errors, all where the two loops meet at the knot (0 and 7.2 units). That script does not know about declared contacts; the validator and build gate accept these joins. I also tried a flatter loop end, but it looked boxier, so I kept the rounder version.
+
+Files are in `new-pipeline-test/output_png/20260929-1833-bow-tied-around-finger/`:
+- `bow_tied_around_finger_redraw.py`
+- `bow-tied-around-finger_redraw.svg`
+- `bow-tied-around-finger_redraw.png`
+- `bow-tied-around-finger_redraw-48.png`

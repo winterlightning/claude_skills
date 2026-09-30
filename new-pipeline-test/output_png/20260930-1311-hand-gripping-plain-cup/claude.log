@@ -1,0 +1,82 @@
+[13:16:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup; ls $D; cat $D/*_metrics.json | ...
+[13:16:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup; python3 -c " import json;m=json...
+[13:17:01] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup/hand-gripping-plain-cup.png
+[13:17:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -3; f=$(ls -t new-pipeline-test/output_png/*/...
+[13:17:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/ new-pipeline-test/output_png/20260930-1307-hand-grabbing-square-document; grep ...
+[13:17:11] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1307-hand-grabbing-square-document/claude.log | tail -40; g...
+[13:17:16] I've read the inputs; now I'm checking how earlier redraws loaded, validated and rendered their modules.
+[13:17:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|svg\|render\|emit\|validate_icon\)" -r icon_set/model/*.py icon_set/model/icon...
+[13:17:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,120p icon_set/scripts/build_gate.py; grep -rn "def validate_icon\|def to_svg\|def svg" icon_...
+[13:19:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert magick; /opt/homebrew/bin/python3 -c "import cairosvg; print('cairosvg ok')"; grep...
+[13:19:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,200p icon_set/model/icons/base.py
+[13:19:56] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup/hand_gripping_plain_cup_redraw.py
+[13:20:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup; M=$D/hand_gripping_plain_cup_re...
+[13:20:07] Both checks passed on the first try. Now I'm checking the renders by eye.
+[13:20:09] > Bash: cd /tmp; D=/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup; magick $D/hand-gripping-pl...
+[13:20:10] > Read: /tmp/hgpc-sheet.png
+[13:20:24] At 48 px the cup reads as a funnel: the bowl narrows too sharply. I'll reduce the taper, widen the bowl and shift the cup axis to x=27 so the hook still clears the right wall.
+[13:20:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup; M=$D/hand_gripping_plain_cup_re...
+[13:20:33] > Read: /tmp/hgpc-sheet.png
+[13:20:43] It reads better as a tumbler now. Next I'll update the docstring to match the new geometry.
+[13:20:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 - <<'EOF' p='new-pipeline-test/output_png/20260930-1311-hand-gripping-plain...
+[13:20:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; rm -rf new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup/__pycache__
+[13:21:01] I redrew the hand gripping a plain cup as a Solo48 model. It passes `validate_icon()` (**valid**, no warnings) and `build_gate.py` (**PASS**, 0 errors, 0 warnings). I checked it at native 48 px on both light and dark backgrounds.
+
+**Subject:** a plain cup with no handle, held by a forearm coming in from the left. One broad hand band wraps across the front of the cup and hooks around its right side.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. It matched the square shape hint and had the best score (0.98). Every extreme now sits on the box: rim at y=6, base at y=42, forearm end at x=6, hook tip at x=42.
+
+**How it's built:**
+- **Hand:** drawn in front of the cup. The cup walls stop on the hand's top and bottom edges, and those joins are declared `connect`.
+- **Cup:** walls taper slightly and mirror each other about x=27. Below the hand, the bottom has rounded corners and a flat base.
+- **Hook:** a true semicircle of radius 5 that sticks out past the right wall.
+- **Arm:** the back of the hand rises smoothly from the forearm, and the wrist drops smoothly back to it. The forearm is 9 wide.
+
+**Metric issues:**
+- **Stroke width (info):** fixed. Redrawn at stroke 4 with every gap sized for it: the hand band is 10 wide and the cup openings are at least 12 on centerlines.
+- **Short axis (SQUARE only 73% filled on y):** fixed by making the cup a taller tumbler.
+- **Hole 3.98 at (33.9, 33), the cup bottom under the hand:** fixed. It is now 12 deep and 16 wide, about 8 of clear space inside where 6 is required.
+- **No head (warn):** not applicable. The subject is a hand and forearm, not a figure, so there is no head and no human figure is marked.
+
+**Visual change:** my first version followed the taper all the way down, and at 48 px the cup looked like a funnel. I reduced the taper to 1:14 and widened the bottom to fix it.
+
+**References:** the generated PNG, for the band across the cup, the hook past the wall and the rounded base. No close Lucide original exists; `cup-soda` and `glass-water` only informed the tapered walls.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup/`):
+- `hand_gripping_plain_cup_redraw.py`
+- `hand-gripping-plain-cup_redraw.svg`
+- `hand-gripping-plain-cup_redraw.png` (512 px preview)
+- `hand-gripping-plain-cup_redraw-48.png` (native 48 px)
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and I ran neither the build nor the gallery update.
+
+[13:21:01] === success in 320s, $1.09 ===
+I redrew the hand gripping a plain cup as a Solo48 model. It passes `validate_icon()` (**valid**, no warnings) and `build_gate.py` (**PASS**, 0 errors, 0 warnings). I checked it at native 48 px on both light and dark backgrounds.
+
+**Subject:** a plain cup with no handle, held by a forearm coming in from the left. One broad hand band wraps across the front of the cup and hooks around its right side.
+
+**Keyshape:** `SQUARE`, as the metrics suggested. It matched the square shape hint and had the best score (0.98). Every extreme now sits on the box: rim at y=6, base at y=42, forearm end at x=6, hook tip at x=42.
+
+**How it's built:**
+- **Hand:** drawn in front of the cup. The cup walls stop on the hand's top and bottom edges, and those joins are declared `connect`.
+- **Cup:** walls taper slightly and mirror each other about x=27. Below the hand, the bottom has rounded corners and a flat base.
+- **Hook:** a true semicircle of radius 5 that sticks out past the right wall.
+- **Arm:** the back of the hand rises smoothly from the forearm, and the wrist drops smoothly back to it. The forearm is 9 wide.
+
+**Metric issues:**
+- **Stroke width (info):** fixed. Redrawn at stroke 4 with every gap sized for it: the hand band is 10 wide and the cup openings are at least 12 on centerlines.
+- **Short axis (SQUARE only 73% filled on y):** fixed by making the cup a taller tumbler.
+- **Hole 3.98 at (33.9, 33), the cup bottom under the hand:** fixed. It is now 12 deep and 16 wide, about 8 of clear space inside where 6 is required.
+- **No head (warn):** not applicable. The subject is a hand and forearm, not a figure, so there is no head and no human figure is marked.
+
+**Visual change:** my first version followed the taper all the way down, and at 48 px the cup looked like a funnel. I reduced the taper to 1:14 and widened the bottom to fix it.
+
+**References:** the generated PNG, for the band across the cup, the hook past the wall and the rounded base. No close Lucide original exists; `cup-soda` and `glass-water` only informed the tapered walls.
+
+**Files** (all in `new-pipeline-test/output_png/20260930-1311-hand-gripping-plain-cup/`):
+- `hand_gripping_plain_cup_redraw.py`
+- `hand-gripping-plain-cup_redraw.svg`
+- `hand-gripping-plain-cup_redraw.png` (512 px preview)
+- `hand-gripping-plain-cup_redraw-48.png` (native 48 px)
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and I ran neither the build nor the gallery update.

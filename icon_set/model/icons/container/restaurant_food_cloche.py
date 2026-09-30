@@ -1,10 +1,13 @@
-from ._construction import path, rounded_rect as rect, ellipse
-'A tapered food cover with an arched handle and a shallow serving tray.\n\nVRECT_XL preserves the tall cover: ink (4,0)-(60,64), centerline (6,2)-(58,62).\nReference: supplied failed SVG; Lucide concierge-bell original and atomic-debug\ninformed the handle, cover and tray hierarchy. The tray rim now supplies the\nshared edge once; the duplicate cover bottom was removed. The subject remains\nsymmetric about x=32, with all identifying parts retained.\n\nHosting (compose.py): heart, check valid; plus blocked.\n'
+"""v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (restaurant-food-cloche SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+"""
+
 from ...keyshapes import Keyshape
 from ._base import Container64
+
 SOURCE_ICON_ID = 'restaurant-food-cloche'
 SOURCE_PATH = 'icon_set/dist/failed/container64/restaurant-food-cloche.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
+
 
 class RestaurantFoodCloche(Container64):
     icon_id = 'restaurant-food-cloche'
@@ -12,14 +15,20 @@ class RestaurantFoodCloche(Container64):
     aliases = ('serving-cloche', 'food-cover')
     keywords = ('restaurant', 'food', 'cloche')
 
-    def build(self):
-        line, poly = (self.add_line, self.add_polyline)
-
-        def join(a, b):
-            self.relate('connect', a, b)
-        axis = 32
-        self.add_arc('handle', (22, 12), (42, 12), radius_x=10)
-        path(self, 'cover', (6, 54), [('L', (8, 20)), ('A', (16, 12), 8, 8, True), ('L', (48, 12)), ('A', (56, 20), 8, 8, True), ('L', (58, 54))])
-        join('handle', 'cover')
-        path(self, 'tray', (2, 54), [('L', (62, 54)), ('L', (62, 56)), ('A', (56, 62), 6, 6, True), ('L', (8, 62)), ('A', (2, 56), 6, 6, True), ('L', (2, 54))], True)
-        join('tray', 'cover')
+    def build(self) -> None:
+        self.add_arc('handle', (24, 14), (40, 14), radius_x=8)
+        self.add_line('cover-0', (10, 50), (12, 24))
+        self.add_arc('cover-1', (12, 24), (20, 16), radius_x=8)
+        self.add_line('cover-2', (20, 16), (44, 16))
+        self.add_arc('cover-3', (44, 16), (52, 24), radius_x=8)
+        self.add_line('cover-4', (52, 24), (54, 50))
+        self.add_line('tray-0', (6, 50), (58, 50))
+        self.add_line('tray-1', (58, 50), (58, 52))
+        self.add_arc('tray-2', (58, 52), (52, 58), radius_x=6)
+        self.add_line('tray-3', (52, 58), (12, 58))
+        self.add_arc('tray-4', (12, 58), (6, 52), radius_x=6)
+        self.add_line('tray-5', (6, 52), (6, 50))
+        self.add_contour('cover', 'cover-0', 'cover-1', 'cover-2', 'cover-3', 'cover-4')
+        self.add_contour('tray', 'tray-0', 'tray-1', 'tray-2', 'tray-3', 'tray-4', 'tray-5', closed=True)
+        self.relate('connect', 'handle', 'cover')
+        self.relate('connect', 'tray', 'cover')

@@ -1,0 +1,91 @@
+[19:53:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1948-coiled-snake; ls $D; cat $D/coiled-snake_metrics.json | ...
+[19:53:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1948-coiled-snake; /opt/homebrew/bin/python3 -c " import json...
+[19:54:16] Let me look at the image and a recent redraw example for the render/save pattern.
+[19:54:17] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled-snake.png
+[19:54:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1945-canoe/canoe_redraw.py; ls output_png/20260929-1945-canoe/
+[19:54:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -n "redraw" run_pipeline.sh | head -20; cat output_png/20260929-1945-canoe...
+[19:54:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 155,200p run_pipeline.sh; grep -rn "redraw-48\|render_png\|def render" ../ic...
+[19:54:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/coiled_snake_bd9f57fc_780e_5c9d_8047_c776f0b4d870.py; grep -n "def \(to...
+[19:54:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sips -g pixelWidth new-pipeline-test/output_png/20260929-1945-canoe/canoe_redraw.png new-pipeline-tes...
+[19:56:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,200p icon_set/model/icons/base.py; /opt/homebrew/bin/python3 -c "import cairosvg; print('o...
+[19:56:21] I've read the inputs; the plan is a single-stroke coil ring with a tail, a neck and an egg-shaped head on SQUARE. Writing the model now.
+[19:56:31] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled_snake_redraw.py
+[19:56:36] > Write: /tmp/snake_render.py
+[19:56:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 /tmp/snake_render.py
+[19:56:43] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled-snake_redraw.png
+[19:56:43] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled-snake_redraw-48.png
+[19:57:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake; /opt/homebrew/bin/python3 - <<'EOF' p='coiled...
+[19:57:18] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled-snake_redraw.png
+[19:57:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake; sed -i '' -e 's/^J = (36, 16) /J = (38, 17) /...
+[19:57:32] Second iteration valid; smoothed the neck-to-head join and lengthened the snout. Checking the render.
+[19:57:33] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled-snake_redraw.png
+[19:57:33] > Read: /tmp/snake_dark48.png
+[19:57:36] Smooth join, gate passes. Writing the final docstring.
+[19:57:45] > Edit: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1948-coiled-snake/coiled_snake_redraw.py
+[19:57:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 /tmp/snake_render.py; ls new-pipeline-test/output_png/20260929-1948-coiled-...
+[19:57:59] I've redrawn the coiled snake as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and the build gate passes with 0 errors and 0 warnings.
+
+**Subject:** a snake lying in a flat oval coil. A short tail flicks up on the left, and a neck rises from the back right into a wedge-shaped head facing left.
+
+**Keyshape:** SQUARE, as the metrics suggested (score 1.25, 100% fill on both axes). The four outer edges are the coil's left and right ends (x=6 and x=42), the front of the coil (y=42) and the top of the head (y=6).
+
+**Construction:**
+- **Coil:** one closed true ellipse (centre (24,36), radius 18 across and 6 down), with points at (14,31) and (34,31) where the tail and neck leave it.
+- **Tail:** a single curve ending in a round tip at (6,22).
+- **Neck:** a single curve that bows right and joins the back of the head smoothly at (38,17).
+- **Head:** a closed egg shape pointing left to the snout at (17,11). The jaw closes back onto the neck, leaving the notch the generated image shows.
+- Every contact point is declared as a connection. No trace coordinates were copied.
+
+**Metric issues:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap budgeted for it.
+- **Tail and neck 3.7 from the inner coil line (2 errors):** fixed. The coil is now a single ring instead of a doubled tube. At stroke 4 a 36-wide ring has no room for an inner oval 8 away, so the tail and neck now only touch the ring where they join it.
+- **Pinched hole in the head/neck (3.16 wide):** fixed. The neck is one stroke, and the head is its own closed shape about 10 units tall inside.
+- **Thin holes inside the coil (2.0 and 0.6 wide):** fixed. The ring encloses one oval hole, 12 tall measured between line centres.
+
+No issue was left unfixed. I dropped two details: the doubled tube outline of the neck and coil, and the eye, because an eye cannot sit 8 units from the head outline at this size.
+
+**References:** I used the generated PNG only to read the subject. There is no Lucide snake, so I followed Lucide's single-line animal style. I checked the existing `coiled-snake` module with the same source ID but didn't take its geometry.
+
+At 48 px, on both light and dark backgrounds, it reads as a snake: a ring on the ground with a raised head.
+
+Files are in `new-pipeline-test/output_png/20260929-1948-coiled-snake/`:
+- `coiled_snake_redraw.py`
+- `coiled-snake_redraw.svg`
+- `coiled-snake_redraw.png`
+- `coiled-snake_redraw-48.png`
+
+I didn't register the module, run the build or touch `published/`. The work files under `published/gallery/` already have uncommitted changes, but those aren't from this task.
+
+[19:57:59] === success in 272s, $1.07 ===
+I've redrawn the coiled snake as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and the build gate passes with 0 errors and 0 warnings.
+
+**Subject:** a snake lying in a flat oval coil. A short tail flicks up on the left, and a neck rises from the back right into a wedge-shaped head facing left.
+
+**Keyshape:** SQUARE, as the metrics suggested (score 1.25, 100% fill on both axes). The four outer edges are the coil's left and right ends (x=6 and x=42), the front of the coil (y=42) and the top of the head (y=6).
+
+**Construction:**
+- **Coil:** one closed true ellipse (centre (24,36), radius 18 across and 6 down), with points at (14,31) and (34,31) where the tail and neck leave it.
+- **Tail:** a single curve ending in a round tip at (6,22).
+- **Neck:** a single curve that bows right and joins the back of the head smoothly at (38,17).
+- **Head:** a closed egg shape pointing left to the snout at (17,11). The jaw closes back onto the neck, leaving the notch the generated image shows.
+- Every contact point is declared as a connection. No trace coordinates were copied.
+
+**Metric issues:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap budgeted for it.
+- **Tail and neck 3.7 from the inner coil line (2 errors):** fixed. The coil is now a single ring instead of a doubled tube. At stroke 4 a 36-wide ring has no room for an inner oval 8 away, so the tail and neck now only touch the ring where they join it.
+- **Pinched hole in the head/neck (3.16 wide):** fixed. The neck is one stroke, and the head is its own closed shape about 10 units tall inside.
+- **Thin holes inside the coil (2.0 and 0.6 wide):** fixed. The ring encloses one oval hole, 12 tall measured between line centres.
+
+No issue was left unfixed. I dropped two details: the doubled tube outline of the neck and coil, and the eye, because an eye cannot sit 8 units from the head outline at this size.
+
+**References:** I used the generated PNG only to read the subject. There is no Lucide snake, so I followed Lucide's single-line animal style. I checked the existing `coiled-snake` module with the same source ID but didn't take its geometry.
+
+At 48 px, on both light and dark backgrounds, it reads as a snake: a ring on the ground with a raised head.
+
+Files are in `new-pipeline-test/output_png/20260929-1948-coiled-snake/`:
+- `coiled_snake_redraw.py`
+- `coiled-snake_redraw.svg`
+- `coiled-snake_redraw.png`
+- `coiled-snake_redraw-48.png`
+
+I didn't register the module, run the build or touch `published/`. The work files under `published/gallery/` already have uncommitted changes, but those aren't from this task.

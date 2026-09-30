@@ -1,0 +1,79 @@
+[18:31:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; ls $D; cat $D/avatar-jockey-man_metri...
+[18:32:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; /opt/homebrew/bin/python3 -c " import...
+[18:32:14] Let me see the PNG and the human reference / avatar construction notes.
+[18:32:15] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1830-avatar-jockey-man/avatar-jockey-man.png
+[18:32:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/avata...
+[18:32:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/output_png/*/*redraw.py | xargs grep -l "mark_human_figure" | head -5; f=$(ls ne...
+[18:32:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/; ls new-pipeline-test/output_png/20260929-18*/ | grep -i redraw | head; grep -r...
+[18:32:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -30; ls -d new-pipeline-test/output_png/*/ ...
+[18:33:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def [a-z_]*svg\|def validate_icon\|def render\|def mark_human_figure" -r icon_set/model/*.py...
+[18:33:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/human_ref/user.svg; grep -l "human_construction\s*=\s*\"bust\"" icon_set/mode...
+[18:34:02] Planning: the separate helmet can't fit in the 40-unit height with 6-unit holes and 8-unit gaps, so I'm checking how existing bust avatars are marked before merging the helmet into the head.
+[18:34:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl 'human_construction = "bust"' icon_set/model/icons/solo/ 2>/dev/null | head -200 | xargs gre...
+[18:34:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "human_construction" icon_set/model/icons/solo/ | head -3; grep -rh "human_construction" ico...
+[18:34:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '1,120p' icon_set/model/icons/solo/hard_hat_worker_bust_5252f064_029f_4da1_8f2f_831de57b0962.py
+[18:34:20] Writing the model now: helmet merged into the head circle (brim across its equator, visor to the right), detached shoulders 8 units below.
+[18:34:37] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1830-avatar-jockey-man/avatar_jockey_man_redraw.py
+[18:34:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; /opt/homebrew/bin/python3 -c " import...
+[18:34:43] Valid, zero warnings. Rendering previews and running the build gate too.
+[18:34:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; S=$D/avatar-jockey-man_redraw.svg; ca...
+[18:34:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260929-1830-a...
+[18:34:51] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1830-avatar-jockey-man/avatar-jockey-man_redraw.png
+[18:35:10] The θ-like look is the risk: a 4-unit visor barely reads. Trying VRECT_L (user.svg's 32-wide shoulders) so the visor can reach 6 units.
+[18:35:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; F=$D/avatar_jockey_man_redraw.py; cp ...
+[18:35:20] > Read: /tmp/cmp.png
+[18:35:24] VRECT_L (right) reads more like a cap and matches user.svg, so I'm keeping it. Updating the docstring and re-rendering the final files.
+[18:35:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1830-avatar-jockey-man; F=$D/avatar_jockey_man_redraw.py; /op...
+[18:35:35] > Read: /tmp/dark.png
+[18:35:46] I redrew the jockey avatar as a Solo48 model. It validates as `valid` with zero warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a jockey bust. A round head wears a racing helmet with a short visor pointing right, above open rounded shoulders. The icon id is `avatar-jockey-man-redraw`, following the pattern of the earlier redraws here. It uses `human_construction = "bust"` and has one axis at x=24.
+
+**Keyshape: `VRECT_L`, not the suggested `VRECT_M`.** I built `VRECT_M` first and it also validated. But the right edge limited the visor to 4 units, and at 48 px the head read as a θ. `VRECT_L` gives the 32-wide shoulders of `human_ref/user.svg` and a 6-unit visor, which reads clearly as a cap. The docstring records this choice.
+
+**Main design change: the helmet now sits on the head.** A separate helmet can't fit in the 40-unit height. The helmet needs at least 10 units for a 6-unit hole, the head needs 10, and the two 8-unit gaps take 16 more. That leaves 4 units for the shoulders. So the helmet shell is now the top half of the head circle (r=10 at (24,14)). A brim line runs across the middle of the head, and the visor continues it out to x=40. Both are declared as connected.
+
+**Metric issues, all fixed:**
+- **Clearance, helmet to head (3.3):** gone, because the helmet and head are now one connected shape.
+- **Clearance and head gap, head to shoulders (2.79, need exactly 8):** the head bottom is at y=24 and the shoulder top at y=32, which is exactly 8 on centrelines and a 4-unit visible gap. It is marked with `mark_human_figure("jockey", head="head", torso="crest-left", torso_junction="start")`.
+- **Short axis (only 85% of the width filled):** the shoulders now span x 8–40 and the visor tip reaches x=40. Top to bottom runs 4–44, an exact fit.
+- **Stroke width (info only):** redrawn at stroke 4, with every gap allowing 4 units of visible space.
+
+**References:** `human_ref/user.svg` for the circular head, broad smooth shoulders and open bottom. I found no useful Lucide match. The dome-plus-brim construction follows the repo's `hard-hat-worker-bust` icon. The figure is symmetric apart from the visor.
+
+**Dropped:** the helmet's floating gap, and the slanted wedge on top of the visor. That wedge would make a sliver hole well under 6 units.
+
+I checked the drawing at native size on light and dark backgrounds. As asked, nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1830-avatar-jockey-man/`:
+- `avatar_jockey_man_redraw.py`
+- `avatar-jockey-man_redraw.svg`
+- `avatar-jockey-man_redraw.png`
+- `avatar-jockey-man_redraw-48.png`
+
+[18:35:46] === success in 251s, $1.01 ===
+I redrew the jockey avatar as a Solo48 model. It validates as `valid` with zero warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** a jockey bust. A round head wears a racing helmet with a short visor pointing right, above open rounded shoulders. The icon id is `avatar-jockey-man-redraw`, following the pattern of the earlier redraws here. It uses `human_construction = "bust"` and has one axis at x=24.
+
+**Keyshape: `VRECT_L`, not the suggested `VRECT_M`.** I built `VRECT_M` first and it also validated. But the right edge limited the visor to 4 units, and at 48 px the head read as a θ. `VRECT_L` gives the 32-wide shoulders of `human_ref/user.svg` and a 6-unit visor, which reads clearly as a cap. The docstring records this choice.
+
+**Main design change: the helmet now sits on the head.** A separate helmet can't fit in the 40-unit height. The helmet needs at least 10 units for a 6-unit hole, the head needs 10, and the two 8-unit gaps take 16 more. That leaves 4 units for the shoulders. So the helmet shell is now the top half of the head circle (r=10 at (24,14)). A brim line runs across the middle of the head, and the visor continues it out to x=40. Both are declared as connected.
+
+**Metric issues, all fixed:**
+- **Clearance, helmet to head (3.3):** gone, because the helmet and head are now one connected shape.
+- **Clearance and head gap, head to shoulders (2.79, need exactly 8):** the head bottom is at y=24 and the shoulder top at y=32, which is exactly 8 on centrelines and a 4-unit visible gap. It is marked with `mark_human_figure("jockey", head="head", torso="crest-left", torso_junction="start")`.
+- **Short axis (only 85% of the width filled):** the shoulders now span x 8–40 and the visor tip reaches x=40. Top to bottom runs 4–44, an exact fit.
+- **Stroke width (info only):** redrawn at stroke 4, with every gap allowing 4 units of visible space.
+
+**References:** `human_ref/user.svg` for the circular head, broad smooth shoulders and open bottom. I found no useful Lucide match. The dome-plus-brim construction follows the repo's `hard-hat-worker-bust` icon. The figure is symmetric apart from the visor.
+
+**Dropped:** the helmet's floating gap, and the slanted wedge on top of the visor. That wedge would make a sliver hole well under 6 units.
+
+I checked the drawing at native size on light and dark backgrounds. As asked, nothing was registered under `icon_set/model/icons`, `published/` is untouched, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1830-avatar-jockey-man/`:
+- `avatar_jockey_man_redraw.py`
+- `avatar-jockey-man_redraw.svg`
+- `avatar-jockey-man_redraw.png`
+- `avatar-jockey-man_redraw-48.png`

@@ -1,0 +1,115 @@
+[12:59:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1256-gamer-with-controller; ls $D; cat $D/gamer-with-controll...
+[12:59:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1256-gamer-with-controller; python3 -c " import json;m=json.l...
+[12:59:48] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1256-gamer-with-controller/gamer-with-controller.png
+[12:59:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/{avatar-contact-cer...
+[12:59:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/png-solo-p...
+[12:59:56] Let me look at an existing redraw to follow its structure (loading, rendering, etc.), plus a human bust reference.
+[12:59:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=$(ls -t new-pipeline-test/output_png/*/*_redraw.py | xargs grep -l mark_human_figure | head -1); ec...
+[13:00:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/; grep -l -i "shoulder" new-pipeline-test/output_png/*/*_redraw.py | head -5; ls...
+[13:00:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/references/human_ref/user.svg; sed -n 1,200p icon_set/skills/icon-design/human-reference...
+[13:00:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1229-devil-figure-with-tail/claude.log | head -40; grep -n ...
+[13:00:14] > Bash: cat /tmp/devil/run.py 2>/dev/null; cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def add_\| def relate\| def mark_human" icon_set/model/i...
+[13:03:03] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; sed -n 1,60p normal48-geometry-floors.md; grep -i -A6 "exact-8\|curve" sol...
+[13:03:06] Budget worked out: a detached head plus a controller with interior buttons doesn't fit in 36 units of height, so I'm prototyping on VRECT_L now.
+[13:03:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,200p icon_set/model/icons/base.py | grep -v "^\s*$" | head -90
+[13:04:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -h 'category = "' icon_set/model/icons/solo/*.py 2>/dev/null | sort | uniq -c | sort -rn | head ...
+[13:05:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/references/lucide | head -3; cat icon_set/references/lucide/*/gamepad-2.svg icon_set/refe...
+[13:05:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '/^class/,$p' icon_set/model/icons/solo/hard_hat_worker_bust_5252f064_029f_4da1_8f2f_831de57b0...
+[13:05:30] > Bash: mkdir -p /tmp/gamer && cd /tmp/gamer && cat > run.py <<'EOF' import importlib.util, sys, subprocess sys.path.insert(0, "/Applications/Workspaces/pictographic...
+[13:05:39] > Bash: cd /tmp/gamer && python3 - <<'EOF' s=open("v1.py").read() s=s.replace('self.add_contour("pad", *[f"pad-{i}" for i in range(1, 11)], closed=True)', 'self.add_...
+[13:05:46] Validator flags every exact-8 gap as "review", so I'm checking how the MIC check decides.
+[13:05:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; rg -n "are .* apart on centerlines|def .*mic|epsilon|certif" icon_set/validation/*.py | head -30
+[13:05:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 324,400p icon_set/validation/validator.py
+[13:05:59] > Bash: cd /tmp/gamer && python3 -c " import sys,importlib.util;sys.path.insert(0,'/Applications/Workspaces/pictographic/claude_skills') spec=importlib.util.spec_fro...
+[13:06:05] > Bash: cd /tmp/gamer && python3 -c " import sys,importlib.util;sys.path.insert(0,'/Applications/Workspaces/pictographic/claude_skills') spec=importlib.util.spec_fro...
+[13:06:14] Top line certifies as exact straight; the bottom fails only because it sits in a mixed arc contour. Splitting the controller into standalone segments.
+[13:06:16] > Bash: cd /tmp/gamer && python3 - <<'EOF' s=open("v1.py").read() s=s.replace(''' self.add_contour("pad", *[f"pad-{i}" for i in range(1, 11)], closed=True) self.rela...
+[13:06:20] > Bash: cd /tmp/gamer && magick v3-48.png -filter point -resize 800% v3-48x.png && magick v3.png v3-48x.png +append cmp3.png
+[13:06:20] > Read: /tmp/gamer/cmp3.png
+[13:07:11] Validated, but at 48 px the two dots read as eyes (goggles/robot). Trying variants: a controller silhouette with real grips and no buttons, and a dash+dot button layout.
+[13:07:18] > Bash: cd /tmp/gamer && python3 - <<'EOF' s=open("v3.py").read() start=s.index(' L, R = 8, 40'); end=s.index(' self.add_dot("dpad"') body=''' L, R = 8, 40 segs = [ ...
+[13:07:25] > Read: /tmp/gamer/cmp45.png
+[13:08:14] v4 (grips, no buttons) reads more like a controller than v3, but both are weak. Trying one more layout: the controller's grips form the lower edge of the bust, so the plus and dash buttons fit.
+[13:08:21] > Bash: cd /tmp/gamer && cat > v6.py <<'EOF' from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Solo48 AX = 24 HEAD_C, HEAD_R ...
+[13:08:26] > Read: /tmp/gamer/cmp6.png
+[13:08:35] v6 reads clearly as a gamer (head over a gamepad-shaped bust, plus and dash buttons). The plus is blobby at ±2, so I'm trying a larger ±3 plus.
+[13:08:39] > Bash: cd /tmp/gamer && python3 - <<'EOF' s=open("v6.py").read() s=s.replace('((31.5, 44), (31.5, 38), (28, 38))','((32, 44), (32, 40), (28, 40))').replace('("L", (...
+[13:08:44] > Read: /tmp/gamer/cmp78.png
+[13:08:54] v7 is the pick: clear plus, grips, bust contact, valid. Checking it with svg_metrics and the build gate.
+[13:08:56] > Bash: cd /tmp/gamer && mkdir -p m7 && cp v7.svg m7/v7_raw.svg && /opt/homebrew/bin/python3 /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/sv...
+[13:09:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py /tmp/gamer/v7.py 2>&1 | tail -20
+[13:09:28] Build gate wants the bust contact line named `body-top` with arc-level connects (per the avatar-contact note). Fixing that.
+[13:09:30] > Bash: cd /tmp/gamer && python3 - <<'EOF' s=open("v7.py").read() s=s.replace('n = f"body-{i}"; ids.append(n)','n = "body-top" if i == 1 else f"body-{i}"; ids.append...
+[13:09:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; rg -n "_avatar_tangent_contact" icon_set/validation/internal_spacing.py | head -3; sed -n "$(rg -n 'd...
+[13:09:46] > Bash: cd /tmp/gamer && sed -e 's/self.relate("connect", "head-2", "body-top")/self.relate("connect", "head", "body-top")/' -e '/self.relate("connect", "head-3", "b...
+[13:09:52] Valid and build gate passes. Writing the final module and renders.
+[13:10:17] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1256-gamer-with-controller/gamer_with_controller_redraw.py
+[13:10:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1256-gamer-with-controller; python3 /tmp/gamer/run.py $D/game...
+[13:10:34] > Read: /tmp/gamer/final.png
+[13:10:40] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/ && cat >> solo48-build-gate-traps.md <<'EOF' - Exact-8 straight gap to a ma...
+[13:10:58] I redrew the gamer as a Solo48 model. It passes `validate_icon()` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. The main trade-off: the reference shows a detached head, but I had to make it touch the body to fit the controller buttons.
+
+**What it looks like:** a head above a bust whose body is drawn as a game controller. It has rounded shoulders, two grips with a notch between them, a plus d-pad on the left and a short dash button on the right. It reads as a gamer at 48 px in both light and dark.
+
+**Keyshape: `VRECT_L`, not the suggested `SQUARE`.** The subject is tall. `SQUARE` has only 36 units of height, which can't hold a head, a body and a controller with a d-pad. `VRECT_L` was the metrics' third candidate (x fill 0.92), and all four edges of the drawing sit exactly on its box.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap set to 8.
+- **Clearances:**
+  - Shoulders crowding the controller (e1 against e2–e5): shoulders and controller are now one outline.
+  - Buttons touching the wall (e2 against e3–e5): every button tip is at least 8 from the outline.
+  - The two d-pad arms (e3/e4): they are now one plus with a declared `connect` where they cross.
+- **All four narrow holes:** the pockets are gone. The only enclosed openings left are the head (6 wide) and the controller body.
+
+**Metric issues not fixed as specified:**
+- **Head gap:** the metrics want an 8-unit detached gap (4 visible). I used the set's bust contact instead, where head and body touch. A detached head, its gap and a closed shoulder pocket would leave 12 units for the controller, and any button needs 16. The touching contact passes the build gate's own check for busts.
+- **Shoulders:** they no longer sit above the controller as a separate stroke. They are now the top corners of the controller-shaped body.
+- **Stroke count:** the model has 15 primitives against the brief's 6. The controller outline has to be separate straight and curved pieces, because four button gaps are exactly 8. Inside one outline mixing lines and curves they come back `review`; as separate pieces they pass.
+
+**Other things to know:**
+- **Different image from the reference:** the reference shows a head, shoulders, a gap, then the controller. Here the shoulders flow straight into the controller, so it's a gamepad-shaped person rather than a person holding a gamepad.
+- **Earlier versions rejected:** I tried a rounded-box controller with two dot buttons, but at 48 px the dots read as eyes (goggles or a robot face).
+- **Plus is off-centre by 1:** the plus and the dash sit mirrored about x=25, not 24. At 8-unit spacing there wasn't room for exact symmetry.
+- **References used:** `user.svg` for the head and bust, and Lucide `gamepad-2` for the flat top, grips, raised middle section and plus-plus-buttons layout.
+
+I saved a memory note that an exact-8 gap to a wall inside a curved outline comes back `review`, and that splitting the outline fixes it. Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1256-gamer-with-controller/`:
+- `gamer_with_controller_redraw.py`
+- `gamer-with-controller_redraw.svg`
+- `gamer-with-controller_redraw.png`
+- `gamer-with-controller_redraw-48.png`
+
+[13:10:58] === success in 732s, $2.63 ===
+I redrew the gamer as a Solo48 model. It passes `validate_icon()` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. The main trade-off: the reference shows a detached head, but I had to make it touch the body to fit the controller buttons.
+
+**What it looks like:** a head above a bust whose body is drawn as a game controller. It has rounded shoulders, two grips with a notch between them, a plus d-pad on the left and a short dash button on the right. It reads as a gamer at 48 px in both light and dark.
+
+**Keyshape: `VRECT_L`, not the suggested `SQUARE`.** The subject is tall. `SQUARE` has only 36 units of height, which can't hold a head, a body and a controller with a d-pad. `VRECT_L` was the metrics' third candidate (x fill 0.92), and all four edges of the drawing sit exactly on its box.
+
+**Metric issues fixed:**
+- **Stroke width:** redrawn at stroke 4, with every gap set to 8.
+- **Clearances:**
+  - Shoulders crowding the controller (e1 against e2–e5): shoulders and controller are now one outline.
+  - Buttons touching the wall (e2 against e3–e5): every button tip is at least 8 from the outline.
+  - The two d-pad arms (e3/e4): they are now one plus with a declared `connect` where they cross.
+- **All four narrow holes:** the pockets are gone. The only enclosed openings left are the head (6 wide) and the controller body.
+
+**Metric issues not fixed as specified:**
+- **Head gap:** the metrics want an 8-unit detached gap (4 visible). I used the set's bust contact instead, where head and body touch. A detached head, its gap and a closed shoulder pocket would leave 12 units for the controller, and any button needs 16. The touching contact passes the build gate's own check for busts.
+- **Shoulders:** they no longer sit above the controller as a separate stroke. They are now the top corners of the controller-shaped body.
+- **Stroke count:** the model has 15 primitives against the brief's 6. The controller outline has to be separate straight and curved pieces, because four button gaps are exactly 8. Inside one outline mixing lines and curves they come back `review`; as separate pieces they pass.
+
+**Other things to know:**
+- **Different image from the reference:** the reference shows a head, shoulders, a gap, then the controller. Here the shoulders flow straight into the controller, so it's a gamepad-shaped person rather than a person holding a gamepad.
+- **Earlier versions rejected:** I tried a rounded-box controller with two dot buttons, but at 48 px the dots read as eyes (goggles or a robot face).
+- **Plus is off-centre by 1:** the plus and the dash sit mirrored about x=25, not 24. At 8-unit spacing there wasn't room for exact symmetry.
+- **References used:** `user.svg` for the head and bust, and Lucide `gamepad-2` for the flat top, grips, raised middle section and plus-plus-buttons layout.
+
+I saved a memory note that an exact-8 gap to a wall inside a curved outline comes back `review`, and that splitting the outline fixes it. Nothing was registered under `icon_set/model/icons`, `published/` is untouched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1256-gamer-with-controller/`:
+- `gamer_with_controller_redraw.py`
+- `gamer-with-controller_redraw.svg`
+- `gamer-with-controller_redraw.png`
+- `gamer-with-controller_redraw-48.png`

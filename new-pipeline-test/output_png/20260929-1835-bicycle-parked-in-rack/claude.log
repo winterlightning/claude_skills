@@ -1,0 +1,86 @@
+[18:38:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1835-bicycle-parked-in-rack; ls $D; cat $D/*_metrics.json | h...
+[18:39:06] There's a previous bicycle-parked-in-rack run; let me look at it and the issues list.
+[18:39:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1835-bicycle-parked-in-rack; /opt/homebrew/bin/python3 -c " i...
+[18:39:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; P=output_png/20260928-1705-bicycle-parked-in-rack; cat $P/bicycle_parked_in_rack_re...
+[18:39:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack/bicycle-parked-in-rack.png
+[18:42:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -il "redraw" new-pipeline-test/*.py new-pipeline-test/*.sh 2>/dev/null; ls new-pipeline-test; gr...
+[18:42:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 8,20p new-pipeline-test/output_png/20260928-1705-bicycle-parked-in-rack/claude.log; grep -n "r...
+[18:42:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/base.py | head -80; ls icon_set/scripts | grep -i -E "render|png|...
+[18:42:45] Now author the module.
+[18:43:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack; cat > $D/bicycle_parked_in_rack_...
+[18:43:24] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack/bicycle-parked-in-rack_redraw.png
+[18:43:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack; sed -e 's/self.add_polyline("fra...
+[18:43:40] > Read: /tmp/alt.png
+[18:43:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack; sed -e 's/HOOP_JOINT = (FRONT_X ...
+[18:43:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 - <<'EOF' p='/tmp/bpr_alt.py'; s=open(p).read() s=s.replace(''' self.add_arc("hoop-top", (lef...
+[18:43:57] Comparing a rack variant with the leg landing behind the rim; it validates, checking the render.
+[18:43:57] > Read: /tmp/alt.png
+[18:44:00] The taller flat-top hoop behind the rim reads better. Adopting it in the module.
+[18:44:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack; F=$D/bicycle_parked_in_rack_redr...
+[18:44:16] > Read: /tmp/bpr_both.png
+[18:44:28] I've redrawn the bicycle as a Solo48 model, and it validates with status `valid` and no warnings. At 48 px it reads as a bicycle with a rack in both light and dark themes, but the middle of the frame is tight. It is less clear than the generated PNG.
+
+**What it shows:** a side-view bicycle facing right, with an upside-down U rack standing just behind its front wheel.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The drawing touches all four edges of its box: rear wheel at x=4, the rack's right leg at x=44, the handlebar at y=10, and the wheels and rack leg at y=38.
+
+**How it's built:**
+- **Wheels:** two equal circles of radius 5, the smallest size that keeps a 6-unit opening and has whole-number points on the rim for joints.
+- **Frame:** the PNG's diamond frame had to be opened up. It is now a V shape (like a step-through bike): the chain stay runs from the rear rim up to the pedal hub, the down tube runs from there to the front of the frame, and the fork continues on to the front rim. The seat tube rises from the pedal hub to a flat saddle.
+- **Handlebar:** the stem continues the fork line, then a small curve lifts it into a flat grip reaching forward.
+- **Rack:** its left leg lands on the front rim, so the wheel appears to hide the rest of it. The top is flat with rounded corners, and the right leg stands 8 units clear of the rim.
+- **References:** Lucide's `bike` only informed the equal round wheels and the open frame. I left out wheel hubs, because a line to the centre would split the wheel opening below 6.
+- **Compared:** I rendered two alternatives and dropped both. A frame with a top tube instead of the down tube looked like a zigzag, and a rack leg touching the rim's far edge made the wheel and rack read as the letters "on".
+
+**Metric issues:**
+- **Fixed:**
+  - All the clearance errors: parts that touch now share a whole-number point and are declared as connected; every other pair is at least 8 apart.
+  - The three undersized holes (2.34, 1.81 and 2.0): the wheel openings are now 6, and the frame is open.
+  - The short vertical fill (66%): the drawing now spans the full height.
+  - Stroke count: now 6 parts (2 wheels, frame, seat tube with saddle, handlebar, rack).
+  - Stroke width: redrawn at 4 instead of 2.65.
+- **Not fixed as drawn in the image:** the rack standing on its own with a white gap beside the wheel. Two wheels, the gap between them, an 8-wide rack and the two 8-unit gaps around it need 48 units, but the box allows 40. So the rack stands behind the front wheel instead. Its legs are 9 apart, because radii must be whole numbers and a 9-wide semicircle isn't possible.
+
+**Visual weak spot:** where the seat tube and down tube leave the pedal hub, and where the down tube meets the fork, the frame looks crowded. The wheels are also small for the canvas.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack/`:
+- `bicycle_parked_in_rack_redraw.py`
+- `bicycle-parked-in-rack_redraw.svg`
+- `bicycle-parked-in-rack_redraw.png`
+- `bicycle-parked-in-rack_redraw-48.png`
+
+[18:44:28] === success in 355s, $1.19 ===
+I've redrawn the bicycle as a Solo48 model, and it validates with status `valid` and no warnings. At 48 px it reads as a bicycle with a rack in both light and dark themes, but the middle of the frame is tight. It is less clear than the generated PNG.
+
+**What it shows:** a side-view bicycle facing right, with an upside-down U rack standing just behind its front wheel.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested. The drawing touches all four edges of its box: rear wheel at x=4, the rack's right leg at x=44, the handlebar at y=10, and the wheels and rack leg at y=38.
+
+**How it's built:**
+- **Wheels:** two equal circles of radius 5, the smallest size that keeps a 6-unit opening and has whole-number points on the rim for joints.
+- **Frame:** the PNG's diamond frame had to be opened up. It is now a V shape (like a step-through bike): the chain stay runs from the rear rim up to the pedal hub, the down tube runs from there to the front of the frame, and the fork continues on to the front rim. The seat tube rises from the pedal hub to a flat saddle.
+- **Handlebar:** the stem continues the fork line, then a small curve lifts it into a flat grip reaching forward.
+- **Rack:** its left leg lands on the front rim, so the wheel appears to hide the rest of it. The top is flat with rounded corners, and the right leg stands 8 units clear of the rim.
+- **References:** Lucide's `bike` only informed the equal round wheels and the open frame. I left out wheel hubs, because a line to the centre would split the wheel opening below 6.
+- **Compared:** I rendered two alternatives and dropped both. A frame with a top tube instead of the down tube looked like a zigzag, and a rack leg touching the rim's far edge made the wheel and rack read as the letters "on".
+
+**Metric issues:**
+- **Fixed:**
+  - All the clearance errors: parts that touch now share a whole-number point and are declared as connected; every other pair is at least 8 apart.
+  - The three undersized holes (2.34, 1.81 and 2.0): the wheel openings are now 6, and the frame is open.
+  - The short vertical fill (66%): the drawing now spans the full height.
+  - Stroke count: now 6 parts (2 wheels, frame, seat tube with saddle, handlebar, rack).
+  - Stroke width: redrawn at 4 instead of 2.65.
+- **Not fixed as drawn in the image:** the rack standing on its own with a white gap beside the wheel. Two wheels, the gap between them, an 8-wide rack and the two 8-unit gaps around it need 48 units, but the box allows 40. So the rack stands behind the front wheel instead. Its legs are 9 apart, because radii must be whole numbers and a 9-wide semicircle isn't possible.
+
+**Visual weak spot:** where the seat tube and down tube leave the pedal hub, and where the down tube meets the fork, the frame looks crowded. The wheels are also small for the canvas.
+
+Nothing was registered under `icon_set/model/icons`, `published/` wasn't touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1835-bicycle-parked-in-rack/`:
+- `bicycle_parked_in_rack_redraw.py`
+- `bicycle-parked-in-rack_redraw.svg`
+- `bicycle-parked-in-rack_redraw.png`
+- `bicycle-parked-in-rack_redraw-48.png`

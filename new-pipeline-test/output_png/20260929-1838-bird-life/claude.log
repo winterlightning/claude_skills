@@ -1,0 +1,92 @@
+[18:43:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260929-1838-bird-life; sed -n 1,200p process.md | grep -n -i -A30 r...
+[18:43:20] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1838-bird-life/bird-life.png
+[18:43:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; /opt/homebrew/bin/python3 -c " import json;d=json.load(open('20260929-18...
+[18:43:59] Let me look at an existing redraw module to follow its import/render pattern.
+[18:44:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; cat 20260929-1835-blazer-with-notched-lapels/blazer_with_notched_lapels_...
+[18:44:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; sed -n 40,200p 20260929-1835-blazer-with-notched-lapels/blazer_with_notc...
+[18:44:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; ls 20260929-1818-alien-head-angular-eyes; tail -5 20260929-1818-alien-he...
+[18:44:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; grep -n "Bash\|python\|render" 20260929-1818-alien-head-angular-eyes/cla...
+[18:45:04] Let me see the check/render script that session used.
+[18:45:05] > Bash: cat /tmp/alien/check.py 2>/dev/null || sed -n 16,18p /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1818-alien-hea...
+[18:45:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,30p icon_set/scripts/build_gate.py; grep -n "def add_arc\|def add_bezier\|def add_contour" -...
+[18:46:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/solo48-build-gate-t...
+[18:46:16] > Bash: mkdir -p /tmp/birdlife && cat > /tmp/birdlife/check.py <<'EOF' import importlib.util, sys, subprocess, pathlib sys.path.insert(0, '/Applications/Workspaces/p...
+[18:46:20] > Read: /tmp/birdlife/out/bird-life_redraw.png
+[18:46:26] > Bash: for W in "(20, 30), (25, 31), (29, 28), (31, 23)" "(20, 29), (25, 30), (29, 27), (31, 22)" "(19, 29), (24, 30), (29, 27), (30, 22)"; do for B in "(8, 21), (2...
+[18:46:29] Tuning the wing position against the clearance gate; the sweep script crashed, checking why.
+[18:46:30] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py /tmp/birdlife/t.py 2>&1 | tail -4; grep -n WING /tmp/birdlife/t.py
+[18:46:34] > Bash: diff /tmp/birdlife/bird_life_redraw.py /tmp/birdlife/t.py
+[18:46:38] > Bash: for W in "(20, 30), (25, 31), (29, 28), (31, 23)" "(20, 29), (25, 30), (29, 27), (31, 22)" "(19, 29), (24, 30), (29, 27), (30, 22)"; do for B in "(8, 21), (2...
+[18:46:49] > Bash: for BR in "(38, 32), (32, BOTTOM)" "(40, 30), (34, BOTTOM)" "(40, 28), (33, BOTTOM)"; do for W in "(19, 30), (24, 31), (28, 28), (30, 24)" "(19, 30), (25, 31...
+[18:47:12] > Bash: cat > /tmp/birdlife/opt.py <<'EOF' import itertools, math def bez(p0,p1,p2,p3,n=200): return [tuple((1-t)**3*a+3*(1-t)**2*t*b+3*(1-t)*t*t*c+t**3*d for a,b,c,...
+[18:48:13] > Bash: sed -e "s/^WING = .*/WING = ((17, 28), (24, 29), (29, 27), (30, 24))/" -e "s/((8, 21), (23, 20), NECK)/((9, 22), (22, 22), NECK)/" -e "s/((38, 32), (32, BOTT...
+[18:48:16] Gate passes now; checking the render visually.
+[18:48:16] > Read: /tmp/birdlife/out/bird-life_redraw.png
+[18:48:17] > Read: /tmp/birdlife/out/bird-life_redraw-48.png
+[18:48:27] > Bash: D=new-pipeline-test/output_png/20260929-1838-bird-life && /opt/homebrew/bin/python3 - <<'EOF' src = open('/tmp/birdlife/t.py').read() doc = '''"""bird-life (...
+[18:48:39] I redrew the bird as a Solo48 model. It validates as `valid` with no warnings, and the build gate (`build_gate.py`) passes with no errors or warnings. All three metric issues are fixed.
+
+**Subject:** one songbird seen from the side, facing right. It has an upturned tail, a back that dips and then rises into a round head, a V beak, a plump belly and one curved wing line. At 48 px it still reads clearly as a bird.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested (it had the best fit score, 1.21). All four edges of the box are touched exactly: tail tip at x=4, top of the head at y=10, beak tip at x=44, belly at y=38.
+
+**How it's built:** I rebuilt it on the grid from the generated image, not from the trace coordinates.
+- **Body:** one closed outline:
+  - the back curve;
+  - a head arc of radius 5 centred at (33,15), starting from a neck point that lands exactly on the grid;
+  - two beak lines;
+  - the breast curve;
+  - the curve under the tail.
+- **Joins:** the belly curve is smooth where its two halves meet. The tail tip and the beak are sharp on purpose.
+- **Wing:** a separate curve from (17,28) to (30,24), a shallow upward curve like the one in the image.
+
+**Metric issues:**
+- **Clearance error** (wing and body only 2.8 apart, need 8): fixed. I made the wing shorter and moved it inward, and let the breast and tail-underside curve out slightly to make room. The closest gap is now about 8.3.
+- **Keyshape short-axis warning** (only 96% of the width filled): fixed, since both left and right edges are now reached exactly.
+- **Stroke-width note** (trace stroke 2.55, target 4): handled by drawing at stroke 4 and planning every gap at 8.
+
+**Dropped:** the small rounded notch where the breast meets the underside of the beak in the image. It doesn't show at 48 px, so the breast now meets the beak at a plain corner.
+
+**References:** I found no useful Lucide original for this bird, so the construction comes from the generated image only.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1838-bird-life/`:
+- `bird_life_redraw.py`
+- `bird-life_redraw.svg`
+- `bird-life_redraw.png` (512 px)
+- `bird-life_redraw-48.png`
+
+[18:48:39] === success in 333s, $1.05 ===
+I redrew the bird as a Solo48 model. It validates as `valid` with no warnings, and the build gate (`build_gate.py`) passes with no errors or warnings. All three metric issues are fixed.
+
+**Subject:** one songbird seen from the side, facing right. It has an upturned tail, a back that dips and then rises into a round head, a V beak, a plump belly and one curved wing line. At 48 px it still reads clearly as a bird.
+
+**Keyshape:** `HRECT_M`, as the metrics suggested (it had the best fit score, 1.21). All four edges of the box are touched exactly: tail tip at x=4, top of the head at y=10, beak tip at x=44, belly at y=38.
+
+**How it's built:** I rebuilt it on the grid from the generated image, not from the trace coordinates.
+- **Body:** one closed outline:
+  - the back curve;
+  - a head arc of radius 5 centred at (33,15), starting from a neck point that lands exactly on the grid;
+  - two beak lines;
+  - the breast curve;
+  - the curve under the tail.
+- **Joins:** the belly curve is smooth where its two halves meet. The tail tip and the beak are sharp on purpose.
+- **Wing:** a separate curve from (17,28) to (30,24), a shallow upward curve like the one in the image.
+
+**Metric issues:**
+- **Clearance error** (wing and body only 2.8 apart, need 8): fixed. I made the wing shorter and moved it inward, and let the breast and tail-underside curve out slightly to make room. The closest gap is now about 8.3.
+- **Keyshape short-axis warning** (only 96% of the width filled): fixed, since both left and right edges are now reached exactly.
+- **Stroke-width note** (trace stroke 2.55, target 4): handled by drawing at stroke 4 and planning every gap at 8.
+
+**Dropped:** the small rounded notch where the breast meets the underside of the beak in the image. It doesn't show at 48 px, so the breast now meets the beak at a plain corner.
+
+**References:** I found no useful Lucide original for this bird, so the construction comes from the generated image only.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1838-bird-life/`:
+- `bird_life_redraw.py`
+- `bird-life_redraw.svg`
+- `bird-life_redraw.png` (512 px)
+- `bird-life_redraw-48.png`

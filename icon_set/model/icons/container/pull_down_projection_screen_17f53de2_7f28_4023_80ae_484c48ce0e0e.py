@@ -7,28 +7,38 @@ No source coordinates or solo geometry were scaled. Native size is 64.
 
 Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus does not clear, heart does not clear, check does not clear.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (pull-down-projection-screen SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-from ._construction import path, rounded_rect as rect, ellipse
 
 SOURCE_ICON_ID = '17f53de2-7f28-4023-80ae-484c48ce0e0e'
 SOURCE_PATH = 'pictographic-primitives/office/presentation_17f53de2-7f28-4023-80ae-484c48ce0e0e.svg'
-AUTHOR = 'gpt-6'
+AUTHOR = 'claude-opus-5-5'
 
 
 class PullDownProjectionScreen(Container64):
     icon_id = 'pull-down-projection-screen'
+    keyshape = Keyshape.SQUARE
     category = 'office'
     categories = ('office', 'other', 'primitives-generate')
-    keyshape = Keyshape.SQUARE
     aliases = ()
     keywords = ('pull', 'down', 'projection', 'screen')
 
-    def build(self):
-        line, poly = self.add_line, self.add_polyline
-        def join(a,b): self.relate('connect',a,b)
-        path(self,'screen',(6,2),[('L',(6,44)),('A',(10,48),4,4,False),('L',(54,48)),('A',(58,44),4,4,False),('L',(58,2))])
-        line('rail',(2,2),(62,2));join('screen','rail')
-        line('pull',(32,48),(32,54));join('pull','screen')
-        ellipse(self,'ring',32,58,4);join('pull','ring')
+    def build(self) -> None:
+        self.add_line('screen-0', (10, 6), (10, 40))
+        self.add_arc('screen-1', (10, 40), (14, 44), radius_x=4, sweep=False)
+        self.add_line('screen-2', (14, 44), (50, 44))
+        self.add_arc('screen-3', (50, 44), (54, 40), radius_x=4, sweep=False)
+        self.add_line('screen-4', (54, 40), (54, 6))
+        self.add_line('rail', (6, 6), (58, 6))
+        self.add_line('pull', (32, 44), (32, 50))
+        self.add_arc('ring-0', (28, 54), (36, 54), radius_x=4)
+        self.add_arc('ring-1', (36, 54), (28, 54), radius_x=4)
+        self.add_contour('screen', 'screen-0', 'screen-1', 'screen-2', 'screen-3', 'screen-4')
+        self.add_contour('ring', 'ring-0', 'ring-1', closed=True)
+        self.relate('connect', 'screen', 'rail')
+        self.relate('connect', 'pull', 'screen')
+        self.relate('connect', 'pull', 'ring')

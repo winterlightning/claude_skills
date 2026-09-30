@@ -1,0 +1,67 @@
+[11:08:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1104-crawling-baby && ls && cat crawling-baby_metrics.json | hea...
+[11:08:24] > Bash: python3 -c " import json;d=json.load(open('crawling-baby_metrics.json')) for k in d: if k not in ('elements','keyshape','source','target','choice','files'): ...
+[11:08:37] Let me look at the image and a prior redraw with a human figure for the module/render conventions.
+[11:08:38] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1104-crawling-baby/crawling-baby.png
+[11:08:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260928-1337-hiker-with-trekking-pole/hiker_with_trekking_pole_re...
+[11:08:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test && ls; ls output_png/20260930-1100-crawdad; grep -rl "redraw-48" *.py *.sh 2>/dev/nu...
+[11:08:50] > Bash: grep -n -i "redraw" run_pipeline.sh | head -30; cat output_png/20260930-1100-crawdad/claude.log | tail -30
+[11:08:52] > Bash: ls /tmp/crawdad/ 2>/dev/null && cat /tmp/crawdad/run.py; ls /tmp/cb_render.py 2>/dev/null && cat /tmp/cb_render.py
+[11:09:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && grep -rn "human_figure\|centerline_gap" icon_set/validation/*.py icon_set/model/icons/base.py | hea...
+[11:09:12] > Bash: sed -n 195,225p icon_set/model/icons/base.py; grep -rln "human_figures" icon_set/validation icon_set/scripts | head
+[11:09:49] Inputs read. Next I'm checking the polyline API and rendering tools, then I'll write the model.
+[11:09:50] > Bash: grep -n "def add_polyline" -A25 icon_set/model/icons/base.py | head -40; which rsvg-convert; /opt/homebrew/bin/python3 -c "import cairosvg; print('cairosvg o...
+[11:10:08] > Bash: D=new-pipeline-test/output_png/20260930-1104-crawling-baby; cat > $D/crawling_baby_redraw.py <<'EOF' """crawling-baby (redraw of the new-pipeline traced SVG)...
+[11:10:37] > Bash: D=new-pipeline-test/output_png/20260930-1104-crawling-baby; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1104-crawling-baby/c...
+[11:10:40] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -15
+[11:10:40] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1104-crawling-baby/crawling-baby_redraw.png
+[11:10:42] Reads like the reference. Running the full build gate and checking the native 48 px render in both themes.
+[11:10:44] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260930-1104-crawling-baby/crawling_baby_redraw.py 2>&1 | tail -15; /o...
+[11:10:45] > Read: /tmp/crawlbaby_48pair.png
+[11:10:48] Both themes read cleanly at 48 px. Updating the docstring to match the final geometry.
+[11:10:57] > Bash: /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeline-test/output_png/20260930-1104-crawling-baby/crawling_baby_redraw.py" s=open(p).read() i=s.index('from ico...
+[11:11:08] I redrew the crawling baby as a Solo48 model and fixed all four metric issues. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**What it is:** a stick-figure baby crawling to the right, drawn as two strokes:
+- **Head:** a circle of radius 7 centred at (37,15).
+- **Body:** one continuous stroke: rear foot (4,40) → knee (21,40) on the floor → hip (17,30) → flat back → shoulder (37,30) → arm down to the hand (41,40).
+
+**Keyshape:** I used HRECT_L instead of the suggested HRECT_M. My first draft on HRECT_M got the 8-unit head gap only by placing the shoulder diagonally below the head. The validator measured that curved gap as 8.0002 and returned `review`, not a pass. The gap passes when the shoulder sits directly under the head's lowest point. That layout needs more height than HRECT_M allows, so the floor line fits 10 below the back. The metrics rate HRECT_L nearly as high (1.16 vs 1.21).
+
+**Metric issues, all fixed:**
+- **clearance (4.57, needs 8)** and **head-gap (4.57, needs exactly 8):** the head's bottom point (37,22) is now exactly 8 above the shoulder end of the torso (37,30), a 4-unit visible gap. The arm and thigh angle away from the head.
+- **keyshape-short-axis (x axis 96% filled):** the foot at x=4, head at x=44, head top at y=8 and floor/hand at y=40 sit exactly on the HRECT_L box.
+- **stroke-width (info):** redrawn at stroke 4 with room for it: the floor is 10 below the back, and the thigh is 20 from the arm.
+
+**References:** proportions and the detached head follow `icon_set/references/human_ref/full_body_ref.png`. No suitable Lucide icon exists, so I only applied Lucide's stroke style (round caps and joins). Nothing from the generated image was dropped. The rounded hip and knee corners become round joins, and the figure stays asymmetric because it's in side profile.
+
+At 48 px it reads as the generated image does, in both light and dark themes. I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1104-crawling-baby/`:
+- `crawling_baby_redraw.py`
+- `crawling-baby_redraw.svg`
+- `crawling-baby_redraw.png`
+- `crawling-baby_redraw-48.png`
+
+[11:11:08] === success in 214s, $0.92 ===
+I redrew the crawling baby as a Solo48 model and fixed all four metric issues. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**What it is:** a stick-figure baby crawling to the right, drawn as two strokes:
+- **Head:** a circle of radius 7 centred at (37,15).
+- **Body:** one continuous stroke: rear foot (4,40) → knee (21,40) on the floor → hip (17,30) → flat back → shoulder (37,30) → arm down to the hand (41,40).
+
+**Keyshape:** I used HRECT_L instead of the suggested HRECT_M. My first draft on HRECT_M got the 8-unit head gap only by placing the shoulder diagonally below the head. The validator measured that curved gap as 8.0002 and returned `review`, not a pass. The gap passes when the shoulder sits directly under the head's lowest point. That layout needs more height than HRECT_M allows, so the floor line fits 10 below the back. The metrics rate HRECT_L nearly as high (1.16 vs 1.21).
+
+**Metric issues, all fixed:**
+- **clearance (4.57, needs 8)** and **head-gap (4.57, needs exactly 8):** the head's bottom point (37,22) is now exactly 8 above the shoulder end of the torso (37,30), a 4-unit visible gap. The arm and thigh angle away from the head.
+- **keyshape-short-axis (x axis 96% filled):** the foot at x=4, head at x=44, head top at y=8 and floor/hand at y=40 sit exactly on the HRECT_L box.
+- **stroke-width (info):** redrawn at stroke 4 with room for it: the floor is 10 below the back, and the thigh is 20 from the arm.
+
+**References:** proportions and the detached head follow `icon_set/references/human_ref/full_body_ref.png`. No suitable Lucide icon exists, so I only applied Lucide's stroke style (round caps and joins). Nothing from the generated image was dropped. The rounded hip and knee corners become round joins, and the figure stays asymmetric because it's in side profile.
+
+At 48 px it reads as the generated image does, in both light and dark themes. I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1104-crawling-baby/`:
+- `crawling_baby_redraw.py`
+- `crawling-baby_redraw.svg`
+- `crawling-baby_redraw.png`
+- `crawling-baby_redraw-48.png`

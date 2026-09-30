@@ -1,0 +1,87 @@
+[18:09:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1806-adjacent-teeth-with-braces; ls $D; cat $D/*_metrics.json...
+[18:10:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1806-adjacent-teeth-with-braces; python3 -c " import json;m=j...
+[18:10:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/adjacent-teeth-with-braces.png
+[18:10:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; sed -n '/Redraw/,/^## /p' process.md | head -60; ls -t output_png/*/*_redraw.py...
+[18:10:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1805-anklet/anklet_redraw.py; ls output_png/20260929-1805-a...
+[18:10:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -20; cat new-pipeline-test/output_png/20260...
+[18:10:46] Reading inputs done: two molars with square brackets joined by a wire. Now checking a molar module and the render step.
+[18:10:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,200p icon_set/model/icons/solo/broad_molar_with_two_rounded_roots_bd3ed1c5_f392_45bf_ac8f_4f...
+[18:10:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def " icon_set/model/icons/base.py | head -60; cat ~/.claude/projects/-Applications-Workspac...
+[18:12:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i "gate\|render\|png"; which rsvg-convert; /opt/homebrew/bin/python3 -c "...
+[18:12:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces cat > $D/adjacent_teeth_with_...
+[18:13:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces; F=$D/adjacent_teeth_with_bra...
+[18:13:31] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/adjacent-teeth-with-braces_redraw.png
+[18:13:32] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/adjacent-teeth-with-braces_redraw-4...
+[18:13:32] > Read: /tmp/teeth_dark48.png
+[18:14:00] First draft passes the gates but the touching teeth merge into a blob at 48 px. Trying a version with a real gap between the teeth (straight side walls so the 8-unit spacings certify).
+[18:14:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces; F=$D/adjacent_teeth_with_bra...
+[18:14:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces; F=$D/adjacent_teeth_with_bra...
+[18:14:24] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/adjacent-teeth-with-braces_redraw.png
+[18:14:24] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/adjacent-teeth-with-braces_redraw-4...
+[18:14:24] > Read: /tmp/teeth_dark48.png
+[18:14:32] The gap version reads as two separate teeth with a bracket and wire; keeping it. Updating the docstring to match.
+[18:14:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces; F=$D/adjacent_teeth_with_bra...
+[18:14:57] I redrew the adjacent teeth with braces as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two molars side by side with a white gap between them. Each tooth has a bracket, and one wire runs through both brackets and across the gap. The drawing is mirrored about x=24.
+
+**Keyshape:** I used `HRECT_L`, not the suggested `HRECT_M`. A crown dip, a bracket and a root notch need 32 units of height, and `HRECT_M` only gives 28. The drawing fills the box exactly: crown tops at y=8, root tips at y=40, outer walls at x=4 and x=44.
+
+**Construction:**
+- **Teeth:** each tooth is one closed outline, 16 wide. The two teeth are 8 apart, which is exactly the minimum spacing.
+- **Straight walls:** the side walls are straight where the bracket and wire sit, so the exactly-8 distances pass instead of coming back as `review`.
+- **Brackets:** each bracket is a short solid bar, 9 units from the crown dip and 9 from the root notch.
+- **Wire:** the wire is split where it meets each wall, and every join is a shared point declared as connected.
+
+**Metric issues, all fixed:**
+- **Teeth too close (2.11 apart):** they are now 8 apart.
+- **Wire crossing the tooth outlines:** the wire now ends on points it shares with the walls.
+- **Bracket too close to the root notch (3.86):** it is now 9 away.
+- **Eight small holes (1.8–2.8 wide):** the brackets are now solid bars, so each tooth has one open interior.
+- **Keyshape height only 86% filled:** fixed by the move to `HRECT_L`.
+- **Stroke width (info):** everything is drawn and spaced for stroke 4.
+
+**Changed from the generated image:** the hollow square brackets. A hollow bracket needs 24 units of width inside a 16-wide tooth, so they became solid bars. I also tried a version with the teeth touching at their widest point. It passed too, but at 48 px the two touching walls merged into one thick bar, so I kept the version with a gap.
+
+**References:** no Lucide icon matched. The roots follow the repo's `broad-molar-with-two-rounded-roots`. I checked the result at 48 px on light and dark backgrounds, and it reads as two separate teeth with a bracket and wire.
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/`:
+- `adjacent_teeth_with_braces_redraw.py`
+- `adjacent-teeth-with-braces_redraw.svg`
+- `adjacent-teeth-with-braces_redraw.png`
+- `adjacent-teeth-with-braces_redraw-48.png`
+
+[18:14:57] === success in 308s, $1.27 ===
+I redrew the adjacent teeth with braces as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two molars side by side with a white gap between them. Each tooth has a bracket, and one wire runs through both brackets and across the gap. The drawing is mirrored about x=24.
+
+**Keyshape:** I used `HRECT_L`, not the suggested `HRECT_M`. A crown dip, a bracket and a root notch need 32 units of height, and `HRECT_M` only gives 28. The drawing fills the box exactly: crown tops at y=8, root tips at y=40, outer walls at x=4 and x=44.
+
+**Construction:**
+- **Teeth:** each tooth is one closed outline, 16 wide. The two teeth are 8 apart, which is exactly the minimum spacing.
+- **Straight walls:** the side walls are straight where the bracket and wire sit, so the exactly-8 distances pass instead of coming back as `review`.
+- **Brackets:** each bracket is a short solid bar, 9 units from the crown dip and 9 from the root notch.
+- **Wire:** the wire is split where it meets each wall, and every join is a shared point declared as connected.
+
+**Metric issues, all fixed:**
+- **Teeth too close (2.11 apart):** they are now 8 apart.
+- **Wire crossing the tooth outlines:** the wire now ends on points it shares with the walls.
+- **Bracket too close to the root notch (3.86):** it is now 9 away.
+- **Eight small holes (1.8–2.8 wide):** the brackets are now solid bars, so each tooth has one open interior.
+- **Keyshape height only 86% filled:** fixed by the move to `HRECT_L`.
+- **Stroke width (info):** everything is drawn and spaced for stroke 4.
+
+**Changed from the generated image:** the hollow square brackets. A hollow bracket needs 24 units of width inside a 16-wide tooth, so they became solid bars. I also tried a version with the teeth touching at their widest point. It passed too, but at 48 px the two touching walls merged into one thick bar, so I kept the version with a gap.
+
+**References:** no Lucide icon matched. The roots follow the repo's `broad-molar-with-two-rounded-roots`. I checked the result at 48 px on light and dark backgrounds, and it reads as two separate teeth with a bracket and wire.
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260929-1806-adjacent-teeth-with-braces/`:
+- `adjacent_teeth_with_braces_redraw.py`
+- `adjacent-teeth-with-braces_redraw.svg`
+- `adjacent-teeth-with-braces_redraw.png`
+- `adjacent-teeth-with-braces_redraw-48.png`

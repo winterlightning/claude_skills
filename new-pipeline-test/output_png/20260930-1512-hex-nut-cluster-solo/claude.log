@@ -1,0 +1,94 @@
+[15:14:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; ls $D; cat $D/hex-nut-cluster-solo...
+[15:15:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; python3 -c " import json;m=json.lo...
+[15:15:17] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/hex-nut-cluster-solo.png
+[15:15:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -3; f=$(ls -t new-pipeline-test/output_png/*/...
+[15:15:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test; grep -rl "redraw-48" new-pipeline-test/*.py new-pipeline-test/*.sh new-pipeline...
+[15:15:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -30; grep -rn "def add_\|def to_svg\|def sv...
+[15:15:27] I'm checking the geometry API so I can draw three hex nuts on the SQUARE keyshape.
+[15:15:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn " def add_\| def svg\| def to_svg\| def render\| def emit" icon_set/model/ | grep -v test | ...
+[15:15:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py; grep -rn "circle\|CIRCLE" icon_set/model/geometry*.py 2>...
+[15:15:38] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat normal48-geometry-floors.md solo48-build-gate-traps.md grid-unsafe-ato...
+[15:15:40] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; grep -n -i "hole\|circle\|r=\|radius\|dot" solo48-build-gate-traps.md norm...
+[15:17:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert; /opt/homebrew/bin/python3 -c "import cairosvg; print('cairosvg ok')"; grep -n "pn...
+[15:17:35] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/hex_nut_cluster_solo_redraw.py
+[15:17:37] Validating the model and rendering the previews.
+[15:17:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; /opt/homebrew/bin/python3 - <<EOF ...
+[15:17:50] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/hex-nut-cluster-solo_redraw.png
+[15:17:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; /opt/homebrew/bin/python3 new-pipe...
+[15:18:01] It reads clearly. Running the metrics tool and the build gate on the redraw as a cross-check.
+[15:18:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; mkdir -p /tmp/hexm; cp $D/hex-nut-...
+[15:18:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260930-1512-h...
+[15:18:19] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/hex-nut-cluster-solo_redraw-48.png
+[15:18:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo; ls
+[15:18:34] The three nuts are redrawn as a Solo48 model on the SQUARE keyshape, and it validates clean. To make them fit, the nuts now touch and share walls instead of standing apart with white gaps, and each nut's hole is a solid dot instead of a ring.
+
+**Subject:** three hex nuts packed in a triangle, one centred above two, mirrored about x=24. The icon id is `hex-nut-cluster-solo-redraw` and `SOURCE_ICON_ID` is `e9326841-b6b1-432e-a99d-c2065849139b`, which matches `choice.json`.
+
+**Keyshape:** SQUARE, as the metrics suggested. The drawing reaches all four edges exactly (6 and 42 on both axes).
+
+**Construction:** every nut uses the same hexagon: 18 wide across the flat sides, 20 tall point to point, corners on whole-number points.
+- The bottom nuts are centred at (15,32) and (33,32) and the top nut at (24,16).
+- Neighbouring nuts share one edge. The left nut is a closed hexagon, the right nut uses the left nut's right wall as its left side, and the top nut's lower edges are the upper edges of the two bottom nuts.
+- Every place two nuts meet is declared as a connection.
+- I based it on Lucide's `hexagon` and `bolt` (a hexagon with a centred hole).
+
+**Metric issues fixed:**
+- **Spacing:** all 11 pairs of outlines and rings that were too close (3.2–7.9 apart, need 8) are gone. Touching nuts share their walls, and each dot is at least 9 from every wall.
+- **Holes:** all 6 undersized holes are gone. The three thin slivers between hexagons and rings (1.5 wide) and the three ring holes (3.4 wide, need 6) disappear with the rings; each nut is now one clean cell about 14 wide inside.
+- **Stroke width:** the traced stroke was 2.77. The redraw uses stroke 4, and every gap was planned for it.
+
+**Issues I couldn't fix as traced:**
+- **Separate nuts with white gaps between them:** this doesn't fit in any Solo48 keyshape. A hole mark needs about 8 of room from the centre of a nut to each wall, so three nuts with the required 8-unit gaps take at least 40×39. SQUARE allows 36×36, and none of the other shapes fit either. So the nuts share edges instead.
+- **Ring holes:** the smallest allowed ring plus its clearance needs a nut 22 wide, and two side by side would need 44. Solid dots were the only hole mark that fits.
+
+**Validation:**
+- `validate_icon()` returns `valid`.
+- `build_gate.py` passes with 0 errors and 0 warnings.
+- Running `svg_metrics.py` on the redraw suggests SQUARE and lists 0 issues.
+
+At native 48 px it reads as three packed hex nuts. With the shared walls it could also read partly as honeycomb.
+
+As asked, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/`:
+- `hex_nut_cluster_solo_redraw.py`
+- `hex-nut-cluster-solo_redraw.svg`
+- `hex-nut-cluster-solo_redraw.png`
+- `hex-nut-cluster-solo_redraw-48.png`
+
+[15:18:34] === success in 240s, $1.14 ===
+The three nuts are redrawn as a Solo48 model on the SQUARE keyshape, and it validates clean. To make them fit, the nuts now touch and share walls instead of standing apart with white gaps, and each nut's hole is a solid dot instead of a ring.
+
+**Subject:** three hex nuts packed in a triangle, one centred above two, mirrored about x=24. The icon id is `hex-nut-cluster-solo-redraw` and `SOURCE_ICON_ID` is `e9326841-b6b1-432e-a99d-c2065849139b`, which matches `choice.json`.
+
+**Keyshape:** SQUARE, as the metrics suggested. The drawing reaches all four edges exactly (6 and 42 on both axes).
+
+**Construction:** every nut uses the same hexagon: 18 wide across the flat sides, 20 tall point to point, corners on whole-number points.
+- The bottom nuts are centred at (15,32) and (33,32) and the top nut at (24,16).
+- Neighbouring nuts share one edge. The left nut is a closed hexagon, the right nut uses the left nut's right wall as its left side, and the top nut's lower edges are the upper edges of the two bottom nuts.
+- Every place two nuts meet is declared as a connection.
+- I based it on Lucide's `hexagon` and `bolt` (a hexagon with a centred hole).
+
+**Metric issues fixed:**
+- **Spacing:** all 11 pairs of outlines and rings that were too close (3.2–7.9 apart, need 8) are gone. Touching nuts share their walls, and each dot is at least 9 from every wall.
+- **Holes:** all 6 undersized holes are gone. The three thin slivers between hexagons and rings (1.5 wide) and the three ring holes (3.4 wide, need 6) disappear with the rings; each nut is now one clean cell about 14 wide inside.
+- **Stroke width:** the traced stroke was 2.77. The redraw uses stroke 4, and every gap was planned for it.
+
+**Issues I couldn't fix as traced:**
+- **Separate nuts with white gaps between them:** this doesn't fit in any Solo48 keyshape. A hole mark needs about 8 of room from the centre of a nut to each wall, so three nuts with the required 8-unit gaps take at least 40×39. SQUARE allows 36×36, and none of the other shapes fit either. So the nuts share edges instead.
+- **Ring holes:** the smallest allowed ring plus its clearance needs a nut 22 wide, and two side by side would need 44. Solid dots were the only hole mark that fits.
+
+**Validation:**
+- `validate_icon()` returns `valid`.
+- `build_gate.py` passes with 0 errors and 0 warnings.
+- Running `svg_metrics.py` on the redraw suggests SQUARE and lists 0 issues.
+
+At native 48 px it reads as three packed hex nuts. With the shared walls it could also read partly as honeycomb.
+
+As asked, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1512-hex-nut-cluster-solo/`:
+- `hex_nut_cluster_solo_redraw.py`
+- `hex-nut-cluster-solo_redraw.svg`
+- `hex-nut-cluster-solo_redraw.png`
+- `hex-nut-cluster-solo_redraw-48.png`

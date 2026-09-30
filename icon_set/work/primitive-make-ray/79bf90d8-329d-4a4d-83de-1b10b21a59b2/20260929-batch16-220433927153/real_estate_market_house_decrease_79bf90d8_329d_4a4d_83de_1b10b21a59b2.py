@@ -1,0 +1,38 @@
+"""The rejected arrow has an almost horizontal shaft and short heavy head. Restore a clear descending diagonal above three decreasing outlined bars.
+Plan: SQUARE exact SOLO48 bounds; coherent contours and shared repeats.
+Construction reference: Lucide chart-no-axes-column-decreasing: common baseline and orderly descending heights.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='79bf90d8-329d-4a4d-83de-1b10b21a59b2'
+SOURCE_PATH='icon_set/work/primitive-fix-thuan/solo__real-estate-market-house-decrease/20260929T145934Z-thuan-mac/reference/real estate market house decrease_79bf90d8-329d-4a4d-83de-1b10b21a59b2.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='real-estate-market-house-decrease'
+    keyshape=Keyshape.SQUARE
+    semantic_role="MAIN"
+    semantic_kind="noun"
+    category="primitives-generate"
+    aliases=()
+    keywords=('real', 'estate', 'market', 'house', 'decrease')
+    def build(self):
+
+        def path(n,start,steps,closed=False):
+            members=[];here=start
+            for j,(kind,end,*args) in enumerate(steps):
+                m=f'{n}-{j}'
+                if kind=='L':self.add_line(m,here,end)
+                elif kind=='A':self.add_arc(m,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C':self.add_bezier(m,here,(args[0],args[1],end))
+                members.append(m);here=end
+            self.add_contour(n,*members,closed=closed)
+        def oval(n,x,y,rx,ry):path(n,(x-rx,y),[('A',(x+rx,y),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def box(n,l,t,r,b,rad=0):
+            if not rad:self.add_polyline(n,(l,t),(r,t),(r,b),(l,b),closed=True);return
+            path(n,(l+rad,t),[('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line
+        poly=self.add_polyline
+        join=lambda a,b:self.relate('connect',a,b)
+
+        for i,(x,y) in enumerate(((6,18),(20,28),(34,34))):box('bar'+str(i),x,y,x+8,42)
+        line('trend',(10,6),(42,26));poly('arrow',(40,16),(42,26),(32,26));join('trend','arrow')

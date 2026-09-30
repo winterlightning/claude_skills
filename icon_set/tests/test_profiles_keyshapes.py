@@ -44,11 +44,13 @@ class ProfileSpecTests(unittest.TestCase):
     def test_profiles_are_named_for_their_family_and_canvas(self) -> None:
         for profile in Profile:
             with self.subTest(profile=profile.name):
-                self.assertEqual(profile.name, f"{profile.family.upper()}{profile.spec.canvas_size}")
+                family, size = profile.family.upper(), str(profile.spec.canvas_size)
+                # A family already named for its canvas (symbol24) is not suffixed twice.
+                self.assertEqual(profile.name, family if family.endswith(size) else family + size)
 
     def test_family_binding_is_one_to_one(self) -> None:
         families = contracts.families()
-        self.assertEqual(set(families), {"sub", "symbol", "solo", "container", "combination_main"})
+        self.assertEqual(set(families), {"sub", "symbol", "symbol24", "solo", "container", "combination_main"})
         self.assertEqual({Profile.for_family(f) for f in families}, set(Profile))
         for family in families:
             self.assertEqual(Profile.for_family(family).family, family)
@@ -88,12 +90,18 @@ class KeyshapeResolutionTests(unittest.TestCase):
         self.assertEqual(Keyshape.CIRCLE.centerline_radius_for(Profile.SOLO48), 20)
         self.assertEqual(Keyshape.SQUARE.bounds_for(Profile.SOLO48), (4, 4, 44, 44))
 
-    def test_container64_is_exactly_twice_sub32(self) -> None:
+    def test_container64_independent_visible_envelopes(self) -> None:
+        expected = {
+            Keyshape.CIRCLE: (60, 60), Keyshape.SQUARE: (56, 56),
+            Keyshape.HRECT_M: (60, 44), Keyshape.VRECT_M: (44, 60),
+        }
         for shape in STANDARD:
-            base = shape.size_for(Profile.SUB32)
-            composite = shape.size_for(Profile.CONTAINER64)
-            self.assertEqual(composite.width, base.width * 2)
-            self.assertEqual(composite.height, base.height * 2)
+            width, height = expected.get(shape, (60, 48) if shape.orientation == 'landscape' else (48, 60))
+            self.assertEqual(shape.size_for(Profile.CONTAINER64), KeyshapeSize(width, height))
+        self.assertEqual(Keyshape.CIRCLE.centerline_radius_for(Profile.CONTAINER64), 28)
+        self.assertEqual(Keyshape.SQUARE.bounds_for(Profile.CONTAINER64), (4, 4, 60, 60))
+        # M is the tightest box that still hosts a SYMBOL32 at (16, 16) with MIC 2.
+        self.assertEqual(Keyshape.HRECT_M.bounds_for(Profile.CONTAINER64), (2, 10, 62, 54))
 
     def test_horizontal_and_vertical_are_transposes(self) -> None:
         pairs = (
@@ -135,7 +143,7 @@ class KeyshapeResolutionTests(unittest.TestCase):
     def test_circle_radius(self) -> None:
         self.assertEqual(Keyshape.CIRCLE.visible_radius_for(Profile.SUB32), 16.0)
         self.assertEqual(Keyshape.CIRCLE.centerline_radius_for(Profile.SUB32), 14.0)
-        self.assertEqual(Keyshape.CIRCLE.visible_radius_for(Profile.CONTAINER64), 32.0)
+        self.assertEqual(Keyshape.CIRCLE.visible_radius_for(Profile.CONTAINER64), 30.0)
 
 
 if __name__ == "__main__":  # pragma: no cover

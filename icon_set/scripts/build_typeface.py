@@ -253,4 +253,41 @@ def build_v2():
                                'case_policy':'uppercase','fallback':'v1','glyphs':glyphs},indent=2)+'\n')
  print(f'Built {len(glyphs)} source-native v2 uppercase and digit glyphs -> {target}')
 
-if __name__=='__main__':build();build_v2()
+V2_SIZES=tuple(range(18,41,2))
+GEOMETRY_POLICY_V2_SIZES='source-hinted-v2'
+
+def build_v2_sizes():
+ """Grid-hint the native v2 glyphs to every even ink height in V2_SIZES."""
+ from icon_set.scripts.typeface_hinting import hint_glyph, path_d, STROKE
+ native=json.loads((ROOT/'icon_set/typeface/glyphs-v2.json').read_text())['glyphs']
+ sizes={}
+ for height in V2_SIZES:
+  glyphs=[]
+  for base in native:
+   source=ROOT/base['source_path']
+   if hashlib.sha256(source.read_bytes()).hexdigest()!=base['source_sha256']:
+    raise ValueError('glyphs-v2.json is stale for '+base['source_path']+'; run build_v2() first')
+   paths,report=hint_glyph(source_paths(source,repairs=False),(base['body_top'],base['baseline']),height)
+   if report['merged_keys']:raise ValueError(f"{base['icon_id']} at {height}: {report['merged_keys']} key lines collapsed")
+   box=[float(v) for v in bounds(paths)];path_data=[path_d(p) for p in paths]
+   left,top,right,bottom=box
+   glyphs.append(dict(icon_id=base['icon_id'],character=base['character'],kind=base['kind'],preferred=True,
+                      size=height,body_top=2,baseline=height-2,body_height=height-4,bounds=box,
+                      measurement='source-body-band',paths=path_data,preview_box=[0,0,height,height],
+                      svg_sha256=hashlib.sha256(json.dumps(path_data,separators=(',',':')).encode()).hexdigest(),
+                      source_path=base['source_path'],source_sha256=base['source_sha256'],
+                      author='user-supplied',geometry_policy=GEOMETRY_POLICY_V2_SIZES,
+                      construction='native v2 centerlines grid-hinted: keys snapped, handles interpolated',
+                      stroke_width=STROKE,ink_width=right-left+STROKE,ink_height=bottom-top+STROKE,
+                      ink_left=left-STROKE/2,ink_top=top-STROKE/2,
+                      centerline_width=right-left,centerline_height=bottom-top,
+                      canvas_width=height,canvas_height=height,centerline_band_height=height-4,
+                      hint_report=report))
+  sizes[str(height)]=glyphs
+ target=ROOT/'icon_set/typeface/glyphs-v2-sizes.json'
+ target.write_text(json.dumps({'schema_version':1,'version':'v2','geometry_policy':GEOMETRY_POLICY_V2_SIZES,
+                               'native_size':int(native[0]['canvas_height']),'heights':list(V2_SIZES),
+                               'stroke_width':4,'case_policy':'uppercase','fallback':'v1','sizes':sizes},indent=1)+'\n')
+ print(f'Built {len(native)} v2 glyphs at {len(V2_SIZES)} hinted sizes -> {target}')
+
+if __name__=='__main__':build();build_v2();build_v2_sizes()

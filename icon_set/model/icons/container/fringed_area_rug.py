@@ -6,16 +6,21 @@ edges. Centerline extremes (6,2)-(58,62). The four original corner fringe
 strokes are preserved, with two middle strokes added at each end, mirrored
 about x=32. The original VRECT_XL proportions and empty interior are unchanged.
 Hosting measured with compose.py: plus valid, heart valid, check valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (fringed-area-rug VRECT_XL -> VRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
-AUTHOR = 'gpt-6'
+
 SOURCE_ICON_ID = None
 SOURCE_PATH = None
+AUTHOR = 'claude-opus-5-5'
+
 
 class FringedAreaRug(Container64):
     icon_id = 'fringed-area-rug'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'container'
@@ -24,17 +29,24 @@ class FringedAreaRug(Container64):
     keywords = ('rug', 'mat', 'textile', 'fringe')
 
     def build(self) -> None:
-        self.add_polyline('rug', (6, 8), (58, 8), (58, 56), (6, 56), closed=True)
-        self.add_line('fringe-top-6', (6, 2), (6, 8))
+        self.add_line('rug-1', (10, 10), (54, 10))
+        self.add_line('rug-2', (54, 10), (54, 54))
+        self.add_line('rug-3', (54, 54), (10, 54))
+        self.add_line('rug-4', (10, 54), (10, 10))
+        self.add_line('fringe-top-6', (10, 4), (10, 10))
+        self.add_line('fringe-bottom-6', (10, 54), (10, 60))
+        self.add_line('fringe-top-58', (54, 4), (54, 10))
+        self.add_line('fringe-bottom-58', (54, 54), (54, 60))
+        self.add_line('fringe-top-26', (27, 4), (27, 10))
+        self.add_line('fringe-bottom-26', (27, 54), (27, 60))
+        self.add_line('fringe-top-38', (37, 4), (37, 10))
+        self.add_line('fringe-bottom-38', (37, 54), (37, 60))
+        self.add_contour('rug', 'rug-1', 'rug-2', 'rug-3', 'rug-4', closed=True)
         self.relate('connect', 'rug', 'fringe-top-6')
-        self.add_line('fringe-bottom-6', (6, 56), (6, 62))
         self.relate('connect', 'rug', 'fringe-bottom-6')
-        self.add_line('fringe-top-58', (58, 2), (58, 8))
         self.relate('connect', 'rug', 'fringe-top-58')
-        self.add_line('fringe-bottom-58', (58, 56), (58, 62))
         self.relate('connect', 'rug', 'fringe-bottom-58')
-        for x in (26, 38):
-            self.add_line(f'fringe-top-{x}', (x, 2), (x, 8))
-            self.relate('connect', 'rug', f'fringe-top-{x}')
-            self.add_line(f'fringe-bottom-{x}', (x, 56), (x, 62))
-            self.relate('connect', 'rug', f'fringe-bottom-{x}')
+        self.relate('connect', 'rug', 'fringe-top-26')
+        self.relate('connect', 'rug', 'fringe-bottom-26')
+        self.relate('connect', 'rug', 'fringe-top-38')
+        self.relate('connect', 'rug', 'fringe-bottom-38')

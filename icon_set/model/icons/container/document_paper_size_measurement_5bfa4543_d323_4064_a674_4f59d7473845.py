@@ -2,38 +2,51 @@
 Hosting probes using plus-sign-state-131, heart-state-63, check-mark: invalid, review, review. Full content occupies the slot; see batch hosting report.
 Whole subject explicitly authorized by user; preserve saved family.
 Keyshape: HRECT_XL; fine source details simplified only for native readability.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (document-paper-size-measurement HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
-from ._base import Container64
+
 from ...keyshapes import Keyshape
+from ._base import Container64
+
 SOURCE_ICON_ID = '5bfa4543-d323-4064-a674-4f59d7473845'
 SOURCE_PATH = 'pictographic-primitives/files/paper sizes two document measure 1_5bfa4543-d323-4064-a674-4f59d7473845.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'claude-opus-5-5'
 
-def page(icon, prefix, left, top, right, bottom, cut=10, radius=3):
-    pts=[(left+radius,top),(right-cut,top),(right,top+cut),(right,bottom-radius)]
-    for j,(a,b) in enumerate(zip(pts,pts[1:]),1):
-        icon.add_line(prefix+"-upper-"+str(j),a,b)
-    icon.add_arc(prefix+"-br",pts[-1],(right-radius,bottom),radius_x=radius)
-    icon.add_line(prefix+"-bottom",(right-radius,bottom),(left+radius,bottom))
-    icon.add_arc(prefix+"-bl",(left+radius,bottom),(left,bottom-radius),radius_x=radius)
-    icon.add_line(prefix+"-left",(left,bottom-radius),(left,top+radius))
-    icon.add_arc(prefix+"-tl",(left,top+radius),pts[0],radius_x=radius)
-    icon.add_contour(prefix,prefix+"-upper-1",prefix+"-upper-2",prefix+"-upper-3",prefix+"-br",prefix+"-bottom",prefix+"-bl",prefix+"-left",prefix+"-tl",closed=True)
 
 class Icon(Container64):
     icon_id = 'document-paper-size-measurement'
-    keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'files'
     categories = ('files', 'primitives')
     aliases = ('Document Paper Size Measurement',)
     keywords = ('document', 'paper', 'size', 'measurement')
-    def build(self):
-        page(self,"small",2,18,26,42,cut=8,radius=3)
-        page(self,"large",36,6,62,42,cut=10,radius=3)
-        self.add_line("dimension",(2,54),(62,54))
-        for j,x in enumerate((2,62)):
-            self.add_line("cap-"+str(j)+"-a",(x,50),(x,54))
-            self.add_line("cap-"+str(j)+"-b",(x,54),(x,58))
-            self.relate("connect","dimension","cap-"+str(j)+"-a","cap-"+str(j)+"-b")
+
+    def build(self) -> None:
+        self.add_line('small-upper-1', (7, 21), (19, 21))
+        self.add_line('small-upper-2', (19, 21), (27, 29))
+        self.add_line('small-upper-3', (27, 29), (27, 36))
+        self.add_arc('small-br', (27, 36), (24, 39), radius_x=3)
+        self.add_line('small-bottom', (24, 39), (7, 39))
+        self.add_arc('small-bl', (7, 39), (4, 36), radius_x=3)
+        self.add_line('small-left', (4, 36), (4, 24))
+        self.add_arc('small-tl', (4, 24), (7, 21), radius_x=3)
+        self.add_line('large-upper-1', (38, 10), (51, 10))
+        self.add_line('large-upper-2', (51, 10), (60, 19))
+        self.add_line('large-upper-3', (60, 19), (60, 36))
+        self.add_arc('large-br', (60, 36), (57, 39), radius_x=3)
+        self.add_line('large-bottom', (57, 39), (38, 39))
+        self.add_arc('large-bl', (38, 39), (35, 36), radius_x=3)
+        self.add_line('large-left', (35, 36), (35, 13))
+        self.add_arc('large-tl', (35, 13), (38, 10), radius_x=3)
+        self.add_line('dimension', (4, 50), (60, 50))
+        self.add_line('cap-0-a', (4, 47), (4, 50))
+        self.add_line('cap-0-b', (4, 50), (4, 54))
+        self.add_line('cap-1-a', (60, 47), (60, 50))
+        self.add_line('cap-1-b', (60, 50), (60, 54))
+        self.add_contour('small', 'small-upper-1', 'small-upper-2', 'small-upper-3', 'small-br', 'small-bottom', 'small-bl', 'small-left', 'small-tl', closed=True)
+        self.add_contour('large', 'large-upper-1', 'large-upper-2', 'large-upper-3', 'large-br', 'large-bottom', 'large-bl', 'large-left', 'large-tl', closed=True)
+        self.relate('connect', 'dimension', 'cap-0-a', 'cap-0-b')
+        self.relate('connect', 'dimension', 'cap-1-a', 'cap-1-b')

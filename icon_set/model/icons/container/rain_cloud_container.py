@@ -6,30 +6,34 @@ Reference identity retained; minor export irregularities simplified.
 Hosting measured with compose.py: plus passes, heart passes, check passes.
 
 Batch 10 Hosting measured with compose.py: plus: pass; heart: pass; check: pass.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (rain-cloud-container HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class RainCloudContainer(Container64):
     icon_id = 'rain-cloud-container'
-    keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "container"
-    categories = ("container",)
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'container'
+    categories = ('container',)
     aliases = ('cloud-with-falling-rain', 'rainy-weather-cloud')
     keywords = ('rain', 'cloud', 'container')
 
     def build(self) -> None:
-        self.add_arc('left', (14, 22), (14, 42), radius_x=12, radius_y=10, sweep=False, large_arc=False)
-        self.add_line('base', (14, 42), (52, 42))
-        self.add_arc('right', (52, 42), (62, 32), radius_x=10, radius_y=10, sweep=False, large_arc=False)
-        self.add_arc('shoulder', (62, 32), (46, 22), radius_x=16, radius_y=10, sweep=False, large_arc=False)
-        self.add_arc('crown', (46, 22), (14, 22), radius_x=16, radius_y=16, sweep=False, large_arc=False)
-        self.add_contour('cloud', 'left', 'base', 'right', 'shoulder', 'crown', closed=True)
-        self.add_line('rain0', (24, 50), (16, 58))
-        self.add_line('rain1', (38, 50), (30, 58))
-        self.add_line('rain2', (52, 50), (44, 58))
+        self.add_arc('left-a', (15, 25), (4, 33), radius_x=11, radius_y=9, sweep=False)
+        self.add_arc('left-b', (4, 33), (14, 40), radius_x=10, radius_y=8, sweep=False)
+        self.add_line('base', (14, 40), (52, 40))
+        self.add_arc('right', (52, 40), (60, 32), radius_x=8, sweep=False)
+        self.add_arc('shoulder', (60, 32), (45, 25), radius_x=15, radius_y=7, sweep=False)
+        self.add_arc('crown', (45, 25), (15, 25), radius_x=15, sweep=False)
+        self.add_line('rain0', (24, 47), (16, 54))
+        self.add_line('rain1', (38, 47), (30, 54))
+        self.add_line('rain2', (52, 47), (44, 54))
+        self.add_contour('cloud', 'left-a', 'left-b', 'base', 'right', 'shoulder', 'crown', closed=True)

@@ -1,0 +1,105 @@
+[13:12:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; ls $D; cat $D/*_metrics.json |...
+[13:12:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; python3 -c " import json;m=jso...
+[13:13:01] Let me look at the image and a previous redraw for the file/render conventions.
+[13:13:02] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/graduate-with-two-people.png
+[13:13:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; f=$(ls -t new-pipeline-test/output_png/*/*_redraw.py | grep -il -m1 "" ); ls -t new-pipeline-test/out...
+[13:13:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test/ new-pipeline-test/output_png/20260928-1347-swimming-athletes; ls new-pipeline-t...
+[13:13:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -i "redraw\|render" new-pipeline-test/run_pipeline.sh | head -30; cat new-pipeline-test/outpu...
+[13:13:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def [a-z_]*svg\|def render\|def validate_icon\|def mark_human_figure\|def add_arc\|def add_c...
+[13:13:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def to_svg\|def svg\|def render_svg\|def emit\|def draw(" icon_set/model | head; grep -rln ...
+[13:13:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "rsvg\|cairosvg\|magick\|to_svg" new-pipeline-test/output_png/20260930-1303-gantt-chart-with-...
+[13:13:33] Studying an existing group-of-busts solo module before drawing.
+[13:13:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,200p icon_set/model/icons/solo/two_people_figures_ef9a5734_bb37_4ba6_8059_d08bad5b0f51.py; /...
+[13:14:32] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md normal48-geometry-floors.md |...
+[13:15:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def add_\| def relate\| def mark_human" icon_set/model/icons/base.py icon_set/model/*.py | ...
+[13:15:52] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,215p icon_set/model/icons/base.py; sed -n 1,40p icon_set/scripts/build_gate.py | grep -n "u...
+[13:15:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,80p icon_set/scripts/build_gate.py
+[13:17:01] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/graduate_with_two_people_redraw.py
+[13:17:04] Module written; now validating it and running the build gate.
+[13:17:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; /opt/homebrew/bin/python3 -c "...
+[13:18:06] Two fixes needed: the diamond's opposite edges are too close (needs ≥10 tall), and the side head-to-shoulder gap isn't certified. Checking how the validator certifies a head gap.
+[13:18:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "human_figure\|head_gap\|def _.*head" icon_set/validation/*.py | head -30
+[13:18:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "unless the contact is declared" icon_set/ --include=*.py | head -3; grep -rn "def _certif\|...
+[13:18:15] Rebuilding with a 10-unit-tall board (edges 5:9 over, 6:9 under) and all three heads on one row at y=23.
+[13:18:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; F=$D/graduate_with_two_people_...
+[13:18:27] Build gate passes. Running validate_icon and rendering.
+[13:18:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; PYTHONPATH=. /opt/homebrew/bin...
+[13:18:35] Valid, no warnings, and the build gate passes. Checking it visually.
+[13:18:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/graduate-with-two-people_redraw.png
+[13:18:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; /opt/homebrew/bin/python3 -c "...
+[13:18:48] > Read: /tmp/grad_both.png
+[13:18:58] The shoulder line reads as a shallow wave. Dropping the cusps to the bottom edge (y=40) and making the lobes leave them steeply so each person gets a proper arch.
+[13:18:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; F=$D/graduate_with_two_people_...
+[13:19:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people; F=$D/graduate_with_two_people_...
+[13:19:18] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/graduate-with-two-people_redraw.png
+[13:19:19] > Read: /tmp/grad_both.png
+[13:19:21] Three distinct shoulder arches now read clearly. Updating the docstring to match the final geometry.
+[13:19:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/graduate_with_two_people_redraw...
+[13:19:46] I redrew the icon as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. Two things fall short of the metrics' targets: I used HRECT_L instead of the suggested HRECT_M, and the holes are smaller than the 6-unit target.
+
+**Subject:** three head-and-shoulders figures in a row, with the centre one wearing a mortarboard. It is mirrored about x=24.
+
+**Keyshape: HRECT_L instead of the suggested HRECT_M.** Stacked, the drawing needs 32 units of height: cap 10, head 8, the required 8-unit gap to the shoulders, and at least 5 for the shoulders. HRECT_M only has 28, and HRECT_L has 32. HRECT_L was the metrics' second-best fit (score 0.82 against 0.90). Every edge of the icon lands exactly on the HRECT_L box.
+
+**How it's built**
+- **Cap:** a closed diamond, 10 tall, which is the minimum that keeps its opposite edges 8 apart. Its bottom point is the graduate's head top; they share that point and it is declared as a connection, so the cap sits on the head as it does in the generated image.
+- **Heads:** three circles of radius 4 on one row, with centres 16 apart (8 between outlines). The side heads are 8.2 from the cap corners.
+- **Shoulders:** one continuous line with three arches. Each arch's top is exactly 8 below its head, which gives the required 4-unit ink gap from `human_ref/user.svg`. Each person is flagged with `mark_human_figure`.
+- **References:** `user.svg` for head and shoulder proportions, and Lucide `users` and `graduation-cap` for the repeated figures and the flat diamond board.
+- **One visual repair:** the first version's shoulders read as a shallow wave at 48 px. I moved the joins between arches down to the bottom edge, and each person now reads as a separate arch.
+
+**Metric issues fixed**
+- All 11 clearance errors, including head-to-head, head-to-shoulders, cap-to-side-heads, and the two cap legs crowding the heads. I dropped the legs and rested the board on the head instead.
+- The head-gap error on the graduate: the cap now touches the head on purpose, and the head-to-shoulder gap is exactly 8.
+- Stroke count: 5 strokes now, down from 7 (the budget is 6).
+- The short vertical axis (fixed by the keyshape change) and the stroke width (4 throughout).
+
+**Not fixed: holes are below the pipeline's 6-unit target**
+The build gate accepts them, but the head holes are 4 units wide and the cap's hole is also under 6.
+- Radius-5 heads would need centres 18 apart, which pushes the outer heads past the 4–44 box.
+- A cap hole of 6 needs a board about 12 tall, which leaves no height for the shoulders on any keyshape.
+
+**Look at native size:** in both themes it's heavy and dense but readable. The cap reads as a mortarboard on the middle head.
+
+I didn't register anything under `icon_set/model/icons` or touch `published/`, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/`:
+- `graduate_with_two_people_redraw.py`
+- `graduate-with-two-people_redraw.svg`
+- `graduate-with-two-people_redraw.png` (512 px)
+- `graduate-with-two-people_redraw-48.png`
+
+[13:19:47] === success in 462s, $1.74 ===
+I redrew the icon as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. Two things fall short of the metrics' targets: I used HRECT_L instead of the suggested HRECT_M, and the holes are smaller than the 6-unit target.
+
+**Subject:** three head-and-shoulders figures in a row, with the centre one wearing a mortarboard. It is mirrored about x=24.
+
+**Keyshape: HRECT_L instead of the suggested HRECT_M.** Stacked, the drawing needs 32 units of height: cap 10, head 8, the required 8-unit gap to the shoulders, and at least 5 for the shoulders. HRECT_M only has 28, and HRECT_L has 32. HRECT_L was the metrics' second-best fit (score 0.82 against 0.90). Every edge of the icon lands exactly on the HRECT_L box.
+
+**How it's built**
+- **Cap:** a closed diamond, 10 tall, which is the minimum that keeps its opposite edges 8 apart. Its bottom point is the graduate's head top; they share that point and it is declared as a connection, so the cap sits on the head as it does in the generated image.
+- **Heads:** three circles of radius 4 on one row, with centres 16 apart (8 between outlines). The side heads are 8.2 from the cap corners.
+- **Shoulders:** one continuous line with three arches. Each arch's top is exactly 8 below its head, which gives the required 4-unit ink gap from `human_ref/user.svg`. Each person is flagged with `mark_human_figure`.
+- **References:** `user.svg` for head and shoulder proportions, and Lucide `users` and `graduation-cap` for the repeated figures and the flat diamond board.
+- **One visual repair:** the first version's shoulders read as a shallow wave at 48 px. I moved the joins between arches down to the bottom edge, and each person now reads as a separate arch.
+
+**Metric issues fixed**
+- All 11 clearance errors, including head-to-head, head-to-shoulders, cap-to-side-heads, and the two cap legs crowding the heads. I dropped the legs and rested the board on the head instead.
+- The head-gap error on the graduate: the cap now touches the head on purpose, and the head-to-shoulder gap is exactly 8.
+- Stroke count: 5 strokes now, down from 7 (the budget is 6).
+- The short vertical axis (fixed by the keyshape change) and the stroke width (4 throughout).
+
+**Not fixed: holes are below the pipeline's 6-unit target**
+The build gate accepts them, but the head holes are 4 units wide and the cap's hole is also under 6.
+- Radius-5 heads would need centres 18 apart, which pushes the outer heads past the 4–44 box.
+- A cap hole of 6 needs a board about 12 tall, which leaves no height for the shoulders on any keyshape.
+
+**Look at native size:** in both themes it's heavy and dense but readable. The cap reads as a mortarboard on the middle head.
+
+I didn't register anything under `icon_set/model/icons` or touch `published/`, and I didn't run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1307-graduate-with-two-people/`:
+- `graduate_with_two_people_redraw.py`
+- `graduate-with-two-people_redraw.svg`
+- `graduate-with-two-people_redraw.png` (512 px)
+- `graduate-with-two-people_redraw-48.png`

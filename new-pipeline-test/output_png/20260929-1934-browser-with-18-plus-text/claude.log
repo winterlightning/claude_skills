@@ -1,0 +1,85 @@
+[19:36:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1934-browser-with-18-plus-text; ls $D; cat $D/*_metrics.json ...
+[19:36:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1934-browser-with-18-plus-text; python3 -c " import json;m=js...
+[19:37:20] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text/browser-with-18-plus-text.png
+[19:37:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1930-browser-person/browser_person_redraw.py | head -60; se...
+[19:37:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/typeface-versions.m...
+[19:37:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json d=json.load(open('icon_set/typeface/glyphs-v2.json')) for g in d['glyphs']: ...
+[19:38:05] Checking how earlier redraws handled typeface digits, since "18+" in the typeface can't meet the 8-unit spacing inside a window.
+[19:38:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -l "digit-\|typeface" new-pipeline-test/output_png/*/*_redraw.py icon_set/work/*/*/*.py 2>/dev/n...
+[19:38:23] A previous run of this same subject exists; reading it.
+[19:38:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; P=new-pipeline-test/output_png/20260928-1744-browser-with-18-plus-text; ls $P; cat $P/browser_with_18...
+[19:38:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "fallback\|v1\|scale\|tracking\|def " icon_set/scripts/side_text.py | head -50
+[19:38:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 18,55p icon_set/scripts/side_text.py
+[19:38:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -o '.\{300\}20260928-1744-browser-with-18.\{300\}' output_png/verdicts.json ou...
+[19:40:03] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 -c " import json d=json.load(open('icon_set/typeface/symbol-glyphs.json')); print(d.keys() if...
+[19:40:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1928-calendar-number-seven/claude.log | tail -40; ls; grep ...
+[19:40:36] Writing the model now (reusing the typeface glyphs by translation only), then rendering and validating.
+[19:40:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text; P=new-pipeline-test/output_pn...
+[19:40:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text; P=new-pipeline-test/output_pn...
+[19:41:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text; sed -n 59,62p $D/browser_with...
+[19:41:10] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text/browser-with-18-plus-text_redraw.png
+[19:41:10] > Read: /tmp/b18dark48.png
+[19:41:25] I redrew the icon as a browser window with "18" inside, but I had to drop the "+". `validate_icon()` returns **invalid**: it stops at the grid check because the stored typeface digits have points that aren't whole numbers. At 48 px, in light and dark themes, it reads as a browser window marked 18.
+
+**How it's built** (`HRECT_L`, centerline box (4,8)-(44,40)):
+- **Window:** a rounded rectangle with radius-4 corners that touches all four edges of the box, mirrored left to right.
+- **Toolbar line:** runs across at y=13 and shares points with both side walls, and the model records that contact.
+- **Text:** the stored typeface v2 digits "1" and "8" from `glyphs-v2.json`, used unchanged and only moved by whole units. They sit 8 apart, 6 below the toolbar line, 6 above the bottom and 7 from each wall. The "8" keeps its own open counters.
+- **Keyshape:** I used `HRECT_L` rather than the suggested `HRECT_M`, because `HRECT_M` is only 28 tall. That can't fit the toolbar line plus the 15-tall digits.
+- **Lucide reference:** `app-window` / `panel-top`, for the frame and the full-width toolbar line.
+
+**Metric issues fixed:**
+- stroke width (now 4) and stroke count (7 down to 4)
+- the keyshape fit on the short axis
+- all clearance problems between the two strokes of the "+" and around it (the "+" is gone)
+- the digit-to-digit clearances (now 8 apart)
+- the two small enclosed holes inside the traced "8", replaced by the glyph's own counters
+
+**Issues I couldn't fix:**
+- **The "+":** v2 has no "+". The only stored one is the v1 6×20 glyph. With the typeface's own spacing, "1" + "8" + "+" is 40 units wide, which is the full width of the widest SOLO48 box, so it can't sit inside any window. The typeface can't be scaled, and I couldn't draw my own "+" instead.
+- **Spacing around the text and toolbar is under 8:** the toolbar is 5 below the top edge, the text 6 from the toolbar and bottom and 7 from the walls. Full 8-unit spacing would need 39 units of height and 42 of width; the box has 32 × 40.
+- **Toolbar corner holes:** they're about 1 unit wide because the strip is only 5 tall.
+- **Things the typeface stores that fail the SOLO48 checks:** the glyph points that aren't whole numbers, and the small counters in the "8". At 48 px those counters look nearly closed. Snapping the points to the grid would get past the grid check, but the small counters would still fail.
+
+A redraw from 2026-09-28 (`20260928-1744-browser-with-18-plus-text`) hit the same limit and also dropped the "+". This version uses that same construction with this run's source path and metric notes. If "18+" is a hard requirement, it needs either a "+" in the v2 typeface or an exception to the typeface rule.
+
+I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text/`:
+- `browser_with_18_plus_text_redraw.py`
+- `browser-with-18-plus-text_redraw.svg`
+- `browser-with-18-plus-text_redraw.png` (512 px)
+- `browser-with-18-plus-text_redraw-48.png`
+
+[19:41:25] === success in 318s, $1.13 ===
+I redrew the icon as a browser window with "18" inside, but I had to drop the "+". `validate_icon()` returns **invalid**: it stops at the grid check because the stored typeface digits have points that aren't whole numbers. At 48 px, in light and dark themes, it reads as a browser window marked 18.
+
+**How it's built** (`HRECT_L`, centerline box (4,8)-(44,40)):
+- **Window:** a rounded rectangle with radius-4 corners that touches all four edges of the box, mirrored left to right.
+- **Toolbar line:** runs across at y=13 and shares points with both side walls, and the model records that contact.
+- **Text:** the stored typeface v2 digits "1" and "8" from `glyphs-v2.json`, used unchanged and only moved by whole units. They sit 8 apart, 6 below the toolbar line, 6 above the bottom and 7 from each wall. The "8" keeps its own open counters.
+- **Keyshape:** I used `HRECT_L` rather than the suggested `HRECT_M`, because `HRECT_M` is only 28 tall. That can't fit the toolbar line plus the 15-tall digits.
+- **Lucide reference:** `app-window` / `panel-top`, for the frame and the full-width toolbar line.
+
+**Metric issues fixed:**
+- stroke width (now 4) and stroke count (7 down to 4)
+- the keyshape fit on the short axis
+- all clearance problems between the two strokes of the "+" and around it (the "+" is gone)
+- the digit-to-digit clearances (now 8 apart)
+- the two small enclosed holes inside the traced "8", replaced by the glyph's own counters
+
+**Issues I couldn't fix:**
+- **The "+":** v2 has no "+". The only stored one is the v1 6×20 glyph. With the typeface's own spacing, "1" + "8" + "+" is 40 units wide, which is the full width of the widest SOLO48 box, so it can't sit inside any window. The typeface can't be scaled, and I couldn't draw my own "+" instead.
+- **Spacing around the text and toolbar is under 8:** the toolbar is 5 below the top edge, the text 6 from the toolbar and bottom and 7 from the walls. Full 8-unit spacing would need 39 units of height and 42 of width; the box has 32 × 40.
+- **Toolbar corner holes:** they're about 1 unit wide because the strip is only 5 tall.
+- **Things the typeface stores that fail the SOLO48 checks:** the glyph points that aren't whole numbers, and the small counters in the "8". At 48 px those counters look nearly closed. Snapping the points to the grid would get past the grid check, but the small counters would still fail.
+
+A redraw from 2026-09-28 (`20260928-1744-browser-with-18-plus-text`) hit the same limit and also dropped the "+". This version uses that same construction with this run's source path and metric notes. If "18+" is a hard requirement, it needs either a "+" in the v2 typeface or an exception to the typeface rule.
+
+I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1934-browser-with-18-plus-text/`:
+- `browser_with_18_plus_text_redraw.py`
+- `browser-with-18-plus-text_redraw.svg`
+- `browser-with-18-plus-text_redraw.png` (512 px)
+- `browser-with-18-plus-text_redraw-48.png`

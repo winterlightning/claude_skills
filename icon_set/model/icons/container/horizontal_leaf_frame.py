@@ -4,29 +4,31 @@ The other two corners remain deliberately pointed; no vein or stem is added.
 Keyshape HRECT_XL; centerline extremes recorded in build below.
 Lucide square informs tangent corner construction; leaf was inspected but its botanical silhouette is not a useful match. Rebuilt on CONTAINER64 with integer geometry.
 Hosting measured with compose.py: plus passes, heart passes, check passes.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (horizontal-leaf-frame HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class HorizontalLeafFrame(Container64):
     icon_id = 'horizontal-leaf-frame'
-    keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "container"
-    categories = ("container",)
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'container'
+    categories = ('container',)
     aliases = ('rounded-leaf-shape',)
     keywords = ('horizontal', 'leaf', 'frame')
 
     def build(self) -> None:
-        # Centerline extremes (2,6)-(62,58); opposing matching arcs.
-        self.add_line("top", (24, 6), (62, 6))
-        self.add_line("right", (62, 6), (62, 36))
-        self.add_arc("se", (62, 36), (40, 58), radius_x=22)
-        self.add_line("bottom", (40, 58), (2, 58))
-        self.add_line("left", (2, 58), (2, 28))
-        self.add_arc("nw", (2, 28), (24, 6), radius_x=22)
-        self.add_contour("outline", "top", "right", "se", "bottom", "left", "nw", closed=True)
+        self.add_line('top', (25, 10), (60, 10))
+        self.add_line('right', (60, 10), (60, 36))
+        self.add_arc('se', (60, 36), (39, 54), radius_x=21, radius_y=18)
+        self.add_line('bottom', (39, 54), (4, 54))
+        self.add_line('left', (4, 54), (4, 28))
+        self.add_arc('nw', (4, 28), (25, 10), radius_x=21, radius_y=18)
+        self.add_contour('outline', 'top', 'right', 'se', 'bottom', 'left', 'nw', closed=True)

@@ -1,0 +1,74 @@
+[12:21:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13; ls $D; cat $D/...
+[12:21:30] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13/female-teacher-beside...
+[12:21:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13; python3 -c " i...
+[12:22:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -40 | xargs grep -l mark_human_figure | head -5;
+[12:22:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1202-delivery-worker-beside-loaded-hand-truck; cat $D/*_redra...
+[12:22:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1202-delivery-worker-beside-loaded-hand-truck/claude.log | ...
+[12:22:22] I've read the metrics and the generated image, and I'm now finding the render helper a previous redraw used.
+[12:22:23] > Bash: ls -t /tmp/*render*.py 2>/dev/null | head -5; f=$(ls -t /tmp/*render*.py | head -1); cat "$f"
+[12:23:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13; cat > $D/femal...
+[12:23:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13; PYTHONPATH=. /...
+[12:23:23] > Read: /tmp/teacher_both.png
+[12:23:31] It validates, but at 48 px the torso looks stubby. I'll lengthen the torso (hip down to 33), start the arm higher, and make the board a bit taller.
+[12:23:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13; F=$D/female_te...
+[12:23:35] > Read: /tmp/teacher_both.png
+[12:23:48] I've redrawn the female teacher beside a board as a Solo48 model. `validate_icon()` returns **valid with zero warnings**, and I checked the render at native 48 px on both white and dark backgrounds.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** HRECT_M's centreline box is only 28 units tall. That isn't enough for a head big enough to keep a hole of at least 6 (radius 5), the required 8-unit neck gap, a torso and legs. HRECT_L was the metrics' second choice (score 1.15 against 1.22), and it fills the width exactly with no stretching. Every edge of the drawing lands on its box: the left foot at x=4, the board at x=44, the head top at y=8 and the feet at y=40.
+
+**Drawing (all on the integer grid, nothing copied from the trace):**
+- **Teacher:** a circle head of radius 5 on the line x=10. The torso starts exactly 8 units below the head outline, which is the 4-unit ink gap in the human reference; I confirmed it in the emitted SVG (head bottom at y=18, neck at y=26). The legs are a symmetric upside-down V from the hip at y=33. The figure is marked with `mark_human_figure`.
+- **Pointing arm:** one straight line from the shoulder (10,28) up to the hand (18,24). The hand stops 8 units short of the board and about 13.6 units from the head centre.
+- **Board:** a closed rectangle from (26,10) to (44,28) with square corners, like the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** the trace was 2.55 after fitting; it's redrawn at stroke 4 with every gap planned for it.
+- **Stroke count:** 9 strokes against a budget of 6. The redraw has 6 parts: head, torso and waist, two legs, arm and board.
+- **Width:** the trace only filled 97% of the box across; x now runs exactly from 4 to 44.
+- **Clearances:** all clearance errors, including the head gap (2.4, needing 8) and the head against the arms, legs and board. Every pair of separate parts is now at least 8 apart.
+- **Holes:** the head hole was 1.9; it's now 6, and the board's hole is 14.
+
+**Dropped, and why:**
+- **The hanging left arm:** there's no room for it. The figure is only 12 units wide, so the arm can't stay 8 units from the left leg.
+- **Anything showing the teacher is female:** the stick-figure rules leave out gender features, so only the name says "female". The image step had already flagged this.
+
+**References:** `icon_set/references/human_ref/full_body_ref.png` for the head and limb construction, and Lucide's `presentation` icon for the plain board rectangle. The scene is deliberately lopsided: the teacher is on the left and the board on the right.
+
+I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13/`:
+- `female_teacher_beside_board_batch_022_13_redraw.py`
+- `female-teacher-beside-board-batch-022-13_redraw.svg`
+- `female-teacher-beside-board-batch-022-13_redraw.png` (480 px preview)
+- `female-teacher-beside-board-batch-022-13_redraw-48.png`
+
+[12:23:48] === success in 150s, $0.71 ===
+I've redrawn the female teacher beside a board as a Solo48 model. `validate_icon()` returns **valid with zero warnings**, and I checked the render at native 48 px on both white and dark backgrounds.
+
+**Keyshape: HRECT_L, not the suggested HRECT_M.** HRECT_M's centreline box is only 28 units tall. That isn't enough for a head big enough to keep a hole of at least 6 (radius 5), the required 8-unit neck gap, a torso and legs. HRECT_L was the metrics' second choice (score 1.15 against 1.22), and it fills the width exactly with no stretching. Every edge of the drawing lands on its box: the left foot at x=4, the board at x=44, the head top at y=8 and the feet at y=40.
+
+**Drawing (all on the integer grid, nothing copied from the trace):**
+- **Teacher:** a circle head of radius 5 on the line x=10. The torso starts exactly 8 units below the head outline, which is the 4-unit ink gap in the human reference; I confirmed it in the emitted SVG (head bottom at y=18, neck at y=26). The legs are a symmetric upside-down V from the hip at y=33. The figure is marked with `mark_human_figure`.
+- **Pointing arm:** one straight line from the shoulder (10,28) up to the hand (18,24). The hand stops 8 units short of the board and about 13.6 units from the head centre.
+- **Board:** a closed rectangle from (26,10) to (44,28) with square corners, like the generated image.
+
+**Metric issues fixed:**
+- **Stroke width:** the trace was 2.55 after fitting; it's redrawn at stroke 4 with every gap planned for it.
+- **Stroke count:** 9 strokes against a budget of 6. The redraw has 6 parts: head, torso and waist, two legs, arm and board.
+- **Width:** the trace only filled 97% of the box across; x now runs exactly from 4 to 44.
+- **Clearances:** all clearance errors, including the head gap (2.4, needing 8) and the head against the arms, legs and board. Every pair of separate parts is now at least 8 apart.
+- **Holes:** the head hole was 1.9; it's now 6, and the board's hole is 14.
+
+**Dropped, and why:**
+- **The hanging left arm:** there's no room for it. The figure is only 12 units wide, so the arm can't stay 8 units from the left leg.
+- **Anything showing the teacher is female:** the stick-figure rules leave out gender features, so only the name says "female". The image step had already flagged this.
+
+**References:** `icon_set/references/human_ref/full_body_ref.png` for the head and limb construction, and Lucide's `presentation` icon for the plain board rectangle. The scene is deliberately lopsided: the teacher is on the left and the board on the right.
+
+I didn't register the module, touch `published/`, or run the build.
+
+Files are in `new-pipeline-test/output_png/20260930-1216-female-teacher-beside-board-batch-022-13/`:
+- `female_teacher_beside_board_batch_022_13_redraw.py`
+- `female-teacher-beside-board-batch-022-13_redraw.svg`
+- `female-teacher-beside-board-batch-022-13_redraw.png` (480 px preview)
+- `female-teacher-beside-board-batch-022-13_redraw-48.png`

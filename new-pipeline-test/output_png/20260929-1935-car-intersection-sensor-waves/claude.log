@@ -1,0 +1,85 @@
+[19:41:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1935-car-intersection-sensor-waves; ls $D; cat $D/*_metrics.j...
+[19:41:37] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/car-intersection-sensor-waves.png
+[19:41:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1935-car-intersection-sensor-waves; python3 -c " import json;...
+[19:42:27] Let me look at a recent redraw script for the harness pattern (how they render/save outside the registry).
+[19:42:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls -t output_png/*/*_redraw.py | head -3; f=$(ls -t output_png/*/*_redraw.py | head...
+[19:42:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 1,80p process.md; ls; ls ../icon_set/model/icons/solo | grep -i -E "car|wifi...
+[19:42:33] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/autonomous_car_sensor_signal_8a6f5388_93e2_4e87_bb21_8db3666f5c20.py; g...
+[19:42:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|render\|svg\|emit\|validate_icon\)" -r icon_set/model/*.py icon_set/model/icon...
+[19:42:46] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat solo48-build-gate-traps.md normal48-geometry-floors.md i...
+[19:45:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i gate; sed -n 1,60p icon_set/scripts/build_gate.py | grep -n "argparse\|...
+[19:45:27] I've planned the geometry (VRECT_L, concentric r10/r20 waves, car roof on the wave centre line). Writing the model now.
+[19:45:49] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/car_intersection_sensor_waves_re...
+[19:45:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves; cat > /tmp/carw.py <<EOF ...
+[19:46:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves; export PYTHONPATH=$PWD; /...
+[19:46:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves; F=$D/car_intersection_sen...
+[19:46:35] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/car-intersection-sensor-waves_re...
+[19:46:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves; sed 's/currentColor/white/' ...
+[19:46:39] > Read: /tmp/carw-both.png
+[19:46:41] It validates and passes the build gate, and it reads clearly in both themes. I'm updating the docstring to match the lowered car (roof moved to y=25).
+[19:46:42] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/car_intersection_sensor_waves_re...
+[19:46:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves; F=$D/car_intersection_sen...
+[19:47:04] I've redrawn the car with sensor waves as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` also passes with 0 errors and 0 warnings. It reads clearly at 48 px in both light and dark themes.
+
+**Subject:** a car seen from the front with two sensor waves above the roof. It's built like Lucide's `car-front` (angled windshield, rounded fenders, a line across the body, wheel tabs at the bottom), and the waves are drawn like Lucide's `wifi` arcs. The drawing is mirrored exactly about x=24.
+- **Waves:** two arcs sharing one centre at (24,24), radius 10 and 20, 10 apart. The outer arc's top sits at y=4.
+- **Car:** one closed outline with the roof at y=25 (x 16–32). The windshield sides slope down to the fenders, the side walls are at x=8 and x=40, and the square wheel tabs reach y=44. A separate line at y=33 is joined to the outline at both ends and splits the windshield from the body.
+
+**Keyshape: VRECT_L, not the suggested SQUARE.** SQUARE is only 36 units tall. That can't hold everything needed on the vertical: the two waves 8 apart, 8 of clearance down to the roof, a windshield and body panel 8 tall each, and visible wheel tabs. VRECT_L gives 40 units, suits the source's taller-than-wide shape (0.87), and the drawing reaches all four of its edges exactly.
+
+**Metric issues:**
+
+| Issue | Status |
+|---|---|
+| stroke-width (info) | Fixed: redrawn at stroke 4 with every gap sized for it |
+| keyshape-short-axis (x filled only 87%) | Fixed: the drawing touches all four VRECT_L edges |
+| clearance e0/e1 (5.4) | Fixed: the waves are now 10 apart |
+| clearance e1/e3 (3.46) | Fixed: the inner wave is now 9–11 from the roof |
+| clearance e0/e3 (7.5) | Fixed: the outer wave ends are more than 16 from the car |
+| hole at (24,15), 3.2 wide | Fixed: the waves no longer close off a pocket against the roof |
+| hole at (17.6,23), 5.2 wide | Fixed: the windshield is now 8 tall and 16–24 wide |
+
+Every issue was repaired.
+
+**One trade-off:** with the roof at y=24, the roof point under each inner wave end was exactly 8 away, and the validator flags a curve sitting exactly on the minimum for review. I moved the car down 1 unit, so the wheel tabs are 3 deep instead of 4. They're still visible at 48 px.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/`:
+- `car_intersection_sensor_waves_redraw.py`
+- `car-intersection-sensor-waves_redraw.svg`
+- `car-intersection-sensor-waves_redraw.png`
+- `car-intersection-sensor-waves_redraw-48.png`
+
+[19:47:04] === success in 348s, $1.23 ===
+I've redrawn the car with sensor waves as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` also passes with 0 errors and 0 warnings. It reads clearly at 48 px in both light and dark themes.
+
+**Subject:** a car seen from the front with two sensor waves above the roof. It's built like Lucide's `car-front` (angled windshield, rounded fenders, a line across the body, wheel tabs at the bottom), and the waves are drawn like Lucide's `wifi` arcs. The drawing is mirrored exactly about x=24.
+- **Waves:** two arcs sharing one centre at (24,24), radius 10 and 20, 10 apart. The outer arc's top sits at y=4.
+- **Car:** one closed outline with the roof at y=25 (x 16–32). The windshield sides slope down to the fenders, the side walls are at x=8 and x=40, and the square wheel tabs reach y=44. A separate line at y=33 is joined to the outline at both ends and splits the windshield from the body.
+
+**Keyshape: VRECT_L, not the suggested SQUARE.** SQUARE is only 36 units tall. That can't hold everything needed on the vertical: the two waves 8 apart, 8 of clearance down to the roof, a windshield and body panel 8 tall each, and visible wheel tabs. VRECT_L gives 40 units, suits the source's taller-than-wide shape (0.87), and the drawing reaches all four of its edges exactly.
+
+**Metric issues:**
+
+| Issue | Status |
+|---|---|
+| stroke-width (info) | Fixed: redrawn at stroke 4 with every gap sized for it |
+| keyshape-short-axis (x filled only 87%) | Fixed: the drawing touches all four VRECT_L edges |
+| clearance e0/e1 (5.4) | Fixed: the waves are now 10 apart |
+| clearance e1/e3 (3.46) | Fixed: the inner wave is now 9–11 from the roof |
+| clearance e0/e3 (7.5) | Fixed: the outer wave ends are more than 16 from the car |
+| hole at (24,15), 3.2 wide | Fixed: the waves no longer close off a pocket against the roof |
+| hole at (17.6,23), 5.2 wide | Fixed: the windshield is now 8 tall and 16–24 wide |
+
+Every issue was repaired.
+
+**One trade-off:** with the roof at y=24, the roof point under each inner wave end was exactly 8 away, and the validator flags a curve sitting exactly on the minimum for review. I moved the car down 1 unit, so the wheel tabs are 3 deep instead of 4. They're still visible at 48 px.
+
+As asked, I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1935-car-intersection-sensor-waves/`:
+- `car_intersection_sensor_waves_redraw.py`
+- `car-intersection-sensor-waves_redraw.svg`
+- `car-intersection-sensor-waves_redraw.png`
+- `car-intersection-sensor-waves_redraw-48.png`

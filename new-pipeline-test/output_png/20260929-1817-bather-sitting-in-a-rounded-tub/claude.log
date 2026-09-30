@@ -1,0 +1,75 @@
+[18:20:36] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1817-bather-sitting-in-a-rounded-tub; ls $D; cat $D/*_metrics...
+[18:21:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1817-bather-sitting-in-a-rounded-tub; python3 -c " import jso...
+[18:21:19] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub/bather-sitting-in-a-rounded-tu...
+[18:21:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1814-boat-pose-upward-reach/boat_pose_upward_reach_redraw.p...
+[18:21:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; grep -n -i "redraw" run_pipeline.sh | head -20; cat output_png/20260929-1814-bo...
+[18:21:36] > Bash: cat /tmp/bp_render.py; ls -t /tmp/*render*.py | head -3
+[18:22:40] Reading the trace done; planning the layout (head r5 + shoulders + tub don't all fit 32 units vertically with 8-unit gaps). Checking how arc shoulders are marked in existing avatars.
+[18:22:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "mark_human_figure" icon_set/model/icons/solo/*.py | grep -i "should" | head -5; grep -n -i ...
+[18:22:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 95,125p icon_set/skills/icon-design/human-reference.md; grep -rln "mark_human_figure" icon_set...
+[18:22:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl 'mark_human_figure' icon_set/model/icons/solo/ | xargs grep -l 'add_arc("shoulder' | head -3...
+[18:23:32] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/bather_try.py <<'EOF' import sys, cairosvg from icon_set.model.keyshapes import Keyshape f...
+[18:23:36] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image ims=[Image.open(f'/tmp/bather_{n}.png').convert('RGB') for n in 'ab']+[Image.open(f'/tmp/bath...
+[18:23:37] > Read: /tmp/bather_cmp.png
+[18:23:46] B (rim lips) reads more like a tub. Fixing its 8-exact shoulder/wall warning by moving walls to x=7 (lips 4→7).
+[18:23:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -i '' 's/w, cr, top = 8, 6, 22/w, cr, top = 7, 6, 22/' /tmp/bather_try.py && PYTHONPATH=. /opt/ho...
+[18:23:54] Both valid. Writing the final module with variant B.
+[18:24:13] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub/bather_sitting_in_a_rounded_tu...
+[18:24:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub sed -i '' 's/rounded sho...
+[18:24:23] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub/bather-sitting-in-a-rounded-tu...
+[18:24:35] I redrew the bather as a Solo48 model on HRECT_L, the keyshape the metrics suggested. `validate_icon()` returns **valid with no warnings**. I previewed it large and at 48 px on a white background only; I did not check the dark theme.
+
+**The drawing:** a round head sits above a rounded pair of shoulders, which are seated inside a wide tub with rounded bottom corners and a short rim lip on each side. The head is 4 units of ink (8 on centerlines) above the shoulders, and the figure is marked with `mark_human_figure`. The drawing reaches the keyshape edge on all four sides.
+
+**One deliberate change from the trace:** the trace stacks head, shoulders and a full-width rim line on top of the tub. With a stroke of 4 and the required 8-unit gaps, that stack needs more than 38 units of height, and HRECT_L only has 32. So I shortened the rim line to two outward lips and lowered the shoulders into the tub. The shoulder ends stay 9 units from the tub. The generated image showed the rim as one straight line across, so this is a real change to the subject. I compared it with a plain U-shaped tub with no lips, and the lips read more clearly as a bathtub.
+
+**Metric issues, all 13 fixed:**
+- **Clearance, head to shoulders (was 2.42):** now exactly 8 on centerlines.
+- **Clearance, shoulders to rim (was 2.31):** the rim no longer crosses the body; 9 units clear.
+- **Head hole (was 3.88):** the head radius is now 5, which leaves the required 6-unit hole.
+- **Shoulder/rim pocket (was 3.2):** the pocket no longer exists, because the shoulders are open at the bottom.
+- **No head detected:** the head is now a true circle.
+- **Keyshape width (was 93%):** the rim lips reach x=4 and x=44, the head top is at y=8 and the tub bottom at y=40.
+- **Two narrow 25.6° joins and three loose joins in the tub:** the tub is now one continuous shape with 90° corners.
+- **Stroke width (info):** redrawn at stroke 4, and every gap was measured at 4.
+
+**References:** I used `human-reference.md` and `human_ref/user.svg` for the head-and-shoulders construction. I didn't look at any local Lucide icon, and there is no useful Lucide match for a bather in a tub.
+
+As instructed, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub/`:
+- `bather_sitting_in_a_rounded_tub_redraw.py`
+- `bather-sitting-in-a-rounded-tub_redraw.svg`
+- `bather-sitting-in-a-rounded-tub_redraw.png`
+- `bather-sitting-in-a-rounded-tub_redraw-48.png`
+
+The Gmail, Google Calendar, Google Drive and Figma connectors still need to be authorized in their connector settings (Figma via `/mcp`) before they can be used; this task didn't need them.
+
+[18:24:35] === success in 246s, $0.96 ===
+I redrew the bather as a Solo48 model on HRECT_L, the keyshape the metrics suggested. `validate_icon()` returns **valid with no warnings**. I previewed it large and at 48 px on a white background only; I did not check the dark theme.
+
+**The drawing:** a round head sits above a rounded pair of shoulders, which are seated inside a wide tub with rounded bottom corners and a short rim lip on each side. The head is 4 units of ink (8 on centerlines) above the shoulders, and the figure is marked with `mark_human_figure`. The drawing reaches the keyshape edge on all four sides.
+
+**One deliberate change from the trace:** the trace stacks head, shoulders and a full-width rim line on top of the tub. With a stroke of 4 and the required 8-unit gaps, that stack needs more than 38 units of height, and HRECT_L only has 32. So I shortened the rim line to two outward lips and lowered the shoulders into the tub. The shoulder ends stay 9 units from the tub. The generated image showed the rim as one straight line across, so this is a real change to the subject. I compared it with a plain U-shaped tub with no lips, and the lips read more clearly as a bathtub.
+
+**Metric issues, all 13 fixed:**
+- **Clearance, head to shoulders (was 2.42):** now exactly 8 on centerlines.
+- **Clearance, shoulders to rim (was 2.31):** the rim no longer crosses the body; 9 units clear.
+- **Head hole (was 3.88):** the head radius is now 5, which leaves the required 6-unit hole.
+- **Shoulder/rim pocket (was 3.2):** the pocket no longer exists, because the shoulders are open at the bottom.
+- **No head detected:** the head is now a true circle.
+- **Keyshape width (was 93%):** the rim lips reach x=4 and x=44, the head top is at y=8 and the tub bottom at y=40.
+- **Two narrow 25.6° joins and three loose joins in the tub:** the tub is now one continuous shape with 90° corners.
+- **Stroke width (info):** redrawn at stroke 4, and every gap was measured at 4.
+
+**References:** I used `human-reference.md` and `human_ref/user.svg` for the head-and-shoulders construction. I didn't look at any local Lucide icon, and there is no useful Lucide match for a bather in a tub.
+
+As instructed, I did not register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1817-bather-sitting-in-a-rounded-tub/`:
+- `bather_sitting_in_a_rounded_tub_redraw.py`
+- `bather-sitting-in-a-rounded-tub_redraw.svg`
+- `bather-sitting-in-a-rounded-tub_redraw.png`
+- `bather-sitting-in-a-rounded-tub_redraw-48.png`
+
+The Gmail, Google Calendar, Google Drive and Figma connectors still need to be authorized in their connector settings (Figma via `/mcp`) before they can be used; this task didn't need them.

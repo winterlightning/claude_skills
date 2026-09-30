@@ -1,0 +1,87 @@
+[10:44:05] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop && ls -la && cat coworkers-with-lapto...
+[10:44:06] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers-with-laptop.png
+[10:44:45] > Bash: python3 -c " import json;d=json.load(open('coworkers-with-laptop_metrics.json')) for k in d: if k not in ('schema','choice','files','target','source','keysha...
+[10:45:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test && cat output_png/20260930-1037-couple-standing-with-hair/couple_standing_with_hair_...
+[10:45:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && cat new-pipeline-test/output_png/20260930-1037-couple-standing-with-hair/claude.log; grep -rl "redr...
+[10:45:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n -B3 -A10 "redraw-48" new-pipeline-test/run_pipeline.sh | head -50; cat /tmp/cs_render.py 2>/d...
+[10:45:47] I've read the inputs; now checking the existing coworkers module before drawing the redraw.
+[10:45:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '1,200p' icon_set/model/icons/solo/coworkers_with_laptop_8d47f316_c40a_4959_bfb4_5b4ee2cac87e.py
+[10:48:11] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers_with_laptop_redraw.py
+[10:48:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop; cat > /tmp/cw_render.py <<'EOF' i...
+[10:48:17] > Bash: cat /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/avatar-contact-certification.md
+[10:48:20] > Bash: grep -n -i -A3 "head gap\|neck" /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md | he...
+[10:48:29] The exact-8 head gap only certifies against a standalone straight line and a 4-quarter-arc head; restructuring the shoulders with a flat crown line.
+[10:48:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop; /opt/homebrew/bin/python3 - <<'EO...
+[10:48:45] Valid with no warnings. Checking the render and running the build gate.
+[10:48:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop; sed 's/currentColor/white/g' $D/c...
+[10:48:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers-with-laptop_redraw.png
+[10:48:49] > Read: /tmp/cw_both.png
+[10:50:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop; mkdir -p /tmp/cwB; cat > /tmp/cwB...
+[10:50:44] > Read: /tmp/cwB/sheet.png
+[10:51:09] SQUARE variant reads as two people behind a laptop, not a face. Adopting it: the 6 extra height lets the screen sit 5 below the shoulder crowns.
+[10:51:10] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers_with_laptop_redraw.py
+[10:51:31] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers_with_laptop_redraw.py
+[10:51:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop; /opt/homebrew/bin/python3 /tmp/cw...
+[10:51:38] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/coworkers-with-laptop_redraw-48.png
+[10:51:49] I've redrawn the coworkers icon as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two busts side by side behind one shared open laptop, mirrored about x=24 (`coworkers-with-laptop-redraw`, filed under `people/work`). Each bust has an r5 circle head, a flat shoulder top exactly 8 below the head (4 visible), rounded outer shoulders down to the edge, and an inner shoulder that runs into the screen's top corner, so the laptop hides the inner half of each body. The laptop is a screen rectangle whose base sticks out 4 on each side at the bottom.
+
+**Keyshape: SQUARE, not the suggested HRECT_M.**
+- HRECT_M is only 28 tall. It can't stack a head (10), the 8 head gap and a screen with a 6-wide hole (10).
+- I also built HRECT_L and it validated, but the screen top ended up 2 below the shoulders. At 48 px it read as a face: two ring eyes over a toothy line.
+- SQUARE's extra height puts the shoulders 5 above the screen, and at 48 px it reads as two people behind a laptop, on light and dark backgrounds. Every edge of the square is hit exactly.
+
+**Metric issues:**
+- **stroke-width (info):** fixed. Everything is redrawn at stroke 4 with gaps sized for it.
+- **keyshape-short-axis (warn):** fixed by switching to SQUARE, as above.
+- **Heads 2.5 above the shoulders:** fixed. Each head is exactly 8 above a separate flat shoulder line, and both figures are flagged with `mark_human_figure`.
+- **Shoulders 2–8 from the screen:** fixed. The shoulders now end on the screen corners, with shared endpoints declared `connect`, instead of floating just above the screen.
+- **The two inner shoulders 7.8 apart:** fixed. They now end 12 apart.
+- **Screen 2.4 above the base:** fixed by joining the base to the screen. A separate base would need 8 more height than the square has.
+- **Holes too small (4.8 wide):** fixed. The heads are 6 wide inside and the screen is 8×9.
+- **no-head (warn):** fixed. Both heads are real circles.
+
+**Not kept:** the screen is 12 wide by 13 tall, so it's taller than the landscape screen in the image. The busts' inner shoulders leave no more width on the 36-wide square. The icon still reads as a laptop because of the base sticking out on each side.
+
+**References:** the human reference `user.svg` for the head over rounded shoulders; Lucide `laptop` (screen plus wider base) and `users` (paired busts) for the parts.
+
+Files are in `new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/`:
+- `coworkers_with_laptop_redraw.py`
+- `coworkers-with-laptop_redraw.svg`
+- `coworkers-with-laptop_redraw.png`
+- `coworkers-with-laptop_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build wasn't run.
+
+[10:51:49] === success in 477s, $1.65 ===
+I've redrawn the coworkers icon as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Subject:** two busts side by side behind one shared open laptop, mirrored about x=24 (`coworkers-with-laptop-redraw`, filed under `people/work`). Each bust has an r5 circle head, a flat shoulder top exactly 8 below the head (4 visible), rounded outer shoulders down to the edge, and an inner shoulder that runs into the screen's top corner, so the laptop hides the inner half of each body. The laptop is a screen rectangle whose base sticks out 4 on each side at the bottom.
+
+**Keyshape: SQUARE, not the suggested HRECT_M.**
+- HRECT_M is only 28 tall. It can't stack a head (10), the 8 head gap and a screen with a 6-wide hole (10).
+- I also built HRECT_L and it validated, but the screen top ended up 2 below the shoulders. At 48 px it read as a face: two ring eyes over a toothy line.
+- SQUARE's extra height puts the shoulders 5 above the screen, and at 48 px it reads as two people behind a laptop, on light and dark backgrounds. Every edge of the square is hit exactly.
+
+**Metric issues:**
+- **stroke-width (info):** fixed. Everything is redrawn at stroke 4 with gaps sized for it.
+- **keyshape-short-axis (warn):** fixed by switching to SQUARE, as above.
+- **Heads 2.5 above the shoulders:** fixed. Each head is exactly 8 above a separate flat shoulder line, and both figures are flagged with `mark_human_figure`.
+- **Shoulders 2–8 from the screen:** fixed. The shoulders now end on the screen corners, with shared endpoints declared `connect`, instead of floating just above the screen.
+- **The two inner shoulders 7.8 apart:** fixed. They now end 12 apart.
+- **Screen 2.4 above the base:** fixed by joining the base to the screen. A separate base would need 8 more height than the square has.
+- **Holes too small (4.8 wide):** fixed. The heads are 6 wide inside and the screen is 8×9.
+- **no-head (warn):** fixed. Both heads are real circles.
+
+**Not kept:** the screen is 12 wide by 13 tall, so it's taller than the landscape screen in the image. The busts' inner shoulders leave no more width on the 36-wide square. The icon still reads as a laptop because of the base sticking out on each side.
+
+**References:** the human reference `user.svg` for the head over rounded shoulders; Lucide `laptop` (screen plus wider base) and `users` (paired busts) for the parts.
+
+Files are in `new-pipeline-test/output_png/20260930-1040-coworkers-with-laptop/`:
+- `coworkers_with_laptop_redraw.py`
+- `coworkers-with-laptop_redraw.svg`
+- `coworkers-with-laptop_redraw.png`
+- `coworkers-with-laptop_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build wasn't run.

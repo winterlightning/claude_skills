@@ -11,7 +11,7 @@ use crate::reviews::{public_status, Decision, ReviewRow};
 use crate::time::{iso, parse_time};
 use chrono::{DateTime, Duration, FixedOffset, Utc};
 use serde_json::{json, Map, Value};
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 pub const LEASE_HOURS: i64 = 6;
 pub const MAX_WORKER: usize = 120;
@@ -199,7 +199,103 @@ pub struct WorkData<'a> {
     pub rows: &'a RowMap,
     pub feedback: &'a FeedbackMap,
     pub types: &'a HashMap<String, String>,
+    /// How many times each icon was disapproved (`disapproval_counts`); empty where not needed.
+    pub disapprovals: &'a HashMap<String, u32>,
     pub now: DateTime<Utc>,
+}
+
+/// One activity-log row the disapproval count reads (`work_done`, `upload`, `review`, `feedback`).
+#[derive(Clone, Debug, Default)]
+pub struct CountEvent {
+    pub icon: String,
+    pub action: String,
+    pub status: Option<String>,
+    pub svg_sha256: Option<String>,
+    pub at: String,
+}
+
+/// What `disapproval_counts` needs besides the review rows and decisions the queue already loads.
+pub struct CountInputs<'a> {
+    /// Activity rows in id order.
+    pub events: &'a [CountEvent],
+    /// (icon, sha) of every feedback note.
+    pub feedback: &'a [(String, String)],
+    /// (icon, sha) of every uploaded `after` fix result.
+    pub fixes: &'a [(String, String)],
+}
+
+const DISAPPROVED: [&str; 2] = ["pending", "disapprove"];
+/// Disapprovals a person fixes by hand: the fix queue skips them unless `reason` asks for them.
+const MANUAL_FIX: &str = "manual-fix-request";
+const FIXED: [&str; 3] = ["ready", "re-generated", "approve"];
+
+/// How many times each icon was disapproved; work_queue.py `disapproval_count` over the whole database.
+/// The largest of three signals, because a fix does not always leave a work_done event (a rebuilt drawing
+/// arrives as a new revision) and legacy imports put events out of order:
+/// - episodes in the event log, in time order: a disapproval after the icon was last fixed (work_done,
+///   upload, or a review to ready / re-generated / approve) starts a new one; notes in one session count once;
+/// - distinct drawings that were disapproved, the current one included;
+/// - 2 when a fix was ever reported (an `after` result or a work_done event) and the icon is disapproved again.
+pub fn disapproval_counts(data: &WorkData, inputs: &CountInputs) -> HashMap<String, u32> {
+    let mut events: HashMap<&str, Vec<&CountEvent>> = HashMap::new();
+    for event in inputs.events {
+        events.entry(event.icon.as_str()).or_default().push(event);
+    }
+    let mut shas: HashMap<&str, HashSet<&str>> = HashMap::new();
+    let mut reported: HashSet<&str> = inputs.fixes.iter().map(|(icon, _)| icon.as_str()).collect();
+    for ((icon, sha), row) in data.rows {
+        if DISAPPROVED.contains(&row.status.as_str()) || row.status == "claimed" {
+            shas.entry(icon.as_str()).or_default().insert(sha.as_str());
+        }
+    }
+    for (icon, sha) in inputs.feedback {
+        shas.entry(icon.as_str()).or_default().insert(sha.as_str());
+    }
+    let mut counts = HashMap::new();
+    for (key, decision) in data.decisions {
+        let key = key.as_str();
+        let mut episodes = 0u32;
+        let mut fixed_since = true;
+        let mut mine: Vec<&CountEvent> = events.get(key).cloned().unwrap_or_default();
+        mine.sort_by(|a, b| a.at.cmp(&b.at));
+        let icon_shas = shas.entry(key).or_default();
+        for event in mine {
+            let status = event.status.as_deref().unwrap_or("");
+            if event.action == "work_done" {
+                reported.insert(key);
+            }
+            if event.action == "work_done" || event.action == "upload" || (event.action == "review" && FIXED.contains(&status)) {
+                fixed_since = true;
+            } else if (event.action == "feedback" || event.action == "review") && DISAPPROVED.contains(&status) {
+                if let Some(sha) = event.svg_sha256.as_deref().filter(|s| !s.is_empty()) {
+                    icon_shas.insert(sha);
+                }
+                if fixed_since {
+                    episodes += 1;
+                    fixed_since = false;
+                }
+            }
+        }
+        // A fix awaiting review (done) is not disapproved again yet: no current drawing, no floor.
+        let disapproved_now = DISAPPROVED.contains(&decision.status.as_str()) || decision.status == "claimed";
+        if disapproved_now {
+            if let Some(icon) = data.catalog.get(key) {
+                icon_shas.insert(icon.svg_sha256.as_str());
+            }
+        }
+        let floor = if disapproved_now && reported.contains(key) { 2 } else { 0 };
+        counts.insert(key.to_string(), episodes.max(icon_shas.len() as u32).max(floor));
+    }
+    counts
+}
+
+/// The page's buckets: `1` (once or never), `2`, `3+`.
+fn disapproval_bucket(item: &Value) -> &'static str {
+    match item["disapprovals"].as_u64().unwrap_or(0) {
+        0 | 1 => "1",
+        2 => "2",
+        _ => "3+",
+    }
 }
 
 /// Every icon whose current revision needs a fix (pending, claimed, cannot-fix) or was just fixed (done).
@@ -228,7 +324,11 @@ pub fn disapproved_items(data: &WorkData, filters: &Filters) -> Vec<Value> {
         let feedback = data.feedback.get(&(key.clone(), sha.clone()));
         if filters.reason.is_some_and(|r| feedback.and_then(|f| f.reason.as_deref()) != Some(r)) { continue; }
         let state = work_state(row.as_ref(), data.now);
-        items.push(queue_item(icon, icon_type, decision, feedback, row.as_ref(), state));
+        let mut item = queue_item(icon, icon_type, decision, feedback, row.as_ref(), state);
+        if let Some(count) = data.disapprovals.get(key) {
+            item["disapprovals"] = json!(count);
+        }
+        items.push(item);
     }
     items
 }
@@ -254,11 +354,17 @@ pub fn queue(data: &WorkData, query: &Query, claimable_only: bool) -> Result<Val
     let filters = Filters { family: paging.one("family"), category: paging.one("category"),
                             icon_type: paging.one("type"), reason: paging.one("reason") };
     let wanted_state = paging.one("state");
+    let most = match paging.one("max_disapprovals") {
+        None => None,
+        Some(text) => Some(text.trim().parse::<u64>().map_err(|_| WorkError::new("max_disapprovals must be an integer.", 400))?),
+    };
     let mut rows: Vec<Value> = disapproved_items(data, &filters).into_iter().filter(|item| {
         let status = item["status"].as_str().unwrap_or("");
         (status == "disapprove" || status == "claimed")
             && (!claimable_only || state_of(item).is_none())
             && wanted_state.is_none_or(|s| state_matches(item, s))
+            && most.is_none_or(|most| item["disapprovals"].as_u64().unwrap_or(0) <= most)
+            && (filters.reason.is_some() || item["reason"].as_str() != Some(MANUAL_FIX))
             // Side combination 64 icons have no Python model to fix; they are fixed through their main and sub,
             // so fix workers only get them when they ask for that family.
             && (filters.family.is_some() || item["family"].as_str() != Some("side_combination64"))
@@ -327,7 +433,8 @@ fn searchable(item: &Value) -> String {
 }
 
 /// `/api/work/review` (work_claims.py `filter_review`): filters family, reason (or `missing`), status,
-/// state (`open` = unclaimed), worker and `q` text search. `counts` ignore only the state filter.
+/// state (`open` = unclaimed), worker, `disapprovals` (1, 2, 3+) and `q` text search. `counts` ignore only
+/// the state filter, `disapproval_counts` only the disapprovals and state filters.
 pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummaries) -> Result<Value, WorkError> {
     let mut query = query.clone();
     query.entry("limit".into()).or_insert_with(|| vec![MAX_QUEUE.to_string()]);
@@ -342,6 +449,13 @@ pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummarie
             && worker.is_none_or(|w| item["work"]["worker"].as_str() == Some(w))
             && (needle.is_empty() || searchable(item).contains(&needle))
     }).cloned().collect();
+    let mut buckets = Map::new();
+    for bucket in ["1", "2", "3+"] {
+        buckets.insert(bucket.into(), json!(matching.iter().filter(|item| disapproval_bucket(item) == bucket).count()));
+    }
+    if let Some(bucket) = paging.one("disapprovals") {
+        matching.retain(|item| disapproval_bucket(item) == bucket);
+    }
     let mut counts = Map::new();
     for state in STATES {
         counts.insert(state.into(), json!(matching.iter().filter(|item| state_of(item) == Some(state)).count()));
@@ -355,7 +469,7 @@ pub fn review_listing(data: &WorkData, query: &Query, summaries: &ResultSummarie
     let total = matching.len();
     let (page_items, next) = page(matching, paging.offset, paging.limit);
     Ok(json!({"total": total, "offset": paging.offset, "next_offset": next, "counts": counts, "all": unfiltered,
-              "families": families, "items": page_items}))
+              "disapproval_counts": buckets, "families": families, "items": page_items}))
 }
 
 // ---- transition checks; the caller runs the conditional SQL when these pass ----
@@ -662,7 +776,7 @@ mod tests {
                              ("solo/c".to_string(), Decision::ready())];
         let rows = RowMap::new();
         let data = WorkData { catalog: &catalog, decisions: &decisions, rows: &rows, feedback: &FeedbackMap::new(),
-                              types: &HashMap::new(), now: now() };
+                              types: &HashMap::new(), disapprovals: &HashMap::new(), now: now() };
         let result = queue(&data, &parse_qs("limit=1"), true).unwrap();
         assert_eq!(result["total"], 2);
         assert_eq!(result["items"][0]["key"], "solo/b");
@@ -670,5 +784,91 @@ mod tests {
         assert_eq!(result["items"][0]["status"], "disapprove");
         assert!(queue(&data, &parse_qs("limit=0"), true).is_err());
         assert!(queue(&data, &parse_qs("offset=x"), true).is_err());
+    }
+
+    #[test]
+    fn queue_skips_manual_fix_requests_unless_asked() {
+        let icon = |key: &str| Icon { key: key.into(), svg_sha256: "s".into(), family: Some("solo".into()), ..Default::default() };
+        let catalog = Catalog::new(vec![icon("solo/a"), icon("solo/b")], false);
+        let decision = Decision { status: "pending".into(), actor: None, stamp: Some("2026-09-01".into()) };
+        let decisions: Vec<(String, Decision)> = ["solo/a", "solo/b"].iter().map(|k| (k.to_string(), decision.clone())).collect();
+        let mut feedback = FeedbackMap::new();
+        feedback.insert(("solo/a".into(), "s".into()), FeedbackSummary { reason: Some(MANUAL_FIX.into()), ..Default::default() });
+        let rows = RowMap::new();
+        let data = WorkData { catalog: &catalog, decisions: &decisions, rows: &rows, feedback: &feedback,
+                              types: &HashMap::new(), disapprovals: &HashMap::new(), now: now() };
+        for claimable in [true, false] {
+            let all = queue(&data, &parse_qs(""), claimable).unwrap();
+            assert_eq!(all["total"], 1);
+            assert_eq!(all["items"][0]["key"], "solo/b");
+            let manual = queue(&data, &parse_qs("reason=manual-fix-request"), claimable).unwrap();
+            assert_eq!(manual["total"], 1);
+            assert_eq!(manual["items"][0]["key"], "solo/a");
+        }
+    }
+
+    fn event(action: &str, status: Option<&str>, sha: &str, at: &str) -> CountEvent {
+        CountEvent { icon: "solo/a".into(), action: action.into(), status: status.map(Into::into),
+                     svg_sha256: Some(sha.into()), at: at.into() }
+    }
+
+    /// The count of solo/a (current sha "s", disapproved now) from these events, feedback, fixes and rows.
+    fn count(events: &[CountEvent], feedback: &[(String, String)], fixes: &[(String, String)], rows: &RowMap) -> u32 {
+        let icon = Icon { key: "solo/a".into(), svg_sha256: "s".into(), family: Some("solo".into()), ..Default::default() };
+        let catalog = Catalog::new(vec![icon], false);
+        let decisions = vec![("solo/a".to_string(), Decision { status: "pending".into(), actor: None, stamp: None })];
+        let data = WorkData { catalog: &catalog, decisions: &decisions, rows, feedback: &FeedbackMap::new(),
+                              types: &HashMap::new(), disapprovals: &HashMap::new(), now: now() };
+        disapproval_counts(&data, &CountInputs { events, feedback, fixes })["solo/a"]
+    }
+
+    #[test]
+    fn disapproval_count_signals() {
+        let none = RowMap::new();
+        assert_eq!(count(&[], &[], &[], &none), 1, "disapproved now: the current drawing counts once");
+        let one_session = [event("review", Some("pending"), "s", "2026-09-01T10"), event("feedback", Some("pending"), "s", "2026-09-01T11")];
+        assert_eq!(count(&one_session, &[], &[], &none), 1, "several notes in one session count once");
+        // Out of order in id, in order by time: disapprove, fixed by an upload, disapprove again.
+        let episodes = [event("review", Some("disapprove"), "s", "2026-09-03"), event("review", Some("pending"), "s", "2026-09-01"),
+                        event("upload", None, "s", "2026-09-02")];
+        assert_eq!(count(&episodes, &[], &[], &none), 2, "two episodes");
+        let mut rows = RowMap::new();
+        rows.insert(("solo/a".into(), "old".into()), ReviewRow { icon: "solo/a".into(), svg_sha256: "old".into(),
+                                                                 status: "pending".into(), ..Default::default() });
+        assert_eq!(count(&[], &[], &[], &rows), 2, "two disapproved drawings");
+        assert_eq!(count(&[], &[("solo/a".into(), "older".into())], &[], &rows), 3, "feedback marks a drawing");
+        assert_eq!(count(&[], &[], &[("solo/a".into(), "s".into())], &none), 2, "a reported fix disapproved again");
+        assert_eq!(count(&[event("work_done", None, "s", "2026-09-02")], &[], &[], &none), 2, "work_done is a reported fix");
+        let icon = Icon { key: "solo/a".into(), svg_sha256: "s".into(), ..Default::default() };
+        let catalog = Catalog::new(vec![icon], false);
+        let decisions = vec![("solo/a".to_string(), Decision::ready())];
+        let data = WorkData { catalog: &catalog, decisions: &decisions, rows: &none, feedback: &FeedbackMap::new(),
+                              types: &HashMap::new(), disapprovals: &HashMap::new(), now: now() };
+        let fixed = [event("review", Some("pending"), "s", "2026-09-01"), event("work_done", None, "s", "2026-09-02")];
+        let fixes = [("solo/a".to_string(), "s".to_string())];
+        assert_eq!(disapproval_counts(&data, &CountInputs { events: &fixed, feedback: &[], fixes: &fixes })["solo/a"], 1,
+                   "a fix awaiting review counts the disapprovals so far");
+    }
+
+    #[test]
+    fn review_listing_buckets_and_queue_limit() {
+        let icon = |key: &str| Icon { key: key.into(), svg_sha256: "s".into(), family: Some("solo".into()), ..Default::default() };
+        let catalog = Catalog::new(vec![icon("solo/a"), icon("solo/b"), icon("solo/c")], false);
+        let decision = Decision { status: "pending".into(), actor: None, stamp: Some("2026-09-01".into()) };
+        let decisions: Vec<(String, Decision)> = ["solo/a", "solo/b", "solo/c"].iter().map(|k| (k.to_string(), decision.clone())).collect();
+        let counts: HashMap<String, u32> = [("solo/a", 1), ("solo/b", 2), ("solo/c", 4)].iter().map(|(k, n)| (k.to_string(), *n)).collect();
+        let rows = RowMap::new();
+        let data = WorkData { catalog: &catalog, decisions: &decisions, rows: &rows, feedback: &FeedbackMap::new(),
+                              types: &HashMap::new(), disapprovals: &counts, now: now() };
+        let all = review_listing(&data, &parse_qs(""), &ResultSummaries::new()).unwrap();
+        assert_eq!(all["disapproval_counts"], json!({"1": 1, "2": 1, "3+": 1}));
+        let repeat = review_listing(&data, &parse_qs("disapprovals=3%2B"), &ResultSummaries::new()).unwrap();
+        assert_eq!(repeat["total"], 1);
+        assert_eq!(repeat["items"][0]["key"], "solo/c");
+        assert_eq!(repeat["items"][0]["disapprovals"], 4);
+        assert_eq!(repeat["disapproval_counts"], all["disapproval_counts"], "buckets ignore their own filter");
+        let first = queue(&data, &parse_qs("max_disapprovals=1"), true).unwrap();
+        assert_eq!(first["total"], 1);
+        assert!(queue(&data, &parse_qs("max_disapprovals=x"), true).is_err());
     }
 }

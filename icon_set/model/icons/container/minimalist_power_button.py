@@ -6,12 +6,14 @@ an open circular sweep, but the supplied reference's small top circle is
 retained instead of substituting Lucide's vertical bar. Mirrored about x=32;
 no source-defining detail is dropped.
 Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (minimalist-power-button SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class MinimalistPowerButton(Container64):
@@ -21,12 +23,11 @@ class MinimalistPowerButton(Container64):
     keywords = ('power', 'button', 'switch', 'circle')
 
     def build(self) -> None:
-        # Ellipse radii 30 and 25 about (32,37); exact 3:4:5 endpoints.
-        self.add_arc('outer-ne',(50,17),(62,37),radius_x=30,radius_y=25)
-        self.add_arc('outer-se',(62,37),(32,62),radius_x=30,radius_y=25)
-        self.add_arc('outer-sw',(32,62),(2,37),radius_x=30,radius_y=25)
-        self.add_arc('outer-nw',(2,37),(14,17),radius_x=30,radius_y=25)
-        self.add_contour('outer','outer-ne','outer-se','outer-sw','outer-nw')
-        self.add_arc('button-upper',(20,14),(44,14),radius_x=12)
-        self.add_arc('button-lower',(44,14),(20,14),radius_x=12)
-        self.add_contour('button','button-upper','button-lower',closed=True)
+        self.add_arc('outer-ne', (48, 19), (58, 36), radius_x=26, radius_y=22)
+        self.add_arc('outer-se', (58, 36), (32, 58), radius_x=26, radius_y=22)
+        self.add_arc('outer-sw', (32, 58), (6, 36), radius_x=26, radius_y=22)
+        self.add_arc('outer-nw', (6, 36), (16, 19), radius_x=26, radius_y=22)
+        self.add_arc('button-upper', (22, 16), (42, 16), radius_x=10)
+        self.add_arc('button-lower', (42, 16), (22, 16), radius_x=10)
+        self.add_contour('outer', 'outer-ne', 'outer-se', 'outer-sw', 'outer-nw')
+        self.add_contour('button', 'button-upper', 'button-lower', closed=True)

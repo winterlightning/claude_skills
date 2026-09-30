@@ -1,7 +1,7 @@
 """Keyshape tokens with profile-specific dimensions and scaled defaults.
 
-All standard dimensions are centered *visible-ink* bounds. SOLO48 has explicit
-dimensions; CONTAINER64 uses the SUB32 base multiplied by 2.
+All standard dimensions are centered *visible-ink* bounds. SOLO48 and CONTAINER64
+have explicit dimensions (2026-09-13 and 2026-09-30); the others scale the SUB32 base.
 
 The ten base sizes are read from ``keyshapes.v1.json`` rather than restated
 here, so the contract is the only place a keyshape dimension is written and a

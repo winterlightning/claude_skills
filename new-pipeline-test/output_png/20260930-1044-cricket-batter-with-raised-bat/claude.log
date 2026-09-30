@@ -1,0 +1,97 @@
+[10:48:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat && ls && cat *_metrics.json ...
+[10:48:47] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket-batter-with-raised-bat.png
+[10:49:14] > Bash: python3 -c " import json;d=json.load(open('cricket-batter-with-raised-bat_metrics.json')) for k in d: if k not in ('elements','keyshape','choice','files','ta...
+[10:49:45] Let me look at a recent similar redraw (a human figure) for the harness conventions.
+[10:49:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png && cat 20260928-1337-hiker-with-trekking-pole/hiker_with_trekking_pole_re...
+[10:49:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test && ls; grep -rl "redraw-48" --include=*.py --include=*.sh . | head; cat output_png/2...
+[10:49:52] > Bash: grep -n "redraw" run_pipeline.sh | head -30; cat output_png/20260930-1040-customer-at-information-desk/claude.log 2>/dev/null | head
+[10:49:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && grep -n "def \(to_svg\|emit\|render\|svg\|validate_icon\|mark_human_figure\|add_polyline\|add_arc\|...
+[10:49:58] > Bash: grep -rn "def \(to_svg\|emit_svg\|render_svg\|svg\|validate_icon\|mark_human_figure\|add_polyline\|add_arc\|add_line\|add_contour\)\b" icon_set/model | head ...
+[10:50:07] > Bash: cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md ~/.claude/projects/-Applications-Workspaces-pi...
+[10:50:10] Reading the model API next, then I'll draw the batter.
+[10:50:11] > Bash: sed -n 95,215p icon_set/model/icons/base.py
+[10:53:17] > Bash: wc -l icon_set/skills/icon-design/human-reference.md && grep -n -i "proportion\|head.*radius\|torso\|leg" icon_set/skills/icon-design/human-reference.md | he...
+[10:53:20] Drafting the model now.
+[10:53:42] > Bash: mkdir -p /tmp/cb && cat > /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/crick...
+[10:53:54] > Bash: f=new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket_batter_with_raised_bat_redraw.py && sed -i '' 's/^M = (30, 19) /M = (27, ...
+[10:53:56] Valid. Rendering to look at it.
+[10:53:57] > Bash: /opt/homebrew/bin/python3 /tmp/cb/run.py save && cat new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket-batter-with-raised-bat...
+[10:53:58] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket-batter-with-raised-bat_...
+[10:54:16] Valid but the bat reads like a placard: handle too short, square blade. Reworking it with a rounded toe, tapered shoulders and a longer handle.
+[10:54:24] > Bash: f=new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket_batter_with_raised_bat_redraw.py && /opt/homebrew/bin/python3 - "$f" <<'E...
+[10:54:26] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket-batter-with-raised-bat_...
+[10:54:31] Reads as a bat now, but the pointed shoulder looks like a pencil tip. Trying flat shoulders with a longer visible handle.
+[10:54:34] > Bash: f=new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket_batter_with_raised_bat_redraw.py && /opt/homebrew/bin/python3 - "$f" <<'E...
+[10:54:36] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket-batter-with-raised-bat_...
+[10:54:39] This one reads as a cricket bat. Checking the native 48 px render, dark theme and the warning count.
+[10:54:44] > Bash: d=new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat && /opt/homebrew/bin/python3 - <<'EOF' import importlib.util, sys sys.path.insert...
+[10:54:45] > Read: /tmp/cb/l.png
+[10:54:45] > Read: /tmp/cb/d.png
+[10:54:47] Reads clearly at 48 px in both themes. Now I'll update the docstring to match the final geometry and remove the unused constants.
+[10:54:48] > Bash: sed -n 40,75p new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket_batter_with_raised_bat_redraw.py
+[10:55:00] > Bash: f=new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/cricket_batter_with_raised_bat_redraw.py && /opt/homebrew/bin/python3 - "$f" <<'E...
+[10:55:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat && ls -a | grep pycache && r...
+[10:55:16] I redrew the cricket batter as a Solo48 model, and `validate_icon()` returns **valid with no warnings**. As you asked, I did not register it under `icon_set/model/icons`, did not touch `published/`, and did not run the build or gallery updates. That also means I skipped the skill's unit tests, build and contact-sheet steps.
+
+**Subject:** a stick-figure cricket batter holding the bat raised up and to the right of the head.
+
+**Keyshape: `VRECT_L`, not the suggested `VRECT_M`.** `VRECT_M` is 28 units wide on centerlines. The head needs 10, the gap to the bat needs 9, and a tilted hollow blade needs about 12 more, so it doesn't fit. On `VRECT_L`, each edge of the box is touched exactly: the head at the top and left, the toe of the bat on the right, and the feet at the bottom.
+
+**Construction**
+- **Head:** a circle of radius 5 (the smallest that leaves a 6-unit hole). It sits exactly 8 units above a vertical torso on centerlines (4 units of visible gap), and is flagged as the figure's head for later checks.
+- **Body:** the legs are one inverted V from the hip to both feet. There is one straight arm from the shoulder to the hands.
+- **Bat:** everything is built on a 3-4-5 slant so all points land on whole grid units. The handle runs from the hands to the middle of a flat blade shoulder. The blade has straight sides 10 apart and a rounded tip that joins them smoothly. The whole bat is symmetric about its own axis.
+- **Drafts:** my first two tries read as a placard (square blade) and as a pencil tip (pointed shoulder). The flat-shoulder version with a longer handle reads as a cricket bat at 48 px, in both light and dark themes.
+- **References:** `icon_set/references/human_ref/full_body_ref.png` for the round head and single-stroke limbs. No Lucide icon matched a cricket bat, so I only borrowed Lucide's round caps and smooth arcs.
+
+**Metric issues fixed** (all are also listed in the module docstring)
+- **Stroke width:** redrawn at stroke 4, with every gap measured for 4.
+- **Keyshape short axis:** switched to `VRECT_L`, as above.
+- **No head:** the head is now a real circle with an exact 8-unit gap to the torso.
+- **Head too close to torso and arms (e3/e4, e2/e4):** the torso drops straight down from the head, and the arm leaves it below the neck.
+- **Bat too close to head (e0/e4):** the blade's nearest corner is now 14.3 from the head's centre, which leaves more than the required 9 from the head outline.
+- **Blade touching the arm (e0/e3) and the two holes 1.8 and 2.0 wide:** the two arms that closed off a tiny pocket are now one arm. The blade's hole is 6 units across.
+- **Arm too close to the legs (e1/e3):** the arm joins the torso above the hip and angles up, away from the legs.
+
+**Not fixed:** nothing. The only departures from the input are the keyshape change and dropping the second arm.
+
+**Deliberately asymmetric:** the pose itself. The figure sits on the left, the bat on the right, and the stance is uneven.
+
+Files are in `new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/`:
+- `cricket_batter_with_raised_bat_redraw.py`
+- `cricket-batter-with-raised-bat_redraw.svg`
+- `cricket-batter-with-raised-bat_redraw.png` (large preview)
+- `cricket-batter-with-raised-bat_redraw-48.png` (native 48 px)
+
+[10:55:16] === success in 396s, $1.51 ===
+I redrew the cricket batter as a Solo48 model, and `validate_icon()` returns **valid with no warnings**. As you asked, I did not register it under `icon_set/model/icons`, did not touch `published/`, and did not run the build or gallery updates. That also means I skipped the skill's unit tests, build and contact-sheet steps.
+
+**Subject:** a stick-figure cricket batter holding the bat raised up and to the right of the head.
+
+**Keyshape: `VRECT_L`, not the suggested `VRECT_M`.** `VRECT_M` is 28 units wide on centerlines. The head needs 10, the gap to the bat needs 9, and a tilted hollow blade needs about 12 more, so it doesn't fit. On `VRECT_L`, each edge of the box is touched exactly: the head at the top and left, the toe of the bat on the right, and the feet at the bottom.
+
+**Construction**
+- **Head:** a circle of radius 5 (the smallest that leaves a 6-unit hole). It sits exactly 8 units above a vertical torso on centerlines (4 units of visible gap), and is flagged as the figure's head for later checks.
+- **Body:** the legs are one inverted V from the hip to both feet. There is one straight arm from the shoulder to the hands.
+- **Bat:** everything is built on a 3-4-5 slant so all points land on whole grid units. The handle runs from the hands to the middle of a flat blade shoulder. The blade has straight sides 10 apart and a rounded tip that joins them smoothly. The whole bat is symmetric about its own axis.
+- **Drafts:** my first two tries read as a placard (square blade) and as a pencil tip (pointed shoulder). The flat-shoulder version with a longer handle reads as a cricket bat at 48 px, in both light and dark themes.
+- **References:** `icon_set/references/human_ref/full_body_ref.png` for the round head and single-stroke limbs. No Lucide icon matched a cricket bat, so I only borrowed Lucide's round caps and smooth arcs.
+
+**Metric issues fixed** (all are also listed in the module docstring)
+- **Stroke width:** redrawn at stroke 4, with every gap measured for 4.
+- **Keyshape short axis:** switched to `VRECT_L`, as above.
+- **No head:** the head is now a real circle with an exact 8-unit gap to the torso.
+- **Head too close to torso and arms (e3/e4, e2/e4):** the torso drops straight down from the head, and the arm leaves it below the neck.
+- **Bat too close to head (e0/e4):** the blade's nearest corner is now 14.3 from the head's centre, which leaves more than the required 9 from the head outline.
+- **Blade touching the arm (e0/e3) and the two holes 1.8 and 2.0 wide:** the two arms that closed off a tiny pocket are now one arm. The blade's hole is 6 units across.
+- **Arm too close to the legs (e1/e3):** the arm joins the torso above the hip and angles up, away from the legs.
+
+**Not fixed:** nothing. The only departures from the input are the keyshape change and dropping the second arm.
+
+**Deliberately asymmetric:** the pose itself. The figure sits on the left, the bat on the right, and the stance is uneven.
+
+Files are in `new-pipeline-test/output_png/20260930-1044-cricket-batter-with-raised-bat/`:
+- `cricket_batter_with_raised_bat_redraw.py`
+- `cricket-batter-with-raised-bat_redraw.svg`
+- `cricket-batter-with-raised-bat_redraw.png` (large preview)
+- `cricket-batter-with-raised-bat_redraw-48.png` (native 48 px)

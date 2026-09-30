@@ -1,0 +1,89 @@
+[10:47:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1044-coughing-person-profile; ls $D; cat $D/coughing-person-p...
+[10:48:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1044-coughing-person-profile; python3 -c " import json;m=json...
+[10:48:22] Let me look at the image and a recent redraw module for the save/render workflow.
+[10:48:23] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-coughing-person-profile/coughing-person-profile.png
+[10:48:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1040-customer-at-information-desk/customer_at_information_d...
+[10:48:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; ls output_png/20260928-1337-hiker-with-trekking-pole/; grep -rl "redraw-48" *.p...
+[10:48:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw" run_pipeline.sh | head -30
+[10:48:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 1,200p icon_set/skills/icon-design/human-reference.md | head -120; ls icon_set/references/huma...
+[10:48:54] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md normal48-geometry-floors.md | head -80
+[10:49:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png; sed -n '/^from/,$p' 20260928-1337-hiker-with-trekking-pole/hiker_with_tr...
+[10:49:45] Drafting the model now: head on a vertical neck stub, Λ torso/arm, two cough rays clear of the hand.
+[10:49:46] > Bash: cat /tmp/am_render.py | head -60
+[10:50:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1044-coughing-person-profile cat > $D/coughing_person_profile...
+[10:50:07] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-coughing-person-profile/coughing-person-profile_redraw.png
+[10:50:13] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1044-coughing-person-profile/coughing-person-profile_redraw-48.png
+[10:50:26] I've redrawn the coughing person as a Solo48 model and saved all four files in the run folder. It passes `validate_icon()` with status `valid` and no warnings. The native 48 px preview reads as a stick figure coughing into a raised fist with two cough rays.
+
+**Subject and keyshape:** a stick figure seen from the side, leaning right, with two rays opening to the right in a "<" shape. I used the suggested `SQUARE` (fit score 1.25, the best of the candidates), and every edge lands exactly on the centerline box (6,6)-(42,42):
+- **Top:** the head.
+- **Left and bottom:** the torso's foot at (6,42).
+- **Right:** the outer ends of both rays.
+
+**How it's built:**
+- **Head:** a circle of radius 6 centred on (16,12), drawn from four quarter arcs.
+- **Neck:** a short vertical stub from (16,26) to (16,28). It sits exactly 8 units below the head outline on centerlines, which leaves the required 4-unit visible gap. This follows the shared human reference (`human_ref/full_body_ref.png`), and the figure is flagged with `mark_human_figure`.
+- **Torso and arm:** the torso slants from the neck's foot to (6,42). The arm starts at the same point, drops to the elbow at (22,36), then rises to a fist at (28,22) in front of the face. This keeps the traced zigzag. The neck, torso and arm are joined with declared `connect` relations.
+- **Cough rays:** two straight lines, (36,14)→(42,11) and (36,22)→(42,25).
+
+**Metric issues fixed:**
+- **stroke-width (2.77 in the trace):** redrawn at stroke 4, and every gap was re-planned for that width.
+- **Head to rays (e0/e1, 5.2) and head to arm (e0/e3, 6.72):** both are now more than 8 apart.
+- **Head to body (e0/e2, 4.06):** now exactly 8 from the head outline to the neck.
+- **Rays to arm (e1/e2, 5.39; e2/e3, 3.81):** the fist is exactly 8 from the lower ray's start (straight line to straight line, which the validator accepts) and farther from everything else.
+- **Ray to ray (e1/e3, 2.26):** the rays start 8 apart and spread apart from there.
+- **no-head warning:** the head is now a proper circle and is paired with its neck.
+
+**Not fixed:** none.
+
+**Deliberate changes and asymmetry:**
+- I added the short neck stub, which isn't in the trace. A head set diagonally from its torso doesn't pass the head-gap check; a head straight above a vertical neck does.
+- The fist sits a little further from the mouth than in the trace, because it has to stay 8 away from both the head and the rays.
+- The figure is asymmetric on purpose because it's a side view.
+- No Lucide icon matched usefully apart from `user`'s circle head.
+
+As asked, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1044-coughing-person-profile/`:
+- `coughing_person_profile_redraw.py`
+- `coughing-person-profile_redraw.svg`
+- `coughing-person-profile_redraw.png`
+- `coughing-person-profile_redraw-48.png`
+
+[10:50:26] === success in 163s, $0.89 ===
+I've redrawn the coughing person as a Solo48 model and saved all four files in the run folder. It passes `validate_icon()` with status `valid` and no warnings. The native 48 px preview reads as a stick figure coughing into a raised fist with two cough rays.
+
+**Subject and keyshape:** a stick figure seen from the side, leaning right, with two rays opening to the right in a "<" shape. I used the suggested `SQUARE` (fit score 1.25, the best of the candidates), and every edge lands exactly on the centerline box (6,6)-(42,42):
+- **Top:** the head.
+- **Left and bottom:** the torso's foot at (6,42).
+- **Right:** the outer ends of both rays.
+
+**How it's built:**
+- **Head:** a circle of radius 6 centred on (16,12), drawn from four quarter arcs.
+- **Neck:** a short vertical stub from (16,26) to (16,28). It sits exactly 8 units below the head outline on centerlines, which leaves the required 4-unit visible gap. This follows the shared human reference (`human_ref/full_body_ref.png`), and the figure is flagged with `mark_human_figure`.
+- **Torso and arm:** the torso slants from the neck's foot to (6,42). The arm starts at the same point, drops to the elbow at (22,36), then rises to a fist at (28,22) in front of the face. This keeps the traced zigzag. The neck, torso and arm are joined with declared `connect` relations.
+- **Cough rays:** two straight lines, (36,14)→(42,11) and (36,22)→(42,25).
+
+**Metric issues fixed:**
+- **stroke-width (2.77 in the trace):** redrawn at stroke 4, and every gap was re-planned for that width.
+- **Head to rays (e0/e1, 5.2) and head to arm (e0/e3, 6.72):** both are now more than 8 apart.
+- **Head to body (e0/e2, 4.06):** now exactly 8 from the head outline to the neck.
+- **Rays to arm (e1/e2, 5.39; e2/e3, 3.81):** the fist is exactly 8 from the lower ray's start (straight line to straight line, which the validator accepts) and farther from everything else.
+- **Ray to ray (e1/e3, 2.26):** the rays start 8 apart and spread apart from there.
+- **no-head warning:** the head is now a proper circle and is paired with its neck.
+
+**Not fixed:** none.
+
+**Deliberate changes and asymmetry:**
+- I added the short neck stub, which isn't in the trace. A head set diagonally from its torso doesn't pass the head-gap check; a head straight above a vertical neck does.
+- The fist sits a little further from the mouth than in the trace, because it has to stay 8 away from both the head and the rays.
+- The figure is asymmetric on purpose because it's a side view.
+- No Lucide icon matched usefully apart from `user`'s circle head.
+
+As asked, I didn't register the module under `icon_set/model/icons`, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260930-1044-coughing-person-profile/`:
+- `coughing_person_profile_redraw.py`
+- `coughing-person-profile_redraw.svg`
+- `coughing-person-profile_redraw.png`
+- `coughing-person-profile_redraw-48.png`

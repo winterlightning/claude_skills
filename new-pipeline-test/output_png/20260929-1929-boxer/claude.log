@@ -1,0 +1,111 @@
+[19:34:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260929-1929-boxer; cat output_png/20260929-1929-boxer/boxer_metrics...
+[19:34:58] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1929-boxer/boxer.png
+[19:35:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; python3 -c " import json;d=json.load(open('output_png/20260929-1929-boxer/boxer_met...
+[19:35:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260928-1337-hiker-with-trekking-pole/hiker_with_trekking_pole_redr...
+[19:35:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260929-1928-calendar-number-seven/; ls; grep -rl "redraw-48" *.py *...
+[19:36:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; grep -n -i "redraw\|render\|svg" run_pipeline.sh | head -40; tail -40 output_png/20...
+[19:36:03] I'm reviewing prior redraws for the render method, then I'll author the boxer model.
+[19:36:04] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "c2a64d8a" icon_set/model/icons 2>/dev/null | head; grep -o '"command":"[^"]*render[^"]*"' n...
+[19:36:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; head -c 400 new-pipeline-test/output_png/20260929-1928-calendar-number-seven/claude.log; echo; grep -...
+[19:36:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -h -o "cairosvg[^\"]\{0,200\}\|rsvg[^\"]\{0,120\}\|to_svg[^\"]\{0,200\}\|build_gate[^\"]\{0,150\...
+[19:36:22] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert magick; sed -n 1,40p icon_set/scripts/build_gate.py | head -50; grep -n "^def \|ar...
+[19:36:56] > Bash: cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/solo48-build-gate-traps.md ~/.claude/projects/-Applications-Workspaces-pict...
+[19:36:58] Writing the first draft of the model now.
+[19:37:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; cat > $D/boxer_redraw.py <<'EOF' """boxer (redraw...
+[19:37:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/boxer...
+[19:37:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "human_figure" icon_set/validation/*.py icon_set/model/*.py | head -20
+[19:37:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rln "cannot certify\|certif" icon_set/validation/ | head; grep -rn "def .*certif\|head_gap\|_he...
+[19:37:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "certif" icon_set/validation/validator.py icon_set/validation/spacing_reviews.py icon_set/val...
+[19:37:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for f in $(grep -l mark_human_figure icon_set/model/icons/solo/*.py | head -12); do n=$(basename $f ....
+[19:37:38] The draft misses on an exact-8 head gap; I'm checking how passing figures in the library handle it.
+[19:37:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl mark_human_figure icon_set/model/icons/solo/ | head -12 > /tmp/hf.txt; while read f; do n=$(...
+[19:37:47] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '/def build/,$p' icon_set/model/icons/solo/karate_fighting_stance_334bfd33_9625_567b_83fd_5ebd...
+[19:37:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "def ring\|def branches" -A12 icon_set/model/icons/base.py icon_set/model/icons/solo/_base.p...
+[19:38:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def ring" -A10 icon_set/model/icons/solo/karate_fighting_stance_334bfd33_9625_567b_83fd_5ebd...
+[19:38:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeli...
+[19:38:13] > Bash: cd /tmp; D=/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1929-boxer; sed 's/stroke="[^"]*"/stroke="#ffffff"/g; s/...
+[19:38:14] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1929-boxer/boxer_redraw.png
+[19:38:14] > Read: /tmp/boxer48x.png
+[19:38:22] It passes the build gate and reads well, but the r4 head's opening is small at 48 px. I'm trying an r5 head.
+[19:38:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; cp $D/boxer_redraw.py /tmp/boxer_r4.py; sed -i ''...
+[19:38:31] > Read: /tmp/boxer48x.png
+[19:38:35] The r5 version passes too and reads better, so I'm keeping it and updating the docstring.
+[19:38:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; /opt/homebrew/bin/python3 - <<'EOF' p="new-pipeli...
+[19:38:45] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1929-boxer; sed -i '' 's/neck (TX,20) to the hip/neck (TX,22)...
+[19:38:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; rm -rf new-pipeline-test/output_png/20260929-1929-boxer/__pycache__; ls new-pipeline-test/output_png/...
+[19:38:58] I redrew the boxer as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At native 48 px it reads clearly in both light and dark themes.
+
+**Subject:** a stick-figure boxer punching to the right, with the other arm raised in guard.
+
+**Keyshape:** I used the suggested `VRECT_M` (centerline box (10,4)–(38,44)). All four edges are reached exactly:
+- **Top (y=4):** top of the head.
+- **Right (x=38):** the punching fist.
+- **Left (x=10):** the guard forearm.
+- **Bottom (y=44):** both feet.
+
+**Construction:** everything hangs off a body axis at x=22.
+- **Head:** a circle of radius 5 centred at (22,9), drawn as two half arcs. I first tried radius 4, but the opening was too small at 48 px.
+- **Torso:** a vertical line from the neck (22,22) to the hip (22,32). The neck sits exactly 8 units below the head outline on centerlines, which leaves a 4-unit visible gap. The head and torso are paired with `mark_human_figure`.
+- **Punching arm:** horizontal from the neck to (38,22).
+- **Guard arm:** goes from the neck out to an elbow at (10,25), then straight up to a fist at (10,15).
+- **Legs:** two straight lines from the hip to (14,44) and (30,44), mirrored about x=22.
+
+**References:** proportions and style come from `human_ref/full_body_ref.png`. I found no useful Lucide match, since Lucide has no full-body action figure.
+
+**Metric issues, all fixed:**
+- **Stroke width:** the model is drawn at stroke 4.
+- **Short axis only 86% filled:** the guard forearm and punching fist now sit on both side edges.
+- **Head too close to the torso and arms (e0/e1, e0/e2, e0/e3, 3.56):** the head is now detached exactly 8 above the neck. A first draft that split the head into four quarter arcs came back as `review` at that exact 8. Splitting the circle at its sides instead, as the passing `karate-fighting-stance` does, made it pass.
+- **Guard fist too close to the head (e0/e4, 4.57):** it is now 8.4 away.
+- **Guard forearm too close to the torso and punching arm (e1/e4, e2/e4, 7.11):** it is now 12 from the body axis.
+- **Head opening 3 wide:** it is now a 6-wide visible opening.
+- **No head traced:** the head is now an explicit circle, flagged as the head.
+
+**Dropped:** the slight knee bends in the trace. Straight legs read the same at 48 px.
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run. Three older modules already use this source ID under `icon_set/model/icons/solo/` (for example `boxer.py`). I left them unchanged.
+
+Files are in `new-pipeline-test/output_png/20260929-1929-boxer/`:
+- `boxer_redraw.py`
+- `boxer_redraw.svg`
+- `boxer_redraw.png` (512 px preview)
+- `boxer_redraw-48.png`
+
+[19:38:58] === success in 256s, $1.14 ===
+I redrew the boxer as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings. At native 48 px it reads clearly in both light and dark themes.
+
+**Subject:** a stick-figure boxer punching to the right, with the other arm raised in guard.
+
+**Keyshape:** I used the suggested `VRECT_M` (centerline box (10,4)–(38,44)). All four edges are reached exactly:
+- **Top (y=4):** top of the head.
+- **Right (x=38):** the punching fist.
+- **Left (x=10):** the guard forearm.
+- **Bottom (y=44):** both feet.
+
+**Construction:** everything hangs off a body axis at x=22.
+- **Head:** a circle of radius 5 centred at (22,9), drawn as two half arcs. I first tried radius 4, but the opening was too small at 48 px.
+- **Torso:** a vertical line from the neck (22,22) to the hip (22,32). The neck sits exactly 8 units below the head outline on centerlines, which leaves a 4-unit visible gap. The head and torso are paired with `mark_human_figure`.
+- **Punching arm:** horizontal from the neck to (38,22).
+- **Guard arm:** goes from the neck out to an elbow at (10,25), then straight up to a fist at (10,15).
+- **Legs:** two straight lines from the hip to (14,44) and (30,44), mirrored about x=22.
+
+**References:** proportions and style come from `human_ref/full_body_ref.png`. I found no useful Lucide match, since Lucide has no full-body action figure.
+
+**Metric issues, all fixed:**
+- **Stroke width:** the model is drawn at stroke 4.
+- **Short axis only 86% filled:** the guard forearm and punching fist now sit on both side edges.
+- **Head too close to the torso and arms (e0/e1, e0/e2, e0/e3, 3.56):** the head is now detached exactly 8 above the neck. A first draft that split the head into four quarter arcs came back as `review` at that exact 8. Splitting the circle at its sides instead, as the passing `karate-fighting-stance` does, made it pass.
+- **Guard fist too close to the head (e0/e4, 4.57):** it is now 8.4 away.
+- **Guard forearm too close to the torso and punching arm (e1/e4, e2/e4, 7.11):** it is now 12 from the body axis.
+- **Head opening 3 wide:** it is now a 6-wide visible opening.
+- **No head traced:** the head is now an explicit circle, flagged as the head.
+
+**Dropped:** the slight knee bends in the trace. Straight legs read the same at 48 px.
+
+Nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run. Three older modules already use this source ID under `icon_set/model/icons/solo/` (for example `boxer.py`). I left them unchanged.
+
+Files are in `new-pipeline-test/output_png/20260929-1929-boxer/`:
+- `boxer_redraw.py`
+- `boxer_redraw.svg`
+- `boxer_redraw.png` (512 px preview)
+- `boxer_redraw-48.png`

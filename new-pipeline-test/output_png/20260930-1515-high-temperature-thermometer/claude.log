@@ -1,0 +1,95 @@
+[15:16:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1515-high-temperature-thermometer; ls $D; cat $D/*_metrics.js...
+[15:17:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1515-high-temperature-thermometer; python3 -c " import json;m...
+[15:17:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; sed -n 80,200p output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/...
+[15:17:31] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high-temperature-thermometer.png
+[15:17:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1513-inward-arrow-with-curved-and-dashed-bounds/claude.log;...
+[15:17:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/am_render.py; ls /tmp/*render*.py | head; cat icon_set/model/icons/solo/high_temperature_the...
+[15:17:58] Reading the inputs is done; now checking existing thermometer solos for a construction that validates at stroke 4.
+[15:18:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; for f in icon_set/model/icons/solo/*thermometer*.py; do n=$(basename $f .py); /opt/homebrew/bin/pytho...
+[15:18:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '/class /,$p' icon_set/model/icons/solo/thermometer_mercury_b9550739_2fcc_4d3f_b1da_62a62d9213...
+[15:18:44] Plan: VRECT_L (not VRECT_M) so the scale ticks can keep the 8-unit clearance from the tube and still be readable. Checking the arc API next.
+[15:18:44] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 100,125p icon_set/model/icons/base.py; grep -n "def mark\|def add_contour" -A3 icon_set/model/...
+[15:19:02] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high_temperature_thermometer_redr...
+[15:19:07] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer; cat > /tmp/htt_render.py <...
+[15:19:24] Exact-8 against a curve-owning contour comes back as `review` (known trap). Checking how the mic check certifies it before rebalancing.
+[15:19:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "unless the contact is declared" icon_set/model --include=*.py | head -3
+[15:19:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn "unless the contact is declared" icon_set/model | grep -v pyc | head -3
+[15:20:08] Rebalancing: walls 9 from the mercury (18-wide tube), bulb r11 joined by smooth cubic shoulders, ticks 9 from the tube.
+[15:20:17] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high_temperature_thermomete...
+[15:20:27] Valid. Looking at the renders.
+[15:20:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high-temperature-thermometer_redr...
+[15:20:29] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high-temperature-thermometer_redr...
+[15:20:49] The S-shaped shoulder pinches and reads like a peanut. Switching to a Lucide-style corner where the tube meets a round bulb.
+[15:20:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high_temperature_thermomete...
+[15:20:55] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high-temperature-thermometer_redr...
+[15:20:56] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high-temperature-thermometer_redr...
+[15:21:03] Valid, and the corner shoulder reads as a bulb now. Updating the docstring to match the final geometry.
+[15:21:10] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/high_temperature_thermomete...
+[15:21:25] The redraw is finished. `validate_icon()` returns **valid** with zero warnings, and all four files are in the run folder.
+
+**Subject:** an upright glass thermometer with a tall mercury column and two scale ticks on the right, meaning "high temperature".
+
+**Keyshape:** I used `VRECT_L` (centerline box 8,4 to 40,44) instead of the suggested `VRECT_M`. The metrics scored `VRECT_L` second (0.66 against 0.72). `VRECT_M` is only 28 wide on centerlines, which would fit the bulb and the clearance inside the tube but leave no room for the ticks. All four extremes sit on the box: bulb at left 8, ticks at right 40, cap at top 4, bulb at bottom 44.
+
+**Construction:** everything is mirrored about the axis x=19.
+- **Glass:** one closed outline with a semicircular cap, straight walls at x=10 and x=28, and a round bulb at the bottom. A short curve continues the bulb up to each wall, meeting it at a deliberate corner, as in Lucide `thermometer` and the generated image.
+- **Mercury:** runs from just under the cap (y=14) to the bulb centre (y=33).
+- **Ticks:** x=37 to 40, at y=10 and y=18.
+
+**Metric issues fixed:**
+- **Mercury to tube (e0/e1), 2.98 in the trace:** now 9. An exact 8 against an outline containing curves came back as a `review` warning in my first attempt, so I used 9.
+- **Ticks to tube (e0/e2, e0/e3), 1.97:** now 9 from the wall and 9.25 from the cap.
+- **Ticks to mercury (e1/e2, e1/e3), 4.9:** now 18.
+- **Tick to tick (e2/e3), 4.62:** now 8.
+- **Bulb hole (3.6 inscribed):** the bulb is now radius 11, far above the 6 minimum. The mercury ends 11 inside the bulb wall.
+- **Short x axis (47% filled):** the tube, bulb and ticks were widened so all extremes touch the box.
+- **Trace stroke 2.4:** redrawn at stroke 4, with every gap set to at least 8 on centerlines.
+
+**Partly recovered:**
+- **Bulb size:** in the generated image the bulb is about 1.7 times the tube width. Here it is only 22 against 18, because 32 units of width must also hold the 9-unit gaps inside the tube and beside the ticks. The shoulder corner is what separates bulb from tube.
+- **Ticks:** they are short (3 on centerlines), but they still show at 48 px.
+
+**Visual check:** I looked at the large preview and the native 48 px render on a light background only. It reads as a thermometer, but the bulb is modest, as described above.
+
+As instructed, nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/`:
+- `high_temperature_thermometer_redraw.py`
+- `high-temperature-thermometer_redraw.svg`
+- `high-temperature-thermometer_redraw.png`
+- `high-temperature-thermometer_redraw-48.png`
+
+[15:21:25] === success in 286s, $1.09 ===
+The redraw is finished. `validate_icon()` returns **valid** with zero warnings, and all four files are in the run folder.
+
+**Subject:** an upright glass thermometer with a tall mercury column and two scale ticks on the right, meaning "high temperature".
+
+**Keyshape:** I used `VRECT_L` (centerline box 8,4 to 40,44) instead of the suggested `VRECT_M`. The metrics scored `VRECT_L` second (0.66 against 0.72). `VRECT_M` is only 28 wide on centerlines, which would fit the bulb and the clearance inside the tube but leave no room for the ticks. All four extremes sit on the box: bulb at left 8, ticks at right 40, cap at top 4, bulb at bottom 44.
+
+**Construction:** everything is mirrored about the axis x=19.
+- **Glass:** one closed outline with a semicircular cap, straight walls at x=10 and x=28, and a round bulb at the bottom. A short curve continues the bulb up to each wall, meeting it at a deliberate corner, as in Lucide `thermometer` and the generated image.
+- **Mercury:** runs from just under the cap (y=14) to the bulb centre (y=33).
+- **Ticks:** x=37 to 40, at y=10 and y=18.
+
+**Metric issues fixed:**
+- **Mercury to tube (e0/e1), 2.98 in the trace:** now 9. An exact 8 against an outline containing curves came back as a `review` warning in my first attempt, so I used 9.
+- **Ticks to tube (e0/e2, e0/e3), 1.97:** now 9 from the wall and 9.25 from the cap.
+- **Ticks to mercury (e1/e2, e1/e3), 4.9:** now 18.
+- **Tick to tick (e2/e3), 4.62:** now 8.
+- **Bulb hole (3.6 inscribed):** the bulb is now radius 11, far above the 6 minimum. The mercury ends 11 inside the bulb wall.
+- **Short x axis (47% filled):** the tube, bulb and ticks were widened so all extremes touch the box.
+- **Trace stroke 2.4:** redrawn at stroke 4, with every gap set to at least 8 on centerlines.
+
+**Partly recovered:**
+- **Bulb size:** in the generated image the bulb is about 1.7 times the tube width. Here it is only 22 against 18, because 32 units of width must also hold the 9-unit gaps inside the tube and beside the ticks. The shoulder corner is what separates bulb from tube.
+- **Ticks:** they are short (3 on centerlines), but they still show at 48 px.
+
+**Visual check:** I looked at the large preview and the native 48 px render on a light background only. It reads as a thermometer, but the bulb is modest, as described above.
+
+As instructed, nothing was registered under `icon_set/model/icons`, `published/` was not touched, and no build or gallery update was run.
+
+Files are in `new-pipeline-test/output_png/20260930-1515-high-temperature-thermometer/`:
+- `high_temperature_thermometer_redraw.py`
+- `high-temperature-thermometer_redraw.svg`
+- `high-temperature-thermometer_redraw.png`
+- `high-temperature-thermometer_redraw-48.png`

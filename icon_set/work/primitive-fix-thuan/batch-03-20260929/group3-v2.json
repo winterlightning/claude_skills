@@ -1,0 +1,68 @@
+[
+  {
+    "key": "solo/front-facing-woman-with-flared-shoulder-length-hair",
+    "keyshape": "SQUARE",
+    "attributes": "human_construction = \"bust\"",
+    "findings": "The rejected portrait has a tiny face inside a rigid arch and lacks flared hair ends. Enlarge the circular jaw and draw flared hair tips above broad shoulders.",
+    "plan": "SQUARE (6,6)-(42,42). Mirrored hair cap and flared ends; jaw radius9 centered24,21, bottom30 touches shoulder-top34 on ink. Shared shoulder and hair attachment nodes.",
+    "references": "Shared human_ref/user.svg: circular jaw and broad smooth shoulders, with contract bust ink contact. Supplied reference controls the center part and flared hair.",
+    "body": "\n        arc('jaw',(17,23),(31,23),7,s=False)\n        bez('fringe-right',(31,23),((30,18),(27,18),(24,14)))\n        bez('fringe-left',(24,14),((21,18),(18,18),(17,23)))\n        contour('face','jaw','fringe-right','fringe-left',closed=True)\n        line('shoulder-left-side',(6,42),(6,40))\n        bez('shoulder-left',(6,40),((6,36),(11,34),(17,34)))\n        line('shoulder-top',(17,34),(31,34))\n        bez('shoulder-right',(31,34),((37,34),(42,36),(42,40)))\n        line('shoulder-right-side',(42,40),(42,42))\n        contour('shoulders','shoulder-left-side','shoulder-left','shoulder-top','shoulder-right','shoulder-right-side')\n        connect('face','shoulders')\n        bez('hair-left',(17,34),((7,34),(6,32),(6,30)),((6,27),(8,26),(8,22)))\n        arc('hair-cap',(8,22),(40,22),16)\n        bez('hair-right',(40,22),((40,26),(42,27),(42,30)),((42,32),(41,34),(31,34)))\n        contour('hair','hair-left','hair-cap','hair-right');connect('hair','shoulders')\n"
+  },
+  {
+    "key": "solo/front-facing-woman-with-rounded-bob",
+    "keyshape": "SQUARE",
+    "attributes": "human_construction = \"bust\"",
+    "findings": "The rejected bob is an arch continuing into the body, with an undersized face. Restore rounded bob ends, a larger circular jaw and an asymmetric side part.",
+    "plan": "SQUARE (6,6)-(42,42). Rounded bob, circular jaw r9 at24,21 and shoulders top34 touching jaw ink. Deliberate side-part asymmetry.",
+    "references": "Shared human_ref/user.svg: circular jaw, broad shoulders, touching bust ink. Supplied original for rounded bob and side part.",
+    "body": "\n        arc('jaw',(16,22),(32,22),8,s=False)\n        bez('fringe-right',(32,22),((32,18),(25,18),(23,14)))\n        bez('fringe-left',(23,14),((21,18),(16,18),(16,22)))\n        contour('face','jaw','fringe-right','fringe-left',closed=True)\n        line('shoulder-left-side',(6,42),(6,40))\n        bez('shoulder-left',(6,40),((6,36),(11,34),(17,34)))\n        line('shoulder-top',(17,34),(31,34))\n        bez('shoulder-right',(31,34),((37,34),(42,36),(42,40)))\n        line('shoulder-right-side',(42,40),(42,42))\n        contour('shoulders','shoulder-left-side','shoulder-left','shoulder-top','shoulder-right','shoulder-right-side');connect('face','shoulders')\n        bez('hair-left',(17,34),((6,34),(6,32),(6,28)))\n        line('hair-side-left',(6,28),(6,24))\n        arc('hair-cap',(6,24),(42,24),18)\n        line('hair-side-right',(42,24),(42,28))\n        bez('hair-right',(42,28),((42,32),(42,34),(31,34)))\n        contour('hair','hair-left','hair-side-left','hair-cap','hair-side-right','hair-right');connect('hair','shoulders')\n"
+  },
+  {
+    "key": "solo/front-view-car-with-sensor-waves",
+    "keyshape": "HRECT_L",
+    "findings": "The rejected car is too narrow and tall, with straight hanging wheel stems. Broaden the front, soften the roof corners and shorten the wheels while retaining lateral sensor arcs.",
+    "plan": "HRECT_L (4,8)-(44,40). Symmetric compact front car, short wheels, two lateral sensing arcs. One wave per side and no tiny lamps fit the48 canvas.",
+    "references": "Lucide car-front original and atomic-debug: rounded front body, sloped roof and short wheel ends. Supplied original: bilateral sensing waves.",
+    "body": "\n        bez('roof',(13,23),((15,15),(16,8),(20,8)),((22,8),(26,8),(28,8)),((32,8),(33,15),(35,23)))\n        line('windshield',(35,23),(13,23));contour('roof-outline','roof','windshield',closed=True)\n        line('body-left',(13,23),(13,32));arc('corner-left',(13,32),(17,36),4,s=False)\n        line('body-bottom-1',(17,36),(19,36));line('body-bottom-2',(19,36),(29,36));line('body-bottom-3',(29,36),(31,36))\n        arc('corner-right',(31,36),(35,32),4,s=False);line('body-right',(35,32),(35,23))\n        contour('body','body-left','corner-left','body-bottom-1','body-bottom-2','body-bottom-3','corner-right','body-right');connect('body','roof-outline')\n        line('wheel-left',(19,36),(19,40));line('wheel-right',(29,36),(29,40));connect('wheel-left','body');connect('wheel-right','body')\n        bez('wave-left',(5,18),((4,20),(4,22),(4,26)),((4,30),(4,32),(5,34)))\n        bez('wave-right',(43,18),((44,20),(44,22),(44,26)),((44,30),(44,32),(43,34)))\n"
+  },
+  {
+    "key": "solo/hand-lowering-upright-ballot-into-box",
+    "keyshape": "SQUARE",
+    "findings": "The rejected box is shallow and angular, and the hand is a rigid zigzag. Restore a taller ballot box with rounded corners and a curved grip above the upright paper.",
+    "plan": "SQUARE (6,6)-(42,42). Rounded box, upright paper with top edge occluded by a rounded thumb; curved upper hand.",
+    "references": "Lucide hand and hand-fist inform smooth fingers; supplied original establishes upright ballot and broad box.",
+    "body": "\n        line('box-top',(10,28),(38,28));arc('box-tr',(38,28),(42,32),4)\n        line('box-right',(42,32),(42,38));arc('box-br',(42,38),(38,42),4)\n        line('box-bottom',(38,42),(10,42));arc('box-bl',(10,42),(6,38),4)\n        line('box-left',(6,38),(6,32));arc('box-tl',(6,32),(10,28),4)\n        contour('box','box-top','box-tr','box-right','box-br','box-bottom','box-bl','box-left','box-tl',closed=True)\n        path('paper',(10,28),(10,10),(25,10));line('paper-right',(30,18),(30,28));connect('paper','box');connect('paper-right','box')\n        bez('hand-top',(42,7),((38,6),(36,6),(34,6)),((30,6),(28,8),(25,10)))\n        bez('thumb',(25,10),((18,10),(18,18),(25,18)))\n        bez('hand-bottom',(25,18),((27,18),(28,18),(30,18)),((36,18),(37,14),(42,16)))\n        contour('hand','hand-top','thumb','hand-bottom');connect('hand','paper');connect('hand','paper-right')\n"
+  },
+  {
+    "key": "solo/hockey-player-reference-d95d80d0",
+    "keyshape": "HRECT_L",
+    "findings": "The rejected player has an undersized head and a nearly vertical stick, and its rear leg merges into a straight diagonal. Enlarge the head, angle the stick and restore a bent rear knee.",
+    "plan": "HRECT_L (4,8)-(44,40). Head radius5 center24,13; torso neck24,26 has exact8 centerline gap. Curved forward torso, two bent legs, diagonal stick and left puck.",
+    "references": "Shared human_ref/full_body_ref.png controls circular head and round-ended action limbs. Supplied original controls forward hockey pose and puck.",
+    "body": "\n        circle('head',24,13,5)\n        bez('torso',(24,26),((24,28),(29,28),(32,31)))\n        path('front-leg',(32,31),(24,34),(26,40))\n        path('back-leg',(32,31),(36,35),(44,40))\n        path('arm',(24,26),(18,28));path('stick',(18,28),(14,38),(12,40))\n        line('puck',(4,40),(4,40))\n        for a,b in [('torso','front-leg'),('torso','back-leg'),('front-leg','back-leg'),('torso','arm'),('arm','stick')]:connect(a,b)\n        self.mark_human_figure('player',head='head',torso='torso',torso_junction='start')\n"
+  },
+  {
+    "key": "solo/hooded-swaddle-with-crossed-blanket-folds-v2",
+    "keyshape": "VRECT_L",
+    "findings": "The rejected baby has a tiny face and stiff straight blanket stripes. Enlarge the face and curve the crossing folds around the bundled body. The secondary crossing seam is omitted because its narrow enclosed wedge fails the full hole gate; one sweeping wrap preserves the swaddled infant.",
+    "plan": "VRECT_L (8,4)-(40,44). Radius16 hood and radius6 face at24,19. One curved blanket wrap replaces the small crossing region that cannot retain a readable hole. Circular face is enclosed by the cloth.",
+    "references": "Shared human_ref/user.svg for circular face; supplied original for hood and overlapping blanket folds.",
+    "body": "\n        arc('hood-top',(8,20),(40,20),16)\n        line('side-right-1',(40,20),(40,34));line('side-right-2',(40,34),(40,38))\n        arc('foot-right',(40,38),(34,44),6)\n        line('foot',(34,44),(14,44));arc('foot-left',(14,44),(8,38),6)\n        line('side-left-1',(8,38),(8,28));line('side-left-2',(8,28),(8,20))\n        contour('blanket','hood-top','side-right-1','side-right-2','foot-right','foot','foot-left','side-left-1','side-left-2',closed=True)\n        circle('face',24,19,6)\n        bez('fold-main',(8,28),((12,33),(18,34),(24,34)),((29,34),(35,34),(40,34)))\n        connect('fold-main','blanket')\n"
+  },
+  {
+    "key": "solo/hooded-swaddle-with-crossed-blanket-folds-v3",
+    "keyshape": "VRECT_L",
+    "findings": "The rejected bundle has an off-balance shallow fold crossing. Restore a centered enlarged face and two flowing wrap folds with a clear shared intersection. The secondary crossing seam is omitted because its narrow enclosed wedge fails the full hole gate; one sweeping wrap preserves the swaddled infant.",
+    "plan": "VRECT_L (8,4)-(40,44). Radius16 hood and radius6 face at24,19. One curved blanket wrap replaces the small crossing region that cannot retain a readable hole. Circular face is enclosed by the cloth.",
+    "references": "Shared human_ref/user.svg for circular face; supplied original for hood and crossed blanket folds.",
+    "body": "\n        arc('hood-top',(8,20),(40,20),16)\n        line('right-a',(40,20),(40,34));line('right-b',(40,34),(40,38))\n        arc('foot-right',(40,38),(34,44),6)\n        line('foot',(34,44),(14,44));arc('foot-left',(14,44),(8,38),6)\n        line('left-a',(8,38),(8,28));line('left-b',(8,28),(8,20))\n        contour('blanket','hood-top','right-a','right-b','foot-right','foot','foot-left','left-a','left-b',closed=True)\n        circle('face',24,19,6)\n        bez('fold-main',(8,28),((12,33),(18,34),(24,34)),((29,34),(35,34),(40,34)))\n        connect('fold-main','blanket')\n"
+  },
+  {
+    "key": "solo/horizontal-handshake-with-cuff",
+    "keyshape": "HRECT_L",
+    "findings": "The rejected handshake is an angular badge with no rounded gripping fingers. Restore a horizontal clasp with a rounded thumb, curved knuckle edge and visible left cuff.",
+    "plan": "HRECT_L (4,8)-(44,40). Left cuff, upper right-entering hand, oblique clasp and two broad rounded finger ends; intentional asymmetric anatomy.",
+    "references": "Lucide handshake original and atomic-debug: continuous rounded thumb and repeated knuckle arcs. Supplied original controls horizontal wrists.",
+    "body": "\n        path('cuff',(4,14),(12,14),(12,30),(4,30))\n        line('left-hand-top',(12,14),(22,14))\n        bez('hand-top',(22,14),((24,8),(26,8),(30,8)),((35,8),(38,14),(44,14)))\n        line('right-wrist',(44,29),(39,29))\n        bez('grip',(39,29),((43,33),(37,39),(33,35)),((37,39),(32,40),(29,40)),((27,40),(26,38),(25,37)),((23,40),(21,39),(19,37)),((16,34),(14,32),(12,30)))\n        bez('thumb',(22,14),((18,19),(22,25),(26,20)),((27,19),(27,18),(28,18)))\n        line('thumb-palm',(28,18),(39,29))\n        contour('thumb-contour','thumb','thumb-palm')\n        for a,b in [('cuff','left-hand-top'),('left-hand-top','hand-top'),('left-hand-top','thumb-contour'),('hand-top','thumb-contour'),('thumb-contour','grip'),('grip','right-wrist'),('cuff','grip')]:connect(a,b)\n"
+  }
+]

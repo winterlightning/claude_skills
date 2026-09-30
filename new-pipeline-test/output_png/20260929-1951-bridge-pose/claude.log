@@ -1,0 +1,86 @@
+[19:58:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; ls $D; cat $D/bridge-pose_metrics.json | he...
+[19:58:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; python3 -c " import json;m=json.load(open('...
+[19:59:00] Let me view the generated image and an existing redraw module for the conventions.
+[19:59:00] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1951-bridge-pose/bridge-pose.png
+[19:59:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -5; f=$(ls -t new-pipeline-test/output_png/*/...
+[19:59:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls new-pipeline-test; grep -l "redraw-48\|_redraw.svg" new-pipeline-test/*.py new-pipeline-test/*.sh ...
+[19:59:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -o "rsvg[^\"]\{0,200\}\|cairosvg[^\"]\{0,200\}\|render_svg[^\"]\{0,120\}\|to_svg[^\"]\{0,120\}" ...
+[20:00:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|render_svg\|svg\|emit_svg\)\|def add_arc\|def add_bezier\|def mark_human_figur...
+[20:00:56] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 95,140p icon_set/model/icons/base.py; sed -n 250,275p icon_set/model/icons/base.py
+[20:00:58] Now write the module.
+[20:01:12] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1951-bridge-pose/bridge_pose_redraw.py
+[20:01:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; cat > /tmp/bp_run.py <<EOF import importlib...
+[20:01:20] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp...
+[20:01:26] > Bash: cd ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat avatar-contact-certification.md; grep -i -B2 -A8 "head gap" diagonal-c...
+[20:02:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; /opt/homebrew/bin/python3 - <<'EOF' p="new-...
+[20:02:26] Valid and build gate passes. Let me look at it.
+[20:02:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1951-bridge-pose/bridge-pose_redraw.png
+[20:02:29] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image im=Image.open('/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_p...
+[20:04:26] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; mkdir -p /tmp/bpB; cp $D/bridge_pose_redraw...
+[20:04:29] > Read: /tmp/bpB/b.png
+[20:04:39] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -e 's#self.add_line("back", (kx, ky - KNEE_R), SHOULDER)#self.add_bezier("back", (kx, ky - KNEE_R...
+[20:04:42] > Read: /tmp/bpB/c.png
+[20:04:50] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image, ImageOps im=Image.open('/tmp/bpB/b-48.png').convert('L') w=Image.new('L',(800,400),128) w.pa...
+[20:04:52] The CIRCLE draft passes validation, so I'm checking it at 48 px before I write the final files.
+[20:04:52] > Read: /tmp/bpB/cmp.png
+[20:04:54] Version B matches the reference best. Now I'll write the final module and render it.
+[20:05:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1951-bridge-pose; cat > $D/bridge_pose_redraw.py <<'EOF' """b...
+[20:05:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -i '' 's/one straight 45-50 degree line/one straight line (about 50 degrees)/' new-pipeline-test/...
+[20:05:28] I redrew the bridge pose as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes the module with 0 errors and 0 warnings.
+
+**Subject:** a side view of a person doing the yoga bridge pose. The head rests on the floor on the left. The shoulders are on the floor, and one straight line runs up to the knee. The shin drops straight down to the heel, and a short toe line sticks out past it. The arm lies flat on the floor and reaches the heel, so the lifted body forms a closed wedge. The icon id is `bridge-pose-redraw`, filed under `sports/yoga`.
+
+**Keyshape:** I used CIRCLE instead of the suggested HRECT_M. I drew HRECT_M first and it validated, but it reads as a shark fin at 48 px. HRECT_M needs the figure to be exactly 28 tall. Add the required 8-unit gap after the head and 8 units between the hand and the shin, and the back ends up rising at about 60°. CIRCLE only needs one point on radius 20, which is the knee, so the figure keeps the image's low, wide shape. I compared both renders and kept the CIRCLE one.
+
+**Metric issues, all fixed:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap budgeted for it.
+- **keyshape-short-axis (warn):** fixed by switching to CIRCLE rather than stretching the pose 2.12× vertically.
+- **Head too close to the body (error, 3.13 apart):** the head now sits level with a 1-unit neck line, exactly 8 from the head outline on centerlines (4 of visible gap). The build gate accepts it, but only because the gap is level. The same exact 8 at an angle came back as `review` when I tried it.
+- **Hole too small (error, 1.89 wide):** the head is now a circle of radius 5, which leaves a 6-wide hole. The body wedge is a closed hole of at least 6 as well.
+- **No head detected (warn):** the head is a proper circle, flagged with `mark_human_figure`.
+
+**Compromises:**
+- Two things are shorter than in the image: the toe is only 1 unit long, and the back is shorter. The circle's edge and the two 8-unit gaps don't leave room for more.
+- The head lies on the floor, off the line of the torso. The human reference normally puts the head on that line, but here the neck bend is the pose itself.
+
+**References:** the human reference `full_body_ref.png` (circle head, simple round-ended limbs). No local Lucide yoga or bridge icon matched, so I followed Lucide's general figure style.
+
+I checked the 48 px render on both light and dark backgrounds.
+
+Files are in `new-pipeline-test/output_png/20260929-1951-bridge-pose/`:
+- `bridge_pose_redraw.py`
+- `bridge-pose_redraw.svg`
+- `bridge-pose_redraw.png`
+- `bridge-pose_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build was not run.
+
+[20:05:28] === success in 442s, $1.59 ===
+I redrew the bridge pose as a Solo48 model. `validate_icon()` returns **valid** with no warnings, and `build_gate.py` passes the module with 0 errors and 0 warnings.
+
+**Subject:** a side view of a person doing the yoga bridge pose. The head rests on the floor on the left. The shoulders are on the floor, and one straight line runs up to the knee. The shin drops straight down to the heel, and a short toe line sticks out past it. The arm lies flat on the floor and reaches the heel, so the lifted body forms a closed wedge. The icon id is `bridge-pose-redraw`, filed under `sports/yoga`.
+
+**Keyshape:** I used CIRCLE instead of the suggested HRECT_M. I drew HRECT_M first and it validated, but it reads as a shark fin at 48 px. HRECT_M needs the figure to be exactly 28 tall. Add the required 8-unit gap after the head and 8 units between the hand and the shin, and the back ends up rising at about 60°. CIRCLE only needs one point on radius 20, which is the knee, so the figure keeps the image's low, wide shape. I compared both renders and kept the CIRCLE one.
+
+**Metric issues, all fixed:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap budgeted for it.
+- **keyshape-short-axis (warn):** fixed by switching to CIRCLE rather than stretching the pose 2.12× vertically.
+- **Head too close to the body (error, 3.13 apart):** the head now sits level with a 1-unit neck line, exactly 8 from the head outline on centerlines (4 of visible gap). The build gate accepts it, but only because the gap is level. The same exact 8 at an angle came back as `review` when I tried it.
+- **Hole too small (error, 1.89 wide):** the head is now a circle of radius 5, which leaves a 6-wide hole. The body wedge is a closed hole of at least 6 as well.
+- **No head detected (warn):** the head is a proper circle, flagged with `mark_human_figure`.
+
+**Compromises:**
+- Two things are shorter than in the image: the toe is only 1 unit long, and the back is shorter. The circle's edge and the two 8-unit gaps don't leave room for more.
+- The head lies on the floor, off the line of the torso. The human reference normally puts the head on that line, but here the neck bend is the pose itself.
+
+**References:** the human reference `full_body_ref.png` (circle head, simple round-ended limbs). No local Lucide yoga or bridge icon matched, so I followed Lucide's general figure style.
+
+I checked the 48 px render on both light and dark backgrounds.
+
+Files are in `new-pipeline-test/output_png/20260929-1951-bridge-pose/`:
+- `bridge_pose_redraw.py`
+- `bridge-pose_redraw.svg`
+- `bridge-pose_redraw.png`
+- `bridge-pose_redraw-48.png`
+
+As asked, nothing was registered, `published/` wasn't touched, and the build was not run.

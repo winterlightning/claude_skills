@@ -1,0 +1,81 @@
+[18:09:55] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/20260929-1807-boar-head; cat output_png/20260929-1807-boar-head/boar-...
+[18:09:56] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1807-boar-head/boar-head.png
+[18:10:21] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; /opt/homebrew/bin/python3 -c " import json;d=json.load(open('output_png/20260929-18...
+[18:10:39] Let me look at an existing redraw script to follow its structure (how it imports, renders, and saves outside the registry).
+[18:10:40] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260929-1805-anklet/anklet_redraw.py; ls output_png/20260929-1805-a...
+[18:10:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls; cat output_png/20260929-1805-anklet/claude.log; grep -l "redraw-48\|_redraw.svg...
+[18:10:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n " def [a-z]" icon_set/model/icons/base.py | head -60; grep -rn "rsvg\|cairosvg" new-pipeline-...
+[18:11:03] > Bash: cd /Users/jakesdev/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/; cat diagonal-caps-and-exact-8.md solo48-build-gate-traps.md ...
+[18:14:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 97,200p icon_set/model/icons/base.py
+[18:14:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1807-boar-head; cat > $D/boar_head_redraw.py <<'EOF' """boar ...
+[18:14:45] The model validates clean on the first try; now I'm checking it visually and with the metrics tool.
+[18:14:47] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1807-boar-head/boar-head_redraw.png
+[18:14:50] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; mkdir -p /tmp/boarm && cp new-pipeline-test/output_png/20260929-1807-boar-head/boar-head_redraw.svg /...
+[18:15:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1807-boar-head; for v in "(7,23),(12,29)|(10,36),(6,35)|(6,31...
+[18:15:21] > Bash: cd /tmp && /opt/homebrew/bin/python3 -c " from PIL import Image ims=[Image.open(f) for f in ['/tmp/bv_7928.png','/tmp/bv_8ea5.png','/tmp/bv_a7e6.png']] c=Ima...
+[18:15:22] > Read: /tmp/bv_all.png
+[18:15:48] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1807-boar-head; F=$D/boar_head_redraw.py; sed -i '' -e "s/che...
+[18:15:48] > Read: /tmp/boar_pair.png
+[18:15:58] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1807-boar-head; for v in "(6,23),(11,29)|(6,32)" "(6,22),(12,...
+[18:16:14] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1807-boar-head; F=$D/boar_head_redraw.py; sed -i '' -e "s/che...
+[18:16:14] > Read: /tmp/boar_pair.png
+[18:16:17] Final version passes both checks, so I'm confirming the output files.
+[18:16:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -la new-pipeline-test/output_png/20260929-1807-boar-head/ | grep redraw; sed -n 8,12p new-pipeline...
+[18:16:32] I've redrawn the boar head as a Solo48 model. It passes `validate_icon()` with no warnings, and re-running `svg_metrics.py` on the new SVG reports no issues. The nostrils had to go, though, and it reads more like a cat with a snout than a boar at 48 px.
+
+**Subject and keyshape:** a front-view boar head on `SQUARE`, the suggested keyshape (it matched the square hint exactly). It's mirrored about x=24 and extends from (6,6) to (42,42) on centerlines.
+
+**Construction** (all rebuilt on integer points, nothing copied from the trace):
+- **Head and snout:** one closed outline carries pointed ears in the top corners with small notches, a curved brow, and rounded cheeks that sweep into the snout. The snout is a rounded oval spanning x 14–34 and y 30–42. Its lower half is also the chin.
+- **Tusks:** each one leaves the side of the snout horizontally and curls up to a tip at (6,32) or (42,32). They attach to the snout rather than floating beside it, and each connection is declared.
+- **Lucide:** there's no boar or pig icon to copy. The construction follows Lucide's animal-head style (one outline with built-in ears, a rounded-oval snout).
+
+**Metric issues:**
+- **Fixed, clearance (tusks):** the tusks were 2–3 units from the head and snout. They now attach to the snout and sit outside the face, at least 8 from the cheeks.
+- **Fixed, clearance (snout and chin):** the snout was 2.8 above the chin. The snout now forms the chin, so there's no separate chin line to crowd.
+- **Fixed, the three small holes:** the only enclosed openings left are the face (16 wide) and the snout (8 tall).
+- **Fixed, stroke width:** drawn at stroke 4 throughout.
+- **Not fixable, nostrils:** I removed them. Two nostrils need 8 between them and 8 to each snout wall, which means a snout at least 26×18. With tusks and cheeks around it, that doesn't fit a 36-unit box. I kept the tusks instead because they're what make it a boar rather than a pig.
+- **Not fixable, tusks beside the snout:** the reference puts free-standing tusks next to the snout. That needs 8 of space to both the snout and the cheek on each side, and the box doesn't have it.
+
+**Two things to know:**
+- **The validator missed a spacing problem.** An earlier version passed `validate_icon()` while `svg_metrics.py` measured the tusk-to-cheek gap at 7.18. I pulled the cheeks in until the metrics check also came back clean.
+- **Visual caveat:** at 48 px the snout sits below the face rather than inside it, and the tusks can look like handles, so it reads a little like a cat above a bowl. That comes from the space limits above. A reviewer may still disapprove it, and if so the likely fix is a new image with a smaller snout and tusks that don't overlap it.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1807-boar-head/`:
+- `boar_head_redraw.py`
+- `boar-head_redraw.svg`
+- `boar-head_redraw.png`
+- `boar-head_redraw-48.png`
+
+[18:16:32] === success in 408s, $1.36 ===
+I've redrawn the boar head as a Solo48 model. It passes `validate_icon()` with no warnings, and re-running `svg_metrics.py` on the new SVG reports no issues. The nostrils had to go, though, and it reads more like a cat with a snout than a boar at 48 px.
+
+**Subject and keyshape:** a front-view boar head on `SQUARE`, the suggested keyshape (it matched the square hint exactly). It's mirrored about x=24 and extends from (6,6) to (42,42) on centerlines.
+
+**Construction** (all rebuilt on integer points, nothing copied from the trace):
+- **Head and snout:** one closed outline carries pointed ears in the top corners with small notches, a curved brow, and rounded cheeks that sweep into the snout. The snout is a rounded oval spanning x 14–34 and y 30–42. Its lower half is also the chin.
+- **Tusks:** each one leaves the side of the snout horizontally and curls up to a tip at (6,32) or (42,32). They attach to the snout rather than floating beside it, and each connection is declared.
+- **Lucide:** there's no boar or pig icon to copy. The construction follows Lucide's animal-head style (one outline with built-in ears, a rounded-oval snout).
+
+**Metric issues:**
+- **Fixed, clearance (tusks):** the tusks were 2–3 units from the head and snout. They now attach to the snout and sit outside the face, at least 8 from the cheeks.
+- **Fixed, clearance (snout and chin):** the snout was 2.8 above the chin. The snout now forms the chin, so there's no separate chin line to crowd.
+- **Fixed, the three small holes:** the only enclosed openings left are the face (16 wide) and the snout (8 tall).
+- **Fixed, stroke width:** drawn at stroke 4 throughout.
+- **Not fixable, nostrils:** I removed them. Two nostrils need 8 between them and 8 to each snout wall, which means a snout at least 26×18. With tusks and cheeks around it, that doesn't fit a 36-unit box. I kept the tusks instead because they're what make it a boar rather than a pig.
+- **Not fixable, tusks beside the snout:** the reference puts free-standing tusks next to the snout. That needs 8 of space to both the snout and the cheek on each side, and the box doesn't have it.
+
+**Two things to know:**
+- **The validator missed a spacing problem.** An earlier version passed `validate_icon()` while `svg_metrics.py` measured the tusk-to-cheek gap at 7.18. I pulled the cheeks in until the metrics check also came back clean.
+- **Visual caveat:** at 48 px the snout sits below the face rather than inside it, and the tusks can look like handles, so it reads a little like a cat above a bowl. That comes from the space limits above. A reviewer may still disapprove it, and if so the likely fix is a new image with a smaller snout and tusks that don't overlap it.
+
+I didn't register the module, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1807-boar-head/`:
+- `boar_head_redraw.py`
+- `boar-head_redraw.svg`
+- `boar-head_redraw.png`
+- `boar-head_redraw-48.png`

@@ -1,0 +1,44 @@
+"""The rejected owl is a flat wide face with a dot beak, losing the pointed ears and tapered body. No written feedback. Restored ear tufts, a rounder body and a short pointed beak below matched circular eyes.
+Construction: Lucide bird: simple body and identifying beak; bilateral eyes share radius.
+Plan: HRECT_L SOLO48; shared shape parameters and scoped real joins.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '7b57169e-6f75-4e7a-b1c0-0860a6a44f1f'
+SOURCE_PATH = 'icon_set/work/primitive-fix-thuan/solo__owl-sweeping-brows/20260929T110914Z-thuan-mac/reference/owl_7b57169e-6f75-4e7a-b1c0-0860a6a44f1f.svg'
+AUTHOR = 'gpt-6'
+class Drawing(Solo48):
+    icon_id = 'owl-sweeping-brows'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'primitives-generate'
+    aliases = ()
+    keywords = ('owl', 'sweeping', 'brows')
+    
+    def build(self):
+
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*ps,closed=False): self.add_polyline(n,*ps,closed=closed)
+        def bez(n,a,*ss): self.add_bezier(n,a,*ss)
+        def arc(n,a,b,rx,ry=None,s=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry,sweep=s)
+        def circle(n,x,y,r):
+            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
+            self.add_contour(n,n+'a',n+'b',closed=True)
+        def path(n,a,commands,closed=False):
+            members=[]
+            for j,c in enumerate(commands):
+                k,b,*args=c; name=n+str(j)
+                if k=='L': line(name,a,b)
+                elif k=='A': arc(name,a,b,*args)
+                elif k=='C': bez(name,a,(args[0],args[1],b))
+                members.append(name);a=b
+            self.add_contour(n,*members,closed=closed)
+        def rect(n,x,y,w,h,r=0):
+            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
+            path(n,(x+r,y),[('L',(x+w-r,y)),('A',(x+w,y+r),r),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r),('L',(x+r,y+h)),('A',(x,y+h-r),r),('L',(x,y+r)),('A',(x+r,y),r)],True)
+        def join(*ns): self.relate('connect',*ns)
+
+        path('body',(4,8),[('C',(24,10),(7,15),(16,6)),('C',(44,8),(32,6),(41,15)),('L',(44,26)),('C',(24,40),(44,36),(34,40)),('C',(4,26),(14,40),(4,36)),('L',(4,8))],True)
+        for x in (16,32):circle('eye'+str(x),x,21,3)
+        poly('beak',(23,30),(24,31),(25,30))

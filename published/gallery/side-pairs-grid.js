@@ -327,7 +327,6 @@ function sideRow(row){
   if(sideSubIsText(row,pair))head.append(node('span','side-state info','Text sub'));
   if(pair?.published)head.append(Object.assign(node('span','side-state info','Main / sub changed'),{title:'The published main / sub was changed here: '+row.main_id+' + '+row.sub_id+'.'}));
   else if(pair?.custom)head.append(Object.assign(node('span','side-state info','From review'),{title:'Made from a combination primitive on the review page: '+row.main_id+' + '+row.sub_id+'.'}));
-
   if(pair?.mains.length>1)head.append(node('span','side-state info',`${pair.mains.length} mains · showing first`));
   if(parts.ready&&sideAdjusted(pair,sub))head.append(Object.assign(node('span','side-state info','Adjusted layout'),{title:'Main / sub positions and sizes were set by hand.'}));
   // A main or sub picked since this pair was combined (here or in Icon review): the combined icon still shows the old one.
@@ -396,7 +395,7 @@ function sideRow(row){
   // pair opens with what it uses now; native text pairs keep their typeface layout.
   if(window.SidePairMaker&&pair&&!pair.native_text&&!pair.mapped_native){
     const redraw=()=>document.querySelector('.side-row[data-pair-id="'+CSS.escape(row.id)+'"]')?.replaceWith(sideRow(row));
-    const current=(item,family)=>{const key=item&&(item.model_key||item.key||item.family+'/'+item.icon);
+    const current=(item,family)=>{const key=item?item.model_key||item.key||item.family+'/'+item.icon:'';
       return key?.startsWith(family+'/')?{key,icon_id:item.icon,name:item.icon.replace(/-/g,' '),preview_url:item.document?sideDataURL(item.document):item.preview_url}:null;};
     const published=!pair.custom||!!pair.published;
     card.append(SidePairMaker.editor({uuid:row.id,concept:row.concept,published,position:pair.position,

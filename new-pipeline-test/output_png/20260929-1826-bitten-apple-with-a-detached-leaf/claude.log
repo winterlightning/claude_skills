@@ -1,0 +1,77 @@
+[18:31:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1826-bitten-apple-with-a-detached-leaf; ls $D; cat $D/*_metri...
+[18:31:34] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf/bitten-apple-with-a-detached...
+[18:31:59] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260929-1826-bitten-apple-with-a-detached-leaf; python3 -c " import j...
+[18:32:16] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1824-bitcoin-speech-bubble-solo/bitcoin_speech_bubble_solo_...
+[18:32:34] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat icon_set/model/icons/solo/bitten_apple_with_a_detached_leaf_1da8830f_8f47_4740_95c5_b3e0c19b2899....
+[18:32:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260929-1824-bitcoin-speech-bubble-solo/claude.log | head -50; grep...
+[18:32:39] Inputs read (apple with bite + detached leaf, SQUARE suggested). Checking how earlier redraws rendered, then drafting the model.
+[18:32:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/btc_render.py 2>/dev/null || ls /tmp/*render*.py | head; cat ~/.claude/projects/-Application...
+[18:32:46] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; head -c 1500 /tmp/btc_render.py; echo ----; ls -t /tmp/*.py | head -5; grep -n "def add_bezier\|def a...
+[18:32:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat /tmp/atv_check.py | head -40; grep -rn "def add_bezier" -A12 icon_set/model | head -30
+[18:34:52] > Bash: cat > /tmp/apple_try.py <<'EOF' import numpy as np, itertools def cub(p0,c1,c2,p1,n=200): t=np.linspace(0,1,n)[:,None]; p0,c1,c2,p1=map(np.array,(p0,c1,c2,p1...
+[18:35:26] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf/bitten_apple_with_a_detached...
+[18:35:29] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf; sed -n 8,40p /tmp/atv...
+[18:35:30] Model validates clean on the first pass. Now running the build gate check and rendering the previews.
+[18:35:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls icon_set/scripts | grep -i gate; grep -n "^def \|argparse\|add_argument" icon_set/scripts/build_ga...
+[18:35:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf; /opt/homebrew/bin/pyt...
+[18:35:42] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf; S=$D/bitten-apple-wit...
+[18:35:42] > Read: /tmp/ap_both.png
+[18:35:47] Reads as an apple, but the bite is a bit timid. Trying a larger r=6 bite.
+[18:35:53] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf; F=$D/bitten_apple_wit...
+[18:35:53] > Read: /tmp/ap_both.png
+[18:35:58] The larger bite fails the build gate's internal-spacing check: near the upper tip, the bite runs almost parallel to the body's top curve. I'm reverting to the r=5 version that passed.
+[18:36:00] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf; F=$D/bitten_apple_wit...
+[18:36:13] I've redrawn the bitten apple with a detached leaf as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Drawing**
+- **Body:** one closed shape based on Lucide's `apple`, scaled up to 28 units wide. The two top bumps, the dip between them and the two base curves are mirrored about x=24.
+- **Bite:** a half-circle of radius 5 cut from the right side. Its two sharp tips are on the right edge of the keyshape (x=38).
+- **Leaf:** a separate, closed pointed-oval leaf tilted at 45° above the body, with its two sides mirrored. Its top tip touches y=4.
+- Only the bite and the leaf break the mirror symmetry, on purpose.
+
+**Keyshape: VRECT_M instead of the suggested SQUARE.** SQUARE only scored high because the brief said "square". It would need the apple stretched 1.36× sideways, while VRECT_M needs only 1.05×, so the apple keeps its traced proportions. The body reaches x=10 and x=38, and the feet sit on y=44.
+
+**Metric issues**
+- **Fixed, clearance error (2.76):** the leaf now sits at least 8.5 from the body on centerlines.
+- **Fixed, leaf hole error (0.85 wide):** the leaf is now 8.5 wide on centerlines, which passes the Solo48 hole rule.
+- **Fixed, keyshape short-axis warning:** no longer applies, since VRECT_M is filled.
+- **Addressed, stroke-width note:** drawn at stroke 4 with every gap sized for it.
+- **Not fixed, the metrics' 6-unit ink hole for the leaf:** that needs a leaf about 10 wide and 17 long. With the required 8-unit gap, the apple would shrink to about 28 × 18 and stop looking like an apple. The leaf interior is about 4.5 of open ink instead.
+
+I also tried a bigger bite (radius 6), but it failed the build gate's internal-spacing check at the upper bite tip, so I went back to radius 5. At native 48 px, in both light and dark themes, the apple, bite and leaf all read clearly. The one weakness is that the gap between leaf and apple is fairly large.
+
+An older, unrelated module for the same source ID (by gpt-6) exists under `icon_set/model/icons/solo/`. I left it alone and didn't register anything, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf/`:
+- `bitten_apple_with_a_detached_leaf_redraw.py`
+- `bitten-apple-with-a-detached-leaf_redraw.svg`
+- `bitten-apple-with-a-detached-leaf_redraw.png`
+- `bitten-apple-with-a-detached-leaf_redraw-48.png`
+
+[18:36:13] === success in 286s, $1.15 ===
+I've redrawn the bitten apple with a detached leaf as a Solo48 model. `validate_icon()` returns `valid` with no warnings, and `build_gate.py` passes with 0 errors and 0 warnings.
+
+**Drawing**
+- **Body:** one closed shape based on Lucide's `apple`, scaled up to 28 units wide. The two top bumps, the dip between them and the two base curves are mirrored about x=24.
+- **Bite:** a half-circle of radius 5 cut from the right side. Its two sharp tips are on the right edge of the keyshape (x=38).
+- **Leaf:** a separate, closed pointed-oval leaf tilted at 45° above the body, with its two sides mirrored. Its top tip touches y=4.
+- Only the bite and the leaf break the mirror symmetry, on purpose.
+
+**Keyshape: VRECT_M instead of the suggested SQUARE.** SQUARE only scored high because the brief said "square". It would need the apple stretched 1.36× sideways, while VRECT_M needs only 1.05×, so the apple keeps its traced proportions. The body reaches x=10 and x=38, and the feet sit on y=44.
+
+**Metric issues**
+- **Fixed, clearance error (2.76):** the leaf now sits at least 8.5 from the body on centerlines.
+- **Fixed, leaf hole error (0.85 wide):** the leaf is now 8.5 wide on centerlines, which passes the Solo48 hole rule.
+- **Fixed, keyshape short-axis warning:** no longer applies, since VRECT_M is filled.
+- **Addressed, stroke-width note:** drawn at stroke 4 with every gap sized for it.
+- **Not fixed, the metrics' 6-unit ink hole for the leaf:** that needs a leaf about 10 wide and 17 long. With the required 8-unit gap, the apple would shrink to about 28 × 18 and stop looking like an apple. The leaf interior is about 4.5 of open ink instead.
+
+I also tried a bigger bite (radius 6), but it failed the build gate's internal-spacing check at the upper bite tip, so I went back to radius 5. At native 48 px, in both light and dark themes, the apple, bite and leaf all read clearly. The one weakness is that the gap between leaf and apple is fairly large.
+
+An older, unrelated module for the same source ID (by gpt-6) exists under `icon_set/model/icons/solo/`. I left it alone and didn't register anything, touch `published/`, or run the build or gallery updates.
+
+Files are in `new-pipeline-test/output_png/20260929-1826-bitten-apple-with-a-detached-leaf/`:
+- `bitten_apple_with_a_detached_leaf_redraw.py`
+- `bitten-apple-with-a-detached-leaf_redraw.svg`
+- `bitten-apple-with-a-detached-leaf_redraw.png`
+- `bitten-apple-with-a-detached-leaf_redraw-48.png`

@@ -1,0 +1,75 @@
+[12:55:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; ls $D; cat $D/ghost-hand-puppet_metri...
+[12:55:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; python3 -c " import json;m=json.load(...
+[12:55:52] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/ghost-hand-puppet.png
+[12:56:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; ls -t new-pipeline-test/output_png/*/*_redraw.py | head -5; f=$(ls -t new-pipeline-test/output_png/*/...
+[12:56:15] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rl "redraw-48" new-pipeline-test --include=*.py --include=*.sh --include=*.md | head; ls new-pi...
+[12:56:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "redraw" new-pipeline-test/run_pipeline.sh | head -30; grep -rn "def to_svg\|def render_svg\|...
+[12:56:21] Inputs read; now checking how prior redraws emitted SVG/PNG, then authoring the ghost puppet model.
+[12:56:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; python3 new-pipeline-test/claude_log.py 2>/dev/null | head -0; grep -o '"command":"[^"]*svg[^"]*"' ne...
+[12:57:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_\|def relate\|def arc\|def line\|def seg" icon_set/model/icons/base.py icon_set/mode...
+[12:57:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py; sed -n 250,275p icon_set/model/icons/base.py; grep -rl "...
+[12:58:21] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/ghost_hand_puppet_redraw.py
+[12:58:25] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; /opt/homebrew/bin/python3 -c " import...
+[12:58:37] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; f=$D/ghost_hand_puppet_redraw.py sed ...
+[12:58:46] Valid with zero warnings. Rendering previews to check it visually.
+[12:58:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; /opt/homebrew/bin/python3 -c " import...
+[12:58:49] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/ghost-hand-puppet_redraw.png
+[12:58:50] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/ghost-hand-puppet_redraw-48.png
+[12:58:50] > Read: /tmp/ghost-dark-48.png
+[12:58:55] Reads as a ghost puppet at 48 px in both themes. Syncing the docstring with the final numbers (r 13, walls 11/37, hem 39).
+[12:59:01] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; f=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/ghost_hand_puppet_redraw.py; /opt/home...
+[12:59:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet; /opt/homebrew/bin/python3 -c " import...
+[12:59:19] I've redrawn the ghost hand puppet as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**. At native 48 px it reads as a ghost puppet in both light and dark themes.
+
+**Drawing:** one closed body outline, mirrored left to right: a round dome head, straight walls, a short rounded mitten lobe on each side, and a flat hem at the bottom. Two short vertical strokes are the eyes, and one wrist stroke runs down from the middle of the hem, joined to it and declared connected.
+
+**Keyshape: `CIRCLE`, not the suggested `VRECT_M`.** Two eyes need 8 units between them and 8 to each wall, so the head has to be about 26 wide. `VRECT_M` is only 28 wide, which would leave the lobes 1–3 units of reach and turn the puppet into a plain rounded box. The circle is wider at mid-height, so the lobes reach 6 units, while the dome top (24,4) and wrist end (24,44) still sit on the radius-20 edge.
+
+**Metric issues fixed:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap rebuilt for that width.
+- **Eyes too close together** (e3/e4, 3.0 apart): now 8 apart.
+- **Eyes too close to the head walls** (e0/e3 and e0/e4, 2.3): the head is wider, so each eye is 9 from its wall. At exactly 8 the validator returned `review`, so I widened it by one more unit.
+- **Cuff crowding the hem and wrist** (e0/e2 and e1/e2, 4.1): the two-arc cuff ellipse is now a single hem line.
+- **Hole too narrow** (3.1 wide near the top of the head): that sliver is gone. The only enclosed space left is the body interior.
+- **Short y axis on `VRECT_M`:** no longer applies after the keyshape change.
+
+**Issues I could not fix as drawn:**
+- **Hollow oval eyes:** they're solid strokes now. A hollow eye needs a radius of at least 5 to leave the required 6-unit hole, and that doesn't fit in the head.
+- **Cuff ellipse:** replaced by the hem line. An ellipse needs 8 between its two arcs, and the height can't spare that.
+- **Lobe shape:** the lobes are stubbier than the narrow-rooted mittens in the generated image, which is the cost of fitting the 8-unit clearances.
+
+Lucide's `ghost` icon informed the dome-over-walls construction and the stroke eyes. I didn't register the module, run the build or tests, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/`:
+- `ghost_hand_puppet_redraw.py`
+- `ghost-hand-puppet_redraw.svg`
+- `ghost-hand-puppet_redraw.png`
+- `ghost-hand-puppet_redraw-48.png`
+
+[12:59:19] === success in 246s, $0.96 ===
+I've redrawn the ghost hand puppet as a Solo48 model, and `validate_icon()` returns **valid with zero warnings**. At native 48 px it reads as a ghost puppet in both light and dark themes.
+
+**Drawing:** one closed body outline, mirrored left to right: a round dome head, straight walls, a short rounded mitten lobe on each side, and a flat hem at the bottom. Two short vertical strokes are the eyes, and one wrist stroke runs down from the middle of the hem, joined to it and declared connected.
+
+**Keyshape: `CIRCLE`, not the suggested `VRECT_M`.** Two eyes need 8 units between them and 8 to each wall, so the head has to be about 26 wide. `VRECT_M` is only 28 wide, which would leave the lobes 1–3 units of reach and turn the puppet into a plain rounded box. The circle is wider at mid-height, so the lobes reach 6 units, while the dome top (24,4) and wrist end (24,44) still sit on the radius-20 edge.
+
+**Metric issues fixed:**
+- **Stroke width (info):** redrawn at stroke 4, with every gap rebuilt for that width.
+- **Eyes too close together** (e3/e4, 3.0 apart): now 8 apart.
+- **Eyes too close to the head walls** (e0/e3 and e0/e4, 2.3): the head is wider, so each eye is 9 from its wall. At exactly 8 the validator returned `review`, so I widened it by one more unit.
+- **Cuff crowding the hem and wrist** (e0/e2 and e1/e2, 4.1): the two-arc cuff ellipse is now a single hem line.
+- **Hole too narrow** (3.1 wide near the top of the head): that sliver is gone. The only enclosed space left is the body interior.
+- **Short y axis on `VRECT_M`:** no longer applies after the keyshape change.
+
+**Issues I could not fix as drawn:**
+- **Hollow oval eyes:** they're solid strokes now. A hollow eye needs a radius of at least 5 to leave the required 6-unit hole, and that doesn't fit in the head.
+- **Cuff ellipse:** replaced by the hem line. An ellipse needs 8 between its two arcs, and the height can't spare that.
+- **Lobe shape:** the lobes are stubbier than the narrow-rooted mittens in the generated image, which is the cost of fitting the 8-unit clearances.
+
+Lucide's `ghost` icon informed the dome-over-walls construction and the stroke eyes. I didn't register the module, run the build or tests, or touch `published/`.
+
+Files are in `new-pipeline-test/output_png/20260930-1252-ghost-hand-puppet/`:
+- `ghost_hand_puppet_redraw.py`
+- `ghost-hand-puppet_redraw.svg`
+- `ghost-hand-puppet_redraw.png`
+- `ghost-hand-puppet_redraw-48.png`

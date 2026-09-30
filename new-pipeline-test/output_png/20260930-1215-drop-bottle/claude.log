@@ -1,0 +1,80 @@
+[12:17:49] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1215-drop-bottle; ls $D; cat $D/drop-bottle_metrics.json | he...
+[12:18:09] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; D=new-pipeline-test/output_png/20260930-1215-drop-bottle; /opt/homebrew/bin/python3 -c " import json;...
+[12:18:23] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1215-drop-bottle/drop-bottle.png
+[12:18:24] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1208-farmer-standing-beside-pitchfork/farmer_standing_besid...
+[12:18:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n '40,200p' new-pipeline-test/output_png/20260930-1208-farmer-standing-beside-pitchfork/farmer_s...
+[12:18:31] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat new-pipeline-test/output_png/20260930-1208-farmer-standing-beside-pitchfork/claude.log | tail -40...
+[12:18:34] I've read the trace, metrics and a previous redraw; now checking the model API for SVG/PNG output before drafting the bottle.
+[12:18:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; sed -n 90,200p icon_set/model/icons/base.py; grep -n " def [a-z]" icon_set/model/icons/base.py | sed ...
+[12:20:07] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1215-drop-bottle/drop_bottle_redraw.py
+[12:20:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; which rsvg-convert; /opt/homebrew/bin/python3 -c " import runpy,sys; sys.argv=['x']; runpy.run_path('...
+[12:20:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260930-1215-d...
+[12:20:31] Valid, build gate passes with 0 warnings. Checking it visually.
+[12:20:34] > Bash: cd /tmp; D=/Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1215-drop-bottle; sed 's/currentColor/white/' $D/drop-bo...
+[12:20:36] > Read: /tmp/drop_cmp.png
+[12:20:45] I redrew the drop bottle as a Solo48 model. It validates as `valid` and passes the build gate with 0 errors and 0 warnings. I checked it at native 48 px on light and dark backgrounds, and it reads as a dropper bottle with a drop on it.
+
+**Files** (all in the run folder; nothing registered, built or published):
+- `drop_bottle_redraw.py` — the model, with the source ID, source path and author you gave, and a docstring with the plan and the fixes. Running it rewrites the three output files below.
+- `drop-bottle_redraw.svg`
+- `drop-bottle_redraw.png` (480 px preview)
+- `drop-bottle_redraw-48.png` (native 48 px)
+
+**Keyshape:** VRECT_M, as suggested. Every edge of the drawing lands exactly on its box (x 10–38, y 4–44).
+
+**Construction** (mirrored about x=24):
+- **Bottle:** one closed outline. Straight walls with rounded bottom corners, 45° shoulders into a 12-wide neck, and a flat cap top at y=10.
+- **Spout:** a solid stroke from the middle of the cap top up to the tip at y=4. It is joined to the cap and the joint is declared.
+- **Drop:** a teardrop with a radius-5 round bottom and smooth curved sides rising to a point. It follows the construction of the Lucide `droplet` icon.
+
+**Metric issues fixed:**
+- **Stroke width:** 2.63 is now 4.
+- **Keyshape fill:** the x axis filled only 47% of VRECT_M; the body now spans the full 28-unit width.
+- **Nozzle too close to the body (e0/e1):** was 3.77 apart; the spout now joins the cap top directly.
+- **Drop too close to the wall (e1/e3):** was 2.54 apart, now 9.
+- **Three holes too small:**
+  - Collar band (3.98 wide): removed, since the collar is now part of the bottle outline.
+  - Drop interior (3.98): now at least 6.
+  - Bottom corner (3.2): gone; the bottle interior is now one large open space.
+
+**Not fixed:** none.
+
+**What I dropped:**
+- **The separate collar band.** A closed band needs 10 units of height. The 40-unit-tall box can't fit that plus the nozzle, the drop and their 8-unit gaps.
+- **The hollow tapered nozzle.** Hollow, it would leave a sub-6 hole and edges too close together inside it. A solid stroke-4 spout reads the same at 48 px.
+
+**Trade-off:** the neck and shoulders sit higher than in the generated image, so the bottle looks a little squatter.
+
+[12:20:45] === success in 189s, $0.77 ===
+I redrew the drop bottle as a Solo48 model. It validates as `valid` and passes the build gate with 0 errors and 0 warnings. I checked it at native 48 px on light and dark backgrounds, and it reads as a dropper bottle with a drop on it.
+
+**Files** (all in the run folder; nothing registered, built or published):
+- `drop_bottle_redraw.py` — the model, with the source ID, source path and author you gave, and a docstring with the plan and the fixes. Running it rewrites the three output files below.
+- `drop-bottle_redraw.svg`
+- `drop-bottle_redraw.png` (480 px preview)
+- `drop-bottle_redraw-48.png` (native 48 px)
+
+**Keyshape:** VRECT_M, as suggested. Every edge of the drawing lands exactly on its box (x 10–38, y 4–44).
+
+**Construction** (mirrored about x=24):
+- **Bottle:** one closed outline. Straight walls with rounded bottom corners, 45° shoulders into a 12-wide neck, and a flat cap top at y=10.
+- **Spout:** a solid stroke from the middle of the cap top up to the tip at y=4. It is joined to the cap and the joint is declared.
+- **Drop:** a teardrop with a radius-5 round bottom and smooth curved sides rising to a point. It follows the construction of the Lucide `droplet` icon.
+
+**Metric issues fixed:**
+- **Stroke width:** 2.63 is now 4.
+- **Keyshape fill:** the x axis filled only 47% of VRECT_M; the body now spans the full 28-unit width.
+- **Nozzle too close to the body (e0/e1):** was 3.77 apart; the spout now joins the cap top directly.
+- **Drop too close to the wall (e1/e3):** was 2.54 apart, now 9.
+- **Three holes too small:**
+  - Collar band (3.98 wide): removed, since the collar is now part of the bottle outline.
+  - Drop interior (3.98): now at least 6.
+  - Bottom corner (3.2): gone; the bottle interior is now one large open space.
+
+**Not fixed:** none.
+
+**What I dropped:**
+- **The separate collar band.** A closed band needs 10 units of height. The 40-unit-tall box can't fit that plus the nozzle, the drop and their 8-unit gaps.
+- **The hollow tapered nozzle.** Hollow, it would leave a sub-6 hole and edges too close together inside it. A solid stroke-4 spout reads the same at 48 px.
+
+**Trade-off:** the neck and shoulders sit higher than in the generated image, so the bottle looks a little squatter.

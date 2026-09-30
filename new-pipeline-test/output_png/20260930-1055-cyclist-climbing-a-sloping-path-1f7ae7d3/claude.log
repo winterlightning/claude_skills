@@ -1,0 +1,117 @@
+[10:59:12] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3; ls $D; cat $D/...
+[10:59:38] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3; /opt/homebrew/...
+[10:59:51] Let me look at the image and a prior human-figure redraw (hiker) for how it was done.
+[10:59:52] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3/cyclist-climbing-a-sl...
+[10:59:54] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; ls output_png/*/ | grep -i -E "cycl|bike|bicy" ; ls output_png | grep -i -E "cycl|b...
+[10:59:56] The cyclist redraw (1049) is a close sibling; let me look at it and how it was rendered.
+[10:59:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1049-cyclist/cyclist_redraw.py; cat output_png/20260930-104...
+[10:59:58] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1049-cyclist/cyclist_redraw.png
+[11:00:02] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def \(to_svg\|svg\|render\|emit\|validate_icon\|mark_human\)" -r icon_set/model/*.py icon_se...
+[11:01:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; /opt/homebrew/bin/python3 -c " import json;m=json.load(open('output_png/20260930-10...
+[11:01:18] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; /opt/homebrew/bin/python3 -c "import cairosvg;print('ok')"; which rsvg-convert; sed -n 180,320p icon_...
+[11:01:37] > Bash: cat ~/.claude/projects/-Applications-Workspaces-pictographic-claude-skills/memory/diagonal-caps-and-exact-8.md ~/.claude/projects/-Applications-Workspaces-pi...
+[11:02:41] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -rn -i "exempt\|inscribed" icon_set/validation/*.py | head -30; cat ~/.claude/projects/-Applicat...
+[11:04:19] I'm working out a layout for the cyclist. At stroke 4 with 8-unit gaps, the head, arm, leg, both wheels and the path won't all fit the traced pose, so I'm running a small search for a pose that does.
+[11:04:28] > Bash: mkdir -p /tmp/cyc && cat > /tmp/cyc/search.py <<'EOF' import math, random, itertools def sd(p,a,b): ax,ay=a;bx,by=b;px,py=p;dx,dy=bx-ax,by-ay;L=dx*dx+dy*dy t...
+[11:04:39] > Bash: cd /tmp/cyc && cat > run.py <<'EOF' import random, math, sys from search import evaluate tgt={'S':(21,14),'P':(16,20),'K':(23,23),'T':(22,30),'E':(26,18),'Hd...
+[11:04:53] > Bash: cd /tmp/cyc && /opt/homebrew/bin/python3 - <<'EOF' s=open('search.py').read() s=s.replace("if not (R[0]-5>=6 and F[0]+5<=42 and R[1]-5>=6 and F[1]-5>=6): pen...
+[11:05:20] > Bash: cd /tmp/cyc && cat > s2.py <<'EOF' import math, random, sys from search import sd, ss BOX={'SQUARE':(6,6,42,42),'VRECT_L':(8,4,40,44),'HRECT_L':(4,8,44,40)} ...
+[11:05:42] > Bash: cd /tmp/cyc && for ks in SQUARE VRECT_L; do for dy in 6 8 9; do for neck in h v; do /opt/homebrew/bin/python3 r2.py $ks $dy $neck 0 1 & done; done; done; wait
+[11:06:15] > Bash: cd /tmp/cyc && /opt/homebrew/bin/python3 - <<'EOF' s=open('s2.py').read() s=s.replace(" need(sd(T,S,P),8.3)"," for k in ('back','leg','arm','stub'):\n for a,...
+[11:07:00] Still searching: SQUARE only fits the rider without an arm. Next I'm checking whether VRECT_L or HRECT_L can fit a straight arm.
+[11:07:00] > Bash: cd /tmp/cyc && for ks in VRECT_L HRECT_L; do for dy in 6 8; do for arm in 1 2; do /opt/homebrew/bin/python3 r2.py $ks $dy h $arm 3 & done; done; done; wait
+[11:07:39] Checking whether the validator certifies a diagonal 6-8-10 head gap; if it does, the rider can lean forward naturally.
+[11:07:44] > Bash: cat > /tmp/cyc/t1.py <<'EOF' import sys; sys.path.insert(0,'.') from icon_set.model.keyshapes import Keyshape from icon_set.model.icons.solo._base import Sol...
+[11:08:00] > Bash: cd /tmp/cyc && /opt/homebrew/bin/python3 - <<'EOF' s=open('s2.py').read() s=s.replace("H,S,P,K,T,E,Hd,R,F=[v[k] for k in 'H S P K T E Hd R F'.split()]", "H,S...
+[11:09:07] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && cat > /tmp/cyc/render.py <<'EOF' import sys, importlib.util, cairosv...
+[11:09:18] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && cat > $D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py <<'EOF' ...
+[11:09:24] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && sed -i '' 's/^KNEE = (23, 18)/KNEE = (22, 18)/; s/^FOOT = (25, 28)/F...
+[11:09:32] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:09:35] Adjusting the pedalling leg so it clears both wheels.
+[11:09:37] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:09:41] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:09:41] > Read: /tmp/cyc/v1.png
+[11:10:03] Valid, but the short back plus the level neck reads like a reaching arm. I'm lengthening and tilting the back so it reads as a torso.
+[11:10:04] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:10:05] > Read: /tmp/cyc/v2.png
+[11:10:14] Trying a rounded, hunched back instead: one curve from the hip that ends level at the neck.
+[11:10:17] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && /opt/home...
+[11:10:30] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:10:30] > Read: /tmp/cyc/v3.png
+[11:10:36] Valid with no warnings, and the hunched back reads much better. Running the build gate as an extra check.
+[11:10:37] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py --help 2>&1 | head -20
+[11:10:40] > Bash: /opt/homebrew/bin/python3 icon_set/scripts/build_gate.py new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3/cyclist_climbing...
+[11:10:45] The build gate passes. Next I'm writing the docstring and exporting the final files.
+[11:11:01] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && cat > /tm...
+[11:11:08] > Bash: D=new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3 && F=$D/cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py && sed -i ''...
+[11:11:16] > Read: /tmp/cyc/both.png
+[11:11:28] I redrew the cyclist as a Solo48 model. `validate_icon()` is `valid` with no warnings, and `build_gate.py` also passes with 0 errors and 0 warnings. To fit, I had to leave out the reaching arm and change the rider's pose.
+
+**What it is:** a stick cyclist riding right, up a slope, on **SQUARE** (the suggested keyshape). It has six parts:
+- **Path:** a straight line from (6,42) to (42,33), rising 1 in 4. It sets the left, right and bottom edges.
+- **Wheels:** two rings of radius 5 at (11,27) and (37,20). The front wheel sits 7 higher, so the bike visibly climbs.
+- **Head:** a small solid ring at (27,8); its top sets the top edge.
+- **Back:** one hunched curve from the hip to a level neck. The head sits exactly 8 to the right of the neck on centrelines (a 4-unit ink gap), and is marked with `mark_human_figure`.
+- **Leg:** one bent pedalling leg reaching down between the wheels.
+
+The construction follows Lucide `bike` (two wheels and a zigzag rider, no frame) and the human reference in `icon_set/references/human_ref`. At 48 px it reads as a cyclist going uphill on both light and dark backgrounds.
+
+**The dropped arm and pose change:** the image's upright rider, with the head above the shoulder and an arm reaching forward, cannot fit at stroke 4.
+- The head gap is only accepted when the head sits straight above a vertical neck or beside a level one; a diagonal gap comes back as `review`.
+- A head above the neck needs 12 units of height, which pushes the hip too close to the rear wheel, and the wheels can't go lower because they must stay 8 clear of the path.
+- I ran a layout search over SQUARE, VRECT_L and HRECT_L, slopes from 1:4 to 1:9, both neck directions, and arms starting at the shoulder or mid-back. No layout gave an arm that clears the head, both wheels and the leg.
+
+So the rider is now crouched, with the head held forward of a rounded back, and has no arm.
+
+**Metric issues:** all fixed.
+- **stroke-width:** redrawn at 4, with every gap sized for it.
+- **stroke-count:** down from 11 to 6.
+- **keyshape-short-axis:** all four edges now sit exactly on the SQUARE box.
+- **Clearance (27 pairs):** every unconnected pair is at least 8 apart.
+- **Loose and narrow joins:** the traced zigzag is now one back curve plus one leg that share the hip point, declared as connected.
+- **Holes:** the rider no longer encloses anything, and the wheel openings are 6 wide.
+- **head-gap:** the metrics had taken the wheels for heads; the real head now has the exact 8-unit gap.
+
+Files are in `new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3/`:
+- `cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py`
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw.svg`
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw.png` (480 px preview)
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw-48.png`
+
+I did not register the module, touch `published/`, or run the build, gallery updates or unit tests.
+
+[11:11:29] === success in 741s, $2.57 ===
+I redrew the cyclist as a Solo48 model. `validate_icon()` is `valid` with no warnings, and `build_gate.py` also passes with 0 errors and 0 warnings. To fit, I had to leave out the reaching arm and change the rider's pose.
+
+**What it is:** a stick cyclist riding right, up a slope, on **SQUARE** (the suggested keyshape). It has six parts:
+- **Path:** a straight line from (6,42) to (42,33), rising 1 in 4. It sets the left, right and bottom edges.
+- **Wheels:** two rings of radius 5 at (11,27) and (37,20). The front wheel sits 7 higher, so the bike visibly climbs.
+- **Head:** a small solid ring at (27,8); its top sets the top edge.
+- **Back:** one hunched curve from the hip to a level neck. The head sits exactly 8 to the right of the neck on centrelines (a 4-unit ink gap), and is marked with `mark_human_figure`.
+- **Leg:** one bent pedalling leg reaching down between the wheels.
+
+The construction follows Lucide `bike` (two wheels and a zigzag rider, no frame) and the human reference in `icon_set/references/human_ref`. At 48 px it reads as a cyclist going uphill on both light and dark backgrounds.
+
+**The dropped arm and pose change:** the image's upright rider, with the head above the shoulder and an arm reaching forward, cannot fit at stroke 4.
+- The head gap is only accepted when the head sits straight above a vertical neck or beside a level one; a diagonal gap comes back as `review`.
+- A head above the neck needs 12 units of height, which pushes the hip too close to the rear wheel, and the wheels can't go lower because they must stay 8 clear of the path.
+- I ran a layout search over SQUARE, VRECT_L and HRECT_L, slopes from 1:4 to 1:9, both neck directions, and arms starting at the shoulder or mid-back. No layout gave an arm that clears the head, both wheels and the leg.
+
+So the rider is now crouched, with the head held forward of a rounded back, and has no arm.
+
+**Metric issues:** all fixed.
+- **stroke-width:** redrawn at 4, with every gap sized for it.
+- **stroke-count:** down from 11 to 6.
+- **keyshape-short-axis:** all four edges now sit exactly on the SQUARE box.
+- **Clearance (27 pairs):** every unconnected pair is at least 8 apart.
+- **Loose and narrow joins:** the traced zigzag is now one back curve plus one leg that share the hip point, declared as connected.
+- **Holes:** the rider no longer encloses anything, and the wheel openings are 6 wide.
+- **head-gap:** the metrics had taken the wheels for heads; the real head now has the exact 8-unit gap.
+
+Files are in `new-pipeline-test/output_png/20260930-1055-cyclist-climbing-a-sloping-path-1f7ae7d3/`:
+- `cyclist_climbing_a_sloping_path_1f7ae7d3_redraw.py`
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw.svg`
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw.png` (480 px preview)
+- `cyclist-climbing-a-sloping-path-1f7ae7d3_redraw-48.png`
+
+I did not register the module, touch `published/`, or run the build, gallery updates or unit tests.

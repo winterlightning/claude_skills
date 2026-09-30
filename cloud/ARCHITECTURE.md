@@ -138,6 +138,16 @@ choices applied by a running `deploy.py`) and pushed with `migrate/push_catalog.
   (`family = 'side_combination64'`, profile `SIDE_COMBINATION64`, drawing from `combination-previews/`).
   The fix queue leaves them out unless the `family` filter asks for them; they are fixed through their
   main and sub.
+* **Times disapproved.** Every fix-queue item (`/api/work/queue`, `/disapproved`, `/review`)
+  carries `disapprovals`. It is computed on each request by `core/src/work.rs`
+  `disapproval_counts`, a port of `work_queue.disapproval_count`, from `activity_log`
+  (work_done/upload/review/feedback), `feedback`, `after` `work_results` and the review rows. The count
+  is the largest of three signals: disapproval episodes, distinct disapproved drawings, and 2 for a
+  reported fix that is disapproved again. A fix awaiting review counts only the disapprovals so far.
+  - `/review` filters with `disapprovals=1|2|3+` and returns `disapproval_counts`.
+  - `/queue` takes `max_disapprovals=N`. `work_queue.py` and `primitive_fix.py start --family …
+    --max-disapprovals 1` use it instead of one history call per icon.
+  - The Fix queue page opens on `family=solo` and keeps its filters in the URL.
 * A failed build that a reviewer approved as an exception (artwork choice with `original_exception`)
   counts as built: `--from-server` pushes it among `icons` with `build_failed = 0`.
 * A record showing a worker's fix (`artwork_source: work_fix`, only with `--from-server`) is still

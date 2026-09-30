@@ -4,11 +4,14 @@ SQUARE: visible bounds (0, 0, 64, 64), chosen for the subject proportions.
 Lucide folder-open: tab transitions and overlapping pocket construction; original and atomic-debug inspected.
 Unequal front and back heights and left tabs preserve the source asymmetry. No features dropped.
 Hosting measured with compose.py: plus blocked, heart blocked, check valid.
+
+v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (simple-file-folder SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
 """
+
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'claude-opus-5-5'
 
 
 class SimpleFileFolder(Container64):
@@ -18,24 +21,24 @@ class SimpleFileFolder(Container64):
     keywords = ('simple', 'file', 'folder')
 
     def build(self) -> None:
-        self.add_line('rear-left', (6, 44), (6, 6))
-        self.add_arc('rear-nw', (6, 6), (10, 2), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('rear-tab', (10, 2), (20, 2))
-        self.add_arc('rear-tab-down', (20, 2), (26, 4), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('rear-tab-level', (26, 4), (32, 6), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('rear-top', (32, 6), (54, 6))
-        self.add_arc('rear-ne', (54, 6), (58, 10), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('rear-right', (58, 10), (58, 50))
-        self.add_contour('rear', 'rear-left', 'rear-nw', 'rear-tab', 'rear-tab-down', 'rear-tab-level', 'rear-top', 'rear-ne', 'rear-right', closed=False)
-        self.add_line('front-tab', (6, 44), (14, 44))
-        self.add_line('front-slope', (14, 44), (24, 50))
-        self.add_line('front-top', (24, 50), (58, 50))
-        self.add_arc('front-ne', (58, 50), (62, 54), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('front-right', (62, 54), (62, 58))
-        self.add_arc('front-se', (62, 58), (58, 62), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('front-bottom', (58, 62), (6, 62))
-        self.add_arc('front-sw', (6, 62), (2, 58), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('front-left', (2, 58), (2, 48))
-        self.add_arc('front-nw', (2, 48), (6, 44), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('rear-left', (9, 40), (9, 10))
+        self.add_arc('rear-nw', (9, 10), (12, 6), radius_x=3, radius_y=4)
+        self.add_line('rear-tab', (12, 6), (21, 6))
+        self.add_arc('rear-tab-down', (21, 6), (27, 8), radius_x=10)
+        self.add_arc('rear-tab-level', (27, 8), (32, 10), radius_x=7, sweep=False)
+        self.add_line('rear-top', (32, 10), (52, 10))
+        self.add_arc('rear-ne', (52, 10), (55, 14), radius_x=3, radius_y=4)
+        self.add_line('rear-right', (55, 14), (55, 46))
+        self.add_line('front-tab', (9, 40), (16, 40))
+        self.add_line('front-slope', (16, 40), (25, 46))
+        self.add_line('front-top', (25, 46), (55, 46))
+        self.add_arc('front-ne', (55, 46), (58, 50), radius_x=3, radius_y=4)
+        self.add_line('front-right', (58, 50), (58, 54))
+        self.add_arc('front-se', (58, 54), (55, 58), radius_x=3, radius_y=4)
+        self.add_line('front-bottom', (55, 58), (9, 58))
+        self.add_arc('front-sw', (9, 58), (6, 54), radius_x=3, radius_y=4)
+        self.add_line('front-left', (6, 54), (6, 44))
+        self.add_arc('front-nw', (6, 44), (9, 40), radius_x=3, radius_y=4)
+        self.add_contour('rear', 'rear-left', 'rear-nw', 'rear-tab', 'rear-tab-down', 'rear-tab-level', 'rear-top', 'rear-ne', 'rear-right')
         self.add_contour('front', 'front-tab', 'front-slope', 'front-top', 'front-ne', 'front-right', 'front-se', 'front-bottom', 'front-sw', 'front-left', 'front-nw', closed=True)
-        self.relate("connect", 'front', 'rear')
+        self.relate('connect', 'front', 'rear')

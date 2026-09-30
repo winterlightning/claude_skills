@@ -1,0 +1,37 @@
+{
+  "index": 16,
+  "run": "icon_set/work/primitive-make-ray/87aae996-0ff2-4205-ac86-1266ba89328e/20260929T133332244960Z-batch13",
+  "module": "icon_set/work/primitive-make-ray/87aae996-0ff2-4205-ac86-1266ba89328e/20260929T133332244960Z-batch13/electrical_power_generator_component_87aae996_0ff2_4205_ac86_1266ba89328e.py",
+  "svg": "electrical-power-generator-component.svg",
+  "source_uuid": "87aae996-0ff2-4205-ac86-1266ba89328e",
+  "source_path": "icon_set/work/primitive-fix-thuan/solo__electrical-power-generator-component/20260929T132621Z-thuan-mac/reference/elecricity power_87aae996-0ff2-4205-ac86-1266ba89328e.svg",
+  "icon_id": "electrical-power-generator-component",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "errors": [
+    "mic [left-bolt]: parallel straight edges left-bolt-1 and left-bolt-3 are 5.14496 apart on centerlines (ink gap 1.14496); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [right-bolt]: parallel straight edges right-bolt-1 and right-bolt-3 are 5.14496 apart on centerlines (ink gap 1.14496); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [cap]: cap and left-bolt are 6.19804 apart on centerlines nearest (16.0769, 11.2196)<->(10, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "mic [base]: base and right-bolt are 6.32456 apart on centerlines nearest (32, 32)<->(38, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "build_gate": {
+    "icon_id": "electrical-power-generator-component",
+    "status": "fail",
+    "errors": [
+      "mic [left-bolt]: parallel straight edges left-bolt-1 and left-bolt-3 are 5.14496 apart on centerlines (ink gap 1.14496); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [right-bolt]: parallel straight edges right-bolt-1 and right-bolt-3 are 5.14496 apart on centerlines (ink gap 1.14496); requires at least 8 centerline / 4 ink (overlap-fallback)",
+      "mic [cap]: cap and left-bolt are 6.19804 apart on centerlines nearest (16.0769, 11.2196)<->(10, 10); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+      "mic [base]: base and right-bolt are 6.32456 apart on centerlines nearest (32, 32)<->(38, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    ],
+    "warnings": [
+      "internal-spacing [base / rib-32]: base-2 and rib-32 have -4 units of ink clearance over 11 units; requires 4; review required"
+    ]
+  },
+  "visual_review": "Pending native light/dark review",
+  "omissions": "Bolt outlines reduced to zigzag sparks and central ribs reduced to two.",
+  "keyshape": "HRECT_L",
+  "problem": "The central machine is disconnected and both identifying lightning bolts are missing.",
+  "change": "Reconnect the insulator and base, restoring paired lightning strokes.",
+  "construction_reference": "Lucide square: coherent contours and tangent quarter-circle corners."
+}

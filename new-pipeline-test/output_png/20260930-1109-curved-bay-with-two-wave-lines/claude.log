@@ -1,0 +1,77 @@
+[11:13:51] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1109-curved-bay-with-two-wave-lines; ls $D; cat $D/*_metrics....
+[11:13:52] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved-bay-with-two-wave-lines.png
+[11:14:08] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; D=output_png/20260930-1109-curved-bay-with-two-wave-lines; python3 -c " import json...
+[11:14:22] Let me look at a recent redraw module for the in-folder conventions (import/render).
+[11:14:23] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1107-crescent-head-wrench/crescent_head_wrench_redraw.py; l...
+[11:14:27] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test; cat output_png/20260930-1107-crescent-head-wrench/claude.log | head -40; grep -n "w...
+[11:14:29] > Bash: cat /tmp/cw_run.py 2>/dev/null || ls -t /tmp/*_run.py | head
+[11:15:35] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; grep -n "def add_bezier\|def add_polyline\|def add_contour" -A6 icon_set/model/*.py icon_set/model/ic...
+[11:15:51] > Write: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved_bay_with_two_wave_lines_...
+[11:15:57] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; cat > /tmp/bay_run.py <<'EOF' import importlib.util D="new-pipeline-test/output_png/20260930-1109-cur...
+[11:16:05] Validation flagged one tight spot (lower wave vs. the shore, 7.7 < 8); adjusting the wave placement and re-validating.
+[11:16:06] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved_bay_with_two_wave_...
+[11:16:13] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; F=new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved_bay_with_two_wave_...
+[11:16:21] Valid with no warnings. Checking it visually.
+[11:16:22] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved-bay-with-two-wave-lines_...
+[11:16:22] > Read: /tmp/bay-dark.png
+[11:16:23] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved-bay-with-two-wave-lines_...
+[11:16:27] > Edit: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/curved_bay_with_two_wave_lines_...
+[11:16:30] > Bash: cd /Applications/Workspaces/pictographic/claude_skills; PYTHONPATH=. /opt/homebrew/bin/python3 /tmp/bay_run.py | head -1; ls new-pipeline-test/output_png/202...
+[11:16:41] I redrew the curved bay with two wave lines as a Solo48 model. `validate_icon()` now returns **valid with zero warnings**. The first two attempts failed on the lower wave sitting too close to the shore; the final version passes.
+
+**Subject:** a C-shaped shoreline opening to the right, with two identical wave lines inside the bay that run past the shore's two tips, as in the generated image.
+
+**Keyshape: `SQUARE`, not the suggested `HRECT_L`.** The metrics support this: the trace is square (aspect 1.0), and `SQUARE` scores a 1.0 fill with no stretching. `HRECT_L` would stretch the width by 1.25 and cut the height to 32 units. That leaves no room for two waves that stay 8 units apart from each other and from the shore. All four extremes sit exactly on the `SQUARE` box (6,6)-(42,42).
+
+**Construction:**
+- **Shore:** one smooth curve, mirrored top to bottom about y = 24. The tips are at (30,6) and (30,42) and the leftmost point is (6,24), with no kinks.
+- **Waves:** one wave shape used twice, 14 units apart and centred on the middle line. Each runs from x 20 to 42 and goes dip, crest, dip, with smooth turns.
+
+**Metric issues:**
+- **clearance, the two waves (error, 6.0 apart):** fixed. The rows are now 14 apart with a gentle swing, so their closest approach is over 8.
+- **clearance, shore and lower wave (error, 7.97):** fixed. The shore's top and bottom curves are pulled outward, so it now clears both waves by more than 8.
+- **keyshape-short-axis (warning):** fixed by switching to `SQUARE`, which needs no stretch.
+- **stroke-width (info):** fixed. It is redrawn at stroke 4, with every gap sized for that width.
+- None were left unfixed.
+
+**Dropped:** the small kinks in the traced shoreline. They come from the vectorizer and read as noise at 48 px.
+
+**Visual check:** it reads clearly at native 48 px and on a dark background.
+
+No Lucide original was used as a reference. The waves use the same smooth S-segments as Lucide's `waves` icon, but with a gentler swing so the two rows stay 8 apart. The module is not registered, and `published/`, the build and the gallery were not touched.
+
+Files are in `new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/`:
+- curved_bay_with_two_wave_lines_redraw.py
+- curved-bay-with-two-wave-lines_redraw.svg
+- curved-bay-with-two-wave-lines_redraw.png
+- curved-bay-with-two-wave-lines_redraw-48.png
+
+[11:16:41] === success in 179s, $0.80 ===
+I redrew the curved bay with two wave lines as a Solo48 model. `validate_icon()` now returns **valid with zero warnings**. The first two attempts failed on the lower wave sitting too close to the shore; the final version passes.
+
+**Subject:** a C-shaped shoreline opening to the right, with two identical wave lines inside the bay that run past the shore's two tips, as in the generated image.
+
+**Keyshape: `SQUARE`, not the suggested `HRECT_L`.** The metrics support this: the trace is square (aspect 1.0), and `SQUARE` scores a 1.0 fill with no stretching. `HRECT_L` would stretch the width by 1.25 and cut the height to 32 units. That leaves no room for two waves that stay 8 units apart from each other and from the shore. All four extremes sit exactly on the `SQUARE` box (6,6)-(42,42).
+
+**Construction:**
+- **Shore:** one smooth curve, mirrored top to bottom about y = 24. The tips are at (30,6) and (30,42) and the leftmost point is (6,24), with no kinks.
+- **Waves:** one wave shape used twice, 14 units apart and centred on the middle line. Each runs from x 20 to 42 and goes dip, crest, dip, with smooth turns.
+
+**Metric issues:**
+- **clearance, the two waves (error, 6.0 apart):** fixed. The rows are now 14 apart with a gentle swing, so their closest approach is over 8.
+- **clearance, shore and lower wave (error, 7.97):** fixed. The shore's top and bottom curves are pulled outward, so it now clears both waves by more than 8.
+- **keyshape-short-axis (warning):** fixed by switching to `SQUARE`, which needs no stretch.
+- **stroke-width (info):** fixed. It is redrawn at stroke 4, with every gap sized for that width.
+- None were left unfixed.
+
+**Dropped:** the small kinks in the traced shoreline. They come from the vectorizer and read as noise at 48 px.
+
+**Visual check:** it reads clearly at native 48 px and on a dark background.
+
+No Lucide original was used as a reference. The waves use the same smooth S-segments as Lucide's `waves` icon, but with a gentler swing so the two rows stay 8 apart. The module is not registered, and `published/`, the build and the gallery were not touched.
+
+Files are in `new-pipeline-test/output_png/20260930-1109-curved-bay-with-two-wave-lines/`:
+- curved_bay_with_two_wave_lines_redraw.py
+- curved-bay-with-two-wave-lines_redraw.svg
+- curved-bay-with-two-wave-lines_redraw.png
+- curved-bay-with-two-wave-lines_redraw-48.png

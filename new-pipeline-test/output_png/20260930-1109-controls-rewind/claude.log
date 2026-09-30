@@ -1,0 +1,65 @@
+[11:16:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-controls-rewind && ls && cat controls-rewind_metrics.json |...
+[11:17:03] > Bash: python3 -c " import json;d=json.load(open('controls-rewind_metrics.json')) for k in d: if k not in ('schema','choice','files','target','source','keyshape'): ...
+[11:17:28] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1106-currency-dollar && sed -n 80,200p currency_dollar_redraw.py...
+[11:17:28] > Read: /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-controls-rewind/controls-rewind.png
+[11:17:43] > Bash: cd /Applications/Workspaces/pictographic/claude_skills && ls new-pipeline-test/; grep -n "Redraw\|render\|validate" new-pipeline-test/process.md | head -30; ...
+[11:17:45] > Bash: grep -rn "def add_\|def to_svg\|def svg\b\|def render_svg" icon_set/model/ | grep -v tests | head -20; grep -rln "add_polygon\|closed=True" icon_set/model/ic...
+[11:18:04] Reading the model API to build the two triangles as closed polylines.
+[11:18:05] > Bash: sed -n 90,240p icon_set/model/icons/base.py; grep -n "def " icon_set/model/icons/base.py | sed -n 1,80p
+[11:18:19] > Bash: cd /Applications/Workspaces/pictographic/claude_skills/new-pipeline-test/output_png/20260930-1109-controls-rewind && cat > controls_rewind_redraw.py <<'EOF' ...
+[11:18:25] > Bash: /opt/homebrew/bin/python3 -c " import importlib.util spec=importlib.util.spec_from_file_location('icon_set.model.icons.solo._tmp_rewind','new-pipeline-test/o...
+[11:18:25] > Read: /tmp/rw48.png
+[11:18:35] I redrew the rewind icon as a Solo48 model. `validate_icon()` returns `valid` with zero errors and zero warnings, run on the module loaded straight from the run folder.
+
+**Subject and keyshape:** two identical hollow triangles pointing left, side by side on one centreline. I used the suggested `HRECT_M` (score 1.11, against 1.0 for `HRECT_L`). The drawing touches all four sides of its box (4,10)–(44,38): the left tip is at x=4, the right triangle's back edge at x=44, and the back corners at y=10 and y=38.
+
+**Construction:**
+- **Shape:** one triangle design, 16 wide and 28 tall, drawn twice (left one from x=4 to 20, right one from 28 to 44).
+- **Outline:** each triangle is a single closed shape with rounded corners, like the generated image.
+- **Symmetry:** both triangles are mirrored about y=24.
+- **Lucide reference:** Lucide `rewind` gave the two-equal-triangles construction. I widened its 2-unit gap to the 8 units this profile requires.
+- **Not taken from the trace:** the tiny kinks the trace had at each tip are gone, and no trace coordinates were reused.
+
+**Metric issues (all four repaired):**
+- **Gap between the triangles (was 3.85, need 8):** the right tip now sits exactly 8 from the left triangle's back edge on centrelines, which is 4 of visible white space.
+- **Slanted edge vs back edge inside one triangle (7.79):** the trace drew each triangle as separate pieces. Each is now one closed outline whose sides meet at shared corners. The space inside measures about 8.7 across at stroke 4 (need 6).
+- **Short axis only 86% filled:** the back corners now reach y=10 and y=38 exactly.
+- **Stroke 2.67 (info only):** redrawn at stroke 4, with all spacing planned for that width.
+
+At native 48 px the two triangles read clearly, with even strokes and open insides. I only checked it on white, not in the dark theme.
+
+**Not done, as the brief said:** I didn't register the module or run the tests, `build.py` or the gallery updates, and `published/` is untouched.
+
+Files are in `new-pipeline-test/output_png/20260930-1109-controls-rewind/`:
+- `controls_rewind_redraw.py`
+- `controls-rewind_redraw.svg`
+- `controls-rewind_redraw.png` (512 px preview)
+- `controls-rewind_redraw-48.png`
+
+[11:18:35] === success in 138s, $0.54 ===
+I redrew the rewind icon as a Solo48 model. `validate_icon()` returns `valid` with zero errors and zero warnings, run on the module loaded straight from the run folder.
+
+**Subject and keyshape:** two identical hollow triangles pointing left, side by side on one centreline. I used the suggested `HRECT_M` (score 1.11, against 1.0 for `HRECT_L`). The drawing touches all four sides of its box (4,10)–(44,38): the left tip is at x=4, the right triangle's back edge at x=44, and the back corners at y=10 and y=38.
+
+**Construction:**
+- **Shape:** one triangle design, 16 wide and 28 tall, drawn twice (left one from x=4 to 20, right one from 28 to 44).
+- **Outline:** each triangle is a single closed shape with rounded corners, like the generated image.
+- **Symmetry:** both triangles are mirrored about y=24.
+- **Lucide reference:** Lucide `rewind` gave the two-equal-triangles construction. I widened its 2-unit gap to the 8 units this profile requires.
+- **Not taken from the trace:** the tiny kinks the trace had at each tip are gone, and no trace coordinates were reused.
+
+**Metric issues (all four repaired):**
+- **Gap between the triangles (was 3.85, need 8):** the right tip now sits exactly 8 from the left triangle's back edge on centrelines, which is 4 of visible white space.
+- **Slanted edge vs back edge inside one triangle (7.79):** the trace drew each triangle as separate pieces. Each is now one closed outline whose sides meet at shared corners. The space inside measures about 8.7 across at stroke 4 (need 6).
+- **Short axis only 86% filled:** the back corners now reach y=10 and y=38 exactly.
+- **Stroke 2.67 (info only):** redrawn at stroke 4, with all spacing planned for that width.
+
+At native 48 px the two triangles read clearly, with even strokes and open insides. I only checked it on white, not in the dark theme.
+
+**Not done, as the brief said:** I didn't register the module or run the tests, `build.py` or the gallery updates, and `published/` is untouched.
+
+Files are in `new-pipeline-test/output_png/20260930-1109-controls-rewind/`:
+- `controls_rewind_redraw.py`
+- `controls-rewind_redraw.svg`
+- `controls-rewind_redraw.png` (512 px preview)
+- `controls-rewind_redraw-48.png`

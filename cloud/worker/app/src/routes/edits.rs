@@ -323,6 +323,7 @@ pub async fn get_overrides(ctx: &Ctx) -> Result<Response> {
     // Pairs made from a primitive first: their complete records, then every saved pair's overlay.
     records.extend(super::side_pairs::records(ctx).await?);
     records.extend(super::side::overlays(ctx).await?);
+    records.extend(super::container_pairs::records(ctx).await?);
     http::json(200, &json!({"records": records}))
 }
 
