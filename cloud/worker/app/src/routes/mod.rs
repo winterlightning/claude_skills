@@ -93,6 +93,7 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
         "/api/combinations" => combinations::list(ctx).await,
         "/api/combinations/drawings" => combinations::drawings(ctx).await,
         "/api/combinations/candidates" => combinations::candidates(ctx).await,
+        "/api/combinations/placements" => combinations::placements(ctx).await,
         "/api/side-components" => edits::side_components(ctx).await,
         _ if path == "/api/work" || path.starts_with("/api/work/") => work::read(ctx).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, None, "system").await,
@@ -109,7 +110,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
-    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair"];
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/combinations/placements"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -158,6 +159,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/parts" => combinations::post_part(ctx, &data, user).await,
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
+        "/api/combinations/placements" => combinations::post_placement(ctx, &data, user).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

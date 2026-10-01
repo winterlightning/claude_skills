@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Fill the combination columns of reference_parts (migration 0009) from the old stores.
 
-    python3 cloud/migrate/backfill_combinations.py --db snapshot.sqlite --pairs experiment-combination.json --out fill.sql
+    python3 cloud/migrate/backfill_combinations.py --db snapshot.sqlite --pairs experiment-combination.json \
+        --combinations combinations.json --out fill.sql
     wrangler d1 execute <database> --remote --file fill.sql            # from cloud/worker
 
 Reads a D1 snapshot (``wrangler d1 export`` loaded into sqlite, opened read-only) and the published
@@ -17,7 +18,13 @@ In order, later sources winning:
    and each part's box: the hand-adjusted layout, else the automatic placement the engine chose;
 3. ``side-pairs`` store: a pair given another main / sub; a primitive classified as a combination
    becomes a combination reference with its two parts;
-4. container / symbol parts with a single icon of their family.
+4. container / symbol parts with a single icon of their family;
+5. the icons the old Container pairs page showed (``site/gallery/combinations.json``, ``--combinations``): the
+   container's generated container drawing, the symbol source's symbol drawing (else its sub drawing);
+6. ``reference_uploads`` (dropped by 0010): an upload for a part's source fills a part still without an icon,
+   an upload for the combination itself (a pair's own symbol, e.g. its typeface text) wins.
+
+Also carries ``container_centers`` (dropped by 0010) into ``container_placements`` (0013).
 
 Also sets the side position of subs seeded without one (the id's suffix) and links every combined icon
 (side_combination64/<id>, container_combination64/<id>) to its reference in icon_references.
@@ -80,6 +87,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     parser.add_argument('--db', required=True, type=Path)
     parser.add_argument('--pairs', required=True, type=Path)
+    parser.add_argument('--combinations', type=Path, help='site/gallery/combinations.json (the old Container pairs catalog)')
     parser.add_argument('--out', required=True, type=Path)
     args = parser.parse_args()
 
@@ -175,6 +183,51 @@ def main() -> None:
             parts.set(ref, role, f'single {role} icon', icon=candidates[0])
         else:
             notes[f'{role} part with {"no" if not candidates else "several"} {role} icons'] += 1
+
+    # 5. What the old Container pairs page showed (progression-combinations.js containerMain / containerSymbol).
+    if args.combinations:
+        catalog = json.loads(args.combinations.read_text())
+        sources = catalog.get('references', {})
+        for row in catalog.get('rows', []):
+            if row.get('kind') != 'container' or row['id'] not in references:
+                continue
+            main = row['main_generated'] if row.get('main_generated') is not None else sources.get(row['main_id'], {}).get('generated') or []
+            container = next((g.get('key') or f"container/{g['icon_id']}" for g in main if (g.get('key') or '').startswith('container/')), None)
+            generated = row.get('sub_generated') or sources.get(row['sub_id'], {}).get('generated') or []
+            symbol = next((g['key'] for g in generated if (g.get('key') or '').startswith('symbol/')), None) \
+                or next((g['key'] for g in generated if (g.get('key') or '').startswith('sub/')), None)
+            for role, icon in (('container', container), ('symbol', symbol)):
+                if not icon:
+                    continue
+                if icon not in icons:
+                    notes[f'catalog {role} icon not in icons'] += 1
+                elif (row['id'], role) in existing:
+                    parts.set(row['id'], role, f'catalog {role}', icon=icon)
+
+    # 6. Uploads for a part's source or for the combination itself (reference_uploads, dropped by 0010).
+    if 'reference_uploads' in tables:
+        uploads = list(db.execute('SELECT reference, role, icon_key FROM reference_uploads'))
+        for reference, role, icon in uploads:
+            if icon not in icons:
+                notes['upload not in icons'] += 1
+                continue
+            for (ref, part_role), part in existing.items():
+                if part_role == role and part['part_reference_id'] == reference and not parts.values.get((ref, role), {}).get('icon'):
+                    parts.set(ref, role, 'source upload', icon=icon)
+        for reference, role, icon in uploads:
+            if icon in icons and (reference, role) in existing:
+                parts.set(reference, role, 'pair upload', icon=icon)
+
+    # Saved symbol positions (container_centers, dropped by 0010) → container_placements (0013).
+    if 'container_centers' in tables:
+        columns = {r[1] for r in db.execute('PRAGMA table_info(container_centers)')}
+        size = 'width, height' if 'width' in columns else 'NULL, NULL'
+        for r in db.execute(f'SELECT main, sub, x, y, {size}, updated_at, updated_by FROM container_centers'):
+            # An old size was the painted box with 32 meaning "standard"; NULL (or none) keeps the natural size.
+            width, height = (r[4] or 32, r[5] or 32) if r[4] or r[5] else (None, None)
+            statements.append('INSERT OR REPLACE INTO container_placements(container, symbol, x, y, width, height, updated_at, updated_by) '
+                              f'VALUES ({q(r[0])}, {q(r[1])}, {r[2]}, {r[3]}, {q(width)}, {q(height)}, {q(r[6])}, {q(r[7])});')
+            notes['container placement carried over'] += 1
 
     # Positions the seed left empty: the side position is the reference id's suffix.
     for (ref, role), part in existing.items():

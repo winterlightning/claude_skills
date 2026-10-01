@@ -51,6 +51,10 @@ The account's older `pictographic` bucket and search Workers are separate and un
   (`svg-graph.js`, a port of `svg_graph.py`) into `icon_graphs`, so the geometry editor can select the
   container's and the symbol's strokes. The old routes (`container_pairs.rs`, `container_centers.rs`, `side.rs`,
   `side_pairs.rs`) and the graphics container's combination renders are gone.
+* **Where a container puts its symbol:** a pair's own box (`reference_parts.layout`, `pinned`, saved with
+  "This pair only") wins; else `container_placements` (0013: one pair's, then the container's, saved with "This
+  container · all symbols"), else the published `container-centers.json` defaults, else the canvas centre
+  (`placementOf` in container-pairs.html). A built pair whose placement changed shows "Outdated: recombine".
 * The **Python icon source** (`icon_set/model/icons/**`, `icon_set/metadata/**`) is **not** in the cloud.
   It lives in git. The cloud only holds what a build produced from it (catalog rows + SVG text).
   This matters for the merge: anything the Mac mini generated that exists only as Python on the mini
