@@ -20,7 +20,8 @@ CHOICES = {'symmetry': ('symmetric', 'vertical', 'horizontal', 'both', 'asymmetr
 COMBINED = ('side_combination64', 'container_combination64')
 CARD_FIELDS = ('key', 'icon_id', 'name', 'family', 'category', 'profile', 'canvas_size', 'canvas_width', 'canvas_height', 'sizing_mode',
                'keyshape', 'keyshape_bounds', 'preview_url', 'svg_sha256', 'uploaded_icon', 'author', 'build_failed', 'errors', 'status',
-               'variant_of', 'variant_root', 'variant_label', 'reference_fidelity', 'side_role', 'artwork_source')
+               'variant_of', 'variant_root', 'variant_label', 'reference_fidelity', 'side_role', 'artwork_source', 'python_source',
+               'icon_type')
 
 
 def params(query: dict) -> dict:
@@ -104,6 +105,10 @@ class Catalog:
 
     def __init__(self, records, statuses, approved_by, disapproved_by, rejected_by, feedback, work, facets):
         self.records = records
+        self.revisions = {}
+        for r in records:
+            if r.get('variant_of'):
+                self.revisions[(r.get('family'), r['variant_of'])] = self.revisions.get((r.get('family'), r['variant_of']), 0) + 1
         self.statuses = statuses
         self.actors = {'approve': approved_by, 'pending': disapproved_by, 'rejected': rejected_by}
         self.facets = facets or {}
@@ -227,6 +232,7 @@ class Catalog:
         state = self.state(icon)
         actor = (self.actors.get(state) or {}).get(key)
         out.update(build_failed=bool(icon.get('build_failed')), stroke_count=stroke_count(icon), segment_count=segment_count(icon),
+                   revisions=self.revisions.get((icon.get('family'), icon.get('icon_id')), 0),
                    symmetry_axes=self.axes(icon), review={'state': state, 'status': self.statuses.get(key, 'ready'), 'by': actor},
                    work=self.work.get(key) if (self.work.get(key) or {}).get('svg_sha256') == icon.get('svg_sha256') else None)
         return out
@@ -267,6 +273,9 @@ class Catalog:
     def by_keys(self, keys) -> dict:
         wanted = set(keys)
         return {'items': [self.item(i) for i in self.records if i['key'] in wanted]}
+
+    def by_group(self, group) -> dict:
+        return {'items': [self.item(i) for i in self.records if version_group(i) == group]}
 
     def facet_choices(self) -> dict:
         out = {'authors': {}, 'keyshapes': {}, 'categories': {}, 'families': {}, 'total': 0}

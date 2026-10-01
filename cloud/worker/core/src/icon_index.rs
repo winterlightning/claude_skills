@@ -6,9 +6,11 @@ use chrono::DateTime;
 use serde_json::{json, Map, Value};
 
 /// The record fields a review card shows (the full record is fetched when the icon is opened).
-const CARD_FIELDS: [&str; 24] = ["key", "icon_id", "name", "family", "category", "profile", "canvas_size", "canvas_width",
+const CARD_FIELDS: [&str; 26] = ["key", "icon_id", "name", "family", "category", "profile", "canvas_size", "canvas_width",
     "canvas_height", "sizing_mode", "keyshape", "keyshape_bounds", "preview_url", "svg_sha256", "uploaded_icon", "author",
-    "build_failed", "errors", "status", "variant_of", "variant_root", "variant_label", "reference_fidelity", "side_role"];
+    "build_failed", "errors", "status", "variant_of", "variant_root", "variant_label", "reference_fidelity", "side_role",
+    // The feedback list's change briefs name the Python module and the type tag.
+    "python_source", "icon_type"];
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct IconIndex {
@@ -195,7 +197,8 @@ mod tests {
         let card: Value = serde_json::from_str(&i.card).unwrap();
         assert_eq!(card["original_sources"], json!([{"url": "originals/x.svg"}]));
         assert_eq!(card["validation"], json!({"status": "valid", "exception": null}));
-        assert!(card.get("primitives").is_none() && card.get("python_source").is_none());
+        assert!(card.get("primitives").is_none() && card.get("contours").is_none());
+        assert_eq!(card["python_source"], json!({"path": "m.py"}));
     }
 
     #[test]

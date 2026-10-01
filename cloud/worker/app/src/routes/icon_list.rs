@@ -109,9 +109,13 @@ async fn query(ctx: &Ctx, p: &Params) -> Result<(Row, Vec<Row>, Map<String, Valu
 }
 
 /// GET /api/icons?family=&q=&status=&…&sort=&view=&offset=&limit= (the page's URL filters), or ?keys=k1,k2 (≤ 200):
-/// `{items, total, versions, offset, limit, states, categories}`; with keys, `{items}`. One statement reads the icons
+/// `{items, total, versions, offset, limit, states, categories}`; with keys or ?group=<version group>, `{items}`. One statement reads the icons
 /// once for the page and every count.
 pub async fn list(ctx: &Ctx) -> Result<Response> {
+    if let Some(group) = ctx.param("group") {
+        let rows: Vec<Row> = statement(&ctx.db, icon_query::by_group(group))?.all().await?.results()?;
+        return http::json(200, &json!({"items": items(parsed(rows).into_iter().map(|(_, _, row)| row).collect())}));
+    }
     if let Some(keys) = ctx.param("keys") {
         let keys: Vec<String> = keys.split(',').filter(|k| !k.is_empty()).map(str::to_string).collect();
         if keys.is_empty() || keys.len() > 200 {

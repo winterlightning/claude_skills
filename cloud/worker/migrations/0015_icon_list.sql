@@ -23,3 +23,4 @@ ALTER TABLE icons ADD COLUMN symmetry_sha TEXT;
 CREATE INDEX icons_category ON icons(category);
 CREATE INDEX icons_version_group ON icons(version_group);
 CREATE INDEX feedback_author ON feedback(icon, author);
+CREATE INDEX icons_variant_of ON icons(family, variant_of);

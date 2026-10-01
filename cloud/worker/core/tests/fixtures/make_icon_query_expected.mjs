@@ -1,13 +1,15 @@
-// The answers Icon review gave before it listed from D1: gallery.html's own list functions (filteredIcons,
+// The answers Icon review gave before it listed from D1 (the page at efe8a70629): gallery.html's own list functions (filteredIcons,
 // versionGroups, categoryCounts, render's tab counts) run over icon-query.json, with the review statuses, picks,
 // feedback and work claims the page loaded from the API worked out from the fixture's tables.
 //   node cloud/worker/core/tests/fixtures/make_icon_query_expected.mjs   → icon-query-expected.json
 import {readFileSync, writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import vm from 'node:vm';
 
 const here = new URL('.', import.meta.url);
 const root = new URL('../../../../../', here);
-const page = readFileSync(new URL('icon_set/scripts/templates/gallery.html', root), 'utf8');
+// The page as it was when it listed in the browser (cloudflare-db before the list moved to the server).
+const page = execFileSync('git', ['show', 'efe8a70629:icon_set/scripts/templates/gallery.html'], {cwd: new URL('.', root), encoding: 'utf8', maxBuffer: 1 << 26});
 const fixture = JSON.parse(readFileSync(new URL('icon-query.json', here), 'utf8'));
 
 // A top-level declaration of the page script, by brace matching (strings, template literals and regexes skipped).

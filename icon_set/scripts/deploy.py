@@ -1337,6 +1337,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path == '/api/icon':
                     detail = listing.detail(query.get('key', [''])[0])
                     return self.json_response(detail) if detail else self.json_response({'error': 'Unknown icon'}, 404)
+                if 'group' in query:
+                    return self.json_response(listing.by_group(query['group'][0]))
                 if 'keys' in query:
                     keys = [k for k in query['keys'][0].split(',') if k]
                     if not 1 <= len(keys) <= 200:

@@ -274,7 +274,9 @@ const SHOWN: [&str; 5] = ["card", "name", "profile", "canvas_size", "preview_url
 
 /// A list row as JSON; `alias` is the CTE row, `c` the icon row joined in for SHOWN.
 fn row_json(alias: &str) -> String {
-    let fields = FIELDS.iter().map(|f| format!("'{f}', {alias}.{f}")).chain(SHOWN.iter().map(|f| format!("'{f}', c.{f}")));
+    let fields = FIELDS.iter().map(|f| format!("'{f}', {alias}.{f}")).chain(SHOWN.iter().map(|f| format!("'{f}', c.{f}")))
+        // `regeneratedVariants(icon).length`: later versions made from this one.
+        .chain(std::iter::once("'revisions', (SELECT COUNT(*) FROM icons v WHERE v.family = c.family AND v.variant_of = c.icon_id)".to_string()));
     format!("json_object({})", fields.collect::<Vec<_>>().join(", "))
 }
 
@@ -326,6 +328,12 @@ pub fn list(p: &Params) -> (String, Args) {
     (sql, args)
 }
 
+/// Every version of one version group (`inspectVariants`), as list rows `{data}`.
+pub fn by_group(group: &str) -> (String, Args) {
+    (format!("{} SELECT {} AS data FROM u JOIN icons c ON c.key = u.key", icons_cte(" WHERE i.version_group = ?"), row_json("u")),
+     vec![json!(group)])
+}
+
 /// Particular icons by key, as list rows `{data}` (the feedback list, opened icons and their versions).
 pub fn by_keys(keys: &[String]) -> (String, Args) {
     (format!("{} SELECT {} AS data FROM u JOIN icons c ON c.key = u.key", icons_cte(" WHERE i.key IN (SELECT value FROM json_each(?))"), row_json("u")),
@@ -370,6 +378,7 @@ pub fn item(row: &HashMap<String, Value>, work: Value) -> Value {
         None => Value::Null,
     };
     card["review"] = json!({"state": row.get("state"), "status": row.get("decision"), "by": row.get("actor")});
+    card["revisions"] = json!(number("revisions").unwrap_or(0));
     card["work"] = work;
     card
 }
@@ -398,7 +407,7 @@ mod tests {
         let p = params(&[("family", "side_main"), ("q", "a"), ("category", "c"), ("symmetry", "vertical"), ("strokes", "4-6"),
                          ("keyshape", "K"), ("author", "m"), ("artwork", "edited"), ("reason", "meaning"), ("reviewer", "ray"),
                          ("icon_feedback_by", "hina"), ("pending_feedback", "without"), ("view", "versions")]);
-        for (sql, args) in [list(&p), list(&params(&[("view", "versions")])), list(&params(&[])), by_keys(&["a".into()])] {
+        for (sql, args) in [list(&p), list(&params(&[("view", "versions")])), list(&params(&[])), by_keys(&["a".into()]), by_group("solo/a")] {
             assert_eq!(sql.matches('?').count(), args.len(), "{sql}");
         }
     }
