@@ -352,7 +352,7 @@ function tile(item){
     }
     el.append(wrap);
   }
-  const uses=node('a','uses','View its container pairs');uses.href='container-pairs.html&q='+encodeURIComponent(item.concept);el.append(uses);
+  const uses=node('a','uses','View its container pairs');uses.href='container-pairs.html?q='+encodeURIComponent(item.concept);el.append(uses);
   const linked=linkControls(item);if(linked)el.append(linked);
   const queued=queueControls(item);if(queued)el.append(queued);
   const fix=fixControls(item);if(fix)el.append(fix);
