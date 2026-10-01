@@ -36,6 +36,7 @@ import webbrowser
 if __package__:
     from .attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from .reviewer_stats import current_decisions, current_reviews, reviewer_stats
+    from . import icon_query
     from .upload_validation import validate_upload
     from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -57,6 +58,7 @@ if __package__:
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from reviewer_stats import current_decisions, current_reviews, reviewer_stats
+    import icon_query
     from upload_validation import validate_upload
     from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -568,6 +570,27 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                        for record, svg in connection.execute('SELECT record, svg FROM uploaded_icons')]
         data['icons'] = data['icons'] + self.side_combination_icons() + uploads
         return data
+
+    def icon_listing(self):
+        """icon_query.Catalog over the gallery as shown: picks applied, current decisions, feedback, work, facets."""
+        catalog = self.catalog(include_failed=True)
+        with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+            statuses, approved_by, disapproved_by, rejected_by = current_reviews(connection, catalog)
+            feedback = [dict(zip(('id', 'icon', 'svg_sha256', 'author', 'reason'), row))
+                        for row in connection.execute('SELECT id, icon, svg_sha256, author, reason FROM feedback')]
+            rows = connection.execute("SELECT icon, svg_sha256, status, worker, claimed_at, note, updated_at FROM reviews "
+                                      "WHERE COALESCE(worker, '') != ''").fetchall()
+        work = icon_query.work_claims([row for row in rows if catalog.get(row[0], {}).get('svg_sha256') == row[1]])
+        facets = {}
+        path = self.root / 'gallery/review-facets.json'
+        if path.is_file():
+            stamp = (path.stat().st_mtime_ns, path.stat().st_size)
+            cached = getattr(self.server, 'facets_cache', None)
+            if not cached or cached[0] != stamp:
+                cached = (stamp, json.loads(path.read_text(encoding='utf-8')))
+                self.server.facets_cache = cached
+            facets = cached[1]
+        return icon_query.Catalog(list(catalog.values()), statuses, approved_by, disapproved_by, rejected_by, feedback, work, facets)
 
     def side_combination_icons(self):
         """The "Side combination 64" family: the latest Combine all side pairs run, kept outside icons.json."""
@@ -1304,6 +1327,24 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': str(error)}, 400)
             except (OSError, sqlite3.Error):
                 return self.json_response({'error': 'Reviewer activity is temporarily unavailable. Try again.'}, 503)
+        if parsed.path in ('/api/icons', '/api/icons/facets', '/api/icon'):
+            # Icon review's list a page at a time (the Worker answers the same from D1; icon_query.py).
+            try:
+                listing = self.icon_listing()
+                query = parse_qs(parsed.query)
+                if parsed.path == '/api/icons/facets':
+                    return self.json_response(listing.facet_choices())
+                if parsed.path == '/api/icon':
+                    detail = listing.detail(query.get('key', [''])[0])
+                    return self.json_response(detail) if detail else self.json_response({'error': 'Unknown icon'}, 404)
+                if 'keys' in query:
+                    keys = [k for k in query['keys'][0].split(',') if k]
+                    if not 1 <= len(keys) <= 200:
+                        return self.json_response({'error': 'Ask for 1 to 200 icon keys.'}, 400)
+                    return self.json_response(listing.by_keys(keys))
+                return self.json_response(listing.list(icon_query.params(query)))
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'The icon list is temporarily unavailable'}, 503)
         if parsed.path == '/api/reviews':
             try:
                 catalog = self.catalog(include_failed=True)
