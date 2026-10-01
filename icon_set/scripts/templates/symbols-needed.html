@@ -381,7 +381,7 @@ $('classifyFilter').onchange=()=>{page=1;render();};
 (async()=>{
   try{
     const [catalogResponse,resultsResponse,statusResponse,linksResponse,briefsResponse]=await Promise.all([
-      fetch('combinations.json',{cache:'no-store'}),fetch('/api/combinations/container/results',{cache:'no-store'}),
+      fetch('combinations.json',{cache:'no-cache'}),fetch('/api/combinations/container/results',{cache:'no-store'}),
       fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/symbol-links',{cache:'no-store'}),
       fetch('/api/primitives/briefs',{cache:'no-store'})]);
     if(!catalogResponse.ok)throw Error('Could not load the combination catalog.');

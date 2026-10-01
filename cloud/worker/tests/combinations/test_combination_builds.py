@@ -192,20 +192,17 @@ def test_unsafe_svg_is_cleaned_or_refused(client, pair):
     assert client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]['ok']
 
 
-def test_combined_icon_waits_for_its_parts(client, pair):
+def test_combined_container_icon_approves_on_its_own(client, pair):
+    # A combined container icon can be approved even while a part is not (the reviewer's decision, 2026-09-30):
+    # its check fails, approving it is the reviewer's call.
     item, icons, drawings = pair
     build, _ = request(item, icons, drawings)
     built = client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]
     assert built['ok']
-    approve = lambda key, sha: client.call('POST', '/api/reviews', {'icon': key, 'svg_sha256': sha, 'status': 'approve'})
     unapproved = [role for role in ('container', 'symbol') if drawings[icons[role]]['review'] != 'approve']
-    if unapproved:
-        status, data = approve(built['key'], built['svg_sha256'])
-        assert status == 409 and 'first' in data['error']
-        for role in unapproved:
-            assert approve(icons[role], drawings[icons[role]]['svg_sha256'])[0] in (200, 201)
-    # Parts approved: the combined icon can be approved without building again.
-    assert approve(built['key'], built['svg_sha256'])[0] in (200, 201)
+    assert built['build_failed'] == bool(unapproved)
+    status, data = client.call('POST', '/api/reviews', {'icon': built['key'], 'svg_sha256': built['svg_sha256'], 'status': 'approve'})
+    assert status in (200, 201), data
     assert one(client, item['reference_id'])['icon']['review'] == 'approve'
 
 

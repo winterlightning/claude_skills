@@ -121,12 +121,29 @@ cd cloud/worker
 npx wrangler d1 export pictographic-review --remote --output /tmp/combo/prod.sql     # read-only
 sqlite3 /tmp/combo/prod.sqlite < /tmp/combo/prod.sql
 cp /tmp/combo/prod.sqlite /tmp/combo/next.sqlite
-for f in migrations/00{06,07,08,09,10,11,12}_*.sql; do sqlite3 /tmp/combo/next.sqlite < $f; done   # the ones prod lacks
+for f in migrations/0009_combination_parts.sql migrations/00{10,11,12,14}_*.sql; do sqlite3 /tmp/combo/next.sqlite < $f; done   # the ones prod lacks
 npx wrangler r2 object get pictographic-review/site/gallery/experiment-combination.json --remote --file /tmp/combo/experiment-combination.json
-python3 ../migrate/backfill_combinations.py --db /tmp/combo/prod.sqlite --pairs /tmp/combo/experiment-combination.json --out /tmp/combo/fill.sql
+npx wrangler r2 object get pictographic-review/site/gallery/combinations.json --remote --file /tmp/combo/combinations.json
+python3 ../migrate/backfill_combinations.py --db /tmp/combo/prod.sqlite --pairs /tmp/combo/experiment-combination.json \
+    --combinations /tmp/combo/combinations.json --out /tmp/combo/fill.sql
 sqlite3 -bail /tmp/combo/next.sqlite < /tmp/combo/fill.sql
 python3 ../migrate/copy_bucket.py pictographic-review pictographic-review-next      # only copies what changed
 ```
+
+The backfill must read a snapshot taken **before** 0010: it carries `reference_uploads` into the parts' icons, and
+takes the container and symbol icons the old Container pairs page showed from `combinations.json`. Without
+`--combinations` only pairs with a single icon of each family get one (239 of 2,773 locally, against 2,215 with it).
+Container placements are not a table: they live in each pair's symbol layout (container-pairs.html). 0013 created a
+`container_placements` table that only production ever had; 0014 drops it.
+
+`wrangler d1 export --remote` stops at 260 MiB: the file ends mid-statement and every table after that point is
+missing (it happened on 2026-10-01 inside `store_documents`). Check the end of the file and each table's row count
+against `d1 execute --remote`, and export what is missing with `--table`.
+
+Two migrations share the number 0009: `0009_primitive_state_version.sql` (icon-lib, applied in production
+2026-09-30) and `0009_combination_parts.sql` (this branch, applied on the test copy). D1 records applied
+migrations by file name, so each database applies only the one it lacks; neither may be renamed, or it would
+run twice.
 
 Then load `next.sqlite` into the (emptied) `pictographic-review-next` database: record the applied
 migrations in `d1_migrations`, dump it without `BEGIN`/`COMMIT`/`sqlite_sequence`, run the dump with

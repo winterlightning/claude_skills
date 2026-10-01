@@ -54,7 +54,7 @@ body.guest .login-only{display:none!important}body:not(.guest) .guest-only{displ
 <body class="guest">
 <header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
 <main class="sn-main">
-  <a class="back" href="primitives.html?view=container">← Container pairs</a>
+  <a class="back" href="container-pairs.html">← Container pairs</a>
   <section class="sn-intro"><p class="eyebrow">CONTAINER COMBINATIONS</p><h1>Symbols needed</h1>
     <p>Every 32×32 symbol a container combination still needs, with its original reference artwork. Check the existing artwork families and validation status to see why one is still needed, mark it text / number if it needs no drawn icon, link an existing symbol icon, copy a matching sub icon into the symbol family, queue a matching solo icon for an AI agent to redraw at 32px, or browse to its container pairs.</p></section>
   <p id="status" class="sn-status" role="status" aria-live="polite">Loading…</p>
@@ -352,7 +352,7 @@ function tile(item){
     }
     el.append(wrap);
   }
-  const uses=node('a','uses','View its container pairs');uses.href='primitives.html?view=container&q='+encodeURIComponent(item.concept);el.append(uses);
+  const uses=node('a','uses','View its container pairs');uses.href='container-pairs.html&q='+encodeURIComponent(item.concept);el.append(uses);
   const linked=linkControls(item);if(linked)el.append(linked);
   const queued=queueControls(item);if(queued)el.append(queued);
   const fix=fixControls(item);if(fix)el.append(fix);
@@ -381,7 +381,7 @@ $('classifyFilter').onchange=()=>{page=1;render();};
 (async()=>{
   try{
     const [catalogResponse,resultsResponse,statusResponse,linksResponse,briefsResponse]=await Promise.all([
-      fetch('combinations.json',{cache:'no-store'}),fetch('/api/combinations/container/results',{cache:'no-store'}),
+      fetch('combinations.json',{cache:'no-cache'}),fetch('/api/combinations/container/results',{cache:'no-store'}),
       fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/symbol-links',{cache:'no-store'}),
       fetch('/api/primitives/briefs',{cache:'no-store'})]);
     if(!catalogResponse.ok)throw Error('Could not load the combination catalog.');
