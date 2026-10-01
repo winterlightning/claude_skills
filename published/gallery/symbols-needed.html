@@ -78,19 +78,12 @@ body.guest .login-only{display:none!important}body:not(.guest) .guest-only{displ
 const $=id=>document.getElementById(id);
 const PAGE_SIZE=48;
 let items=[],statuses={},links={},briefs={},page=1;
-let _iconIndexPromise=null;
 function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
-function iconIndex(){
-  return _iconIndexPromise ??= fetch('icons.json',{cache:'no-store'}).then(response=>{
-    if(!response.ok)throw Error('Could not load the icon catalog.');
-    return response.json();
-  }).then(data=>data.icons.map(icon=>({icon_id:icon.icon_id,name:icon.name,family:icon.family,key:icon.key,
-    preview_url:icon.preview_url,category:icon.category,keywords:icon.keywords,aliases:icon.aliases})));
-}
-function matchIcons(list,family,query){
-  const terms=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  return list.filter(icon=>icon.family===family&&(!terms.length||terms.every(term=>
-    [icon.name,icon.icon_id,icon.category,...(icon.keywords||[]),...(icon.aliases||[])].join(' ').toLowerCase().includes(term)))).slice(0,30);
+// Icons of a family whose text has every word of the query, 30 at most (GET /api/icons; no catalog download).
+async function matchIcons(family,query){
+  const params=new URLSearchParams({family,limit:'48'});const terms=query.trim();if(terms)params.set('terms',terms);
+  const response=await fetch('../api/icons?'+params,{cache:'no-store'});if(!response.ok)throw Error('Could not load the icon catalog.');
+  return (await response.json()).items.slice(0,30);
 }
 
 function symbolRequirements(catalog,results){
@@ -308,8 +301,8 @@ function iconPicker(item){
   async function runSearch(){
     results.replaceChildren(node('p','muted','Loading…'));
     try{
-      const list=await iconIndex();
-      const matches=matchIcons(list,family,search.value);
+      const asked=family+'|'+search.value;const matches=await matchIcons(family,search.value);
+      if(asked!==family+'|'+search.value)return;  // a newer search is running
       results.replaceChildren(...(matches.length?matches.map(match=>pickerResultRow(item,match,message)):[node('p','muted','No matches.')]));
     }catch(error){results.replaceChildren(node('p','muted',error.message));}
   }

@@ -30,6 +30,8 @@ def params(query: dict) -> dict:
     text = lambda name: (get(name) or '').strip()  # noqa: E731
     p = {name: (get(name) if get(name) in allowed else '') for name, allowed in CHOICES.items()}
     p.update(family=text('family'), category=get('category') or None, q=text('q').lower(), reviewer=text('reviewer'),
+             terms=text('terms').lower().split(), profile=text('profile'),
+             category_group='uncategorized' if get('category_group') == 'uncategorized' else '',
              icon_feedback_by=text('icon_feedback_by'), keyshape=text('keyshape'), author=text('author'),
              versions=get('view') == 'versions')
     p['sort'] = p['sort'] or 'name'
@@ -89,6 +91,15 @@ def millis(value):
         return datetime.fromisoformat(value).timestamp() * 1000 if value else None
     except (TypeError, ValueError):
         return None
+
+
+UNCATEGORIZED = re.compile(r'^_?uncategorized(?:_\d+)?$', re.I)
+
+
+def uncategorized(category) -> bool:
+    """`approvedCategory(...) === 'Uncategorized'`."""
+    value = (category or '').strip()
+    return not value or bool(UNCATEGORIZED.match(value))
 
 
 def card(record) -> dict:
@@ -192,7 +203,12 @@ class Catalog:
                 return False
         if p['icon_feedback_by'] and p['icon_feedback_by'] not in self.feedback_by.get(icon['key'], []):
             return False
-        if not self.facets_match(icon, p) or p['q'] not in search_text(icon):
+        text = search_text(icon)
+        if not self.facets_match(icon, p) or p['q'] not in text or not all(term in text for term in p['terms']):
+            return False
+        if p['profile'] and icon.get('profile') != p['profile']:
+            return False
+        if category and p['category_group'] and not uncategorized(icon.get('category')):
             return False
         return not category or not p['category'] or icon.get('category') == p['category']
 
@@ -261,14 +277,16 @@ class Catalog:
             offset = (len(units) - 1) // limit * limit
         visible = units[offset:offset + limit]
         page = [i for g in visible for i in g] if p['versions'] else visible
-        states, categories = {}, {}
+        states, categories, families = {}, {}, {}
+        for icon in rows if not self.grouped(p) else [i for i in matching if self.in_section(i, p) and self.pending_match(i, p)]:
+            families[icon.get('family')] = families.get(icon.get('family'), 0) + 1
         for icon in matching:
             states[self.state(icon)] = states.get(self.state(icon), 0) + 1
         for icon in self.records:
             if self.search_match(icon, p, category=False) and self.in_section(icon, p) and self.pending_match(icon, p):
                 categories[icon.get('category') or ''] = categories.get(icon.get('category') or '', 0) + 1
         return {'items': [self.item(i) for i in page], 'total': len(units), 'versions': len(rows), 'offset': offset, 'limit': limit,
-                'states': states, 'categories': categories}
+                'states': states, 'categories': categories, 'families': families}
 
     def by_keys(self, keys) -> dict:
         wanted = set(keys)

@@ -93,19 +93,20 @@ fn parsed(rows: Vec<Row>) -> Vec<(String, i64, Row)> {
     }).collect()
 }
 
-async fn query(ctx: &Ctx, p: &Params) -> Result<(Row, Vec<Row>, Map<String, Value>, Map<String, Value>)> {
+async fn query(ctx: &Ctx, p: &Params) -> Result<(Row, Vec<Row>, Map<String, Value>, Map<String, Value>, Map<String, Value>)> {
     let rows: Vec<Row> = statement(&ctx.db, icon_query::list(p))?.all().await?.results()?;
-    let (mut total, mut page, mut states, mut categories) = (Row::new(), Vec::new(), Map::new(), Map::new());
+    let (mut total, mut page, mut states, mut categories, mut families) = (Row::new(), Vec::new(), Map::new(), Map::new(), Map::new());
     for (part, seq, data) in parsed(rows) {
         match part.as_str() {
             "total" => total = data,
             "state" => { if let (Some(Value::String(k)), Some(n)) = (data.get("state"), data.get("n")) { states.insert(k.clone(), n.clone()); } }
             "category" => { if let (Some(Value::String(k)), Some(n)) = (data.get("category"), data.get("n")) { categories.insert(k.clone(), n.clone()); } }
+            "family" => { if let (Some(Value::String(k)), Some(n)) = (data.get("family"), data.get("n")) { families.insert(k.clone(), n.clone()); } }
             _ => page.push((seq, data)),
         }
     }
     page.sort_by_key(|(seq, _)| *seq);
-    Ok((total, page.into_iter().map(|(_, row)| row).collect(), states, categories))
+    Ok((total, page.into_iter().map(|(_, row)| row).collect(), states, categories, families))
 }
 
 /// GET /api/icons?family=&q=&status=&…&sort=&view=&offset=&limit= (the page's URL filters), or ?keys=k1,k2 (≤ 200):
@@ -125,16 +126,16 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         return http::json(200, &json!({"items": items(parsed(rows).into_iter().map(|(_, _, row)| row).collect())}));
     }
     let mut p = params(ctx);
-    let (mut total, mut page, mut states, mut categories) = query(ctx, &p).await?;
+    let (mut total, mut page, mut states, mut categories, mut families) = query(ctx, &p).await?;
     let number = |row: &Row, field: &str| row.get(field).and_then(Value::as_f64).unwrap_or(0.0) as i64;
     let units = number(&total, "total");
     // Past the end: the last page, as the page clamps it.
     if p.offset >= units && units > 0 {
         p.offset = (units - 1) / p.limit * p.limit;
-        (total, page, states, categories) = query(ctx, &p).await?;
+        (total, page, states, categories, families) = query(ctx, &p).await?;
     }
     http::json(200, &json!({"items": items(page), "total": number(&total, "total"), "versions": number(&total, "versions"),
-                            "offset": p.offset, "limit": p.limit, "states": states, "categories": categories}))
+                            "offset": p.offset, "limit": p.limit, "states": states, "categories": categories, "families": families}))
 }
 
 /// GET /api/icons/facets: the filter choices with counts `{authors, keyshapes, categories, families}` and how many

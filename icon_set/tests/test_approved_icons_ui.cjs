@@ -9,8 +9,26 @@ class Element {
   replaceChildren(...children) { this.children = children; }
   scrollIntoView() {}
   setAttribute(name, value) { this[name] = value; }
+  get options() { return this.children; }
 }
 const script = fs.readFileSync(path.join(__dirname, '../scripts/templates/approved-icons.js'), 'utf8');
+// GET /api/icons as the server answers the collection: approved icons, family, every search word, category (the
+// Uncategorized group too), counts by category ignoring the category filter, by family, and a clamped page.
+const uncategorized = value => !(value || '').trim() || /^_?uncategorized(?:_\d+)?$/i.test((value || '').trim());
+function list(icons, reviews, url) {
+  const q = new URL(url, 'http://localhost/gallery/').searchParams;
+  const terms = (q.get('terms') || '').toLowerCase().split(/\s+/).filter(Boolean);
+  const approved = icons.filter(icon => reviews[icon.key] === (q.get('status') || reviews[icon.key]));
+  const matching = approved.filter(icon => (!q.get('family') || icon.family === q.get('family'))
+    && terms.every(term => [icon.name, icon.icon_id, icon.category, ...(icon.keywords || []), ...(icon.aliases || [])].join(' ').toLowerCase().includes(term)));
+  const rows = matching.filter(icon => q.get('category_group') === 'uncategorized' ? uncategorized(icon.category) : !q.get('category') || icon.category === q.get('category'));
+  const count = (list, field) => list.reduce((out, icon) => ({...out, [icon[field] || '']: (out[icon[field] || ''] || 0) + 1}), {});
+  const limit = Number(q.get('limit') || 48);
+  let offset = Number(q.get('offset') || 0);
+  if (offset >= rows.length && rows.length) offset = Math.floor((rows.length - 1) / limit) * limit;
+  return {items: rows.slice(offset, offset + limit), total: rows.length, offset, limit, categories: count(matching, 'category'), families: count(rows, 'family')};
+}
+const tick = async () => { for (let i = 0; i < 6; i++) await new Promise(resolve => setImmediate(resolve)); };
 async function render(reviews, failed = false, catalog = null, search = '') {
   const elements=new Map();
   const get=id=>{if(!elements.has(id))elements.set(id,new Element('div'));return elements.get(id);};
@@ -18,11 +36,12 @@ async function render(reviews, failed = false, catalog = null, search = '') {
   const location={href:'http://localhost/gallery/icons.html'+search,search};
   const update=(a,b,url)=>{location.href=String(url);location.search=new URL(url).search;};
   const events={};
-  await vm.runInNewContext(script, {
+  vm.runInNewContext(script, {
     document: {getElementById:get, createElement: tag => new Element(tag), createElementNS:(ns,tag)=>new Element(tag), createDocumentFragment: () => new Element('fragment')},
     window:{location,history:{replaceState:update,pushState:update},addEventListener:(name,fn)=>events[name]=fn},URL,URLSearchParams,
-    fetch: async url => ({ok: !failed, json: async () => url === 'icons.json' ? {icons} : reviews})
+    fetch: async url => ({ok: !failed, json: async () => list(icons, reviews, url)})
   });
+  await tick();
   return {grid:get('approvedGrid'), status:get('approvedStatus'),get,location,events};
 }
 (async()=>{
@@ -45,16 +64,16 @@ async function render(reviews, failed = false, catalog = null, search = '') {
   const collection=await render(Object.fromEntries(many.map(i=>[i.key,'approve'])),false,many);
   assert.equal(collection.grid.children[0].children.length,48);
   assert.equal(collection.get('approvedPrevious').disabled,true);
-  collection.get('approvedNext').onclick();
+  collection.get('approvedNext').onclick();await tick();
   assert.equal(collection.grid.children[0].children[0].children[1].textContent,'Icon 48');
   assert.match(collection.location.search,/page=2/);
-  collection.get('approvedNext').onclick();
+  collection.get('approvedNext').onclick();await tick();
   assert.equal(collection.grid.children[0].children.length,5);
   assert.equal(collection.get('approvedNext').disabled,true);
-  collection.get('approvedPageSize').value='24';collection.get('approvedPageSize').onchange();
+  collection.get('approvedPageSize').value='24';collection.get('approvedPageSize').onchange();await tick();
   assert.equal(collection.grid.children[0].children.length,24);
   assert.equal(collection.get('approvedPage').value,'1');
-  collection.location.search='?page=999&page_size=48';collection.events.popstate();
+  collection.location.search='?page=999&page_size=48';collection.events.popstate();await tick();
   assert.equal(collection.grid.children[0].children.length,5);
   assert.equal(collection.get('approvedPage').value,'3');
   assert.equal(failure.get('approvedPagination').hidden,true);
@@ -72,17 +91,17 @@ async function render(reviews, failed = false, catalog = null, search = '') {
   assert.equal(filtered.get('approvedCategory').value,'animals');
   assert.match(filtered.status.textContent,/of 60 approved/);
   assert.equal(filtered.grid.children[0].children[0].children[1].textContent,'Icon 24');
-  filtered.get('approvedSearch').value='KEYWORD59';filtered.get('approvedSearch').oninput();
+  filtered.get('approvedSearch').value='KEYWORD59';filtered.get('approvedSearch').oninput();await tick();
   assert.equal(filtered.grid.children[0].children.length,1);
   assert.equal(filtered.get('approvedPage').value,'1');
   assert.match(filtered.location.search,/q=KEYWORD59/);
-  filtered.get('approvedCategory').value='tools';filtered.get('approvedCategory').onchange();
+  filtered.get('approvedCategory').value='tools';filtered.get('approvedCategory').onchange();await tick();
   assert.match(filtered.status.textContent,/No icons match/);
   assert.equal(filtered.get('approvedPagination').hidden,true);
-  filtered.get('approvedClear').onclick();
+  filtered.get('approvedClear').onclick();await tick();
   assert.equal(filtered.grid.children[0].children.length,24);
   assert.equal(new URLSearchParams(filtered.location.search).has('q'),false);
-  filtered.location.search='?q=alias100&category=tools';filtered.events.popstate();
+  filtered.location.search='?q=alias100&category=tools';filtered.events.popstate();await tick();
   assert.equal(filtered.grid.children[0].children.length,1);
   assert.equal(filtered.grid.children[0].children[0].children[1].textContent,'Icon 100');
   console.log('Combined search/category filters, keyword/alias search, empty results, reset and URL restoration passed.');

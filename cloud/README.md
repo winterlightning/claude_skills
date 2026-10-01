@@ -157,6 +157,25 @@ Locally, `wrangler.next.local.toml` (git-ignored) is `wrangler.next.toml` with `
 binding, so `npx wrangler dev -c wrangler.next.local.toml --persist-to /tmp/combo/state` serves the real
 site from the test bucket with a local D1.
 
+## Icon list (GET /api/icons)
+
+Icon review, the approved collection, Home and the Design Document list icons a page at a time from D1 instead of
+downloading `icons.json` (~90 MB). Migration 0015 adds the list columns; the catalog push stores each icon's full
+record and fills them, uploads and combination builds keep them current. After applying 0015 to a database whose
+icons were pushed before it, fill the columns once from the stored rows, then push the catalog for full records:
+
+```sh
+npx wrangler d1 migrations apply <database> --remote [-c wrangler.next.toml]
+npx wrangler deploy [-c wrangler.next.toml]
+# list columns of uploads and browser-built combinations, 500 rows a request (push token):
+curl -X POST "$WORKER/api/icons/reindex" -H "Authorization: Bearer $PICTOGRAPHIC_PUSH_TOKEN" -d '{"offset": 0}'   # repeat with next_offset
+python3 cloud/migrate/push_catalog.py --base-url "$WORKER"   # full records, list columns and symmetry of built icons
+```
+
+The query is core/src/icon_query.rs, checked against the old page's own list functions over a made-up catalog
+(core/tests/icon_query.rs; tests/icon_list/check_local.py does the same through a local Worker); deploy.py answers
+the same routes from its catalog (icon_set/scripts/icon_query.py, icon_set/tests/test_icon_query.py).
+
 ## Secrets
 
 | Name | Where | Used by |

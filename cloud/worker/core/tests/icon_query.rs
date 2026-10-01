@@ -102,6 +102,7 @@ fn list(db: &Connection, p: &Params) -> (Value, Vec<Value>, BTreeMap<String, i64
             "total" => total = data,
             "state" => { states.insert(data["state"].as_str().unwrap().to_string(), data["n"].as_i64().unwrap()); }
             "category" => { categories.insert(data["category"].as_str().unwrap().to_string(), data["n"].as_i64().unwrap()); }
+            "family" => {}
             _ => items.push((row["seq"].as_i64().unwrap(), data["key"].clone())),
         }
     }
@@ -154,4 +155,28 @@ fn lists_what_the_page_listed() {
         }
     }
     assert!(failures.is_empty(), "{} of {} cases differ:\n{}", failures.len(), expected["results"].as_array().unwrap().len(), failures.join("\n"));
+}
+
+#[test]
+fn search_words_profile_and_uncategorized() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    let records = fixture["records"].as_array().unwrap();
+    let p = |pairs: &[(&str, &str)]| params(&json!(pairs.iter().map(|(k, v)| (k.to_string(), json!(v))).collect::<serde_json::Map<_, _>>()));
+    let all = |p: &Params| { let mut p = p.clone(); p.limit = 192; list(&db, &p).1 };
+    let words = all(&p(&[("terms", "Cup  00")]));
+    assert!(!words.is_empty() && words.iter().all(|k| { let r = records.iter().find(|r| r["key"] == *k).unwrap();
+        let text = index(r, None).search; text.contains("cup") && text.contains("00") }));
+    let profile = all(&p(&[("profile", "SUB")]));
+    assert!(!profile.is_empty() && profile.iter().all(|k| k.as_str().unwrap().starts_with("sub/")));
+    let none = all(&p(&[("category_group", "uncategorized")]));
+    assert!(!none.is_empty() && none.iter().all(|k| records.iter().find(|r| r["key"] == *k).unwrap()["category"].as_str().unwrap_or("").is_empty()));
+    // Family counts add up to the total.
+    let rows = rows(&db, icon_query::list(&p(&[])));
+    let (mut sum, mut total) = (0, 0);
+    for row in rows {
+        let data: Value = serde_json::from_str(row["data"].as_str().unwrap()).unwrap();
+        match row["part"].as_str().unwrap() { "family" => sum += data["n"].as_i64().unwrap(), "total" => total = data["total"].as_i64().unwrap(), _ => {} }
+    }
+    assert_eq!(sum, total);
 }

@@ -21,7 +21,13 @@ pub const PAGE_SIZES: [i64; 4] = [24, 48, 96, 192];
 pub struct Params {
     pub family: String,
     pub category: Option<String>,
+    /// "uncategorized": no category, or one of the `_uncategorized_N` placeholders (the approved collection's group).
+    pub category_group: String,
     pub q: String,
+    /// Words that must all appear (the approved collection's and symbol pickers' search), unlike `q`'s phrase.
+    pub terms: Vec<String>,
+    /// Exact profile (Design Document examples).
+    pub profile: String,
     pub status: String,
     pub reviewer: String,
     pub icon_feedback_by: String,
@@ -53,7 +59,10 @@ impl Params {
         let mut params = Params {
             family: text("family"),
             category: opt("category").filter(|c| !c.is_empty()),
+            category_group: one_of(opt("category_group").as_deref(), &["uncategorized"]),
             q: text("q").to_lowercase(),
+            terms: text("terms").to_lowercase().split_whitespace().map(str::to_string).collect(),
+            profile: text("profile"),
             status: one_of(opt("status").as_deref(), &STATES),
             reviewer: text("reviewer"),
             icon_feedback_by: text("icon_feedback_by"),
@@ -140,6 +149,10 @@ u AS MATERIALIZED (
   FROM t)")
 }
 
+/// `approvedCategory(...) === 'Uncategorized'`: no category, or `uncategorized` / `_uncategorized` / `…_<digits>`.
+const UNCATEGORIZED: &str = "(COALESCE(u.category, '') = '' OR lower(trim(u.category)) IN ('uncategorized', '_uncategorized') \
+    OR lower(trim(u.category)) GLOB 'uncategorized_[0-9]*' OR lower(trim(u.category)) GLOB '_uncategorized_[0-9]*')";
+
 /// The latest disapproval reason on the current revision (`loadPendingFeedback`'s `pendingReasons`).
 const REASON: &str = "COALESCE((SELECT CASE WHEN f.reason = 'bad-draw' THEN 'bad-stroke' ELSE COALESCE(NULLIF(f.reason, ''), 'other') END
   FROM feedback f WHERE f.icon = u.key AND f.svg_sha256 = u.svg_sha256 ORDER BY f.id DESC LIMIT 1), 'missing')";
@@ -162,6 +175,14 @@ fn pre(p: &Params, args: &mut Args) -> String {
         w.push("instr(i.search, ?) > 0".into());
         args.push(json!(p.q));
     }
+    for term in &p.terms {
+        w.push("instr(i.search, ?) > 0".into());
+        args.push(json!(term));
+    }
+    if !p.profile.is_empty() {
+        w.push("i.profile = ?".into());
+        args.push(json!(p.profile));
+    }
     where_sql(&w)
 }
 
@@ -171,6 +192,9 @@ fn clauses(p: &Params, parts: Parts, args: &mut Args) -> Vec<String> {
         if let Some(category) = &p.category {
             w.push("u.category = ?".into());
             args.push(json!(category));
+        }
+        if p.category_group == "uncategorized" {
+            w.push(format!("{UNCATEGORIZED}"));
         }
     }
     // matchesFacets
@@ -319,6 +343,10 @@ pub fn list(p: &Params) -> (String, Args) {
     let w = clauses(p, Parts { category: false, section: true }, &mut args);
     sql += &format!(" UNION ALL SELECT 'category', 0, json_object('category', category, 'n', n) FROM \
                     (SELECT COALESCE(u.category, '') AS category, COUNT(*) AS n FROM u{} GROUP BY 1)", where_sql(&w));
+    // The section's matching icons by family (the approved collection's family counts).
+    let w = clauses(p, Parts { category: true, section: true }, &mut args);
+    sql += &format!(" UNION ALL SELECT 'family', 0, json_object('family', family, 'n', n) FROM \
+                    (SELECT u.family, COUNT(*) AS n FROM u{} GROUP BY 1)", where_sql(&w));
     sql += &format!(" UNION ALL SELECT 'item', seq, data FROM ({page})");
     if !p.versions {
         // The page's LIMIT / OFFSET are its last placeholders.

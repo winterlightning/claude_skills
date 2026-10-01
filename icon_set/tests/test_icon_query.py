@@ -63,6 +63,18 @@ class IconQueryTest(unittest.TestCase):
         self.assertIn('keywords', detail)
         self.assertEqual(sum(listing.facet_choices()['families'].values()), len(listing.records))
 
+    def test_words_profile_uncategorized_and_families(self):
+        _, listing = catalog()
+        run = lambda **q: listing.list(icon_query.params({k: [v] for k, v in {'limit': '192', **q}.items()}))  # noqa: E731
+        words = run(terms='Cup  00')['items']
+        self.assertTrue(words and all('cup' in icon_query.search_text(i) and '00' in icon_query.search_text(i) for i in words))
+        profile = run(profile='SUB')['items']
+        self.assertTrue(profile and all(i['key'].startswith('sub/') for i in profile))
+        none = run(category_group='uncategorized')['items']
+        self.assertTrue(none and all(not i.get('category') for i in none))
+        everything = run()
+        self.assertEqual(sum(everything['families'].values()), everything['total'])
+
 
 if __name__ == '__main__':
     unittest.main()
