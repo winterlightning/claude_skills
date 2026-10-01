@@ -55,3 +55,13 @@ test('64 pairs are unchanged by the size setting', () => {
   assert.deepEqual(Side.SIZES[64], {canvas: 64, main: 48, sub: 32});
   assert.deepEqual(Side.SIZES[72], {canvas: 72, main: 54, sub: 36});
 });
+
+test("the main's filled dots are kept, except under the sub", () => {
+  const main = svg(54, '<circle cx="27" cy="27" r="23"/><circle cx="20" cy="24" r="2" fill="currentColor" stroke="none"/>'
+    + '<circle cx="44" cy="44" r="2" fill="currentColor" stroke="none"/>');
+  const {svg: drawn} = build('br', SUB, main);
+  const group = drawn.split('id="main-icon-clipped"')[1].split('</g>')[0];
+  const dots = [...group.matchAll(/<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)" fill="#000000" stroke="none"/g)].map(m => m.slice(1).map(Number));
+  assert.equal(dots.length, 1, group);           // the one at (44, 44) of the 54 drawing sits under the sub
+  assert.ok(dots[0][2] === 2 && dots[0][0] < 34 && dots[0][1] < 34, String(dots[0]));
+});

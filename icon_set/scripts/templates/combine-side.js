@@ -1009,20 +1009,44 @@
 
   // ======== the fold (box_combine.fold with manual, geometry-preserving boxes) ========
 
-  function fitInto(segments, box) {
+  // How a drawing's segments are fitted into a box: scale s, then move by (dx, dy).
+  function fitTransform(segments, box) {
     const b = bbox(segments);
     if (!b) fail('combine failed: cannot place an empty symbol');
     const [x0, y0, x1, y1] = b, w = x1 - x0, h = y1 - y0, [bx, by, bw, bh] = box;
     const votes = [[w, bw], [h, bh]].filter(([s, d]) => s > 1e-9 && d > 1e-9).map(([s, d]) => d / s);
     const s = votes.length ? Math.min(...votes) : 1.0;
-    const dx = bx + (bw - w * s) / 2 - x0 * s, dy = by + (bh - h * s) / 2 - y0 * s;
+    return {s, dx: bx + (bw - w * s) / 2 - x0 * s, dy: by + (bh - h * s) / 2 - y0 * s};
+  }
+  function fitInto(segments, box) {
+    const {s, dx, dy} = fitTransform(segments, box);
     return segments.map(seg => seg.map(p => [p[0] * s + dx, p[1] * s + dy]));
+  }
+
+  // The filled dots of a drawing (circles painted with no stroke: eyes, bullets), which the engine's stroke reading
+  // leaves out: [{cx, cy, r}].
+  function filledDots(svgText) {
+    const rootEl = parseXml(svgText);
+    removeClipPathElements(rootEl);
+    const dots = [];
+    const walk = (el, fill, stroke) => {
+      const f = 'fill' in el.attrib ? el.attrib.fill : fill, k = 'stroke' in el.attrib ? el.attrib.stroke : stroke;
+      const none = v => (v ?? 'none').trim().toLowerCase() === 'none';
+      if (local(el.tag) === 'circle' && none(k) && !none(f ?? 'black')) {
+        const r = pyFloat(el.attrib.r ?? '0');
+        if (r > 0) dots.push({cx: pyFloat(el.attrib.cx ?? '0'), cy: pyFloat(el.attrib.cy ?? '0'), r});
+      }
+      for (const child of el.children) walk(child, f, k);
+    };
+    walk(rootEl, undefined, undefined);
+    return dots;
   }
   const boxToCanvas = (box, canvas) => { const k = canvas / GRID; return [box.x * k, box.y * k, box.w * k, box.h * k]; };
 
-  function fold(mainSvg, mainBox, subSvg, subBox, margin, canvas) {
+  function fold(mainSvg, mainBox, subSvg, subBox, margin, canvas, keepDots = false) {
     const minLength = canvas * (1.0 / 1024);
-    const main = fitInto(engineSegments(mainSvg), boxToCanvas(mainBox, canvas));
+    const mainSegments = engineSegments(mainSvg), fit = fitTransform(mainSegments, boxToCanvas(mainBox, canvas));
+    const main = fitInto(mainSegments, boxToCanvas(mainBox, canvas));
     const placed = fitInto(engineSegments(subSvg), boxToCanvas(subBox, canvas));
     const rings = [];
     const seen = new Set();
@@ -1032,13 +1056,18 @@
     }
     const shell = hull(placed.flat());
     if (shell) rings.push(shell);
-    const {kept} = clip(main, new Area(rings), minLength);
+    const area = new Area(rings);
+    const {kept} = clip(main, area, minLength);
     const state = placed.map(seg => seg.map(p => [p[0] + 0.0, p[1] + 0.0]));
-    return {main: kept, state};
+    // At 72 the main's filled dots move with its strokes (their own size, as strokes keep their width); one whose
+    // centre is in the erased area goes, like a stroke under the sub.
+    const dots = !keepDots ? [] : filledDots(mainSvg).map(d => ({cx: d.cx * fit.s + fit.dx, cy: d.cy * fit.s + fit.dy, r: d.r}))
+      .filter(d => area.locate([d.cx, d.cy]) === -1);
+    return {main: kept, state, dots};
   }
 
   // save_clipped_result_to_svg, read back by ElementTree the way restore_original_sub reads it.
-  function engineDocument(main, state, canvas) {
+  function engineDocument(main, state, canvas, dots = []) {
     const d = segs => segs.map(([a, b]) => `M${pyFixed2(a[0])},${pyFixed2(a[1])}L${pyFixed2(b[0])},${pyFixed2(b[1])}`).join(' ');
     const group = (id, segs) => {
       const g = element(`{${SVG}}g`, {id, stroke: '#000000', 'stroke-width': String(STROKE), fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round'});
@@ -1052,9 +1081,20 @@
       }
       return g;
     };
+    const withDots = g => {
+      if (!dots.length) return g;
+      const last = g.children[g.children.length - 1];
+      if (last) last.tail = '\n    '; else g.text = '\n    ';
+      dots.forEach((d, i) => {
+        const c = element(`{${SVG}}circle`, {cx: pyFixed2(d.cx), cy: pyFixed2(d.cy), r: pyG12(d.r), fill: '#000000', stroke: 'none'});
+        c.tail = i === dots.length - 1 ? '\n  ' : '\n    ';
+        g.children.push(c);
+      });
+      return g;
+    };
     const rootEl = element(`{${SVG}}svg`, {width: String(canvas), height: String(canvas), viewBox: `0 0 ${canvas} ${canvas}`});
     rootEl.text = '\n  \n  \n  ';
-    const mainGroup = group('main-icon-clipped', main), stateGroup = group('state-icon', state);
+    const mainGroup = withDots(group('main-icon-clipped', main)), stateGroup = group('state-icon', state);
     mainGroup.tail = '\n  \n  \n  ';
     stateGroup.tail = '\n';
     rootEl.children.push(mainGroup, stateGroup);
@@ -1347,9 +1387,9 @@
     }
     const [main, sub] = chosen;
     const folded = fold(main.item.engine_document ?? main.item.document, main.p.box,
-                        sub.item.engine_document ?? sub.item.document, sub.p.box, margin, canvas);
+                        sub.item.engine_document ?? sub.item.document, sub.p.box, margin, canvas, large);
     const placements = chosen.map(c => ({...c.p, role: c.role, icon: c.item.icon}));
-    const svg = restoreOriginalSub(engineDocument(folded.main, folded.state, canvas), sub.item, placements[1]);
+    const svg = restoreOriginalSub(engineDocument(folded.main, folded.state, canvas, folded.dots), sub.item, placements[1]);
     const warnings = [];
     for (const p of placements) {
       const b = p.painted_box;
