@@ -5,6 +5,8 @@
 
 pub mod briefs;
 pub mod catalog;
+pub mod icon_index;
+pub mod icon_query;
 pub mod primitives;
 pub mod query;
 pub mod refimg;
