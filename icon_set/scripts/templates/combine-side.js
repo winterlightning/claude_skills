@@ -21,6 +21,10 @@
   const SVG = 'http://www.w3.org/2000/svg';
   const POSITIONS = {br: [1, 1], bl: [0, 1], tr: [1, 0], tl: [0, 0], ri: [1, .5], le: [0, .5], bo: [.5, 1], to: [.5, 0]};
   const GRID = 24, STROKE = 4, QUADRANT_SEGMENTS = 16;
+  // The two side pair sizes: a 48 main and a 32 sub on 64 (the original), and the 72 set's 54 main and 36 sub on 72.
+  // At 72 the sub is placed exactly as drawn on its 36 grid (sizeLock 'exact'); spacing is the same at both sizes.
+  const SIZES = {64: {canvas: 64, main: 48, sub: 32}, 72: {canvas: 72, main: 54, sub: 36}};
+  const sizeOf = size => SIZES[size ?? 64] || fail('A side pair is 64 or 72.');
   const SHAPES = ['path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon'];
   const GEOM = ['path', 'circle', 'ellipse', 'rect', 'line', 'polygon', 'polyline'];
   const SKIP = ['defs', 'clipPath', 'mask', 'title', 'desc', 'metadata', 'style'];
@@ -530,6 +534,15 @@
       const x = bx + (cw - w) * ax + offset[0], y = by + (ch - h) * ay + offset[1];
       return {size_lock: 'none', locked_axis: null, rounded_box: false, locked_size: null,
               canvas_box: {x: bx, y: by, w: cw, h: ch}, painted_box: {x, y, w, h},
+              box: {x: (x + 2) * 24 / canvas, y: (y + 2) * 24 / canvas, w: (w - 4) * 24 / canvas, h: (h - 4) * 24 / canvas}};
+    }
+    if (sizeLock === 'exact') {
+      // As drawn: its own grid placed at the anchor, the drawing where it sits on that grid, not scaled.
+      if (item.canvas !== size) fail(`The sub must be drawn on the ${size} grid to be placed as drawn.`);
+      const bx = padding + (canvas - 2 * padding - size) * ax, by = padding + (canvas - 2 * padding - size) * ay;
+      const x = bx + x0 - 2 + offset[0], y = by + y0 - 2 + offset[1], w = x1 - x0 + 4, h = y1 - y0 + 4;
+      return {size_lock: 'exact', locked_axis: null, rounded_box: false, locked_size: null,
+              canvas_box: {x: bx, y: by, w: size, h: size}, painted_box: {x, y, w, h},
               box: {x: (x + 2) * 24 / canvas, y: (y + 2) * 24 / canvas, w: (w - 4) * 24 / canvas, h: (h - 4) * 24 / canvas}};
     }
     let scale = size / item.canvas;
@@ -1224,7 +1237,7 @@
   const pyNumber = v => pyStr(v);  // the canvas is a float here (a viewBox size): str(48.0) is '48.0'
 
   // combination_experiment.custom_item: a drawing measured for combining (its bounds and canvas).
-  function customItem(text, role) {
+  function customItem(text, role, pairSize = 64) {
     if (new TextEncoder().encode(text).length > 1024 * 1024 || /<!(DOCTYPE|ENTITY)/i.test(text)) fail('Upload a plain SVG up to 1 MB without entity declarations.');
     let view;
     try {
@@ -1236,13 +1249,15 @@
     const safe = safeSvg(text, view[2]);
     let bounds;
     try { bounds = bbox(engineSegments(safe)); } catch { fail('No supported stroke geometry. Upload an SVG with stroked paths or shapes.'); }
-    const size = role === 'main' ? 48 : 32, extent = Math.max(bounds[2] - bounds[0], bounds[3] - bounds[1]);
+    const sizes = sizeOf(pairSize), size = sizes[role === 'main' ? 'main' : 'sub'], extent = Math.max(bounds[2] - bounds[0], bounds[3] - bounds[1]);
+    // A 72 pair's sub is placed as drawn: its canvas is its own grid.
+    if (role !== 'main' && sizes.canvas !== 64) return {icon: 'custom-' + role, document: safe, canvas: view[2], bounds};
     return {icon: 'custom-' + role, document: safe, canvas: Math.max(view[2], extent * size / (size - 4)), bounds};
   }
 
   // side_recombine.pair_with_documents: the pair with its main and sub measured from their current drawings.
   // `documents` maps 'main' / 'sub' to the current SVG; one the item was made from combines as published.
-  function withDocuments(row, main, sub, documents = {}) {
+  function withDocuments(row, main, sub, documents = {}, size = 64) {
     const current = JSON.parse(JSON.stringify(row)), chosen = {};
     for (const [role, group, wanted] of [['main', 'mains', main], ['sub', 'subs', sub]]) {
       const name = wanted || current[group][0].icon;
@@ -1251,10 +1266,10 @@
       const svg = documents[role];
       const published = new Set([item.sha256, item.source_sha256].filter(Boolean));
       if (svg && svg !== item.document && !published.has(sha256(svg)) && !item.native_text) {
-        if (role === 'sub' && item.ink32 && item.family !== 'text') {
+        if (role === 'sub' && item.ink32 && item.family !== 'text' && size === 64) {
           normalizedSub(item, inlineClassStyles(svg));
         } else {
-          const measured = customItem(inlineClassStyles(svg), role);
+          const measured = customItem(inlineClassStyles(svg), role, size);
           for (const field of ['engine_document', 'ink32', 'sizing_kind', 'sub32_status']) delete item[field];
           Object.assign(item, measured, {icon: name});
         }
@@ -1295,21 +1310,22 @@
     const margin = number(data.margin, 8), padding = number(data.padding, 2);
     if (!(0 <= padding && padding <= 8)) fail('Canvas padding must be between 0 and 8.');
     if (margin < 0) fail('Erasure margin must be between 0 and 64.');
-    const canvas = pairCanvas(row, data.sub, padding);
+    const sizes = sizeOf(data.size), large = sizes.canvas !== 64;
+    const canvas = large ? sizes.canvas : pairCanvas(row, data.sub, padding);
     const layout = checkLayout(data.layout);
     const chosen = [];
-    for (const [role, group, size, anchor] of [['main', 'mains', 48, [1 - ax, 1 - ay]], ['sub', 'subs', 32, [ax, ay]]]) {
+    for (const [role, group, size, anchor] of [['main', 'mains', sizes.main, [1 - ax, 1 - ay]], ['sub', 'subs', sizes.sub, [ax, ay]]]) {
       const choices = row[group] || [];
       const wanted = data[role] || (choices[0] && choices[0].icon);
       let item = choices.find(i => i.icon === wanted);
       const upload = data[role + 'Upload'];
       if (upload !== undefined && upload !== null) {
         if (!upload || typeof upload.document !== 'string') fail('Choose an SVG for ' + role + '.');
-        item = customItem(upload.document, role);
+        item = customItem(upload.document, role, sizes.canvas);
       }
       if (!item) fail('The selected component does not belong to this pair.');
       const p = placement(item, size, anchor, [number(data[role + 'X']), number(data[role + 'Y'])], padding,
-                          role === 'sub' ? (data.subSizeLock ?? 'auto') : 'none', role === 'sub' ? (data.subBoundSize ?? null) : null, canvas);
+                          role === 'sub' ? (large ? 'exact' : (data.subSizeLock ?? 'auto')) : 'none', role === 'sub' && !large ? (data.subBoundSize ?? null) : null, canvas);
       chosen.push({role, size, item, p});
     }
     if (layout) {
@@ -1343,7 +1359,7 @@
       }
     }
     return {svg, placements, position, canvas, filename: row.id + '.svg', warnings, margin, padding,
-            subSizeLock: data.subSizeLock ?? 'auto', subBoundSize: data.subBoundSize ?? '', ...(layout ? {layout} : {})};
+            subSizeLock: large ? 'exact' : (data.subSizeLock ?? 'auto'), subBoundSize: data.subBoundSize ?? '', ...(layout ? {layout} : {})};
   }
 
   // ======== one combination from /api/combinations (with forms), built the way side-pairs.html builds it ========
@@ -1379,7 +1395,7 @@
 
   // → {svg, result, current, request}: the combined drawing and the POST /api/combinations/build entry that stores it.
   // `drawings` answers get(key) → {svg, svg_sha256} for the parts' current drawings.
-  function pairRequest(item, drawings, {icons, position, layout} = {}) {
+  function pairRequest(item, drawings, {icons, position, layout, size = 64} = {}) {
     icons = icons || {main: partOf(item, 'main').icon, sub: partOf(item, 'sub').icon};
     const row = pairRow(item, icons, position);
     const documents = {};
@@ -1389,9 +1405,9 @@
       if (!d || !d.svg) fail(`The ${role} ${icons[role]} has no drawing.`);
       documents[role] = d.svg;
     }
-    const current = withDocuments(row, row.mains[0].icon, row.subs[0].icon, documents);
+    const current = withDocuments(row, row.mains[0].icon, row.subs[0].icon, documents, size);
     const hand = layout === undefined ? handLayout(item) : layout;
-    const result = render(current.row, {main: current.main, sub: current.sub, position: row.position, layout: hand});
+    const result = render(current.row, {main: current.main, sub: current.sub, position: row.position, layout: hand, size});
     const box = p => [{x: p.painted_box.x + 2, y: p.painted_box.y + 2, w: p.painted_box.w - 4, h: p.painted_box.h - 4}];
     const part = (role, i) => ({icon: icons[role] || null, svg_sha256: icons[role] ? drawings.get(icons[role]).svg_sha256 : null,
                                 layout: (hand && hand[role]) || box(result.placements[i]), ...(role === 'sub' ? {position: row.position} : {})});
@@ -1405,6 +1421,6 @@
     return found.map(([el, own], i) => bbox(segmentsOf(el, own)) ? i : null).filter(i => i !== null);
   }
 
-  return {render, withDocuments, drawableIndices, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
+  return {SIZES, render, withDocuments, drawableIndices, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
           internals: {Area, hull, clip, fitInto, intersect, orientation}};
 });

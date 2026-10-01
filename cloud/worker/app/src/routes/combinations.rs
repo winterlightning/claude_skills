@@ -3,6 +3,9 @@
 //! position, layout boxes, the drawing it was last built from) and its combined icon
 //! (`side_combination64/<reference_id>` or `container_combination64/<reference_id>`).
 //!
+//! A side pair also has a 72 build (migration 0013, `?size=72` / `"size": 72` on every route): a main-54 and a
+//! sub-36 icon picked in `reference_part_sizes` and the combined icon `combination-72/<reference_id>`.
+//!
 //! A combination is `unbuilt` when no part records a build, `stale` when a part's icon has been redrawn
 //! since (its `built_sha` is not the icon's current drawing), else `built`.
 
@@ -20,18 +23,51 @@ const DEFAULT_LIMIT: i64 = 100;
 const SIDE_POSITIONS: [&str; 8] = ["tl", "tr", "bl", "br", "ri", "le", "bo", "to"];
 const MAX_LIMIT: i64 = 500;
 
-/// One row per combination: its kind and build state, from its parts.
-const COMBINATIONS: &str = "WITH parts AS (
-    SELECT p.reference_id, p.role, p.built_sha, i.svg_sha256 AS current_sha
-    FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon),
+/// One row per combination: its kind, build state and whether a part has no icon picked, from its parts. At size
+/// 72 only side pairs, from each part's 72 build.
+fn combinations(size: i64) -> String {
+    let (parts, only_side) = if size == 72 {
+        ("SELECT p.reference_id, p.role, s.icon, s.built_sha, i.svg_sha256 AS current_sha
+          FROM reference_parts p LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
+          LEFT JOIN icons i ON i.key = s.icon", " HAVING max(pt.role IN ('container', 'symbol')) = 0")
+    } else {
+        ("SELECT p.reference_id, p.role, p.icon, p.built_sha, i.svg_sha256 AS current_sha
+          FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon", "")
+    };
+    format!("WITH parts AS ({parts}),
 combos AS (
     SELECT r.reference_id, r.concept,
         CASE WHEN max(pt.role IN ('container', 'symbol')) THEN 'container' ELSE 'side' END AS kind,
         CASE WHEN count(pt.built_sha) = 0 THEN 'unbuilt'
              WHEN max(pt.built_sha IS NOT NULL AND pt.current_sha IS NOT NULL AND pt.built_sha != pt.current_sha) THEN 'stale'
-             ELSE 'built' END AS state
+             ELSE 'built' END AS state,
+        max(pt.icon IS NULL) AS missing
     FROM \"references\" r JOIN parts pt ON pt.reference_id = r.reference_id
-    WHERE r.kind = 'combination' GROUP BY r.reference_id)";
+    WHERE r.kind = 'combination' GROUP BY r.reference_id{only_side})")
+}
+
+/// The pair size a request asks for: 64 (the default) or 72.
+fn size_param(value: Option<&str>) -> Option<i64> {
+    match value.unwrap_or("") { "" | "64" => Some(64), "72" => Some(72), _ => None }
+}
+
+fn size_field(data: &Value) -> Option<i64> {
+    match data.get("size") {
+        None | Some(Value::Null) => Some(64),
+        Some(Value::Number(n)) => n.as_i64().filter(|n| *n == 64 || *n == 72),
+        Some(Value::String(s)) => size_param(Some(s)),
+        _ => None,
+    }
+}
+
+/// The combined icon of a combination at a size, and its family.
+fn combined_key(kind: &str, size: i64, id: &str) -> String {
+    format!("{}/{id}", combined_family(kind, size))
+}
+
+fn combined_family(kind: &str, size: i64) -> String {
+    if size == 72 { "combination-72".into() } else { format!("{kind}_combination64") }
+}
 
 #[derive(Deserialize)]
 struct Combo { reference_id: String, concept: Option<String>, kind: String, state: String,
@@ -49,9 +85,12 @@ fn preview_url(key: &str, sha: &str) -> String {
     format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(key), &sha[..12.min(sha.len())])
 }
 
-/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&offset=&limit=&forms=1 →
-/// {total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]}.
+/// GET /api/combinations?size=64|72&kind=side|container&state=built|stale|unbuilt&missing=1&q=&offset=&limit=&forms=1 →
+/// {size, total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]}.
+/// `missing=1`: only combinations with a part that has no icon picked (at 72: no 72 drawing yet).
 pub async fn list(ctx: &Ctx) -> Result<Response> {
+    let Some(size) = size_param(ctx.param("size")) else { return http::error(400, "size must be 64 or 72.") };
+    let cte = combinations(size);
     let kind = ctx.param("kind").filter(|k| !k.is_empty());
     let state = ctx.param("state").filter(|s| !s.is_empty());
     let needle = ctx.param("q").map(str::trim).filter(|q| !q.is_empty());
@@ -79,6 +118,10 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         filters.push("c.state = ?");
         values.push(state.into());
     }
+    let missing = ctx.param("missing") == Some("1");
+    if missing {
+        filters.push("c.missing = 1");
+    }
     if let Some(needle) = needle {
         filters.push("(c.concept LIKE ? OR c.reference_id LIKE ?)");
         values.push(format!("%{needle}%").into());
@@ -90,25 +133,26 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     let mut page_values = values.clone();
     page_values.push((limit + 1).into());
     page_values.push(offset.into());
-    let mut combos: Vec<Combo> = db::all(&ctx.db, &format!("{COMBINATIONS}
+    let icon_key = if size == 72 { "'combination-72/' || c.reference_id" } else { "c.kind || '_combination64/' || c.reference_id" };
+    let mut combos: Vec<Combo> = db::all(&ctx.db, &format!("{cte}
         SELECT c.reference_id, c.concept, c.kind, c.state, i.svg_sha256 AS icon_sha,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
-        FROM combos c LEFT JOIN icons i ON i.key = c.kind || '_combination64/' || c.reference_id
+        FROM combos c LEFT JOIN icons i ON i.key = {icon_key}
         {filter} ORDER BY c.reference_id LIMIT ? OFFSET ?"), page_values).await?;
     let next = (combos.len() as i64 > limit).then(|| offset + limit);
     combos.truncate(limit as usize);
 
-    let counts: Vec<Count> = db::all(&ctx.db, &format!("{COMBINATIONS} SELECT kind, state, count(*) AS n FROM combos GROUP BY 1, 2"),
+    let counts: Vec<Count> = db::all(&ctx.db, &format!("{cte} SELECT kind, state, count(*) AS n FROM combos GROUP BY 1, 2"),
                                      vec![]).await?;
     let mut by_kind: Map<String, Value> = Map::new();
     for c in &counts {
         let entry = by_kind.entry(c.kind.clone()).or_insert_with(|| json!({"built": 0, "stale": 0, "unbuilt": 0}));
         entry[c.state.as_str()] = json!(c.n as u64);
     }
-    let total: u64 = if needle.is_some() {
+    let total: u64 = if needle.is_some() || missing {
         #[derive(Deserialize)]
         struct Total { n: f64 }
-        db::first::<Total>(&ctx.db, &format!("{COMBINATIONS} SELECT count(*) AS n FROM combos c {filter}"), values).await?
+        db::first::<Total>(&ctx.db, &format!("{cte} SELECT count(*) AS n FROM combos c {filter}"), values).await?
             .map_or(0, |t| t.n as u64)
     } else {
         counts.iter().filter(|c| kind.is_none_or(|k| k == c.kind) && state.is_none_or(|s| s == c.state)).map(|c| c.n as u64).sum()
@@ -118,11 +162,22 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     let ids = json!(combos.iter().map(|c| c.reference_id.as_str()).collect::<Vec<_>>()).to_string();
     // `forms=1` adds what the side engine combines for each part (the page builds from it).
     let forms = ctx.param("forms") == Some("1");
-    let parts: Vec<Part> = db::all(&ctx.db, "SELECT p.reference_id, p.role, p.part_reference_id, p.position, p.icon, p.layout,
+    // At 72 each part's icon, boxes and build come from its 72 row; the engine forms describe 64 drawings only.
+    let parts_sql = if size == 72 {
+        "SELECT p.reference_id, p.role, p.part_reference_id, p.position, s.icon, s.layout,
+            s.built_sha, i.svg_sha256 AS current_sha, s.updated_at, s.updated_by, CASE WHEN ? THEN NULL END AS form,
+            (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
+        FROM reference_parts p LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
+        LEFT JOIN icons i ON i.key = s.icon
+        WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role"
+    } else {
+        "SELECT p.reference_id, p.role, p.part_reference_id, p.position, p.icon, p.layout,
             p.built_sha, i.svg_sha256 AS current_sha, p.updated_at, p.updated_by, CASE WHEN ? THEN p.form END AS form,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
-        WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role", vec![forms.into(), ids.into()]).await?;
+        WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role"
+    };
+    let parts: Vec<Part> = db::all(&ctx.db, parts_sql, vec![forms.into(), ids.into()]).await?;
     let mut parts_of: HashMap<String, Vec<Value>> = HashMap::new();
     for p in parts {
         let layout = p.layout.as_deref().and_then(|l| serde_json::from_str::<Value>(l).ok()).unwrap_or(Value::Null);
@@ -138,7 +193,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         parts_of.entry(p.reference_id).or_default().push(part);
     }
     let items: Vec<Value> = combos.into_iter().map(|c| {
-        let key = format!("{}_combination64/{}", c.kind, c.reference_id);
+        let key = combined_key(&c.kind, size, &c.reference_id);
         let icon = c.icon_sha.as_deref().filter(|s| !s.is_empty())
             .map(|sha| json!({"key": key, "svg_sha256": sha, "review": c.review, "preview_url": preview_url(&key, sha)}))
             .unwrap_or(Value::Null);
@@ -146,7 +201,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         json!({"reference_id": c.reference_id, "concept": c.concept, "kind": c.kind, "state": c.state,
                "icon": icon, "parts": parts})
     }).collect();
-    http::json(200, &json!({"total": total, "offset": offset, "next_offset": next, "counts": by_kind, "items": items}))
+    http::json(200, &json!({"size": size, "total": total, "offset": offset, "next_offset": next, "counts": by_kind, "items": items}))
 }
 
 // ---- the parts' drawings, picks and builds: the browser composes (combine.js), the Worker checks and stores
@@ -154,9 +209,12 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
 const MAX_KEYS: usize = 100;
 const MAX_BUILDS: usize = 50;
 
-/// The families an icon for each part may come from.
-fn fits_role(role: &str, key: &str) -> bool {
+/// The families an icon for each part may come from: at 72 a main-54 main and a sub-36 sub.
+fn fits_role(role: &str, key: &str, size: i64) -> bool {
     let family = key.split_once('/').map_or("", |(family, _)| family);
+    if size == 72 {
+        return matches!((role, family), ("main", "main-54") | ("sub", "sub-36"));
+    }
     match role {
         "container" => family == "container",
         "symbol" => family == "symbol",
@@ -219,7 +277,7 @@ async fn roles_of(ctx: &Ctx, ids: &[&str]) -> Result<HashMap<String, Vec<(String
     Ok(roles)
 }
 
-/// The square canvas of a combined drawing: 64, or larger for a native text side pair.
+/// The square canvas of a combined drawing: 64, or larger for a native text side pair; 72 for a 72 pair.
 fn canvas_of(svg: &str) -> Option<i64> {
     let start = svg.find("<svg")?;
     let head = &svg[start..start + svg[start..].find('>')?];
@@ -229,8 +287,9 @@ fn canvas_of(svg: &str) -> Option<i64> {
         .then(|| n[2] as i64)
 }
 
-/// POST /api/combinations/parts {reference_id, role, icon?, layout?}: pick the icon drawn for a part and/or
-/// its boxes, without building. The combination shows as stale until it is built again.
+/// POST /api/combinations/parts {reference_id, role, icon?, layout?, size?}: pick the icon drawn for a part and/or
+/// its boxes, without building. The combination shows as stale until it is built again. `size: 72` picks the
+/// part's 72 icon (main-54 / sub-36) for a side pair.
 pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" {
         return http::error(401, "Log in to change combinations.");
@@ -238,8 +297,13 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     let (Some(id), Some(role)) = (data["reference_id"].as_str(), data["role"].as_str()) else {
         return http::error(400, "reference_id and role are required.");
     };
-    if !roles_of(ctx, &[id]).await?.get(id).is_some_and(|roles| roles.iter().any(|(r, _)| r == role)) {
+    let Some(size) = size_field(data) else { return http::error(400, "size must be 64 or 72.") };
+    let roles = roles_of(ctx, &[id]).await?.remove(id).unwrap_or_default();
+    if !roles.iter().any(|(r, _)| r == role) {
         return http::error(404, "That combination has no such part.");
+    }
+    if size == 72 && kind_of(&roles.iter().map(|(r, _)| r.clone()).collect::<Vec<_>>()) != "side" {
+        return http::error(400, "Only side pairs have a 72 build.");
     }
     let icon = data.get("icon").filter(|v| !v.is_null());
     let layout = data.get("layout");
@@ -247,8 +311,9 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
         return http::error(400, "Send an icon, a layout or both.");
     }
     if let Some(icon) = icon {
-        let Some(key) = icon.as_str().filter(|k| fits_role(role, k)) else {
-            return http::error(400, &format!("The {role} must be an icon of its family."));
+        let Some(key) = icon.as_str().filter(|k| fits_role(role, k, size)) else {
+            return http::error(400, &format!("The {role} must be an icon of its family{}.",
+                                             if size == 72 { if role == "main" { " (main-54)" } else { " (sub-36)" } } else { "" }));
         };
         if !drawings_of(ctx, &[key.to_string()]).await?.contains_key(key) {
             return http::error(404, "No icon with that key.");
@@ -270,24 +335,34 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     }
     values.push(id.into());
     values.push(role.into());
-    db::batch(&ctx.db, vec![
-        db::stmt(&ctx.db, &format!("UPDATE reference_parts SET {} WHERE reference_id = ? AND role = ?", sets.join(", ")), values)?,
-        db::activity(&ctx.db, user, "combination_part", Some(id), db::details(vec![
-            ("role", json!(role)), ("icon", icon.cloned().unwrap_or(Value::Null)), ("layout", layout.cloned().unwrap_or(Value::Null))]))?,
-    ]).await?;
-    http::json(200, &json!({"reference_id": id, "role": role, "updated_at": now}))
+    let mut statements = Vec::new();
+    if size == 72 {
+        statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO reference_part_sizes(reference_id, role, size) VALUES (?, ?, 72)",
+                                 args![id, role])?);
+        statements.push(db::stmt(&ctx.db, &format!("UPDATE reference_part_sizes SET {} WHERE reference_id = ? AND role = ? AND size = 72",
+                                                   sets.join(", ")), values)?);
+    } else {
+        statements.push(db::stmt(&ctx.db, &format!("UPDATE reference_parts SET {} WHERE reference_id = ? AND role = ?", sets.join(", ")), values)?);
+    }
+    statements.push(db::activity(&ctx.db, user, "combination_part", Some(id), db::details(vec![
+        ("role", json!(role)), ("size", json!(size)), ("icon", icon.cloned().unwrap_or(Value::Null)),
+        ("layout", layout.cloned().unwrap_or(Value::Null))]))?);
+    db::batch(&ctx.db, statements).await?;
+    http::json(200, &json!({"reference_id": id, "role": role, "size": size, "updated_at": now}))
 }
 
-/// POST /api/combinations/build {builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
+/// POST /api/combinations/build {size?, builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
 /// store combinations the browser built. Each is checked (its parts are that combination's, each part's
 /// drawing is still the icon's current one, the SVG is a clean 64x64 drawing) and stored as the combined
 /// icon's new drawing, with every part's icon, boxes and built drawing. A part not approved in Icon review
-/// makes the combined icon fail its check (it cannot be approved until the parts are).
+/// makes the combined icon fail its check (it cannot be approved until the parts are). `size: 72` stores side pairs'
+/// 72 builds (a 72 × 72 drawing of a main-54 and a sub-36) as combination-72/<reference_id>.
 /// → {results: [{reference_id, ok, key, svg_sha256, build_failed, errors} | {reference_id, ok: false, error}]}
 pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" {
         return http::error(401, "Log in to build combinations.");
     }
+    let Some(size) = size_field(data) else { return http::error(400, "size must be 64 or 72.") };
     let Some(builds) = data["builds"].as_array().filter(|b| !b.is_empty() && b.len() <= MAX_BUILDS) else {
         return http::error(400, &format!("Send 1 to {MAX_BUILDS} builds."));
     };
@@ -311,13 +386,13 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         let mut problem = None;
         let mut errors = Vec::new();
         for (role, part) in parts {
-            // A native text sub is drawn from the typeface: no icon, nothing to have been redrawn.
-            let textual = part["icon"].is_null() && own.iter().any(|(r, icon)| r == role && icon.is_none());
+            // A native text sub is drawn from the typeface: no icon, nothing to have been redrawn (64 only).
+            let textual = size == 64 && part["icon"].is_null() && own.iter().any(|(r, icon)| r == role && icon.is_none());
             if textual {
                 continue;
             }
             let icon = part["icon"].as_str().unwrap_or("");
-            let Some(drawing) = current.get(icon).filter(|_| fits_role(role, icon)) else {
+            let Some(drawing) = current.get(icon).filter(|_| fits_role(role, icon, size)) else {
                 problem = Some(format!("The {role} must be an existing icon of its family."));
                 break;
             };
@@ -343,11 +418,16 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             continue;
         }
         let kind = kind_of(&own.iter().map(|(r, _)| r.clone()).collect::<Vec<_>>());
+        if size == 72 && kind != "side" {
+            results.push(failed("Only side pairs have a 72 build.".into()));
+            continue;
+        }
         // Checked by the sanitizer (which refuses anything outside its allowlist) and stored as the browser
         // made it, so a pair rebuilt from unchanged parts keeps its drawing's sha.
         let svg = b["svg"].as_str().unwrap_or("").to_string();
-        let Some(canvas) = canvas_of(&svg).filter(|c| kind == "side" || *c == 64) else {
-            results.push(failed("The combined drawing needs a square viewBox from 0 0 (64 × 64, or larger for native text).".into()));
+        let Some(canvas) = canvas_of(&svg).filter(|c| if size == 72 { *c == 72 } else { kind == "side" || *c == 64 }) else {
+            results.push(failed(if size == 72 { "The combined drawing needs a 72 × 72 viewBox from 0 0.".into() }
+                                else { "The combined drawing needs a square viewBox from 0 0 (64 × 64, or larger for native text).".into() }));
             continue;
         };
         if let Err(error) = pictographic_core::svg::safe_svg(&svg, canvas) {
@@ -355,8 +435,9 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             continue;
         }
         let sha = hex::encode(Sha256::digest(svg.as_bytes()));
-        let key = format!("{kind}_combination64/{id}");
-        let (profile, category) = if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
+        let key = combined_key(kind, size, id);
+        let (profile, category) = if size == 72 { ("SIDE_COMBINATION72", "Side 72") }
+                                  else if kind == "container" { ("CONTAINER_COMBINATION64", "Container") } else { ("SIDE_COMBINATION64", "Side") };
         let record = json!({"parts": parts.iter().map(|(role, p)| (role.clone(), p["icon"].clone())).collect::<Map<_, _>>(),
                             "errors": errors, "built_by": user, "built_at": now});
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
@@ -366,19 +447,31 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
             ON CONFLICT(key) DO UPDATE SET svg_sha256 = excluded.svg_sha256, preview_url = excluded.preview_url, \
             canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
-            args![key.clone(), id, id, format!("{kind}_combination64"), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
+            args![key.clone(), id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
                   !errors.is_empty(), record.to_string(), now.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
         for (role, part) in parts {
             let layout = if part["layout"].is_null() { Arg::Null } else { part["layout"].to_string().into() };
-            statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, \
-                position = COALESCE(?, position), updated_at = ?, updated_by = ? WHERE reference_id = ? AND role = ?",
-                args![part["icon"].as_str(), layout, part["svg_sha256"].as_str(), part["position"].as_str(), now.clone(), user, id,
-                      role.as_str()])?);
+            if size == 72 {
+                statements.push(db::stmt(&ctx.db, "INSERT INTO reference_part_sizes(reference_id, role, size, icon, layout, built_sha, updated_at, updated_by) \
+                    VALUES (?, ?, 72, ?, ?, ?, ?, ?) ON CONFLICT(reference_id, role, size) DO UPDATE SET icon = excluded.icon, \
+                    layout = excluded.layout, built_sha = excluded.built_sha, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
+                    args![id, role.as_str(), part["icon"].as_str(), layout, part["svg_sha256"].as_str(), now.clone(), user])?);
+                // The sub's position is the pair's, shared by its 64 and 72 builds.
+                if let Some(position) = part["position"].as_str() {
+                    statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET position = ? WHERE reference_id = ? AND role = ?",
+                                             args![position, id, role.as_str()])?);
+                }
+            } else {
+                statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, \
+                    position = COALESCE(?, position), updated_at = ?, updated_by = ? WHERE reference_id = ? AND role = ?",
+                    args![part["icon"].as_str(), layout, part["svg_sha256"].as_str(), part["position"].as_str(), now.clone(), user, id,
+                          role.as_str()])?);
+            }
         }
         statements.push(db::activity(&ctx.db, user, "combination_build", Some(&key), db::details(vec![
-            ("svg_sha256", json!(sha)), ("errors", json!(errors))]))?);
+            ("svg_sha256", json!(sha)), ("size", json!(size)), ("errors", json!(errors))]))?);
         results.push(json!({"reference_id": id, "ok": true, "key": key, "svg_sha256": sha, "build_failed": !errors.is_empty(),
                             "errors": errors, "preview_url": preview_url(&key, &sha)}));
     }
@@ -396,12 +489,15 @@ fn capitalize(text: &str) -> String {
 #[derive(Deserialize)]
 struct Candidate { key: String, name: Option<String>, svg_sha256: String, review: Option<String> }
 
-/// GET /api/combinations/candidates?role=container|symbol|main|sub&q= → [{key, name, svg_sha256, review}]:
+/// GET /api/combinations/candidates?role=container|symbol|main|sub&size=64|72&q= → [{key, name, svg_sha256, review}]:
 /// icons that can be picked for a part (at most 40, approved first).
 pub async fn candidates(ctx: &Ctx) -> Result<Response> {
     let role = ctx.param("role").unwrap_or("");
-    let families: &[&str] = match role {
-        "container" => &["container"], "symbol" => &["symbol"], "main" => &["solo", "combination_main"], "sub" => &["sub"],
+    let Some(size) = size_param(ctx.param("size")) else { return http::error(400, "size must be 64 or 72.") };
+    let families: &[&str] = match (role, size) {
+        ("main", 72) => &["main-54"], ("sub", 72) => &["sub-36"],
+        (_, 72) => return http::error(400, "At 72, role must be main or sub."),
+        ("container", _) => &["container"], ("symbol", _) => &["symbol"], ("main", _) => &["solo", "combination_main"], ("sub", _) => &["sub"],
         _ => return http::error(400, "role must be container, symbol, main or sub."),
     };
     let words: Vec<String> = ctx.param("q").unwrap_or("").to_lowercase().split(|c: char| !c.is_ascii_alphanumeric())
@@ -423,12 +519,21 @@ pub async fn candidates(ctx: &Ctx) -> Result<Response> {
 
 /// The parts of a combination not approved in Icon review on their current drawing, as "container x and
 /// symbol y", or None when every part is approved.
-pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str) -> Result<Option<String>> {
+pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str, size: i64) -> Result<Option<String>> {
     #[derive(Deserialize)]
     struct Waiting { role: String, icon: Option<String> }
-    let rows: Vec<Waiting> = db::all(db, "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
+    let sql = if size == 72 {
+        "SELECT p.role, s.icon FROM reference_parts p
+        LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
+        LEFT JOIN icons i ON i.key = s.icon
         WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
-        ORDER BY p.role", args![reference_id]).await?;
+        ORDER BY p.role"
+    } else {
+        "SELECT p.role, p.icon FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
+        WHERE p.reference_id = ? AND COALESCE((SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256), '') != 'approve'
+        ORDER BY p.role"
+    };
+    let rows: Vec<Waiting> = db::all(db, sql, args![reference_id]).await?;
     Ok((!rows.is_empty()).then(|| rows.iter().map(|w| format!("the {} {}", w.role,
         w.icon.as_deref().map_or("(none picked)", |k| k.split_once('/').map_or(k, |(_, n)| n)))).collect::<Vec<_>>().join(" and ")))
 }
@@ -442,14 +547,14 @@ pub async fn records(ctx: &Ctx) -> Result<Vec<Value>> {
     let rows: Vec<Row> = db::all(&ctx.db, "SELECT i.key, i.icon_id, i.name, i.family, i.category, i.canvas_size, i.svg_sha256,
             i.build_failed, i.original_sources, i.record
         FROM icons i JOIN revisions r ON r.svg_sha256 = i.svg_sha256 AND r.origin = 'combination-build'
-        WHERE i.family IN ('side_combination64', 'container_combination64')", vec![]).await?;
+        WHERE i.family IN ('side_combination64', 'container_combination64', 'combination-72')", vec![]).await?;
     Ok(rows.into_iter().map(|r| {
         let record: Value = serde_json::from_str(&r.record).unwrap_or(json!({}));
         let errors = record["errors"].as_array().cloned().unwrap_or_default();
         let container = r.family == "container_combination64";
         let (main, sub) = if container { ("container", "symbol") } else { ("main", "sub") };
         json!({"add": true, "key": r.key, "icon_id": r.icon_id, "name": r.name, "family": r.family,
-               "profile": if container { "CONTAINER_COMBINATION64" } else { "SIDE_COMBINATION64" },
+               "profile": if container { "CONTAINER_COMBINATION64" } else if r.family == "combination-72" { "SIDE_COMBINATION72" } else { "SIDE_COMBINATION64" },
                "category": r.category, "canvas_size": r.canvas_size.unwrap_or(64.0), "svg_sha256": r.svg_sha256,
                "preview_url": preview_url(&r.key, &r.svg_sha256), "build_failed": r.build_failed != 0.0,
                "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
@@ -503,7 +608,10 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
             return http::error(409, "Only a side pair made from a reference can be removed.");
         }
         db::batch(&ctx.db, vec![
+            db::stmt(&ctx.db, "DELETE FROM reference_part_sizes WHERE reference_id = ?", args![id])?,
             db::stmt(&ctx.db, "DELETE FROM reference_parts WHERE reference_id = ? AND role IN ('main', 'sub')", args![id])?,
+            db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND uploaded = 0", args![format!("combination-72/{id}")])?,
+            db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![format!("combination-72/{id}")])?,
             db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND uploaded = 0", args![format!("side_combination64/{id}")])?,
             db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![format!("side_combination64/{id}")])?,
             db::stmt(&ctx.db, "UPDATE \"references\" SET kind = 'single' WHERE reference_id = ?", args![id])?,

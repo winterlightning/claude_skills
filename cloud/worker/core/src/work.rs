@@ -365,9 +365,9 @@ pub fn queue(data: &WorkData, query: &Query, claimable_only: bool) -> Result<Val
             && wanted_state.is_none_or(|s| state_matches(item, s))
             && most.is_none_or(|most| item["disapprovals"].as_u64().unwrap_or(0) <= most)
             && (filters.reason.is_some() || item["reason"].as_str() != Some(MANUAL_FIX))
-            // Side combination 64 icons have no Python model to fix; they are fixed through their main and sub,
-            // so fix workers only get them when they ask for that family.
-            && (filters.family.is_some() || item["family"].as_str() != Some("side_combination64"))
+            // Side combination icons (64 and 72) have no Python model to fix; they are fixed through their main and
+            // sub, so fix workers only get them when they ask for that family.
+            && (filters.family.is_some() || !matches!(item["family"].as_str(), Some("side_combination64" | "combination-72")))
     }).collect();
     rows.sort_by_key(|item| (text(item, "disapproved_at"), text(item, "key")));
     let total = rows.len();

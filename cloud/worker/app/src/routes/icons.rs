@@ -307,11 +307,31 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     if let Some((id, _)) = &original {
         statements.push(db::stmt(db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)", args![key.clone(), id.clone()])?);
     }
+    // A 72 side pair part (main-54 / sub-36) drawn from a part's reference fills that part's 72 pick in every side
+    // pair that uses the reference and has none yet; the pair then shows as ready to build.
+    let pair_role = match family_id { "main-54" => Some("main"), "sub-36" => Some("sub"), _ => None };
+    if let (Some(role), Some((id, _))) = (pair_role, &original) {
+        statements.push(db::stmt(db, "INSERT INTO reference_part_sizes(reference_id, role, size, icon, updated_at, updated_by) \
+            SELECT p.reference_id, p.role, 72, ?, ?, ? FROM reference_parts p WHERE p.part_reference_id = ? AND p.role = ? \
+              AND NOT EXISTS (SELECT 1 FROM reference_parts c WHERE c.reference_id = p.reference_id AND c.role IN ('container', 'symbol')) \
+            ON CONFLICT(reference_id, role, size) DO UPDATE SET icon = excluded.icon, updated_at = excluded.updated_at, \
+              updated_by = excluded.updated_by WHERE reference_part_sizes.icon IS NULL",
+            args![key.clone(), now.clone(), user, id.clone(), role])?);
+    }
     if approve {
         statements.push(db::activity(db, user, "review", Some(&key), details(vec![("status", json!("approve")), ("svg_sha256", json!(digest))]))?);
     }
     db::batch(db, statements).await?;
-    http::json(201, &json!({"record": record, "status": status}))
+    #[derive(Deserialize)]
+    struct Picked { reference_id: String, role: String }
+    let picked: Vec<Picked> = if pair_role.is_some() {
+        db::all(db, "SELECT reference_id, role FROM reference_part_sizes WHERE icon = ? AND size = 72 ORDER BY reference_id", args![key.clone()]).await?
+    } else { vec![] };
+    let mut answer = json!({"record": record, "status": status});
+    if pair_role.is_some() {
+        answer["combination_parts"] = json!(picked.iter().map(|p| json!({"reference_id": p.reference_id, "role": p.role, "size": 72})).collect::<Vec<_>>());
+    }
+    http::json(201, &answer)
 }
 
 /// The original_sources value a built icon drawn from this reference carries, or None for an unknown id.
