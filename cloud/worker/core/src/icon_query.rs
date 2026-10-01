@@ -258,37 +258,42 @@ const COLUMNS: &str = "u.key, u.icon_id, u.name, u.family, u.category, u.profile
   u.build_failed, u.uploaded, u.card, u.state, u.decision, u.actor, u.artwork, u.mode, u.strokes, u.segments, u.axes,
   u.version_group, u.version, u.row_status, u.row_at, u.worker, u.claimed_at, u.note";
 
-/// The page of icons: (sql, args). Grouped ("All versions"), every version of each group on the page.
+/// The icons a page is taken from: matching icons, or ("All versions" without narrowing filters) every active
+/// version of each group a matching icon is in (`filteredIcons`), as the CTE `member`.
+fn members(p: &Params, args: &mut Args) -> String {
+    let w = clauses(p, Parts { category: true, section: true }, args);
+    if p.grouped() {
+        format!("{ICONS}, hit AS (SELECT DISTINCT u.version_group FROM u{}),
+  member AS (SELECT u.* FROM u WHERE u.version_group IN (SELECT version_group FROM hit) AND u.state != 'rejected')", where_sql(&w))
+    } else {
+        format!("{ICONS}, member AS (SELECT u.* FROM u{})", where_sql(&w))
+    }
+}
+
+/// The page of icons: (sql, args). "All versions" pages by version group (`versionGroups`), every version of each
+/// group on the page, groups in the order their first version sorts.
 pub fn page(p: &Params) -> (String, Args) {
     let mut args = Vec::new();
-    let w = clauses(p, Parts { category: true, section: true }, &mut args);
-    if p.grouped() {
-        let sql = format!("{ICONS}, hit AS (SELECT DISTINCT u.version_group FROM u{}),
-  member AS (SELECT u.*, ROW_NUMBER() OVER (ORDER BY {}) AS rank FROM u WHERE u.version_group IN (SELECT version_group FROM hit) AND u.state != 'rejected'),
-  grp AS (SELECT version_group, MIN(rank) AS first FROM member GROUP BY version_group ORDER BY first LIMIT ? OFFSET ?)
-  SELECT {} FROM member u JOIN grp g ON g.version_group = u.version_group ORDER BY g.first, u.version, u.icon_id",
-            where_sql(&w), order(&p.sort), COLUMNS);
-        args.push(json!(p.limit));
-        args.push(json!(p.offset));
-        return (sql, args);
-    }
-    let sql = format!("{ICONS} SELECT {COLUMNS} FROM u{} ORDER BY {} LIMIT ? OFFSET ?", where_sql(&w), order(&p.sort));
+    let from = members(p, &mut args);
+    let sql = if p.versions {
+        format!("{from}, ranked AS (SELECT u.*, ROW_NUMBER() OVER (ORDER BY {}) AS rank FROM member u),
+  grp AS (SELECT version_group, MIN(rank) AS first FROM ranked GROUP BY version_group ORDER BY first LIMIT ? OFFSET ?)
+  SELECT {COLUMNS} FROM ranked u JOIN grp g ON g.version_group = u.version_group ORDER BY g.first, u.version, u.icon_id",
+            order(&p.sort))
+    } else {
+        format!("{from} SELECT {COLUMNS} FROM member u ORDER BY {} LIMIT ? OFFSET ?", order(&p.sort))
+    };
     args.push(json!(p.limit));
     args.push(json!(p.offset));
     (sql, args)
 }
 
-/// How many the page pages over: matching icons, and (grouped) groups and their versions → `{total, versions?}`.
+/// What the page pages over → `{total, versions}`: units (icons, or version groups) and the icons in them.
 pub fn total(p: &Params) -> (String, Args) {
     let mut args = Vec::new();
-    let w = clauses(p, Parts { category: true, section: true }, &mut args);
-    if p.grouped() {
-        let sql = format!("{ICONS}, hit AS (SELECT DISTINCT u.version_group FROM u{}),
-  member AS (SELECT u.version_group FROM u WHERE u.version_group IN (SELECT version_group FROM hit) AND u.state != 'rejected')
-  SELECT COUNT(DISTINCT version_group) AS total, COUNT(*) AS versions FROM member", where_sql(&w));
-        return (sql, args);
-    }
-    (format!("{ICONS} SELECT COUNT(*) AS total, COUNT(*) AS versions FROM u{}", where_sql(&w)), args)
+    let from = members(p, &mut args);
+    let units = if p.versions { "COUNT(DISTINCT version_group)" } else { "COUNT(*)" };
+    (format!("{from} SELECT {units} AS total, COUNT(*) AS versions FROM member"), args)
 }
 
 /// The review tabs' counts: matching icons (search and filters, any section) by state → rows `{state, n}`.
