@@ -8,7 +8,7 @@ use pictographic_core::reviews::public_status;
 use pictographic_core::time::iso_utc;
 use pictographic_core::work as rules;
 use serde::Deserialize;
-use serde_json::{json, Map, Value};
+use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeSet;
 use worker::{Response, Result};
@@ -218,10 +218,31 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
             }
         }
     };
+    // Optional: the reference the drawing was made from, linked like a built icon (original_sources and
+    // icon_references). A combination part's `reference.id` links too when it is a known reference.
+    let reference_id = match data.get("reference_id") {
+        None | Some(Value::Null) => None,
+        Some(Value::String(id)) if (1..=64).contains(&id.len()) && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-') => Some(id.to_lowercase()),
+        _ => return http::error(400, "reference_id must be a reference id (letters, digits and hyphens, up to 64 characters)."),
+    };
+    if let (Some(id), Some((part, _))) = (&reference_id, &reference) {
+        if id != part {
+            return http::error(400, "reference_id and reference.id name different references.");
+        }
+    }
+    let original = match reference_id.clone().or_else(|| reference.as_ref().map(|(id, _)| id.clone())) {
+        None => None,
+        Some(id) => match original_reference(ctx, &id).await? {
+            Some(sources) => Some((id, sources)),
+            None if reference_id.is_some() => return http::error(400, "Unknown reference_id: no reference has this id."),
+            None => None,
+        },
+    };
+    let original_sources = original.as_ref().map(|(_, sources)| sources.clone()).unwrap_or_else(|| json!([]));
     let status = if approve { "approve" } else { "ready" };
     let canvas = family["canvas_size"].as_i64().unwrap_or(48);
     let svg_input = data.get("svg").and_then(Value::as_str).unwrap_or("");
-    // Container pairs page uploads (with `reference`) keep whatever canvas they were drawn on.
+    // Uploads for a combination part (with `reference`, container-pairs.html) keep whatever canvas they were drawn on.
     let cleaned = if reference.is_some() { pictographic_core::svg::safe_svg_any_canvas(svg_input) }
                   else { pictographic_core::svg::safe_svg(svg_input, canvas) };
     let document = match cleaned {
@@ -262,7 +283,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         "profile": format!("{}{}", family_id.to_uppercase(), canvas), "canvas_size": canvas,
         "category": category, "icon_type": "uploaded", "keywords": [], "aliases": [],
         "svg_sha256": digest, "uploaded_icon": true, "artwork_source": "use_org",
-        "preview_url": preview_url, "author": user, "created_at": now, "modified_at": now, "original_sources": [],
+        "preview_url": preview_url, "author": user, "created_at": now, "modified_at": now, "original_sources": original_sources,
         "primitives": [], "contours": [], "relationships": [], "anchors": {},
         "style": {"stroke_width": 4}, "keyshape": "FREE", "keyshape_bounds": [0, 0, canvas, canvas],
         "bypass_validation": bypass, "validation": validation});
@@ -271,9 +292,9 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     let mut statements = vec![
         db::stmt(db, "INSERT INTO uploaded_icons VALUES (?, ?, ?)", args![key.clone(), record_text.clone(), document.clone()])?,
         db::stmt(db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, \
-            original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '[]', 1, ?, ?)",
+            original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)",
             args![key.clone(), icon_id.clone(), name.trim(), family_id, category.clone(), record["profile"].as_str(), canvas,
-                  digest.clone(), preview_url.clone(), record_text, now.clone()])?,
+                  digest.clone(), preview_url.clone(), original_sources.to_string(), record_text, now.clone()])?,
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
                  args![digest.clone(), key.clone(), document, now.clone()])?,
         db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)",
@@ -283,30 +304,29 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         db::activity(db, user, "upload", Some(&key), details(vec![("svg_sha256", json!(digest)), ("status", json!(status)),
             ("category", json!(category)), ("icon_type", json!("uploaded"))]))?,
     ];
+    if let Some((id, _)) = &original {
+        statements.push(db::stmt(db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)", args![key.clone(), id.clone()])?);
+    }
     if approve {
         statements.push(db::activity(db, user, "review", Some(&key), details(vec![("status", json!("approve")), ("svg_sha256", json!(digest))]))?);
-    }
-    if let Some((id, role)) = &reference {
-        statements.push(db::stmt(db, "INSERT INTO reference_uploads(reference, role, icon_key, updated_at, updated_by) VALUES (?, ?, ?, ?, ?) \
-            ON CONFLICT(reference) DO UPDATE SET role = excluded.role, icon_key = excluded.icon_key, \
-            updated_at = excluded.updated_at, updated_by = excluded.updated_by", args![id.as_str(), *role, key.clone(), now.clone(), user])?);
     }
     db::batch(db, statements).await?;
     http::json(201, &json!({"record": record, "status": status}))
 }
 
-/// GET /api/reference-uploads → {reference id: {role, icon_key, preview_url, updated_by, updated_at}}.
-pub async fn reference_uploads(ctx: &Ctx) -> Result<Response> {
+/// The original_sources value a built icon drawn from this reference carries, or None for an unknown id.
+async fn original_reference(ctx: &Ctx, id: &str) -> Result<Option<Value>> {
     #[derive(Deserialize)]
-    struct Row { reference: String, role: String, icon_key: String, svg_sha256: String, updated_at: String, updated_by: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT r.reference, r.role, r.icon_key, i.svg_sha256, r.updated_at, r.updated_by \
-        FROM reference_uploads r JOIN icons i ON i.key = r.icon_key", vec![]).await?;
-    let entries: Map<String, Value> = rows.into_iter().map(|r| {
-        let url = format!("../api/icon-artwork/svg?icon={}&v={}", r.icon_key.replace('/', "%2F"), r.svg_sha256);
-        (r.reference, json!({"role": r.role, "icon_key": r.icon_key, "icon_id": r.icon_key.split_once('/').map(|p| p.1).unwrap_or(""),
-                             "preview_url": url, "updated_at": r.updated_at, "updated_by": r.updated_by}))
-    }).collect();
-    http::json(200, &Value::Object(entries))
+    struct Row { folder: Option<String>, file: Option<String>, r2_key: Option<String>, sha256: Option<String> }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT folder, file, r2_key, sha256 FROM \"references\" WHERE reference_id = ?",
+                                     args![id]).await?;
+    Ok(row.and_then(|row| {
+        let sha = row.sha256?;
+        let root = if row.r2_key.as_deref().unwrap_or("").starts_with("references/combinations/") { "pictographic-combinations" }
+                   else { "pictographic-primitives" };
+        Some(json!([{"url": format!("originals/{sha}"), "format": "SVG",
+                     "source_path": format!("{root}/{}/{}", row.folder.unwrap_or_default(), row.file.unwrap_or_default())}]))
+    }))
 }
 
 /// GET /api/uploaded-icons: upload records for the gallery catalog (without the SVG text).

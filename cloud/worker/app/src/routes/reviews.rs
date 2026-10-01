@@ -170,10 +170,14 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
         return invalid();
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
-    // A combined side icon whose parts are not all approved shows Failed check and cannot be approved.
-    // A combined container icon can be approved on its own even then (the reviewer's decision, 2026-09-30).
-    if status == "approve" && icon.build_failed && icon.family.as_deref() == Some("side_combination64") {
-        return http::error(409, "Approve the main and sub first: this combined icon uses one that is not approved.");
+    // A combined side icon cannot be approved while one of its parts (reference_parts) is not approved on its
+    // current drawing. A combined container icon can be approved on its own even then (the reviewer's decision,
+    // 2026-09-30).
+    if status == "approve" && icon.family.as_deref() == Some("side_combination64") {
+        let reference = key.split_once('/').map_or("", |(_, id)| id);
+        if let Some(waiting) = super::combinations::unapproved_parts(&ctx.db, reference).await? {
+            return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
+        }
     }
     let sha = icon.svg_sha256.clone();
     if data.get("svg_sha256").and_then(Value::as_str).unwrap_or("") != sha {

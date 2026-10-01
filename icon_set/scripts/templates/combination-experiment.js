@@ -96,8 +96,9 @@
     $('pairStatus').textContent=result.warnings.join(' ');
   }
   $('pairRun').onclick=async()=>{if(!row||busy)return;busy=true;invalidate();for(const e of $('pairEditor').querySelectorAll('button,input,select'))e.disabled=true;$('pairRun').textContent='Combining…';$('pairStatus').textContent='Combining on a 64×64 canvas…';
-    try{const response=await fetch('/api/combination-experiment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(settings())});const data=await response.json();if(!response.ok||data.error)throw Error(data.error||'Could not combine this pair.');result=data;draw();}
-    catch(e){error(location.protocol==='file:'?'Open this Experiment tab through the local Pictographic server to combine icons.':e.message);$('pairStatus').textContent='';}
+    // Combined in the browser (combine-side.js), the same drawing the Python engine makes.
+    try{await new Promise(r=>setTimeout(r));result=CombineSide.render(row,settings());draw();}
+    catch(e){error(e.message);$('pairStatus').textContent='';}
     finally{busy=false;for(const e of $('pairEditor').querySelectorAll('button,input,select'))e.disabled=false;$('pairRun').textContent='Combine pair';}
   };
   $('pairReset').onclick=()=>reset(true);$('pairSave').onclick=()=>{if(!row)return;try{localStorage.setItem('pictographic-combination:'+row.id,JSON.stringify({...settings(),main:uploads.main?row.mains[0].icon:$('pairMain').value,sub:uploads.sub?row.subs[0].icon:$('pairSub').value,mainUpload:undefined,subUpload:undefined}));$('pairSave').textContent='Adjustments saved';}catch{error('Could not save adjustments in this browser.');}};
