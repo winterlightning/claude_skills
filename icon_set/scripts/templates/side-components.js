@@ -10,7 +10,7 @@ const HANDOFF={missing:ROLE==='sub'?'Generate each as a SUB32 sub icon with /ico
   text:'Each sub is readable text or a number. Generate as a text sub, not a pictogram.',variants:'These subs already pass; their extra variants fail. Fix or discard the failing variants.',done:'Reference list only.',all:'Reference list only.'};
 let items=[],statuses={},reviews={},counts={},page=1;
 // A drawing counts as generated only when it passes validation and no reviewer marked it Needs fix
-// (review status pending) or rejected it. Same rule as the Side pairs summary in side-pairs-grid.js.
+// (review status pending) or rejected it. Same rule the old Side pairs summary used.
 const flagged=d=>['pending','rejected'].includes(reviews[d.key]);
 // A failing drawing counts once a reviewer approved it as an exception (Icon review · Failed check).
 const usable=d=>(d.status==='pass'||reviews[d.key]==='approve')&&!flagged(d);

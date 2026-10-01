@@ -1,5 +1,5 @@
 // combine-side.js against the Python side engine, stroke for stroke.
-//   node --test icon_set/tests/js
+//   node --test icon_set/tests/js/*.test.mjs
 // side-goldens.json: real side pairs (every sizing mode, native text, hand-adjusted layouts) rendered by
 // combination_experiment.render (make_side_goldens.py). The JS must return the same SVG, character for
 // character, or refuse with the same error.

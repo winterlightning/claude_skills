@@ -1,6 +1,7 @@
-// combine.js against the Python renderer it replaced: container-goldens.json holds 478 real container pairs
-// rendered by container_combination_render.py (removed with the graphics route; the file is now fixed).
-//   node --test icon_set/tests/js
+// combine.js against the Python renderer it replaced: container-goldens.json holds real container pairs
+// rendered by container_combination_render.py (removed with the graphics route; the file is now fixed), and 40
+// with odd sizes and half-unit centres rendered by it as of eb86e8615d.
+//   node --test icon_set/tests/js/*.test.mjs
 // The drawings must match: the same elements, commands and attributes, every number within TOLERANCE
 // (the JS measures curves exactly, the Python engine from sampled segments).
 import test from 'node:test';
@@ -80,7 +81,10 @@ test('refuses what cannot be combined', () => {
   const rotated = PLUS.replace('<path', '<path transform="rotate(45 16 16)"');
   assert.throws(() => Combine.container(MAIN, rotated, {center: [32, 32]}), /Rotated or skewed/);
   assert.throws(() => Combine.container(MAIN, PLUS, {center: [70, 32]}), /center/);
-  assert.throws(() => Combine.container(MAIN, PLUS, {center: [32, 32], ink: [25, 20]}), /even number/);
+  // Odd sizes are whole units (a half-unit centre keeps the edges on the grid); fractions and sizes under 4 are not.
+  assert.doesNotThrow(() => Combine.container(MAIN, PLUS, {center: [32.5, 32], ink: [25, 20]}));
+  assert.throws(() => Combine.container(MAIN, PLUS, {center: [32, 32], ink: [25.5, 20]}), /whole number/);
+  assert.throws(() => Combine.container(MAIN, PLUS, {center: [32, 32], ink: [3, 20]}), /whole number/);
   assert.throws(() => Combine.container(MAIN, PLUS, {center: [4, 4], ink: [40, 40]}), /beyond the 64x64 canvas/);
   assert.throws(() => Combine.container(MAIN, '<svg xmlns="http://www.w3.org/2000/svg"/>', {center: [32, 32]}), /no drawable/);
   assert.throws(() => Combine.container(MAIN, '<!DOCTYPE svg><svg/>', {center: [32, 32]}), /entity/);

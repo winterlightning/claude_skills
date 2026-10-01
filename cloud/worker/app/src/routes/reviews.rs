@@ -32,8 +32,8 @@ fn feedback_row(row: Map<String, Value>) -> Value {
 }
 
 pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
-    let catalog = data::catalog(&ctx.db, true).await?;
-    let (_, _, decisions) = data::decisions(&ctx.db, &catalog).await?;
+    let catalog = data::review_catalog(&ctx.db).await?;
+    let decisions = data::review_decisions(&ctx.db, &catalog).await?;
     let reviews = current_reviews(&decisions);
     if ctx.query.get("include_approvers").map(|v| v == &vec!["1".to_string()]).unwrap_or(false) {
         #[derive(Deserialize)]
@@ -170,9 +170,10 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
         return invalid();
     }
     let Some(icon) = data::icon(&ctx.db, key, true).await? else { return http::error(404, "Unknown icon") };
-    // A combined side / container icon cannot be approved while one of its parts (reference_parts) is not
-    // approved on its current drawing.
-    if status == "approve" && matches!(icon.family.as_deref(), Some("side_combination64" | "container_combination64")) {
+    // A combined side icon cannot be approved while one of its parts (reference_parts) is not approved on its
+    // current drawing. A combined container icon can be approved on its own even then (the reviewer's decision,
+    // 2026-09-30).
+    if status == "approve" && icon.family.as_deref() == Some("side_combination64") {
         let reference = key.split_once('/').map_or("", |(_, id)| id);
         if let Some(waiting) = super::combinations::unapproved_parts(&ctx.db, reference).await? {
             return http::error(409, &format!("Approve {waiting} first: this combined icon uses parts that are not approved."));
