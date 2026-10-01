@@ -1,7 +1,7 @@
 // combine.js against the Python renderer it replaced: container-goldens.json holds real container pairs
 // rendered by container_combination_render.py (removed with the graphics route; the file is now fixed), and 40
 // with odd sizes and half-unit centres rendered by it as of eb86e8615d.
-//   node --test icon_set/tests/js
+//   node --test icon_set/tests/js/*.test.mjs
 // The drawings must match: the same elements, commands and attributes, every number within TOLERANCE
 // (the JS measures curves exactly, the Python engine from sampled segments).
 import test from 'node:test';

@@ -135,6 +135,8 @@ takes the container and symbol icons the old Container pairs page showed from `c
 `--combinations` only pairs with a single icon of each family get one (239 of 2,773 locally, against 2,215 with it).
 Container placements are not a table: they live in each pair's symbol layout (container-pairs.html). 0013 created a
 `container_placements` table that only production ever had; 0014 drops it.
+Placements saved in the old `container_centers` table (0006 / 0008, dropped by 0010) are carried into those layouts
+when the snapshot still has it (container-placement.js describes the fields).
 
 `wrangler d1 export --remote` stops at 260 MiB: the file ends mid-statement and every table after that point is
 missing (it happened on 2026-10-01 inside `store_documents`). Check the end of the file and each table's row count

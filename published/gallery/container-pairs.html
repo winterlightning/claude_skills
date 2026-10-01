@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Container pairs · Pictographic</title>
-<link rel="stylesheet" href="site.css"><script src="site.js" defer></script><script src="combine.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script><script src="combine.js"></script><script src="container-placement.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script>
 <style>
 .cp-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
 .cp-intro{padding:32px 0 6px}.cp-intro h1{font-size:34px;font-weight:600;letter-spacing:-1.5px;margin:0 0 8px}.cp-intro p{color:var(--muted);margin:0;max-width:820px;line-height:1.6}
@@ -130,7 +130,6 @@ const textReady = fetch('container-text-v2.json', {cache: 'no-cache'}).then(r =>
 // Where a container puts its symbol by default: the published defaults (container-centers.json). Saved placements
 // live in each pair's symbol layout (placementOf).
 let placementDefaults = {containers: {}, pairs: {}};
-const SOURCES = {preference: 'placement preference', area: 'reviewed content area', anchor: 'container anchor'};
 const placementsReady = fetch('container-centers.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
   .then(defaults => { if (defaults) placementDefaults = defaults; });
 // Each combined icon's check ({build_failed, errors}): Icon review's records of browser builds, then each build's result.
@@ -154,35 +153,10 @@ async function loadDrawings(keys) {
   }
 }
 
-const part = (item, role) => item.parts.find(p => p.role === role) || {role};
-const savedBox = p => Array.isArray(p.layout) && p.layout.length === 1 && ['x', 'y', 'w', 'h'].every(k => Number.isInteger(p.layout[0][k]))
-  ? {x: p.layout[0].x, y: p.layout[0].y, w: p.layout[0].w, h: p.layout[0].h} : null;
-// The symbol layout's placement fields (a build stores the layout the page sends): `scope: 'pair'` marks a box saved
-// for this pair only ("This pair only"); `container: {center, size}` is the container's placement ("This container
-// · all symbols"), kept on every pair of that container; `scope: 'container'` says the box follows it.
-const layoutOf = p => Array.isArray(p.layout) ? p.layout[0] || null : null;
-const pairBox = p => layoutOf(p)?.scope === 'pair' || (!layoutOf(p)?.scope && layoutOf(p)?.pinned) ? savedBox(p) : null;
-const containerTarget = p => { const c = layoutOf(p)?.container; return c && Array.isArray(c.center) ? {center: c.center, ink: sizeOf(c.size)} : null; };
-const idOf = key => (key || '').split('/').pop();
-const sizeOf = v => Array.isArray(v) && v.length === 2 ? v.map(Number) : null;
-const sameBox = (a, b) => !!a && !!b && ['x', 'y', 'w', 'h'].every(k => a[k] === b[k]);
-
-// The symbol's placement for a pair: its own box ({box, pinned}) unless `own` is false or another symbol is
-// picked, else {center, ink} from (in order) the container's saved placement, the published pair override, the
-// container's published default, the canvas centre. `label` says which, `scope` where a save goes.
-function placementOf(item, icons = {}, own = true) {
-  const s = part(item, 'symbol'), containerKey = icons.container ?? part(item, 'container').icon, symbolKey = icons.symbol ?? s.icon;
-  const box = own && symbolKey === s.icon ? pairBox(s) : null;
-  if (box) return {box, pinned: true, label: 'Saved · this pair', scope: 'pair', by: s.updated_by};
-  const c = idOf(containerKey), y = idOf(symbolKey);
-  const whole = containerKey === part(item, 'container').icon ? containerTarget(s) : null;
-  if (whole) return {...whole, saved: 'container', label: 'Saved · this container', scope: 'container', by: s.updated_by};
-  const optical = placementDefaults.pairs?.[c]?.[y];
-  if (optical) return {center: optical, ink: null, label: 'Default · pair override', scope: 'pair'};
-  const d = placementDefaults.containers?.[c];
-  if (d) return {center: d.center, ink: null, label: 'Default · ' + (SOURCES[d.source] || d.source), scope: 'container'};
-  return {center: [32, 32], ink: null, label: 'Default · canvas center', scope: 'container'};
-}
+// Placement rules (container-placement.js): which box or centre a pair's symbol takes, and the layout a build or a
+// container-wide save stores.
+const {part, layoutOf, idOf, sameBox, savedBox, pairBox, pairCenter} = ContainerPlacement;
+const placementOf = (item, icons = {}, own = true) => ContainerPlacement.placementOf(item, icons, own, placementDefaults);
 
 // The combined drawing for a pair, the symbol placed by `placement` ({box} or {center, ink}, see placementOf).
 // `symbolSvg`: the symbol's drawing with elements edited in the editor, not yet uploaded.
@@ -277,8 +251,7 @@ function buildRequest(item, overrides = {}) {
   const placement = overrides.box ? {box: overrides.box, pinned: !!overrides.pinned} : placementOf(item, icons, overrides.box !== null);
   const result = compose(icons.container, icons.symbol, placement);
   const kept = icons.container === part(item, 'container').icon ? layoutOf(part(item, 'symbol'))?.container : null;
-  const scope = placement.pinned ? 'pair' : placement.saved === 'container' ? 'container' : undefined;
-  result.layout.symbol = result.layout.symbol.map(b => ({...b, ...(scope ? {scope} : {}), ...(kept ? {container: kept} : {})}));
+  result.layout.symbol = ContainerPlacement.builtLayout(result.layout.symbol, placement, kept);
   return {reference_id: item.reference_id, svg: result.svg, parts: {
     container: {icon: icons.container, svg_sha256: result.main.svg_sha256, layout: result.layout.container},
     symbol: {icon: icons.symbol, svg_sha256: result.symbol.svg_sha256, layout: result.layout.symbol}}};
@@ -288,17 +261,23 @@ async function build(requests) {
   const results = [];
   for (let i = 0; i < requests.length; i += 50) results.push(...(await api('/api/combinations/build', {builds: requests.slice(i, i + 50)})).results);
   for (const r of results) if (r.ok) checks.set(r.key, {build_failed: r.build_failed, errors: r.errors || []});
+  pairsCache = null;
   return results;
 }
 
 // Every container pair (the API pages 500 at a time): for the Text symbols filter and container-wide placements.
-async function allPairs() {
-  const all = [];
-  for (let offset = 0; offset != null;) {
-    const page = await api('/api/combinations?' + new URLSearchParams({kind: 'container', limit: 500, offset}));
-    all.push(...page.items); offset = page.next_offset;
-  }
-  return all;
+// Fetched once and kept until something is built or saved; `fresh` (a save about to write them) fetches again.
+let pairsCache = null;
+function allPairs(fresh = false) {
+  if (fresh || !pairsCache) pairsCache = (async () => {
+    const all = [];
+    for (let offset = 0; offset != null;) {
+      const page = await api('/api/combinations?' + new URLSearchParams({kind: 'container', limit: 500, offset}));
+      all.push(...page.items); offset = page.next_offset;
+    }
+    return all;
+  })().catch(error => { pairsCache = null; throw error; });
+  return pairsCache;
 }
 // "Text symbols": pairs whose symbol source is marked Text / number on the primitives page.
 let textStatuses = null;
@@ -675,7 +654,7 @@ function openEditor(item) {
   resetElements();
   $('edTitle').textContent = item.concept || item.reference_id;
   $('edId').textContent = item.reference_id;
-  $('scope').value = placementOf(item).scope;
+  $('scope').value = 'pair';  // a container-wide save is chosen on purpose (and confirmed)
   pickPanel('container'); pickPanel('symbol'); drawStage();
   editor.base = editor.box && {...editor.box};
   placeInfo();
@@ -830,25 +809,31 @@ function containerPlacement() {
 // (`scope: 'container'`). A built pair keeps the box it was built with, so its card shows Outdated until recombined;
 // an unbuilt one gets the box the placement gives its symbol. `skip`: the pair the editor builds itself.
 async function saveContainerPlacement(containerKey, target, skip) {
-  const pairs = (await allPairs()).filter(i => part(i, 'container').icon === containerKey && i.reference_id !== skip);
+  const pairs = (await allPairs(true)).filter(i => part(i, 'container').icon === containerKey && i.reference_id !== skip);
   await loadDrawings(pairs.flatMap(i => i.parts.map(p => p.icon)));
   const updates = [];
   for (const item of pairs) {
-    const s = part(item, 'symbol'), old = layoutOf(s), own = !!pairBox(s);
-    if (!target && !old?.container) continue;
+    const s = part(item, 'symbol');
+    if (!target && !layoutOf(s)?.container) continue;
     let box = savedBox(s);
-    if (!box && target && s.icon) {
+    if (!box && target && s.icon && !pairCenter(s)) {
       try { const b = compose(containerKey, s.icon, {center: target.center, ink: target.size}).layout.symbol[0]; box = {paths: b.paths, x: b.x, y: b.y, w: b.w, h: b.h}; }
       catch (error) { /* no drawing yet: kept without a box */ }
     }
-    const {container: _, scope: __, ...rest} = old || {};
-    const layout = box || old ? [{...(old ? rest : {}), ...(box || {}), ...(own ? {scope: 'pair'} : target ? {scope: 'container'} : {}),
-                                  ...(target ? {container: {center: target.center, size: target.size}} : {})}] : null;
+    const layout = ContainerPlacement.containerLayout(item, target, box);
     // Ray's parts route stores {x, y, w, h} boxes: a pair with no box and no drawing to compute one is left as it is.
     if (!layout || !['x', 'y', 'w', 'h'].every(k => Number.isFinite(layout[0][k]))) continue;
     updates.push({reference_id: item.reference_id, role: 'symbol', layout});
   }
-  for (let i = 0; i < updates.length; i += 6) await Promise.all(updates.slice(i, i + 6).map(u => api('/api/combinations/parts', u)));
+  // Six at a time; a failure says how far it got (the pairs already saved keep the new placement).
+  let saved = 0;
+  for (let i = 0; i < updates.length; i += 6) {
+    const done = await Promise.allSettled(updates.slice(i, i + 6).map(u => api('/api/combinations/parts', u)));
+    saved += done.filter(d => d.status === 'fulfilled').length;
+    const failed = done.find(d => d.status === 'rejected');
+    if (failed) throw Error(`Saved on ${saved} of ${updates.length} pairs, then: ${failed.reason.message}. Save again to finish.`);
+  }
+  pairsCache = null;
   return updates.length;
 }
 
@@ -868,6 +853,7 @@ $('edSave').onclick = async () => {
   try {
     const container = $('scope').value === 'container';
     if (container && editor.symbolSvg) throw Error('Moved elements belong to this pair: choose “This pair only” to save them.');
+    if (container && !confirm('Save this placement for every symbol in this container (except pairs with their own)?')) { $('edSave').disabled = !editor.last; return; }
     if (editor.symbolSvg) { edSay('Uploading the edited symbol…'); await uploadEditedSymbol(); drawStage(); }
     const {item, icons, box} = editor;
     let request;
@@ -877,7 +863,9 @@ $('edSave').onclick = async () => {
       const target = containerPlacement();
       const n = await saveContainerPlacement(icons.container, target, item.reference_id);
       const s = part(item, 'symbol'), {scope: _, ...rest} = layoutOf(s) || {};
-      const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]} : p)};
+      // On the container picked in the editor, so the placement just saved applies to it.
+      const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]}
+                                                    : p.role === 'container' ? {...p, icon: icons.container} : p)};
       request = buildRequest(followed, {...icons, box: null});
       edSay(`Saved on ${n} other pair${n === 1 ? '' : 's'} of this container. Building…`);
     } else request = buildRequest(item, {...icons, box, pinned: true});

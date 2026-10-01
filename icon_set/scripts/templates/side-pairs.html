@@ -312,7 +312,8 @@ const ANCHORS = {br: [1, 1], bl: [0, 1], tr: [1, 0], tl: [0, 0], ri: [1, .5], le
 let keyshapes = {};
 const keyshapesReady = fetch('laboratory.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
   .then(d => { for (const [role, {profile}] of Object.entries(PRESETS)) keyshapes[role] = Object.fromEntries(Object.entries(d?.keyshapes?.resolved?.[profile] || {})
-    .map(([name, k]) => [name, k.centerline_bounds]).filter(([, b]) => Array.isArray(b))); });
+    .map(([name, k]) => [name, k.centerline_bounds]).filter(([, b]) => Array.isArray(b)));
+    for (const role in shapeLists) delete shapeLists[role]; });
 
 // A part's hand box (one group: every drawable element), or null on automatic placement.
 const roleBox = role => { const g = editor.layout?.[role]; return g && g.length === 1 ? g[0] : null; };
@@ -343,7 +344,12 @@ function setRoleBox(role, box) {
 
 // A part's distinct keyshapes (names sharing bounds are one; the circle stays apart from the square), in the old
 // editor's order: square, circle, then tall / wide by size.
+// Worked out once per role (every drag redraws the presets, which ask for them many times).
+const shapeLists = {};
 function shapes(role) {
+  return shapeLists[role] ??= keyshapeList(role);
+}
+function keyshapeList(role) {
   const unique = new Map();
   for (const [name, b] of Object.entries(keyshapes[role] || {})) {
     const k = (name === 'CIRCLE' ? 'c:' : '') + b.join(',');

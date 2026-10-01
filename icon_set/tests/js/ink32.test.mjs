@@ -1,5 +1,5 @@
 // normalize-ink32.js against icon_set/scripts/sub_ink32.normalize_ink32 (svgpathtools): real sub drawings.
-//   node --test icon_set/tests/js
+//   node --test icon_set/tests/js/*.test.mjs
 // ink32-goldens.json: sub drawings from a D1 snapshot and the document and ink Python returned for each.
 import test from 'node:test';
 import assert from 'node:assert/strict';

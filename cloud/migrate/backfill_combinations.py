@@ -23,8 +23,8 @@ In order, later sources winning:
    container's generated container drawing and the symbol source's symbol drawing (a source drawn only as a sub
    gets none: the Worker takes symbol icons only);
 6. ``reference_uploads`` (dropped by 0010): an upload for a part's source fills a part still without an icon,
-   an upload for the combination itself (a pair's own symbol, e.g. its typeface text) wins.
-
+   an upload for the combination itself (a pair's own symbol, e.g. its typeface text) wins;
+7. ``container_centers`` (dropped by 0010): symbol placements saved for a pair or for a whole container.
 
 Also sets the side position of subs seeded without one (the id's suffix) and links every combined icon
 (side_combination64/<id>, container_combination64/<id>) to its reference in icon_references.
@@ -216,6 +216,41 @@ def main() -> None:
         for reference, role, icon in uploads:
             if icon in icons and (reference, role) in existing:
                 parts.set(reference, role, 'pair upload', icon=icon)
+
+    # 7. Symbol placements saved on the old Container pairs page (container_centers, 0006 / 0008, dropped by 0010),
+    #    in the layout fields container-placement.js reads: a row for a container and a symbol is that pair's own
+    #    placement, one with sub '' the container's. A pair keeps the box it was built with; one without a box gets
+    #    a 0 x 0 placeholder (the page places it from the centre). Container and symbol are icon ids.
+    if 'container_centers' in tables:
+        centers = {(main_id, sub_id): {'center': [x, y], 'size': [width or 32, height or 32] if width or height else None}
+                   for main_id, sub_id, x, y, width, height in
+                   db.execute('SELECT main, sub, x, y, width, height FROM container_centers')}
+
+        def value(ref: str, role: str, name: str):
+            if name in parts.values.get((ref, role), {}):
+                return parts.values[(ref, role)][name]
+            row = existing.get((ref, role))
+            return row[name] if row is not None and name in row.keys() else None
+
+        for ref, role in list(existing):
+            container, symbol = value(ref, 'container', 'icon'), value(ref, 'symbol', 'icon')
+            if role != 'symbol' or not container or not symbol:
+                continue
+            ids = container.split('/')[-1], symbol.split('/')[-1]
+            own, whole = centers.get(ids), centers.get((ids[0], ''))
+            if not own and not whole:
+                continue
+            layout = value(ref, 'symbol', 'layout')
+            layout = json.loads(layout) if isinstance(layout, str) else layout
+            box = layout[0] if isinstance(layout, list) and len(layout) == 1 else {}
+            built = all(isinstance(box.get(k), int) for k in 'xywh') and bool(box['w'] or box['h'])
+            entry = {k: box[k] for k in ('paths', 'x', 'y', 'w', 'h') if k in box} if built else {'x': 0, 'y': 0, 'w': 0, 'h': 0}
+            entry['scope'] = 'pair' if own else 'container'
+            if own and not built:
+                entry.update(own)
+            if whole:
+                entry['container'] = whole
+            parts.set(ref, 'symbol', 'pair center' if own else 'container center', layout=[entry])
 
     # Positions the seed left empty: the side position is the reference id's suffix.
     for (ref, role), part in existing.items():
