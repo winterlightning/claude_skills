@@ -24,6 +24,7 @@ import pytest
 BASE = os.environ.get('PICTOGRAPHIC_COMBINATIONS', 'http://127.0.0.1:8821')
 ROOT = Path(__file__).resolve().parents[4]
 COMBINE = ROOT / 'icon_set/scripts/templates/combine.js'
+GRAPH = ROOT / 'icon_set/scripts/templates/svg-graph.js'
 pytestmark = pytest.mark.skipif(os.environ.get('PICTOGRAPHIC_COMBINATIONS_WRITE') != '1' or 'pictographic-review.' in BASE,
                                 reason='writes: set PICTOGRAPHIC_COMBINATIONS_WRITE=1 against a test copy')
 
@@ -56,9 +57,13 @@ def admin():
 
 
 def compose(main_svg, symbol_svg, placement):
-    script = ("const C=require(process.argv[1]);let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{"
-              "const a=JSON.parse(s);process.stdout.write(JSON.stringify(C.container(a.main,a.symbol,a.placement)));});")
-    out = subprocess.run(['node', '-e', script, str(COMBINE)], input=json.dumps({'main': main_svg, 'symbol': symbol_svg, 'placement': placement}),
+    # The combined drawing and its stroke graph, as container-pairs.html makes them (combine.js, svg-graph.js).
+    script = ("const C=require(process.argv[1]),G=require(process.argv[2]);let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{"
+              "const a=JSON.parse(s),r=C.container(a.main,a.symbol,a.placement);"
+              "r.graph=G.fromSvg(r.svg,{canvas:64,family:'container_combination64',profile:'CONTAINER64'});"
+              "process.stdout.write(JSON.stringify(r));});")
+    out = subprocess.run(['node', '-e', script, str(COMBINE), str(GRAPH)],
+                         input=json.dumps({'main': main_svg, 'symbol': symbol_svg, 'placement': placement}),
                          capture_output=True, text=True, check=True)
     return json.loads(out.stdout)
 
@@ -86,7 +91,7 @@ def pair(client):
 
 def request(item, icons, drawings, placement=None, **override):
     result = compose(drawings[icons['container']]['svg'], drawings[icons['symbol']]['svg'], placement or {'center': [32, 32], 'ink': None})
-    build = {'reference_id': item['reference_id'], 'svg': result['svg'], 'parts': {
+    build = {'reference_id': item['reference_id'], 'svg': result['svg'], 'graph': result['graph'], 'parts': {
         'container': {'icon': icons['container'], 'svg_sha256': drawings[icons['container']]['svg_sha256'], 'layout': result['layout']['container']},
         'symbol': {'icon': icons['symbol'], 'svg_sha256': drawings[icons['symbol']]['svg_sha256'], 'layout': result['layout']['symbol']}}}
     build.update(override)
@@ -192,21 +197,31 @@ def test_unsafe_svg_is_cleaned_or_refused(client, pair):
     assert client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]['ok']
 
 
-def test_combined_icon_waits_for_its_parts(client, pair):
+def test_combined_container_icon_approves_on_its_own(client, pair):
+    # A combined container icon can be approved even while a part is not (the reviewer's decision, 2026-09-30):
+    # its check fails, approving it is the reviewer's call.
     item, icons, drawings = pair
     build, _ = request(item, icons, drawings)
     built = client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]
     assert built['ok']
-    approve = lambda key, sha: client.call('POST', '/api/reviews', {'icon': key, 'svg_sha256': sha, 'status': 'approve'})
     unapproved = [role for role in ('container', 'symbol') if drawings[icons[role]]['review'] != 'approve']
-    if unapproved:
-        status, data = approve(built['key'], built['svg_sha256'])
-        assert status == 409 and 'first' in data['error']
-        for role in unapproved:
-            assert approve(icons[role], drawings[icons[role]]['svg_sha256'])[0] in (200, 201)
-    # Parts approved: the combined icon can be approved without building again.
-    assert approve(built['key'], built['svg_sha256'])[0] in (200, 201)
+    assert built['build_failed'] == bool(unapproved)
+    status, data = client.call('POST', '/api/reviews', {'icon': built['key'], 'svg_sha256': built['svg_sha256'], 'status': 'approve'})
+    assert status in (200, 201), data
     assert one(client, item['reference_id'])['icon']['review'] == 'approve'
+
+
+def test_container_build_stores_its_graph(client, pair):
+    # The graph sent with a container build is the geometry editor's: its strokes are the container's and the symbol's.
+    item, icons, drawings = pair
+    build, result = request(item, icons, drawings)
+    built = client.call('POST', '/api/combinations/build', {'builds': [build]})[1]['results'][0]
+    assert built['ok']
+    roles = {p['element_id'].rsplit('-', 1)[0] for p in result['graph']['primitives']}
+    assert roles == {'container', 'symbol'}
+    # Past the icon and its graph: what is left is the graphics service's check (or its absence on a local Worker).
+    status, data = client.call('POST', '/api/stroke-edits/validate', {'icon': built['key'], 'svg_sha256': built['svg_sha256'], 'offsets': {}})
+    assert status != 404 and 'not in the cloud' not in json.dumps(data), (status, data)
 
 
 # ---- side pairs, built with combine-side.js (pairRequest) the way side-pairs.html builds them

@@ -49,8 +49,9 @@ fn preview_url(key: &str, sha: &str) -> String {
     format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(key), &sha[..12.min(sha.len())])
 }
 
-/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&offset=&limit=&forms=1 →
+/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&text=1&offset=&limit=&forms=1 →
 /// {total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]}.
+/// `text=1`: only container pairs whose symbol source is marked Text / number on the primitives page.
 pub async fn list(ctx: &Ctx) -> Result<Response> {
     let kind = ctx.param("kind").filter(|k| !k.is_empty());
     let state = ctx.param("state").filter(|s| !s.is_empty());
@@ -84,6 +85,11 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         values.push(format!("%{needle}%").into());
         values.push(format!("{needle}%").into());
     }
+    let text = ctx.param("text") == Some("1");
+    if text {
+        filters.push("EXISTS (SELECT 1 FROM reference_parts tp JOIN primitive_status ps ON ps.uuid = tp.part_reference_id \
+            WHERE tp.reference_id = c.reference_id AND tp.role = 'symbol' AND ps.reason = 'text_number')");
+    }
     let filter = if filters.is_empty() { String::new() } else { format!("WHERE {}", filters.join(" AND ")) };
 
     // Page one extra row to know whether there is a next page without counting.
@@ -105,7 +111,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         let entry = by_kind.entry(c.kind.clone()).or_insert_with(|| json!({"built": 0, "stale": 0, "unbuilt": 0}));
         entry[c.state.as_str()] = json!(c.n as u64);
     }
-    let total: u64 = if needle.is_some() {
+    let total: u64 = if needle.is_some() || text {
         #[derive(Deserialize)]
         struct Total { n: f64 }
         db::first::<Total>(&ctx.db, &format!("{COMBINATIONS} SELECT count(*) AS n FROM combos c {filter}"), values).await?
@@ -278,7 +284,7 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     http::json(200, &json!({"reference_id": id, "role": role, "updated_at": now}))
 }
 
-/// POST /api/combinations/build {builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
+/// POST /api/combinations/build {builds: [{reference_id, svg, graph?, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
 /// store combinations the browser built. Each is checked (its parts are that combination's, each part's
 /// drawing is still the icon's current one, the SVG is a clean 64x64 drawing) and stored as the combined
 /// icon's new drawing, with every part's icon, boxes and built drawing. A part not approved in Icon review
@@ -370,6 +376,18 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                   !errors.is_empty(), record.to_string(), now.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
+        // A container pair's stroke geometry (svg-graph.js, as svg_graph.py made it), so the geometry editor can
+        // select the container and symbol strokes.
+        if let (true, Value::Object(mut graph)) = (kind == "container", b["graph"].clone()) {
+            graph.insert("key".into(), json!(key));
+            // The validator wants a slug that starts with a letter; reference ids are UUIDs.
+            graph.insert("icon_id".into(), json!(format!("pair-{id}")));
+            graph.insert("svg_sha256".into(), json!(sha));
+            graph.insert("python_source".into(), Value::Null);
+            graph.insert("validation".into(), json!({"status": if errors.is_empty() { "pass" } else { "fail" }}));
+            statements.push(db::stmt(&ctx.db, "INSERT OR REPLACE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
+                                     args![sha.clone(), key.clone(), Value::Object(graph).to_string()])?);
+        }
         for (role, part) in parts {
             let layout = if part["layout"].is_null() { Arg::Null } else { part["layout"].to_string().into() };
             statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, \

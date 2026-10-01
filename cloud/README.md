@@ -121,12 +121,17 @@ cd cloud/worker
 npx wrangler d1 export pictographic-review --remote --output /tmp/combo/prod.sql     # read-only
 sqlite3 /tmp/combo/prod.sqlite < /tmp/combo/prod.sql
 cp /tmp/combo/prod.sqlite /tmp/combo/next.sqlite
-for f in migrations/00{06,07,08,09,10,11,12}_*.sql; do sqlite3 /tmp/combo/next.sqlite < $f; done   # the ones prod lacks
+for f in migrations/0009_combination_parts.sql migrations/00{10,11,12}_*.sql; do sqlite3 /tmp/combo/next.sqlite < $f; done   # the ones prod lacks
 npx wrangler r2 object get pictographic-review/site/gallery/experiment-combination.json --remote --file /tmp/combo/experiment-combination.json
 python3 ../migrate/backfill_combinations.py --db /tmp/combo/prod.sqlite --pairs /tmp/combo/experiment-combination.json --out /tmp/combo/fill.sql
 sqlite3 -bail /tmp/combo/next.sqlite < /tmp/combo/fill.sql
 python3 ../migrate/copy_bucket.py pictographic-review pictographic-review-next      # only copies what changed
 ```
+
+Two migrations share the number 0009: `0009_primitive_state_version.sql` (icon-lib, applied in production
+2026-09-30) and `0009_combination_parts.sql` (this branch, applied on the test copy). D1 records applied
+migrations by file name, so each database applies only the one it lacks; neither may be renamed, or it would
+run twice.
 
 Then load `next.sqlite` into the (emptied) `pictographic-review-next` database: record the applied
 migrations in `d1_migrations`, dump it without `BEGIN`/`COMMIT`/`sqlite_sequence`, run the dump with
