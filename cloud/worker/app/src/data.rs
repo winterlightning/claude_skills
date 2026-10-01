@@ -56,6 +56,22 @@ pub async fn catalog(db: &D1Database, include_failed: bool) -> Result<Catalog> {
     Ok(Catalog::new(rows.into_iter().map(Icon::from).collect(), include_failed))
 }
 
+/// Only what `current_decisions` reads (key, drawing hash and the order flags), for `GET /api/reviews`:
+/// loading every column of every icon there ran the Worker out of memory when page loads overlapped.
+pub async fn review_catalog(db: &D1Database) -> Result<Catalog> {
+    let rows: Vec<IconRow> = db::all(db, "SELECT key, svg_sha256, build_failed, uploaded FROM icons \
+        ORDER BY build_failed, uploaded, rowid", vec![]).await?;
+    Ok(Catalog::new(rows.into_iter().map(Icon::from).collect(), true))
+}
+
+/// `decisions` reading only the review columns a decision keeps (no worker, claim time or note).
+pub async fn review_decisions(db: &D1Database, catalog: &Catalog) -> Result<Vec<(String, Decision)>> {
+    let rows: Vec<ReviewRow> = db::all(db, "SELECT icon, svg_sha256, status, updated_at, updated_by FROM reviews \
+        ORDER BY updated_at", vec![]).await?;
+    let splits = active_splits(db).await?;
+    Ok(current_decisions(&rows, &splits, catalog))
+}
+
 /// deploy.py `catalog(...).get(key)` for a single key.
 pub async fn icon(db: &D1Database, key: &str, include_failed: bool) -> Result<Option<Icon>> {
     let sql = format!("SELECT {ICON_COLUMNS} FROM icons WHERE key = ?{}", if include_failed { "" } else { " AND build_failed = 0" });

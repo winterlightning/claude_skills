@@ -32,8 +32,8 @@ fn feedback_row(row: Map<String, Value>) -> Value {
 }
 
 pub async fn get_reviews(ctx: &Ctx) -> Result<Response> {
-    let catalog = data::catalog(&ctx.db, true).await?;
-    let (_, _, decisions) = data::decisions(&ctx.db, &catalog).await?;
+    let catalog = data::review_catalog(&ctx.db).await?;
+    let decisions = data::review_decisions(&ctx.db, &catalog).await?;
     let reviews = current_reviews(&decisions);
     if ctx.query.get("include_approvers").map(|v| v == &vec!["1".to_string()]).unwrap_or(false) {
         #[derive(Deserialize)]
