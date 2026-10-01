@@ -9,9 +9,6 @@ RUN apt-get update \
 WORKDIR /app
 COPY icon_set/requirements-qa.txt /app/requirements-qa.txt
 RUN pip install --no-cache-dir -r /app/requirements-qa.txt
-# The side-combination engine (vendor/combination) runs as a subprocess of combination_experiment.render.
-COPY icon_set/vendor/combination/requirements.txt /app/requirements-combination.txt
-RUN pip install --no-cache-dir -r /app/requirements-combination.txt svgpathtools
 
 # Only the modules the edit, validation and render paths import; authored icon modules stay out.
 COPY icon_set /app/icon_set

@@ -65,10 +65,18 @@ The account's older `pictographic` bucket and search Workers are separate and un
 * The Worker answers the same paths, JSON and errors as `icon_set/scripts/deploy.py`. Routes that need
   Python rendering or local files answer `501 {"local": true}` and are served by a local
   `deploy.py --cloud-api <worker>` instead (`/api/qa-evidence*`,
-  `/api/combinations/container/*`, the side-pair layout routes `/api/combinations/side/layout[/apply]`,
-  `/recombine`, `/preview`, the two generation queues, the pending-brief zip). In the cloud
-  `/api/combinations/side/layouts` answers `{}`: layouts belong to the local gallery that rendered them,
-  and their results reach the cloud as republished `combination-previews/`.
+  `/api/combinations/container/*`, the two generation queues, the pending-brief zip).
+* **Combinations** (side and container pairs) are one set of tables: a `"references"` row of kind
+  `combination` and its `reference_parts` (role, part reference, the `icon` drawn for it, `position`,
+  `layout` boxes, `built_sha`, and for side parts the published pair item as `form`; migrations 0009 and 0011).
+  The browser builds the combined SVG from the parts' current drawings (`combine.js` for container pairs,
+  `combine-side.js` + `normalize-ink32.js` for side pairs, ports of the Python engines checked stroke for
+  stroke against them in `icon_set/tests/js`) and `POST /api/combinations/build` stores it after the sanitizer
+  accepts it: the combined icon's revision (`origin = 'combination-build'`), its icon row and each part's
+  icon, boxes and built drawing. A combination is stale when a part's `built_sha` is not its icon's drawing.
+  Pages: `gallery/combinations.html`, `container-pairs.html`, `side-pairs.html`; routes in
+  `worker/app/src/routes/combinations.rs`. A catalog push adds combined icons it builds but never overwrites
+  one built in the browser nor removes one.
 * After an artwork change (pick, upload, approve-as-exception) the local gallery re-pushes
   `site/gallery/icons.json` and `site/gallery/side-components.json` in the background (at most every
   30 s), so the cloud pages show the new drawing and the component's new status.
@@ -186,7 +194,7 @@ last push reported 14,211 built records but D1 holds 13,985 built rows.
 
 | Table | Rows | Key | Content |
 |---|---:|---|---|
-| `store_documents` | **0** | `(store, key)` | `store = 'icon-artwork'`: artwork choice per icon (key = icon key; was `state/icon-artwork/<hash>/artwork.json`). `store = 'stroke-edits'`: stroke-edit document per `<icon>@<source svg sha>` (was `state/stroke-edits/<hash>/<hash>.json`). Opaque JSON, interpreted only by Python (a local gallery or the graphics container); Worker picks add `selected_svg_sha256` to a choice. Writes can pass `expected_revision` (optimistic lock; 409 on a lost race). `store = 'side-pairs'` (migration 0005, `routes/side_pairs.rs`): a side pair whose solo main and sub icon were picked on the cloud, merged over `experiment-combination.json` wherever pairs are read. Key = primitive uuid for a pair made from a primitive classified as a combination, or a published pair id changed on the side page (`published: true`, with `restore`: its icon columns and side layout before the first change, put back when the change is removed). Its `side_combination64/<id>` icon row is spared by the final catalog push, and `recombine_side_pairs.py` skips these pairs. |
+| `store_documents` | **0** | `(store, key)` | `store = 'icon-artwork'`: artwork choice per icon (key = icon key; was `state/icon-artwork/<hash>/artwork.json`). `store = 'stroke-edits'`: stroke-edit document per `<icon>@<source svg sha>` (was `state/stroke-edits/<hash>/<hash>.json`). Opaque JSON, interpreted only by Python (a local gallery or the graphics container); Worker picks add `selected_svg_sha256` to a choice. Writes can pass `expected_revision` (optimistic lock; 409 on a lost race). The side stores of migrations 0004–0005 (`side-layouts`, `side-renders`, `side-pairs`) were copied into `reference_parts` by `migrate/backfill_combinations.py` and emptied by 0012. |
 | `icon_graphs` | new | `svg_sha256` (generated drawing) | The drawing's editable geometry (catalog graph fields, `icon_artwork.baseline()`), written by every catalog push (`INSERT OR IGNORE`) or `push_catalog.py --sql --graphs-only`. Read by the stroke-edit and artwork routes and sent to the graphics container. |
 | `reference_images` | **0** | `id` (content sha) | Metadata of reviewer-uploaded reference images: `name`, `mime`, `size`, `r2_key` (→ R2 `stores/reference-images/<id>.<ext>`), `uploaded_by/at`. |
 

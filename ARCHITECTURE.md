@@ -43,6 +43,19 @@ The account's older `pictographic` bucket and search Workers are separate and un
   Python rendering or local files answer `501 {"local": true}` and are served by a local
   `deploy.py --cloud-api <worker>` instead (`/api/icon-artwork`, `/api/stroke-edits*`, `/api/qa-evidence*`,
   `/api/combinations/container/*`, the two generation queues, the pending-brief zip).
+* **Combinations are built in the browser** (since the cloudflare-db merge, 2026-10-01): `combine.js`
+  (container pairs) and `combine-side.js` + `normalize-ink32.js` (side pairs) are ports of the Python engines
+  that give the same drawings (checked by `icon_set/tests/js`). `container-pairs.html` / `side-pairs.html` read
+  `GET /api/combinations*` and post the drawing to `POST /api/combinations/build`; the Worker checks the parts
+  and the SVG and stores it as the combined icon. The Worker only stores and checks (Ray's `combinations.rs`);
+  combining is never done server-side. The old routes (`container_pairs.rs`, `container_centers.rs`, `side.rs`,
+  `side_pairs.rs`) and the graphics container's combination renders are gone.
+* **Where a container puts its symbol** is kept in each pair's symbol layout (`reference_parts.layout[0]`, written
+  through `POST /api/combinations/parts` and the build): `scope: 'pair'` is a box saved with "This pair only";
+  `container: {center, size}` is the container's placement ("This container · all symbols", written on every pair
+  of that container) and `scope: 'container'` means the box follows it; otherwise the published
+  `container-centers.json` default, else the canvas centre (`placementOf` in container-pairs.html). A built pair
+  whose placement changed shows "Outdated: recombine".
 * The **Python icon source** (`icon_set/model/icons/**`, `icon_set/metadata/**`) is **not** in the cloud.
   It lives in git. The cloud only holds what a build produced from it (catalog rows + SVG text).
   This matters for the merge: anything the Mac mini generated that exists only as Python on the mini
@@ -148,7 +161,7 @@ routes today, and the base for search/releases later (see `data-model.html`).
 | Table | Rows | Content / source |
 |---|---:|---|
 | `"references"` | 24,042 | Every original SVG: `reference_id` (UUID, or `library:<path>` for `icon_set/references`), `kind` (`single`/`combination`), `concept`, `old_concept`, `categories`, `folder`, `file`, **`r2_key`** (`references/primitives/…`, `references/combinations/…`, `references/library/…`), `source`, `license`, `sha256` (`<sha>.svg`, used to serve `gallery/originals/<sha>.svg`), `concept_id`, `physical_id`. |
-| `reference_parts` | 12,477 | Combination → parts (`main`/`sub` with `tl|tr|bl|br`, or `container`/`symbol` at `center`) from `combination_data.json`. |
+| `reference_parts` | 12,477 | Combination → parts (`main`/`sub` with `tl|tr|bl|br`, or `container`/`symbol` at `center`) from `combination_data.json`. Since migrations 0009_combination_parts/0011 also each part's `icon`, `layout` (boxes on the 64 grid), `built_sha`, `form` and `updated_at/by`: the one set of combination tables (`backfill_combinations.py` fills them from the old stores). A combined side icon cannot be approved while a part is not; a combined container icon can. |
 | `concepts` | 13,240 | From `concepts_streamline.json`. |
 | `categories` | 866 | The `(parent) - (child)` tree of `concepts_streamline.json`. |
 | `concept_categories`, `concept_aliases`, `concept_physicals` | — | Links (aliases not seeded yet). |

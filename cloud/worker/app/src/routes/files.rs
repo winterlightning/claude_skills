@@ -57,7 +57,7 @@ pub async fn static_file(ctx: &Ctx) -> Result<Response> {
         return preview_icons_json(ctx).await;
     }
     if let Some(pair_id) = relative.strip_prefix("gallery/combination-previews/").and_then(|n| n.strip_suffix(".svg")) {
-        if let Some(response) = super::side::saved_preview(ctx, pair_id).await? {
+        if let Some(response) = super::combinations::built_preview(ctx, pair_id).await? {
             return Ok(response);
         }
     }

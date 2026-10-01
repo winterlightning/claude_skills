@@ -29,6 +29,10 @@ def published_drawings(item):
     return {s for s in (item.get('sha256'), item.get('source_sha256')) if s}
 
 
+# Sizing modes that place a sub 1:1 at its authored canvas_width × canvas_height (combination_experiment.placement).
+EXCEPTION_SIZES = ('side-source-fit', 'side-32x48', 'side-one-axis32')
+
+
 def _normalized_sub(item, svg):
     """A changed sub measured the way refresh_combination_pairs measures one: its ink normalized to
     SUB32 (sub_ink32.normalize_ink32), on the 32 canvas widened only if the ink reaches its edge."""
@@ -38,6 +42,10 @@ def _normalized_sub(item, svg):
     bounds = ink['bounds']
     extent = max(bounds[2] - bounds[0], bounds[3] - bounds[1])
     item.pop('engine_document', None)
+    # A redrawn sub is a plain SUB32 now: the old drawing's 1:1 exception size no longer applies.
+    if item.get('sizing_mode') in EXCEPTION_SIZES:
+        for key in ('sizing_mode', 'canvas_width', 'canvas_height'):
+            item.pop(key, None)
     item.update(document=document, bounds=bounds, ink32=ink, canvas=max(32, extent * 32 / 28),
                 sha256=sha256(document), source_sha256=sha256(svg))
 

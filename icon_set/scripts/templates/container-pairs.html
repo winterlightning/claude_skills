@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Container pairs · Pictographic</title>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script><script src="combine.js"></script><script src="text-combine.js"></script><script src="container-text-symbol.js"></script>
+<style>
+.cp-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
+.cp-intro{padding:32px 0 6px}.cp-intro h1{font-size:34px;font-weight:600;letter-spacing:-1.5px;margin:0 0 8px}.cp-intro p{color:var(--muted);margin:0;max-width:820px;line-height:1.6}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:16px 0 10px}
+.toolbar input[type=search]{flex:1;min-width:220px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.toolbar select,.btn{border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:#fff;cursor:pointer;font:inherit;font-size:13px}
+.btn.primary{background:#20262d;color:#fff;border-color:#20262d}.btn:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:13px;color:var(--muted);min-height:20px;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card header{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.card h3{margin:0;font-size:13px;line-height:1.35;overflow-wrap:anywhere}.card .id{font:11px ui-monospace,monospace;color:var(--muted);overflow-wrap:anywhere}
+.row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
+.art{aspect-ratio:1;background:#f7f9f4;border-radius:8px;display:grid;place-items:center;overflow:hidden;position:relative}
+.art img,.art svg{width:82%;height:82%}.art .none{font-size:11px;color:var(--muted);text-align:center;padding:6px}
+.art .tag{position:absolute;left:4px;top:4px;font-size:9px;font-weight:700;text-transform:uppercase;background:#fbeccf;color:#7a5200;border-radius:4px;padding:1px 5px}
+.cap{font-size:11px;line-height:1.35;overflow-wrap:anywhere;color:#3a434c}.muted{color:var(--muted)}
+.badge{font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:3px 9px;text-transform:uppercase;white-space:nowrap}
+.badge.built{background:#e3f1e4;color:#23602a}.badge.stale{background:#fbeccf;color:#7a5200}.badge.unbuilt{background:#eceff0;color:#4b5560}
+.review{font-size:11px;font-weight:600}.review.approve{color:#23602a}.review.pending,.review.claimed{color:#923b30}
+.actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.actions .msg{font-size:12px;color:var(--muted)}
+.pager{display:flex;align-items:center;gap:10px;justify-content:center;margin:18px 0}
+dialog{border:1px solid var(--line);border-radius:14px;padding:0;max-width:96vw;width:fit-content;max-height:96vh;margin:2vh auto auto}
+dialog::backdrop{background:rgba(20,24,28,.35)}
+.ed{display:grid;grid-template-columns:auto minmax(300px,440px);gap:24px;padding:20px 20px 10px}
+.ed h2{margin:0 0 4px;font-size:18px}.ed .id{font:11px ui-monospace,monospace;color:var(--muted)}
+.stage{width:min(760px,calc(96vh - 330px),62vw);height:auto;aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:#fff;touch-action:none;user-select:none}
+.stage .grid-line{stroke:#e6eae3;stroke-width:.05}.stage .grid-line.mid{stroke:#d3dacf;stroke-width:.08}.stage .grid-line.major{stroke:#b9c4b4;stroke-width:.1}.stage .box{fill:rgba(47,79,143,.06);stroke:#2f4f8f;stroke-width:.25;stroke-dasharray:.8 .5;cursor:move}
+.stage .handle{fill:#fff;stroke:#2f4f8f;stroke-width:.25;cursor:nwse-resize}.stage .handle.ne,.stage .handle.sw{cursor:nesw-resize}
+.side{display:flex;flex-direction:column;gap:10px;min-width:0;max-height:calc(96vh - 100px);overflow:auto}
+.fields{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}.fields input{width:58px;border:1px solid var(--line);border-radius:6px;padding:6px}
+.pick{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.pick .now{display:flex;gap:8px;align-items:center;font-size:11px}.pick .now .art{width:40px;flex:none}
+.pick input[type=search]{border:1px solid var(--line);border-radius:6px;padding:4px 7px;font-size:12px}
+.cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));grid-auto-rows:58px;gap:4px;max-height:124px;overflow:auto}
+.cands button{border:1px solid var(--line);border-radius:6px;background:#f7f9f4;padding:3px;cursor:pointer;display:flex;flex-direction:column;gap:1px;align-items:center;font-size:8px;overflow:hidden}
+.cands button img{width:34px;height:34px;flex:none}.cands button.approved{border-color:#9cc9a0}
+.textsym{border:1px solid #d9c9a3;border-radius:8px;background:#fffaf0;padding:6px 8px;font-size:12px}
+.textsym summary{cursor:pointer;font-weight:600;color:#7a5200}
+.textsym .tform{display:grid;gap:6px;margin-top:6px}.textsym textarea{font:600 16px/1.3 system-ui;text-transform:uppercase;padding:4px 6px;border:1px solid #c9b98f;border-radius:6px}
+.textsym .trow{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.textsym input[type=number],.textsym select{width:64px;padding:3px 5px;border:1px solid #c9b98f;border-radius:6px}
+.textsym .tprev{width:64px;height:64px;background:#fff;border-radius:6px;display:grid;place-items:center}.textsym .tprev svg{width:56px;height:56px}
+.upload{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px}
+.ed-foot{display:flex;gap:8px;justify-content:flex-end;align-items:center;padding:0 20px 18px}.ed-foot .msg{flex:1;font-size:13px;color:var(--muted)}
+.ed-foot .msg.error,.actions .msg.error{color:#923b30}
+.mode button[aria-pressed=true]{background:#e4f2e6;border-color:#2f7d4a}
+.pstate{font-size:11px;line-height:1.4;border-radius:6px;padding:4px 7px;background:#eceff0;color:#3a434c}.pstate.fix{background:#fbeccf;color:#6b4700}.pstate.ok{background:#e3f1e4;color:#23602a}
+.dnote{display:flex;flex-direction:column;gap:6px;width:100%}.dnote textarea{border:1px solid var(--line);border-radius:6px;padding:6px;font:inherit;font-size:12px}
+.place-info{font-size:12px;color:var(--muted);max-width:min(760px,calc(96vh - 330px),62vw);min-height:3em}.place-info.dirty{color:#8a4b12}.fields select{border:1px solid var(--line);border-radius:6px;padding:6px;font:inherit;font-size:13px}
+.stage .unit{fill:transparent;stroke:#2f7d4a;stroke-width:.2;stroke-dasharray:.6 .5;cursor:move}.stage .unit:hover{fill:rgba(47,125,74,.05)}
+.stage .unit.picked{fill:rgba(47,125,74,.1);stroke-width:.35;stroke-dasharray:none}
+.stage .ehandle{fill:#fff;stroke:#2f7d4a;stroke-width:.25;cursor:nwse-resize}.stage .ehandle.ne,.stage .ehandle.sw{cursor:nesw-resize}
+</style>
+</head>
+<body class="guest">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"></nav></header>
+<main class="cp-main">
+  <section class="cp-intro">
+    <h1>Container pairs</h1>
+    <p>Each container combination: the container and the symbol drawn for it, and their combined 64×64 icon.
+       The combined icon is made in your browser from both parts' current drawings and stored once; a pair turns
+       stale when a part is redrawn. <a href="combinations.html?kind=container">All combinations</a></p>
+  </section>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search concept or reference id">
+    <select id="state"><option value="">Any state</option><option value="unbuilt">Not built</option><option value="stale">Stale</option><option value="built">Built</option><option value="text">Text symbols</option></select>
+    <button class="btn requires-login" id="buildPage" type="button">Build this page</button>
+  </div>
+  <div class="status" id="status">Loading…</div>
+  <div class="grid" id="grid"></div>
+  <div class="pager"><button class="btn" id="prev">Previous</button><span id="page" class="status"></span><button class="btn" id="next">Next</button></div>
+</main>
+
+<dialog id="editor">
+  <div class="ed">
+    <div>
+      <svg class="stage" id="stage" viewBox="0 0 64 64" tabindex="0" aria-label="Symbol placement: arrows move, Alt+arrows resize, + and − grow or shrink"></svg>
+      <div class="fields" style="margin-top:10px">Symbol box
+        <label>x <input id="bx" type="number" step="1"></label><label>y <input id="by" type="number" step="1"></label>
+        <label>w <input id="bw" type="number" step="1" min="0"></label><label>h <input id="bh" type="number" step="1" min="0"></label>
+      </div>
+      <div class="fields" style="margin-top:8px">
+        <span id="nudge"><button class="btn" type="button" data-move="-1,0" title="Move 1 unit">←</button><button class="btn" type="button" data-move="0,-1" title="Move 1 unit">↑</button><button class="btn" type="button" data-move="0,1" title="Move 1 unit">↓</button><button class="btn" type="button" data-move="1,0" title="Move 1 unit">→</button></span>
+        <button class="btn" id="smaller" type="button" title="Both sides smaller by 2">−</button><button class="btn" id="larger" type="button" title="Both sides larger by 2">+</button>
+        <button class="btn" id="natural" type="button" title="The symbol's own size in the 32 box, centred on the current box">Natural size</button>
+      </div>
+      <div class="fields" style="margin-top:8px">
+        <select id="scope" aria-label="Apply to"><option value="pair">This pair only</option><option value="container">This container · all symbols</option></select>
+        <button class="btn" id="edRevert" type="button">Undo changes</button>
+        <button class="btn requires-login" id="edReset" type="button" title="Remove the saved placement (for the scope chosen) and build with the default">Reset to default</button>
+      </div>
+      <div class="place-info" id="placeInfo" role="status"></div>
+      <div class="fields mode" style="margin-top:8px">Click selects
+        <button class="btn" id="modeWhole" type="button" aria-pressed="true">Whole symbol</button>
+        <button class="btn" id="modeElement" type="button" aria-pressed="false" title="Move or resize one letter or part of the symbol; the others stay where they are">Element</button>
+      </div>
+      <div class="fields muted" id="elInfo" style="max-width:min(760px,calc(96vh - 330px),62vw);font-size:12px;min-height:3em"></div>
+    </div>
+    <div class="side">
+      <div><h2 id="edTitle"></h2><div class="id" id="edId"></div></div>
+      <div class="pick" id="pickContainer"></div>
+      <div class="pick" id="pickSymbol"></div>
+    </div>
+  </div>
+  <div class="ed-foot"><span class="msg" id="edMsg" role="status"></span>
+    <button class="btn" id="edCancel" type="button">Close</button>
+    <button class="btn primary" id="edSave" type="button">Build and save</button></div>
+</dialog>
+
+<script>
+const LIMIT = 48, SCALE = 6;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const STATES = {built: 'Built', stale: 'Stale', unbuilt: 'Not built'};
+const params = new URLSearchParams(location.search);
+const view = {q: params.get('q') || '', state: params.get('state') || '', offset: +(params.get('offset') || 0)};
+$('q').value = view.q; $('state').value = view.state;
+let items = [], drawings = new Map();
+// Symbol references drawn as text (typeface v2), with their default text: container-text-v2.json.
+const textSources = new Map();
+const textReady = fetch('container-text-v2.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : {icons: []})
+  .then(d => { for (const e of d.icons || []) textSources.set(e.source_id, {text: e.text, underline: !!e.underline}); }).catch(() => {});
+
+// Where a container puts its symbol by default: the published defaults (container-centers.json). Saved placements
+// live in each pair's symbol layout (placementOf).
+let placementDefaults = {containers: {}, pairs: {}};
+const SOURCES = {preference: 'placement preference', area: 'reviewed content area', anchor: 'container anchor'};
+const placementsReady = fetch('container-centers.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null)
+  .then(defaults => { if (defaults) placementDefaults = defaults; });
+// Each combined icon's check ({build_failed, errors}): Icon review's records of browser builds, then each build's result.
+const checks = new Map();
+const checksReady = fetch('/api/icon-artwork/overrides', {cache: 'no-store'}).then(r => r.ok ? r.json() : {records: []}).catch(() => ({records: []}))
+  .then(d => { for (const r of d.records || []) if (r.add) checks.set(r.key, {build_failed: !!r.build_failed, errors: r.validation?.errors || []}); });
+
+async function api(path, body) {
+  const response = await fetch(path, body === undefined ? {cache: 'no-store'}
+    : {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw Error(data.error || response.statusText);
+  return data;
+}
+
+async function loadDrawings(keys) {
+  const wanted = [...new Set(keys.filter(k => k && !drawings.has(k)))];
+  for (let i = 0; i < wanted.length; i += 100) {
+    const got = await api('/api/combinations/drawings?keys=' + encodeURIComponent(wanted.slice(i, i + 100).join(',')));
+    for (const [key, d] of Object.entries(got)) drawings.set(key, d);
+  }
+}
+
+const part = (item, role) => item.parts.find(p => p.role === role) || {role};
+const savedBox = p => Array.isArray(p.layout) && p.layout.length === 1 && ['x', 'y', 'w', 'h'].every(k => Number.isInteger(p.layout[0][k]))
+  ? {x: p.layout[0].x, y: p.layout[0].y, w: p.layout[0].w, h: p.layout[0].h} : null;
+// The symbol layout's placement fields (a build stores the layout the page sends): `scope: 'pair'` marks a box saved
+// for this pair only ("This pair only"); `container: {center, size}` is the container's placement ("This container
+// · all symbols"), kept on every pair of that container; `scope: 'container'` says the box follows it.
+const layoutOf = p => Array.isArray(p.layout) ? p.layout[0] || null : null;
+const pairBox = p => layoutOf(p)?.scope === 'pair' || (!layoutOf(p)?.scope && layoutOf(p)?.pinned) ? savedBox(p) : null;
+const containerTarget = p => { const c = layoutOf(p)?.container; return c && Array.isArray(c.center) ? {center: c.center, ink: sizeOf(c.size)} : null; };
+const idOf = key => (key || '').split('/').pop();
+const sizeOf = v => Array.isArray(v) && v.length === 2 ? v.map(Number) : null;
+const sameBox = (a, b) => !!a && !!b && ['x', 'y', 'w', 'h'].every(k => a[k] === b[k]);
+
+// The symbol's placement for a pair: its own box ({box, pinned}) unless `own` is false or another symbol is
+// picked, else {center, ink} from (in order) the container's saved placement, the published pair override, the
+// container's published default, the canvas centre. `label` says which, `scope` where a save goes.
+function placementOf(item, icons = {}, own = true) {
+  const s = part(item, 'symbol'), containerKey = icons.container ?? part(item, 'container').icon, symbolKey = icons.symbol ?? s.icon;
+  const box = own && symbolKey === s.icon ? pairBox(s) : null;
+  if (box) return {box, pinned: true, label: 'Saved · this pair', scope: 'pair', by: s.updated_by};
+  const c = idOf(containerKey), y = idOf(symbolKey);
+  const whole = containerKey === part(item, 'container').icon ? containerTarget(s) : null;
+  if (whole) return {...whole, saved: 'container', label: 'Saved · this container', scope: 'container', by: s.updated_by};
+  const optical = placementDefaults.pairs?.[c]?.[y];
+  if (optical) return {center: optical, ink: null, label: 'Default · pair override', scope: 'pair'};
+  const d = placementDefaults.containers?.[c];
+  if (d) return {center: d.center, ink: null, label: 'Default · ' + (SOURCES[d.source] || d.source), scope: 'container'};
+  return {center: [32, 32], ink: null, label: 'Default · canvas center', scope: 'container'};
+}
+
+// The combined drawing for a pair, the symbol placed by `placement` ({box} or {center, ink}, see placementOf).
+// `symbolSvg`: the symbol's drawing with elements edited in the editor, not yet uploaded.
+function compose(mainKey, symbolKey, placement, symbolSvg = null) {
+  const main = drawings.get(mainKey), symbol = drawings.get(symbolKey);
+  if (!main?.svg || !(symbolSvg || symbol?.svg)) throw Error('Both parts need a drawing.');
+  const result = Combine.container(main.svg, symbolSvg || symbol.svg,
+                                   placement.box ? {box: placement.box} : {center: placement.center, ink: placement.ink ?? null});
+  return {...result, main, symbol};
+}
+
+function inlineSvg(svg) {
+  // Drawings come from our own store; the markup is re-read so only the SVG element is kept.
+  const doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+  const el = doc.documentElement;
+  if (el.nodeName !== 'svg' || doc.querySelector('parsererror, script, foreignObject')) return '<div class="none">unreadable</div>';
+  for (const node of [el, ...el.querySelectorAll('*')]) for (const a of [...node.attributes]) if (/^on/i.test(a.name)) node.removeAttribute(a.name);
+  return el.outerHTML;
+}
+
+function thumb(key) {
+  const d = drawings.get(key);
+  return d?.svg ? inlineSvg(d.svg) : `<div class="none">${key ? 'no drawing' : 'none picked'}</div>`;
+}
+
+function reviewLabel(status) {
+  return status ? `<span class="review ${esc(status)}">${status === 'approve' ? 'approved' : esc(status)}</span>` : '<span class="muted">not reviewed</span>';
+}
+
+// The combined icon's state on its card: outdated when a part was redrawn or the symbol's placement changed since it
+// was built, then its check (a part not approved when it was built), then its review.
+const REVIEWS = {approve: ['Approved', 'ok'], pending: ['Disapproved', 'fix'], disapprove: ['Disapproved', 'fix'], claimed: ['Being fixed', 'fix'],
+                 rejected: ['Rejected', 'todo']};
+function combinedState(item) {
+  const c = part(item, 'container'), s = part(item, 'symbol'), icon = item.icon;
+  if (!c.icon || !s.icon) return {label: 'Needs container and symbol', tone: 'todo'};
+  if (!icon) return {label: 'Not built', tone: 'todo'};
+  const changes = [c, s].filter(p => p.stale).map(p => `the ${p.role} drawing changed`);
+  const built = savedBox(s);
+  if (built && !pairBox(s)) {
+    try { if (!sameBox(compose(c.icon, s.icon, placementOf(item)).layout.symbol[0], built)) changes.push('the symbol position or size changed'); }
+    catch (error) { /* a part without a drawing: nothing to compare */ }
+  }
+  if (changes.length) return {label: 'Outdated: recombine', tone: 'fix', why: 'Since it was built, ' + changes.join(', ') + '.', rebuild: true};
+  const check = checks.get(icon.key);
+  if (check?.build_failed && !['pending', 'rejected', 'approve'].includes(icon.review)) {
+    return [c, s].every(p => drawings.get(p.icon)?.review === 'approve')
+      ? {label: 'Parts approved: recombine', tone: 'fix', why: 'Both parts are approved now. Recombine to clear the check.', rebuild: true}
+      : {label: 'Failed check', tone: 'fix', why: check.errors.join(' · ')};
+  }
+  const [label, tone] = REVIEWS[icon.review] || ['To review', 'todo'];
+  return {label, tone};
+}
+
+function card(item) {
+  const c = part(item, 'container'), s = part(item, 'symbol');
+  let combined;
+  if (item.state === 'built') {
+    combined = `<img loading="lazy" src="${esc(item.icon.preview_url)}" alt="">`;
+  } else {
+    try { combined = inlineSvg(compose(c.icon, s.icon, placementOf(item)).svg) + `<span class="tag">preview</span>`; }
+    catch (error) { combined = `<div class="none">${esc(error.message)}</div>`; }
+  }
+  const icon = item.icon, st = combinedState(item);
+  const waiting = [c, s].filter(p => drawings.get(p.icon)?.review !== 'approve').map(p => p.role);
+  return `<article class="card" data-id="${esc(item.reference_id)}">
+    <header><div><h3>${esc(item.concept || item.reference_id)}</h3><div class="id">${esc(item.reference_id)}</div></div>
+      <span class="badge ${item.state}">${STATES[item.state]}</span></header>
+    <div class="pstate ${st.tone}"><b>${esc(st.label)}</b>${st.why ? ' — ' + esc(st.why) : ''}</div>
+    <div class="row">
+      <div><div class="art">${combined}</div><div class="cap"><b>combined</b>${icon ? '<br>' + reviewLabel(icon.review) : ''}</div></div>
+      ${[c, s].map(p => `<div><div class="art">${thumb(p.icon)}</div><div class="cap"><b>${p.role}</b>${textSources.has(p.part_reference_id) ? ' · text' : ''}<br>${esc(p.icon || '—')}
+        ${p.icon ? '<br>' + reviewLabel(drawings.get(p.icon)?.review) : ''}${p.stale ? '<br><b style="color:#7a5200">redrawn since built</b>' : ''}</div></div>`).join('')}
+    </div>
+    <div class="actions requires-login">
+      <button class="btn" data-act="edit" type="button">Edit</button>
+      ${c.icon && s.icon && (item.state !== 'built' || st.rebuild) ? `<button class="btn primary" data-act="build" type="button">${icon ? 'Recombine' : 'Build'}</button>` : ''}
+      ${icon ? `<button class="btn" data-act="approve" type="button" ${icon.review === 'approve' ? 'disabled' : ''}
+                  title="${waiting.length ? 'The ' + esc(waiting.join(' and ')) + ' is not approved yet; the combined icon can still be approved' : ''}">Approve combined</button>
+                <button class="btn" data-act="disapprove" type="button">Disapprove</button>` : ''}
+      <span class="msg" role="status"></span>
+      <div class="dnote" hidden><textarea rows="2" placeholder="What needs fixing?" aria-label="Disapproval note"></textarea>
+        <div><button class="btn" data-act="send-disapproval" type="button">Send disapproval</button></div></div>
+    </div>
+  </article>`;
+}
+
+// A build of a pair: `box` places the symbol (pinned: saved for this pair only); without one, the pair's placement.
+// The symbol layout keeps the container's placement and says which one the box follows.
+function buildRequest(item, overrides = {}) {
+  const icons = {container: overrides.container ?? part(item, 'container').icon, symbol: overrides.symbol ?? part(item, 'symbol').icon};
+  const placement = overrides.box ? {box: overrides.box, pinned: !!overrides.pinned} : placementOf(item, icons, overrides.box !== null);
+  const result = compose(icons.container, icons.symbol, placement);
+  const kept = icons.container === part(item, 'container').icon ? layoutOf(part(item, 'symbol'))?.container : null;
+  const scope = placement.pinned ? 'pair' : placement.saved === 'container' ? 'container' : undefined;
+  result.layout.symbol = result.layout.symbol.map(b => ({...b, ...(scope ? {scope} : {}), ...(kept ? {container: kept} : {})}));
+  return {reference_id: item.reference_id, svg: result.svg, parts: {
+    container: {icon: icons.container, svg_sha256: result.main.svg_sha256, layout: result.layout.container},
+    symbol: {icon: icons.symbol, svg_sha256: result.symbol.svg_sha256, layout: result.layout.symbol}}};
+}
+
+async function build(requests) {
+  const results = [];
+  for (let i = 0; i < requests.length; i += 50) results.push(...(await api('/api/combinations/build', {builds: requests.slice(i, i + 50)})).results);
+  for (const r of results) if (r.ok) checks.set(r.key, {build_failed: r.build_failed, errors: r.errors || []});
+  return results;
+}
+
+// Every container pair (the API pages 500 at a time): for the Text symbols filter and container-wide placements.
+async function allPairs() {
+  const all = [];
+  for (let offset = 0; offset != null;) {
+    const page = await api('/api/combinations?' + new URLSearchParams({kind: 'container', limit: 500, offset}));
+    all.push(...page.items); offset = page.next_offset;
+  }
+  return all;
+}
+// "Text symbols": pairs whose symbol source is marked Text / number on the primitives page.
+let textStatuses = null;
+async function textPairs() {
+  textStatuses ??= await api('/api/primitives/status');
+  const q = view.q.toLowerCase();
+  return (await allPairs()).filter(i => textStatuses[part(i, 'symbol').part_reference_id]?.reason === 'text_number'
+    && (!q || (i.concept || '').toLowerCase().includes(q) || i.reference_id.startsWith(q)));
+}
+
+let seq = 0;
+async function load() {
+  const mine = ++seq;
+  const query = new URLSearchParams({kind: 'container', limit: LIMIT, offset: view.offset});
+  if (view.q) query.set('q', view.q);
+  if (view.state && view.state !== 'text') query.set('state', view.state);
+  history.replaceState(null, '', '?' + new URLSearchParams(Object.entries(view).filter(([, v]) => v)).toString());
+  $('status').textContent = 'Loading…';
+  try {
+    let data;
+    if (view.state === 'text') {
+      const text = await textPairs(), counts = {built: 0, stale: 0, unbuilt: 0};
+      for (const i of text) counts[i.state]++;
+      const next = view.offset + LIMIT < text.length ? view.offset + LIMIT : null;
+      data = {items: text.slice(view.offset, view.offset + LIMIT), total: text.length, counts: {container: counts}, next_offset: next};
+    } else data = await api('/api/combinations?' + query);
+    await Promise.all([textReady, placementsReady, checksReady]);
+    await loadDrawings(data.items.flatMap(i => i.parts.map(p => p.icon)));
+    if (mine !== seq) return;
+    items = data.items;
+    $('grid').innerHTML = items.length ? items.map(card).join('') : '<div class="status">No container pairs match.</div>';
+    const counts = data.counts.container || {};
+    $('status').textContent = `${data.total.toLocaleString()} pairs · built ${counts.built ?? 0} · stale ${counts.stale ?? 0} · not built ${counts.unbuilt ?? 0}`;
+    $('page').textContent = data.total ? `${view.offset + 1}–${view.offset + items.length} of ${data.total.toLocaleString()}` : '';
+    $('prev').disabled = view.offset === 0; $('next').disabled = data.next_offset == null;
+  } catch (error) {
+    if (mine === seq) $('status').textContent = 'Could not load: ' + error.message;
+  }
+}
+
+async function refresh(id) {
+  // One pair again after a change, without reloading the page.
+  const data = await api('/api/combinations?' + new URLSearchParams({q: id, limit: 1}));
+  const item = data.items[0];
+  if (!item) return;
+  for (const p of item.parts) drawings.delete(p.icon);
+  await loadDrawings(item.parts.map(p => p.icon));
+  items = items.map(i => i.reference_id === id ? item : i);
+  const old = document.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
+  if (old) old.outerHTML = card(item);
+}
+
+$('grid').addEventListener('click', async event => {
+  const button = event.target.closest('button[data-act]');
+  if (!button) return;
+  const el = button.closest('.card'), item = items.find(i => i.reference_id === el.dataset.id), msg = el.querySelector('.msg');
+  const say = (text, error) => { msg.textContent = text; msg.classList.toggle('error', !!error); };
+  const act = button.dataset.act;
+  if (act === 'edit') return openEditor(item);
+  button.disabled = true;
+  try {
+    if (act === 'build') {
+      say('Building…');
+      const [result] = await build([buildRequest(item)]);
+      if (!result.ok) throw Error(result.error);
+      await refresh(item.reference_id);
+    } else if (act === 'disapprove') {
+      const form = el.querySelector('.dnote');
+      form.hidden = !form.hidden;
+      if (!form.hidden) form.querySelector('textarea').focus();
+      button.disabled = false;
+    } else if (act === 'approve' || act === 'send-disapproval') {
+      const body = {icon: item.icon.key, svg_sha256: item.icon.svg_sha256, status: act === 'approve' ? 'approve' : 'pending'};
+      if (act === 'send-disapproval') {
+        const note = el.querySelector('.dnote textarea').value.trim();
+        if (!note) { say('Write what needs fixing first.', true); button.disabled = false; return; }
+        Object.assign(body, {reason: 'other', feedback: note});
+      }
+      say('Saving…');
+      await api('/api/reviews', body);
+      await refresh(item.reference_id);
+    }
+  } catch (error) { say(error.message, true); button.disabled = false; }
+});
+
+$('buildPage').onclick = async () => {
+  const requests = [], skipped = [];
+  for (const item of items.filter(i => i.state !== 'built' || combinedState(i).rebuild)) {
+    try { requests.push(buildRequest(item)); } catch (error) { skipped.push(item.reference_id); }
+  }
+  if (!requests.length) { $('status').textContent = 'Nothing on this page can be built yet (each pair needs both drawings).'; return; }
+  if (!confirm(`Build ${requests.length} pair${requests.length === 1 ? '' : 's'} on this page?`)) return;
+  $('buildPage').disabled = true;
+  $('status').textContent = `Building ${requests.length}…`;
+  try {
+    const results = await build(requests);
+    const failed = results.filter(r => !r.ok);
+    await load();
+    $('status').textContent += ` · built ${results.length - failed.length}` + (failed.length ? `, ${failed.length} failed: ${failed[0].error}` : '')
+      + (skipped.length ? ` · ${skipped.length} need both drawings` : '');
+  } catch (error) { $('status').textContent = 'Build failed: ' + error.message; }
+  $('buildPage').disabled = false;
+};
+
+// ---- editor: pick the parts, place the symbol on the grid, build
+
+const editor = {item: null, icons: {}, box: null, last: null, textInk: null, symbolSvg: null, base: null};
+
+function edSay(text, error) { $('edMsg').textContent = text; $('edMsg').classList.toggle('error', !!error); }
+
+// ---- element mode: one letter or part of the symbol moved or resized on its own
+//
+// The symbol drawing is flattened and split into elements: its drawn children, looking through single wrapping
+// groups (a typeface text gives its letters). The mapping from symbol units to the canvas is frozen when element
+// mode starts, so the other elements never move; the symbol box becomes the edited drawing's union on the canvas.
+// The edited drawing (editor.symbolSvg) is uploaded as this pair's own symbol when the pair is saved.
+
+const elements = {mode: 'whole', root: null, units: [], map: null, picked: -1};
+const SKIPPED = new Set(['title', 'desc', 'defs', 'style', 'metadata', 'clipPath', 'mask']);
+const SHAPE_TAGS = new Set(['path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon']);
+const tagOf = n => n.tag.slice(n.tag.lastIndexOf(':') + 1);
+const drawnOf = list => list.filter(n => n.tag && !SKIPPED.has(tagOf(n)));
+const unionOf = boxes => {
+  const b = boxes.filter(Boolean);
+  return b.length ? [Math.min(...b.map(v => v[0])), Math.min(...b.map(v => v[1])), Math.max(...b.map(v => v[2])), Math.max(...b.map(v => v[3]))] : null;
+};
+// The drawable shapes under a node, as combine.js finds them (only groups are walked).
+const shapesOf = n => SHAPE_TAGS.has(tagOf(n)) ? [n] : tagOf(n) === 'g' ? drawnOf(n.children).flatMap(shapesOf) : [];
+const unitBox = u => unionOf(shapesOf(u).map(Combine.box));
+const symbolSvg = () => editor.symbolSvg ?? drawings.get(editor.icons.symbol)?.svg;
+const evenSize = v => Math.max(Combine.STROKE + 2, 2 * Math.round(v / 2));
+
+// Symbol units → canvas for a centreline box, as combine.js bakes it (a flat axis keeps the other axis' scale).
+function mapOf(src, t) {
+  const [x0, y0, x1, y1] = src, flatX = x1 - x0 <= 1e-9, flatY = y1 - y0 <= 1e-9;
+  let sx = flatX ? 1 : t.w / (x1 - x0), sy = flatY ? 1 : t.h / (y1 - y0);
+  if (flatX && !flatY) sx = sy;
+  if (flatY && !flatX) sy = sx;
+  return {sx, sy, dx: t.x - x0 * sx, dy: t.y - y0 * sy};
+}
+const paintedOf = (b, m) => [b[0] * m.sx + m.dx - 2, b[1] * m.sy + m.dy - 2, b[2] * m.sx + m.dx + 2, b[3] * m.sy + m.dy + 2];
+
+function resetElements() {
+  Object.assign(elements, {mode: 'whole', root: null, units: [], map: null, picked: -1});
+  editor.symbolSvg = null;
+}
+
+function startElements() {
+  const svg = symbolSvg();
+  if (!svg || !editor.box) throw Error('Pick a symbol first.');
+  const root = Combine.flatten(Combine.parse(svg));
+  let list = drawnOf(root.children);
+  while (list.length === 1 && tagOf(list[0]) === 'g') list = drawnOf(list[0].children);
+  const units = list.filter(unitBox);
+  if (!units.length) throw Error('The symbol has no drawable elements.');
+  Object.assign(elements, {mode: 'element', root, units, map: mapOf(unionOf(units.map(unitBox)), editor.box), picked: -1});
+}
+
+// Element i drawn so its painted box on the canvas is [left, top, right, bottom]; nothing else moves.
+function setElement(i, painted) {
+  const u = elements.units[i], b0 = unitBox(u), {sx, sy, dx, dy} = elements.map;
+  const c = [painted[0] + 2, painted[1] + 2, painted[2] - 2, painted[3] - 2];
+  const t = [(c[0] - dx) / sx, (c[1] - dy) / sy, (c[2] - dx) / sx, (c[3] - dy) / sy];
+  const kx = b0[2] - b0[0] > 1e-9 ? (t[2] - t[0]) / (b0[2] - b0[0]) : 1, ky = b0[3] - b0[1] > 1e-9 ? (t[3] - t[1]) / (b0[3] - b0[1]) : 1;
+  for (const shape of shapesOf(u)) Combine.transformElement(shape, kx, ky, t[0] - b0[0] * kx, t[1] - b0[1] * ky);
+  editor.symbolSvg = Combine.serialize(elements.root);
+  $('scope').value = 'pair';  // moved elements are this pair's own symbol
+  // The new box: the edited drawing's union on the canvas, its edges on grid lines.
+  const [l, tp, r, b] = paintedOf(unionOf(elements.units.map(unitBox)), elements.map).map(Math.round);
+  editor.box = {x: l + 2, y: tp + 2, w: Math.max(0, r - l - 4), h: Math.max(0, b - tp - 4)};
+  drawStage();
+}
+
+function elementInfo() {
+  if (elements.mode !== 'element') {
+    $('elInfo').textContent = editor.symbolSvg ? 'Elements of this symbol were edited: saving uploads them as this pair\'s own symbol.' : '';
+    return;
+  }
+  let text = 'Click a letter or part of the symbol; drag it to move, drag a corner to resize (Shift keeps proportions). '
+    + 'Edges snap to the grid and sizes stay even; the other elements stay where they are.';
+  const u = elements.units[elements.picked];
+  if (u) {
+    const [l, t, r, b] = paintedOf(unitBox(u), elements.map);
+    text = `Element ${elements.picked + 1} of ${elements.units.length}: ink ${+(r - l).toFixed(2)} × ${+(b - t).toFixed(2)} at ${+l.toFixed(2)}, ${+t.toFixed(2)}.`;
+  }
+  $('elInfo').textContent = text + (editor.symbolSvg ? ' · edited, not saved yet' : '');
+}
+
+function drawStage() {
+  const stage = $('stage'), {icons, box} = editor;
+  let lines = '';
+  // The 64 grid: a line every unit, stronger every 8 and every 16.
+  for (let v = 0; v <= 64; v++) {
+    const cls = v % 16 === 0 ? 'grid-line major' : v % 8 === 0 ? 'grid-line mid' : 'grid-line';
+    lines += `<line class="${cls}" x1="${v}" y1="0" x2="${v}" y2="64"/><line class="${cls}" x1="0" y1="${v}" x2="64" y2="${v}"/>`;
+  }
+  let art = '';
+  try {
+    // Without a box yet: where the pair's placement puts this symbol (a wide text at its exact ink size).
+    const start = box ? {box} : (() => { const p = placementOf(editor.item, icons); return p.box ? p : {center: p.center, ink: editor.textInk ?? p.ink}; })();
+    editor.last = compose(icons.container, icons.symbol, start, editor.symbolSvg);
+    if (!box) { const {x, y, w, h} = editor.last.layout.symbol[0]; editor.box = {x, y, w, h}; }
+    art = inlineSvg(editor.last.svg).replace('<svg', '<svg x="0" y="0" width="64" height="64"');
+    edSay('');
+  } catch (error) {
+    editor.last = null;
+    const main = drawings.get(icons.container);
+    if (main?.svg) art = inlineSvg(main.svg).replace('<svg', '<svg x="0" y="0" width="64" height="64"');
+    edSay(error.message, true);
+  }
+  const b = editor.box;
+  const corners = (cls, attr, x, y, w, h) => [['nw', x, y], ['ne', x + w, y], ['sw', x, y + h], ['se', x + w, y + h]]
+    .map(([k, cx, cy]) => `<rect class="${cls} ${k}" ${attr}="${k}" x="${cx - .9}" y="${cy - .9}" width="1.8" height="1.8"/>`).join('');
+  let frame = '';
+  if (elements.mode === 'element') {
+    // Hit boxes where each element is drawn now (the shown box is rounded to the grid).
+    const shown = mapOf(unionOf(elements.units.map(unitBox)), b);
+    elements.units.forEach((u, i) => {
+      const [l, t, r, bt] = paintedOf(unitBox(u), shown);
+      frame += `<rect class="unit${i === elements.picked ? ' picked' : ''}" data-unit="${i}" x="${l}" y="${t}" width="${r - l}" height="${bt - t}"/>`;
+    });
+    const u = elements.units[elements.picked];
+    if (u) { const [l, t, r, bt] = paintedOf(unitBox(u), shown); frame += corners('ehandle', 'data-ehandle', l, t, r - l, bt - t); }
+  } else if (b) {
+    frame = `<rect class="box" id="dragBox" x="${b.x}" y="${b.y}" width="${Math.max(b.w, .2)}" height="${Math.max(b.h, .2)}"/>`
+      + corners('handle', 'data-handle', b.x, b.y, b.w, b.h);
+  }
+  stage.innerHTML = lines + art + frame;
+  for (const [id, k] of [['bx', 'x'], ['by', 'y'], ['bw', 'w'], ['bh', 'h']]) $(id).value = b ? b[k] : '';
+  placeInfo();
+  $('modeWhole').setAttribute('aria-pressed', String(elements.mode === 'whole'));
+  $('modeElement').setAttribute('aria-pressed', String(elements.mode === 'element'));
+  elementInfo();
+  $('edSave').disabled = !editor.last;
+}
+
+// A different symbol drawing starts over: no element edits, its natural size.
+function useSymbol(key, ink = null) {
+  editor.icons.symbol = key; editor.box = null; editor.textInk = ink;
+  resetElements();
+}
+
+// Where the shown placement comes from, and whether it is changed and not saved yet.
+function placeInfo() {
+  if (!editor.item) return;
+  const p = placementOf(editor.item, editor.icons), b = editor.box, dirty = !!b && !!editor.base && (!sameBox(b, editor.base) || !!editor.symbolSvg);
+  const size = b ? ` · box ${b.x}, ${b.y} · ${b.w} × ${b.h}` : '';
+  $('placeInfo').textContent = (dirty ? 'Unsaved' + size + ` (was ${p.label}${p.by ? ' by ' + p.by : ''})` : p.label + (p.by ? ' by ' + p.by : '') + size)
+    + ($('scope').value === 'container' ? ' · saving applies to every symbol in this container without its own placement' : '');
+  $('placeInfo').classList.toggle('dirty', dirty);
+}
+
+// The whole symbol's box moved by (dx, dy) or grown by (dw, dh) around its centre; a flat axis stays flat.
+function moveBox(dx, dy, dw = 0, dh = 0) {
+  const b = editor.box;
+  if (!b) return;
+  const grow = (start, size, d) => size === 0 || size + d < 1 ? [start, size] : [start - d / 2, size + d];
+  const [x, w] = grow(b.x + dx, b.w, dw), [y, h] = grow(b.y + dy, b.h, dh);
+  editor.box = {x: Math.round(x), y: Math.round(y), w, h};
+  elements.mode = 'whole'; elements.picked = -1;
+  drawStage();
+}
+
+function pickPanel(role) {
+  const panel = $(role === 'container' ? 'pickContainer' : 'pickSymbol'), key = editor.icons[role];
+  panel.innerHTML = `<div class="now"><div class="art">${thumb(key)}</div><div><b>${role}</b><br>${esc(key || 'none picked')}
+      ${key ? '<br>' + reviewLabel(drawings.get(key)?.review) : ''}</div></div>
+    <input type="search" placeholder="Find a ${role} icon to use" aria-label="Find a ${role} icon">
+    <div class="cands"></div>
+    <div class="upload"><span class="muted">or upload an SVG:</span><input type="file" accept=".svg,image/svg+xml"><button class="btn" type="button">Upload and approve</button></div>`;
+  if (role === 'symbol') textPanel(panel);
+  const search = panel.querySelector('input[type=search]'), list = panel.querySelector('.cands');
+  let typing;
+  const find = async () => {
+    try {
+      const found = await api('/api/combinations/candidates?' + new URLSearchParams({role, q: search.value}));
+      list.innerHTML = found.map(c => `<button type="button" data-key="${esc(c.key)}" class="${c.review === 'approve' ? 'approved' : ''}" title="${esc(c.key)}">
+        <img loading="lazy" src="${esc(c.preview_url)}" alt="">${esc((c.name || c.key).slice(0, 24))}</button>`).join('') || '<span class="muted">No icons found.</span>';
+    } catch (error) { list.textContent = error.message; }
+  };
+  search.oninput = () => { clearTimeout(typing); typing = setTimeout(find, 250); };
+  list.onclick = async event => {
+    const button = event.target.closest('button[data-key]');
+    if (!button) return;
+    await loadDrawings([button.dataset.key]);
+    if (role === 'symbol') useSymbol(button.dataset.key);  // a new symbol starts at its natural size
+    else editor.icons[role] = button.dataset.key;
+    pickPanel(role); drawStage();
+  };
+  const [file, upload] = [panel.querySelector('input[type=file]'), panel.querySelector('.upload button')];
+  upload.onclick = async () => {
+    const chosen = file.files?.[0];
+    if (!chosen) return edSay('Choose an SVG file first.', true);
+    upload.disabled = true; edSay('Uploading…');
+    try {
+      const data = await api('/api/icons/upload', {name: editor.item.concept || role, family: role, svg: await chosen.text(), approve: true,
+                                                   reference: {id: part(editor.item, role).part_reference_id, role}});
+      await loadDrawings([data.record.key]);
+      if (role === 'symbol') useSymbol(data.record.key);
+      else editor.icons[role] = data.record.key;
+      pickPanel(role); drawStage(); edSay('Uploaded and approved.');
+    } catch (error) { edSay(error.message, true); upload.disabled = false; }
+  };
+  find();
+}
+
+// A text symbol drawn with typeface v2 (container-text-symbol.js): previewed here and uploaded as this pair's own
+// symbol (approved, against the combination id: the same text can need a different size in each container), placed
+// at its natural size in the 32 box, or at its exact ink size when wider. It reopens with the settings the pair's
+// current text was drawn with (kept in the drawing's <desc>), else the source's default text.
+function textPanel(panel) {
+  const ref = part(editor.item, 'symbol').part_reference_id, source = textSources.get(ref);
+  const saved = ContainerTextSymbol.settingsOf(drawings.get(editor.icons.symbol)?.svg), start = saved || source;
+  const box = document.createElement('details');
+  box.className = 'textsym'; box.open = !!start;
+  box.innerHTML = `<summary>Text symbol${saved ? ' (this pair\'s text)' : source ? ' (this symbol is text)' : ''}</summary><div class="tform">
+    ${saved?.manual ? '<span class="muted">Letters of this pair were moved one by one (Element). Using the text again draws it without those moves.</span>' : ''}
+    <textarea rows="2" aria-label="Symbol text"></textarea>
+    <div class="trow"><label>Size <select></select></label><label>Letter <input type="number" min="0" max="24" step="2" value="4"></label>
+      <label>Word <input type="number" min="2" max="24" step="2" value="8"></label><label>Line <input type="number" min="0" max="24" step="2" value="4"></label>
+      <label><input type="checkbox"> Underline</label></div>
+    <div class="trow"><div class="tprev"></div><span class="tmsg muted"></span></div>
+    <div class="trow"><button class="btn" type="button">Use this text for this pair</button></div></div>`;
+  panel.querySelector('.upload').before(box);
+  const q = selector => box.querySelector(selector);
+  const [text, size, underline, preview, msg, use] = [q('textarea'), q('select'), q('input[type=checkbox]'), q('.tprev'), q('.tmsg'), q('button')];
+  const [t, w, l] = box.querySelectorAll('input[type=number]');
+  text.value = start?.text || ''; underline.checked = !!start?.underline;
+  if (saved) { t.value = saved.tracking; w.value = saved.wordSpace; l.value = saved.lineGap; }
+  let doc = null;
+  const read = () => {
+    const value = text.value.replace(/\r/g, '');
+    // Letter moves belong to the text they were made on.
+    return {text: value, size: size.value, tracking: +t.value, wordSpace: +w.value, lineGap: +l.value, underline: underline.checked,
+            offsets: saved && value === saved.text ? saved.offsets : []};
+  };
+  const draw = () => {
+    doc = null; preview.innerHTML = '';
+    const settings = read();
+    if (!settings.text.trim()) { msg.textContent = 'Type the text.'; return; }
+    if ([settings.tracking, settings.wordSpace, settings.lineGap].some(v => !Number.isFinite(v) || v < 0 || v % 2)) { msg.textContent = 'Spacing must be even whole units.'; return; }
+    try { doc = ContainerTextSymbol.symbolDocument(settings); }
+    catch (error) { msg.textContent = error.message; return; }
+    preview.innerHTML = inlineSvg(doc.svg);
+    msg.textContent = `size ${doc.size} · ink ${doc.W} × ${doc.H}` + (doc.fits ? '' : ' · combined at its exact size');
+  };
+  ContainerTextSymbol.load().then(() => {
+    size.add(new Option('Auto', 'auto'));
+    for (const n of ContainerTextSymbol.sizeList()) size.add(new Option(String(n), String(n)));
+    if (saved && [...size.options].some(o => o.value === saved.size)) size.value = saved.size;
+    draw();
+  }).catch(error => { msg.textContent = error.message; });
+  box.addEventListener('input', draw);
+  use.onclick = async () => {
+    if (!doc) return;
+    use.disabled = true; edSay('Uploading the text symbol…');
+    try {
+      const data = await api('/api/icons/upload', {name: 'Text ' + (read().text.replace(/\n/g, ' ') || 'text').slice(0, 100), family: 'symbol',
+                                                   category: 'text', svg: doc.svg, approve: true,
+                                                   reference: {id: editor.item.reference_id, role: 'symbol'}});
+      await loadDrawings([data.record.key]);
+      useSymbol(data.record.key, doc.ink);  // placed at its exact ink size when it is wider than the 32 box
+      $('scope').value = 'pair';  // the text is this pair's own symbol
+      pickPanel('symbol'); drawStage(); edSay('Text symbol uploaded and approved for this pair. Build and save to use it here.');
+    } catch (error) { edSay(error.message, true); use.disabled = false; }
+  };
+}
+
+function openEditor(item) {
+  editor.item = item;
+  editor.icons = {container: part(item, 'container').icon, symbol: part(item, 'symbol').icon};
+  editor.box = null;
+  editor.textInk = null;
+  resetElements();
+  $('edTitle').textContent = item.concept || item.reference_id;
+  $('edId').textContent = item.reference_id;
+  $('scope').value = placementOf(item).scope;
+  pickPanel('container'); pickPanel('symbol'); drawStage();
+  editor.base = editor.box && {...editor.box};
+  placeInfo();
+  $('editor').showModal();
+  $('stage').focus({preventScroll: true});
+}
+
+function stagePoint(event) {
+  const r = $('stage').getBoundingClientRect();
+  return [(event.clientX - r.left) / r.width * 64, (event.clientY - r.top) / r.height * 64];
+}
+
+$('modeWhole').onclick = () => { elements.mode = 'whole'; elements.picked = -1; drawStage(); };
+$('modeElement').onclick = () => {
+  try { startElements(); drawStage(); } catch (error) { edSay(error.message, true); }
+};
+
+let drag = null;
+$('stage').addEventListener('pointerdown', event => {
+  $('stage').focus({preventScroll: true});
+  if (elements.mode === 'element') {
+    const unit = event.target.dataset?.unit, corner = event.target.dataset?.ehandle;
+    if (unit === undefined && !corner) { if (elements.picked >= 0) { elements.picked = -1; drawStage(); } return; }
+    if (unit !== undefined) elements.picked = +unit;
+    const u = elements.units[elements.picked];
+    drag = {element: elements.picked, corner, start: stagePoint(event), painted: paintedOf(unitBox(u), elements.map), last: null};
+    $('stage').setPointerCapture(event.pointerId);
+    drawStage();
+    return;
+  }
+  if (!editor.box) return;
+  const handle = event.target.dataset?.handle, onBox = event.target.id === 'dragBox';
+  if (!handle && !onBox) return;
+  drag = {handle, start: stagePoint(event), box: {...editor.box}};
+  $('stage').setPointerCapture(event.pointerId);
+});
+// Pointer moves are merged per frame, so the release position is applied as a last move.
+function dragTo(event) {
+  if (!drag) return;
+  const [x, y] = stagePoint(event), mx = x - drag.start[0], my = y - drag.start[1];
+  if (drag.element !== undefined) {
+    // Painted edges on grid lines, painted sizes even; a flat element keeps its flat axis.
+    const [l0, t0, r0, b0] = drag.painted, L = Math.round(l0), T = Math.round(t0);
+    const flatX = r0 - l0 <= Combine.STROKE + 1e-9, flatY = b0 - t0 <= Combine.STROKE + 1e-9;
+    const W0 = flatX ? r0 - l0 : evenSize(r0 - l0), H0 = flatY ? b0 - t0 : evenSize(b0 - t0);
+    let p;
+    if (!drag.corner) {
+      const nl = L + Math.round(mx), nt = T + Math.round(my);
+      p = [nl, nt, nl + W0, nt + H0];
+    } else {
+      const c = drag.corner;
+      let W = flatX ? W0 : evenSize(W0 + (c.includes('e') ? mx : -mx)), H = flatY ? H0 : evenSize(H0 + (c.includes('s') ? my : -my));
+      if (event.shiftKey && !flatX && !flatY) { const f = Math.max(W / W0, H / H0); W = evenSize(W0 * f); H = evenSize(H0 * f); }
+      const l = c.includes('w') ? L + W0 - W : L, t = c.includes('n') ? T + H0 - H : T;
+      p = [l, t, l + W, t + H];
+    }
+    const key = p.join(',');
+    if (key !== drag.last) { drag.last = key; setElement(drag.element, p); }
+    return;
+  }
+  const dx = Math.round(mx), dy = Math.round(my), b = {...drag.box};
+  if (!drag.handle) { b.x += dx; b.y += dy; }
+  else {
+    // A flat axis (a straight rule) stays flat.
+    if (drag.handle.includes('w') && b.w) { b.x += dx; b.w -= dx; }
+    if (drag.handle.includes('e') && b.w) b.w += dx;
+    if (drag.handle.includes('n') && b.h) { b.y += dy; b.h -= dy; }
+    if (drag.handle.includes('s') && b.h) b.h += dy;
+    if ((drag.box.w && b.w < 1) || (drag.box.h && b.h < 1)) return;
+  }
+  if (b.x !== editor.box.x || b.y !== editor.box.y || b.w !== editor.box.w || b.h !== editor.box.h) { editor.box = b; drawStage(); }
+}
+$('stage').addEventListener('pointermove', dragTo);
+$('stage').addEventListener('pointerup', event => { dragTo(event); drag = null; });
+for (const [id, k] of [['bx', 'x'], ['by', 'y'], ['bw', 'w'], ['bh', 'h']]) {
+  $(id).onchange = () => {
+    const v = Math.round(+$(id).value);
+    if (Number.isFinite(v) && editor.box) { editor.box = {...editor.box, [k]: v}; elements.mode = 'whole'; elements.picked = -1; drawStage(); }
+  };
+}
+$('nudge').onclick = event => {
+  const move = event.target.dataset?.move;
+  if (move) { const [dx, dy] = move.split(',').map(Number); moveBox(dx, dy); }
+};
+$('smaller').onclick = () => moveBox(0, 0, -2, -2);
+$('larger').onclick = () => moveBox(0, 0, 2, 2);
+$('scope').onchange = placeInfo;
+$('edRevert').onclick = () => {
+  resetElements();
+  editor.box = editor.base && {...editor.base};
+  drawStage();
+};
+// Arrows move 1 (Shift: 4), Alt+arrows resize by 2, + / − both sides; in element mode they act on the picked element.
+$('stage').addEventListener('keydown', event => {
+  const d = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[event.key];
+  if (elements.mode === 'element') {
+    const u = elements.units[elements.picked];
+    if (!u || !d) return;
+    event.preventDefault();
+    const [l, t, r, b] = paintedOf(unitBox(u), elements.map).map(Math.round), k = event.shiftKey ? 4 : 1;
+    const W = r - l <= Combine.STROKE ? r - l : evenSize(r - l), H = b - t <= Combine.STROKE ? b - t : evenSize(b - t);
+    if (event.altKey) {
+      const nw = W <= Combine.STROKE ? W : evenSize(W + 2 * d[0]), nh = H <= Combine.STROKE ? H : evenSize(H + 2 * d[1]);
+      setElement(elements.picked, [l, t, l + nw, t + nh]);
+    } else setElement(elements.picked, [l + d[0] * k, t + d[1] * k, l + d[0] * k + W, t + d[1] * k + H]);
+    return;
+  }
+  if (d && event.altKey) { event.preventDefault(); moveBox(0, 0, 2 * d[0], 2 * d[1]); }
+  else if (d) { event.preventDefault(); const k = event.shiftKey ? 4 : 1; moveBox(d[0] * k, d[1] * k); }
+  else if (['+', '='].includes(event.key)) { event.preventDefault(); moveBox(0, 0, 2, 2); }
+  else if (['-', '_'].includes(event.key)) { event.preventDefault(); moveBox(0, 0, -2, -2); }
+});
+
+$('natural').onclick = () => {
+  const b = editor.box, main = drawings.get(editor.icons.container), symbol = symbolSvg();
+  if (!main?.svg || !symbol) return;
+  const center = b ? [Math.min(64, Math.max(0, b.x + b.w / 2)), Math.min(64, Math.max(0, b.y + b.h / 2))] : [32, 32];
+  try {
+    const box = Combine.container(main.svg, symbol, {center, ink: null}).layout.symbol[0];
+    editor.box = {x: box.x, y: box.y, w: box.w, h: box.h}; elements.mode = 'whole'; elements.picked = -1; drawStage();
+  } catch (error) { edSay(error.message, true); }
+};
+
+// The edited elements as this pair's own symbol drawing: uploaded approved against the combination id (a typeface
+// text records that its letters were placed by hand).
+async function uploadEditedSymbol() {
+  const root = Combine.parse(editor.symbolSvg), desc = root.children.find(c => c.tag && tagOf(c) === 'desc');
+  let text = null;
+  const body = desc?.children.find(c => c.text !== undefined);
+  if (body) try { const m = JSON.parse(body.text); if (m.typeface) { m.manual_elements = true; body.text = JSON.stringify(m); text = m.text; } } catch {}
+  const name = text ? 'Text ' + text.replace(/\n/g, ' ') : (editor.item.concept || 'Pair') + ' symbol';
+  const data = await api('/api/icons/upload', {name: name.slice(0, 120), family: 'symbol', ...(text ? {category: 'text'} : {}),
+                                               svg: Combine.serialize(root), approve: true, reference: {id: editor.item.reference_id, role: 'symbol'}});
+  await loadDrawings([data.record.key]);
+  const box = editor.box;
+  useSymbol(data.record.key);
+  editor.box = box;
+  pickPanel('symbol');
+  return data.record.key;
+}
+
+// A container-wide placement: the box's centre, and its painted size unless the box keeps this symbol's natural size
+// (then every other symbol keeps its own natural size too).
+function containerPlacement() {
+  const b = editor.box, center = [b.x + b.w / 2, b.y + b.h / 2];
+  const natural = Combine.container(drawings.get(editor.icons.container).svg, symbolSvg(), {center, ink: null}).layout.symbol[0];
+  return {center, size: natural.w === b.w && natural.h === b.h ? null : [b.w + 4, b.h + 4]};
+}
+
+// Save (or, with null, remove) a container's placement on every pair of that container through Ray's
+// POST /api/combinations/parts: each symbol layout keeps it as `container`; a pair without its own box follows it
+// (`scope: 'container'`). A built pair keeps the box it was built with, so its card shows Outdated until recombined;
+// an unbuilt one gets the box the placement gives its symbol. `skip`: the pair the editor builds itself.
+async function saveContainerPlacement(containerKey, target, skip) {
+  const pairs = (await allPairs()).filter(i => part(i, 'container').icon === containerKey && i.reference_id !== skip);
+  await loadDrawings(pairs.flatMap(i => i.parts.map(p => p.icon)));
+  const updates = [];
+  for (const item of pairs) {
+    const s = part(item, 'symbol'), old = layoutOf(s), own = !!pairBox(s);
+    if (!target && !old?.container) continue;
+    let box = savedBox(s);
+    if (!box && target && s.icon) {
+      try { const b = compose(containerKey, s.icon, {center: target.center, ink: target.size}).layout.symbol[0]; box = {paths: b.paths, x: b.x, y: b.y, w: b.w, h: b.h}; }
+      catch (error) { /* no drawing yet: kept without a box */ }
+    }
+    const {container: _, scope: __, ...rest} = old || {};
+    const layout = box || old ? [{...(old ? rest : {}), ...(box || {}), ...(own ? {scope: 'pair'} : target ? {scope: 'container'} : {}),
+                                  ...(target ? {container: {center: target.center, size: target.size}} : {})}] : null;
+    // Ray's parts route stores {x, y, w, h} boxes: a pair with no box and no drawing to compute one is left as it is.
+    if (!layout || !['x', 'y', 'w', 'h'].every(k => Number.isFinite(layout[0][k]))) continue;
+    updates.push({reference_id: item.reference_id, role: 'symbol', layout});
+  }
+  for (let i = 0; i < updates.length; i += 6) await Promise.all(updates.slice(i, i + 6).map(u => api('/api/combinations/parts', u)));
+  return updates.length;
+}
+
+// After a save: the page's pairs again (a container-wide change shows on every card of that container), the editor
+// on the stored state.
+async function afterSave(result) {
+  await load();
+  editor.item = items.find(i => i.reference_id === editor.item.reference_id) || editor.item;
+  editor.box = null; resetElements(); drawStage();
+  editor.base = editor.box && {...editor.box}; placeInfo();
+  edSay(result.build_failed ? 'Saved. Its check fails until: ' + result.errors.join('; ') + ' (it can still be approved).' : 'Saved.');
+}
+
+$('edCancel').onclick = () => $('editor').close();
+$('edSave').onclick = async () => {
+  $('edSave').disabled = true;
+  try {
+    const container = $('scope').value === 'container';
+    if (container && editor.symbolSvg) throw Error('Moved elements belong to this pair: choose “This pair only” to save them.');
+    if (editor.symbolSvg) { edSay('Uploading the edited symbol…'); await uploadEditedSymbol(); drawStage(); }
+    const {item, icons, box} = editor;
+    let request;
+    if (container) {
+      // Saved for the container; this pair follows it (its own box, if any, is dropped).
+      edSay('Saving the container placement on its pairs…');
+      const target = containerPlacement();
+      const n = await saveContainerPlacement(icons.container, target, item.reference_id);
+      const s = part(item, 'symbol'), {scope: _, ...rest} = layoutOf(s) || {};
+      const followed = {...item, parts: item.parts.map(p => p === s ? {...p, layout: [{...rest, x: 0, y: 0, w: 0, h: 0, scope: 'container', container: target}]} : p)};
+      request = buildRequest(followed, {...icons, box: null});
+      edSay(`Saved on ${n} other pair${n === 1 ? '' : 's'} of this container. Building…`);
+    } else request = buildRequest(item, {...icons, box, pinned: true});
+    edSay('Building…');
+    const [result] = await build([request]);
+    if (!result.ok) throw Error(result.error);
+    await afterSave(result);
+  } catch (error) { edSay(error.message, true); }
+  $('edSave').disabled = !editor.last;
+};
+// Reset to default: the saved placement for the chosen scope goes (this pair's own box and placement, or the
+// container's), and the pair is built where the default puts it.
+$('edReset').onclick = async () => {
+  const {item, icons} = editor, c = idOf(icons.container), y = idOf(icons.symbol), container = $('scope').value === 'container';
+  if (container && !confirm('Remove the saved placement for every symbol in this container?')) return;
+  $('edReset').disabled = true;
+  try {
+    edSay('Resetting…');
+    let target = item;
+    if (container) {
+      // The container's placement goes from all its pairs; this one is built on the default.
+      await saveContainerPlacement(icons.container, null, item.reference_id);
+      const s = part(item, 'symbol'), {container: _, scope: __, ...rest} = layoutOf(s) || {};
+      target = {...item, parts: item.parts.map(p => p === s ? {...p, layout: layoutOf(s) ? [rest] : null} : p)};
+    }
+    resetElements(); editor.textInk = null;
+    const [result] = await build([buildRequest(target, {...icons, box: null})]);
+    if (!result.ok) throw Error(result.error);
+    await afterSave(result);
+  } catch (error) { edSay(error.message, true); }
+  $('edReset').disabled = false;
+};
+
+let typing;
+$('q').oninput = () => { clearTimeout(typing); typing = setTimeout(() => { view.q = $('q').value.trim(); view.offset = 0; load(); }, 250); };
+$('state').onchange = () => { view.state = $('state').value; view.offset = 0; load(); };
+$('prev').onclick = () => { view.offset = Math.max(0, view.offset - LIMIT); load(); scrollTo(0, 0); };
+$('next').onclick = () => { view.offset += LIMIT; load(); scrollTo(0, 0); };
+// ?edit=<reference id> (the Edit link on Combinations): that pair's editor opens once the page has it.
+load().then(() => { const id = params.get('edit'), item = id && items.find(i => i.reference_id === id); if (item) openEditor(item); });
+</script>
+</body>
+</html>

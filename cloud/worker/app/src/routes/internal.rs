@@ -66,7 +66,9 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             canvas_size = excluded.canvas_size, svg_sha256 = excluded.svg_sha256, python_source = excluded.python_source, \
             preview_url = excluded.preview_url, original_sources = excluded.original_sources, variant_of = excluded.variant_of, \
             variant_root = excluded.variant_root, variant_label = excluded.variant_label, build_failed = excluded.build_failed, \
-            pushed_at = excluded.pushed_at WHERE icons.uploaded = 0",
+            pushed_at = excluded.pushed_at WHERE icons.uploaded = 0 \
+            AND NOT (icons.family IN ('side_combination64', 'container_combination64') \
+                     AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build'))",
             args![icon.key.clone(), icon.icon_id.clone(), icon.name.clone(), icon.family.clone(), icon.category.clone(),
                   icon.profile.clone(), icon.canvas_size.map(|c| c.round() as i64), icon.svg_sha256.clone(),
                   (!icon.python_source.is_null()).then(|| icon.python_source.to_string()), icon.preview_url.clone(),
@@ -99,11 +101,10 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         }
     }
     if is_final {
-        // Side combination 64 icons of pairs made on the cloud (side_pairs.rs) and Container combination 64
-        // icons (container_pairs.rs) are not in any push.
-        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? AND family != 'container_combination64' \
-            AND NOT (family = 'side_combination64' AND COALESCE(icon_id, '') IN (SELECT key FROM store_documents WHERE store = 'side-pairs'))",
-            args![push_id])?);
+        // Combined icons belong to the combination tables (built in the browser, combinations.rs): a push adds
+        // the ones it builds but never removes one.
+        statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE uploaded = 0 AND pushed_at != ? \
+            AND family NOT IN ('side_combination64', 'container_combination64')", args![push_id])?);
         let push_details = data.get("details").cloned().unwrap_or(json!({}));
         statements.push(db::stmt(&ctx.db, "INSERT INTO catalog_pushes(pushed_at, pushed_by, details) VALUES (?, ?, ?)",
                                  args![now.clone(), user, python_json(&push_details)])?);
