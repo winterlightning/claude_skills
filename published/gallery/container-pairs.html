@@ -31,7 +31,7 @@ dialog::backdrop{background:rgba(20,24,28,.35)}
 .ed{display:grid;grid-template-columns:auto minmax(300px,440px);gap:24px;padding:20px 20px 10px}
 .ed h2{margin:0 0 4px;font-size:18px}.ed .id{font:11px ui-monospace,monospace;color:var(--muted)}
 .stage{width:min(760px,calc(96vh - 330px),62vw);height:auto;aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:#fff;touch-action:none;user-select:none}
-.stage .grid-line{stroke:#e9ede6;stroke-width:.06}.stage .box{fill:rgba(47,79,143,.06);stroke:#2f4f8f;stroke-width:.25;stroke-dasharray:.8 .5;cursor:move}
+.stage .grid-line{stroke:#e6eae3;stroke-width:.05}.stage .grid-line.mid{stroke:#d3dacf;stroke-width:.08}.stage .grid-line.major{stroke:#b9c4b4;stroke-width:.1}.stage .box{fill:rgba(47,79,143,.06);stroke:#2f4f8f;stroke-width:.25;stroke-dasharray:.8 .5;cursor:move}
 .stage .handle{fill:#fff;stroke:#2f4f8f;stroke-width:.25;cursor:nwse-resize}.stage .handle.ne,.stage .handle.sw{cursor:nesw-resize}
 .side{display:flex;flex-direction:column;gap:10px;min-width:0;max-height:calc(96vh - 100px);overflow:auto}
 .fields{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px}.fields input{width:58px;border:1px solid var(--line);border-radius:6px;padding:6px}
@@ -465,7 +465,11 @@ function elementInfo() {
 function drawStage() {
   const stage = $('stage'), {icons, box} = editor;
   let lines = '';
-  for (let v = 0; v <= 64; v += 2) lines += `<line class="grid-line" x1="${v}" y1="0" x2="${v}" y2="64"/><line class="grid-line" x1="0" y1="${v}" x2="64" y2="${v}"/>`;
+  // The 64 grid: a line every unit, stronger every 8 and every 16.
+  for (let v = 0; v <= 64; v++) {
+    const cls = v % 16 === 0 ? 'grid-line major' : v % 8 === 0 ? 'grid-line mid' : 'grid-line';
+    lines += `<line class="${cls}" x1="${v}" y1="0" x2="${v}" y2="64"/><line class="${cls}" x1="0" y1="${v}" x2="64" y2="${v}"/>`;
+  }
   let art = '';
   try {
     // Without a box yet: where the pair's placement puts this symbol (a wide text at its exact ink size).
