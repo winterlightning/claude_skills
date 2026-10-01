@@ -42,6 +42,9 @@ struct PushedIcon {
     #[serde(default)] origin: Option<String>,
     /// The generated drawing's editable geometry; stored once per generated sha in `icon_graphs`.
     #[serde(default)] graph: Option<Value>,
+    /// The full catalog record (Icon review's opened icon) and its review-facets.json entry; the list reads both.
+    #[serde(default)] record: Value,
+    #[serde(default)] facet: Value,
 }
 
 /// POST /api/catalog/push — one chunk of the effective catalog (artwork choices applied locally).
@@ -60,20 +63,25 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     for icon in &icons {
         let sources = if icon.original_sources.is_null() { "[]".to_string() } else { icon.original_sources.to_string() };
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
-            python_source, preview_url, original_sources, variant_of, variant_root, variant_label, build_failed, uploaded, pushed_at) \
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?) ON CONFLICT(key) DO UPDATE SET icon_id = excluded.icon_id, \
+            python_source, preview_url, original_sources, variant_of, variant_root, variant_label, build_failed, uploaded, pushed_at, record) \
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) ON CONFLICT(key) DO UPDATE SET icon_id = excluded.icon_id, \
             name = excluded.name, family = excluded.family, category = excluded.category, profile = excluded.profile, \
             canvas_size = excluded.canvas_size, svg_sha256 = excluded.svg_sha256, python_source = excluded.python_source, \
             preview_url = excluded.preview_url, original_sources = excluded.original_sources, variant_of = excluded.variant_of, \
             variant_root = excluded.variant_root, variant_label = excluded.variant_label, build_failed = excluded.build_failed, \
-            pushed_at = excluded.pushed_at WHERE icons.uploaded = 0 \
+            pushed_at = excluded.pushed_at, record = excluded.record WHERE icons.uploaded = 0 \
             AND NOT (icons.family IN ('side_combination64', 'container_combination64', 'combination-72') \
                      AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build'))",
             args![icon.key.clone(), icon.icon_id.clone(), icon.name.clone(), icon.family.clone(), icon.category.clone(),
                   icon.profile.clone(), icon.canvas_size.map(|c| c.round() as i64), icon.svg_sha256.clone(),
                   (!icon.python_source.is_null()).then(|| icon.python_source.to_string()), icon.preview_url.clone(),
                   sources, icon.variant_of.clone(), icon.variant_root.clone(), icon.variant_label.clone(), icon.build_failed,
-                  push_id])?);
+                  push_id, if icon.record.is_object() { icon.record.to_string() } else { "{}".to_string() }])?);
+        if icon.record.is_object() {
+            let guard = format!("uploaded = 0 AND NOT ({})", super::icon_list::BUILT_IN_BROWSER);
+            statements.push(super::icon_list::index_statement(&ctx.db, &icon.key, &icon.record, Some(&guard))?);
+            statements.push(super::icon_list::symmetry_statement(&ctx.db, &icon.key, &icon.facet)?);
+        }
         if let Some(graph) = icon.graph.as_ref().filter(|g| g.is_object()) {
             if let Some(sha) = graph.get("svg_sha256").and_then(Value::as_str) {
                 statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
@@ -98,6 +106,12 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
                 args![sha, format!("{}/{icon_id}", profile.to_lowercase()), svg, now.clone()])?);
             statements.push(db::stmt(&ctx.db, "INSERT OR REPLACE INTO extra_drawings(profile, icon_id, failed, svg_sha256) VALUES (?, ?, ?, ?)",
                 args![profile, icon_id, failed, sha])?);
+        }
+    }
+    // Measured symmetry of icons the push does not carry (uploads): `{key: facet}`.
+    if let Some(Value::Object(facets)) = data.get("upload_facets") {
+        for (key, facet) in facets {
+            statements.push(super::icon_list::symmetry_statement(&ctx.db, key, facet)?);
         }
     }
     if is_final {

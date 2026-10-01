@@ -91,6 +91,24 @@ fn rows(db: &Connection, (sql, args): (String, Vec<Value>)) -> Vec<HashMap<Strin
     found.map(Result::unwrap).collect()
 }
 
+/// The list statement's parts: (total row, page keys in order, tab counts, category counts).
+fn list(db: &Connection, p: &Params) -> (Value, Vec<Value>, BTreeMap<String, i64>, BTreeMap<String, i64>) {
+    let mut total = json!({});
+    let mut items: Vec<(i64, Value)> = Vec::new();
+    let (mut states, mut categories) = (BTreeMap::new(), BTreeMap::new());
+    for row in rows(db, icon_query::list(p)) {
+        let data: Value = serde_json::from_str(row["data"].as_str().unwrap()).unwrap();
+        match row["part"].as_str().unwrap() {
+            "total" => total = data,
+            "state" => { states.insert(data["state"].as_str().unwrap().to_string(), data["n"].as_i64().unwrap()); }
+            "category" => { categories.insert(data["category"].as_str().unwrap().to_string(), data["n"].as_i64().unwrap()); }
+            _ => items.push((row["seq"].as_i64().unwrap(), data["key"].clone())),
+        }
+    }
+    items.sort_by_key(|(seq, _)| *seq);
+    (total, items.into_iter().map(|(_, key)| key).collect(), states, categories)
+}
+
 fn params(case: &Value) -> Params {
     Params::from_query(|name| case.get(name).map(|v| v.as_str().map(str::to_string).unwrap_or_else(|| v.to_string())))
 }
@@ -119,17 +137,14 @@ fn lists_what_the_page_listed() {
     let mut failures = Vec::new();
     for (case, want) in fixture["cases"].as_array().unwrap().iter().zip(expected["results"].as_array().unwrap()) {
         let mut p = params(case);
-        let count = &rows(&db, icon_query::total(&p))[0];
-        let total = count["total"].as_i64().unwrap();
+        let mut parts = list(&db, &p);
+        let total = parts.0["total"].as_i64().unwrap();
         // The page shows its last page when asked past the end.
         if p.offset >= total && total > 0 {
             p.offset = (total - 1) / p.limit * p.limit;
+            parts = list(&db, &p);
         }
-        let keys: Vec<Value> = rows(&db, icon_query::page(&p)).into_iter().map(|r| r["key"].clone()).collect();
-        let states: BTreeMap<String, i64> = rows(&db, icon_query::states(&p)).into_iter()
-            .map(|r| (r["state"].as_str().unwrap().to_string(), r["n"].as_i64().unwrap())).collect();
-        let categories: BTreeMap<String, i64> = rows(&db, icon_query::categories(&p)).into_iter()
-            .map(|r| (r["category"].as_str().unwrap().to_string(), r["n"].as_i64().unwrap())).collect();
+        let (count, keys, states, categories) = parts;
         let got = json!({"keys": keys, "total": total, "versions": count["versions"], "offset": p.offset, "states": states, "categories": categories});
         let want_sorted = json!({"keys": want["keys"], "total": want["total"], "versions": want["versions"], "offset": want["offset"],
             "states": serde_json::from_value::<BTreeMap<String, i64>>(want["states"].clone()).unwrap(),

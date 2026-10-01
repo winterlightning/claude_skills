@@ -4,6 +4,7 @@ pub mod briefs;
 pub mod combinations;
 pub mod edits;
 pub mod files;
+pub mod icon_list;
 pub mod icons;
 pub mod internal;
 pub mod primitives;
@@ -41,6 +42,7 @@ fn local_response() -> Result<Response> {
 
 fn is_internal(path: &str) -> bool {
     path == "/api/catalog/push" || path.starts_with("/api/store/") || path.starts_with("/api/files/") || path == "/api/icons/discard-record" || path == "/api/activity"
+        || path == "/api/icons/reindex"
 }
 
 pub async fn dispatch(ctx: &mut Ctx) -> Result<Response> {
@@ -71,6 +73,9 @@ async fn get(ctx: &Ctx, path: &str) -> Result<Response> {
     match path {
         "/api/runtime" => icons::runtime(),
         "/api/auth/session" => http::json(200, &json!({"user": auth::current_user(ctx).await})),
+        "/api/icons" => icon_list::list(ctx).await,
+        "/api/icons/facets" => icon_list::facets(ctx).await,
+        "/api/icon" => icon_list::detail(ctx).await,
         "/api/icon-families" => icons::get_families(ctx).await,
         "/api/icon-categories" => icons::get_categories(ctx).await,
         "/api/icon-types" => icons::get_icon_types(ctx).await,
@@ -109,7 +114,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
-    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair"];
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -158,6 +163,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/parts" => combinations::post_part(ctx, &data, user).await,
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
+        "/api/icons/reindex" => icon_list::reindex(ctx, &data).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

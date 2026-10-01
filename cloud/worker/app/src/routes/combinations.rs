@@ -449,6 +449,15 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
             canvas_size = excluded.canvas_size, build_failed = excluded.build_failed, record = excluded.record WHERE icons.uploaded = 0",
             args![key.clone(), id, id, combined_family(kind, size), category, profile, canvas, sha.clone(), preview_url(&key, &sha),
                   !errors.is_empty(), record.to_string(), now.clone()])?);
+        // What Icon review lists of it: the record /api/icon-artwork/overrides gives a browser build.
+        let listed = built_record(BuiltRow { key: key.clone(), icon_id: id.to_string(), name: None, family: combined_family(kind, size).to_string(),
+            category: Some(category.to_string()), canvas_size: Some(canvas as f64), svg_sha256: sha.clone(), build_failed: (!errors.is_empty()) as i32 as f64,
+            original_sources: "[]".into(), record: record.to_string() });
+        statements.push(super::icon_list::index_statement(&ctx.db, &key, &listed, Some("uploaded = 0"))?);
+        // Its name is the reference's concept, known here only in SQL (search text as core icon_index joins it).
+        statements.push(db::stmt(&ctx.db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
+            search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND uploaded = 0",
+            args![key.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
         for (role, part) in parts {
@@ -541,28 +550,44 @@ pub async fn unapproved_parts(db: &worker::D1Database, reference_id: &str, size:
 /// Icon review records for combined icons built in the browser: complete records (`add`, merged into icons.json's
 /// record when it has one), since a catalog push never carries them.
 pub async fn records(ctx: &Ctx) -> Result<Vec<Value>> {
-    #[derive(Deserialize)]
-    struct Row { key: String, icon_id: String, name: Option<String>, family: String, category: Option<String>, canvas_size: Option<f64>,
-                 svg_sha256: String, build_failed: f64, original_sources: String, record: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT i.key, i.icon_id, i.name, i.family, i.category, i.canvas_size, i.svg_sha256,
+    records_of(ctx, None).await
+}
+
+/// One combined icon's record when its current drawing was built in the browser.
+pub async fn record_of(ctx: &Ctx, key: &str) -> Result<Option<Value>> {
+    Ok(records_of(ctx, Some(key)).await?.into_iter().next())
+}
+
+async fn records_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
+    let sql = format!("SELECT i.key, i.icon_id, i.name, i.family, i.category, i.canvas_size, i.svg_sha256,
             i.build_failed, i.original_sources, i.record
         FROM icons i JOIN revisions r ON r.svg_sha256 = i.svg_sha256 AND r.origin = 'combination-build'
-        WHERE i.family IN ('side_combination64', 'container_combination64', 'combination-72')", vec![]).await?;
-    Ok(rows.into_iter().map(|r| {
-        let record: Value = serde_json::from_str(&r.record).unwrap_or(json!({}));
-        let errors = record["errors"].as_array().cloned().unwrap_or_default();
-        let container = r.family == "container_combination64";
-        let (main, sub) = if container { ("container", "symbol") } else { ("main", "sub") };
-        json!({"add": true, "key": r.key, "icon_id": r.icon_id, "name": r.name, "family": r.family,
-               "profile": if container { "CONTAINER_COMBINATION64" } else if r.family == "combination-72" { "SIDE_COMBINATION72" } else { "SIDE_COMBINATION64" },
-               "category": r.category, "canvas_size": r.canvas_size.unwrap_or(64.0), "svg_sha256": r.svg_sha256,
-               "preview_url": preview_url(&r.key, &r.svg_sha256), "build_failed": r.build_failed != 0.0,
-               "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
-                              "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
-               "original_sources": serde_json::from_str::<Value>(&r.original_sources).unwrap_or(json!([])),
-               "main_key": record["parts"][main], "sub_key": record["parts"][sub], "created_at": record["built_at"],
-               "created_at_source": if container { "container-pair" } else { "side-pair" }})
-    }).collect())
+        WHERE i.family IN ('side_combination64', 'container_combination64', 'combination-72'){}",
+        if key.is_some() { " AND i.key = ?" } else { "" });
+    let rows: Vec<BuiltRow> = db::all(&ctx.db, &sql, key.map(|k| args![k]).unwrap_or_default()).await?;
+    Ok(rows.into_iter().map(built_record).collect())
+}
+
+#[derive(Deserialize)]
+pub struct BuiltRow { pub key: String, pub icon_id: String, pub name: Option<String>, pub family: String, pub category: Option<String>,
+                      pub canvas_size: Option<f64>, pub svg_sha256: String, pub build_failed: f64, pub original_sources: String,
+                      pub record: String }
+
+/// A combined icon built in the browser as a catalog record (its `record` column holds only the build).
+pub fn built_record(r: BuiltRow) -> Value {
+    let record: Value = serde_json::from_str(&r.record).unwrap_or(json!({}));
+    let errors = record["errors"].as_array().cloned().unwrap_or_default();
+    let container = r.family == "container_combination64";
+    let (main, sub) = if container { ("container", "symbol") } else { ("main", "sub") };
+    json!({"add": true, "key": r.key, "icon_id": r.icon_id, "name": r.name, "family": r.family,
+           "profile": if container { "CONTAINER_COMBINATION64" } else if r.family == "combination-72" { "SIDE_COMBINATION72" } else { "SIDE_COMBINATION64" },
+           "category": r.category, "canvas_size": r.canvas_size.unwrap_or(64.0), "svg_sha256": r.svg_sha256,
+           "preview_url": preview_url(&r.key, &r.svg_sha256), "build_failed": r.build_failed != 0.0,
+           "validation": {"status": if errors.is_empty() { "valid" } else { "invalid" },
+                          "automatic_status": if errors.is_empty() { "pass" } else { "fail" }, "errors": errors},
+           "original_sources": serde_json::from_str::<Value>(&r.original_sources).unwrap_or(json!([])),
+           "main_key": record["parts"][main], "sub_key": record["parts"][sub], "created_at": record["built_at"],
+           "created_at_source": if container { "container-pair" } else { "side-pair" }})
 }
 
 /// `gallery/combination-previews/<id>.svg`: a side pair's drawing once it was built in the browser (the published

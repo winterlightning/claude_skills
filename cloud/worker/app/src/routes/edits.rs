@@ -327,11 +327,22 @@ pub async fn get_overrides(ctx: &Ctx) -> Result<Response> {
 
 /// Every picked artwork that still applies, as a record overlay (see `artwork_overlay`).
 async fn overrides(ctx: &Ctx) -> Result<Vec<Value>> {
+    overrides_of(ctx, None).await
+}
+
+/// The picked artwork of one icon, if it still applies (Icon review's opened icon).
+pub async fn override_of(ctx: &Ctx, key: &str) -> Result<Option<Value>> {
+    Ok(overrides_of(ctx, Some(key)).await?.into_iter().next())
+}
+
+async fn overrides_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
     #[derive(Deserialize)]
     struct Row { key: String, document: String, icon_sha: String, built: f64 }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT s.key, s.document, i.svg_sha256 AS icon_sha, \
+    let sql = format!("SELECT s.key, s.document, i.svg_sha256 AS icon_sha, \
         EXISTS (SELECT 1 FROM icon_graphs g WHERE g.svg_sha256 = i.svg_sha256) AS built \
-        FROM store_documents s JOIN icons i ON i.key = s.key WHERE s.store = 'icon-artwork' AND i.uploaded = 0", vec![]).await?;
+        FROM store_documents s JOIN icons i ON i.key = s.key WHERE s.store = 'icon-artwork' AND i.uploaded = 0{}",
+        if key.is_some() { " AND s.key = ?" } else { "" });
+    let rows: Vec<Row> = db::all(&ctx.db, &sql, key.map(|k| args![k]).unwrap_or_default()).await?;
     let records: Vec<Value> = rows.into_iter().filter_map(|row| {
         let choice: Value = serde_json::from_str(&row.document).ok()?;
         let source = choice["source_svg_sha256"].as_str()?.to_string();

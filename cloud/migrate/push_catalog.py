@@ -15,6 +15,10 @@ icons too, as deploy.py lists it.
 Every current drawing is read from the build, checked against its svg_sha256, and stored inline
 in D1 (authored SVGs are ~450 bytes). icons.json is rewritten with ``icons`` last so the Worker can
 append uploads while streaming it. primitives.json and combinations.json are uploaded unchanged.
+
+Each icon row also carries its full record and its review-facets.json entry: Icon review lists, filters and opens
+icons from D1 (GET /api/icons, /api/icon). With --sql only the record is written; run POST /api/icons/reindex after
+loading it to fill the list columns.
 """
 from __future__ import annotations
 
@@ -59,6 +63,17 @@ def graph(record: dict) -> dict | None:
     return result
 
 
+def load_facets(dist: Path, server: str | None) -> dict:
+    """review-facets.json: each drawing's measured mirror axes, by icon key."""
+    try:
+        if server:
+            with urllib.request.urlopen(server.rstrip('/') + '/gallery/review-facets.json', timeout=300) as response:
+                return json.loads(response.read())
+        return json.loads((dist / 'gallery' / 'review-facets.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return {}
+
+
 def load_catalog(dist: Path, server: str | None) -> dict:
     if server:
         with urllib.request.urlopen(server.rstrip('/') + '/gallery/icons.json', timeout=300) as response:  # local server
@@ -90,7 +105,7 @@ def drawing(dist: Path, server: str | None, record: dict) -> str | None:
     return path.read_text(encoding='utf-8')
 
 
-def rows(dist: Path, server: str | None, catalog: dict) -> tuple[list[dict], dict]:
+def rows(dist: Path, server: str | None, catalog: dict, facets: dict | None = None) -> tuple[list[dict], dict]:
     result, report = [], {'icons': 0, 'failed_icons': 0, 'uploads_skipped': 0, 'missing_svg': [], 'sha_mismatch': []}
     for field in ('icons', 'failed_icons'):
         for record in catalog.get(field, []):
@@ -111,6 +126,8 @@ def rows(dist: Path, server: str | None, catalog: dict) -> tuple[list[dict], dic
             row['build_failed'] = field == 'failed_icons'
             row['svg'] = svg
             row['graph'] = graph(record)
+            row['record'] = {k: v for k, v in record.items() if k != 'uploaded_svg'}
+            row['facet'] = (facets or {}).get(record['key'])
             result.append(row)
             report[field] += 1
     return result, report
@@ -192,16 +209,17 @@ def main(argv=None) -> int:
     if args.graphs_only:
         return write_graph_sql(args.sql, [row for row in (graph(r) for f in ('icons', 'failed_icons')
                                                            for r in catalog.get(f, []) if not r.get('uploaded_icon')) if row])
-    icon_rows, report = rows(args.dist, args.from_server, catalog)
+    facets = load_facets(args.dist, args.from_server)
+    icon_rows, report = rows(args.dist, args.from_server, catalog, facets)
     content, layout = icons_json(catalog)
     push_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     details = {'icons_json': layout, 'report': {k: (len(v) if isinstance(v, list) else v) for k, v in report.items()},
                'source': args.from_server or str(args.dist)}
     if args.sql:
         now = datetime.now(timezone.utc).isoformat()
-        statements = inserts('icons', list(COLUMNS) + ['uploaded', 'pushed_at'],
+        statements = inserts('icons', list(COLUMNS) + ['uploaded', 'pushed_at', 'record'],
                              [tuple(json.dumps(r[c], ensure_ascii=False) if c == 'original_sources' else r[c] for c in COLUMNS)
-                              + (0, push_id) for r in icon_rows])
+                              + (0, push_id, json.dumps(r['record'], ensure_ascii=False, separators=(',', ':'))) for r in icon_rows])
         seen, revisions = set(), []
         for r in icon_rows:
             if r['svg'] and r['svg_sha256'] not in seen:
@@ -219,6 +237,12 @@ def main(argv=None) -> int:
         print(json.dumps({'sql': str(args.sql), 'icons_json': str(args.sql.parent / 'icons.json'), **details}, indent=2))
         return 0
     token = cloudapi.push_token(args.base_url)
+    # Measured symmetry of uploads (they are not pushed), a few hundred updates a request.
+    pushed = {r['key'] for r in icon_rows}
+    upload_facets = sorted((key, facet) for key, facet in facets.items() if key not in pushed)
+    for start in range(0, len(upload_facets), 500):
+        cloudapi.post_json(args.base_url, '/api/catalog/push', {'push_id': push_id, 'icons': [], 'final': False,
+                                                                'upload_facets': dict(upload_facets[start:start + 500])}, token)
     for start in range(0, len(icon_rows), CHUNK):
         chunk = icon_rows[start:start + CHUNK]
         final = start + CHUNK >= len(icon_rows)

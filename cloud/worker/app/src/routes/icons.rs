@@ -295,6 +295,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
             original_sources, uploaded, record, pushed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)",
             args![key.clone(), icon_id.clone(), name.trim(), family_id, category.clone(), record["profile"].as_str(), canvas,
                   digest.clone(), preview_url.clone(), original_sources.to_string(), record_text, now.clone()])?,
+        super::icon_list::index_statement(db, &key, &record, None)?,
         db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
                  args![digest.clone(), key.clone(), document, now.clone()])?,
         db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)",

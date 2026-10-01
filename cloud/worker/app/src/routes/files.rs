@@ -168,13 +168,24 @@ async fn icons_json(ctx: &Ctx) -> Result<Response> {
         .and_then(|d| serde_json::from_value(d["icons_json"].clone()).ok()).unwrap_or_default();
     let bucket = ctx.env.bucket("FILES")?;
     let Some(head) = bucket.head(ICONS_JSON).await? else { return http::error(503, "Artwork storage is unavailable.") };
+    // The file changes only with a push (the R2 object) or an upload: a browser that has this version gets a 304
+    // instead of the ~90 MB again.
     #[derive(Deserialize)]
-    struct Upload { record: String }
-    let uploads: Vec<Upload> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    struct Version { n: f64, last: Option<f64> }
+    let version: Option<Version> = db::first(&ctx.db, "SELECT COUNT(*) AS n, MAX(rowid) AS last FROM uploaded_icons", vec![]).await?;
+    let etag = format!("\"{}-{}-{}\"", head.etag(), version.as_ref().map_or(0.0, |v| v.n) as i64,
+                       version.and_then(|v| v.last).unwrap_or(0.0) as i64);
     let headers = Headers::new();
     headers.set("Content-Type", "application/json; charset=utf-8")?;
     headers.set("X-Content-Type-Options", "nosniff")?;
-    headers.set("Cache-Control", "no-store")?;
+    headers.set("Cache-Control", "no-cache")?;
+    headers.set("ETag", &etag)?;
+    if ctx.header("If-None-Match").is_some_and(|given| given.split(',').any(|t| t.trim().trim_start_matches("W/") == etag)) {
+        return Ok(Response::empty()?.with_status(304).with_headers(headers));
+    }
+    #[derive(Deserialize)]
+    struct Upload { record: String }
+    let uploads: Vec<Upload> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
     let size = head.size();
     if uploads.is_empty() || layout.tail == 0 || layout.tail > size {
         let object = bucket.get(ICONS_JSON).execute().await?.ok_or_else(|| worker::Error::RustError("icons.json vanished".into()))?;
