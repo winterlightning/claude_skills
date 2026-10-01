@@ -643,5 +643,5 @@
                   canvas_width: width, bounds: [l, t, r, b], grid: 1}];
   }
 
-  return {normalize, NormalizeError, internals: {parsePath, asCubicCurves, bbox, roots, eig2, documentPaths, pathD, snap, crop}};
+  return {normalize, NormalizeError, internals: {parsePath, bbox, roots, eig2, documentPaths, pathD, snap, crop}};
 });

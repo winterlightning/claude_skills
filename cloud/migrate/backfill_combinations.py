@@ -20,11 +20,11 @@ In order, later sources winning:
    becomes a combination reference with its two parts;
 4. container / symbol parts with a single icon of their family;
 5. the icons the old Container pairs page showed (``site/gallery/combinations.json``, ``--combinations``): the
-   container's generated container drawing, the symbol source's symbol drawing (else its sub drawing);
+   container's generated container drawing and the symbol source's symbol drawing (a source drawn only as a sub
+   gets none: the Worker takes symbol icons only);
 6. ``reference_uploads`` (dropped by 0010): an upload for a part's source fills a part still without an icon,
    an upload for the combination itself (a pair's own symbol, e.g. its typeface text) wins.
 
-Also carries ``container_centers`` (dropped by 0010) into ``container_placements`` (0013).
 
 Also sets the side position of subs seeded without one (the id's suffix) and links every combined icon
 (side_combination64/<id>, container_combination64/<id>) to its reference in icon_references.
@@ -194,8 +194,7 @@ def main() -> None:
             main = row['main_generated'] if row.get('main_generated') is not None else sources.get(row['main_id'], {}).get('generated') or []
             container = next((g.get('key') or f"container/{g['icon_id']}" for g in main if (g.get('key') or '').startswith('container/')), None)
             generated = row.get('sub_generated') or sources.get(row['sub_id'], {}).get('generated') or []
-            symbol = next((g['key'] for g in generated if (g.get('key') or '').startswith('symbol/')), None) \
-                or next((g['key'] for g in generated if (g.get('key') or '').startswith('sub/')), None)
+            symbol = next((g['key'] for g in generated if (g.get('key') or '').startswith('symbol/')), None)
             for role, icon in (('container', container), ('symbol', symbol)):
                 if not icon:
                     continue
@@ -217,17 +216,6 @@ def main() -> None:
         for reference, role, icon in uploads:
             if icon in icons and (reference, role) in existing:
                 parts.set(reference, role, 'pair upload', icon=icon)
-
-    # Saved symbol positions (container_centers, dropped by 0010) → container_placements (0013).
-    if 'container_centers' in tables:
-        columns = {r[1] for r in db.execute('PRAGMA table_info(container_centers)')}
-        size = 'width, height' if 'width' in columns else 'NULL, NULL'
-        for r in db.execute(f'SELECT main, sub, x, y, {size}, updated_at, updated_by FROM container_centers'):
-            # An old size was the painted box with 32 meaning "standard"; NULL (or none) keeps the natural size.
-            width, height = (r[4] or 32, r[5] or 32) if r[4] or r[5] else (None, None)
-            statements.append('INSERT OR REPLACE INTO container_placements(container, symbol, x, y, width, height, updated_at, updated_by) '
-                              f'VALUES ({q(r[0])}, {q(r[1])}, {r[2]}, {r[3]}, {q(width)}, {q(height)}, {q(r[6])}, {q(r[7])});')
-            notes['container placement carried over'] += 1
 
     # Positions the seed left empty: the side position is the reference id's suffix.
     for (ref, role), part in existing.items():

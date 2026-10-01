@@ -35,7 +35,7 @@ combos AS (
 
 #[derive(Deserialize)]
 struct Combo { reference_id: String, concept: Option<String>, kind: String, state: String,
-               icon_sha: Option<String>, review: Option<String>, build_failed: Option<f64>, errors: Option<String> }
+               icon_sha: Option<String>, review: Option<String> }
 
 #[derive(Deserialize)]
 struct Part { reference_id: String, role: String, part_reference_id: String, position: Option<String>,
@@ -49,10 +49,8 @@ fn preview_url(key: &str, sha: &str) -> String {
     format!("/api/icon-artwork/svg?icon={}&v={}", http::percent_encode(key), &sha[..12.min(sha.len())])
 }
 
-/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&text=1&offset=&limit=&forms=1 →
-/// {total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]};
-/// `icon` is the combined icon {key, svg_sha256, review, preview_url, build_failed, errors}.
-/// `text=1`: only container pairs whose symbol source is marked Text / number on the primitives page.
+/// GET /api/combinations?kind=side|container&state=built|stale|unbuilt&q=&offset=&limit=&forms=1 →
+/// {total, offset, next_offset, counts: {kind: {state: n}}, items: [{reference_id, concept, kind, state, icon, parts}]}.
 pub async fn list(ctx: &Ctx) -> Result<Response> {
     let kind = ctx.param("kind").filter(|k| !k.is_empty());
     let state = ctx.param("state").filter(|s| !s.is_empty());
@@ -86,11 +84,6 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         values.push(format!("%{needle}%").into());
         values.push(format!("{needle}%").into());
     }
-    let text = ctx.param("text") == Some("1");
-    if text {
-        filters.push("EXISTS (SELECT 1 FROM reference_parts tp JOIN primitive_status ps ON ps.uuid = tp.part_reference_id \
-            WHERE tp.reference_id = c.reference_id AND tp.role = 'symbol' AND ps.reason = 'text_number')");
-    }
     let filter = if filters.is_empty() { String::new() } else { format!("WHERE {}", filters.join(" AND ")) };
 
     // Page one extra row to know whether there is a next page without counting.
@@ -98,8 +91,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     page_values.push((limit + 1).into());
     page_values.push(offset.into());
     let mut combos: Vec<Combo> = db::all(&ctx.db, &format!("{COMBINATIONS}
-        SELECT c.reference_id, c.concept, c.kind, c.state, i.svg_sha256 AS icon_sha, i.build_failed,
-            json_extract(i.record, '$.errors') AS errors,
+        SELECT c.reference_id, c.concept, c.kind, c.state, i.svg_sha256 AS icon_sha,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM combos c LEFT JOIN icons i ON i.key = c.kind || '_combination64/' || c.reference_id
         {filter} ORDER BY c.reference_id LIMIT ? OFFSET ?"), page_values).await?;
@@ -113,7 +105,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         let entry = by_kind.entry(c.kind.clone()).or_insert_with(|| json!({"built": 0, "stale": 0, "unbuilt": 0}));
         entry[c.state.as_str()] = json!(c.n as u64);
     }
-    let total: u64 = if needle.is_some() || text {
+    let total: u64 = if needle.is_some() {
         #[derive(Deserialize)]
         struct Total { n: f64 }
         db::first::<Total>(&ctx.db, &format!("{COMBINATIONS} SELECT count(*) AS n FROM combos c {filter}"), values).await?
@@ -148,9 +140,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     let items: Vec<Value> = combos.into_iter().map(|c| {
         let key = format!("{}_combination64/{}", c.kind, c.reference_id);
         let icon = c.icon_sha.as_deref().filter(|s| !s.is_empty())
-            .map(|sha| json!({"key": key, "svg_sha256": sha, "review": c.review, "preview_url": preview_url(&key, sha),
-                              "build_failed": c.build_failed.unwrap_or(0.0) != 0.0,
-                              "errors": c.errors.as_deref().and_then(|e| serde_json::from_str::<Value>(e).ok()).unwrap_or(json!([]))}))
+            .map(|sha| json!({"key": key, "svg_sha256": sha, "review": c.review, "preview_url": preview_url(&key, sha)}))
             .unwrap_or(Value::Null);
         let parts = parts_of.remove(&c.reference_id).unwrap_or_default();
         json!({"reference_id": c.reference_id, "concept": c.concept, "kind": c.kind, "state": c.state,
@@ -169,8 +159,7 @@ fn fits_role(role: &str, key: &str) -> bool {
     let family = key.split_once('/').map_or("", |(family, _)| family);
     match role {
         "container" => family == "container",
-        // A symbol source drawn only as a sub is combined from its sub drawing, as the Python engine did.
-        "symbol" => matches!(family, "symbol" | "sub"),
+        "symbol" => family == "symbol",
         "main" => matches!(family, "solo" | "combination_main"),
         "sub" => family == "sub",
         _ => false,
@@ -289,7 +278,7 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     http::json(200, &json!({"reference_id": id, "role": role, "updated_at": now}))
 }
 
-/// POST /api/combinations/build {builds: [{reference_id, svg, graph?, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
+/// POST /api/combinations/build {builds: [{reference_id, svg, parts: {role: {icon, svg_sha256, layout, position?}}}]} (at most 50):
 /// store combinations the browser built. Each is checked (its parts are that combination's, each part's
 /// drawing is still the icon's current one, the SVG is a clean 64x64 drawing) and stored as the combined
 /// icon's new drawing, with every part's icon, boxes and built drawing. A part not approved in Icon review
@@ -381,18 +370,6 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                   !errors.is_empty(), record.to_string(), now.clone()])?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
-        // A container pair's stroke geometry (svg-graph.js, as svg_graph.py made it), so the geometry editor can
-        // select the container and symbol strokes.
-        if let (true, Value::Object(mut graph)) = (kind == "container", b["graph"].clone()) {
-            graph.insert("key".into(), json!(key));
-            // The validator wants a slug that starts with a letter; reference ids are UUIDs.
-            graph.insert("icon_id".into(), json!(format!("pair-{id}")));
-            graph.insert("svg_sha256".into(), json!(sha));
-            graph.insert("python_source".into(), Value::Null);
-            graph.insert("validation".into(), json!({"status": if errors.is_empty() { "pass" } else { "fail" }}));
-            statements.push(db::stmt(&ctx.db, "INSERT OR REPLACE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
-                                     args![sha.clone(), key.clone(), Value::Object(graph).to_string()])?);
-        }
         for (role, part) in parts {
             let layout = if part["layout"].is_null() { Arg::Null } else { part["layout"].to_string().into() };
             statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET icon = ?, layout = ?, built_sha = ?, \
@@ -553,77 +530,4 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     statements.push(db::activity(&ctx.db, user, "side_pair_created", Some(id), db::details(vec![("position", json!(position))]))?);
     db::batch(&ctx.db, statements).await?;
     http::json(200, &json!({"reference_id": id, "created": true}))
-}
-
-// ---- container placements: where a container puts its symbol when a pair has no box of its own
-
-/// GET /api/combinations/placements → {containers: {container: entry}, pairs: {container: {symbol: entry}}}, entry
-/// {center: [x, y], size?: [width, height], user, updated_at}; keys are icon ids (container/<id>, symbol/<id>).
-pub async fn placements(ctx: &Ctx) -> Result<Response> {
-    #[derive(Deserialize)]
-    struct Row { container: String, symbol: String, x: f64, y: f64, width: Option<f64>, height: Option<f64>,
-                 updated_at: String, updated_by: String }
-    let rows: Vec<Row> = db::all(&ctx.db, "SELECT container, symbol, x, y, width, height, updated_at, updated_by \
-        FROM container_placements", vec![]).await?;
-    let (mut containers, mut pairs) = (Map::new(), Map::new());
-    for r in rows {
-        let mut entry = json!({"center": [r.x, r.y], "user": r.updated_by, "updated_at": r.updated_at});
-        if let (Some(w), Some(h)) = (r.width, r.height) {
-            entry["size"] = json!([w, h]);
-        }
-        if r.symbol.is_empty() {
-            containers.insert(r.container, entry);
-        } else if let Value::Object(symbols) = pairs.entry(r.container).or_insert_with(|| json!({})) {
-            symbols.insert(r.symbol, entry);
-        }
-    }
-    http::json(200, &json!({"containers": containers, "pairs": pairs}))
-}
-
-/// POST /api/combinations/placements {container, symbol?, center: [x, y] | null, size?: [width, height] | null}: save
-/// a container's placement (no symbol: every symbol in it) or one pair's, or remove it when center is null. The
-/// centre is in half units inside the canvas; size is the painted symbol box in whole units 4–64 (an odd side pairs
-/// with a half-unit centre), null for the symbol's natural size.
-pub async fn post_placement(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
-    if user == "system" {
-        return http::error(401, "Log in to save placements.");
-    }
-    let valid_id = |id: &str| !id.is_empty() && id.len() <= 200 && id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_');
-    let Some(container) = data["container"].as_str().filter(|c| valid_id(c)) else { return http::error(400, "Choose a container.") };
-    let symbol = data["symbol"].as_str().unwrap_or("");
-    if !symbol.is_empty() && !valid_id(symbol) {
-        return http::error(400, "Choose a symbol.");
-    }
-    if data["center"].is_null() {
-        db::run(&ctx.db, "DELETE FROM container_placements WHERE container = ? AND symbol = ?", args![container, symbol]).await?;
-        return http::json(200, &json!({"container": container, "symbol": symbol, "center": null}));
-    }
-    let pair = |v: &Value| -> Option<[f64; 2]> {
-        let values: Vec<f64> = v.as_array()?.iter().filter_map(Value::as_f64).collect();
-        <[f64; 2]>::try_from(values.as_slice()).ok()
-    };
-    let Some([x, y]) = pair(&data["center"]).filter(|c| c.iter().all(|v| (0.0..=64.0).contains(v) && (v * 2.0).fract() == 0.0)) else {
-        return http::error(400, "The centre must be [x, y], 0–64 in steps of 0.5.");
-    };
-    let size = match &data["size"] {
-        Value::Null => None,
-        value => match pair(value).filter(|s| s.iter().all(|v| (4.0..=64.0).contains(v) && v.fract() == 0.0)) {
-            Some(size) => Some(size),
-            None => return http::error(400, "The size must be [width, height], each a whole number from 4 to 64."),
-        },
-    };
-    let now = iso_utc(chrono::Utc::now());
-    db::batch(&ctx.db, vec![
-        db::stmt(&ctx.db, "INSERT INTO container_placements(container, symbol, x, y, width, height, updated_at, updated_by) \
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(container, symbol) DO UPDATE SET x = excluded.x, y = excluded.y, \
-            width = excluded.width, height = excluded.height, updated_at = excluded.updated_at, updated_by = excluded.updated_by",
-            args![container, symbol, x, y, size.map(|s| s[0]), size.map(|s| s[1]), now.clone(), user])?,
-        db::activity(&ctx.db, user, "container_placement", Some(container), db::details(vec![
-            ("symbol", json!(symbol)), ("center", json!([x, y])), ("size", json!(size))]))?,
-    ]).await?;
-    let mut saved = json!({"container": container, "symbol": symbol, "center": [x, y], "user": user, "updated_at": now});
-    if let Some(size) = size {
-        saved["size"] = json!(size);
-    }
-    http::json(200, &saved)
 }
