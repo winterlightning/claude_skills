@@ -27,9 +27,11 @@ def push_token(base_url: str) -> str:
     """The Worker's PUSH_TOKEN: the local dev one for localhost, the remote one otherwise."""
     config = settings()
     local = base_url.startswith(('http://127.0.0.1', 'http://localhost'))
-    token = config.get('PICTOGRAPHIC_PUSH_TOKEN_LOCAL' if local else 'PICTOGRAPHIC_PUSH_TOKEN')
+    # The test copy (pictographic-review-next) has its own token.
+    name = 'PICTOGRAPHIC_PUSH_TOKEN_LOCAL' if local else 'PICTOGRAPHIC_PUSH_TOKEN_NEXT' if 'pictographic-review-next' in base_url else 'PICTOGRAPHIC_PUSH_TOKEN'
+    token = config.get(name)
     if not token:
-        raise SystemExit('error: no push token; set PICTOGRAPHIC_PUSH_TOKEN (remote) or PICTOGRAPHIC_PUSH_TOKEN_LOCAL in cloud/.env')
+        raise SystemExit(f'error: no push token; set {name} in cloud/.env')
     return token
 
 
