@@ -501,44 +501,31 @@ function combinationState(row){
 }
 async function renderCombinations(){
   const host=$('combinations');
+  // Side pairs are their own app (web/side-pairs, built to side-pairs-app.js), reading D1 through side-pairs-data.js.
+  // It shares Progression's search text, page and address.
+  if(state.view==='side'){
+    window.SidePairsApp.show(host,{query:()=>state.q,setQuery:q=>{state.q=q;},page:()=>page,setPage:n=>{page=n;pageTarget='';},writeURL});
+    return;
+  }
+  window.SidePairsApp?.hide();
   if(!combinationCatalog){
     host.replaceChildren(node('p','muted',combinationError||'Loading combinations…'));
-    // Side pairs come from D1 with everything else the side grid loads (side-pairs-grid.js loadSidePairs).
-    if(state.view==='side'){
-      if(sideError){host.replaceChildren(node('p','muted',sideError));const retry=node('button','','Retry');retry.onclick=()=>{sideError='';renderCombinations();};host.append(retry);}
-      else loadSidePairs();
-      return;
-    }
     if(combinationError){const retry=node('button','','Retry');retry.onclick=()=>{combinationError='';renderCombinations();};host.append(retry);return;}
     if(combinationLoading)return;
     combinationLoading=true;
     try{const response=await fetch('combinations.json',{cache:'no-store'});if(!response.ok)throw Error('Could not load the combination catalog.');combinationCatalog=await response.json();}
     catch(error){combinationError=error.message;}
     finally{combinationLoading=false;}
-    if(['container','side'].includes(state.view))renderCombinations();return;
+    if(state.view==='container')renderCombinations();return;
   }
   if(state.view==='container'&&!containerResults&&!containerResultError&&!containerResultsLoading)loadContainerResults();
   if(state.view==='container'&&!containerCenters&&!containerCentersLoading)loadContainerCenters();
   if(state.view==='container'&&!pairIcons&&!pairStateLoading)loadPairState();
   centerViews.clear();
-  const all=combinationCatalog.rows.filter(r=>r.kind===state.view), counts={missing:0,partial:0,ready:0,generated:0};
-  all.forEach(r=>counts[combinationState(r)]++);
+  const all=combinationCatalog.rows.filter(r=>r.kind===state.view);
   host.replaceChildren();
-  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':`Work on each pair as Original → Main → Sub → Combined: one ${SideData.sizes().main}-unit main and one ${SideData.sizes().sub}×${SideData.sizes().sub} sub. Group by main or sub to see where an icon is reused. Finished outputs live on Experiment › Side combination.`));
-  const summary=node('div','combination-summary');
-  // The side grid adds its own plain status counts (Ready, Fix sub, Waiting, Needs main, Needs sub).
-  const summaryItems=state.view==='side'?[['Side pairs',all.length]]:[['Total',all.length],...Object.entries(counts).map(([k,v])=>[combinationLabels[k],v])];
-  for(const [label,value] of summaryItems){
-    const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));summary.append(item);
-  }
-  if(state.view!=='container'){
-    host.append(summary);
-    if(state.view==='side'){
-      const needed=node('p','muted');needed.append('Pair badges: Waiting = main and sub are drawn but not combined yet. Lists: ');const link=node('a','','Main icons →'),subs=node('a','','Sub icons →');link.href='side-mains.html';subs.href='side-subs.html';needed.append(link,' · ',subs);host.append(needed);
-    }
-  }
-  if(state.view==='side'){renderSideGrid(host,all,summary);return;}
-  else{
+  host.append(node('h2','','Container combination'),node('p','muted','Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.'));
+  {
     const area=node('div','container-combine-controls');
     if(containerResults){
       const stats=node('div','combination-summary');

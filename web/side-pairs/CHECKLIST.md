@@ -82,3 +82,24 @@ Status: ☐ to do · ☑ shown working in Chrome · ✕ deliberately dropped (re
 | A1 | 64 / 72 switch; at 72 main-54 / sub-36 parts, sizes main 38–70 / sub 24–48, tracer's 54 / 36 keyshapes | ☑ |
 | A2 | State filter Built / Stale / Not built / Needs a drawing; Rebuild every stale pair | ☑ |
 | A3 | `?edit=<id>` opens a pair's editor; `?make=<primitive>` makes a side pair from a primitive | ☑ |
+
+## Svelte version (step 2)
+
+The page is now the Svelte app in `web/side-pairs` (`npm run build` in `web/` writes `side-pairs-app.js` / `.css` to
+`published/gallery`). Every row above was rechecked in Chrome against the old scripts side by side (the old
+`primitives.html` with `side-pairs-grid.js`, `side-layout-editor.js`, `side-pair-maker.js`), on next's data read-only,
+with the same scripted clicks and keys on both pages:
+
+- List: every filter, grouping (main / sub, 24 / 48), page size, page 2 and five searches give the same rows; the
+  summary, its links, the build bar, toolbar options and each row's text, buttons, links and images match on the
+  first page and on Fix sub, Fix main, Changed, From review, Stale, Not built, Not combined, Text sub, and at 72.
+- Rows: inspect main / sub (three views), the combined popup, Change main / sub (search, pick, the save request),
+  Recombine and combined Approve (same requests), download mark, guest view, groups staying open, `?edit` / `?make`.
+- Editor: 32 steps (clicks, Shift-clicks, arrows, Alt+arrows, + / −, moves, corner / edge / Shift drags, levels,
+  list, split, presets, keyshapes, Free, centerline, Apply layout, Save, Apply to 8 pairs, Discard, Reset) at 64 and 72
+  show the same readout, frame label, buttons and artwork; Save, Save + apply and Reset send byte-identical requests.
+  A saved layout that no longer fits opens with the same warning (E21).
+- Build: Rebuild stale sends the same 45 builds and reports the same result.
+
+Kept from the old page on purpose: the layout markup and class names (so `site.css` and the reused scripts work).
+One old quirk not copied: after Save, the old editor left "Reset to automatic" disabled until the next redraw.

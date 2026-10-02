@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Upload chosen pages from published/gallery to a site's R2 (site/gallery/<name>), and check they are served.
 
-    python3 cloud/migrate/publish_pages.py --bucket pictographic-review-next primitives.html side-pairs-grid.js …
+    python3 cloud/migrate/publish_pages.py --bucket pictographic-review-next primitives.html side-pairs-app.js …
     python3 cloud/migrate/publish_pages.py --bucket pictographic-review --side-pairs        # the Side pairs page set
 
 --side-pairs: the files of Progression › Side pairs (the restored page on D1 and combine-side.js). Each file is
@@ -21,8 +21,8 @@ from push_files import S3  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 GALLERY = ROOT / 'published' / 'gallery'
-SIDE_PAIRS = ['primitives.html', 'side-pairs.html', 'side-pairs-data.js', 'progression-combinations.js', 'side-layout-editor.js',
-              'side-pairs-grid.js', 'side-pair-maker.js', 'combine-side.js']
+SIDE_PAIRS = ['primitives.html', 'side-pairs.html', 'side-pairs-data.js', 'progression-combinations.js', 'side-pairs-app.js',
+              'side-pairs-app.css', 'combine-side.js']
 SITES = {'pictographic-review': 'https://pictographic-review.pictographic.workers.dev',
          'pictographic-review-next': 'https://pictographic-review-next.pictographic.workers.dev'}
 TYPES = {'html': 'text/html; charset=utf-8', 'js': 'text/javascript; charset=utf-8', 'css': 'text/css; charset=utf-8',

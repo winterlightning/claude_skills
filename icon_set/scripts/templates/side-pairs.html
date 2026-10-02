@@ -3,7 +3,7 @@
 <body>
 <p>Side pairs are on <a href="primitives.html?view=side">Progression › Side pairs</a>.</p>
 <script>
-// Side pairs live on Progression › Side pairs (side-pairs-grid.js). Links to this page (?q=, ?edit=, ?make=, ?position=,
+// Side pairs live on Progression › Side pairs (the Svelte app in web/side-pairs). Links to this page (?q=, ?edit=, ?make=, ?position=,
 // ?size=72 from Combinations, Experiment and older pages) open the same pair there.
 const asked = new URLSearchParams(location.search), next = new URLSearchParams({view: 'side'});
 for (const key of ['q', 'edit', 'make', 'position']) if (asked.get(key)) next.set(key, asked.get(key));

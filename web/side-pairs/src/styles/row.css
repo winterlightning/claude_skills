@@ -1,0 +1,43 @@
+/* A pair row (Original → Main → Sub → Combined), its head badges, the list, the status line. */
+.side-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:6px 0}
+.side-tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 12px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:center;min-width:0}
+.side-tile h3{font-size:14px;line-height:1.35;margin:4px 0 0;overflow-wrap:anywhere}
+.side-meta{font-size:12px;color:var(--muted);margin:0}
+.side-combined{display:grid;place-items:center;width:128px;height:128px}
+.side-combined img{width:128px;height:128px;display:block;background-size:16px 16px,16px 16px,2px 2px,2px 2px}
+.side-combined-empty{font-size:12px;color:var(--muted);padding:8px}
+.side-tile-missing .side-combined img{width:96px;height:96px;object-fit:contain;background:none;box-shadow:none}
+.side-tile .pair-card-actions{width:100%;margin-top:auto;padding-top:6px}
+.side-status{padding:10px 14px;border-radius:8px;background:#eef5ef;font-size:13px}
+.side-list{display:grid;gap:12px;margin:6px 0}
+.side-row{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.side-row-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.side-row-head h3{font-size:15px;margin:0;overflow-wrap:anywhere}
+.side-state{font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px;background:#eef2ee;color:var(--muted)}
+.side-state.ready{background:#e4f2e6;color:#25653a}
+.side-state.fix{background:#fde8e8;color:#b91c1c}
+.side-state.needed{background:#fff3d6;color:#7a5200}
+.side-state.waiting{background:#e5edf8;color:#25466f}
+.side-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start}
+.side-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;text-align:center}
+.side-step+.side-step::before{content:'→';position:absolute;left:-12px;top:50%;transform:translate(-50%,-50%);color:var(--muted);font-size:16px}
+.side-step-label{font-size:11px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin:0}
+.side-step-name{font-size:11px;margin:0;overflow-wrap:anywhere;line-height:1.3}
+.side-original{display:grid;place-items:center;width:128px;height:128px;background:#f7f9f4;border-radius:8px}
+.side-original img{width:96px;height:96px;object-fit:contain}
+.side-resolve{border-top:1px solid var(--line);padding-top:8px}
+.side-resolve summary{cursor:pointer;font-size:12px;font-weight:600;color:#b45309}
+.side-row .pair-card-actions{justify-content:flex-end}
+.side-group .container-group-heading img{background:#fbfdfb;box-shadow:inset 0 0 0 1px #99adb4}
+.side-group .container-group-label strong{text-transform:none}
+.side-row .pair-card-actions{flex-wrap:wrap;gap:8px}
+.side-row .pair-card-actions>*{flex:0 0 auto;width:auto}
+.side-combine{align-items:center}
+
+/* Narrow screens: two steps a line. */
+@media (max-width: 700px) {
+  .side-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .side-step:nth-child(3)::before { display: none; }
+  .side-original, .side-combined { width: 96px; height: 96px; }
+  .side-combined img { width: 96px; height: 96px; }
+}

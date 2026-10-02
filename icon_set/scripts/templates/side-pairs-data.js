@@ -1,4 +1,4 @@
-/* Side pairs from D1, for the Progression › Side page (side-pairs-grid.js, side-layout-editor.js, side-pair-maker.js).
+/* Side pairs from D1, for the Progression › Side page (the Svelte app in web/side-pairs).
 
    The page reads what it used to read from the published files (experiment-combination.json, its results,
    combinations.json, side-combination64.json) and the side routes, in the same shapes, from the combination tables:
