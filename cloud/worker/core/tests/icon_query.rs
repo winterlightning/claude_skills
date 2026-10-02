@@ -180,3 +180,54 @@ fn search_words_profile_and_uncategorized() {
     }
     assert_eq!(sum, total);
 }
+
+/// The point of the stored columns: a page reads its own rows. The same requests on catalogs of 7,200 and 21,600 icons
+/// (copies of the fixture) must not scan the icons table, and their work must not grow with the catalog; only a
+/// narrowing filter (here author) counts the icons that match it.
+#[test]
+fn a_page_reads_its_own_rows() {
+    let fixture = read("icon-query.json");
+    let p = |pairs: &[(&str, &str)]| params(&json!(pairs.iter().map(|(k, v)| (k.to_string(), json!(v))).collect::<serde_json::Map<_, _>>()));
+    let cases = [
+        ("default solo page", p(&[("family", "solo")]), true),
+        ("all families, Disapproved tab", p(&[("family", ""), ("status", "pending")]), true),
+        ("a category", p(&[("family", "solo"), ("category", "food")]), true),
+        ("page 3", p(&[("family", "solo"), ("offset", "96")]), true),
+        ("newest first", p(&[("family", "solo"), ("sort", "newest")]), true),
+        ("search", p(&[("family", ""), ("q", "cloud 0")]), false),
+        ("author filter (counts the matches)", p(&[("family", "solo"), ("author", "gpt-x")]), false),
+    ];
+    let mut steps = Vec::new();
+    for copies in [100, 300] {
+        let db = database(&fixture);
+        db.execute_batch(&format!("CREATE TEMP TABLE n(i); WITH RECURSIVE c(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM c WHERE i < {}) \
+                                   INSERT INTO n SELECT i FROM c;", copies - 1)).unwrap();
+        let columns = "icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, build_failed, uploaded, record, pushed_at, \
+            card, search, sort_name, keyshape, author, side_role, stroke_count, segment_count, created_ms, modified_ms, version_group, version, \
+            variant, has_original, artwork_source, symmetry, symmetry_sha";
+        db.execute_batch(&format!("INSERT INTO icons(key, {columns}) SELECT i.key || '-c' || n.i, {} FROM icons i, n",
+            columns.split(", ").map(|c| format!("i.{c}")).collect::<Vec<_>>().join(", "))).unwrap();
+        let mut row = Vec::new();
+        for (label, case, flat) in &cases {
+            let (sql, args) = icon_query::list(case);
+            let plan: Vec<String> = db.prepare(&format!("EXPLAIN QUERY PLAN {sql}")).unwrap()
+                .query_map(params_from_iter(args.iter().map(sql_value)), |r| r.get::<_, String>(3)).unwrap().map(Result::unwrap).collect();
+            let scans: Vec<&String> = plan.iter().filter(|line| line.starts_with("SCAN u") || line.starts_with("SCAN icons")).collect();
+            if *flat {
+                assert!(scans.is_empty(), "{label} scans the icons table: {plan:#?}");
+            }
+            let mut statement = db.prepare(&sql).unwrap();
+            let out = statement.query_map(params_from_iter(args.iter().map(sql_value)), |_| Ok(())).unwrap().count();
+            let work = statement.get_status(rusqlite::StatementStatus::VmStep);
+            println!("{} icons · {label}: {out} rows out, {work} VM steps", 72 * copies);
+            row.push(work);
+        }
+        steps.push(row);
+    }
+    for (i, (label, _, flat)) in cases.iter().enumerate() {
+        let (small, large) = (steps[0][i] as f64, steps[1][i] as f64);
+        if *flat {
+            assert!(large <= small * 1.25, "{label}: {small} VM steps at 7,200 icons, {large} at 21,600");
+        }
+    }
+}

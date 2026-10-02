@@ -160,8 +160,14 @@ site from the test bucket with a local D1.
 ## Icon list (GET /api/icons)
 
 Icon review, the approved collection, Home and the Design Document list icons a page at a time from D1 instead of
-downloading `icons.json` (~90 MB). Migration 0015 adds the list columns; the catalog push stores each icon's full
-record and fills them, uploads and combination builds keep them current. After applying 0015 to a database whose
+downloading `icons.json` (~90 MB), and a page reads only its own rows. Migration 0015 stores on each icon what the
+list filters, sorts and counts by: list columns from the record (catalog push, upload, combination build) and the
+review state (view `icon_state`), which triggers recompute whenever a review, feedback, split, artwork pick, icon
+graph or the icon changes. Triggers also keep the counts (`icon_counts`, `icon_facet_counts`) and a trigram search
+index (`icon_search`). With family, state and category the list reads its page through the list indexes and the
+counts from `icon_counts`; other filters (author, strokes, …) count the icons that match them, and "All versions"
+reads the matching icons to group them. core/tests/icon_query.rs checks that the common pages do the same work on
+catalogs of 7,200 and 21,600 icons. After applying 0015 to a database whose
 icons were pushed before it, fill the columns once from the stored rows, then push the catalog for full records:
 
 ```sh

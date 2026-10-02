@@ -185,15 +185,16 @@ pub async fn detail(ctx: &Ctx) -> Result<Response> {
     http::json(200, &record)
 }
 
-/// POST /api/icons/reindex {offset, limit} (push token): the list columns of stored rows again, from their stored
-/// records (uploads, combined icons built in the browser, pushed rows with a record) → `{indexed, next_offset}`.
+/// POST /api/icons/reindex {offset, limit} (push token): the list columns of stored rows again from their stored
+/// records (uploads, combined icons built in the browser, pushed rows with a record), and their review state (view
+/// icon_state; the triggers keep it afterwards). `offset` is a row id cursor → `{indexed, next_offset}`.
 pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
-    let offset = data["offset"].as_i64().unwrap_or(0).max(0);
+    let after = data["offset"].as_i64().unwrap_or(0).max(0);
     let limit = data["limit"].as_i64().unwrap_or(500).clamp(1, 2000);
     #[derive(Deserialize)]
-    struct Stored { key: String, record: String, built: f64 }
-    let rows: Vec<Stored> = db::all(&ctx.db, &format!("SELECT key, record, CASE WHEN {BUILT_IN_BROWSER} THEN 1 ELSE 0 END AS built \
-        FROM icons ORDER BY rowid LIMIT ? OFFSET ?"), args![limit, offset]).await?;
+    struct Stored { rowid: f64, key: String, record: String, built: f64 }
+    let rows: Vec<Stored> = db::all(&ctx.db, &format!("SELECT rowid, key, record, CASE WHEN {BUILT_IN_BROWSER} THEN 1 ELSE 0 END AS built \
+        FROM icons WHERE rowid > ? ORDER BY rowid LIMIT ?"), args![after, limit]).await?;
     let mut statements = Vec::new();
     for row in &rows {
         let record = if row.built != 0.0 {
@@ -209,6 +210,10 @@ pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
     for chunk in statements.chunks(100) {
         db::batch(&ctx.db, chunk.to_vec()).await?;
     }
-    let next = (rows.len() as i64 == limit).then_some(offset + limit);
+    let last = rows.last().map(|r| r.rowid as i64);
+    if let (Some(first), Some(last)) = (rows.first().map(|r| r.rowid as i64), last) {
+        db::run(&ctx.db, icon_query::REFRESH_RANGE, args![first, last + 1]).await?;
+    }
+    let next = last.filter(|_| rows.len() as i64 == limit);
     http::json(200, &json!({"indexed": indexed, "next_offset": next}))
 }
