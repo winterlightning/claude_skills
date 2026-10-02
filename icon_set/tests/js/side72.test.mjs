@@ -65,3 +65,96 @@ test("the main's filled dots are kept, except under the sub", () => {
   assert.equal(dots.length, 1, group);           // the one at (44, 44) of the 54 drawing sits under the sub
   assert.ok(dots[0][2] === 2 && dots[0][0] < 34 && dots[0][1] < 34, String(dots[0]));
 });
+
+test('a sub given a preset box at 72 is drawn in that box', () => {
+  const item = {reference_id: 'pair', parts: [{role: 'main', icon: 'main-54/m', form: null}, {role: 'sub', icon: 'sub-36/s', position: 'br', form: null}]};
+  const drawings = new Map([['main-54/m', {svg: MAIN, svg_sha256: 'm'}], ['sub-36/s', {svg: SUB, svg_sha256: 's'}]]);
+  // Sub size 28 on its circle: centerline 32 − 8 = 24 wide, in the bottom-right corner (72 − 2 padding − 2 inset).
+  const box = {paths: [0], x: 44, y: 44, w: 24, h: 24};
+  const {result, request} = Side.pairRequest(item, drawings, {size: 72, layout: {sub: [box]}});
+  assert.equal(result.canvas, 72);
+  const painted = result.placements[1].painted_box;
+  assert.deepEqual(Object.fromEntries(Object.entries(painted).map(([k, v]) => [k, Math.round(v * 1000) / 1000])), {x: 42, y: 42, w: 28, h: 28});
+  assert.deepEqual(request.parts.sub.layout, [box]);
+});
+
+// Elements mode (side-pairs.html): a part's pieces, split and moved on their own. Straight-edged shapes, so their
+// measured boxes are exact (curves are measured flattened).
+const TWO = svg(54, '<rect x="6" y="6" width="20" height="20"/><rect x="30" y="30" width="16" height="16"/><path d="M38 30L38 20"/>');
+function twoPieces() {
+  const item = {reference_id: 'pair', parts: [{role: 'main', icon: 'main-54/m', form: null}, {role: 'sub', icon: 'sub-36/s', position: 'br', form: null}]};
+  const drawings = new Map([['main-54/m', {svg: TWO, svg_sha256: 'm'}], ['sub-36/s', {svg: SUB, svg_sha256: 's'}]]);
+  return {item, drawings};
+}
+// The main as one hand-placed group at scale 1: its source box [6, 6, 46, 46] where it is drawn.
+const GROUP = {paths: [0, 1, 2], x: 6, y: 6, w: 40, h: 40};
+
+test('pieces: elements whose strokes touch are one piece', () => {
+  const parts = Side.elementParts(TWO);
+  assert.deepEqual(parts.sources[0], [6, 6, 26, 26]);
+  // the first rect stands alone; the second rect and the line that starts on its top edge touch
+  assert.deepEqual(Side.connected(parts.segments, 4), [[0], [1, 2]]);
+  // strokes 4 wide touch when their centerlines come within 4 units: 3 apart touch, 8 apart do not
+  const near = Side.elementParts(svg(54, '<path d="M0 0L10 0"/><path d="M0 3L10 3"/><path d="M0 11L10 11"/>'));
+  assert.deepEqual(Side.connected(near.segments, 4), [[0, 1], [2]]);
+  // a curve counts too: a circle whose stroke meets a line
+  const round = Side.elementParts(svg(54, '<circle cx="20" cy="20" r="10"/><path d="M33 20L45 20"/>'));
+  assert.deepEqual(Side.connected(round.segments, 4), [[0, 1]]);
+});
+
+test('pieces: a group splits where its elements are drawn, and builds the same drawing', () => {
+  const {item, drawings} = twoPieces();
+  const parts = Side.elementParts(TWO);
+  const pieces = Side.splitGroups([GROUP], parts.sources, Side.connected(parts.segments, 4));
+  assert.deepEqual(pieces, [{paths: [0], x: 6, y: 6, w: 20, h: 20}, {paths: [1, 2], x: 30, y: 20, w: 16, h: 26}]);
+  assert.deepEqual(Side.groupsBox(pieces), {x: 6, y: 6, w: 40, h: 40});
+  // at scale 1 the split layout draws exactly what the one box drew
+  const split = Side.pairRequest(item, drawings, {size: 72, layout: {main: pieces}});
+  const oneBox = Side.pairRequest(item, drawings, {size: 72, layout: {main: [GROUP]}});
+  assert.equal(split.svg, oneBox.svg);
+  assert.deepEqual(split.request.parts.main.layout, pieces);
+  // scaled (the automatic placement's box, rounded as the editor rounds it), every piece lands on whole units
+  const auto = Side.pairRequest(item, drawings, {size: 72}).request.parts.main.layout[0];
+  const box = {paths: [0, 1, 2], x: Math.round(auto.x), y: Math.round(auto.y), w: Math.round(auto.w), h: Math.round(auto.h)};
+  const scaled = Side.splitGroups([box], parts.sources, Side.connected(parts.segments, 4));
+  for (const p of scaled) for (const k of ['x', 'y', 'w', 'h']) assert.ok(Number.isInteger(p[k]), `${k} ${p[k]}`);
+  assert.deepEqual(Side.groupsBox(scaled), {x: box.x, y: box.y, w: box.w, h: box.h});
+  Side.pairRequest(item, drawings, {size: 72, layout: {main: scaled}});   // builds
+});
+
+test('pieces: moving one piece leaves the others where they are', () => {
+  const {item, drawings} = twoPieces();
+  const parts = Side.elementParts(TWO);
+  const pieces = Side.splitGroups([GROUP], parts.sources, Side.connected(parts.segments, 4));
+  const from = Side.groupsBox([pieces[0]]);
+  const [moved] = Side.mapGroups([pieces[0]], from, {...from, x: from.x + 3, w: from.w - 2});
+  assert.deepEqual(moved, {...pieces[0], x: pieces[0].x + 3, w: pieces[0].w - 2});
+  const result = Side.pairRequest(item, drawings, {size: 72, layout: {main: [moved, pieces[1]]}});
+  assert.deepEqual(result.request.parts.main.layout, [moved, pieces[1]]);
+  assert.notEqual(result.svg, Side.pairRequest(item, drawings, {size: 72, layout: {main: pieces}}).svg);
+  // resizing the whole part keeps the pieces' outer edges on the new box
+  const all = Side.groupsBox(pieces), to = {x: all.x, y: all.y, w: all.w - 7, h: all.h - 5};
+  assert.deepEqual(Side.groupsBox(Side.mapGroups(pieces, all, to)), to);
+});
+
+test('pieces: split into single paths keeps each where it is drawn; a straight line stays flat', () => {
+  const parts = Side.elementParts(TWO);
+  const singles = Side.splitGroups([{paths: [1, 2], x: 30, y: 20, w: 16, h: 26}], parts.sources, [[0], [1], [2]]);
+  assert.deepEqual(singles, [{paths: [1], x: 30, y: 30, w: 16, h: 16}, {paths: [2], x: 38, y: 20, w: 0, h: 10}]);
+});
+
+test('pieces: a 64 pair builds from pieces too', () => {
+  const main48 = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="16" height="16"/><rect x="26" y="26" width="16" height="16"/></svg>';
+  const sub32 = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="4" '
+    + 'stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="10"/></svg>';
+  const item = {reference_id: 'pair64', parts: [{role: 'main', icon: 'solo/m', form: null}, {role: 'sub', icon: 'sub/s', position: 'br', form: null}]};
+  const drawings = new Map([['solo/m', {svg: main48, svg_sha256: 'm'}], ['sub/s', {svg: sub32, svg_sha256: 's'}]]);
+  const parts = Side.elementParts(main48);
+  const pieces = Side.splitGroups([{paths: [0, 1], x: 4, y: 4, w: 36, h: 36}], parts.sources, Side.connected(parts.segments, 4));
+  assert.equal(pieces.length, 2);
+  const [moved] = Side.mapGroups([pieces[0]], Side.groupsBox([pieces[0]]), {x: 2, y: 2, w: 12, h: 12});
+  const result = Side.pairRequest(item, drawings, {layout: {main: [moved, pieces[1]]}});
+  assert.equal(result.result.canvas, 64);
+  assert.deepEqual(result.request.parts.main.layout, [moved, pieces[1]]);
+});

@@ -76,7 +76,8 @@ struct Combo { reference_id: String, concept: Option<String>, kind: String, stat
 #[derive(Deserialize)]
 struct Part { reference_id: String, role: String, part_reference_id: String, position: Option<String>,
               icon: Option<String>, layout: Option<String>, built_sha: Option<String>, current_sha: Option<String>,
-              review: Option<String>, updated_at: Option<String>, updated_by: Option<String>, form: Option<String> }
+              review: Option<String>, updated_at: Option<String>, updated_by: Option<String>, form: Option<String>,
+              draw_name: Option<String> }
 
 #[derive(Deserialize)]
 struct Count { kind: String, state: String, n: f64 }
@@ -165,14 +166,14 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
     // At 72 each part's icon, boxes and build come from its 72 row; the engine forms describe 64 drawings only.
     let parts_sql = if size == 72 {
         "SELECT p.reference_id, p.role, p.part_reference_id, p.position, s.icon, s.layout,
-            s.built_sha, i.svg_sha256 AS current_sha, s.updated_at, s.updated_by, CASE WHEN ? THEN NULL END AS form,
+            s.built_sha, i.svg_sha256 AS current_sha, s.updated_at, s.updated_by, CASE WHEN ? THEN NULL END AS form, p.draw_name,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM reference_parts p LEFT JOIN reference_part_sizes s ON s.reference_id = p.reference_id AND s.role = p.role AND s.size = 72
         LEFT JOIN icons i ON i.key = s.icon
         WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role"
     } else {
         "SELECT p.reference_id, p.role, p.part_reference_id, p.position, p.icon, p.layout,
-            p.built_sha, i.svg_sha256 AS current_sha, p.updated_at, p.updated_by, CASE WHEN ? THEN p.form END AS form,
+            p.built_sha, i.svg_sha256 AS current_sha, p.updated_at, p.updated_by, CASE WHEN ? THEN p.form END AS form, p.draw_name,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM reference_parts p LEFT JOIN icons i ON i.key = p.icon
         WHERE p.reference_id IN (SELECT value FROM json_each(?)) ORDER BY p.reference_id, p.role"
@@ -185,7 +186,7 @@ pub async fn list(ctx: &Ctx) -> Result<Response> {
         let mut part = json!({
             "role": p.role, "part_reference_id": p.part_reference_id, "position": p.position, "icon": p.icon,
             "layout": layout, "built_sha": p.built_sha, "current_sha": p.current_sha, "stale": stale,
-            "review": p.review, "updated_at": p.updated_at, "updated_by": p.updated_by,
+            "review": p.review, "updated_at": p.updated_at, "updated_by": p.updated_by, "draw_name": p.draw_name,
         });
         if forms {
             part["form"] = p.form.as_deref().and_then(|f| serde_json::from_str::<Value>(f).ok()).unwrap_or(Value::Null);
@@ -287,9 +288,10 @@ fn canvas_of(svg: &str) -> Option<i64> {
         .then(|| n[2] as i64)
 }
 
-/// POST /api/combinations/parts {reference_id, role, icon?, layout?, size?}: pick the icon drawn for a part and/or
-/// its boxes, without building. The combination shows as stale until it is built again. `size: 72` picks the
-/// part's 72 icon (main-54 / sub-36) for a side pair.
+/// POST /api/combinations/parts {reference_id, role, icon?, layout?, draw_name?, size?}: pick the icon drawn for a part
+/// and/or its boxes, without building. The combination shows as stale until it is built again. `size: 72` picks the
+/// part's 72 icon (main-54 / sub-36) for a side pair. `draw_name` keeps the name of an icon still to draw for the part
+/// (null clears it); picking an icon clears it.
 pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
     if user == "system" {
         return http::error(401, "Log in to change combinations.");
@@ -307,9 +309,16 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     }
     let icon = data.get("icon").filter(|v| !v.is_null());
     let layout = data.get("layout");
-    if icon.is_none() && layout.is_none() {
-        return http::error(400, "Send an icon, a layout or both.");
+    let draw_name = data.get("draw_name");
+    if icon.is_none() && layout.is_none() && draw_name.is_none() {
+        return http::error(400, "Send an icon, a layout, a name to draw or a mix of them.");
     }
+    let draw_name = match draw_name {
+        None => None,
+        Some(Value::Null) => Some(None),
+        Some(Value::String(name)) if (1..=120).contains(&name.trim().chars().count()) => Some(Some(name.trim().to_string())),
+        Some(_) => return http::error(400, "draw_name must be a name up to 120 characters, or null."),
+    };
     if let Some(icon) = icon {
         let Some(key) = icon.as_str().filter(|k| fits_role(role, k, size)) else {
             return http::error(400, &format!("The {role} must be an icon of its family{}.",
@@ -336,6 +345,16 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     values.push(id.into());
     values.push(role.into());
     let mut statements = Vec::new();
+    // The name to draw belongs to the part (both sizes); a picked icon replaces it.
+    let name_update = match (&draw_name, icon) {
+        (Some(name), _) => Some(name.clone()),
+        (None, Some(_)) => Some(None),
+        _ => None,
+    };
+    if let Some(name) = name_update {
+        statements.push(db::stmt(&ctx.db, "UPDATE reference_parts SET draw_name = ? WHERE reference_id = ? AND role = ?",
+                                 args![name.map(Arg::from).unwrap_or(Arg::Null), id, role])?);
+    }
     if size == 72 {
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO reference_part_sizes(reference_id, role, size) VALUES (?, ?, 72)",
                                  args![id, role])?);
@@ -346,7 +365,7 @@ pub async fn post_part(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
     }
     statements.push(db::activity(&ctx.db, user, "combination_part", Some(id), db::details(vec![
         ("role", json!(role)), ("size", json!(size)), ("icon", icon.cloned().unwrap_or(Value::Null)),
-        ("layout", layout.cloned().unwrap_or(Value::Null))]))?);
+        ("layout", layout.cloned().unwrap_or(Value::Null)), ("draw_name", json!(draw_name.clone().flatten()))]))?);
     db::batch(&ctx.db, statements).await?;
     http::json(200, &json!({"reference_id": id, "role": role, "size": size, "updated_at": now}))
 }

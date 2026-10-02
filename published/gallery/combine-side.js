@@ -1455,12 +1455,154 @@
             request: {reference_id: item.reference_id, svg: result.svg, parts: {main: part('main', 0), sub: part('sub', 1)}}};
   }
 
+  // ======== element layouts (combination_layout_svg.component and combination_layouts._map, for the editor) ========
+
+  // Every element of a drawing as a layout numbers it: its engine segments and source box (null: nothing drawn), and
+  // (combination_layout_svg.markup) the element on its own with what it inherits, and its id or tag for a list.
+  function elementParts(documentText) {
+    const rootEl = parseXml(documentText);
+    const strokeAttrs = Object.fromEntries(Object.entries(rootEl.attrib).filter(([k]) => INHERITED.includes(k)));
+    const found = drawables(rootEl);
+    const segments = found.map(([el, own]) => segmentsOf(el, {...strokeAttrs, ...own}));
+    const markup = found.map(([el, own]) => {
+      const copy = deepcopy(el);
+      copy.tail = null;
+      Object.assign(copy.attrib, own);
+      delete copy.attrib.id;
+      return tostring(copy);
+    });
+    return {segments, sources: segments.map(bbox), markup, names: found.map(([el]) => el.attrib.id || local(el.tag))};
+  }
+
+  function segmentDistance([a, b], [c, d]) {
+    const cross = (o, p, q) => (p[0] - o[0]) * (q[1] - o[1]) - (p[1] - o[1]) * (q[0] - o[0]);
+    const d1 = cross(c, d, a), d2 = cross(c, d, b), d3 = cross(a, b, c), d4 = cross(a, b, d);
+    if (((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))) return 0;
+    const toSegment = (p, s, e) => {
+      const dx = e[0] - s[0], dy = e[1] - s[1], length = dx * dx + dy * dy;
+      const t = length ? Math.max(0, Math.min(1, ((p[0] - s[0]) * dx + (p[1] - s[1]) * dy) / length)) : 0;
+      return Math.hypot(p[0] - s[0] - t * dx, p[1] - s[1] - t * dy);
+    };
+    return Math.min(toSegment(a, c, d), toSegment(b, c, d), toSegment(c, a, b), toSegment(d, a, b));
+  }
+
+  // combination_layout_svg.connected: groups of element numbers whose centerlines come within `reach` (their strokes
+  // touch), each group in element order, the groups by their first element.
+  function connected(segmentLists, reach) {
+    const parent = segmentLists.map((_s, i) => i);
+    const find = i => { while (parent[i] !== i) { parent[i] = parent[parent[i]]; i = parent[i]; } return i; };
+    const boxes = segmentLists.map(bbox);
+    const near = (i, j) => {
+      const a = boxes[i], b = boxes[j];
+      if (!a || !b || a[0] - reach > b[2] || b[0] - reach > a[2] || a[1] - reach > b[3] || b[1] - reach > a[3]) return false;
+      return segmentLists[i].some(s => segmentLists[j].some(t => segmentDistance(s, t) <= reach + 1e-6));
+    };
+    for (let i = 0; i < segmentLists.length; i++) {
+      for (let j = i + 1; j < segmentLists.length; j++) if (find(i) !== find(j) && near(i, j)) parent[find(j)] = find(i);
+    }
+    const groups = new Map();
+    segmentLists.forEach((_s, i) => { const root = find(i); if (!groups.has(root)) groups.set(root, []); groups.get(root).push(i); });
+    return [...groups.values()].sort((a, b) => a[0] - b[0]);
+  }
+
+  // Where a group's elements land: its source box mapped onto its (x, y, w, h); a flat axis takes the other's scale.
+  function groupTransform(group, sources) {
+    const [x0, y0, x1, y1] = union(group.paths.map(i => sources[i]));
+    let sx = x1 - x0 > 1e-9 ? group.w / (x1 - x0) : null, sy = y1 - y0 > 1e-9 ? group.h / (y1 - y0) : null;
+    sx ??= sy ?? 1; sy ??= sx;
+    return {sx, sy, tx: group.x - x0 * sx, ty: group.y - y0 * sy};
+  }
+
+  // Split layout groups into the pieces `partition` (lists of element numbers) cuts them into, each piece placed
+  // where it is drawn now, its edges rounded to the grid so touching pieces stay touching. Groups a piece does not
+  // cut stay as they are.
+  function splitGroups(groups, sources, partition) {
+    const out = [];
+    for (const group of groups) {
+      const pieces = partition.map(p => p.filter(i => group.paths.includes(i) && sources[i])).filter(p => p.length);
+      if (pieces.length < 2) { out.push(group); continue; }
+      const {sx, sy, tx, ty} = groupTransform(group, sources);
+      for (const paths of pieces) {
+        const [u0, v0, u1, v1] = union(paths.map(i => sources[i]));
+        const x0 = Math.round(u0 * sx + tx), y0 = Math.round(v0 * sy + ty), x1 = Math.round(u1 * sx + tx), y1 = Math.round(v1 * sy + ty);
+        out.push({paths: [...paths].sort((a, b) => a - b), x: x0, y: y0,
+                  w: u1 - u0 > 1e-9 ? Math.max(1, x1 - x0) : 0, h: v1 - v0 > 1e-9 ? Math.max(1, y1 - y0) : 0});
+      }
+    }
+    return out;
+  }
+
+  // combination_layouts._map: groups moved and scaled from box `from` onto box `to` ({x, y, w, h}), edges rounded so
+  // groups that touched still touch; a flat group stays flat, any other keeps at least one unit.
+  function mapGroups(groups, from, to) {
+    const scale = (extent, target) => extent > 1e-9 ? target / extent : 1;
+    const kx = scale(from.w, to.w), ky = scale(from.h, to.h);
+    const X = v => Math.round(to.x + (v - from.x) * kx), Y = v => Math.round(to.y + (v - from.y) * ky);
+    return groups.map(g => {
+      const x0 = X(g.x), y0 = Y(g.y), x1 = X(g.x + g.w), y1 = Y(g.y + g.h);
+      return {...g, x: x0, y: y0, w: g.w ? Math.max(1, x1 - x0) : 0, h: g.h ? Math.max(1, y1 - y0) : 0};
+    });
+  }
+
+  // ======== moving a layout to another pair with the same main (combination_layouts.transfer) ========
+
+  const layoutUnion = groups => [Math.min(...groups.map(g => g.x)), Math.min(...groups.map(g => g.y)),
+                                 Math.max(...groups.map(g => g.x + g.w)), Math.max(...groups.map(g => g.y + g.h))];
+  // _corner: top-left centerline corner of a w×h centerline box pushed into `anchor`, as placement() does.
+  const layoutCorner = (w, h, anchor, canvas, padding = 2) =>
+    [pyRound(padding + (canvas - 2 * padding - w - 4) * anchor[0]) + 2, pyRound(padding + (canvas - 2 * padding - h - 4) * anchor[1]) + 2];
+  // _map: groups from box [x0, y0, x1, y1] onto `target`, rounding edges so touching groups stay touching.
+  function layoutMap(groups, box, target) {
+    const [x0, y0, x1, y1] = box, [t0, u0, t1, u1] = target;
+    const fx = x1 - x0 > 1e-9 ? (t1 - t0) / (x1 - x0) : 1, fy = y1 - y0 > 1e-9 ? (u1 - u0) / (y1 - y0) : 1;
+    return groups.map(g => {
+      const gx0 = pyRound(t0 + (g.x - x0) * fx), gy0 = pyRound(u0 + (g.y - y0) * fy);
+      const gx1 = pyRound(t0 + (g.x + g.w - x0) * fx), gy1 = pyRound(u0 + (g.y + g.h - y0) * fy);
+      return {paths: [...g.paths], x: gx0, y: gy0, w: g.w > 0 ? Math.max(1, gx1 - gx0) : 0, h: g.h > 0 ? Math.max(1, gy1 - gy0) : 0};
+    });
+  }
+  // One pair's layout made to fit another pair with the same main. Same side: main (and the same sub) copy exactly.
+  // Another side: each part keeps its size and edits and moves into its own corner for that side (the main opposite
+  // the sub). A different sub cannot reuse element numbers: its own default groups (`targetSubGroups`, boxes
+  // [x0, y0, x1, y1]) are scaled evenly to fit the edited sub's box and pushed into the sub's corner.
+  function transfer(layout, sourcePosition, sourceSub, targetPosition, targetSub, targetCanvas, targetSubGroups = null) {
+    const sameSide = sourcePosition === targetPosition, [ax, ay] = POSITIONS[targetPosition];
+    const out = {};
+    for (const [role, anchor] of [['main', [1 - ax, 1 - ay]], ['sub', [ax, ay]]]) {
+      const groups = (layout || {})[role];
+      if (!groups || !groups.length) continue;
+      const box = layoutUnion(groups), w = box[2] - box[0], h = box[3] - box[1];
+      if (role === 'sub' && targetSub !== sourceSub) {
+        if (!targetSubGroups || !targetSubGroups.length) continue;
+        const own = targetSubGroups.map(g => ({paths: g.paths, x: g.box[0], y: g.box[1], w: g.box[2] - g.box[0], h: g.box[3] - g.box[1]}));
+        const tb = layoutUnion(own), tw = tb[2] - tb[0], th = tb[3] - tb[1];
+        const votes = [[tw, w], [th, h]].filter(([s]) => s > 1e-9).map(([s, d]) => d / s);
+        const k = votes.length ? Math.min(...votes) : 1, fw = pyRound(tw * k), fh = pyRound(th * k);
+        const [x, y] = sameSide ? [pyRound(box[0] + (w - fw) * ax), pyRound(box[1] + (h - fh) * ay)] : layoutCorner(fw, fh, anchor, targetCanvas);
+        out[role] = layoutMap(own, tb, [x, y, x + fw, y + fh]);
+        continue;
+      }
+      if (sameSide) out[role] = groups.map(g => ({...g, paths: [...g.paths]}));
+      else {
+        const [x, y] = layoutCorner(w, h, anchor, targetCanvas);
+        out[role] = groups.map(g => ({...g, paths: [...g.paths], x: g.x + x - box[0], y: g.y + y - box[1]}));
+      }
+    }
+    return Object.keys(out).length ? out : null;
+  }
+
+  // The box around groups ({x, y, w, h}).
+  function groupsBox(groups) {
+    const x0 = Math.min(...groups.map(g => g.x)), y0 = Math.min(...groups.map(g => g.y));
+    return {x: x0, y: y0, w: Math.max(...groups.map(g => g.x + g.w)) - x0, h: Math.max(...groups.map(g => g.y + g.h)) - y0};
+  }
+
   // The elements of a drawing that a layout places (bake): every drawable one, by index.
   function drawableIndices(documentText) {
     const found = drawables(parseXml(documentText));
     return found.map(([el, own], i) => bbox(segmentsOf(el, own)) ? i : null).filter(i => i !== null);
   }
 
-  return {SIZES, render, withDocuments, drawableIndices, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
+  return {SIZES, render, withDocuments, drawableIndices, elementParts, connected, splitGroups, mapGroups, groupsBox, groupTransform, transfer, pairRequest, handLayout, sha256, safeSvg, inlineClassStyles, customItem, CombineError, placement, capsule, engineSegments, pyFixed2, pyG12, pyStr, parseXml, tostring,
           internals: {Area, hull, clip, fitInto, intersect, orientation}};
 });
