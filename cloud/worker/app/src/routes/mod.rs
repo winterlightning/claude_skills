@@ -42,7 +42,7 @@ fn local_response() -> Result<Response> {
 
 fn is_internal(path: &str) -> bool {
     path == "/api/catalog/push" || path.starts_with("/api/store/") || path.starts_with("/api/files/") || path == "/api/icons/discard-record" || path == "/api/activity"
-        || path == "/api/icons/reindex"
+        || path == "/api/icons/reindex" || path == "/api/icons/records"
 }
 
 pub async fn dispatch(ctx: &mut Ctx) -> Result<Response> {
@@ -114,7 +114,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/primitives/status", "/api/primitives/briefs", "/api/primitives/symbol-link", "/api/work/claim", "/api/work/done",
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
-    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex"];
+    "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex", "/api/icons/records"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -129,7 +129,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/icons/upload" | "/api/icon-artwork" | "/api/combinations/build" => 2 * 1024 * 1024,
         "/api/reference-images" => MAX_REFERENCE_BODY,
         "/api/work/result" => MAX_WORK_RESULT_BODY,
-        "/api/catalog/push" => MAX_PUSH_BODY,
+        "/api/catalog/push" | "/api/icons/records" => MAX_PUSH_BODY,
         _ if path.starts_with("/api/store/") => 4 * 1024 * 1024,
         _ => MAX_BODY,
     };
@@ -164,6 +164,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/combinations/build" => combinations::build(ctx, &data, user).await,
         "/api/combinations/pair" => combinations::post_pair(ctx, &data, user).await,
         "/api/icons/reindex" => icon_list::reindex(ctx, &data).await,
+        "/api/icons/records" => icon_list::records(ctx, &data).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

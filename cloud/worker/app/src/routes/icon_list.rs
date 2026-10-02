@@ -217,3 +217,30 @@ pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
     let next = last.filter(|_| rows.len() as i64 == limit);
     http::json(200, &json!({"indexed": indexed, "next_offset": next}))
 }
+
+/// POST /api/icons/records {records: [record…], facets: {key: facet}} (push token, ≤ 300 records): store the full record
+/// of icons already in D1 (rows pushed before migration 0015 have none) with their list columns and symmetry. Only
+/// those columns change, so a drawing picked since the push keeps its svg_sha256 → `{stored}`.
+pub async fn records(ctx: &Ctx, data: &Value) -> Result<Response> {
+    let Some(records) = data["records"].as_array().filter(|r| r.len() <= 300) else {
+        return http::error(400, "Send up to 300 records.");
+    };
+    let guard = format!("uploaded = 0 AND NOT ({BUILT_IN_BROWSER})");
+    let (mut statements, mut record_rows) = (Vec::new(), Vec::new());
+    for record in records {
+        let Some(key) = record["key"].as_str() else { continue };
+        let mut stored = record.clone();
+        stored.as_object_mut().map(|r| r.remove("uploaded_svg"));
+        record_rows.push(statements.len());
+        statements.push(db::stmt(&ctx.db, &format!("UPDATE icons SET record = ? WHERE key = ? AND {guard}"),
+                                 args![stored.to_string(), key])?);
+        statements.push(index_statement(&ctx.db, key, &stored, Some(&guard))?);
+        if let Some(facet) = data["facets"].get(key) {
+            statements.push(symmetry_statement(&ctx.db, key, facet)?);
+        }
+    }
+    // One batch: the record statements are every one that starts an icon's group.
+    let results = db::batch(&ctx.db, statements).await?;
+    let stored: usize = record_rows.iter().map(|&i| results.get(i).map(db::changes).unwrap_or(0)).sum();
+    http::json(200, &json!({"stored": stored}))
+}
