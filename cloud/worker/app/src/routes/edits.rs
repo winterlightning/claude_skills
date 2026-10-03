@@ -19,7 +19,7 @@ use serde::Deserialize;
 use serde_json::{json, Map, Value};
 use std::collections::HashMap;
 use worker::wasm_bindgen::JsValue;
-use worker::{Headers, Method, RequestInit, Response, Result};
+use worker::{D1PreparedStatement, Headers, Method, RequestInit, Response, Result};
 
 const EDITS: &str = "stroke-edits";
 const ARTWORK: &str = "icon-artwork";
@@ -318,6 +318,50 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         response["record"]["review_updated_at"] = json!(now);
     }
     http::json(200, &with_geometry(ctx, response, &key, &sha).await?)
+}
+
+/// An uploaded drawing becomes an existing icon's picked candidate (POST /api/icons/upload for a reference that
+/// already has an icon): the choice document the Pick panel reads with the upload selected, the revision row, the
+/// icon's current drawing, a Ready review by `user` (an approval or a disapproval is replaced alike) and its feedback
+/// resolved — the statements for one batch. An icon that is itself an upload has no choice document: its stored
+/// drawing is replaced.
+pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
+    let db = &ctx.db;
+    let key = icon.key.clone();
+    let preview = format!("../api/icon-artwork/svg?icon={}&v={digest}", percent_encode(&key));
+    let mut statements = Vec::new();
+    if icon.uploaded {
+        statements.push(db::stmt(db, "UPDATE uploaded_icons SET svg = ?, record = json_set(record, '$.svg_sha256', ?, '$.preview_url', ?, \
+            '$.modified_at', ?) WHERE icon = ?", args![svg, digest, preview.clone(), now, key.clone()])?);
+        statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ?, preview_url = ?, record = json_set(record, '$.svg_sha256', ?, \
+            '$.preview_url', ?, '$.modified_at', ?) WHERE key = ? AND uploaded = 1", args![digest, preview.clone(), digest, preview, now, key.clone()])?);
+    } else {
+        let old = document(ctx, ARTWORK, &key).await?;
+        let baseline = baseline_sha(ctx, icon, old.as_ref()).await?;
+        let revision = old.as_ref().and_then(|c| c["revision"].as_i64()).unwrap_or(0);
+        let id = key.split_once('/').map_or(key.as_str(), |(_, id)| id);
+        let upload = json!({"svg": svg, "svg_sha256": digest, "name": format!("{id}.svg"), "uploaded_by": user, "uploaded_at": now});
+        let mut choice = old.filter(Value::is_object).unwrap_or_else(|| json!({"schema": "pictographic.icon-artwork.v1", "icon": key}));
+        for (field, value) in [("uploaded", upload.clone()), ("selected_upload", upload), ("source_mode", json!("use_upload")),
+                               ("source_svg_sha256", json!(baseline)), ("selected_svg_sha256", json!(digest)), ("revision", json!(revision + 1)),
+                               ("updated_by", json!(user)), ("updated_at", json!(now)), ("selected_by", json!(user)), ("selected_at", json!(now)),
+                               ("manual_review", json!({"reviewed_by": user, "reviewed_at": now, "svg_sha256": digest}))] {
+            choice[field] = value;
+        }
+        statements.push(put_statement(db, ARTWORK, &key, &choice, None, user, now)?);
+        statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ? WHERE key = ? AND uploaded = 0", args![digest, key.clone()])?);
+    }
+    statements.push(db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
+                             args![digest, key.clone(), svg, now])?);
+    statements.push(db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'ready', ?, ?) \
+        ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = 'ready', updated_at = excluded.updated_at, updated_by = excluded.updated_by, \
+        worker = NULL, claimed_at = NULL, note = ''", args![key.clone(), digest, now, user])?);
+    statements.push(db::activity(db, user, "review", Some(&key), details(vec![
+        ("status", json!("ready")), ("svg_sha256", json!(digest)), ("artwork_source", json!("use_upload")), ("uploaded", json!(true))]))?);
+    // clear_ready_feedback, as any return to Ready does.
+    statements.push(db::stmt(db, "DELETE FROM feedback WHERE icon = ?", args![key.clone()])?);
+    statements.push(db::activity_with_placeholders(db, user, "feedback_resolved", Some(&key), details(vec![("deleted_count", json!("__CHANGES__"))]))?);
+    Ok(statements)
 }
 
 /// GET /api/icon-artwork/overrides — every picked artwork as a record overlay. The built icons.json in

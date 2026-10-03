@@ -251,6 +251,18 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     };
     let digest = hex::encode(Sha256::digest(document.as_bytes()));
     let now = iso_utc(chrono::Utc::now());
+    // A reference that already has an icon in this family gets no second icon: the upload is that icon's picked
+    // candidate and the icon returns to Ready, whatever its review was (the generated icon before an earlier upload).
+    if let Some((id, _)) = &original {
+        if let Some(existing) = existing_icon(ctx, id, family_id).await? {
+            let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, user, &now).await?;
+            db::batch(&ctx.db, statements).await?;
+            let record = json!({"key": existing.key, "icon_id": existing.icon_id, "name": existing.name, "family": family_id,
+                                "svg_sha256": digest, "preview_url": format!("../api/icon-artwork/svg?icon={}&v={digest}", http::percent_encode(&existing.key)),
+                                "artwork_source": "use_upload"});
+            return http::json(200, &json!({"record": record, "status": "ready", "candidate_of": existing.key}));
+        }
+    }
     let mut validation = json!({
         "status": "not-run", "bypassed": bypass, "checks_run": ["static SVG", "canvas"], "errors": [],
         "warnings": ["Uploaded artwork requires human review."],
@@ -333,6 +345,18 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         answer["combination_parts"] = json!(picked.iter().map(|p| json!({"reference_id": p.reference_id, "role": p.role, "size": 72})).collect::<Vec<_>>());
     }
     http::json(201, &answer)
+}
+
+/// The icon this family already has for a reference (icon_references), the generated one before an upload, or None.
+async fn existing_icon(ctx: &Ctx, reference_id: &str, family: &str) -> Result<Option<pictographic_core::catalog::Icon>> {
+    #[derive(Deserialize)]
+    struct Row { key: String }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT i.key FROM icon_references r JOIN icons i ON i.key = r.icon \
+        WHERE r.reference_id = ? AND i.family = ? ORDER BY i.uploaded, i.pushed_at LIMIT 1", args![reference_id, family]).await?;
+    match row {
+        Some(row) => data::icon(&ctx.db, &row.key, true).await,
+        None => Ok(None),
+    }
 }
 
 /// The original_sources value a built icon drawn from this reference carries, or None for an unknown id.
