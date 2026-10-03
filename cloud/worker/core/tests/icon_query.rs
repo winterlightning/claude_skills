@@ -70,7 +70,37 @@ fn database(fixture: &Value) -> Connection {
     for sha in fixture["graphs"].as_array().unwrap() {
         db.execute("INSERT INTO icon_graphs(svg_sha256, icon, graph) VALUES (?1, 'x', '{}')", rusqlite::params![sha.as_str()]).unwrap();
     }
+    refresh(&db);
     db
+}
+
+/// What POST /api/icons/refresh {full: true} does, over every icon: the stored state, the search rows and the counts
+/// (nothing keeps them current between refreshes since migration 0018).
+fn refresh(db: &Connection) {
+    db.execute(icon_query::REFRESH_RANGE, rusqlite::params![0i64, i64::MAX]).unwrap();
+    let keys: Vec<String> = db.prepare("SELECT key FROM icons").unwrap().query_map([], |r| r.get(0)).unwrap().map(Result::unwrap).collect();
+    for chunk in keys.chunks(100) {
+        let list = json!(chunk).to_string();
+        let before: i64 = db.query_row(icon_query::SEARCH_MAX, [], |r| r.get(0)).unwrap();
+        let [delete_rows, delete_keys, insert_rows, remember] = icon_query::SEARCH_REFRESH;
+        for sql in [delete_rows, delete_keys, insert_rows] {
+            db.execute(sql, rusqlite::params![list]).unwrap();
+        }
+        db.execute(remember, rusqlite::params![before]).unwrap();
+    }
+    let groups: Vec<icon_query::Group> = db.prepare(icon_query::GROUPS).unwrap().query_map([], |r| Ok(icon_query::Group {
+        family: r.get(0)?, side_role: r.get(1)?, state: r.get(2)?, category: r.get(3)?, build_failed: r.get::<_, i64>(4)? as f64,
+        author: r.get(5)?, keyshape: r.get(6)?, n: r.get::<_, i64>(7)? as f64 })).unwrap().map(Result::unwrap).collect();
+    let (counts, facets) = icon_query::count_rows(&groups);
+    for sql in icon_query::COUNTS_CLEAR {
+        db.execute(sql, []).unwrap();
+    }
+    for (family, side_role, state, category, failed, n) in counts {
+        db.execute(&format!("{}(?1, ?2, ?3, ?4, ?5, ?6)", icon_query::COUNTS_INSERT), rusqlite::params![family, side_role, state, category, failed, n]).unwrap();
+    }
+    for (kind, value, n) in facets {
+        db.execute(&format!("{}(?1, ?2, ?3)", icon_query::FACETS_INSERT), rusqlite::params![kind, value, n]).unwrap();
+    }
 }
 
 fn rows(db: &Connection, (sql, args): (String, Vec<Value>)) -> Vec<HashMap<String, Value>> {
@@ -207,6 +237,7 @@ fn a_page_reads_its_own_rows() {
             variant, has_original, artwork_source, symmetry, symmetry_sha";
         db.execute_batch(&format!("INSERT INTO icons(key, {columns}) SELECT i.key || '-c' || n.i, {} FROM icons i, n",
             columns.split(", ").map(|c| format!("i.{c}")).collect::<Vec<_>>().join(", "))).unwrap();
+        refresh(&db);
         let mut row = Vec::new();
         for (label, case, flat) in &cases {
             let (sql, args) = icon_query::list(case);

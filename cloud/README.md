@@ -162,9 +162,14 @@ site from the test bucket with a local D1.
 Icon review, the approved collection, Home and the Design Document list icons a page at a time from D1 instead of
 downloading `icons.json` (~90 MB), and a page reads only its own rows. Migration 0015 stores on each icon what the
 list filters, sorts and counts by: list columns from the record (catalog push, upload, combination build) and the
-review state (view `icon_state`), which triggers recompute whenever a review, feedback, split, artwork pick, icon
-graph or the icon changes. Triggers also keep the counts (`icon_counts`, `icon_facet_counts`) and a trigram search
-index (`icon_search`). With family, state and category the list reads its page through the list indexes and the
+review state (view `icon_state`), the counts (`icon_counts`, `icon_facet_counts`) and a trigram search index
+(`icon_search`). Nothing keeps those current as rows are written (0015's triggers did, recomputing every state
+column on every row, several times per request; 0018 dropped them): Icon review's **Refresh stats** button,
+`POST /api/icons/refresh` (a logged-in reviewer or the push token), recomputes the state and search rows of the
+icons the activity log names since the last press, then rebuilds the counts from one pass over `icons` (~35k rows).
+`{"full": true, "offset": 0, "limit": 2000}` recomputes every icon a page at a time (`next_offset` until null), the
+repair after writes that bypass the Worker; `/api/icons/reindex` ends with the same count rebuild. With family,
+state and category the list reads its page through the list indexes and the
 counts from `icon_counts`; other filters (author, strokes, …) count the icons that match them, and "All versions"
 reads the matching icons to group them. core/tests/icon_query.rs checks that the common pages do the same work on
 catalogs of 7,200 and 21,600 icons. After applying 0015 to a database whose

@@ -388,13 +388,79 @@ pub fn by_keys(keys: &[String]) -> (String, Args) {
      vec![json!(json!(keys).to_string())])
 }
 
-/// Recompute the stored review state (view icon_state) of icons with rowid in [from, to): the triggers keep it
-/// current; this fills it for rows stored before migration 0015.
+/// Recompute the stored review state (view icon_state) of icons with rowid in [from, to): the full pass of
+/// POST /api/icons/refresh and /api/icons/reindex. Nothing keeps the state current between refreshes (0018).
 pub const REFRESH_RANGE: &str = "UPDATE icons SET (decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, \
     cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, \
     v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE rowid >= ? AND rowid < ?";
 
-/// The list's filter choices, kept by triggers → rows `{kind, value, n}`.
+/// The same for the icons named in a JSON array of keys (one bound value).
+pub const REFRESH_KEYS: &str = concat!(
+    "UPDATE icons SET (decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, ",
+    "cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, ",
+    "v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE key IN (SELECT value FROM json_each(?))");
+
+/// The search rows of the icons in a JSON array of keys again. An FTS table cannot look up its key column, so the
+/// old rows go by the rowid icon_search_keys remembers; the icons that still exist are inserted afresh and remembered.
+/// The first three statements bind the array; the last binds `SEARCH_MAX` read before them.
+pub const SEARCH_REFRESH: [&str; 4] = [
+    "DELETE FROM icon_search WHERE rowid IN (SELECT search_rowid FROM icon_search_keys WHERE key IN (SELECT value FROM json_each(?)))",
+    "DELETE FROM icon_search_keys WHERE key IN (SELECT value FROM json_each(?))",
+    "INSERT INTO icon_search(search, key) SELECT search, key FROM icons WHERE key IN (SELECT value FROM json_each(?))",
+    "INSERT INTO icon_search_keys(key, search_rowid) SELECT key, rowid FROM icon_search WHERE rowid > ?",
+];
+pub const SEARCH_MAX: &str = "SELECT COALESCE(MAX(search_rowid), 0) AS n FROM icon_search_keys";
+
+/// One pass over icons for the counts: a row per distinct combination of what icon_counts and icon_facet_counts group by.
+pub const GROUPS: &str = "SELECT family, side_role, state, category, build_failed, author, keyshape, COUNT(*) AS n \
+    FROM icons GROUP BY 1, 2, 3, 4, 5, 6, 7";
+pub const COUNTS_CLEAR: [&str; 2] = ["DELETE FROM icon_counts", "DELETE FROM icon_facet_counts"];
+pub const COUNTS_INSERT: &str = "INSERT INTO icon_counts(family, side_role, state, category, built_failed, n) VALUES ";
+pub const FACETS_INSERT: &str = "INSERT INTO icon_facet_counts(kind, value, n) VALUES ";
+
+/// A `GROUPS` row (D1 returns integers as numbers).
+#[derive(Clone, Debug, Default, serde::Deserialize)]
+pub struct Group {
+    pub family: Option<String>,
+    pub side_role: Option<String>,
+    pub state: Option<String>,
+    pub category: Option<String>,
+    pub build_failed: f64,
+    pub author: Option<String>,
+    pub keyshape: Option<String>,
+    pub n: f64,
+}
+
+/// icon_counts rows `(family, side_role, state, category, built_failed, n)` and icon_facet_counts rows
+/// `(kind, value, n)` from the groups: the same rules as migration 0015's first fill (authors and families of
+/// every icon; keyshapes, categories and the built total of icons whose build did not fail).
+pub fn count_rows(groups: &[Group]) -> (Vec<(String, String, String, String, i64, i64)>, Vec<(&'static str, String, i64)>) {
+    let mut counts: HashMap<(String, String, String, String, i64), i64> = HashMap::new();
+    let mut facets: HashMap<(&'static str, String), i64> = HashMap::new();
+    let text = |v: &Option<String>| v.clone().unwrap_or_default();
+    for g in groups {
+        let (n, failed) = (g.n as i64, g.build_failed != 0.0);
+        *counts.entry((text(&g.family), text(&g.side_role), text(&g.state), text(&g.category), failed as i64)).or_default() += n;
+        *facets.entry(("author", g.author.clone().unwrap_or_else(|| "unknown".into()))).or_default() += n;
+        *facets.entry(("family", text(&g.family))).or_default() += n;
+        if !failed {
+            if let Some(keyshape) = &g.keyshape {
+                *facets.entry(("keyshape", keyshape.clone())).or_default() += n;
+            }
+            if !text(&g.category).is_empty() {
+                *facets.entry(("category", text(&g.category))).or_default() += n;
+            }
+            *facets.entry(("total", "built".into())).or_default() += n;
+        }
+    }
+    let mut counts: Vec<_> = counts.into_iter().map(|((f, s, st, c, b), n)| (f, s, st, c, b, n)).collect();
+    let mut facets: Vec<_> = facets.into_iter().map(|((k, v), n)| (k, v, n)).collect();
+    counts.sort();
+    facets.sort();
+    (counts, facets)
+}
+
+/// The list's filter choices, rebuilt by the refresh → rows `{kind, value, n}`.
 pub const FACETS: &str = "SELECT kind, value, n FROM icon_facet_counts WHERE n > 0";
 
 /// A list row as the page gets it: the card with the current drawing, review and work state merged in.

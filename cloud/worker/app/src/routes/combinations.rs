@@ -660,6 +660,9 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
             db::stmt(&ctx.db, "DELETE FROM icon_references WHERE icon = ?", args![format!("side_combination64/{id}")])?,
             db::stmt(&ctx.db, "UPDATE \"references\" SET kind = 'single' WHERE reference_id = ?", args![id])?,
             db::activity(&ctx.db, user, "side_pair_removed", Some(id), db::details(vec![]))?,
+            // Named by key so the list refresh drops their rows (the pair itself is logged by reference id).
+            db::activity(&ctx.db, user, "icon_removed", Some(&format!("combination-72/{id}")), db::details(vec![]))?,
+            db::activity(&ctx.db, user, "icon_removed", Some(&format!("side_combination64/{id}")), db::details(vec![]))?,
         ]).await?;
         return http::json(200, &json!({"reference_id": id, "removed": true}));
     }

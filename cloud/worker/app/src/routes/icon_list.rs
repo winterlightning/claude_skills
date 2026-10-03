@@ -7,6 +7,7 @@ use crate::http::{self, Ctx};
 use pictographic_core::icon_index::{index, IconIndex};
 use pictographic_core::icon_query::{self, Params};
 use pictographic_core::reviews::ReviewRow;
+use pictographic_core::time::iso_utc;
 use pictographic_core::work;
 use serde::Deserialize;
 use serde_json::{json, Map, Value};
@@ -186,8 +187,9 @@ pub async fn detail(ctx: &Ctx) -> Result<Response> {
 }
 
 /// POST /api/icons/reindex {offset, limit} (push token): the list columns of stored rows again from their stored
-/// records (uploads, combined icons built in the browser, pushed rows with a record), and their review state (view
-/// icon_state; the triggers keep it afterwards). `offset` is a row id cursor → `{indexed, next_offset}`.
+/// records (uploads, combined icons built in the browser, pushed rows with a record), their review state (view
+/// icon_state) and search rows. `offset` is a row id cursor → `{indexed, next_offset}`; the counts are rebuilt with
+/// the last page.
 pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
     let after = data["offset"].as_i64().unwrap_or(0).max(0);
     let limit = data["limit"].as_i64().unwrap_or(500).clamp(1, 2000);
@@ -212,10 +214,128 @@ pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
     }
     let last = rows.last().map(|r| r.rowid as i64);
     if let (Some(first), Some(last)) = (rows.first().map(|r| r.rowid as i64), last) {
-        db::run(&ctx.db, icon_query::REFRESH_RANGE, args![first, last + 1]).await?;
+        refresh_range(ctx, first, last + 1).await?;
     }
     let next = last.filter(|_| rows.len() as i64 == limit);
+    if next.is_none() {
+        rebuild_counts(ctx, None).await?;
+    }
     http::json(200, &json!({"indexed": indexed, "next_offset": next}))
+}
+
+/// The stored state and search rows of the icons with rowid in [from, to).
+async fn refresh_range(ctx: &Ctx, from: i64, to: i64) -> Result<()> {
+    #[derive(Deserialize)]
+    struct Key { key: String }
+    let keys: Vec<Key> = db::all(&ctx.db, "SELECT key FROM icons WHERE rowid >= ? AND rowid < ?", args![from, to]).await?;
+    db::run(&ctx.db, icon_query::REFRESH_RANGE, args![from, to]).await?;
+    refresh_search(ctx, &keys.into_iter().map(|k| k.key).collect::<Vec<_>>()).await
+}
+
+/// The search rows of the named icons again (core `SEARCH_REFRESH`), 100 keys at a time.
+async fn refresh_search(ctx: &Ctx, keys: &[String]) -> Result<()> {
+    #[derive(Deserialize)]
+    struct Max { n: f64 }
+    for chunk in keys.chunks(100) {
+        let list = Value::Array(chunk.iter().map(|k| json!(k)).collect()).to_string();
+        let before: Option<Max> = db::first(&ctx.db, icon_query::SEARCH_MAX, vec![]).await?;
+        let before = before.map(|m| m.n as i64).unwrap_or(0);
+        let [delete_rows, delete_keys, insert_rows, remember] = icon_query::SEARCH_REFRESH;
+        db::batch(&ctx.db, vec![
+            db::stmt(&ctx.db, delete_rows, args![list.clone()])?,
+            db::stmt(&ctx.db, delete_keys, args![list.clone()])?,
+            db::stmt(&ctx.db, insert_rows, args![list])?,
+            db::stmt(&ctx.db, remember, args![before])?,
+        ]).await?;
+    }
+    Ok(())
+}
+
+/// POST /api/icons/refresh — the gallery's "Refresh stats" button (a logged-in reviewer, or the push token).
+/// Recomputes the stored review state and the search row of every icon the activity log names since the last
+/// refresh, then rebuilds the tab and filter counts from one pass over icons → `{refreshed, counts, activity_id}`.
+/// `{full: true, offset, limit}` instead recomputes every icon a page at a time (a repair after writes that bypass
+/// the log, such as local pushes to /api/store) → `{refreshed, next_offset}`; the counts are rebuilt with the last page.
+pub async fn refresh(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
+    if user == "system" && !super::internal::authorized(ctx) {
+        return http::error(401, "Log in, or send the push token, to refresh the list.");
+    }
+    if data["full"] == json!(true) {
+        let after = data["offset"].as_i64().unwrap_or(0).max(0);
+        let limit = data["limit"].as_i64().unwrap_or(500).clamp(1, 2000);
+        #[derive(Deserialize)]
+        struct Range { first: Option<f64>, last: Option<f64>, n: f64 }
+        let range: Option<Range> = db::first(&ctx.db, "SELECT MIN(rowid) AS first, MAX(rowid) AS last, COUNT(*) AS n \
+            FROM (SELECT rowid FROM icons WHERE rowid > ? ORDER BY rowid LIMIT ?)", args![after, limit]).await?;
+        let (mut refreshed, mut next) = (0, None);
+        if let Some(Range { first: Some(first), last: Some(last), n }) = range {
+            refresh_range(ctx, first as i64, last as i64 + 1).await?;
+            refreshed = n as i64;
+            next = Some(last as i64).filter(|_| n as i64 == limit);
+        }
+        if next.is_none() {
+            // Search rows of icons deleted since: their keys are no longer in icons.
+            db::batch(&ctx.db, vec![
+                db::stmt(&ctx.db, "DELETE FROM icon_search WHERE rowid IN (SELECT k.search_rowid FROM icon_search_keys k \
+                    WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = k.key))", vec![])?,
+                db::stmt(&ctx.db, "DELETE FROM icon_search_keys WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = icon_search_keys.key)", vec![])?,
+            ]).await?;
+            rebuild_counts(ctx, Some((user, refreshed))).await?;
+        }
+        return http::json(200, &json!({"refreshed": refreshed, "next_offset": next}));
+    }
+    #[derive(Deserialize)]
+    struct Since { last_activity_id: f64 }
+    #[derive(Deserialize)]
+    struct Changed { icon: String }
+    #[derive(Deserialize)]
+    struct Latest { id: f64 }
+    let since: Option<Since> = db::first(&ctx.db, "SELECT last_activity_id FROM list_refresh WHERE id = 1", vec![]).await?;
+    let since = since.map(|s| s.last_activity_id as i64).unwrap_or(0);
+    let latest: Option<Latest> = db::first(&ctx.db, "SELECT COALESCE(MAX(id), 0) AS id FROM activity_log", vec![]).await?;
+    let latest = latest.map(|l| l.id as i64).unwrap_or(0);
+    let changed: Vec<Changed> = db::all(&ctx.db, "SELECT DISTINCT icon FROM activity_log WHERE id > ? AND id <= ? AND icon IS NOT NULL \
+        AND icon LIKE '%/%'", args![since, latest]).await?;
+    let keys: Vec<String> = changed.into_iter().map(|c| c.icon).collect();
+    for chunk in keys.chunks(100) {
+        let list = Value::Array(chunk.iter().map(|k| json!(k)).collect()).to_string();
+        db::run(&ctx.db, icon_query::REFRESH_KEYS, args![list]).await?;
+    }
+    refresh_search(ctx, &keys).await?;
+    let counts = rebuild_counts(ctx, Some((user, keys.len() as i64))).await?;
+    db::run(&ctx.db, "UPDATE list_refresh SET last_activity_id = ? WHERE id = 1", args![latest]).await?;
+    http::json(200, &json!({"refreshed": keys.len(), "counts": counts, "activity_id": latest}))
+}
+
+/// icon_counts and icon_facet_counts again from one pass over icons (core `GROUPS`, split by `count_rows`), with the
+/// refresh bookkeeping when `stamp` names who refreshed how many → how many count rows were written.
+async fn rebuild_counts(ctx: &Ctx, stamp: Option<(&str, i64)>) -> Result<usize> {
+    let groups: Vec<icon_query::Group> = db::all(&ctx.db, icon_query::GROUPS, vec![]).await?;
+    let (counts, facets) = icon_query::count_rows(&groups);
+    let mut statements = vec![db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[0], vec![])?, db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[1], vec![])?];
+    // D1 binds at most 100 values per statement.
+    for chunk in counts.chunks(16) {
+        let values = vec!["(?, ?, ?, ?, ?, ?)"; chunk.len()].join(", ");
+        let mut values_args = Vec::new();
+        for (family, side_role, state, category, failed, n) in chunk {
+            values_args.extend(args![family, side_role, state, category, *failed, *n]);
+        }
+        statements.push(db::stmt(&ctx.db, &format!("{}{values}", icon_query::COUNTS_INSERT), values_args)?);
+    }
+    for chunk in facets.chunks(33) {
+        let values = vec!["(?, ?, ?)"; chunk.len()].join(", ");
+        let mut values_args = Vec::new();
+        for (kind, value, n) in chunk {
+            values_args.extend(args![*kind, value, *n]);
+        }
+        statements.push(db::stmt(&ctx.db, &format!("{}{values}", icon_query::FACETS_INSERT), values_args)?);
+    }
+    if let Some((user, refreshed)) = stamp {
+        statements.push(db::stmt(&ctx.db, "UPDATE list_refresh SET refreshed_at = ?, refreshed_by = ?, refreshed_icons = ? WHERE id = 1",
+                                 args![iso_utc(chrono::Utc::now()), user, refreshed])?);
+    }
+    db::batch(&ctx.db, statements).await?;
+    Ok(counts.len() + facets.len())
 }
 
 /// POST /api/icons/records {records: [record…], facets: {key: facet}} (push token, ≤ 300 records): store the full record

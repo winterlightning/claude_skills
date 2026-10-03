@@ -302,6 +302,10 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             args![key.clone(), drawing.clone(), now.clone(), user, key.clone(), revision, now.clone()])?);
         statements.push(db::activity_if_changed(&ctx.db, user, "review", Some(&key), details(vec![
             ("status", json!("approve")), ("svg_sha256", json!(drawing)), ("artwork_source", choice["source_mode"].clone())]))?);
+    } else {
+        // A saved candidate changes the card's picked artwork: logged so the list refresh finds the icon.
+        statements.push(db::activity_if_changed(&ctx.db, user, "artwork_upload", Some(&key), details(vec![
+            ("svg_sha256", json!(drawing)), ("revision", json!(revision))]))?);
     }
     let results = db::batch(&ctx.db, statements).await?;
     if db::changes(&results[0]) == 0 {
