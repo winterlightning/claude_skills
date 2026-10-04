@@ -200,6 +200,12 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         Some(Value::String(c)) if c.chars().count() <= 100 => c.clone(),
         _ => return http::error(400, "Enter a category up to 100 characters."),
     };
+    // Optional: who drew the upload (a model id or a person), shown as the icon's author instead of the login or `system`.
+    let author = match data.get("author") {
+        None | Some(Value::Null) => None,
+        Some(Value::String(a)) if (1..=100).contains(&a.trim().chars().count()) => Some(a.trim().to_string()),
+        _ => return http::error(400, "author must be a name up to 100 characters."),
+    };
     let bypass = match data.get("bypass_validation") {
         None => true,
         Some(Value::Bool(b)) => *b,
@@ -255,7 +261,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     // candidate and the icon returns to Ready, whatever its review was (the generated icon before an earlier upload).
     if let Some((id, _)) = &original {
         if let Some(existing) = existing_icon(ctx, id, family_id).await? {
-            let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, user, &now).await?;
+            let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, author.as_deref(), user, &now).await?;
             db::batch(&ctx.db, statements).await?;
             let record = json!({"key": existing.key, "icon_id": existing.icon_id, "name": existing.name, "family": family_id,
                                 "svg_sha256": digest, "preview_url": format!("../api/icon-artwork/svg?icon={}&v={digest}", http::percent_encode(&existing.key)),
@@ -295,7 +301,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         "profile": format!("{}{}", family_id.to_uppercase(), canvas), "canvas_size": canvas,
         "category": category, "icon_type": "uploaded", "keywords": [], "aliases": [],
         "svg_sha256": digest, "uploaded_icon": true, "artwork_source": "use_org",
-        "preview_url": preview_url, "author": user, "created_at": now, "modified_at": now, "original_sources": original_sources,
+        "preview_url": preview_url, "author": author.as_deref().unwrap_or(user), "created_at": now, "modified_at": now, "original_sources": original_sources,
         "primitives": [], "contours": [], "relationships": [], "anchors": {},
         "style": {"stroke_width": 4}, "keyshape": "FREE", "keyshape_bounds": [0, 0, canvas, canvas],
         "bypass_validation": bypass, "validation": validation});

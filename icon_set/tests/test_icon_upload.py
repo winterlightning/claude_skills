@@ -119,6 +119,18 @@ class IconUploadTests(unittest.TestCase):
         self.assertEqual([row['category'] for row in catalog if row['key'] in keys],
                          ['manual_upload', 'manual_upload', 'manual_upload', 'Animals'])
 
+    def test_author_field_names_who_drew_the_upload(self):
+        status, result = self.upload(author=' claude-opus-5-5 ')
+        self.assertEqual(status, 201, result)
+        self.assertEqual(result['record']['author'], 'claude-opus-5-5')
+        status, result = self.upload(author=None)
+        self.assertEqual(status, 201, result)
+        self.assertEqual(result['record']['author'], 'system')
+        for bad in ('', ' ', 'x' * 101, 7, ['gpt-6']):
+            status, result = self.upload(author=bad)
+            self.assertEqual(status, 400, (bad, result))
+            self.assertIn('author', result['error'])
+
     def test_sessionless_actions_are_system_and_login_identifies_reviewer(self):
         status, result = self.upload()
         self.assertEqual(status, 201, result)

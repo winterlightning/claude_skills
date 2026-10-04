@@ -154,6 +154,11 @@ The canvas selects the family automatically
 Choose **Upload to Ready**, then **Review uploaded icon** to approve or disapprove it.
 Uploads remain outside the approved library until approved.
 
+The optional `author` names who drew the upload (a model id such as
+`claude-opus-5-5`, or a person); without it the icon's author is the login or
+`system`. When the upload becomes an existing icon's picked candidate, the
+given author replaces that icon's author too.
+
 The optional JSON boolean `bypass_validation` defaults to `true`. Set it to
 `false` to run rendered SVG hole-and-pinch checks before saving. Failures return
 422 with a validation report and save nothing; checker errors return 503.

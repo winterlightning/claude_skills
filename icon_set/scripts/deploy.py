@@ -1991,6 +1991,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             bypass = data.get('bypass_validation', True)
             if type(bypass) is not bool:
                 raise ValueError('bypass_validation must be a JSON boolean: true or false.')
+            author = data.get('author')
+            if author is not None and (not isinstance(author, str) or not 1 <= len(author.strip()) <= 100):
+                raise ValueError('author must be a name up to 100 characters.')
             canvas = families[family]['canvas_size']
             document = safe_svg(data.get('svg'), canvas)
             validation = validate_upload(document, canvas, bypass=bypass)
@@ -2007,7 +2010,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                           category=category.strip() or 'manual_upload', icon_type='uploaded', keywords=[], aliases=[],
                           svg_sha256=digest, uploaded_icon=True, artwork_source='use_org',
                           preview_url='../api/icon-artwork/svg?icon='+key+'&v='+digest,
-                          author=user, created_at=now, modified_at=now, original_sources=[],
+                          author=author.strip() if author else user, created_at=now, modified_at=now, original_sources=[],
                           primitives=[], contours=[], relationships=[], anchors={},
                           style={'stroke_width': 4}, keyshape='FREE', keyshape_bounds=[0, 0, canvas, canvas],
                           bypass_validation=bypass, validation=validation)

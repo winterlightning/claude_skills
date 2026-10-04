@@ -325,7 +325,8 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
 /// icon's current drawing, a Ready review by `user` (an approval or a disapproval is replaced alike) and its feedback
 /// resolved — the statements for one batch. An icon that is itself an upload has no choice document: its stored
 /// drawing is replaced.
-pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
+/// `author`: who drew the upload, replacing the icon's author (record, list column and card); None keeps it.
+pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author: Option<&str>, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
     let db = &ctx.db;
     let key = icon.key.clone();
     let preview = format!("../api/icon-artwork/svg?icon={}&v={digest}", percent_encode(&key));
@@ -350,6 +351,13 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, user: 
         }
         statements.push(put_statement(db, ARTWORK, &key, &choice, None, user, now)?);
         statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ? WHERE key = ? AND uploaded = 0", args![digest, key.clone()])?);
+    }
+    if let Some(author) = author {
+        statements.push(db::stmt(db, "UPDATE icons SET author = ?, record = json_set(record, '$.author', ?), \
+            card = CASE WHEN card IS NULL THEN NULL ELSE json_set(card, '$.author', ?) END WHERE key = ?", args![author, author, author, key.clone()])?);
+        if icon.uploaded {
+            statements.push(db::stmt(db, "UPDATE uploaded_icons SET record = json_set(record, '$.author', ?) WHERE icon = ?", args![author, key.clone()])?);
+        }
     }
     statements.push(db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
                              args![digest, key.clone(), svg, now])?);
