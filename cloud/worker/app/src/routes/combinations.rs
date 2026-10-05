@@ -243,9 +243,10 @@ struct Drawing { key: String, svg_sha256: String, svg: Option<String>, review: O
 
 /// The current drawing, sha and review status of each icon key (one query).
 async fn drawings_of(ctx: &Ctx, keys: &[String]) -> Result<HashMap<String, Drawing>> {
+    // An upload's current drawing is a revision too once it was edited or picked; its first is in uploaded_icons.
     let rows: Vec<Drawing> = db::all(&ctx.db, "SELECT i.key, i.svg_sha256,
-            CASE WHEN i.uploaded THEN (SELECT svg FROM uploaded_icons u WHERE u.icon = i.key)
-                 ELSE (SELECT svg FROM revisions r WHERE r.svg_sha256 = i.svg_sha256) END AS svg,
+            COALESCE((SELECT svg FROM revisions r WHERE r.svg_sha256 = i.svg_sha256),
+                     CASE WHEN i.uploaded THEN (SELECT svg FROM uploaded_icons u WHERE u.icon = i.key) END) AS svg,
             (SELECT status FROM reviews v WHERE v.icon = i.key AND v.svg_sha256 = i.svg_sha256) AS review
         FROM icons i WHERE i.key IN (SELECT value FROM json_each(?))", vec![json!(keys).to_string().into()]).await?;
     Ok(rows.into_iter().map(|d| (d.key.clone(), d)).collect())

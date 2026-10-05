@@ -213,6 +213,7 @@
     updateView();
     for (const id of ['strokeSelect','strokeX','strokeY','strokeScaleX','strokeScaleY','strokeScope','strokeReset']) $(id).disabled = blocked || !selected;
     $('strokeSave').disabled = blocked || validationBlocksSave() || (!dirty() && !validationNeedsSave());
+    renderBase();
     $('strokeDownloadSVG').disabled=!ready || busy;
     $('strokeDownload').disabled = !ready || busy;
     $('strokeForcePass').disabled=blocked;
@@ -399,7 +400,7 @@
     try {
       selectedPoint=null;strokes=groups(icon); selected=strokes[0]?.id || '';
       $('strokeSelect').replaceChildren(...strokes.map(g => {const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
-      const response = await fetch('../api/stroke-edits?icon='+encodeURIComponent(icon.key));
+      const response = await fetch('../api/stroke-edits?icon='+encodeURIComponent(icon.key)+(onUpload()?'&sha='+encodeURIComponent(icon.svg_sha256):''));
       if (!(response.headers.get('content-type') || '').includes('application/json')) throw Error('Editing needs the updated gallery server. Restart deploy.py, then reload saved edits.');
       const data = await response.json();
       if (!response.ok) throw Error(data.error || 'Could not load saved edits.');
@@ -474,6 +475,7 @@
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
       saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      if(onUpload())uploadEditRevision=data.revision;
       window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
     } catch(error) { if (token===request) $('strokeStatus').textContent=error.message+' Your draft is still here.'; }
@@ -504,19 +506,61 @@
     selectedPoint=null;apply(next);$('strokeStatus').textContent=`Deleted ${name}. Undo restores it; save edits to keep this change.`;
   }
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
+  // Browser Edit starts from the generated original or, when the icon has one, its saved manual upload (Manual Edit):
+  // each base keeps its own saved edit. `original` is the record the page opened; `uploadSha` the upload's drawing.
+  let original=null, uploadSha=null, baseRequest=0, uploadEditRevision=null;
+  const onUpload=()=>icon?.edit_base==='upload';
   function open(next) {
+    original=next;uploadSha=next.edit_base_svg_sha256 || null;baseRequest++;
+    reset(next);tab('review');renderBase();
+    // The displayed pick is an edit of the manual upload: edit that drawing again.
+    if(uploadSha)switchBase('upload',false);
+  }
+  function renderBase() {
+    if(!$('strokeBaseBox'))return;
+    $('strokeBaseBox').hidden=!uploadSha;$('strokeBase').value=onUpload()?'upload':'original';$('strokeBase').disabled=busy;
+  }
+  async function switchBase(name, ask=true) {
+    if(!original || (name==='upload' && !uploadSha) || (name==='upload')===onUpload())return renderBase();
+    if(ask && ready && dirty() && !window.confirm('Discard your unsaved stroke edits and edit the other drawing?'))return renderBase();
+    const key=original.key, token=++baseRequest, editing=$('inspectorWorkspace')?.dataset.tab==='editing';
+    if(name==='original'){reset(original);renderBase();if(editing)load();window.IconArtwork?.reload?.(key);return;}
+    $('strokeStatus').textContent='Loading the manual upload…';
+    try{
+      const response=await fetch('../api/icon-artwork?icon='+encodeURIComponent(key)+'&base='+encodeURIComponent(uploadSha),{cache:'no-store'});
+      const data=await response.json();if(!response.ok || !data.base)throw Error(data.error || 'Could not load the manual upload.');
+      if(token!==baseRequest)return;
+      reset({...data.base.graph,key,svg_sha256:data.base.svg_sha256,edit_base:'upload'});
+      uploadEditRevision=data.base.edit_revision ?? null;renderBase();if(editing)load();
+      window.IconArtwork?.editSaved(key,uploadEditRevision);
+    }catch(error){if(token===baseRequest){$('strokeStatus').textContent=error.message;renderBase();}}
+  }
+  function setUpload(key, sha) {
+    if(original?.key!==key)return;
+    uploadSha=sha || null;
+    if(!uploadSha && onUpload())switchBase('original',false);
+    else if(onUpload() && icon.svg_sha256!==uploadSha){reset(original);switchBase('upload',false);}
+    renderBase();
+  }
+  function reset(next) {
     selectedPoint=null;
     viewport=null;panMode=false;spacePan=false;
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
     request++;icon=next;deletedStrokes=[];savedDeletedStrokes=[];geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
     $('strokeKeyshape').replaceChildren(...(window.IconGuides?.choices(icon) || [{name:keyshape,label:keyshape}]).map(item=>{const option=document.createElement('option');option.value=item.name;option.textContent=item.label;return option;}));
-    $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();tab('review');
+    $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();
   }
   function point(event) {
     const canvas=$('strokeCanvas'), p=canvas.createSVGPoint();p.x=event.clientX;p.y=event.clientY;return p.matrixTransform(canvas.getScreenCTM().inverse());
   }
   function init() {
+    const intro=document.querySelector('#browserEditPanel .editing-intro');
+    if(intro && !$('strokeBase')){
+      const box=document.createElement('p');box.id='strokeBaseBox';box.className='stroke-base';box.hidden=true;
+      box.innerHTML='<label for="strokeBase">Edit from</label> <select id="strokeBase"><option value="original">Original</option><option value="upload">Manual upload</option></select>';
+      intro.append(box);$('strokeBase').onchange=()=>switchBase($('strokeBase').value);
+    }
     const names=['information','review','editing'];
     for (const name of names) {
       $(name+'Tab').onclick=()=>tab(name);
@@ -621,6 +665,9 @@
     canvas.addEventListener('blur',()=>{spacePan=false;updateView();});
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,arcControls,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,setUpload,
+    // The manual upload's sha and saved edit revision while Browser Edit edits it (Pick sends them), else null.
+    baseSha:key=>icon?.key===key && onUpload()?icon.svg_sha256:null,
+    baseEditRevision:key=>icon?.key===key && onUpload()?uploadEditRevision:null,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,arcControls,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();
