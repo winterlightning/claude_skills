@@ -389,7 +389,7 @@ pub fn by_keys(keys: &[String]) -> (String, Args) {
 }
 
 /// Recompute the stored review state (view icon_state) of icons with rowid in [from, to): the full pass of
-/// POST /api/icons/refresh and /api/icons/reindex. Nothing keeps the state current between refreshes (0018).
+/// POST /api/icons/refresh and /api/icons/reindex, the repair; each write keeps its own icon current (`REFRESH_KEY`).
 pub const REFRESH_RANGE: &str = "UPDATE icons SET (decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, \
     cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, \
     v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE rowid >= ? AND rowid < ?";
@@ -400,16 +400,63 @@ pub const REFRESH_KEYS: &str = concat!(
     "cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, ",
     "v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE key IN (SELECT value FROM json_each(?))");
 
+/// One icon's stored state and counts again inside the batch of the write that changes them (app icon_list
+/// `uncount` / `recount`): every review, feedback, split, artwork pick, claim, upload, build, push and discard keeps
+/// the list current on its own, so an approved icon leaves Ready at once; Refresh stats remains a repair. Each
+/// statement binds the icon's key once (`?1`). `UNCOUNT_ICON` runs before the write and takes the icon out of the
+/// icon_counts and icon_facet_counts rows it is in now; `REFRESH_KEY` then `RECOUNT_ICON` run after it and put the
+/// icon into the rows of its new state. An icon the write inserts has no row to uncount and one it deletes none to
+/// recount, so the same pair keeps the counts through inserts and deletes.
+pub const REFRESH_KEY: &str = concat!(
+    "UPDATE icons SET (decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, ",
+    "cannot_fix, picked) = (SELECT v.decision, v.actor, v.state, v.mode, v.artwork, v.strokes, v.segments, v.axes, v.reason, ",
+    "v.has_feedback, v.cannot_fix, v.picked FROM icon_state v WHERE v.key = icons.key) WHERE key = ?1");
+/// The icon_counts row an icon is counted in and the icon_facet_counts rows (`count_rows`: text columns as '' when
+/// NULL; author and family always, keyshape, category and the built total when the build did not fail).
+pub const UNCOUNT_ICON: [&str; 2] = [
+    concat!("UPDATE icon_counts SET n = n - 1 WHERE (family, side_role, state, category, built_failed) = (",
+            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), COALESCE(state, ''), COALESCE(category, ''), ",
+            "build_failed FROM icons WHERE key = ?1)"),
+    concat!("UPDATE icon_facet_counts SET n = n - 1 WHERE (kind, value) IN (",
+            "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key = ?1 ",
+            "UNION ALL SELECT 'family', COALESCE(family, '') FROM icons WHERE key = ?1 ",
+            "UNION ALL SELECT 'keyshape', keyshape FROM icons WHERE key = ?1 AND NOT build_failed AND keyshape IS NOT NULL ",
+            "UNION ALL SELECT 'category', category FROM icons WHERE key = ?1 AND NOT build_failed AND COALESCE(category, '') != '' ",
+            "UNION ALL SELECT 'total', 'built' FROM icons WHERE key = ?1 AND NOT build_failed)"),
+];
+pub const RECOUNT_ICON: [&str; 2] = [
+    concat!("INSERT INTO icon_counts(family, side_role, state, category, built_failed, n) ",
+            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), COALESCE(state, ''), COALESCE(category, ''), build_failed, 1 ",
+            "FROM icons WHERE key = ?1 ON CONFLICT(family, side_role, state, category, built_failed) DO UPDATE SET n = n + 1"),
+    concat!("INSERT INTO icon_facet_counts(kind, value, n) SELECT kind, value, 1 FROM (",
+            "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key = ?1 ",
+            "UNION ALL SELECT 'family', COALESCE(family, '') FROM icons WHERE key = ?1 ",
+            "UNION ALL SELECT 'keyshape', keyshape FROM icons WHERE key = ?1 AND NOT build_failed AND keyshape IS NOT NULL ",
+            "UNION ALL SELECT 'category', category FROM icons WHERE key = ?1 AND NOT build_failed AND COALESCE(category, '') != '' ",
+            "UNION ALL SELECT 'total', 'built' FROM icons WHERE key = ?1 AND NOT build_failed",
+            ") WHERE 1 ON CONFLICT(kind, value) DO UPDATE SET n = n + 1"),
+];
+/// One icon's search row again after its row is inserted, renamed or deleted (`SEARCH_REFRESH` for one key, in
+/// the write's batch).
+pub const SEARCH_KEY: [&str; 4] = [
+    "DELETE FROM icon_search WHERE rowid IN (SELECT search_rowid FROM icon_search_keys WHERE key = ?1)",
+    "DELETE FROM icon_search_keys WHERE key = ?1",
+    "INSERT INTO icon_search(search, key) SELECT search, key FROM icons WHERE key = ?1",
+    "INSERT INTO icon_search_keys(key, search_rowid) SELECT key, rowid FROM icon_search \
+     WHERE rowid > (SELECT COALESCE(MAX(search_rowid), 0) FROM icon_search_keys) AND key = ?1",
+];
+
 /// The search rows of the icons in a JSON array of keys again. An FTS table cannot look up its key column, so the
-/// old rows go by the rowid icon_search_keys remembers; the icons that still exist are inserted afresh and remembered.
-/// The first three statements bind the array; the last binds `SEARCH_MAX` read before them.
+/// old rows go by the rowid icon_search_keys remembers; the icons that still exist are inserted afresh and remembered
+/// as the rows above the highest rowid still remembered (read after the deletes: a deleted row may have been the
+/// highest, and the new rows then reuse its rowid). The first three statements bind the array; the last binds nothing.
 pub const SEARCH_REFRESH: [&str; 4] = [
     "DELETE FROM icon_search WHERE rowid IN (SELECT search_rowid FROM icon_search_keys WHERE key IN (SELECT value FROM json_each(?)))",
     "DELETE FROM icon_search_keys WHERE key IN (SELECT value FROM json_each(?))",
     "INSERT INTO icon_search(search, key) SELECT search, key FROM icons WHERE key IN (SELECT value FROM json_each(?))",
-    "INSERT INTO icon_search_keys(key, search_rowid) SELECT key, rowid FROM icon_search WHERE rowid > ?",
+    "INSERT INTO icon_search_keys(key, search_rowid) SELECT key, rowid FROM icon_search \
+     WHERE rowid > (SELECT COALESCE(MAX(search_rowid), 0) FROM icon_search_keys)",
 ];
-pub const SEARCH_MAX: &str = "SELECT COALESCE(MAX(search_rowid), 0) AS n FROM icon_search_keys";
 
 /// One pass over icons for the counts: a row per distinct combination of what icon_counts and icon_facet_counts group by.
 pub const GROUPS: &str = "SELECT family, side_role, state, category, build_failed, author, keyshape, COUNT(*) AS n \

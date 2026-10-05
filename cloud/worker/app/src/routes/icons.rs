@@ -340,6 +340,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     if approve {
         statements.push(db::activity(db, user, "review", Some(&key), details(vec![("status", json!("approve")), ("svg_sha256", json!(digest))]))?);
     }
+    statements.extend(super::icon_list::recount(db, &key, true)?);
     db::batch(db, statements).await?;
     #[derive(Deserialize)]
     struct Picked { reference_id: String, role: String }

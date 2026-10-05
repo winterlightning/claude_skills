@@ -461,6 +461,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
                             "errors": errors, "built_by": user, "built_at": now});
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) \
             VALUES (?, ?, ?, 'combination-build', ?)", args![sha.clone(), key.clone(), svg, now.clone()])?);
+        statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
             preview_url, build_failed, uploaded, record, pushed_at) \
             VALUES (?, ?, (SELECT concept FROM \"references\" WHERE reference_id = ?), ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) \
@@ -477,6 +478,7 @@ pub async fn build(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         statements.push(db::stmt(&ctx.db, "UPDATE icons SET sort_name = COALESCE(NULLIF(name, ''), icon_id), \
             search = lower(COALESCE(name, '') || ' ' || icon_id || '   ' || COALESCE(category, '')) WHERE key = ? AND uploaded = 0",
             args![key.clone()])?);
+        statements.extend(super::icon_list::recount(&ctx.db, &key, true)?);
         statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO icon_references(icon, reference_id) VALUES (?, ?)",
                                  args![key.clone(), id])?);
         for (role, part) in parts {
@@ -651,7 +653,9 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
         if roles.iter().any(|(r, _)| r == "container" || r == "symbol") {
             return http::error(409, "Only a side pair made from a reference can be removed.");
         }
-        db::batch(&ctx.db, vec![
+        let mut statements = super::icon_list::remove(&ctx.db, &format!("combination-72/{id}"))?;
+        statements.extend(super::icon_list::remove(&ctx.db, &format!("side_combination64/{id}"))?);
+        statements.extend(vec![
             db::stmt(&ctx.db, "DELETE FROM reference_part_sizes WHERE reference_id = ?", args![id])?,
             db::stmt(&ctx.db, "DELETE FROM reference_parts WHERE reference_id = ? AND role IN ('main', 'sub')", args![id])?,
             db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND uploaded = 0", args![format!("combination-72/{id}")])?,
@@ -663,7 +667,8 @@ pub async fn post_pair(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> 
             // Named by key so the list refresh drops their rows (the pair itself is logged by reference id).
             db::activity(&ctx.db, user, "icon_removed", Some(&format!("combination-72/{id}")), db::details(vec![]))?,
             db::activity(&ctx.db, user, "icon_removed", Some(&format!("side_combination64/{id}")), db::details(vec![]))?,
-        ]).await?;
+        ]);
+        db::batch(&ctx.db, statements).await?;
         return http::json(200, &json!({"reference_id": id, "removed": true}));
     }
     let position = data["position"].as_str().unwrap_or("br");

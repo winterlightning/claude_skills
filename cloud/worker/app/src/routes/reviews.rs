@@ -244,6 +244,7 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
         statements.push(db::activity_with_placeholders(db, user, "feedback_resolved", Some(key),
             details(vec![("deleted_count", json!("__CHANGES__"))]))?);
     }
+    statements.extend(super::icon_list::recalc(db, key)?);
     let results = db::batch(db, statements).await?;
     let mut result = json!({"saved": true, "status": status, "updated_by": user});
     if route == "/api/feedback" {
@@ -278,10 +279,12 @@ pub async fn post_feedback_delete(ctx: &Ctx, data: &Value, user: &str) -> Result
     if row.feedback != previous || row.edited_at.as_deref() != edited_at.as_str() {
         return http::error(409, "Feedback changed. Refresh before removing it.");
     }
-    let results = db::batch(&ctx.db, vec![
+    let mut statements = vec![
         db::stmt(&ctx.db, "DELETE FROM feedback WHERE id = ? AND feedback = ? AND edited_at IS ?", args![id, previous, edited_at.as_str()])?,
         db::activity_if_changed(&ctx.db, user, "feedback_delete", Some(&row.icon), details(vec![("feedback_id", json!(id))]))?,
-    ]).await?;
+    ];
+    statements.extend(super::icon_list::recalc(&ctx.db, &row.icon)?);
+    let results = db::batch(&ctx.db, statements).await?;
     if db::changes(&results[0]) == 0 {
         return http::error(409, "Feedback changed. Refresh before removing it.");
     }

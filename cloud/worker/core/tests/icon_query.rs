@@ -75,18 +75,17 @@ fn database(fixture: &Value) -> Connection {
 }
 
 /// What POST /api/icons/refresh {full: true} does, over every icon: the stored state, the search rows and the counts
-/// (nothing keeps them current between refreshes since migration 0018).
+/// (the repair; each write keeps its own icon current, see `a_write_keeps_its_own_icon_current`).
 fn refresh(db: &Connection) {
     db.execute(icon_query::REFRESH_RANGE, rusqlite::params![0i64, i64::MAX]).unwrap();
     let keys: Vec<String> = db.prepare("SELECT key FROM icons").unwrap().query_map([], |r| r.get(0)).unwrap().map(Result::unwrap).collect();
     for chunk in keys.chunks(100) {
         let list = json!(chunk).to_string();
-        let before: i64 = db.query_row(icon_query::SEARCH_MAX, [], |r| r.get(0)).unwrap();
         let [delete_rows, delete_keys, insert_rows, remember] = icon_query::SEARCH_REFRESH;
         for sql in [delete_rows, delete_keys, insert_rows] {
             db.execute(sql, rusqlite::params![list]).unwrap();
         }
-        db.execute(remember, rusqlite::params![before]).unwrap();
+        db.execute(remember, []).unwrap();
     }
     let groups: Vec<icon_query::Group> = db.prepare(icon_query::GROUPS).unwrap().query_map([], |r| Ok(icon_query::Group {
         family: r.get(0)?, side_role: r.get(1)?, state: r.get(2)?, category: r.get(3)?, build_failed: r.get::<_, i64>(4)? as f64,
@@ -261,4 +260,80 @@ fn a_page_reads_its_own_rows() {
             assert!(large <= small * 1.25, "{label}: {small} VM steps at 7,200 icons, {large} at 21,600");
         }
     }
+}
+
+/// What the list reads of every icon, the counts and the search rows: the whole of what a refresh recomputes.
+fn listed(db: &Connection) -> Vec<Vec<String>> {
+    let mut out = Vec::new();
+    for sql in [
+        "SELECT key, decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, cannot_fix, picked FROM icons ORDER BY key",
+        "SELECT family, side_role, state, category, built_failed, n FROM icon_counts WHERE n > 0 ORDER BY 1, 2, 3, 4, 5",
+        "SELECT kind, value, n FROM icon_facet_counts WHERE n > 0 ORDER BY 1, 2",
+        "SELECT k.key, s.search FROM icon_search_keys k JOIN icon_search s ON s.rowid = k.search_rowid ORDER BY k.key",
+    ] {
+        let mut statement = db.prepare(sql).unwrap();
+        let n = statement.column_count();
+        let rows = statement.query_map([], |r| Ok((0..n).map(|i| match r.get_ref(i).unwrap() {
+            rusqlite::types::ValueRef::Null => "null".into(),
+            rusqlite::types::ValueRef::Integer(i) => i.to_string(),
+            rusqlite::types::ValueRef::Real(f) => f.to_string(),
+            rusqlite::types::ValueRef::Text(t) => String::from_utf8_lossy(t).into_owned(),
+            rusqlite::types::ValueRef::Blob(_) => "blob".into(),
+        }).collect::<Vec<_>>())).unwrap();
+        out.extend(rows.map(Result::unwrap));
+    }
+    out
+}
+
+fn one(db: &Connection, sql: &str, key: &str) {
+    db.execute(sql, rusqlite::params![key]).unwrap();
+}
+
+/// The per-icon statements a write adds to its batch (app icon_list uncount / recount / remove) leave the list, the
+/// counts and the search rows exactly as a full refresh would: an approved icon leaves Ready at once, with the numbers.
+#[test]
+fn a_write_keeps_its_own_icon_current() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    let ready: String = db.query_row("SELECT key FROM icons WHERE state = 'ready' AND build_failed = 0 ORDER BY key LIMIT 1", [], |r| r.get(0)).unwrap();
+    let sha: String = db.query_row("SELECT svg_sha256 FROM icons WHERE key = ?1", rusqlite::params![ready], |r| r.get(0)).unwrap();
+    let recount = |key: &str| {
+        one(&db, icon_query::REFRESH_KEY, key);
+        for sql in icon_query::RECOUNT_ICON { one(&db, sql, key); }
+    };
+    // Approve: the review write between uncount and recount.
+    for sql in icon_query::UNCOUNT_ICON { one(&db, sql, &ready); }
+    db.execute("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?1, ?2, 'approve', 't', 'ray') \
+                ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = 'approve', updated_by = 'ray'", rusqlite::params![ready, sha]).unwrap();
+    recount(&ready);
+    let state: String = db.query_row("SELECT state FROM icons WHERE key = ?1", rusqlite::params![ready], |r| r.get(0)).unwrap();
+    assert_eq!(state, "approve");
+    let after_write = listed(&db);
+    refresh(&db);
+    assert_eq!(after_write, listed(&db), "approve");
+    // Disapprove with feedback: two writes, one icon.
+    for sql in icon_query::UNCOUNT_ICON { one(&db, sql, &ready); }
+    db.execute("UPDATE reviews SET status = 'pending' WHERE icon = ?1", rusqlite::params![ready]).unwrap();
+    db.execute("INSERT INTO feedback(icon, feedback, svg_sha256, created_at, author, reason) VALUES (?1, 'x', ?2, 't', 'hina', 'meaning')",
+               rusqlite::params![ready, sha]).unwrap();
+    recount(&ready);
+    let after_write = listed(&db);
+    refresh(&db);
+    assert_eq!(after_write, listed(&db), "disapprove");
+    // A new icon: recount with its search row.
+    db.execute("INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, build_failed, uploaded, \
+                record, pushed_at, card, search, sort_name, keyshape, author) SELECT 'solo/new-one', 'new-one', 'New one', family, category, profile, \
+                canvas_size, 'abc', 'p', 0, 1, record, 'p', card, 'new one', 'new one', keyshape, 'gpt-6' FROM icons WHERE key = ?1", rusqlite::params![ready]).unwrap();
+    recount("solo/new-one");
+    for sql in icon_query::SEARCH_KEY { one(&db, sql, "solo/new-one"); }
+    let after_write = listed(&db);
+    refresh(&db);
+    assert_eq!(after_write, listed(&db), "insert");
+    // Its removal: out of the counts and the search before the delete.
+    for sql in icon_query::UNCOUNT_ICON.iter().chain(&icon_query::SEARCH_KEY[..2]) { one(&db, sql, "solo/new-one"); }
+    db.execute("DELETE FROM icons WHERE key = 'solo/new-one'", []).unwrap();
+    recount("solo/new-one");
+    let after_write = listed(&db);
+    refresh(&db);
+    assert_eq!(after_write, listed(&db), "delete");
 }

@@ -62,6 +62,7 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     let mut statements = Vec::new();
     for icon in &icons {
         let sources = if icon.original_sources.is_null() { "[]".to_string() } else { icon.original_sources.to_string() };
+        statements.extend(super::icon_list::uncount(&ctx.db, &icon.key)?);
         statements.push(db::stmt(&ctx.db, "INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, \
             python_source, preview_url, original_sources, variant_of, variant_root, variant_label, build_failed, uploaded, pushed_at, record) \
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) ON CONFLICT(key) DO UPDATE SET icon_id = excluded.icon_id, \
@@ -92,6 +93,7 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, ?, ?)",
                 args![icon.svg_sha256.clone(), icon.key.clone(), svg.clone(), icon.origin.clone().unwrap_or_else(|| "build".into()), now.clone()])?);
         }
+        statements.extend(super::icon_list::recount(&ctx.db, &icon.key, true)?);
     }
     let is_final = data.get("final").and_then(Value::as_bool).unwrap_or(false);
     // Leftover drawings the review pages still show (failed builds without a catalog row), replaced
@@ -112,6 +114,8 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     if let Some(Value::Object(facets)) = data.get("upload_facets") {
         for (key, facet) in facets {
             statements.push(super::icon_list::symmetry_statement(&ctx.db, key, facet)?);
+            // The measured axes are a stored list column of the icon.
+            statements.extend(super::icon_list::recalc(&ctx.db, key)?);
         }
     }
     if is_final {
@@ -125,6 +129,10 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     }
     let results = db::batch(&ctx.db, statements).await?;
     let removed = if is_final { results.get(results.len().saturating_sub(2)).map(db::changes).unwrap_or(0) } else { 0 };
+    if removed > 0 {
+        // Rows deleted by condition: their counts and search rows go with one rebuild.
+        super::icon_list::after_bulk_delete(ctx).await?;
+    }
     http::json(200, &json!({"saved": icons.len(), "final": is_final, "removed": removed}))
 }
 
@@ -161,8 +169,12 @@ pub async fn store(ctx: &Ctx, data: Option<&Value>, user: &str) -> Result<Respon
     let document = data.get("document").cloned().unwrap_or(Value::Null);
     let expected = data.get("expected_revision").and_then(Value::as_i64);
     let now = iso_utc(chrono::Utc::now());
-    let write = put_statement(&ctx.db, store, key, &document, expected, actor, &now)?;
-    let results = db::batch(&ctx.db, vec![write]).await?;
+    let mut statements = vec![put_statement(&ctx.db, store, key, &document, expected, actor, &now)?];
+    if store == "icon-artwork" {
+        // The choice document is part of the icon's listed state (its mode, artwork and picked columns).
+        statements.extend(super::icon_list::recalc(&ctx.db, key)?);
+    }
+    let results = db::batch(&ctx.db, statements).await?;
     if expected.is_some() && !document.is_null() && db::changes(&results[0]) == 0 {
         let current: Option<Row> = db::first(&ctx.db, &format!("{select} AND key = ?"), args![store, key]).await?;
         return http::json(409, &json!({"error": "Someone saved a newer version. Reload before saving again.",
@@ -230,6 +242,7 @@ pub async fn discard_record(ctx: &Ctx, data: &Value, user: &str) -> Result<Respo
         for table in ["reviews", "icon_flags", "icon_types", "feedback"] {
             statements.push(db::stmt(&ctx.db, &format!("DELETE FROM {table} WHERE icon = ?"), args![key])?);
         }
+        statements.extend(super::icon_list::remove(&ctx.db, key)?);
         statements.push(db::stmt(&ctx.db, "DELETE FROM icons WHERE key = ? AND uploaded = 0", args![key])?);
         statements.push(db::activity(&ctx.db, actor, "discard", Some(key), details(vec![
             ("svg_sha256", item.get("svg_sha256").cloned().unwrap_or(Value::Null)),
@@ -240,7 +253,7 @@ pub async fn discard_record(ctx: &Ctx, data: &Value, user: &str) -> Result<Respo
     let results = db::batch(&ctx.db, statements).await?;
     let mut removed = Vec::new();
     for (index, key) in discarded.iter().enumerate() {
-        let base = index * 6;
+        let base = index * 10; // 4 deletes, the 4 statements of icon_list::remove, the icons delete and the log line
         removed.push(json!({"icon": key, "removed_rows": {
             "reviews": db::changes(&results[base]), "icon_flags": db::changes(&results[base + 1]),
             "icon_types": db::changes(&results[base + 2]), "feedback": db::changes(&results[base + 3])}}));

@@ -286,6 +286,7 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     let expected = old.as_ref().and_then(|c| c["revision"].as_i64()).unwrap_or(0);
     let now = iso_utc(chrono::Utc::now());
     let mut statements = vec![put_statement(&ctx.db, ARTWORK, &key, &choice, Some(expected), user, &now)?];
+    statements.extend(super::icon_list::uncount(&ctx.db, &key)?);
     if !upload_only {
         // Each write below happens only if the choice above landed (this revision, this timestamp).
         let landed = "EXISTS (SELECT 1 FROM store_documents WHERE store = 'icon-artwork' AND key = ? \
@@ -307,6 +308,7 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         statements.push(db::activity_if_changed(&ctx.db, user, "artwork_upload", Some(&key), details(vec![
             ("svg_sha256", json!(drawing)), ("revision", json!(revision))]))?);
     }
+    statements.extend(super::icon_list::recount(&ctx.db, &key, false)?);
     let results = db::batch(&ctx.db, statements).await?;
     if db::changes(&results[0]) == 0 {
         return http::error(409, "Someone changed this artwork. Reload the source choices before saving.");
@@ -330,7 +332,7 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
     let db = &ctx.db;
     let key = icon.key.clone();
     let preview = format!("../api/icon-artwork/svg?icon={}&v={digest}", percent_encode(&key));
-    let mut statements = Vec::new();
+    let mut statements = super::icon_list::uncount(db, &key)?;
     if icon.uploaded {
         statements.push(db::stmt(db, "UPDATE uploaded_icons SET svg = ?, record = json_set(record, '$.svg_sha256', ?, '$.preview_url', ?, \
             '$.modified_at', ?) WHERE icon = ?", args![svg, digest, preview.clone(), now, key.clone()])?);
@@ -369,6 +371,7 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
     // clear_ready_feedback, as any return to Ready does.
     statements.push(db::stmt(db, "DELETE FROM feedback WHERE icon = ?", args![key.clone()])?);
     statements.push(db::activity_with_placeholders(db, user, "feedback_resolved", Some(&key), details(vec![("deleted_count", json!("__CHANGES__"))]))?);
+    statements.extend(super::icon_list::recount(db, &key, false)?);
     Ok(statements)
 }
 

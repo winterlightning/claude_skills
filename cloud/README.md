@@ -163,10 +163,13 @@ Icon review, the approved collection, Home and the Design Document list icons a 
 downloading `icons.json` (~90 MB), and a page reads only its own rows. Migration 0015 stores on each icon what the
 list filters, sorts and counts by: list columns from the record (catalog push, upload, combination build) and the
 review state (view `icon_state`), the counts (`icon_counts`, `icon_facet_counts`) and a trigram search index
-(`icon_search`). Nothing keeps those current as rows are written (0015's triggers did, recomputing every state
-column on every row, several times per request; 0018 dropped them): Icon review's **Refresh stats** button,
-`POST /api/icons/refresh` (a logged-in reviewer or the push token), recomputes the state and search rows of the
-icons the activity log names since the last press, then rebuilds the counts from one pass over `icons` (~35k rows).
+(`icon_search`). Each Worker write keeps its own icon current in its batch (core `REFRESH_KEY`, `UNCOUNT_ICON`,
+`RECOUNT_ICON`, `SEARCH_KEY`; app `icon_list::recalc` and friends): a review, feedback, split, artwork pick, claim,
+upload, build, push or discard recomputes that icon's state and moves its count by one, so an approved icon leaves
+Ready at once. (0015's triggers did this for every row written, several times per request; 0018 dropped them.)
+Icon review's **Refresh stats** button, `POST /api/icons/refresh` (a logged-in reviewer or the push token), is the
+repair: it recomputes the state and search rows of the icons the activity log names since the last press, then
+rebuilds the counts from one pass over `icons` (~35k rows).
 `{"full": true, "offset": 0, "limit": 2000}` recomputes every icon a page at a time (`next_offset` until null), the
 repair after writes that bypass the Worker; `/api/icons/reindex` ends with the same count rebuild. With family,
 state and category the list reads its page through the list indexes and the

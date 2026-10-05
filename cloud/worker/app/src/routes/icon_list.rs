@@ -223,6 +223,52 @@ pub async fn reindex(ctx: &Ctx, data: &Value) -> Result<Response> {
     http::json(200, &json!({"indexed": indexed, "next_offset": next}))
 }
 
+/// Before a write that changes one icon's review state, drawing, row or build (a review, feedback, split, artwork
+/// pick, claim, upload, build, push or discard): the statements that take the icon out of the count rows it is in
+/// (core `UNCOUNT_ICON`). Put them in the write's batch ahead of the write, and `recount` after it.
+pub fn uncount(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
+    icon_query::UNCOUNT_ICON.iter().map(|sql| db::stmt(db, sql, args![key])).collect()
+}
+
+/// After such a write: the icon's stored review state again from the view and the icon counted in the rows of its
+/// new state (core `REFRESH_KEY`, `RECOUNT_ICON`). With `search`, its search row again too (an inserted or renamed
+/// icon). An icon the write deleted has no row left, so this adds nothing for it.
+pub fn recount(db: &D1Database, key: &str, search: bool) -> Result<Vec<D1PreparedStatement>> {
+    let mut statements = vec![db::stmt(db, icon_query::REFRESH_KEY, args![key])?];
+    for sql in icon_query::RECOUNT_ICON.iter().chain(if search { icon_query::SEARCH_KEY.iter() } else { [].iter() }) {
+        statements.push(db::stmt(db, sql, args![key])?);
+    }
+    Ok(statements)
+}
+
+/// Both, for a write that leaves the icon's row in place (a review, feedback, split, artwork choice or claim).
+pub fn recalc(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
+    let mut statements = uncount(db, key)?;
+    statements.extend(recount(db, key, false)?);
+    Ok(statements)
+}
+
+/// Before a write that deletes the icon's row: the icon out of its count rows and its search row gone.
+pub fn remove(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
+    let mut statements = uncount(db, key)?;
+    for sql in &icon_query::SEARCH_KEY[..2] {
+        statements.push(db::stmt(db, sql, args![key])?);
+    }
+    Ok(statements)
+}
+
+/// After a write that deleted rows by condition (a final catalog push's removals): the search rows of icons that
+/// no longer exist dropped, and the counts rebuilt from one pass over icons.
+pub async fn after_bulk_delete(ctx: &Ctx) -> Result<()> {
+    db::batch(&ctx.db, vec![
+        db::stmt(&ctx.db, "DELETE FROM icon_search WHERE rowid IN (SELECT k.search_rowid FROM icon_search_keys k \
+            WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = k.key))", vec![])?,
+        db::stmt(&ctx.db, "DELETE FROM icon_search_keys WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = icon_search_keys.key)", vec![])?,
+    ]).await?;
+    rebuild_counts(ctx, None).await?;
+    Ok(())
+}
+
 /// The stored state and search rows of the icons with rowid in [from, to).
 async fn refresh_range(ctx: &Ctx, from: i64, to: i64) -> Result<()> {
     #[derive(Deserialize)]
@@ -234,18 +280,14 @@ async fn refresh_range(ctx: &Ctx, from: i64, to: i64) -> Result<()> {
 
 /// The search rows of the named icons again (core `SEARCH_REFRESH`), 100 keys at a time.
 async fn refresh_search(ctx: &Ctx, keys: &[String]) -> Result<()> {
-    #[derive(Deserialize)]
-    struct Max { n: f64 }
     for chunk in keys.chunks(100) {
         let list = Value::Array(chunk.iter().map(|k| json!(k)).collect()).to_string();
-        let before: Option<Max> = db::first(&ctx.db, icon_query::SEARCH_MAX, vec![]).await?;
-        let before = before.map(|m| m.n as i64).unwrap_or(0);
         let [delete_rows, delete_keys, insert_rows, remember] = icon_query::SEARCH_REFRESH;
         db::batch(&ctx.db, vec![
             db::stmt(&ctx.db, delete_rows, args![list.clone()])?,
             db::stmt(&ctx.db, delete_keys, args![list.clone()])?,
             db::stmt(&ctx.db, insert_rows, args![list])?,
-            db::stmt(&ctx.db, remember, args![before])?,
+            db::stmt(&ctx.db, remember, vec![])?,
         ]).await?;
     }
     Ok(())
@@ -275,12 +317,9 @@ pub async fn refresh(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
         }
         if next.is_none() {
             // Search rows of icons deleted since: their keys are no longer in icons.
-            db::batch(&ctx.db, vec![
-                db::stmt(&ctx.db, "DELETE FROM icon_search WHERE rowid IN (SELECT k.search_rowid FROM icon_search_keys k \
-                    WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = k.key))", vec![])?,
-                db::stmt(&ctx.db, "DELETE FROM icon_search_keys WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = icon_search_keys.key)", vec![])?,
-            ]).await?;
-            rebuild_counts(ctx, Some((user, refreshed))).await?;
+            after_bulk_delete(ctx).await?;
+            db::run(&ctx.db, "UPDATE list_refresh SET refreshed_at = ?, refreshed_by = ?, refreshed_icons = ? WHERE id = 1",
+                    args![iso_utc(chrono::Utc::now()), user, refreshed]).await?;
         }
         return http::json(200, &json!({"refreshed": refreshed, "next_offset": next}));
     }
@@ -358,6 +397,9 @@ pub async fn records(ctx: &Ctx, data: &Value) -> Result<Response> {
         if let Some(facet) = data["facets"].get(key) {
             statements.push(symmetry_statement(&ctx.db, key, facet)?);
         }
+        // The record changes the card's keyshape, author, measured axes and search text.
+        statements.extend(uncount(&ctx.db, key)?);
+        statements.extend(recount(&ctx.db, key, true)?);
     }
     // One batch: the record statements are every one that starts an icon's group.
     let results = db::batch(&ctx.db, statements).await?;

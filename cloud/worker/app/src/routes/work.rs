@@ -30,6 +30,7 @@ async fn release_expired(ctx: &Ctx, now: chrono::DateTime<chrono::Utc>) -> Resul
             args![row.icon.clone(), row.svg_sha256.clone(), row.claimed_at.clone()])?);
         statements.push(db::activity_if_changed(&ctx.db, "system", "work_expired", Some(&row.icon), details(vec![
             ("svg_sha256", json!(row.svg_sha256)), ("worker", json!(row.worker)), ("claimed_at", json!(row.claimed_at))]))?);
+        statements.extend(super::icon_list::recalc(&ctx.db, &row.icon)?);
     }
     db::batch(&ctx.db, statements).await?;
     Ok(rows.len())
@@ -281,6 +282,7 @@ async fn claim(ctx: &Ctx, icon: &Icon, decision: &Decision, row: Option<&ReviewR
         AND worker = ? AND claimed_at = ?)",
         args![user, key, pictographic_core::primitives::python_json(&json!({"svg_sha256": sha, "worker": worker, "expires_at": expires})),
               stamp.clone(), key, sha, worker.clone(), stamp.clone()])?);
+    statements.extend(super::icon_list::recalc(&ctx.db, key)?);
     let results = db::batch(&ctx.db, statements).await?;
     let fresh = data::review_row(&ctx.db, key, sha).await?;
     if db::changes(&results[0]) == 0 {
@@ -305,7 +307,7 @@ async fn finish(ctx: &Ctx, key: &str, sha: &str, outcome: &str, row: Option<&Rev
     let claimed_at = row.and_then(|r| r.claimed_at.clone());
     // Only while the same claim is still held: guards against a concurrent release.
     let held = "icon = ? AND svg_sha256 = ? AND status = 'claimed' AND worker = ? AND claimed_at = ?";
-    let statements = if outcome == "done" {
+    let mut statements = if outcome == "done" {
         vec![
             db::stmt(&ctx.db, &format!("UPDATE reviews SET status = 'ready', note = ?, updated_at = ?, updated_by = ? WHERE {held}"),
                      args![note.clone(), stamp, worker.clone(), key, sha, worker.clone(), claimed_at.clone()])?,
@@ -322,6 +324,7 @@ async fn finish(ctx: &Ctx, key: &str, sha: &str, outcome: &str, row: Option<&Rev
                 ("svg_sha256", json!(sha)), ("worker", json!(worker)), ("note", json!(note))]))?,
         ]
     };
+    statements.extend(super::icon_list::recalc(&ctx.db, key)?);
     let results = db::batch(&ctx.db, statements).await?;
     let fresh = data::review_row(&ctx.db, key, sha).await?;
     if db::changes(&results[0]) == 0 {
@@ -340,12 +343,14 @@ async fn abandon(ctx: &Ctx, key: &str, sha: &str, row: Option<&ReviewRow>, data:
     let worker = match rules::validate_worker(data.get("worker").unwrap_or(&Value::Null)) { Ok(w) => w, Err(e) => return Ok(Err(e)) };
     let state = match rules::check_abandon(row, now) { Ok(s) => s, Err(e) => return Ok(Err(e)) };
     let holder = row.and_then(|r| r.worker.clone());
-    db::batch(&ctx.db, vec![
+    let mut statements = vec![
         db::stmt(&ctx.db, "UPDATE reviews SET status = 'pending', worker = NULL, claimed_at = NULL, note = '' WHERE icon = ? AND svg_sha256 = ?",
                  args![key, sha])?,
         db::activity(&ctx.db, user, "work_abandon", Some(key), details(vec![("svg_sha256", json!(sha)), ("worker", json!(holder)),
             ("released_by", json!(worker)), ("previous_state", json!(state))]))?,
-    ]).await?;
+    ];
+    statements.extend(super::icon_list::recalc(&ctx.db, key)?);
+    db::batch(&ctx.db, statements).await?;
     Ok(Ok(json!({"work": rules::work_field(None, None)})))
 }
 

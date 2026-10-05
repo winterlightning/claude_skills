@@ -56,7 +56,7 @@ pub async fn action(ctx: &Ctx, route: &str, data: &Value, user: &str) -> Result<
     }
     let now = iso_utc(chrono::Utc::now());
     if route == "/api/reject-combination/restore" {
-        db::batch(db, vec![
+        let mut statements = vec![
             db::stmt(db, "UPDATE split_requests SET active = 0, restored_by = ?, restored_at = ? WHERE icon = ? AND svg_sha256 = ? AND active = 1",
                      args![user, now.clone(), key, sha.clone()])?,
             db::stmt(db, "UPDATE reviews SET status = 'ready', updated_by = ?, updated_at = ? WHERE icon = ? AND status = 'rejected'",
@@ -68,7 +68,9 @@ pub async fn action(ctx: &Ctx, route: &str, data: &Value, user: &str) -> Result<
             db::stmt(db, "DELETE FROM feedback WHERE icon = ?", args![key])?,
             db::activity_with_placeholders(db, user, "feedback_resolved", Some(key), details(vec![("deleted_count", json!("__CHANGES__"))]))?,
             db::activity(db, user, "restore", Some(key), details(vec![("svg_sha256", json!(sha))]))?,
-        ]).await?;
+        ];
+        statements.extend(super::icon_list::recalc(db, key)?);
+        db::batch(db, statements).await?;
         return http::json(200, &json!({"saved": true, "status": "ready"}));
     }
     let split = match validate_split(data) { Ok(split) => split, Err(message) => return http::error(400, &message) };
@@ -100,6 +102,7 @@ pub async fn action(ctx: &Ctx, route: &str, data: &Value, user: &str) -> Result<
             VALUES ((SELECT id FROM split_requests WHERE icon = ? AND svg_sha256 = ?), ?, ?, ?, ?)",
             args![key, sha.clone(), (index + 1) as i64, part["name"].as_str(), part["family"].as_str(), part["description"].as_str()])?);
     }
+    statements.extend(super::icon_list::recalc(db, key)?);
     db::batch(db, statements).await?;
     #[derive(Deserialize)]
     struct Id { id: f64 }
