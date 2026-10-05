@@ -11,14 +11,16 @@ command = "cd app && PATH=\"$HOME/.cargo/bin:$PATH\" worker-build --release"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "pictographic-review"
-# The remote D1 database pictographic-review (created 2026-09-28).
-database_id = "1f671b1d-53c9-4083-8b3f-6cb77031bc36"
+# The site's data is the database and bucket first made as the test copy (2026-10-02): the reviewers' work moved
+# there, so on 2026-10-05 this URL was pointed at them and the original pictographic-review database was deleted.
+# wrangler.next.toml serves the same database and bucket under the -next URL.
+database_name = "pictographic-review-next"
+database_id = "5f82dacf-d761-4dd5-97f8-177f08b88aee"
 migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "FILES"
-bucket_name = "pictographic-review"
+bucket_name = "pictographic-review-next"
 
 [vars]
 # Kept exactly as deploy.py's ADMIN_USERS (user's decision); change here without code changes.

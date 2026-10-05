@@ -113,6 +113,10 @@ Locally, run both Workers together: `npx wrangler dev -c wrangler.toml -c ../gra
 
 A second Worker runs this branch on copies of production, so changes can be tried on a second site
 without touching `pictographic-review`: <https://pictographic-review-next.pictographic.workers.dev>
+
+Since 2026-10-05 both URLs serve the same database and bucket (`pictographic-review-next`): the reviewers' work had moved
+to the test copy, so the production Worker was pointed at it and the original `pictographic-review` database deleted.
+The `-next` site is no longer a separate copy; make one again with sync_next.py into a new database when needed.
 (`worker/wrangler.next.toml`: D1 `pictographic-review-next`, R2 `pictographic-review-next`, the shared
 graphics container). Production is only read while the copy is made or refreshed:
 
