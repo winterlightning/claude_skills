@@ -55,6 +55,15 @@ at stroke 4. These glyphs are as open as the space allows:
 | i, j | 1.0 to the dot | Dot on the ascender line, stem on the x-height (not a parallel-stroke gap) |
 | m | exactly 4 | Needs a 20-unit canvas for three stems 8 apart |
 
+## Source
+
+`source/lowercase.py` draws every lowercase glyph from its paths and the guide lines above.
+Change a path or a metric there and rerun it rather than editing the SVGs by hand:
+
+```
+python3 Letters/official/source/lowercase.py
+```
+
 ## Checking
 
 From the repository root:
