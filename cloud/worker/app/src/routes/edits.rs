@@ -354,6 +354,8 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
         statements.push(put_statement(db, ARTWORK, &key, &choice, None, user, now)?);
         statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ? WHERE key = ? AND uploaded = 0", args![digest, key.clone()])?);
     }
+    // A failed build's upload returns it to Ready: the drawing is human-selected; its checks run later.
+    statements.push(db::stmt(db, "UPDATE icons SET build_failed = 0 WHERE key = ?", args![key.clone()])?);
     if let Some(author) = author {
         statements.push(db::stmt(db, "UPDATE icons SET author = ?, record = json_set(record, '$.author', ?), \
             card = CASE WHEN card IS NULL THEN NULL ELSE json_set(card, '$.author', ?) END WHERE key = ?", args![author, author, author, key.clone()])?);
