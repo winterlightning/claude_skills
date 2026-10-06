@@ -119,9 +119,9 @@ pub async fn resolve_references(ctx: &Ctx, ids: &Value) -> std::result::Result<V
     Ok(result)
 }
 
-const LABELS: [(&str, &str); 3] = [("bad-stroke", "Bad stroke drawn"), ("meaning", "Does not convey the intended meaning"),
+const LABELS: [(&str, &str); 4] = [("bad-stroke", "Bad stroke drawn"), ("bad-layout", "Bad layout"), ("meaning", "Does not convey the intended meaning"),
                                    ("manual-fix-request", "Manual fix request")];
-const REASONS: [&str; 4] = ["bad-stroke", "meaning", "manual-fix-request", "other"];
+const REASONS: [&str; 5] = ["bad-stroke", "bad-layout", "meaning", "manual-fix-request", "other"];
 
 /// POST /api/reviews and /api/feedback — the tail of deploy.py `do_POST`.
 pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &str) -> Result<Response> {

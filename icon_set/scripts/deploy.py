@@ -1594,16 +1594,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if not isinstance(key, str):
                 raise ValueError()
             if route == '/api/reviews' and status == 'pending' and ('reason' in data or 'feedback' in data):
-                labels = {'bad-stroke': 'Bad stroke drawn', 'meaning': 'Does not convey the intended meaning', 'manual-fix-request': 'Manual fix request'}
+                labels = {'bad-stroke': 'Bad stroke drawn', 'bad-layout': 'Bad layout', 'meaning': 'Does not convey the intended meaning', 'manual-fix-request': 'Manual fix request'}
                 details = data.get('feedback', '')
-                if not isinstance(details, str) or reason not in ('bad-stroke', 'meaning', 'manual-fix-request', 'other') or (reason == 'other' and not details.strip()):
+                if not isinstance(details, str) or reason not in ('bad-stroke', 'bad-layout', 'meaning', 'manual-fix-request', 'other') or (reason == 'other' and not details.strip()):
                     return self.json_response({'error': 'Choose a disapproval reason; Other requires feedback.'}, 400)
                 feedback = '\n\n'.join(filter(None, (labels.get(reason), details.strip())))
                 route = '/api/feedback'
             if route == '/api/feedback':
                 if data.get('feedback_id') is not None and (type(data['feedback_id']) is not int or not isinstance(data.get('previous_feedback'), str)):
                     raise ValueError()
-                if reason not in ('bad-stroke', 'meaning', 'manual-fix-request', 'other'):
+                if reason not in ('bad-stroke', 'bad-layout', 'meaning', 'manual-fix-request', 'other'):
                     return self.json_response({'error': 'Choose a valid disapproval reason.'}, 400)
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
                     raise ValueError()
