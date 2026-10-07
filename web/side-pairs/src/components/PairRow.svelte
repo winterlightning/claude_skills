@@ -30,6 +30,7 @@
       const done = await window.SideData.buildPairs([view.pair.id]), result = done.results[0];
       if (done.skipped.length) throw Error(done.skipped[0].error);
       if (!result.ok) throw Error(result.error);
+      message = window.SideData.outcome(result);
       await store.refresh(view.pair.id);
     } catch (error) { message = error.message; }
     finally { recombining = false; }

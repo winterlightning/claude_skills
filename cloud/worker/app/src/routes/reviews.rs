@@ -246,6 +246,8 @@ pub async fn post_review(ctx: &Ctx, original_route: &str, data: &Value, user: &s
     }
     statements.extend(super::icon_list::recalc(db, key)?);
     let results = db::batch(db, statements).await?;
+    // A main, sub, container or symbol: the combined icons built from it are failed builds only while it is not approved.
+    super::icon_list::recheck_combined(db, key).await?;
     let mut result = json!({"saved": true, "status": status, "updated_by": user});
     if route == "/api/feedback" {
         let id = match feedback_id.as_i64() {

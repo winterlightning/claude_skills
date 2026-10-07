@@ -248,6 +248,36 @@ pub fn recalc(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
     Ok(statements)
 }
 
+/// After a part's review changed (approved, disapproved, rejected): the combined icons built from it say again
+/// whether their build failed (core `combined_parts`), so a pair whose main and sub were approved after it was
+/// built leaves "failed" for its own review, and one whose part was disapproved goes back. Returns how many changed.
+pub async fn recheck_combined(db: &D1Database, part: &str) -> Result<usize> {
+    use pictographic_core::combined_parts;
+    #[derive(Deserialize)]
+    struct Key { key: String }
+    let using: Vec<Key> = db::all(db, combined_parts::USING_PART, args![part]).await?;
+    if using.is_empty() {
+        return Ok(0);
+    }
+    let keys = json!(using.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
+    let changed: Vec<Key> = db::all(db, combined_parts::CHANGED, args![keys]).await?;
+    for chunk in changed.chunks(25) {
+        let list = json!(chunk.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
+        let mut statements = Vec::new();
+        for k in chunk {
+            statements.extend(uncount(db, &k.key)?);
+        }
+        for sql in combined_parts::UPDATE {
+            statements.push(db::stmt(db, sql, args![list.clone()])?);
+        }
+        for k in chunk {
+            statements.extend(recount(db, &k.key, false)?);
+        }
+        db::batch(db, statements).await?;
+    }
+    Ok(changed.len())
+}
+
 /// Before a write that deletes the icon's row: the icon out of its count rows and its search row gone.
 pub fn remove(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
     let mut statements = uncount(db, key)?;

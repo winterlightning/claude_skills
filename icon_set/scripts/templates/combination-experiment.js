@@ -6,7 +6,7 @@
   const pageControls=where=>`<nav class="pair-pagination" aria-label="Combination pages ${where}"><button id="pairPrevious${where}" type="button">← Previous</button><label>Page<select id="pairPage${where}" aria-label="Combination page ${where}"></select></label><span id="pairPageTotal${where}"></span><button id="pairNext${where}" type="button">Next →</button></nav>`;
   const imageURL=s=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
   let rows=[],loaded=false,previews={};
-  host.innerHTML=`<section id="pairGallery"><p id="pairRunSummary" class="pair-note" role="status"></p><div class="pair-view-toolbar"><label class="pair-grid-search">View<select id="pairView"><option value="sub-overlay" selected>Stroke + sub centerline</option><option value="icon">Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label class="pair-grid-search">Display stroke width<select id="pairStrokeWidth"><option value="4" selected>4px · original stroke</option></select></label><label class="pair-grid-search">Find a combined icon<input id="pairGridSearch" type="search" placeholder="Search concepts or component names"></label><label class="pair-grid-search">Sub readiness<select id="pairReadiness"><option value="">All combined icons</option><option value="pass">Passing sub icons</option><option value="text">Text sub</option><option value="native_sub32">Native SUB32</option><option value="needs_redraw">Needs SUB32 redraw</option></select></label><label class="pair-grid-search">Icons per page<select id="pairPageSize"><option value="24">24</option><option value="48">48</option><option value="96">96</option></select></label></div>${pageControls('Top')}<div id="pairResultsGrid" class="pair-results-grid"></div>${pageControls('Bottom')}<p id="pairGridStatus" role="status"></p></section>`;
+  host.innerHTML=`<section id="pairGallery"><p id="pairRunSummary" class="pair-note" role="status"></p><div class="pair-view-toolbar"><label class="pair-grid-search">View<select id="pairView"><option value="sub-overlay" selected>Stroke + sub centerline</option><option value="icon">Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label class="pair-grid-search">Display stroke width<select id="pairStrokeWidth"><option value="4" selected>4px · original stroke</option></select></label><label class="pair-grid-search">Find a combined icon<input id="pairGridSearch" type="search" placeholder="Search concepts or component names"></label><label class="pair-grid-search">Sub readiness<select id="pairReadiness"><option value="">All combined icons</option><option value="pass">Drawn sub icons</option><option value="text">Text sub</option></select></label><label class="pair-grid-search">Icons per page<select id="pairPageSize"><option value="24">24</option><option value="48">48</option><option value="96">96</option></select></label></div>${pageControls('Top')}<div id="pairResultsGrid" class="pair-results-grid"></div>${pageControls('Bottom')}<p id="pairGridStatus" role="status"></p></section>`;
   const $=id=>document.getElementById(id), option=(v,t)=>{const e=document.createElement('option');e.value=v;e.textContent=t;return e;};
   function displaySVG(documentText){
     const document=new DOMParser().parseFromString(documentText,'image/svg+xml');
@@ -34,7 +34,7 @@
   $('pairStrokeWidth').onchange=changeStroke;$('pairView').onchange=changeView;
   function grid(){
     const q=$('pairGridSearch').value.trim().toLowerCase();
-    const visible=rows.filter(r=>previews[r.id]&&(!$('pairReadiness').value || ($('pairReadiness').value==='pass' ? r.subs[0].model_validation==='pass' : $('pairReadiness').value==='text' ? r.subs.some(s=>s.native_text||s.family==='text'||s.sizing_kind==='text') : r.subs[0].sub32_status===$('pairReadiness').value)) && [r.concept,r.id,...r.mains.map(m=>m.icon),...r.subs.map(m=>m.icon)].join(' ').toLowerCase().includes(q));
+    const visible=rows.filter(r=>previews[r.id]&&(!$('pairReadiness').value || ($('pairReadiness').value==='text')===isText(r)) && [r.concept,r.id,...r.mains.map(m=>m.icon),...r.subs.map(m=>m.icon)].join(' ').toLowerCase().includes(q));
     const pages=Math.max(1,Math.ceil(visible.length/gridPageSize));
     gridPage=Math.min(gridPage,pages-1);
     const start=gridPage*gridPageSize;
@@ -46,22 +46,23 @@
       $('pairPrevious'+where).disabled=gridPage===0;
       $('pairNext'+where).disabled=gridPage===pages-1;
     }
-    $('pairResultsGrid').replaceChildren();
+    $('pairResultsGrid').replaceChildren();const shown=[];
     for(const r of visible.slice(start,start+gridPageSize)){
       const card=document.createElement('article');card.className='pair-result-card';
       const image=document.createElement('img');image.alt=r.concept+' — combined icon';image.width=96;image.height=96;image.loading='lazy';
       const preview=previews[r.id];
-      if(preview)image.src=centerlineView==='icon'&&displayStroke===4?preview.url:imageURL(displaySVG(preview.result.svg));else image.alt='Preview unavailable';
+      if(preview&&centerlineView==='icon'&&displayStroke===4)image.src=preview.url;else if(preview?.result.svg)image.src=imageURL(displaySVG(preview.result.svg));else if(!preview)image.alt='Preview unavailable';
       const title=document.createElement('h3');title.textContent=r.concept;
-      const detail=document.createElement('p');detail.textContent=(preview?.result?.canvas||64)+'×'+(preview?.result?.canvas||64)+' · '+labels[r.position]+' · '+(r.native_text?'Native text':r.subs[0].model_validation==='pass'?'Passing sub':'Needs review');detail.title=r.subs[0].sub32_reason||'';
+      const detail=document.createElement('p');detail.textContent=(preview?.result?.canvas||64)+'×'+(preview?.result?.canvas||64)+' · '+labels[r.position]+' · '+(r.native_text?'Native text':'Approved main and sub')+' · '+(REVIEWS[r.review]||'To review');
       const actions=document.createElement('div');actions.className='pair-card-actions';
 
       if(preview){const download=document.createElement('a');download.href=preview.url;download.download=r.id+'.svg';SideRepairFlags.download(download);download.setAttribute('aria-label','Download '+r.concept+' SVG');actions.append(download);}
       // Edit: this pair's editor on Side pairs (combined in the browser and saved to the cloud).
       const edit=document.createElement('a');edit.className='site-button requires-login';edit.textContent='Edit';
       edit.href='side-pairs.html?q='+encodeURIComponent(r.id)+'&edit='+encodeURIComponent(r.id);actions.prepend(edit);
-      actions.append(SideRepairFlags.button('main',r.mains[0],r),SideRepairFlags.button('sub',r.subs[0],r));card.append(image,title,detail,actions);if(preview)window.SideCombinationPopup.attach(image,r.concept,preview.result);$('pairResultsGrid').append(card);
+      actions.append(SideRepairFlags.button('main',r.mains[0],r),SideRepairFlags.button('sub',r.subs[0],r));card.append(image,title,detail,actions);$('pairResultsGrid').append(card);if(preview)shown.push({r,image,preview});
     }
+    fill(shown);
     $('pairGridStatus').textContent=visible.length?'Showing '+(start+1)+'–'+Math.min(start+gridPageSize,visible.length)+' of '+visible.length+' combined icons.':'No combined icons match your search.';
   }
   $('pairGridSearch').oninput=()=>{gridPage=0;grid();};
@@ -73,13 +74,60 @@
     $('pairNext'+where).onclick=()=>goPage(gridPage+1);
     $('pairPage'+where).onchange=e=>goPage(Number(e.target.value));
   }
-  // The count is the latest Combine all side pairs run, the same set the Progression page and Icon review show.
-  function summary(run){
-    const count=run?run.count:rows.filter(r=>previews[r.id]).length,box=$('pairRunSummary');
+  // Live from production: every side pair built from its parts' current drawings (not stale) whose main and sub are
+  // approved in Icon review (a native text sub counts as approved), with its stored combined icon.
+  const REVIEWS={approve:'Approved',pending:'Needs fix',claimed:'Being fixed',rejected:'Rejected',ready:'To review','re-generated':'To review'};
+  const isText=r=>!!r.native_text;
+  let drawings=new Map(),pairsTotal=0;
+  async function api(path){const response=await fetch(path,{cache:'no-store'});const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.error||'Could not load the side pairs.');return data;}
+  const formKey=f=>f&&!f.native_text?(f.model_key||f.family+'/'+f.icon):null;
+  // A part as the review buttons and search read it: the picked icon, its current drawing's sha and its stored form.
+  function partItem(p){
+    if(!p.icon)return p.form?.native_text?{...p.form,native_text:true}:null;
+    const [family,icon]=p.icon.split('/');
+    return {...(p.form&&formKey(p.form)===p.icon?p.form:{}),icon,family,model_key:p.icon,sha256:p.current_sha};
+  }
+  function summary(){
+    const count=rows.length,box=$('pairRunSummary');
     $('combinationCount').textContent=count;box.replaceChildren();
-    box.append(count.toLocaleString()+' combined icons'+(run?.generated_at?' · last combined '+new Date(run.generated_at).toLocaleString():'')+' · '+(rows.length-count).toLocaleString()+' of '+rows.length.toLocaleString()+' drawn pairs could not be combined · ');
+    box.append(count.toLocaleString()+' combined icons whose main and sub are approved, of '+pairsTotal.toLocaleString()+' side pairs · read live from Icon review · ');
     const link=document.createElement('a');link.href='index.html?family=side_combination64';link.textContent='Review in Icon review →';box.append(link);
   }
-  async function load(){if(loaded)return;loaded=true;const params=new URLSearchParams(location.search);$('pairGridSearch').value=params.get('q')||'';if(params.get('sub')==='text')$('pairReadiness').value='text';try{const response=await fetch('experiment-combination.json',{cache:'no-store'});if(!response.ok)throw Error('Could not load available pairs.');rows=(await response.json()).rows;SideRepairFlags.setRows(rows);const rendered=await fetch('experiment-combination-results.json',{cache:'no-store'});if(!rendered.ok)throw Error('Combined previews could not be loaded. Reload to try again.');previews=Object.fromEntries(Object.entries((await rendered.json()).results).filter(([,p])=>!p.error));const run=await fetch('side-combination64.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);summary(run);grid();}catch(e){loaded=false;$('pairGridStatus').textContent=e.message;}}
+  // The shown cards' stored drawings, and where the engine places their main and sub (the bounds overlay).
+  async function fill(shown){
+    try{
+      const want=[...new Set(shown.flatMap(({r})=>r.item.parts.map(p=>p.icon)).filter(k=>k&&!drawings.has(k)))];
+      for(let i=0;i<want.length;i+=100){const got=await api('/api/combinations/drawings?keys='+encodeURIComponent(want.slice(i,i+100).join(',')));for(const [k,d] of Object.entries(got))drawings.set(k,d);}
+    }catch(e){$('pairGridStatus').textContent=e.message;}
+    await Promise.all(shown.map(async({r,image,preview})=>{
+      try{
+        if(!preview.result.svg){const response=await fetch(preview.url);if(!response.ok)throw Error('Preview could not be loaded');preview.result.svg=await response.text();}
+        if(!preview.result.placements){const c=CombineSide.pairRequest(r.item,drawings,{size:64});Object.assign(preview.result,{placements:c.result.placements,canvas:c.result.canvas||64});}
+        if(!image.isConnected)return;
+        if(!(centerlineView==='icon'&&displayStroke===4))image.src=imageURL(displaySVG(preview.result.svg));
+        window.SideCombinationPopup.attach(image,r.concept,preview.result);
+      }catch(e){image.title=e.message;}
+    }));
+  }
+  async function load(){if(loaded)return;loaded=true;const params=new URLSearchParams(location.search);$('pairGridSearch').value=params.get('q')||'';if(params.get('sub')==='text')$('pairReadiness').value='text';
+    try{
+      const query=offset=>'/api/combinations?'+new URLSearchParams({kind:'side',size:'64',forms:'1',state:'built',limit:'500',offset:String(offset)});
+      const [first,reviews,all]=await Promise.all([api(query(0)),api('/api/reviews'),api('/api/combinations?kind=side&size=64&limit=1&offset=0')]);
+      const pages=[first],rest=[];for(let o=500;o<first.total;o+=500)rest.push(api(query(o)));pages.push(...await Promise.all(rest));
+      pairsTotal=all.total||0;
+      const approved=p=>p.icon?reviews[p.icon]==='approve':!!p.form?.native_text;
+      rows=[];previews={};
+      for(const item of pages.flatMap(p=>p.items)){
+        const m=item.parts.find(p=>p.role==='main'),s=item.parts.find(p=>p.role==='sub');
+        if(!item.icon||!m||!s||!approved(m)||!approved(s))continue;
+        const main=partItem(m),sub=partItem(s);if(!main||!sub)continue;
+        const id=item.reference_id;
+        rows.push({id,item,concept:item.concept,position:s.position,native_text:!!sub.native_text,mains:[main],subs:[sub],review:item.icon.review||'ready'});
+        previews[id]={url:item.icon.preview_url,result:{canvas:64,filename:id+'.svg'}};
+      }
+      rows.sort((a,b)=>a.concept.localeCompare(b.concept));
+      SideRepairFlags.setReviews(reviews);SideRepairFlags.setRows(rows);
+      summary();grid();
+    }catch(e){loaded=false;$('pairGridStatus').textContent=e.message;}}
   window.addEventListener('show-combinations',load);if(new URLSearchParams(location.search).get('type')==='combination')load();
 })();

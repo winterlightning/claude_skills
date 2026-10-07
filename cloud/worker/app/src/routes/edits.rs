@@ -398,6 +398,10 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     if db::changes(&results[0]) == 0 {
         return http::error(409, "Someone changed this artwork. Reload the source choices before saving.");
     }
+    if !upload_only {
+        // The pick approved this drawing: combined icons built from it are no longer failed builds for it.
+        super::icon_list::recheck_combined(&ctx.db, &key).await?;
+    }
     let mut response = artwork_response(&key, &sha, Some(&choice), edit.as_ref());
     if !upload_only {
         response["record"]["review_status"] = json!("approve");
