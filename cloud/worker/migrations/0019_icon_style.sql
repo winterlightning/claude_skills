@@ -6,7 +6,8 @@ ALTER TABLE icons ADD COLUMN style_of TEXT;
 CREATE INDEX icons_style_family ON icons(style, family);
 
 DROP TABLE icon_counts;
-CREATE TABLE icon_counts (family TEXT NOT NULL, side_role TEXT NOT NULL, style TEXT NOT NULL, state TEXT NOT NULL,
+-- style has a default so a Worker built before this migration still counts its writes (as normal) until redeployed.
+CREATE TABLE icon_counts (family TEXT NOT NULL, side_role TEXT NOT NULL, style TEXT NOT NULL DEFAULT 'normal', state TEXT NOT NULL,
   category TEXT NOT NULL, built_failed INTEGER NOT NULL, n INTEGER NOT NULL,
   PRIMARY KEY(family, side_role, style, state, category, built_failed));
 INSERT INTO icon_counts SELECT COALESCE(family, ''), COALESCE(side_role, ''), style, COALESCE(state, ''), COALESCE(category, ''),
