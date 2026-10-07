@@ -10,10 +10,10 @@
 <p><a href="#upload-guide">Read the upload guide ↓</a> · <a href="api.html">Full pipeline API →</a></p>
 <section class="upload-guide" aria-labelledby="uploadApiTitle">
 <h2 id="uploadApiTitle">Upload API · no login required</h2>
-<p><strong>Production endpoint:</strong> <code>POST <span id="uploadEndpoint">https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload</span></code></p>
+<p><strong>Production endpoint:</strong> <code>POST <span id="uploadEndpoint">https://pictographic-review.pictographic.workers.dev/api/icons/upload</span></code></p>
 <p>Send JSON with <code>name</code>, <code>family</code>, and the SVG file contents in <code>svg</code>. Optional <code>category</code> defaults to <code>manual_upload</code>. The result has type <code>uploaded</code> and status <strong>Ready</strong>.</p>
 <p>Run this working example in your terminal:</p>
-<pre><code id="uploadCurl">curl --fail-with-body --request POST &#x27;https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload&#x27; \
+<pre><code id="uploadCurl">curl --fail-with-body --request POST &#x27;https://pictographic-review.pictographic.workers.dev/api/icons/upload&#x27; \
   --header &#x27;Content-Type: application/json&#x27; \
   --data-binary @- &lt;&lt;&#x27;JSON&#x27;
 {
@@ -25,7 +25,7 @@
 }
 JSON</code></pre>
 <button id="copyUploadCurl" type="button" class="site-button">Copy API example</button><p id="copyUploadStatus" role="status"></p>
-<p>For your own file, save a JSON payload with its SVG contents as <code>payload.json</code>, then call <code id="uploadFileCurl">curl --fail-with-body -X POST 'https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload' -H 'Content-Type: application/json' --data-binary @payload.json</code>.</p>
+<p>For your own file, save a JSON payload with its SVG contents as <code>payload.json</code>, then call <code id="uploadFileCurl">curl --fail-with-body -X POST 'https://pictographic-review.pictographic.workers.dev/api/icons/upload' -H 'Content-Type: application/json' --data-binary @payload.json</code>.</p>
 <p><a href="#api-reference">Request fields and responses ↓</a></p>
 </section>
 <h2>Or upload a file here</h2>

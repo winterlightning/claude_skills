@@ -75,4 +75,11 @@
     catch {$('apiCopyStatus').textContent='Select and copy the command manually.';}
   }));
   render();
+  // The examples target production: this server when it is production, else the dev server's sync source.
+  fetch('/api/runtime', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(runtime => {
+    if (!runtime) return;
+    if (runtime.mode === 'production') $('apiBase').value = location.origin;
+    else if (runtime.production_api) $('apiBase').value = runtime.production_api;
+    render();
+  }).catch(() => {});
 })();

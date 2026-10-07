@@ -29,7 +29,7 @@
   const worker = () => $('workWorker').value.trim();
   const quote = value => "'" + String(value).replaceAll("'", "'\\''") + "'";
   function renderDoc() {
-    const base = ($('docBase').value.trim() || 'https://suffered-scored-nicole-default.trycloudflare.com').replace(/\/$/, '');
+    const base = ($('docBase').value.trim() || 'https://pictographic-review.pictographic.workers.dev').replace(/\/$/, '');
     const me = worker() || 'thuan-mac';
     const setup = 'API_BASE=' + quote(base) + '\nWORKER=' + quote(me);
     const post = (route, body) => 'curl --fail-with-body -H \'Content-Type: application/json\' \\\n  --data ' + quote(JSON.stringify(body)) + ' \\\n  "$API_BASE' + route + '"';

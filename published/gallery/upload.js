@@ -1,6 +1,13 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
+  // The examples target production: this server when it is production, else the dev server's sync source.
+  fetch('/api/runtime', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(runtime => {
+    const base = runtime && (runtime.mode === 'production' ? location.origin : runtime.production_api);
+    if (!base) return;
+    const shown = 'https://pictographic-review.pictographic.workers.dev';
+    for (const id of ['uploadEndpoint', 'uploadCurl', 'uploadFileCurl']) $(id).textContent = $(id).textContent.replace(shown, base.replace(/\/$/, ''));
+  }).catch(() => {});
   $('copyUploadCurl').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText($('uploadCurl').textContent);
