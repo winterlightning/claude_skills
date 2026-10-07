@@ -51,7 +51,7 @@ validated fix.
    ```
 
    `--limit` claims that many icons, `--offset` skips the first claimable ones,
-   `--disapprove-status` keeps one reason (`bad-stroke`, `bad-layout`, `meaning`,
+   `--disapprove-status` keeps one reason (`bad-stroke`, `meaning`,
    `manual-fix-request`, `other`); drop the filters you do not need.
 
    Exit code 3 means the queue is empty: report that and stop. The brief lists

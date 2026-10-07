@@ -18,14 +18,11 @@ Full reference: `docs/work-claims.md`.
 
 Reviews live in **one database, on production**. Several machines and agents
 fix icons at the same time. Before touching an icon you must **claim** it on
-production; the claim is the review status **Claimed** with your worker name,
-set in one conditional update, and it is what stops another machine from taking
-the same icon. An icon is claimable only while its review status is Disapproved
-and no worker gave up on it; a claim older than six hours goes back to
-Disapproved on its own. While you hold it the review status is **Claimed** and
-the work state is `working`; `done` returns it to Ready. After you report `done`,
-production sets that revision back to **Ready** for the reviewer and keeps it
-out of the queue until a reviewer disapproves it again.
+production; the claim is what stops another machine from taking the same icon.
+An icon is claimable only while its review status is Disapproved and nobody
+holds a live claim. After you report `done`, production sets that revision back
+to **Ready** for the reviewer and keeps it out of the queue until a reviewer
+disapproves it again.
 
 Never fix an icon you have not claimed. Never report `done` without a saved,
 validated fix.
@@ -33,7 +30,7 @@ validated fix.
 ## Procedure
 
 1. **Identify yourself.** Set the worker name once per session; it is stored on
-   the review row and must match on every later call:
+   the claim and must match on every later call:
 
    ```bash
    export PICTOGRAPHIC_WORKER=thuan-mac   # one name per machine; required, no default
@@ -52,7 +49,7 @@ validated fix.
    ```
 
    `--limit` claims that many icons, `--offset` skips the first claimable ones,
-   `--disapprove-status` keeps one reason (`bad-stroke`, `bad-layout`, `meaning`,
+   `--disapprove-status` keeps one reason (`bad-stroke`, `meaning`,
    `manual-fix-request`, `other`); drop the filters you do not need.
 
    Exit code 3 means the queue is empty: report that and stop. The brief lists
@@ -87,12 +84,9 @@ validated fix.
      The disapproved revision returns to Ready; its feedback is kept so the
      reviewer can compare.
    - No meaning-preserving drawing passes: `python3 icon_set/scripts/work_queue.py cannot-fix --icon <key> --note "<the blocking check and element>"`
-     The icon stays Disapproved with your worker name and note; the queue skips
-     it and reviewers find it with the Cannot fix filter.
    - You must stop without a result: `python3 icon_set/scripts/work_queue.py abandon --icon <key>`
-     so another machine can take it. A claim you do not report expires six
-     hours after it was taken; there is no heartbeat, so finish or abandon
-     within that time.
+     so another machine can take it. A claim you neither report nor extend
+     expires after 3 hours (`heartbeat` extends it).
 
 6. **Say what happened.** Name the icon key, the variant or module you wrote,
    the validation status, the report you sent, and the queue position left
@@ -100,8 +94,8 @@ validated fix.
 
 ## Never
 
-- Skip the claim, or work on an icon reported as `working` or `cannot-fix`
-  for someone else.
+- Skip the claim, or work on an icon the queue reported as `working`, `done`
+  or `cannot-fix` for someone else.
 - Report `done` for an unvalidated, unpublished or unrelated change.
 - Reuse another worker's name, or change the production status through
   `/api/reviews` to hide a failed fix.
