@@ -8,10 +8,13 @@ window.PreviewIconEditor = function({icons, example}) {
   try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');replacements=approvedPreviewReplacements(saved,icons);}catch{}
   // Combination mode keeps its own picks ('side:'+slot) so choosing a combined
   // icon never changes the solo view of the same placement, and vice versa.
-  // Views: 'solo' (Primitive 48), 'p72' (best name match in Primitive 72), 'side'
+  // Views: 'solo' (Primitive 48), 'round' / 'sharp' (each Primitive 48 placement's round or sharp
+  // version, corner_processing; fetched by key, never offered in the picker), 'p72' (best name match in Primitive 72), 'side'
   // (side combination), 'container' (best name match among container combinations) and 'shuffle' (a random pick per placement from Primitive 48,
   // Primitive 72, side and container combinations, never saved).
-  const keyFor=slot=>mode==='side'?'side:'+slot:mode==='p72'?'p72:'+slot:mode==='container'?'container:'+slot:mode==='shuffle'?'':slot;
+  const STYLES=['round','sharp'],styled=new Map();   // 'solo-id--round' -> card, or null when it has none
+  const styledId=(id,style)=>{const k=id+'--'+style;return styled.get(k)?k:id;};
+  const keyFor=slot=>STYLES.includes(mode)?slot:mode==='side'?'side:'+slot:mode==='p72'?'p72:'+slot:mode==='container'?'container:'+slot:mode==='shuffle'?'':slot;
   const FILLER=new Set(['with','and','the','of','in','on','a','an','simple','round','rounded','symbol','icon','reference']);
   const words=text=>String(text).toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>1&&!/\d/.test(w)&&!FILLER.has(w));
   const same=(a,b)=>a===b||a===b+'s'||b===a+'s'||a===b+'es'||b===a+'es';
@@ -40,6 +43,7 @@ window.PreviewIconEditor = function({icons, example}) {
     if(mode==='side')return replacements['side:'+slot]||variant||replacements[slot]||original;
     if(mode==='p72')return replacements['p72:'+slot]||match72(original)||replacements[slot]||original;
     if(mode==='container')return replacements['container:'+slot]||matchContainer(original)||replacements[slot]||original;
+    if(STYLES.includes(mode))return styledId(replacements[slot]||original,mode);
     return replacements[slot]||original;
   }
   function resolveEl(el){return resolve(el.dataset.slot,el.dataset.original,el.dataset.variant);}
@@ -74,7 +78,7 @@ window.PreviewIconEditor = function({icons, example}) {
   }
   async function refreshApproved(){
     try{icons=await loadApprovedPreviewIcons();}catch(error){icons=[];byId=new Map();document.querySelectorAll('.icon-swap').forEach(el=>apply(el,''));announce();throw error;}
-    byId=new Map(icons.map(i=>[i.icon_id,i]));matches=new Map();
+    byId=new Map(icons.map(i=>[i.icon_id,i]));for(const [id,card] of styled)if(card)byId.set(id,{...card,icon_id:id});matches=new Map();
     replacements=approvedPreviewReplacements(replacements,icons);
     document.querySelectorAll('.icon-swap').forEach(el=>apply(el,resolveEl(el)));
     $('iconPickerSearch').placeholder=`Search ${icons.length.toLocaleString()} approved icons…`;announce();
@@ -88,6 +92,7 @@ window.PreviewIconEditor = function({icons, example}) {
       if(!byId.has(id)){render();$('pickerResultsStatus').textContent='That icon is no longer approved. Choose another icon.';return;}
       if(mode==='shuffle'){shuffled.set(selected.dataset.slot,id);apply(selected,id);announce();dialog.close();return;}
       const key=keyFor(selected.dataset.slot);if(id===baseline(selected.dataset.original,selected.dataset.variant))delete replacements[key];else replacements[key]=id;
+      if(STYLES.includes(mode))await loadStyled(mode);
       apply(selected,resolveEl(selected));const saved=save();announce();dialog.close();if(!saved)bar.querySelector('#editCount').textContent='Changed for this visit · browser storage unavailable';
     }catch{if(dialog.open){$('pickerResults').replaceChildren();$('pickerResultsStatus').textContent='Could not verify approval. Close the picker and try again.';}}
     finally{busy=false;}
@@ -104,7 +109,21 @@ window.PreviewIconEditor = function({icons, example}) {
     document.addEventListener('keydown',e=>{const el=e.target.closest('.icon-swap');if(!el||!['Enter',' '].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();open(el);},true);
   }
   function reapply(){document.querySelectorAll('.icon-swap').forEach(el=>apply(el,resolveEl(el)));announce();}
-  function setMode(next){mode=['solo','p72','side','container'].includes(next)?next:'side';reapply();}
+  // Round / sharp: the solo pick of every placement, swapped for its styled record when it has one (others stay
+  // normal). The styled cards are fetched by key, 200 a request, once each.
+  async function loadStyled(style){
+    const want=[...new Set([...document.querySelectorAll('.icon-swap')].map(el=>(replacements[el.dataset.slot]||el.dataset.original)+'--'+style))].filter(k=>!styled.has(k));
+    for(let i=0;i<want.length;i+=200){
+      const chunk=want.slice(i,i+200);
+      try{
+        const response=await fetch('../api/icons?keys='+encodeURIComponent(chunk.map(k=>'solo/'+k).join(',')),{cache:'no-store'});
+        const data=response.ok?await response.json():{items:[]};
+        for(const k of chunk)styled.set(k,null);
+        for(const card of data.items||[]){const id=card.key.slice(5);styled.set(id,card);byId.set(id,{...card,icon_id:id});}
+      }catch{}
+    }
+  }
+  async function setMode(next){mode=['solo','round','sharp','p72','side','container'].includes(next)?next:'side';if(STYLES.includes(mode))await loadStyled(mode);reapply();}
   function shuffle(){mode='shuffle';shuffled=new Map();reapply();}
   return {icon,mount,announce,setMode,shuffle};
 };
