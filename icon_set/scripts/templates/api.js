@@ -50,6 +50,7 @@
     const setup = 'API_BASE=' + quote(base);
     $('loginExample').textContent = setup + '\n\ncurl --fail-with-body --cookie-jar cookies.txt \\\n  -H \'Content-Type: application/json\' \\\n  --data '+quote(JSON.stringify({username:'YOUR_USERNAME',password:'YOUR_PASSWORD'}))+' \\\n  "$API_BASE/api/auth/login"';
     $('readExample').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/gallery/icons.json" -o icons.json\ncurl --fail-with-body "$API_BASE/api/reviews" -o reviews.json\njq --slurpfile reviews reviews.json --arg stage ready \\\n  '+quote('.icons[] | select($reviews[0][.key] == $stage)')+' icons.json';
+    $('roadmapExample').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/primitives/summary"\ncurl --fail-with-body "$API_BASE/api/primitives?status=todo" -o todo.json\ncurl --fail-with-body "$API_BASE/api/primitives" -o primitives.json\ncurl --fail-with-body "$API_BASE/api/combinations?kind=side&missing=1&limit=100&offset=0"\ncurl --fail-with-body "$API_BASE/api/combinations?kind=container&state=unbuilt&limit=100&offset=0"\n\n# Reference SVGs\ncurl --fail-with-body "$API_BASE/primitives/apps/firewall%20manager_3d4f4e08-9f74-4cfb-af86-3a107bb6b406.svg"\ncurl --fail-with-body "$API_BASE/gallery/combination-originals/REFERENCE_ID.svg"';
     const [,method,pathValue,auth,payload,description,response] = operations[Number($('apiOperation').value)];
     const path = typeof pathValue==='function'?pathValue():pathValue;
     $('apiMethod').textContent = method;
