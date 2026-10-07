@@ -54,13 +54,8 @@
       if(preview&&centerlineView==='icon'&&displayStroke===4)image.src=preview.url;else if(preview?.result.svg)image.src=imageURL(displaySVG(preview.result.svg));else if(!preview)image.alt='Preview unavailable';
       const title=document.createElement('h3');title.textContent=r.concept;
       const detail=document.createElement('p');detail.textContent=(preview?.result?.canvas||64)+'×'+(preview?.result?.canvas||64)+' · '+labels[r.position]+(r.native_text?' · Native text':'')+' · Approved';
-      const actions=document.createElement('div');actions.className='pair-card-actions';
-
-      if(preview){const download=document.createElement('a');download.href=preview.url;download.download=r.id+'.svg';SideRepairFlags.download(download);download.setAttribute('aria-label','Download '+r.concept+' SVG');actions.append(download);}
-      // Edit: this pair's editor on Side pairs (combined in the browser and saved to the cloud).
-      const edit=document.createElement('a');edit.className='site-button requires-login';edit.textContent='Edit';
-      edit.href='side-pairs.html?q='+encodeURIComponent(r.id)+'&edit='+encodeURIComponent(r.id);actions.prepend(edit);
-      actions.append(SideRepairFlags.button('main',r.mains[0],r),SideRepairFlags.button('sub',r.subs[0],r));card.append(image,title,detail,actions);$('pairResultsGrid').append(card);if(preview)shown.push({r,image,preview});
+      // Output only: no edit, download or review actions here (edit on Progression › Side, review on Icon review).
+      card.append(image,title,detail);$('pairResultsGrid').append(card);if(preview)shown.push({r,image,preview});
     }
     fill(shown);
     $('pairGridStatus').textContent=visible.length?'Showing '+(start+1)+'–'+Math.min(start+gridPageSize,visible.length)+' of '+visible.length+' combined icons.':'No combined icons match your search.';
@@ -113,7 +108,7 @@
     try{
       const query=offset=>'/api/combinations?'+new URLSearchParams({kind:'side',size:'64',forms:'1',limit:'500',offset:String(offset)});
       const approvedPage=offset=>'/api/icons?'+new URLSearchParams({family:'side_combination64',status:'approve',limit:'192',offset:String(offset)});
-      const [first,reviews,firstApproved]=await Promise.all([api(query(0)),api('/api/reviews'),api(approvedPage(0))]);
+      const [first,firstApproved]=await Promise.all([api(query(0)),api(approvedPage(0))]);
       const pages=[first],rest=[],approvedPages=[firstApproved],more=[];
       for(let o=500;o<first.total;o+=500)rest.push(api(query(o)));
       for(let o=192;o<firstApproved.total;o+=192)more.push(api(approvedPage(o)));
@@ -130,7 +125,7 @@
         previews[id]={url:item.icon.preview_url,result:{canvas:64,filename:id+'.svg'}};
       }
       rows.sort((a,b)=>a.concept.localeCompare(b.concept));
-      SideRepairFlags.setReviews(reviews);SideRepairFlags.setRows(rows);
+      
       summary();grid();
     }catch(e){loaded=false;$('pairGridStatus').textContent=e.message;}}
   window.addEventListener('show-combinations',load);if(new URLSearchParams(location.search).get('type')==='combination')load();
