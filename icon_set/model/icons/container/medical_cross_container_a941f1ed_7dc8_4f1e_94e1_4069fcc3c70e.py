@@ -9,6 +9,9 @@ Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus passes, heart does not clear, check passes.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (medical-cross-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): arms widened from 18 to 28 (stubs 12) so a container symbol has room: 19.5-unit square with a 4 px gap, up from 9.5.
+Width 34 was tried first and read as a notched square, not a cross; 28 is the widest that still reads as a cross.
 """
 
 from ...keyshapes import Keyshape
@@ -28,16 +31,10 @@ class MedicalCrossContainer(Container64):
     keywords = ('medical', 'cross', 'container')
 
     def build(self) -> None:
-        self.add_line('cross-1', (23, 6), (41, 6))
-        self.add_line('cross-2', (41, 6), (41, 23))
-        self.add_line('cross-3', (41, 23), (58, 23))
-        self.add_line('cross-4', (58, 23), (58, 41))
-        self.add_line('cross-5', (58, 41), (41, 41))
-        self.add_line('cross-6', (41, 41), (41, 58))
-        self.add_line('cross-7', (41, 58), (23, 58))
-        self.add_line('cross-8', (23, 58), (23, 41))
-        self.add_line('cross-9', (23, 41), (6, 41))
-        self.add_line('cross-10', (6, 41), (6, 23))
-        self.add_line('cross-11', (6, 23), (23, 23))
-        self.add_line('cross-12', (23, 23), (23, 6))
-        self.add_contour('cross', 'cross-1', 'cross-2', 'cross-3', 'cross-4', 'cross-5', 'cross-6', 'cross-7', 'cross-8', 'cross-9', 'cross-10', 'cross-11', 'cross-12', closed=True)
+        # Equal-armed cross, arm width 28 (18..46), arms reaching the keyshape at 6 and 58; mirrored on both axes.
+        # The centre holds a symbol square of 19.5 (4 px gap) instead of 9.5 with the old width-18 arms.
+        a, b = 18, 46
+        ring = [(a, 6), (b, 6), (b, a), (58, a), (58, b), (b, b), (b, 58), (a, 58), (a, b), (6, b), (6, a), (a, a)]
+        for n, (p, q) in enumerate(zip(ring, ring[1:] + ring[:1]), 1):
+            self.add_line(f'cross-{n}', p, q)
+        self.add_contour('cross', *(f'cross-{n}' for n in range(1, 13)), closed=True)

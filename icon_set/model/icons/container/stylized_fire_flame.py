@@ -6,6 +6,8 @@ Source details retained; export irregularities simplified.
 Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (stylized-fire-flame VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): the shape caps it below 24, now it takes a 20 symbol with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -16,16 +18,15 @@ AUTHOR = 'claude-opus-5-5'
 
 class StylizedFireFlame(Container64):
     icon_id = 'stylized-fire-flame'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     aliases = ()
     keywords = ('stylized', 'fire', 'flame')
 
     def build(self) -> None:
-        self.add_arc('flame-0', (30, 4), (52, 38), radius_x=50)
-        self.add_arc('flame-1', (52, 38), (32, 60), radius_x=20, radius_y=22)
-        self.add_arc('flame-2', (32, 60), (12, 38), radius_x=20, radius_y=22)
-        self.add_arc('flame-3', (12, 38), (19, 26), radius_x=14)
-        self.add_arc('flame-4', (19, 26), (21, 12), radius_x=39, sweep=False)
-        self.add_arc('flame-5', (21, 12), (28, 18), radius_x=12)
-        self.add_arc('flame-6', (28, 18), (30, 4), radius_x=33, sweep=False)
-        self.add_contour('flame', 'flame-0', 'flame-1', 'flame-2', 'flame-3', 'flame-4', 'flame-5', 'flame-6', closed=True)
+        # VRECT_L (was VRECT_M): a full round base (10..54, bottom 60) rising to the tip (30,4), with the second
+        # tongue tucked high on the left (19,18)-(25,24) so the body holds a symbol of 20 with a 4 px gap (was 18.5).
+        self.add_bezier('flame-outer', (30, 4), ((42, 14), (54, 27), (54, 40)), ((54, 51), (44, 60), (32, 60)),
+                        ((20, 60), (10, 51), (10, 40)), ((10, 31), (14, 24), (19, 18)))
+        self.add_bezier('flame-tongue', (19, 18), ((20, 22), (22, 24), (25, 24)))
+        self.add_bezier('flame-inner', (25, 24), ((25, 16), (27, 10), (30, 4)))
+        self.add_contour('flame', 'flame-outer', 'flame-tongue', 'flame-inner', closed=True)

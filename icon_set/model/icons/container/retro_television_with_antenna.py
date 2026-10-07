@@ -7,6 +7,8 @@ No decorative details added; all identifying source parts retained.
 Hosting: plus does not clear, heart passes, check passes.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (retro-television-with-antenna SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -22,18 +24,20 @@ class RetroTelevisionWithAntenna(Container64):
     keywords = ('retro', 'television', 'with', 'antenna')
 
     def build(self) -> None:
-        self.add_line('cabinet0', (14, 16), (50, 16))
-        self.add_arc('cabinet1', (50, 16), (58, 26), radius_x=8, radius_y=10)
-        self.add_line('cabinet2', (58, 26), (58, 40))
-        self.add_arc('cabinet3', (58, 40), (50, 50), radius_x=8, radius_y=10)
-        self.add_line('cabinet4', (50, 50), (14, 50))
-        self.add_arc('cabinet5', (14, 50), (6, 40), radius_x=8, radius_y=10)
-        self.add_line('cabinet6', (6, 40), (6, 26))
-        self.add_arc('cabinet7', (6, 26), (14, 16), radius_x=8, radius_y=10)
-        self.add_line('aerial-1', (24, 6), (32, 16))
-        self.add_line('aerial-2', (32, 16), (40, 6))
-        self.add_line('foot-left', (20, 50), (16, 58))
-        self.add_line('foot-right', (44, 50), (48, 58))
+        # Cabinet 12..52 (was 16..50) under a shorter aerial and on shorter feet, so the screen area holds a
+        # symbol of 28 with a 4 px gap (was 22).
+        self.add_line('cabinet0', (14, 12), (50, 12))
+        self.add_arc('cabinet1', (50, 12), (58, 22), radius_x=8, radius_y=10)
+        self.add_line('cabinet2', (58, 22), (58, 42))
+        self.add_arc('cabinet3', (58, 42), (50, 52), radius_x=8, radius_y=10)
+        self.add_line('cabinet4', (50, 52), (14, 52))
+        self.add_arc('cabinet5', (14, 52), (6, 42), radius_x=8, radius_y=10)
+        self.add_line('cabinet6', (6, 42), (6, 22))
+        self.add_arc('cabinet7', (6, 22), (14, 12), radius_x=8, radius_y=10)
+        self.add_line('aerial-1', (26, 6), (32, 12))
+        self.add_line('aerial-2', (32, 12), (38, 6))
+        self.add_line('foot-left', (20, 52), (17, 58))
+        self.add_line('foot-right', (44, 52), (47, 58))
         self.add_contour('cabinet', 'cabinet0', 'cabinet1', 'cabinet2', 'cabinet3', 'cabinet4', 'cabinet5', 'cabinet6', 'cabinet7', closed=True)
         self.add_contour('aerial', 'aerial-1', 'aerial-2')
         self.relate('connect', 'aerial', 'cabinet')

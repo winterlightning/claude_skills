@@ -6,6 +6,8 @@ Unequal front and back heights and left tabs preserve the source asymmetry. No f
 Hosting measured with compose.py: plus blocked, heart blocked, check valid.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (simple-file-folder SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): reproportioned so a container symbol has more room (container-combination64 space check).
 """
 
 from ...keyshapes import Keyshape
@@ -21,24 +23,18 @@ class SimpleFileFolder(Container64):
     keywords = ('simple', 'file', 'folder')
 
     def build(self) -> None:
-        self.add_line('rear-left', (9, 40), (9, 10))
-        self.add_arc('rear-nw', (9, 10), (12, 6), radius_x=3, radius_y=4)
-        self.add_line('rear-tab', (12, 6), (21, 6))
-        self.add_arc('rear-tab-down', (21, 6), (27, 8), radius_x=10)
-        self.add_arc('rear-tab-level', (27, 8), (32, 10), radius_x=7, sweep=False)
-        self.add_line('rear-top', (32, 10), (52, 10))
-        self.add_arc('rear-ne', (52, 10), (55, 14), radius_x=3, radius_y=4)
-        self.add_line('rear-right', (55, 14), (55, 46))
-        self.add_line('front-tab', (9, 40), (16, 40))
-        self.add_line('front-slope', (16, 40), (25, 46))
-        self.add_line('front-top', (25, 46), (55, 46))
-        self.add_arc('front-ne', (55, 46), (58, 50), radius_x=3, radius_y=4)
-        self.add_line('front-right', (58, 50), (58, 54))
-        self.add_arc('front-se', (58, 54), (55, 58), radius_x=3, radius_y=4)
-        self.add_line('front-bottom', (55, 58), (9, 58))
-        self.add_arc('front-sw', (9, 58), (6, 54), radius_x=3, radius_y=4)
-        self.add_line('front-left', (6, 54), (6, 44))
-        self.add_arc('front-nw', (6, 44), (9, 40), radius_x=3, radius_y=4)
-        self.add_contour('rear', 'rear-left', 'rear-nw', 'rear-tab', 'rear-tab-down', 'rear-tab-level', 'rear-top', 'rear-ne', 'rear-right')
-        self.add_contour('front', 'front-tab', 'front-slope', 'front-top', 'front-ne', 'front-right', 'front-se', 'front-bottom', 'front-sw', 'front-left', 'front-nw', closed=True)
-        self.relate('connect', 'front', 'rear')
+        # Closed folder: rounded body 6..58 x 14..58 with a tab rising to 6 on the left. The open front flap it
+        # replaces cut the hosting area to 26; the closed body leaves room for a full 32 symbol.
+        self.add_line('tab-left', (6, 52), (6, 12))
+        self.add_arc('tab-nw', (6, 12), (12, 6), radius_x=6)
+        self.add_line('tab-top', (12, 6), (22, 6))
+        self.add_arc('tab-down', (22, 6), (27, 9), radius_x=6)
+        self.add_line('tab-slope', (27, 9), (30, 13))
+        self.add_arc('tab-level', (30, 13), (34, 14), radius_x=4, sweep=False)
+        self.add_line('top', (34, 14), (52, 14))
+        self.add_arc('ne', (52, 14), (58, 20), radius_x=6)
+        self.add_line('right', (58, 20), (58, 52))
+        self.add_arc('se', (58, 52), (52, 58), radius_x=6)
+        self.add_line('bottom', (52, 58), (12, 58))
+        self.add_arc('sw', (12, 58), (6, 52), radius_x=6)
+        self.add_contour('folder', 'tab-left', 'tab-nw', 'tab-top', 'tab-down', 'tab-slope', 'tab-level', 'top', 'ne', 'right', 'se', 'bottom', 'sw', closed=True)

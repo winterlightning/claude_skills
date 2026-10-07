@@ -9,6 +9,8 @@ Visible keyshape extremes: (0, 0, 64, 64).
 Hosting measured with compose.py: plus does not clear, heart does not clear, check passes.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (five-point-star-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): fuller star (inner corners pushed out 1.5x) so a container symbol has room: 21-unit square with a 4 px gap, up from 11.
 """
 
 from ...keyshapes import Keyshape
@@ -28,14 +30,11 @@ class FivePointStarContainer(Container64):
     keywords = ('five', 'point', 'star', 'container')
 
     def build(self) -> None:
-        self.add_line('star-1', (32, 6), (40, 25))
-        self.add_line('star-2', (40, 25), (58, 25))
-        self.add_line('star-3', (58, 25), (44, 37))
-        self.add_line('star-4', (44, 37), (50, 58))
-        self.add_line('star-5', (50, 58), (32, 47))
-        self.add_line('star-6', (32, 47), (14, 58))
-        self.add_line('star-7', (14, 58), (20, 37))
-        self.add_line('star-8', (20, 37), (6, 25))
-        self.add_line('star-9', (6, 25), (24, 25))
-        self.add_line('star-10', (24, 25), (32, 6))
-        self.add_contour('star', 'star-1', 'star-2', 'star-3', 'star-4', 'star-5', 'star-6', 'star-7', 'star-8', 'star-9', 'star-10', closed=True)
+        # Tips fixed on the keyshape; the inner corners sit 1.5x further from (32,35) than a classic star so the
+        # body holds a symbol square of 21 (4 px gap) instead of 11. Mirrored about x = 32.
+        tips = [(32, 6), (58, 25), (50, 58), (14, 58), (6, 25)]
+        inner = [(44, 20), (50, 38), (32, 53), (14, 38), (20, 20)]
+        ring = [p for pair in zip(tips, inner) for p in pair]
+        for n, (a, b) in enumerate(zip(ring, ring[1:] + ring[:1]), 1):
+            self.add_line(f'star-{n}', a, b)
+        self.add_contour('star', *(f'star-{n}' for n in range(1, 11)), closed=True)

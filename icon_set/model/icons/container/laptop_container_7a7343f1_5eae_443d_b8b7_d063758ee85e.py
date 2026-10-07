@@ -9,6 +9,8 @@ Visible keyshape extremes: (0, 4, 64, 60).
 Hosting measured with compose.py: plus passes, heart does not clear, check does not clear.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (laptop-container HRECT_XL -> HRECT_L). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -21,22 +23,24 @@ AUTHOR = 'claude-opus-5-5'
 
 class LaptopContainer(Container64):
     icon_id = 'laptop-container'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     category = 'computers'
     categories = ('computers', 'primitives')
     aliases = ()
     keywords = ('laptop', 'container')
 
     def build(self) -> None:
-        self.add_line('screen-0', (8, 42), (8, 14))
-        self.add_arc('screen-1', (8, 14), (12, 10), radius_x=4)
-        self.add_line('screen-2', (12, 10), (52, 10))
-        self.add_arc('screen-3', (52, 10), (56, 14), radius_x=4)
-        self.add_line('screen-4', (56, 14), (56, 42))
-        self.add_line('base-1', (8, 42), (56, 42))
-        self.add_line('base-2', (56, 42), (60, 54))
-        self.add_line('base-3', (60, 54), (4, 54))
-        self.add_line('base-4', (4, 54), (8, 42))
+        # SQUARE (was HRECT_L): screen 10..54 x 6..48 over a base that flares to the keyshape at 58, so the
+        # display holds a symbol of 28 with a 4 px gap (was 20 in the shorter landscape frame).
+        self.add_line('screen-0', (10, 48), (10, 10))
+        self.add_arc('screen-1', (10, 10), (14, 6), radius_x=4)
+        self.add_line('screen-2', (14, 6), (50, 6))
+        self.add_arc('screen-3', (50, 6), (54, 10), radius_x=4)
+        self.add_line('screen-4', (54, 10), (54, 48))
+        self.add_line('base-1', (10, 48), (54, 48))
+        self.add_line('base-2', (54, 48), (58, 58))
+        self.add_line('base-3', (58, 58), (6, 58))
+        self.add_line('base-4', (6, 58), (10, 48))
         self.add_contour('screen', 'screen-0', 'screen-1', 'screen-2', 'screen-3', 'screen-4')
         self.add_contour('base', 'base-1', 'base-2', 'base-3', 'base-4', closed=True)
         self.relate('connect', 'base', 'screen')
