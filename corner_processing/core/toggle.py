@@ -39,6 +39,7 @@ import json
 import math
 import os
 import random
+import re
 import shutil
 import sys
 import tempfile
@@ -133,6 +134,7 @@ class Icon:
             if p is not None and not strokes:
                 self.dots.add(id(el))      # a zero-length path (M18 25L18 25): drawn by its cap
             self.items.append((el, strokes, keep_raw))
+        self.filled = filled_shapes(self.root, {id(el) for el, _, _ in self.items})
         self.extra = []        # new standalone strokes (between-stroke fillets)
         self.corner_pts = []   # corners being rounded (a shared side is split half and half)
         self.stop_pts = []     # junctions: a fillet never trims past one
@@ -177,6 +179,16 @@ class Icon:
             attrs["d"] = d
             attrs.update(self.el_attrs.get(id(el), {}))
             ET.SubElement(out, f"{{{SVG_NS}}}path", attrs)
+        for el in self.filled:                     # filled shapes (dots, arrowheads) are not centerlines:
+            name, attrs = localname(el.tag), dict(el.attrib)   # copied as drawn, a round dot a
+            if (style or {}).get("stroke-linecap") == "butt" and name in ("circle", "ellipse"):  # square in sharp
+                rx = float(el.get("rx") or el.get("r") or 0)
+                ry = float(el.get("ry") or el.get("r") or 0)
+                cx, cy = float(el.get("cx") or 0), float(el.get("cy") or 0)
+                attrs = {a: v for a, v in attrs.items() if a not in ("cx", "cy", "r", "rx", "ry")}
+                attrs.update(x=_n(cx - rx), y=_n(cy - ry), width=_n(2 * rx), height=_n(2 * ry))
+                name = "rect"
+            ET.SubElement(out, f"{{{SVG_NS}}}{name}", attrs)
         for i, s in enumerate(self.extra):
             ET.SubElement(out, f"{{{SVG_NS}}}path", {"id": f"corner-fillet-{i}", "d": stroke_d(s),
                                                      **self.el_attrs.get(("extra", i), {})})
@@ -185,6 +197,29 @@ class Icon:
                                                      "stroke-miterlimit": _n(MITER_HIGH)})
         ET.indent(root, space="  ")
         return ET.tostring(root, encoding="unicode") + "\n"
+
+
+def filled_shapes(root, centerlines):
+    """Shape elements that draw ink by their fill and are not centerlines (iter_skeleton_shapes keeps stroked ones
+    only): a filled window dot, a filled arrowhead. The outputs copy them, or the icon loses them."""
+    tags = ("path", "line", "circle", "ellipse", "polyline", "polygon", "rect")
+    found = []
+
+    def own(el, attr):
+        m = re.search(attr + r"\s*:\s*([^;]+)", el.get("style") or "")
+        return m.group(1).strip() if m else el.get(attr)
+
+    def walk(el, fill):
+        fill = own(el, "fill") or fill
+        if el.get("id") == "background-grid":
+            return
+        if localname(el.tag) in tags and id(el) not in centerlines and fill not in ("none", "transparent", None):
+            found.append(el)
+        for child in el:
+            walk(child, fill)
+
+    walk(root, "black")                            # SVG's initial fill is black
+    return found
 
 
 def stroke_d(st):

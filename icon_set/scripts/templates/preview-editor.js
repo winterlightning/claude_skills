@@ -78,7 +78,7 @@ window.PreviewIconEditor = function({icons, example}) {
   }
   async function refreshApproved(){
     try{icons=await loadApprovedPreviewIcons();}catch(error){icons=[];byId=new Map();document.querySelectorAll('.icon-swap').forEach(el=>apply(el,''));announce();throw error;}
-    byId=new Map(icons.map(i=>[i.icon_id,i]));for(const [id,card] of styled)if(card)byId.set(id,{...card,icon_id:id});matches=new Map();
+    byId=new Map(icons.map(i=>[i.icon_id,i]));for(const [id,card] of styled)if(card)byId.set(id,card);matches=new Map();
     replacements=approvedPreviewReplacements(replacements,icons);
     document.querySelectorAll('.icon-swap').forEach(el=>apply(el,resolveEl(el)));
     $('iconPickerSearch').placeholder=`Search ${icons.length.toLocaleString()} approved icons…`;announce();
@@ -119,7 +119,9 @@ window.PreviewIconEditor = function({icons, example}) {
         const response=await fetch('../api/icons?keys='+encodeURIComponent(chunk.map(k=>'solo/'+k).join(',')),{cache:'no-store'});
         const data=response.ok?await response.json():{items:[]};
         for(const k of chunk)styled.set(k,null);
-        for(const card of data.items||[]){const id=card.key.slice(5);styled.set(id,card);byId.set(id,{...card,icon_id:id});}
+        for(const card of data.items||[]){const id=card.key.slice(5);
+          // the card's artwork URL is already encoded (icon=solo%2F…); the placements encodeURI it again
+          const styledCard={...card,icon_id:id,preview_url:card.preview_url.replaceAll('%2F','/')};styled.set(id,styledCard);byId.set(id,styledCard);}
       }catch{}
     }
   }
