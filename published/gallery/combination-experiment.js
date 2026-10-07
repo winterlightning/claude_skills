@@ -53,7 +53,7 @@
       const preview=previews[r.id];
       if(preview&&centerlineView==='icon'&&displayStroke===4)image.src=preview.url;else if(preview?.result.svg)image.src=imageURL(displaySVG(preview.result.svg));else if(!preview)image.alt='Preview unavailable';
       const title=document.createElement('h3');title.textContent=r.concept;
-      const detail=document.createElement('p');detail.textContent=(preview?.result?.canvas||64)+'×'+(preview?.result?.canvas||64)+' · '+labels[r.position]+' · '+(r.native_text?'Native text':'Approved main and sub')+' · '+(REVIEWS[r.review]||'To review');
+      const detail=document.createElement('p');detail.textContent=(preview?.result?.canvas||64)+'×'+(preview?.result?.canvas||64)+' · '+labels[r.position]+(r.native_text?' · Native text':'')+' · Approved';
       const actions=document.createElement('div');actions.className='pair-card-actions';
 
       if(preview){const download=document.createElement('a');download.href=preview.url;download.download=r.id+'.svg';SideRepairFlags.download(download);download.setAttribute('aria-label','Download '+r.concept+' SVG');actions.append(download);}
@@ -74,8 +74,8 @@
     $('pairNext'+where).onclick=()=>goPage(gridPage+1);
     $('pairPage'+where).onchange=e=>goPage(Number(e.target.value));
   }
-  // Live from production: every side pair built from its parts' current drawings (not stale) whose main and sub are
-  // approved in Icon review (a native text sub counts as approved), with its stored combined icon.
+  // Live from production: the finished side combinations, the combined icons approved in Icon review
+  // (index.html?family=side_combination64&status=approve), each with its pair's parts for the review buttons and bounds.
   const REVIEWS={approve:'Approved',pending:'Needs fix',claimed:'Being fixed',rejected:'Rejected',ready:'To review','re-generated':'To review'};
   const isText=r=>!!r.native_text;
   let drawings=new Map(),pairsTotal=0;
@@ -90,7 +90,7 @@
   function summary(){
     const count=rows.length,box=$('pairRunSummary');
     $('combinationCount').textContent=count;box.replaceChildren();
-    box.append(count.toLocaleString()+' combined icons whose main and sub are approved, of '+pairsTotal.toLocaleString()+' side pairs · read live from Icon review · ');
+    box.append(count.toLocaleString()+' approved side combinations, of '+pairsTotal.toLocaleString()+' side pairs · read live from Icon review · ');
     const link=document.createElement('a');link.href='index.html?family=side_combination64';link.textContent='Review in Icon review →';box.append(link);
   }
   // The shown cards' stored drawings, and where the engine places their main and sub (the bounds overlay).
@@ -111,15 +111,19 @@
   }
   async function load(){if(loaded)return;loaded=true;const params=new URLSearchParams(location.search);$('pairGridSearch').value=params.get('q')||'';if(params.get('sub')==='text')$('pairReadiness').value='text';
     try{
-      const query=offset=>'/api/combinations?'+new URLSearchParams({kind:'side',size:'64',forms:'1',state:'built',limit:'500',offset:String(offset)});
-      const [first,reviews,all]=await Promise.all([api(query(0)),api('/api/reviews'),api('/api/combinations?kind=side&size=64&limit=1&offset=0')]);
-      const pages=[first],rest=[];for(let o=500;o<first.total;o+=500)rest.push(api(query(o)));pages.push(...await Promise.all(rest));
-      pairsTotal=all.total||0;
-      const approved=p=>p.icon?reviews[p.icon]==='approve':!!p.form?.native_text;
+      const query=offset=>'/api/combinations?'+new URLSearchParams({kind:'side',size:'64',forms:'1',limit:'500',offset:String(offset)});
+      const approvedPage=offset=>'/api/icons?'+new URLSearchParams({family:'side_combination64',status:'approve',limit:'192',offset:String(offset)});
+      const [first,reviews,firstApproved]=await Promise.all([api(query(0)),api('/api/reviews'),api(approvedPage(0))]);
+      const pages=[first],rest=[],approvedPages=[firstApproved],more=[];
+      for(let o=500;o<first.total;o+=500)rest.push(api(query(o)));
+      for(let o=192;o<firstApproved.total;o+=192)more.push(api(approvedPage(o)));
+      pages.push(...await Promise.all(rest));approvedPages.push(...await Promise.all(more));
+      pairsTotal=first.total||0;
+      const approved=new Set(approvedPages.flatMap(p=>p.items.map(i=>i.key)));
       rows=[];previews={};
       for(const item of pages.flatMap(p=>p.items)){
         const m=item.parts.find(p=>p.role==='main'),s=item.parts.find(p=>p.role==='sub');
-        if(!item.icon||!m||!s||!approved(m)||!approved(s))continue;
+        if(!item.icon||!m||!s||!approved.has(item.icon.key))continue;
         const main=partItem(m),sub=partItem(s);if(!main||!sub)continue;
         const id=item.reference_id;
         rows.push({id,item,concept:item.concept,position:s.position,native_text:!!sub.native_text,mains:[main],subs:[sub],review:item.icon.review||'ready'});
