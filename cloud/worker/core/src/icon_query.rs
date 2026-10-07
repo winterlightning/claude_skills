@@ -78,7 +78,7 @@ impl Params {
             revision: one_of(opt("revision").as_deref(), &["original", "variant"]),
             reference: one_of(opt("reference").as_deref(), &["with", "without"]),
             artwork: one_of(opt("artwork").as_deref(), &["original", "modified", "edited", "uploaded", "work_fix"]),
-            reason: one_of(opt("reason").as_deref(), &["bad-stroke", "manual-fix-request", "meaning", "other", "missing", "cannot-fix"]),
+            reason: one_of(opt("reason").as_deref(), &["bad-stroke", "bad-layout", "manual-fix-request", "meaning", "other", "missing", "cannot-fix"]),
             pending_feedback: one_of(opt("pending_feedback").as_deref(), &["with", "without"]),
             sort: one_of(opt("sort").as_deref(), &SORTS),
             versions: opt("view").as_deref() == Some("versions"),

@@ -54,6 +54,72 @@ async fn graph(ctx: &Ctx, sha: &str) -> Result<Option<Value>> {
     Ok(row.and_then(|r| serde_json::from_str(&r.graph).ok()))
 }
 
+/// A drawing's editable geometry: its build's graph or, for an uploaded icon, the strokes read back from its SVG
+/// (graphics /svg-graph), stored in icon_graphs the first time. Err is the graphics service's answer.
+async fn graph_of(ctx: &Ctx, icon: &Icon, sha: &str) -> Result<std::result::Result<Option<Value>, Response>> {
+    if let Some(graph) = graph(ctx, sha).await? {
+        return Ok(Ok(Some(graph)));
+    }
+    if !icon.uploaded {
+        return Ok(Ok(None));
+    }
+    #[derive(Deserialize)]
+    struct Row { svg: Option<String> }
+    let row: Option<Row> = db::first(&ctx.db, "SELECT COALESCE((SELECT svg FROM revisions WHERE svg_sha256 = ?), \
+            (SELECT svg FROM uploaded_icons u WHERE u.icon = i.key AND i.svg_sha256 = ?)) AS svg \
+        FROM icons i WHERE i.key = ?", args![sha, sha, icon.key.clone()]).await?;
+    let Some(svg) = row.and_then(|r| r.svg) else { return Ok(Ok(None)) };
+    let graph = match svg_graph(ctx, icon, &svg, sha).await? {
+        Ok(graph) => graph,
+        Err(response) => return Ok(Err(response)),
+    };
+    db::run(&ctx.db, "INSERT OR IGNORE INTO icon_graphs(svg_sha256, icon, graph) VALUES (?, ?, ?)",
+            args![sha, icon.key.clone(), graph.to_string()]).await?;
+    Ok(Ok(Some(graph)))
+}
+
+/// The strokes of an SVG drawing of `icon` as an editable graph (graphics /svg-graph).
+async fn svg_graph(ctx: &Ctx, icon: &Icon, svg: &str, sha: &str) -> Result<std::result::Result<Value, Response>> {
+    #[derive(Deserialize)]
+    struct Row { profile: Option<String> }
+    let profile = db::first::<Row>(&ctx.db, "SELECT profile FROM icons WHERE key = ?", args![icon.key.clone()]).await?
+        .and_then(|r| r.profile);
+    graphics(ctx, "/svg-graph", &json!({
+        "svg": svg, "key": icon.key, "svg_sha256": sha, "canvas_size": icon.canvas_size.unwrap_or(48),
+        "family": icon.family, "icon_id": icon.icon_id, "name": icon.name, "profile": profile})).await
+}
+
+/// The icon's saved manual upload (Manual Edit), as (sha, svg).
+fn upload_of(choice: Option<&Value>) -> Option<(&str, &str)> {
+    let uploaded = &choice?["uploaded"];
+    Some((uploaded["svg_sha256"].as_str()?, uploaded["svg"].as_str()?))
+}
+
+/// The drawing Browser Edit starts from: the original (`baseline`), or the saved manual upload when `requested` is
+/// its sha. None when `requested` names neither, e.g. an upload replaced since the editor loaded it.
+fn edit_base(baseline: &str, choice: Option<&Value>, requested: Option<&str>) -> Option<String> {
+    match requested {
+        None => Some(baseline.to_string()),
+        Some(sha) if sha == baseline || upload_of(choice).is_some_and(|(upload, _)| upload == sha) => Some(sha.to_string()),
+        Some(_) => None,
+    }
+}
+
+/// The editable geometry of an edit base: the original's graph, or the manual upload's strokes read back from its SVG
+/// (not stored: icon_graphs holds generated drawings only, and baseline_sha reads it).
+async fn base_graph(ctx: &Ctx, icon: &Icon, baseline: &str, choice: Option<&Value>, base: &str)
+                    -> Result<std::result::Result<Option<Value>, Response>> {
+    if base == baseline {
+        return graph_of(ctx, icon, baseline).await;
+    }
+    let Some((_, svg)) = upload_of(choice) else { return Ok(Ok(None)) };
+    Ok(svg_graph(ctx, icon, svg, base).await?.map(Some))
+}
+
+fn base_changed() -> Result<Response> {
+    http::error(409, "The manual upload changed. Reload before editing it.")
+}
+
 fn no_graph() -> Result<Response> {
     http::error(503, "This icon's geometry is not in the cloud yet. Push the catalog again (cloud/migrate/push_catalog.py), then reload.")
 }
@@ -91,10 +157,7 @@ pub(super) async fn graphics(ctx: &Ctx, path: &str, body: &Value) -> Result<std:
 
 async fn icon_or_404(ctx: &Ctx, key: &str) -> Result<std::result::Result<Icon, Response>> {
     Ok(match data::icon(&ctx.db, key, true).await? {
-        Some(icon) if !icon.uploaded => Ok(icon),
-        // Uploaded icons have no stroke geometry; their Manual Edit and Pick run on a local gallery.
-        Some(_) => Err(http::json(501, &json!({"error": "Uploaded icons are edited on a local gallery (deploy.py --cloud-api).",
-                                               "local": true}))?),
+        Some(icon) => Ok(icon),
         None => Err(http::error(404, "Icon not found.")?),
     })
 }
@@ -114,7 +177,10 @@ pub async fn get_stroke_edits(ctx: &Ctx) -> Result<Response> {
     let key = ctx.param("icon").unwrap_or("").to_string();
     let icon = try_response!(icon_or_404(ctx, &key).await?);
     let choice = document(ctx, ARTWORK, &key).await?;
-    let sha = baseline_sha(ctx, &icon, choice.as_ref()).await?;
+    let baseline = baseline_sha(ctx, &icon, choice.as_ref()).await?;
+    // `sha` picks the base being edited: the original (default) or the saved manual upload.
+    let Some(sha) = edit_base(&baseline, choice.as_ref(), ctx.param("sha")) else { return base_changed() };
+    let other = upload_of(choice.as_ref()).map(|(upload, _)| upload.to_string()).filter(|u| *u != sha).unwrap_or(baseline.clone());
     #[derive(Deserialize)]
     struct Row { document: String }
     let rows: Vec<Row> = db::all(&ctx.db, "SELECT document FROM store_documents WHERE store = ? AND substr(key, 1, length(?)) = ?",
@@ -124,7 +190,7 @@ pub async fn get_stroke_edits(ctx: &Ctx) -> Result<Response> {
     for document in rows.iter().filter_map(|r| serde_json::from_str::<Value>(&r.document).ok()) {
         if document["source_svg_sha256"].as_str() == Some(sha.as_str()) {
             edit = document;
-        } else {
+        } else if document["source_svg_sha256"].as_str() != Some(other.as_str()) {
             previous.push(json!({"source_svg_sha256": document["source_svg_sha256"], "updated_at": document["updated_at"]}));
         }
     }
@@ -136,8 +202,10 @@ pub async fn post_stroke_edits(ctx: &Ctx, data: &Value, user: &str, validate_onl
     let Some(key) = data["icon"].as_str() else { return http::error(400, "An icon key is required.") };
     let icon = try_response!(icon_or_404(ctx, key).await?);
     let choice = document(ctx, ARTWORK, key).await?;
-    let sha = baseline_sha(ctx, &icon, choice.as_ref()).await?;
-    let Some(graph) = graph(ctx, &sha).await? else { return no_graph() };
+    let baseline = baseline_sha(ctx, &icon, choice.as_ref()).await?;
+    // The edit's base is the drawing it was loaded from (`svg_sha256`); an unknown one fails as "the icon changed".
+    let sha = edit_base(&baseline, choice.as_ref(), data["svg_sha256"].as_str()).unwrap_or(baseline.clone());
+    let Some(graph) = try_response!(base_graph(ctx, &icon, &baseline, choice.as_ref(), &sha).await?) else { return no_graph() };
     if validate_only {
         let report = try_response!(graphics(ctx, "/validate", &json!({"icon": graph, "data": data})).await?);
         return http::json(200, &report);
@@ -179,7 +247,13 @@ fn artwork_overlay(key: &str, baseline: &str, choice: Option<&Value>) -> Option<
             if let Some(graph) = edit["edited_graph"].as_object() {
                 record.extend(graph.clone());
             }
-            record.insert("generated_graph".into(), edit["original_graph"].clone());
+            // An edit of the manual upload starts from the upload's strokes, not the generated drawing:
+            // Browser Edit opens on that base (stroke-editor.js) instead of the generated graph.
+            if edit["source_svg_sha256"].as_str().is_some_and(|source| source != baseline) {
+                record.insert("edit_base_svg_sha256".into(), edit["source_svg_sha256"].clone());
+            } else {
+                record.insert("generated_graph".into(), edit["original_graph"].clone());
+            }
             let status = if edit["validation_override"].is_object() { "human-selected" } else { "valid" };
             validation = json!({"status": status, "automatic_status": edit["validation"]["status"]});
             sha.to_string()
@@ -224,8 +298,8 @@ fn artwork_response(key: &str, baseline: &str, choice: Option<&Value>, edit: Opt
 /// The answer's record with the generated drawing's geometry under the overlay, as deploy.py
 /// `selected_artwork` builds it on a catalog record. Pages without icons.json (the primitives side
 /// view, Main / Sub icons) open the Browser Edit panel from it.
-async fn with_geometry(ctx: &Ctx, mut response: Value, key: &str, baseline: &str) -> Result<Value> {
-    let Some(Value::Object(mut record)) = graph(ctx, baseline).await? else { return Ok(response) };
+fn with_geometry(mut response: Value, geometry: Option<Value>, key: &str, baseline: &str) -> Value {
+    let Some(Value::Object(mut record)) = geometry else { return response };
     record.insert("key".into(), json!(key));
     record.insert("svg_sha256".into(), json!(baseline));
     record.insert("preview_url".into(), json!(format!("../api/icon-artwork/svg?icon={}&variant=use_org&v={baseline}", percent_encode(key))));
@@ -233,7 +307,7 @@ async fn with_geometry(ctx: &Ctx, mut response: Value, key: &str, baseline: &str
         record.extend(overlay);
     }
     response["record"] = Value::Object(record);
-    Ok(response)
+    response
 }
 
 /// GET /api/icon-artwork?icon=
@@ -243,8 +317,16 @@ pub async fn get_artwork(ctx: &Ctx) -> Result<Response> {
     let choice = document(ctx, ARTWORK, &key).await?;
     let sha = baseline_sha(ctx, &icon, choice.as_ref()).await?;
     let edit = document(ctx, EDITS, &edit_key(&key, &sha)).await?;
-    let response = artwork_response(&key, &sha, choice.as_ref(), edit.as_ref());
-    http::json(200, &with_geometry(ctx, response, &key, &sha).await?)
+    let geometry = try_response!(graph_of(ctx, &icon, &sha).await?);
+    let mut response = artwork_response(&key, &sha, choice.as_ref(), edit.as_ref());
+    // `base=<sha>` (Browser Edit of the manual upload): that base's strokes and saved edit revision.
+    if let Some(requested) = ctx.param("base").filter(|b| *b != sha) {
+        let Some(base) = edit_base(&sha, choice.as_ref(), Some(requested)) else { return base_changed() };
+        let Some(graph) = try_response!(base_graph(ctx, &icon, &sha, choice.as_ref(), &base).await?) else { return no_graph() };
+        let revision = document(ctx, EDITS, &edit_key(&key, &base)).await?.map(|e| e["revision"].clone()).unwrap_or(Value::Null);
+        response["base"] = json!({"svg_sha256": base, "graph": graph, "edit_revision": revision});
+    }
+    http::json(200, &with_geometry(response, geometry, &key, &sha))
 }
 
 /// POST /api/icon-artwork — save a manual SVG (`action: upload`) or pick and approve the displayed
@@ -267,13 +349,16 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     // text icons (typeface glyphs) have no stroke geometry and must still take a designer's upload.
     let needs_geometry = !upload_only
         && (data["source_mode"].as_str() == Some("use_edited") || data["approve_exception"] == json!(true));
-    let graph = match graph(ctx, &sha).await? {
+    let geometry = try_response!(graph_of(ctx, &icon, &sha).await?);
+    let graph = match geometry.clone() {
         Some(graph) => graph,
         None if needs_geometry => return no_graph(),
         None => json!({"key": key, "svg_sha256": sha, "canvas_size": icon.canvas_size,
                        "family": icon.family, "name": icon.name}),
     };
-    let edit = document(ctx, EDITS, &edit_key(&key, &sha)).await?;
+    // Browser Edit made on the manual upload (`edit_svg_sha256`) or, by default, on the original.
+    let Some(base) = edit_base(&sha, old.as_ref(), data["edit_svg_sha256"].as_str()) else { return base_changed() };
+    let edit = document(ctx, EDITS, &edit_key(&key, &base)).await?;
     let answer = try_response!(graphics(ctx, "/artwork", &json!({
         "icon": graph, "data": data, "old": old, "edit": edit, "user": user})).await?);
     let mut choice = answer["choice"].clone();
@@ -295,7 +380,7 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             statements.push(db::stmt(&ctx.db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'artwork', ?)",
                                      args![drawing.clone(), key.clone(), svg, now.clone()])?);
         }
-        statements.push(db::stmt(&ctx.db, &format!("UPDATE icons SET svg_sha256 = ? WHERE key = ? AND uploaded = 0 AND {landed}"),
+        statements.push(db::stmt(&ctx.db, &format!("UPDATE icons SET svg_sha256 = ? WHERE key = ? AND {landed}"),
                                  args![drawing.clone(), key.clone(), key.clone(), revision, now.clone()])?);
         statements.push(db::stmt(&ctx.db, &format!("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) \
             SELECT ?, ?, 'approve', ?, ? WHERE {landed} ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = excluded.status, \
@@ -319,14 +404,14 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
         response["record"]["review_updated_by"] = json!(user);
         response["record"]["review_updated_at"] = json!(now);
     }
-    http::json(200, &with_geometry(ctx, response, &key, &sha).await?)
+    http::json(200, &with_geometry(response, geometry, &key, &sha))
 }
 
 /// An uploaded drawing becomes an existing icon's picked candidate (POST /api/icons/upload for a reference that
 /// already has an icon): the choice document the Pick panel reads with the upload selected, the revision row, the
 /// icon's current drawing, a Ready review by `user` (an approval or a disapproval is replaced alike) and its feedback
-/// resolved — the statements for one batch. An icon that is itself an upload has no choice document: its stored
-/// drawing is replaced.
+/// resolved — the statements for one batch. An icon that is itself an upload has its stored drawing replaced and
+/// its choice document (a pick made from the drawing replaced) removed.
 /// `author`: who drew the upload, replacing the icon's author (record, list column and card); None keeps it.
 pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author: Option<&str>, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
     let db = &ctx.db;
@@ -338,6 +423,8 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
             '$.modified_at', ?) WHERE icon = ?", args![svg, digest, preview.clone(), now, key.clone()])?);
         statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ?, preview_url = ?, record = json_set(record, '$.svg_sha256', ?, \
             '$.preview_url', ?, '$.modified_at', ?) WHERE key = ? AND uploaded = 1", args![digest, preview.clone(), digest, preview, now, key.clone()])?);
+        // The new upload is the icon's original: an older pick or browser edit was made from the drawing it replaces.
+        statements.push(db::stmt(db, "DELETE FROM store_documents WHERE store = ? AND key = ?", args![ARTWORK, key.clone()])?);
     } else {
         let old = document(ctx, ARTWORK, &key).await?;
         let baseline = baseline_sha(ctx, icon, old.as_ref()).await?;
@@ -401,7 +488,7 @@ async fn overrides_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
     struct Row { key: String, document: String, icon_sha: String, built: f64 }
     let sql = format!("SELECT s.key, s.document, i.svg_sha256 AS icon_sha, \
         EXISTS (SELECT 1 FROM icon_graphs g WHERE g.svg_sha256 = i.svg_sha256) AS built \
-        FROM store_documents s JOIN icons i ON i.key = s.key WHERE s.store = 'icon-artwork' AND i.uploaded = 0{}",
+        FROM store_documents s JOIN icons i ON i.key = s.key WHERE s.store = 'icon-artwork'{}",
         if key.is_some() { " AND s.key = ?" } else { "" });
     let rows: Vec<Row> = db::all(&ctx.db, &sql, key.map(|k| args![k]).unwrap_or_default()).await?;
     let records: Vec<Value> = rows.into_iter().filter_map(|row| {
@@ -412,6 +499,30 @@ async fn overrides_of(ctx: &Ctx, key: Option<&str>) -> Result<Vec<Value>> {
         (source == baseline).then(|| artwork_overlay(&row.key, &baseline, Some(&choice))).flatten()
     }).collect();
     Ok(records)
+}
+
+/// Uploaded main and sub icons by (role, the reference they were drawn from), as side-components drawings: the built
+/// file lists the Python models only, so without these an uploaded sub or main could not be opened on the side pages.
+async fn uploaded_drawings(ctx: &Ctx) -> Result<HashMap<(&'static str, String), Vec<Value>>> {
+    #[derive(Deserialize)]
+    struct Row { reference_id: String, key: String, icon_id: Option<String>, family: String, svg_sha256: String,
+                 profile: Option<String>, build_failed: Option<f64> }
+    let rows: Vec<Row> = db::all(&ctx.db, "SELECT r.reference_id, i.key, i.icon_id, i.family, i.svg_sha256, i.profile, i.build_failed FROM icon_references r JOIN icons i ON i.key = r.icon \
+        WHERE i.uploaded = 1 AND i.family IN ('sub', 'solo', 'combination_main') ORDER BY i.pushed_at", vec![]).await?;
+    let mut out: HashMap<(&'static str, String), Vec<Value>> = HashMap::new();
+    for row in rows {
+        let role = if row.family == "sub" { "sub" } else { "main" };
+        let failed = row.build_failed.unwrap_or(0.0) != 0.0;
+        out.entry((role, row.reference_id)).or_default().push(json!({
+            "icon_id": row.icon_id, "key": row.key, "family": row.family, "status": if failed { "fail" } else { "pass" },
+            "preview_url": preview_of(&row.key, &row.svg_sha256), "exception": null, "python_source": null, "uploaded_icon": true,
+            "svg_sha256": row.svg_sha256, "errors": [], "profile": row.profile, "canvas_width": null, "canvas_height": null}));
+    }
+    Ok(out)
+}
+
+fn preview_of(key: &str, sha: &str) -> String {
+    format!("../api/icon-artwork/svg?icon={}&v={}", percent_encode(key), &sha[..12.min(sha.len())])
 }
 
 /// GET /api/side-components and /gallery/side-components.json: the built file with each drawing's
@@ -425,10 +536,23 @@ pub async fn side_components(ctx: &Ctx) -> Result<Response> {
     let Ok(mut data) = serde_json::from_str::<Value>(&body.text().await?) else { return http::error(503, missing) };
     let overlays: HashMap<String, Value> = overrides(ctx).await?.into_iter()
         .filter_map(|record| Some((record["key"].as_str()?.to_string(), record))).collect();
+    let mut uploads = uploaded_drawings(ctx).await?;
     for (list, role) in [("mains", "main"), ("subs", "sub")] {
         let Some(items) = data[list].as_array_mut() else { continue };
         for item in items.iter_mut() {
+            let sources: Vec<String> = std::iter::once(&item["id"]).chain(item["source_ids"].as_array().into_iter().flatten())
+                .filter_map(|id| id.as_str().map(str::to_string)).collect();
+            if !item["drawings"].is_array() {
+                item["drawings"] = json!([]);
+            }
             let Some(drawings) = item["drawings"].as_array_mut() else { continue };
+            for source in &sources {
+                for drawing in uploads.remove(&(role, source.clone())).unwrap_or_default() {
+                    if !drawings.iter().any(|d| d["key"] == drawing["key"]) {
+                        drawings.push(drawing);
+                    }
+                }
+            }
             for drawing in drawings.iter_mut() {
                 let Some(overlay) = drawing["key"].as_str().and_then(|key| overlays.get(key)) else { continue };
                 for field in ["preview_url", "svg_sha256"] {
@@ -514,9 +638,6 @@ async fn stored_drawing(ctx: &Ctx, sha: &str) -> Result<Response> {
 
 /// The drawing a picked choice displays (deploy.py serves the choice before a worker's fix), or None.
 pub async fn picked_drawing(ctx: &Ctx, icon: &Icon) -> Result<Option<Response>> {
-    if icon.uploaded {
-        return Ok(None);
-    }
     let Some(choice) = document(ctx, ARTWORK, &icon.key).await? else { return Ok(None) };
     let sha = baseline_sha(ctx, icon, Some(&choice)).await?;
     if choice["source_svg_sha256"].as_str() != Some(sha.as_str()) {

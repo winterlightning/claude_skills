@@ -4,7 +4,7 @@
   const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
   const stateOf = row => row.work.state || '';
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
-  const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
+  const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'bad-layout': 'Bad layout', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   // rows is the current page only; the server filters, counts and pages (/api/work/review).
   let rows = [], page = 1, total = 0, all = 0, counts = {}, times = {}, request = 0, searchTimer = 0;
   // Filters live in the URL so a link opens the same view. The family starts on solo; ?family= is all families.

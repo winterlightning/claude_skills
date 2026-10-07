@@ -29,7 +29,7 @@ curl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset
 curl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"
 ```
 
-Filters: `family`, `category`, `type`, `reason` (`bad-stroke`, `meaning`,
+Filters: `family`, `category`, `type`, `reason` (`bad-stroke`, `bad-layout`, `meaning`,
 `manual-fix-request`, `other`), `state` (`working`, `cannot-fix`), `limit`
 (1–500, default 50), `offset`.
 Oldest disapproval first. Page with `next_offset` until it is `null`.

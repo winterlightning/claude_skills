@@ -10,7 +10,7 @@ export class GraphicsContainer extends Container {
 
 // Bump when server.py or the code it runs changes: an instance keeps the image it started with, so a new name
 // starts from the image just deployed instead of waiting for the old instance to roll over.
-const INSTANCE = "main-5";
+const INSTANCE = "main-7";
 
 export default {
   async fetch(request, env) {

@@ -35,7 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 TIMEOUT = 30
 CLAIM_ATTEMPTS = 5
 MAX_PAGE = 500
-REASONS = ('bad-stroke', 'meaning', 'manual-fix-request', 'other', 'missing')
+REASONS = ('bad-stroke', 'bad-layout', 'meaning', 'manual-fix-request', 'other', 'missing')
 
 
 class ApiError(RuntimeError):
