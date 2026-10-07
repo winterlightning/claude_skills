@@ -69,7 +69,9 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             name = excluded.name, family = excluded.family, category = excluded.category, profile = excluded.profile, \
             canvas_size = excluded.canvas_size, svg_sha256 = excluded.svg_sha256, python_source = excluded.python_source, \
             preview_url = excluded.preview_url, original_sources = excluded.original_sources, variant_of = excluded.variant_of, \
-            variant_root = excluded.variant_root, variant_label = excluded.variant_label, build_failed = excluded.build_failed, \
+            variant_root = excluded.variant_root, variant_label = excluded.variant_label, \
+            build_failed = CASE WHEN EXISTS (SELECT 1 FROM store_documents d WHERE d.store = 'icon-artwork' AND d.key = icons.key \
+                AND json_extract(d.document, '$.source_mode') = 'use_upload') THEN 0 ELSE excluded.build_failed END, \
             pushed_at = excluded.pushed_at, record = excluded.record WHERE icons.uploaded = 0 \
             AND NOT (icons.family IN ('side_combination64', 'container_combination64', 'combination-72') \
                      AND EXISTS (SELECT 1 FROM revisions r WHERE r.svg_sha256 = icons.svg_sha256 AND r.origin = 'combination-build'))",
