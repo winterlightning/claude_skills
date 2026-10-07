@@ -37,10 +37,10 @@ pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_
 /// Store what the list reads of a record (`guard`: an extra condition on the row, e.g. NOT BUILT_IN_BROWSER).
 pub fn index_statement(db: &D1Database, key: &str, record: &Value, guard: Option<&str>) -> Result<D1PreparedStatement> {
     let i: IconIndex = index(record, None);
-    let sql = format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, stroke_count = ?, \
+    let sql = format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, style = ?, style_of = ?, stroke_count = ?, \
         segment_count = ?, created_ms = ?, modified_ms = ?, version_group = ?, version = ?, variant = ?, has_original = ?, \
         artwork_source = ? WHERE key = ?{}", guard.map(|g| format!(" AND {g}")).unwrap_or_default());
-    db::stmt(db, &sql, args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.stroke_count, i.segment_count,
+    db::stmt(db, &sql, args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.style, i.style_of, i.stroke_count, i.segment_count,
                              i.created_ms, i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, key])
 }
 
@@ -353,11 +353,11 @@ async fn rebuild_counts(ctx: &Ctx, stamp: Option<(&str, i64)>) -> Result<usize> 
     let (counts, facets) = icon_query::count_rows(&groups);
     let mut statements = vec![db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[0], vec![])?, db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[1], vec![])?];
     // D1 binds at most 100 values per statement.
-    for chunk in counts.chunks(16) {
-        let values = vec!["(?, ?, ?, ?, ?, ?)"; chunk.len()].join(", ");
+    for chunk in counts.chunks(14) {
+        let values = vec!["(?, ?, ?, ?, ?, ?, ?)"; chunk.len()].join(", ");
         let mut values_args = Vec::new();
-        for (family, side_role, state, category, failed, n) in chunk {
-            values_args.extend(args![family, side_role, state, category, *failed, *n]);
+        for (family, side_role, style, state, category, failed, n) in chunk {
+            values_args.extend(args![family, side_role, style, state, category, *failed, *n]);
         }
         statements.push(db::stmt(&ctx.db, &format!("{}{values}", icon_query::COUNTS_INSERT), values_args)?);
     }

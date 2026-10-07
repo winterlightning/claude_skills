@@ -6,11 +6,13 @@ use chrono::DateTime;
 use serde_json::{json, Map, Value};
 
 /// The record fields a review card shows (the full record is fetched when the icon is opened).
-const CARD_FIELDS: [&str; 26] = ["key", "icon_id", "name", "family", "category", "profile", "canvas_size", "canvas_width",
+const CARD_FIELDS: [&str; 28] = ["key", "icon_id", "name", "family", "category", "profile", "canvas_size", "canvas_width",
     "canvas_height", "sizing_mode", "keyshape", "keyshape_bounds", "preview_url", "svg_sha256", "uploaded_icon", "author",
     "build_failed", "errors", "status", "variant_of", "variant_root", "variant_label", "reference_fidelity", "side_role",
     // The feedback list's change briefs name the Python module and the type tag.
-    "python_source", "icon_type"];
+    "python_source", "icon_type",
+    // Style (normal / round / sharp) and, for round and sharp, the normal icon they were made from.
+    "icon_style", "style_of"];
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct IconIndex {
@@ -22,6 +24,9 @@ pub struct IconIndex {
     pub keyshape: Option<String>,
     pub author: Option<String>,
     pub side_role: Option<String>,
+    /// "normal" unless the record's `icon_style` says round or sharp (corner_processing), and the normal icon's key then.
+    pub style: String,
+    pub style_of: Option<String>,
     /// Strokes and segments of the generated model; None when the record has no model to count.
     pub stroke_count: Option<i64>,
     pub segment_count: Option<i64>,
@@ -144,6 +149,8 @@ pub fn index(record: &Value, facet: Option<&Value>) -> IconIndex {
         keyshape: text(record, "keyshape").map(str::to_string),
         author: text(record, "author").map(str::to_string),
         side_role: text(record, "side_role").map(str::to_string),
+        style: text(record, "icon_style").filter(|s| ["round", "sharp"].contains(s)).unwrap_or("normal").to_string(),
+        style_of: text(record, "style_of").map(str::to_string),
         stroke_count: stroke_count(record),
         segment_count: segment_count(record),
         created_ms: millis(record, "created_at"),
