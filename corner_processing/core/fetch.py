@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""core/fetch.py — the approved SOLO48 icons, fetched again from the review Worker.
+"""core/fetch.py — the approved icons of one family (solo 48 or icon-72), fetched again from the review Worker.
 
-Pages through /api/icons (family solo, status approve), downloads each icon's current SVG
+Pages through /api/icons (family solo or icon-72, status approve), downloads each icon's current SVG
 (the built drawing, or the edited / uploaded artwork the reviewers picked) and copies its Python
-model from the local claude_skills checkout when it is there. The set is downloaded into a temp
+model from the local claude_skills checkout when it is there (solo only: icon-72 icons are uploads). The set is downloaded into a temp
 folder first and only then replaces svg/ and model/, so a failed fetch leaves the old set alone.
 
-  python3 -m core.fetch                       # -> ../solo-20261001/{svg,model,icons.csv,...}
+  python3 -m core.fetch                       # -> input/solo48/{svg,model,icons.csv,...}
+  python3 -m core.fetch --family icon-72      # -> input/icon72/
   python3 -m core.fetch --api https://pictographic-review.pictographic.workers.dev
 
 icons.csv columns: key, icon_id, approved_by, file, model, svg_matches_model, keyshape,
@@ -35,7 +36,7 @@ from svgpathtools.path import transform as transform_path
 from .svg_io import DEFAULT_INPUT, element_to_path, localname
 
 API = "https://pictographic-review-next.pictographic.workers.dev"
-from .paths import FIXES_DIR, SET_DIR, SKILLS
+from .paths import FIXES_DIR, INPUT_DIR, SETS, SKILLS
 PAGE = 192             # the Worker's largest page size
 
 
@@ -50,10 +51,10 @@ def get(url, tries=4):
                 raise
 
 
-def approved(api):
+def approved(api, family="solo"):
     items, offset = [], 0
     while True:
-        q = urllib.parse.urlencode({"family": "solo", "status": "approve", "limit": PAGE,
+        q = urllib.parse.urlencode({"family": family, "status": "approve", "limit": PAGE,
                                     "offset": offset, "sort": "name"})
         d = json.loads(get(f"{api}/api/icons?{q}"))
         items += d["items"]
@@ -157,15 +158,17 @@ def reapply_source_fixes(svg_dir, fixes=FIXES):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(description="Fetch the approved SOLO48 icons from the review Worker.")
+    ap = argparse.ArgumentParser(description="Fetch the approved icons of one family from the review Worker.")
     ap.add_argument("--api", default=API)
-    ap.add_argument("--dest", default=SET_DIR,
-                    help="set folder holding svg/ and model/ (default: %(default)s)")
+    ap.add_argument("--family", choices=sorted(SETS), default="solo")
+    ap.add_argument("--dest", help="set folder holding svg/ and model/ (default: input/solo48 or input/icon72)")
     ap.add_argument("--skills", default=SKILLS)
     ap.add_argument("--jobs", type=int, default=16)
     cfg = ap.parse_args(argv)
+    cfg.dest = cfg.dest or os.path.join(INPUT_DIR, SETS[cfg.family])
+    os.makedirs(cfg.dest, exist_ok=True)
 
-    items = approved(cfg.api)
+    items = approved(cfg.api, cfg.family)
     tmp = tempfile.mkdtemp(prefix="approved-", dir=cfg.dest)
     os.makedirs(os.path.join(tmp, "svg")), os.makedirs(os.path.join(tmp, "model"))
 
@@ -181,7 +184,7 @@ def main(argv=None):
             return item, name, None, f"{type(e).__name__}: {e}"[:200]
         model = None
         src = (item.get("python_source") or {}).get("path")
-        if src and os.path.exists(os.path.join(cfg.skills, src)):
+        if cfg.family == "solo" and src and os.path.exists(os.path.join(cfg.skills, src)):
             model = "model/" + os.path.basename(src)
             shutil.copyfile(os.path.join(cfg.skills, src), os.path.join(tmp, model))
         return item, name, model, None
@@ -197,7 +200,7 @@ def main(argv=None):
                 src = (item.get("python_source") or {}).get("path")
                 no_model.append(f"{item['key']}\t" + ("model not in local claude_skills: " + src if src
                                                       else "uploaded SVG, no Python model"))
-            rows.append({"key": item["key"], "icon_id": item["icon_id"],
+            rows.append({"key": item["key"], "icon_id": item["icon_id"], "svg_sha256": item.get("svg_sha256") or "",
                          "approved_by": (item.get("review") or {}).get("by") or "",
                          "file": f"svg/{name}.svg", "model": model or "",
                          "svg_matches_model": "yes" if model and not item.get("artwork_source") else "no",

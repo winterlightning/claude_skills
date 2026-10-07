@@ -11,12 +11,18 @@ python3 sharp_corner_processing.py       # every icon -> outputs/sharp/*.svg
 python3 sharp_corner_processing.py --files add-tab.svg     # chosen icons
 python3 sharp_corner_processing.py --sample 100            # random sample
 python3 sharp_corner_processing.py --help                  # all options
-python3 -m core.fetch                    # fetch the approved icon set again first
+python3 -m core.fetch                    # fetch the approved solo icons again first -> input/solo48/
+python3 -m core.publish --user jakes     # store the outputs as round / sharp icon records (review site)
 ```
 
-Input: `../solo-20261001/svg/` (change with `--input`). Output: `outputs/` — the SVGs,
+Input: `input/solo48/svg/` (change with `--input`). Output: `outputs/` (whole-set runs use
+`--out outputs/solo48`) — the SVGs,
 `corners48.json` (detection), `toggle.json` (what was done per corner + the check),
-`keyshapes.json`. Paths are set in `core/paths.py`.
+`keyshapes.json`. Paths are set in `core/paths.py`. `input/` and `outputs/` are git-ignored.
+
+**On the review site** each output is its own icon, `<key>--round` / `<key>--sharp`, with **Style** round or sharp
+beside its family (the gallery's Style filter; every other icon is Normal). It starts Ready; an icon whose check
+failed is in the Failed tab. `core/publish.py` sends only drawings that changed.
 
 ## Rules (current defaults)
 
@@ -46,5 +52,6 @@ contact / fail).
 | `keyshape_fit.py` | keyshape geometry the sharp output slices against |
 | `pipeline.py` | the steps the two entry scripts run |
 | `fetch.py` | re-download the approved icons from the review Worker (re-applies `input_fixes/`) |
+| `publish.py` | store the round / sharp outputs as icon records (Worker `POST /api/icons/styled`) |
 | `locks.py` | review locks (`locks.json`, optional: `--ready` / `--reviewed`) |
 | `svg_io.py`, `progress.py`, `paths.py` | SVG reading, progress lines, folders |
