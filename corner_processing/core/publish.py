@@ -19,6 +19,7 @@ import http.cookiejar
 import json
 import os
 import sys
+import time
 import urllib.request
 
 from .fetch import API
@@ -32,7 +33,18 @@ class Client:
         self.api, self.token = api.rstrip("/"), token
         self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 
-    def post(self, path, body):
+    def post(self, path, body, tries=4):
+        """POST with retries: a timed-out batch may still have been stored, and sending it again is safe (an
+        unchanged drawing is skipped)."""
+        for k in range(tries):
+            try:
+                return self._post(path, body)
+            except (TimeoutError, urllib.error.URLError) as e:
+                if k == tries - 1:
+                    raise SystemExit(f"{path}: {type(e).__name__}: {e} (after {tries} tries)")
+                time.sleep(5 * (k + 1))
+
+    def _post(self, path, body):
         headers = {"Content-Type": "application/json", "User-Agent": "corner48-publish/1.0"}  # Cloudflare 403s urllib's UA
         if self.token:
             headers["Authorization"] = "Bearer " + self.token
@@ -41,6 +53,8 @@ class Client:
             with self.opener.open(req, timeout=120) as r:
                 return json.loads(r.read())
         except urllib.error.HTTPError as e:
+            if e.code >= 500:
+                raise urllib.error.URLError(f"HTTP {e.code}")
             raise SystemExit(f"{path}: HTTP {e.code} {e.read().decode(errors='replace')[:300]}")
 
 

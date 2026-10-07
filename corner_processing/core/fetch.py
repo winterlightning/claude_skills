@@ -52,6 +52,19 @@ def get(url, tries=4):
 
 
 def approved(api, family="solo"):
+    """Every approved icon of the family, once. Reviews change while the list is paged (an icon approved or
+    disapproved meanwhile shifts the pages: one page repeats an icon, the next skips one), so the list is read
+    again until it holds as many icons as the Worker says there are (at most three passes)."""
+    found, total = {}, None
+    for _ in range(3):
+        items, total = _approved_pass(api, family)
+        found.update((item["key"], item) for item in items)
+        if len(found) >= total:
+            break
+    return list(found.values())
+
+
+def _approved_pass(api, family):
     items, offset = [], 0
     while True:
         q = urllib.parse.urlencode({"family": family, "status": "approve", "limit": PAGE,
@@ -62,7 +75,7 @@ def approved(api, family="solo"):
         print(f"  listed {len(items)}/{d['total']}", end="\r", flush=True)
         if offset >= d["total"] or not d["items"]:
             print()
-            return items
+            return items, d["total"]
 
 
 def svg_url(api, item):
