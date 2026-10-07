@@ -124,15 +124,19 @@ fn uncategorized(column: &str) -> String {
 struct Parts { category: bool, section: bool }
 
 /// A search phrase: through the trigram index (icon_search) when it has three characters or more, so only matching
-/// icons are read; shorter ones are looked for in each icon's text.
+/// icons are read; shorter ones are looked for in each icon's text. A side combination is also found by its pair's
+/// concept (what Progression › Side shows), which most of them do not carry as their name.
 fn search(column_key: &str, column_text: &str, phrase: &str, w: &mut Vec<String>, args: &mut Args) {
+    let by_concept = format!("{column_key} IN (SELECT 'side_combination64/' || r.reference_id FROM \"references\" r \
+        WHERE r.kind = 'combination' AND instr(lower(r.concept), lower(?)) > 0)");
     if phrase.chars().count() >= 3 {
-        w.push(format!("{column_key} IN (SELECT key FROM icon_search WHERE icon_search MATCH ?)"));
+        w.push(format!("({column_key} IN (SELECT key FROM icon_search WHERE icon_search MATCH ?) OR {by_concept})"));
         args.push(json!(format!("\"{}\"", phrase.replace('"', "\"\""))));
     } else {
-        w.push(format!("instr({column_text}, ?) > 0"));
+        w.push(format!("(instr({column_text}, ?) > 0 OR {by_concept})"));
         args.push(json!(phrase));
     }
+    args.push(json!(phrase));
 }
 
 /// The page's filters on the icons table (alias `u`), every one on a stored column (migration 0015).

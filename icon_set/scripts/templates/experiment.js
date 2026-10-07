@@ -11,7 +11,7 @@
   // The typeface tab keeps two collections; v2 is the natural-width uppercase set.
   const collection=()=>type==='typeface'&&typefaceVersion==='v2'?'typeface-v2':type;
   const containerData=document.getElementById('containerExperimentData');
-  if(containerData){try{cache.set('container',JSON.parse(containerData.textContent).icons);}catch{}}
+  // The container tab is read live from production (liveContainers), not from the data embedded in the page.
   const imageURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
   function writeURL(){const p=new URLSearchParams({type});if(type==='typeface'&&typefaceVersion==='v2')p.set('version','v2');if($('experimentSearch').value)p.set('q',$('experimentSearch').value);if(page>1)p.set('page',page);history.replaceState(null,'','experiment.html?'+p);}
   function render(){
@@ -26,21 +26,41 @@
       const art=document.createElement('div');art.className='experiment-art';
       const comparisons=type==='typeface'
         ? [[icon.original,'Original',icon.original_preview],[icon.outline,'Iconized',icon.outline_preview],[icon.result,'Centerline',null]]
-        : type==='container'?[[icon.outline,'Container',null],[icon.content,'Content',null],[icon.result,'Combination',null]]
+        : type==='container'?[[icon.outline,'Container',icon.outline_url],[icon.content,'Content',icon.content_url],[icon.result,'Combination',icon.result_url]]
         : [[icon.outline,'Original',null],[icon.result,type==='color'?'Color':type==='duotone'?'Duotone':type==='animation'?'Animated':'Fill',null]];
       art.classList.toggle('typeface-comparison',type==='typeface'||type==='container');
       for(const [svg,label,preview] of comparisons){
         const figure=document.createElement('figure'),box=document.createElement('div'),caption=document.createElement('figcaption');box.className='icon-image';
         if(svg){const img=document.createElement('img');img.src=preview||imageURL(svg);img.alt=icon.name.replaceAll('-',' ')+' — '+label;img.loading='lazy';box.append(img);}
-        else{const empty=document.createElement('span');empty.className='missing-original';empty.textContent='No supplied original';box.append(empty);}
+        else{const empty=document.createElement('span');empty.className='missing-original';empty.textContent=type==='container'?'Typeface text':'No supplied original';box.append(empty);}
         caption.textContent=label;figure.append(box,caption);art.append(figure);
       }
       card.append(art);
       if(type==='container'||type==='animation'){const note=document.createElement('p');note.className='pair-note';note.textContent=type==='animation'?icon.motion:icon.status_label;card.append(note);}
-      const foot=document.createElement('footer'),detail=document.createElement('span'),download=document.createElement('a');detail.textContent=icon.canvas_size+' px'+(type==='fill'&&!icon.fill_applicable?' · Kept as strokes':'')+(type==='animation'?' · '+icon.source:'');download.textContent=type==='typeface'?'Download centerline':'Download SVG';download.href=imageURL(icon.result);download.download=icon.name+'-'+type+'.svg';foot.append(detail,download);card.append(foot);grid.append(card);
+      const foot=document.createElement('footer'),detail=document.createElement('span'),download=document.createElement('a');detail.textContent=icon.canvas_size+' px'+(type==='fill'&&!icon.fill_applicable?' · Kept as strokes':'')+(type==='animation'?' · '+icon.source:'');download.textContent=type==='typeface'?'Download centerline':'Download SVG';download.href=icon.result_url||imageURL(icon.result);download.download=icon.name+'-'+type+'.svg';foot.append(detail,download);card.append(foot);grid.append(card);
     }
     $('experimentStatus').textContent=filtered.length?`${start+1}–${start+visible.length} of ${filtered.length} ${type} samples`:'0 samples';$('experimentEmpty').hidden=filtered.length>0;
     const select=$('samplePage');select.replaceChildren();for(let n=1;n<=pages;n++){const o=document.createElement('option');o.value=n;o.textContent=n;select.append(o);}select.value=page;$('pageTotal').textContent='of '+pages;$('previousSamples').disabled=page<=1;$('nextSamples').disabled=page>=pages;writeURL();
+  }
+  // Live from production: the container combinations approved in Icon review, each with its container and symbol.
+  async function liveContainers(){
+    const api=async path=>{const r=await fetch(path,{cache:'no-store'});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'Could not load');return d;};
+    const approvedPage=o=>'/api/icons?'+new URLSearchParams({family:'container_combination64',status:'approve',limit:'192',offset:String(o)});
+    const pairPage=o=>'/api/combinations?'+new URLSearchParams({kind:'container',size:'64',limit:'500',offset:String(o)});
+    const [firstApproved,firstPairs]=await Promise.all([api(approvedPage(0)),api(pairPage(0))]);
+    const approvedPages=[firstApproved],pairPages=[firstPairs],more=[],rest=[];
+    for(let o=192;o<firstApproved.total;o+=192)more.push(api(approvedPage(o)));
+    for(let o=500;o<firstPairs.total;o+=500)rest.push(api(pairPage(o)));
+    approvedPages.push(...await Promise.all(more));pairPages.push(...await Promise.all(rest));
+    const approved=new Set(approvedPages.flatMap(p=>p.items.map(i=>i.key)));
+    const url=(key,sha)=>'/api/icon-artwork/svg?'+new URLSearchParams({icon:key,...(sha?{v:sha.slice(0,12)}:{})});
+    const name=key=>key?key.split('/').pop():'none';
+    return pairPages.flatMap(p=>p.items).filter(i=>i.icon&&approved.has(i.icon.key)).sort((a,b)=>a.concept.localeCompare(b.concept)).map((i,n)=>{
+      const c=i.parts.find(p=>p.role==='container')||{},s=i.parts.find(p=>p.role==='symbol')||{};
+      return {number:n+1,name:i.concept,canvas_size:64,outline:!!c.icon,content:!!s.icon,result:true,
+              outline_url:c.icon?url(c.icon,c.current_sha):null,content_url:s.icon?url(s.icon,s.current_sha):null,result_url:i.icon.preview_url,
+              status_label:'Approved · '+name(c.icon)+' + '+name(s.icon)};
+    });
   }
   async function selectType(next,{restore=false}={}){
     const token=++request;type=next;rows=[];
@@ -72,6 +92,7 @@
     else if(type==='color'&&['localhost','127.0.0.1'].includes(location.hostname)){review.href=`http://${location.hostname}:8010/`;review.hidden=false;}
     try{
       const key=collection();
+      if(!cache.has(key)&&key==='container')cache.set(key,await liveContainers());
       if(!cache.has(key)){const response=await fetch('experiment-'+key+'.json');if(!response.ok)throw Error();const data=await response.json();if(!Array.isArray(data.icons))throw Error();cache.set(key,data.icons);}
       if(token!==request)return;rows=cache.get(key);$(type+'Count').textContent=rows.length;render();
     }catch{if(token!==request)return;rows=[];$('experimentStatus').textContent='This collection could not be loaded. Select its tab to try again.';}
@@ -84,6 +105,7 @@
   $('previousSamples').onclick=()=>go(page-1);$('nextSamples').onclick=()=>go(page+1);$('samplePage').onchange=()=>go(Number($('samplePage').value));
   function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';typefaceVersion=p.get('version')==='v2'?'v2':'v1';$('typefaceVersion').value=typefaceVersion;selectType(['fill','duotone','typeface','combination','container','animation'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
   window.addEventListener('popstate',restore);restore();
-  if(cache.has('container'))$('containerCount').textContent=cache.get('container').length;
-  fetch('experiments.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation','combination']){const key=kind==='typeface'&&typefaceVersion==='v2'?'typeface-v2':kind;if(key in data&&!(kind==='combination'&&$(kind+'Count').textContent))$(kind+'Count').textContent=data[key];}}).catch(()=>{});
+  // The approved container and side combinations, counted live (their tabs list them from Icon review).
+  for(const [kind,family] of [['container','container_combination64'],['combination','side_combination64']])fetch('/api/icons?family='+family+'&status=approve&limit=24',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{if(d&&!$(kind+'Count').textContent)$(kind+'Count').textContent=d.total;}).catch(()=>{});
+  fetch('experiments.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','animation']){const key=kind==='typeface'&&typefaceVersion==='v2'?'typeface-v2':kind;if(key in data&&!(kind==='combination'&&$(kind+'Count').textContent))$(kind+'Count').textContent=data[key];}}).catch(()=>{});
 })();
