@@ -156,6 +156,18 @@ class Icon:
                                {"id": "keyshape-cut"})
             ET.SubElement(cp, f"{{{SVG_NS}}}path", {"d": self.clip, "clip-rule": "evenodd"})
             out = ET.SubElement(out, f"{{{SVG_NS}}}g", {"clip-path": "url(#keyshape-cut)"})
+        for el in self.filled:                     # filled shapes (dots, arrowheads, a white backdrop), under the strokes as drawn:
+            name, attrs = localname(el.tag), dict(el.attrib)   # copied as drawn, a round dot a
+            if (style or {}).get("stroke-linecap") == "butt" and name in ("circle", "ellipse"):  # square in sharp
+                rx = float(el.get("rx") or el.get("r") or 0)
+                ry = float(el.get("ry") or el.get("r") or 0)
+                cx, cy = float(el.get("cx") or 0), float(el.get("cy") or 0)
+                attrs = {a: v for a, v in attrs.items() if a not in ("cx", "cy", "r", "rx", "ry")}
+                attrs.update(x=_n(cx - rx), y=_n(cy - ry), width=_n(2 * rx), height=_n(2 * ry))
+                name = "rect"
+            if "stroke" not in attrs and "stroke:" not in attrs.get("style", ""):
+                attrs["stroke"] = "none"           # the output's root strokes every child
+            ET.SubElement(out, f"{{{SVG_NS}}}{name}", attrs)
         for el, strokes, keep_raw in self.items:
             if id(el) in self.dot_at:              # a tiny loop drawn as a square dot
                 c = self.dot_at[id(el)]
@@ -179,16 +191,6 @@ class Icon:
             attrs["d"] = d
             attrs.update(self.el_attrs.get(id(el), {}))
             ET.SubElement(out, f"{{{SVG_NS}}}path", attrs)
-        for el in self.filled:                     # filled shapes (dots, arrowheads) are not centerlines:
-            name, attrs = localname(el.tag), dict(el.attrib)   # copied as drawn, a round dot a
-            if (style or {}).get("stroke-linecap") == "butt" and name in ("circle", "ellipse"):  # square in sharp
-                rx = float(el.get("rx") or el.get("r") or 0)
-                ry = float(el.get("ry") or el.get("r") or 0)
-                cx, cy = float(el.get("cx") or 0), float(el.get("cy") or 0)
-                attrs = {a: v for a, v in attrs.items() if a not in ("cx", "cy", "r", "rx", "ry")}
-                attrs.update(x=_n(cx - rx), y=_n(cy - ry), width=_n(2 * rx), height=_n(2 * ry))
-                name = "rect"
-            ET.SubElement(out, f"{{{SVG_NS}}}{name}", attrs)
         for i, s in enumerate(self.extra):
             ET.SubElement(out, f"{{{SVG_NS}}}path", {"id": f"corner-fillet-{i}", "d": stroke_d(s),
                                                      **self.el_attrs.get(("extra", i), {})})
