@@ -5400,11 +5400,16 @@ createHTML: (html) => {
 		if (!b) return [0, 0];
 		return [b[2] - b[0] + 4, b[3] - b[1] + 4];
 	}
+	var EXCEPTION_SIZES = [
+		"side-source-fit",
+		"side-32x48",
+		"side-one-axis32"
+	];
 	function subProblems(s, item, flagged = () => false) {
 		const problems = [], [w, h] = ink(item, true);
 		if (item.model_validation && item.model_validation !== "pass") problems.push("Model validation: " + item.model_validation);
-		if (["needs_redraw", "needs_review"].includes(item.sub32_status)) problems.push(item.sub32_reason || "Needs a SUB32 redraw");
-		if (!item.native_text && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
+		if (!item.stale_form && ["needs_redraw", "needs_review"].includes(item.sub32_status)) problems.push(item.sub32_reason || "Needs a SUB32 redraw");
+		if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
 		if (flagged(item)) problems.push("Disapproved — needs fix");
 		return problems;
 	}
@@ -6752,6 +6757,7 @@ createHTML: (html) => {
 				const done = await window.SideData.buildPairs([get(view).pair.id]), result = done.results[0];
 				if (done.skipped.length) throw Error(done.skipped[0].error);
 				if (!result.ok) throw Error(result.error);
+				set(message, window.SideData.outcome(result), true);
 				await $$props.store.refresh(get(view).pair.id);
 			} catch (error) {
 				set(message, error.message, true);
@@ -8078,7 +8084,8 @@ createHTML: (html) => {
 					result: {
 						...composed.result,
 						svg: composed.svg
-					}
+					},
+					built
 				};
 				ctx.onSaved?.(data);
 				return data;
@@ -8098,9 +8105,10 @@ createHTML: (html) => {
 				this.ctx.saved = data.layout.layout;
 				this.ctx.stale = false;
 				this.ctx.result = data.result;
+				const note = window.SideData.outcome(data.built);
 				this.readout = {
-					text: "Layout saved.",
-					bad: false
+					text: note || "Layout saved.",
+					bad: !!note
 				};
 			} catch (e) {
 				this.error = e.message;
@@ -9877,13 +9885,13 @@ createHTML: (html) => {
 						message: `${label} ${n.toLocaleString()} / ${total.toLocaleString()}…`
 					};
 				});
-				const failed = results.filter((r) => !r.ok);
+				const failed = results.filter((r) => !r.ok), unchanged = results.filter((r) => r.unchanged).length, waiting = results.filter((r) => r.ok && !r.unchanged && r.build_failed).length;
 				this.combine = {
 					status: "idle",
 					message: ""
 				};
 				const done = results.filter((r) => r.ok).length.toLocaleString();
-				this.status = (label === "Rebuilding" ? `Rebuilt ${done} stale side pairs.` : `Built ${done} side pairs.`) + (failed.length ? ` ${failed.length} refused (${failed[0].reference_id}: ${failed[0].error}).` : "") + (skipped.length ? ` ${skipped.length} could not be drawn (${skipped[0].reference_id}: ${skipped[0].error}).` : "");
+				this.status = (label === "Rebuilding" ? `Rebuilt ${done} stale side pairs.` : `Built ${done} side pairs.`) + (failed.length ? ` ${failed.length} refused (${failed[0].reference_id}: ${failed[0].error}).` : "") + (skipped.length ? ` ${skipped.length} could not be drawn (${skipped[0].reference_id}: ${skipped[0].error}).` : "") + (unchanged ? ` ${unchanged.toLocaleString()} came out the same as before (their Icon review status stays).` : "") + (waiting ? ` ${waiting.toLocaleString()} wait under Failed in Icon review until their main or sub is approved.` : "");
 				this.ready = false;
 				this.rendered.clear();
 				await this.load();

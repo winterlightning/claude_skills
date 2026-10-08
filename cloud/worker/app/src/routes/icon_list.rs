@@ -37,10 +37,10 @@ pub const BUILT_IN_BROWSER: &str = "family IN ('side_combination64', 'container_
 /// Store what the list reads of a record (`guard`: an extra condition on the row, e.g. NOT BUILT_IN_BROWSER).
 pub fn index_statement(db: &D1Database, key: &str, record: &Value, guard: Option<&str>) -> Result<D1PreparedStatement> {
     let i: IconIndex = index(record, None);
-    let sql = format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, stroke_count = ?, \
+    let sql = format!("UPDATE icons SET card = ?, search = ?, sort_name = ?, keyshape = ?, author = ?, side_role = ?, style = ?, style_of = ?, stroke_count = ?, \
         segment_count = ?, created_ms = ?, modified_ms = ?, version_group = ?, version = ?, variant = ?, has_original = ?, \
         artwork_source = ? WHERE key = ?{}", guard.map(|g| format!(" AND {g}")).unwrap_or_default());
-    db::stmt(db, &sql, args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.stroke_count, i.segment_count,
+    db::stmt(db, &sql, args![i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.style, i.style_of, i.stroke_count, i.segment_count,
                              i.created_ms, i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, key])
 }
 
@@ -248,6 +248,36 @@ pub fn recalc(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
     Ok(statements)
 }
 
+/// After a part's review changed (approved, disapproved, rejected): the combined icons built from it say again
+/// whether their build failed (core `combined_parts`), so a pair whose main and sub were approved after it was
+/// built leaves "failed" for its own review, and one whose part was disapproved goes back. Returns how many changed.
+pub async fn recheck_combined(db: &D1Database, part: &str) -> Result<usize> {
+    use pictographic_core::combined_parts;
+    #[derive(Deserialize)]
+    struct Key { key: String }
+    let using: Vec<Key> = db::all(db, combined_parts::USING_PART, args![part]).await?;
+    if using.is_empty() {
+        return Ok(0);
+    }
+    let keys = json!(using.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
+    let changed: Vec<Key> = db::all(db, combined_parts::CHANGED, args![keys]).await?;
+    // Each batch of keys: out of the counts, stored, state again, back in the counts, as one statement each
+    // (icon_query UNCOUNT_KEYS ... RECOUNT_KEYS), however many combined icons a much-used part has.
+    for chunk in changed.chunks(100) {
+        let list = json!(chunk.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
+        let mut statements = Vec::new();
+        for sql in icon_query::UNCOUNT_KEYS.iter().chain(combined_parts::UPDATE.iter()) {
+            statements.push(db::stmt(db, sql, args![list.clone()])?);
+        }
+        statements.push(db::stmt(db, icon_query::REFRESH_KEYS, args![list.clone()])?);
+        for sql in icon_query::RECOUNT_KEYS {
+            statements.push(db::stmt(db, sql, args![list.clone()])?);
+        }
+        db::batch(db, statements).await?;
+    }
+    Ok(changed.len())
+}
+
 /// Before a write that deletes the icon's row: the icon out of its count rows and its search row gone.
 pub fn remove(db: &D1Database, key: &str) -> Result<Vec<D1PreparedStatement>> {
     let mut statements = uncount(db, key)?;
@@ -353,11 +383,11 @@ async fn rebuild_counts(ctx: &Ctx, stamp: Option<(&str, i64)>) -> Result<usize> 
     let (counts, facets) = icon_query::count_rows(&groups);
     let mut statements = vec![db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[0], vec![])?, db::stmt(&ctx.db, icon_query::COUNTS_CLEAR[1], vec![])?];
     // D1 binds at most 100 values per statement.
-    for chunk in counts.chunks(16) {
-        let values = vec!["(?, ?, ?, ?, ?, ?)"; chunk.len()].join(", ");
+    for chunk in counts.chunks(14) {
+        let values = vec!["(?, ?, ?, ?, ?, ?, ?)"; chunk.len()].join(", ");
         let mut values_args = Vec::new();
-        for (family, side_role, state, category, failed, n) in chunk {
-            values_args.extend(args![family, side_role, state, category, *failed, *n]);
+        for (family, side_role, style, state, category, failed, n) in chunk {
+            values_args.extend(args![family, side_role, style, state, category, *failed, *n]);
         }
         statements.push(db::stmt(&ctx.db, &format!("{}{values}", icon_query::COUNTS_INSERT), values_args)?);
     }

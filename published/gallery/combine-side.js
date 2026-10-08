@@ -1105,18 +1105,24 @@
   function restoreOriginalSub(target, item, placed) {
     const index = target.children.findIndex(e => e.attrib.id === 'state-icon');
     target.children.splice(index, 1);
-    const source = parseXml(item.document);
+    // A redrawn sub was snapped to SUB32 for the clearance; publish the drawing itself, placed by the normalizer's fit
+    // (side_recombine._normalized_sub), with every stroke at 4 once placed.
+    const display = item.display_document && item.display_fit ? item.display_fit : null;
+    const source = parseXml(display ? item.display_document : item.document);
     const [x0, y0, x1, y1] = item.bounds, box = placed.painted_box;
     const scale = x1 !== x0 ? (box.w - 4) / (x1 - x0) : (box.h - 4) / (y1 - y0);
     const tx = box.x + 2 - x0 * scale, ty = box.y + 2 - y0 * scale;
+    const drawn = display ? 4 / (scale * display[0]) : null;   // stroke width in the drawing's own units
     const attrs = {};
     for (const [k, v] of Object.entries(source.attrib)) if (!['width', 'height', 'viewBox', 'id', 'transform'].includes(k)) attrs[k] = v;
-    if (!('stroke-width' in attrs)) attrs['stroke-width'] = '4';
+    if (display) attrs['stroke-width'] = pyStr(drawn);
+    else if (!('stroke-width' in attrs)) attrs['stroke-width'] = '4';
     delete attrs.id; attrs.id = 'state-icon';
     delete attrs.transform; attrs.transform = `translate(${pyG12(tx)} ${pyG12(ty)}) scale(${pyG12(scale)})`;
     const group = element(`{${SVG}}g`, attrs);
     let content = group;
-    if (source.attrib.transform) { content = element(`{${SVG}}g`, {transform: source.attrib.transform}); group.children.push(content); }
+    if (display) { content = element(`{${SVG}}g`, {transform: `translate(${pyG12(display[1])} ${pyG12(display[2])}) scale(${pyG12(display[0])})`}); group.children.push(content); }
+    if (source.attrib.transform) { const inner = element(`{${SVG}}g`, {transform: source.attrib.transform}); content.children.push(inner); content = inner; }
     for (const child of source.children) if (!['title', 'desc'].includes(local(child.tag))) content.children.push(deepcopy(child));
     const ids = new Map();
     for (const el of iter(group)) if (el !== group && el.attrib.id) ids.set(el.attrib.id, 'sub-source-' + el.attrib.id);
@@ -1131,7 +1137,8 @@
         el.attrib[key] = value;
       }
       delete el.attrib['vector-effect'];
-      if ('stroke-width' in el.attrib) el.attrib['stroke-width'] = pyStr(parseFloat(el.attrib['stroke-width']) / scale);
+      if (el !== group && 'stroke-width' in el.attrib) el.attrib['stroke-width'] = display ? pyStr(drawn) : pyStr(parseFloat(el.attrib['stroke-width']) / scale);
+      else if (el === group && !display && 'stroke-width' in el.attrib) el.attrib['stroke-width'] = pyStr(parseFloat(el.attrib['stroke-width']) / scale);
     }
     target.children.splice(index, 0, group);
     return tostring(target);
@@ -1330,6 +1337,10 @@
     // A redrawn sub is a plain SUB32 now: the old drawing's 1:1 exception size no longer applies.
     if (EXCEPTION_SIZES.includes(item.sizing_mode)) { delete item.sizing_mode; delete item.canvas_width; delete item.canvas_height; }
     Object.assign(item, {document, bounds, ink32: ink, canvas: Math.max(32, extent * 32 / 28), sha256: sha256(document), source_sha256: sha256(svg)});
+    // The sub is never erased, so the snapped copy only shapes the clearance: publish the drawing itself
+    // (restoreOriginalSub), placed by the normalizer's fit. Not for a dots-only label (its stroke is not 4).
+    delete item.display_document; delete item.display_fit;
+    if (ink.stroke === 4 && ink.fit) Object.assign(item, {display_document: svg, display_fit: ink.fit});
   }
 
   // ======== render (combination_experiment.render) ========

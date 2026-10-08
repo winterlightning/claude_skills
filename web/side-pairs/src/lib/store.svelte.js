@@ -124,12 +124,15 @@ export class SideStore {
     this.combine = {status: 'running', message: `${label} 0 / ${ids.length}…`};
     try {
       const {results, skipped} = await data().buildPairs(ids, (n, total) => { this.combine = {status: 'running', message: `${label} ${n.toLocaleString()} / ${total.toLocaleString()}…`}; });
-      const failed = results.filter(r => !r.ok);
+      const failed = results.filter(r => !r.ok), unchanged = results.filter(r => r.unchanged).length,
+            waiting = results.filter(r => r.ok && !r.unchanged && r.build_failed).length;
       this.combine = {status: 'idle', message: ''};
       const done = results.filter(r => r.ok).length.toLocaleString();
       this.status = (label === 'Rebuilding' ? `Rebuilt ${done} stale side pairs.` : `Built ${done} side pairs.`)
         + (failed.length ? ` ${failed.length} refused (${failed[0].reference_id}: ${failed[0].error}).` : '')
-        + (skipped.length ? ` ${skipped.length} could not be drawn (${skipped[0].reference_id}: ${skipped[0].error}).` : '');
+        + (skipped.length ? ` ${skipped.length} could not be drawn (${skipped[0].reference_id}: ${skipped[0].error}).` : '')
+        + (unchanged ? ` ${unchanged.toLocaleString()} came out the same as before (their Icon review status stays).` : '')
+        + (waiting ? ` ${waiting.toLocaleString()} wait under Failed in Icon review until their main or sub is approved.` : '');
       this.ready = false;this.rendered.clear();
       await this.load();
     } catch (error) { this.combine = {status: 'error', message: error.message}; }

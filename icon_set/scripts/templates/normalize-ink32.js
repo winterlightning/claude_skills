@@ -640,7 +640,10 @@
     const out = `<svg xmlns="${SVG}" width="${W}" height="32" viewBox="0 0 ${W} 32" fill="none" stroke="currentColor" stroke-width="${stroke}" `
       + `stroke-linecap="round" stroke-linejoin="round">` + fitted.map((p, i) => `<path id="part-${i + 1}" d="${pathD(p)}" />`).join('') + '</svg>';
     return [out, {ink_bounds: ink, ink_width: r - l + stroke, ink_height: b - t + stroke, geometry_scale: scale, stroke, canvas: 32,
-                  canvas_width: width, bounds: [l, t, r, b], grid: 1}];
+                  canvas_width: width, bounds: [l, t, r, b], grid: 1,
+                  // The original drawing onto this grid before snapping (x' = x * scale + dx): the combine engine draws
+                  // the original sub with it, so snapping shapes only the clearance, never the published curves.
+                  fit: [scale, dx, dy]}];
   }
 
   return {normalize, NormalizeError, internals: {parsePath, bbox, roots, eig2, documentPaths, pathD, snap, crop}};

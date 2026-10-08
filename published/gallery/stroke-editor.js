@@ -406,12 +406,12 @@
       if (!response.ok) throw Error(data.error || 'Could not load saved edits.');
       if (token!==request) return;
       if (data.svg_sha256 !== icon.svg_sha256) throw Error('The icon changed on this server. Refresh the gallery before editing.');
-      saved=data.edit;deletedStrokes=clone(saved?.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(saved?.geometry || null);savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
+      saved=data.edit;deletedStrokes=clone(saved?.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(aligned(saved?.geometry || null));savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
       offsets=clone(saved?.offsets || {}); scales=clone(saved?.scales || {});savedOffsets=clone(offsets);savedScales=clone(scales);keyshape=saved?.keyshape || icon.keyshape || '';savedKeyshape=keyshape; undo=[]; redo=[];
       let draft=null;
       try { if (discard) localStorage.removeItem(draftKey()); else draft=JSON.parse(localStorage.getItem(draftKey()) || 'null'); } catch {}
       if (draft && Number.isInteger(draft.revision) && draft.offsets && Object.entries(draft.offsets).every(([id,offset]) => strokes.some(g=>g.id===id) && Array.isArray(offset) && offset.length===2 && offset.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=1024))) {
-        if(validScales(draft.scales || {}) && validGeometry(draft.geometry ?? null) && validDeleted(draft.deleted_strokes || [])){deletedStrokes=clone(draft.deleted_strokes || []);geometry=clone(draft.geometry ?? null);offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
+        if(validScales(draft.scales || {}) && validGeometry(aligned(draft.geometry ?? null)) && validDeleted(draft.deleted_strokes || [])){deletedStrokes=clone(draft.deleted_strokes || []);geometry=clone(aligned(draft.geometry ?? null));offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
       }
       validation=!geometryDirty() && saved?.validation?.status!=='not-run'?saved?.validation:null;renderValidation();
       ready=true; draw();
@@ -474,7 +474,7 @@
       const data=await response.json();
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
-      saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(aligned(data.geometry || null));savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
       if(onUpload())uploadEditRevision=data.revision;
       window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
@@ -493,10 +493,12 @@
     const edited=displayGraph(),size=icon.canvas_size;
     const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
     const paths=visibleStrokes().map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="${icon.style?.line_cap || 'round'}" stroke-linejoin="${icon.style?.line_join || 'round'}">\n${paths}\n</svg>\n`;
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
+  // Geometry saved before the graph read an upload's filled shapes (`<group>.fill-N`) takes the base's copy of them.
+  function aligned(value){if(!Array.isArray(value) || value.length===icon.primitives.length)return value;const byId=new Map(value.map(p=>[p?.element_id,p]));return byId.size===value.length && [...byId.keys()].every(id=>icon.primitives.some(p=>p.element_id===id)) && icon.primitives.every(p=>byId.has(p.element_id) || p.element_id.includes('.fill-'))?icon.primitives.map(p=>clone(byId.get(p.element_id) || p)):value;}
   function validGeometry(value){return value===null || Array.isArray(value) && value.length===icon.primitives.length && value.every((p,i)=>p && p.element_id===icon.primitives[i].element_id && p.kind===icon.primitives[i].kind && [p.start,p.end,...(p.segments || []).flat()].every(point=>Array.isArray(point) && point.length===2 && point.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=4096)));}
   function validDeleted(value){return Array.isArray(value) && value.length<strokes.length && new Set(value).size===value.length && value.every(id=>strokes.some(g=>g.id===id));}
   function deleteStroke(){

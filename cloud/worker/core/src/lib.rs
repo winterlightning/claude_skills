@@ -5,6 +5,7 @@
 
 pub mod briefs;
 pub mod catalog;
+pub mod combined_parts;
 pub mod icon_index;
 pub mod icon_query;
 pub mod primitives;
