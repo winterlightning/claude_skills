@@ -102,17 +102,21 @@ window.PreviewIconEditor = function({icons, example}) {
     document.addEventListener('keydown',e=>{const el=e.target.closest('.icon-swap');if(!el||!['Enter',' '].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();open(el);},true);
   }
   function reapply(){document.querySelectorAll('.icon-swap').forEach(el=>apply(el,resolveEl(el)));announce();}
-  // Round / sharp: the solo pick of every placement, swapped for its styled record when it has one (others stay
-  // normal). The styled cards are fetched by key, 200 a request, once each.
+  // Round / sharp: the solo pick of every placement, swapped for its styled record only while that record is approved
+  // in Icon review and not a failed build (others stay normal, like every other preview icon). The cards are fetched
+  // again on each switch to the view, 200 keys a request, so a revoked approval falls back to the normal icon; a
+  // request that fails shows the normal icons too.
+  window.previewStyledEligible=card=>!!card&&card.review?.state==='approve'&&!card.build_failed;
   async function loadStyled(style){
-    const want=[...new Set([...document.querySelectorAll('.icon-swap')].map(el=>(replacements[el.dataset.slot]||el.dataset.original)+'--'+style))].filter(k=>!styled.has(k));
+    const want=[...new Set([...document.querySelectorAll('.icon-swap')].map(el=>(replacements[el.dataset.slot]||el.dataset.original)+'--'+style))];
+    for(const k of want){styled.delete(k);byId.delete(k);}
     for(let i=0;i<want.length;i+=200){
       const chunk=want.slice(i,i+200);
       try{
         const response=await fetch('../api/icons?keys='+encodeURIComponent(chunk.map(k=>'solo/'+k).join(',')),{cache:'no-store'});
         const data=response.ok?await response.json():{items:[]};
         for(const k of chunk)styled.set(k,null);
-        for(const card of data.items||[]){const id=card.key.slice(5);
+        for(const card of data.items||[]){if(!window.previewStyledEligible(card))continue;const id=card.key.slice(5);
           // the card's artwork URL is already encoded (icon=solo%2F…); the placements encodeURI it again
           const styledCard={...card,icon_id:id,preview_url:card.preview_url.replaceAll('%2F','/')};styled.set(id,styledCard);byId.set(id,styledCard);}
       }catch{}
