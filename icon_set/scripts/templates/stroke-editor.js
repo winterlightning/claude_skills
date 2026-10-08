@@ -493,7 +493,7 @@
     const edited=displayGraph(),size=icon.canvas_size;
     const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
     const paths=visibleStrokes().map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="${icon.style?.line_cap || 'round'}" stroke-linejoin="${icon.style?.line_join || 'round'}">\n${paths}\n</svg>\n`;
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }

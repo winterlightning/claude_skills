@@ -57,6 +57,9 @@ async fn graph(ctx: &Ctx, sha: &str) -> Result<Option<Value>> {
 /// A drawing's editable geometry: its build's graph or, for an uploaded icon, the strokes read back from its SVG
 /// (graphics /svg-graph), stored in icon_graphs the first time. Err is the graphics service's answer.
 async fn graph_of(ctx: &Ctx, icon: &Icon, sha: &str) -> Result<std::result::Result<Option<Value>, Response>> {
+    if let Some(refused) = sharp_refused(ctx, icon).await? {
+        return Ok(Err(refused));
+    }
     if let Some(graph) = graph(ctx, sha).await? {
         return Ok(Ok(Some(graph)));
     }
@@ -127,7 +130,24 @@ async fn base_graph(ctx: &Ctx, icon: &Icon, baseline: &str, choice: Option<&Valu
         return graph_of(ctx, icon, baseline).await;
     }
     let Some((_, svg)) = upload_of(choice) else { return Ok(Ok(None)) };
+    if let Some(refused) = sharp_refused(ctx, icon).await? {
+        return Ok(Err(refused));
+    }
     Ok(svg_graph(ctx, icon, svg, base).await?.map(Some))
+}
+
+/// A sharp record (corner_processing, style sharp) is drawn with square dots, flat ends and mitred corners, and
+/// Browser Edit's graph has round strokes only: editing one there would round it. Refused (the answer to send);
+/// Manual Edit and Pick still work, since they need no strokes.
+async fn sharp_refused(ctx: &Ctx, icon: &Icon) -> Result<Option<Response>> {
+    if !icon.uploaded || !icon.key.ends_with("--sharp") {
+        return Ok(None);
+    }
+    if !data::exists(&ctx.db, "SELECT 1 FROM icons WHERE key = ? AND style = 'sharp'", args![icon.key.clone()]).await? {
+        return Ok(None);
+    }
+    Ok(Some(http::error(400, "Sharp icons keep square dots, flat ends and mitred corners that Browser Edit cannot draw. \
+        Use Manual Edit to upload a corrected SVG.")?))
 }
 
 fn base_changed() -> Result<Response> {
@@ -449,8 +469,6 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
             '$.modified_at', ?) WHERE icon = ?", args![svg, digest, preview.clone(), now, key.clone()])?);
         statements.push(db::stmt(db, "UPDATE icons SET svg_sha256 = ?, preview_url = ?, record = json_set(record, '$.svg_sha256', ?, \
             '$.preview_url', ?, '$.modified_at', ?) WHERE key = ? AND uploaded = 1", args![digest, preview.clone(), digest, preview, now, key.clone()])?);
-        // The new upload is the icon's original: an older pick or browser edit was made from the drawing it replaces.
-        statements.push(db::stmt(db, "DELETE FROM store_documents WHERE store = ? AND key = ?", args![ARTWORK, key.clone()])?);
     } else {
         let old = document(ctx, ARTWORK, &key).await?;
         let baseline = baseline_sha(ctx, icon, old.as_ref()).await?;
@@ -476,17 +494,38 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
             statements.push(db::stmt(db, "UPDATE uploaded_icons SET record = json_set(record, '$.author', ?) WHERE icon = ?", args![author, key.clone()])?);
         }
     }
-    statements.push(db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",
-                             args![digest, key.clone(), svg, now])?);
-    statements.push(db::stmt(db, "INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'ready', ?, ?) \
-        ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = 'ready', updated_at = excluded.updated_at, updated_by = excluded.updated_by, \
-        worker = NULL, claimed_at = NULL, note = ''", args![key.clone(), digest, now, user])?);
-    statements.push(db::activity(db, user, "review", Some(&key), details(vec![
-        ("status", json!("ready")), ("svg_sha256", json!(digest)), ("artwork_source", json!("use_upload")), ("uploaded", json!(true))]))?);
-    // clear_ready_feedback, as any return to Ready does.
-    statements.push(db::stmt(db, "DELETE FROM feedback WHERE icon = ?", args![key.clone()])?);
-    statements.push(db::activity_with_placeholders(db, user, "feedback_resolved", Some(&key), details(vec![("deleted_count", json!("__CHANGES__"))]))?);
+    // An uploaded icon's new upload is its original: an older pick or browser edit was made from the drawing it replaces.
+    statements.extend(replaced_drawing(db, &key, svg, digest, "upload", icon.uploaded, user, now,
+        details(vec![("status", json!("ready")), ("svg_sha256", json!(digest)), ("artwork_source", json!("use_upload")), ("uploaded", json!(true))]))?);
     statements.extend(super::icon_list::recount(db, &key, false)?);
+    Ok(statements)
+}
+
+/// After the write that makes `digest` an icon's current drawing (an upload replacing one, a republished round or
+/// sharp record): its revision row, a Ready review of it that replaces any approval, disapproval or claim, the
+/// icon's feedback resolved and, with `drop_choice`, its icon-artwork choice removed, since a pick, Manual Edit or
+/// Browser Edit made from the replaced drawing must not keep showing. Each write but the revision waits for the
+/// icon to show `digest`, so a guarded write before them that changed nothing (someone replaced it first) leaves
+/// the icon's review, feedback and choice alone. The statements for the same batch; `review` is the review log's details.
+#[allow(clippy::too_many_arguments)]
+pub fn replaced_drawing(db: &worker::D1Database, key: &str, svg: &str, digest: &str, origin: &str, drop_choice: bool, user: &str,
+                        now: &str, review: Map<String, Value>) -> Result<Vec<D1PreparedStatement>> {
+    let current = "EXISTS (SELECT 1 FROM icons WHERE key = ? AND svg_sha256 = ?)";
+    let mut statements = Vec::new();
+    if drop_choice {
+        statements.push(db::stmt(db, &format!("DELETE FROM store_documents WHERE store = ? AND key = ? AND {current}"),
+                                 args![ARTWORK, key, key, digest])?);
+    }
+    statements.push(db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, ?, ?)",
+                             args![digest, key, svg, origin, now])?);
+    statements.push(db::stmt(db, &format!("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) \
+        SELECT ?, ?, 'ready', ?, ? WHERE {current} ON CONFLICT(icon, svg_sha256) DO UPDATE SET status = 'ready', \
+        updated_at = excluded.updated_at, updated_by = excluded.updated_by, worker = NULL, claimed_at = NULL, note = ''"),
+        args![key, digest, now, user, key, digest])?);
+    statements.push(db::activity(db, user, "review", Some(key), review)?);
+    // clear_ready_feedback, as any return to Ready does.
+    statements.push(db::stmt(db, &format!("DELETE FROM feedback WHERE icon = ? AND {current}"), args![key, key, digest])?);
+    statements.push(db::activity_with_placeholders(db, user, "feedback_resolved", Some(key), details(vec![("deleted_count", json!("__CHANGES__"))]))?);
     Ok(statements)
 }
 
