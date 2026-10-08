@@ -78,6 +78,20 @@ async fn graph_of(ctx: &Ctx, icon: &Icon, sha: &str) -> Result<std::result::Resu
     Ok(Ok(Some(graph)))
 }
 
+/// `graph_of` for a request that does not need the strokes (loading the choices, a manual upload, picking it or the
+/// original): a drawing Browser Edit cannot read, e.g. one with transforms, is no geometry and the reason why,
+/// never the request's answer. Only Browser Edit and what it saved need the strokes.
+async fn optional_graph(ctx: &Ctx, icon: &Icon, sha: &str) -> Result<(Option<Value>, Option<String>)> {
+    Ok(match graph_of(ctx, icon, sha).await? {
+        Ok(graph) => (graph, None),
+        Err(mut response) => {
+            let reason = response.json::<Value>().await.ok().and_then(|v| v["error"].as_str().map(str::to_string))
+                .unwrap_or_else(|| "Browser Edit cannot read this drawing.".to_string());
+            (None, Some(reason))
+        }
+    })
+}
+
 /// The strokes of an SVG drawing of `icon` as an editable graph (graphics /svg-graph).
 async fn svg_graph(ctx: &Ctx, icon: &Icon, svg: &str, sha: &str) -> Result<std::result::Result<Value, Response>> {
     #[derive(Deserialize)]
@@ -317,8 +331,12 @@ pub async fn get_artwork(ctx: &Ctx) -> Result<Response> {
     let choice = document(ctx, ARTWORK, &key).await?;
     let sha = baseline_sha(ctx, &icon, choice.as_ref()).await?;
     let edit = document(ctx, EDITS, &edit_key(&key, &sha)).await?;
-    let geometry = try_response!(graph_of(ctx, &icon, &sha).await?);
+    let (geometry, geometry_error) = optional_graph(ctx, &icon, &sha).await?;
     let mut response = artwork_response(&key, &sha, choice.as_ref(), edit.as_ref());
+    // Pick and Manual Edit still work; the page says why Browser Edit cannot open this drawing.
+    if let Some(reason) = geometry_error {
+        response["geometry_error"] = json!(reason);
+    }
     // `base=<sha>` (Browser Edit of the manual upload): that base's strokes and saved edit revision.
     if let Some(requested) = ctx.param("base").filter(|b| *b != sha) {
         let Some(base) = edit_base(&sha, choice.as_ref(), Some(requested)) else { return base_changed() };
@@ -349,7 +367,11 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
     // text icons (typeface glyphs) have no stroke geometry and must still take a designer's upload.
     let needs_geometry = !upload_only
         && (data["source_mode"].as_str() == Some("use_edited") || data["approve_exception"] == json!(true));
-    let geometry = try_response!(graph_of(ctx, &icon, &sha).await?);
+    let geometry = if needs_geometry {
+        try_response!(graph_of(ctx, &icon, &sha).await?)
+    } else {
+        optional_graph(ctx, &icon, &sha).await?.0
+    };
     let graph = match geometry.clone() {
         Some(graph) => graph,
         None if needs_geometry => return no_graph(),
