@@ -4,6 +4,12 @@ Uploaded icons are an SVG, not a Python model, so no build pushes a graph for th
 turns the drawing's paths into the graph the geometry editor and stroke_edits use (the graphics service's
 POST /svg-graph): `line`, `arc` and `bezier` primitives, one contour per subpath. Each top-level group with
 an id prefixes its element ids, so its strokes can be told apart and selected on their own.
+
+The graph has strokes only, so a filled shape (`fill` ink, `stroke="none"`) is read as the stroke that paints
+it: a dot no wider than the stroke becomes a zero-length round-cap line, a filled circle up to twice the stroke
+a stroked circle, a filled bar one stroke thick a line along it. Their ids (`<group>.fill-N`; group ids never
+hold a '.') are counted apart from the strokes, so the stroke ids of a graph read before fills were kept do not
+move. Other filled shapes (outlines, backgrounds) are left out.
 """
 from __future__ import annotations
 
@@ -53,6 +59,38 @@ def shape_d(el):
     return ''
 
 
+def is_ink(paint):
+    return paint is not None and paint.strip().lower() not in ('none', 'transparent', 'white', '#fff', '#ffffff')
+
+
+def filled_stroke(el, width):
+    """Path data of the stroke (round caps, `width` wide) that paints a filled shape, or None when none does."""
+    tag, f = local(el.tag), lambda name: float(el.get(name) or 0)
+    half, eps = width / 2, 1e-6
+    if tag in ('circle', 'ellipse'):
+        cx, cy = f('cx'), f('cy')
+        rx, ry = (f('r'), f('r')) if tag == 'circle' else (f('rx'), f('ry'))
+        if abs(rx - ry) > eps:
+            return None
+        if rx <= half + eps:
+            return f'M{cx} {cy}L{cx} {cy}'
+        if rx <= width + eps:
+            r = rx - half
+            return f'M{cx - r} {cy}A{r} {r} 0 0 1 {cx + r} {cy}A{r} {r} 0 0 1 {cx - r} {cy}Z'
+        return None
+    if tag == 'rect':
+        x, y, w, h = f('x'), f('y'), f('width'), f('height')
+        if min(w, h) > width + eps:
+            return None
+        cx, cy = x + w / 2, y + h / 2
+        if abs(w - h) <= eps:
+            return f'M{cx} {cy}L{cx} {cy}'
+        if w > h:
+            return f'M{x + h / 2} {cy}L{x + w - h / 2} {cy}'
+        return f'M{cx} {y + w / 2}L{cx} {y + h - w / 2}'
+    return None
+
+
 def cubic(seg):
     """A quadratic as its exact cubic."""
     c1 = seg.start + 2 / 3 * (seg.control - seg.start)
@@ -93,39 +131,44 @@ def graph_from_svg(svg: str, *, canvas: int, family: str, icon_id: str = '', nam
     if any(el.get('transform') for el in root.iter()):
         raise ValueError('This SVG uses transforms; Browser Edit needs flat paths. Upload it again without transforms.')
     primitives, contours = [], []
+    width = float(root.get('stroke-width') or 4)
 
-    def walk(node, role, counters):
+    def add(d, prefix, counter):
+        """`counter` = [primitive count, contour count] of the ids starting with `prefix`."""
+        for sub in parse_path(d).continuous_subpaths():
+            if not len(sub):
+                continue
+            members = primitives_of(sub, prefix, counter[0])
+            if not members:
+                continue
+            counter[1][0] += 1
+            primitives.extend(members)
+            # A dot starts where it ends but is not closed: a closed subpath has no caps, so it would paint nothing.
+            contours.append({'contour_id': f'{prefix}-{counter[1][0]}', 'members': [m['element_id'] for m in members],
+                             'closed': bool(sub.isclosed()) and sub.length() > 0})
+
+    def walk(node, role, counters, fill, stroke):
         for child in node:
             tag = local(child.tag)
             if tag in ('title', 'desc', 'metadata', 'defs', 'style'):
                 continue
+            own_fill, own_stroke = child.get('fill', fill), child.get('stroke', stroke)
             if tag == 'g':
-                walk(child, role, counters)
-                continue
-            if tag not in SHAPES or (child.get('stroke') == 'none'):
-                continue
-            d = shape_d(child)
-            if not d.strip():
-                continue
-            for sub in parse_path(d).continuous_subpaths():
-                if not len(sub):
-                    continue
-                members = primitives_of(sub, role, counters['p'])
-                if not members:
-                    continue
-                counters['c'][0] += 1
-                primitives.extend(members)
-                contours.append({'contour_id': f'{role}-{counters["c"][0]}', 'members': [m['element_id'] for m in members],
-                                 'closed': bool(sub.isclosed())})
+                walk(child, role, counters, own_fill, own_stroke)
+            elif tag in SHAPES and own_stroke != 'none':
+                add(shape_d(child), role, counters['stroke'])
+            elif tag in SHAPES and is_ink(own_fill) and (d := filled_stroke(child, width)):
+                add(d, f'{role}.fill', counters['fill'])
 
     groups = [c for c in root if local(c.tag) == 'g' and c.get('id')]
     loose = [c for c in root if not (local(c.tag) == 'g' and c.get('id'))]
+    paint = root.get('fill'), root.get('stroke')
     for g in groups:
-        walk(g, g.get('id'), {'p': [0], 'c': [0]})
+        walk(g, g.get('id'), {'stroke': ([0], [0]), 'fill': ([0], [0])}, g.get('fill', paint[0]), g.get('stroke', paint[1]))
     if loose:
         holder = ET.Element('g')
         holder.extend(loose)
-        walk(holder, 'stroke', {'p': [0], 'c': [0]})
+        walk(holder, 'stroke', {'stroke': ([0], [0]), 'fill': ([0], [0])}, *paint)
     graph = {'icon_id': icon_id, 'name': name, 'family': family, 'profile': profile, 'canvas_size': canvas,
              'semantic_role': 'SUB' if family in SUB_FAMILIES else 'MAIN',
              'style': {'stroke_width': 4, 'line_cap': 'round', 'line_join': 'round', 'grid': 1},
