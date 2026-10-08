@@ -48,6 +48,12 @@ def _normalized_sub(item, svg):
             item.pop(key, None)
     item.update(document=document, bounds=bounds, ink32=ink, canvas=max(32, extent * 32 / 28),
                 sha256=sha256(document), source_sha256=sha256(svg))
+    # The sub is never erased, so the snapped copy only shapes the clearance: publish the drawing itself
+    # (combination_experiment.restore_original_sub), placed by the normalizer's fit. Not for a dots-only label.
+    item.pop('display_document', None)
+    item.pop('display_fit', None)
+    if ink.get('stroke') == 4 and ink.get('fit'):
+        item.update(display_document=svg, display_fit=ink['fit'])
 
 
 def pair_with_documents(row, main, sub, documents):

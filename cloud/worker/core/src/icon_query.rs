@@ -15,11 +15,15 @@ pub const STATES: [&str; 5] = ["ready", "failed", "pending", "approve", "rejecte
 const SORTS: [&str; 9] = ["name", "newest", "oldest", "modified-newest", "modified-oldest", "strokes-asc", "strokes-desc",
                           "segments-asc", "segments-desc"];
 pub const PAGE_SIZES: [i64; 4] = [24, 48, 96, 192];
+/// Icon styles (migration 0019): every catalog icon is normal; corner_processing adds round and sharp records.
+pub const STYLES: [&str; 3] = ["normal", "round", "sharp"];
 
 /// The page's filters, by the names its URL uses.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct Params {
     pub family: String,
+    /// One of STYLES, or "all"; normal when not given.
+    pub style: String,
     pub category: Option<String>,
     /// "uncategorized": no category, or one of the `_uncategorized_N` placeholders (the approved collection's group).
     pub category_group: String,
@@ -58,6 +62,7 @@ impl Params {
         let opt = |name: &str| get(name);
         let mut params = Params {
             family: text("family"),
+            style: one_of(opt("style").as_deref(), &["normal", "round", "sharp", "all"]),
             category: opt("category").filter(|c| !c.is_empty()),
             category_group: one_of(opt("category_group").as_deref(), &["uncategorized"]),
             q: text("q").to_lowercase(),
@@ -73,7 +78,7 @@ impl Params {
             revision: one_of(opt("revision").as_deref(), &["original", "variant"]),
             reference: one_of(opt("reference").as_deref(), &["with", "without"]),
             artwork: one_of(opt("artwork").as_deref(), &["original", "modified", "edited", "uploaded", "work_fix"]),
-            reason: one_of(opt("reason").as_deref(), &["bad-stroke", "manual-fix-request", "meaning", "other", "missing", "cannot-fix"]),
+            reason: one_of(opt("reason").as_deref(), &["bad-stroke", "bad-layout", "manual-fix-request", "meaning", "other", "missing", "cannot-fix"]),
             pending_feedback: one_of(opt("pending_feedback").as_deref(), &["with", "without"]),
             sort: one_of(opt("sort").as_deref(), &SORTS),
             versions: opt("view").as_deref() == Some("versions"),
@@ -82,6 +87,9 @@ impl Params {
         };
         if params.sort.is_empty() {
             params.sort = "name".into();
+        }
+        if params.style.is_empty() {
+            params.style = "normal".into();
         }
         // restoreURL: a disapproval reason shows the Disapproved tab.
         if !params.reason.is_empty() {
@@ -116,15 +124,19 @@ fn uncategorized(column: &str) -> String {
 struct Parts { category: bool, section: bool }
 
 /// A search phrase: through the trigram index (icon_search) when it has three characters or more, so only matching
-/// icons are read; shorter ones are looked for in each icon's text.
+/// icons are read; shorter ones are looked for in each icon's text. A side combination is also found by its pair's
+/// concept (what Progression › Side shows), which most of them do not carry as their name.
 fn search(column_key: &str, column_text: &str, phrase: &str, w: &mut Vec<String>, args: &mut Args) {
+    let by_concept = format!("{column_key} IN (SELECT 'side_combination64/' || r.reference_id FROM \"references\" r \
+        WHERE r.kind = 'combination' AND instr(lower(r.concept), lower(?)) > 0)");
     if phrase.chars().count() >= 3 {
-        w.push(format!("{column_key} IN (SELECT key FROM icon_search WHERE icon_search MATCH ?)"));
+        w.push(format!("({column_key} IN (SELECT key FROM icon_search WHERE icon_search MATCH ?) OR {by_concept})"));
         args.push(json!(format!("\"{}\"", phrase.replace('"', "\"\""))));
     } else {
-        w.push(format!("instr({column_text}, ?) > 0"));
+        w.push(format!("(instr({column_text}, ?) > 0 OR {by_concept})"));
         args.push(json!(phrase));
     }
+    args.push(json!(phrase));
 }
 
 /// The page's filters on the icons table (alias `u`), every one on a stored column (migration 0015).
@@ -135,6 +147,10 @@ fn clauses(p: &Params, parts: Parts, args: &mut Args) -> Vec<String> {
         "" => {}
         "side_main" | "side_sub" => { w.push("u.side_role = ?".into()); args.push(json!(&p.family[5..])); }
         family => { w.push("u.family = ?".into()); args.push(json!(family)); }
+    }
+    if p.style != "all" && !p.style.is_empty() {
+        w.push("u.style = ?".into());
+        args.push(json!(p.style));
     }
     // matchesSearch: the phrase, and (terms) every word
     if !p.q.is_empty() {
@@ -285,6 +301,10 @@ fn count_clauses(p: &Params, section: bool, category: bool, args: &mut Args) -> 
         "side_main" | "side_sub" => { w.push("c.side_role = ?".into()); args.push(json!(&p.family[5..])); }
         family => { w.push("c.family = ?".into()); args.push(json!(family)); }
     }
+    if p.style != "all" && !p.style.is_empty() {
+        w.push("c.style = ?".into());
+        args.push(json!(p.style));
+    }
     if category {
         if let Some(value) = &p.category {
             w.push("c.category = ?".into());
@@ -414,8 +434,8 @@ pub const REFRESH_KEY: &str = concat!(
 /// The icon_counts row an icon is counted in and the icon_facet_counts rows (`count_rows`: text columns as '' when
 /// NULL; author and family always, keyshape, category and the built total when the build did not fail).
 pub const UNCOUNT_ICON: [&str; 2] = [
-    concat!("UPDATE icon_counts SET n = n - 1 WHERE (family, side_role, state, category, built_failed) = (",
-            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), COALESCE(state, ''), COALESCE(category, ''), ",
+    concat!("UPDATE icon_counts SET n = n - 1 WHERE (family, side_role, style, state, category, built_failed) = (",
+            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), style, COALESCE(state, ''), COALESCE(category, ''), ",
             "build_failed FROM icons WHERE key = ?1)"),
     concat!("UPDATE icon_facet_counts SET n = n - 1 WHERE (kind, value) IN (",
             "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key = ?1 ",
@@ -425,9 +445,9 @@ pub const UNCOUNT_ICON: [&str; 2] = [
             "UNION ALL SELECT 'total', 'built' FROM icons WHERE key = ?1 AND NOT build_failed)"),
 ];
 pub const RECOUNT_ICON: [&str; 2] = [
-    concat!("INSERT INTO icon_counts(family, side_role, state, category, built_failed, n) ",
-            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), COALESCE(state, ''), COALESCE(category, ''), build_failed, 1 ",
-            "FROM icons WHERE key = ?1 ON CONFLICT(family, side_role, state, category, built_failed) DO UPDATE SET n = n + 1"),
+    concat!("INSERT INTO icon_counts(family, side_role, style, state, category, built_failed, n) ",
+            "SELECT COALESCE(family, ''), COALESCE(side_role, ''), style, COALESCE(state, ''), COALESCE(category, ''), build_failed, 1 ",
+            "FROM icons WHERE key = ?1 ON CONFLICT(family, side_role, style, state, category, built_failed) DO UPDATE SET n = n + 1"),
     concat!("INSERT INTO icon_facet_counts(kind, value, n) SELECT kind, value, 1 FROM (",
             "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key = ?1 ",
             "UNION ALL SELECT 'family', COALESCE(family, '') FROM icons WHERE key = ?1 ",
@@ -436,6 +456,41 @@ pub const RECOUNT_ICON: [&str; 2] = [
             "UNION ALL SELECT 'total', 'built' FROM icons WHERE key = ?1 AND NOT build_failed",
             ") WHERE 1 ON CONFLICT(kind, value) DO UPDATE SET n = n + 1"),
 ];
+/// `UNCOUNT_ICON` / `RECOUNT_ICON` for every icon in a JSON array of keys (`?1`) at once: a write that changes many
+/// icons (app icon_list `recheck_combined`) runs `UNCOUNT_KEYS`, the write, `REFRESH_KEYS` and `RECOUNT_KEYS`: five
+/// statements per batch of keys, not five per icon.
+macro_rules! facets_of_keys {
+    () => {
+        "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key IN (SELECT value FROM json_each(?1)) \
+         UNION ALL SELECT 'family', COALESCE(family, '') FROM icons WHERE key IN (SELECT value FROM json_each(?1)) \
+         UNION ALL SELECT 'keyshape', keyshape FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed AND keyshape IS NOT NULL \
+         UNION ALL SELECT 'category', category FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed AND COALESCE(category, '') != '' \
+         UNION ALL SELECT 'total', 'built' FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed"
+    };
+}
+macro_rules! count_row_of_keys {
+    () => {
+        "SELECT COALESCE(family, '') AS family, COALESCE(side_role, '') AS side_role, style, COALESCE(state, '') AS state, \
+         COALESCE(category, '') AS category, build_failed AS built_failed FROM icons WHERE key IN (SELECT value FROM json_each(?1))"
+    };
+}
+pub const UNCOUNT_KEYS: [&str; 2] = [
+    concat!("WITH k AS (", count_row_of_keys!(), ") UPDATE icon_counts SET n = n - (SELECT COUNT(*) FROM k WHERE ",
+            "(k.family, k.side_role, k.style, k.state, k.category, k.built_failed) = ",
+            "(icon_counts.family, icon_counts.side_role, icon_counts.style, icon_counts.state, icon_counts.category, icon_counts.built_failed)) ",
+            "WHERE (family, side_role, style, state, category, built_failed) IN (SELECT * FROM k)"),
+    concat!("WITH f AS (", facets_of_keys!(), ") UPDATE icon_facet_counts SET n = n - ",
+            "(SELECT COUNT(*) FROM f WHERE f.kind = icon_facet_counts.kind AND f.value = icon_facet_counts.value) ",
+            "WHERE (kind, value) IN (SELECT kind, value FROM f)"),
+];
+pub const RECOUNT_KEYS: [&str; 2] = [
+    concat!("INSERT INTO icon_counts(family, side_role, style, state, category, built_failed, n) ",
+            "SELECT family, side_role, style, state, category, built_failed, COUNT(*) FROM (", count_row_of_keys!(), ") WHERE 1 ",
+            "GROUP BY 1, 2, 3, 4, 5, 6 ON CONFLICT(family, side_role, style, state, category, built_failed) DO UPDATE SET n = n + excluded.n"),
+    concat!("INSERT INTO icon_facet_counts(kind, value, n) SELECT kind, value, COUNT(*) FROM (", facets_of_keys!(), ") WHERE 1 ",
+            "GROUP BY 1, 2 ON CONFLICT(kind, value) DO UPDATE SET n = n + excluded.n"),
+];
+
 /// One icon's search row again after its row is inserted, renamed or deleted (`SEARCH_REFRESH` for one key, in
 /// the write's batch).
 pub const SEARCH_KEY: [&str; 4] = [
@@ -459,10 +514,10 @@ pub const SEARCH_REFRESH: [&str; 4] = [
 ];
 
 /// One pass over icons for the counts: a row per distinct combination of what icon_counts and icon_facet_counts group by.
-pub const GROUPS: &str = "SELECT family, side_role, state, category, build_failed, author, keyshape, COUNT(*) AS n \
-    FROM icons GROUP BY 1, 2, 3, 4, 5, 6, 7";
+pub const GROUPS: &str = "SELECT family, side_role, style, state, category, build_failed, author, keyshape, COUNT(*) AS n \
+    FROM icons GROUP BY 1, 2, 3, 4, 5, 6, 7, 8";
 pub const COUNTS_CLEAR: [&str; 2] = ["DELETE FROM icon_counts", "DELETE FROM icon_facet_counts"];
-pub const COUNTS_INSERT: &str = "INSERT INTO icon_counts(family, side_role, state, category, built_failed, n) VALUES ";
+pub const COUNTS_INSERT: &str = "INSERT INTO icon_counts(family, side_role, style, state, category, built_failed, n) VALUES ";
 pub const FACETS_INSERT: &str = "INSERT INTO icon_facet_counts(kind, value, n) VALUES ";
 
 /// A `GROUPS` row (D1 returns integers as numbers).
@@ -470,6 +525,7 @@ pub const FACETS_INSERT: &str = "INSERT INTO icon_facet_counts(kind, value, n) V
 pub struct Group {
     pub family: Option<String>,
     pub side_role: Option<String>,
+    pub style: Option<String>,
     pub state: Option<String>,
     pub category: Option<String>,
     pub build_failed: f64,
@@ -478,16 +534,17 @@ pub struct Group {
     pub n: f64,
 }
 
-/// icon_counts rows `(family, side_role, state, category, built_failed, n)` and icon_facet_counts rows
+/// icon_counts rows `(family, side_role, style, state, category, built_failed, n)` and icon_facet_counts rows
 /// `(kind, value, n)` from the groups: the same rules as migration 0015's first fill (authors and families of
 /// every icon; keyshapes, categories and the built total of icons whose build did not fail).
-pub fn count_rows(groups: &[Group]) -> (Vec<(String, String, String, String, i64, i64)>, Vec<(&'static str, String, i64)>) {
-    let mut counts: HashMap<(String, String, String, String, i64), i64> = HashMap::new();
+pub fn count_rows(groups: &[Group]) -> (Vec<(String, String, String, String, String, i64, i64)>, Vec<(&'static str, String, i64)>) {
+    let mut counts: HashMap<(String, String, String, String, String, i64), i64> = HashMap::new();
     let mut facets: HashMap<(&'static str, String), i64> = HashMap::new();
     let text = |v: &Option<String>| v.clone().unwrap_or_default();
     for g in groups {
         let (n, failed) = (g.n as i64, g.build_failed != 0.0);
-        *counts.entry((text(&g.family), text(&g.side_role), text(&g.state), text(&g.category), failed as i64)).or_default() += n;
+        let style = g.style.clone().unwrap_or_else(|| "normal".into());
+        *counts.entry((text(&g.family), text(&g.side_role), style, text(&g.state), text(&g.category), failed as i64)).or_default() += n;
         *facets.entry(("author", g.author.clone().unwrap_or_else(|| "unknown".into()))).or_default() += n;
         *facets.entry(("family", text(&g.family))).or_default() += n;
         if !failed {
@@ -500,7 +557,7 @@ pub fn count_rows(groups: &[Group]) -> (Vec<(String, String, String, String, i64
             *facets.entry(("total", "built".into())).or_default() += n;
         }
     }
-    let mut counts: Vec<_> = counts.into_iter().map(|((f, s, st, c, b), n)| (f, s, st, c, b, n)).collect();
+    let mut counts: Vec<_> = counts.into_iter().map(|((f, s, y, st, c, b), n)| (f, s, y, st, c, b, n)).collect();
     let mut facets: Vec<_> = facets.into_iter().map(|((k, v), n)| (k, v, n)).collect();
     counts.sort();
     facets.sort();

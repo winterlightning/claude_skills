@@ -74,6 +74,13 @@ def normalized_geometry(icon, geometry):
     if geometry is None:
         return None
     original = icon['primitives']
+    if isinstance(geometry, list) and len(geometry) != len(original):
+        # Saved before svg_graph read an upload's filled shapes (`<group>.fill-N`): the dots keep their base copy.
+        by_id = {p.get('element_id'): p for p in geometry if isinstance(p, dict)}
+        missing = {p['element_id'] for p in original} - by_id.keys()
+        if (len(by_id) == len(geometry) and by_id.keys() <= {p['element_id'] for p in original}
+                and all('.fill-' in element_id for element_id in missing)):
+            geometry = [by_id.get(p['element_id'], p) for p in original]
     if not isinstance(geometry, list) or len(geometry) != len(original):
         raise ValueError('Edited geometry must keep the original strokes.')
     def number(value, positive=False):

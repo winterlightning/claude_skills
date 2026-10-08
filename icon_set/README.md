@@ -708,7 +708,7 @@ rebuilds and deployments; later source or SVG changes update it.
 
 The popup opens on **Review**, with original and generated previews always visible
 on both Review and Information. Choose **Ready**, **Approve**, **Disapprove**, or
-**Reject**. Disapprove requires **Bad stroke drawn**, **Manual fix request**, **Does not convey the intended
+**Reject**. Disapprove requires **Bad stroke drawn**, **Bad layout**, **Manual fix request**, **Does not convey the intended
 meaning**, or **Other** (written feedback required). Preset reasons accept optional
 details. Reasons are stored separately from the feedback text and included in
 feedback history and exported repair briefs. Reject is for prohibited subjects:
@@ -1058,7 +1058,7 @@ type, current status (`disapprove` here), source SVG hash, Python file/class,
 latest repair reason/feedback for that version, and tag author/time.
 `GET /api/feedback-feed` includes `reason` and `icon_type` in each row; Copy change
 brief and Download all briefs include them too. Reason codes are `bad-stroke`,
-`meaning`, and `other`. `POST /api/icon-flag` additionally accepts `text` and
+`bad-layout`, `meaning`, `manual-fix-request`, and `other`. `POST /api/icon-flag` additionally accepts `text` and
 `number`. Restart the updated server to migrate existing data safely.
 
 ### Linked sub profiles

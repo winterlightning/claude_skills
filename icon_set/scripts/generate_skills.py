@@ -774,7 +774,7 @@ def render_primitive_fix() -> str:
     return (
         "---\n"
         "name: primitive-fix-thuan\n"
-        "argument-hint: <count> [--family solo|icon-72|container|sub|text] [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--max-disapprovals N] [--worker name]\n"
+        "argument-hint: <count> [--family solo|icon-72|container|sub|text] [--offset N] [--disapprove-status bad-stroke|bad-layout|meaning|manual-fix-request|other] [--max-disapprovals N] [--worker name]\n"
         "description: Claim a number of disapproved Pictographic icons (solo unless --family names another "
         "family such as icon-72) from the shared production fix queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's "
         "feedback, upload the before and after drawings to production and report done. Every claimed icon must be "
@@ -793,7 +793,7 @@ def render_primitive_fix() -> str:
         "**count** of icons to claim (default 1 when none is given). `--family` picks the queue family:\n"
         "`solo` when none is given, or another one such as `icon-72`, `container`, `sub` or `text`; pass it\n"
         "to `start` exactly as given. `--offset N` skips that many\n"
-        "claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,\n"
+        "claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `bad-layout`, `meaning`,\n"
         "`manual-fix-request`, `other`, `missing`). **Only icons disapproved once** are claimed: pass\n"
         "`--max-disapprovals 1` always, or the number given in the arguments. An icon that was fixed (a fix\n"
         "uploaded or reported, or a new drawing) and disapproved again counts as twice. Icons disapproved two or more\n"

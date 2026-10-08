@@ -9,6 +9,7 @@ pub mod icons;
 pub mod internal;
 pub mod primitives;
 pub mod reviews;
+pub mod styled;
 pub mod work;
 
 use crate::auth;
@@ -115,7 +116,7 @@ const POST_ROUTES: &[&str] = &["/api/icon-families", "/api/icons/upload", "/api/
     "/api/work/cannot-fix", "/api/work/abandon", "/api/work/result", "/api/catalog/push", "/api/icons/discard-record", "/api/activity",
     "/api/icon-artwork", "/api/stroke-edits", "/api/stroke-edits/validate",
     "/api/combinations/parts", "/api/combinations/build", "/api/combinations/pair", "/api/icons/reindex", "/api/icons/records",
-    "/api/icons/refresh"];
+    "/api/icons/refresh", "/api/icons/styled"];
 
 async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
     if !POST_ROUTES.contains(&path) && !path.starts_with("/api/store/") {
@@ -131,6 +132,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/reference-images" => MAX_REFERENCE_BODY,
         "/api/work/result" => MAX_WORK_RESULT_BODY,
         "/api/catalog/push" | "/api/icons/records" => MAX_PUSH_BODY,
+        "/api/icons/styled" => 8 * 1024 * 1024,
         _ if path.starts_with("/api/store/") => 4 * 1024 * 1024,
         _ => MAX_BODY,
     };
@@ -167,6 +169,7 @@ async fn post(ctx: &mut Ctx, path: &str) -> Result<Response> {
         "/api/icons/reindex" => icon_list::reindex(ctx, &data).await,
         "/api/icons/records" => icon_list::records(ctx, &data).await,
         "/api/icons/refresh" => icon_list::refresh(ctx, &data, user).await,
+        "/api/icons/styled" => styled::post_styled(ctx, &data, user).await,
         _ if path.starts_with("/api/work/") => work::action(ctx, path, &data, user).await,
         _ if path.starts_with("/api/store/") => internal::store(ctx, Some(&data), user).await,
         _ => reviews::post_review(ctx, path, &data, user).await,

@@ -213,6 +213,7 @@
     updateView();
     for (const id of ['strokeSelect','strokeX','strokeY','strokeScaleX','strokeScaleY','strokeScope','strokeReset']) $(id).disabled = blocked || !selected;
     $('strokeSave').disabled = blocked || validationBlocksSave() || (!dirty() && !validationNeedsSave());
+    renderBase();
     $('strokeDownloadSVG').disabled=!ready || busy;
     $('strokeDownload').disabled = !ready || busy;
     $('strokeForcePass').disabled=blocked;
@@ -399,18 +400,18 @@
     try {
       selectedPoint=null;strokes=groups(icon); selected=strokes[0]?.id || '';
       $('strokeSelect').replaceChildren(...strokes.map(g => {const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
-      const response = await fetch('../api/stroke-edits?icon='+encodeURIComponent(icon.key));
+      const response = await fetch('../api/stroke-edits?icon='+encodeURIComponent(icon.key)+(onUpload()?'&sha='+encodeURIComponent(icon.svg_sha256):''));
       if (!(response.headers.get('content-type') || '').includes('application/json')) throw Error('Editing needs the updated gallery server. Restart deploy.py, then reload saved edits.');
       const data = await response.json();
       if (!response.ok) throw Error(data.error || 'Could not load saved edits.');
       if (token!==request) return;
       if (data.svg_sha256 !== icon.svg_sha256) throw Error('The icon changed on this server. Refresh the gallery before editing.');
-      saved=data.edit;deletedStrokes=clone(saved?.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(saved?.geometry || null);savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
+      saved=data.edit;deletedStrokes=clone(saved?.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(aligned(saved?.geometry || null));savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
       offsets=clone(saved?.offsets || {}); scales=clone(saved?.scales || {});savedOffsets=clone(offsets);savedScales=clone(scales);keyshape=saved?.keyshape || icon.keyshape || '';savedKeyshape=keyshape; undo=[]; redo=[];
       let draft=null;
       try { if (discard) localStorage.removeItem(draftKey()); else draft=JSON.parse(localStorage.getItem(draftKey()) || 'null'); } catch {}
       if (draft && Number.isInteger(draft.revision) && draft.offsets && Object.entries(draft.offsets).every(([id,offset]) => strokes.some(g=>g.id===id) && Array.isArray(offset) && offset.length===2 && offset.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=1024))) {
-        if(validScales(draft.scales || {}) && validGeometry(draft.geometry ?? null) && validDeleted(draft.deleted_strokes || [])){deletedStrokes=clone(draft.deleted_strokes || []);geometry=clone(draft.geometry ?? null);offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
+        if(validScales(draft.scales || {}) && validGeometry(aligned(draft.geometry ?? null)) && validDeleted(draft.deleted_strokes || [])){deletedStrokes=clone(draft.deleted_strokes || []);geometry=clone(aligned(draft.geometry ?? null));offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
       }
       validation=!geometryDirty() && saved?.validation?.status!=='not-run'?saved?.validation:null;renderValidation();
       ready=true; draw();
@@ -473,7 +474,8 @@
       const data=await response.json();
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
-      saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(aligned(data.geometry || null));savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      if(onUpload())uploadEditRevision=data.revision;
       window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
     } catch(error) { if (token===request) $('strokeStatus').textContent=error.message+' Your draft is still here.'; }
@@ -491,10 +493,12 @@
     const edited=displayGraph(),size=icon.canvas_size;
     const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
     const paths=visibleStrokes().map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="${icon.style?.line_cap || 'round'}" stroke-linejoin="${icon.style?.line_join || 'round'}">\n${paths}\n</svg>\n`;
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
+  // Geometry saved before the graph read an upload's filled shapes (`<group>.fill-N`) takes the base's copy of them.
+  function aligned(value){if(!Array.isArray(value) || value.length===icon.primitives.length)return value;const byId=new Map(value.map(p=>[p?.element_id,p]));return byId.size===value.length && [...byId.keys()].every(id=>icon.primitives.some(p=>p.element_id===id)) && icon.primitives.every(p=>byId.has(p.element_id) || p.element_id.includes('.fill-'))?icon.primitives.map(p=>clone(byId.get(p.element_id) || p)):value;}
   function validGeometry(value){return value===null || Array.isArray(value) && value.length===icon.primitives.length && value.every((p,i)=>p && p.element_id===icon.primitives[i].element_id && p.kind===icon.primitives[i].kind && [p.start,p.end,...(p.segments || []).flat()].every(point=>Array.isArray(point) && point.length===2 && point.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=4096)));}
   function validDeleted(value){return Array.isArray(value) && value.length<strokes.length && new Set(value).size===value.length && value.every(id=>strokes.some(g=>g.id===id));}
   function deleteStroke(){
@@ -504,19 +508,61 @@
     selectedPoint=null;apply(next);$('strokeStatus').textContent=`Deleted ${name}. Undo restores it; save edits to keep this change.`;
   }
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
+  // Browser Edit starts from the generated original or, when the icon has one, its saved manual upload (Manual Edit):
+  // each base keeps its own saved edit. `original` is the record the page opened; `uploadSha` the upload's drawing.
+  let original=null, uploadSha=null, baseRequest=0, uploadEditRevision=null;
+  const onUpload=()=>icon?.edit_base==='upload';
   function open(next) {
+    original=next;uploadSha=next.edit_base_svg_sha256 || null;baseRequest++;
+    reset(next);tab('review');renderBase();
+    // The displayed pick is an edit of the manual upload: edit that drawing again.
+    if(uploadSha)switchBase('upload',false);
+  }
+  function renderBase() {
+    if(!$('strokeBaseBox'))return;
+    $('strokeBaseBox').hidden=!uploadSha;$('strokeBase').value=onUpload()?'upload':'original';$('strokeBase').disabled=busy;
+  }
+  async function switchBase(name, ask=true) {
+    if(!original || (name==='upload' && !uploadSha) || (name==='upload')===onUpload())return renderBase();
+    if(ask && ready && dirty() && !window.confirm('Discard your unsaved stroke edits and edit the other drawing?'))return renderBase();
+    const key=original.key, token=++baseRequest, editing=$('inspectorWorkspace')?.dataset.tab==='editing';
+    if(name==='original'){reset(original);renderBase();if(editing)load();window.IconArtwork?.reload?.(key);return;}
+    $('strokeStatus').textContent='Loading the manual upload…';
+    try{
+      const response=await fetch('../api/icon-artwork?icon='+encodeURIComponent(key)+'&base='+encodeURIComponent(uploadSha),{cache:'no-store'});
+      const data=await response.json();if(!response.ok || !data.base)throw Error(data.error || 'Could not load the manual upload.');
+      if(token!==baseRequest)return;
+      reset({...data.base.graph,key,svg_sha256:data.base.svg_sha256,edit_base:'upload'});
+      uploadEditRevision=data.base.edit_revision ?? null;renderBase();if(editing)load();
+      window.IconArtwork?.editSaved(key,uploadEditRevision);
+    }catch(error){if(token===baseRequest){$('strokeStatus').textContent=error.message;renderBase();}}
+  }
+  function setUpload(key, sha) {
+    if(original?.key!==key)return;
+    uploadSha=sha || null;
+    if(!uploadSha && onUpload())switchBase('original',false);
+    else if(onUpload() && icon.svg_sha256!==uploadSha){reset(original);switchBase('upload',false);}
+    renderBase();
+  }
+  function reset(next) {
     selectedPoint=null;
     viewport=null;panMode=false;spacePan=false;
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
     request++;icon=next;deletedStrokes=[];savedDeletedStrokes=[];geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
     $('strokeKeyshape').replaceChildren(...(window.IconGuides?.choices(icon) || [{name:keyshape,label:keyshape}]).map(item=>{const option=document.createElement('option');option.value=item.name;option.textContent=item.label;return option;}));
-    $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();tab('review');
+    $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();
   }
   function point(event) {
     const canvas=$('strokeCanvas'), p=canvas.createSVGPoint();p.x=event.clientX;p.y=event.clientY;return p.matrixTransform(canvas.getScreenCTM().inverse());
   }
   function init() {
+    const intro=document.querySelector('#browserEditPanel .editing-intro');
+    if(intro && !$('strokeBase')){
+      const box=document.createElement('p');box.id='strokeBaseBox';box.className='stroke-base';box.hidden=true;
+      box.innerHTML='<label for="strokeBase">Edit from</label> <select id="strokeBase"><option value="original">Original</option><option value="upload">Manual upload</option></select>';
+      intro.append(box);$('strokeBase').onchange=()=>switchBase($('strokeBase').value);
+    }
     const names=['information','review','editing'];
     for (const name of names) {
       $(name+'Tab').onclick=()=>tab(name);
@@ -621,6 +667,9 @@
     canvas.addEventListener('blur',()=>{spacePan=false;updateView();});
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,arcControls,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,setUpload,
+    // The manual upload's sha and saved edit revision while Browser Edit edits it (Pick sends them), else null.
+    baseSha:key=>icon?.key===key && onUpload()?icon.svg_sha256:null,
+    baseEditRevision:key=>icon?.key===key && onUpload()?uploadEditRevision:null,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,arcControls,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();

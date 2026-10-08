@@ -39,7 +39,7 @@ from work_queue import ApiError, call, default_base_url  # noqa: E402
 PAGE = 500
 DISAPPROVE = ("pending", "disapprove")
 FIXED_REVIEW = ("ready", "re-generated", "approve")
-REASONS = {"bad-stroke": "Bad stroke", "meaning": "Meaning", "manual-fix-request": "Manual fix request", "other": "Other"}
+REASONS = {"bad-stroke": "Bad stroke", "bad-layout": "Bad layout", "meaning": "Meaning", "manual-fix-request": "Manual fix request", "other": "Other"}
 
 
 def fetch_disapproved(base, family, limit):

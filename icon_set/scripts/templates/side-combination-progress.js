@@ -1,1 +1,3 @@
-(()=>{const host=document.getElementById('combinationExperiment');if(!host)return;const slot=document.createElement('div');host.prepend(slot);fetch('side-combination-progress.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Progress could not be loaded');return r.text();}).then(html=>{slot.innerHTML=html;}).catch(e=>{slot.textContent=e.message;});})();
+// Retired 2026-10-07: the Experiment side-combination tab no longer shows the static progress snapshot
+// (side-combination-progress.html, written by side_combination_progress.py); its summary line is read live from
+// production by combination-experiment.js.
