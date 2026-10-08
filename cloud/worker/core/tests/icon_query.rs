@@ -373,3 +373,30 @@ fn style_lists_one_style_at_a_time() {
     assert_eq!(list(&db, &p(&[("style", "all")])).0["total"].as_i64().unwrap(), before.0["total"].as_i64().unwrap() + 1);
     assert!(list(&db, &p(&[("style", "sharp")])).1.is_empty());
 }
+
+/// The set-based statements (app icon_list `recheck_combined`, a part approved or disapproved under many combined
+/// icons) keep the list and the counts as a refresh would, with one statement per batch of keys, not per icon.
+#[test]
+fn a_write_to_many_icons_keeps_them_current_in_one_statement_each() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    refresh(&db);
+    let keys: Vec<String> = db.prepare("SELECT key FROM icons ORDER BY key LIMIT 40").unwrap().query_map([], |r| r.get(0)).unwrap()
+        .map(Result::unwrap).collect();
+    assert!(keys.len() >= 20, "the fixture has enough icons");
+    let list = json!(keys).to_string();
+    let counts = |db: &Connection| -> Vec<(String, i64)> {
+        db.prepare("SELECT family || '|' || side_role || '|' || style || '|' || state || '|' || category || '|' || built_failed, n \
+                    FROM icon_counts WHERE n != 0 UNION ALL SELECT kind || '|' || value, n FROM icon_facet_counts WHERE n != 0 ORDER BY 1")
+            .unwrap().query_map([], |r| Ok((r.get(0)?, r.get(1)?))).unwrap().map(Result::unwrap).collect()
+    };
+    // A batch's write as combined_parts UPDATE does: the failed flag of every icon flipped.
+    for sql in icon_query::UNCOUNT_KEYS { db.execute(sql, rusqlite::params![list]).unwrap(); }
+    db.execute("UPDATE icons SET build_failed = NOT build_failed WHERE key IN (SELECT value FROM json_each(?1))", rusqlite::params![list]).unwrap();
+    db.execute(icon_query::REFRESH_KEYS, rusqlite::params![list]).unwrap();
+    for sql in icon_query::RECOUNT_KEYS { db.execute(sql, rusqlite::params![list]).unwrap(); }
+    let (after_write, counted) = (listed(&db), counts(&db));
+    refresh(&db);
+    assert_eq!(after_write, listed(&db));
+    assert_eq!(counted, counts(&db), "the counts a refresh rebuilds");
+}

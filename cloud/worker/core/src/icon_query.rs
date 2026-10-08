@@ -456,6 +456,41 @@ pub const RECOUNT_ICON: [&str; 2] = [
             "UNION ALL SELECT 'total', 'built' FROM icons WHERE key = ?1 AND NOT build_failed",
             ") WHERE 1 ON CONFLICT(kind, value) DO UPDATE SET n = n + 1"),
 ];
+/// `UNCOUNT_ICON` / `RECOUNT_ICON` for every icon in a JSON array of keys (`?1`) at once: a write that changes many
+/// icons (app icon_list `recheck_combined`) runs `UNCOUNT_KEYS`, the write, `REFRESH_KEYS` and `RECOUNT_KEYS`: five
+/// statements per batch of keys, not five per icon.
+macro_rules! facets_of_keys {
+    () => {
+        "SELECT 'author' AS kind, COALESCE(author, 'unknown') AS value FROM icons WHERE key IN (SELECT value FROM json_each(?1)) \
+         UNION ALL SELECT 'family', COALESCE(family, '') FROM icons WHERE key IN (SELECT value FROM json_each(?1)) \
+         UNION ALL SELECT 'keyshape', keyshape FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed AND keyshape IS NOT NULL \
+         UNION ALL SELECT 'category', category FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed AND COALESCE(category, '') != '' \
+         UNION ALL SELECT 'total', 'built' FROM icons WHERE key IN (SELECT value FROM json_each(?1)) AND NOT build_failed"
+    };
+}
+macro_rules! count_row_of_keys {
+    () => {
+        "SELECT COALESCE(family, '') AS family, COALESCE(side_role, '') AS side_role, style, COALESCE(state, '') AS state, \
+         COALESCE(category, '') AS category, build_failed AS built_failed FROM icons WHERE key IN (SELECT value FROM json_each(?1))"
+    };
+}
+pub const UNCOUNT_KEYS: [&str; 2] = [
+    concat!("WITH k AS (", count_row_of_keys!(), ") UPDATE icon_counts SET n = n - (SELECT COUNT(*) FROM k WHERE ",
+            "(k.family, k.side_role, k.style, k.state, k.category, k.built_failed) = ",
+            "(icon_counts.family, icon_counts.side_role, icon_counts.style, icon_counts.state, icon_counts.category, icon_counts.built_failed)) ",
+            "WHERE (family, side_role, style, state, category, built_failed) IN (SELECT * FROM k)"),
+    concat!("WITH f AS (", facets_of_keys!(), ") UPDATE icon_facet_counts SET n = n - ",
+            "(SELECT COUNT(*) FROM f WHERE f.kind = icon_facet_counts.kind AND f.value = icon_facet_counts.value) ",
+            "WHERE (kind, value) IN (SELECT kind, value FROM f)"),
+];
+pub const RECOUNT_KEYS: [&str; 2] = [
+    concat!("INSERT INTO icon_counts(family, side_role, style, state, category, built_failed, n) ",
+            "SELECT family, side_role, style, state, category, built_failed, COUNT(*) FROM (", count_row_of_keys!(), ") WHERE 1 ",
+            "GROUP BY 1, 2, 3, 4, 5, 6 ON CONFLICT(family, side_role, style, state, category, built_failed) DO UPDATE SET n = n + excluded.n"),
+    concat!("INSERT INTO icon_facet_counts(kind, value, n) SELECT kind, value, COUNT(*) FROM (", facets_of_keys!(), ") WHERE 1 ",
+            "GROUP BY 1, 2 ON CONFLICT(kind, value) DO UPDATE SET n = n + excluded.n"),
+];
+
 /// One icon's search row again after its row is inserted, renamed or deleted (`SEARCH_REFRESH` for one key, in
 /// the write's batch).
 pub const SEARCH_KEY: [&str; 4] = [

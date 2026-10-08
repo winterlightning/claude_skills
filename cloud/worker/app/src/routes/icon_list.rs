@@ -261,17 +261,17 @@ pub async fn recheck_combined(db: &D1Database, part: &str) -> Result<usize> {
     }
     let keys = json!(using.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
     let changed: Vec<Key> = db::all(db, combined_parts::CHANGED, args![keys]).await?;
-    for chunk in changed.chunks(25) {
+    // Each batch of keys: out of the counts, stored, state again, back in the counts, as one statement each
+    // (icon_query UNCOUNT_KEYS ... RECOUNT_KEYS), however many combined icons a much-used part has.
+    for chunk in changed.chunks(100) {
         let list = json!(chunk.iter().map(|k| k.key.as_str()).collect::<Vec<_>>()).to_string();
         let mut statements = Vec::new();
-        for k in chunk {
-            statements.extend(uncount(db, &k.key)?);
-        }
-        for sql in combined_parts::UPDATE {
+        for sql in icon_query::UNCOUNT_KEYS.iter().chain(combined_parts::UPDATE.iter()) {
             statements.push(db::stmt(db, sql, args![list.clone()])?);
         }
-        for k in chunk {
-            statements.extend(recount(db, &k.key, false)?);
+        statements.push(db::stmt(db, icon_query::REFRESH_KEYS, args![list.clone()])?);
+        for sql in icon_query::RECOUNT_KEYS {
+            statements.push(db::stmt(db, sql, args![list.clone()])?);
         }
         db::batch(db, statements).await?;
     }
