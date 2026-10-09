@@ -1,5 +1,9 @@
 # Rejected review migration and local rehearsal
 
+Open [the searchable HTML review](rejected-icon-corrections.html) locally in a browser
+for all 379 corrections, migration outcomes, evidence and remaining decisions.
+The page works offline; only explicitly opened artwork links contact the live site.
+
 The migration processes every record in the supplied 379-record handoff. It
 registers verified combination relationships and applies explicit text routing.
 It preserves drawings and review decisions. Records requiring new geometry,
