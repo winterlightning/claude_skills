@@ -27,12 +27,12 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (2, 5), (22, 5))
-        self.add_line('p1-r1-2', (22, 5), (22, 12))
-        self.add_line('p1-r1-3', (22, 12), (30, 8))
-        self.add_line('p1-r1-4', (30, 8), (30, 24))
-        self.add_line('p1-r1-5', (30, 24), (22, 20))
-        self.add_line('p1-r1-6', (22, 20), (22, 27))
-        self.add_line('p1-r1-7', (22, 27), (2, 27))
-        self.add_line('p1-r1-8', (2, 27), (2, 5))
+        self.add_line('p1-r1-1', (2, 4), (22, 4))
+        self.add_line('p1-r1-2', (22, 4), (22, 12))
+        self.add_line('p1-r1-3', (22, 12), (30, 10))
+        self.add_line('p1-r1-4', (30, 10), (30, 22))
+        self.add_line('p1-r1-5', (30, 22), (22, 20))
+        self.add_line('p1-r1-6', (22, 20), (22, 28))
+        self.add_line('p1-r1-7', (22, 28), (2, 28))
+        self.add_line('p1-r1-8', (2, 28), (2, 4))
         self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)

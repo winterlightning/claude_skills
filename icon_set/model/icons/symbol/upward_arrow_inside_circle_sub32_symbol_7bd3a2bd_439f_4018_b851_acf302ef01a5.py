@@ -28,7 +28,7 @@ class DrawingContainerSymbol(Sub32):
     def build(self):
         self.add_arc('outline-top', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
         self.add_arc('outline-bottom', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('shaft', (16, 23), (16, 10))
+        self.add_line('shaft', (16, 22), (16, 10))
         self.add_line('head-1', (11, 15), (16, 10))
         self.add_line('head-2', (16, 10), (21, 15))
         self.add_contour('outline', 'outline-top', 'outline-bottom', closed=True)
