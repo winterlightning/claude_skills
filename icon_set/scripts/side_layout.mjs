@@ -29,7 +29,7 @@ import path from 'node:path';
 import {SIZE, Side, WORK_NAME, compose, drawingMap, readJSON} from './side_compose.mjs';
 import {analyzeDir, summary} from './side_overlap.mjs';
 import {checkDir} from './side_contact_check.mjs';
-import {keyshapeCheck} from './side_keyshape_check.mjs';
+import {intoCanvasKeyshape, keyshapeCheck} from './side_keyshape_check.mjs';
 const POSITIONS = ['tl', 'tr', 'bl', 'br', 'ri', 'le', 'bo', 'to'];
 const BASE = (process.env.PICTOGRAPHIC_API || 'https://pictographic-review-next.pictographic.workers.dev').replace(/\/$/, '');
 // Cloudflare's browser integrity check refuses unknown agents (error 1010); work_queue.py sends the same one.
@@ -257,6 +257,9 @@ async function preview(dir, opts) {
     const item = readJSON(path.join(dir, 'item.json'));
     const composed = Side.pairRequest(item, drawingMap(readJSON(path.join(dir, 'drawings.json'))), {position: layout.position, layout: null, size: SIZE});
     for (const role of ['main', 'sub']) layout[role] = groupsOf(composed, role, null).groups;
+    // The engine places parts at the canvas padding; the canvas keyshape rule (2026-10-12) needs main + sub inside one
+    // canvas keyshape, so move them in by whole units (sizes unchanged), as the snap did for stored layouts.
+    if (!item.parts.some(p => p.role === 'sub' && !p.icon)) layout = intoCanvasKeyshape(layout);
   }
   // Move and scale a whole part: every group of it mapped from the part's box onto the new one. The groups come from
   // the stored layout (base-layout.json) when they are the same groups, so repeated previews never stack rounding

@@ -8,7 +8,7 @@ description: Review Pictographic icon-72 side combinations (a main-54 icon plus 
 Read `.claude/skills/side-layout-adjust/SKILL.md` first and follow it **exactly**: every rule there applies here
 (approved parts only, the keyshape system, look at the result, the main and the sub before any script, the layout must
 show the meaning, keep the stored layout when it reads well, the priority flow resize the main -> move the main -> move the
-sub -> resize the sub, the main moving only by whole units at a preset size inside the padding, search with `side_layout_search.mjs` as a reference, rank the contact by eye, cut or
+sub -> resize the sub, the canvas keyshape rule, the main moving only by whole units at a preset size inside the canvas keyshape, search with `side_layout_search.mjs` as a reference, rank the contact by eye, cut or
 clear never a nick, side never container, work the batch, finish in one go, record every pair). Only the
 differences below change.
 
@@ -31,17 +31,29 @@ differences below change.
   the stored layout is visibly broken, and every main size at every sensible position with the sub at 36 was tried and
   failed (say which in `--sub-smaller`). Never grow the sub past 36 either. A pair that only works with a smaller sub
   is rare: if you find yourself shrinking more than one pair in a batch, look again for a main size that works.
+- **Canvas keyshapes at 72** (same rule as 64: square padding 4, the long side padding 2, HRECT short side 0.75 x 72,
+  M = HRECT - 4). Main + sub together sit in one of them; the parts are anchored at its corners or sides:
+
+  | Canvas keyshape | Painted box (x0, y0, x1, y1) | Size |
+  |---|---|---|
+  | SQUARE | 4, 4, 68, 68 | 64 x 64 |
+  | HRECT | 2, 9, 70, 63 | 68 x 54 |
+  | HRECT_M | 2, 11, 70, 61 | 68 x 50 |
+  | VRECT | 9, 2, 63, 70 | 54 x 68 |
+  | VRECT_M | 11, 2, 61, 70 | 50 x 68 |
+
+  The 72 stored layouts were snapped into these on 2026-10-12 too (all 2,793 pairs).
 - **Moving the main.** The same rule on the 72 canvas: a `--list main` box shifted by whole units, the same `w`, `h`,
-  its centerline box within 4 to 68. The helper scripts report it as off the system; check it yourself.
+  inside the canvas keyshape. `side_keyshape_check.mjs` accepts it as `(moved)`.
 - **Convex hull.** Run `SIDE_SIZE=72 node icon_set/scripts/side_hull.mjs <dir> --current` on every pair and use it as in
   **Use the hull to adjust** in the main skill. At 72 the good ranges are sub/main 0.37 to 0.60, sub inside the main's hull
   3 to 13%, combined hull 56 to 66% of the canvas, off centre within about 3.5; the direction always equals the position.
 - **Keyshapes.** The 72 parts sit on the tracer's 54 / 36 keyshapes (CIRCLE, SQUARE, portrait_L, landscape_L, tall_M,
   wide_M, slim_S, flat_S). `side_keyshape_check.mjs --list main|sub` prints the allowed boxes as before.
 - **"As drawn" placement.** At 72 the engine places a part drawn on its own grid as drawn: its whole 54 / 36 canvas
-  sits in the corner and the drawing keeps its offset inside it (a flat cloud drawn 8 units down its 36 canvas sits 8
-  below the padding). The checker accepts that automatic placement as on the system (`sub as drawn at 36`), next to
-  the presets. Do not "fix" a sub only because it is not flush to the edge when it sits as drawn.
+  sits in the corner of the canvas keyshape and the drawing keeps its offset inside it (a flat cloud drawn 8 units down
+  its 36 canvas sits 8 below the keyshape's edge). The checker accepts that placement as on the system (`sub as drawn at
+  36`), next to the presets. Do not "fix" a sub only because it is not flush to the edge when it sits as drawn.
 - **Prefetched folders.** `SIDE_SIZE=72 node icon_set/scripts/side_prefetch.mjs` downloads every unreviewed 72 pair
   ahead of time. A folder with `fetch.json` and no `review.json` is ready: skip `fetch` and read `fetch.json`.
 - **No side-overlap review page at 72.** Skip the "Update the review page" step. The 72 review page is

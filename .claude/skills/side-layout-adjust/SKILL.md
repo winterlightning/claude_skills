@@ -1,6 +1,6 @@
 ---
 name: side-layout-adjust
-description: Review Pictographic side combinations (a main icon plus a sub icon at a corner or side, 64 build) and improve their layout so it shows what the combination means - look at the result, the main and the sub, then resize or move the main, move the sub, resize the sub last (one step at most); the main may move but must stay on the 64x64 keyshape system, and record each verdict and proposed layout on the side-overlap review page. Never redraws or swaps an icon. Arguments are reference ids, a side-overlap review page link (review.html#pN), or --next N [--offset K] [--hand|--auto] [--unreviewed] to take built pairs from the list (--unreviewed skips pairs already reviewed), or --recheck ids to review pairs again. Use when asked to review, balance or fix the layout of side combination icons. Hand-authored; edit this file directly.
+description: Review Pictographic side combinations (a main icon plus a sub icon at a corner or side, 64 build) and improve their layout so it shows what the combination means - look at the result, the main and the sub, then resize or move the main, move the sub, resize the sub last (one step at most); the combined icon must sit in one canvas keyshape (SQUARE 56, HRECT 60x48, HRECT_M 60x44, VRECT 48x60, VRECT_M 44x60) and each part on its own keyshape presets (the main may move inside it), and record each verdict and proposed layout on the side-overlap review page. Never redraws or swaps an icon. Arguments are reference ids, a side-overlap review page link (review.html#pN), or --next N [--offset K] [--hand|--auto] [--unreviewed] to take built pairs from the list (--unreviewed skips pairs already reviewed), or --recheck ids to review pairs again. Use when asked to review, balance or fix the layout of side combination icons. Hand-authored; edit this file directly.
 ---
 
 # Side layout adjust
@@ -20,33 +20,60 @@ out, `list` (so `--next`) skips it, and `fetch` and `push` refuse it with the pa
 (name the part and its status); never review its layout. Parts are approved and disapproved on production all the time, so
 refresh the run (`side_audit_refresh.mjs`, below) before working through a review page.
 
-**Keyshape system: never break it.** Each part keeps the keyshape it was drawn on. The main stays on its own SOLO48
-keyshape and the sub on its own SUB32 keyshape, at a preset size in steps of 4 (main 32 to 64, sub 20 to 44). The sub sits
-in its corner or side of the 64 canvas at the 2-unit padding. The main starts in the opposite corner or side, and **may
-move** (user rule 2026-10-12), as long as it fits the 64x64 keyshape system: it keeps a preset box of its own keyshape
-(the same size, never stretched), moves by whole units, and its ink stays inside the 2-unit padding (the main's
-centerline box within 4 to 60). These are the boxes the **Edit layout** dialog's size and keyshape presets give, with the
-main shifted. A preset grows or shrinks the keyshape by
-the same amount on both axes, so a tall part stays tall by the same margin.
-- `node icon_set/scripts/side_keyshape_check.mjs <dir> --list main` (or `--list sub`, add `--position br` for another
-  position) prints every preset box as `x,y,w,h`, in its corner. Pass the sub only boxes from `--list sub`. Pass the main a
-  box from `--list main`, or the same box with `x` / `y` shifted by whole units (same `w`, `h`).
-- **The helper scripts do not know the main may move.** `side_keyshape_check.mjs`, `side_layout_search.mjs` and the
-  recorder's keyshape gate still treat only the corner boxes as presets, so they report a moved main as off the system,
-  and the search never tries one. They are a helper, not the judge: check a moved main yourself (its `w`, `h` equal a
-  `--list main` box, whole units, ink inside the padding), and decide by eye.
-- Never shift the sub off its corner, stretch either part on one axis, put a part on another keyshape (a tall drawing on
-  the circle), or let its ink run past the 2-unit padding to the canvas edge. *Pharmaceutical
-  Logistics Container* was "fixed" by growing the main to `2,19,34,43`: its ink went out to the canvas edge and off its
-  keyshape. That is not accepted, however good the contact looks.
-- `node icon_set/scripts/side_keyshape_check.mjs <dir>` checks `layout.json` (`--current` for the stored layout,
-  `--fit` for the nearest allowed boxes). `side_review_record.mjs` refuses `ok` for a stored layout off the system and
-  `fix` for a proposal off the system.
-- So the moves are: a bigger or smaller preset size for the main, **moving the main** (whole units, its preset box kept,
-  inside the padding), another position for the sub (`--position X --auto`, which also lands on the presets; the main
-  follows to the opposite corner), and a preset size for the sub. Move the main only for a reason you can see: to give the
-  sub a clean knockout or clear space, to keep a key part out of the sub's cut, or to balance the canvas. Do not move it a
-  unit at a time just to make a script number pass.
+**Keyshape system: never break it (canvas keyshape rule, 2026-10-12).** Two rules, both checked by
+`side_keyshape_check.mjs`, the recorder and `push`:
+1. **The combined icon sits in one canvas keyshape.** Main + sub together (their painted ink, centerline box + 2) must fit
+   inside one keyshape of the 64 canvas, the CONTAINER64 set:
+
+   | Canvas keyshape | Painted box (x0, y0, x1, y1) | Size |
+   |---|---|---|
+   | SQUARE | 4, 4, 60, 60 | 56 x 56 |
+   | HRECT | 2, 8, 62, 56 | 60 x 48 |
+   | HRECT_M | 2, 10, 62, 54 | 60 x 44 |
+   | VRECT | 8, 2, 56, 62 | 48 x 60 |
+   | VRECT_M | 10, 2, 54, 62 | 44 x 60 |
+
+   There is no canvas circle. A corner pair that spans the whole canvas uses SQUARE (its parts sit 4 from the edge, not 2);
+   a pair that is wide or tall overall uses an HRECT or VRECT. Production stores the keyshape a build sits in, and Icon
+   review shows it; a layout that fits none shows "Keyshape unavailable" there and is never accepted.
+2. **Each part keeps its own keyshape.** The main stays on its own SOLO48 keyshape and the sub on its own SUB32 keyshape, at
+   a preset size in steps of 4 (main 32 to 64, sub 20 to 44), never stretched, never on another keyshape (a tall drawing
+   on the circle). A preset grows or shrinks the keyshape by the same amount on both axes.
+   - The **sub** sits at its position's corner or side **of the canvas keyshape** (no longer at the canvas's 2-unit
+     padding): at `br` in SQUARE its ink ends at 60, 60.
+   - The **main** starts at the opposite corner or side of the same canvas keyshape, and **may move** by whole units at
+     its preset size, as long as the pair stays inside the canvas keyshape. The checker accepts a moved main (it reports
+     `(moved)`); no need to check it by hand any more.
+- `node icon_set/scripts/side_keyshape_check.mjs <dir> --list main` (or `--list sub`; add `--position br` for another
+  position, `--frame SQUARE` for one canvas keyshape) prints every preset box as `x,y,w,h` with its canvas keyshape. Pass
+  the main and the sub boxes from the **same** canvas keyshape.
+- `node icon_set/scripts/side_keyshape_check.mjs <dir>` checks `layout.json` (`--current` for the stored layout, `--fit`
+  for the nearest allowed boxes). It prints `canvas SQUARE` (or which keyshape) and each part's preset, or `canvas OFF`
+  with the span when the pair fits no canvas keyshape.
+- `preview <dir> --position X --auto` now moves the automatic placement into a canvas keyshape by whole units (the
+  engine itself places at the padding), so it lands on the system.
+- Never let a part's ink run past its canvas keyshape, never stretch a part, never step off the presets to make a check
+  pass. *Pharmaceutical Logistics Container* was "fixed" by growing the main to `2,19,34,43`: its ink went out to the
+  canvas edge and off its keyshape. That is not accepted, however good the contact looks.
+- So the moves are: a bigger or smaller preset size for the main, moving the main (whole units, its preset box kept,
+  inside the canvas keyshape), another position for the sub (`--position X --auto`), another canvas keyshape (SQUARE
+  for a corner pair, an HRECT or VRECT when the pair is wide or tall), and a preset size for the sub. Move the main only
+  for a reason you can see: to give the sub a clean knockout or clear space, to keep a key part out of the sub's cut, or
+  to balance the canvas. Do not move it a unit at a time just to make a script number pass.
+- **Box numbers written before 2026-10-12 in this skill or in memory notes are on the old padding system** (a corner sub
+  at `4,4`, a main at `12,20,48,40`): they now sit 2 units off the SQUARE corner. Never type them; take boxes from
+  `--list`.
+
+**Stored layouts were snapped on 2026-10-12: review every pair again.** Every stored 64 layout was moved into a canvas
+keyshape (`icon_set/scripts/side_keyshape_snap.mjs`, pushed to production): the main and the sub kept their sizes and
+moved by whole units. A pair that already fitted a keyshape moved as one piece, centred; a corner pair spanning the canvas
+had each part moved 2 units in, into SQUARE, so **the parts now sit closer and the sub often cuts deeper into the main**.
+About 1,500 pairs gained a flag that way (`heavy_cut`, `lost_part`, `shaved`, a failed contact). The earlier reviews judged
+the old layouts, so they were archived (`icon_set/work/side-layout-adjust-archive-2026-10-12-before-canvas-keyshape/`,
+and in each folder's `review-history.json`) and every pair counts as unreviewed. `fetch.json` carries `snap`, what the snap
+did to the pair (class, keyshape, the move, a part re-picked or placed automatically); read it in **Look**. Judge the
+snapped stored layout exactly like any stored layout: keep it when it reads well, otherwise fix it in the priority flow,
+inside a canvas keyshape.
 
 **Keep the stored layout when it reads well.** Judge the stored layout by eye first. A script flag on it (a small graze,
 `shaved`, `lost_part` or `erased_whole_piece` where a badge knocks out part of a repeated shape such as a database's
@@ -97,12 +124,13 @@ longer read as cannabis. Only change a stored layout that is visibly wrong (a pa
 you can see, a key part cut away, a layout that does not show the meaning), and try in this order. Stop at the first
 layout that passes the checks, reads well and shows the meaning:
 The user's priority flow (2026-10-10, main moves added 2026-10-12) is **resize the main → move the main → move the sub →
-resize the sub**. The main stays on its keyshape at a preset size, and may move inside the 64x64 canvas padding.
+resize the sub**. The main stays on its keyshape at a preset size, and may move inside the canvas keyshape the pair sits in.
 1. **Resize the main.** Keep the sub at its stored size and position, and try the main's preset sizes (`--list main`):
    bigger for a real knockout, smaller to stand clear.
 1b. **Move the main.** Keep the sub where it is. Move the main (at a preset size from step 1) away from or toward the sub
    by whole units, so the knockout falls on a plain part or the parts stand clear, and the whole icon looks balanced.
-   The search does not try this; preview it by hand (`preview <dir> --main x,y,w,h` with a shifted `--list main` box).
+   The search does not try this; preview it by hand (`preview <dir> --main x,y,w,h` with a shifted `--list main` box),
+   and check it with `side_keyshape_check.mjs <dir>` (a moved main passes as `(moved)` while the pair stays in its canvas keyshape).
 2. **Move the sub.** Keep both sizes and try the sub at the other positions (the other corners and the sides
    `ri le to bo`), where the meaning allows it. A sub at full size on a side is fine.
 3. **Move the sub and resize the main.** The sub at another position, still at its stored size, with the main's preset
@@ -160,7 +188,11 @@ not reviewed. Run trial loops directly, in a shell function (see the memory note
 1. **Fetch.** If the pair's folder already has a `fetch.json` and no `review.json`, it was downloaded in advance by
    `icon_set/scripts/side_prefetch.mjs`: do **not** fetch again, read `fetch.json` (the same summary fetch prints) and go on.
    Read all the batch's `fetch.json` files in one command. Otherwise run `node icon_set/scripts/side_layout.mjs fetch <id>`.
-   It writes `icon_set/work/side-layout-adjust/<id>/` and prints the metrics. Check `rebuild_change`:
+   It writes `icon_set/work/side-layout-adjust/<id>/` and prints the metrics. Read `snap` in `fetch.json` (what the
+   2026-10-12 canvas keyshape snap did: `keyshape`, `move`, `note`, `new_flags` it added, a part `swapped` or
+   `layout_reset`): `new_flags` / a contact that went from pass to fail point at where the parts now sit too close.
+   Earlier reviews of the pair are in `review-history.json` (marked `superseded`); they judged the old layout.
+   Check `rebuild_change`:
    - `none`: the rebuild equals the stored icon.
    - `sub`: only the drawn sub differs. Since 2026-10-07 the engine publishes the sub's original drawing instead of its
      SUB32-snapped copy, which lumped curves such as the "?" hook. The cut in the main is unchanged. Continue; a push
@@ -319,14 +351,15 @@ not reviewed. Run trial loops directly, in a shell function (see the memory note
    and `fix` for a proposal that fails it.
    - **Hierarchy.** The main reads first and stays large. Its ink is usually 40 to 46 on its long side. The sub is clearly
      secondary, with `sub_to_main` about 0.55 to 0.75. A sub as big as the main, or a sub too small to read, is a problem.
-   - **Placement.** The sub sits in its position's corner or side, flush to the canvas edge (ink at 0 to 2 from the
-     edge). The main shifts toward the opposite corner or side, so the empty canvas is not all on one side.
+   - **Placement.** The sub sits in its position's corner or side, flush to its canvas keyshape's edge (at `br` in SQUARE
+     its ink ends at 60, 60). The main shifts toward the opposite corner or side, so the empty canvas is not all on one side.
    - **Overlap.** The sub may cut into the main, and the engine knocks the main out around the sub. The cut must not destroy
      a part of the main that the meaning needs (a screen, a face, a key detail). If it does, shrink or move the
      main away, or move the sub.
    - **Balance.** The combined ink looks centred overall and no large empty pocket appears. Neither part is squeezed
      out of proportion: each part stays on its own keyshape (see **Keyshape system**).
-   - **Bounds.** `outside_canvas` is false. Ink stays inside 0 to 64.
+   - **Bounds.** Main + sub stay inside one canvas keyshape (`side_keyshape_check.mjs` prints `canvas SQUARE` or another;
+     `canvas OFF` is never accepted).
    - **Clean contact.** Where the parts meet, there is a clear knockout (the sub on the main), or clear space when no knockout stays low-damage. A knockout that costs the main its meaning or leaves it jagged is worse than clear space.
      A main that is clipped where the sub does not touch it looks like a mistake (`shaved`). So does a tiny nick, even
      where the sub does touch: a cut is either plainly a knockout or absent.
@@ -387,8 +420,9 @@ not reviewed. Run trial loops directly, in a shell function (see the memory note
      then keep it and say so in the note.
 
 4. **Adjust.** Do this only if the stored layout is visibly wrong. **Search first, do not preview by hand:**
-   `node icon_set/scripts/side_layout_search.mjs <dir>` tries every preset layout in one run (every main size, every sub
-   position, the sub at its stored size and one step smaller). It keeps those that pass the contact
+   `node icon_set/scripts/side_layout_search.mjs <dir>` tries every preset layout in one run (every canvas keyshape, every
+   main size, every sub position, the sub at its stored size and one step smaller; about a minute a pair). Each candidate
+   line names its canvas keyshape. It keeps those that pass the contact
    and keyshape checks and ranks them in the order of **Main first, then the sub** (main resized, then sub moved, then sub moved with the
    main resized, then sub smaller, which comes last). It writes `search.png`, the stored layout and the best candidates side by side and numbered.
    Look at `search.png` once, pick the candidate that best shows the meaning you named in **Look** and keeps the
@@ -406,10 +440,10 @@ not reviewed. Run trial loops directly, in a shell function (see the memory note
      `side_keyshape_check.mjs <dir> --list main` / `--list sub` (for the position in `layout.json`). They always scale the
      part's stored groups (`base-layout.json`) in one step. Never type a sub box that is not in the list.
    - Move the main: `preview <dir> --main x,y,w,h` with a `--list main` box whose `x` / `y` you shifted by whole units
-     (keep `w`, `h`; the box stays within 4 to 60). `side_keyshape_check.mjs` will report it as off the system; that is
-     expected, check the box yourself.
-   - Change the position: `preview <dir> --position br --auto` (automatic placement, on the presets), then list the boxes
-     for the new position with `--list main --position br` and pick sizes from it.
+     (keep `w`, `h`), staying inside the canvas keyshape. `side_keyshape_check.mjs` accepts it as `(moved)`.
+   - Change the position: `preview <dir> --position br --auto` (automatic placement, moved into a canvas keyshape), then
+     list the boxes for the new position with `--list main --position br` and pick sizes from it (main and sub from the
+     same canvas keyshape).
    - Never edit `layout.json` by hand and never move single groups inside a part: that breaks the keyshape system.
    - After every preview, run `side_keyshape_check.mjs <dir>` (must pass, except for a moved main, see above) and `side_contact_check.mjs <dir>` and read its `overlap` numbers, `contact.png`, `overlap.png`, `compare.png` and `proposed.png`. The check must pass. Aim for no flags and
      a `penalty` lower than the stored one. A lower penalty never excuses a layout that looks worse. To fix
@@ -456,6 +490,8 @@ and `--lost-part` (default 40) to change the limits.
 - Do not shrink the sub to clear a script flag on a stored layout that reads well; keep it (`ok --keep-stored`). Never
   shrink it more than one step or below 28, and only after other positions and main sizes failed on a visibly broken layout.
 - Do not move or nudge the sub off its preset box, and do not stretch or re-shape either part off its keyshape (see
-  **Keyshape system**). The main may move by whole units at a preset size, inside the canvas padding.
+  **Keyshape system**). The main may move by whole units at a preset size, inside the canvas keyshape.
+- Do not let main + sub spread past every canvas keyshape (`canvas OFF`), and do not type box numbers from before
+  2026-10-12 (old padding system); take boxes from `--list`.
 - Do not turn a side combination into a container combination: the sub never moves inside the main's outline, and the main
   never wraps around the sub (see **Side, never container**).

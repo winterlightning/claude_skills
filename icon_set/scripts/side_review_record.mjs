@@ -68,10 +68,11 @@ if (gapOk && after?.contact === 'fail' && !gapOnly)
 if (verdict === 'fix' && after.contact === 'fail' && !(gapOk && gapOnly))
   fail(`the proposal fails the contact check; keep adjusting (cut or clear, never a nick):\n  ${after.contact_problems.join('\n  ')}`);
 
-// The keyshape system (side_keyshape_check.mjs): the main and the sub sit only on their own keyshape at a preset size
+// The keyshape system (side_keyshape_check.mjs): main + sub together inside one canvas keyshape (rule 2026-10-12), and
+// the main and the sub sit only on their own keyshape at a preset size
 // (every 4) in their corner, as the layout editor's presets put them. A part moved or stretched off those boxes is
 // never accepted: an off-system stored layout is not ok, and a proposal off the system is not a fix.
-const ksLine = r => Object.values(r.roles).filter(x => !x.ok).map(x => `${x.problem}; nearest allowed: ${x.nearest.join(' | ')}`).join('\n  ');
+const ksLine = r => [...(r.canvas && !r.canvas.ok ? [r.canvas.problem] : []), ...Object.values(r.roles).filter(x => !x.ok).map(x => `${x.problem}; nearest allowed: ${x.nearest.join(' | ')}`)].join('\n  ');
 const ksBefore = keyshapeCheck(root, {position: base.position, main: base.main, sub: base.sub});
 const ksAfter = verdict === 'fix' ? keyshapeCheck(root, layout) : null;
 // --off-system-ok "<why>": the user judged this stored layout by eye and keeps it although its boxes sit slightly off the
@@ -97,7 +98,8 @@ if (verdict === 'fix') {
       fail(`the proposal shrinks the sub from ${from} to ${to}. Layout first, resize last: pass --sub-smaller "<which positions and main sizes you tried at sub ${from} and why each failed>", or keep the sub at ${from}.`);
   }
 }
-const ksSummary = r => Object.fromEntries(Object.entries(r.roles).map(([k, x]) => [k, x.ok ? (x.preset || x.note) : 'off: ' + x.box]));
+const ksSummary = r => ({...Object.fromEntries(Object.entries(r.roles).map(([k, x]) => [k, x.ok ? (x.preset || x.note) + (x.moved ? ' (moved)' : '') : 'off: ' + x.box])),
+  ...(r.canvas ? {canvas: r.canvas.ok ? r.canvas.keyshape : 'off'} : {})});
 
 // A drawn part of the main mostly erased (lost_part: a jar's lip, a bike's saddle, a phone's body) breaks the main's
 // meaning even when the contact is clean. It is never ok and never a finished fix, unless the part is meant to go
