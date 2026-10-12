@@ -9,6 +9,8 @@ Visible keyshape extremes: (8, 0, 56, 64).
 Hosting measured with compose.py: plus does not clear, heart does not clear, check does not clear.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (flower-vase-container VRECT_L -> VRECT_M). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn for symbol room on v2 (container-combination64): a symbol of at least 24 fits with a 4 px gap.
 """
 
 from ...keyshapes import Keyshape
@@ -21,21 +23,21 @@ AUTHOR = 'claude-opus-5-5'
 
 class FlowerVaseContainer(Container64):
     icon_id = 'flower-vase-container'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.SQUARE
     category = 'decoration'
     categories = ('decoration', 'other', 'primitives-generate')
     aliases = ()
     keywords = ('flower', 'vase', 'container')
 
     def build(self) -> None:
-        self.add_line('vase-0', (20, 4), (44, 4))
-        self.add_line('vase-1', (44, 4), (38, 13))
-        self.add_line('vase-2', (38, 13), (38, 19))
-        self.add_arc('vase-3', (38, 19), (52, 41), radius_x=18, radius_y=24)
-        self.add_arc('vase-4', (52, 41), (38, 60), radius_x=14, radius_y=19)
-        self.add_line('vase-5', (38, 60), (26, 60))
-        self.add_arc('vase-6', (26, 60), (12, 41), radius_x=14, radius_y=19)
-        self.add_arc('vase-7', (12, 41), (26, 19), radius_x=18, radius_y=24)
-        self.add_line('vase-8', (26, 19), (26, 13))
-        self.add_line('vase-9', (26, 13), (20, 4))
-        self.add_contour('vase', 'vase-0', 'vase-1', 'vase-2', 'vase-3', 'vase-4', 'vase-5', 'vase-6', 'vase-7', 'vase-8', 'vase-9', closed=True)
+        # SQUARE (was VRECT_M): a round-bellied vase, lip 22..42 at the top, neck 26..38, belly swelling to the full
+        # keyshape width at y 39 and a flat base; holds a symbol of 26 with a 4 px gap (was 21). Mirrored about x = 32.
+        self.add_line('lip', (22, 6), (42, 6))
+        self.add_line('lip-right', (42, 6), (38, 12))
+        self.add_line('neck-right', (38, 12), (38, 15))
+        self.add_bezier('belly-right', (38, 15), ((51, 18), (58, 27), (58, 39)), ((58, 51), (50, 58), (40, 58)))
+        self.add_line('base', (40, 58), (24, 58))
+        self.add_bezier('belly-left', (24, 58), ((14, 58), (6, 51), (6, 39)), ((6, 27), (13, 18), (26, 15)))
+        self.add_line('neck-left', (26, 15), (26, 12))
+        self.add_line('lip-left', (26, 12), (22, 6))
+        self.add_contour('vase', 'lip', 'lip-right', 'neck-right', 'belly-right', 'base', 'belly-left', 'neck-left', 'lip-left', closed=True)

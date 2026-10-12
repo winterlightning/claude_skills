@@ -6,6 +6,8 @@ Source details retained unless noted in the batch review.
 Hosting (compose.py): plus valid, heart valid, check valid.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (desktop-monitor-bottom-bezel SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): reproportioned so a container symbol has more room (container-combination64 space check).
 """
 
 from ...keyshapes import Keyshape
@@ -21,6 +23,8 @@ class DesktopMonitorBottomBezel(Container64):
     keywords = ('desktop', 'monitor', 'bottom', 'bezel')
 
     def build(self) -> None:
+        # Bezel line at 42 (was 40), the lowest it can sit with an 8 gap to the screen bottom (50), which keeps an
+        # 8 gap to the foot (58): the display area is as tall as the stand allows, room for a symbol of about 24.
         self.add_line('screen-0', (12, 6), (52, 6))
         self.add_arc('screen-1', (52, 6), (58, 12), radius_x=6)
         self.add_line('screen-2', (58, 12), (58, 44))
@@ -29,7 +33,7 @@ class DesktopMonitorBottomBezel(Container64):
         self.add_arc('screen-5', (12, 50), (6, 44), radius_x=6)
         self.add_line('screen-6', (6, 44), (6, 12))
         self.add_arc('screen-7', (6, 12), (12, 6), radius_x=6)
-        self.add_line('bezel', (6, 40), (58, 40))
+        self.add_line('bezel', (6, 42), (58, 42))
         self.add_line('stand-left', (28, 50), (26, 58))
         self.add_line('stand-right', (36, 50), (38, 58))
         self.add_line('foot', (20, 58), (44, 58))

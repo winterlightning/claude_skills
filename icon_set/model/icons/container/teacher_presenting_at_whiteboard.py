@@ -6,6 +6,8 @@ Directional and natural asymmetry follows the supplied subject.
 Final construction review: Original subject render; no exact Lucide match selected.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (teacher-presenting-at-whiteboard SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): closed board and a slimmer teacher pointing at its edge, so the symbol centres in the board (container-combination64).
 """
 
 from ...keyshapes import Keyshape
@@ -27,25 +29,27 @@ class TeacherPresentingAtWhiteboard(Container64):
     keywords = ('teacher', 'presenting', 'at', 'whiteboard')
 
     def build(self) -> None:
-        self.add_line('board-0', (29, 6), (52, 6))
-        self.add_arc('board-1', (52, 6), (58, 11), radius_x=6, radius_y=5)
-        self.add_line('board-2', (58, 11), (58, 46))
-        self.add_arc('board-3', (58, 46), (52, 51), radius_x=6, radius_y=5)
-        self.add_line('board-4', (52, 51), (37, 51))
-        self.add_arc('head-0', (10, 14), (18, 6), radius_x=8)
-        self.add_arc('head-1', (18, 6), (25, 14), radius_x=7, radius_y=8)
-        self.add_arc('head-2', (25, 14), (18, 22), radius_x=7, radius_y=8)
-        self.add_arc('head-3', (18, 22), (10, 14), radius_x=8)
-        self.add_line('torso', (18, 28), (18, 44))
-        self.add_line('legs-1', (6, 58), (18, 44))
-        self.add_line('legs-2', (18, 44), (29, 58))
-        self.add_line('arms-1', (6, 39), (18, 28))
-        self.add_line('arms-2', (18, 28), (29, 39))
-        self.add_line('arms-3', (29, 39), (37, 30))
+        # A whiteboard open on the teacher's side, as the original: top edge 24..53, rounded right side 58, bottom
+        # edge back to 30, no left edge; a slim stick-figure teacher on the left:
+        # head r5 at (12,12), torso 25..42 (4 units of ink below the head), legs to the floor at 58, one arm down
+        # and the pointing arm reaching to the board's open side at (24,20). The board holds a
+        # symbol of 20 (24 when its ink keeps 2 px) centred near (41,25).
+        self.add_line('board-0', (24, 6), (53, 6))
+        self.add_arc('board-1', (53, 6), (58, 11), radius_x=5)
+        self.add_line('board-2', (58, 11), (58, 39))
+        self.add_arc('board-3', (58, 39), (53, 44), radius_x=5)
+        self.add_line('board-4', (53, 44), (30, 44))
+        self.add_arc('head-0', (7, 12), (17, 12), radius_x=5)
+        self.add_arc('head-1', (17, 12), (7, 12), radius_x=5)
+        self.add_line('torso', (12, 25), (12, 42))
+        self.add_line('legs-1', (6, 58), (12, 42))
+        self.add_line('legs-2', (12, 42), (18, 58))
+        self.add_line('arms-1', (6, 33), (12, 25))
+        self.add_line('arms-2', (12, 25), (24, 20))
         self.add_contour('board', 'board-0', 'board-1', 'board-2', 'board-3', 'board-4')
-        self.add_contour('head', 'head-0', 'head-1', 'head-2', 'head-3', closed=True)
+        self.add_contour('head', 'head-0', 'head-1', closed=True)
         self.add_contour('legs', 'legs-1', 'legs-2')
-        self.add_contour('arms', 'arms-1', 'arms-2', 'arms-3')
-        self.relate('connect', 'legs', 'torso')
-        self.relate('connect', 'arms', 'torso')
+        self.add_contour('arms', 'arms-1', 'arms-2')
+        self.relate('connect', 'torso', 'legs')
+        self.relate('connect', 'torso', 'arms')
         self.mark_human_figure('teacher', head='head', torso='torso', torso_junction='start')

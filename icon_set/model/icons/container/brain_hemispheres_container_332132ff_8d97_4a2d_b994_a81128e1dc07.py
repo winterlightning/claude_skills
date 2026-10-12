@@ -14,6 +14,8 @@ seam and attached fold construction; the source owns the four-lobe silhouette.
 Human bust references are not applicable to this isolated organ.
 
 v2 (2026-09-30): resized onto the v2 CONTAINER64 keyshapes by container_v2_fit (brain-hemispheres-container SQUARE -> SQUARE). Lattice snap: shared columns and rows move together, gaps of 8 or less keep their size, stroke stays 4.
+
+v3 (2026-10-07): redrawn with an open centre (no full fissure, short folds) so a symbol of 24 fits (container-combination64).
 """
 
 from ...keyshapes import Keyshape
@@ -33,35 +35,21 @@ class BrainHemispheresContainer(Container64):
     keywords = ('brain', 'hemispheres', 'container')
 
     def build(self) -> None:
-        self.add_line('fissure', (32, 15), (33, 52))
-        self.add_arc('hemisphere--1-0', (32, 15), (16, 15), radius_x=8, radius_y=9, sweep=False)
-        self.add_arc('hemisphere--1-1', (16, 15), (16, 37), radius_x=10, radius_y=11, sweep=False)
-        self.add_arc('hemisphere--1-2', (16, 37), (21, 52), radius_x=8, sweep=False)
-        self.add_arc('hemisphere--1-3', (21, 52), (33, 52), radius_x=6, sweep=False)
-        self.add_arc('fold-top--1-0', (16, 15), (24, 23), radius_x=8, sweep=False)
-        self.add_arc('fold-middle--1-0', (16, 37), (24, 35), radius_x=15, sweep=False)
-        self.add_arc('fold-bottom--1-0', (21, 52), (24, 45), radius_x=9, sweep=False)
-        self.add_arc('hemisphere-1-0', (32, 15), (48, 15), radius_x=8, radius_y=9)
-        self.add_arc('hemisphere-1-1', (48, 15), (48, 37), radius_x=10, radius_y=11)
-        self.add_arc('hemisphere-1-2', (48, 37), (43, 52), radius_x=8)
-        self.add_arc('hemisphere-1-3', (43, 52), (33, 52), radius_x=6)
-        self.add_arc('fold-top-1-0', (48, 15), (40, 23), radius_x=8)
-        self.add_arc('fold-middle-1-0', (48, 37), (40, 35), radius_x=15)
-        self.add_arc('fold-bottom-1-0', (43, 52), (40, 45), radius_x=9)
-        self.add_contour('hemisphere--1', 'hemisphere--1-0', 'hemisphere--1-1', 'hemisphere--1-2', 'hemisphere--1-3')
-        self.add_contour('fold-top--1', 'fold-top--1-0')
-        self.add_contour('fold-middle--1', 'fold-middle--1-0')
-        self.add_contour('fold-bottom--1', 'fold-bottom--1-0')
-        self.add_contour('hemisphere-1', 'hemisphere-1-0', 'hemisphere-1-1', 'hemisphere-1-2', 'hemisphere-1-3')
-        self.add_contour('fold-top-1', 'fold-top-1-0')
-        self.add_contour('fold-middle-1', 'fold-middle-1-0')
-        self.add_contour('fold-bottom-1', 'fold-bottom-1-0')
-        self.relate('connect', 'fissure', 'hemisphere--1')
-        self.relate('connect', 'hemisphere--1', 'fold-top--1')
-        self.relate('connect', 'hemisphere--1', 'fold-middle--1')
-        self.relate('connect', 'hemisphere--1', 'fold-bottom--1')
-        self.relate('connect', 'fissure', 'hemisphere-1')
-        self.relate('connect', 'hemisphere-1', 'fold-top-1')
-        self.relate('connect', 'hemisphere-1', 'fold-middle-1')
-        self.relate('connect', 'hemisphere-1', 'fold-bottom-1')
-        self.relate('connect', 'hemisphere--1', 'hemisphere-1')
+        # Open-centre brain: each hemisphere is four lobes drawn as Bezier runs whose knots are the lobe tops
+        # (tangent to the keyshape at 6/58) and the inward joins; the fissure is only the notches at (32,10) and
+        # (32,56), and each join carries a short fold, so the middle stays empty for a symbol of 24 with a 4 px
+        # gap. The right hemisphere mirrors the left about x = 32.
+        lobes = [((32, 10), ((31, 7.5), (27, 6), (23, 6)), ((19, 6), (16, 7.5), (15, 10))),
+                 ((15, 10), ((10, 10), (6, 14), (6, 19)), ((6, 24), (7, 28), (9, 30))),
+                 ((9, 30), ((7, 33), (6, 37), (6, 41)), ((6, 46), (8, 49), (12, 51))),
+                 ((12, 51), ((14, 56), (18, 58), (22, 58)), ((26, 58), (30, 57.5), (32, 56)))]
+        mirror = lambda p: (64 - p[0], p[1])
+        for side, f in (('left', lambda p: p), ('right', mirror)):
+            for n, (start, *segments) in enumerate(lobes):
+                self.add_bezier(f'{side}-{n}', f(start), *[tuple(f(p) for p in seg) for seg in segments])
+            self.add_contour(side, *(f'{side}-{n}' for n in range(4)))
+        for side, f in (('left', lambda p: p), ('right', mirror)):
+            for name, a, b in (('top', (15, 10), (17, 13)), ('middle', (9, 30), (12, 30)), ('bottom', (12, 51), (14, 48))):
+                self.add_line(f'fold-{name}-{side}', f(a), f(b))
+                self.relate('connect', side, f'fold-{name}-{side}')
+        self.relate('connect', 'left', 'right')
