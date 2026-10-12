@@ -84,6 +84,8 @@ pub async fn catalog_push(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
             let guard = format!("uploaded = 0 AND NOT ({})", super::icon_list::BUILT_IN_BROWSER);
             statements.push(super::icon_list::index_statement(&ctx.db, &icon.key, &icon.record, Some(&guard))?);
             statements.push(super::icon_list::symmetry_statement(&ctx.db, &icon.key, &icon.facet)?);
+            statements.push(super::icon_list::stale_measured_statement(&ctx.db, &icon.key, &icon.svg_sha256)?);
+            statements.push(super::icon_list::measured_statement(&ctx.db, &icon.key)?);
         }
         if let Some(graph) = icon.graph.as_ref().filter(|g| g.is_object()) {
             if let Some(sha) = graph.get("svg_sha256").and_then(Value::as_str) {
