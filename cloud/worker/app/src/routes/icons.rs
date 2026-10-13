@@ -156,6 +156,10 @@ pub async fn get_icon_flag(ctx: &Ctx) -> Result<Response> {
     })
 }
 
+/// FREE and the keyshapes.v1 base names an upload may declare.
+const KEYSHAPES: [&str; 11] = ["FREE", "CIRCLE", "SQUARE", "HRECT_XL", "HRECT_L", "HRECT_M", "HRECT_S",
+                               "VRECT_XL", "VRECT_L", "VRECT_M", "VRECT_S"];
+
 const FLAGS: [&str; 7] = ["", "container_combination", "combination", "text", "number", "other", "exception"];
 
 pub async fn post_icon_flag(ctx: &Ctx, data: &Value, user: &str) -> Result<Response> {
@@ -205,6 +209,12 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         None | Some(Value::Null) => None,
         Some(Value::String(a)) if (1..=100).contains(&a.trim().chars().count()) => Some(a.trim().to_string()),
         _ => return http::error(400, "author must be a name up to 100 characters."),
+    };
+    // Optional: the keyshape the drawing fits; FREE when omitted. Its envelope comes from the profile contract.
+    let keyshape = match data.get("keyshape") {
+        None | Some(Value::Null) => None,
+        Some(Value::String(k)) if KEYSHAPES.contains(&k.trim().to_uppercase().as_str()) => Some(k.trim().to_uppercase()),
+        _ => return http::error(400, &format!("keyshape must be one of {}.", KEYSHAPES.join(", "))),
     };
     let bypass = match data.get("bypass_validation") {
         None => true,
@@ -261,7 +271,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
     // candidate and the icon returns to Ready, whatever its review was (the generated icon before an earlier upload).
     if let Some((id, _)) = &original {
         if let Some(existing) = existing_icon(ctx, id, family_id).await? {
-            let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, author.as_deref(), user, &now).await?;
+            let statements = super::edits::pick_upload(ctx, &existing, &document, &digest, author.as_deref(), keyshape.as_deref(), user, &now).await?;
             db::batch(&ctx.db, statements).await?;
             let record = json!({"key": existing.key, "icon_id": existing.icon_id, "name": existing.name, "family": family_id,
                                 "svg_sha256": digest, "preview_url": format!("../api/icon-artwork/svg?icon={}&v={digest}", http::percent_encode(&existing.key)),
@@ -303,7 +313,7 @@ pub async fn post_upload(ctx: &Ctx, data: &Value, user: &str) -> Result<Response
         "svg_sha256": digest, "uploaded_icon": true, "artwork_source": "use_org",
         "preview_url": preview_url, "author": author.as_deref().unwrap_or(user), "created_at": now, "modified_at": now, "original_sources": original_sources,
         "primitives": [], "contours": [], "relationships": [], "anchors": {},
-        "style": {"stroke_width": 4}, "keyshape": "FREE", "keyshape_bounds": [0, 0, canvas, canvas],
+        "style": {"stroke_width": 4}, "keyshape": keyshape.as_deref().unwrap_or("FREE"), "keyshape_bounds": [0, 0, canvas, canvas],
         "bypass_validation": bypass, "validation": validation});
     let record_text = serde_json::to_string(&record).unwrap();
     let db = &ctx.db;

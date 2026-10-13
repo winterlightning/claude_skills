@@ -328,7 +328,7 @@ pub async fn post_artwork(ctx: &Ctx, data: &Value, user: &str) -> Result<Respons
 /// resolved — the statements for one batch. An icon that is itself an upload has no choice document: its stored
 /// drawing is replaced.
 /// `author`: who drew the upload, replacing the icon's author (record, list column and card); None keeps it.
-pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author: Option<&str>, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
+pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author: Option<&str>, keyshape: Option<&str>, user: &str, now: &str) -> Result<Vec<D1PreparedStatement>> {
     let db = &ctx.db;
     let key = icon.key.clone();
     let preview = format!("../api/icon-artwork/svg?icon={}&v={digest}", percent_encode(&key));
@@ -361,6 +361,13 @@ pub async fn pick_upload(ctx: &Ctx, icon: &Icon, svg: &str, digest: &str, author
             card = CASE WHEN card IS NULL THEN NULL ELSE json_set(card, '$.author', ?) END WHERE key = ?", args![author, author, author, key.clone()])?);
         if icon.uploaded {
             statements.push(db::stmt(db, "UPDATE uploaded_icons SET record = json_set(record, '$.author', ?) WHERE icon = ?", args![author, key.clone()])?);
+        }
+    }
+    if let Some(keyshape) = keyshape {
+        statements.push(db::stmt(db, "UPDATE icons SET keyshape = ?, record = json_set(record, '$.keyshape', ?), \
+            card = CASE WHEN card IS NULL THEN NULL ELSE json_set(card, '$.keyshape', ?) END WHERE key = ?", args![keyshape, keyshape, keyshape, key.clone()])?);
+        if icon.uploaded {
+            statements.push(db::stmt(db, "UPDATE uploaded_icons SET record = json_set(record, '$.keyshape', ?) WHERE icon = ?", args![keyshape, key.clone()])?);
         }
     }
     statements.push(db::stmt(db, "INSERT OR IGNORE INTO revisions(svg_sha256, icon, svg, origin, created_at) VALUES (?, ?, ?, 'upload', ?)",

@@ -45,6 +45,7 @@
       return option;
     }));
     $('uploadFamily').value = current;
+    fillKeyshapes();
   }
   loadFamilies().catch(error => { $('familyMessage').textContent = error.message; });
   $('createFamily').addEventListener('click', async () => {
@@ -59,6 +60,27 @@
     } catch (error) { $('familyMessage').textContent = error.message; }
     finally { $('createFamily').disabled = false; }
   });
+  // Keyshape choices follow the family's profile (laboratory.json, as icon-guides.js reads it); FREE is always offered.
+  const BASE_KEYSHAPES = ['CIRCLE','SQUARE','HRECT_XL','HRECT_L','HRECT_M','HRECT_S','VRECT_XL','VRECT_L','VRECT_M','VRECT_S'];
+  let contracts = null;
+  function fillKeyshapes() {
+    const current = $('uploadKeyshape').value || 'FREE';
+    const profile = contracts?.profile.families[$('uploadFamily').value]?.profile;
+    const shapes = contracts?.keyshapes.resolved[profile] || {};
+    const names = contracts?.profile.profiles[profile]?.keyshape_choices || (Object.keys(shapes).length ? Object.keys(shapes) : BASE_KEYSHAPES);
+    const free = document.createElement('option');
+    free.value = 'FREE';
+    free.textContent = 'FREE · no fixed envelope';
+    $('uploadKeyshape').replaceChildren(free, ...names.map(name => {
+      const option = document.createElement('option'), box = shapes[name]?.visible_bounds;
+      option.value = name;
+      option.textContent = box ? `${name} · ${box[2] - box[0]} × ${box[3] - box[1]}` : name;
+      return option;
+    }));
+    $('uploadKeyshape').value = names.includes(current) ? current : 'FREE';
+  }
+  fetch('laboratory.json').then(r => r.ok ? r.json() : null).then(data => { contracts = data; }).catch(() => {}).finally(fillKeyshapes);
+  $('uploadFamily').addEventListener('change', fillKeyshapes);
   let previewURL = null, busy = false;
   $('uploadFile').addEventListener('change', async () => {
     if (previewURL) URL.revokeObjectURL(previewURL);
@@ -79,7 +101,7 @@
     const view = (svg.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
     if (view.length === 4 && view[0] === 0 && view[1] === 0 && view[2] === view[3]) {
       const family = {32:'sub',48:'solo',64:'container'}[view[2]];
-      if (family && ['solo','sub','container'].includes($('uploadFamily').value)) $('uploadFamily').value = family;
+      if (family && ['solo','sub','container'].includes($('uploadFamily').value)) { $('uploadFamily').value = family; fillKeyshapes(); }
     }
     previewURL = URL.createObjectURL(new Blob([text], {type:'image/svg+xml'}));
     $('uploadPreview').src = previewURL;
@@ -92,7 +114,7 @@
     if (!file) return;
     busy = true;
     const inputs = [...$('uploadForm').querySelectorAll('input,select,button')];
-    const data = {name:$('uploadName').value.trim(), family:$('uploadFamily').value, category:$('uploadCategory').value.trim(), bypass_validation:!$('uploadValidation').checked};
+    const data = {name:$('uploadName').value.trim(), family:$('uploadFamily').value, category:$('uploadCategory').value.trim(), keyshape:$('uploadKeyshape').value, bypass_validation:!$('uploadValidation').checked};
     inputs.forEach(input => input.disabled = true);
     $('uploadMessage').textContent = 'Uploading…';
     $('uploadResult').hidden = true;
@@ -105,6 +127,7 @@
       $('uploadResult').hidden = false;
       $('uploadMessage').textContent = 'Saved. Your icon is Ready for review.';
       $('uploadForm').reset();
+      fillKeyshapes();
       loadCategories();
       $('uploadPreview').hidden = true;
       if (previewURL) { URL.revokeObjectURL(previewURL); previewURL = null; }
