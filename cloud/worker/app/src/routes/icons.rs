@@ -367,7 +367,7 @@ async fn existing_icon(ctx: &Ctx, reference_id: &str, family: &str) -> Result<Op
 }
 
 /// The original_sources value a built icon drawn from this reference carries, or None for an unknown id.
-async fn original_reference(ctx: &Ctx, id: &str) -> Result<Option<Value>> {
+pub(super) async fn original_reference(ctx: &Ctx, id: &str) -> Result<Option<Value>> {
     #[derive(Deserialize)]
     struct Row { folder: Option<String>, file: Option<String>, r2_key: Option<String>, sha256: Option<String> }
     let row: Option<Row> = db::first(&ctx.db, "SELECT folder, file, r2_key, sha256 FROM \"references\" WHERE reference_id = ?",
