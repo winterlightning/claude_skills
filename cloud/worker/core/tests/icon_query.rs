@@ -71,6 +71,12 @@ fn database(fixture: &Value) -> Connection {
     for sha in fixture["graphs"].as_array().unwrap() {
         db.execute("INSERT INTO icon_graphs(svg_sha256, icon, graph) VALUES (?1, 'x', '{}')", rusqlite::params![sha.as_str()]).unwrap();
     }
+    // The legacy fixture tagged every selected side sub; give those records live pair selections.
+    for record in fixture["records"].as_array().unwrap().iter().filter(|r| r["side_role"] == "sub") {
+        let key = record["key"].as_str().unwrap();
+        db.execute("INSERT INTO \"references\"(reference_id, kind, source) VALUES (?1, 'combination', 'test')", [key]).unwrap();
+        db.execute("INSERT INTO reference_parts(reference_id, role, part_reference_id, icon) VALUES (?1, 'sub', 'test', ?1)", [key]).unwrap();
+    }
     refresh(&db);
     db
 }
@@ -399,4 +405,49 @@ fn a_write_to_many_icons_keeps_them_current_in_one_statement_each() {
     refresh(&db);
     assert_eq!(after_write, listed(&db));
     assert_eq!(counted, counts(&db), "the counts a refresh rebuilds");
+}
+
+#[test]
+fn side_sub_uses_combination_links_and_counts_each_drawing_once() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    let selected = fixture["records"].as_array().unwrap().iter()
+        .find(|r| r["side_role"] == "sub" && !r["build_failed"].as_bool().unwrap_or(false)).unwrap();
+    let key = selected["key"].as_str().unwrap();
+    db.execute("DELETE FROM reference_parts", []).unwrap();
+    // Tags remain on all the unused alternatives. Only this drawing is selected, by two pairs.
+    for id in ["chosen-a", "chosen-b"] {
+        db.execute("INSERT INTO \"references\"(reference_id, kind, source) VALUES (?1, 'combination', 'test')", [id]).unwrap();
+        db.execute("INSERT INTO reference_parts(reference_id, role, part_reference_id, icon) VALUES (?1, 'sub', 'test', ?2)",
+                   rusqlite::params![id, key]).unwrap();
+    }
+    db.execute("UPDATE icons SET state = 'approve', side_role = NULL WHERE key = ?1", [key]).unwrap();
+    for family in ["side_sub", "sub_side"] {
+        for view in ["both", "versions"] {
+            let p = params(&json!({"family": family, "status": "approve", "view": view}));
+            let (count, keys, states, categories) = list(&db, &p);
+            assert_eq!(keys, vec![json!(key)]);
+            assert_eq!(count["total"], 1);
+            assert_eq!(count["versions"], 1);
+            assert_eq!(states.get("approve"), Some(&1));
+            assert_eq!(categories.values().sum::<i64>(), 1);
+        }
+    }
+    // An unselected alternative linked to the same reference appears too, without a side_role tag.
+    let alternative = fixture["records"].as_array().unwrap().iter()
+        .find(|r| r["family"] == "sub").unwrap()["key"].as_str().unwrap();
+    db.execute("INSERT INTO icon_references(icon, reference_id) VALUES (?1, 'test')", [alternative]).unwrap();
+    db.execute("UPDATE icons SET state = 'approve', side_role = NULL WHERE key = ?1", [alternative]).unwrap();
+    let (count, keys, states, _) = list(&db, &params(&json!({"family": "side_sub", "status": "approve"})));
+    assert_eq!(count["total"], 2);
+    assert_eq!(keys.len(), 2);
+    assert!(keys.contains(&json!(alternative)));
+    assert_eq!(states.get("approve"), Some(&2));
+    // A linked container symbol is an independent drawing, not a side sub.
+    db.execute("UPDATE icons SET family = 'symbol' WHERE key = ?1", [alternative]).unwrap();
+    assert_eq!(list(&db, &params(&json!({"family": "side_sub", "status": "approve"}))).0["total"], 1);
+    db.execute("DELETE FROM reference_parts", []).unwrap();
+    let (count, keys, _, _) = list(&db, &params(&json!({"family": "side_sub"})));
+    assert!(keys.is_empty());
+    assert_eq!(count["total"], 0);
 }
