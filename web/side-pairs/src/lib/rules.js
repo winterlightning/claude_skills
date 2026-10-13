@@ -38,11 +38,14 @@ export function ink(item, sub) {
   if (!b) return [0, 0];
   return [b[2] - b[0] + 4, b[3] - b[1] + 4];
 }
+const EXCEPTION_SIZES = ['side-source-fit', 'side-32x48', 'side-one-axis32'];
 export function subProblems(s, item, flagged = () => false) {
   const problems = [], [w, h] = ink(item, true);
   if (item.model_validation && item.model_validation !== 'pass') problems.push('Model validation: ' + item.model_validation);
-  if (['needs_redraw', 'needs_review'].includes(item.sub32_status)) problems.push(item.sub32_reason || 'Needs a SUB32 redraw');
-  if (!item.native_text && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
+  // A stale form measured an older drawing; the current one is checked at 32 by its own build (model_validation).
+  if (!item.stale_form && ['needs_redraw', 'needs_review'].includes(item.sub32_status)) problems.push(item.sub32_reason || 'Needs a SUB32 redraw');
+  // An exception size (combine-side.js EXCEPTION_SIZES) is placed 1:1 at its drawn size on purpose.
+  if (!item.stale_form && !item.native_text && !EXCEPTION_SIZES.includes(item.sizing_mode) && (w > 32.01 || h > 32.01)) problems.push(`Ink ${round(w)}×${round(h)} exceeds 32×32`);
   if (flagged(item)) problems.push('Disapproved — needs fix');
   return problems;
 }

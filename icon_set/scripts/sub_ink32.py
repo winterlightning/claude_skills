@@ -79,4 +79,7 @@ def normalize_ink32(document: str, *, text: bool=False) -> tuple[str, dict]:
         assert abs(max(r-l,b-t)+4-32)<1e-6
     root=ET.Element('svg',xmlns='http://www.w3.org/2000/svg',width=str(width),height='32',viewBox=f'0 0 {width} 32',fill='none',stroke='currentColor',**{'stroke-width':str(stroke),'stroke-linecap':'round','stroke-linejoin':'round'})
     for i,p in enumerate(fitted):ET.SubElement(root,'path',id=f'part-{i+1}',d=p.d())
-    return ET.tostring(root,encoding='unicode'),dict(ink_bounds=ink,ink_width=r-l+stroke,ink_height=b-t+stroke,geometry_scale=scale,stroke=stroke,canvas=32,canvas_width=width,bounds=[l,t,r,b],grid=1)
+    return ET.tostring(root,encoding='unicode'),dict(ink_bounds=ink,ink_width=r-l+stroke,ink_height=b-t+stroke,geometry_scale=scale,stroke=stroke,canvas=32,canvas_width=width,bounds=[l,t,r,b],grid=1,
+                # The original drawing onto this grid before snapping (x' = x*scale + dx): the combine engine draws the
+                # original sub with it, so snapping shapes only the clearance, never the published curves.
+                fit=[scale,dx,dy])

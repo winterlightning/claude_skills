@@ -37,7 +37,7 @@ UUID = re.compile(r'_([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{1
 HINTS = {'internal-spacing': 'parts sit too close, keep 4u ink clearance (8u between centerlines)',
          'mic': 'a gap or opening is too narrow, widen it to 4u ink clearance (8u centerlines)',
          'holes/pinches': 'enlarge the undersized holes and remove pinched joins'}
-REASON_TEXT = {'bad-stroke': 'bad stroke', 'meaning': 'does not convey the intended meaning',
+REASON_TEXT = {'bad-stroke': 'bad stroke', 'bad-layout': 'bad layout', 'meaning': 'does not convey the intended meaning',
                'manual-fix-request': 'manual fix request', 'other': 'other'}
 NO_FEEDBACK = ('no written feedback: likely a bad stroke or it does not look like the reference. '
                'Compare it with the reference, find what is off and redraw it faithfully.')

@@ -10,6 +10,8 @@ cloud and a local deploy.py compute identical edits, validation reports and draw
     POST /validate  {icon, data}                   -> validation report of the edited graph (stroke_edits.validate_edit)
     POST /render    {graph}                        -> {svg, svg_sha256}
     POST /artwork   {icon, data, old, edit, user}  -> {choice, selected}: the artwork choice to store and its drawing
+    POST /svg-graph {svg, key, svg_sha256, canvas_size, family, icon_id, name, profile}
+                                                   -> an uploaded icon's editable graph, read back from its SVG
     GET  /health
 """
 from __future__ import annotations
@@ -22,6 +24,7 @@ import traceback
 from icon_set.scripts.edit_validation import icon_from_graph
 from icon_set.scripts.icon_artwork import baseline, build_artwork_choice, resolve_artwork, sha
 from icon_set.scripts.stroke_edits import EditConflict, GRAPH_FIELDS, build_edit_document, validate_edit
+from icon_set.scripts.svg_graph import graph_from_svg
 
 MAX_BODY = 4 * 1024 * 1024
 
@@ -43,11 +46,20 @@ def artwork(icon: dict, data: dict, old: dict | None, edit: dict | None, user: s
         'validation_override': selected['validation_override'], 'automatic_status': selected['automatic_status']}}
 
 
+def svg_graph(body: dict) -> dict:
+    graph = graph_from_svg(body['svg'], canvas=int(body['canvas_size']), family=body['family'], icon_id=body.get('icon_id') or '',
+                           name=body.get('name') or '', profile=body.get('profile') or '')
+    if not graph['primitives']:
+        raise ValueError('This SVG has no strokes Browser Edit can read.')
+    return {**graph, 'key': body['key'], 'svg_sha256': body['svg_sha256']}
+
+
 ROUTES = {
     '/edit': lambda b: build_edit_document(b['icon'], b['data'], b.get('old'), b['user']),
     '/validate': lambda b: validate_edit(b['icon'], b['data']),
     '/render': lambda b: render(b['graph']),
     '/artwork': lambda b: artwork(b['icon'], b['data'], b.get('old'), b.get('edit'), b['user']),
+    '/svg-graph': svg_graph,
 }
 
 

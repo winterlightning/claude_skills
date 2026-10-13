@@ -160,7 +160,10 @@ def restore_original_sub(svg, item, placed):
     ns = 'http://www.w3.org/2000/svg'
     ET.register_namespace('', ns)
     target = ET.fromstring(svg)
-    source = ET.fromstring(item['document'])
+    # A redrawn sub was snapped to SUB32 for the clearance; publish the drawing itself, placed by the normalizer's
+    # fit (side_recombine._normalized_sub), with every stroke at 4 once placed.
+    display = item['display_fit'] if item.get('display_document') and item.get('display_fit') else None
+    source = ET.fromstring(item['display_document'] if display else item['document'])
     old = next(e for e in target if e.get('id') == 'state-icon')
     index = list(target).index(old)
     target.remove(old)
@@ -168,11 +171,19 @@ def restore_original_sub(svg, item, placed):
     box = placed['painted_box']
     scale = (box['w'] - 4) / (x1-x0) if x1 != x0 else (box['h'] - 4) / (y1-y0)
     tx,ty = box['x']+2-x0*scale, box['y']+2-y0*scale
+    drawn = 4 / (scale * display[0]) if display else None  # stroke width in the drawing's own units
     attrs = {k:v for k,v in source.attrib.items() if k not in ('width','height','viewBox','id','transform')}
-    attrs.setdefault('stroke-width', '4')
+    if display:
+        attrs['stroke-width'] = str(drawn)
+    else:
+        attrs.setdefault('stroke-width', '4')
     attrs.update(id='state-icon', transform=f'translate({tx:.12g} {ty:.12g}) scale({scale:.12g})')
     group = ET.Element('{'+ns+'}g', attrs)
-    content = ET.SubElement(group, '{'+ns+'}g', {'transform':source.get('transform')}) if source.get('transform') else group
+    content = group
+    if display:
+        content = ET.SubElement(group, '{'+ns+'}g', {'transform': f'translate({display[1]:.12g} {display[2]:.12g}) scale({display[0]:.12g})'})
+    if source.get('transform'):
+        content = ET.SubElement(content, '{'+ns+'}g', {'transform': source.get('transform')})
     for child in source:
         if child.tag.rsplit('}',1)[-1] not in ('title','desc'):
             content.append(copy.deepcopy(child))
@@ -188,7 +199,10 @@ def restore_original_sub(svg, item, placed):
         # Compensate placement scale only; viewBox zoom must scale both strokes equally.
         element.attrib.pop('vector-effect', None)
         if 'stroke-width' in element.attrib:
-            element.set('stroke-width', str(float(element.get('stroke-width')) / scale))
+            if display and element is not group:
+                element.set('stroke-width', str(drawn))
+            elif not display:
+                element.set('stroke-width', str(float(element.get('stroke-width')) / scale))
     target.insert(index, group)
     return ET.tostring(target, encoding='unicode')
 

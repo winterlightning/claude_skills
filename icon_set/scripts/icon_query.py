@@ -15,7 +15,7 @@ PAGE_SIZES = (24, 48, 96, 192)
 CHOICES = {'symmetry': ('symmetric', 'vertical', 'horizontal', 'both', 'asymmetric', 'unknown'),
            'strokes': ('1-3', '4-6', '7-10', '11+', 'unknown'), 'revision': ('original', 'variant'), 'reference': ('with', 'without'),
            'artwork': ('original', 'modified', 'edited', 'uploaded', 'work_fix'),
-           'reason': ('bad-stroke', 'manual-fix-request', 'meaning', 'other', 'missing', 'cannot-fix'),
+           'reason': ('bad-stroke', 'bad-layout', 'manual-fix-request', 'meaning', 'other', 'missing', 'cannot-fix'),
            'pending_feedback': ('with', 'without'), 'status': STATES, 'sort': SORTS}
 COMBINED = ('side_combination64', 'container_combination64')
 CARD_FIELDS = ('key', 'icon_id', 'name', 'family', 'category', 'profile', 'canvas_size', 'canvas_width', 'canvas_height', 'sizing_mode',

@@ -1,6 +1,6 @@
 ---
 name: primitive-fix-thuan
-argument-hint: <count> [--family solo|icon-72|container|sub|text] [--offset N] [--disapprove-status bad-stroke|meaning|manual-fix-request|other] [--max-disapprovals N] [--worker name]
+argument-hint: <count> [--family solo|icon-72|container|sub|text] [--offset N] [--disapprove-status bad-stroke|bad-layout|meaning|manual-fix-request|other] [--max-disapprovals N] [--worker name]
 description: Claim a number of disapproved Pictographic icons (solo unless --family names another family such as icon-72) from the shared production fix queue, redraw each one by running /primitive-make-ray on its original reference with the reviewer's feedback, upload the before and after drawings to production and report done. Every claimed icon must be compared with its original and its current drawing and fixed, and its module `AUTHOR` set to the AI model ID that fixed it (model only, no worker name); never asks, never skips. Only icons disapproved once are claimed unless --max-disapprovals says otherwise. Arguments: count, optional --family, --offset, --disapprove-status, --max-disapprovals and --worker. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
@@ -16,7 +16,7 @@ Run from the repository containing `icon_set/`. The first number in the argument
 **count** of icons to claim (default 1 when none is given). `--family` picks the queue family:
 `solo` when none is given, or another one such as `icon-72`, `container`, `sub` or `text`; pass it
 to `start` exactly as given. `--offset N` skips that many
-claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,
+claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `bad-layout`, `meaning`,
 `manual-fix-request`, `other`, `missing`). **Only icons disapproved once** are claimed: pass
 `--max-disapprovals 1` always, or the number given in the arguments. An icon that was fixed (a fix
 uploaded or reported, or a new drawing) and disapproved again counts as twice. Icons disapproved two or more

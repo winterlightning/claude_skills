@@ -79,7 +79,7 @@
   root.innerHTML=extra?extra.render({icon}):({landing,dashboard,application,slides:presentation})[kind]();
   editor.mount();
   const views=document.createElement('div');views.className='scene-views';views.setAttribute('role','group');views.setAttribute('aria-label','Icon family');
-  const viewButtons=[['solo','48','Show Primitive 48 icons'],['p72','72','Show the best-matching Primitive 72 icons'],['side','Side','Show the side-combination icons']].map(([mode,text,title])=>{const b=document.createElement('button');b.type='button';b.dataset.mode=mode;b.textContent=text;b.title=title;b.onclick=()=>{editor.setMode(mode);paintViews(mode);};views.append(b);return b;});
+  const viewButtons=[['solo','48','Show Primitive 48 icons'],['round','48 Round','Show each Primitive 48 icon\'s round-corner version (corner_processing)'],['sharp','48 Sharp','Show each Primitive 48 icon\'s sharp-corner version (corner_processing)'],['p72','72','Show the best-matching Primitive 72 icons'],['side','Side','Show the side-combination icons']].map(([mode,text,title])=>{const b=document.createElement('button');b.type='button';b.dataset.mode=mode;b.textContent=text;b.title=title;b.onclick=()=>{editor.setMode(mode);paintViews(mode);};views.append(b);return b;});
   const shuffleBtn=document.createElement('button');shuffleBtn.type='button';shuffleBtn.id='iconShuffle';shuffleBtn.textContent='Shuffle';shuffleBtn.title='Random approved icons from Primitive 48, Primitive 72 and side combinations';
   shuffleBtn.onclick=()=>{editor.shuffle();paintViews('shuffle');};
   const paintViews=mode=>{viewButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));shuffleBtn.setAttribute('aria-pressed',String(mode==='shuffle'));};

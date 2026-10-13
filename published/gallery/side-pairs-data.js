@@ -42,6 +42,9 @@
     let item;
     if (p.form && (p.icon ? formKey(p.form) === p.icon : p.form.native_text)) {
       item = {...p.form, model_key: p.form.model_key || formKey(p.form), sha256: p.form.sha256};
+      // The form was measured from an older drawing of this icon (it was redrawn since): its sizes and SUB32
+      // status describe that drawing, not the one combined now (combine-side.js measures the new one again).
+      if (p.icon && p.current_sha && ![p.form.sha256, p.form.source_sha256].includes(p.current_sha)) item.stale_form = true;
     } else if (p.icon) {
       const [family, name] = p.icon.split('/');
       item = {icon: name, family, model_key: p.icon, sha256: p.current_sha, preview_url: iconURL(p.icon, p.current_sha)};
@@ -177,7 +180,20 @@
       results.push(...(await api('/api/combinations/build', {size: SIZE, builds: requests.slice(i, i + 50)})).results);
       progress?.(results.length, requests.length);
     }
+    // What the stored icon was before: a build that stores the same drawing changes nothing in Icon review.
+    for (const r of results) {
+      const before = items.get(r.reference_id)?.icon;
+      if (r.ok && before && before.svg_sha256 === r.svg_sha256) Object.assign(r, {unchanged: true, review: before.review || 'ready'});
+    }
     return results;
+  }
+  // Where a stored build lands in Icon review, said to the person who saved it ('' when it goes to To review).
+  const REVIEW_NAMES = {approve: 'Approved', pending: 'Needs fix', disapprove: 'Needs fix', claimed: 'Being fixed', rejected: 'Rejected', ready: 'To review'};
+  function outcome(r) {
+    if (!r?.ok) return r?.error || '';
+    if (r.unchanged) return `Nothing changed: the combined drawing is the same as before, so it stays ${REVIEW_NAMES[r.review] || r.review} in Icon review. Change the layout or a part to make a new one.`;
+    if (r.build_failed) return `Saved, but Icon review lists it under Failed until ${(r.errors || []).join('; ').replace(/ is not approved in Icon review/g, '') || 'its parts'} ${(r.errors || []).length > 1 ? 'are' : 'is'} approved. It moves to To review by itself then.`;
+    return '';
   }
   // Compose and store pairs (Build all, Recombine): those that cannot be drawn are reported, not sent.
   async function buildPairs(ids, progress) {
@@ -215,6 +231,6 @@
     return [...items.values()].filter(it => it.reference_id !== exceptId && part(it, 'main').icon === mainKey && part(it, 'sub').icon);
   }
 
-  window.SideData = {SIZES, size: () => SIZE, sizes: () => SIZES[SIZE], setSize, load, snapshot, refresh, item, part, handLayout, staleRoles, compose, build, buildPairs, elements,
+  window.SideData = {SIZES, size: () => SIZE, sizes: () => SIZES[SIZE], setSize, load, snapshot, refresh, item, part, handLayout, staleRoles, compose, build, buildPairs, outcome, elements,
                      pairsWithMain, loadDrawings, drawings, iconURL, api};
 })();

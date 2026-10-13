@@ -158,6 +158,11 @@ struct IconsJsonLayout {
     count: u64,
 }
 
+/// The records of uploaded icons in upload order, without round and sharp records (style, migration 0019): the
+/// 20,000 corner_processing versions are listed and fetched through /api/icons, not in the catalog files.
+const UPLOADED_NORMAL: &str = "SELECT u.record FROM uploaded_icons u \
+    WHERE NOT EXISTS (SELECT 1 FROM icons i WHERE i.key = u.icon AND i.style != 'normal') ORDER BY u.rowid";
+
 /// `/gallery/icons.json`: the pushed catalog, with uploaded icons appended to its `icons` list.
 /// The push writes `icons` last, so the file ends with `]}` and the uploads splice in before it.
 async fn icons_json(ctx: &Ctx) -> Result<Response> {
@@ -185,7 +190,7 @@ async fn icons_json(ctx: &Ctx) -> Result<Response> {
     }
     #[derive(Deserialize)]
     struct Upload { record: String }
-    let uploads: Vec<Upload> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    let uploads: Vec<Upload> = db::all(&ctx.db, UPLOADED_NORMAL, vec![]).await?;
     let size = head.size();
     if uploads.is_empty() || layout.tail == 0 || layout.tail > size {
         let object = bucket.get(ICONS_JSON).execute().await?.ok_or_else(|| worker::Error::RustError("icons.json vanished".into()))?;
@@ -210,7 +215,8 @@ async fn icons_json(ctx: &Ctx) -> Result<Response> {
     Ok(Response::from_stream(combined)?.with_headers(headers))
 }
 
-/// `/gallery/preview-icons.json`: the built preview list lacks uploads; append them (deploy.py does the same).
+/// `/gallery/preview-icons.json`: the built preview list lacks uploads; append them (deploy.py does the same). Round and
+/// sharp records (style, migration 0019) are left out: the preview asks for the few a scene shows by key.
 async fn preview_icons_json(ctx: &Ctx) -> Result<Response> {
     let bucket = ctx.env.bucket("FILES")?;
     let Some(object) = bucket.get(PREVIEW_ICONS_JSON).execute().await? else { return http::error(404, "Not found") };
@@ -218,7 +224,7 @@ async fn preview_icons_json(ctx: &Ctx) -> Result<Response> {
     let Ok(mut data) = serde_json::from_slice::<Value>(&bytes) else { return http::error(503, "Artwork storage is unavailable.") };
     #[derive(Deserialize)]
     struct Upload { record: String }
-    let uploads: Vec<Upload> = db::all(&ctx.db, "SELECT record FROM uploaded_icons ORDER BY rowid", vec![]).await?;
+    let uploads: Vec<Upload> = db::all(&ctx.db, UPLOADED_NORMAL, vec![]).await?;
     if let Some(Value::Array(icons)) = data.get_mut("icons") {
         for upload in uploads {
             let Ok(record) = serde_json::from_str::<Value>(&upload.record) else { continue };

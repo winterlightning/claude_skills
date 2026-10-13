@@ -333,13 +333,14 @@ export class LayoutEditor {
       const composed = await window.SideData.compose(body.pair_id, {layout: body.layout});
       const [built] = await window.SideData.build([composed.request]);
       if (!built?.ok) throw Error(built?.error || 'Could not save the layout.');
-      const data = {layout: {layout: body.layout}, result: {...composed.result, svg: composed.svg}};
+      const data = {layout: {layout: body.layout}, result: {...composed.result, svg: composed.svg}, built};
       ctx.onSaved?.(data);return data;
     } finally { ctx.busy = false;this.status(); }
   }
   async save() {
     const l = this.layout();if (!l) return;
-    try { const data = await this.post({pair_id: this.ctx.pair.id, layout: l});this.ctx.saved = data.layout.layout;this.ctx.stale = false;this.ctx.result = data.result;this.readout = {text: 'Layout saved.', bad: false}; }
+    try { const data = await this.post({pair_id: this.ctx.pair.id, layout: l});this.ctx.saved = data.layout.layout;this.ctx.stale = false;this.ctx.result = data.result;
+          const note = window.SideData.outcome(data.built);this.readout = {text: note || 'Layout saved.', bad: !!note}; }
     catch (e) { this.error = e.message; }
     this.touchView();
   }

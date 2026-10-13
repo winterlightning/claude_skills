@@ -7,7 +7,6 @@
   const current=()=>{const mode=data?.choice?.source_mode || data?.source_mode || icon?.artwork_source || 'use_org';return mode==='work_fix'?'use_org':mode;};
   const preview=variant=>'../api/icon-artwork/svg?icon='+encodeURIComponent(icon.key)+'&variant='+variant+'&v='+(data?.choice?.revision || 0)+'-'+(data?.edit_revision || 0);
   function tab(name,focus=false){
-    if(name==='browser' && icon?.uploaded_icon)name='manual';
     for(const key of tabs){$(key+'EditPanel').hidden=key!==name;$(key+'EditTab').setAttribute('aria-selected',String(key===name));$(key+'EditTab').tabIndex=key===name?0:-1;}
     if(focus)$(name+'EditTab').focus();
     if(name==='browser')window.StrokeEditor?.refresh?.();
@@ -46,6 +45,10 @@
       const result=await response.json();if(!response.ok)throw Error(result.error || 'Could not load artwork choices.');
       if(request!==token)return;
       data=result;$('artworkMode').value=current();
+      // Browser Edit offers the saved manual upload as a base; while it edits it, Pick uses that edit.
+      window.StrokeEditor?.setUpload?.(icon.key,result.choice?.uploaded?.svg_sha256 || null);
+      const editBase=window.StrokeEditor?.baseSha?.(icon.key);
+      if(editBase)data.edit_revision=window.StrokeEditor.baseEditRevision(icon.key);
       $('artworkStatus').textContent=result.choice?'Saved by '+result.choice.updated_by+' · '+new Date(result.choice.updated_at).toLocaleString():'';
     }catch(error){if(request===token)$('artworkStatus').textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
@@ -62,7 +65,8 @@
       if(request!==token)return;
       if(!uploadOnly && window.beforeIconArtworkApprove)await window.beforeIconArtworkApprove(icon);
       if(request!==token)return;
-      const body={icon:icon.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision || 0,source_mode:mode,edit_revision:data.edit_revision};
+      const body={icon:icon.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision || 0,source_mode:mode,edit_revision:data.edit_revision,
+                  edit_svg_sha256:mode==='use_edited'?window.StrokeEditor?.baseSha?.(icon.key) || undefined:undefined};
       if(uploadOnly){body.action='upload';body.svg=await file.text();body.filename=file.name;}
       if(request!==token)return;
       const response=await fetch('../api/icon-artwork',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
@@ -77,7 +81,7 @@
     }catch(error){if(request===token)status.textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
   }
-  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source==='work_fix'?'use_org':(next.artwork_source || 'use_org');$('browserEditTab').disabled=!!next.uploaded_icon;tab(next.uploaded_icon?'manual':'browser');controls();load();}
+  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source==='work_fix'?'use_org':(next.artwork_source || 'use_org');tab('browser');controls();load();}
   document.addEventListener('DOMContentLoaded',()=>{
     for(const [i,name] of tabs.entries()){
       $(name+'EditTab').onclick=()=>tab(name);
@@ -91,5 +95,5 @@
       file=selected;controls();$('manualEditStatus').textContent='Ready to save this manual edit.';
     };
   });
-  window.IconArtwork={open,editSaved:(key,revision)=>{if(icon?.key===key && data){data.edit_revision=revision;controls();}}};
+  window.IconArtwork={open,reload:key=>{if(icon?.key===key)load();},editSaved:(key,revision)=>{if(icon?.key===key && data){data.edit_revision=revision;controls();}}};
 })();

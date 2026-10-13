@@ -40,14 +40,15 @@ fn database(fixture: &Value) -> Connection {
         let i = index(record, facets.get(key));
         db.execute("INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, build_failed,
                     uploaded, record, pushed_at, card, search, sort_name, keyshape, author, side_role, stroke_count, segment_count,
-                    created_ms, modified_ms, version_group, version, variant, has_original, artwork_source, symmetry, symmetry_sha)
+                    created_ms, modified_ms, version_group, version, variant, has_original, artwork_source, symmetry, symmetry_sha, style, style_of)
                     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'p', ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24,
-                    ?25, ?26, ?27, ?28, ?29)",
+                    ?25, ?26, ?27, ?28, ?29, ?30, ?31)",
             rusqlite::params![key, record["icon_id"].as_str(), record["name"].as_str(), record["family"].as_str(), record["category"].as_str(),
                 record["profile"].as_str(), 48, fixture["current_sha"][key].as_str().unwrap(), record["preview_url"].as_str(),
                 record["build_failed"].as_bool().unwrap_or(false), record["uploaded_icon"].as_bool().unwrap_or(false), record.to_string(),
                 i.card, i.search, i.sort_name, i.keyshape, i.author, i.side_role, i.stroke_count, i.segment_count, i.created_ms,
-                i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, i.symmetry, i.symmetry_sha]).unwrap();
+                i.modified_ms, i.version_group, i.version, i.variant, i.has_original, i.artwork_source, i.symmetry, i.symmetry_sha,
+                i.style, i.style_of]).unwrap();
     }
     for r in fixture["reviews"].as_array().unwrap() {
         db.execute("INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by, worker, claimed_at, note) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, COALESCE(?8, ''))",
@@ -88,14 +89,16 @@ fn refresh(db: &Connection) {
         db.execute(remember, []).unwrap();
     }
     let groups: Vec<icon_query::Group> = db.prepare(icon_query::GROUPS).unwrap().query_map([], |r| Ok(icon_query::Group {
-        family: r.get(0)?, side_role: r.get(1)?, state: r.get(2)?, category: r.get(3)?, build_failed: r.get::<_, i64>(4)? as f64,
-        author: r.get(5)?, keyshape: r.get(6)?, n: r.get::<_, i64>(7)? as f64 })).unwrap().map(Result::unwrap).collect();
+        family: r.get(0)?, side_role: r.get(1)?, style: r.get(2)?, state: r.get(3)?, category: r.get(4)?,
+        build_failed: r.get::<_, i64>(5)? as f64, author: r.get(6)?, keyshape: r.get(7)?, n: r.get::<_, i64>(8)? as f64 }))
+        .unwrap().map(Result::unwrap).collect();
     let (counts, facets) = icon_query::count_rows(&groups);
     for sql in icon_query::COUNTS_CLEAR {
         db.execute(sql, []).unwrap();
     }
-    for (family, side_role, state, category, failed, n) in counts {
-        db.execute(&format!("{}(?1, ?2, ?3, ?4, ?5, ?6)", icon_query::COUNTS_INSERT), rusqlite::params![family, side_role, state, category, failed, n]).unwrap();
+    for (family, side_role, style, state, category, failed, n) in counts {
+        db.execute(&format!("{}(?1, ?2, ?3, ?4, ?5, ?6, ?7)", icon_query::COUNTS_INSERT),
+                   rusqlite::params![family, side_role, style, state, category, failed, n]).unwrap();
     }
     for (kind, value, n) in facets {
         db.execute(&format!("{}(?1, ?2, ?3)", icon_query::FACETS_INSERT), rusqlite::params![kind, value, n]).unwrap();
@@ -267,7 +270,7 @@ fn listed(db: &Connection) -> Vec<Vec<String>> {
     let mut out = Vec::new();
     for sql in [
         "SELECT key, decision, actor, state, mode, artwork, strokes, segments, axes, reason, has_feedback, cannot_fix, picked FROM icons ORDER BY key",
-        "SELECT family, side_role, state, category, built_failed, n FROM icon_counts WHERE n > 0 ORDER BY 1, 2, 3, 4, 5",
+        "SELECT family, side_role, style, state, category, built_failed, n FROM icon_counts WHERE n > 0 ORDER BY 1, 2, 3, 4, 5, 6",
         "SELECT kind, value, n FROM icon_facet_counts WHERE n > 0 ORDER BY 1, 2",
         "SELECT k.key, s.search FROM icon_search_keys k JOIN icon_search s ON s.rowid = k.search_rowid ORDER BY k.key",
     ] {
@@ -336,4 +339,64 @@ fn a_write_keeps_its_own_icon_current() {
     let after_write = listed(&db);
     refresh(&db);
     assert_eq!(after_write, listed(&db), "delete");
+}
+
+/// Style (migration 0019): the list shows normal icons unless asked for round, sharp or all, and a round record's
+/// write keeps the counts as a refresh would, without changing what the normal list and its tabs show.
+#[test]
+fn style_lists_one_style_at_a_time() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    let p = |pairs: &[(&str, &str)]| params(&json!(pairs.iter().map(|(k, v)| (k.to_string(), json!(v))).collect::<serde_json::Map<_, _>>()));
+    let source: String = db.query_row("SELECT key FROM icons WHERE family = 'solo' AND build_failed = 0 ORDER BY key LIMIT 1", [], |r| r.get(0)).unwrap();
+    let before = list(&db, &p(&[]));
+    let record = json!({"key": format!("{source}--round"), "icon_id": "x--round", "name": "X", "family": "solo", "icon_style": "round",
+                        "style_of": source, "uploaded_icon": true});
+    let i = index(&record, None);
+    assert_eq!((i.style.as_str(), i.style_of.as_deref()), ("round", Some(source.as_str())));
+    db.execute("INSERT INTO icons(key, icon_id, name, family, category, profile, canvas_size, svg_sha256, preview_url, build_failed, uploaded, \
+                record, pushed_at, card, search, sort_name, style, style_of) VALUES (?1, 'x--round', 'X', 'solo', NULL, 'SOLO48', 48, 'r1', 'p', 0, 1, \
+                ?2, 'p', ?3, ?4, ?5, ?6, ?7)", rusqlite::params![format!("{source}--round"), record.to_string(), i.card, i.search, i.sort_name,
+                i.style, i.style_of]).unwrap();
+    let key = format!("{source}--round");
+    one(&db, icon_query::REFRESH_KEY, &key);
+    for sql in icon_query::RECOUNT_ICON.iter().chain(&icon_query::SEARCH_KEY) { one(&db, sql, &key); }
+    let after_write = listed(&db);
+    refresh(&db);
+    assert_eq!(after_write, listed(&db), "round insert");
+    let normal = list(&db, &p(&[]));
+    assert_eq!((normal.0["total"].clone(), normal.2.clone()), (before.0["total"].clone(), before.2.clone()), "normal list and tabs unchanged");
+    let round = list(&db, &p(&[("style", "round")]));
+    assert_eq!(round.1, vec![json!(key)]);
+    assert_eq!(round.0["total"], json!(1));
+    assert_eq!(round.2.values().sum::<i64>(), 1, "round tab counts");
+    assert_eq!(list(&db, &p(&[("style", "all")])).0["total"].as_i64().unwrap(), before.0["total"].as_i64().unwrap() + 1);
+    assert!(list(&db, &p(&[("style", "sharp")])).1.is_empty());
+}
+
+/// The set-based statements (app icon_list `recheck_combined`, a part approved or disapproved under many combined
+/// icons) keep the list and the counts as a refresh would, with one statement per batch of keys, not per icon.
+#[test]
+fn a_write_to_many_icons_keeps_them_current_in_one_statement_each() {
+    let fixture = read("icon-query.json");
+    let db = database(&fixture);
+    refresh(&db);
+    let keys: Vec<String> = db.prepare("SELECT key FROM icons ORDER BY key LIMIT 40").unwrap().query_map([], |r| r.get(0)).unwrap()
+        .map(Result::unwrap).collect();
+    assert!(keys.len() >= 20, "the fixture has enough icons");
+    let list = json!(keys).to_string();
+    let counts = |db: &Connection| -> Vec<(String, i64)> {
+        db.prepare("SELECT family || '|' || side_role || '|' || style || '|' || state || '|' || category || '|' || built_failed, n \
+                    FROM icon_counts WHERE n != 0 UNION ALL SELECT kind || '|' || value, n FROM icon_facet_counts WHERE n != 0 ORDER BY 1")
+            .unwrap().query_map([], |r| Ok((r.get(0)?, r.get(1)?))).unwrap().map(Result::unwrap).collect()
+    };
+    // A batch's write as combined_parts UPDATE does: the failed flag of every icon flipped.
+    for sql in icon_query::UNCOUNT_KEYS { db.execute(sql, rusqlite::params![list]).unwrap(); }
+    db.execute("UPDATE icons SET build_failed = NOT build_failed WHERE key IN (SELECT value FROM json_each(?1))", rusqlite::params![list]).unwrap();
+    db.execute(icon_query::REFRESH_KEYS, rusqlite::params![list]).unwrap();
+    for sql in icon_query::RECOUNT_KEYS { db.execute(sql, rusqlite::params![list]).unwrap(); }
+    let (after_write, counted) = (listed(&db), counts(&db));
+    refresh(&db);
+    assert_eq!(after_write, listed(&db));
+    assert_eq!(counted, counts(&db), "the counts a refresh rebuilds");
 }
